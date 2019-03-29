@@ -1,0 +1,82 @@
+5                                                         NCAM
+'ORX_OCAMS_MAPCAM'
+1024  1024                                                NPX, NLN
+125.19630   513.0  513.0                                  MMFL, PX0, LN0
+117.647, 0, 0,  0,  -117.636, 0                           KMAT                        
+ 2, -1, 3                                                 PROJECT CAMERA AXES                         
+3000, 65535                                                T1,T2
+'ORX_OCAMS_SAMCAM'
+1024  1024                                                NPX, NLN
+24.19831  512.5  512.5                                    MMFL, PX0, LN0
+117.647, 0, 0, 0,   -117.661, 0                           KMAT                        
+ -1, -2, 3                                                PROJECT CAMERA AXES                        
+300, 65535                                                T1,T2
+'ORX_OCAMS_POLYCAM'
+1024  1024                                                NPX, NLN
+628.90  513.0  513.0                                      MMFL, PX0, LN0
+117.647, 0, 0, 0, -117.656, 0                             KMAT                        
+ 2, -1, 3                                                 PROJECT CAMERA AXES                        
+5000, 65535                                                T1,T2
+'ORX_NAVCAM1'
+2592   1944                                               NPX, NLN
+7.63932  1269.083 950.747                                 MMFL, PX0, LN0
+454.545, 0, 0, 0,  -454.553, 0                            KMAT                        
+ 1, 2, 3                                                  PROJECT CAMERA AXES                         
+1000, 65535                                               T1,T2
+'ORX_NAVCAM2'
+2592   1944                                               NPX, NLN
+7.61634  1310.530   969.487                               MMFL, PX0, LN0
+454.545, 0, 0, 0,  -454.545, 0                            KMAT                        
+ 1, 2, 3                                                  PROJECT CAMERA AXES                         
+1000, 65535                                               T1,T2
+1                                                         NSC
+-64                                                       ORX
+1.d0  1.d0  1.d0                                          sigV0
+1.d-3  1.d-3  1.d-3                                       sigPT
+2101955                                                   BENNU      
+'IAU_BENNU'                                               BFRAME      
+'LT+S'                                                    ABCORR
+'../OSIRIS_REx/DATA/'						  PREFIX
+KERNELS
+#########################
+##### metakernel ####
+#########################
+#spoc-jweirich-2018-11-16T23_29_16.490Z.mk
+#spoc-epalmer-2018-11-21T22_48_32.249Z.mk
+#spoc-epalmer-2018-11-26T23_10_00.205Z.mk
+#spoc-epalmer-2018-11-29T19_34_31.098Z.mk
+#spoc-epalmer-2018-12-03T00_23_36.374Z.mk
+#spoc-jweirich-2018-12-05T17_18_14.888Z.mk
+#spoc-jweirich-2018-12-07T21_35_34.469Z.mk
+#spoc-epalmer-2018-12-11T03_28_41.438Z.mk
+#spoc-jweirich-2018-12-14T21_28_17.877Z.mk 
+spoc-epalmer-2018-12-19T23_08_02.784Z.mk
+#########################
+##### FDS Special OD ####
+#########################
+#fds/orx_180801_190101_181116_od062-N_v1.bsp
+#fds/orx_180801_190101_181120_od063-N_v1.bsp
+#fds/orx_180801_190101_181123_od064-N_v1.bsp
+#fds/orx_180801_190101_181125_od065-N_v1.bsp
+#orx_180801_181219_181128_od066-N-M0P-L-VC1_v1.bsp
+#fds/orx_180801_190101_181202_od068-N_v1.bsp
+#fds/orx_180801_190101_181204_od070-N_v1.bsp
+#fds/orx_180801_190101_181214_od075-N_v1.bsp
+fds/orx_180801_190101_181218_od077-N_v1.bsp
+#########################
+##### Tmp Shape Model####
+#########################
+#xxxr2.tpc
+#eepPoleV03.tpc
+#jrwPoleV04.tpc
+#bennu_pck_fds_181214.tpc
+#85m60.tpc
+#bennu_pck_od086a_altwg.tpc
+bennu_pck_od090.tpc
+#########################
+##### Special Frame K####
+#########################
+orx_v13_DRAFT_kinetx.tf
+#########################
+END_KRNLS                                                                                   
+

@@ -8,6 +8,7 @@ For more details about the LICENSE terms and the AUTHORS, you will
 find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
+#include <QSharedPointer>
 
 #include "CameraDistortionMap.h"
 
@@ -25,6 +26,7 @@ namespace Isis {
    *
    * @internal
    *   @history 2017-08-21 Kristin Berry and Jeannie Backer - Original Version
+   *   @history 2019-03-15 Kris Becker - Added debug options
    *
    */
   class OsirisRexDistortionMap : public CameraDistortionMap {
@@ -33,7 +35,7 @@ namespace Isis {
 
       virtual ~OsirisRexDistortionMap();
 
-      virtual void SetDistortion(int naifIkCode, QString filterName);
+      virtual bool SetDistortion(int naifIkCode, QString filter="UNKNOWN");
 
       virtual bool SetFocalPlane(double dx, double dy);
 
@@ -44,7 +46,14 @@ namespace Isis {
       double m_detectorOriginSample; //!< The origin of the detector's sample coordinate.
       double m_detectorOriginLine; //!< The origin of the detector's line coordinate.
       double m_distortionOriginSample; //!< The distortion's origin sample coordinate.
-      double m_distortionOriginLine; //!< The distortion's origin line coordinate.
+      double m_distortionOriginLine; //!< The distortion's origin line coordinate. 
+
+//      double x0;      //!< X offset from distortion and CCD center
+//      double y0;      //!< Y offset from distortion and CCD center
+      bool   m_debug; //!< Debug option
+
+      QSharedPointer<CameraFocalPlaneMap> m_focalMap;  // Local focal plane map
+
   };
 };
 #endif

@@ -1,0 +1,290 @@
+\begintext
+
+  This kernel is used by the ISIS software to supply required keywords for
+  the ISIS camera models. This kernel is furnished to the NAIF SPICE pool as 
+  one of the very last kernels. This allows it to overide keywords from other
+  kernels.
+
+  History:
+  
+  2015-10-22 Stuart Sides - Original version. Transformations from line/samp
+			     to focal plane X/Y added to the distortion. The values are
+				 currently set for no distortion.
+  2016-05-05 Jeannie Backer - Negated the TRANSY and ITRANSL values. The
+				 positive and negative y-axes were reversed. 
+  2016-12-01 Dathon Golish - Swapped ITRANSS and ITRANSL values for PolyCam and
+				 MapCam to reflect that the detectors are rotated 90° with
+				 respect to the spacecraft coordinate system. Removed negative
+				 sign that was added in v02. The negative sign accomodated
+				 left-tap OCAMS images. ECR 77 standardizes OCAMS images in a
+				 right-tap layout (regardless of tap used during imaging),
+				 making the negative sign invalid.
+  2017-08-23 Kristin Berry - Added OD_K and OD_CENTER NAIF keywords for the distortion coefficients
+                                 and center-of-distortion values. Values were obtained from
+				 Christian d'Aubigny in an email on 08/29/2017.
+
+  2019-02-08 Kris Becker - Added OpenCV implementation derived from the TAGCAMS
+                                 version. In process of defining NAIF IK codes for
+				 each MapCam filter for use in keywords pertaining
+				 to camera model paramters. This version of the IK
+				 will contain tentative values and codes. Add values
+				 to swap target/observer, light time and stellar
+				 aberration settings and adjustments to surface
+				 rather than center of body. Reference is provided
+				 by the OSIRIS-REx NAV team in the document
+				 OIA_ORX_112_Distortion_Boresight_Memo.pdf. Note
+				 the actual OpenCV model used is consistent with
+				 Bob Gaskell's model that does not utilize all the
+				 parameters of the NAV team model.
+
+-------------------------------------------------------------------------------
+The OpenCV models are pixel coordinate system based that were created by the
+OSIRIS-REX NAV team. This IAK contains two separate model parameters that can
+be specified in a keyword parameter, INS-XXXXX_DISTORTION_MODEL. The OpenCV
+model is a direct implementation of the equations that define the camera
+calibration model that does not use the OpenCV API. The OpenCV distortion
+model is described at https://docs.opencv.org/3.4/d9/d0c/group__calib3d.html.
+
+One must consider that the line/sample to X/Y coordinate translation parameters
+describe a 90 degree rotation about the center of the CCD, which is specifed at
+(512.5, 512,5) for all the OCAMS instruments. Therefore, to ensure conformance,
+the distortion model is implemented in line/sample coordinates and utilizes
+(copies) the focal plane class for translation of X/Y to line/sample values.
+
+The current IAK implementation differs from the NAV team description in that
+it does not utilize the (fx,fy) independent axis parameters for focal length
+adjustments. In addition, the temperature dependent a0 parameter is currently
+not used. While these parameters are not used in the current model for the
+MapCam and PolyCam they can be used in the future as the implementation
+fully supports their use. Therefore, appropriate values must be provided
+in these parameters (i.e., set fx = fy = focal_length/pixel_pitch, 
+cx = cy = 0.0, and a0 = 0).
+
+In the OpenCV model, if none of the parameters sets contained here provide
+support for a given camera setting, a default model is provided that
+essentially provides no distortion but does adjust the boresight if deemed
+off center from the CCD center.
+
+\begintext
+
+PolyCam data
+---------------------------------------------
+Support for PolyCam is currently limited to several focus positions.
+Additional support should be forthcoming. For the OpenCV model,
+the degenerated parameters for code -64360 is used and some
+values related to focal length are computed and replaced after
+the initial parameters are read in.
+
+\begindata
+INS-64360_TRANSX  = (0.0, 0.0, 0.0085)
+INS-64360_TRANSY  = (0.0, 0.0085, 0.0)
+INS-64360_ITRANSS = (0.0, 0.0, 117.64705882353)
+INS-64360_ITRANSL = (0.0, 117.64705882353, 0.0)
+
+INS-64360_DISTORTION_MODEL = 'OCAMS'
+INS-64360_TOLERANCE        = 1.0E-10
+INS-64360_DEBUG_MODEL      = 'TRUE'
+
+INS-64360_OPENCV_OD_K  = ( 2.0100E+01, -5.0000E+04, -2.9407E-10, 0.0, 0.0, 0.0 )
+INS-64360_OPENCV_OD_P  = ( -3.5481E-03, -1.5529E-03 )
+INS-64360_OPENCV_OD_F  = ( 73866.597, 72873.943 )
+INS-64360_OPENCV_OD_C  = ( 513.000, 513.000 )
+INS-64360_OPENCV_OD_A  = 0.0000E+00
+
+INS-64591_OPENCV_OD_K  = ( 2.0100E+01, -5.0000E+04, -2.9407E-10, 0.0, 0.0, 0.0 )
+INS-64591_OPENCV_OD_P  = ( -3.5481E-03, -1.5529E-03 )
+INS-64591_OPENCV_OD_F  = ( 73866.597, 72873.943 )
+INS-64591_OPENCV_OD_C  = ( 513.000, 513.000 )
+INS-64591_OPENCV_OD_A  = 0.0000E+00
+INS-64591_TOLERANCE    = 1.0E-10
+INS-64591_DEBUG_MODEL  = 'TRUE'
+
+INS-64591_OD_K_PAN = (7.89E-07, -6.09E-07, 3.33E-05, 0.00E+00, 0.00E+00)
+INS-64591_OD_CENTER_PAN = (505.0, 507.0)
+INS-64592_OD_K_PAN = (9.65E-07, -2.55E-05, 3.94E-05, 0.00E+00, 0.00E+00)
+INS-64592_OD_CENTER_PAN = (511.0, 501.0)
+INS-64593_OD_K_PAN = (9.77E-07, -6.00E-05, 4.82E-05, 0.00E+00, 0.00E+00)
+INS-64593_OD_CENTER_PAN = (521.0, 498.0)
+INS-64519_OD_K_PAN = (1.01E-06, 5.73E-05, 1.84E-05, 0.00E+00, 0.00E+00)
+INS-64519_OD_CENTER_PAN = (497.0, 507.0)
+INS-64520_OD_K_PAN = (7.77E-07, -2.32E-07, 2.85E-05, 0.00E+00, 0.00E+00)
+INS-64520_OD_CENTER_PAN = (498.0, 502.0)
+INS-64521_OD_K_PAN = (7.80E-07, -2.45E-07, 3.20E-05, 0.00E+00, 0.00E+00)
+INS-64521_OD_CENTER_PAN = (503.0, 499.0)
+
+INS-64360_SWAP_OBSERVER_TARGET = 'TRUE'
+INS-64360_LIGHTTIME_CORRECTION = 'LT+S'
+INS-64360_LT_SURFACE_CORRECT = 'FALSE'
+
+\begintext
+
+MapCam data
+---------------------------------------------
+
+This OpenCV specification provides support for filters before and after
+NAIF IDs for each filter were defined. The OCAMs specification does not
+provide unique filter NAIF IDs since the OpenCV model is preferred. 
+
+\begindata
+INS-64361_TRANSX  = (0.0, 0.0, 0.0085)
+INS-64361_TRANSY  = (0.0, 0.0085, 0.0)
+INS-64361_ITRANSS = (0.0, 0.0, 117.64705882353)
+INS-64361_ITRANSL = (0.0, 117.64705882353, 0.0)
+
+INS-64361_DISTORTION_MODEL = 'OPENCV'
+INS-64361_TOLERANCE        = 1.0E-10
+INS-64361_DEBUG_MODEL      = 'FALSE'
+
+INS-64361_OD_K_PAN = (2.21E-05, 1.71E-04, 5.96E-05, 0.00E+00, 0.00E+00)
+INS-64361_OD_K_B = (5.06E-05, 1.63E-04, 6.00E-05, 0.00E+00, 0.00E+00)
+INS-64361_OD_K_V = (7.45E-05, 2.20E-04, 6.22E-05, 0.00E+00, 0.00E+00)
+INS-64361_OD_K_W = (2.21E-05, 1.32E-04, 6.08E-05, 0.00E+00, 0.00E+00)
+INS-64361_OD_K_X = (2.44E-05, -3.61E-05, 8.87E-05, 0.00E+00, 0.00E+00)
+
+INS-64361_OD_CENTER_PAN = (486.2, 450.3)
+INS-64361_OD_CENTER_B = (497.3, 456.8)
+INS-64361_OD_CENTER_V = (494.3, 473.8)
+INS-64361_OD_CENTER_W = (510.3, 461.2)
+INS-64361_OD_CENTER_X = (504.5, 450.5)
+
+\begintext
+
+This section contains the tentative NAIF IK codes for each filter and
+is then used in the distortion model parameter definitions.
+
+Here are the tentative names and codes for each MapCam filter:
+
+       ORX_OCAMS_MAPCAM_PAN30        -64363
+       ORX_OCAMS_MAPCAM_PAN          -64364
+       ORX_OCAMS_MAPCAM_B            -64365
+       ORX_OCAMS_MAPCAM_V            -64366
+       ORX_OCAMS_MAPCAM_W            -64367
+       ORX_OCAMS_MAPCAM_X            -64368
+
+INS-64364_FOCAL_LENGTH = (  125.20   )
+INS-64365_FOCAL_LENGTH = (  125.02   )
+INS-64366_FOCAL_LENGTH = (  125.11   )
+INS-64367_FOCAL_LENGTH = (  125.13   )
+INS-64368_FOCAL_LENGTH = (  125.42   )
+\begindata
+
+INS-64361_OPENCV_OD_K_PAN  = ( 9.1096e-01, -1.4480e+01, -1.7173e-02, 0.0, 0.0, 0.0 )
+INS-64361_OPENCV_OD_P_PAN  = ( 4.2536e-03, 1.1334e-03 )
+INS-64361_OPENCV_OD_F_PAN  = ( 14729.888, 14728.590 )
+INS-64361_OPENCV_OD_C_PAN  = ( 513.000, 513.000 )
+INS-64361_OPENCV_OD_A_PAN  = 1.0941e-05
+
+
+INS-64364_OPENCV_OD_K  = ( 9.1096e-01, -1.4480e+01, -1.7173e-02, 0.0, 0.0, 0.0 )
+INS-64364_OPENCV_OD_P  = ( 4.2536e-03, 1.1334e-03 )
+INS-64364_OPENCV_OD_F  = ( 14729.888, 14728.590 )
+INS-64364_OPENCV_OD_C  = ( 513.000, 513.000 )
+INS-64364_OPENCV_OD_A  = 1.0941e-05
+INS-64364_TOLERANCE    = 1.0E-10
+INS-64364_DEBUG_MODEL  = 'TRUE'
+
+
+
+INS-64361_OPENCV_OD_K_B  = ( 9.1096e-01, -1.4480e+01, -1.7173e-02, 0.0, 0.0, 0.0 )
+INS-64361_OPENCV_OD_P_B  = ( 4.2536e-03, 1.1334e-03 )
+INS-64361_OPENCV_OD_F_B  = ( 147776.47059, 147776.47059 )
+INS-64361_OPENCV_OD_C_B  = ( 513.000, 513.000 )
+INS-64361_OPENCV_OD_A_B  = 0.0
+
+
+INS-64365_OPENCV_OD_K  = ( 9.1096e-01, -1.4480e+01, -1.7173e-02, 0.0, 0.0, 0.0 )
+INS-64365_OPENCV_OD_P  = ( 4.2536e-03, 1.1334e-03 )
+INS-64365_OPENCV_OD_F  = ( 147776.47059, 147776.47059 )
+INS-64365_OPENCV_OD_C  = ( 513.000, 513.000 )
+INS-64365_OPENCV_OD_A  = 0.0
+INS-64365_TOLERANCE    = 1.0E-10
+INS-64365_DEBUG_MODEL  = 'TRUE'
+
+
+INS-64361_OPENCV_OD_K_V  = ( 9.1096e-01, -1.4480e+01, -1.7173e-02, 0.0, 0.0, 0.0 )
+INS-64361_OPENCV_OD_P_V  = ( 4.2536e-03, 1.1334e-03 )
+INS-64361_OPENCV_OD_F_V  = ( 14719.836, 14721.009 )
+INS-64361_OPENCV_OD_C_V  = ( 513.000, 513.000 )
+INS-64361_OPENCV_OD_A_V  = 1.5343e-05
+
+
+INS-64366_OPENCV_OD_K  = ( 9.1096e-01, -1.4480e+01, -1.7173e-02, 0.0, 0.0, 0.0 )
+INS-64366_OPENCV_OD_P  = ( 4.2536e-03, 1.1334e-03 )
+INS-64366_OPENCV_OD_F  = ( 14719.836, 14721.009 )
+INS-64366_OPENCV_OD_C  = ( 513.000, 513.000 )
+INS-64366_OPENCV_OD_A  = 1.5343e-05
+INS-64366_TOLERANCE    = 1.0E-10
+INS-64366_DEBUG_MODEL  = 'TRUE'
+
+
+
+INS-64361_OPENCV_OD_K_W  = ( 9.1096e-01, -1.4480e+01, -1.7173e-02, 0.0, 0.0, 0.0 )
+INS-64361_OPENCV_OD_P_W  = ( 4.2536e-03, 1.1334e-03 )
+INS-64361_OPENCV_OD_F_W  = ( 147776.47059, 147776.47059 )
+INS-64361_OPENCV_OD_C_W  = ( 513.000, 513.000 )
+INS-64361_OPENCV_OD_A_W  = 0.0
+
+
+INS-64367_OPENCV_OD_K  = ( 9.1096e-01, -1.4480e+01, -1.7173e-02, 0.0, 0.0, 0.0 )
+INS-64367_OPENCV_OD_P  = ( 4.2536e-03, 1.1334e-03 )
+INS-64367_OPENCV_OD_F  = ( 147776.47059, 147776.47059 )
+INS-64367_OPENCV_OD_C  = ( 513.000, 513.000 )
+INS-64367_OPENCV_OD_A  = 0.0
+INS-64367_TOLERANCE    = 1.0E-10
+INS-64367_DEBUG_MODEL  = 'TRUE'
+
+
+
+INS-64361_OPENCV_OD_K_X  = ( 9.1096e-01, -1.4480e+01, -1.7173e-02, 0.0, 0.0, 0.0 )
+INS-64361_OPENCV_OD_P_X  = ( 4.2536e-03, 1.1334e-03 )
+INS-64361_OPENCV_OD_F_X  = ( 147776.47059, 147776.47059 )
+INS-64361_OPENCV_OD_C_X  = ( 513.000, 513.000 )
+INS-64361_OPENCV_OD_A_X  = 0.0
+
+
+INS-64368_OPENCV_OD_K  = ( 9.1096e-01, -1.4480e+01, -1.7173e-02, 0.0, 0.0, 0.0 )
+INS-64368_OPENCV_OD_P  = ( 4.2536e-03, 1.1334e-03 )
+INS-64368_OPENCV_OD_F  = ( 147776.47059, 147776.47059 )
+INS-64368_OPENCV_OD_C  = ( 513.000, 513.000 )
+INS-64368_OPENCV_OD_A  = 0.0
+INS-64368_TOLERANCE    = 1.0E-10
+INS-64368_DEBUG_MODEL  = 'TRUE'
+
+
+INS-64361_SWAP_OBSERVER_TARGET = 'TRUE'
+INS-64361_LIGHTTIME_CORRECTION = 'LT+S'
+INS-64361_LT_SURFACE_CORRECT = 'FALSE'
+
+\begintext
+
+SamCam data
+---------------------------------------------
+
+Only the OCAMS model is supported here as there is no data available
+for the derivation of OpenCV parameters.
+
+\begindata
+
+INS-64362_TRANSX  = (0.0, 0.0085, 0.0)
+INS-64362_TRANSY  = (0.0, 0.0, 0.0085)
+INS-64362_ITRANSS = (0.0, 117.64705882353, 0.0)
+INS-64362_ITRANSL = (0.0, 0.0, 117.64705882353)
+
+INS-64362_DISTORTION_MODEL = 'OCAMS'
+INS-64362_TOLERANCE        = 1.0E-10
+INS-64362_DEBUG_MODEL      = 'FALSE'
+
+INS-64362_OD_K = (2.06E-03, -2.21E-03, 9.68E-04, -1.63E-04, 1.07E-05)
+INS-64362_OD_CENTER = (512.0, 512.0)
+
+INS-64362_OPENCV_OD_K  = ( -0.86458E-01, -0.12155E+01,  -0.65791E+01, 0.0, 0.0, 0.0 )
+INS-64362_OPENCV_OD_P  = ( -0.16734E-03, 0.12704E-02 )
+INS-64362_OPENCV_OD_F  = ( 2870.588235, 2870.588235 )
+INS-64362_OPENCV_OD_C  = ( 513.000, 513.000 )
+INS-64362_OPENCV_OD_A  = 0.0
+
+INS-64362_SWAP_OBSERVER_TARGET = 'TRUE'
+INS-64362_LIGHTTIME_CORRECTION = 'LT+S'
+INS-64362_LT_SURFACE_CORRECT = 'FALSE'
+
+\begintext

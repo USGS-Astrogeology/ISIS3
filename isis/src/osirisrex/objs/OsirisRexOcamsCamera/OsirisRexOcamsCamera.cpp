@@ -13,6 +13,7 @@ find files of those names at the top level of this repository. **/
 
 #include "CameraDetectorMap.h"
 #include "OsirisRexDistortionMap.h"
+#include "OsirisRexOcamsOpenCVDistortionMap.h"
 #include "CameraFocalPlaneMap.h"
 #include "CameraGroundMap.h"
 #include "CameraSkyMap.h"
@@ -62,20 +63,29 @@ namespace Isis {
 
     Pvl &lab = *cube.label();
     PvlGroup inst = lab.findGroup("Instrument", Pvl::Traverse);
-
     QString ikCode = toString(frameCode);
-    if (inst.hasKeyword("PolyCamFocusPositionNaifId") && frameCode == -64360) {
-      if (QString::compare("NONE", inst["PolyCamFocusPositionNaifId"],
-                           Qt::CaseInsensitive) != 0) {
-        ikCode = inst["PolyCamFocusPositionNaifId"][0];
+    int focusIkCode(frameCode);  // Default for all other than PolyCam, too
+    // NOTE: This is likely to be use for MapCam's filter IDs that was added on or about
+    // 2019-02-20.
+    if (inst.hasKeyword("PolyCamFocusPositionNaifId")) {
+      if (QString::compare("NONE", inst["PolyCamFocusPositionNaifId"], Qt::CaseInsensitive) != 0) {
+        focusIkCode = toInt(inst["PolyCamFocusPositionNaifId"][0]);
       }
     }
 
-    QString focalLength = "INS" + ikCode + "_FOCAL_LENGTH";
+    // Different distortion model for each instrument and filter
+    PvlGroup bandBin = lab.findGroup("BandBin", Pvl::Traverse);
+    QString filterName = bandBin["FilterName"];
+
+
+    int distortCode = getFunctionalIkCode(frameCode, focusIkCode, filterName);
+    QString dcode(toString(distortCode));
+
+    QString focalLength = "INS" + dcode + "_FOCAL_LENGTH";
     SetFocalLength(getDouble(focalLength));
 
     // The instrument kernel contains pixel pitch in microns, so convert it to mm.
-    QString pitch = "INS" + ikCode + "_PIXEL_SIZE";
+    QString pitch = "INS" + dcode + "_PIXEL_SIZE";
     SetPixelPitch(getDouble(pitch) / 1000.0);
 
     // Get the start time in et
@@ -101,13 +111,43 @@ namespace Isis {
         Spice::getDouble("INS" + ikCode + "_CCD_CENTER", 0) + 1.0,
         Spice::getDouble("INS" + ikCode + "_CCD_CENTER", 1) + 1.0);
 
-    // Setup distortion map
-    OsirisRexDistortionMap *distortionMap = new OsirisRexDistortionMap(this);
 
-    // Different distortion model for each instrument and filter
-    PvlGroup bandBin = lab.findGroup("BandBin", Pvl::Traverse);
-    QString filterName = bandBin["FilterName"];
-    distortionMap->SetDistortion(ikCode.toInt(), filterName);
+    // Setup distortion map
+    // See what type of distortion model the IAK is configured to use
+    QString dmodel;
+    try {
+        dmodel = getString("INS" + ikCode + "_DISTORTION_MODEL").toUpper();
+    } catch (IException &ie) {
+        // If not able to get the preferred model assume previous distortion
+        // model parameters are available.
+        dmodel = "OCAMS";
+    }
+    
+    // Set up tangential distortion model
+    if ( "OPENCV" == dmodel) {
+        // Use OpenCV model
+        OsirisRexOcamsOpenCVDistortionMap *dmap = new OsirisRexOcamsOpenCVDistortionMap(this, 
+                                                                                        frameCode,
+                                                                                        distortCode,
+                                                                                        filterName);
+        double camHeadTemp(0.0);
+        QString camkey = m_instrumentNameShort + "eraHeadTemperature";
+        if ( inst.hasKeyword(camkey) ) {
+            camHeadTemp = (double) inst[camkey];
+        }
+        dmap->SetCameraTemperature(camHeadTemp);
+    }
+    else if ( "OCAMS" == dmodel ) {
+        // Original model
+        OsirisRexDistortionMap *distortionMap = new OsirisRexDistortionMap(this); 
+        if ( !distortionMap->SetDistortion(distortCode, filterName) ) {
+            distortionMap->SetDistortion(frameCode, filterName);
+        }
+    } 
+    else {
+        new CameraDistortionMap(this); 
+    }
+
 
     // Setup the ground and sky map
     new CameraGroundMap(this);
@@ -184,6 +224,42 @@ namespace Isis {
   pair<iTime, iTime> OsirisRexOcamsCamera::ShutterOpenCloseTimes(double time,
                                                                double exposureDuration) {
     return FramingCamera::ShutterOpenCloseTimes(time, exposureDuration);
+  }
+
+/**
+ * @brief Determine best functional IK code for distortion models 
+ *  
+ * 
+ * @author 2019-02-14 Kris Becker Original Version
+ * 
+ * @param naifIkCode    Formal NAIF IK code use for SPICE ephemeris
+ * @param polyfocusCode PolyCam focus code 
+ * @param filter        Name of filter (MapCam, etc...)
+ * 
+ * @return int   IK code to use for distortion model 
+ */
+  int OsirisRexOcamsCamera::getFunctionalIkCode(const int naifIkCode, 
+                                               const int polyfocusCode,
+                                               const QString &filter) const {
+
+    if (naifIkCode == -64361) {
+      // MapCam needs to determine code based upon filter
+      QString fname = filter.toUpper();
+     //  if ( "PAN30" == fname ) return ( -64363 );
+      if ( "PAN" == fname )   return ( -64364 );
+      if ( "B" == fname )     return ( -64365 );
+      if ( "V" == fname )     return ( -64366 );
+      if ( "W" == fname )     return ( -64367 );
+      if ( "X" == fname )     return ( -64368 );
+    }
+    else if (naifIkCode == -64360) {
+      // IK values for polycam: -64360 (general) and -64616 to -64500 (focus specific)
+      // PolyCam returns focus code
+      return ( polyfocusCode );
+    }     
+    
+    // All other conditions returns the NAIF IK code
+    return ( naifIkCode ); 
   }
 
 }

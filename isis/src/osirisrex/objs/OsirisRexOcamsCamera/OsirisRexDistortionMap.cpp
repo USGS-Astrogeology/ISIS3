@@ -33,9 +33,23 @@ namespace Isis {
   OsirisRexDistortionMap::OsirisRexDistortionMap(Camera *parent, double zDirection)
       : CameraDistortionMap(parent, zDirection) {
 
-    m_detectorOriginSample = p_camera->FocalPlaneMap()->DetectorSampleOrigin();
-    m_detectorOriginLine = p_camera->FocalPlaneMap()->DetectorLineOrigin();
+    // Set up our own focal plane map from the camera model. NOTE!!!
+    // The CameraFocalPlaneMap must be set in the Camera object 
+    // prior to calling distortion model!!!
+    if ( !parent->FocalPlaneMap() ) {
+        QString mess = "FocalPlaneMap must be set in the Camera object prior to"
+                       " initiating this distortion model!";
+        throw IException(IException::Programmer, mess, _FILEINFO_);
+    }
+
+    // Replicate focal plane map for proper image coordinate conversions
+    m_focalMap.reset(new CameraFocalPlaneMap(*parent->FocalPlaneMap()));
+
+    m_detectorOriginSample = parent->FocalPlaneMap()->DetectorSampleOrigin();
+    m_detectorOriginLine = parent->FocalPlaneMap()->DetectorLineOrigin();
+
     m_pixelPitch = p_camera->PixelPitch();
+    m_debug = false;
   }
 
 
@@ -68,7 +82,7 @@ namespace Isis {
    *
    * @param naifIkCode    Code to search for in instrument kernel
    */
-  void OsirisRexDistortionMap::SetDistortion(int naifIkCode, QString filter="UNKNOWN") {
+  bool OsirisRexDistortionMap::SetDistortion(int naifIkCode, QString filter) {
     // Load distortion coefficients, including filter if we have it.
     QString odkkey;
 
@@ -89,7 +103,8 @@ namespace Isis {
       // don't update p_odk, we will not apply the distortion in this case
       m_distortionOriginSample = -1;
       m_distortionOriginLine = -1;
-      return;
+      if ( m_debug ) std::cout << "Bad Distortion Model - set to -1\n";
+      return (false);
     }
 
     // Load center-of-distortion coordinates, including filter if we have it
@@ -102,6 +117,25 @@ namespace Isis {
     }
     m_distortionOriginSample = p_camera->Spice::getDouble(odcenterkey, 0);
     m_distortionOriginLine =   p_camera->Spice::getDouble(odcenterkey, 1);
+
+    try {
+      QString dbKey = "INS" + toString(naifIkCode) + "_DEBUG_MODEL";
+      m_debug     = toBool(p_camera->getString(dbKey, 0));        
+    } catch (IException &ie) {
+        m_debug = false;
+    }
+
+
+    if ( m_debug) {
+      std::cout << "\nModel Initialized! - IKCode = " << naifIkCode 
+                << ", Filter = " << filter << "\n";
+      std::cout << "Detector   Center Samp = " << m_detectorOriginSample
+                << ", Line = " << m_detectorOriginLine << "\n";
+      std::cout << "Distortion Center Samp = " << m_distortionOriginSample
+                << ", Line = " << m_distortionOriginLine << "\n";
+    }
+
+    return (true);
   }
 
 
@@ -121,6 +155,14 @@ namespace Isis {
     p_focalPlaneX = dx;
     p_focalPlaneY = dy;
 
+    if ( m_debug ) {
+        m_focalMap->SetFocalPlane(dx, dy);
+        std::cout << "\nCompute Undistorted at dx = " << dx 
+             << ", dy = " << dy << "\n";
+        std::cout << "DLine = " << m_focalMap->DetectorLine() 
+             << ", DSamp = " << m_focalMap->DetectorSample() << "\n";
+    }
+    
     // Only apply the distortion if we have the correct number of coefficients
     if (p_odk.size() < 2) {
       p_undistortedFocalPlaneX = dx;
@@ -130,7 +172,14 @@ namespace Isis {
 
     double x0 = (m_distortionOriginLine - m_detectorOriginSample) * m_pixelPitch;
     double y0 = (m_distortionOriginSample - m_detectorOriginLine) * m_pixelPitch;
-
+    if ( m_debug) {
+      std::cout << "Detector   Center Samp = " << m_detectorOriginSample
+                << ", Line = " << m_detectorOriginLine << "\n";
+      std::cout << "Distortion Center Samp = " << m_distortionOriginSample
+                << ", Line = " << m_distortionOriginLine << "\n";
+      std::cout << "x0 = " << x0 << ", y0 = " << y0 << "\n";
+      std::cout << "xP = " << x0 / m_pixelPitch << ", yP = " << y0 / m_pixelPitch << "\n";
+    }
     double xt = dx;
     double yt = dy;
 
@@ -150,6 +199,7 @@ namespace Isis {
     // Iterating to introduce distortion...
     // We stop when the difference between distorted coordinates
     // in successive iterations is at or below the given tolerance.
+    int nrevs(0);
     for(int i = 0; i < 50; i++) {
       xx = (xt-x0) * (xt-x0);
       yy = (yt-y0) * (yt-y0);
@@ -177,13 +227,37 @@ namespace Isis {
         break;
       }
 
+      
+      if ( m_debug ) {
+          std::cout << "i=" << i << ", xt=" << xt << ", yt=" << yt 
+               << ", xdist=" << xdistortion 
+               << ", ydist=" << ydistortion
+               << ", xtol=" << (xt - xprevious) 
+               << ", ytol=" << (yt - yprevious) << "\n";
+      }
+
+      nrevs++;
       xprevious = xt;
       yprevious = yt;
+
     }
 
-    if(bConverged) {
+    if ( m_debug ) {
+        std::cout << "Loop terminated after " << nrevs << " iterations! - converged? "
+                  << ( ( bConverged ) ? "Yes!" : "No-(") << "\n";
+    }
+
+    if ( bConverged ) {
       p_undistortedFocalPlaneX = xdistorted;
       p_undistortedFocalPlaneY = ydistorted;
+    }
+
+    if ( m_debug ) {
+        m_focalMap->SetFocalPlane(p_undistortedFocalPlaneX, p_undistortedFocalPlaneY);
+        std::cout << "Undistorted ux = " << p_undistortedFocalPlaneX 
+                  << ", uy = " << p_undistortedFocalPlaneY << "\n";
+        std::cout << "ULine = " << m_focalMap->DetectorLine() 
+                  << ", USamp = " << m_focalMap->DetectorSample() << "\n";
     }
     return bConverged;
   }
@@ -208,6 +282,14 @@ namespace Isis {
     p_undistortedFocalPlaneX = ux;
     p_undistortedFocalPlaneY = uy;
 
+    if ( m_debug ) {
+        m_focalMap->SetFocalPlane(ux, uy);
+        std::cout << "\nCompute Distorted at ux = " << ux 
+             << ", uy = " << uy << "\n";
+        std::cout << "ULine = " << m_focalMap->DetectorLine() 
+             << ", USamp = " << m_focalMap->DetectorSample() << "\n";
+    }
+
     // Only apply the distortion if we have the correct number of coefficients.
     if (p_odk.size() < 2) {
       p_focalPlaneX = ux;
@@ -216,6 +298,15 @@ namespace Isis {
     }
     double x0 = (m_distortionOriginLine - m_detectorOriginSample) * m_pixelPitch;
     double y0 = (m_distortionOriginSample - m_detectorOriginLine) * m_pixelPitch;
+
+    if ( m_debug ) {
+      std::cout << "Detector   Center Samp = " << m_detectorOriginSample
+                << ", Line = " << m_detectorOriginLine << "\n";
+      std::cout << "Distortion Center Samp = " << m_distortionOriginSample
+                << ", Line = " << m_distortionOriginLine << "\n";
+      std::cout << "x0 = " << x0 << ", y0 = " << y0 << "\n";
+      std::cout << "xP = " << x0 / m_pixelPitch << ", yP = " << y0 / m_pixelPitch << "\n";
+    }
 
     // Compute the distance from the focal plane center. If we are
     // close to the center then no distortion is required
@@ -226,6 +317,9 @@ namespace Isis {
     if (r <= 1.0E-6) {
       p_focalPlaneX = ux;
       p_focalPlaneY = uy;
+      if ( m_debug ) {
+        std::cout << "Degenerate case at center of distortion!\n";
+      }
       return true;
     }
 
@@ -236,7 +330,15 @@ namespace Isis {
     double drOverR = p_odk[0] + p_odk[1]*r + p_odk[2]*r2 + p_odk[3]*r3 + p_odk[4]*r4;
 
     p_focalPlaneX = x + drOverR * (x-x0);
-    p_focalPlaneY = y + drOverR * (y-y0);
+    p_focalPlaneY = y + drOverR * (y-y0); 
+
+    if ( m_debug ) {
+        m_focalMap->SetFocalPlane(p_focalPlaneX, p_focalPlaneY);
+        std::cout << "Distorted dx = " << p_focalPlaneX 
+                  << ", dy = " << p_focalPlaneY << "\n";
+        std::cout << "DLine = " << m_focalMap->DetectorLine() 
+                  << ", DSamp = " << m_focalMap->DetectorSample() << "\n";
+    }
     return true;
   }
 }
