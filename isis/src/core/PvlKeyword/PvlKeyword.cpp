@@ -222,6 +222,11 @@ namespace Isis {
         m_units->resize(m_values.size());
       }
 
+<<<<<<< HEAD:isis/src/base/objs/PvlKeyword/PvlKeyword.cpp
+=======
+      //ASSERT(i < (int) m_units->size());
+
+>>>>>>> fc0563741 (Initial move to core):isis/src/core/PvlKeyword/PvlKeyword.cpp
       (*m_units)[i] = units;
     }
     else {
