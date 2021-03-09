@@ -21,6 +21,7 @@ endif()
 if (NOT TARGET gmock)
   set(GOOGLEMOCK_ROOT ${PROJECT_SOURCE_DIR}/../../../gtest/googlemock CACHE STRING "Google Mock source root")
 
+
   include_directories(SYSTEM
       ${GOOGLEMOCK_ROOT}
       ${GOOGLEMOCK_ROOT}/include
