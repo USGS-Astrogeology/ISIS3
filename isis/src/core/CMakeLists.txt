@@ -83,6 +83,16 @@ find_package(Geos REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(CSPICE    65      REQUIRED)
 
+include_directories(SYSTEM
+                    ${Qt5Widgets_INCLUDE_DIRS}
+                    ${Qt5Concurrent_INCLUDE_DIRS}
+                    ${Qt5Network_INCLUDE_DIRS}
+                    ${Qt5Xml_INCLUDE_DIRS}
+                    ${CSPICE_INCLUDE_DIR}
+                    ${JSON_INCLUDE_DIR})
+#include_directories(${CMAKE_BINARY_DIR}/inc)
+#link_directories(${JSON_LIBRARY} ${CSPICE_LIBRARY} {Qt5_Library})
+
 target_link_libraries(core PUBLIC Qt5::Core
                                   Qt5::Concurrent
                                   Qt5::Widgets
@@ -98,4 +108,8 @@ install(TARGETS core DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 if (BUILD_CORE_TESTS)
   enable_testing()
   add_subdirectory(tests)
+endif()
+
+if(buildSwig)
+  add_subdirectory(swig)
 endif()

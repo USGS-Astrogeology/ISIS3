@@ -1,0 +1,13 @@
+import setuptools
+
+if __name__ == '__main__':
+    setuptools.setup(
+        name='isispvl',
+        version='0.0.1',
+        packages=['isispvl'],
+        package_data={'':['_isispvl.so']},
+        zip_safe=False,  # Some OSes can not dynamically load an so from an egg (zipfile)
+        license='UnLicense',
+        author='arsanders/acpaquette',
+        author_email='arsanders@usgs.gov'
+)
