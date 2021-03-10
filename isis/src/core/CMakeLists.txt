@@ -90,8 +90,6 @@ include_directories(SYSTEM
                     ${Qt5Xml_INCLUDE_DIRS}
                     ${CSPICE_INCLUDE_DIR}
                     ${JSON_INCLUDE_DIR})
-#include_directories(${CMAKE_BINARY_DIR}/inc)
-#link_directories(${JSON_LIBRARY} ${CSPICE_LIBRARY} {Qt5_Library})
 
 target_link_libraries(core PUBLIC Qt5::Core
                                   Qt5::Concurrent
