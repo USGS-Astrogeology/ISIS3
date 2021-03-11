@@ -1,0 +1,217 @@
+#######################################################
+# This file allows the user to customize their Isis
+# configuration.  See the Isis Preference Dictionary
+# on our website isis.astrogeology.usgs.gov for a
+# full description of each group.
+########################################################
+
+########################################################
+# Customize elements of the user interface
+#
+# ProgressBarPercent = 1 | 2 | 5 | 10
+# ProgressBar = On | Off
+# GuiStyle = windows | motif | cde | motifplus | 
+#            platinum | sgi | kde | aqua
+# GuiHelpBrowser = { your preferred browser, may need path }
+# GuiFontName = helvetica | times | charter | any legal font
+# GuiFontSize = 10 | 12 | 14 | any font point size
+# HistoryPath = { your preferred loaction for the application
+#                 .par files }
+# HistoryRecording = On | Off
+# HistoryLength    = (your preferred count of history entries
+#                      to remember)
+########################################################
+
+Group=UserInterface
+  ProgressBarPercent = 10
+  ProgressBar        = Off
+  GuiHelpBrowser     = firefox
+  GuiFontName        = helvetica
+  GuiFontSize        = 10
+  GuiWidth           = 460
+  GuiHeight          = 600
+  HistoryPath        = $HOME/.Isis/history
+  HistoryRecording   = Off
+  HistoryLength      = 10
+EndGroup
+
+########################################################
+# Customize how errors are reported
+#
+# FileLine = On | Off
+# Format = Standard | Pvl
+# StackTrace = On | Off
+########################################################
+
+Group = ErrorFacility
+  FileLine = Off
+  Format = Standard
+  StackTrace = Off
+EndGroup
+
+########################################################
+# Specify which ray-tracing engine to use for shape
+# models.
+# 
+# Leave the ShapeModel Group commented-out to continue
+# using the ISIS3 default. 
+#
+# RayTraceEngine = Bullet | Embree
+# OnError = Continue | Fail
+# Tolerance = { numerical value that will be set as the
+#           tolerance for the Bullet or Embree shape
+#           model } 
+# 
+########################################################
+
+#Group = ShapeModel
+#  RayTraceEngine = Embree
+#  OnError = Continue
+#  CubeSupported = False
+#  Tolerance = DBL_MAX
+#EndGroup
+
+########################################################
+# Customize how session logging is handled
+#
+# TerminalOutput = On | Off
+#    On - in command-line mode - user input parameters,
+#                           results, and accounting are
+#                           reported to the terminal.
+#                           Errors are reported in Pvl
+#                           also to the terminal.
+#       -  in interactive mode - same as command-line
+#                           mode, but output is directed
+#                           to the gui.  In the case of
+#                           an error, nothing is reported
+#                           to the gui except a pop-up
+#                           window displaying the error.
+#    Off - in command-line mode - only the results are
+#                           reported to the terminal, or
+#                           in the case of an error, 
+#                           the error is reported in Pvl
+#                           to the terminal.
+#        - in interactive mode - same as command-line mode,
+#                           but the error is reported in
+#                           a pop-up window in the gui.
+# FileOutput = On | Off
+# FileName = print.prt | /mydirectory/myfile.prt
+# FileAccess = Append | Overwrite
+########################################################
+
+Group = SessionLog
+  TerminalOutput = Off
+  FileOutput     = On
+  FileName       = print.prt
+  FileAccess     = Append
+EndGroup
+
+########################################################
+# Customize how cubes are created
+#
+# Overwrite = Error | Allow
+# Format = Attached | Detached
+# History = On | Off
+# MaximumSize = max # of gigabytes
+########################################################
+
+Group = CubeCustomization
+  Overwrite  = Allow
+  Format     = Attached
+  History    = On
+  MaximumSize = 12 
+EndGroup
+
+########################################################
+# Customize how other files are created
+#
+# Overwrite = Error | Allow
+#
+# If Error, then overwrites of any non-cube
+# file will be disallowed and an error will be thrown
+########################################################
+
+Group = FileCustomization
+  Overwrite  = Allow
+EndGroup
+
+########################################################
+# Customize how Isis uses your computer's resources.
+#
+# CubeWriteThread = Always | Optimized | Never
+#   Always - Override Isis program defaults and always
+#     use a separate thread for writing out cubes. This
+#     will probably improve performance for some
+#     programs, will probably negatively impact programs
+#     that read/write the same file. This option should
+#     be used with caution.
+#   Optimized - Let the Isis program decide based on
+#     it's own internal knowledge.
+#   Never - Revert to the original method of writing
+#     cubes always.
+#
+# GlobalThreads = Optimized | N
+#   Optimized - The number of global (active processing)
+#     threads used will match the current system's number
+#     of CPU cores.
+#   N -
+#     Global (processing threads) encapsulate most of Isis'
+#     CPU-intensive operations. This should be a
+#     positive whole number greater than 0. This number
+#     does not cull the number of other thread-types in
+#     Isis, for example the cube write thread, but it
+#     should fairly accurately reflect overall potential
+#     CPU usage in Isis.
+########################################################
+Group = Performance
+  CubeWriteThread = Optimized
+  GlobalThreads = 2
+EndGroup
+
+########################################################
+# Customize the location of mission specific data
+# files (calibration and spice kernels).  Usually this
+# should be left to the Isis administrator
+########################################################
+
+Group = DataDirectory
+  Apollo15     = $ISISDATA/apollo15
+  Apollo16     = $ISISDATA/apollo16
+  Apollo17     = $ISISDATA/apollo17
+  Base         = $ISISDATA/base
+  Cassini      = $ISISDATA/cassini
+  Chan1        = $ISISDATA/chan1
+  Chandrayaan1 = $ISISDATA/chandrayaan1
+  Clementine1  = $ISISDATA/clementine1
+  Clipper      = $ISISDATA/../datalocal/clipper
+  Control      = $ISISDATA/control
+  Dawn         = $ISISDATA/dawn
+  Galileo      = $ISISDATA/galileo
+  Hayabusa     = $ISISDATA/hayabusa
+  Hayabusa2    = $ISISDATA/hayabusa2
+  Juno         = $ISISDATA/juno
+  Kaguya       = $ISISDATA/kaguya
+  Lo           = $ISISDATA/lo
+  Lro          = $ISISDATA/lro
+  Mariner10    = $ISISDATA/mariner10
+  Mer          = $ISISDATA/mer
+  Mex          = $ISISDATA/mex
+  Messenger    = $ISISDATA/messenger
+  Mgs          = $ISISDATA/mgs
+  Mro          = $ISISDATA/mro
+  Near         = $ISISDATA/near
+  NewHorizons  = $ISISDATA/newhorizons
+  Odyssey      = $ISISDATA/odyssey
+  OsirisRex    = $ISISDATA/../datalocal/osirisrex
+  Rolo         = $ISISDATA/rolo
+  Rosetta      = $ISISDATA/rosetta
+  Smart1       = $ISISDATA/smart1
+  Tgo          = $ISISDATA/tgo
+  Viking1      = $ISISDATA/viking1
+  Viking2      = $ISISDATA/viking2
+  Voyager1     = $ISISDATA/voyager1
+  Voyager2     = $ISISDATA/voyager2
+  Temporary    = .
+EndGroup
+
+End

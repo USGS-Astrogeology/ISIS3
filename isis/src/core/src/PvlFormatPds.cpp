@@ -14,7 +14,6 @@ find files of those names at the top level of this repository. **/
 #include "IString.h"
 #include "FileName.h"
 #include "Constants.h"
-#include "TextFile.h"
 
 #include "PvlFormatPds.h"
 

@@ -1,0 +1,664 @@
+Running Full Test on [/path/base.ext+attr]
+	Testing Basics [/path/base.ext+attr]
+		Name:              base.ext
+		Base Name:         base
+		Path:              /path
+		Original path      /path
+		Extension:         ext
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           /path/base.ext
+		Exists             0
+
+	Testing Extension change [/path/base.ext+attr]
+		Before modification:      /path/base.ext
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        /path/base
+			Changed:                1
+			Unchanged:              0
+		Added Extension [tmp]:    /path/base.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /path/base.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /path/base.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    /path/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /path/base.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        /path/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [/path/base.ext+attr]
+		Name:              base.ext
+		Base Name:         base
+		Extension:         ext
+		Original path      /path
+		Exists             0
+
+Running Full Test on [/path1/.path2/base.ext+attr]
+	Testing Basics [/path1/.path2/base.ext+attr]
+		Name:              base.ext
+		Base Name:         base
+		Path:              /path1/.path2
+		Original path      /path1/.path2
+		Extension:         ext
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           /path1/.path2/base.ext
+		Exists             0
+
+	Testing Extension change [/path1/.path2/base.ext+attr]
+		Before modification:      /path1/.path2/base.ext
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        /path1/.path2/base
+			Changed:                1
+			Unchanged:              0
+		Added Extension [tmp]:    /path1/.path2/base.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /path1/.path2/base.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /path1/.path2/base.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    /path1/.path2/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /path1/.path2/base.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        /path1/.path2/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [/path1/.path2/base.ext+attr]
+		Name:              base.ext
+		Base Name:         base
+		Extension:         ext
+		Original path      /path1/.path2
+		Exists             0
+
+Running Full Test on [/path1/pat.h2/base+attr]
+	Testing Basics [/path1/pat.h2/base+attr]
+		Name:              base
+		Base Name:         base
+		Path:              /path1/pat.h2
+		Original path      /path1/pat.h2
+		Extension:         
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           /path1/pat.h2/base
+		Exists             0
+
+	Testing Extension change [/path1/pat.h2/base+attr]
+		Before modification:      /path1/pat.h2/base
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        /path1/pat.h2/base
+			Changed:                0
+			Unchanged:              1
+		Added Extension [tmp]:    /path1/pat.h2/base.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /path1/pat.h2/base.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /path1/pat.h2/base.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    /path1/pat.h2/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /path1/pat.h2/base.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        /path1/pat.h2/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [/path1/pat.h2/base+attr]
+		Name:              base
+		Base Name:         base
+		Extension:         
+		Original path      /path1/pat.h2
+		Exists             0
+
+Running Full Test on [/.path1/path2/base]
+	Testing Basics [/.path1/path2/base]
+		Name:              base
+		Base Name:         base
+		Path:              /.path1/path2
+		Original path      /.path1/path2
+		Extension:         
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           /.path1/path2/base
+		Exists             0
+
+	Testing Extension change [/.path1/path2/base]
+		Before modification:      /.path1/path2/base
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        /.path1/path2/base
+			Changed:                0
+			Unchanged:              1
+		Added Extension [tmp]:    /.path1/path2/base.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /.path1/path2/base.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /.path1/path2/base.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    /.path1/path2/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /.path1/path2/base.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        /.path1/path2/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [/.path1/path2/base]
+		Name:              base
+		Base Name:         base
+		Extension:         
+		Original path      /.path1/path2
+		Exists             0
+
+Running Full Test on [/.path1/path2/base.+attr]
+	Testing Basics [/.path1/path2/base.+attr]
+		Name:              base.
+		Base Name:         base
+		Path:              /.path1/path2
+		Original path      /.path1/path2
+		Extension:         
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           /.path1/path2/base.
+		Exists             0
+
+	Testing Extension change [/.path1/path2/base.+attr]
+		Before modification:      /.path1/path2/base.
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        /.path1/path2/base
+			Changed:                1
+			Unchanged:              0
+		Added Extension [tmp]:    /.path1/path2/base.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /.path1/path2/base.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /.path1/path2/base.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    /.path1/path2/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /.path1/path2/base.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        /.path1/path2/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [/.path1/path2/base.+attr]
+		Name:              base.
+		Base Name:         base
+		Extension:         
+		Original path      /.path1/path2
+		Exists             0
+
+Running Full Test on [/another/path/base.ex1.exten2.ext3]
+	Testing Basics [/another/path/base.ex1.exten2.ext3]
+		Name:              base.ex1.exten2.ext3
+		Base Name:         base.ex1.exten2
+		Path:              /another/path
+		Original path      /another/path
+		Extension:         ext3
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           /another/path/base.ex1.exten2.ext3
+		Exists             0
+
+	Testing Extension change [/another/path/base.ex1.exten2.ext3]
+		Before modification:      /another/path/base.ex1.exten2.ext3
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        /another/path/base.ex1.exten2
+			Changed:                1
+			Unchanged:              0
+		Added Extension [tmp]:    /another/path/base.ex1.exten2.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /another/path/base.ex1.exten2.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /another/path/base.ex1.exten2.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    /another/path/base.ex1.exten2.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /another/path/base.ex1.exten2.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        /another/path/base.ex1.exten2.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [/another/path/base.ex1.exten2.ext3]
+		Name:              base.ex1.exten2.ext3
+		Base Name:         base.ex1.exten2
+		Extension:         ext3
+		Original path      /another/path
+		Exists             0
+
+Running Full Test on [/$BADENV/base.ext+attr]
+	Testing Basics [/$BADENV/base.ext+attr]
+		Name:              base.ext
+		Base Name:         base
+		Path:              /$BADENV
+		Original path      /$BADENV
+		Extension:         ext
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           /$BADENV/base.ext
+		Exists             0
+
+	Testing Extension change [/$BADENV/base.ext+attr]
+		Before modification:      /$BADENV/base.ext
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        /$BADENV/base
+			Changed:                1
+			Unchanged:              0
+		Added Extension [tmp]:    /$BADENV/base.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /$BADENV/base.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /$BADENV/base.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    /$BADENV/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /$BADENV/base.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        /$BADENV/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [/$BADENV/base.ext+attr]
+		Name:              base.ext
+		Base Name:         base
+		Extension:         ext
+		Original path      /$BADENV
+		Exists             0
+
+Running Full Test on [/.path1/base+attr1+attr2]
+	Testing Basics [/.path1/base+attr1+attr2]
+		Name:              base
+		Base Name:         base
+		Path:              /.path1
+		Original path      /.path1
+		Extension:         
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           /.path1/base
+		Exists             0
+
+	Testing Extension change [/.path1/base+attr1+attr2]
+		Before modification:      /.path1/base
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        /.path1/base
+			Changed:                0
+			Unchanged:              1
+		Added Extension [tmp]:    /.path1/base.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /.path1/base.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /.path1/base.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    /.path1/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /.path1/base.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        /.path1/base.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [/.path1/base+attr1+attr2]
+		Name:              base
+		Base Name:         base
+		Extension:         
+		Original path      /.path1
+		Exists             0
+
+Running Full Test on [unitTest.cpp]
+	Testing Basics [unitTest.cpp]
+		Name:              unitTest.cpp
+		Base Name:         unitTest
+		Path:              .
+		Original path      .
+		Extension:         cpp
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           unitTest.cpp
+		Exists             1
+
+	Testing Extension change [unitTest.cpp]
+		Before modification:      unitTest.cpp
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        ./unitTest
+			Changed:                1
+			Unchanged:              0
+		Added Extension [tmp]:    ./unitTest.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    ./unitTest.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    ./unitTest.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    ./unitTest.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    ./unitTest.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        ./unitTest.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [unitTest.cpp]
+		Name:              unitTest.cpp
+		Base Name:         unitTest
+		Extension:         cpp
+		Original path      .
+		Exists             1
+
+Running Full Test on [./unitTest.cpp]
+	Testing Basics [./unitTest.cpp]
+		Name:              unitTest.cpp
+		Base Name:         unitTest
+		Path:              .
+		Original path      .
+		Extension:         cpp
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           ./unitTest.cpp
+		Exists             1
+
+	Testing Extension change [./unitTest.cpp]
+		Before modification:      ./unitTest.cpp
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        ./unitTest
+			Changed:                1
+			Unchanged:              0
+		Added Extension [tmp]:    ./unitTest.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    ./unitTest.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    ./unitTest.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    ./unitTest.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    ./unitTest.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        ./unitTest.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [./unitTest.cpp]
+		Name:              unitTest.cpp
+		Base Name:         unitTest
+		Extension:         cpp
+		Original path      .
+		Exists             1
+
+Running Full Test on [.cub]
+	Testing Basics [.cub]
+		Name:              .cub
+		Base Name:         
+		Path:              .
+		Original path      .
+		Extension:         cub
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           .cub
+		Exists             0
+
+	Testing Extension change [.cub]
+		Before modification:      .cub
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        ./
+			Changed:                1
+			Unchanged:              0
+		Added Extension [tmp]:    ./.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    ./.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    ./.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    ./.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    ./.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        ./.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [.cub]
+		Name:              .cub
+		Base Name:         
+		Extension:         cub
+		Original path      .
+		Exists             0
+
+Running Full Test on [/$TEMPORARY/unitTest.cpp]
+	Testing Basics [/$TEMPORARY/unitTest.cpp]
+		Name:              unitTest.cpp
+		Base Name:         unitTest
+		Path:              /.
+		Original path      /$TEMPORARY
+		Extension:         cpp
+		Comparison (==):   1
+		Comparison (!=):   0
+		Expanded           /./unitTest.cpp
+		Exists             0
+
+	Testing Extension change [/$TEMPORARY/unitTest.cpp]
+		Before modification:      /./unitTest.cpp
+			Changed:                0
+			Unchanged:              1
+		Removed Extension:        /./unitTest
+			Changed:                1
+			Unchanged:              0
+		Added Extension [tmp]:    /./unitTest.tmp
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /./unitTest.tmp.jpg
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /./unitTest.tmp.jpg
+			Changed:                0
+			Unchanged:              1
+		Set Extension   [gif]:    /./unitTest.tmp.gif
+			Changed:                1
+			Unchanged:              0
+		Added Extension [jpg]:    /./unitTest.tmp.gif.jpg
+			Changed:                1
+			Unchanged:              0
+		Removed Extension:        /./unitTest.tmp.gif
+			Changed:                1
+			Unchanged:              0
+
+	Testing Expanded [/$TEMPORARY/unitTest.cpp]
+		Name:              unitTest.cpp
+		Base Name:         unitTest
+		Extension:         cpp
+		Original path      /$TEMPORARY
+		Exists             0
+
+Testing temporary file name placement
+	Input name and extension : $TEMPORARY/tttt.tmp
+	Extension:               : tmp
+	Original Path:           : $TEMPORARY
+	Exists:                  : 1
+	Name (cleaned):          : tttt??????.tmp
+
+Testing parallel temporary file name creation for atomicity
+	Success!
+
+Testing Versioning Missing Problems
+	Testing Versioning Methods [tttt]
+		Highest Version Name:          		Highest Version Failed:     **ERROR** Asked for highest version of file named [tttt] in [.] but there are no version sequences in the name.
+		New Version Name:              		New Version Failed:         **ERROR** Asked for new version of file named [tttt] in [.] but there are no version sequences in the name.
+
+	Testing Versioning Methods [tttt{}.tmp]
+		Highest Version Name:          		Highest Version Failed:     **ERROR** The date version sequences are not recognized in the file named [tttt{}.tmp].
+		New Version Name:              		New Version Failed:         **ERROR** The date version sequences are not recognized in the file named [tttt{}.tmp].
+
+	Testing Versioning Methods [ttttt{}.tmp]
+		Highest Version Name:          		Highest Version Failed:     **ERROR** The date version sequences are not recognized in the file named [ttttt{}.tmp].
+		New Version Name:              		New Version Failed:         **ERROR** The date version sequences are not recognized in the file named [ttttt{}.tmp].
+
+Testing Numerical-Only Versioning
+	Testing Versioning Methods [tttt??????]
+		Highest Version Name:          tttt000001
+		Highest Version Orig:          ./tttt000001
+		Highest Version Orig Path:     .
+		High version changed FileName: 1
+		New Version Name:              tttt000002
+		New Version Orig:              ./tttt000002
+		New Version Orig Path:         .
+		New version changed FileName: 1
+
+	Testing Versioning Methods [tttt??????.tmp]
+		Highest Version Name:          tttt000008.tmp
+		Highest Version Orig:          ./tttt000008.tmp
+		Highest Version Orig Path:     .
+		High version changed FileName: 1
+		New Version Name:              tttt000009.tmp
+		New Version Orig:              ./tttt000009.tmp
+		New Version Orig Path:         .
+		New version changed FileName: 1
+
+	Testing Versioning Methods [tttt_?.tmp]
+		Highest Version Name:          tttt_0.tmp
+		Highest Version Orig:          ./tttt_0.tmp
+		Highest Version Orig Path:     .
+		High version changed FileName: 1
+		New Version Name:              tttt_1.tmp
+		New Version Orig:              ./tttt_1.tmp
+		New Version Orig Path:         .
+		New version changed FileName: 1
+
+	Testing Versioning Methods [??tttt]
+		Highest Version Name:          		Highest Version Failed:     **ERROR** No existing files found with a numerial version matching [??tttt] in [.].
+		New Version Name:              01tttt
+		New Version Orig:              ./01tttt
+		New Version Orig Path:         .
+		New version changed FileName: 1
+
+	Testing Versioning Methods [?tttt000008.tmp]
+		Highest Version Name:          2tttt000008.tmp
+		Highest Version Orig:          ./2tttt000008.tmp
+		Highest Version Orig Path:     .
+		High version changed FileName: 1
+		New Version Name:              3tttt000008.tmp
+		New Version Orig:              ./3tttt000008.tmp
+		New Version Orig Path:         .
+		New version changed FileName: 1
+
+	Testing Versioning Methods [junk?]
+		Highest Version Name:          		Highest Version Failed:     **ERROR** No existing files found with a numerial version matching [junk?] in [.].
+		New Version Name:              junk1
+		New Version Orig:              ./junk1
+		New Version Orig Path:         .
+		New version changed FileName: 1
+
+	Testing Versioning Methods [??tttt??]
+		Highest Version Name:          		Highest Version Failed:     **ERROR** Only one numerical version sequence is allowed in a filename; there are multiple in [??tttt??].
+		New Version Name:              		New Version Failed:         **ERROR** Only one numerical version sequence is allowed in a filename; there are multiple in [??tttt??].
+
+Testing Date-Only Versioning
+	Testing Versioning Methods [tttt{ddMMMyyyy}.tmp]
+		Highest Version Name:          tttt14Apr2010.tmp
+		Highest Version Orig:          ./tttt14Apr2010.tmp
+		Highest Version Orig Path:     .
+		High version changed FileName: 1
+
+	Testing Versioning Methods [tt{MMM}tt{dd}yy{yy}.tmp]
+		Highest Version Name:          ttFebtt04yy01.tmp
+		Highest Version Orig:          ./ttFebtt04yy01.tmp
+		Highest Version Orig Path:     .
+		High version changed FileName: 1
+
+	Testing Versioning Methods [tt{d}tt{MMM}.tmp]
+		Highest Version Name:          		Highest Version Failed:     **ERROR** No existing files found with a date version matching [tt{d}tt{MMM}.tmp] in [.].
+
+	Testing Versioning Methods [tt{d}tt{MMMM}.tmp]
+		Highest Version Name:          tt2ttDecember.tmp
+		Highest Version Orig:          ./tt2ttDecember.tmp
+		Highest Version Orig Path:     .
+		High version changed FileName: 1
+
+	Testing Versioning Methods [tt{dd}.tmp]
+		Highest Version Name:          		Highest Version Failed:     **ERROR** No existing files found with a date version matching [tt{dd}.tmp] in [.].
+
+	Testing Versioning Methods [tttt{dd}.tmp]
+		Highest Version Name:          		Highest Version Failed:     **ERROR** No existing files found with a date version matching [tttt{dd}.tmp] in [.].
+
+	Testing Versioning Methods [tttt{aaaa}.tmp]
+		Highest Version Name:          		Highest Version Failed:     **ERROR** The date version sequences are not recognized in the file named [tttt{aaaa}.tmp].
+		New Version Name:              		New Version Failed:         **ERROR** The date version sequences are not recognized in the file named [tttt{aaaa}.tmp].
+
+Testing Date and Numerical Versioning Combined
+	Testing Versioning Methods [$TEMPORARY/{MMM}-{dd}-{yy}_v???.tmp]
+		Highest Version Name:          Apr-22-99_v004.tmp
+		Highest Version Orig:          $TEMPORARY/Apr-22-99_v004.tmp
+		Highest Version Orig Path:     $TEMPORARY
+		High version changed FileName: 1
+
+Verifying NewVersion for file tttt{dd}tt{yyyy}tt{MMM}.tmp is today
+	Made today's filename successfully? 1
+

@@ -1,0 +1,195 @@
+Testing toBool
+	True:  1
+	False: 0
+	**ERROR** Failed to convert string [...] to a boolean. Please specify one of [1, on, t, true, y, yes] for true, or one of [0, f, false, n, no, off] for false.
+
+Testing toInt
+	0
+	5
+	-5
+	2147483647
+	-2147483647
+	**ERROR** Failed to convert string [-5.0] to an integer.
+	**ERROR** Failed to convert string [2147483648] to an integer.
+
+Testing toBigInt
+	0
+	5
+	-5
+	9223372036854775807
+	-9223372036854775807
+	**ERROR** Failed to convert string [-5.0] to a big integer.
+	**ERROR** Failed to convert string [9223372036854775808] to a big integer.
+
+Testing toDouble
+	0
+	5.25
+	-5.25
+	-3.4028226550889e+38
+	1e+100
+	-1e+100
+	1.7976931348623e+308
+	**ERROR** Failed to convert string [fred] to a double.
+
+Testing toString
+	bool(false):        No
+	bool(true):         Yes
+	char(A):            A
+	int(2147483647):    2147483647
+	uint(2147483648):   2147483648
+	BigInt(2147483648): 2147483648
+	double(0.0):        0.0
+	double(DBL_MIN):    2.2250738585072e-308
+	double(DBL_MAX*2):  1.79769313486232e+308
+	double(-DBL_MAX*2): -1.79769313486232e+308
+	double(sqrt(-1)):   nan
+	double(5.25):       5.25
+	double(-5.25):      -5.25
+	double(1e13):       10000000000000
+	double(1e13+1):     1.0000000000001e+13
+	double(1e-3):       0.001
+	double(9e-4):       9.0e-04
+	double(1e100):      1.0e+100
+	double(-1e100):     -1.0e+100
+
+Testing cerr with QString and with QStringRef
+	QString
+	QStringRef
+
+----------------------------------
+-- Now testing deprecated class --
+----------------------------------
+
+No arg construtor : Test string
+Constructor IString: Test string again
+Constructor char : 65
+Constructor int : 999
+Constructor BigInt : 9999999999
+Constructor double :999.999
+Before Trim : ABCDefghijkBCAD
+Return Trim : efghijk
+After Trim  : efghijk
+Before TrimHead : ABCDefghijkBCAD
+Return TrimHead : efghijkBCAD
+After TrimHead  : efghijkBCAD
+Middle test     : efghijkBCAD
+Before TrimTail : ABCDefghijkBCAD
+Return TrimTail : ABCDefghijk
+After TrimTail  : ABCDefghijk
+Middle test     : ABCDefghijk
+Before TrimHead : ABCDefghijkBCAD
+After TrimHead  : efghijkBCAD
+Middle test     : efghijkBCAD
+Before TrimTail : ABCDefghijkBCAD
+After TrimTail  : ABCDefghijk
+Middle test     : ABCDefghijk
+Before Upcase : abcdefghijklmnopqrstuvwxyzABC!@#$%^&*()
+After Upcase  : ABCDEFGHIJKLMNOPQRSTUVWXYZABC!@#$%^&*()
+Before DownCase : ABCDEFGHIJKLMNOPQRSTUVWXYZABC!@#$%^&*()
+After DownCase  : abcdefghijklmnopqrstuvwxyzabc!@#$%^&*()
+Integer : 987654321
+Integer : 987654321
+**ERROR** Failed to convert string [987trew] to an integer.
+BigInteger : 9876543210
+BigInteger : 9876543210
+**ERROR** Failed to convert string [987trew] to a big integer.
+Double : 9876.54321
+Double : 9876.54321
+**ERROR** Failed to convert string [123$987] to a double.
+Exponent : 123.0E45
+Exponent : 1.23e+47
+25:255 35:15
+25
+255
+35
+15
+key1=tok1 key2="t o k 2" key3=(1,2,3,4)
+key1
+tok1
+key2
+"t
+o
+k
+2"
+key3
+(1,2,3,4)
+"abcd","1234"
+"abcd"
+"1234"
+",1234","ab,cd"
+"
+1234"
+"ab
+cd"
+/this/is/a/long/filename.jnk,seperated/by/a/comma/ending/with/
+/this/is/a/long/filename.jnk
+seperated/by/a/comma/ending/with/
+/this/is/another/long/filename.jnk   seperated/by/3/spaces/file2.tmp
+token# 1>> /this/is/another/long/filename.jnk
+token# 2>> 
+token# 3>> 
+token# 4>> seperated/by/3/spaces/file2.tmp
+
+Before compress >  "    "    <
+After compress  > "    " <
+Before compress >|  "    "    '    '   |<
+After compress  >| "    " '    ' |<
+Before compress >  AB  CD  <
+After compress  > AB CD <
+Before force compress >  "  "    <
+After force compress  > " " <
+Before force compress >  "AB  CD"  <
+After force compress  > "AB CD" <
+Before force compress > <
+After force compress  > <
+Before convert >ABCDEFG<
+After convert  >A-C-E--<
+Before replace >Thirteen is bigger than fourteen<
+After replace  >Thirteen is smaller than fourteen<
+After convert white space >a b       c<
+Before Upcase >xxxXXX0<
+After Upcase  >XXXXXX0<
+Before DownCase >XXXXXX0<
+After DownCase  >xxxxxx0<
+Testing QT conversion: 1
+255.0
+0.333
+-255.0
+1.235e-20
+1.23456789012346e+19
+5.0e-04
+Before Remove >a 1 b 2 c 3 d 4 e 5<
+After Remove >a  b  c 3 d  e <
+100
+100000000000
+100.1
+Before Replace (honor quotes) >I is a test string: 'I is' is "is a string"<
+After Replace (honor quotes) >I am a test string: 'I is' is "is a string"<
+Before Replace (dont honor quotes) >I is a test string: 'I is' is "is a string"<
+After Replace (dont honor quotes) >I am a test string: 'I am' am "am a string"<
+Before split >This is a test string<
+After split >
+Element 0: This
+Element 1: is
+Element 2: a
+Element 3: test
+Element 4: string
+<
+
+Qt QStringList values:
+String1
+String2
+String3
+String4
+
+Converted to std::vector<std::string>...
+String1
+String2
+String3
+String4
+Are they equivalent?
+Counts? Yes
+string(String1) == QString(String1)? Yes
+string(String2) == QString(String2)? Yes
+string(String3) == QString(String3)? Yes
+string(String4) == QString(String4)? Yes

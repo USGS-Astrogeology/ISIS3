@@ -10,7 +10,6 @@ find files of those names at the top level of this repository. **/
 #include <fstream>
 
 #include "FileName.h"
-#include "PvlTokenizer.h"
 #include "PvlTranslationTable.h"
 
 namespace Isis {

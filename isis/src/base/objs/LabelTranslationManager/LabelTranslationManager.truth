@@ -1,0 +1,59 @@
+Testing LabelTranslationManager object
+
+Testing Translate method:
+
+Translating Extra: Test Input, Index 0
+
+Testing Auto method:
+
+Object = IsisCube
+  Object = BandBin
+    BandName = "Test Input, Index 0"
+  End_Object
+
+  Group = Dimensions
+    NumberOfLines = "Test Input, Index 0"
+    NumberOfBands = "Test Input, Index 0"
+  End_Group
+End_Object
+
+Group = Mapping
+  CenterLongitude = "Test Input, Index 0"
+End_Group
+End
+
+Testing parseSpecification method: att@name|value
+
+Testing parseSpecification method: tag@name|value
+
+Testing parseSpecification method: att@name
+
+Testing parseSpecification method: new@name
+
+Testing parseSpecification method: name|value
+
+Testing parseSpecification method: value
+
+Testing parseSpecification method: namespace:name
+
+Testing parseSpecification method: namespace:name|value
+
+Testing parseSpecification method: att@namespace:name|value
+
+Testing parseSpecification method: tag@name|value
+
+Testing parseSpecification method: att|name|value
+**PROGRAMMER ERROR** Malformed dependency specification [att|name|value].
+**PROGRAMMER ERROR** [att|name|value] has unexpected number of '@' or '|' delimiters.
+
+Testing parseSpecification method: att@name@value
+**PROGRAMMER ERROR** Malformed dependency specification [att@name@value].
+**PROGRAMMER ERROR** [att@name@value] has unexpected number of '@' or '|' delimiters.
+
+Testing parseSpecification method: not@name|value
+**PROGRAMMER ERROR** Malformed dependency specification [not@name|value].
+**PROGRAMMER ERROR** Dependency type specification [not] is invalid. Valid types are [att], [tag] and [new].
+
+Testing parseSpecification method: att@name|value1|value2
+**PROGRAMMER ERROR** Malformed dependency specification [att@name|value1|value2].
+**PROGRAMMER ERROR** Malformed dependency specification [att@name|value1|value2].

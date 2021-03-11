@@ -1,0 +1,34 @@
+THE_INTERNET = "Seven thousand eight hundred forty three million seventy four 
+                nine seventy six forty two eighty nine sixty seven thirty five 
+                million jillion bajillion google six nine four one two three 
+                four five six seven eight nine ten eleven twelve thirteen 
+                fourteen" <terrabytes>
+BIG_HUGE_LONG_NAME_THAT_SHOULD_TEST_OUT_PARSING = "Seven thousand eight 
+                                                   hundred forty three million 
+                                                   seventy four" <bubble baths>
+ARRAY_TEST = (5.87 <lightyears>, 5465.6 <lightyears>, 574.6 <lightyears>, 
+              42 <dogs>)
+FIRST_100_DIGITS_OF_PI = 3.14159265358979323846264338327950288419716939937510-
+                         58209749445923078164062862089986280348253421170679
+A = XXXXXXXXXXxxxxxxxxxxXXXXXXXXXXxxxxxxxxxxXXXXXXXXXXxxxxxxxxxxXXXXXXXXXXxxxx
+UGHHHHHHHHHHHH = (59999.0, 59999.0, 59999.0, 59999.0, 59999.0, 59999.0, 
+                  59999.0, 59999.0, 59999.0, 59999.0, 59999.0, 59999.0)
+NAME = 5.2 <meters>
+KEY = Null
+# Hello World! This is a really really long comment that needs to be
+# wrapped onto several different lines to make the PVL file look really
+# pretty!
+KEY = (5, Null, 3.3 <feet>, "Hello World!")
+
+# Hello World! This is a really really long comment that needs to be
+# wrapped onto several different lines to make the PVL file look really
+# pretty!
+KEY = (5, 88, 3.3 <feet>, "Hello World!")
+dog = Big
+
+# Big
+Cat = (Big, Tabby) <Fish>
+
+key = ((a, b, c), ("Hubba Hubba", Bubba))
+
+# Some Junk Comment
