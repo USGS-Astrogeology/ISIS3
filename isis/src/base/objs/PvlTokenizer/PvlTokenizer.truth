@@ -1,0 +1,44 @@
+TESTING TOKENIZER
+DOG is POODLE 
+CAT is TABBY 
+BIRD is PARROT 
+REPTILE is SNAKE LIZARD 
+-VEGGIE is 
+BOVINE is COW CAMEL 
+TREE is MAPLE ELM PINE 
+_COMMENT_ is # This is a comment 
+FLOWER is DAISY & TULIP  
+_COMMENT_ is /* This is another comment 
+BIG is   NOT   REALLY LARGE 
+SEQUENCE is (a,b,c) (d,e,f) 
+QUOTED_STRING is A QUOTED STRING 
+QuotedNewLine is abcdefgh ijk lmn 
+ApostNewLine is abcdefgh ijk lmn 
+
+TESTING TOKENIZER CLEAR
+0
+
+TESTING TOKEN ERROR [PHRASE = "The quick brown fox jumped over the lazy dog]
+**ERROR** Keyword [PHRASE] has bad value.
+**ERROR** Missing delimiter ["] at or near [The quick brown fox  ...].
+
+TESTING TOKEN ERROR [PHRASE = {To Be or Not To Be That is the Question]
+**ERROR** Keyword [PHRASE] has bad value.
+**ERROR** Missing delimiter [}] at or near [To Be or Not To Be T ...].
+
+TESTING TOKEN ERROR [PHRASE = (I came, I saw, I conquered]
+**ERROR** Keyword [PHRASE] has bad value.
+**ERROR** Missing delimiter [)] at or near [I came, I saw, I con ...].
+
+TESTING TOKEN ERROR [FOOD = ("french","fries,"good") ]
+**ERROR** Keyword [FOOD] has bad value.
+**ERROR** Missing delimiter ["] at or near ["french","fries,"goo ...].
+
+TESTING TOKEN ERROR [FOOD = ("burgers","hotdogs,"good")]
+**ERROR** Keyword [FOOD] has bad value.
+**ERROR** Missing delimiter ["] at or near ["burgers","hotdogs," ...].
+
+TESTING TOKEN ERROR [FOOD = ("pickels,pizza")]
+
+TESTING TOKEN ERROR [FISH = ("trout","pizz"a)]
+

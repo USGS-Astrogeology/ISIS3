@@ -1,0 +1,43 @@
+Unit test for Isis::PvlTranslationTable
+
+  Test InputGroup :
+    InputGroup ("DataFileName") = ROOT
+    InputGroup ("CoreLines") = IMAGE
+    **PROGRAMMER ERROR** Unable to find translation group [tttt1] in file [].
+
+  Test InputKey :
+    InputKeywordName ("DataFileName") = ^IMAGE
+    InputKeywordName ("CoreLines") = LINES
+    **PROGRAMMER ERROR** Unable to find translation group [tttt2] in file [].
+
+  Test InputDefault :
+    InputDefault ("DataFileName") = 
+    InputDefault ("CoreBitsPerPixel") = 8
+    **PROGRAMMER ERROR** Unable to find translation group [tttt3] in file [].
+
+  Test Translate :
+    Translate ("DataFileName", "tttt4") = tttt4
+    Translate ("CoreByteOrder","MSB_INTEGER") = BigEndian
+    Translate ("CorePixelType") = Integer
+    Translate ("CorePixelType") = Unknown
+    **PROGRAMMER ERROR** Unable to find translation group [tttt6] in file [].
+    **PROGRAMMER ERROR** No value or default value to translate for translation group [DataFileRecordBytes] in file [].
+    **PROGRAMMER ERROR** Unable to find a translation value for [CoreBitsPerPixel, 31] in file [].
+
+  Test AddTable :
+    Translate ("CoreLinePrefixBytes", "128") = 128
+
+  Test IsAuto :
+    IsAuto ("DataFileName") = 0
+    IsAuto ("CoreBitsPerPixel") = 1
+
+  Test IsOptional :
+    IsAuto ("DataFileName") = 0
+    IsAuto ("CoreBitsPerPixel") = 1
+
+  Test OutputPosition :
+    OutputPosition ("CoreBitsPerPixel") yields : OutputPosition = (Object, IsisCube, Object, Core, Group, Pixels)
+
+  Test OutputName :
+    OutputName ("CoreBitsPerPixel") = BitsPerPixel
+

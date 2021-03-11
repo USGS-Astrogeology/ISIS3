@@ -1,0 +1,69 @@
+/* Pets are cool
+Group = Animals
+  DOG    = 5.2 <meters>
+
+  # Cats shed
+  CATTLE = Meow
+End_Group
+5.2
+
+/* Pets are cool
+Group = Animals
+  # Cats shed
+  CATTLE = Meow
+End_Group
+
+/* Pets are cool
+Group = Animals
+End_Group
+
+# Testing
+/* 123 */
+Group = POODLE
+  CAT     = TABBY
+  BIRD    = PARROT
+  REPTILE = (SNAKE, LIZARD)
+  -VEGGIE = Null
+  BOVINE  = (COW, CAMEL)
+  TREE    = (MAPLE, ELM, PINE)
+
+  # This is a comment
+  FLOWER  = "DAISY & TULIP "
+
+  /* This is another comment */
+  BIG     = ("  NOT  ", "REALLY LARGE")
+End_Group
+**ERROR** Group [POODLE] EndGroup not found before end of file when reading PVL.
+Template Group:
+Group = Point_ErrorMagnitude
+  Point_ErrorMagnitude__Required = false
+  LessThan                       = double
+  LessThan__Required             = false
+  LessThan__Repeated             = false
+  GreaterThan                    = double
+  GreaterThan__Required          = true
+  GreaterThan__Repeated          = true
+End_Group
+
+
+**Test1**RequiredKeyword
+Results Group:
+Group = Point_errormagnitude
+End_Group
+**PVL ERROR** Required Keyword "GreaterThan" not found in the PvlGroup
+**********
+
+**Test2**
+Repeated values are allowed if Repeat flag is set
+Results Group:
+Group = Point_errormagnitude
+End_Group
+**********
+
+**Test3**
+Unvalidated Keywords
+Results Group:
+Group = Point_errormagnitude
+  Less123Than = 2.5
+End_Group
+**********

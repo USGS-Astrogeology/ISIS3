@@ -1,0 +1,12 @@
+Object = A
+  Object = B
+
+   Key = Value
+  EndObject
+
+  Object = C
+    Group = D
+      Dog = Big Dog
+    EndGroup
+  EndObject
+EndObject

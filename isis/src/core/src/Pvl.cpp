@@ -15,7 +15,6 @@ find files of those names at the top level of this repository. **/
 #include "FileName.h"
 #include "IException.h"
 #include "Message.h"
-#include "PvlTokenizer.h"
 #include "PvlFormat.h"
 
 using namespace std;

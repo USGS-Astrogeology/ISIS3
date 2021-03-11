@@ -1,0 +1,28 @@
+Array subscript [100000] is out of array bounds
+
+Keyword [KEY] ambiguous
+Keyword [KEY] unrecognized
+Keyword [KEY] duplicated
+Keyword [KEY] is not an array
+Keyword [KEY] required but was not found
+
+Keyword block [BLOCK] is invalid
+Expecting start of keyword block [BLOCK] but found [FOUND]
+Expecting end of keyword block [BLOCK] but found [FOUND]
+
+Keyword [KEY] has bad value
+Keyword [KEY] has bad value [12345678901234567890]
+Keyword [KEY] has bad value [abcdefghijklmnopqrst ...]
+Keyword value for [KEY] expected but was not found
+Keyword [KEY=0] is not in the range of (0,20]
+Keyword [KEY=A] must be one of [X,Y,Z]
+
+Missing delimiter [)]
+Missing delimiter [)] at or near [12345678901234567890]
+Missing delimiter [)] at or near [abcdefghijklmnopqrst ...]
+
+Unable to open [test.dat]
+Unable to create [test.dat]
+Unable to read [test.dat]
+Unable to write [test.dat]
+

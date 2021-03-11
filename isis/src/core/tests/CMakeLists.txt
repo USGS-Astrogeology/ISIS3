@@ -15,3 +15,6 @@ add_executable(runISISCoreTests
 target_link_libraries(runISISCoreTests core gtest Threads::Threads)
 
 gtest_discover_tests(runISISCoreTests WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests)
+
+# Add old ISIS unitTests
+add_subdirectory(unitTests)

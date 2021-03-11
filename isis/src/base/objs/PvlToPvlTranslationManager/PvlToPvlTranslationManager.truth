@@ -1,0 +1,51 @@
+Testing PvlToPvlTranslationManager object
+  Testing InputValue member
+    DataFileName    = SomeFile.dat
+    StartByte       = 32
+    NumberOfBands   = 27
+    PixelResolution = 100
+    Error messages:
+    **PROGRAMMER ERROR** Unable to find input group [Bad1,Bad2,Bad3] for output name [BadGroup] in file [].
+    **PROGRAMMER ERROR** Unable to find input keyword [BadKey] for output name [GoodGroupBadKey] in file [].
+
+  Testing InputUnits member
+    PixelResolution = meters
+    NumberOfBands   = 
+    Error messages:
+    **PROGRAMMER ERROR** Unable to find input group [Bad1,Bad2,Bad3] for output name [BadGroup] in file [].
+    **PROGRAMMER ERROR** Unable to find input keyword [BadKey] for output name [GoodGroupBadKey] in file [].
+
+  Testing InputSize member
+    BandName        = 3
+    PixelResolution = 1
+    Error messages:
+    **PROGRAMMER ERROR** Unable to find input group [Bad1,Bad2,Bad3] for output name [BadGroup] in file [].
+    **PROGRAMMER ERROR** Unable to find input keyword [BadKey] for output name [GoodGroupBadKey] in file [].
+
+  Testing InputHasKeyword member
+    BandName        = 1
+    GoodGroupBadKey = 0
+
+  Testing Translate member
+    DataFileName = SomeFile.dat
+    ImageStartByte   = 32
+    Lines = 500
+
+  Testing Auto member
+PixelBytes = 2
+
+Object = IsisCube
+  Object = BandBin
+    Band = (Red, Green, Blue)
+  End_Object
+
+  Group = Dimensions
+    Lines = 500
+    Bands = (27, 12, 1)
+  End_Group
+End_Object
+
+Group = Mapping
+  CenterLongitude = 44.4975624
+End_Group
+End

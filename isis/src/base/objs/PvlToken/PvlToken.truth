@@ -1,0 +1,18 @@
+Info on dog
+  key:        Dog
+  upperkey:   DOG
+  valuesize:  1
+  value:      drools
+  uppervalue: DROOLS
+
+Adding another value to dog
+  valuesize:  2
+  value:      wags tail
+  uppervalue: WAGS TAIL
+
+Clearing dog values
+  valuesize:  0
+
+Testing Throws in dog
+**PROGRAMMER ERROR** Array subscript [-1] is out of array bounds.
+**PROGRAMMER ERROR** Array subscript [1] is out of array bounds.

@@ -14,7 +14,6 @@ find files of those names at the top level of this repository. **/
 
 #include "FileName.h"
 #include "Pvl.h"
-#include "PvlTokenizer.h"
 
 class QDomElement;
 class QString;
@@ -72,7 +71,7 @@ namespace Isis {
       virtual bool InputHasKeyword(const QString translationGroupName);
 
       void SetLabel(Pvl &inputLabel);
-      
+
       static void addElement(QDomElement &parent, QString name, QString value, QString units = "");
       static void setElementValue(QDomElement &element, QString value, QString units = "");
       static void resetElementValue(QDomElement &element, QString value, QString units = "");
