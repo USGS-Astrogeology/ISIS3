@@ -1,9 +1,50 @@
 %module isispvl
-%include "pvlKeyword.i"
+%{
+    #include <string>
+    #include <sstream>
+    #include "Pvl.h"
+%}
 
 %include std_string.i
 %include std_vector.i
 %include exception.i
+
+%include "pvlKeyword.i"
+%include "PvlContainer.h"
+%include "pvlGroup.i"
+
+%include "pvlObject.i"
+%nodefaultdtor Isis::PvlObject;
+
+%include "Pvl.h"
+%nodefaultdtor Isis::Pvl;
+
+%extend Isis::Pvl {
+  const char* __str__() {
+    std::ostringstream out;
+    out << *$self;
+    std::string str = out.str();
+    char * cstr = new char [str.length()+1];
+    std::strcpy (cstr, str.c_str());
+    return cstr;
+  }
+
+  Pvl(const char* file) {
+    QString qfile(file);
+    Isis::Pvl *pvl = new Isis::Pvl(qfile);
+    return pvl;
+  }
+
+  void read(const char* file) {
+    QString qfile(file);
+    $self->read(qfile);
+  }
+
+  void write(const char* file) {
+    QString qfile(file);
+    $self->write(qfile);
+  }
+}
 
 class QString
 {
