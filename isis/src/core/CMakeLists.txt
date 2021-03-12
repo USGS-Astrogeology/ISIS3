@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project (core VERSION 0.0.1)
 option(buildStaticCore "Build libisis static as well as dynamic"        OFF )
-option (BUILD_CORE_TESTS "Build core module tests" ON)
+option (BUILD_TESTS "Build core module tests" ON)
+option(ISIS_BUILD_SWIG "Turn on to build swig wrappers"                 OFF )
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
@@ -46,7 +47,7 @@ set(Pvl_source_files ${PROJECT_SOURCE_DIR}/src/ArraySubscriptNotInRange.cpp
                      ${PROJECT_SOURCE_DIR}/src/PvlObject.cpp
                      ${PROJECT_SOURCE_DIR}/src/PvlSequence.cpp)
 # Define a target
-add_library(core "${Pvl_source_files}")
+add_library(core SHARED "${Pvl_source_files}")
 
 target_include_directories(core PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
@@ -70,10 +71,7 @@ find_package(Qt5 REQUIRED COMPONENTS
                 # Search this path explicitly for MacOS OpenGL Framework
                 PATHS /System/Library/Frameworks/ REQUIRED)
 
-# find_package(Json REQUIRED)
-find_package(Geos REQUIRED)
 find_package(nlohmann_json REQUIRED)
-find_package(CSPICE    65      REQUIRED)
 
 include_directories(SYSTEM
                     ${Qt5Widgets_INCLUDE_DIRS}
@@ -90,21 +88,22 @@ target_link_libraries(core PUBLIC Qt5::Core
                                   Qt5::Xml
                                   nlohmann_json::nlohmann_json)
 
-target_link_libraries(core PUBLIC ${GEOS_LIBRARY} ${CSPICE_LIBRARY})
-target_include_directories(core PUBLIC ${GEOS_INCLUDE_DIR} ${CSPICE_INCLUDE_DIR})
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION  ${CMAKE_INSTALL_PREFIX}/include/isis)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/isis
+        FILES_MATCHING PATTERN "*.h")
+
 install(TARGETS core DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 
 # Copy the preferences file
 EXECUTE_PROCESS(COMMAND cp -f ${PROJECT_SOURCE_DIR}/IsisPreferences ${CMAKE_BINARY_DIR}/)
 install(FILES     ${CMAKE_SOURCE_DIR}/IsisPreferences DESTINATION  ${CMAKE_INSTALL_PREFIX})
 
-if (BUILD_CORE_TESTS)
+if (BUILD_TESTS)
   # Copy the test preferences file
   EXECUTE_PROCESS(COMMAND cp -f ${PROJECT_SOURCE_DIR}/TestPreferences ${CMAKE_BINARY_DIR}/)
   enable_testing()
   add_subdirectory(tests)
 endif()
-if(buildSwig)
+if(ISIS_BUILD_SWIG)
   add_subdirectory(swig)
 endif()

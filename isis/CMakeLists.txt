@@ -75,7 +75,7 @@ option(buildStaticCore "Build libisis static as well as dynamic"        OFF )
 option(buildTests      "Set up unit, application, and module tests."    ON  )
 option(JP2KFLAG        "Whether or not to build using JPEG2000 support" OFF )
 option(pybindings      "Turn on to build Python bindings"               ON )
-option(buildSwig       "Turn on to build swig wrappers"                 OFF )
+option(ISIS_BUILD_SWIG "Turn on to build swig wrappers"                 OFF )
 option(BUILD_CORE_TESTS "Turn on to build core tests"                   ON )
 
 # if cmake install prefix is not set, and conda env is activated, use the
