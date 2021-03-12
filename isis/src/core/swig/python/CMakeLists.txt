@@ -6,7 +6,7 @@ set(CMAKE_SWIG_FLAGS "")
 set(CMAKE_SWIG_OUTDIR isispvl)
 message(">>>> ${CMAKE_SWIG_OUTDIR}")
 set_source_files_properties(../isispvl.i
-                            PROPERTIES CPLUSPLUS ON)
+                            PROPERTIES CPLUSPLUS ON SWIG_FLAGS "-py3")
 
 #Find dependencies
 message(">>>> ${PROJECT_SOURCE_DIR}")
@@ -16,7 +16,7 @@ find_path(PVL_INCLUDE_DIR NAMES Pvl.h
                           PATH_SUFFIXES include
                           PATHS ${PROJECT_SOURCE_DIR}/)
 find_library(PVL_LIBRARY NAMES core
-            PATHS ${CMAKE_SOURCE_DIR}/../build/objects/core/)
+             PATHS ${CMAKE_SOURCE_DIR}/../build/objects/core/)
 message("-- Found PVL Include: ${PVL_INCLUDE_DIR}")
 message("-- Found PVL Lib: ${PVL_LIBRARY}")
 include_directories(${PVL_INCLUDE_DIR})
