@@ -31,7 +31,7 @@ Group=UserInterface
   GuiWidth           = 460
   GuiHeight          = 600
   HistoryPath        = $HOME/.Isis/history
-  HistoryRecording   = Off
+  HistoryRecording   = On
   HistoryLength      = 10
 EndGroup
 
@@ -165,7 +165,7 @@ EndGroup
 ########################################################
 Group = Performance
   CubeWriteThread = Optimized
-  GlobalThreads = 2
+  GlobalThreads = Optimized
 EndGroup
 
 ########################################################
@@ -178,8 +178,8 @@ EndGroup
 ########################################################
 
 Group = Plugins
-  CSMDirectory = ("$CONDA_PREFIX/lib/isis/csm3.0.3/", -
-                  "$CONDA_PREFIX/csmlibs/3.0.3/", -
+  CSMDirectory = ("$ISISROOT/lib/isis/csm3.0.3/", -
+                  "$ISISROOT/csmlibs/3.0.3/", -
                   "$HOME/.Isis/csm3.0.3/")
 EndGroup
 
@@ -190,6 +190,9 @@ EndGroup
 ########################################################
 
 Group = DataDirectory
+# Backwards compatability for versions prior to 4.1.0
+  ISIS3DATA    = $ISISDATA
+
   Apollo15     = $ISISDATA/apollo15
   Apollo16     = $ISISDATA/apollo16
   Apollo17     = $ISISDATA/apollo17
