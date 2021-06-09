@@ -30,7 +30,7 @@ package:
   version: {{ version }}
 
 source:
-  git_url: 'https://github.com/USGS-astrogeology/ISIS3.git'
+  git_url: 'https://github.com/USGS-Astrogeology/ISIS3.git'
   git_tag: 'pvl_core'
 
   # url: 'https://github.com/USGS-Astrogeology/ISIS3/archive/{{ version }}.tar.gz'
