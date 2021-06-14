@@ -16,6 +16,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(Pvl_source_files ${PROJECT_SOURCE_DIR}/src/ArraySubscriptNotInRange.cpp
+                     ${PROJECT_SOURCE_DIR}/src/Blob.cpp
                      ${PROJECT_SOURCE_DIR}/src/FileCreate.cpp
                      ${PROJECT_SOURCE_DIR}/src/FileName.cpp
                      ${PROJECT_SOURCE_DIR}/src/FileOpen.cpp

@@ -249,7 +249,7 @@ TEST_F(DemCube, FunctionalTestShadowErrors) {
     shadow(demCube, shadowUi);
     FAIL() << "Shouldn't have been able to generate a shadow file" << std::endl;
   } catch(IException &e) {
-    std::string expectedStr = "the shadowing algorithm must be a DEM which stores radii; The input DEM contains zero or negative radii.";
+    std::string expectedStr = "the shadowing algorithm must be a DEM which stores radii; The input DEM contains zero or negative radii";
     EXPECT_THAT(e.what(), testing::HasSubstr(expectedStr));
   }
 
