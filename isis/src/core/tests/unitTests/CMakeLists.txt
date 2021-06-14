@@ -1,5 +1,6 @@
 # List of classes with old ISIS unitTests
-set(unitTestClasses "FileName"
+set(unitTestClasses "Blob"
+                    "FileName"
                     "IException"
                     "IString"
                     "Message"

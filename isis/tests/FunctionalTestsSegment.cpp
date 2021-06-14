@@ -162,6 +162,6 @@ TEST_F(LargeCube, FunctionalTestSegmentNolError) {
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("The Line Overlap (OVERLAP) must be less than the Number of Lines (LN)."));
+    EXPECT_THAT(e.what(), HasSubstr("The Line Overlap (OVERLAP) must be less than the Number of Lines (LN)"));
   }
 }

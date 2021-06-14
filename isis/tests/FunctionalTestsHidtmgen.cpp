@@ -326,7 +326,7 @@ TEST(Hidtmgen, HidtmgenTestErrorEmptyOrthoFromList){
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("File [data/hidtmgen/error/orthoInputListEmpty.txt] contains no data."));
+    EXPECT_THAT(e.what(), HasSubstr("File [data/hidtmgen/error/orthoInputListEmpty.txt] contains no data"));
   }
 }
 
@@ -347,7 +347,7 @@ TEST(Hidtmgen, HidtmgenTestErrorInvalidDtm){
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("Input cube [data/hidtmgen/ortho/ESP_042252_1930_3-BAND_COLOR_2m_o_cropped.cub] does not appear to be a DTM."));
+    EXPECT_THAT(e.what(), HasSubstr("Input cube [data/hidtmgen/ortho/ESP_042252_1930_3-BAND_COLOR_2m_o_cropped.cub] does not appear to be a DTM"));
   }
 }
 
@@ -366,7 +366,7 @@ TEST(Hidtmgen, HidtmgenTestErrorNoInput){
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("User must supply DTM or ORTHOFROMLIST or both."));
+    EXPECT_THAT(e.what(), HasSubstr("User must supply DTM or ORTHOFROMLIST or both"));
   }
 }
 
@@ -386,7 +386,7 @@ TEST(Hidtmgen, HidtmgenTestErrorDtmInvalidProjection){
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("The projection type [SINUSOIDAL] is not supported."));
+    EXPECT_THAT(e.what(), HasSubstr("The projection type [SINUSOIDAL] is not supported"));
   }
 }
 
@@ -406,7 +406,7 @@ TEST(Hidtmgen, HidtmgenTestErrorInputSeqMismatch){
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("Output sequence number list must correspond to the input ortho list."));
+    EXPECT_THAT(e.what(), HasSubstr("Output sequence number list must correspond to the input ortho list"));
   }
 }
 
@@ -431,7 +431,7 @@ TEST(Hidtmgen, HidtmgenTestErrorInputOutputMismatch){
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("Output ortho list and product id list must correspond to the input ortho list."));
+    EXPECT_THAT(e.what(), HasSubstr("Output ortho list and product id list must correspond to the input ortho list"));
   }
 }
 
@@ -452,7 +452,7 @@ TEST(Hidtmgen, HidtmgenTestErrorInvalidInstitution){
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("PRODUCING_INSTITUTION value [USGS] in the PARAMSPVL file must be a single character."));
+    EXPECT_THAT(e.what(), HasSubstr("PRODUCING_INSTITUTION value [USGS] in the PARAMSPVL file must be a single character"));
   }
 }
 
@@ -472,7 +472,7 @@ TEST(Hidtmgen, HidtmgenTestErrorInvalidVersionId){
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("Version number [-4.0] is invalid."));
+    EXPECT_THAT(e.what(), HasSubstr("Version number [-4.0] is invalid"));
   }
 }
 
@@ -493,7 +493,7 @@ TEST(Hidtmgen, HidtmgenTestErrorDtmInvalidBandSize){
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("Input cube [data/hidtmgen/dtm/DTM_2Bands_cropped.cub] does not appear to be a DTM."));
+    EXPECT_THAT(e.what(), HasSubstr("Input cube [data/hidtmgen/dtm/DTM_2Bands_cropped.cub] does not appear to be a DTM"));
   }
 }
 
@@ -514,7 +514,7 @@ TEST(Hidtmgen, HidtmgenTestErrorOrthoInvalidBandSize){
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), HasSubstr("The file [data/hidtmgen/ortho/2BandImage.cub] found in the ORTHOFROMLIST is not a valid orthorectified image. Band count must be 1 (RED) or 3 (color)."));
+    EXPECT_THAT(e.what(), HasSubstr("The file [data/hidtmgen/ortho/2BandImage.cub] found in the ORTHOFROMLIST is not a valid orthorectified image. Band count must be 1 (RED) or 3 (color)"));
   }
 }
 
