@@ -152,9 +152,9 @@ namespace Isis {
 
   /**
    * Finds a keyword in the current PvlObject, or deeper inside
-   * other PvlObjects and Pvlgroups within this one. Note: This
-   * member has the same name as the PvlContainer and hides those
-   * implementations, but with the using statement the parents
+   * child objects, like PvlObject and PvlGroup contained within the PvlObject
+   * being searched. Note: This member has the same name as the PvlContainer
+   * and hides those implementations, but with the using statement the parents
    * FindKeyword members ar made visible. Note: If more than one
    * occurance of a Keyword appears below this Object no
    * guarantee is made as to which one is returned.
@@ -215,9 +215,9 @@ namespace Isis {
 
   /**
    * See if a keyword is in the current PvlObject, or deeper inside
-   * other PvlObjects and Pvlgroups within this one. Note: This
-   * member has the same name as the PvlContainer and hides those
-   * implementations, but with the using statement the parents
+   * child objects, like PvlObject and PvlGroup contained within the PvlObject
+   * being searched. Note: This member has the same name as the PvlContainer
+   * and hides those implementations, but with the using statement the parents
    * FindKeyword members ar made visible.
    *
    * @param kname The name of the keyword to look for.

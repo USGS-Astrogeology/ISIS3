@@ -20,7 +20,7 @@ find files of those names at the top level of this repository. **/
 using namespace std;
 namespace Isis {
   /**
-   * Constructs a Blob object using a name and type.
+   * Constructs an Blob object using a name and type.
    *
    * @param name The blob name
    * @param type The blob type
@@ -58,7 +58,7 @@ namespace Isis {
   }
 
   /**
-   * This copies the blob object.
+   * This copies the Blob object.
    *
    * @param other Blob to be copied
    */
@@ -83,7 +83,7 @@ namespace Isis {
   }
 
   /**
-   * This makes the two blob objects exactly the same (copies the blob)
+   * This makes the two Blob objects exactly the same (copies the Blob)
    *
    * @param other Blob to be copied
    *
@@ -119,7 +119,7 @@ namespace Isis {
   /**
    *  Accessor method that returns a string containing the Blob type.
    *
-   *  @return @b string Type of blob.
+   *  @return @b string Type of Blob.
    */
   QString Blob::Type() const {
     return p_type;
@@ -128,16 +128,16 @@ namespace Isis {
   /**
    *  Accessor method that returns a string containing the Blob name.
    *
-   *  @return @b string The name of the blob.
+   *  @return @b string The name of the Blob.
    */
   QString Blob::Name() const {
     return p_blobName;
   }
 
   /**
-   *  Accessor method that returns the number of bytes in the blob data.
+   *  Accessor method that returns the number of bytes in the Blob data.
    *
-   *  @return @b int Number of bytes in the blob data.
+   *  @return @b int Number of bytes in the Blob data.
    */
   int Blob::Size() const {
     return p_nbytes;
@@ -146,7 +146,7 @@ namespace Isis {
   /**
    *  Accessor method that returns a PvlObject containing the Blob label.
    *
-   *  @return @b PvlObject The label of the blob.
+   *  @return @b PvlObject The label of the Blob.
    */
   PvlObject &Blob::Label() {
     return p_blobPvl;
@@ -156,13 +156,13 @@ namespace Isis {
    *  This method searches the given Pvl for the Blob by the Blob's type and
    *  name. If found, the start byte, number of bytes are read from the Pvl.
    *  Also, if a keyword label pointer is found, the filename for the detached
-   *  blob is stored and the pointer is removed from the blob pvl.
+   *  Blob is stored and the pointer is removed from the Blob pvl.
    *
    *  @param pvl The Pvl to be searched
-   *  @param keywords A list of keyword, value pairs to match inside the blob's
-   *  PVL object. Only if all the keyword match is the blob processed. This is used
-   *  when there are multiple blobs with the same name, but different keywords that
-   *  define the exact blob (see Stretch with a band number)
+   *  @param keywords A list of keyword, value pairs to match inside the Blob's
+   *  PVL object. Only if all the keyword match is the Blob processed. This is used
+   *  when there are multiple Blobs with the same name, but different keywords that
+   *  define the exact Blob (see Stretch with a band number)
    */
   void Blob::Find(const Pvl &pvl, const std::vector<PvlKeyword> keywords) {
     bool found = false;
@@ -306,7 +306,7 @@ namespace Isis {
    * This method reads the Blob data from an open input file stream.
    *
    * @param pvl A Pvl containing the label information.
-   * @param istm The input file stream containing the blob data to be read.
+   * @param istm The input file stream containing the Blob data to be read.
    *
    * @throws iException::Io - Unable to open file
    */
@@ -370,12 +370,12 @@ namespace Isis {
 
 
   /**
-   * Set the data stored in the BLOB.
+   * Set the data stored in the Blob.
    *
    * This function will copy the data buffer, if you want to avoid that use
    * takeData which will take ownership of the buffer.
    *
-   * @param buffer The buffer of data. The BLOB does not take ownership of this,
+   * @param buffer The buffer of data. The Blob does not take ownership of this,
    *               the caller is still responsible for cleaning it up.
    * @param nbytes The amount of data in the buffer
    */
@@ -387,12 +387,12 @@ namespace Isis {
 
 
   /**
-   * Set the data stored in the BLOB without copying it.
+   * Set the data stored in the Blob without copying it.
    *
-   * This function takes ownership of the data buffer and will delete is when the BLOB
+   * This function takes ownership of the data buffer and will delete is when the Blob
    * is cleaned up.
    *
-   * @param buffer The buffer of data. The BLOB takes ownership of this.
+   * @param buffer The buffer of data. The Blob takes ownership of this.
    * @param nbytes The amount of data in the buffer
    */
   void Blob::takeData(char *buffer, int nbytes) {
@@ -406,7 +406,7 @@ namespace Isis {
   }
 
   /**
-   * Write the blob data out to a file.
+   * Write the Blob data out to a file.
    *
    * @param file The filename to write to.
    *
@@ -457,7 +457,7 @@ namespace Isis {
   }
 
   /**
-   * Write the blob data out to a Pvl object.
+   * Write the Blob data out to a Pvl object.
    * @param pvl The pvl object to update
    * @param stm stream to write data to
    * @param detachedFileName If the stream is detached from the labels give
@@ -468,7 +468,7 @@ namespace Isis {
     // Handle 64-bit I/O
     WriteInit();
 
-    // Find out where they wanted to write the blob
+    // Find out where they wanted to write the Blob
     streampos sbyte = stm.tellp();
     sbyte += 1;
 
@@ -555,9 +555,9 @@ namespace Isis {
   }
 
   /**
-   * Writes blob data to a stream
+   * Writes Blob data to a stream
    *
-   * @param stream Output steam blob data will be written to
+   * @param stream Output steam Blob data will be written to
    *
    * @throws IException::Io - Error writing data to stream
    */
@@ -575,7 +575,7 @@ namespace Isis {
    *
    * @param obj Pvl object
    *
-   * @return bool Returns true if the object is a blob, and false if it is not
+   * @return bool Returns true if the object is a Blob, and false if it is not
    */
   bool IsBlob(PvlObject &obj) {
     if (obj.isNamed("TABLE")) return true;
