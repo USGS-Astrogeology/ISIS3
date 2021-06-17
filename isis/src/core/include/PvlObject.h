@@ -20,10 +20,10 @@ template<typename T> class QList;
 
 namespace Isis {
   /**
-   * @brief Contains Pvl Groups and Pvl Objects.
+   * @brief Container for PvlGroup and PvlObject objects.
    *
-   * Contains Pvl groups and objects. Organizes text on output to be indented
-   * correctly.
+   * Container for PvlGroup and PvlObject objects. Organizes text on output to
+   * be indented correctly.
    *
    * @ingroup Parsing
    *
@@ -327,7 +327,7 @@ namespace Isis {
 
 
       /**
-       * Compares two PvlObjects. Returns a boolean value based on the
+       * Compares one PvlObject to another. Returns a boolean value based on the
        * StringEqual() method.
        * @param object The PvlObject to compare.
        * @return True if they are equal, false if not.
