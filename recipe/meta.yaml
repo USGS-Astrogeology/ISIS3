@@ -94,7 +94,7 @@ requirements:
   - openssl>=1.0.0,<1.1.0
   - pcl
   - protobuf=3.9.1
-  - python>=3.7
+  - python>=3.7.11
   - qhull
   - qt=5.9.6
   - qwt=6.1.3
