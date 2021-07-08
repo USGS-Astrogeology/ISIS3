@@ -94,6 +94,7 @@ requirements:
   - openssl>=1.0.0,<1.1.0
   - pcl
   - protobuf=3.9.1
+  - python>=3.7
   - qhull
   - qt=5.9.6
   - qwt=6.1.3
@@ -144,6 +145,7 @@ requirements:
   - {{ pin_compatible('openssl', min_pin='x', max_pin='x.x') }}
   - pcl
   - {{ pin_compatible('protobuf', max_pin='x.x') }}
+  - python>=3.7.11
   - qhull
   - {{ pin_compatible('qt', max_pin='x.x') }}
   - {{ pin_compatible('qwt', max_pin='x.x') }}

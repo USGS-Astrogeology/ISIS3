@@ -48,6 +48,7 @@ dependencies:
   - openssl
   - pcl=1.8.1
   - protobuf=3.5.2
+  - python>=3.7.11
   - qhull
   - qt=5.9.6
   - qwt=6.1.3
