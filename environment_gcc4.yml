@@ -7,19 +7,20 @@ channels:
 
 dependencies:
   - ale>=0.8.5
-  - boost=1.68.0
   - armadillo
+  - boost=1.68.0
   - blas
   - bullet
   - bz2file
   - bzip2
   - cmake >=3.15
   - cspice
-  - csm>=3.0.3,<3.0.4
+  - csm=3.0.3
   - curl
   - doxygen
   - eigen
   - embree
+  - ffmpeg>=3.4.1
   - geos=3.7.1
   - geotiff
   - gmp

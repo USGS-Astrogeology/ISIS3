@@ -103,6 +103,7 @@ requirements:
   - superlu
   - tnt
   - x264=20180712
+  - xalan-c
   - xerces-c
   - xorg-kbproto
   - xorg-libice
