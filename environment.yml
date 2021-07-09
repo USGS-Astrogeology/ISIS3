@@ -55,7 +55,7 @@ dependencies:
   - suitesparse
   - superlu
   - tnt
-  - x264=20131218
+  - x264=20180712
   - xalan-c
   - xerces-c
   - xorg-kbproto

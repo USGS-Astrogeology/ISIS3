@@ -102,7 +102,7 @@ requirements:
   - suitesparse
   - superlu
   - tnt
-  - x264=20131218
+  - x264=20180712
   - xerces-c
   - xorg-kbproto
   - xorg-libice
@@ -151,7 +151,7 @@ requirements:
   - {{ pin_compatible('qwt', max_pin='x.x') }}
   - superlu
   - tnt
-  - x264=20131218
+  - x264=20180712
   - {{ pin_compatible('xerces-c', max_pin='x.x.x') }}
   - xorg-kbproto
   - xorg-libice
