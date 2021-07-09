@@ -43,7 +43,7 @@ dependencies:
   - nlohmann_json
   - ninja==1.7.2
   - nn
-  - opencv=3.2
+  - opencv=3.4.4
   - openssl>=1.0.0,<1.1.0
   - conda-forge::pcl
   - protobuf=3.9.1
