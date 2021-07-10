@@ -45,7 +45,7 @@ build:
 # Shotgun strat on requirements until we can narrow them down
 requirements:
   build:
-    - boost=1.68.0
+    - boost >=1.68.0
     - cmake >=3.15
     - doxygen
     - inja
@@ -56,13 +56,13 @@ requirements:
     - xalan-c
 
   host:
-  - armadillo
   - ale >=0.8.5
-  - boost=1.68.0
+  - armadillo
+  - boost >=1.68.0
   - blas
-  - bullet=2.86.1=0
+  - conda-forge::bullet=2.88
   - bz2file
-  - bzip2
+  - bzip2 >=1.0.8
   - csm
   - cspice
   - curl
@@ -78,7 +78,7 @@ requirements:
   - icu
   - inja
   - jama
-  - jpeg==9b
+  - jpeg>=9b
   - kakadu==1
   - krb5
   - libpng>=1.6.34
@@ -92,10 +92,10 @@ requirements:
   - nn
   - opencv=3.4.7
   - openssl>=1.0.0,<1.1.0
-  - pcl
+  - conda-forge::pcl
   - protobuf=3.9.1
   - python>=3.7.11
-  - qhull
+  - conda-forge::qhull
   - qt=5.9.6
   - qwt=6.1.3
   - sqlite

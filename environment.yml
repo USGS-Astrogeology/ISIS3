@@ -6,21 +6,23 @@ channels:
 dependencies:
   - ale >=0.8.5
   - armadillo
-  - boost=1.68.0
+  - boost >=1.68.0
   - blas
   - conda-forge::bullet=2.88
   - bz2file
-  - bzip2
+  - bzip2 >=1.0.8
   - cmake >=3.15
-  - cspice
   - csm=3.0.3
+  - cspice
   - curl
   - doxygen
   - eigen
+  - embree
   - conda-forge::embree
   - ffmpeg>=3.4.1
   - geos>=3.7,<3.8
   - geotiff
+  - gmm
   - gmp
   - graphviz
   - gsl>=2.6
@@ -28,7 +30,7 @@ dependencies:
   - icu
   - inja
   - jama
-  - jpeg==9b
+  - jpeg>=9b
   - kakadu==1
   - krb5
   - libpng>=1.6.34
@@ -43,7 +45,7 @@ dependencies:
   - nlohmann_json
   - ninja==1.7.2
   - nn
-  - opencv=3.4.7
+  - conda-forge::opencv=3.4.7
   - openssl>=1.0.0,<1.1.0
   - conda-forge::pcl
   - protobuf=3.9.1
