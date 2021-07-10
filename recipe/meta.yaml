@@ -90,7 +90,7 @@ requirements:
   - nanoflann
   - nlohmann_json
   - nn
-  - opencv=3.2
+  - opencv=3.4.7
   - openssl>=1.0.0,<1.1.0
   - pcl
   - protobuf=3.9.1
