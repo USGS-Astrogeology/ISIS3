@@ -61,65 +61,65 @@ requirements:
   - boost >=1.68.0
   - blas
   - conda-forge::bullet=2.88
-  - bz2file
-  - bzip2 >=1.0.8
+  - conda-forge::bz2file
+  - conda-forge::bzip2 >=1.0.8
   - csm
-  - cspice
+  - conda-forge::cspice
   - curl
   - eigen
   - embree
-  - ffmpeg>=3.4.1
-  - geos>=3.7,<3.8
+  - conda-forge::ffmpeg>=3.4.1
+  - conda-forge::geos>=3.7,<3.8
   - geotiff
   - gmm
-  - gmp
+  - conda-forge::gmp
   - gsl>=2.6
   - hdf5
   - icu
   - inja
   - jama
-  - jpeg>=9b
+  - conda-forge::jpeg>=9b
   - kakadu==1
-  - krb5
-  - libpng>=1.6.34
+  - conda-forge::krb5
+  - conda-forge::libpng>=1.6.34
   - libtiff
-  - libxml2
+  - conda-forge::libxml2
   - mesalib
-  - mysql
-  - mysql-connector-c
+  - conda-forge::mysql
+  - conda-forge::mysql-connector-c
   - nanoflann
   - nlohmann_json
   - nn
   - opencv=3.4.7
-  - openssl>=1.0.0,<1.1.0
+  - conda-forge::openssl>=1.0.0,<1.1.0
   - conda-forge::pcl
-  - protobuf=3.9.1
-  - python>=3.7.11
+  - conda-forge::protobuf=3.9.1
+  - conda-forge::python>=3.7.11
   - conda-forge::qhull
-  - qt=5.9.6
-  - qwt=6.1.3
-  - sqlite
-  - suitesparse
+  - conda-forge::qt=5.9.6
+  - conda-forge::qwt=6.1.3
+  - conda-forge::sqlite
+  - conda-forge::suitesparse
   - superlu
   - tnt
   - x264=20180712
   - xalan-c
-  - xerces-c
+  - conda-forge::xerces-c
   - xorg-kbproto
   - xorg-libice
   - xorg-libsm
   - xorg-libx11
   - xorg-libxi
-  - zlib
+  - conda-forge::zlib
 
   run:
   - {{ pin_compatible('ale') }}
   - {{ pin_compatible('boost', max_pin='x.x') }}
   - blas
   - {{ pin_compatible('bullet', max_pin='x.x') }}
-  - bz2file
+  - conda-forge::bz2file
   - csm
-  - cspice
+  - conda-forge::cspice
   - curl
   - eigen
   - embree
@@ -133,12 +133,12 @@ requirements:
   - icu
   - inja
   - jama
-  - {{ pin_compatible('jasper', max_pin='x.x') }}
+  - conda-forge::{{ pin_compatible('jasper', max_pin='x.x') }}
   - {{ pin_compatible('jpeg', max_pin='x') }}
   - {{ pin_compatible('kakadu', max_pin='x') }}
   - {{ pin_compatible('libpng') }}
   - mesalib
-  - mysql
+  - conda-forge::mysql
   - nanoflann
   - nlohmann_json
   - nn
