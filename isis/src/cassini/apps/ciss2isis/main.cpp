@@ -93,7 +93,6 @@ void IsisMain() {
 
   //SET PROGRESS TEXT, VALID MAXIMUM PIXEL VALUE, AND CREATE STRETCH IF NEEDED
   if(dataConversionType != "Table") {   //Conversion Type is 12Bit or 8LSB, only save off overclocked pixels
-    validMax = 255;
     if(dataConversionType == "12Bit") {
       p.Progress()->SetText("Image was 12 bit. No conversion needed. \nSaving line prefix data...");
     }
@@ -102,7 +101,6 @@ void IsisMain() {
     }
   }
   else {  //if ConversionType == Table, Use LUT to create stretch pairs for conversion
-    validMax = 4095;
     CreateStretchPairs();
     // Pvl outputLabels;
     Pvl *outputLabel = ocube->label();
@@ -313,6 +311,7 @@ void TranslateCassIssLabels(FileName &labelFile, Cube *ocube) {
 
   //  initialize global variables
   dataConversionType = (QString) inst.findKeyword("DataConversionType");
+  validMax = inputLabel.findKeyword("ValidMaximum")[1].toInt();
   sumMode = inst.findKeyword("SummingMode");
   compressionType = (QString) inst.findKeyword("CompressionType");
   IString fsw((QString) inst.findKeyword("FlightSoftwareVersionId"));
