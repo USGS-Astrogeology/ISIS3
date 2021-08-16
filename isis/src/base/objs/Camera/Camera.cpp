@@ -579,23 +579,36 @@ namespace Isis {
    *
    * @return @b double
    */
-  double Camera::ObliqueDetectorResolution(){
+  double Camera::ObliqueDetectorResolution(bool useLocal) {
 
 
-      if(HasSurfaceIntersection()){
+    if(!HasSurfaceIntersection()) {
+      return -1.0;
+    }
 
-          double thetaRad;
-          thetaRad = EmissionAngle()*DEG2RAD;
+    double thetaRad;
+    double emissionDeg;
 
-          if (thetaRad < HALFPI) {
-            return DetectorResolution()/cos(thetaRad);
+    if(useLocal) {
+      Angle phase, emission, incidence;
+      bool success;
 
-          }
-          return Isis::Null;
+      LocalPhotometricAngles(phase, incidence, emission, success);
+      emissionDeg = (success) ? emission.degrees() : EmissionAngle();
+    }
+    else {
+      emissionDeg = EmissionAngle();
+    }
 
-      }
+    thetaRad = emissionDeg*DEG2RAD;
 
-      return Isis::Null;
+    if (thetaRad < HALFPI) {
+      return DetectorResolution()/cos(thetaRad);
+
+    }
+
+    return -1.0;
+
 
   }
 
