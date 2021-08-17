@@ -84,11 +84,11 @@ GroundRange: 0
 IntersectsLongitudeDomain: 0
 PixelResolution: 628
 ExposureDuration: 0.4
-ObliquePixelResolution: 748
+ObliquePixelResolution: 746
 LineResolution: 628
-ObliqueLineResolution: 748
+ObliqueLineResolution: 746
 SampleResolution: 628
-ObliqueSampleResolution: 748
+ObliqueSampleResolution: 746
 DetectorResolution: 157
 ObliqueDetectorResolution: 187
 LowestImageResolution: 2047
