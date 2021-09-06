@@ -1,20 +1,7 @@
 %module isispvl
 %{
-    #include <string>
-    #include <sstream>
     #include "Pvl.h"
 %}
-
-%include std_string.i
-%include std_vector.i
-%include exception.i
-
-%include "pvlKeyword.i"
-%include "PvlContainer.h"
-%include "pvlGroup.i"
-
-%include "pvlObject.i"
-%nodefaultdtor Isis::PvlObject;
 
 %include "Pvl.h"
 %nodefaultdtor Isis::Pvl;
@@ -35,6 +22,11 @@
     return pvl;
   }
 
+  void readString(const char *pvlString) {
+    std::istringstream in(pvlString);
+    in >> *$self;
+  }
+
   void read(const char* file) {
     QString qfile(file);
     $self->read(qfile);
@@ -44,28 +36,4 @@
     QString qfile(file);
     $self->write(qfile);
   }
-}
-
-class QString
-{
-public:
-    static QString fromStdString(const std::string &s);
-    std::string toStdString() const;
-    QString(const char* str);
-    ~QString();
-
-    int size() const;
-    int count() const;
-    int length() const;
-    bool isEmpty() const;
-};
-
-%exception{
-    try {
-        $action
-    } catch (std::exception const& e) {
-        SWIG_exception(SWIG_RuntimeError, (std::string("std::exception: ") + e.what()).c_str());
-    } catch (...) {
-        SWIG_exception(SWIG_UnknownError, "Unknown error");
-    }
 }
