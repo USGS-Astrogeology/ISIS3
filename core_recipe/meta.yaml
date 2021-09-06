@@ -26,7 +26,7 @@
 {% set build_number = "0" %}
 
 package:
-  name: isispvl
+  name: isisio
   version: {{ version }}
 
 source:
@@ -57,7 +57,7 @@ requirements:
 
 tests:
   imports:
-    - isispvl
+    - isisio
   commands:
     - test -e $PREFIX/lib/libcore${SHLIB_EXT}
     - test -e $PREFIX/include/isis/Pvl.h
