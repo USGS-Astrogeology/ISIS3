@@ -135,7 +135,7 @@ extern unsigned int CS8EACC2(unsigned char *dat, unsigned int len);
 
 static char decode_file[128];
 
-static unsigned int sync;
+static unsigned int moc_sync;
 
 static char label[1024];
 
@@ -458,7 +458,7 @@ int main(int argc, char **argv)
   int sequence = -1, processor = 0, n_processors = 1;
   int last_frag = -1;
 
-  sync = 0xf0ca;
+  moc_sync = 0xf0ca;
 
   if(argc < 3) {
     printf("\nEnter name of file to be decompressed: ");
@@ -694,7 +694,7 @@ byte *decode(struct msdp_header h, byte *data, int datlen, int *len, int mbr)
       int dummy;
 
       image = predictive_decomp_main(data, datlen, height, width,
-                                     (sync != 0), sync,
+                                     (moc_sync != 0), moc_sync,
                                      pcomp & 1, (pcomp & 2) >> 1,
                                      &dummy);
     }
@@ -719,10 +719,10 @@ byte *decode(struct msdp_header h, byte *data, int datlen, int *len, int mbr)
           predictive_decomp_main((uint8*)array_data(tbuf),
                                  array_len(tbuf),
                                  want_h, width,
-                                 (sync != 0), sync,
+                                 (moc_sync != 0), moc_sync,
                                  (pcomp & 1), ((pcomp & 2) >> 1),
                                  &got_height);
-        /* This is tricky.  We can get bad sync even without
+        /* This is tricky.  We can get bad moc_sync even without
            checksum errors if anomaly 8 occurs.  We want to
            distinguish between this case and the case where
            we just ran out of fragments during the NA image.
