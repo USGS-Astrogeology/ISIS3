@@ -103,7 +103,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestFindfeaturesGeomMatch) {
 
 TEST_F(ThreeImageNetwork, FunctionalTestFindfeaturesMultiAlgo) {
   // Setup output file
-  QVector<QString> args = {"algorithm=brisk/brisk|surf@hessianThreshold:100/surf",
+  QVector<QString> args = {"algorithm=brisk/brisk|orb@hessianThreshold:100/orb",
                            "match=" + tempDir.path() + "/cube3.cub",
                            "fromlist=" + twoCubeListFile,
                            "tolist=" + tempDir.path() + "/toList.txt",
@@ -208,7 +208,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestFindfeaturesErrorInputNoAlg) {
 
 TEST_F(ThreeImageNetwork, FunctionalTestFindfeaturesErrorNoInput) {
   QVector<QString> args = {"match=" + tempDir.path() + "/cube3.cub",
-                           "algorithm=surf/surf"};
+                           "algorithm=sift/sift"};
   UserInterface options(APP_XML, args);
   try {
     findfeatures(options);
