@@ -162,7 +162,7 @@ include(CTest)
 # sometimes third parties do not set their rpaths correctly
 set(thirdPartyCppFlags -Wall
                        -fPIC
-                       -std=c++11
+                       -std=c++14
                        -DISIS_LITTLE_ENDIAN=1
                        -Wno-unused-parameter
                        -Wno-overloaded-virtual
@@ -172,10 +172,12 @@ set(thirdPartyCppFlags -Wall
                        -DENABLEJP2K=${JP2KFLAG}
                      )
 
- # Append CPP flags set in the third party lib file to the string set in this file.
- string(REPLACE ";" " " FLAGS_STR "${thirdPartyCppFlags}")
+set(CMAKE_CXX_STANDARD 14)
 
- set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${FLAGS_STR}" )
+# Append CPP flags set in the third party lib file to the string set in this file.
+string(REPLACE ";" " " FLAGS_STR "${thirdPartyCppFlags}")
+
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${FLAGS_STR}" )
 
 
 # Flag to fix numeric literals problem with boost on linux
@@ -240,7 +242,6 @@ find_package(Boost 1.59.0 REQUIRED atomic
                                         serialization
                                         chrono
                                         math_c99
-                                        signals
                                         container
                                         math_c99f
                                         context
