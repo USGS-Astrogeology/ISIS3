@@ -18,6 +18,8 @@ find files of those names at the top level of this repository. **/
 #include <QLineEdit>
 #include <QPushButton>
 
+#include <qwt_text.h>
+
 #include "CubePlotCurve.h"
 #include "IException.h"
 #include "PlotWindow.h"

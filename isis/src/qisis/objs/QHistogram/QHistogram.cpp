@@ -17,8 +17,10 @@ find files of those names at the top level of this repository. **/
 #include <QFileInfo>
 #include <QVBoxLayout>
 #include <QLabel>
+
 #include <qwt_plot_curve.h>
 #include <qwt_plot_zoomer.h>
+#include <qwt_text.h>
 
 using namespace std;
 namespace Isis {

@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include <qwt_plot_spectrogram.h>
+#include <qwt_text.h>
 
 #include <QCheckBox>
 #include <QColorDialog>
