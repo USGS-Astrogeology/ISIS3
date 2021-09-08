@@ -75,7 +75,7 @@ cv::Size GenericTransform::getSize(const cv::Mat &image) const {
 cv::Mat GenericTransform::render(const cv::Mat &image) const {
   cv::Mat result;
   warpPerspective(image, result, getMatrix(), getSize(image),
-                  CV_INTER_LINEAR);
+                  cv::INTER_LINEAR);
 #if 0
   // Gots to be run in the GUI in order for this to work!!
   cv::namedWindow("Original", CV_WINDOW_AUTOSIZE);

@@ -90,7 +90,7 @@ class QDebug;
                                 const std::vector<cv::DMatch> &matches,
                                 std::vector<cv::DMatch> &inliers,
                                 double &mtime,
-                                const int method = CV_FM_RANSAC,
+                                const int method = cv::FM_RANSAC,
                                 const double tolerance = 3.0,
                                 const bool refine = true,
                                 const bool onErrorThrow = true)

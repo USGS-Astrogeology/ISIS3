@@ -61,6 +61,7 @@ class AKAZEAlgorithm : public Feature2DAlgorithm {  // See FeatureAlgorithm.h
 
   private:
     typedef cv::AKAZE          AKAZEType;
+    typedef cv::KAZE           KAZEType;
     typedef cv::Ptr<AKAZEType> AKAZEPtr;
 };
 

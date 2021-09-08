@@ -53,7 +53,7 @@ class SIFTAlgorithm : public Feature2DAlgorithm {  // See FeatureAlgorithm.h
     virtual int setAlgorithmVariables(const PvlFlatMap &variables);
 
   private:
-    typedef cv::xfeatures2d::SIFT    SIFTType;
+    typedef cv::SIFT    SIFTType;
     typedef cv::Ptr<SIFTType>        SIFTPtr;
 };
 

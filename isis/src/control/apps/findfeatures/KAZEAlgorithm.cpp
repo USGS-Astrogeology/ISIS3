@@ -188,7 +188,7 @@ namespace Isis {
                       "] is not valid for KAZE's [Type] variable";
         throw IException(IException::User, msg, _FILEINFO_);
       }
-      algorithm->setDiffusivity(intValue);
+      algorithm->setDiffusivity(KAZEType::DiffusivityType(intValue));
       numSet++;
     }
 
