@@ -929,7 +929,7 @@ namespace Isis {
     CodedInputStream codedInStream(&inStream);
     codedInStream.PushLimit(coreLength);
     // max 512MB, warn at 400MB
-    codedInStream.SetTotalBytesLimit(1024 * 1024 * 512, 1024 * 1024 * 400);
+    codedInStream.SetTotalBytesLimit(1024 * 1024 * 512);
 
     // Now stream the rest of the input into the google protocol buffer.
     ControlNetFileProtoV0001 protoNet;
@@ -958,7 +958,7 @@ namespace Isis {
     CodedInputStream codedLogInStream(&logInStream);
     codedLogInStream.PushLimit(logLength);
     // max 512MB, warn at 400MB
-    codedLogInStream.SetTotalBytesLimit(1024 * 1024 * 512, 1024 * 1024 * 400);
+    codedLogInStream.SetTotalBytesLimit(1024 * 1024 * 512);
 
     // Now stream the rest of the input into the google protocol buffer.
     ControlNetLogDataProtoV0001 protoLogData;
@@ -1056,8 +1056,7 @@ namespace Isis {
       IstreamInputStream headerInStream(&input);
       CodedInputStream headerCodedInStream(&headerInStream);
       // max 512MB, warn at 400MB
-      headerCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512,
-                                             1024 * 1024 * 400);
+      headerCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512;
       CodedInputStream::Limit oldLimit = headerCodedInStream.PushLimit(headerLength);
       if ( !protoHeader.ParseFromCodedStream(&headerCodedInStream) ) {
         QString msg = "Failed to parse protobuf header from input control net file ["
@@ -1112,8 +1111,7 @@ namespace Isis {
 
       try {
         CodedInputStream pointCodedInStream(&pointInStream);
-        pointCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512,
-                                              1024 * 1024 * 400);
+        pointCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512);
         int pointSize = protoHeader.pointmessagesizes(pointIndex);
         CodedInputStream::Limit oldPointLimit = pointCodedInStream.PushLimit(pointSize);
         newPoint->ParseFromCodedStream(&pointCodedInStream);
@@ -1180,8 +1178,7 @@ namespace Isis {
       CodedInputStream headerCodedInStream(&headerInStream);
 
       // max 512MB, warn at 400MB
-      headerCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512,
-                                             1024 * 1024 * 400);
+      headerCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512);
 
       CodedInputStream::Limit oldLimit = headerCodedInStream.PushLimit(headerLength);
 
@@ -1258,8 +1255,7 @@ namespace Isis {
       try {
 
         CodedInputStream pointCodedInStream(&pointInStream);
-        pointCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512,
-                                              1024 * 1024 * 400);
+        pointCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512);
 
         uint32_t size;
         pointCodedInStream.ReadRaw(reinterpret_cast<char *>(&size), sizeof(size));
@@ -1691,7 +1687,7 @@ namespace Isis {
       protobufHeader.set_description(m_header.description.toLatin1().data());
       protobufHeader.set_username(m_header.userName.toLatin1().data());
 
-      streampos coreHeaderSize = protobufHeader.ByteSize();
+      streampos coreHeaderSize = internal::ToIntSize(protobufHeader.ByteSizeLong());
 
       Pvl p;
 
@@ -2050,7 +2046,7 @@ namespace Isis {
         *protoPoint.add_measures() = protoMeasure;
       }
 
-      uint32_t byteSize = protoPoint.ByteSize();
+      uint32_t byteSize = internal::ToIntSize(protoPoint.ByteSizeLong());
 
       Isis::EndianSwapper lsb("LSB");
       byteSize = lsb.Uint32_t(&byteSize);
