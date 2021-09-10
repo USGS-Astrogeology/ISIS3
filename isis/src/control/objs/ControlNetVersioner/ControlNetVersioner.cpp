@@ -43,6 +43,8 @@ find files of those names at the top level of this repository. **/
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/io/zero_copy_stream.h>
 #include <google/protobuf/io/coded_stream.h>
+#include <google/protobuf/message_lite.h>
+
 
 using boost::numeric::ublas::symmetric_matrix;
 using boost::numeric::ublas::upper;
@@ -1056,7 +1058,7 @@ namespace Isis {
       IstreamInputStream headerInStream(&input);
       CodedInputStream headerCodedInStream(&headerInStream);
       // max 512MB, warn at 400MB
-      headerCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512;
+      headerCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512);
       CodedInputStream::Limit oldLimit = headerCodedInStream.PushLimit(headerLength);
       if ( !protoHeader.ParseFromCodedStream(&headerCodedInStream) ) {
         QString msg = "Failed to parse protobuf header from input control net file ["
@@ -1687,7 +1689,7 @@ namespace Isis {
       protobufHeader.set_description(m_header.description.toLatin1().data());
       protobufHeader.set_username(m_header.userName.toLatin1().data());
 
-      streampos coreHeaderSize = internal::ToIntSize(protobufHeader.ByteSizeLong());
+      streampos coreHeaderSize = ToIntSize(protobufHeader.ByteSizeLong());
 
       Pvl p;
 
@@ -2046,7 +2048,7 @@ namespace Isis {
         *protoPoint.add_measures() = protoMeasure;
       }
 
-      uint32_t byteSize = internal::ToIntSize(protoPoint.ByteSizeLong());
+      uint32_t byteSize = ToIntSize(protoPoint.ByteSizeLong());
 
       Isis::EndianSwapper lsb("LSB");
       byteSize = lsb.Uint32_t(&byteSize);
