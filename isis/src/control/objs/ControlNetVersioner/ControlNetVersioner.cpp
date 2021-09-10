@@ -1689,7 +1689,7 @@ namespace Isis {
       protobufHeader.set_description(m_header.description.toLatin1().data());
       protobufHeader.set_username(m_header.userName.toLatin1().data());
 
-      streampos coreHeaderSize = ToIntSize(protobufHeader.ByteSizeLong());
+      streampos coreHeaderSize = protobufHeader.ByteSizeLong();
 
       Pvl p;
 
@@ -2048,7 +2048,7 @@ namespace Isis {
         *protoPoint.add_measures() = protoMeasure;
       }
 
-      uint32_t byteSize = ToIntSize(protoPoint.ByteSizeLong());
+      uint32_t byteSize = protoPoint.ByteSizeLong();
 
       Isis::EndianSwapper lsb("LSB");
       byteSize = lsb.Uint32_t(&byteSize);
