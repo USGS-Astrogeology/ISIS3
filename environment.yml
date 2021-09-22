@@ -46,7 +46,7 @@ dependencies:
   - nn
   - opencv>=4.5.2
   - openssl>=1.1.1k
-  - conda-forge::pcl >= 1.10.0
+  - pcl >= 1.10.0
   - protobuf
   - python>=3.7.11
   - qhull
@@ -59,7 +59,7 @@ dependencies:
   - tnt
   - x264
   - xalan-c
-  - conda-forge::xerces-c=3
+  - xerces-c=3
   - xorg-kbproto
   - xorg-libice
   - xorg-libsm
