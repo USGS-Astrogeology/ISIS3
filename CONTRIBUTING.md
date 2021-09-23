@@ -43,6 +43,8 @@ In the case of an objection being raised in a pull request by another committer,
 committers should seek to arrive at a consensus by way of addressing concerns being expressed
 by discussion, compromise on the proposed change, or withdrawal of the proposed change.
 
+When making a bug fix contribution, please add the [bug](https://github.com/USGS-Astrogeology/ISIS3/pulls?q=is%3Apr+label%3Abug+) label to your pull request. This will automatically cherry-pick your PR into the latest release branch so that it can be distributed in the next bug fix release.
+
 When making a contribution for the first time, please add your name to the `.zenodo.json file.` We strongly recommend adding your affiliation and ORCiD to the `zenodo.json` file. These additions only have to happen once.
 
 # Becoming a Committer
