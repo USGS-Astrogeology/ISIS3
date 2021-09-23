@@ -36,6 +36,10 @@ release.
 ## [Unreleased]
 
 ### Added
+- Added the USECAMSTATSTBL option to caminfo. This allows caminfo to extract existing
+camera statistics from the CameraStatistics Table of the input cube instead
+of recalculating CameraStatistics. Updated caminfo to output all CameraStatistics
+Keywords when running CAMSTATS.  [#3605](https://github.com/USGS-Astrogeology/ISIS3/issues/3605).
 - Added the ability to search filenames in measure's drop down boxes in Qnet Point Editor. [#4581](https://github.com/USGS-Astrogeology/ISIS3/issues/4581)
 - Added slope, local normal, and ellipsoid normal calculations to phocube. [#3635](https://github.com/USGS-Astrogeology/ISIS3/issues/3645)
 - Added additional translation files for TGO CaSSiS in order to support PSA compliant labels. [#4567](https://github.com/USGS-Astrogeology/ISIS3/issues/4567)

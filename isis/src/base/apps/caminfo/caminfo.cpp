@@ -209,6 +209,11 @@ namespace Isis{
         // Get the format
         QString sFormat = ui.GetAsString("FORMAT");
 
+        if (!ui.GetBoolean("CAMSTATS") && ui.GetBoolean("USECAMSTATSTBL")){
+          QString msg = "[CAMSTATS] must be set to true when using [USECAMSTATSTBL].";
+          throw IException(IException::Unknown, msg, _FILEINFO_);
+        }
+
         // if true then run spiceinit, xml default is FALSE
         // spiceinit will use system kernels
         if(ui.GetBoolean("SPICE")) {
@@ -241,10 +246,51 @@ namespace Isis{
         general->append(MakePair("Samples",     toString(incube->sampleCount())));
         general->append(MakePair("Bands",       toString(incube->bandCount())));
 
+
+        // Extracts camstat data from existing CameraStatistics Table in cube label
+        if (ui.GetBoolean("USECAMSTATSTBL") && ui.GetBoolean("CAMSTATS")
+                                            && incube->hasTable("CameraStatistics")) {
+          camstats = new QList< QPair<QString, QString> >;
+
+          Table csTable = incube->readTable("CameraStatistics");
+
+          for (int rec = 0; rec < csTable.Records(); rec++) {
+            QString tableRec = TableRecord::toString(csTable[rec]);
+            QString recordName = tableRec.split(",").at(0);
+
+            camstats->append(MakePair(recordName + "Minimum", tableRec.split(",").at(1)));
+            camstats->append(MakePair(recordName + "Maximum", tableRec.split(",").at(2)));
+            camstats->append(MakePair(recordName + "Average", tableRec.split(",").at(3)));
+            camstats->append(MakePair(recordName + "StandardDeviation", tableRec.split(",").at(4)));
+
+            // Add keywords for backwards compatibility
+            // Keywords that are unchanged
+            if (recordName == "Latitude" ||
+                recordName == "Longitude" ||
+                recordName == "Resolution" ||
+                recordName == "ObliqueResolution") {
+              camstats->append(MakePair("Minimum" + recordName, tableRec.split(",").at(1)));
+              camstats->append(MakePair("Maximum" + recordName, tableRec.split(",").at(2)));
+            }
+            // Keywords that have Angle removed
+            else if (recordName == "PhaseAngle" ||
+                     recordName == "EmissionAngle" ||
+                     recordName == "IncidenceAngle") {
+              camstats->append(MakePair("Minimum" + recordName.remove("Angle"), tableRec.split(",").at(1)));
+              camstats->append(MakePair("Maximum" + recordName.remove("Angle"), tableRec.split(",").at(2)));
+            }
+            // Special Cases
+            else if (recordName == "LocalSolarTime") {
+              camstats->append(MakePair(recordName.remove("Solar") + "Minimum", tableRec.split(",").at(1)));
+              camstats->append(MakePair(recordName.remove("Solar") + "Maximum", tableRec.split(",").at(2)));
+            }
+          }
+        }
+
         // Run camstats on the entire image (all bands)
         // another camstats will be run for each band and output
         // for each band.
-        if(ui.GetBoolean("CAMSTATS")) {
+        else if (ui.GetBoolean("CAMSTATS") && !incube->hasTable("CameraStatistics")) {
           camstats = new QList< QPair<QString, QString> >;
 
           QString filename = incube->fileName();
@@ -253,6 +299,7 @@ namespace Isis{
           CameraStatistics stats(filename, sinc, linc);
           Pvl camPvl = stats.toPvl();
 
+          // Add keywords for backwards comaptibility
           PvlGroup cg = camPvl.findGroup("Latitude", Pvl::Traverse);
           camstats->append(MakePair("MinimumLatitude", cg["latitudeminimum"][0]));
           camstats->append(MakePair("MaximumLatitude", cg["latitudemaximum"][0]));
@@ -284,6 +331,17 @@ namespace Isis{
           cg = camPvl.findGroup("ObliqueResolution", Pvl::Traverse);
           camstats->append(MakePair("ObliqueResolutionMinimum", cg["ObliqueResolutionMinimum"][0]));
           camstats->append(MakePair("ObliqueResolutionMaximum", cg["ObliqueResolutionMaximum"][0]));
+
+          // Add keywords for all camera values
+          // Skips first "User Parameters" group.
+          for (int i = 1; i < camPvl.groups(); i++) {
+            PvlGroup &group = camPvl.group(i);
+
+            for (int j = 0; j < group.keywords(); j++) {
+              PvlKeyword &keyword = group[j];
+              camstats->append(MakePair(keyword.name(), keyword[0]));
+            }
+          }
         }
 
         // Compute statistics for entire cube
@@ -311,7 +369,7 @@ namespace Isis{
           double lispercent  = (stats.LisPixels() / (nPixels)) * 100;
           double lrspercent  = (stats.LrsPixels() / (nPixels)) * 100;
 
-          // Statitics output for band
+          // Statistics output for band
           statistics->append(MakePair("MeanValue", toString(stats.Average())));
           statistics->append(MakePair("StandardDeviation", toString(stats.StandardDeviation())));
           statistics->append(MakePair("MinimumValue", toString(stats.Minimum())));
@@ -421,7 +479,7 @@ namespace Isis{
           }
 
           bandGeom->collect(*cam, *incube, doGeometry, doPolygon, getFootBlob, precision);
-          
+
           // Check if the user requires valid image center geometry
           if(ui.GetBoolean("VCAMERA") && (!bandGeom->hasCenterGeometry())) {
             QString msg = "Image center does not project in camera model";

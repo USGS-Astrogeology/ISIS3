@@ -22,7 +22,7 @@ namespace Isis {
 
   /**
    * Outputs camera statistics for a cube specified in ui parameters.
-   * 
+   *
    * @param ui UserInterface object containing camstats parameters
    * @param(out) log the Pvl that camstat results log to
    */
