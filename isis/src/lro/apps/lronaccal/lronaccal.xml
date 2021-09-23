@@ -8,97 +8,67 @@
 
   <description>
     <p>
-      lronaccal performs radiometric corrections to images acquired by the Narrow Angle
-      Camera aboard the Lunar Reconnaissance Orbiter spacecraft.
+    lronaccal performs radiometric corrections to images acquired by the Narrow Angle
+    Camera aboard the Lunar Reconnaissance Orbiter spacecraft.  The LRO NAC camera
+    will make observations simulteously with the HiRise camera.
     </p>
 
     <p>
-      The LRO NAC detector has a total of 5064 pixels, divided among an A
-      channel and a B channel.  The pixels alternate between the two channels:
-      ABABABAB, etc.  Images from LROC NAC may or may not include all pixels in the
-      acquired image.  There are special summing modes that are utilized
-      on-board the spacecraft to average detector pixels to combine them into a
-      single output pixel value.  The value of the ISIS label keyord,
-      SpatialSumming, indicates the number of samples that were summed and
-      averaged to result in the pixel values stored in the file.  Note that this
-      will reduce the number of samples in the output image by a factor of at
-      most the SpatialSumming mode value.
+    The LRO NAC detector has a total of 5064 pixels, divided among an A
+    channel and a B channel.  The pixels alternate between the two channels:
+    ABABABAB, etc.  Images from LROC NAC may or may not include all pixels in the
+    acquired image.  There are special summing modes that are utilized
+    on-board the spacecraft to average detector pixels to combine them into a
+    single output pixel value.  The value of the ISIS label keyord,
+    SpatialSumming, indicates the number of samples that were summed and
+    averaged to result in the pixel values stored in the file.  Note that this
+    will reduce the number of samples in the output image by a factor of at
+    most the SpatialSumming mode value.
     </p>
     <p>
-      The LROC NAC camera has the ability to acquire images of differing sizes in
-      both line and sample.  The starting hardware detector pixel for the
-      acquired image is specified by the ISIS label keyword, SampleFirstPixel.
-      The first pixel in the detector is indicated by a value of 0.
-    </p>
-
-    <p>
-      Dark current pixels are taken for each line from the masked pixels
-      that lie along each edge of the image.
-    </p>
-    
-    <p>
-      If SpatialSumming is 1 the dark current pixels are averaged together then
-      this average is subtracted from all image pixels.  If SpatialSumming is 2,
-      the dark current pixels for the A and B channel are averaged separately,
-      then the A channel dark average is subtracted from the A channel image
-      pixels and the B channel dark average is subtracted from the B channel
-      image pixels.
+    The LROC NAC camera has the ability to acquire images of differing sizes in
+    both line and sample.  The starting hardware detector pixel for the
+    acquired image is specified by the ISIS label keyword, SampleFirstPixel.
+    The first pixel in the detector is indicated by a value of 0.
     </p>
 
     <p>
-      The DN level in an uncalibrated image is the sum of the true signal from the scene, 
-      the bias, the dark current, and random noise in all 3 components. The random noise in
-      the true signal and dark current is called shot noise and the random noise in the bias
-      is called read noise. The true signal, bias, and dark current are defined as mean
-      values so that if the random noise were averaged down to insignificance by taking a 
-      very large number of images and averaging them, the resulting image would be the true 
-      scene, bias, and dark current with no systematic error. That implies the statistical 
-      distribution of the random noise has an average of zero, and therefore the random noise
-      has both positive and negative values, except for the trivial case of zero random noise.
+    Dark current pixels are taken for each line from the masked pixels
+    that lie along each edge of the image.
     </p>
 
     <p>
-      The calibration equation is:
-      <pre>  reportedDN = ObservedDN - MeanBias - DarkCurrent </pre>
-
-        Where:
-        <pre>
-   ObservedDN = TrueDN + E
-   E is a randomly sampled value from (mu, sigma^2) and mu=0
-   TrueDN is the signal that would be reported in an idealized case of an instrument with zero noise.</pre>
-     </p>
-
-    <p>
-      Let's look at the case of a calibrated image for which the true signal
-      is zero, a dark image. In calibration the mean bias and dark current are
-      subtracted. The random noise term is then randomly sampled from a known
-      distribution with a mean of zero. Since the distribution has a mean of
-      zero, values for the random noise can be positive or negative.
-      Therefore, the addition of random noise to a pixel with true signal near
-      zero can result in negative DN values.
+    If SpatialSumming is 1 the dark current pixels are averaged together then
+    this average is subtracted from all image pixels.  If SpatialSumming is 2,
+    the dark current pixels for the A and B channel are averaged separately,
+    then the A channel dark average is subtracted from the A channel image
+    pixels and the B channel dark average is subtracted from the B channel
+    image pixels.
     </p>
 
     <p>
-      Negative reported DNs are possible when E &lt; -1 * TrueDN. These are
-      pixels in a very dark image that happen to have a strongly negative
-      random noise value.
+    The dark average produced is dependant on which options are selected.
+    If the custom dark file option is selected, the provided dark file will be used.
+
+    If the image has exposure code of zero, the nearest dark files with exposure
+    code of zero will be used.
+
+    If UseNearestTimeDarkFile option is selected, the dark file with the nearest
+    time to the image will be used for dark correction.
+
+    If UseNearestTimeDarkFilePair option is selected, the pair of dark files that
+    the image time lies between, will be used, as long as the difference between
+    dark files doesn't exceed 45 days. If a suitable pair is not found, the
+    latest dark file taken before the image will be used.
+
+
+    pixel_dark_average =
+    avgDarkLine1_pixel * |darkfile1_time - time|   +   avgDarkLine2_pixel * |darkfile2_time - time|
+    / (1.0 * ( |darkFile1_time - time| + |darkFile2_time - time| ) )
+
+
     </p>
 
-    <p>
-      Note: ObservedDN and TrueDN both must be greater than or equal to zero.
-      For ObservedDN, it's because the hardware is not able to report negative
-      DN values . For TrueDN, it's because radiance and reflectivity cannot be
-      negative. The dimmest target is one that is completely dark, and for
-      that target TrueDN = 0.
-    </p>
-
-    <p>
-    If run on a non-spiceinited cube, this program requires access to local mission-specific 
-    SPICE kernels, in order to find the distance between the sun and the target body. 
-    When run on a spiceinited cube, this can be determined using the camera model.
-    Using a spiceinited cube as input has the advantage of not requiring that local 
-    mission-specific kernels be available. (See spiceinit web=true.)
-    </p>
   </description>
 
   <history>
@@ -108,6 +78,13 @@
     <change name="Adam Licht" date="2013-02-28">
       No longer treat negative DNs differently in the Non-linearity correction.
     </change>
+    <change name="Victor Silva" date="2020-01-06">
+      Added option for base calibration directory
+    </change>
+    <change name="Victor Silva" date="2020-06-19">
+      Updated dark calibration to use nearest pair of dark images to calibrate
+    </change>
+
   </history>
 
   <category>
@@ -169,30 +146,61 @@
         </description>
       </parameter>
     </group>
-    
-    <group name="Dark Options">
+
+    <group name="Dark File Options">
       <parameter name="Dark">
         <type>boolean</type>
         <default><item>True</item></default>
         <brief>
-        Calibrate using the average dark pixels.
+        Calibrate using average dark pixels.
         </brief>
         <description>
         </description>
-        <inclusions><item>DarkFile</item></inclusions>
+        <inclusions><item>DarkFileType</item></inclusions>
       </parameter>
-      
+
+      <parameter name="DarkFileType">
+        <type>string</type>
+        <brief>
+        Custom Dark, Nearest Dark, Nearest Dark Pair?
+        </brief>
+        <description>
+        </description>
+        <default><item>Pair</item></default>
+        <list>
+          <option value="PAIR">
+            <brief>Pair</brief>
+            <description>
+            </description>
+            <exclusions><item>DarkFile</item></exclusions>
+          </option>
+          <option value="NEAREST">
+            <brief>Nearest</brief>
+            <description>
+            </description>
+            <exclusions><item>DarkFile</item></exclusions>
+          </option>
+          <option value="CUSTOM">
+            <brief>Custom Dark File</brief>
+            <description>
+            </description>
+            <inclusions>
+              <item>DarkFile</item>
+            </inclusions>
+          </option>
+        </list>
+      </parameter>
+
       <parameter name="DarkFile">
         <type>filename</type>
-        <default><item>Default</item></default>
+        <default><item></item></default>
         <brief>
-        Calibrate using the average dark pixels.
         </brief>
         <description>
         </description>
       </parameter>
     </group>
-      
+
     <group name="Nonlinearity Options">
       <parameter name="Nonlinearity">
         <type>boolean</type>
@@ -207,7 +215,7 @@
           <item>NonlinearityFile</item>
         </inclusions>
       </parameter>
-      
+
       <parameter name="OffsetFile">
         <type>filename</type>
         <default><item>Default</item></default>
@@ -217,7 +225,7 @@
         <description>
         </description>
       </parameter>
-      
+
       <parameter name="NonlinearityFile">
         <type>filename</type>
         <default><item>Default</item></default>
@@ -228,7 +236,7 @@
         </description>
       </parameter>
     </group>
-      
+
     <group name="Flatfield Options">
       <parameter name="Flatfield">
         <type>boolean</type>
@@ -240,7 +248,7 @@
         </description>
         <inclusions><item>FlatfieldFile</item></inclusions>
       </parameter>
-      
+
       <parameter name="FlatfieldFile">
         <type>filename</type>
         <default><item>Default</item></default>
@@ -251,7 +259,7 @@
         </description>
       </parameter>
     </group>
-      
+
     <group name="Radiometric Options">
       <parameter name="Radiometric">
         <type>boolean</type>
@@ -266,7 +274,7 @@
           <item>RadiometricFile</item>
         </inclusions>
       </parameter>
-      
+
       <parameter name="RadiometricType">
         <type>string</type>
         <brief>
@@ -288,7 +296,7 @@
           </option>
         </list>
       </parameter>
-      
+
       <parameter name="RadiometricFile">
         <type>filename</type>
         <default><item>Default</item></default>
