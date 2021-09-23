@@ -8,18 +8,24 @@
 
   <description>
     <p>
-      <b>LROC Empirical</b> implements a photometric correction  
+      <b>LROC Empirical</b> implements a photometric correction
    </p>
     <PRE>
       I/F = F(mu, mu0,phase)
               where
                   mu0 = cos(incidence)
                   mu = cos(emission)
-                  F(mu, mu0, phase) = e(A0 + A1 * phase + A2 * mu + A3 * mu0) 
+                  (2014 version)
+                    F(mu, mu0, phase) = e(A0 + A1 * phase + A2 * mu + A3 * mu0)
+                  (2019 version)
+                    F(mu, mu0, phase) = mu0 / (mu + mu0) * exp(B0 +
+                     B1 * (alpha * alpha) + B2 * alpha +
+                     B3 * sqrt(alpha) + B4 * mu + B5 * mu0 +
+                     B6 * (mu0 * mu0) );
     </PRE>
     <p>
-      The equation described accounts for scattering dependance on incidence, 
-      emission, and phase angles.  Lunar Reflectance approximately follows this function 
+      The equation described accounts for scattering dependance on incidence,
+      emission, and phase angles.  Lunar Reflectance approximately follows this function
       and has been tested with repeat coverage at different illumination
       geometries. The exponential equation has been derived from over 760,000 NAC
       image tiles. More information can be found at:
@@ -28,11 +34,11 @@
       http://www.hou.usra.edu/meetings/lpsc2014/pdf/2826.pdf
     </p>
     <p>
-      This application provides features that allow LROC NAC image cubes to be 
-      photometrically corrected with a properly formatted PVL input file much 
-      like that of the ISIS program <i>photomet</i>. This application restricts 
-      much of the options available to the more sophisticated <i>photomet</i> 
-      application.  Below is an example input parameter file for this 
+      This application provides features that allow LROC NAC image cubes to be
+      photometrically corrected with a properly formatted PVL input file much
+      like that of the ISIS program <i>photomet</i>. This application restricts
+      much of the options available to the more sophisticated <i>photomet</i>
+      application.  Below is an example input parameter file for this
       application:
     </p>
   <pre>
@@ -52,57 +58,64 @@
           Name = LROC_Empirical
           FilterName = "Broadband"
           BandBinCenter = 600.0
-          A0 = -2.9811422
-          A1 = -0.0112862
-          A2 = -0.8084603
-          A3 = 1.3248888
+          A0 = -2.9811422 (2014 version)
+          A1 = -0.0112862 (2014 version)
+          A2 = -0.8084603 (2014 version)
+          A3 = 1.3248888 (2014 version)
+          B0 = -1.479654495
+          B1 = -0.000083528
+          B2 =  0.012964707
+          B3 = -0.237774774
+          B4 =  0.556075496
+          B5 =  0.663671460
+          B6 = -0.439918609
         EndGroup
       EndObject
   </pre>
     <p>
       The Normalization object is the PhotometricModel evaluated at the given Incref,
-      Emaref and Pharef angles. The value of the Name parameter is ignored here.   
-      The Incref, Emaref, and Pharef are the incidence, emission and phase angles 
-      to be  used as the photometric standard. It will be used to normalize the photometric 
-      correction parameter to these angles. The equation used to create the 
+      Emaref and Pharef angles. The value of the Name parameter is ignored here.
+      The Incref, Emaref, and Pharef are the incidence, emission and phase angles
+      to be  used as the photometric standard. It will be used to normalize the photometric
+      correction parameter to these angles. The equation used to create the
       photometrically corrected I/F dn is:
     </p>
       <pre>
           odn = idn * (phostd  / ph)
-         
-              where phostd is the photometry model evaluated at the given Incref, 
-              Emaref and Pharef angles. ph is the photometric correction for the 
+
+              where phostd is the photometry model evaluated at the given Incref,
+              Emaref and Pharef angles. ph is the photometric correction for the
               incidence, emission and phase at each pixel
       </pre>
   <p>
-      The "Center" parameter in the above equality comes from the Center keyword 
-      in the BandBin group of the input cube file specified in the FROM 
-      parameter.  This keyword must exist in the input cube or an error is 
-      generated and the program aborts.   BandBinCenter and 
-      BandBinCenterTolerance are contained in each Algorithm group.  Only 
-      BandBinCenter is required.  If BandBinCenterTolerance is not present in an 
-      Algorithm group a value of 1.0E-6 is used.  All input bands in the FROM 
-      file must be matched to at least one of the Algorithm parameters otherwise 
+      The "Center" parameter in the above equality comes from the Center keyword
+      in the BandBin group of the input cube file specified in the FROM
+      parameter.  This keyword must exist in the input cube or an error is
+      generated and the program aborts.   BandBinCenter and
+      BandBinCenterTolerance are contained in each Algorithm group.  Only
+      BandBinCenter is required.  If BandBinCenterTolerance is not present in an
+      Algorithm group a value of 1.0E-6 is used.  All input bands in the FROM
+      file must be matched to at least one of the Algorithm parameters otherwise
       an error is generated and the application is aborted.
     </p>
     <p>
-      The parameter Units is provided to specify if the phase angle is in 
-      units of degrees or radians.  It does not have to exist in any group or 
-      even in the top Object section.  If it does not exist, "Radians" is the 
+      The parameter Units is provided to specify if the phase angle is in
+      units of degrees or radians.  It does not have to exist in any group or
+      even in the top Object section.  If it does not exist, "Radians" is the
       default.
     </p>
     <p>
-      An additional feature of the PVL structure is that any keyword that exists 
-      in the Object section of the PhotometricModel Object is propagated to each 
-      Algorithm group when it  is read in unless the keyword already exists in 
-      the Algorithm group.  If a keyword exists in both the PhotometricModel 
-      object and an Algorithm group, the keyword in the Algorithm group has 
+      An additional feature of the PVL structure is that any keyword that exists
+      in the Object section of the PhotometricModel Object is propagated to each
+      Algorithm group when it  is read in unless the keyword already exists in
+      the Algorithm group.  If a keyword exists in both the PhotometricModel
+      object and an Algorithm group, the keyword in the Algorithm group has
       precedence.
     </p>
     <p>
-      Additional consequences of the photometric correction processing is any 
-      incidence angle greater than 90 degrees is set to the ISIS special Null 
-      pixel value.  And, of course, any ISIS special pixel encountered on input 
+      Additional consequences of the photometric correction processing is any
+      incidence angle greater than 90 degrees is set to the ISIS special Null
+      pixel value.  And, of course, any ISIS special pixel encountered on input
       is propagated to the output TO file without modification.
      <b>Function is only valid for phase angles between 15 and 65 degrees.</b>
     </p>
@@ -111,6 +124,10 @@
   <history>
     <change name="Victor Silva" date="2016-08-18">
       Version adapted from Kris Becker's LROWACPHO application from 2010
+    </change>
+    <change name="Victor Silva" date="2021-03-12">
+      Included ability to run with default pvl values
+      Added new values for 2019 version of LROC Empirical function
     </change>
   </history>
 
@@ -142,7 +159,7 @@
           Output cube
         </brief>
         <description>
-          This file will contain the photometrically corrected image data after 
+          This file will contain the photometrically corrected image data after
           being corrected by with LROC_Empirical algorithm.
         </description>
       </parameter>
@@ -166,12 +183,13 @@
       <parameter name="PHOPAR">
         <type>filename</type>
         <fileMode>input</fileMode>
+        <default><item>default</item></default>
         <brief>
           PVL file
         </brief>
         <description>
-          This file will contain the parameters A0-A3 to use when 
-          applying the LROC Empirical photometric correction.  See the main program 
+          This file will contain a set of parameters A or B to use when
+          applying the LROC Empirical photometric correction.  See the main program
           documentation for a full description.
         </description>
          <filter>*.pvl</filter>
@@ -217,7 +235,7 @@
         <lessThanOrEqual><item>MAXEMISSION</item></lessThanOrEqual>
       </parameter>
       <parameter name="MAXEMISSION">
-        <default><item>90.0</item></default>
+        <default><item>85.0</item></default>
         <type>double</type>
         <brief>Maximum emission angle to trim</brief>
         <description>
@@ -243,7 +261,7 @@
       </parameter>
       <parameter name="MAXINCIDENCE">
         <type>double</type>
-        <default><item>90.0</item></default>
+        <default><item>85.0</item></default>
         <brief>Maximum incidence angle to trim</brief>
         <description>
           Pixels which have a incidence angle greater than this value will be
@@ -254,7 +272,7 @@
         <greaterThanOrEqual><item>MININCIDENCE</item></greaterThanOrEqual>
       </parameter>
     </group>
-    
+
     <group name="Other Options">
       <parameter name="USEDEM">
         <type>boolean</type>

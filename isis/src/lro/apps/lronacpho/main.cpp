@@ -8,7 +8,9 @@ find files of those names at the top level of this repository. **/
 
 #include "Isis.h"
 
-#include <string>
+#include <QDir>
+#include <QRegExp>
+#include <QString>
 
 #include "Cube.h"
 #include "IException.h"
@@ -17,7 +19,7 @@ find files of those names at the top level of this repository. **/
 #include "ProcessByLine.h"
 #include "Pvl.h"
 #include "PvlGroup.h"
-
+#include "SpecialPixel.h"
 
 using namespace std;
 using namespace Isis;
@@ -27,21 +29,24 @@ static bool g_useDEM;
 
 void phoCal (Buffer &in, Buffer &out);
 void phoCalWithBackplane (std::vector<Isis::Buffer *> &in, std::vector<Isis::Buffer *> &out );
+void GetCalibrationDirectory(QString calibrationType, QString &calibrationDirectory);
+
 /**
  *
  * @brief Photometric application for the LRO NAC cameras
  *
- * This application provides featurs that allow multiband cubes for LRO NAC cameras
+ * This application provides features that allow multiband cubes for LRO NAC cameras
  *   to be photometrically corrected
  *
  * @author 2016-09-16 Victor Silva
  *
  * @internal
- *   @history 2016-09-19 Victor silva - Adapted from lrowacpho written by Kris Becker
- *
+ *   @history 2016-09-19 Victor Silva - Adapted from lrowacpho written by Kris Becker
+ *	 @history 2021-03-12 Victor Silva - Updates include ability to run with default values
+ * 																			Added new values for 2019 version of LROC Empirical function.
  */
 void IsisMain (){
-  // Isis Processing by line
+  // Isis Processing by brick
   ProcessByLine p;
   // Set up input cube and get camera info
   Cube *iCube = p.SetInputCube("FROM");
@@ -83,18 +88,40 @@ void IsisMain (){
     useBackplane = true;
   }
 
-  // Get parameters file
-  Pvl params(ui.GetFileName("PHOPAR"));
-  IString algoName =   PhotometricFunction::algorithmName(params);
-  algoName.UpCase();
+  // Get name of parameters file
+  QString calDir = "";
+  QString algoName = "";
+  QString algoFile = ui.GetAsString("PHOPAR");
 
-  // Use generic NAC algorithm
+  if(algoFile.toLower() == "default" || algoFile.length() == 0){
+    GetCalibrationDirectory("", calDir);
+    algoFile = calDir + "NAC_PHO_LROC_Empirical.????.pvl";
+  }
+
+  FileName algoFileName(algoFile);
+
+  if(algoFileName.isVersioned())
+    algoFileName = algoFileName.highestVersion();
+
+  if(!algoFileName.fileExists()) {
+    QString msg = algoFile + " does not exist.";
+    throw IException(IException::User, msg, _FILEINFO_);
+  }
+
+  Pvl params(algoFileName.expanded());
+
+
+
+  algoName = PhotometricFunction::algorithmName(params);
+  algoName = algoName.toUpper();
+
+  // Set NAC algorithm
   if (algoName == "LROC_EMPIRICAL") {
-    g_pho = new LROCEmpirical(params, *iCube, !useBackplane);
+      g_pho = new LROCEmpirical(params, *iCube, !useBackplane);
   }
   else {
-    string msg = " Algorithm Name [" + algoName + "] not recognized. ";
-    msg += "Compatible Algorithms are:\n LROC_Empirical";
+    QString msg = " Algorithm Name [" + algoName + "] not recognized. ";
+    msg += "Compatible Algorithms are:\n LROC_Empirical\n";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -109,7 +136,7 @@ void IsisMain (){
   // Set use of DEM to calculate photometric angles
   g_useDEM = ui.GetBoolean("USEDEM");
 
-   // Begin processing by line
+  // Begin processing by line
   if(useBackplane) {
     p.StartProcess(phoCalWithBackplane);
   }
@@ -126,36 +153,6 @@ void IsisMain (){
 }//end IsisMain
 
 /**
- * @brief Apply LROC Empirical photometric correction
- *
- * Process function dispatched for each line to apply the LROC Empirical photometric
- * correction function.
- *
- * @author 2016-09-19 Victor Silva
- *
- * @internal
- *   @history 2016-09-19 Victor silva - Adapted from lrowacpho written by Kris Becker
- *
- * @param in Buffer containing input data
- * @param out Buffer of photometrically corrected data
- */
-void phoCal(Buffer &in, Buffer &out){
-  // Iterate through pixels
-  for(int i = 0; i < in.size(); i++){
-    // Ignore special pixels
-    if(IsSpecial(in[i])){
-      out[i] = in[i];
-    }
-    else{
-      // Get correction and test for validity
-      double ph = g_pho->compute(in.Line(i), in.Sample(i), in.Band(i), g_useDEM);
-      out[i] = ( IsSpecial(ph) ? Null : (in[i] * ph) );
-    }
-  }
-  return;
-}//end phoCal
-
-/**
  * @brief Apply LROC Empirical photometric correction with backplane
  *
  * Short function dispatched for each line to apply the LROC Empirical photometric
@@ -169,24 +166,74 @@ void phoCal(Buffer &in, Buffer &out){
  * @param in Buffer containing input data
  * @param out Buffer of photometrically corrected data
  */
-void phoCalWithBackplane ( std::vector<Isis::Buffer *> &in, std::vector<Isis::Buffer *> &out ) {
+ void phoCal(Buffer &in, Buffer &out){
+   // Iterate through pixels
+   for(int i = 0; i < in.size(); i++){
+     // Ignore special pixels
+     if(IsSpecial(in[i])){
+       out[i] = in[i];
+     }
+     else{
+       // Get correction and test for validity
+       double ph = g_pho->compute(in.Line(i), in.Sample(i), in.Band(i), g_useDEM);
+       out[i] = ( IsSpecial(ph) ? Null : (in[i] * ph) );
+     }
+   }
+   return;
+ }//end phoCal
 
-  Buffer &image = *in[0];
-  Buffer &phase = *in[1];
-  Buffer &emission = *in[2];
-  Buffer &incidence = *in[3];
-  Buffer &calibrated = *out[0];
+ /**
+  * @brief Apply LROC Empirical photometric correction with backplane
+  *
+  * Short function dispatched for each line to apply the LROC Empirical photometrc
+  * correction function.
+  *
+  * @author 2016-09-19 Victor Silva
+  *
+  * @internal
+  *   @history 2016-09-19 Victor silva - Adapted from lrowacpho written by Kris Becker
+  *
+  * @param in Buffer containing input data
+  * @param out Buffer of photometrically corrected data
+  */
+ void phoCalWithBackplane ( std::vector<Isis::Buffer *> &in, std::vector<Isis::Buffer *> &out ) {
 
-  for (int i = 0; i < image.size(); i++) {
-    //  Don't correct special pixels
-    if (IsSpecial(image[i])) {
-      calibrated[i] = image[i];
-    }
-    else {
-    // Get correction and test for validity
-      double ph = g_pho->photometry(incidence[i], emission[i], phase[i], image.Band(i));
-      calibrated[i] = (IsSpecial(ph) ? Null : image[i] * ph);
-    }
-  }
-  return;
-}
+   Buffer &image = *in[0];
+   Buffer &phase = *in[1];
+   Buffer &emission = *in[2];
+   Buffer &incidence = *in[3];
+   Buffer &calibrated = *out[0];
+
+   for (int i = 0; i < image.size(); i++) {
+     //  Don't correct special pixels
+     if (IsSpecial(image[i])) {
+       calibrated[i] = image[i];
+     }
+     else {
+     // Get correction and test for validity
+       double ph = g_pho->photometry(incidence[i], emission[i], phase[i], image.Band(i));
+       calibrated[i] = (IsSpecial(ph) ? Null : image[i] * ph);
+     }
+   }
+   return;
+ }
+
+
+ /**
+  * This method returns an QString containing the path of an
+  * LRO calibration directory
+  *
+  * @param calibrationType
+  * @param calibrationDirectory Path of the calibration directory
+  *
+  * @internal
+  *   @history 2021-03-12 Victor Silva - Added option for base calibration directory
+  */
+ void GetCalibrationDirectory(QString calibrationType, QString &calibrationDirectory) {
+   PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
+   QString missionDir = (QString) dataDir["LRO"];
+   if(calibrationType != "")
+     calibrationType += "/";
+
+   calibrationDirectory = missionDir + "/calibration/" + calibrationType;
+ }

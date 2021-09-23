@@ -35,6 +35,8 @@ namespace Isis {
    *
    * @internal
    *   @history 2016-08-15 - Code adapted from lrowacpho written by Kris Becker
+   *   @history 2021-03-12 Victor Silva - Added b parameters for 2019 version of
+   *            LROC Empirical algorithm
    *
    */
   class LROCEmpirical : public PhotometricFunction {
@@ -53,23 +55,29 @@ namespace Isis {
        *
        * @internal
        *   @history 2016-08-05 - Code adapted from lrowacpho written by Kris Becker
+       *   @history 2021-03-12 Victor Silva - Added b parameters for 2019 version of
+       *            LROC Empirical algorithm
        */
       struct Parameters {
-        Parameters() : a0(0.0), a1(0.0), a2(0.0), a3(0.0),
+        Parameters() : aTerms(), bTerms(),
                        wavelength(0.0), tolerance(0.0),
                        units("Degrees"), phaUnit(1.0), band(0), phoStd(0.0),
+                       algoVersion(2019),
                        iProfile(-1) { }
         ~Parameters() { }
-        bool IsValid() const { return (iProfile != -1);}
-        double a0, a1, a2, a3; //<! Equation parameters
-        double wavelength;     //<! Wavelength for correction
-        double tolerance;      //<! Wavelength Range/Tolerance
-        QString units;         //<! Phase units of equation
-        double phaUnit;        //<! 1 for degrees, Pi/180 for radians
-        int band;              //<! Cube band parameters
-        double phoStd;         //<! Computed photometric std.
-        int iProfile;          //<! Profile index of this data
-
+        bool IsValid() const {
+          return (iProfile != -1);
+        }
+        std::vector<double> aTerms; //<! a-terms for 2014 algorithm
+        std::vector<double> bTerms; //<! b-terms for 2019 algorithm
+        double wavelength; //<! Wavelength for correction
+        double tolerance; //<! Wavelength Range/Tolerance
+        QString units; //<! Phase units of equation
+        double phaUnit; //<! 1 for degrees, Pi/180 for radians
+        int band; //<! Cube band parameters
+        double phoStd; //<! Computed photometric std.
+        int algoVersion; //<! Algorithm version
+        int iProfile; //<! Profile index of this data
       };
 
       void init(PvlObject &pvl, Cube &cube);
