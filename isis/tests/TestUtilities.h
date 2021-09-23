@@ -44,6 +44,12 @@ namespace Isis {
       PvlGroup group1,
       PvlGroup group2);
 
+  ::testing::AssertionResult AssertPvlGroupKeywordsEqual(
+      const char* group1_expr,
+      const char* group2_expr,
+      PvlGroup group1,
+      PvlGroup group2);
+
   ::testing::AssertionResult AssertVectorsNear(
       const char* vec1_expr,
       const char* vec2_expr,

@@ -70,6 +70,19 @@ namespace Isis {
           << group2_expr << " has name (" << group2.name().toStdString() << ").";
     }
 
+    return AssertPvlGroupKeywordsEqual(group1_expr, group2_expr, group1, group2);
+  }
+
+
+  /**
+   * Custom PvlGroup assertion that compares only the PvlKeywords in the groups.
+   */
+  ::testing::AssertionResult AssertPvlGroupKeywordsEqual(
+      const char* group1_expr,
+      const char* group2_expr,
+      PvlGroup group1,
+      PvlGroup group2) {
+
     for (auto grp1KeyIt = group1.begin(); grp1KeyIt != group1.end(); grp1KeyIt++) {
       if (!group2.hasKeyword(grp1KeyIt->name())) {
         return ::testing::AssertionFailure() << "PvlGroup " << group1_expr

@@ -64,6 +64,9 @@
     <change name="Ian Humphrey" date="2017-08-19">
       No longer propagates AlphaCube group to output cube. Fixes #4907.
     </change>
+    <change name="Kaitlyn Lee" date="2021-03-31">
+      Refactored app to be callable and converted its tests to GTests.
+    </change>
   </history>
 
   <category>

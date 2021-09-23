@@ -436,9 +436,27 @@ namespace Isis {
 
     testCube = new Cube();
     testCube->fromIsd(tempDir.path() + "/default.cub", label, isd, "rw");
+    LineManager line(*testCube);
+    int pixelValue = 1;
+    for(line.begin(); !line.end(); line++) {
+      for(int i = 0; i < line.size(); i++) {
+        line[i] = (double) (pixelValue % 255);
+        pixelValue++;
+      }
+      testCube->write(line);
+    }
 
     projTestCube = new Cube();
     projTestCube->fromIsd(tempDir.path() + "/default.level2.cub", projLabel, isd, "rw");
+    line = LineManager(*projTestCube);
+    pixelValue = 1;
+    for(line.begin(); !line.end(); line++) {
+      for(int i = 0; i < line.size(); i++) {
+        line[i] = (double) (pixelValue % 255);
+        pixelValue++;
+      }
+      projTestCube->write(line);
+    }
   }
 
 
