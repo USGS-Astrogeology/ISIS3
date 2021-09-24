@@ -114,7 +114,7 @@ void IsisMain() {
   // 2016-12-08 Ian Humphrey - Set the QHash seed, otherwise output is ALWAYS slightly
   //                different. Note that in Qt4, the seed was constant, but in Qt5, the seed is
   //                created differently for each process. Fixes #4206.
-  qSetGlobalQHashSeed(1031);
+  qSetGlobalQHashSeed(0);
 
   // Reset the counts of points and measures deleted
   numPointsDeleted = 0;
