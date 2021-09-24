@@ -28,6 +28,7 @@ find files of those names at the top level of this repository. **/
 #include <QString>
 
 #include <qwt_legend.h>
+#include <qwt_text.h>
 
 #include "Cube.h"
 #include "CubeViewport.h"

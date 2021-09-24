@@ -41,11 +41,11 @@ namespace Isis {
 
     // Get its constant dimensions.  Note, height seems to get reset to 0 if
     // called before setting width.
-    uint32 height;
+    uint32_t height;
     TIFFGetField(m_image, TIFFTAG_IMAGELENGTH, &height);
     setLines(height);
 
-    uint32 width;
+    uint32_t width;
     TIFFGetField(m_image, TIFFTAG_IMAGEWIDTH, &width);
     setSamples(width);
 
@@ -54,7 +54,7 @@ namespace Isis {
     // Setup the width and height of the image
     unsigned long imagesize = lines() * samples();
     m_raster = NULL;
-    if ((m_raster = (uint32 *) malloc(sizeof(uint32) * imagesize)) == NULL) {
+    if ((m_raster = (uint32_t *) malloc(sizeof(uint32_t) * imagesize)) == NULL) {
       throw IException(IException::Programmer,
           "Could not allocate enough memory", _FILEINFO_);
     }
@@ -95,18 +95,18 @@ namespace Isis {
 
 
   /**
-   * Convert any projection information associated with the input image to an ISIS Mapping group in 
-   * PVL form. Currently this routine only handles GeoTiff tags containing UTM projection 
-   * parameters. NOTE: As written, this only works for a few projections. The tranlsation files 
-   * can be extened to work for more, but the whole design needs to be generalized and thought out. 
-   * 
+   * Convert any projection information associated with the input image to an ISIS Mapping group in
+   * PVL form. Currently this routine only handles GeoTiff tags containing UTM projection
+   * parameters. NOTE: As written, this only works for a few projections. The tranlsation files
+   * can be extened to work for more, but the whole design needs to be generalized and thought out.
+   *
    *  References: http://www.remotesensing.org/geotiff/spec/geotiffhome.html
    * @return The ISIS PVL mapping group
-   *  
+   *
    * @internal
    *   @todo Generalize this and make it work for all ISIS projections (preferably without changes
    *         when new projections are added to ISIS)
-   */ 
+   */
   PvlGroup TiffImporter::convertProjection() const {
 
     Pvl outPvl;
@@ -122,16 +122,16 @@ namespace Isis {
       if ((GTIFKeyGet(m_geotiff, GTRasterTypeGeoKey, &rasterType, 0, 1) == 1) &&
           (rasterType == 1 || rasterType == 2)) { // Area || Point
 
-        // See if this geogiff uses a coded projection. That is, the projection parameters are not 
-        // explicitly set. A code in the GEOTIF tag indicates a set of parameters for this 
+        // See if this geogiff uses a coded projection. That is, the projection parameters are not
+        // explicitly set. A code in the GEOTIF tag indicates a set of parameters for this
         // projection.
         if (GTIFKeyGet(m_geotiff, ProjectedCSTypeGeoKey, &coordSysType, 0, 1) == 1) {
 
           // Get the mapping group data for this code: proj name, clat, clon, ...
-          FileName transFile((QString) "$ISISROOT/appdata/translations/" + 
+          FileName transFile((QString) "$ISISROOT/appdata/translations/" +
                                  toString(coordSysType) + ".trn");
           if (transFile.fileExists()) {
-            Pvl tmp; 
+            Pvl tmp;
             tmp += PvlKeyword("Code", toString(coordSysType));
             PvlToPvlTranslationManager geoTiffCodeTranslater(tmp, transFile.expanded());
             geoTiffCodeTranslater.Auto(outPvl);
@@ -141,7 +141,7 @@ namespace Isis {
         // The following is here for when this gets generalized to handle non coded projections
         // (i.e., the real proj parameters have values and the code is not used)
         else if (1 == 0) {
-          geocode_t geoCode; 
+          geocode_t geoCode;
           if (GTIFKeyGet(m_geotiff, GeographicTypeGeoKey, &geoCode, 0, 1) == 1) {
             std::cout << "GeographicTypeGeoKey = " << geoCode << std::endl;
           }
@@ -421,8 +421,8 @@ namespace Isis {
 
 
   /**
-   * Convert the Tiff Tiepoint tag data to Upper Left X & Y values for the ISIS cube label mapping 
-   * group 
+   * Convert the Tiff Tiepoint tag data to Upper Left X & Y values for the ISIS cube label mapping
+   * group
    *
    * @return The ISIS PVL mapping group
    *
@@ -441,13 +441,13 @@ namespace Isis {
       if (tiePoints[0] == 0.0 && tiePoints[1] == 0.0) {
         double x = 0.0;
         if (map.hasKeyword("FalseEasting")) {
-          x = (double)map["FalseEasting"] + tiePoints[3]; 
+          x = (double)map["FalseEasting"] + tiePoints[3];
           map.deleteKeyword("FalseEasting");
         }
 
         double y = 0.0;
         if (map.hasKeyword("FalseNorthing")) {
-          y = (double)map["FalseNorthing"] + tiePoints[4]; 
+          y = (double)map["FalseNorthing"] + tiePoints[4];
           map.deleteKeyword("FalseNorthing");
         }
 
@@ -466,12 +466,12 @@ namespace Isis {
 
 
   /**
-   * Convert the Tiff PixelScale tag data to a singe resolution for the ISIS cube label mapping 
-   * group 
-   * 
+   * Convert the Tiff PixelScale tag data to a singe resolution for the ISIS cube label mapping
+   * group
+   *
    * @return The ISIS PVL mapping group
-   *  
-   */ 
+   *
+   */
   Pvl TiffImporter::resolution(const Pvl &inLab) const {
 
     Pvl newLab = inLab;
@@ -636,4 +636,3 @@ namespace Isis {
     return TIFFGetA(pixel);
   }
 };
-

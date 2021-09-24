@@ -84,7 +84,7 @@ namespace Isis {
 
     // Direct creation of DAISY algorithm, replacing default in constructor
     // initialization in FeatureAlgorithm::m_algorithm
-    m_algorithm = DAISYType::create(radius, q_radius, q_theta, q_hist, norm, H,
+    m_algorithm = DAISYType::create(radius, q_radius, q_theta, q_hist, DAISYType::NormalizationType(norm), H,
                                     interpolation, use_orientation);
 
     // Set the input parameter conditions

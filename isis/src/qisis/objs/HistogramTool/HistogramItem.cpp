@@ -6,6 +6,7 @@
 #include <QScopedPointer>
 #include <QString>
 
+#include <qwt_text.h>
 #include <qwt_plot.h>
 #include <qwt_painter.h>
 #include <qwt_scale_map.h>

@@ -51,7 +51,7 @@ find files of those names at the top level of this repository. **/
 #include "ORBAlgorithm.h"
 #include "SIFTAlgorithm.h"
 #include "StarAlgorithm.h"
-#include "SURFAlgorithm.h"
+// #include "SURFAlgorithm.h"
 
 #include "BruteForceMatcher.h"
 #include "FlannBasedMatcher.h"
@@ -140,7 +140,7 @@ int FeatureAlgorithmFactory::initialize() {
   numAliases += m_algorithmInventory.addFeatureAlgorithm<ORBAlgorithm>();
   numAliases += m_algorithmInventory.addFeatureAlgorithm<SIFTAlgorithm>();
   numAliases += m_algorithmInventory.addFeatureAlgorithm<StarAlgorithm>();
-  numAliases += m_algorithmInventory.addFeatureAlgorithm<SURFAlgorithm>();
+  // numAliases += m_algorithmInventory.addFeatureAlgorithm<SURFAlgorithm>();
 
   // The matchers
   numAliases += m_algorithmInventory.addMatcherAlgorithm<BruteForceMatcher>();

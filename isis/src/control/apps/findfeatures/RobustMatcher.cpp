@@ -633,7 +633,7 @@ bool RobustMatcher::removeOutliers(const cv::Mat &queryDescriptors,
   double v_hmgTolerance = toDouble(m_parameters.get("HmgTolerance"));
   homography = computeHomography(queryKeypoints, trainKeypoints,
                                  symMatches, homography_matches,
-                                 mtime, CV_FM_RANSAC, v_hmgTolerance,
+                                 mtime, cv::FM_RANSAC, v_hmgTolerance,
                                  refineHomography, onErrorThrow);
 
   // 5) Compute the fundamental matrix with outliers
@@ -644,7 +644,7 @@ bool RobustMatcher::removeOutliers(const cv::Mat &queryDescriptors,
   refineHomography = false;
   homography = computeHomography(queryKeypoints, trainKeypoints,
                                  epipolar_matches, matches,
-                                 mtime, CV_FM_RANSAC, v_hmgTolerance,
+                                 mtime, cv::FM_RANSAC, v_hmgTolerance,
                                  refineHomography, onErrorThrow);
 
 
@@ -832,7 +832,7 @@ cv::Mat RobustMatcher::ransacTest(const std::vector<cv::DMatch>& matches,
   std::vector<uchar> inliers(points1.size(),0);
   try {
     fundamental = cv::findFundamentalMat(cv::Mat(points1),cv::Mat(points2), // matching points
-                                         CV_FM_RANSAC, // RANSAC method
+                                         cv::FM_RANSAC, // RANSAC method
                                          v_epiTolerance,   // distance to epipolar line
                                          v_epiConfidence, // confidence probability
                                          inliers);     // match status (inlier or outlier))
@@ -895,7 +895,7 @@ cv::Mat RobustMatcher::ransacTest(const std::vector<cv::DMatch>& matches,
       cv::Mat fundamental2 = fundamental;
       try {
         fundamental2 = cv::findFundamentalMat(cv::Mat(points1), cv::Mat(points2), // matches
-                                             CV_FM_LMEDS,  // Least squares method
+                                             cv::FM_LMEDS,  // Least squares method
                                              v_epiTolerance,   // distance to epipolar line
                                              v_epiConfidence, // confidence probability
                                              inliers2);   // New set of inliers
@@ -1141,7 +1141,7 @@ void RobustMatcher::RootSift(cv::Mat &descriptors, const float eps) const {
   // Compute sums for L1 Norm
   cv::Mat sums_vec;
   descriptors = cv::abs(descriptors); //otherwise we draw sqrt of negative vals
-  cv::reduce(descriptors, sums_vec, 1 /*sum over columns*/, CV_REDUCE_SUM, CV_32FC1);
+  cv::reduce(descriptors, sums_vec, 1 /*sum over columns*/, cv::REDUCE_SUM, CV_32FC1);
   for(int row = 0; row < descriptors.rows; row++){
     int offset = row*descriptors.cols;
     for(int col = 0; col < descriptors.cols; col++){

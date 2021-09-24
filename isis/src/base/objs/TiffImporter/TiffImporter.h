@@ -36,7 +36,7 @@ namespace Isis {
    *   @todo Read chunks of the image into memory at a time, not the entire
    *         image.
    *   @todo Add all ISIS projection to the convertProjection member.
-   *  
+   *
    *   @history 2012-03-28 Travis Addair - Added documentation.
    *   @history 2013-12-11 Stuart Sides - Added new member convterProjection. This is for converting
    *                            GeoTiff projection tags to standard ISIS Mapping lables.
@@ -70,13 +70,13 @@ namespace Isis {
       TIFF *m_image;
 
       //! Buffer holding the raw TIFF image in memory.
-      uint32 *m_raster;
+      uint32_t *m_raster;
 
       //! The enumerated photometric interpretation of the input image.
-      uint16 m_photo;
+      uint16_t m_photo;
 
       //! The number of "samples" (bands in Isis terms) in the input image.
-      uint16 m_samplesPerPixel;
+      uint16_t m_samplesPerPixel;
 
       //! GeoTiff hanele
       GTIF *m_geotiff;

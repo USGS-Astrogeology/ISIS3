@@ -1,6 +1,8 @@
 #ifndef HistogramPlotWindow_h
 #define HistogramPlotWindow_h
 
+#include <qwt_text.h>
+
 #include "PlotWindow.h"
 
 class QDockWidget;

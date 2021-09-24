@@ -1,7 +1,7 @@
 #ifndef ScatterPlotData_h
 #define ScatterPlotData_h
 
-#include <qwt_raster_data.h>
+#include <qwt_matrix_raster_data.h>
 
 #include <QScopedPointer>
 #include <QVector>
@@ -25,7 +25,7 @@ namespace Isis {
    * @internal
    *   @history 2016-06-21 Kris Becker - Properly forward declare QPair as struct not class
    */
-  class ScatterPlotData : public QwtRasterData {
+  class ScatterPlotData : public QwtMatrixRasterData {
     public:
       ScatterPlotData(Cube *xCube, int xCubeBand, int xBinCount,
                       Cube *yCube, int yCubeBand, int yBinCount,

@@ -10,6 +10,7 @@
 #include <qwt_plot_spectrogram.h>
 #include <qwt_symbol.h>
 #include <qwt_scale_engine.h>
+#include <qwt_text.h>
 
 #include <QAction>
 #include <QApplication>

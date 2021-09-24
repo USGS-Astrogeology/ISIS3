@@ -18,7 +18,7 @@ namespace Isis {
                        PlotWindow(title, PlotCurve::CubeDN,
                                   PlotCurve::Percentage, parent) {
     //m_plot->enableAxis(QwtPlot::yRight);
-    QwtText frequencyLabel("Frequency", QwtText::PlainText);
+    QwtText frequencyLabel(QString("Frequency"), QwtText::PlainText);
 
     frequencyLabel.setColor(Qt::darkCyan);
     QFont font = frequencyLabel.font();

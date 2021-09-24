@@ -188,7 +188,7 @@ void ImageSource::load(const double minPercent,const double maxPercent) {
     // Assume OpenCV can read it
     try {
       m_data->m_image = cv::imread(ifile.expanded().toStdString(),
-                                   CV_LOAD_IMAGE_GRAYSCALE);
+                                   cv::IMREAD_GRAYSCALE);
       if ( m_data->m_image.empty() ) {
         QString mess = "Failed to read image from " + name;
         throw IException(IException::User, mess, _FILEINFO_);
@@ -345,7 +345,7 @@ cv::Mat ImageSource::getGeometryMapping(ImageSource &match,
 
   // Find homography using Least-Median robust method algorithm
   std::vector<uchar> inliers(source.size(),0);
-  mapper = cv::findHomography(source, train, CV_LMEDS, tol, inliers);
+  mapper = cv::findHomography(source, train, cv::LMEDS, tol, inliers);
 
   // Using the Least median method requires > 50% inliers.  Check that here.
   int nInliers(0);
@@ -357,7 +357,7 @@ cv::Mat ImageSource::getGeometryMapping(ImageSource &match,
   double inlierPercent = ((double) nInliers / (double) source.size()) * 100.0;
   if ( 50.0 > inlierPercent ) {
     // std::cout << "LMEDS failed with only " << inlierPercent << "% - computing RANSAC homography!\n";
-    mapper = cv::findHomography(source, train, CV_RANSAC, tol, inliers);
+    mapper = cv::findHomography(source, train, cv::RANSAC, tol, inliers);
   }
 
   return (mapper);

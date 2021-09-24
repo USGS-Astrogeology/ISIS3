@@ -206,7 +206,7 @@ namespace Isis {
          throw IException(IException::User, msg, _FILEINFO_);
        }
 
-      algorithm->setScoreType(intValue);
+      algorithm->setScoreType(ORBType::ScoreType(intValue));
       numSet++;
 
      if ( variables.exists("patchSize") ) {

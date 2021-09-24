@@ -5,6 +5,9 @@
 
 #include <QtCore>
 
+#include <qwt_interval.h>
+#include <qwt_text.h>
+
 #include "Brick.h"
 #include "SpecialPixel.h"
 
@@ -26,7 +29,7 @@ namespace Isis {
   ScatterPlotData::ScatterPlotData(
       Cube *xCube, int xCubeBand, int xBinCount,
       Cube *yCube, int yCubeBand, int yBinCount,
-      QwtInterval sampleRange, QwtInterval lineRange) : QwtRasterData(),
+      QwtInterval sampleRange, QwtInterval lineRange) : QwtMatrixRasterData(),
       m_xDnToBinStretch(new Stretch), m_yDnToBinStretch(new Stretch),
       m_counts(
         new QVector< QVector<int> >(yBinCount, QVector<int>(xBinCount))),
