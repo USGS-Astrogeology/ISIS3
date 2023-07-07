@@ -593,7 +593,7 @@ Testing Numerical-Only Versioning
 		New version changed FileName: 1
 
 	Testing Versioning Methods [??tttt]
-		Highest Version Name:          		Highest Version Failed:     **ERROR** No existing files found with a numerial version matching [??tttt] in [.].
+		Highest Version Name:          		Highest Version Failed:     **ERROR** No existing files found with a numerical version matching [??tttt] in [.].
 		New Version Name:              01tttt
 		New Version Orig:              ./01tttt
 		New Version Orig Path:         .
@@ -610,7 +610,7 @@ Testing Numerical-Only Versioning
 		New version changed FileName: 1
 
 	Testing Versioning Methods [junk?]
-		Highest Version Name:          		Highest Version Failed:     **ERROR** No existing files found with a numerial version matching [junk?] in [.].
+		Highest Version Name:          		Highest Version Failed:     **ERROR** No existing files found with a numerical version matching [junk?] in [.].
 		New Version Name:              junk1
 		New Version Orig:              ./junk1
 		New Version Orig Path:         .
