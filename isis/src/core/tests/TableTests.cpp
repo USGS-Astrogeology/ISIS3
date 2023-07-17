@@ -166,7 +166,10 @@ TEST(TableTests, ToFromBlob) {
 }
 
 
-TEST_F(TempTestingFiles, TableTestsWriteRead) {
+TEST(TableTests, TableTestsWriteRead) {
+  QTemporaryDir tempDir;
+  ASSERT_TRUE(tempDir.isValid());
+
   TableField f1("Column1", TableField::Integer);
   TableField f2("Column2", TableField::Double);
   TableField f3("Column3", TableField::Text, 10);

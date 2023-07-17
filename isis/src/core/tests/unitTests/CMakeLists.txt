@@ -11,7 +11,9 @@ set(unitTestClasses "Blob"
                     "PvlFormatPds"
                     "PvlGroup"
                     "PvlKeyword"
-                    "PvlSequence")
+                    "PvlSequence"
+                    "TableField"
+                    "TableRecord")
 
 foreach (class ${unitTestClasses})
   set(testFile "${CMAKE_CURRENT_SOURCE_DIR}/${class}/unitTest.cpp")
