@@ -454,10 +454,7 @@ namespace Isis {
                               toString(quality.StandardDeviation()));
     }
 
-    if(log){
-      log->addLogGroup(bestinfo);
-    }
-
+    Application::Log(bestinfo);
 
     // If a cnet file was entered, write the ControlNet file of the specified
     // type.  Note that it was created as an image-to-image network. Must make
@@ -501,9 +498,7 @@ namespace Isis {
 
       // Write out control network
       cnet.Write( ui.GetFileName("ONET") );
-      if(log){
-        log->addLogGroup(cnetinfo);
-      }
+      Application::Log(cnetinfo);
     }
 
     // If user wants a list of matched images, write the list to the TOLIST filename

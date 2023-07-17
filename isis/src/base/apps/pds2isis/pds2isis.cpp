@@ -1,5 +1,6 @@
 #include "ProcessImportPds.h"
 
+#include "Application.h"
 #include "UserInterface.h"
 #include "FileName.h"
 
@@ -73,7 +74,7 @@ namespace Isis {
       results.setName("Results");
       results[0].addComment("Projection offsets and multipliers have been changed from");
       results[0].addComment("defaults. New values are below.");
-      log->addLogGroup(results);
+      Application::Log(results);
     }
 
     p.EndProcess();

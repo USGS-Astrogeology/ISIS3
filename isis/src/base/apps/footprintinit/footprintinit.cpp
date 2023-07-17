@@ -144,7 +144,7 @@ namespace Isis {
       PvlGroup results("Results");
       results.addKeyword(PvlKeyword("SINC", toString(sinc)));
       results.addKeyword(PvlKeyword("LINC", toString(linc)));
-      log->addLogGroup(results);
+      Application::Log(results);
     }
 
     Process p;

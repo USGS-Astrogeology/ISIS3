@@ -2,6 +2,7 @@
 
 #include <QDebug>
 
+#include "Application.h"
 #include "ProcessMapMosaic.h"
 #include "PvlGroup.h"
 
@@ -100,12 +101,12 @@ namespace Isis {
       // Logs the cube if it falls outside of the given mosaic
       PvlGroup outsiders("Outside");
       outsiders += PvlKeyword("File", sInputFile);
-      log->addLogGroup(outsiders);
+      Application::Log(outsiders);
     }
     else {
       // Logs the input file location in the mosaic
       for (int i = 0; i < m.imagePositions().groups(); i++) {
-        log->addLogGroup(m.imagePositions().group(i));
+        Application::Log(m.imagePositions().group(i));
       }
     }
 

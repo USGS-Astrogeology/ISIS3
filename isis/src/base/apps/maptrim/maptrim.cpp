@@ -1,5 +1,6 @@
 #include <QString>
 
+#include "Application.h"
 #include "FileName.h"
 #include "IException.h"
 #include "IString.h"
@@ -115,9 +116,7 @@ namespace Isis{
     }
     // Add mapping to print.prt
     PvlGroup mapping = proj->Mapping();
-    if (log){
-      log->addLogGroup(mapping);
-    }
+    Application::Log(mapping);
 
     delete proj;
     proj = NULL;

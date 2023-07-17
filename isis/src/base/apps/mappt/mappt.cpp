@@ -1,6 +1,7 @@
 #include <QString>
 #include <cmath>
 
+#include "Application.h"
 #include "Brick.h"
 #include "FileName.h"
 #include "IException.h"
@@ -41,7 +42,7 @@ void mappt(Cube *icube, UserInterface &ui, Pvl *log, CubeAttributeInput* inAtt) 
   if(log) {
     for(int i = 0; i < points.size(); i++) {
       PvlGroup g = getProjPointInfo(icube, points[i], ui, log);
-      log->addLogGroup(g);
+      Application::Log(g);
     } 
   }
 

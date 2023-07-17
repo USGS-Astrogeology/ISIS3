@@ -155,7 +155,7 @@ namespace Isis {
 
     // Report translations...
     // pvl->addLogGroup( prefdir );
-    db_addLogGroup( log, prefdir );
+    Application::Log(prefdir);
 
     //*******************************************************************
     // Process DATADIR which will collect the inventory and evaluate
@@ -423,7 +423,7 @@ namespace Isis {
 
     // Final log
     // pvl->addLogGroup( results );
-    db_addLogGroup( log, results );
+    Application::Log(results);
 
     eval_proc.Finalize();
     return;

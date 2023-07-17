@@ -14,6 +14,7 @@ find files of those names at the top level of this repository. **/
 #include <SpiceUsr.h>
 
 // Isis includes
+#include "Application.h"
 #include "Buffer.h"
 #include "Cube.h"
 #include "FileName.h"
@@ -371,9 +372,7 @@ namespace Isis {
       g_in = NULL;
 
       // Write the results to the log
-      if(log) {
-        log->addLogGroup(results);
-      }
+      Application::Log(results);
 
       // Unfurnishes kernel files to prevent file table overflow
       NaifStatus::CheckErrors();

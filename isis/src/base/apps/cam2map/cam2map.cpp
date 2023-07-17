@@ -1,5 +1,6 @@
 #include "cam2map.h"
 
+#include "Application.h"
 #include "Camera.h"
 #include "CubeAttribute.h"
 #include "IException.h"
@@ -432,9 +433,7 @@ namespace Isis {
     p.EndProcess();
 
     // add mapping to print.prt
-    if(log) {
-      log->addLogGroup(cleanMapping);
-    }
+    Application::Log(cleanMapping);
 
     // Cleanup
     delete outmap;

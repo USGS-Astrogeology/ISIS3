@@ -8,6 +8,8 @@ find files of those names at the top level of this repository. **/
 
 #include "cnetextract.h"
 
+#include "Application.h"
+
 using namespace std;
 
 namespace Isis {
@@ -397,9 +399,7 @@ namespace Isis {
     outProgress.CheckStatus();
 
     // Log Control Net results
-    if (log){
-      log->addLogGroup(summary);
-    }
+    Application::Log(summary);
 
     outProgress.CheckStatus();
 
@@ -503,9 +503,8 @@ namespace Isis {
         results.addComment("Each keyword represents a filter parameter used. "
                            "Check the documentation for specific keyword descriptions.");
       }
-      if(log) {
-        log->addLogGroup(results);
-      }
+    Application::Log(results);
+
 
       resultsProgress.CheckStatus();
     }

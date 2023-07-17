@@ -2,6 +2,7 @@
 #include <set>
 
 #include "overlapstats.h"
+#include "Application.h"
 #include "SerialNumberList.h"
 #include "ImageOverlapSet.h"
 #include "ImageOverlap.h"
@@ -244,7 +245,7 @@ namespace Isis {
       }
     }
 
-    log->addLogGroup(brief);
+    Application::Log(brief);
 
     //Log the ERRORS file
     if (ui.WasEntered("ERRORS")) {
@@ -260,7 +261,7 @@ namespace Isis {
       PvlGroup grp("OverlapStats");
       PvlKeyword key("ErrorNumber", toString(errorNum));
       grp.addKeyword(key);
-      log->addLogGroup(grp);
+      Application::Log(grp);
     }
 
     // Display FULL output
@@ -276,7 +277,7 @@ namespace Isis {
       }
     }
 
-    log->addLogGroup(brief);
+    Application::Log(brief);
   }
 
 

@@ -52,7 +52,7 @@ namespace Isis {
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
-    Environment env;
+    inja::Environment env;
 
     // Dump the JSON to the debugging file if requested
     // This needs to be above all uses of the JSON by the template engine

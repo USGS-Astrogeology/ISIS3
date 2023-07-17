@@ -4,6 +4,7 @@
 #include <QString>
 #include <QStringList>
 
+#include "Application.h"
 #include "IException.h"
 #include "FileList.h"
 #include "Cube.h"
@@ -91,7 +92,7 @@ namespace Isis {
         PvlGroup overlap = overrors.group(i);
         overlap.setName("Overlaps");
         overlap.addKeyword(PvlKeyword("Class", "WARNING"), PvlContainer::Replace);
-        log->addLogGroup(overlap);
+        Application::Log(overlap);
       }
     }
 

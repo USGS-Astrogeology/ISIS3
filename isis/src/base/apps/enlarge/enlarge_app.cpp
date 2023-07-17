@@ -1,5 +1,6 @@
 #include "enlarge_app.h"
 
+#include "Application.h"
 #include "CubeAttribute.h"
 #include "Enlarge.h"
 #include "IException.h"
@@ -94,7 +95,7 @@ namespace Isis{
     delete interp;
 
     // Write the results to the log
-    log->addLogGroup(resultsGrp);
+    Application::Log(resultsGrp);
   }
 }
 

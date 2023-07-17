@@ -6,6 +6,7 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
+#include "Application.h"
 #include "ProcessByLine.h"
 #include "Buffer.h"
 #include "Camera.h"
@@ -145,11 +146,9 @@ namespace Isis {
     }
   
     ocube->putGroup(calibrationLog);
-    
-    if(log){
-      log->addLogGroup(calibrationLog);
-    }
-    
+
+    Application::Log(calibrationLog);
+
     p.EndProcess();
   }
   

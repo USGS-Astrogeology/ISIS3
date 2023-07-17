@@ -13,6 +13,7 @@ find files of those names at the top level of this repository. **/
 #include "ProcessImportPds.h"
 #include "ProcessByLine.h"
 
+#include "Application.h"
 #include "TableRecord.h"
 #include "Buffer.h"
 #include "Table.h"
@@ -229,9 +230,7 @@ namespace Isis {
     results += PvlKeyword("ObservationDarkValid", toString(validCount[5]));
 
     // Write the results to the log
-    if(log){
-      log->addLogGroup(results);
-    }
+    Application::Log(results);
 
     return;
   }

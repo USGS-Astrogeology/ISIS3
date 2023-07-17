@@ -10,6 +10,7 @@ find files of those names at the top level of this repository. **/
 
 #include "pointreg.h"
 
+#include "Application.h"
 #include "AutoReg.h"
 #include "AutoRegFactory.h"
 #include "Camera.h"
@@ -469,25 +470,25 @@ namespace Isis {
     PvlGroup pLog("Points");
     pLog += PvlKeyword("Total", toString(outNet.GetNumPoints()));
     pLog += PvlKeyword("Ignored", toString(ignored));
-    appLog->addLogGroup(pLog);
+    Application::Log(pLog);
 
     PvlGroup mLog("Measures");
     mLog += PvlKeyword("Locked", toString(locked));
     mLog += PvlKeyword("Registered", toString(registered));
     mLog += PvlKeyword("NotIntersected", toString(notintersected));
     mLog += PvlKeyword("Unregistered", toString(unregistered));
-    appLog->addLogGroup(mLog);
+    Application::Log(mLog);
 
     // Log Registration Statistics
     Pvl arPvl = ar->RegistrationStatistics();
 
     for (int i = 0; i < arPvl.groups(); i++) {
-      appLog->addLogGroup(arPvl.group(i));
+      Application::Log(arPvl.group(i));
     }
 
     // add the auto registration information to print.prt
     PvlGroup autoRegTemplate = ar->RegTemplate();
-    appLog->addLogGroup(autoRegTemplate);
+    Application::Log(autoRegTemplate);
 
     if (validator) {
       PvlGroup validationGroup("ValidationStatistics");
@@ -502,11 +503,11 @@ namespace Isis {
         }
       }
 
-      appLog->addLogGroup(validationGroup);
+      Application::Log(validationGroup);
 
       PvlGroup validationTemplate = validator->UpdatedTemplate();
       validationTemplate.setName("ValidationTemplate");
-      appLog->addLogGroup(validationTemplate);
+      Application::Log(validationTemplate);
     }
 
     outNet.Write(ui.GetFileName("ONET"));

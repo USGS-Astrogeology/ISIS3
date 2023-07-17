@@ -4,6 +4,7 @@
 #include <sstream>
 #include <QString>
 
+#include "Application.h"
 #include "Blob.h"
 #include "Cube.h"
 #include "History.h"
@@ -88,12 +89,13 @@ namespace Isis {
 	cout << sn[i][0] << endl;
       }
     }
+    Application::Log(sn);
 
-    if (ui.IsInteractive()) {
-      log->addLogGroup(sn);
-    }
-    else {
-      log->addGroup(sn);
-    }
+    // if (ui.IsInteractive()) {
+    //   log->addLogGroup(sn);
+    // }
+    // else {
+    //   log->addGroup(sn);
+    // }
   }
 }
