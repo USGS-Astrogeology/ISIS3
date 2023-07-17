@@ -46,7 +46,8 @@ set(Pvl_source_files ${PROJECT_SOURCE_DIR}/src/ArraySubscriptNotInRange.cpp
                      ${PROJECT_SOURCE_DIR}/src/PvlGroup.cpp
                      ${PROJECT_SOURCE_DIR}/src/PvlKeyword.cpp
                      ${PROJECT_SOURCE_DIR}/src/PvlObject.cpp
-                     ${PROJECT_SOURCE_DIR}/src/PvlSequence.cpp)
+                     ${PROJECT_SOURCE_DIR}/src/PvlSequence.cpp
+                     ${PROJECT_SOURCE_DIR}/src/Table.cpp)
 # Define a target
 add_library(core SHARED "${Pvl_source_files}")
 
