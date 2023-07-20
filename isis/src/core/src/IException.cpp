@@ -487,8 +487,6 @@ namespace Isis {
       bool exceptionIsBlank = true;
       PvlGroup errGroup("Error");
 
-      //errGroup += PvlKeyword("Program", Application::Name());
-
       if (exception.m_errorType != Unknown) {
         errGroup += PvlKeyword("Class",
                                errorTypeToString(exception.m_errorType));
