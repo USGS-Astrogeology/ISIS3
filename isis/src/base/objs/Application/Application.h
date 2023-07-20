@@ -113,6 +113,7 @@ namespace Isis {
       static void GuiLog(const PvlGroup &results);
       static void GuiLog(const QString &results);
       static QString Name();
+      static QString formatError(IException &e);
 
       static bool p_applicationForceGuiApp;
 

@@ -14,8 +14,6 @@ find files of those names at the top level of this repository. **/
 extern int errno;
 
 #include <fstream>
-//#include <stdlib.h>
-//#include <QString>
 
 #include <iostream>
 #include <sstream>
@@ -28,12 +26,9 @@ extern int errno;
 #include <QTime>
 
 #include "Application.h"
-#include "Constants.h"    //is this still used in this class?
-#include "CubeManager.h"
 #include "FileName.h"
 #include "IException.h"
 #include "IString.h"
-#include "Gui.h"  //is this still used?
 #include "Message.h"
 #include "Preference.h"
 #include "ProgramLauncher.h"
@@ -625,6 +620,12 @@ namespace Isis {
    */
   int Application::FunctionError(IException &e) {
     Pvl errors = e.toPvl();
+    for (int i = 0; i < errors.groups(); i++) {
+      PvlGroup &group = errors.group(i);
+      if (group.isNamed("Error")) {
+        group += PvlKeyword("Program", Application::Name());
+      }
+    }
     SessionLog::TheLog().AddError(errors);
     SessionLog::TheLog().Write();
 
@@ -632,13 +633,13 @@ namespace Isis {
       SendParentErrors(errors);
     }
     else if (p_ui->IsInteractive()) {
-      p_ui->TheGui()->LoadMessage(e.toString());
+      p_ui->TheGui()->LoadMessage(Application::formatError(e));
     }
     else if (SessionLog::TheLog().TerminalOutput()) {
       cerr << SessionLog::TheLog() << endl;
     }
     else {
-      cerr << e.toString() << endl;
+      cerr << Application::formatError(e) << endl;
     }
 
     // If debugging flag on write debugging log
@@ -706,7 +707,7 @@ namespace Isis {
    * @param e The Isis::iException
    */
   void Application::GuiReportError(IException &e) {
-    QString errorMessage = e.toString();
+    QString errorMessage = Application::formatError(e);
     if (errorMessage == "") {
       p_ui->TheGui()->ProgressText("Stopped");
     }
@@ -717,6 +718,29 @@ namespace Isis {
 
     if (p_ui->TheGui()->ShowWarning())
       exit(0);
+  }
+
+  QString Application::formatError(IException &e) {
+    stringstream stringStream;
+    QString stringErrors = e.toString(Preference::Preferences().reportFileLine());
+
+    if (Preference::Preferences().outputErrorAsPvl()) {
+      stringStream << stringErrors;
+      Pvl errors;
+      stringStream >> errors;
+      for (int i = 0; i < errors.groups(); i++) {
+        PvlGroup &group = errors.group(i);
+        if (group.isNamed("Error")) {
+          group += PvlKeyword("Program", Application::Name());
+        }
+      }
+      stringStream.str(std::string());
+      stringStream.clear();
+      stringStream << errors;
+      stringErrors = stringStream.str().c_str();
+    }
+
+    return stringErrors;
   }
 
   QString Application::p_appName("Unknown"); //!<
