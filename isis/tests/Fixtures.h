@@ -36,7 +36,7 @@ class TgoCassisModuleKernels : public ::testing::Test {
 
     QString binaryCkKernelsAsString;
     QString binarySpkKernelsAsString;
-};
+  };
 
 
 class HistoryBlob : public TempTestingFiles {
@@ -45,20 +45,6 @@ class HistoryBlob : public TempTestingFiles {
     PvlObject historyPvl;
 
     void SetUp() override;
-};
-
-class RawPvlKeywords : public ::testing::Test {
-  protected:
-    // You can define per-test set-up logic as usual.
-    void SetUp() override;
-
-    // You can define per-test tear-down logic as usual.
-    void TearDown() override;
-
-    
-    std::vector<QString> keywordsToTry;
-    std::vector<PvlKeyword> results;
-    std::vector<bool> valid;
   };
 }
 
