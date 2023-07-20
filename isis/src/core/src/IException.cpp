@@ -16,7 +16,6 @@ find files of those names at the top level of this repository. **/
 
 #include <QList>
 
-//#include "Application.h"
 #include "Preference.h"
 #include "Pvl.h"
 
@@ -641,35 +640,6 @@ namespace Isis {
 
 
   /**
-<<<<<<< HEAD:isis/src/base/objs/IException/IException.cpp
-=======
-   * Returns an IException representing the current stack, excluding this
-   * method.
-   *
-   * @return an IException representing a current stack trace
-   */
-   /*
-    IException IException::createStackTrace() {
-    vector<string> theStack;
-    StackTrace::GetStackTrace(&theStack);
-    QString message;
-
-    for(unsigned int i = 1; i < theStack.size(); i++) {
-      message += (theStack[i] + "\n").c_str();
-    }
-
-    IException result;
-    if (theStack.size() != 0) {
-      result = IException(Unknown, message, NULL, -1);
-    }
-
-    return result;
-  }
-  */
-
-
-  /**
->>>>>>> fc0563741 (Initial move to core):isis/src/core/IException/IException.cpp
    * Returns the source of the error in string format for the given ErrorType.
    *
    * @param type the ErrorType enum to convert to a string
