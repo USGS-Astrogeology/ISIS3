@@ -2,7 +2,6 @@
 #include "PvlSequence.h"
 #include "IException.h"
 
-#include "TestUtilities.h"
 #include "Fixtures.h"
 
 #include <QString>
@@ -13,6 +12,7 @@
 #include <fstream>
 #include <stdlib.h>
 
+#include "gmock/gmock.h"
 #include <gtest/gtest.h>
 
 #include <nlohmann/json.hpp>

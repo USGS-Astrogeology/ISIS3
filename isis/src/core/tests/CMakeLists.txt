@@ -7,6 +7,7 @@ include(GoogleTest)
 
 set(test_source ${PROJECT_SOURCE_DIR}/tests/ConstantsTests.cpp
                 ${PROJECT_SOURCE_DIR}/tests/IsisCoreTestMain.cpp
+                ${PROJECT_SOURCE_DIR}/tests/PvlKeywordTests.cpp
                 ${PROJECT_SOURCE_DIR}/tests/TableTests.cpp)
 
 # Link runISISTests with what we want to test and the GTest and pthread library

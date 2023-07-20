@@ -10,7 +10,6 @@ set(unitTestClasses "Blob"
                     "PvlFormat"
                     "PvlFormatPds"
                     "PvlGroup"
-                    "PvlKeyword"
                     "PvlSequence"
                     "TableField"
                     "TableRecord")
