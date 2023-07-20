@@ -6,7 +6,6 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <iostream>
 
-#include "Buffer.h"
 #include "IException.h"
 #include "Preference.h"
 #include "PvlGroup.h"
