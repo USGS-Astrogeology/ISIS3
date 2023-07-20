@@ -1,10 +1,12 @@
 #include "Blob.h"
-#include "TempFixtures.h"
 #include "Table.h"
 #include "TableField.h"
 #include "TableRecord.h"
+#include "IException.h"
 
 #include "gmock/gmock.h"
+
+#include <QTemporaryDir>
 
 using namespace Isis;
 
@@ -116,6 +118,24 @@ TEST(TableTests, AddingRecords) {
 
   ASSERT_EQ(t.Records(), 2);
   EXPECT_EQ(TableRecord::toString(t[1]).toStdString(), TableRecord::toString(rec).toStdString());
+
+  TableField f5("Column1", TableField::Integer);
+  TableField f6("Column2", TableField::Double);
+  TableField f7("Column3", TableField::Text, 10);
+  TableField f8("Column4", TableField::Integer);
+  TableRecord rec2;
+  rec2 += f5;
+  rec2 += f6;
+  rec2 += f7;
+  rec2 += f8;
+  try {
+    t += rec2;
+    FAIL() << "Expected an exception to be thrown";
+  }
+  catch(Isis::IException &e) {
+    EXPECT_TRUE(e.toString().toLatin1().contains("Unable to add the given record with size"))
+      << e.toString().toStdString();
+  }
 }
 
 
