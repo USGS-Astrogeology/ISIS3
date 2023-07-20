@@ -124,6 +124,35 @@ namespace Isis {
     return *p_preference;
   }
 
+  bool Preference::outputErrorAsPvl() {
+    bool usePvlFormat = false;
+    try {
+      PvlGroup &errorFacility = this->findGroup("ErrorFacility");
+      if (errorFacility.hasKeyword("Format")) {
+        QString format = errorFacility["Format"][0];
+        usePvlFormat = (format.toUpper() == "PVL");
+      }
+    }
+    catch (IException &e) {
+      // If we failed we likely don't have an ErrorFacility group
+    }
+    return usePvlFormat;
+  }
+
+  bool Preference::reportFileLine() {
+    bool reportFileLine = true;
+
+    if (this->hasGroup("ErrorFacility")) {
+      PvlGroup &errorFacility = this->findGroup("ErrorFacility");
+      if (errorFacility.hasKeyword("FileLine")) {
+        QString fileLine = errorFacility["FileLine"][0];
+        reportFileLine = (fileLine.toUpper() == "ON");
+      }
+    }
+
+    return reportFileLine;
+  }
+
   void Preference::Shutdown() {
     if(p_preference) {
       delete p_preference;
