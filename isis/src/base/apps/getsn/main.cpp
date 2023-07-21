@@ -21,14 +21,14 @@ using namespace std;
 void IsisMain() {
 
   // Set Preferences to always turn off Terminal Output
-  // PvlGroup &grp = Isis::Preference::Preferences().findGroup("SessionLog", Isis::Pvl::Traverse);
-  // grp["TerminalOutput"].setValue("Off");
+  PvlGroup &grp = Isis::Preference::Preferences().findGroup("SessionLog", Isis::Pvl::Traverse);
+  grp["TerminalOutput"].setValue("Off");
 
   UserInterface &ui = Application::GetUserInterface();
   Pvl appLog;
 
   getsn(ui, &appLog);
 
-  // PvlGroup results = appLog.findGroup("Results");
-  // SessionLog::TheLog().AddResults(results);
+  PvlGroup results = appLog.findGroup("Results");
+  SessionLog::TheLog().AddResults(results);
 }
