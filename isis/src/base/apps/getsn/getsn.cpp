@@ -89,13 +89,6 @@ namespace Isis {
 	cout << sn[i][0] << endl;
       }
     }
-    Application::Log(sn);
-
-    // if (ui.IsInteractive()) {
-    //   log->addLogGroup(sn);
-    // }
-    // else {
-    //   log->addGroup(sn);
-    // }
+    Application::AppendAndLog(sn, log);
   }
 }

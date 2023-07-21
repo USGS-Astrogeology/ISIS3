@@ -372,7 +372,7 @@ namespace Isis {
       g_in = NULL;
 
       // Write the results to the log
-      Application::Log(results);
+      Application::AppendAndLog(results, log);
 
       // Unfurnishes kernel files to prevent file table overflow
       NaifStatus::CheckErrors();

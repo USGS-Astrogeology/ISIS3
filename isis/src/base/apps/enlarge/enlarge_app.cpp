@@ -95,7 +95,7 @@ namespace Isis{
     delete interp;
 
     // Write the results to the log
-    Application::Log(resultsGrp);
+    Application::AppendAndLog(resultsGrp, log);
   }
 }
 

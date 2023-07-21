@@ -458,7 +458,7 @@ namespace Isis {
        "----------------------------------------" << endl << endl;
     QString logstr = ss.str().c_str();
 
-    Application::Log(results);
+    Application::AppendAndLog(results, log);
 
     if (!ui.IsInteractive()) {
       std::cout << ss.str();

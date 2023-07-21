@@ -399,7 +399,7 @@ namespace Isis {
     outProgress.CheckStatus();
 
     // Log Control Net results
-    Application::Log(summary);
+    Application::AppendAndLog(summary, log);
 
     outProgress.CheckStatus();
 
@@ -503,7 +503,7 @@ namespace Isis {
         results.addComment("Each keyword represents a filter parameter used. "
                            "Check the documentation for specific keyword descriptions.");
       }
-    Application::Log(results);
+      Application::AppendAndLog(results, log);
 
 
       resultsProgress.CheckStatus();

@@ -79,7 +79,7 @@ namespace Isis {
       if (!m.StartProcess(list[i].toString())) {
         PvlGroup outsiders("Outside");
         outsiders += PvlKeyword("File", list[i].toString());
-        Application::Log(outsiders);
+        Application::AppendAndLog(outsiders, log);
       }
       else {
         mosaicCreated = true;
@@ -94,7 +94,7 @@ namespace Isis {
     }
     // Logs the input file location in the mosaic
     for (int i = 0; i < m.imagePositions().groups(); i++) {
-      Application::Log(m.imagePositions().group(i));
+      Application::AppendAndLog(m.imagePositions().group(i), log);
     }
 
     if(olistFlag) {

@@ -383,6 +383,21 @@ namespace Isis {
   }
 
   /**
+   * Writes the pvl group results to both a passed in Pvl log and
+   * the applications log (either GUI or command line)
+   *
+   * @param results Pvl containing the results to add to the session log
+   * @param log App log for running in code
+   *
+   */
+  void Application::AppendAndLog(PvlGroup &results, Pvl *log) {
+    Application::Log(results);
+    if (log) {
+      log->addGroup(results);
+    }
+  }
+
+  /**
    * Writes the Pvl results to the sessionlog, but not to the printfile
    *
    * @param results Pvl containing the results to add to the session log

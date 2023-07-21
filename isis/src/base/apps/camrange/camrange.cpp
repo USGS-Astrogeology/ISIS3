@@ -99,13 +99,13 @@ namespace Isis {
     neg180 += PvlKeyword("MinimumLongitude", toString(minlon));
     neg180 += PvlKeyword("MaximumLongitude", toString(maxlon));
 
-    Application::Log(target);
-    Application::Log(res);
-    Application::Log(ugr);
-    Application::Log(ogr);
-    Application::Log(pos360);
-    Application::Log(pos180);
-    Application::Log(neg180);
+    Application::AppendAndLog(target, log);
+    Application::AppendAndLog(res, log);
+    Application::AppendAndLog(ugr, log);
+    Application::AppendAndLog(ogr, log);
+    Application::AppendAndLog(pos360, log);
+    Application::AppendAndLog(pos180, log);
+    Application::AppendAndLog(neg180, log);
 
     // Write the log->file if requested
     if(ui.WasEntered("TO")) {

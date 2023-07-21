@@ -245,7 +245,7 @@ namespace Isis {
       }
     }
 
-    Application::Log(brief);
+    Application::AppendAndLog(brief, log);
 
     //Log the ERRORS file
     if (ui.WasEntered("ERRORS")) {
@@ -261,7 +261,7 @@ namespace Isis {
       PvlGroup grp("OverlapStats");
       PvlKeyword key("ErrorNumber", toString(errorNum));
       grp.addKeyword(key);
-      Application::Log(grp);
+      Application::AppendAndLog(grp, log);
     }
 
     // Display FULL output
@@ -277,7 +277,7 @@ namespace Isis {
       }
     }
 
-    Application::Log(brief);
+    Application::AppendAndLog(brief, log);
   }
 
 

@@ -42,7 +42,7 @@ void mappt(Cube *icube, UserInterface &ui, Pvl *log, CubeAttributeInput* inAtt) 
   if(log) {
     for(int i = 0; i < points.size(); i++) {
       PvlGroup g = getProjPointInfo(icube, points[i], ui, log);
-      Application::Log(g);
+      Application::AppendAndLog(g, log);
     } 
   }
 

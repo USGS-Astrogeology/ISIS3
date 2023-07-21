@@ -128,7 +128,7 @@ namespace Isis {
                               + "Previous value [" + QString::fromStdString(dataSource["ExtraPvl"][element.key()].dump())
                               + "] will be overwritten.";
               duplicateWarnings += PvlKeyword("Duplicate", message);
-              Application::Log(duplicateWarnings);
+              Application::AppendAndLog(duplicateWarnings, log);
             }
           }
         }
@@ -151,7 +151,7 @@ namespace Isis {
                               + "Previous value [" + QString::fromStdString(dataSource["ExtraXml"][element.key()].dump())
                               + "] will be overwritten.";
               duplicateWarnings += PvlKeyword("Duplicate", message);
-              Application::Log(duplicateWarnings);
+              Application::AppendAndLog(duplicateWarnings, log);
             }
           }
         }
@@ -175,7 +175,7 @@ namespace Isis {
                               + "Previous value [" + QString::fromStdString(dataSource["ExtraJson"][element.key()].dump())
                               + "] will be overwritten.";
               duplicateWarnings += PvlKeyword("Duplicate", message);
-              Application::Log(duplicateWarnings);
+              Application::AppendAndLog(duplicateWarnings, log);
             }
           }
         }
