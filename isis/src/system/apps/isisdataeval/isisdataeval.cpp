@@ -72,7 +72,7 @@ namespace Isis {
   /** Add log Group to log file and console for backward compatability */
   inline void db_addLogGroup( Pvl *log, PvlGroup &group ) {
     // Report translations...
-    Application::AppendAndLog( group );
+    Application::AppendAndLog( group, log );
     return;
   }
 
