@@ -53,7 +53,7 @@ namespace Isis {
     // Send the Output to the log area
     Pvl statsPvl = camStats.toPvl();
     for (int i = 0; i < statsPvl.groups(); i++) {
-      Application::AppendAndLog(statsPvl.group(i));
+      Application::AppendAndLog(statsPvl.group(i), log);
     }
 
     if(ui.WasEntered("TO")) {
