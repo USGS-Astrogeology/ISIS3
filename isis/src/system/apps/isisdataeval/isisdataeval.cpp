@@ -69,13 +69,6 @@ namespace Isis {
   };
   typedef struct validation_counts ValidationCounts;
 
-  /** Add log Group to log file and console for backward compatability */
-  inline void db_addLogGroup( Pvl *log, PvlGroup &group ) {
-    // Report translations...
-    Application::AppendAndLog( group, log );
-    return;
-  }
-
   /** Report evaluation data consistently */
   inline void report_issues( std::ostream &db_os,
                              const Data::DBFileDispositionList &db_status,
@@ -152,8 +145,7 @@ namespace Isis {
     }
 
     // Report translations...
-    // pvl->addLogGroup( prefdir );
-    Application::Log(prefdir);
+    Application::AppendAndLog( prefdir, log);
 
     //*******************************************************************
     // Process DATADIR which will collect the inventory and evaluate
@@ -420,8 +412,7 @@ namespace Isis {
     }
 
     // Final log
-    // pvl->addLogGroup( results );
-    Application::Log(results);
+    Application::AppendAndLog( results, log );
 
     eval_proc.Finalize();
     return;
