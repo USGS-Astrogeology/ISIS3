@@ -18,7 +18,7 @@
 #       A Public Release for ISIS3.6.1:                        {% set version = "3.6.1" %}
 #       A Release Candidate for ISIS3.6.1:                     {% set version = "3.6.1_RC" %}
 #       A custom build of ISIS3.6.1 for the CaSSIS mission:    {% set version = "3.6.1_cassis" %}
-{% set version = "5.1.0" %}
+{% set version = "0.0.1" %}
 
 # This is the build number for the current version you are building. If this is the first build of
 # this version, the build number will be 0. It is incremented by 1 with every consecutive build of
@@ -49,7 +49,7 @@ requirements:
     - ninja
     - nlohmann_json
     - python
-    - qt >=5.9.6
+    - qt >=5.9.6,<5.15.0
     - swig
   run:
     - nlohmann_json
