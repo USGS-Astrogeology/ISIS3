@@ -18,6 +18,7 @@ find files of those names at the top level of this repository. **/
 #include <QTemporaryFile>
 
 #include "Preference.h"
+#include "PvlGroup.h"
 #include "IException.h"
 #include "IString.h"
 
@@ -843,6 +844,10 @@ namespace Isis {
 
     int varSearchStartPos = 0;
     int varStartPos = -1;
+    if(Preference::Preferences().hasGroup("DataDirectory")) {
+      PvlGroup &testing = Preference::Preferences().findGroup("DataDirectory");
+      cout << testing << endl;
+    }
     // Loop while there are any "$" at the current position or after
     // Some "$" might be skipped if no translation can be found
     while((varStartPos = expandedStr.indexOf("$", varSearchStartPos)) != -1) {
@@ -886,6 +891,7 @@ namespace Isis {
           }
         }
       }
+      cout << expandedStr << endl;
 
       if (variableValid) {
         // We could expand multiple times...
