@@ -1,4 +1,4 @@
-%module(package="isispvl") PvlKeyword
+%module(package="isisio") PvlKeyword
 %{
     #include "PvlKeyword.h"
 %}
@@ -16,9 +16,8 @@
   }
 
   PvlKeyword(const char* key, const char* val) {
-            QString qkey(key);
-            QString qval(val);
-            Isis::PvlKeyword *kw = new Isis::PvlKeyword(qkey, qval);
+            Isis::PvlKeyword *kw = new Isis::PvlKeyword(key, val);
             return kw;
   }
 }
+
