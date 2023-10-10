@@ -26,7 +26,7 @@
 {% set build_number = "0" %}
 
 package:
-  name: isisio
+  name: isiscore
   version: {{ version }}
 
 source:
@@ -46,6 +46,7 @@ build:
 requirements:
   build:
     - cmake >=3.15
+    - cxx-compiler=1.1.2
     - ninja
     - nlohmann_json
     - python
