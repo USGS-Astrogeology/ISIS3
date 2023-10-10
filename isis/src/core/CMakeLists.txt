@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project (core VERSION 0.0.1)
+project (core VERSION 1.0.0)
 option(buildStaticCore "Build libisis static as well as dynamic"        OFF )
 option (BUILD_TESTS "Build core module tests" ON)
 option(ISIS_BUILD_SWIG "Turn on to build swig wrappers"                 OFF )
