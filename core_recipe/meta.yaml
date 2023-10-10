@@ -47,12 +47,14 @@ requirements:
   build:
     - cmake >=3.15
     - cxx-compiler=1.1.2
+    - mesalib
     - ninja
     - nlohmann_json
     - python
     - qt >=5.9.6,<5.15.0
     - swig
   run:
+    - mesalib
     - nlohmann_json
     - {{ pin_compatible('qt', max_pin='x.x') }}
 
