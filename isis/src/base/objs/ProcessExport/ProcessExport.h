@@ -17,7 +17,7 @@ find files of those names at the top level of this repository. **/
 
 #include "Buffer.h"
 #include "BufferManager.h"
-#include "Endian.h"
+#include "IEndian.h"
 #include "EndianSwapper.h"
 #include "SpecialPixel.h"
 #include "Stretch.h"
