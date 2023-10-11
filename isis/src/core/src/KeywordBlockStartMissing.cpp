@@ -9,6 +9,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordBlockStartMissing(const QString &block, const QString &found) {
+std::string Isis::Message::KeywordBlockStartMissing(const std::string block, const std::string found) {
   return "Expecting start of keyword block [" + block + "] but found [" + found + "]";
 }

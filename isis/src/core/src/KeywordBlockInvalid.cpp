@@ -9,6 +9,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordBlockInvalid(const QString &block) {
+std::string Isis::Message::KeywordBlockInvalid(const std::string block) {
   return "Keyword block [" + block + "] is invalid";
 }

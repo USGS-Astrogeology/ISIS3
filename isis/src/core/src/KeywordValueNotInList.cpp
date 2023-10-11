@@ -9,9 +9,9 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordValueNotInList(const QString &key, const QString &value,
-                                             const vector<QString> &list) {
-  QString message;
+std::string Isis::Message::KeywordValueNotInList(const std::string key, const std::string value,
+                                             const vector<std::string> &list) {
+  std::string message;
   message = "Keyword [" + key + "=" + value + "] must be one of [";
   for(unsigned int i = 0; i < list.size(); i++) {
     message += list[i];

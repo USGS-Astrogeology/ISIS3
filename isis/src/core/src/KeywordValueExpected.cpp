@@ -9,6 +9,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordValueExpected(const QString &key) {
+std::string Isis::Message::KeywordValueExpected(const std::string key) {
   return "Keyword value for [" + key + "] expected but was not found";
 }

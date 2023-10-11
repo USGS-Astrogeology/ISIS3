@@ -9,6 +9,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordDuplicated(const QString &key) {
+std::string Isis::Message::KeywordDuplicated(const std::string key) {
   return "Keyword [" + key + "] duplicated";
 }

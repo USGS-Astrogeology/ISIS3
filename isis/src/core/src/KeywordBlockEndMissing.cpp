@@ -8,6 +8,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordBlockEndMissing(const QString &block, const QString &found) {
+std::string Isis::Message::KeywordBlockEndMissing(const std::string block, const std::string found) {
   return "Expecting end of keyword block [" + block + "] but found [" + found + "]";
 }

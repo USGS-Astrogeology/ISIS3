@@ -9,6 +9,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordValueNotInRange(const QString &key, const QString &value, const QString &range) {
+std::string Isis::Message::KeywordValueNotInRange(const std::string key, const std::string value, const std::string range) {
   return "Keyword [" + key + "=" + value + "] is not in the range of " + range;
 }

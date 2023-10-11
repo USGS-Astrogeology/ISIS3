@@ -72,7 +72,7 @@ int main(void) {
   cout << Message::KeywordValueNotInRange("KEY", "0", "(0,20]")
        << endl;
 
-  vector<QString> list;
+  vector<std::string> list;
   list.push_back("X");
   list.push_back("Y");
   list.push_back("Z");

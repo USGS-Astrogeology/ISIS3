@@ -9,6 +9,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordNotArray(const QString &key) {
+std::string Isis::Message::KeywordNotArray(const std::string key) {
   return "Keyword [" + key + "] is not an array";
 }

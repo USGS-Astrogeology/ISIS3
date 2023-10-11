@@ -138,7 +138,7 @@ namespace Isis {
           ParseCommaList(t, s);
         }
         catch(IException &e) {
-          QString message = Isis::Message::KeywordValueBad(t.key());
+          std::string message = Isis::Message::KeywordValueBad(t.key().toStdString());
           throw IException(e, IException::Unknown, message, _FILEINFO_);
         }
         tokens.push_back(t);
@@ -152,7 +152,7 @@ namespace Isis {
           ParseCommaList(t, s);
         }
         catch(IException &e) {
-          QString message = Isis::Message::KeywordValueBad(t.key());
+          std::string message = Isis::Message::KeywordValueBad(t.key().toStdString());
           throw IException(e, IException::Unknown, message, _FILEINFO_);
         }
         tokens.push_back(t);
@@ -165,7 +165,7 @@ namespace Isis {
           s = ReadToDoubleQuote(stream);
         }
         catch(IException &e) {
-          QString message = Isis::Message::KeywordValueBad(t.key());
+          std::string message = Isis::Message::KeywordValueBad(t.key().toStdString());
           throw IException(e, IException::Unknown, message, _FILEINFO_);
         }
         t.addValue(s);
@@ -179,7 +179,7 @@ namespace Isis {
           s = ReadToSingleQuote(stream);
         }
         catch(IException &e) {
-          QString message = Isis::Message::KeywordValueBad(t.key());
+          std::string message = Isis::Message::KeywordValueBad(t.key().toStdString());
           throw IException(IException::Unknown, message, _FILEINFO_);
         }
         t.addValue(s);

@@ -94,7 +94,7 @@ namespace Isis {
    */
   QString PvlToken::value(const int index) const {
     if((index < 0) || (index >= (int) m_value.size())) {
-      QString message = Isis::Message::ArraySubscriptNotInRange(index);
+      std::string message = Isis::Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
     return m_value[index];
@@ -111,7 +111,7 @@ namespace Isis {
    */
   QString PvlToken::valueUpper(int index) const {
     if((index < 0) || (index >= (int) m_value.size())) {
-      QString message = Isis::Message::ArraySubscriptNotInRange(index);
+      std::string message = Isis::Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
 

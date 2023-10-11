@@ -8,6 +8,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordAmbiguous(const QString &key) {
+std::string Isis::Message::KeywordAmbiguous(const std::string key) {
   return "Keyword [" + key + "] ambiguous";
 }

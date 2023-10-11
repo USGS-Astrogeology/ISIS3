@@ -36,10 +36,10 @@ namespace Isis {
      *
      * @param key - The name of the keyword which is ambiguous
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordAmbiguous(const QString &key);
+    std::string KeywordAmbiguous(const std::string key);
 
     /**
      * This error should be used when a supplied keyword for an Isis application
@@ -47,10 +47,10 @@ namespace Isis {
      *
      * @param key - The name of the keyword which is unrecognized
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordUnrecognized(const QString &key);
+    std::string KeywordUnrecognized(const std::string key);
 
     /**
      * This error should be used when a supplied keyword for an Isis application
@@ -58,10 +58,10 @@ namespace Isis {
      *
      * @param key - The name of the keyword which has been duplicated
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordDuplicated(const QString &key);
+    std::string KeywordDuplicated(const std::string key);
 
     /**
      * This error should be used when a supplied keyword is being used as an
@@ -69,10 +69,10 @@ namespace Isis {
      *
      * @param key - The name of the keyword which is not an array
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordNotArray(const QString &key);
+    std::string KeywordNotArray(const std::string key);
 
     /**
      * This error should be used when a supplied keyword is not defined in the
@@ -80,42 +80,42 @@ namespace Isis {
      *
      * @param key - The name of the keyword which was not found
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordNotFound(const QString &key);
+    std::string KeywordNotFound(const std::string key);
 
     /**
      * This error has been deprecated and should not be used in new code.
      *
      * @param block - The name of the invalid keyword block
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordBlockInvalid(const QString &block);
+    std::string KeywordBlockInvalid(const std::string block);
 
     /**
      * This error has been deprecated and should not be used in new code.
      *
      * @param block - The name of the block with the missing start tag
-     * @param found - The QString found in the place of the missing block start
+     * @param found - The std::string found in the place of the missing block start
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordBlockStartMissing(const QString &block, const QString &found);
+    std::string KeywordBlockStartMissing(const std::string block, const std::string found);
 
     /**
      * This error has been deprecated and should not be used in new code.
      *
      * @param block - The name of the block with the missing end tag
-     * @param found - The QString found in the place of the missing block end
+     * @param found - The std::string found in the place of the missing block end
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordBlockEndMissing(const QString &block, const QString &found);
+    std::string KeywordBlockEndMissing(const std::string block, const std::string found);
 
     /**
      * This error should be used when a supplied keyword does not appear in
@@ -123,10 +123,10 @@ namespace Isis {
      *
      * @param key - The name of the keyword which is bad
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordValueBad(const QString &key);
+    std::string KeywordValueBad(const std::string key);
 
     /**
      * This error should be used when the value of a supplied keyword is
@@ -135,10 +135,10 @@ namespace Isis {
      * @param key - The keyword name which is bad
      * @param value - The value of the keyword which is bad
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordValueBad(const QString &key, const QString &value);
+    std::string KeywordValueBad(const std::string key, const std::string value);
 
     /**
      * This error should be used when the value of a supplied keyword was
@@ -146,10 +146,10 @@ namespace Isis {
      *
      * @param key - The keyword name which is bad
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordValueExpected(const QString &key);
+    std::string KeywordValueExpected(const std::string key);
 
     /**
      * This error should be used when the value of a supplied keyword is
@@ -160,11 +160,11 @@ namespace Isis {
      * @param range - The minimum and maximum allowed values for the keyword
      *                formatted and inserted into a QString
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordValueNotInRange(const QString &key, const QString &value,
-                                  const QString &range);
+    std::string KeywordValueNotInRange(const std::string key, const std::string value,
+                                  const std::string range);
 
     /**
      * This error should be used when the value of a supplied keyword is
@@ -174,11 +174,11 @@ namespace Isis {
      * @param value - The value of the keyword
      * @param list - A vector of all the legal values for the keyword
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString KeywordValueNotInList(const QString &key, const QString &value,
-                                  const std::vector<QString> &list);
+    std::string KeywordValueNotInList(const std::string key, const std::string value,
+                                  const std::vector<std::string> &list);
 
     /**
      * This error should be used when a delimiter is missing.

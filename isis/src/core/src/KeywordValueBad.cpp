@@ -8,19 +8,19 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordValueBad(const QString &key) {
+std::string Isis::Message::KeywordValueBad(const std::string key) {
   return "Keyword [" + key + "] has bad value";
 }
 
-QString Isis::Message::KeywordValueBad(const QString &key, const QString &value) {
-  QString message;
+std::string Isis::Message::KeywordValueBad(const std::string key, const std::string value) {
+  std::string message;
 
   message = "Keyword [" + key + "] has bad value [";
   if(value.size() <= 20) {
     message += value + "]";
   }
   else {
-    message += value.mid(0, 20) + " ...]";
+    message += value.substr(0, 20) + " ...]";
   }
   return message;
 }

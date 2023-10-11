@@ -9,6 +9,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::KeywordUnrecognized(const QString &key) {
+std::string Isis::Message::KeywordUnrecognized(const std::string key) {
   return "Keyword [" + key + "] unrecognized";
 }
