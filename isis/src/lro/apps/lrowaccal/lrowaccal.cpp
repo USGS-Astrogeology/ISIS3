@@ -366,11 +366,11 @@ namespace Isis {
           // We're bypassing Buffer::at for speed, so we need to make sure our
           // index will not overrun the buffer
           if(offset + frameSize > g_darkCube1->size()) {
-            QString message = Message::ArraySubscriptNotInRange(offset + frameSize) + " (Dark cube 1)";
+            std::string message = Message::ArraySubscriptNotInRange(offset + frameSize) + " (Dark cube 1)";
             throw IException(IException::Programmer, message, _FILEINFO_);
           }
           if(offset + frameSize > g_darkCube2->size()) {
-            QString message = Message::ArraySubscriptNotInRange(offset + frameSize) + " (Dark cube 2)";
+            std::string message = Message::ArraySubscriptNotInRange(offset + frameSize) + " (Dark cube 2)";
             throw IException(IException::Programmer, message, _FILEINFO_);
           }
 
@@ -424,7 +424,7 @@ namespace Isis {
           // We're bypassing Buffer::at for speed, so we need to make sure our
           // index will not overrun the buffer
           if(offset + frameSize > g_flatCube->size()) {
-            QString message = Message::ArraySubscriptNotInRange(offset + frameSize) + " (Flat-field cube)";
+            std::string message = Message::ArraySubscriptNotInRange(offset + frameSize) + " (Flat-field cube)";
             throw IException(IException::Programmer, message, _FILEINFO_);
           }
 

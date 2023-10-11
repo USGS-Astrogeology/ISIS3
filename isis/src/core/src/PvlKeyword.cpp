@@ -104,7 +104,7 @@ namespace Isis {
   bool PvlKeyword::isNull(int index) const {
     if (size() == 0) return true;
     if (index < 0 || index >= (int)m_values.size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     if (stringEqual("NULL", m_values[index])) return true;
@@ -376,8 +376,8 @@ namespace Isis {
    */
   QString &PvlKeyword::operator[](int index) {
     if (index < 0 || index >= (int)m_values.size()) {
-      QString msg = (Message::ArraySubscriptNotInRange(index)) +
-                   "for Keyword [" + QString(m_name) + "]";
+      std::string msg = (Message::ArraySubscriptNotInRange(index)) +
+                   "for Keyword [" + m_name + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -398,7 +398,7 @@ namespace Isis {
    */
   const QString &PvlKeyword::operator[](int index) const {
     if (index < 0 || index >= (int)m_values.size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return m_values[index];
@@ -417,7 +417,7 @@ namespace Isis {
     if (!m_units) return "";
 
     if (index < 0 || index >= (int)m_units->size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return (*m_units)[index];
@@ -501,7 +501,7 @@ namespace Isis {
     if (!m_comments) return "";
 
     if (index < 0 || index >= (int)m_comments->size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return (*m_comments)[index];
@@ -620,7 +620,7 @@ namespace Isis {
    */
   bool PvlKeyword::isEquivalent(QString QString1, int index) const {
     if (index < 0 || index >= (int)m_values.size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

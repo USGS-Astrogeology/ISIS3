@@ -443,7 +443,7 @@ namespace Isis {
    */
   Isis::PvlGroup &PvlObject::group(const int index) {
     if(index < 0 || index >= (int)m_groups.size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -462,7 +462,7 @@ namespace Isis {
    */
   const Isis::PvlGroup &PvlObject::group(const int index) const {
     if(index < 0 || index >= (int)m_groups.size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -480,7 +480,7 @@ namespace Isis {
    */
   PvlObject &PvlObject::object(const int index) {
     if(index < 0 || index >= (int)m_objects.size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(Isis::IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -498,7 +498,7 @@ namespace Isis {
    */
   const PvlObject &PvlObject::object(const int index) const {
     if(index < 0 || index >= (int)m_objects.size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

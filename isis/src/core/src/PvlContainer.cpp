@@ -171,7 +171,7 @@ namespace Isis {
    */
   PvlKeyword &PvlContainer::operator[](const int index) {
     if(index < 0 || index >= (int)m_keywords.size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return *(m_keywords.begin() + index);
@@ -186,7 +186,7 @@ namespace Isis {
    */
   const Isis::PvlKeyword &PvlContainer::operator[](const int index) const {
     if(index < 0 || index >= (int)m_keywords.size()) {
-      QString msg = Message::ArraySubscriptNotInRange(index);
+      std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return *(m_keywords.begin() + index);

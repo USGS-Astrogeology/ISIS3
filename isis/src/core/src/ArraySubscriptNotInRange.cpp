@@ -22,12 +22,10 @@
  */
 
 #include <sstream>
-
-#include "IString.h"
 #include "Message.h"
 
 using namespace std;
 
-QString Isis::Message::ArraySubscriptNotInRange(int index) {
-  return "Array subscript [" + toString(index) + "] is out of array bounds";
+std::string Isis::Message::ArraySubscriptNotInRange(int index) {
+  return "Array subscript [" + std::to_string(index) + "] is out of array bounds";
 }

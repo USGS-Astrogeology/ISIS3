@@ -197,17 +197,17 @@ namespace Isis {
   int Buffer::Index(const int i_samp, const int i_line, const int i_band)
       const {
     if((i_samp < p_sample) || (i_samp > (p_sample + p_nsamps - 1))) {
-      QString message = Message::ArraySubscriptNotInRange(i_samp);
+      std::string message = Message::ArraySubscriptNotInRange(i_samp);
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
 
     if((i_line < p_line) || (i_line > (p_line + p_nlines - 1))) {
-      QString message = Message::ArraySubscriptNotInRange(i_line);
+      std::string message = Message::ArraySubscriptNotInRange(i_line);
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
 
     if((i_band < p_band) || (i_band > (p_band + p_nbands - 1))) {
-      QString message = Message::ArraySubscriptNotInRange(i_band);
+      std::string message = Message::ArraySubscriptNotInRange(i_band);
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
 
@@ -230,11 +230,11 @@ namespace Isis {
    */
   double Buffer::at(const int index) const {
     if(index < 0) {
-      QString message = Message::ArraySubscriptNotInRange(index);
+      std::string message = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
     else if(index >= p_npixels) {
-      QString message = Message::ArraySubscriptNotInRange(index);
+      std::string message = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
 

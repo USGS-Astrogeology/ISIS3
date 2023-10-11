@@ -24,10 +24,10 @@ namespace Isis {
      *
      * @param index - Array index which is out of bounds
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString ArraySubscriptNotInRange(int index);
+    std::string ArraySubscriptNotInRange(int index);
 
     /**
      * This error should be used when a supplied keyword for an Isis application
