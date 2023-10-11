@@ -13,7 +13,6 @@ find files of those names at the top level of this repository. **/
 #include <QDebug>
 #include <QDir>
 #include <QLocale>
-#include <QPair>
 #include <QString>
 #include <QTemporaryFile>
 
@@ -417,7 +416,7 @@ namespace Isis {
           _FILEINFO_);
     }
 
-    QPair<QString, QString> splitName = splitNameAroundVersionNum();
+    std::pair<QString, QString> splitName = splitNameAroundVersionNum();
     QString &before = splitName.first;
     QString &after = splitName.second;
 
@@ -579,7 +578,7 @@ namespace Isis {
   QDate FileName::highestVersionDate() const {
     QString fileQDatePattern = fileNameQDatePattern();
 
-    QPair<int, int> truncateRange(-1, -1);
+    std::pair<int, int> truncateRange(-1, -1);
     if (fileQDatePattern.contains("?")) {
       QString trueLengthName = name().replace(QRegExp("[{}]"), "");
       truncateRange.first = trueLengthName.indexOf("?");
@@ -644,7 +643,7 @@ namespace Isis {
 
     int width = file.count("?");
 
-    QPair<QString, QString> splitName = splitNameAroundVersionNum();
+    std::pair<QString, QString> splitName = splitNameAroundVersionNum();
     QString &before = splitName.first;
     QString &after = splitName.second;
 
@@ -750,12 +749,12 @@ namespace Isis {
   }
 
   /**
-   * This returns a QPair of the text (before, after) a version number in a file. Before being
+   * This returns a std::pair of the text (before, after) a version number in a file. Before being
    * the text before the version number and after being the text after the version number.
    *
-   * @return QPair
+   * @return std::pair
    */
-  QPair<QString, QString> FileName::splitNameAroundVersionNum() const {
+  std::pair<QString, QString> FileName::splitNameAroundVersionNum() const {
     QString file = FileName(expanded()).name();
     QString before;
     QString after;
@@ -768,7 +767,7 @@ namespace Isis {
       after = file.mid(file.lastIndexOf("?") + 1);
     }
 
-    return QPair<QString, QString>(before, after);
+    return std::pair<QString, QString>(before, after);
   }
 
    /**

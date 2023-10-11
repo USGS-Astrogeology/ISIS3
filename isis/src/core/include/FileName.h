@@ -13,8 +13,6 @@ class QDate;
 class QDir;
 class QString;
 
-template<typename A, typename B> struct QPair;
-
 namespace Isis {
   /**
    * @brief File name manipulation and expansion.
@@ -190,7 +188,7 @@ namespace Isis {
       long highestVersionNum() const;
       void validateVersioningState() const;
       QString fileNameQDatePattern() const;
-      QPair<QString, QString> splitNameAroundVersionNum() const;
+      std::pair<QString, QString> splitNameAroundVersionNum() const;
 
     private:
       /**
