@@ -64,6 +64,7 @@ if(NOT CMAKE_FIND_ANACONDA_PYTHON_INCLUDED)
 
     if( (${_py_version_major} MATCHES 2) OR
         (${_py_version_major} MATCHES 3 AND ${_py_version_minor} MATCHES 8) OR
+        (${_py_version_major} MATCHES 3 AND ${_py_version_minor} MATCHES 9) OR
         (${_py_version_major} MATCHES 3 AND ${_py_version_minor} MATCHES 10) )
       set( _py_ext "")
     else()
