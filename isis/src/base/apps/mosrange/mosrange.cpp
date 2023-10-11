@@ -296,13 +296,8 @@ namespace Isis {
     mapping += PvlKeyword("PreciseMinimumLongitude", toString(longitudeStat.Minimum()));
     mapping += PvlKeyword("PreciseMaximumLongitude", toString(longitudeStat.Maximum()));
 
-<<<<<<< HEAD
-    log.addGroup(mapping);
+    Application::AppendAndLog(mapping, &log);
 
-=======
-    Application::Log(mapping);
-    
->>>>>>> 969487d7d (Fixed app logging for all call able apps)
     // Write the output file if requested
     if(ui.WasEntered("TO")) {
       Pvl temp;
