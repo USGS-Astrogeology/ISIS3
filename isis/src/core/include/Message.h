@@ -188,7 +188,7 @@ namespace Isis {
      * @return QString - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString MissingDelimiter(const char delimiter);
+    std::string MissingDelimiter(const char delimiter);
 
     /**
      * This error should be used when a delimiter is missing.
@@ -199,7 +199,7 @@ namespace Isis {
      * @return QString - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString MissingDelimiter(const char delimiter, const QString &near);
+    std::string MissingDelimiter(const char delimiter, const std::string near);
 
     /**
      * This error should be used when a file could not be opened.

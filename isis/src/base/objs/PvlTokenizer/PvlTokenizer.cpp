@@ -8,6 +8,7 @@ find files of those names at the top level of this repository. **/
 
 #include <sstream>
 #include <fstream>
+#include <regex>
 
 #include <QDebug>
 
@@ -36,18 +37,19 @@ namespace Isis {
   /**
    * Loads the Token list from a stream. The loading will be terminated upon
    * reaching either 1) end-of-stream, or
-   * 2) a programmer specified terminator QString
+   * 2) a programmer specified terminator std::string
    *
    * @param stream The input stream to tokenize
    *
-   * @param terminator If the tokenizer see's this QString as a token in the input
+   * @param terminator If the tokenizer see's this std::string as a token in the input
    *                   stream it will cease tokenizing.  Defaults to "END"
    *
    * @throws Isis::iException::Parse
    */
-  void PvlTokenizer::Load(std::istream &stream, const QString &terminator) {
-    QString upTerminator(terminator.toUpper());
-    QString s;
+  void PvlTokenizer::Load(std::istream &stream, const std::string terminator) {
+    std::string upTerminator(terminator);
+    std::transform(upTerminator.begin(), upTerminator.end(), upTerminator.begin(), ::toupper);
+    std::string s;
     int c;
     bool newlineFound = false;
 
@@ -138,7 +140,7 @@ namespace Isis {
           ParseCommaList(t, s);
         }
         catch(IException &e) {
-          std::string message = Isis::Message::KeywordValueBad(t.key().toStdString());
+          std::string message = Isis::Message::KeywordValueBad(t.key());
           throw IException(e, IException::Unknown, message, _FILEINFO_);
         }
         tokens.push_back(t);
@@ -152,7 +154,7 @@ namespace Isis {
           ParseCommaList(t, s);
         }
         catch(IException &e) {
-          std::string message = Isis::Message::KeywordValueBad(t.key().toStdString());
+          std::string message = Isis::Message::KeywordValueBad(t.key());
           throw IException(e, IException::Unknown, message, _FILEINFO_);
         }
         tokens.push_back(t);
@@ -165,7 +167,7 @@ namespace Isis {
           s = ReadToDoubleQuote(stream);
         }
         catch(IException &e) {
-          std::string message = Isis::Message::KeywordValueBad(t.key().toStdString());
+          std::string message = Isis::Message::KeywordValueBad(t.key());
           throw IException(e, IException::Unknown, message, _FILEINFO_);
         }
         t.addValue(s);
@@ -179,7 +181,7 @@ namespace Isis {
           s = ReadToSingleQuote(stream);
         }
         catch(IException &e) {
-          std::string message = Isis::Message::KeywordValueBad(t.key().toStdString());
+          std::string message = Isis::Message::KeywordValueBad(t.key());
           throw IException(IException::Unknown, message, _FILEINFO_);
         }
         t.addValue(s);
@@ -200,10 +202,10 @@ namespace Isis {
    *
    * @param stream Input stream to read from
    *
-   * @return QString
+   * @return std::string
    */
-  QString PvlTokenizer::ReadComment(std::istream &stream) {
-    QString s;
+  std::string PvlTokenizer::ReadComment(std::istream &stream) {
+    std::string s;
     int c;
 
     c = stream.get();
@@ -228,10 +230,10 @@ namespace Isis {
    *
    * @param stream Input stream to read from
    *
-   * @return QString
+   * @return std::string
    */
-  QString PvlTokenizer::ReadToken(std::istream &stream) {
-    QString s;
+  std::string PvlTokenizer::ReadToken(std::istream &stream) {
+    std::string s;
     int c;
 
     c = stream.get();
@@ -274,15 +276,15 @@ namespace Isis {
   }
 
 
-  QString PvlTokenizer::ReadToDoubleQuote(std::istream &stream) {
-    QString s;
+  std::string PvlTokenizer::ReadToDoubleQuote(std::istream &stream) {
+    std::string s;
     int c;
 
     do {
       c = stream.get();
       ValidateCharacter(c);
       if(c == EOF) {
-        QString message = Isis::Message::MissingDelimiter('"', s);
+        std::string message = Isis::Message::MissingDelimiter('"', s);
         throw IException(IException::Unknown, message, _FILEINFO_);
       }
       else if(c != '"') {
@@ -291,36 +293,43 @@ namespace Isis {
     }
     while(c != '"');
 
-    int pos = s.indexOf(QRegExp("[\\n\\r]"));
+    std::regex re("[\\n\\r]");
+    std::smatch sm; 
+
+    std::regex_match(s, sm, re);
+    int pos = sm.position(1);
     while(pos != -1) {
-      QString first = s.mid(0, pos);
+      std::string first = s.substr(0, pos);
       bool addspace = false;
       if(first[pos-1] == ' ') addspace = true;
-      first = first.remove(QRegExp("[\\s]*$"));
-      QString second = s.mid(pos + 1);
+      std::regex e("[\\s]*$");
+      first = std::regex_replace(first, e, "");
+      std::string second = s.substr(pos + 1);
       if(second[0] == ' ') addspace = true;
       if(second[0] == '\r') addspace = true;
       if(second[0] == '\n') addspace = true;
-      second = second.remove(QRegExp("^[\\s]*"));
+      e = ("^[\\s]*");
+      second = std::regex_replace(second, e, "");
       if(second[0] == ',') addspace = false;
       s = first;
       if(addspace) s += " ";
       s += second;
 
-      pos = s.indexOf(QRegExp("[\\n\\r]"));
+      std::regex_match(s, sm, re);
+      pos = sm.position(1);
     }
     return s;
   }
 
-  QString PvlTokenizer::ReadToSingleQuote(std::istream &stream) {
-    QString s;
+  std::string PvlTokenizer::ReadToSingleQuote(std::istream &stream) {
+    std::string s;
     int c;
 
     do {
       c = stream.get();
       ValidateCharacter(c);
       if(c == EOF) {
-        QString message = Isis::Message::MissingDelimiter('\'', s);
+        std::string message = Isis::Message::MissingDelimiter('\'', s);
         throw IException(IException::Unknown, message, _FILEINFO_);
       }
       else if(c != '\'') {
@@ -329,29 +338,37 @@ namespace Isis {
     }
     while(c != '\'');
 
-    int pos = s.indexOf(QRegExp("[\\n\\r]"));
+    std::regex re("[\\n\\r]");
+    std::smatch sm; 
+
+    std::regex_match(s, sm, re);
+    int pos = sm.position(1);
     while(pos != -1) {
-      QString first = s.mid(0, pos);
+      std::string first = s.substr(0, pos);
       bool addspace = false;
       if(first[pos-1] == ' ') addspace = true;
-      first = first.remove(QRegExp("[\\s]*$"));
-      QString second = s.mid(pos + 1);
+      std::regex e("[\\s]*$");
+      first = std::regex_replace(first, e, "");
+      std::string second = s.substr(pos + 1);
       if(second[0] == ' ') addspace = true;
       if(second[0] == '\r') addspace = true;
       if(second[0] == '\n') addspace = true;
-      second = second.remove(QRegExp("^[\\s]*"));
+      e = ("^[\\s]*");
+      second = std::regex_replace(second, e, "");
       if(second[0] == ',') addspace = false;
       s = first;
       if(addspace) s += " ";
       s += second;
-      pos = s.indexOf(QRegExp("[\\n\\r]"));
+
+      std::regex_match(s, sm, re);
+      pos = sm.position(1);
     }
 
     return s;
   }
 
-  QString PvlTokenizer::ReadToParen(std::istream &stream) {
-    QString s;
+  std::string PvlTokenizer::ReadToParen(std::istream &stream) {
+    std::string s;
     int c;
     int leftParenCount = 1;
 
@@ -359,7 +376,7 @@ namespace Isis {
       c = stream.get();
       ValidateCharacter(c);
       if(c == EOF) {
-        QString message = Isis::Message::MissingDelimiter(')', s);
+        std::string message = Isis::Message::MissingDelimiter(')', s);
         throw IException(IException::Unknown, message, _FILEINFO_);
       }
       else if(c == '"') {
@@ -367,7 +384,7 @@ namespace Isis {
           s += "\"" + ReadToDoubleQuote(stream) + "\"";
         }
         catch(IException &) {
-          QString message = Isis::Message::MissingDelimiter('"', s);
+          std::string message = Isis::Message::MissingDelimiter('"', s);
           throw IException(IException::Unknown, message, _FILEINFO_);
         }
       }
@@ -376,7 +393,7 @@ namespace Isis {
           s += "'" + ReadToSingleQuote(stream) + "'";
         }
         catch(IException &) {
-          QString message = Isis::Message::MissingDelimiter('\'', s);
+          std::string message = Isis::Message::MissingDelimiter('\'', s);
           throw IException(IException::Unknown, message, _FILEINFO_);
         }
       }
@@ -394,8 +411,8 @@ namespace Isis {
     return s;
   }
 
-  QString PvlTokenizer::ReadToBrace(std::istream &stream) {
-    QString s;
+  std::string PvlTokenizer::ReadToBrace(std::istream &stream) {
+    std::string s;
     int c;
     int leftBraceCount = 1;
 
@@ -403,7 +420,7 @@ namespace Isis {
       c = stream.get();
       ValidateCharacter(c);
       if(c == EOF) {
-        QString message = Isis::Message::MissingDelimiter('}', s);
+        std::string message = Isis::Message::MissingDelimiter('}', s);
         throw IException(IException::Unknown, message, _FILEINFO_);
       }
       else if(c == '"') {
@@ -411,7 +428,7 @@ namespace Isis {
           s += "\"" + ReadToDoubleQuote(stream) + "\"";
         }
         catch(IException &e) {
-          QString message = Isis::Message::MissingDelimiter('"', s);
+          std::string message = Isis::Message::MissingDelimiter('"', s);
           throw IException(IException::Unknown, message, _FILEINFO_);
         }
       }
@@ -420,7 +437,7 @@ namespace Isis {
           s += "'" + ReadToSingleQuote(stream) + "'";
         }
         catch(IException &) {
-          QString message = Isis::Message::MissingDelimiter('\'', s);
+          std::string message = Isis::Message::MissingDelimiter('\'', s);
           throw IException(IException::Unknown, message, _FILEINFO_);
         }
       }
@@ -439,17 +456,17 @@ namespace Isis {
   }
 
   /**
-   * This routine parses a QString containing a comma separated list. Each of the
+   * This routine parses a std::string containing a comma separated list. Each of the
    * items in the list is stored as a value in the Token.
    *
    * @param t Token to load the comma separated list
    *
-   * @param cl QString containing comma separated list
+   * @param cl std::string containing comma separated list
    */
-  void PvlTokenizer::ParseCommaList(Isis::PvlToken &t, const QString &cl) {
-    stringstream stream(cl.toLatin1().data());
+  void PvlTokenizer::ParseCommaList(Isis::PvlToken &t, const std::string cl) {
+    stringstream stream(cl);
     int c;
-    QString s;
+    std::string s;
 
     do {
       SkipWhiteSpace(stream);
@@ -499,7 +516,7 @@ namespace Isis {
     if(isspace(c)) return;
     if(c == '\0') return;
 
-    QString message = "ASCII data expected but found unprintable (binary) data";
+    std::string message = "ASCII data expected but found unprintable (binary) data";
     throw IException(IException::Unknown, message, _FILEINFO_);
   }
 } // end namespace isis

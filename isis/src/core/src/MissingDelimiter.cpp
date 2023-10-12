@@ -12,18 +12,20 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::MissingDelimiter(char d) {
-  return "Missing delimiter [" + toString(d) + "]";
+std::string Isis::Message::MissingDelimiter(char d) {
+  std::string del(1, d);
+  return "Missing delimiter [" + del + "]";
 }
 
-QString Isis::Message::MissingDelimiter(char d, const QString &near) {
-  QString message = "Missing delimiter [" + toString(d) + "] at or near [";
+std::string Isis::Message::MissingDelimiter(char d, const std::string near) {
+  std::string del(1, d);
+  std::string message = "Missing delimiter [" + del + "] at or near [";
 
   if(near.size() <= 20) {
     message += near + "]";
   }
   else {
-    message += near.mid(0, 20) + " ...]";
+    message += near.substr(0, 20) + " ...]";
   }
 
   return message;

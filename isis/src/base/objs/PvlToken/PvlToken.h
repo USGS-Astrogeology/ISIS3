@@ -37,27 +37,27 @@ namespace Isis {
 
   class PvlToken {
     private:
-      QString m_key;                 //!< Storage for the keyword name
-      std::vector<QString> m_value;   /**<Vector storage for a list of values.
+      std::string m_key;                 //!< Storage for the keyword name
+      std::vector<std::string> m_value;   /**<Vector storage for a list of values.
                                             See the standard template library
                                             for more information on vectors.*/
 
     public:
-      PvlToken(const QString &k);
+      PvlToken(const std::string k);
       PvlToken();
       ~PvlToken();
 
-      void setKey(const QString &k);
-      QString key() const;
-      QString keyUpper() const;
+      void setKey(const std::string k);
+      std::string key() const;
+      std::string keyUpper() const;
 
-      void addValue(const QString &v);
-      QString value(const int index = 0) const;
-      QString valueUpper(const int index = 0) const;
+      void addValue(const std::string v);
+      std::string value(const int index = 0) const;
+      std::string valueUpper(const int index = 0) const;
       int valueSize() const;
       void valueClear();
 
-      inline const std::vector<QString> &valueVector() const {
+      inline const std::vector<std::string> &valueVector() const {
         return m_value;
       };
   };
