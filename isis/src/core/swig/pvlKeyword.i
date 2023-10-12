@@ -1,4 +1,4 @@
-%module(package="isisio") PvlKeyword
+%module(package="isiscore") PvlKeyword
 %{
     #include "PvlKeyword.h"
 %}

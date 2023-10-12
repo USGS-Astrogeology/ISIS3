@@ -3,8 +3,8 @@ include(FindPythonAnaconda.cmake)
 include_directories(${PYTHON_INCLUDE_DIR})
 
 set(CMAKE_SWIG_FLAGS "")
-set(CMAKE_SWIG_OUTDIR isisio)
-set_source_files_properties(../isisio.i
+set(CMAKE_SWIG_OUTDIR isiscore)
+set_source_files_properties(../isiscore.i
                             PROPERTIES CPLUSPLUS ON SWIG_FLAGS "-py3")
 
 #Find dependencies
@@ -15,20 +15,20 @@ message("-- Found Include: ${INCLUDE_DIR}")
 include_directories(${INCLUDE_DIR})
 
 # Add and link
-swig_add_library(isisio
+swig_add_library(isiscore
                  LANGUAGE python
-                 SOURCES ../isisio.i)
+                 SOURCES ../isiscore.i)
 
-set_target_properties(_isisio PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SWIG_OUTDIR})
+set_target_properties(_isiscore PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SWIG_OUTDIR})
 
 SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 if (APPLE)
-     set_target_properties(_isisio PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+     set_target_properties(_isiscore PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
      # On OSX, do not link python - this causes segfaults
-     swig_link_libraries(isisio core)
+     swig_link_libraries(isiscore core)
 else()
-     swig_link_libraries(isisio core ${PYTHON_LIBRARY})
+     swig_link_libraries(isiscore core ${PYTHON_LIBRARY})
 endif()
 
 # Build out a standard directory structure
@@ -38,7 +38,7 @@ endif()
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in
                ${CMAKE_CURRENT_BINARY_DIR}/setup.py)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/__init__.py
-              ${CMAKE_CURRENT_BINARY_DIR}/isisio/__init__.py
+              ${CMAKE_CURRENT_BINARY_DIR}/isiscore/__init__.py
               COPYONLY)
 
 ## Move the tests

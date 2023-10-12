@@ -2,10 +2,10 @@ import setuptools
 
 if __name__ == '__main__':
     setuptools.setup(
-        name='isisio',
-        version='0.0.1',
-        packages=['isisio'],
-        package_data={'':['_isisio.so']},
+        name='isiscore',
+        version='1.0.0',
+        packages=['isiscore'],
+        package_data={'':['_isiscore.so']},
         zip_safe=False,  # Some OSes can not dynamically load an so from an egg (zipfile)
         license='UnLicense',
         author='arsanders/acpaquette',

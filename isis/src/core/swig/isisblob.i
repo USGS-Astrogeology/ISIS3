@@ -1,4 +1,4 @@
-%module(package="isisio") Blob
+%module(package="isiscore") Blob
 %{
     #include "Blob.h"
 %}
