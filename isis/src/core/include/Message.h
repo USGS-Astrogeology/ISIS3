@@ -245,10 +245,10 @@ namespace Isis {
      * This error should be used when an error accrues during a memory
      * allocation such as "new".
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString MemoryAllocationFailed();
+    std::string MemoryAllocationFailed();
   }
 }
 

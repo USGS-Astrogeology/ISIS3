@@ -9,6 +9,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::MemoryAllocationFailed() {
+std::string Isis::Message::MemoryAllocationFailed() {
   return "Unable to allocate dynamic memory";
 }

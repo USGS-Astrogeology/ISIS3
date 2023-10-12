@@ -361,7 +361,7 @@ namespace Isis {
         p_buf = NULL;
         p_rawbuf = NULL;
       }
-      QString message = Message::MemoryAllocationFailed();
+      std::string message = Message::MemoryAllocationFailed();
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
   }
