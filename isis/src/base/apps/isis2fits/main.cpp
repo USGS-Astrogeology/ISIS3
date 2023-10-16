@@ -12,7 +12,6 @@
 #include "Pvl.h"
 #include "PvlGroup.h"
 #include "PvlKeyword.h"
-#include "PvlSequence.h"
 #include "UserInterface.h"
 
 using namespace std;

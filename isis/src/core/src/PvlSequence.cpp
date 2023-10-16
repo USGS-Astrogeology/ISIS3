@@ -7,8 +7,6 @@ find files of those names at the top level of this repository. **/
 
 #include <sstream>
 
-#include <QString>
-
 #include "PvlSequence.h"
 #include "Pvl.h"
 #include "IString.h"
@@ -24,7 +22,7 @@ namespace Isis {
    */
   PvlSequence &PvlSequence::operator=(PvlKeyword &key) {
     for(int i = 0; i < key.size(); i++) {
-      this->operator+=(key[i]);
+      this->operator+=(key[i].toStdString());
     }
     return *this;
   }
@@ -36,15 +34,15 @@ namespace Isis {
    *
    * @param  array  A string representing an array.
    */
-  PvlSequence &PvlSequence::operator+=(const QString &array) {
+  PvlSequence &PvlSequence::operator+=(const std::string array) {
     std::stringstream str;
     str << "temp = " << array;
     Pvl pvl;
     str >> pvl;
     PvlKeyword &key = pvl["temp"];
-    std::vector<QString> temp;
+    std::vector<std::string> temp;
     for(int i = 0; i < key.size(); i++) {
-      temp.push_back(key[i]);
+      temp.push_back(key[i].toStdString());
     }
     p_sequence.push_back(temp);
     return *this;
@@ -56,8 +54,8 @@ namespace Isis {
    *
    * @param  array  vector of strings
    */
-  PvlSequence &PvlSequence::operator+=(std::vector<QString> &array) {
-    std::vector<QString> temp;
+  PvlSequence &PvlSequence::operator+=(std::vector<std::string> &array) {
+    std::vector<std::string> temp;
     for(int i = 0; i < (int)array.size(); i++) {
       temp.push_back(array[i]);
     }
@@ -72,9 +70,9 @@ namespace Isis {
    * @param  array  vector of integers
    */
   PvlSequence &PvlSequence::operator+=(std::vector<int> &array) {
-    std::vector<QString> temp;
+    std::vector<std::string> temp;
     for(int i = 0; i < (int)array.size(); i++) {
-      temp.push_back(toString(array[i]));
+      temp.push_back(std::to_string(array[i]));
     }
     p_sequence.push_back(temp);
     return *this;
@@ -87,9 +85,9 @@ namespace Isis {
    * @param  array  vector of doubles
    */
   PvlSequence &PvlSequence::operator+=(std::vector<double> &array) {
-    std::vector<QString> temp;
+    std::vector<std::string> temp;
     for(int i = 0; i < (int)array.size(); i++) {
-      temp.push_back(toString(array[i]));
+      temp.push_back(std::to_string(array[i]));
     }
     p_sequence.push_back(temp);
     return *this;

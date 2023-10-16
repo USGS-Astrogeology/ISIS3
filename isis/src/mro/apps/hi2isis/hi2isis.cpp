@@ -144,7 +144,7 @@ namespace Isis {
     // The user wants it unlutted
     else if(ui.GetBoolean("UNLUT")) {
       for(int i = 0; i < lutSeq.Size(); i++) {
-        stretch.AddPair(i, ((toDouble(lutSeq[i][0]) + toDouble(lutSeq[i][1])) / 2.0));
+        stretch.AddPair(i, ((std::stod(lutSeq[i][0]) + std::stod(lutSeq[i][1])) / 2.0));
       }
       instgrp.addKeyword(PvlKeyword("Unlutted", "TRUE"));
       instgrp.deleteKeyword("LookupTable");

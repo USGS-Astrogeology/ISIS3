@@ -8,8 +8,6 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <vector>
 
-#include <QString>
-
 #include "PvlKeyword.h"
 
 namespace Isis {
@@ -53,16 +51,16 @@ namespace Isis {
 
       PvlSequence &operator=(PvlKeyword &key);
 
-      PvlSequence &operator+=(const QString &array);
+      PvlSequence &operator+=(const std::string array);
 
-      PvlSequence &operator+=(std::vector<QString> &array);
+      PvlSequence &operator+=(std::vector<std::string> &array);
 
       PvlSequence &operator+=(std::vector<int> &array);
 
       PvlSequence &operator+=(std::vector<double> &array);
 
       //! Return the ith Array of the sequence
-      std::vector<QString> &operator[](int i) {
+      std::vector<std::string> &operator[](int i) {
         return p_sequence[i];
       };
 
@@ -77,7 +75,7 @@ namespace Isis {
       };
 
     private:
-      std::vector<std::vector<QString> > p_sequence; /**<A vector of Strings
+      std::vector<std::vector<std::string> > p_sequence; /**<A vector of Strings
                                                         that contains the values
                                                         for the keyword. */
 

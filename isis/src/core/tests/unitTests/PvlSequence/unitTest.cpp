@@ -24,11 +24,11 @@ int main(void) {
   PvlSequence seq;
   seq = key;
 
-  seq += QString("(a,b,c)");
-  seq += QString("(d,e)");
-  seq += QString("singleton");
+  seq += "(a,b,c)";
+  seq += "(d,e)";
+  seq += "singleton";
 
-  std::vector<QString> slist;
+  std::vector<std::string> slist;
   slist.push_back("1");
   slist.push_back("2");
   seq += slist;

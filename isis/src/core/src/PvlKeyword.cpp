@@ -285,6 +285,7 @@ namespace Isis {
     }
   }
 
+
   /**
    * Adds a value with units.
    *
@@ -635,10 +636,10 @@ namespace Isis {
   PvlKeyword &PvlKeyword::operator=(Isis::PvlSequence &seq) {
     clear();
     for (int i = 0; i < seq.Size(); i++) {
-      QString temp = "(";
+      std::string temp = "(";
       for (int j = 0; j < (int)seq[i].size(); j++) {
-        QString val = seq[i][j];
-        if (val.contains(" ")) {
+        std::string val = seq[i][j];
+        if (val.find(" ") != std::string::npos) {
           temp += "\"" + val + "\"";
         }
         else {
@@ -647,7 +648,7 @@ namespace Isis {
         if (j < (int) seq[i].size() - 1) temp += ", ";
       }
       temp += ")";
-      this->operator+=(temp);
+      this->operator+=(QString::fromStdString(temp));
     }
 
     return *this;

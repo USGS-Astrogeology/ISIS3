@@ -3,7 +3,6 @@
 #include "Statistics.h"
 #include "Application.h"
 #include "PvlGroup.h"
-#include "PvlSequence.h"
 
 using namespace std;
 using namespace Isis;
