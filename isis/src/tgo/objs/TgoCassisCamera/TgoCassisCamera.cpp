@@ -94,7 +94,7 @@ namespace Isis {
     catch (IException &e) {
       // Set NULL so that cameras destructor wont seg fault trying to delete
       SetDistortionMap(NULL, false);
-      QString msg = "Unable to Create TgoCassisDistortionMap";
+      std::string msg = "Unable to Create TgoCassisDistortionMap";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
     // Setup the ground and sky map

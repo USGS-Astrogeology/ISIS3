@@ -146,7 +146,7 @@ namespace Isis {
     // Jeff and Stuart respond.
 
     if (!m_hasIntersection || !surfaceIntersection()->Valid()) {
-     QString msg = "A valid intersection must be defined before computing the surface normal";
+     std::string msg = "A valid intersection must be defined before computing the surface normal";
       throw IException(IException::Programmer, msg, _FILEINFO_);
    }
 

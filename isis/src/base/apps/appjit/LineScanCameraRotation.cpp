@@ -45,7 +45,7 @@ namespace Isis {
     // Make sure the kernels are written to the labels and not just the tables (blobs)
     Pvl &lab = *cube.label();
     if(!p_spi->hasKernels(lab)) {
-      QString msg = "The master file must contain the kernel files.  Rerun spiceinit with attach=no";
+      std::string msg = "The master file must contain the kernel files.  Rerun spiceinit with attach=no";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -199,7 +199,7 @@ namespace Isis {
 
     // Make sure caches are already loaded
     if(!p_cachesLoaded) {
-      QString msg = "A LineScanCameraRotation cache has not been loaded yet";
+      std::string msg = "A LineScanCameraRotation cache has not been loaded yet";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

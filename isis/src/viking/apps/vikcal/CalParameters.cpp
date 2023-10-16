@@ -161,7 +161,7 @@ namespace Isis {
                      tokens[14] + ".cub";
       return;
     }
-    QString msg = "Could not find match in [vikcal.sav] calibration file";
+    std::string msg = "Could not find match in [vikcal.sav] calibration file";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
@@ -231,7 +231,7 @@ namespace Isis {
       p_normpow = toDouble(tokens[9]);
       return;
     }
-    QString msg = "Could not find match in [viklin.sav] calibration file";
+    std::string msg = "Could not find match in [viklin.sav] calibration file";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
@@ -313,7 +313,7 @@ namespace Isis {
         pp2_off[4] = pp2_off[2] + toDouble(tokens[6]);
       }
       if(frm1 == -1.0 || frm2 == -1.0) {
-        QString msg = "Could not find match in [vikoff.sav] calibration file";
+        std::string msg = "Could not find match in [vikoff.sav] calibration file";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
@@ -358,7 +358,7 @@ namespace Isis {
 
       return;
     }
-    QString msg = "Could not find match in [vikoff.sav] calibration file";
+    std::string msg = "Could not find match in [vikoff.sav] calibration file";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
@@ -398,7 +398,7 @@ namespace Isis {
         NaifStatus::CheckErrors();
       }
       catch(IException &e) {
-        QString msg = "Unable to determine the distance from Mars to the Sun";
+        std::string msg = "Unable to determine the distance from Mars to the Sun";
         throw IException(e, IException::User, msg, _FILEINFO_);
       }
     }

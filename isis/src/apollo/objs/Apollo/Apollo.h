@@ -57,7 +57,7 @@ namespace Isis {
         else if (filename.mid(0,4) == "AS17") spacecraft = "APOLLO 17";
         // throw an error
         else {
-          QString msg = "The image filename does not match the required formatting.";
+          std::string msg = "The image filename does not match the required formatting.";
           throw IException(IException::User,msg,_FILEINFO_);
         }
 
@@ -66,7 +66,7 @@ namespace Isis {
         else if (filename.mid(5,1) == "H") instrument = "HASSELBLAD";
         // throw an error
         else {
-          QString msg = "The image filename does not match the required formatting.";
+          std::string msg = "The image filename does not match the required formatting.";
           throw IException(IException::User,msg,_FILEINFO_);
         }
 

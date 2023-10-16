@@ -65,7 +65,7 @@ void helperButtonGetBlobList() {
     // If we've gone through all objects and found nothing, throw an exception
     if(cnt >= label.objects()) {
       pos = 0;
-      QString msg = "Parameter [FROM] has no blobs.";
+      std::string msg = "Parameter [FROM] has no blobs.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     // When the end of the objects is hit,

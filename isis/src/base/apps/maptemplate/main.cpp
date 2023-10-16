@@ -466,7 +466,7 @@ void addTarget(PvlGroup &mapping) {
         radii = Target::radiiGroup(targetName);
       }
       catch (IException &e) {
-        QString msg = "Unable to find target radii automatically. "
+        std::string msg = "Unable to find target radii automatically. "
                       "User must provide EQRADIUS and POLRADIUS values for this target.";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
@@ -583,7 +583,7 @@ void calcRange(double &minLat, double &maxLat,
         radii = Target::radiiGroup(cubeLab, radii);
       }
       catch (IException &e) {
-        QString msg = "Unable to find target radii automatically. "
+        std::string msg = "Unable to find target radii automatically. "
                       "User must provide EQRADIUS and POLRADIUS values for this target.";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }

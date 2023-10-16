@@ -617,7 +617,7 @@ void IsisMain() {
   FileName fiducialFileName("$apollo15/calibration/ApolloPanFiducialMark.cub");
   fidC.open(fiducialFileName.expanded(),"r");
   if( !fidC.isOpen() ) {
-    QString msg = "Unable to open the fiducial patternS cube: ApolloPanFiducialMark.cub\n";
+    std::string msg = "Unable to open the fiducial patternS cube: ApolloPanFiducialMark.cub\n";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   refL = fidC.lineCount();

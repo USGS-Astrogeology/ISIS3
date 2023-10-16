@@ -63,7 +63,7 @@ void IsisMain() {
       leftSegs = ui.GetInteger("LEFTSEGS");
     }
     else {
-      QString msg = "Number of segments was not specified for left side of scale - "
+      std::string msg = "Number of segments was not specified for left side of scale - "
                     "must be at least 1";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -94,7 +94,7 @@ void IsisMain() {
   }
   else {
     if (!ui.WasEntered("CORNERLINE") || !ui.WasEntered("CORNERSAMPLE") ) {
-      QString msg = "The upper left placement of the scale bar must be specified ";
+      std::string msg = "The upper left placement of the scale bar must be specified ";
       msg = msg + "if you are not padding the image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -106,7 +106,7 @@ void IsisMain() {
   // scale will be printed at
   int barHeight = ui.GetInteger("BARHEIGHT");
   if (barHeight < 5) {
-    QString msg = "Requested BARHEIGHT is too small to produce a bar scale";
+    std::string msg = "Requested BARHEIGHT is too small to produce a bar scale";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   int barWidth = ( (rightLimit + leftLimit) * scaleUnit) / resolution + .5;

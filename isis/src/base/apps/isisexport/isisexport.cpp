@@ -278,7 +278,7 @@ namespace Isis {
       pds4Type = "IEEE754LSBSingle";
     }
     else {
-      QString msg = "Unsupported PDS pixel type or sample size";
+      std::string msg = "Unsupported PDS pixel type or sample size";
       throw Isis::IException(Isis::IException::User, msg, _FILEINFO_);
     }
     return pds4Type;

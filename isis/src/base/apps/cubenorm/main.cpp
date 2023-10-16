@@ -60,7 +60,7 @@ void IsisMain() {
   // parameters.
   UserInterface &ui = Application::GetUserInterface();
   if(!(ui.WasEntered("TO")) && !(ui.WasEntered("STATS"))) {
-    QString msg = "User must specify a TO and/or STATS file.";
+    std::string msg = "User must specify a TO and/or STATS file.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -123,7 +123,7 @@ void IsisMain() {
     if(ui.GetString("MODE") == "MULTIPLY") {
       for(unsigned int i = 0; i < st.size(); i++) {
         if(IsValidPixel(normalizer[i]) && normalizer[i] <= 0.0) {
-          QString msg = "Cube file can not be normalized with [MULTIPLY] ";
+          std::string msg = "Cube file can not be normalized with [MULTIPLY] ";
           msg += "option, some column averages <= 0.0";
           throw IException(IException::User, msg, _FILEINFO_);
         }

@@ -297,17 +297,17 @@ namespace Isis {
   void SpicePosition::LoadCache(double startTime, double endTime, int size) {
     // Make sure cache isn't already loaded
     if(p_source == Memcache || p_source == HermiteCache) {
-      QString msg = "A SpicePosition cache has already been created";
+      std::string msg = "A SpicePosition cache has already been created";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if(startTime > endTime) {
-      QString msg = "Argument startTime must be less than or equal to endTime";
+      std::string msg = "Argument startTime must be less than or equal to endTime";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if((startTime != endTime) && (size == 1)) {
-      QString msg = "Cache size must be more than 1 if startTime endTime differ";
+      std::string msg = "Cache size must be more than 1 if startTime endTime differ";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -430,7 +430,7 @@ namespace Isis {
 
     // Make sure cache isn't alread loaded
     if(p_source == Memcache || p_source == HermiteCache) {
-      QString msg = "A SpicePosition cache has already been created";
+      std::string msg = "A SpicePosition cache has already been created";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -480,7 +480,7 @@ namespace Isis {
           p_hasVelocity = false;
         }
         else  {
-          QString msg = "Expecting four or seven fields in the SpicePosition table";
+          std::string msg = "Expecting four or seven fields in the SpicePosition table";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
 
@@ -707,7 +707,7 @@ namespace Isis {
     if(p_source >= HermiteCache)  ReloadCache();
 
     if(p_source != Memcache) {
-      QString msg = "Only cached positions can be returned as a line cache of positions and time";
+      std::string msg = "Only cached positions can be returned as a line cache of positions and time";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     // Load the table and return it to caller
@@ -806,7 +806,7 @@ namespace Isis {
 
     // Make sure a polynomial function is already loaded
     if(p_source != PolyFunction) {
-      QString msg = "A SpicePosition polynomial function has not been created yet";
+      std::string msg = "A SpicePosition polynomial function has not been created yet";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1271,7 +1271,7 @@ namespace Isis {
       return p_velocity;
     }
     else {
-      QString msg = "No velocity vector available";
+      std::string msg = "No velocity vector available";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }

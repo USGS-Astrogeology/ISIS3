@@ -34,7 +34,7 @@ namespace Isis {
     Process p;
 
     if (!ui.WasEntered("TO") && !ui.IsInteractive()) {
-      QString msg = "The [TO] parameter must be entered";
+      std::string msg = "The [TO] parameter must be entered";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

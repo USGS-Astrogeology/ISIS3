@@ -103,7 +103,7 @@ namespace Isis {
          m_polarRadius = radii["PolarRadius"];
       }
       catch (IException &e) {
-        QString msg = "Projection failed. No target radii are available "
+        std::string msg = "Projection failed. No target radii are available "
                       "through keywords [EquatorialRadius and PolarRadius] "
                       "or [TargetName].";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
@@ -111,12 +111,12 @@ namespace Isis {
 
       // Check the radii for validity
       if (m_equatorialRadius <= 0.0) {
-        QString msg = "Projection failed. Invalid value for keyword "
+        std::string msg = "Projection failed. Invalid value for keyword "
                       "[EquatorialRadius]. It must be greater than zero";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       if (m_polarRadius <= 0.0) {
-        QString msg = "Projection failed. Invalid value for keyword "
+        std::string msg = "Projection failed. Invalid value for keyword "
                       "[PolarRadius]. It must be greater than zero";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
@@ -157,7 +157,7 @@ namespace Isis {
         m_longitudeDomain = 180;
       }
       else {
-        QString msg = "Projection failed. Invalid value for keyword "
+        std::string msg = "Projection failed. Invalid value for keyword "
                       "[LongitudeDomain] must be [180 or 360]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
@@ -238,7 +238,7 @@ namespace Isis {
       setProjectionType(Triaxial);
     }
     catch (IException &e) {
-      QString msg = "Projection failed.  Invalid label group [Mapping]";
+      std::string msg = "Projection failed.  Invalid label group [Mapping]";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -1823,7 +1823,7 @@ namespace Isis {
     }
 
     if (iteration >= MAX_ITERATIONS) {
-      QString msg = "Failed to converge in TProjection::phi2Compute()";
+      std::string msg = "Failed to converge in TProjection::phi2Compute()";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 

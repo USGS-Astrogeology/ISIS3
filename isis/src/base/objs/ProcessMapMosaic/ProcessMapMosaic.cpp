@@ -208,7 +208,7 @@ namespace Isis {
     TProjection *proj = NULL;
 
     if (propagationCubes.size() < 1) {
-      QString msg = "The list does not contain any data";
+      std::string msg = "The list does not contain any data";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -286,7 +286,7 @@ namespace Isis {
     RingPlaneProjection *proj = NULL;
 
     if (propagationCubes.size() < 1) {
-      QString msg = "The list does not contain any data";
+      std::string msg = "The list does not contain any data";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -348,7 +348,7 @@ namespace Isis {
       double slat, double elat, double slon, double elon,
       CubeAttributeOutput &oAtt, const QString &mosaicFile) {
     if (propagationCubes.size() < 1) {
-      QString msg = "The list does not contain any data";
+      std::string msg = "The list does not contain any data";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -437,7 +437,7 @@ namespace Isis {
       double srad, double erad, double saz, double eaz,
       CubeAttributeOutput &oAtt, const QString &mosaicFile) {
     if (propagationCubes.size() < 1) {
-      QString msg = "The list does not contain any data";
+      std::string msg = "The list does not contain any data";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -673,7 +673,7 @@ namespace Isis {
   Isis::Cube *ProcessMapMosaic::SetOutputCube(const QString &inputFile, PvlGroup mapping,
       CubeAttributeOutput &oAtt, const QString &mosaicFile) {
     if (OutputCubes.size() != 0) {
-      QString msg = "You can only specify one output cube and projection";
+      std::string msg = "You can only specify one output cube and projection";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

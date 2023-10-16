@@ -62,7 +62,7 @@ namespace Isis {
       frameMap = sortFramelets(frameletListFile);
     }
     catch (IException &e) {
-      QString msg = "Failed reading and sorting framelets into frames.";
+      std::string msg = "Failed reading and sorting framelets into frames.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
 

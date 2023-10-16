@@ -703,7 +703,7 @@ namespace Isis {
                                                           double maxModelCQuantile) {
 
     if (m_maximumLikelihood.size() == 0 && model > MaximumLikelihoodWFunctions::HuberModified) {
-      QString msg = "For bundle adjustments with multiple maximum likelihood estimators, the first "
+      std::string msg = "For bundle adjustments with multiple maximum likelihood estimators, the first "
                     "model must be of type HUBER or HUBER_MODIFIED.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

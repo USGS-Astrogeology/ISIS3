@@ -77,7 +77,7 @@ namespace Isis{
       reader.read(FileName(ui.GetFileName("COORDLIST")).expanded());
 
       if (!reader.isTableValid(reader.getTable()) || reader.columns() != 2) {
-        QString msg = "Coordinate file formatted incorrectly.\n"
+        std::string msg = "Coordinate file formatted incorrectly.\n"
                       "Each row must have two columns: a sample,line or a latitude,longitude pair.";
         throw IException(IException::User, msg, _FILEINFO_);
       }

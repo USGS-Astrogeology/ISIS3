@@ -112,7 +112,7 @@ namespace Isis {
     if (shapeModelFilenames == "") {
       // No file name given.  If EllipsoidShape throws an error or returns null, the following
       // exception will be appended to the finalError.
-      QString msg = "Unable to construct an Ellipsoid shape model.";
+      std::string msg = "Unable to construct an Ellipsoid shape model.";
 
       try {
         shapeModel = new EllipsoidShape(target);
@@ -129,7 +129,7 @@ namespace Isis {
     else if (shapeModelFilenames == "RingPlane") {
       // No file name given, RingPlane indicated.  If PlaneShape throws an error or returns
       // null, the following exception will be appended to the finalError.
-      QString msg = "Unable to construct a RingPlane shape model.";
+      std::string msg = "Unable to construct a RingPlane shape model.";
 
       try {
         shapeModel = new PlaneShape(target, pvl);
@@ -239,7 +239,7 @@ namespace Isis {
 
       // If NaifDskShape throws an error or returns null and DEM construction is
       // unsuccessful, the following exception will be appended to the fileError.
-      QString msg = "The given shape model file is not a valid NAIF DSK file. "
+      std::string msg = "The given shape model file is not a valid NAIF DSK file. "
                     "Unable to construct a NAIF DSK shape model.";
       IException dskError(IException::Unknown, msg, _FILEINFO_);
 
@@ -267,7 +267,7 @@ namespace Isis {
         }
         catch (IException &e) {
           // The file is neither a valid DSK nor an ISIS cube. Append a message and throw the error.
-          QString msg = "The given shape model file is not a valid ISIS DEM. "
+          std::string msg = "The given shape model file is not a valid ISIS DEM. "
                         "Unable to open as an ISIS cube.";
           fileError.append(IException(e, IException::Unknown, msg, _FILEINFO_));
           finalError.append(fileError);
@@ -281,7 +281,7 @@ namespace Isis {
         }
         catch (IException &e) {
           // The file is neither a valid DSK nor a valid ISIS DEM. Append message and throw the error.
-          QString msg = "The given shape model file is not a valid ISIS DEM cube. "
+          std::string msg = "The given shape model file is not a valid ISIS DEM cube. "
                         "It is not map-projected.";
           fileError.append(IException(e, IException::Unknown, msg, _FILEINFO_));
           finalError.append(fileError);
@@ -291,7 +291,7 @@ namespace Isis {
         if (projection->IsEquatorialCylindrical()) {
           // If the EquatorialCylindricalShape constructor throws an error or returns null, the
           // following exception will be appended to the fileError. (Later added to the finalError)
-          QString msg = "Unable to construct a DEM shape model from the given "
+          std::string msg = "Unable to construct a DEM shape model from the given "
                         "EquatorialCylindrical projected ISIS cube.";
 
           try {
@@ -309,7 +309,7 @@ namespace Isis {
         else {
           // If the DemShape constructor throws an error or returns null, the following
           // exception will be appended to the fileError. (Later added to the finalError)
-          QString msg = "Unable to construct a DEM shape model "
+          std::string msg = "Unable to construct a DEM shape model "
                         "from the given projected ISIS cube file.";
 
           try {

@@ -1497,7 +1497,7 @@ namespace Isis {
       lowKey = (--lowIt).key();
     }
     if (fabs(highKey - lowKey) < 1.0e-10) {
-      QString msg("Cannot Interpolate Repeated X Values");
+      std::string msg("Cannot Interpolate Repeated X Values");
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     slope = (value(highKey) - value(lowKey)) / (highKey - lowKey);

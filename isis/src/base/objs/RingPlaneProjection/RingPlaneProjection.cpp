@@ -77,7 +77,7 @@ namespace Isis {
         m_ringLongitudeDirection = CounterClockwise;
       }
       else {
-        QString msg = "Projection failed. Invalid value for keyword "
+        std::string msg = "Projection failed. Invalid value for keyword "
                       "[RingLongitudeDirection] must be "
                       "[Clockwise or CounterClockwise]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -91,7 +91,7 @@ namespace Isis {
         m_ringLongitudeDomain = 180;
       }
       else {
-        QString msg = "Projection failed. Invalid value for keyword "
+        std::string msg = "Projection failed. Invalid value for keyword "
                       "[RingLongitudeDomain] must be [180 or 360]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }

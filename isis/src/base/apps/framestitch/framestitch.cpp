@@ -98,7 +98,7 @@ namespace Isis {
     if (evenCube->sampleCount() != oddCube->sampleCount() ||
         evenCube->lineCount() != oddCube->lineCount() ||
         evenCube->bandCount() != oddCube->bandCount()) {
-      QString msg = "Even and odd cube dimensions must match.";
+      std::string msg = "Even and odd cube dimensions must match.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -109,13 +109,13 @@ namespace Isis {
       const PvlGroup &oddInst = oddCube->group("Instrument");
       // Use the start time as an indicator of being the same original image
       if (QString::compare(QString(evenInst["StartTime"]), QString(oddInst["StartTime"])) != 0) {
-        QString msg = "Even and odd cube start times must match.";
+        std::string msg = "Even and odd cube start times must match.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       if (evenInst.hasKeyword("DataFlipped") && oddInst.hasKeyword("DataFlipped")) {
         if (toBool(evenInst["DataFlipped"]) != toBool(oddInst["DataFlipped"])) {
-          QString msg = "Both input cubes must be flipped or not flipped. Cannot combine "
+          std::string msg = "Both input cubes must be flipped or not flipped. Cannot combine "
                         "a flipped and unflipped cube.";
           throw IException(IException::User, msg, _FILEINFO_);
         }

@@ -60,7 +60,7 @@ namespace Isis {
     stringstream stm;
     stm << str;
     if(!stm) {
-      QString message = "Failed to use string: " + QString::fromStdString(str) + "to create Pvl";
+      std::string message = "Failed to use string: " + str + "to create Pvl";
       throw IException(IException::Io, message, _FILEINFO_);
     }
 
@@ -69,11 +69,11 @@ namespace Isis {
       stm >> *this;
     }
     catch(IException &e) {
-      QString message = "Unable to create PVL from string: " + QString::fromStdString(str);
+      std::string message = "Unable to create PVL from string: " + str;
       throw IException(e, IException::Unknown, message, _FILEINFO_);
     }
     catch(...) {
-      QString message = "Unable to create PVL from string: " + QString::fromStdString(str);
+      std::string message = "Unable to create PVL from string: " + str;
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
   }

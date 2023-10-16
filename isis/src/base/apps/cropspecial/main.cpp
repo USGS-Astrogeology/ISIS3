@@ -55,7 +55,7 @@ void IsisMain() {
 
   if (g_minSample == cube.sampleCount() + 1) {
     cube.close();
-    QString msg = "There are no valid pixels in the [FROM] cube";
+    std::string msg = "There are no valid pixels in the [FROM] cube";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

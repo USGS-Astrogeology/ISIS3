@@ -355,7 +355,7 @@ void IsisMain() {
    *   found a legitimate cube.
    */
   if(numOutputSamples <= 0) {
-    QString msg = "No valid input cubes were found";
+    std::string msg = "No valid input cubes were found";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -364,7 +364,7 @@ void IsisMain() {
    *   the input cubes, then we havent found any valid data.
    */
   if(tempFileLength <= 0) {
-    QString msg = "No valid input data was found";
+    std::string msg = "No valid input data was found";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

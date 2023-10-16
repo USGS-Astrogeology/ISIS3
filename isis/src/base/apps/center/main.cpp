@@ -26,7 +26,7 @@ void IsisMain() {
   // Setup the input cube
   Cube *icube = p.SetInputCube("FROM");
   if (icube->bandCount() != 1) {
-    QString msg = "center only works for single-band images.";
+    std::string msg = "center only works for single-band images.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   sumall.Reset();

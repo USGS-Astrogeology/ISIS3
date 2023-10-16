@@ -75,7 +75,7 @@ namespace Isis {
       m_spacecraftNameShort = "Apollo17";
     }
     else {
-      QString msg = "File does not appear to be an Apollo image";
+      std::string msg = "File does not appear to be an Apollo image";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

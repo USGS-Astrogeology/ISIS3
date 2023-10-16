@@ -194,7 +194,7 @@ namespace Isis {
     }
     catch (IException &e) {
       // since we can only calculate the determinant for 2x2 or 3x3
-      QString msg = "Unable to determine whether the given matrix is a rotation matrix.";
+      std::string msg = "Unable to determine whether the given matrix is a rotation matrix.";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
     return false;
@@ -290,7 +290,7 @@ namespace Isis {
 
       if (qFuzzyCompare(det + 1.0, 1.0)) {
         // the inverse exists <==> the determinant is not 0.0
-        QString msg = "The given matrix is not invertible. The determinant is 0.0.";
+        std::string msg = "The given matrix is not invertible. The determinant is 0.0.";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
@@ -323,7 +323,7 @@ namespace Isis {
       return inverse;
     }
     catch (IException &e) {
-      QString msg = "Unable to invert the given matrix.";
+      std::string msg = "Unable to invert the given matrix.";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -477,7 +477,7 @@ namespace Isis {
   LinearAlgebra::Vector LinearAlgebra::normalize(const Vector &vector) {
     // impossible to unitize the zero vector
     if (LinearAlgebra::isZero(vector)) {
-      QString msg = "Unable to normalize the zero vector.";
+      std::string msg = "Unable to normalize the zero vector.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     return  vector / LinearAlgebra::magnitude(vector);
@@ -982,7 +982,7 @@ namespace Isis {
 
     // if given matrix is not a rotation matrix, we can't proceed.
     if ( !isRotationMatrix(rotationMatrix) ) {
-      QString msg = "Unable to convert the given matrix to an axis of rotation "
+      std::string msg = "Unable to convert the given matrix to an axis of rotation "
                     "and a rotation angle. The given matrix is not a rotation matrix.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1087,7 +1087,7 @@ namespace Isis {
     }
 
     if ( !isRotationMatrix(rotationMatrix) ) {
-      QString msg = "Unable to convert the given matrix to Euler angles. "
+      std::string msg = "Unable to convert the given matrix to Euler angles. "
                     "The given matrix is not a rotation matrix.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

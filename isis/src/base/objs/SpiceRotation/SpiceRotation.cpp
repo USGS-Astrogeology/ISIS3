@@ -350,23 +350,23 @@ namespace Isis {
 
     // Check for valid arguments
     if (size <= 0) {
-      QString msg = "Argument cacheSize must not be less or equal to zero";
+      std::string msg = "Argument cacheSize must not be less or equal to zero";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if (startTime > endTime) {
-      QString msg = "Argument startTime must be less than or equal to endTime";
+      std::string msg = "Argument startTime must be less than or equal to endTime";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if ((startTime != endTime) && (size == 1)) {
-      QString msg = "Cache size must be more than 1 if startTime and endTime differ";
+      std::string msg = "Cache size must be more than 1 if startTime and endTime differ";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     // Make sure cache isn't already loaded
     if (p_source == Memcache) {
-      QString msg = "A SpiceRotation cache has already been created";
+      std::string msg = "A SpiceRotation cache has already been created";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -710,7 +710,7 @@ namespace Isis {
       }
     }
     else  {
-      QString msg = "Expecting either three, five, or eight fields in the SpiceRotation table";
+      std::string msg = "Expecting either three, five, or eight fields in the SpiceRotation table";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -776,7 +776,7 @@ namespace Isis {
       }
     }
     else { //(p_source < PolyFunction)
-      QString msg = "The SpiceRotation has not yet been fit to a function";
+      std::string msg = "The SpiceRotation has not yet been fit to a function";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -822,7 +822,7 @@ namespace Isis {
     if (p_source >= PolyFunction)  ReloadCache();
 
     if (p_source != Memcache) {
-      QString msg = "Only cached rotations can be returned as a line cache of quaternions and time";
+      std::string msg = "Only cached rotations can be returned as a line cache of quaternions and time";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     // Load the table and return it to caller
@@ -962,7 +962,7 @@ namespace Isis {
     }
     else {
       // throw an error -- should not get here -- invalid Spice Source
-      QString msg = "To create table source of data must be either Memcache or PolyFunction";
+      std::string msg = "To create table source of data must be either Memcache or PolyFunction";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -1613,7 +1613,7 @@ namespace Isis {
 
     // Get the derivative of the polynomial with respect to partialVar
     double dpoly = 0.;
-    QString msg;
+    std::string msg;
     switch (m_frameType) {
      case CK:
      case DYN:
@@ -1947,7 +1947,7 @@ namespace Isis {
 
     // No target body orientation information available -- throw an error
     if (!m_tOrientationAvailable) {
-      QString msg = "Target body orientation information not available.  Rerun spiceinit.";
+      std::string msg = "Target body orientation information not available.  Rerun spiceinit.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -2251,7 +2251,7 @@ namespace Isis {
        dpoly = DPckPolynomial(partialVar, coeffIndex);
        break;
      default:
-      QString msg = "Only CK, DYN, and PCK partials can be calculated";
+      std::string msg = "Only CK, DYN, and PCK partials can be calculated";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -2482,7 +2482,7 @@ namespace Isis {
       //  final step -- downsize loaded cache and reload
 
       if (p_fullCacheSize != (int) p_cacheTime.size()) {
-        QString msg =
+        std::string msg =
           "Full cache size does NOT match cache size in LoadTimeCache -- should never happen";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
@@ -2670,7 +2670,7 @@ namespace Isis {
       }
     }
     else if (count == 0  &&  p_source != Nadir  &&  p_minimizeCache == Yes) {
-      QString msg = "No camera kernels loaded...Unable to determine time cache to downsize";
+      std::string msg = "No camera kernels loaded...Unable to determine time cache to downsize";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -2701,7 +2701,7 @@ namespace Isis {
 
     // No time cache was initialized -- throw an error
     if (p_fullCacheSize < 1) {
-      QString msg = "Time cache not available -- rerun spiceinit";
+      std::string msg = "Time cache not available -- rerun spiceinit";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -2976,12 +2976,12 @@ namespace Isis {
 
     // Make sure the angles have been fit to polynomials so we can calculate the derivative
     if (p_source < PolyFunction ) {
-      QString msg = "The SpiceRotation pointing angles must be fit to polynomials in order to ";
+      std::string msg = "The SpiceRotation pointing angles must be fit to polynomials in order to ";
       msg += "compute angular velocity.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     if (p_source == PckPolyFunction) {
-      QString msg = "Planetary angular velocity must be fit computed with PCK polynomials ";
+      std::string msg = "Planetary angular velocity must be fit computed with PCK polynomials ";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     std::vector<double> dCJdt;

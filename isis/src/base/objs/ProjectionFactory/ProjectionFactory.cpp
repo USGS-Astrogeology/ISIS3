@@ -240,7 +240,7 @@ namespace Isis {
       // Couldn't find the cube size from the labels so compute it
       if (!sizeFound) {
         if (!proj->HasGroundRange()) {
-          QString msg = "Invalid ground range [MinimumLatitude,MaximumLatitude,";
+          std::string msg = "Invalid ground range [MinimumLatitude,MaximumLatitude,";
           msg += "MinimumLongitude,MaximumLongitude] missing or invalid";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
@@ -491,14 +491,14 @@ namespace Isis {
       // Couldn't find the cube size from the labels so compute it
       if (!sizeFound) {
         if (!proj->HasGroundRange()) {
-          QString msg = "Invalid ring range [MinimumRingRadius,MaximumRingRadius,";
+          std::string msg = "Invalid ring range [MinimumRingRadius,MaximumRingRadius,";
           msg += "MinimumRingLongitude,MaximumRingLongitude] missing or invalid";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 
         double minX, maxX, minY, maxY;
         if (!proj->XYRange(minX, maxX, minY, maxY)) {
-          QString msg = "Invalid ring range [MinimumRingRadius,MaximumRingRadius,";
+          std::string msg = "Invalid ring range [MinimumRingRadius,MaximumRingRadius,";
           msg += "MinimumRingLongitude,MaximumRingLongitude] cause invalid computation ";
           msg += "of image size";
           throw IException(IException::Unknown, msg, _FILEINFO_);

@@ -1,7 +1,6 @@
 #include <iostream>
 #include <time.h>
 
-#include <QRegExp>
 #include <QString>
 #include <QTemporaryDir>
 #include <nlohmann/json.hpp>

@@ -184,7 +184,7 @@ void IsisMain() {
   ofstream fout;
   fout.open(to.toLatin1().data(), ios::out | ios::binary);
   if (!fout.is_open()) {
-    QString msg = "Cannot open fits output file";
+    std::string msg = "Cannot open fits output file";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 

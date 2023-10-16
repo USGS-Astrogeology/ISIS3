@@ -130,7 +130,7 @@ void IsisMain() {
 
   FileList inputs(ui.GetFileName("FROMLIST"));
   if (inputs.size() < 2) {
-    QString msg = "FROMLIST must have at least two images to blend";
+    std::string msg = "FROMLIST must have at least two images to blend";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -284,7 +284,7 @@ Chip * createRamp(Chip *pic1, Chip *pic2, int stop) {
   int y = pic1->Lines();
 
   if (x != pic2->Samples() || y != pic2->Lines()) {
-    QString msg = "The two pictures need to be of the exact same dimensions";
+    std::string msg = "The two pictures need to be of the exact same dimensions";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 

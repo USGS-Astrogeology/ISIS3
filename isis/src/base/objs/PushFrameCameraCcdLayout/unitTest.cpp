@@ -58,11 +58,11 @@ int main(void) {
     PushFrameCameraCcdLayout junoLayout(-61500);
     qDebug() << "Load the JunoCam kernels";
     if (!junoLayout.addKernel("$juno/kernels/ik/juno_junocam_v??.ti")) {
-      QString msg = "Failed to load the JunoCam Instrument Kernel.";
+      std::string msg = "Failed to load the JunoCam Instrument Kernel.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
     if (!junoLayout.addKernel("$juno/kernels/iak/junoAddendum???.ti")) {
-      QString msg = "Failed to load the JunoCam Instrument Addendum.";
+      std::string msg = "Failed to load the JunoCam Instrument Addendum.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
     qDebug() << "JunoCam CCD samples:" << junoLayout.ccdSamples();

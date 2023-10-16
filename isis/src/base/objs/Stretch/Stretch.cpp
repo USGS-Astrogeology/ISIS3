@@ -345,7 +345,7 @@ namespace Isis {
     PvlKeyword outputs = grp.findKeyword("Output");
 
     if(inputs.size() != outputs.size()) {
-      QString msg = "Invalid Pvl file: The number of Input values must equal the number of Output values";
+      std::string msg = "Invalid Pvl file: The number of Input values must equal the number of Output values";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     for(int i = 0; i < inputs.size(); i++) {

@@ -139,7 +139,7 @@ namespace Isis {
       m_y = Null;
     }
     catch(IException &e) {
-      QString msg = "Projection failed.  Invalid label group [Mapping]";
+      std::string msg = "Projection failed.  Invalid label group [Mapping]";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }

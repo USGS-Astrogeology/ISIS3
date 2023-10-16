@@ -1802,7 +1802,7 @@ namespace Isis {
 
     // load cholmod triplet
     if ( !loadCholmodTriplet() ) {
-      QString msg = "CHOLMOD: Failed to load Triplet matrix";
+      std::string msg = "CHOLMOD: Failed to load Triplet matrix";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -2493,12 +2493,12 @@ namespace Isis {
         m_imageLists.append(imgList);
       }
       catch (IException &e) {
-        QString msg = "Invalid image in serial number list\n";
+        std::string msg = "Invalid image in serial number list\n";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
     else {
-      QString msg = "No images used in bundle adjust\n";
+      std::string msg = "No images used in bundle adjust\n";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -2750,7 +2750,7 @@ namespace Isis {
 
           catch (std::exception &e) {
             outputBundleStatus("\n\n");
-            QString msg = "Input data and settings are not sufficiently stable "
+            std::string msg = "Input data and settings are not sufficiently stable "
                           "for error propagation.";
             throw IException(IException::User, msg, _FILEINFO_);
           }

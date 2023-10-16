@@ -58,7 +58,7 @@ namespace Isis {
         QString instrument = (cube->label()->findGroup("Instrument",Pvl::Traverse))["InstrumentId"];
         Apollo apollo(mission, instrument);
         if (mission.mid(0,6) != "APOLLO") {
-            QString msg = "This application is for use with Apollo spacecrafts only.";
+            std::string msg = "This application is for use with Apollo spacecrafts only.";
             throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 
@@ -163,7 +163,7 @@ namespace Isis {
             reseaus["Status"] = "Refined";
         }
         else {
-            QString msg = "No Reseaus located. Labels will not be changed.";
+            std::string msg = "No Reseaus located. Labels will not be changed.";
             msg += "Try changing the registration parameters.";
             throw IException(IException::Unknown, msg, _FILEINFO_);
         }

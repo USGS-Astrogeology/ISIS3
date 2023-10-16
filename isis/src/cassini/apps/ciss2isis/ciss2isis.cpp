@@ -386,7 +386,7 @@ namespace Isis{
       kerns += PvlKeyword("NaifFrameCode", "-82361");
     }
     else {
-      QString msg = "CISS2ISIS only imports Cassini ISS narrow ";
+      std::string msg = "CISS2ISIS only imports Cassini ISS narrow ";
       msg += "angle or wide angle images";
       throw IException(IException::User, msg, _FILEINFO_);
     }

@@ -339,7 +339,7 @@ namespace Isis {
           // If no tracking group exists in mosaic cube, warn user to run utility application to
           // add it and create a separate tracking cube
           else {
-            QString msg = "Tracking cannot be enabled when adding to an existing mosaic "
+            std::string msg = "Tracking cannot be enabled when adding to an existing mosaic "
             "that does not already have a tracking cube. Mosaics with a tracking band must "
             "have the tracking band extracted into an external tracking cube.";
             throw IException(IException::User, msg, _FILEINFO_);
@@ -374,7 +374,7 @@ namespace Isis {
     else if (m_imageOverlay == AverageImageWithMosaic) {
       m_onb /= 2;
       if (m_onb < 1) {
-        QString msg = "The mosaic cube needs a count band.";
+        std::string msg = "The mosaic cube needs a count band.";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -1087,7 +1087,7 @@ namespace Isis {
     PvlGroup &inBin  = inLab->findGroup("BandBin", Pvl::Traverse);
     PvlGroup &outBin = outLab->findGroup("BandBin", Pvl::Traverse);
     if (inBin.keywords() != outBin.keywords()) {
-      QString msg = "Pvl Group [BandBin] does not match between the input and output cubes";
+      std::string msg = "Pvl Group [BandBin] does not match between the input and output cubes";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -1315,7 +1315,7 @@ namespace Isis {
       }
     }
     if (!bFound) {
-      QString msg = "Invalid Band / Key Name, Value ";
+      std::string msg = "Invalid Band / Key Name, Value ";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     return iBandIndex;

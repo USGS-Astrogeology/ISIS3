@@ -80,13 +80,13 @@ namespace Isis {
     // Make sure starting positions fall within the cube
     if (ss > cube->sampleCount()) {
       cube->close();
-      QString msg = "[SAMPLE] exceeds number of samples in the [FROM] cube";
+      std::string msg = "[SAMPLE] exceeds number of samples in the [FROM] cube";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if (sl > cube->lineCount()) {
       cube->close();
-      QString msg = "[LINE] exceeds number of lines in the [FROM] cube";
+      std::string msg = "[LINE] exceeds number of lines in the [FROM] cube";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

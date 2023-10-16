@@ -106,7 +106,7 @@ void mappt(Cube *icube, UserInterface &ui, Pvl *log, CubeAttributeInput* inAtt) 
   
   }
   else if(ui.GetString("FORMAT") == "FLAT") {
-    QString msg = "Flat file must have a name.";
+    std::string msg = "Flat file must have a name.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 }
@@ -389,7 +389,7 @@ QList< QPair<double, double> > getMapPoints(const UserInterface &ui, bool usePoi
       reader.read(FileName(ui.GetFileName("COORDLIST")).expanded());
 
       if (!reader.isTableValid(reader.getTable()) || reader.columns() != 2) {
-        QString msg = "Coordinate file formatted incorrectly.\n"
+        std::string msg = "Coordinate file formatted incorrectly.\n"
                       "Each row must have two columns: a sample,line or a latitude,longitude pair.";
         throw IException(IException::User, msg, _FILEINFO_);
       }

@@ -88,13 +88,13 @@ void IsisMain() {
 
   if (pdsLabel->hasKeyword("LBL") &&
       pdsLabel->findKeyword("LBL").isNull()) {
-    QString msg = "No label information.";
+    std::string msg = "No label information.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   if (pdsLabel->hasKeyword("PRODUCT_TYPE") &&
   !pdsLabel->findKeyword("PRODUCT_TYPE").isEquivalent("DECOMPRESSED_RAW_IMAGE")) {
-    QString msg = "ISIS does not currently support images of product types other than raw.";
+    std::string msg = "ISIS does not currently support images of product types other than raw.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

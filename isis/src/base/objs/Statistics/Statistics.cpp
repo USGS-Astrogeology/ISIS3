@@ -396,7 +396,7 @@ namespace Isis {
     }
 
     if (m_totalPixels < 0) {
-      QString msg = "You are removing non-existant data in [Statistics::RemoveData]";
+      std::string msg = "You are removing non-existant data in [Statistics::RemoveData]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     // what happens to saved off min/max???
@@ -695,7 +695,7 @@ namespace Isis {
    */
   double Statistics::ChebyshevMinimum(const double percent) const {
     if ((percent <= 0.0) || (percent >= 100.0)) {
-      QString msg = "Invalid value for percent";
+      std::string msg = "Invalid value for percent";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

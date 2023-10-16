@@ -50,7 +50,7 @@ namespace Isis {
     QString spacecraft = (info->group("Instrument")["SpacecraftName"]);
     QString instrument = (info->group("Instrument")["InstrumentId"]);
     if (spacecraft.mid(0,6) != "APOLLO") {
-      QString msg = "This application is for use with Apollo spacecrafts only. ";
+      std::string msg = "This application is for use with Apollo spacecrafts only. ";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     Apollo apollo(spacecraft, instrument);

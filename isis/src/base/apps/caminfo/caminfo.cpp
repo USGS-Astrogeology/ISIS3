@@ -217,7 +217,7 @@ namespace Isis{
         QString sFormat = ui.GetAsString("FORMAT");
 
         if (!ui.GetBoolean("CAMSTATS") && ui.GetBoolean("USECAMSTATSTBL")){
-          QString msg = "[CAMSTATS] must be set to true when using [USECAMSTATSTBL].";
+          std::string msg = "[CAMSTATS] must be set to true when using [USECAMSTATSTBL].";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 
@@ -448,7 +448,7 @@ namespace Isis{
               }
             }
             if (!found) {
-              QString msg = "Footprint blob was not found in input image history";
+              std::string msg = "Footprint blob was not found in input image history";
               throw IException(IException::User, msg, _FILEINFO_);
             }
             QString prec = (QString)fpgrp.findKeyword("INCREASEPRECISION");
