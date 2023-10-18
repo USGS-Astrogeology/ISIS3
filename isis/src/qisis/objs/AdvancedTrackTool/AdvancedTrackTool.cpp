@@ -744,8 +744,8 @@ namespace Isis {
             Table cFileTable = cCube->readTable(trackingTableName);
             int iRecs =   cFileTable.Records();
             if(piOrigin >= 0 && piOrigin < iRecs) {
-              psSrcFileName = QString(cFileTable[piOrigin][0]);
-              psSrcSerialNum = QString(cFileTable[piOrigin][1]);
+              psSrcFileName = QString::fromStdString(cFileTable[piOrigin][0]);
+              psSrcSerialNum = QString::fromStdString(cFileTable[piOrigin][1]);
             }
           }
         }

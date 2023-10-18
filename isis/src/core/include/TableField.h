@@ -7,8 +7,7 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <vector>
-
-#include <QString>
+#include <string>
 
 namespace Isis {
   class PvlGroup;
@@ -58,12 +57,12 @@ namespace Isis {
       };
 
       //Constructors and Destructor
-      TableField(const QString &name, Type type, int size = 1);
+      TableField(const std::string name, Type type, int size = 1);
       TableField(PvlGroup &field);
       ~TableField();
 
 
-      QString name() const;
+      std::string name() const;
       Type type() const;
       bool isInteger() const;
       bool isDouble() const;
@@ -75,7 +74,7 @@ namespace Isis {
       operator int() const;
       operator double() const;
       operator float() const;
-      operator QString() const;
+      operator std::string() const;
       operator std::vector<int>() const;
       operator std::vector<double>() const;
       operator std::vector<float>() const;
@@ -83,7 +82,7 @@ namespace Isis {
       void operator=(const int value);
       void operator=(const double value);
       void operator=(const float value);
-      void operator=(const QString &value);
+      void operator=(const std::string value);
       void operator=(const std::vector<int> &values);
       void operator=(const std::vector<double> &values);
       void operator=(const std::vector<float> &value);
@@ -92,10 +91,10 @@ namespace Isis {
 
       PvlGroup pvlGroup();
 
-      static QString toString(const TableField &field, QString delimiter = ",");
+      static std::string toString(const TableField &field, std::string delimiter = ",");
 
     private:
-      QString m_name;            //!< Field name
+      std::string m_name;            //!< Field name
       Type m_type;                   //!< Field value type
       int m_size;                    /**< Field size. This is the number of
                                           values per field entry of the table.*/
@@ -109,7 +108,7 @@ namespace Isis {
       std::vector<float> m_rvalues;  /**< Vector containing Real field values.
                                           If the field Type is not Real, this
                                           vector will be empty.*/
-      QString m_svalue;          /**< String containing text value of field.
+      std::string m_svalue;          /**< String containing text value of field.
                                           If the field Type is not Text, this
                                           string will be empty.*/
   };

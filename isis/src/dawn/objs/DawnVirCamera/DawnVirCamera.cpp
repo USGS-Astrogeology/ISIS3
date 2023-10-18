@@ -315,8 +315,8 @@ namespace Isis {
    NumericalApproximation angFit;
    for (int i = 0; i < hktable.Records(); i++) {
      TableRecord &trec = hktable[i];
-     QString scet = scrub(trec["ScetTimeClock"]);
-     QString shutterMode = scrub(trec["ShutterStatus"]);
+     QString scet = scrub(QString::fromStdString(trec["ScetTimeClock"]));
+     QString shutterMode = scrub(QString::fromStdString(trec["ShutterStatus"]));
 
      // Compute the optical mirror angle
      double mirrorSin = trec["MirrorSin"];

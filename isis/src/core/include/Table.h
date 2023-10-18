@@ -116,7 +116,7 @@ namespace Isis {
       Blob toBlob() const;
 
 
-      static QString toString(Table table, QString fieldDelimiter=",");
+      static std::string toString(Table table, std::string fieldDelimiter=",");
 
 
     protected:

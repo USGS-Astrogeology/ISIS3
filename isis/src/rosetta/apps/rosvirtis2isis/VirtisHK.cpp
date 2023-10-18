@@ -73,7 +73,7 @@ namespace Isis {
  * @return TableField The entire appropriate TableField for this HK
  */
   TableField VirtisHK::tableField(){
-    return TableField(m_name, m_tableType);
+    return TableField(m_name.toStdString(), m_tableType);
   }
 
 

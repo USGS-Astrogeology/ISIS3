@@ -58,8 +58,8 @@ int main(int argc, char *argv[]) {
   cout << "IsReal    = " << textField.isReal() << endl;
   cout << "Size      = " << textField.size() << endl;
   cout << "Bytes     = " << textField.bytes() << endl;
-  textField = (QString) "Bah humbug";
-  cout << "Value     = " << (QString)textField << endl;
+  textField = (std::string) "Bah humbug";
+  cout << "Value     = " << (std::string)textField << endl;
   g = textField.pvlGroup();
   cout << g << endl;
   cout << "----------------------------------------" << endl << endl;
@@ -258,12 +258,12 @@ int main(int argc, char *argv[]) {
   cout << endl;
   cout << "     operator std::string() " << endl;
   try {
-    cout << QString(realSingletonField); // try to cast a non-Text type
+    cout << std::string(realSingletonField); // try to cast a non-Text type
   }
   catch (IException &e) {
     e.print();
   }
-
+  
   cout << endl;
   cout << "     operator float()" << endl;
   try {

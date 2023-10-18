@@ -184,7 +184,7 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < isisTableFromMsb.Records(); i++) {
     cout << toString((double) isisTableFromMsb[i][0]) << "\t\t\t";
     cout << toString((int)    isisTableFromMsb[i][1]) << "\t\t\t\t";
-    cout << QString(          isisTableFromMsb[i][2]) << "\t\t\t";
+    cout << std::string(          isisTableFromMsb[i][2]) << "\t\t\t";
     cout << toString((float)  isisTableFromMsb[i][3]) << "\n";
   }
 
@@ -207,7 +207,7 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < isisTableFromLsb.Records(); i++) {
     cout << toString((double) isisTableFromLsb[i][0]) << "\t\t\t";
     cout << toString((int)    isisTableFromLsb[i][1]) << "\t\t\t\t";
-    cout << QString(          isisTableFromLsb[i][2]) << "\t\t\t";
+    cout << std::string(          isisTableFromLsb[i][2]) << "\t\t\t";
     cout << toString((float)  isisTableFromLsb[i][3]) << "\n";
   }
   cout << endl;

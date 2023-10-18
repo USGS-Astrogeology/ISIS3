@@ -46,7 +46,7 @@ void IsisMain() {
 
   for (int i = 0; i < table[0].Fields(); i++) {
     for (int j = 0; j < table[0][i].size(); j++) {
-      QString title = table[0][i].name();
+      QString title = QString::fromStdString(table[0][i].name());
       if (table[0][i].isText()) {
         j += table[0][i].bytes();
       }
@@ -79,7 +79,7 @@ void IsisMain() {
           ss << IString((double)table[i][j]);
         }
         else if (table[i][j].isText()) {
-          ss << (QString)table[i][j];
+          ss << (std::string)table[i][j];
         }
         if (j < table[i].Fields() - 1) {
           ss << delimit;
@@ -89,7 +89,7 @@ void IsisMain() {
       // and output them with the delimiter character between
       else {
         if (table[i][j].isText()) {
-          ss << (QString)table[i][j] << delimit;
+          ss << (std::string)table[i][j] << delimit;
         }
         else if (table[i][j].isInteger()) {
           vector<int> currField = table[i][j];

@@ -674,7 +674,7 @@ namespace Isis {
 
         // The TableField class gives us a std::string with NULL (\0) characters... be careful not
         //   to keep them when going to QString.
-        QString recordName((QString)record["Name"]);
+        std::string recordName(record["Name"]);
         double avgValue = (double)record["Average"];
 
         if (recordName == "AspectRatio") {

@@ -262,7 +262,7 @@ namespace Isis{
           Table csTable = incube->readTable("CameraStatistics");
 
           for (int rec = 0; rec < csTable.Records(); rec++) {
-            QString tableRec = TableRecord::toString(csTable[rec]);
+            QString tableRec = QString::fromStdString(TableRecord::toString(csTable[rec]));
             QString recordName = tableRec.split(",").at(0);
 
             camstats->append(MakePair(recordName + "Minimum", tableRec.split(",").at(1)));

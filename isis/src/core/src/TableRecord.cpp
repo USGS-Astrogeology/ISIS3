@@ -81,7 +81,7 @@ namespace Isis {
    * @throws Isis::IException::Programmer - The field does not exist in the
    *                                        record
    */
-  TableField &TableRecord::operator[](const QString &field) {
+  TableField &TableRecord::operator[](const std::string field) {
     Isis::IString upTemp = field;
     upTemp.UpCase();
     for (int i = 0; i < (int)p_fields.size(); i++) {
@@ -90,7 +90,7 @@ namespace Isis {
       if (upTemp == upField) return p_fields[i];
     }
 
-    QString msg = "Field [" + field + "] does not exist in record";
+    std::string msg = "Field [" + field + "] does not exist in record";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
@@ -142,10 +142,10 @@ namespace Isis {
         }
       }
       else if (field.isText()) {
-        QString val = (QString)field;
+        std::string val = (std::string)field;
         for (int i = 0; i < field.size(); i++) {
           if (i < (int)val.length()) {
-            buf[sbyte] = val[i].toLatin1();
+            buf[sbyte] = val[i];
           }
           else {
             buf[sbyte] = 0;
@@ -251,10 +251,10 @@ namespace Isis {
 
 
 
-  QString TableRecord::toString(TableRecord record, QString fieldDelimiter, bool fieldNames, bool endLine) {
-    QString recordValues;
+  std::string TableRecord::toString(TableRecord record, std::string fieldDelimiter, bool fieldNames, bool endLine) {
+    std::string recordValues;
     if (fieldNames) {
-      for (int fieldIndex = 0;fieldIndex < record.Fields();fieldIndex++) {
+      for (int fieldIndex = 0; fieldIndex < record.Fields(); fieldIndex++) {
         // write out the name of each field
         if (record[fieldIndex].size() == 1) {
           recordValues += record[fieldIndex].name();
@@ -268,7 +268,7 @@ namespace Isis {
             }
             else {
               // if the field is multivalued, write the index of the field
-              recordValues += "(" + Isis::toString(fieldValueIndex) + ")";
+              recordValues += "(" + std::to_string(fieldValueIndex) + ")";
             }
             if (fieldValueIndex != record[fieldIndex].size() - 1) {
               // add a delimiter to all but the last value in this field
@@ -285,7 +285,7 @@ namespace Isis {
       recordValues += "\n";
     }
 
-    for (int fieldIndex = 0;fieldIndex < record.Fields();fieldIndex++) {
+    for (int fieldIndex = 0; fieldIndex < record.Fields(); fieldIndex++) {
       // add value for each field in the record
       recordValues += TableField::toString(record[fieldIndex], fieldDelimiter);
       if (fieldIndex != record.Fields() - 1) {

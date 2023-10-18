@@ -197,7 +197,7 @@ TEST_F(DefaultCube, FunctionalTestCaminfoDefault) {
       PvlGroup &group = statsPvl.group(i);
 
       int entry = 0;
-      record[entry] = group.name();
+      record[entry] = group.name().toStdString();
       entry++;
       for (int j = 0; j < group.keywords(); j++) {
         record[entry] = toDouble(group[j][0]);
@@ -466,7 +466,7 @@ TEST_F(DefaultCube, FunctionalTestCaminfoCamStatsTable) {
       PvlGroup &group = statsPvl.group(i);
 
       int entry = 0;
-      record[entry] = group.name();
+      record[entry] = group.name().toStdString();
       entry++;
       for (int j = 0; j < group.keywords(); j++) {
         record[entry] = toDouble(group[j][0]);

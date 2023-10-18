@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < reimportedLsbTable.Records(); i++) {
     cout << toString((double) reimportedLsbTable[i][0]) << "\t\t\t";
     cout << toString((int)    reimportedLsbTable[i][1]) << "\t\t\t\t";
-    cout <<         (QString) reimportedLsbTable[i][2]  << "\t\t\t";
+    cout <<         (std::string) reimportedLsbTable[i][2]  << "\t\t\t";
     cout << toString((float)  reimportedLsbTable[i][3]) << "\n";
   }
   // remove files and reset buffer
@@ -119,7 +119,7 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < reimportedMsbTable.Records(); i++) {
     cout << IString((double) reimportedMsbTable[i][0]) << "\t\t\t";
     cout << IString((int)    reimportedMsbTable[i][1]) << "\t\t\t\t";
-    cout << IString((QString) reimportedMsbTable[i][2]) << "\t\t\t";
+    cout << IString((std::string) reimportedMsbTable[i][2]) << "\t\t\t";
     cout << IString((float)  reimportedMsbTable[i][3]) << "\n";
   }
   // remove files and reset buffer and tableRecBytes

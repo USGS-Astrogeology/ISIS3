@@ -533,10 +533,10 @@ namespace Isis {
    * @param table The Table to serialize
    * @param fieldDelimiter The delimiter to use between fields
    *
-   * @return @b QString The Table data as a string
+   * @return @b std::string The Table data as a string
    */
-  QString Table::toString(Table table, QString fieldDelimiter) {
-    QString tableValues;
+  std::string Table::toString(Table table, std::string fieldDelimiter) {
+    std::string tableValues;
     // add the first record with header, the given delimiter, and a new line after each record
     tableValues += TableRecord::toString(table[0], fieldDelimiter, true, true);
     // add remaining records without header, the same delimeter, and new line after each record

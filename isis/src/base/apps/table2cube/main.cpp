@@ -40,7 +40,7 @@ void IsisMain() {
     g_numElements = ui.GetInteger("NUMELEM");
   }
   else {
-    g_numElements = (*g_table)[g_startRecord][g_field].size() - (g_startElement - 1);
+    g_numElements = (*g_table)[g_startRecord][g_field.toStdString()].size() - (g_startElement - 1);
   }
 
   p.SetOutputCube("TO", g_numElements, g_numRecords);
@@ -56,16 +56,16 @@ void readTable(Isis::Buffer &outcube) {
     for (int element = g_startElement; element < g_startElement + g_numElements; element ++) {
       int index = (g_numElements * (record - 1)) + (element - g_startElement);
 
-      if ((*g_table)[record-1][g_field].isReal()) {
-        std::vector<float> data = (*g_table)[record-1][g_field];
+      if ((*g_table)[record-1][g_field.toStdString()].isReal()) {
+        std::vector<float> data = (*g_table)[record-1][g_field.toStdString()];
         outcube[index] = data.at(element - 1);
       }
-      else if ((*g_table)[record-1][g_field].isInteger()) {
-        std::vector<int> data = (*g_table)[record-1][g_field];
+      else if ((*g_table)[record-1][g_field.toStdString()].isInteger()) {
+        std::vector<int> data = (*g_table)[record-1][g_field.toStdString()];
         outcube[index] = data.at(element - 1);
       }
-      else if ((*g_table)[record-1][g_field].isDouble()) {
-        std::vector<double> data = (*g_table)[record-1][g_field];
+      else if ((*g_table)[record-1][g_field.toStdString()].isDouble()) {
+        std::vector<double> data = (*g_table)[record-1][g_field.toStdString()];
         outcube[index] = data.at(element - 1);
       }
     }

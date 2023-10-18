@@ -136,12 +136,11 @@ namespace Isis {
       TableField field = (*m_isisTable)[0][fieldIndex];
       PvlObject columnObj("COLUMN");
       columnObj.addKeyword(PvlKeyword("COLUMN_NUMBER", toString(fieldIndex + 1)));
-      columnObj.addKeyword(PvlKeyword("NAME", field.name()));
+      columnObj.addKeyword(PvlKeyword("NAME", QString::fromStdString(field.name())));
 
 
       if (field.type() == TableField::Text) {
         columnObj.addKeyword(PvlKeyword("DATA_TYPE", "CHARACTER"));
-        QString val = field;
         for(int i = 0; i < field.size(); i++) {
           columnBytes++;
         }
@@ -182,7 +181,7 @@ namespace Isis {
       else { // This error is not covered in the unitTest since currently, there
              // are no other valid values for TableField types. It is meant to
              // catch other values if they are added to Table Field.
-        QString msg = "Unable to export Isis::Table object to PDS. Invalid "
+        std::string msg = "Unable to export Isis::Table object to PDS. Invalid "
                       "field type found for [" + field.name() + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
@@ -270,11 +269,11 @@ namespace Isis {
         }
       }
       else if(field.isText()) {
-        QString val = field;
+        std::string val = field;
         // copy each character and count each byte individually
         for(int i = 0; i < field.size(); i++) {
           if(i < (int)val.length()) {
-            buffer[startByte] = val[i].toLatin1();
+            buffer[startByte] = val[i];
           }
           else {
             // this line is not covered by unitTest since this is a case that
@@ -296,7 +295,7 @@ namespace Isis {
       else { // This error is not covered in the unitTest since currently, there
              // are no other valid values for TableField types. It is meant to
              // catch other values if they are added to Table Field.
-        QString msg = "Unable to export Isis::Table object to PDS. Invalid "
+        std::string msg = "Unable to export Isis::Table object to PDS. Invalid "
                       "field type found for [" + field.name() + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }

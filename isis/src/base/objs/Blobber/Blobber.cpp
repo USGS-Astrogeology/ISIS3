@@ -139,7 +139,7 @@ namespace Isis {
    */
   void Blobber::load(Cube &cube) {
     Table tbl = cube.readTable(getBlobName());
-    TableField data = tbl[0][getFieldName()];
+    TableField data = tbl[0][getFieldName().toStdString()];
     if (data.isDouble()) {
       loadDouble(tbl);
     }
@@ -166,10 +166,10 @@ namespace Isis {
    */
   void Blobber::loadDouble(Table &tbl) {
     int nlines = tbl.Records();
-    int nsamps = tbl[0][getFieldName()].size();
+    int nsamps = tbl[0][getFieldName().toStdString()].size();
     BlobBuf pixels(nlines, nsamps);
     for (int i = 0 ; i < nlines ; i++) {
-      vector<double> d = tbl[i][getFieldName()];
+      vector<double> d = tbl[i][getFieldName().toStdString()];
       for (unsigned int j = 0 ; j < d.size() ; j++) {
         pixels[i][j] = d[j];
       }
@@ -192,10 +192,10 @@ namespace Isis {
    */
   void Blobber::loadInteger(Table &tbl) {
     int nlines = tbl.Records();
-    int nsamps = tbl[0][getFieldName()].size();
+    int nsamps = tbl[0][getFieldName().toStdString()].size();
     BlobBuf pixels(nlines, nsamps);
     for (int i = 0 ; i < nlines ; i++) {
-      vector<int> d = tbl[i][getFieldName()];
+      vector<int> d = tbl[i][getFieldName().toStdString()];
       for (unsigned int j = 0 ; j < d.size(); j++) {
         pixels[i][j] = int2ToDouble(d[j]);
       }

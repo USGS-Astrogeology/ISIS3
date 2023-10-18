@@ -43,11 +43,11 @@ namespace Isis {
       ~TableRecord();
 
       
-      static QString toString(TableRecord record, QString fieldDelimiter = ",", bool fieldNames = false, bool endLine = true);
+      static std::string toString(TableRecord record, std::string fieldDelimiter = ",", bool fieldNames = false, bool endLine = true);
         
       void operator+=(Isis::TableField &field);
       TableField&operator [](const int field);
-      TableField &operator[](const QString &field);
+      TableField &operator[](const std::string field);
 
       int Fields() const;
       int RecordSize() const;

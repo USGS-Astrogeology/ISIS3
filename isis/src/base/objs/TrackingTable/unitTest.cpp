@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 
     Table tableOut1 = trackingTable1.toTable();
 
-    cout << "Record added: " << QString(tableOut1[0][0]) << ", " << QString(tableOut1[0][1]) << endl;
+    cout << "Record added: " << std::string(tableOut1[0][0]) << ", " << std::string(tableOut1[0][1]) << endl;
 
     cout << endl;
 
@@ -63,9 +63,9 @@ int main(int argc, char *argv[]) {
     record[1] = "456789";
     tableIn += record;
 
-    cout << "First record : " << QString(tableIn[0][0]) << ", " << QString(tableIn[0][1]) << endl;
-    cout << "Second record: " << QString(tableIn[1][0]) << ", " << QString(tableIn[1][1]) << endl;
-    cout << "Third record : " << QString(tableIn[2][0]) << ", " << QString(tableIn[2][1]) << endl;
+    cout << "First record : " << (std::string)tableIn[0][0] << ", " << (std::string)tableIn[0][1] << endl;
+    cout << "Second record: " << (std::string)tableIn[1][0] << ", " << (std::string)tableIn[1][1] << endl;
+    cout << "Third record : " << (std::string)tableIn[2][0] << ", " << (std::string)tableIn[2][1] << endl;
 
     TrackingTable trackingTable2(tableIn);
 
@@ -109,17 +109,17 @@ int main(int argc, char *argv[]) {
 
     Table tableOut2 = trackingTable2.toTable();
 
-    cout << "First record : " << QString(tableOut2[0][0]) << ", "
-                              << QString(tableOut2[0][1]) << ", "
+    cout << "First record : " << std::string(tableOut2[0][0]) << ", "
+                              << std::string(tableOut2[0][1]) << ", "
                               << int(tableOut2[0][2]) << endl;
-    cout << "Second record: " << QString(tableOut2[1][0]) << ", "
-                              << QString(tableOut2[1][1]) << ", "
+    cout << "Second record: " << std::string(tableOut2[1][0]) << ", "
+                              << std::string(tableOut2[1][1]) << ", "
                               << int(tableOut2[1][2]) << endl;
-    cout << "Third record : " << QString(tableOut2[2][0]) << ", "
-                              << QString(tableOut2[2][1]) << ", "
+    cout << "Third record : " << std::string(tableOut2[2][0]) << ", "
+                              << std::string(tableOut2[2][1]) << ", "
                               << int(tableOut2[2][2]) << endl;
-    cout << "Fourth record: " << QString(tableOut2[3][0]) << ", "
-                              << QString(tableOut2[3][1]) << ", "
+    cout << "Fourth record: " << std::string(tableOut2[3][0]) << ", "
+                              << std::string(tableOut2[3][1]) << ", "
                               << int(tableOut2[3][2]) << endl;
 
     cout << endl;
@@ -151,17 +151,17 @@ int main(int argc, char *argv[]) {
 
     Table tableOut3 = trackingTable3.toTable();
 
-    cout << "First record : " << QString(tableOut3[0][0]) << ", "
-                              << QString(tableOut3[0][1]) << ", "
+    cout << "First record : " << std::string(tableOut3[0][0]) << ", "
+                              << std::string(tableOut3[0][1]) << ", "
                               << int(tableOut3[0][2]) << endl;
-    cout << "Second record: " << QString(tableOut3[1][0]) << ", "
-                              << QString(tableOut3[1][1]) << ", "
+    cout << "Second record: " << std::string(tableOut3[1][0]) << ", "
+                              << std::string(tableOut3[1][1]) << ", "
                               << int(tableOut3[1][2]) << endl;
-    cout << "Third record : " << QString(tableOut3[2][0]) << ", "
-                              << QString(tableOut3[2][1]) << ", "
+    cout << "Third record : " << std::string(tableOut3[2][0]) << ", "
+                              << std::string(tableOut3[2][1]) << ", "
                               << int(tableOut3[2][2]) << endl;
-    cout << "Fourth record: " << QString(tableOut3[3][0]) << ", "
-                              << QString(tableOut3[3][1]) << ", "
+    cout << "Fourth record: " << std::string(tableOut3[3][0]) << ", "
+                              << std::string(tableOut3[3][1]) << ", "
                               << int(tableOut3[3][2]) << endl;
 
   }

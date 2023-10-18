@@ -39,7 +39,7 @@ namespace Isis {
 
     for (int i=0; i < table.Records(); i++) {
       TableRecord record = table[i];
-      QString nameField = QString(record["FileName"]).split("/").last();
+      QString nameField = QString::fromStdString(record["FileName"]).split("/").last();
       QString extension(FileName(nameField).extension());
       int found = nameField.lastIndexOf(extension);
       if (found != -1) {
@@ -47,8 +47,8 @@ namespace Isis {
         nameField.remove(found + 3);
       }
       FileName fileName(nameField);
-      QString serialNumber = QString(record["SerialNumber"]);
-      m_fileList.append(QPair<FileName, QString>(fileName, serialNumber));
+      std::string serialNumber = record["SerialNumber"];
+      m_fileList.append(QPair<FileName, QString>(fileName, QString::fromStdString(serialNumber)));
     }
   }
 
@@ -94,8 +94,8 @@ namespace Isis {
     // Loop through m_fileList and add records to the table with the proper information.
     for (int i=0; i < m_fileList.size(); i++) {
 
-      fileNameField = m_fileList[i].first.name();
-      serialNumberField = m_fileList[i].second;
+      fileNameField = m_fileList[i].first.name().toStdString();
+      serialNumberField = m_fileList[i].second.toStdString();
       indexField = (int) (i + VALID_MINUI4);
 
       TableRecord record;

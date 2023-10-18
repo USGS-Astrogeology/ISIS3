@@ -81,7 +81,7 @@ void IsisMain() {
   try {
     Table trackTable = trackingCube1->readTable(ProcessMosaic::TRACKING_TABLE_NAME);
     qDebug() << "b. SUCCESS - Track Table Exists in [" << trackingCube1->fileName() << "]";
-    qDebug().noquote() << Table::toString( trackTable, "\t" );
+    qDebug().noquote() << QString::fromStdString(Table::toString( trackTable, "\t" ));
   }
   catch (IException&) {
     qDebug() << "b. FAILURE - Track Table does not Exist in [" << trackingCube1->fileName() << "]";

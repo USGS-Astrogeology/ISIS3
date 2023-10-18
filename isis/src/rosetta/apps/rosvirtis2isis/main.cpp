@@ -371,7 +371,7 @@ void IsisMain ()
 
       // Calculate the SCET and add it to the table
       QString translatedScet = convertSCET(scetWords[0], scetWords[1], scetWords[2]);
-      rec[0] = translatedScet;
+      rec[0] = translatedScet.toStdString();
       table += rec;
 
       // Save off first and last scet values.

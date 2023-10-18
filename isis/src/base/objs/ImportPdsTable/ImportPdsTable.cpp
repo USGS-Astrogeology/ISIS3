@@ -822,15 +822,15 @@ namespace Isis {
     QString name = getFormattedName(cdesc.m_name);
     if (m_pdsTableType == "ASCII") {
       if ( dtype == "INTEGER" ) {
-        return (TableField(name, TableField::Integer));
+        return (TableField(name.toStdString(), TableField::Integer));
       }
       else if ( ((dtype == "DOUBLE")
               || (dtype == "REAL")
               || (dtype == "FLOAT")) ) {
-        return (TableField(name, TableField::Double));
+        return (TableField(name.toStdString(), TableField::Double));
       }
       else {
-        return (TableField(name, TableField::Text, cdesc.m_numBytes));
+        return (TableField(name.toStdString(), TableField::Text, cdesc.m_numBytes));
       }
     }
     else {
@@ -896,7 +896,7 @@ namespace Isis {
       else {  // Its a text field
         QString str(tfield.size(), ' ');
         str.insert(0, data.Trim(" \t\r\n").ToQt());
-        tfield = str;
+        tfield = str.toStdString();
       }
     }
     catch (IException &e) {
@@ -1033,7 +1033,7 @@ namespace Isis {
     for (int colIndex = 0; colIndex < columns(); colIndex++) {
       QString columnName = m_coldesc[colIndex].m_name;
       for (int fieldIndex = 0 ; fieldIndex < record.Fields() ; fieldIndex++) {
-        QString fieldName = record[fieldIndex].name();
+        QString fieldName = QString::fromStdString(record[fieldIndex].name());
         if (fieldName == columnName) {
           int startByte = m_coldesc[colIndex].m_startByte;
           int numBytes = m_coldesc[colIndex].m_numBytes;
@@ -1067,7 +1067,7 @@ namespace Isis {
             for (int byte = 0; byte < numBytes; byte++) {
               fieldValue[byte] = rowBuffer[startByte + byte];
             }
-            record[fieldIndex] = fieldValue;
+            record[fieldIndex] = fieldValue.toStdString();
           }
 
         }
@@ -1113,7 +1113,7 @@ namespace Isis {
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       setPdsByteOrder("MSB");
-      return TableField(name, TableField::Integer);
+      return TableField(name.toStdString(), TableField::Integer);
     }
     else if (dataType == "LSB_INTEGER" || dataType == "VAX_INTEGER"
              || dataType == "PC_INTEGER" ) {
@@ -1125,7 +1125,7 @@ namespace Isis {
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       setPdsByteOrder("LSB");
-      return TableField(name, TableField::Integer);
+      return TableField(name.toStdString(), TableField::Integer);
     }
     else if (dataType == "FLOAT"    //IEEE_REAL alias (MSB)
              || dataType == "REAL"     //IEEE_REAL alias (MSB)
@@ -1134,10 +1134,10 @@ namespace Isis {
              || dataType == "IEEE_REAL" ) {
       setPdsByteOrder("MSB");
       if (cdesc.m_numBytes == 8) {
-        return TableField(name, TableField::Double);
+        return TableField(name.toStdString(), TableField::Double);
       }
       else if (cdesc.m_numBytes == 4) {
-        return TableField(name, TableField::Real);
+        return TableField(name.toStdString(), TableField::Real);
       }
       else {
         IString msg = "Only 4 byte or 8 byte real values are supported in Isis. "
@@ -1150,10 +1150,10 @@ namespace Isis {
     else if (dataType == "PC_REAL") {
       setPdsByteOrder("LSB");
       if (cdesc.m_numBytes == 8) {
-        return TableField(name, TableField::Double);
+        return TableField(name.toStdString(), TableField::Double);
       }
       else if (cdesc.m_numBytes == 4) {
-        return TableField(name, TableField::Real);
+        return TableField(name.toStdString(), TableField::Real);
       }
       else {
         QString msg = "Only 4 byte or 8 byte real values are supported in Isis. "
@@ -1166,7 +1166,7 @@ namespace Isis {
     else if (dataType.contains("CHARACTER")
              || dataType.contains("ASCII")
              || dataType == "DATE" || dataType == "TIME" ) {
-      return TableField(name, TableField::Text, cdesc.m_numBytes);
+      return TableField(name.toStdString(), TableField::Text, cdesc.m_numBytes);
     }
     // Isis tables currently don't support any of the following PDS DATA_TYPE:
     // BIT_STRING, COMPLEX, N/A, BOOLEAN, UNSIGNED_INTEGER, IBM types, some VAX types

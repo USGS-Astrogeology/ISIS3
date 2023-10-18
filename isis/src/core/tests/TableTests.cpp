@@ -76,7 +76,7 @@ TEST(TableTests, UpdatingRecords) {
   t += rec;
 
   ASSERT_EQ(t.Records(), 1);
-  EXPECT_EQ(TableRecord::toString(t[0]).toStdString(), TableRecord::toString(rec).toStdString());
+  EXPECT_EQ(TableRecord::toString(t[0]), TableRecord::toString(rec));
 
   rec[0] = -1;
   rec[1] = 0.5;
@@ -85,7 +85,7 @@ TEST(TableTests, UpdatingRecords) {
   t.Update(rec, 0);
 
   ASSERT_EQ(t.Records(), 1);
-  EXPECT_EQ(TableRecord::toString(t[0]).toStdString(), TableRecord::toString(rec).toStdString());
+  EXPECT_EQ(TableRecord::toString(t[0]), TableRecord::toString(rec));
 }
 
 
@@ -108,7 +108,7 @@ TEST(TableTests, AddingRecords) {
   t += rec;
 
   ASSERT_EQ(t.Records(), 1);
-  EXPECT_EQ(TableRecord::toString(t[0]).toStdString(), TableRecord::toString(rec).toStdString());
+  EXPECT_EQ(TableRecord::toString(t[0]), TableRecord::toString(rec));
 
   rec[0] = -1;
   rec[1] = 0.5;
@@ -117,7 +117,7 @@ TEST(TableTests, AddingRecords) {
   t += rec;
 
   ASSERT_EQ(t.Records(), 2);
-  EXPECT_EQ(TableRecord::toString(t[1]).toStdString(), TableRecord::toString(rec).toStdString());
+  EXPECT_EQ(TableRecord::toString(t[1]), TableRecord::toString(rec));
 
   TableField f5("Column1", TableField::Integer);
   TableField f6("Column2", TableField::Double);
@@ -181,7 +181,7 @@ TEST(TableTests, ToFromBlob) {
 
   ASSERT_EQ(t.Records(), t2.Records());
   for (int i = 0; i < t.Records(); i++) {
-    EXPECT_EQ(TableRecord::toString(t[i]).toStdString(), TableRecord::toString(t2[i]).toStdString());
+    EXPECT_EQ(TableRecord::toString(t[i]), TableRecord::toString(t2[i]));
   }
 }
 
@@ -228,7 +228,7 @@ TEST(TableTests, TableTestsWriteRead) {
 
   ASSERT_EQ(t.Records(), t2.Records());
   for (int i = 0; i < t.Records(); i++) {
-    EXPECT_EQ(TableRecord::toString(t[i]).toStdString(), TableRecord::toString(t2[i]).toStdString());
+    EXPECT_EQ(TableRecord::toString(t[i]), TableRecord::toString(t2[i]));
   }
 
   Table t3("UNITTEST", tableFile);
@@ -241,7 +241,7 @@ TEST(TableTests, TableTestsWriteRead) {
 
   ASSERT_EQ(t.Records(), t3.Records());
   for (int i = 0; i < t.Records(); i++) {
-    EXPECT_EQ(TableRecord::toString(t[i]).toStdString(), TableRecord::toString(t3[i]).toStdString());
+    EXPECT_EQ(TableRecord::toString(t[i]), TableRecord::toString(t3[i]));
   }
 
   Table t4("NOT_UNITTEST");
@@ -276,7 +276,7 @@ TEST(TableTests, Assignment) {
 
   Table t2 = t;
 
-  EXPECT_EQ(t.Name().toStdString(), t2.Name().toStdString());
+  EXPECT_EQ(t.Name(), t2.Name());
   EXPECT_EQ(t.RecordFields(), t2.RecordFields());
   EXPECT_EQ(t.RecordSize(), t2.RecordSize());
   EXPECT_EQ(t.IsSampleAssociated(), t2.IsSampleAssociated());
@@ -285,7 +285,7 @@ TEST(TableTests, Assignment) {
 
   ASSERT_EQ(t.Records(), t2.Records());
   for (int i = 0; i < t.Records(); i++) {
-    EXPECT_EQ(TableRecord::toString(t[i]).toStdString(), TableRecord::toString(t2[i]).toStdString());
+    EXPECT_EQ(TableRecord::toString(t[i]), TableRecord::toString(t2[i]));
   }
 }
 

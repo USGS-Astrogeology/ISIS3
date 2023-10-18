@@ -307,7 +307,7 @@ namespace Isis {
    double lineEndTime = 0;
    for (int i = 0; i < hktable.Records(); i++) {
      TableRecord &trec = hktable[i];
-     QString scetString = trec["dataSCET"];
+     QString scetString = QString::fromStdString(trec["dataSCET"]);
      lineEndTime = getClockTime(scetString, naifSpkCode()).Et();
      m_lineRates.push_back(LineRateChange(lineno,
                                           lineEndTime-exposureTime(),

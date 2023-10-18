@@ -161,8 +161,8 @@ namespace Isis {
           for (int rec = 0; rec < g_utcTable->Records() - 1; rec++) {
             outputLines++; // One for this line
 
-            iTime thisEt((QString)(*g_utcTable)[rec]["UtcTime"]);
-            iTime nextEt((QString)(*g_utcTable)[rec+1]["UtcTime"]);
+            iTime thisEt(QString::fromStdString((std::string)(*g_utcTable)[rec]["UtcTime"]));
+            iTime nextEt(QString::fromStdString((std::string)(*g_utcTable)[rec+1]["UtcTime"]));
             double delta = fabs(nextEt - thisEt); // Time table may be assending or decenting times
 
             while (delta > g_expectedLineRate * 1.9) {
@@ -172,8 +172,8 @@ namespace Isis {
           }
           outputLines++; // One more for the last line
 
-          iTime firstEt((QString)(*g_utcTable)[0]["UtcTime"]);
-          iTime lastEt((QString)(*g_utcTable)[g_utcTable->Records()-1]["UtcTime"]);
+          iTime firstEt(QString::fromStdString((std::string)(*g_utcTable)[0]["UtcTime"]));
+          iTime lastEt(QString::fromStdString((std::string)(*g_utcTable)[g_utcTable->Records()-1]["UtcTime"]));
           calcOutputLines = fabs((lastEt + g_expectedLineRate / 2.0) -
                                  (firstEt - g_expectedLineRate / 2.0)) / g_expectedLineRate;
         }
@@ -289,11 +289,11 @@ namespace Isis {
 
     if (in.Band() == g_oCube->bandCount() && in.Line() < g_utcTable->Records()) {
 
-      QString tt = (QString)(*g_utcTable)[in.Line() - 1]["UtcTime"];
-      QString ttt = (QString)(*g_utcTable)[in.Line()]["UtcTime"];
+      QString tt = QString::fromStdString((std::string)(*g_utcTable)[in.Line() - 1]["UtcTime"]);
+      QString ttt = QString::fromStdString((std::string)(*g_utcTable)[in.Line()]["UtcTime"]);
 
-      iTime thisEt((QString)(*g_utcTable)[in.Line() - 1]["UtcTime"]);
-      iTime nextEt((QString)(*g_utcTable)[in.Line()]["UtcTime"]);
+      iTime thisEt(QString::fromStdString((std::string)(*g_utcTable)[in.Line() - 1]["UtcTime"]));
+      iTime nextEt(QString::fromStdString((std::string)(*g_utcTable)[in.Line()]["UtcTime"]));
 
       double delta = fabs(nextEt - thisEt);
 
@@ -377,8 +377,8 @@ namespace Isis {
       // Assume the UTC table times are better, so change the labels to match the table
       // The start and stop clock counts need to match the start/stop time, so convert the times
       // to new clock counts.
-      iTime firstEt((QString)(*g_utcTable)[0]["UtcTime"]);
-      iTime lastEt((QString)(*g_utcTable)[utcTable.Records()-1]["UtcTime"]);
+      iTime firstEt(QString::fromStdString((std::string)(*g_utcTable)[0]["UtcTime"]));
+      iTime lastEt(QString::fromStdString((std::string)(*g_utcTable)[utcTable.Records()-1]["UtcTime"]));
 
       // The table is in assending order
       // The table contains the middle of the exposure. include times to cover the beginning of
