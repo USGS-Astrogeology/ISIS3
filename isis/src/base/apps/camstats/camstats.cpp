@@ -192,7 +192,7 @@ namespace Isis {
         PvlGroup &group = statsPvl.group(i);
 
         int entry = 0;
-        record[entry] = group.name();
+        record[entry] = group.name().toStdString();
         entry++;
         for (int j = 0; j < group.keywords(); j++) {
           record[entry] = std::stod(group[j][0]);

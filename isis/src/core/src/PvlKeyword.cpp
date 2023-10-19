@@ -654,7 +654,7 @@ namespace Isis {
         if (j < (int) seq[i].size() - 1) temp += ", ";
       }
       temp += ")";
-      this->operator+=(temp);
+      this->operator+=(QString::fromStdString(temp));
     }
 
     return *this;
