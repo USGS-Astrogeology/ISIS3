@@ -80,11 +80,11 @@ namespace Isis {
         }
       }
 
-      outFile.write(FileName(ui.GetFileName("ERRORS")).expanded());
+      outFile.write(FileName(ui.GetFileName("ERRORS")).expanded().toStdString());
     }
 
     PvlGroup results("Results");
-    results += PvlKeyword("ErrorCount", toString((BigInt)overlaps.Errors().size()));
+    results += PvlKeyword("ErrorCount", std::to_string((BigInt)overlaps.Errors().size()));
 
     Application::Log(results);
   }

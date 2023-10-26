@@ -63,7 +63,7 @@ namespace Isis {
 
       // If the user chose a format of PVL, then write to the output file ("TO")
       if(ui.GetString("FORMAT") == "PVL") {
-        (append) ? statsPvl.append(outfile) : statsPvl.write(outfile);
+        (append) ? statsPvl.append(outfile.toStdString()) : statsPvl.write(outfile.toStdString());
       }
       else {
         // Create a flatfile of the data with columhn headings the flatfile is
@@ -184,7 +184,7 @@ namespace Isis {
       record += favg;
       record += fstd;
 
-      Table table(cam_name, record);
+      Table table(cam_name.toStdString(), record);
 
       // Place all the gathered camera statistics in a table and attach it to the
       // cube. Skip "UserParameters" group.
@@ -192,10 +192,10 @@ namespace Isis {
         PvlGroup &group = statsPvl.group(i);
 
         int entry = 0;
-        record[entry] = group.name().toStdString();
+        record[entry] = group.name();
         entry++;
         for (int j = 0; j < group.keywords(); j++) {
-          record[entry] = toDouble(group[j][0]);
+          record[entry] = std::stod(group[j][0]);
           entry++;
         }
         table += record;

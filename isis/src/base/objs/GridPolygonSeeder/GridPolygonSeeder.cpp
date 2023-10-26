@@ -398,8 +398,7 @@ namespace Isis {
         }
       }
       else {
-        QString msg = "PVL for GridPolygonSeeder must contain [XSpacing] in [";
-        msg += pvl.fileName() + "]";
+        std::string msg = "PVL for GridPolygonSeeder must contain [XSpacing] in [" + pvl.fileName() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -411,21 +410,20 @@ namespace Isis {
         }
       }
       else {
-        QString msg = "PVL for GridPolygonSeeder must contain [YSpacing] in [";
-        msg += pvl.fileName() + "]";
+        std::string msg = "PVL for GridPolygonSeeder must contain [YSpacing] in [" + pvl.fileName() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       p_subGrid = false;
       if(algo.hasKeyword("SubGrid")) {
-        p_subGrid = IString((QString)algo["SubGrid"]).UpCase() != "FALSE";
+        p_subGrid = IString((std::string)algo["SubGrid"]).UpCase() != "FALSE";
         if(invalgo.hasKeyword("SubGrid")) {
           invalgo.deleteKeyword("SubGrid");
         }
       }
     }
     catch(IException &e) {
-      QString msg = "Improper format for PolygonSeeder PVL [" + pvl.fileName() + "]";
+      std::string msg = "Improper format for PolygonSeeder PVL [" + pvl.fileName() + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -440,14 +438,14 @@ namespace Isis {
   }
 
   PvlGroup GridPolygonSeeder::PluginParameters(QString grpName) {
-    PvlGroup pluginInfo(grpName);
+    PvlGroup pluginInfo(grpName.toStdString());
 
-    PvlKeyword name("Name", Algorithm());
-    PvlKeyword minThickness("MinimumThickness", toString(MinimumThickness()));
-    PvlKeyword minArea("MinimumArea", toString(MinimumArea()));
-    PvlKeyword xSpac("XSpacing", toString(p_Xspacing));
-    PvlKeyword ySpac("YSpacing", toString(p_Yspacing));
-    PvlKeyword subGrid("SubGrid", toString(p_subGrid));
+    PvlKeyword name("Name", Algorithm().toStdString());
+    PvlKeyword minThickness("MinimumThickness", std::to_string(MinimumThickness()));
+    PvlKeyword minArea("MinimumArea", std::to_string(MinimumArea()));
+    PvlKeyword xSpac("XSpacing", std::to_string(p_Xspacing));
+    PvlKeyword ySpac("YSpacing", std::to_string(p_Yspacing));
+    PvlKeyword subGrid("SubGrid", std::to_string(p_subGrid));
 
     pluginInfo.addKeyword(name);
     pluginInfo.addKeyword(minThickness);

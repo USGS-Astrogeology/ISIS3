@@ -387,7 +387,7 @@ PvlGroup originalMappingGroup = qube.findGroup("IMAGE_MAP_PROJECTION", Pvl::Trav
     }
     else {
       if (mappingGroup.hasKeyword("CenterLatitude")) {
-        mappingGroup["CenterLatitude"].setValue(toString(centerLatitude),
+        mappingGroup["CenterLatitude"].setValue(std::to_string(centerLatitude),
                                                 "degrees");
       }
       else {
@@ -400,7 +400,7 @@ PvlGroup originalMappingGroup = qube.findGroup("IMAGE_MAP_PROJECTION", Pvl::Trav
                                                "degrees");
     }
     else {
-      mappingGroup["CenterLongitude"].setValue(toString(centerLongitude),
+      mappingGroup["CenterLongitude"].setValue(std::to_string(centerLongitude),
                                                "degrees");
     }
     mappingGroup["LongitudeDomain"].setUnits("degrees");

@@ -318,7 +318,7 @@ namespace Isis {
   Table ImportPdsTable::importTable(const QString &isisTableName) {
     try {
       TableRecord record = makeRecord(m_coldesc);
-      Table table(isisTableName, record);
+      Table table(isisTableName.toStdString(), record);
       fillTable(table, m_coldesc, record);
       return (table);
     }
@@ -387,7 +387,7 @@ namespace Isis {
 
     // Create and populate the table
     TableRecord record = makeRecord(ctypes);
-    Table table(isisTableName, record);
+    Table table(isisTableName.toStdString(), record);
     fillTable(table, ctypes, record);
     return (table);
   }
@@ -439,17 +439,17 @@ namespace Isis {
                                  QString &pdsTableFile,
                                  const QString &tblname) {
 
-    Isis::Pvl label(pdsLabFile);
+    Isis::Pvl label(pdsLabFile.toStdString());
 
     QString tableName = ( tblname.isEmpty() ) ? m_tableName : tblname;
-    if (!label.hasObject(tableName)) {
+    if (!label.hasObject(tableName.toStdString())) {
       QString msg = "The PDS file " + pdsLabFile +
                     " does not have the required TABLE object, ["
                     + tableName +"]. The PDS label file is probably invalid";
       throw IException(IException::Unknown, msg.toStdString(), _FILEINFO_);
     }
     //  Get some pertinent information from the label
-    PvlObject &tabObj = label.findObject(tableName);
+    PvlObject &tabObj = label.findObject(tableName.toStdString());
     // The table description contains the actual "RECORD_BYTES"
     if (tabObj.hasKeyword("RECORD_BYTES")) {
       m_recordBytes = (int) tabObj.findKeyword("RECORD_BYTES");
@@ -468,20 +468,20 @@ namespace Isis {
 
     QString trueTableName;
     PvlObject *tableDetails = &tabObj;
-    if (label.hasKeyword("^" + tableName)) {
+    if (label.hasKeyword(("^" + tableName).toStdString())) {
       trueTableName = tableName;
       pdsTableFile = FileName(pdsLabFile).path() + "/"
-                     + label["^" + tableName][0];
+                     + QString::fromStdString(label[("^" + tableName).toStdString()][0]);
     }
     else if (tabObj.objects() == 1) {
-      trueTableName = tabObj.object(0).name();
+      trueTableName = QString::fromStdString(tabObj.object(0).name());
       tableDetails = &tabObj.object(0);
       pdsTableFile = FileName(pdsLabFile).path() + "/"
-                     + tabObj["^" + trueTableName][0];
+                     + QString::fromStdString(tabObj[("^" + trueTableName).toStdString()][0]);
     }
     m_trows = (int) tableDetails->findKeyword("ROWS");
     int ncols =  (int) tableDetails->findKeyword("COLUMNS");
-    m_pdsTableType = QString(tableDetails->findKeyword("INTERCHANGE_FORMAT"));
+    m_pdsTableType = QString::fromStdString(tableDetails->findKeyword("INTERCHANGE_FORMAT"));
     if (m_pdsTableType != "ASCII" && m_pdsTableType.toUpper() != "BINARY") {
       QString msg = "Unable to import the PDS table [" + tableName
                     + "] from the PDS file ["
@@ -571,14 +571,14 @@ namespace Isis {
   ImportPdsTable::ColumnDescr
       ImportPdsTable::getColumnDescription(PvlObject &colobj, int nth) const {
     ColumnDescr cd;
-    cd.m_name = colobj["NAME"][0];
+    cd.m_name = QString::fromStdString(colobj["NAME"][0]);
     cd.m_colnum = nth;    // 0-based indexing, will be COLUMN_NUM - 1
 
     if (m_pdsTableType == "ASCII") {
-      cd.m_dataType = getGenericType(colobj["DATA_TYPE"][0]).toUpper();
+      cd.m_dataType = getGenericType(QString::fromStdString(colobj["DATA_TYPE"][0])).toUpper();
     }
     else {
-      cd.m_dataType = colobj["DATA_TYPE"][0].toUpper();
+      cd.m_dataType = QString::fromStdString(colobj["DATA_TYPE"][0]).toUpper();
     }
 
     cd.m_startByte = ((int) colobj["START_BYTE"]) - 1;   // 0-based indexing

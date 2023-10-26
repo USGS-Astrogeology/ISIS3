@@ -116,7 +116,7 @@ namespace Isis {
       vector<QString> extraPvlFiles;
       ui.GetFileName("EXTRAPVL", extraPvlFiles);
       for (QString pvlFile : extraPvlFiles) {
-        Pvl extraPvl(pvlFile);
+        Pvl extraPvl(pvlFile.toStdString());
         json extraJson = pvlToJSON(extraPvl);
         // Notify users of duplicate keys that will be overwritten
         if (log) {
@@ -127,7 +127,7 @@ namespace Isis {
                               + "] in extra Pvl file [" + pvlFile + "]. "
                               + "Previous value [" + QString::fromStdString(dataSource["ExtraPvl"][element.key()].dump())
                               + "] will be overwritten.";
-              duplicateWarnings += PvlKeyword("Duplicate", message);
+              duplicateWarnings += PvlKeyword("Duplicate", message.toStdString());
               Application::AppendAndLog(duplicateWarnings, log);
             }
           }
@@ -146,9 +146,9 @@ namespace Isis {
           for (auto& element : extraJson.items()) {
             if (dataSource["ExtraXml"].contains(element.key())) {
               PvlGroup duplicateWarnings("Warning");
-              QString message = "Duplicate element [" + QString::fromStdString(element.key())
-                              + "] in extra xml file [" + xmlFile + "]. "
-                              + "Previous value [" + QString::fromStdString(dataSource["ExtraXml"][element.key()].dump())
+              std::string message = "Duplicate element [" + element.key()
+                              + "] in extra xml file [" + xmlFile.toStdString() + "]. "
+                              + "Previous value [" + dataSource["ExtraXml"][element.key()].dump()
                               + "] will be overwritten.";
               duplicateWarnings += PvlKeyword("Duplicate", message);
               Application::AppendAndLog(duplicateWarnings, log);
@@ -174,7 +174,7 @@ namespace Isis {
                               + "] in extra json file [" + jsonFile + "]. "
                               + "Previous value [" + QString::fromStdString(dataSource["ExtraJson"][element.key()].dump())
                               + "] will be overwritten.";
-              duplicateWarnings += PvlKeyword("Duplicate", message);
+              duplicateWarnings += PvlKeyword("Duplicate", message.toStdString());
               Application::AppendAndLog(duplicateWarnings, log);
             }
           }

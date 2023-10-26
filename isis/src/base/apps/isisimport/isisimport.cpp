@@ -149,7 +149,7 @@ namespace Isis {
 
     env.add_callback("CassiniIssStretchPairs", 0, [](Arguments& args) {
       PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-      QString missionDir = (QString) dataDir["Cassini"];
+      QString missionDir =  QString::fromStdString(dataDir["Cassini"]);
       FileName *lutFile = new FileName(missionDir + "/calibration/lut/lut.tab");
       TextFile *stretchPairs = new TextFile(lutFile->expanded());
 
@@ -381,19 +381,19 @@ namespace Isis {
 
     PvlObject translation = newLabel.findObject("Translation");
     if (translation.hasKeyword("Failure")) {
-      throw IException(IException::Io, QString(translation.findKeyword("Failure")), _FILEINFO_);
+      throw IException(IException::Io, QString::fromStdString(translation.findKeyword("Failure")), _FILEINFO_);
     }
 
     // Set everything needed by ProcessImport
     PvlGroup dimensions = newLabel.findObject("IsisCube").findObject("Core").findGroup("Dimensions");
-    int ns = toInt(dimensions["Samples"]);
-    int nl = toInt(dimensions["Lines"]);
-    int nb = toInt(dimensions["Bands"]);
+    int ns = std::stoi(dimensions["Samples"]);
+    int nl = std::stoi(dimensions["Lines"]);
+    int nb = std::stoi(dimensions["Bands"]);
     importer.SetDimensions(ns, nl, nb);
 
     PvlGroup pixels = newLabel.findObject("IsisCube").findObject("Core").findGroup("Pixels");
-    QString pixelType = pixels["Type"];
-    QString byteOrder = pixels["ByteOrder"];
+    QString pixelType = QString::fromStdString(pixels["Type"]);
+    QString byteOrder = QString::fromStdString(pixels["ByteOrder"]);
     double base = pixels["Base"];
     double multiplier = pixels["Multiplier"];
     importer.SetPixelType(PixelTypeEnumeration(pixelType));
@@ -404,7 +404,7 @@ namespace Isis {
     // Update TargetName if Target parameter entered
     if (ui.WasEntered("TARGET")) {
       PvlGroup &inst = newLabel.findGroup("Instrument",Pvl::Traverse);
-      inst["TargetName"] = ui.GetString("TARGET");
+      inst["TargetName"] = ui.GetString("TARGET").toStdString();
     }
 
     // Check translation for potential PDS3 offset
@@ -417,8 +417,8 @@ namespace Isis {
 
       if (dataFilePointer.size() == 1) {
         try {
-          offset = toInt(dataFilePointer) - 1;
-          units = dataFilePointer.unit();
+          offset = std::stoi(dataFilePointer) - 1;
+          units = QString::fromStdString(dataFilePointer.unit());
         }
         catch(IException &e) {
           // Failed to parse to an int, means we have a file name
@@ -428,8 +428,8 @@ namespace Isis {
         }
       }
       else if (dataFilePointer.size() == 2) {
-        offset = toInt(dataFilePointer[1]) - 1;
-        units = dataFilePointer.unit(1);
+        offset = std::stoi(dataFilePointer[1]) - 1;
+        units = QString::fromStdString(dataFilePointer.unit(1));
       }
       else {
         QString msg = "Improperly formatted data file pointer keyword ^IMAGE or "
@@ -445,7 +445,7 @@ namespace Isis {
       }
       else {
         if (translation.hasKeyword("DataFileRecordBytes")) {
-          recSize = toInt(translation["DataFileRecordBytes"]);
+          recSize = std::stoi(translation["DataFileRecordBytes"]);
         }
       }
       importer.SetFileHeaderBytes(offset * recSize);
@@ -458,11 +458,11 @@ namespace Isis {
 
     // Checks that are unique to mgsmoc
     if (translation.hasKeyword("compressed") && translation.hasKeyword("projected")) {
-      if (toBool(translation["compressed"])) {
+      if (toBool(QString::fromStdString(translation["compressed"]))) {
         QString msg = "[" + inputFileName.name() + "] may be compressed. Please run image through mocuncompress to uncompress.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
-      if (toBool(translation["projected"])) {
+      if (toBool(QString::fromStdString(translation["projected"]))) {
         QString msg = "[" + inputFileName.name() + "] appears to be an rdr file.";
         msg += " Use pds2isis.";
         throw IException(IException::User, msg, _FILEINFO_);
@@ -471,20 +471,20 @@ namespace Isis {
     // Processing unique to mroctx
     if (translation.hasKeyword("DataPrefixBytes")) {
       importer.SetDataPrefixBytes(translation["DataPrefixBytes"]);
-      if (toInt(translation["DataPrefixBytes"]) > 0) {
+      if (std::stoi(translation["DataPrefixBytes"]) > 0) {
         importer.SaveDataPrefix();
       }
     }
 
     if (translation.hasKeyword("DataSuffixBytes")) {
       importer.SetDataSuffixBytes(translation["DataSuffixBytes"]);
-      if (toInt(translation["DataSuffixBytes"]) > 0) {
+      if (std::stoi(translation["DataSuffixBytes"]) > 0) {
         importer.SaveDataSuffix();
       }
     }
 
     if (translation.hasKeyword("CoreAxisNames")) {
-      QString originalAxisOrder = QString(translation["CoreAxisNames"]);
+      QString originalAxisOrder = QString::fromStdString(translation["CoreAxisNames"]);
       if (originalAxisOrder == "SAMPLELINEBAND") {
         importer.SetOrganization(ProcessImport::BSQ);
       }
@@ -498,7 +498,7 @@ namespace Isis {
         stringstream pdsOrgStream;
         pdsOrgStream << originalAxisOrder;
 
-        QString msg = "Unsupported axis order [" + QString(originalAxisOrder) + "]";
+        std::string msg = "Unsupported axis order [" + originalAxisOrder.toStdString() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -506,7 +506,7 @@ namespace Isis {
     // Set any special pixel values
     double pdsNull = Isis::NULL8;
     if (translation.hasKeyword("CoreNull")) {
-      str = QString(translation["CoreNull"]);
+      str = QString::fromStdString(translation["CoreNull"]);
       if(str != "NULL") {
         pdsNull = toDouble(str);
       }
@@ -514,7 +514,7 @@ namespace Isis {
 
     double pdsLrs = Isis::Lrs;
     if (translation.hasKeyword("CoreLRS")) {
-      str = QString(translation["CoreLRS"]);
+      str = QString::fromStdString(translation["CoreLRS"]);
       if(str != "NULL") {
         pdsLrs = toDouble(str);
       }
@@ -522,7 +522,7 @@ namespace Isis {
 
     double pdsLis = Isis::Lis;
     if (translation.hasKeyword("CoreLIS")) {
-      str = QString(translation["CoreLIS"]);
+      str = QString::fromStdString(translation["CoreLIS"]);
       if(str != "NULL") {
         pdsLis = toDouble(str);
       }
@@ -530,7 +530,7 @@ namespace Isis {
 
     double pdsHrs = Isis::Hrs;
     if (translation.hasKeyword("CoreHRS")) {
-      str = QString(translation["CoreHRS"]);
+      str = QString::fromStdString(translation["CoreHRS"]);
       if(str != "NULL") {
         pdsHrs = toDouble(str);
       }
@@ -538,7 +538,7 @@ namespace Isis {
 
     double pdsHis = Isis::His;
     if (translation.hasKeyword("CoreHIS")) {
-      str = QString(translation["CoreHIS"]);
+      str = QString::fromStdString(translation["CoreHIS"]);
       if(str != "NULL") {
         pdsHis = toDouble(str);
       }
@@ -547,7 +547,7 @@ namespace Isis {
 
     QString cubeAtts = "";
     if (translation.hasKeyword("CubeAtts")) {
-      cubeAtts = QString(translation["CubeAtts"]);
+      cubeAtts = QString::fromStdString(translation["CubeAtts"]);
     }
     CubeAttributeOutput outputAtts = CubeAttributeOutput(cubeAtts);
     Cube *outputCube = importer.SetOutputCube(ui.GetCubeName("TO"), outputAtts);
@@ -559,7 +559,7 @@ namespace Isis {
     }
     // Assume PDS3
     else {
-      Pvl pdsLab(inputFileName.expanded());
+      Pvl pdsLab(inputFileName.expanded().toStdString());
       OriginalLabel pds3Label(pdsLab);
       outputCube->write(pds3Label);
     }
@@ -577,9 +577,9 @@ namespace Isis {
     if (translation.hasObject("AncillaryProcess")) {
       for(int i = 0; i < translation.objects(); ++i) {
         PvlObject &object = translation.object(i);
-        QString objectName = object.name();
+        QString objectName = QString::fromStdString(object.name());
         if (objectName == "AncillaryProcess") {
-          applyAncillaryProcess(outputCube, QString(object["ProcessFunction"]), translation, &importer);
+          applyAncillaryProcess(outputCube, QString::fromStdString(object["ProcessFunction"]), translation, &importer);
         }
       }
     }

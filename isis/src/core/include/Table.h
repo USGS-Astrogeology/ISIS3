@@ -73,10 +73,10 @@ namespace Isis {
       // Constructors and Destructors
       Table();
       Table(Blob &blob);
-      Table(const QString &tableName, TableRecord &rec);
-      Table(const QString &tableName);// Only use this constructor for reading in an existing table
-      Table(const QString &tableName, const QString &file);
-      Table(const QString &tableName, const QString &file,
+      Table(const std::string &tableName, TableRecord &rec);
+      Table(const std::string &tableName);// Only use this constructor for reading in an existing table
+      Table(const std::string &tableName, const QString &file);
+      Table(const std::string &tableName, const QString &file,
             const Pvl &fileHeader);
       Table(const Table &other);
       Table(const QString &tableName, const std::string &tableString, const char &fieldDelimiter);
@@ -87,7 +87,7 @@ namespace Isis {
 
       void Write(const QString &file);
 
-      QString Name() const;
+      std::string Name() const;
       PvlObject &Label();
 
       void SetAssociation(const Table::Association assoc);
@@ -132,7 +132,7 @@ namespace Isis {
       Association p_assoc; //!< Association Type of the table
       bool p_swap;         //!< Only used for reading
 
-      QString p_name; //!< The name of the Table
+      std::string p_name; //!< The name of the Table
       PvlObject p_label; //!< The label for storing additional information
   };
 };

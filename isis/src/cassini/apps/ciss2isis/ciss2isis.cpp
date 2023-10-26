@@ -94,7 +94,7 @@ namespace Isis{
       //Adjust Table-encoded values from 8 bit back to 12 bit.
       PvlGroup &inst = outputLabel->findGroup("Instrument", Pvl::Traverse);
       double biasStripMean = inst.findKeyword("BiasStripMean");
-      inst.findKeyword("BiasStripMean").setValue(toString(stretch.Map(biasStripMean)));
+      inst.findKeyword("BiasStripMean").setValue(std::to_string(stretch.Map(biasStripMean)));
       inst.findKeyword("BiasStripMean").addComment("BiasStripMean value converted back to 12 bit.");
       p.Progress()->SetText("Image was converted using 12-to-8 bit table. \nConverting prefix pixels back to 12 bit and saving line prefix data...");
     }
@@ -291,17 +291,17 @@ namespace Isis{
 
     //Add units of measurement to keywords from translation table
     double exposureDuration = inst.findKeyword("ExposureDuration");
-    inst.findKeyword("ExposureDuration").setValue(toString(exposureDuration), "Milliseconds");
+    inst.findKeyword("ExposureDuration").setValue(std::to_string(exposureDuration), "Milliseconds");
 
     int gainModeId = inst.findKeyword("GainModeId");
-    inst.findKeyword("GainModeId").setValue(toString(gainModeId), "ElectronsPerDN");
+    inst.findKeyword("GainModeId").setValue(std::to_string(gainModeId), "ElectronsPerDN");
 
     PvlKeyword opticsTemp = inst.findKeyword("OpticsTemperature");
     inst.findKeyword("OpticsTemperature").setValue(opticsTemp[0]);
     inst.findKeyword("OpticsTemperature").addValue(opticsTemp[1], "DegreesCelcius");
 
     double instDataRate = inst.findKeyword("InstrumentDataRate");
-    inst.findKeyword("InstrumentDataRate").setValue(toString(instDataRate), "KilobitsPerSecond");
+    inst.findKeyword("InstrumentDataRate").setValue(std::to_string(instDataRate), "KilobitsPerSecond");
 
     //  initialize global variables
     dataConversionType = (QString) inst.findKeyword("DataConversionType");

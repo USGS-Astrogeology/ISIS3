@@ -36,7 +36,7 @@ namespace Isis {
   PolygonSeeder *PolygonSeederFactory::Create(Pvl &pvl) {
     // Get the algorithm name to create
     PvlGroup &algo = pvl.findGroup("PolygonSeederAlgorithm", Pvl::Traverse);
-    QString algorithm = algo["Name"];
+    QString algorithm = QString::fromStdString(algo["Name"]);
 
     // Open the factory plugin file
     Plugin p;

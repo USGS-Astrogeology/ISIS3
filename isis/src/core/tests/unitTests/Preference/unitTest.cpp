@@ -52,7 +52,7 @@ int main() {
     //  if (p2.hasGroup("Junk")) {
     if(Isis::Preference::Preferences(false).hasGroup("Junk")) {
       Isis::PvlGroup &g = Isis::Preference::Preferences(false).findGroup("Junk");
-      cout << "Value of Vegetable is : " << (QString) g["Vegetable"] << endl;
+      cout << "Value of Vegetable is : " << (std::string) g["Vegetable"] << endl;
     }
 
     remove("tmpSystem");

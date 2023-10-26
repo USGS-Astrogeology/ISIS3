@@ -425,7 +425,7 @@ void IsisMain() {
   calibrationLog.addKeyword(PvlKeyword("SmearCompFile", smearfile));
   PvlKeyword rspKey("Response", toString(rsp[0]));
   for (unsigned int i = 1; i < rsp.size(); i++) {
-    rspKey.addValue(toString(rsp[i]));
+    rspKey.addValue(std::to_string(rsp[i]));
   }
   calibrationLog.addKeyword(rspKey);
   calibrationLog.addKeyword(PvlKeyword("SmearComponent", toString(g_smearComponent)));

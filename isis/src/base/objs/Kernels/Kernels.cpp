@@ -90,7 +90,7 @@ namespace Isis {
    * @param filename Name of ISIS cube file
    */
   Kernels::Kernels(const QString &filename) {
-    Pvl pvl(filename);
+    Pvl pvl(filename.toStdString());
     Init(pvl);
   }
 
@@ -907,12 +907,12 @@ namespace Isis {
     // Get the kernel group and load main kernels
     PvlGroup &kernels = pvl.findGroup("Kernels",Pvl::Traverse);
     // Check for the keyword
-    if (kernels.hasKeyword(kname)) {
-      PvlKeyword &kkey = kernels[kname];
+    if (kernels.hasKeyword(kname.toStdString())) {
+      PvlKeyword &kkey = kernels[kname.toStdString()];
       for (int i = 0 ; i < kkey.size() ; i++) {
         if (!kkey.isNull(i)) {
-          if (kkey[i].toLower() != "table") {
-            klist.push_back(examine(kkey[i], manage));
+          if (QString::fromStdString(kkey[i]).toLower() != "table") {
+            klist.push_back((examine(QString::fromStdString(kkey[i]), manage)));
           }
         }
       }

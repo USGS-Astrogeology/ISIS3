@@ -528,8 +528,8 @@ namespace Isis {
      if ( !config.isEmpty() ) {
        miner = factory->buildRun(config, globals);
      }
-     else if ( getDefinition().hasObject(minerName+"Miner") ) {
-       miner = factory->buildRun(getDefinition().findObject(minerName+"Miner"), 
+     else if ( getDefinition().hasObject(minerName.toStdString() + "Miner") ) {
+       miner = factory->buildRun(getDefinition().findObject(minerName.toStdString() + "Miner"), 
                                             globals);
      }
      

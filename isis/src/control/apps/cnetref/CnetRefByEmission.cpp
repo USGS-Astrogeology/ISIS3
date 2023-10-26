@@ -69,7 +69,7 @@ namespace Isis {
 
       // Logging
       PvlObject pvlPointObj("PointDetails");
-      pvlPointObj += Isis::PvlKeyword("PointId", newPnt->GetId());
+      pvlPointObj += Isis::PvlKeyword("PointId", newPnt->GetId().toStdString());
 
       // Edit Lock Option
       bool bPntEditLock = newPnt->IsEditLocked();
@@ -117,8 +117,8 @@ namespace Isis {
 
           // Log
           PvlGroup pvlMeasureGrp("MeasureDetails");
-          pvlMeasureGrp += Isis::PvlKeyword("SerialNum", sn);
-          pvlMeasureGrp += Isis::PvlKeyword("OriginalLocation", LocationString(dSample, dLine));
+          pvlMeasureGrp += Isis::PvlKeyword("SerialNum", sn.toStdString());
+          pvlMeasureGrp += Isis::PvlKeyword("OriginalLocation", LocationString(dSample, dLine).toStdString());
 
           if (bMeasureLocked)
             pvlMeasureGrp += Isis::PvlKeyword("EditLock", "True");
@@ -196,25 +196,25 @@ namespace Isis {
       else {
         int iComment = 0;
         if (numMeasures == 0) {
-          QString sComment = "Comment";
-          sComment += toString(++iComment);
+          std::string sComment = "Comment";
+          sComment += std::to_string(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "No Measures in the Point");
         }
 
         if (newPnt->IsIgnored()) {
-          QString sComment = "Comment";
-          sComment += toString(++iComment);
+          std::string sComment = "Comment";
+          sComment += std::to_string(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Point was originally Ignored");
         }
 
         if (origPnt.GetType() == ControlPoint::Fixed) {
-          QString sComment = "Comment";
-          sComment += toString(++iComment);
+          std::string sComment = "Comment";
+          sComment += std::to_string(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Fixed Point");
         }
         else if (newPnt->GetType() == ControlPoint::Constrained) {
-          QString sComment = "Comment";
-          sComment += toString(++iComment);
+          std::string sComment = "Comment";
+          sComment += std::to_string(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Constrained Point");
         }
 
@@ -244,28 +244,28 @@ namespace Isis {
         PvlGroup pvlRefChangeGrp("ReferenceChangeDetails");
         if (iRefIndex >= 0) {
           pvlRefChangeGrp += Isis::PvlKeyword("PrevSerialNumber",
-              origPnt.GetReferenceSN());
+              origPnt.GetReferenceSN().toStdString());
           pvlRefChangeGrp += Isis::PvlKeyword("PrevEmAngle",
-              toString(bestEmissionAngle[iRefIndex]));
+              std::to_string(bestEmissionAngle[iRefIndex]));
 
           istrTemp = toString((int)origPnt.GetMeasure(iRefIndex)->GetSample());
           istrTemp += ",";
           istrTemp += toString((int)origPnt.GetMeasure(iRefIndex)->GetLine());
-          pvlRefChangeGrp += Isis::PvlKeyword("PrevLocation",     istrTemp);
+          pvlRefChangeGrp += Isis::PvlKeyword("PrevLocation",     istrTemp.toStdString());
         }
         else {
           pvlRefChangeGrp += Isis::PvlKeyword("PrevReference", "Not Set");
         }
 
         pvlRefChangeGrp += Isis::PvlKeyword("NewSerialNumber",
-            newPnt->GetMeasure(iBestIndex)->GetCubeSerialNumber());
+            newPnt->GetMeasure(iBestIndex)->GetCubeSerialNumber().toStdString());
         pvlRefChangeGrp += Isis::PvlKeyword("NewLeastEmAngle",
-            toString(bestEmissionAngle[iBestIndex]));
+            std::to_string(bestEmissionAngle[iBestIndex]));
 
         istrTemp = toString((int)newPnt->GetMeasure(iBestIndex)->GetSample());
         istrTemp += ",";
         istrTemp += toString((int)newPnt->GetMeasure(iBestIndex)->GetLine());
-        pvlRefChangeGrp += Isis::PvlKeyword("NewLocation", istrTemp);
+        pvlRefChangeGrp += Isis::PvlKeyword("NewLocation", istrTemp.toStdString());
 
         pvlPointObj += pvlRefChangeGrp;
       }
@@ -278,9 +278,9 @@ namespace Isis {
     }// end Point
 
     // CnetRef Change Statistics
-    mStatisticsGrp += Isis::PvlKeyword("PointsModified",   toString(iPointsModified));
-    mStatisticsGrp += Isis::PvlKeyword("ReferenceChanged", toString(iRefChanged));
-    mStatisticsGrp += Isis::PvlKeyword("MeasuresModified", toString(iMeasuresModified));
+    mStatisticsGrp += Isis::PvlKeyword("PointsModified",   std::to_string(iPointsModified));
+    mStatisticsGrp += Isis::PvlKeyword("ReferenceChanged", std::to_string(iRefChanged));
+    mStatisticsGrp += Isis::PvlKeyword("MeasuresModified", std::to_string(iMeasuresModified));
 
     mPvlLog += mStatisticsGrp;
   }

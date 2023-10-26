@@ -219,15 +219,15 @@ void getStats(Buffer &in) {
 void pvlOut(const QString &StatFile) {
   PvlGroup results("Results");
   for(unsigned int i = 0; i < st.size(); i++) {
-    results += PvlKeyword("Band", toString(band[i]));
-    results += PvlKeyword("RowCol", toString(element[i]));
-    results += PvlKeyword("ValidPixels", toString(st[i].ValidPixels()));
+    results += PvlKeyword("Band", std::to_string(band[i]));
+    results += PvlKeyword("RowCol", std::to_string(element[i]));
+    results += PvlKeyword("ValidPixels", std::to_string(st[i].ValidPixels()));
     if(st[i].ValidPixels() > 0) {
-      results += PvlKeyword("Mean", toString(st[i].Average()));
-      results += PvlKeyword("Median", toString(median[i]));
-      results += PvlKeyword("Std", toString(st[i].StandardDeviation()));
-      results += PvlKeyword("Minimum", toString(st[i].Minimum()));
-      results += PvlKeyword("Maximum", toString(st[i].Maximum()));
+      results += PvlKeyword("Mean", std::to_string(st[i].Average()));
+      results += PvlKeyword("Median", std::to_string(median[i]));
+      results += PvlKeyword("Std", std::to_string(st[i].StandardDeviation()));
+      results += PvlKeyword("Minimum", std::to_string(st[i].Minimum()));
+      results += PvlKeyword("Maximum", std::to_string(st[i].Maximum()));
     }
     else {
       results += PvlKeyword("Mean", "0.0");

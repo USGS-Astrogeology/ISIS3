@@ -18,7 +18,7 @@ class RawPvlKeywords : public ::testing::Test {
     void TearDown() override;
 
     
-    std::vector<QString> keywordsToTry;
+    std::vector<std::string> keywordsToTry;
     std::vector<PvlKeyword> results;
     std::vector<bool> valid;
   };

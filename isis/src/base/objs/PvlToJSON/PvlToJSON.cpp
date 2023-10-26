@@ -80,36 +80,36 @@ namespace Isis {
 
     // Convert values
     if (keyword.size() == 1) {
-      jsonKeyword["Value"] = keyword[0].toStdString();
+      jsonKeyword["Value"] = keyword[0];
     }
     else if (keyword.size() > 1) {
       json valueList;
       for (int i = 0; i < keyword.size(); i++) {
-        valueList.push_back(keyword[i].toStdString());
+        valueList.push_back(keyword[i]);
       }
       jsonKeyword["Value"] = valueList;
     }
 
     // Optionally convert units
-    if (keyword.size() == 1 && !keyword.unit(0).isEmpty()) {
-      jsonKeyword["Units"] = keyword.unit(0).toStdString();
+    if (keyword.size() == 1 && !QString::fromStdString(keyword.unit(0)).isEmpty()) {
+      jsonKeyword["Units"] = keyword.unit(0);
     }
-    else if (keyword.size() > 1 && !keyword.unit(0).isEmpty()) {
+    else if (keyword.size() > 1 && !QString::fromStdString(keyword.unit(0)).isEmpty()) {
       json valueList;
       for (int i = 0; i < keyword.size(); i++) {
-        valueList.push_back(keyword.unit(i).toStdString());
+        valueList.push_back(keyword.unit(i));
       }
       jsonKeyword["Units"] = valueList;
     }
 
     // Optionally convert comments
     if (keyword.comments() == 1) {
-      jsonKeyword["Comment"] = keyword.comment(0).toStdString();
+      jsonKeyword["Comment"] = keyword.comment(0);
     }
     else if (keyword.comments() > 1) {
       json commentList;
       for (int i = 0; i < keyword.comments(); i++) {
-        commentList.push_back(keyword.comment(i).toStdString());
+        commentList.push_back(keyword.comment(i));
       }
       jsonKeyword["Comment"] = commentList;
     }
@@ -136,7 +136,7 @@ namespace Isis {
     // Convert keywords
     PvlContainer::PvlKeywordIterator keywordIt;
     for (keywordIt = container.begin(); keywordIt != container.end(); keywordIt++) {
-      string keywordName = keywordIt->name().replace("^", "ptr").replace(":", "_").toStdString();
+      string keywordName = QString::fromStdString(keywordIt->name()).replace("^", "ptr").replace(":", "_").toStdString();
       // Handle repeated keywords by packing them into an array
       if ( jsonContainer.contains(keywordName) ) {
         if (!jsonContainer[keywordName].is_array()) {
@@ -153,12 +153,12 @@ namespace Isis {
 
     // Optionally convert comments
     if (container.comments() == 1) {
-      jsonContainer["Comment"] = container.comment(0).toStdString();
+      jsonContainer["Comment"] = container.comment(0);
     }
     else if (container.comments() > 1) {
       json commentList;
       for (int i = 0; i < container.comments(); i++) {
-        commentList.push_back(container.comment(i).toStdString());
+        commentList.push_back(container.comment(i));
       }
       jsonContainer["Comment"] = commentList;
     }
@@ -301,16 +301,16 @@ namespace Isis {
     PvlObject::PvlGroupIterator groupIt;
     for (groupIt = object.beginGroup(); groupIt != object.endGroup(); groupIt++) {
       // Handle repeated elements by packing them into an array
-      if ( jsonObject.contains(groupIt->name().toStdString()) ) {
-        if (!jsonObject[groupIt->name().toStdString()].is_array()) {
+      if ( jsonObject.contains(groupIt->name()) ) {
+        if (!jsonObject[groupIt->name()].is_array()) {
           json repeatedArray;
-          repeatedArray.push_back(jsonObject[groupIt->name().toStdString()]);
-          jsonObject[groupIt->name().toStdString()] = repeatedArray;
+          repeatedArray.push_back(jsonObject[groupIt->name()]);
+          jsonObject[groupIt->name()] = repeatedArray;
         }
-        jsonObject[groupIt->name().toStdString()].push_back(pvlGroupToJSON(*groupIt));
+        jsonObject[groupIt->name()].push_back(pvlGroupToJSON(*groupIt));
       }
       else {
-        jsonObject[groupIt->name().toStdString()] = pvlGroupToJSON(*groupIt);
+        jsonObject[groupIt->name()] = pvlGroupToJSON(*groupIt);
       }
     }
 
@@ -318,16 +318,16 @@ namespace Isis {
     PvlObject::PvlObjectIterator objectIt;
     for (objectIt = object.beginObject(); objectIt != object.endObject(); objectIt++) {
       // Handle repeated elements by packing them into an array
-      if ( jsonObject.contains(objectIt->name().toStdString()) ) {
-        if (!jsonObject[objectIt->name().toStdString()].is_array()) {
+      if ( jsonObject.contains(objectIt->name()) ) {
+        if (!jsonObject[objectIt->name()].is_array()) {
           json repeatedArray;
-          repeatedArray.push_back(jsonObject[objectIt->name().toStdString()]);
-          jsonObject[objectIt->name().toStdString()] = repeatedArray;
+          repeatedArray.push_back(jsonObject[objectIt->name()]);
+          jsonObject[objectIt->name()] = repeatedArray;
         }
-        jsonObject[objectIt->name().toStdString()].push_back(pvlObjectToJSON(*objectIt));
+        jsonObject[objectIt->name()].push_back(pvlObjectToJSON(*objectIt));
       }
       else {
-        jsonObject[objectIt->name().toStdString()] = pvlObjectToJSON(*objectIt);
+        jsonObject[objectIt->name()] = pvlObjectToJSON(*objectIt);
       }
     }
     return jsonObject;
@@ -363,7 +363,7 @@ namespace Isis {
     Pvl pvl;
 
     try {
-      pvl.read(pvlFile);
+      pvl.read(pvlFile.toStdString());
     }
     catch (IException &e){
       QString msg = QString("Failed to open file for PVL Input: [%1]").arg(pvlFile);

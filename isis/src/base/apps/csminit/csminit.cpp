@@ -116,12 +116,12 @@ namespace Isis {
       }
 
       if (possibleModels.empty()) {
-        QString message = "No loaded model could be created from the ISD [" + isdFilePath + "]."
+        std::string message = "No loaded model could be created from the ISD [" + isdFilePath.toStdString() + "]."
                           "Loaded plugin & model names:\n";
         for (const csm::Plugin * plugin : csm::Plugin::getList()) {
-          QString currentPluginName = QString::fromStdString(plugin->getPluginName());
+          std:string currentPluginName = plugin->getPluginName();
           for (size_t modelIndex = 0; modelIndex < plugin->getNumModels(); modelIndex++) {
-            QString modelName = QString::fromStdString(plugin->getModelName(modelIndex));
+            std::string modelName = plugin->getModelName(modelIndex);
             message += "Plugin [" + currentPluginName + "], Model [" + modelName + "]\n";
           }
         }
@@ -215,7 +215,7 @@ namespace Isis {
     }
     PvlGroup &instrumentGroup = cube->group("Instrument");
     if (ui.WasEntered("TARGETNAME")) {
-      instrumentGroup.addKeyword(PvlKeyword("TargetName", ui.GetString("TARGETNAME")), Pvl::Replace);
+      instrumentGroup.addKeyword(PvlKeyword("TargetName", ui.GetString("TARGETNAME").toStdString()), Pvl::Replace);
     }
     // If the user doesn't specify a target name, then we will still need
     // something on the label for the Target & ShapeModel so add Unknown
@@ -226,19 +226,16 @@ namespace Isis {
     }
 
     if (!instrumentGroup.hasKeyword("InstrumentId")) {
-      PvlKeyword instrumentIdKey("InstrumentId", QString::fromStdString(model->getSensorIdentifier()));
+      PvlKeyword instrumentIdKey("InstrumentId", model->getSensorIdentifier());
       instrumentGroup.addKeyword(instrumentIdKey, Pvl::Replace);
     }
 
     // Populate the CsmInfo group with useful information
     cube->deleteGroup("CsmInfo");
     PvlGroup infoGroup("CsmInfo");
-    infoGroup += PvlKeyword("CSMPlatformID",
-                            QString::fromStdString(model->getPlatformIdentifier()));
-    infoGroup += PvlKeyword("CSMInstrumentId",
-                            QString::fromStdString(model->getSensorIdentifier()));
-    infoGroup += PvlKeyword("ReferenceTime",
-                            QString::fromStdString(model->getReferenceDateAndTime()));
+    infoGroup += PvlKeyword("CSMPlatformID", model->getPlatformIdentifier());
+    infoGroup += PvlKeyword("CSMInstrumentId", model->getSensorIdentifier());
+    infoGroup += PvlKeyword("ReferenceTime", model->getReferenceDateAndTime());
     csm::GeometricModel *modelWithParams = dynamic_cast<csm::GeometricModel*>(model);
 
     if (modelWithParams) {
@@ -246,8 +243,8 @@ namespace Isis {
       PvlKeyword paramUnits("ModelParameterUnits");
       PvlKeyword paramTypes("ModelParameterTypes");
       for (const csm::GeometricModel::Parameter &param : modelWithParams->getParameters()) {
-        paramNames += QString::fromStdString(param.name);
-        paramUnits += QString::fromStdString(param.units);
+        paramNames += param.name;
+        paramUnits += param.units;
         switch (param.type) {
           case csm::param::NONE:
             paramTypes += "NONE";
@@ -285,7 +282,7 @@ namespace Isis {
 
     if (ui.WasEntered("SHAPEMODEL")) {
       // TODO validate the shapemodel
-      kernelsGroup.addKeyword(PvlKeyword("ShapeModel", ui.GetFileName("SHAPEMODEL")), Pvl::Replace);
+      kernelsGroup.addKeyword(PvlKeyword("ShapeModel", ui.GetFileName("SHAPEMODEL").toStdString()), Pvl::Replace);
     }
     else {
       kernelsGroup.addKeyword(PvlKeyword("ShapeModel", "Null"), Pvl::Replace);
@@ -415,8 +412,8 @@ namespace Isis {
     Blob csmStateBlob("CSMState", "String");
     csmStateBlob.setData(modelState.c_str(), modelState.size());
     PvlObject &blobLabel = csmStateBlob.Label();
-    blobLabel += PvlKeyword("ModelName", modelName);
-    blobLabel += PvlKeyword("PluginName", pluginName);
+    blobLabel += PvlKeyword("ModelName", modelName.toStdString());
+    blobLabel += PvlKeyword("PluginName", pluginName.toStdString());
     cube->write(csmStateBlob);
 
     // Try to add naif keywords

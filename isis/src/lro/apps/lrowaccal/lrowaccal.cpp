@@ -781,12 +781,12 @@ namespace Isis {
       if (g_iof) {
         calgrp += PvlKeyword("RadiometricType", "IOF");
         for (unsigned int i=0; i< g_iofResponsivity.size(); i++)
-          vals.addValue(toString(g_iofResponsivity[i]));
+          vals.addValue(std::to_string(g_iofResponsivity[i]));
       }
       else {
         calgrp += PvlKeyword("RadiometricType", "AbsoluteRadiance", "W/m2/sr/um");
         for (unsigned int i=0; i< g_radianceResponsivity.size(); i++)
-          vals.addValue(toString(g_radianceResponsivity[i]));
+          vals.addValue(std::to_string(g_radianceResponsivity[i]));
       }
       calgrp += vals;
       calgrp += PvlKeyword("SolarDistance", toString(g_solarDistance));

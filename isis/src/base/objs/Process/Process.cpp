@@ -410,7 +410,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
         Isis::Pvl &inlab = *InputCubes[0]->label();
         for(int i = 0; i < inlab.objects(); i++) {
           if(inlab.object(i).isNamed("Table")) {
-            Isis::Blob t((QString)inlab.object(i)["Name"], inlab.object(i).name());
+            Isis::Blob t(QString::fromStdString(inlab.object(i)["Name"]), inlab.object(i).name());
             InputCubes[0]->read(t);
             cube->write(t);
           }
@@ -422,7 +422,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
         Isis::Pvl &inlab = *InputCubes[0]->label();
         for(int i = 0; i < inlab.objects(); i++) {
           if(inlab.object(i).isNamed("Polygon")) {
-            Isis::Blob t((QString)inlab.object(i)["Name"], inlab.object(i).name());
+            Isis::Blob t(QString::fromStdString(inlab.object(i)["Name"]), inlab.object(i).name());
             InputCubes[0]->read(t);
             cube->write(t);
           }
@@ -434,7 +434,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
         Isis::Pvl &inlab = *InputCubes[0]->label();
         for(int i = 0; i < inlab.objects(); i++) {
           if(inlab.object(i).isNamed("OriginalLabel")) {
-            Isis::OriginalLabel ol = InputCubes[0]->readOriginalLabel(inlab.object(i)["Name"]);
+            Isis::OriginalLabel ol = InputCubes[0]->readOriginalLabel(QString::fromStdString(inlab.object(i)["Name"]));
             cube->write(ol);
           }
         }
@@ -663,7 +663,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
    */
   void Process::PropagateLabels(const QString &cube) {
     // Open the Pvl file
-    Isis::Pvl inLabels(cube);
+    Isis::Pvl inLabels(cube.toStdString());
 
     // Loop for each output cube
     for(int i = 0; i < (int)OutputCubes.size(); i++) {
@@ -721,8 +721,8 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
         const PvlObject &object = fromLabels->object(j);
 
         if (object.isNamed("Table")) {
-          if (tableNames.isEmpty() || tableNames.contains(object["Name"])) {
-            Blob table((QString) object["Name"], object.name());
+          if (tableNames.isEmpty() || tableNames.contains(QString::fromStdString(object["Name"]))) {
+            Blob table(QString::fromStdString(object["Name"]), object.name());
             fromCube->read(table);
             OutputCubes[i]->write(table);
           }
@@ -788,7 +788,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
   QString Process::MissionData(const QString &mission, const QString &file,
                               bool highestVersion) {
     Isis::PvlGroup &dataDir = Isis::Preference::Preferences().findGroup("DataDirectory");
-    QString dir = dataDir[mission];
+    QString dir = QString::fromStdString(dataDir[mission.toStdString()]);
 
     // See if the data directory is installed
     Isis::FileName installed(dir);
@@ -826,7 +826,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
         Isis::Pvl & inlab = *InputCubes[0]->label();
         for(int i = 0; i < inlab.objects(); i++) {
           if(inlab.object(i).isNamed("History") && Isis::iApp != NULL) {
-            QString histBlobName = (QString)inlab.object(i)["Name"];
+            QString histBlobName = QString::fromStdString(inlab.object(i)["Name"]);
             History h = InputCubes[0]->readHistory(histBlobName);
             h.AddEntry();
             cube.write(h, histBlobName);

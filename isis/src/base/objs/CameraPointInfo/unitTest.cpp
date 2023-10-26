@@ -47,13 +47,13 @@ void LowerPrecision(PvlKeyword &keyword) {
   if (keyword.name() != "LookDirectionCamera") {
     double value = toDouble(keyword[0]);
     value = round(value * 1000) / 1000.0;
-    keyword[0] = toString(value);
+    keyword[0] = std::to_string(value);
   }
   else {
     for (int i = 0; i < 3; i++) {
       double value = toDouble(keyword[i]);
       value = round(value * 10000000000) / 10000000000.0;
-      keyword[i] = toString(value);
+      keyword[i] = std::to_string(value);
     }
   }
 }

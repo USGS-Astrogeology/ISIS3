@@ -182,8 +182,8 @@ namespace Isis{
       outputCoefficientFile << std::setprecision(14) << lineFunction->Coefficient(i) << "," <<
                                std::setprecision(14) << sampleFunction->Coefficient(i) << endl;
       if (i == 0) {
-        jitterLineCoefficients.setValue(toString(lineFunction->Coefficient(i)));
-        jitterSampleCoefficients.setValue(toString(sampleFunction->Coefficient(i)));
+        jitterLineCoefficients.setValue(std::to_string(lineFunction->Coefficient(i)));
+        jitterSampleCoefficients.setValue(std::to_string(sampleFunction->Coefficient(i)));
       }
       else {
         jitterLineCoefficients += toString(lineFunction->Coefficient(i));

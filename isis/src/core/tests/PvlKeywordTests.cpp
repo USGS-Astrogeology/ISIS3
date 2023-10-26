@@ -4,8 +4,6 @@
 
 #include "Fixtures.h"
 
-#include <QString>
-
 #include <iostream>
 #include <sstream>
 
@@ -27,11 +25,11 @@ void comparePvlKeywords(PvlKeyword pvlKeyword1, PvlKeyword pvlKeyword2);
 TEST_F(RawPvlKeywords, ReadKeywords)
 {
 	int results_idx = 0;
-	for (unsigned int key = 0; key < sizeof(keywordsToTry) / sizeof(QString); key++)
+	for (unsigned int key = 0; key < sizeof(keywordsToTry) / sizeof(std::string); key++)
 	{
-		vector<QString> keywordComments;
-		QString keywordName;
-		vector<pair<QString, QString>> keywordValues;
+		vector<std::string> keywordComments;
+		std::string keywordName;
+		vector<pair<std::string, std::string>> keywordValues;
 
 		bool result = false;
 
@@ -76,14 +74,14 @@ TEST_F(RawPvlKeywords, ReadKeywords)
 TEST_F(RawPvlKeywords, StreamReadKeywords)
 {
 	int results_idx = 0;
-	for (unsigned int key = 0; key < sizeof(keywordsToTry) / sizeof(QString); key++)
+	for (unsigned int key = 0; key < sizeof(keywordsToTry) / sizeof(std::string); key++)
 	{
 		stringstream stream;
 		PvlKeyword keyword;
 
 		bool result = false;
 		try {
-			stream.write(keywordsToTry[key].toLatin1().data(), keywordsToTry[key].size());
+			stream.write(keywordsToTry[key].c_str(), keywordsToTry[key].size());
 			stream >> keyword;
 			result = true;
 		}
@@ -129,7 +127,7 @@ TEST(PvlKeyword, CheckParsing) {
 
 	comparePvlKeywords(keyZ, keyZRead);
 
-	Isis::PvlKeyword keyU("ARRAY_TEST", toString(5.87), "lightyears");
+	Isis::PvlKeyword keyU("ARRAY_TEST", std::to_string(5.87), "lightyears");
 	keyU.addValue("5465.6", "lightyears");
 	keyU.addValue("574.6", "lightyears");
 
@@ -171,18 +169,18 @@ TEST(PvlKeyword, CheckParsing) {
 	comparePvlKeywords(pvlKeyB, keyBRead);
 
 	Isis::PvlKeyword keyW("UGHHHHHHHHHHHH");
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
-	keyW += toString(59999.0);
+	keyW += "59999.0";
+	keyW += "59999.0";
+	keyW += "59999.0";
+	keyW += "59999.0";
+	keyW += "59999.0";
+	keyW += "59999.0";
+	keyW += "59999.0";
+	keyW += "59999.0";
+	keyW += "59999.0";
+	keyW += "59999.0";
+	keyW += "59999.0";
+	keyW += "59999.0";
 
 	PvlKeyword keyWRead;
 	stringstream streamW;
@@ -204,10 +202,10 @@ TEST(PvlKeyword, WrappingComment) {
 	Isis::PvlKeyword key("KEY");
 
 	key += "5";
-	key += QString("");
+	key += std::string("");
 	key.addValue("3.3", "feet");
 	key.addValue("Hello World!");
-	QString str = "Hello World! This is a really really long comment that needs to"
+	std::string str = "Hello World! This is a really really long comment that needs to"
 								" be wrapped onto several different lines to make the PVL file "
 								"look really pretty!";
 	key.addCommentWrapped(str);
@@ -228,11 +226,11 @@ TEST(PvlKeyword, IndexSetValue)
 	Isis::PvlKeyword key("KEY");
 
 	key += "5";
-	key += QString("");
+	key += std::string("");
 	key.addValue("3.3", "feet");
 	key.addValue("Hello World!");
 
-	key[1] = toString(88);
+	key[1] = std::to_string(88);
 	EXPECT_EQ(key[1], "88");
 }
 
@@ -269,16 +267,16 @@ TEST(PvlKeyword, SetUnitsMultiple) {
 	EXPECT_EQ(k.unit(1), "TeraFathoms");
 }
 
-TEST(PvlKeyword, QStringCast) {
+TEST(PvlKeyword, StringCast) {
 	PvlKeyword cast("cast", "I'm being casted");
 
-	EXPECT_EQ((QString)cast, "I'm being casted");
+	EXPECT_EQ((std::string)cast, "I'm being casted");
 }
 
 TEST(PvlKeyword, IntCast) {
-	PvlKeyword cast("cast", "I'm being casted");
+	PvlKeyword cast("cast", "2");
 
-	EXPECT_EQ((QString)cast, "I'm being casted");
+	EXPECT_EQ((int)cast, 2);
 }
 
 TEST(PvlKeyword, BigIntCast) {
@@ -330,7 +328,7 @@ TEST(PvlKeyword, KeywordValidationNull)
 TEST(PvlKeyword, KeywordValidationFail) {
   try {
     PvlKeyword pvlTmplKwrd("KeyName", "integer");
-		PvlKeyword pvlKwrd("KeyName", toString(3.5));
+		PvlKeyword pvlKwrd("KeyName", std::to_string(3.5));
     pvlTmplKwrd.validateKeyword(pvlKwrd);
   } 
   catch(Isis::IException &e) {
@@ -341,7 +339,7 @@ TEST(PvlKeyword, KeywordValidationFail) {
 TEST(PvlKeyword, KeywordValidationPositive) {
   try {
 		PvlKeyword pvlTmplKwrd("KeyName", "integer");
-		PvlKeyword pvlKwrd("KeyName", toString(-3));
+		PvlKeyword pvlKwrd("KeyName", std::to_string(-3));
 		pvlTmplKwrd.validateKeyword(pvlKwrd, "positive");
 	} 
   catch(Isis::IException &e) {
@@ -352,9 +350,9 @@ TEST(PvlKeyword, KeywordValidationPositive) {
 TEST(PvlKeyword, KeywordValidationRange) {
   try {
 		PvlKeyword pvlTmplKwrd("KeyName", "integer");
-		PvlKeyword pvlTmplKwrdRange("KeyName__Range", toString(0));
-		pvlTmplKwrdRange.addValue(toString(10));
-		PvlKeyword pvlKwrd("KeyName", toString(11));
+		PvlKeyword pvlTmplKwrdRange("KeyName__Range", std::to_string(0));
+		pvlTmplKwrdRange.addValue(std::to_string(10));
+		PvlKeyword pvlKwrd("KeyName", std::to_string(11));
 		pvlTmplKwrd.validateKeyword(pvlKwrd, "", &pvlTmplKwrdRange);
 	} 
   catch(Isis::IException &e) {

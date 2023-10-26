@@ -15,10 +15,10 @@ namespace Isis {
   SessionLog::SessionLog() {
     // Grab the user preferences for logging
     Isis::PvlGroup &slog = Isis::Preference::Preferences().findGroup("SessionLog");
-    p_termOutput = ((QString)slog["TerminalOutput"]).toUpper() == "ON";
-    p_fileOutput = ((QString)slog["FileOutput"]).toUpper() == "ON";
-    p_outputFile = (QString) slog["FileName"];
-    p_access = ((QString) slog["FileAccess"]).toUpper();
+    p_termOutput = QString::fromStdString(slog["TerminalOutput"]).toUpper() == "ON";
+    p_fileOutput = QString::fromStdString(slog["FileOutput"]).toUpper() == "ON";
+    p_outputFile = QString::fromStdString(slog["FileName"]);
+    p_access = (QString::fromStdString(slog["FileAccess"])).toUpper();
 
     // Add root
     this->addObject(Isis::iApp->History());
@@ -58,10 +58,10 @@ namespace Isis {
       setTerminator("\n");
       try {
         if(p_access == "OVERWRITE") {
-          this->Isis::Pvl::write(p_outputFile);
+          this->Isis::Pvl::write(p_outputFile.toStdString());
         }
         else {
-          this->append(p_outputFile);
+          this->append(p_outputFile.toStdString());
         }
       }
       catch(...) {

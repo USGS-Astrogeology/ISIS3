@@ -823,7 +823,7 @@ namespace Isis {
    */
   Pvl Gruen::AlgorithmStatistics(Pvl &pvl) {
     PvlGroup algo("GruenFailures");
-    algo += PvlKeyword("Name", AlgorithmName());
+    algo += PvlKeyword("Name", AlgorithmName().toStdString());
     algo += PvlKeyword("Mode", "Adaptive");
 
     //  Log errors
@@ -832,7 +832,7 @@ namespace Isis {
     }
 
     if (m_unclassified > 0) {
-      algo += PvlKeyword("UnclassifiedErrors", toString(m_unclassified));
+      algo += PvlKeyword("UnclassifiedErrors", std::to_string(m_unclassified));
     }
     pvl.addGroup(algo);
     pvl.addGroup(StatsLog());
@@ -853,7 +853,7 @@ namespace Isis {
   PvlGroup Gruen::StatsLog() const {
     PvlGroup stats("GruenStatistics");
 
-    stats += PvlKeyword("TotalIterations",   toString(m_totalIterations));
+    stats += PvlKeyword("TotalIterations",   std::to_string(m_totalIterations));
     stats += ValidateKey("IterationMinimum", m_iterStat.Minimum());
     stats += ValidateKey("IterationAverage", m_iterStat.Average());
     stats += ValidateKey("IterationMaximum", m_iterStat.Maximum());
@@ -890,7 +890,7 @@ namespace Isis {
   PvlGroup Gruen::ParameterLog() const {
     PvlGroup parms("GruenParameters");
 
-    parms += PvlKeyword("MaximumIterations", toString(m_maxIters));
+    parms += PvlKeyword("MaximumIterations", std::to_string(m_maxIters));
     parms += ValidateKey("AffineScaleTolerance", m_scaleTol);
     parms += ValidateKey("AffineShearTolerance", m_shearTol);
     parms += ValidateKey("AffineTranslationTolerance", m_transTol);
@@ -976,22 +976,22 @@ namespace Isis {
     if (m_prof.Name().isEmpty())  m_prof.setName("Gruen");
 
     // Define internal parameters
-    m_maxIters = toInt(ConfKey(m_prof, "MaximumIterations", toString(30)));
+    m_maxIters = std::stoi(ConfKey(m_prof, "MaximumIterations", std::to_string(30)));
 
-    m_transTol = toDouble(ConfKey(m_prof, "AffineTranslationTolerance", toString(0.1)));
-    m_scaleTol = toDouble(ConfKey(m_prof, "AffineScaleTolerance", toString(0.3)));
-    m_shearTol = toDouble(ConfKey(m_prof, "AffineShearTolerance", toString(m_scaleTol)));
-    m_affineTol = toDouble(ConfKey(m_prof, "AffineTolerance", toString(DBL_MAX)));
+    m_transTol = std::stod(ConfKey(m_prof, "AffineTranslationTolerance", std::to_string(0.1)));
+    m_scaleTol = std::stod(ConfKey(m_prof, "AffineScaleTolerance", std::to_string(0.3)));
+    m_shearTol = std::stod(ConfKey(m_prof, "AffineShearTolerance", std::to_string(m_scaleTol)));
+    m_affineTol = std::stod(ConfKey(m_prof, "AffineTolerance", std::to_string(DBL_MAX)));
 
-    m_spiceTol = toDouble(ConfKey(m_prof, "SpiceTolerance", toString(DBL_MAX)));
+    m_spiceTol = std::stod(ConfKey(m_prof, "SpiceTolerance", std::to_string(DBL_MAX)));
 
-    m_shiftTol = toDouble(ConfKey(m_prof, "RadioShiftTolerance", toString(DBL_MAX)));
-    m_rgainMinTol = toDouble(ConfKey(m_prof, "RadioGainMinTolerance", toString(-DBL_MAX)));
-    m_rgainMaxTol = toDouble(ConfKey(m_prof, "RadioGainMaxTolerance", toString(DBL_MAX)));
+    m_shiftTol = std::stod(ConfKey(m_prof, "RadioShiftTolerance", std::to_string(DBL_MAX)));
+    m_rgainMinTol = std::stod(ConfKey(m_prof, "RadioGainMinTolerance", std::to_string(-DBL_MAX)));
+    m_rgainMaxTol = std::stod(ConfKey(m_prof, "RadioGainMaxTolerance", std::to_string(DBL_MAX)));
 
     // Set radiometric defaults
-    m_defGain  =  toDouble(ConfKey(m_prof, "DefaultRadioGain", toString(0.0)));
-    m_defShift =  toDouble(ConfKey(m_prof, "DefaultRadioShift", toString(0.0)));
+    m_defGain  =  std::stod(ConfKey(m_prof, "DefaultRadioGain", std::to_string(0.0)));
+    m_defShift =  std::stod(ConfKey(m_prof, "DefaultRadioShift", std::to_string(0.0)));
 
     m_callCount = 0;
     m_filePattern = "";

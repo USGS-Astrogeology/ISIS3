@@ -6,8 +6,6 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <vector>
 
-#include <QString>
-
 #include "PvlKeyword.h"
 #include "PvlSequence.h"
 #include "Preference.h"
@@ -18,8 +16,8 @@ int main(void) {
   Preference::Preferences(true);
 
   PvlKeyword key("Key");
-  key += QString("(xyzzy,plover)");
-  key += QString("(2,b,|,^,2,b)");
+  key += std::string("(xyzzy,plover)");
+  key += std::string("(2,b,|,^,2,b)");
 
   PvlSequence seq;
   seq = key;

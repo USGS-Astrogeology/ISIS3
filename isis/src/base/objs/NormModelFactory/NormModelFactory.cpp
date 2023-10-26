@@ -39,13 +39,13 @@ namespace Isis {
                      .findGroup("Algorithm", Pvl::Traverse);
     QString algorithm = "";
     if (algo.hasKeyword("NormName")) {
-      algorithm = QString(algo["NormName"]);
+      algorithm = QString::fromStdString(algo["NormName"]);
     }
     else if (algo.hasKeyword("Name")) {
-      algorithm = QString(algo["Name"]);
+      algorithm = QString::fromStdString(algo["Name"]);
     }
     else {
-      QString msg = "Keyword [Name] or keyword [NormName] must ";
+      std::string msg = "Keyword [Name] or keyword [NormName] must ";
       msg += "exist in [Group = Algorithm]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -95,10 +95,10 @@ namespace Isis {
                      .findGroup("Algorithm", Pvl::Traverse);
     QString algorithm = "";
     if (algo.hasKeyword("NormName")) {
-      algorithm = QString(algo["NormName"]);
+      algorithm = QString::fromStdString(algo["NormName"]);
     }
     else if (algo.hasKeyword("Name")) {
-      algorithm = QString(algo["Name"]);
+      algorithm = QString::fromStdString(algo["Name"]);
     }
     else {
       IString msg = "Keyword [Name] or keyword [NormName] must ";

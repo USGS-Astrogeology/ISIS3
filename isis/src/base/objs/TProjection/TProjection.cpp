@@ -122,10 +122,10 @@ namespace Isis {
       }
 
       // Get the LatitudeType
-      if ((QString) m_mappingGrp["LatitudeType"] == "Planetographic") {
+      if ((std::string) m_mappingGrp["LatitudeType"] == "Planetographic") {
         m_latitudeType = Planetographic;
       }
-      else if ((QString) m_mappingGrp["LatitudeType"] == "Planetocentric") {
+      else if ((std::string) m_mappingGrp["LatitudeType"] == "Planetocentric") {
         m_latitudeType = Planetocentric;
       }
       else {
@@ -136,24 +136,24 @@ namespace Isis {
       }
 
       // Get the LongitudeDirection
-      if ((QString) m_mappingGrp["LongitudeDirection"] == "PositiveWest") {
+      if ((std::string) m_mappingGrp["LongitudeDirection"] == "PositiveWest") {
         m_longitudeDirection = PositiveWest;
       }
-      else if ((QString) m_mappingGrp["LongitudeDirection"] == "PositiveEast") {
+      else if ((std::string) m_mappingGrp["LongitudeDirection"] == "PositiveEast") {
         m_longitudeDirection = PositiveEast;
       }
       else {
-        QString msg = "Projection failed. Invalid value for keyword "
+        std::string msg = "Projection failed. Invalid value for keyword "
                       "[LongitudeDirection] must be "
                       "[PositiveWest or PositiveEast]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
 
       // Get the LongitudeDomain
-      if ((QString) m_mappingGrp["LongitudeDomain"] == "360") {
+      if ((std::string) m_mappingGrp["LongitudeDomain"] == "360") {
         m_longitudeDomain = 360;
       }
-      else if ((QString) m_mappingGrp["LongitudeDomain"] == "180") {
+      else if ((std::string) m_mappingGrp["LongitudeDomain"] == "180") {
         m_longitudeDomain = 180;
       }
       else {
@@ -174,33 +174,33 @@ namespace Isis {
         m_maximumLongitude = m_mappingGrp["MaximumLongitude"];
 
         if ((m_minimumLatitude < -90.0) || (m_minimumLatitude > 90.0)) {
-          QString msg = "Projection failed. "
-                        "[MinimumLatitude] of [" + toString(m_minimumLatitude)
+          std::string msg = "Projection failed. "
+                        "[MinimumLatitude] of [" + std::to_string(m_minimumLatitude)
                         + "] is outside the range of [-90:90]";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 
         if ((m_maximumLatitude < -90.0) || (m_maximumLatitude > 90.0)) {
-          QString msg = "Projection failed. "
-                        "[MaximumLatitude] of [" + toString(m_maximumLatitude)
+          std::string msg = "Projection failed. "
+                        "[MaximumLatitude] of [" + std::to_string(m_maximumLatitude)
                         + "] is outside the range of [-90:90]";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 
         if (m_minimumLatitude >= m_maximumLatitude) {
-          QString msg = "Projection failed. "
+          std::string msg = "Projection failed. "
                         "[MinimumLatitude,MaximumLatitude] of ["
-                        + toString(m_minimumLatitude) + ","
-                        + toString(m_maximumLatitude) + "] are not "
+                        + std::to_string(m_minimumLatitude) + ","
+                        + std::to_string(m_maximumLatitude) + "] are not "
                         + "properly ordered";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 
         if (m_minimumLongitude >= m_maximumLongitude) {
-          QString msg = "Projection failed. "
+          std::string msg = "Projection failed. "
                         "[MinimumLongitude,MaximumLongitude] of ["
-                        + toString(m_minimumLongitude) + "," 
-                        + toString(m_maximumLongitude) + "] are not "
+                        + std::to_string(m_minimumLongitude) + "," 
+                        + std::to_string(m_maximumLongitude) + "] are not "
                         + "properly ordered";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
@@ -217,10 +217,10 @@ namespace Isis {
 
       // Initialize miscellaneous protected data elements
       if (m_equatorialRadius < m_polarRadius) {
-        QString msg = "Projection failed. Invalid keyword value(s). "
-                      "[EquatorialRadius] = " + toString(m_equatorialRadius)
+        std::string msg = "Projection failed. Invalid keyword value(s). "
+                      "[EquatorialRadius] = " + std::to_string(m_equatorialRadius)
                       + " must be greater than or equal to [PolarRadius] = "
-                      + toString(m_polarRadius);
+                      + std::to_string(m_polarRadius);
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       else {
@@ -327,7 +327,7 @@ namespace Isis {
     if (latitude == Null) {
       throw IException(IException::Unknown, 
                        "Unable to calculate local radius. The given latitude value [" 
-                       + toString(latitude) + "] is invalid.", 
+                       + std::to_string(latitude) + "] is invalid.", 
                        _FILEINFO_);
     }
     double a = m_equatorialRadius;
@@ -436,7 +436,7 @@ namespace Isis {
     if (lat == Null || abs(lat) > 90.0) {
       throw IException(IException::Unknown, 
                        "Unable to convert to Planetocentric. The given latitude value [" 
-                       + toString(lat) + "] is invalid.", 
+                       + std::to_string(lat) + "] is invalid.", 
                        _FILEINFO_);
     }
     double mylat = lat;
@@ -486,7 +486,7 @@ namespace Isis {
     if (lat == Null || fabs(lat) > 90.0) {
       throw IException(IException::Unknown, 
                        "Unable to convert to Planetographic. The given latitude value [" 
-                       + toString(lat) + "] is invalid.", 
+                       + std::to_string(lat) + "] is invalid.", 
                        _FILEINFO_);
     }
     double mylat = lat;
@@ -549,7 +549,7 @@ namespace Isis {
     if (lon == Null) {
       throw IException(IException::Unknown, 
                        "Unable to convert to PositiveEast. The given longitude value [" 
-                       + toString(lon) + "] is invalid.", 
+                       + std::to_string(lon) + "] is invalid.", 
                        _FILEINFO_);
     }
     double mylon = lon;
@@ -563,7 +563,7 @@ namespace Isis {
       mylon = To180Domain(mylon);
     }
     else {
-      QString msg = "Unable to convert longitude.  Domain [" + toString(domain) 
+      std::string msg = "Unable to convert longitude.  Domain [" + std::to_string(domain) 
                     + "] is not 180 or 360.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -588,7 +588,7 @@ namespace Isis {
     if (lon == Null) {
       throw IException(IException::Unknown, 
                        "Unable to convert to PositiveWest. The given longitude value [" 
-                       + toString(lon) + "] is invalid.", 
+                       + std::to_string(lon) + "] is invalid.", 
                        _FILEINFO_);
     }
     double mylon = lon;
@@ -602,7 +602,7 @@ namespace Isis {
       mylon = To180Domain(mylon);
     }
     else {
-      QString msg = "Unable to convert longitude.  Domain [" + toString(domain)
+      std::string msg = "Unable to convert longitude.  Domain [" + std::to_string(domain)
                     + "] is not 180 or 360.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -658,7 +658,7 @@ namespace Isis {
     if (lon == Null) {
       throw IException(IException::Unknown, 
                        "Unable to convert to 180 degree domain. The given longitude value [" 
-                       + toString(lon) + "] is invalid.", 
+                       + std::to_string(lon) + "] is invalid.", 
                        _FILEINFO_);
     }
     return Isis::Longitude(lon, Angle::Degrees).force180Domain().degrees();
@@ -676,7 +676,7 @@ namespace Isis {
     if (lon == Null) {
       throw IException(IException::Unknown, 
                        "Unable to convert to 360 degree domain. The given longitude value [" 
-                       + toString(lon) + "] is invalid.", 
+                       + std::to_string(lon) + "] is invalid.", 
                        _FILEINFO_);
     }
     double result = lon;
@@ -1706,8 +1706,8 @@ namespace Isis {
              << "Rotation";
 
     foreach (QString keyName, keyNames) {
-      if (m_mappingGrp.hasKeyword(keyName)) {
-        mapping += m_mappingGrp[keyName];
+      if (m_mappingGrp.hasKeyword(keyName.toStdString())) {
+        mapping += m_mappingGrp[keyName.toStdString()];
       }
     }
 

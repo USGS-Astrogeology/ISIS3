@@ -17,7 +17,7 @@ using namespace std;
 int main() {
   Preference::Preferences(true);
 
-  PvlKeyword dog("DOG", toString(5.2), "meters");
+  PvlKeyword dog("DOG", std::to_string(5.2), "meters");
   PvlKeyword cat("CATTLE");
   cat = "Meow";
   cat.addComment("Cats shed");
@@ -52,7 +52,7 @@ int main() {
   cout << endl << "Test reallocation ..." << endl;
   PvlKeyword * ptr1 = &ani["DOG"];
   for (int i = 0; i < 250; i++) 
-    ani += PvlKeyword("Test_keyword", toString(i));
+    ani += PvlKeyword("Test_keyword", std::to_string(i));
 
   PvlKeyword * ptr2 = &ani["DOG"];
   if (ptr1 == ptr2) 

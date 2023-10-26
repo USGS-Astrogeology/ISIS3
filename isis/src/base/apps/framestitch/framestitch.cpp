@@ -108,18 +108,18 @@ namespace Isis {
       const PvlGroup &evenInst = evenCube->group("Instrument");
       const PvlGroup &oddInst = oddCube->group("Instrument");
       // Use the start time as an indicator of being the same original image
-      if (QString::compare(QString(evenInst["StartTime"]), QString(oddInst["StartTime"])) != 0) {
+      if (QString::compare(QString::fromStdString(evenInst["StartTime"]), QString::fromStdString(oddInst["StartTime"])) != 0) {
         std::string msg = "Even and odd cube start times must match.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       if (evenInst.hasKeyword("DataFlipped") && oddInst.hasKeyword("DataFlipped")) {
-        if (toBool(evenInst["DataFlipped"]) != toBool(oddInst["DataFlipped"])) {
+        if (toBool(QString::fromStdString(evenInst["DataFlipped"])) != toBool(QString::fromStdString(oddInst["DataFlipped"]))) {
           std::string msg = "Both input cubes must be flipped or not flipped. Cannot combine "
                         "a flipped and unflipped cube.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
-        inputFlipped = toBool(evenInst["DataFlipped"]);
+        inputFlipped = toBool(QString::fromStdString(evenInst["DataFlipped"]));
       }
     }
 
@@ -234,13 +234,13 @@ namespace Isis {
       if (!outInst.hasKeyword("DataFlipped")) {
         outInst.addKeyword(PvlKeyword("DataFlipped"));
       }
-      outInst["DataFlipped"].setValue(toString(!inputFlipped));
+      outInst["DataFlipped"].setValue(std::to_string(!inputFlipped));
     }
 
     // Record numLinesOverlap
     if (!outInst.hasKeyword("NumLinesOverlap"))
       outInst.addKeyword(PvlKeyword("NumLinesOverlap"));
-    outInst["numLinesOverlap"].setValue(toString(numLinesOverlap));
+    outInst["numLinesOverlap"].setValue(std::to_string(numLinesOverlap));
 
     process.EndProcess();
 

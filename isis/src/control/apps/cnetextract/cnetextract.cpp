@@ -322,10 +322,10 @@ namespace Isis {
     PvlGroup summary("ResultSummary");
     PvlGroup results("Results");
 
-    summary.addKeyword(PvlKeyword("InputPoints", toString(inputPoints)));
-    summary.addKeyword(PvlKeyword("InputMeasures", toString(inputMeasures)));
-    summary.addKeyword(PvlKeyword("OutputPoints", toString(outputPoints)));
-    summary.addKeyword(PvlKeyword("OutputMeasures", toString(outputMeasures)));
+    summary.addKeyword(PvlKeyword("InputPoints", std::to_string(inputPoints)));
+    summary.addKeyword(PvlKeyword("InputMeasures", std::to_string(inputMeasures)));
+    summary.addKeyword(PvlKeyword("OutputPoints", std::to_string(outputPoints)));
+    summary.addKeyword(PvlKeyword("OutputMeasures", std::to_string(outputMeasures)));
 
     if (outputPoints != 0) {
       // Write the filenames associated with outNet
@@ -342,13 +342,13 @@ namespace Isis {
     }
     else {
       summary.addComment("The output control network file, ["
-                         + ui.GetFileName("ONET") +
+                         + ui.GetFileName("ONET").toStdString() +
                          "],  was not created. "
                          "The provided filters have resulted in no points or "
                          "measures extracted.");
       if (ui.WasEntered("TOLIST")) {
         summary.addComment("The output cube list file, ["
-                           + ui.GetFileName("TOLIST") +
+                           + ui.GetFileName("TOLIST").toStdString() +
                            "], was not created. "
                            "The provided filters have resulted in an empty"
                            "Control Network.");
@@ -357,43 +357,43 @@ namespace Isis {
 
 
     if(noIgnore) {
-      summary.addKeyword(PvlKeyword("IgnoredPoints", toString((int)ignoredPoints.size())));
-      summary.addKeyword(PvlKeyword("IgnoredMeasures", toString((int)ignoredMeasures.size())));
+      summary.addKeyword(PvlKeyword("IgnoredPoints", std::to_string((int)ignoredPoints.size())));
+      summary.addKeyword(PvlKeyword("IgnoredMeasures", std::to_string((int)ignoredMeasures.size())));
     }
     if(noSingleMeasure) {
-      summary.addKeyword(PvlKeyword("SingleMeasurePoints", toString((int)singleMeasurePoints.size())));
+      summary.addKeyword(PvlKeyword("SingleMeasurePoints", std::to_string((int)singleMeasurePoints.size())));
     }
     if(noMeasureless) {
-      summary.addKeyword(PvlKeyword("MeasurelessPoints", toString((int)measurelessPoints.size())));
+      summary.addKeyword(PvlKeyword("MeasurelessPoints", std::to_string((int)measurelessPoints.size())));
     }
     if(noTolerancePoints) {
-      summary.addKeyword(PvlKeyword("TolerancePoints", toString((int)tolerancePoints.size())));
+      summary.addKeyword(PvlKeyword("TolerancePoints", std::to_string((int)tolerancePoints.size())));
     }
     if(reference) {
-      summary.addKeyword(PvlKeyword("NonReferenceMeasures", toString((int)nonReferenceMeasures.size())));
+      summary.addKeyword(PvlKeyword("NonReferenceMeasures", std::to_string((int)nonReferenceMeasures.size())));
     }
     if(fixed) {
-      summary.addKeyword(PvlKeyword("NonFixedPoints", toString((int)nonFixedPoints.size())));
+      summary.addKeyword(PvlKeyword("NonFixedPoints", std::to_string((int)nonFixedPoints.size())));
     }
     if(cubePoints) {
-      summary.addKeyword(PvlKeyword("NonCubePoints", toString((int)nonCubePoints.size())));
+      summary.addKeyword(PvlKeyword("NonCubePoints", std::to_string((int)nonCubePoints.size())));
     }
   // This is commented out since this does not correspond to any filters or the
   //  documentation of this application. I did not delete the code in case we find
   //  that we need it later. J.Backer 2012-06-22
   //
   //  if(noMeasurePoints.size() != 0) {
-  //    summary.addKeyword(PvlKeyword("NoCubeMeasure", toString((int)noMeasurePoints.size())));
+  //    summary.addKeyword(PvlKeyword("NoCubeMeasure", std::to_string((int)noMeasurePoints.size())));
   //  }
     if(cubeMeasures) {
-      summary.addKeyword(PvlKeyword("NonCubeMeasures", toString((int)noCubeMeasures.size())));
+      summary.addKeyword(PvlKeyword("NonCubeMeasures", std::to_string((int)noCubeMeasures.size())));
     }
     if(pointsEntered) {
-      summary.addKeyword(PvlKeyword("NonListedPoints", toString((int)nonListedPoints.size())));
+      summary.addKeyword(PvlKeyword("NonListedPoints", std::to_string((int)nonListedPoints.size())));
     }
     if(latLon) {
-      summary.addKeyword(PvlKeyword("LatLonOutOfRange", toString((int)nonLatLonPoints.size())));
-      summary.addKeyword(PvlKeyword("NoLatLonPoints", toString((int)cannotGenerateLatLonPoints.size())));
+      summary.addKeyword(PvlKeyword("LatLonOutOfRange", std::to_string((int)nonLatLonPoints.size())));
+      summary.addKeyword(PvlKeyword("NoLatLonPoints", std::to_string((int)cannotGenerateLatLonPoints.size())));
     }
 
     outProgress.CheckStatus();
@@ -777,7 +777,7 @@ namespace Isis {
     // Don't create file if it will be empty
     if (outputsn.size() == 0) {
       summary.addComment("The output cube list file, ["
-                         + toList.toString() + "], was not created. "
+                         + toList.toString().toStdString() + "], was not created. "
                          "The provided filters have resulted in an empty"
                          "Control Network.");
       return;
@@ -815,7 +815,7 @@ namespace Isis {
     // if no points or measures are being extracted,
     // we will not create the filter report.
     if(notExtracted.size() == 0) {
-      results.addComment("The output report ["+ filename +"] was not created. "
+      results.addComment("The output report ["+ filename.toStdString() +"] was not created. "
                          "The corresponding filter found no points/measures that "
                          "would not be extracted.");
       return;
@@ -832,7 +832,7 @@ namespace Isis {
     }
 
     out_stream.close();
-    results.addKeyword(PvlKeyword("ReportCreated", filename));
+    results.addKeyword(PvlKeyword("ReportCreated", filename.toStdString()));
     return;
   }
 

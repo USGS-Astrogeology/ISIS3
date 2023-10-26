@@ -26,7 +26,7 @@ namespace Isis{
 
   void maptrim(UserInterface &ui, Pvl *log) {
     // Get the projection
-    Pvl pvl(ui.GetCubeName("FROM"));
+    Pvl pvl(ui.GetCubeName("FROM").toStdString());
     proj = (TProjection *) ProjectionFactory::CreateFromCube(pvl);
 
     // Determine ground range to crop and/or trim
@@ -89,7 +89,7 @@ namespace Isis{
       if(mode == "BOTH") {
         delete proj;
         proj = NULL;
-        Pvl pvl(tempFileName.ToQt());
+        Pvl pvl(tempFileName);
         proj = (TProjection *) ProjectionFactory::CreateFromCube(pvl);
       }
     }

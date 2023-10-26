@@ -52,8 +52,8 @@ namespace Isis {
    */
   class Blob {
     public:
-      Blob(const QString &name, const QString &type);
-      Blob(const QString &name, const QString &type,
+      Blob(const QString &name, const std::string &type);
+      Blob(const QString &name, const std::string &type,
            const QString &file);
       Blob(const Blob &other);
       Blob() = default;
@@ -61,7 +61,7 @@ namespace Isis {
 
       virtual ~Blob();
 
-      QString Type() const;
+      std::string Type() const;
       QString Name() const;
       int Size() const;
       PvlObject &Label();
@@ -95,7 +95,7 @@ namespace Isis {
       char *p_buffer;          //!< Buffer blob data is stored in
       BigInt p_startByte;      //!< Byte blob data starts at in buffer
       int p_nbytes;            //!< Size of blob data (in bytes)
-      QString p_type;      //!< Type of data stored in the buffer
+      std::string p_type;      //!< Type of data stored in the buffer
       QString p_detached;  //!< Used for reading detached blobs
       QString p_labelFile; //!< The file containing the labels
   };

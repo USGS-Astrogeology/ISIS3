@@ -66,8 +66,8 @@ namespace Isis{
       p.StartProcess(GetStats);
 
       PvlGroup demRange("Results");
-      demRange += PvlKeyword("MinimumRadius", toString(inCubeStats.Minimum()), "meters");
-      demRange += PvlKeyword("MaximumRadius", toString(inCubeStats.Maximum()), "meters");
+      demRange += PvlKeyword("MinimumRadius", std::to_string(inCubeStats.Minimum()), "meters");
+      demRange += PvlKeyword("MaximumRadius", std::to_string(inCubeStats.Maximum()), "meters");
       Application::Log(demRange);
 
       // Store min/max radii values in new ShapeModelStatistics table
@@ -79,7 +79,7 @@ namespace Isis{
       record += fmin;
       record += fmax;
 
-      Table table(shp_name,record);
+      Table table(shp_name.toStdString(), record);
 
       record[0] = Distance(inCubeStats.Minimum(),
                            Distance::Meters).kilometers();
@@ -237,12 +237,12 @@ namespace Isis{
 
     double upperLeftCorner = mapgrp["UpperLeftCornerX"];
     upperLeftCorner -= leftPad * proj->Resolution();
-    mapgrp.addKeyword(PvlKeyword("UpperLeftCornerX", toString(upperLeftCorner), "meters"),
+    mapgrp.addKeyword(PvlKeyword("UpperLeftCornerX", std::to_string(upperLeftCorner), "meters"),
                       Pvl::Replace);
 
     upperLeftCorner = mapgrp["UpperLeftCornerY"];
     upperLeftCorner += topPad * proj->Resolution();
-    mapgrp.addKeyword(PvlKeyword("UpperLeftCornerY", toString(upperLeftCorner), "meters"),
+    mapgrp.addKeyword(PvlKeyword("UpperLeftCornerY", std::to_string(upperLeftCorner), "meters"),
                       Pvl::Replace);
 
 
@@ -264,8 +264,8 @@ namespace Isis{
     ocube->putGroup(mapgrp);
 
     PvlGroup demRange("Results");
-    demRange += PvlKeyword("MinimumRadius", toString(outCubeStats.Minimum()), "meters");
-    demRange += PvlKeyword("MaximumRadius", toString(outCubeStats.Maximum()), "meters");
+    demRange += PvlKeyword("MinimumRadius", std::to_string(outCubeStats.Minimum()), "meters");
+    demRange += PvlKeyword("MaximumRadius", std::to_string(outCubeStats.Maximum()), "meters");
     Application::Log(demRange);
 
     // Store min/max radii values in new ShapeModelStatistics table
@@ -277,7 +277,7 @@ namespace Isis{
     record += fmin;
     record += fmax;
 
-    Table table(shp_name,record);
+    Table table(shp_name.toStdString(), record);
 
     record[0] = Distance(outCubeStats.Minimum(),
                          Distance::Meters).kilometers();

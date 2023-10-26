@@ -89,17 +89,17 @@ namespace Isis {
 
       if (!calculateVectors) {
         // Read in vectors
-        m_xAxisVector.push_back(toDouble(mapGroup["XAxisVector"][0]));
-        m_xAxisVector.push_back(toDouble(mapGroup["XAxisVector"][1]));
-        m_xAxisVector.push_back(toDouble(mapGroup["XAxisVector"][2]));
+        m_xAxisVector.push_back(std::stod(mapGroup["XAxisVector"][0]));
+        m_xAxisVector.push_back(std::stod(mapGroup["XAxisVector"][1]));
+        m_xAxisVector.push_back(std::stod(mapGroup["XAxisVector"][2]));
 
-        m_yAxisVector.push_back(toDouble(mapGroup["YAxisVector"][0]));
-        m_yAxisVector.push_back(toDouble(mapGroup["YAxisVector"][1]));
-        m_yAxisVector.push_back(toDouble(mapGroup["YAxisVector"][2]));
+        m_yAxisVector.push_back(std::stod(mapGroup["YAxisVector"][0]));
+        m_yAxisVector.push_back(std::stod(mapGroup["YAxisVector"][1]));
+        m_yAxisVector.push_back(std::stod(mapGroup["YAxisVector"][2]));
 
-        m_zAxisVector.push_back(toDouble(mapGroup["ZAxisVector"][0]));
-        m_zAxisVector.push_back(toDouble(mapGroup["ZAxisVector"][1]));
-        m_zAxisVector.push_back(toDouble(mapGroup["ZAxisVector"][2]));
+        m_zAxisVector.push_back(std::stod(mapGroup["ZAxisVector"][0]));
+        m_zAxisVector.push_back(std::stod(mapGroup["ZAxisVector"][1]));
+        m_zAxisVector.push_back(std::stod(mapGroup["ZAxisVector"][2]));
       }
       else {
         // Calculate the vectors and store them in the labels
@@ -135,9 +135,9 @@ namespace Isis {
           m_yAxisVector.push_back(pvec[1][i]); //Y[i]
           m_zAxisVector.push_back(pvec[2][i]); //Z[i]
 
-          mapGroup["XAxisVector"] += toString(pvec[0][i]); //X[i]
-          mapGroup["YAxisVector"] += toString(pvec[1][i]); //Y[i]
-          mapGroup["ZAxisVector"] += toString(pvec[2][i]); //Z[i]
+          mapGroup["XAxisVector"] += std::to_string(pvec[0][i]); //X[i]
+          mapGroup["YAxisVector"] += std::to_string(pvec[1][i]); //Y[i]
+          mapGroup["ZAxisVector"] += std::to_string(pvec[2][i]); //Z[i]
         }
       }
 

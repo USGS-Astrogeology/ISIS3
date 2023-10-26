@@ -338,28 +338,28 @@ namespace Isis {
    * @return PvlObject An object with all keywords in the map
    */  
   PvlObject PdsColumn::toPvl(const QString &object) const {
-    PvlObject column(object.toUpper());
+    PvlObject column(object.toUpper().toStdString());
     
-    column.addKeyword(PvlKeyword("COLUMN_NUMBER", value("COLUMN_NUMBER")));
-    column.addKeyword(PvlKeyword("NAME", value("NAME")));
-    column.addKeyword(PvlKeyword("DATA_TYPE", value("DATA_TYPE")));
+    column.addKeyword(PvlKeyword("COLUMN_NUMBER", value("COLUMN_NUMBER").toStdString()));
+    column.addKeyword(PvlKeyword("NAME", value("NAME").toStdString()));
+    column.addKeyword(PvlKeyword("DATA_TYPE", value("DATA_TYPE").toStdString()));
   
     // Check for optional parameters
     if ( exists("UNIT") ) {
       QString unit = value("UNIT");
       if ( unit.size() > 0 ) {
-        column.addKeyword(PvlKeyword("UNIT", value("UNIT"))); 
+        column.addKeyword(PvlKeyword("UNIT", value("UNIT").toStdString())); 
       }
     }
   
-    column.addKeyword(PvlKeyword("START_BYTE", value("START_BYTE")));
-    column.addKeyword(PvlKeyword("BYTES", value("BYTES")));
+    column.addKeyword(PvlKeyword("START_BYTE", value("START_BYTE").toStdString()));
+    column.addKeyword(PvlKeyword("BYTES", value("BYTES").toStdString()));
   
     if ( exists("FORMAT") ) {
-      column.addKeyword(PvlKeyword("FORMAT", format())); 
+      column.addKeyword(PvlKeyword("FORMAT", format().toStdString())); 
     }
   
-    column.addKeyword(PvlKeyword("DESCRIPTION", value("DESCRIPTION")));
+    column.addKeyword(PvlKeyword("DESCRIPTION", value("DESCRIPTION").toStdString()));
   
   
     return (column);

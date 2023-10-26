@@ -627,13 +627,13 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    QString units = center.unit();
+    QString units = QString::fromStdString(center.unit());
 
-    if (!width.unit().isEmpty() ) {
+    if (!QString::fromStdString(width.unit()).isEmpty() ) {
       if (units.isEmpty()) {
-        units = width.unit();
+        units = QString::fromStdString(width.unit());
       }
-      if (units.compare(width.unit(), Qt::CaseInsensitive) != 0) {
+      if (units.compare(QString::fromStdString(width.unit()), Qt::CaseInsensitive) != 0) {
         QString msg = "Unable to translate BandBin info for BinSetSpectrum. "
                       "Unknown or unmatching units for [center_value] and [bin_width].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -683,21 +683,21 @@ namespace Isis {
 
 
       QDomElement centerValue = m_domDoc->createElement("sp:center_value");
-      PvlToXmlTranslationManager::setElementValue(centerValue, center[i], units);
+      PvlToXmlTranslationManager::setElementValue(centerValue, QString::fromStdString(center[i]), units);
       bin.appendChild(centerValue);
 
       QDomElement binWidth = m_domDoc->createElement("sp:bin_width");
       if (width.size() == bands) {
-        PvlToXmlTranslationManager::setElementValue(binWidth, width[i] , units);
+        PvlToXmlTranslationManager::setElementValue(binWidth, QString::fromStdString(width[i]), units);
       }
       else {
-        PvlToXmlTranslationManager::setElementValue(binWidth, width[0] , units);
+        PvlToXmlTranslationManager::setElementValue(binWidth, QString::fromStdString(width[0]), units);
       }
       bin.appendChild(binWidth);
 
       QDomElement originalBinNumber = m_domDoc->createElement("sp:original_bin_number");
       if (originalBand.size() > 0) {
-        PvlToXmlTranslationManager::setElementValue(originalBinNumber, originalBand[i]);
+        PvlToXmlTranslationManager::setElementValue(originalBinNumber, QString::fromStdString(originalBand[i]));
         bin.appendChild(originalBinNumber);
       }
 
@@ -706,12 +706,12 @@ namespace Isis {
         bin.appendChild(filter);
         if (name.size() > 0) {
           QDomElement filterName = m_domDoc->createElement("sp:filter_name");
-          PvlToXmlTranslationManager::setElementValue(filterName, name[i]);
+          PvlToXmlTranslationManager::setElementValue(filterName, QString::fromStdString(name[i]));
           filter.appendChild(filterName);
         }
         if (number.size() > 0) {
           QDomElement filterNumber= m_domDoc->createElement("sp:filter_number");
-          PvlToXmlTranslationManager::setElementValue(filterNumber, number[i]);
+          PvlToXmlTranslationManager::setElementValue(filterNumber, QString::fromStdString(number[i]));
           filter.appendChild(filterNumber);
         }
       }
@@ -770,7 +770,7 @@ namespace Isis {
                     "Translation for PDS4 required value [last_center_value] not found.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
-    QString lastCenter = center[center.size() - 1];
+    QString lastCenter = QString::fromStdString(center[center.size() - 1]);
 
     QDomElement axisBinSetElement = spectralCharElement.firstChildElement("sp:Axis_Uniformly_Sampled");
     if (axisBinSetElement.isNull()) {
@@ -1238,7 +1238,7 @@ namespace Isis {
     }
 
     PvlKeyword &isisLonDir = inputMapping.findKeyword("LongitudeDirection");
-    QString lonDir = isisLonDir[0];
+    QString lonDir = QString::fromStdString(isisLonDir[0]);
     lonDir = lonDir.toUpper();
 
     // Add Lat/Lon range
@@ -1464,7 +1464,7 @@ namespace Isis {
   void ProcessExportPds4::translateUnits(QDomDocument &label, QString transMapFile) {
     Pvl configPvl;
     try {
-      configPvl.read(transMapFile);
+      configPvl.read(transMapFile.toStdString());
     }
     catch(IException &e) {
       QString msg = "Failed to read unit translation config file [" + transMapFile + "].";
@@ -1509,19 +1509,19 @@ namespace Isis {
       for (int j = 0; j < unitObject.groups(); j++) {
         PvlGroup unitGroup = unitObject.group(j);
         if (!unitGroup.hasKeyword("PDS4_Unit")) {
-          QString msg = "No PDS4 standard specified for for [" + unitGroup.name() + "]";
+          std::string msg = "No PDS4 standard specified for for [" + unitGroup.name() + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
         PvlKeyword pds4Key = unitGroup["PDS4_Unit"];
         // Add the PDS4 format for when the format is already correct.
         // This also handles case issues such as KM instead of km.
-        transMap.insert(pds4Key[0].toLower(), pds4Key[0]);
+        transMap.insert(QString::fromStdString(pds4Key[0]).toLower(), QString::fromStdString(pds4Key[0]));
 
         // If there are ISIS versions with different formats then add those.
         if (unitGroup.hasKeyword("ISIS_Units")) {
           PvlKeyword isisKey = unitGroup["ISIS_Units"];
           for (int k = 0; k < isisKey.size() ; k++) {
-            transMap.insert(isisKey[k].toLower(), pds4Key[0]);
+            transMap.insert(QString::fromStdString(isisKey[k]).toLower(), QString::fromStdString(pds4Key[0]));
           }
         }
       }

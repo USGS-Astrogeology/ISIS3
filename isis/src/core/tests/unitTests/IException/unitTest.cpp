@@ -143,7 +143,7 @@ int main(void) {
 
   cerr << "Test Preference 'FileLine'\n";
   {
-    QString &fileLineValue = errorPrefs["FileLine"][0];
+    std::string &fileLineValue = errorPrefs["FileLine"][0];
 
     fileLineValue = "On";
 
@@ -168,7 +168,7 @@ int main(void) {
 
   cerr << "Test Preference 'Format'\n";
   {
-    QString &formatValue = errorPrefs["Format"][0];
+    std::string &formatValue = errorPrefs["Format"][0];
 
     formatValue = "Standard";
 

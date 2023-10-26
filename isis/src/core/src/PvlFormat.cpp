@@ -12,6 +12,7 @@ find files of those names at the top level of this repository. **/
 #include "Pvl.h"
 #include "PvlFormat.h"
 
+
 using namespace std;
 
 namespace Isis {
@@ -30,9 +31,9 @@ namespace Isis {
   * used for output of PvlKeywords in Normal Isis format.
   *
   * @param file A file name with keyword=type. Where KEYWORD is the name of a
-  * keyword in this PvlKeyword and TYPE is one of [QString | integer | float ]
+  * keyword in this PvlKeyword and TYPE is one of [std::string | integer | float ]
   */
-  PvlFormat::PvlFormat(const QString &file) {
+  PvlFormat::PvlFormat(const std::string &file) {
     init();
     add(file);
   }
@@ -40,10 +41,10 @@ namespace Isis {
 
   /*
   * Constructs a PvlFormat using the specified pre populated Pvl map of keyword
-  * name (QString) vs keyword type (KeywordType).
+  * name (std::string) vs keyword type (KeywordType).
   *
   * @param keywordType A Pvl with keyword=type. Where keyword is the name of a
-  * keyword in a PvlKeyword and type is one of [QString | integer | float ]
+  * keyword in a PvlKeyword and type is one of [std::string | integer | float ]
   */
   PvlFormat::PvlFormat(Pvl &keywordType) {
     init();
@@ -61,10 +62,10 @@ namespace Isis {
 
   /*
   * Add the contents of a file to the keyword type mapping. The file should
-  * contain KEYWORD=TYPE (one per line), where TYPE is one of the QStrings
+  * contain KEYWORD=TYPE (one per line), where TYPE is one of the std::strings
   * KeywordType can convert.
   */
-  void PvlFormat::add(const QString &file) {
+  void PvlFormat::add(const std::string &file) {
     m_keywordMapFile = file;
 
     // Open the file and internalize it into the Pvl map
@@ -73,7 +74,7 @@ namespace Isis {
       add(pvl);
     }
     catch(IException &e) {
-      QString msg;
+      std::string msg;
       msg += "Unable to open or read keyword to type mapping file [";
       msg += file + "]";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
@@ -83,14 +84,16 @@ namespace Isis {
 
   /*
   * Add the contents of a Pvl to the keyword type mapping. The pvl should
-  * contain KEYWORD=TYPE, where TYPE is one of the QStrings KeywordType can
+  * contain KEYWORD=TYPE, where TYPE is one of the std::strings KeywordType can
   * convert.
   */
   void PvlFormat::add(Pvl &pvl) {
     for(int i = 0; i < pvl.keywords(); ++i) {
       PvlKeyword &key = pvl[i];
-      QString name = key.name().toUpper();
-      QString type = key[0].toUpper();
+      std::string name = key.name();
+      std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+      std::string type = key[0];
+      std::transform(type.begin(), type.end(), type.begin(), ::toupper);
       PvlKeyword newKey(name, type);
       for(int j = 1; j < key.size(); ++j) newKey.addValue(key[j]);
       // Make sure we don't duplicate Keys
@@ -108,7 +111,8 @@ namespace Isis {
   * @param keyword The PvlKeyword to have its type returned
   */
   KeywordType PvlFormat::type(const PvlKeyword &keyword) {
-    QString name = keyword.name().toUpper();
+    std::string name = keyword.name();
+    std::transform(name.begin(), name.end(), name.begin(), ::toupper);
     if(m_keywordMap.hasKeyword(name)) {
       PvlKeyword &key = m_keywordMap.findKeyword(name);
       return toKeywordType(key[0]);
@@ -126,11 +130,12 @@ namespace Isis {
   *         available in keyword map return -1.
   */
   int PvlFormat::accuracy(const PvlKeyword &keyword) {
-    QString name = keyword.name().toUpper();
+    std::string name = keyword.name();
+    std::transform(name.begin(), name.end(), name.begin(), ::toupper);
     if(m_keywordMap.hasKeyword(name)) {
       PvlKeyword &key = m_keywordMap.findKeyword(name);
       if(key.size() > 1) {
-        return toInt(key[1]);
+        return std::stoi(key[1]);
       }
     }
     return -1;
@@ -143,9 +148,9 @@ namespace Isis {
   * @param keyword The PvlKeyword to be formatted
   * @param num Use the ith value of the keyword
   */
-  QString PvlFormat::formatValue(const PvlKeyword &keyword, int num) {
+  std::string PvlFormat::formatValue(const PvlKeyword &keyword, int num) {
 
-    QString val;
+    std::string val;
     val.clear();
 
     // Find out if the units are the same for all values
@@ -156,7 +161,7 @@ namespace Isis {
       return "Null";
     }
 
-    // Create a Null value if the requested index is an empty QString
+    // Create a Null value if the requested index is an empty std::string
     if(keyword[num].size() == 0) {
       val += "Null";
     }
@@ -200,7 +205,7 @@ namespace Isis {
   *
   * @param keyword The PvlContainer being closed.
   */
-  QString PvlFormat::formatName(const PvlKeyword &keyword) {
+  std::string PvlFormat::formatName(const PvlKeyword &keyword) {
     return keyword.name();
   }
 
@@ -211,7 +216,7 @@ namespace Isis {
   * @param name The text used to signify the end of a container
   * @param keyword The PvlContainer being closed.
   */
-  QString PvlFormat::formatEnd(const QString name,
+  std::string PvlFormat::formatEnd(const std::string name,
                                    const PvlKeyword &keyword) {
     return "End_" + formatName(keyword);
   }
@@ -223,8 +228,8 @@ namespace Isis {
   *
   * @param value The PvlKeyword value to be quoted if necessary.
   */
-  QString PvlFormat::addQuotes(const QString value) {
-    QString val = value;
+  std::string PvlFormat::addQuotes(const std::string value) {
+    std::string val = value;
 
     bool needQuotes = false;
 
@@ -238,10 +243,10 @@ namespace Isis {
           //  Find closing
           int closePos = -1;
           if (val[pos] == '(') {
-            closePos = val.indexOf(')');
+            closePos = val.find(')');
           }
           if (val[pos] == '{') {
-            closePos = val.indexOf('}');
+            closePos = val.find('}');
           }
 
           // If no closing paren or brace or If closing paren/brace not at end of value

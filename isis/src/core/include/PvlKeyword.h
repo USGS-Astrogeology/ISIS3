@@ -10,7 +10,6 @@ find files of those names at the top level of this repository. **/
 #include <map>
 #include <iostream>
 
-#include <QString>
 #include <QVariant>
 #include <QVarLengthArray>
 
@@ -87,20 +86,20 @@ namespace Isis {
   class PvlKeyword {
     public:
       PvlKeyword();
-      PvlKeyword(QString name);
-      PvlKeyword(QString name, QString value,
-                 QString unit = "");
+      PvlKeyword(std::string name);
+      PvlKeyword(std::string name, std::string value,
+                 std::string unit = "");
       PvlKeyword(const PvlKeyword &other);
       ~PvlKeyword();
 
-      void setName(QString name);
+      void setName(std::string name);
 
       /**
        * Returns the keyword name.
        *
        * @return The name of the keyword.
        */
-      QString name() const {
+      std::string name() const {
         if(m_name)
           return m_name;
         else
@@ -112,22 +111,22 @@ namespace Isis {
        * @param name The name of the keyword to compare with this one.
        * @return True if the names are equal, false if not.
        */
-      bool isNamed(QString name) const {
+      bool isNamed(std::string name) const {
         return stringEqual(name, this->name());
       };
 
-      void setValue(QString value, QString unit = "");
-      void setJsonValue(nlohmann::json jsonobj, QString unit = "");
+      void setValue(std::string value, std::string unit = "");
+      void setJsonValue(nlohmann::json jsonobj, std::string unit = "");
 
-      void setUnits(QString units);
-      void setUnits(QString value, QString units);
+      void setUnits(std::string units);
+      void setUnits(std::string value, std::string units);
 
-      PvlKeyword &operator=(QString value);
+      PvlKeyword &operator=(std::string value);
 
-      void addValue(QString value, QString unit = "");
-      void addJsonValue(nlohmann::json jsonobj, QString unit = "");
+      void addValue(std::string value, std::string unit = "");
+      void addJsonValue(nlohmann::json jsonobj, std::string unit = "");
 
-      PvlKeyword &operator+=(QString value);
+      PvlKeyword &operator+=(std::string value);
 
       //! Returns the number of values stored in this keyword
       int size() const {
@@ -142,33 +141,33 @@ namespace Isis {
 
       //! Returns the first value  in this keyword converted to a double
       operator double() const {
-        return toDouble(operator[](0));
+        return std::stod(operator[](0));
       };
       //! Returns the first value  in this keyword converted to an integer
       operator int() const {
-        return toInt(operator[](0));
+        return std::stoi(operator[](0));
       };
       //! Returns the first value  in this keyword converted to a BigInt
       operator Isis::BigInt() const {
-        return toBigInt(operator[](0));
+        return std::stoll(operator[](0));
       };
 
-      operator QString() const;
+      operator std::string() const;
 
-      const QString &operator[](int index) const;
-      QString &operator[](int index);
-      QString unit(const int index = 0) const;
+      const std::string &operator[](int index) const;
+      std::string &operator[](int index);
+      std::string unit(const int index = 0) const;
 
-      void addComment(QString comment);
-      void addCommentWrapped(QString comment);
+      void addComment(std::string comment);
+      void addCommentWrapped(std::string comment);
 
-      void addComments(const std::vector<QString> &comments);
+      void addComments(const std::vector<std::string> &comments);
 
       //! Returns the number of lines of comments associated with this keyword
       int comments() const {
         return (m_comments ? m_comments->size() : 0);
       };
-      QString comment(const int index) const;
+      std::string comment(const int index) const;
       void clearComment();
 
       /**
@@ -192,7 +191,7 @@ namespace Isis {
         return !(*this == key);
       };
 
-      bool isEquivalent(QString string1, int index = 0) const;
+      bool isEquivalent(std::string string1, int index = 0) const;
 
       /**
        *  The width of the longest keyword name (for formatting)
@@ -227,34 +226,34 @@ namespace Isis {
       void setFormat(PvlFormat *formatter);
       PvlFormat *format();
 
-      static bool stringEqual(const QString &string1,
-                              const QString &string2);
+      static bool stringEqual(const std::string &string1,
+                              const std::string &string2);
 
 
-      static QString readLine(std::istream &is, bool insideComment);
+      static std::string readLine(std::istream &is, bool insideComment);
 
-      static bool readCleanKeyword(QString keyword,
-                                   std::vector< QString > &keywordComments,
-                                   QString &keywordName,
-                                   std::vector< std::pair<QString, QString> >
+      static bool readCleanKeyword(std::string keyword,
+                                   std::vector< std::string > &keywordComments,
+                                   std::string &keywordName,
+                                   std::vector< std::pair<std::string, std::string> >
                                    &keywordValues);
 
-      static QString readValue(QString &keyword, bool &quoteProblem);
-      static QString readValue(QString &keyword, bool &quoteProblem,
+      static std::string readValue(std::string &keyword, bool &quoteProblem);
+      static std::string readValue(std::string &keyword, bool &quoteProblem,
                                    const std::vector< std::pair<char, char> > &
                                    otherDelimiters);
 
       const PvlKeyword &operator=(const PvlKeyword &other);
 
       //! Validate Keyword for type and required values
-      void validateKeyword(PvlKeyword & pvlKwrd, QString psValueType="", PvlKeyword* pvlKwrdRange=NULL);
+      void validateKeyword(PvlKeyword & pvlKwrd, std::string psValueType="", PvlKeyword* pvlKwrdRange=NULL);
 
     protected:
-      QString reform(const QString &value) const;
-      QString toPvl(const QString &value) const;
-      QString toIPvl(const QString &value) const;
+      std::string reform(const std::string &value) const;
+      std::string toPvl(const std::string &value) const;
+      std::string toIPvl(const std::string &value) const;
       std::ostream &writeWithWrap(std::ostream &os,
-                                  const QString &textToWrite,
+                                  const std::string &textToWrite,
                                   int startColumn,
                                   PvlFormat &format) const;
 
@@ -273,13 +272,13 @@ namespace Isis {
        *   of the time we have one value per keyword so that is what we're
        *   allocating by default with this variable.
        */
-      QVarLengthArray<QString, 1> m_values;
+      QVarLengthArray<std::string, 1> m_values;
 
       //! The units for the values.
-      std::vector<QString> *m_units;
+      std::vector<std::string> *m_units;
 
       //! The comments for the keyword.
-      std::vector<QString> *m_comments;
+      std::vector<std::string> *m_comments;
 
       void init();
 

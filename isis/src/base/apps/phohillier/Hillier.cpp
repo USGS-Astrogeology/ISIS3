@@ -107,7 +107,7 @@ namespace Isis {
   double Hillier::photometry(double i, double e, double g, int band) const {
     // Test for valid band
     if((band <= 0) || (band > (int) _bandpho.size())) {
-      QString mess = "Provided band " + toString(band) + " out of range.";
+      std::string mess = "Provided band " + std::to_string(band) + " out of range.";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
     double ph = photometry(_bandpho[band-1], i, e, g);
@@ -170,9 +170,9 @@ namespace Isis {
    */
   void Hillier::Report(PvlContainer &pvl) {
     pvl += PvlKeyword("Algorithm", "Hillier");
-    pvl += PvlKeyword("IncRef", toString(_iRef), "degrees");
-    pvl += PvlKeyword("EmaRef", toString(_eRef), "degrees");
-    pvl += PvlKeyword("PhaRef", toString(_gRef), "degrees");
+    pvl += PvlKeyword("IncRef", std::to_string(_iRef), "degrees");
+    pvl += PvlKeyword("EmaRef", std::to_string(_eRef), "degrees");
+    pvl += PvlKeyword("PhaRef", std::to_string(_gRef), "degrees");
     PvlKeyword units("HillierUnits");
     PvlKeyword phostd("PhotometricStandard");
     PvlKeyword bbc("BandBinCenter");
@@ -187,18 +187,18 @@ namespace Isis {
     PvlKeyword a4("A4");
     for(unsigned int i = 0 ; i < _bandpho.size() ; i++) {
       Parameters &p = _bandpho[i];
-      units.addValue(p.units);
-      phostd.addValue(toString(p.phoStd));
-      bbc.addValue(toString(p.wavelength));
-      bbct.addValue(toString(p.tolerance));
-      bbn.addValue(toString(p.band));
-      b0.addValue(toString(p.b0));
-      b1.addValue(toString(p.b1));
-      a0.addValue(toString(p.a0));
-      a1.addValue(toString(p.a1));
-      a2.addValue(toString(p.a2));
-      a3.addValue(toString(p.a3));
-      a4.addValue(toString(p.a4));
+      units.addValue(p.units.toStdString());
+      phostd.addValue(std::to_string(p.phoStd));
+      bbc.addValue(std::to_string(p.wavelength));
+      bbct.addValue(std::to_string(p.tolerance));
+      bbn.addValue(std::to_string(p.band));
+      b0.addValue(std::to_string(p.b0));
+      b1.addValue(std::to_string(p.b1));
+      a0.addValue(std::to_string(p.a0));
+      a1.addValue(std::to_string(p.a1));
+      a2.addValue(std::to_string(p.a2));
+      a3.addValue(std::to_string(p.a3));
+      a4.addValue(std::to_string(p.a4));
     }
     pvl += units;
     pvl += phostd;
@@ -325,7 +325,7 @@ namespace Isis {
     DbProfile phoProf = DbProfile(phoObj);
     PvlObject::PvlGroupIterator algo = phoObj.beginGroup();
     while(algo != phoObj.endGroup()) {
-      if(algo->name().toLower() == "algorithm") {
+      if(QString::fromStdString(algo->name()).toLower() == "algorithm") {
         _profiles.push_back(DbProfile(phoProf, DbProfile(*algo)));
       }
       ++algo;
@@ -333,9 +333,9 @@ namespace Isis {
 
     Pvl *label = cube.label();
     PvlKeyword center = label->findGroup("BandBin", Pvl::Traverse)["Center"];
-    QString errs("");
+    std::string errs("");
     for(int i = 0; i < cube.bandCount() ; i++) {
-      Parameters parms = findParameters(toDouble(center[i]));
+      Parameters parms = findParameters(std::stod(center[i]));
       if(parms.IsValid()) {
         parms.band = i + 1;
         _camera->SetBand(i + 1);
@@ -347,12 +347,12 @@ namespace Isis {
         mess << "Band " << i + 1 << " with wavelength Center = " << center[i]
              << " does not have PhotometricModel Algorithm group/profile";
         IException e(IException::User, mess.str(), _FILEINFO_);
-        errs += e.toString() + "\n";
+        errs += e.toString().toStdString() + "\n";
       }
     }
 
     // Check for errors and throw them all at the same time
-    if(!errs.isEmpty()) {
+    if(!errs.empty()) {
       errs += " --> Errors in the input PVL file \"" + pvl.fileName() + "\"";
       throw IException(IException::User, errs, _FILEINFO_);
     }

@@ -49,13 +49,13 @@ namespace Isis {
 
     QString algorithm = "";
     if(algo.hasKeyword("AtmName")) {
-      algorithm = QString(algo["AtmName"]);
+      algorithm = QString::fromStdString(algo["AtmName"]);
     }
     else if(algo.hasKeyword("Name")) {
-      algorithm = QString(algo["Name"]);
+      algorithm = QString::fromStdString(algo["Name"]);
     }
     else {
-      QString msg = "Keyword [Name] or keyword [AtmName] must ";
+      std::string msg = "Keyword [Name] or keyword [AtmName] must ";
       msg += "exist in [Group = Algorithm]";
       throw IException(IException::User, msg, _FILEINFO_);
     }

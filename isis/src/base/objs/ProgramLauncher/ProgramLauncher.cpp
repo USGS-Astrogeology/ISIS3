@@ -185,9 +185,9 @@ namespace Isis {
 
       for(int i = 0; i < errorPvl.groups(); i++) {
         PvlGroup &g = errorPvl.group(i);
-        QString emsg = g["Message"];
+        QString emsg = QString::fromStdString(g["Message"]);
         int ecode = g["Code"];
-        QString efile = g["File"];
+        QString efile =QString::fromStdString(g["File"]);
         int eline = g["Line"];
 
         errors.append(

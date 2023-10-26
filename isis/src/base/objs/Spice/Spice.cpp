@@ -171,14 +171,14 @@ namespace Isis {
 
     // Get the time padding first
     if (kernels.hasKeyword("StartPadding")) {
-      *m_startTimePadding = toDouble(kernels["StartPadding"][0]);
+      *m_startTimePadding = std::stod(kernels["StartPadding"][0]);
     }
     else {
       *m_startTimePadding = 0.0;
     }
 
     if (kernels.hasKeyword("EndPadding")) {
-      *m_endTimePadding  = toDouble(kernels["EndPadding"][0]);
+      *m_endTimePadding  = std::stod(kernels["EndPadding"][0]);
     }
     else {
       *m_endTimePadding = 0.0;
@@ -206,7 +206,7 @@ namespace Isis {
 
           props["kernels"] = kernel_pvl.str();
 
-          isd = ale::load(lab.fileName().toStdString(), props.dump(), "ale", false, false, true);
+          isd = ale::load(lab.fileName(), props.dump(), "ale", false, false, true);
         }
 
         json aleNaifKeywords = isd["naif_keywords"];
@@ -297,7 +297,7 @@ namespace Isis {
 
     QString trykey = "NaifIkCode";
     if (kernels.hasKeyword("NaifFrameCode")) trykey = "NaifFrameCode";
-    *m_ikCode = toInt(kernels[trykey][0]);
+    *m_ikCode = std::stoi(kernels[trykey.toStdString()][0]);
 
     *m_spkCode  = *m_ikCode / 1000;
     *m_sclkCode = *m_spkCode;
@@ -408,11 +408,11 @@ namespace Isis {
       }
       solarLongitude();
     }
-    else if (kernels["TargetPosition"][0].toUpper() == "TABLE") {
-      Table t("SunPosition", lab.fileName(), lab);
+    else if (QString::fromStdString(kernels["TargetPosition"][0]).toUpper() == "TABLE") {
+      Table t("SunPosition", QString::fromStdString(lab.fileName()), lab);
       m_sunPosition->LoadCache(t);
 
-      Table t2("BodyRotation", lab.fileName(), lab);
+      Table t2("BodyRotation", QString::fromStdString(lab.fileName()), lab);
       m_bodyRotation->LoadCache(t2);
       if (t2.Label().hasKeyword("SolarLongitude")) {
         *m_solarLongitude = Longitude(t2.Label()["SolarLongitude"],
@@ -437,7 +437,7 @@ namespace Isis {
 
     //  2009-03-18  Tracie Sucharski - Removed test for old keywords, any files
     // with the old keywords should be re-run through spiceinit.
-    if (kernels["InstrumentPointing"][0].toUpper() == "NADIR" && !isUsingAle()) {
+    if (QString::fromStdString(kernels["InstrumentPointing"][0]).toUpper() == "NADIR" && !isUsingAle()) {
       if (m_instrumentRotation) {
         delete m_instrumentRotation;
         m_instrumentRotation = NULL;
@@ -452,8 +452,8 @@ namespace Isis {
        m_instrumentRotation->LoadTimeCache();
      }
     }
-    else if (kernels["InstrumentPointing"][0].toUpper() == "TABLE") {
-      Table t("InstrumentPointing", lab.fileName(), lab);
+    else if (QString::fromStdString(kernels["InstrumentPointing"][0]).toUpper() == "TABLE") {
+      Table t("InstrumentPointing", QString::fromStdString(lab.fileName()), lab);
       m_instrumentRotation->LoadCache(t);
     }
 
@@ -467,8 +467,8 @@ namespace Isis {
     if (m_usingAle) {
       m_instrumentPosition->LoadCache(isd["instrument_position"]);
     }
-    else if (kernels["InstrumentPosition"][0].toUpper() == "TABLE") {
-      Table t("InstrumentPosition", lab.fileName(), lab);
+    else if (QString::fromStdString(kernels["InstrumentPosition"][0]).toUpper() == "TABLE") {
+      Table t("InstrumentPosition", QString::fromStdString(lab.fileName()), lab);
       m_instrumentPosition->LoadCache(t);
     }
     NaifStatus::CheckErrors();
@@ -488,18 +488,18 @@ namespace Isis {
 
     for (int i = 0; i < key.size(); i++) {
       if (key[i] == "") continue;
-      if (key[i].toUpper() == "NULL") break;
-      if (key[i].toUpper() == "NADIR") break;
-      if (key[i].toUpper() == "TABLE" && !noTables) break;
-      if (key[i].toUpper() == "TABLE" && noTables) continue;
-      FileName file(key[i]);
+      if (QString::fromStdString(key[i]).toUpper() == "NULL") break;
+      if (QString::fromStdString(key[i]).toUpper() == "NADIR") break;
+      if (QString::fromStdString(key[i]).toUpper() == "TABLE" && !noTables) break;
+      if (QString::fromStdString(key[i]).toUpper() == "TABLE" && noTables) continue;
+      FileName file(QString::fromStdString(key[i]));
       if (!file.fileExists()) {
         QString msg = "Spice file does not exist [" + file.expanded() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       QString fileName = file.expanded();
       furnsh_c(fileName.toLatin1().data());
-      m_kernels->push_back(key[i]);
+      m_kernels->push_back(QString::fromStdString(key[i]));
     }
 
     NaifStatus::CheckErrors();
@@ -1200,27 +1200,27 @@ namespace Isis {
 
   void Spice::storeValue(QString key, int index, SpiceValueType type,
                          QVariant value) {
-    if (!m_naifKeywords->hasKeyword(key)) {
-      m_naifKeywords->addKeyword(PvlKeyword(key));
+    if (!m_naifKeywords->hasKeyword(key.toStdString())) {
+      m_naifKeywords->addKeyword(PvlKeyword(key.toStdString()));
     }
 
-    PvlKeyword &storedKey = m_naifKeywords->findKeyword(key);
+    PvlKeyword &storedKey = m_naifKeywords->findKeyword(key.toStdString());
 
     while(index >= storedKey.size()) {
       storedKey.addValue("");
     }
 
     if (type == SpiceByteCodeType) {
-      storedKey[index] = QString(value.toByteArray().toHex().data());
+      storedKey[index] = value.toByteArray().toHex().data();
     }
     else if (type == SpiceStringType) {
-      storedKey[index] = value.toString();
+      storedKey[index] = value.toString().toStdString();
     }
     else if (type == SpiceDoubleType) {
-      storedKey[index] = toString(value.toDouble());
+      storedKey[index] = std::to_string(value.toDouble());
     }
     else if (type == SpiceIntType) {
-      storedKey[index] = toString(value.toInt());
+      storedKey[index] = std::to_string(value.toInt());
     }
     else {
       QString msg = "Unable to store variant in labels for key [" + key + "]";
@@ -1234,21 +1234,21 @@ namespace Isis {
     // Read from PvlObject that is our naif keywords
     QVariant result;
 
-    if (m_naifKeywords->hasKeyword(key) && (!m_usingNaif || m_usingAle)) {
-      PvlKeyword &storedKeyword = m_naifKeywords->findKeyword(key);
+    if (m_naifKeywords->hasKeyword(key.toStdString()) && (!m_usingNaif || m_usingAle)) {
+      PvlKeyword &storedKeyword = m_naifKeywords->findKeyword(key.toStdString());
 
       try {
         if (type == SpiceDoubleType) {
-          result = toDouble(storedKeyword[index]);
+          result = std::stod(storedKeyword[index]);
         }
         else if (type == SpiceStringType) {
-          result = storedKeyword[index];
+          result = QString::fromStdString(storedKeyword[index]);
         }
         else if (type == SpiceByteCodeType || SpiceStringType) {
-          result = storedKeyword[index].toLatin1();
+          result = QString::fromStdString(storedKeyword[index]);
         }
         else if (type == SpiceIntType) {
-          result = toInt(storedKeyword[index]);
+          result = std::stoi(storedKeyword[index]);
         }
       }
       catch(IException &e) {
@@ -1570,9 +1570,9 @@ namespace Isis {
 
       for (int i = 0; i < key.size(); i++) {
         if (key[i] == "") return false;
-        if (key[i].toUpper() == "NULL") return false;
-        if (key[i].toUpper() == "NADIR") return false;
-        if (key[i].toUpper() == "TABLE") return false;
+        if (QString::fromStdString(key[i]).toUpper() == "NULL") return false;
+        if (QString::fromStdString(key[i]).toUpper() == "NADIR") return false;
+        if (QString::fromStdString(key[i]).toUpper() == "TABLE") return false;
       }
     }
     return true;

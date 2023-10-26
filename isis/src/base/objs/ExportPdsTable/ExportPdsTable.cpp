@@ -84,9 +84,9 @@ namespace Isis {
     m_pdsByteOrder = pdsTableByteOrder.toUpper();
 
     if (m_pdsByteOrder != "MSB" && m_pdsByteOrder != "LSB") {
-      QString msg = "Unable to export the Isis Table [" + m_isisTable->Name()
+      std::string msg = "Unable to export the Isis Table [" + m_isisTable->Name()
                     + "] to a PDS table using the requested byte order ["
-                    + m_pdsByteOrder + "]. Valid values are MSB or LSB.";
+                    + m_pdsByteOrder.toStdString() + "]. Valid values are MSB or LSB.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -121,22 +121,22 @@ namespace Isis {
    */
   PvlObject ExportPdsTable::fillMetaData() {
     QString pdsTableName = formatPdsTableName();
-    PvlObject pdsTableLabelInfo(pdsTableName);
+    PvlObject pdsTableLabelInfo(pdsTableName.toStdString());
     // Data Object Descriptions
     // NOTE: this class is currently only exporting BINARY format PDS tables.
     //       implementation may be added later to export ASCII PDS tables.
     pdsTableLabelInfo.addKeyword(PvlKeyword("INTERCHANGE_FORMAT", "BINARY"));
-    pdsTableLabelInfo.addKeyword(PvlKeyword("ROWS", toString(m_isisTable->Records())));
-    pdsTableLabelInfo.addKeyword(PvlKeyword("COLUMNS", toString(m_isisTable->RecordFields())));
-    pdsTableLabelInfo.addKeyword(PvlKeyword("ROW_BYTES", toString(m_rowBytes)));
-    pdsTableLabelInfo.addKeyword(PvlKeyword("ROW_SUFFIX_BYTES", toString(m_outputRecordBytes - m_rowBytes)));
+    pdsTableLabelInfo.addKeyword(PvlKeyword("ROWS", std::to_string(m_isisTable->Records())));
+    pdsTableLabelInfo.addKeyword(PvlKeyword("COLUMNS", std::to_string(m_isisTable->RecordFields())));
+    pdsTableLabelInfo.addKeyword(PvlKeyword("ROW_BYTES", std::to_string(m_rowBytes)));
+    pdsTableLabelInfo.addKeyword(PvlKeyword("ROW_SUFFIX_BYTES", std::to_string(m_outputRecordBytes - m_rowBytes)));
     int startByte = 1;  // PDS begins indexing at 1
     for(int fieldIndex = 0; fieldIndex < m_isisTable->RecordFields(); fieldIndex++) {
       int columnBytes = 0;
       TableField field = (*m_isisTable)[0][fieldIndex];
       PvlObject columnObj("COLUMN");
-      columnObj.addKeyword(PvlKeyword("COLUMN_NUMBER", toString(fieldIndex + 1)));
-      columnObj.addKeyword(PvlKeyword("NAME", QString::fromStdString(field.name())));
+      columnObj.addKeyword(PvlKeyword("COLUMN_NUMBER", std::to_string(fieldIndex + 1)));
+      columnObj.addKeyword(PvlKeyword("NAME", field.name()));
 
 
       if (field.type() == TableField::Text) {
@@ -185,9 +185,9 @@ namespace Isis {
                       "field type found for [" + field.name() + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
-      columnObj.addKeyword(PvlKeyword("START_BYTE", toString(startByte)));
+      columnObj.addKeyword(PvlKeyword("START_BYTE", std::to_string(startByte)));
       startByte += columnBytes;
-      columnObj.addKeyword(PvlKeyword("BYTES", toString(columnBytes)));
+      columnObj.addKeyword(PvlKeyword("BYTES", std::to_string(columnBytes)));
       pdsTableLabelInfo.addObject(columnObj);
     }
     return pdsTableLabelInfo;
@@ -199,7 +199,7 @@ namespace Isis {
    * @return QString containing the formatted PDS table name.
    */
   QString ExportPdsTable::formatPdsTableName() {
-    return ExportPdsTable::formatPdsTableName(m_isisTable->Name());
+    return ExportPdsTable::formatPdsTableName(QString::fromStdString(m_isisTable->Name()));
   }
 
   /**
@@ -306,7 +306,7 @@ namespace Isis {
                                    // tested since it should not be possible
                                    // unless the number of bytes reserved for
                                    // each of the types changes
-      QString msg = "Unable to export Isis::Table object [" + m_isisTable->Name()
+      std::string msg = "Unable to export Isis::Table object [" + m_isisTable->Name()
                     + "] to PDS. Record lengths are uneven.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }

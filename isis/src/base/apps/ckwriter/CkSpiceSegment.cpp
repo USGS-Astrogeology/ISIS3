@@ -157,11 +157,11 @@ CkSpiceSegment::SVector CkSpiceSegment::TickRate() const {
 
 QString CkSpiceSegment::getKeyValue(PvlObject &label,
                                       const QString &keyword) {
-  QString value("");
-  if ( label.hasKeyword(keyword,Pvl::Traverse) ) {
-    value = label.findKeyword(keyword,Pvl::Traverse)[0];
+  std::string value("");
+  if ( label.hasKeyword(keyword.toStdString(), Pvl::Traverse) ) {
+    value = label.findKeyword(keyword.toStdString(), Pvl::Traverse)[0];
   }
-  return (value);
+  return QString::fromStdString(value);
 }
 
 void CkSpiceSegment::import(Cube &cube, const QString &tblname) {
@@ -360,7 +360,7 @@ bool CkSpiceSegment::getTimeDependentFrameIds(Table &table, int &toId, int &from
   if ( table.Label().hasKeyword("TimeDependentFrames") ) {
     PvlKeyword labelTimeFrames = table.Label()["TimeDependentFrames"];
     for (int i=0; i<labelTimeFrames.size(); i++) {
-      tdfids.push_back(toInt(labelTimeFrames[i]));
+      tdfids.push_back(std::stoi(labelTimeFrames[i]));
     }
   }
   else {
@@ -413,7 +413,7 @@ bool CkSpiceSegment::getFrameChains(Table &table, const int &leftBase,
   if ( table.Label().hasKeyword("TimeDependentFrames") ) {
     PvlKeyword labelTimeFrames = table.Label()["TimeDependentFrames"];
     for (int i = 0 ; i < labelTimeFrames.size() ; i++) {
-      tdfids.push_back(toInt(labelTimeFrames[i]));
+      tdfids.push_back(std::stoi(labelTimeFrames[i]));
     }
   }
   else {
@@ -482,7 +482,7 @@ CkSpiceSegment::SMatrix CkSpiceSegment::getConstantRotation(Table &table) const 
     PvlKeyword conrot = table.Label()["ConstantRotation"];
     SVector rot(9, crot[0]);
     for (int i=0; i < 9 ; i++) {  //  Loop count ensures valid matrices
-      rot[i] = toDouble(conrot[i]);
+      rot[i] = std::stod(conrot[i]);
     }
   } catch ( IException &ie ) {
     ostringstream mess;

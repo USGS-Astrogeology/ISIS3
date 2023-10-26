@@ -55,7 +55,7 @@ namespace Isis {
     initialize();
 
     // group name must be instrument id
-    m_instrumentId = (QString)scParameterGroup.nameKeyword();
+    m_instrumentId = QString::fromStdString(scParameterGroup.nameKeyword());
 
     // If CKDEGREE is not specified, then a default of 2 is used
     if (scParameterGroup.hasKeyword("CKDEGREE")) {
@@ -70,7 +70,7 @@ namespace Isis {
     // do we solve for No pointing, ANGLES only, ANGLES+ANGULAR VELOCITY, ANGLES+ANGULAR VELOCITY+
     // ANGULAR ACCELERATION, or a higher order polynomial
     QString csolve = "NONE";
-    csolve = (QString)scParameterGroup.findKeyword("CAMSOLVE");
+    csolve = QString::fromStdString(scParameterGroup.findKeyword("CAMSOLVE"));
     csolve = csolve.toUpper();
     if (csolve == "NONE") {
       m_instrumentPointingSolveOption = NoPointingFactors;
@@ -95,7 +95,7 @@ namespace Isis {
 
     // If OVEREXISTING is not specified, then a default of NO is used
     if (scParameterGroup.hasKeyword("OVEREXISTING")) {
-      QString parval = (QString)scParameterGroup.findKeyword("OVEREXISTING");
+      QString parval = QString::fromStdString(scParameterGroup.findKeyword("OVEREXISTING"));
       parval = parval.toUpper();
       if (parval == "TRUE" || parval == "YES") {
         m_solvePointingPolynomialOverExisting = true;
@@ -122,7 +122,7 @@ namespace Isis {
     // do we solve for No position, POSITION only, POSITION+VELOCITY, POSITION+VELOCITY+
     // ACCELERATION, or a higher order polynomial
     QString ssolve = "NONE";
-    ssolve = (QString)scParameterGroup.findKeyword("SPSOLVE");
+    ssolve = QString::fromStdString(scParameterGroup.findKeyword("SPSOLVE"));
     ssolve = ssolve.toUpper();
     if (ssolve == "NONE") {
       m_instrumentPositionSolveOption = NoPositionFactors;
@@ -147,7 +147,7 @@ namespace Isis {
 
     // If TWIST is not specified, then a default of YES is used
     if (scParameterGroup.hasKeyword("TWIST")) {
-      QString parval = (QString)scParameterGroup.findKeyword("TWIST");
+      QString parval = QString::fromStdString(scParameterGroup.findKeyword("TWIST"));
       parval = parval.toUpper();
       if (parval == "TRUE" || parval == "YES") { // is this necessary ??? i think pvl and toString can handle it...
         m_solveTwist = true;
@@ -162,7 +162,7 @@ namespace Isis {
     }
     // If OVERHERMITE is not specified, then a default of NO is used
     if (scParameterGroup.hasKeyword("OVERHERMITE")) {
-     QString parval = (QString)scParameterGroup.findKeyword("OVERHERMITE");
+     QString parval = QString::fromStdString(scParameterGroup.findKeyword("OVERHERMITE"));
      parval = parval.toUpper();
      if (parval == "TRUE" || parval == "YES") {
        m_solvePositionOverHermiteSpline = true;
@@ -202,7 +202,7 @@ namespace Isis {
       if (scParameterGroup.hasKeyword("ADDITIONAL_CAMERA_POINTING_SIGMAS")) {
         PvlKeyword additionalSigmas = scParameterGroup.findKeyword("ADDITIONAL_CAMERA_POINTING_SIGMAS");
         for (int i = 0; i < additionalSigmas.size(); i++ ) {
-          m_anglesAprioriSigma.append(toDouble(additionalSigmas[i]));
+          m_anglesAprioriSigma.append(std::stod(additionalSigmas[i]));
         }
       }
     }
@@ -229,23 +229,23 @@ namespace Isis {
       if (scParameterGroup.hasKeyword("ADDITIONAL_SPACECRAFT_POSITION_SIGMAS")) {
         PvlKeyword additionalSigmas = scParameterGroup.findKeyword("ADDITIONAL_SPACECRAFT_POSITION_SIGMAS");
         for (int i = 0; i < additionalSigmas.size(); i++ ) {
-          m_positionAprioriSigma.append(toDouble(additionalSigmas[i]));
+          m_positionAprioriSigma.append(std::stod(additionalSigmas[i]));
         }
       }
     }
 
     // CSM settings
     if (scParameterGroup.hasKeyword("CSMSOLVESET")) {
-      setCSMSolveSet(stringToCSMSolveSet(scParameterGroup.findKeyword("CSMSOLVESET")));
+      setCSMSolveSet(stringToCSMSolveSet(QString::fromStdString(scParameterGroup.findKeyword("CSMSOLVESET"))));
     }
     else if (scParameterGroup.hasKeyword("CSMSOLVETYPE")) {
-      setCSMSolveType(stringToCSMSolveType(scParameterGroup.findKeyword("CSMSOLVETYPE")));
+      setCSMSolveType(stringToCSMSolveType(QString::fromStdString(scParameterGroup.findKeyword("CSMSOLVETYPE"))));
     }
     else if (scParameterGroup.hasKeyword("CSMSOLVELIST")) {
       PvlKeyword csmSolveListKey = scParameterGroup.findKeyword("CSMSOLVELIST");
       QStringList csmSolveList;
       for (int i = 0; i < csmSolveListKey.size(); i++) {
-        csmSolveList.append(csmSolveListKey[i]);
+        csmSolveList.append(QString::fromStdString(csmSolveListKey[i]));
       }
       setCSMSolveParameterList(csmSolveList);
     }

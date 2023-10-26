@@ -89,7 +89,7 @@ namespace Isis {
     dummyRecord += fileNameField;
     dummyRecord += serialNumberField;
     dummyRecord += indexField;
-    Table table(trackingTableName, dummyRecord);
+    Table table(trackingTableName.toStdString(), dummyRecord);
 
     // Loop through m_fileList and add records to the table with the proper information.
     for (int i=0; i < m_fileList.size(); i++) {

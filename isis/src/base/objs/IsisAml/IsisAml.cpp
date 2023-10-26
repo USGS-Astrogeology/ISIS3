@@ -1274,7 +1274,7 @@ void IsisAml::CreatePVL(Isis::Pvl &pvlDef , QString guiGrpName, QString pvlObjNa
 
   Isis::PvlObject *pvlObj = NULL;
   if (pvlObjName != "") {
-    pvlObj = new Isis::PvlObject(pvlObjName);
+    pvlObj = new Isis::PvlObject(pvlObjName.toStdString());
   }
 
   // Get Gui Group index
@@ -1285,23 +1285,23 @@ void IsisAml::CreatePVL(Isis::Pvl &pvlDef , QString guiGrpName, QString pvlObjNa
     throw Isis::IException(Isis::IException::User, errMsg, _FILEINFO_);
   }
 
-  Isis::PvlGroup grp(pvlGrpName);
+  Isis::PvlGroup grp(pvlGrpName.toStdString());
   for(int i=0; i<NumParams(grpIndex); i++) {
     QString paramName = ParamName(grpIndex, i);
 
     if(IsParamInPvlInclude(paramName,include)) {
       Isis::IString paramType = Isis::IString(ParamType(grpIndex, i)).DownCase();
       if(paramType == "double") {
-        grp += Isis::PvlKeyword(paramName, Isis::toString(GetDouble(paramName)));
+        grp += Isis::PvlKeyword(paramName.toStdString(), std::to_string(GetDouble(paramName)));
       }
       if(paramType == "integer") {
-        grp += Isis::PvlKeyword(paramName, Isis::toString(GetInteger(paramName)));
+        grp += Isis::PvlKeyword(paramName.toStdString(), std::to_string(GetInteger(paramName)));
       }
       if(paramType == "boolean") {
-        grp += Isis::PvlKeyword(paramName, Isis::toString(GetBoolean(paramName)));
+        grp += Isis::PvlKeyword(paramName.toStdString(), std::to_string(GetBoolean(paramName)));
       }
       if(paramType == "string" || paramType == "filename" || paramType == "combo") {
-        grp += Isis::PvlKeyword(paramName, GetAsString(paramName));
+        grp += Isis::PvlKeyword(paramName.toStdString(), GetAsString(paramName).toStdString());
       }
     }
   }
@@ -2554,7 +2554,7 @@ void IsisAml::Verify(const IsisParameterData *param) {
  */
 void IsisAml::CheckFileNamePreference(QString filename, QString paramname) {
   Isis::PvlGroup fileCustomization = Isis::Preference::Preferences().findGroup("FileCustomization");
-  QString overwritePreference = fileCustomization.findKeyword("Overwrite")[0].simplified().trimmed();
+  QString overwritePreference = QString::fromStdString(fileCustomization.findKeyword("Overwrite")[0]).simplified().trimmed();
   QString temp = overwritePreference;
   if(overwritePreference.toUpper() == "ERROR") {
     QString message = "Invalid output filename for [" + paramname + "]. The file [" + filename + "] already exists.  " +
@@ -3105,10 +3105,10 @@ void IsisAml::CommandLine(Isis::Pvl &cont) const {
       const IsisParameterData *param = ReturnParam(ParamName(g, p));
       // If this param has a value add it to the command line
       if(param->values.size() > 0) {
-        Isis::PvlKeyword paramKeyword(param->name);
+        Isis::PvlKeyword paramKeyword(param->name.toStdString());
 
         for(unsigned int value = 0; value < param->values.size(); value++) {
-          paramKeyword.addValue(param->values[value]);
+          paramKeyword.addValue(param->values[value].toStdString());
         }
 
         group += paramKeyword;
@@ -3116,12 +3116,12 @@ void IsisAml::CommandLine(Isis::Pvl &cont) const {
 
       // Or if it has a default value add it to the command line
       else if(param->defaultValues.size() > 0) {
-        Isis::PvlKeyword paramKeyword(param->name);
+        Isis::PvlKeyword paramKeyword(param->name.toStdString());
 
         for(unsigned int value = 0;
            value < param->defaultValues.size();
            value++) {
-          paramKeyword.addValue(param->defaultValues[value]);
+          paramKeyword.addValue(param->defaultValues[value].toStdString());
         }
 
         group += paramKeyword;
@@ -3152,8 +3152,8 @@ void IsisAml::CommandLine(Isis::Pvl &cont) const {
             for(unsigned int e2 = 0; e2 < param->listOptions[o2].exclude.size(); e2++) {
               const IsisParameterData *param2 =
                 ReturnParam(param->listOptions[o2].exclude[e2]);
-              if(group.hasKeyword(param2->name)) {
-                group.deleteKeyword(param2->name);
+              if(group.hasKeyword(param2->name.toStdString())) {
+                group.deleteKeyword(param2->name.toStdString());
               }
             }
           }

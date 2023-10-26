@@ -219,7 +219,7 @@ namespace Isis {
         sImageFile += ".img";
       }
       FileName outFile(sImageFile);
-      mainPvl += PvlKeyword("^IMAGE", outFile.name());
+      mainPvl += PvlKeyword("^IMAGE", outFile.name().toStdString());
     }
     else {
       mainPvl += PvlKeyword("^IMAGE", "???????", "BYTES");
@@ -256,13 +256,13 @@ namespace Isis {
     }
     FileName outFile(sImageFile);
     PvlObject cmpObj("COMPRESSED_FILE");
-    cmpObj += PvlKeyword("FILE_NAME", outFile.name());
+    cmpObj += PvlKeyword("FILE_NAME", outFile.name().toStdString());
     cmpObj += PvlKeyword("RECORD_TYPE", "UNDEFINED");
     cmpObj += PvlKeyword("ENCODING_TYPE", "JP2");
     cmpObj += PvlKeyword("ENCODING_TYPE_VERSION_NAME", "ISO/IEC15444-1:2004");
     cmpObj += PvlKeyword("INTERCHANGE_FORMAT", "BINARY");
     FileName infilename(InputCubes[0]->fileName());
-    cmpObj += PvlKeyword("UNCOMPRESSED_FILE_NAME", infilename.name());
+    cmpObj += PvlKeyword("UNCOMPRESSED_FILE_NAME", infilename.name().toStdString());
     int storagebytes = InputCubes[0]->sampleCount() * InputCubes[0]->lineCount();
     if(p_pixelType == Isis::Real) {
       QString msg = "JPEG2000 does not support floating point data.";
@@ -271,18 +271,18 @@ namespace Isis {
     if(p_pixelType == Isis::UnsignedWord || p_pixelType == Isis::SignedWord) {
       storagebytes = storagebytes * 2;
     }
-    cmpObj += PvlKeyword("REQUIRED_STORAGE_BYTES", toString(storagebytes));
+    cmpObj += PvlKeyword("REQUIRED_STORAGE_BYTES", std::to_string(storagebytes));
     mainPvl.addObject(cmpObj);
     PvlObject ucmpObj("UNCOMPRESSED_FILE");
-    ucmpObj += PvlKeyword("FILE_NAME", infilename.name());
+    ucmpObj += PvlKeyword("FILE_NAME", infilename.name().toStdString());
     ucmpObj += PvlKeyword("RECORD_TYPE", "FIXED_LENGTH");
     int recordbytes = InputCubes[0]->sampleCount();
     if(p_pixelType == Isis::UnsignedWord || p_pixelType == Isis::SignedWord) {
       recordbytes = recordbytes * 2;
     }
-    ucmpObj += PvlKeyword("RECORD_BYTES", toString(recordbytes));
-    ucmpObj += PvlKeyword("FILE_RECORDS", toString(InputCubes[0]->lineCount()));
-    ucmpObj += PvlKeyword("^IMAGE", infilename.name());
+    ucmpObj += PvlKeyword("RECORD_BYTES", std::to_string(recordbytes));
+    ucmpObj += PvlKeyword("FILE_RECORDS", std::to_string(InputCubes[0]->lineCount()));
+    ucmpObj += PvlKeyword("^IMAGE", infilename.name().toStdString());
     mainPvl.addObject(ucmpObj);
   }
 
@@ -311,7 +311,7 @@ namespace Isis {
         sImageFile += ".img";
       }
       FileName outFile(sImageFile);
-      mainPvl += PvlKeyword("^IMAGE", outFile.name());
+      mainPvl += PvlKeyword("^IMAGE", outFile.name().toStdString());
     }
     else {
       mainPvl += PvlKeyword("^IMAGE", "???");
@@ -347,13 +347,13 @@ namespace Isis {
     }
     FileName outFile(sImageFile);
     PvlObject cmpObj("COMPRESSED_FILE");
-    cmpObj += PvlKeyword("FILE_NAME", outFile.name());
+    cmpObj += PvlKeyword("FILE_NAME", outFile.name().toStdString());
     cmpObj += PvlKeyword("RECORD_TYPE", "UNDEFINED");
     cmpObj += PvlKeyword("ENCODING_TYPE", "JP2");
     cmpObj += PvlKeyword("ENCODING_TYPE_VERSION_NAME", "ISO/IEC15444-1:2004");
     cmpObj += PvlKeyword("INTERCHANGE_FORMAT", "BINARY");
     FileName infilename(InputCubes[0]->fileName());
-    cmpObj += PvlKeyword("UNCOMPRESSED_FILE_NAME", infilename.name());
+    cmpObj += PvlKeyword("UNCOMPRESSED_FILE_NAME", infilename.name().toStdString());
     int storagebytes = InputCubes[0]->sampleCount() * InputCubes[0]->lineCount();
     if(p_pixelType == Isis::Real) {
       QString msg = "JPEG2000 does not support floating point data.";
@@ -362,18 +362,18 @@ namespace Isis {
     if(p_pixelType == Isis::UnsignedWord || p_pixelType == Isis::SignedWord) {
       storagebytes = storagebytes * 2;
     }
-    cmpObj += PvlKeyword("REQUIRED_STORAGE_BYTES", toString(storagebytes));
+    cmpObj += PvlKeyword("REQUIRED_STORAGE_BYTES", std::to_string(storagebytes));
     mainPvl.addObject(cmpObj);
     PvlObject ucmpObj("UNCOMPRESSED_FILE");
-    ucmpObj += PvlKeyword("FILE_NAME", infilename.name());
+    ucmpObj += PvlKeyword("FILE_NAME", infilename.name().toStdString());
     ucmpObj += PvlKeyword("RECORD_TYPE", "FIXED_LENGTH");
     int recordbytes = InputCubes[0]->sampleCount();
     if(p_pixelType == Isis::UnsignedWord || p_pixelType == Isis::SignedWord) {
       recordbytes = recordbytes * 2;
     }
-    ucmpObj += PvlKeyword("RECORD_BYTES", toString(recordbytes));
-    ucmpObj += PvlKeyword("FILE_RECORDS", toString(InputCubes[0]->lineCount()));
-    ucmpObj += PvlKeyword("^IMAGE", infilename.name());
+    ucmpObj += PvlKeyword("RECORD_BYTES", std::to_string(recordbytes));
+    ucmpObj += PvlKeyword("FILE_RECORDS", std::to_string(InputCubes[0]->lineCount()));
+    ucmpObj += PvlKeyword("^IMAGE", infilename.name().toStdString());
     mainPvl.addObject(ucmpObj);
   }
 
@@ -436,68 +436,68 @@ namespace Isis {
     if(!m_forceBandwidth && imgObj.hasKeyword("BANDWIDTH")) imgObj.deleteKeyword("BANDWIDTH");
 
     if(m_forceBandStorageType) imgObj += PvlKeyword("BAND_STORAGE_TYPE", "BAND_SEQUENTIAL");
-    if(m_forceOffset) imgObj += PvlKeyword("OFFSET", toString(base));
-    if(m_forceScalingFactor) imgObj += PvlKeyword("SCALING_FACTOR", toString(multiplier));
+    if(m_forceOffset) imgObj += PvlKeyword("OFFSET", std::to_string(base));
+    if(m_forceScalingFactor) imgObj += PvlKeyword("SCALING_FACTOR", std::to_string(multiplier));
 
     // Manually set the keyword for pixel type and special pixels
     if(p_pixelType == Isis::UnsignedByte) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "8");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString(0xff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string(0xff));
       if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "MSB_UNSIGNED_INTEGER");
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString((int)OutputNull()));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString((int)OutputLrs()));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString((int)OutputLis()));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString((int)OutputHrs()));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString((int)OutputHis()));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string((int)OutputNull()));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string((int)OutputLrs()));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string((int)OutputLis()));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string((int)OutputHrs()));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string((int)OutputHis()));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel8.typ");
     }
     else if((p_pixelType == Isis::UnsignedWord) && (p_endianType == Isis::Msb)) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "16");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString(0xffff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string(0xffff));
       if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "MSB_UNSIGNED_INTEGER");
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString((int)OutputNull()));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString((int)OutputLrs()));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString((int)OutputLis()));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString((int)OutputHrs()));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString((int)OutputHis()));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string((int)OutputNull()));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string((int)OutputLrs()));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string((int)OutputLis()));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string((int)OutputHrs()));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string((int)OutputHis()));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel16.typ");
     }
     else if((p_pixelType == Isis::UnsignedWord) && (p_endianType == Isis::Lsb)) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "16");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString(0xffff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string(0xffff));
       if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "LSB_UNSIGNED_INTEGER");
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString((int)OutputNull()));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString((int)OutputLrs()));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString((int)OutputLis()));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString((int)OutputHrs()));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString((int)OutputHis()));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string((int)OutputNull()));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string((int)OutputLrs()));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string((int)OutputLis()));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string((int)OutputHrs()));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string((int)OutputHis()));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel16.typ");
     }
     else if((p_pixelType == Isis::SignedWord) && (p_endianType == Isis::Msb)) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "16");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString(0xffff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string(0xffff));
       if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "MSB_INTEGER");
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString((int)OutputNull()));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString((int)OutputLrs()));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString((int)OutputLis()));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString((int)OutputHrs()));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString((int)OutputHis()));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string((int)OutputNull()));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string((int)OutputLrs()));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string((int)OutputLis()));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string((int)OutputHrs()));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string((int)OutputHis()));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel16.typ");
     }
     else if((p_pixelType == Isis::SignedWord) && (p_endianType == Isis::Lsb)) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "16");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString((BigInt)0xffff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string((BigInt)0xffff));
       if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "LSB_INTEGER");
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString((int)OutputNull()));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString((int)OutputLrs()));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString((int)OutputLis()));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString((int)OutputHrs()));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString((int)OutputHis()));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string((int)OutputNull()));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string((int)OutputLrs()));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string((int)OutputLis()));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string((int)OutputHrs()));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string((int)OutputHis()));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel16.typ");
     }
     else if(p_pixelType == Isis::Real) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "32");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString((BigInt)0xffffffff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string((BigInt)0xffffffff));
 
       if(p_endianType == Isis::Msb) {
         if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "IEEE_REAL");
@@ -505,11 +505,11 @@ namespace Isis {
       else {
         if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "PC_REAL");
       }
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString(Isis::INULL4));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString(Isis::ILOW_REPR_SAT4));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString(Isis::ILOW_INSTR_SAT4));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString(Isis::IHIGH_REPR_SAT4));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString(Isis::IHIGH_INSTR_SAT4));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string(Isis::INULL4));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string(Isis::ILOW_REPR_SAT4));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string(Isis::ILOW_INSTR_SAT4));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string(Isis::IHIGH_REPR_SAT4));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string(Isis::IHIGH_INSTR_SAT4));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel32.typ");
     }
     else {
@@ -580,68 +580,68 @@ namespace Isis {
     if(!m_forceBandwidth && imgObj.hasKeyword("BANDWIDTH")) imgObj.deleteKeyword("BANDWIDTH");
 
     if(m_forceBandStorageType) imgObj += PvlKeyword("BAND_STORAGE_TYPE", "BAND_SEQUENTIAL");
-    if(m_forceOffset) imgObj += PvlKeyword("OFFSET", toString(base));
-    if(m_forceScalingFactor) imgObj += PvlKeyword("SCALING_FACTOR", toString(multiplier));
+    if(m_forceOffset) imgObj += PvlKeyword("OFFSET", std::to_string(base));
+    if(m_forceScalingFactor) imgObj += PvlKeyword("SCALING_FACTOR", std::to_string(multiplier));
 
     // Manually set the keyword for pixel type and special pixels
     if(p_pixelType == Isis::UnsignedByte) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "8");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString(0xff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string(0xff));
       if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "MSB_UNSIGNED_INTEGER");
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString((int)OutputNull()));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString((int)OutputLrs()));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString((int)OutputLis()));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString((int)OutputHrs()));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString((int)OutputHis()));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string((int)OutputNull()));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string((int)OutputLrs()));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string((int)OutputLis()));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string((int)OutputHrs()));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string((int)OutputHis()));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel8.typ");
     }
     else if((p_pixelType == Isis::UnsignedWord) && (p_endianType == Isis::Msb)) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "16");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString(0xffff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string(0xffff));
       if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "MSB_UNSIGNED_INTEGER");
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString((int)OutputNull()));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString((int)OutputLrs()));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString((int)OutputLis()));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString((int)OutputHrs()));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString((int)OutputHis()));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string((int)OutputNull()));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string((int)OutputLrs()));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string((int)OutputLis()));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string((int)OutputHrs()));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string((int)OutputHis()));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel16.typ");
     }
     else if((p_pixelType == Isis::UnsignedWord) && (p_endianType == Isis::Lsb)) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "16");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString(0xffff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string(0xffff));
       if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "LSB_UNSIGNED_INTEGER");
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString((int)OutputNull()));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString((int)OutputLrs()));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString((int)OutputLis()));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString((int)OutputHrs()));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString((int)OutputHis()));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string((int)OutputNull()));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string((int)OutputLrs()));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string((int)OutputLis()));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string((int)OutputHrs()));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string((int)OutputHis()));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel16.typ");
     }
     else if((p_pixelType == Isis::SignedWord) && (p_endianType == Isis::Msb)) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "16");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString(0xffff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string(0xffff));
       if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "MSB_INTEGER");
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString((int)OutputNull()));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString((int)OutputLrs()));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString((int)OutputLis()));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString((int)OutputHrs()));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString((int)OutputHis()));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string((int)OutputNull()));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string((int)OutputLrs()));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string((int)OutputLis()));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string((int)OutputHrs()));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string((int)OutputHis()));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel16.typ");
     }
     else if((p_pixelType == Isis::SignedWord) && (p_endianType == Isis::Lsb)) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "16");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString((BigInt)0xffff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string((BigInt)0xffff));
       if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "LSB_INTEGER");
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString((int)OutputNull()));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString((int)OutputLrs()));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString((int)OutputLis()));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString((int)OutputHrs()));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString((int)OutputHis()));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string((int)OutputNull()));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string((int)OutputLrs()));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string((int)OutputLis()));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string((int)OutputHrs()));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string((int)OutputHis()));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel16.typ");
     }
     else if(p_pixelType == Isis::Real) {
       if(m_forceSampleBits) imgObj += PvlKeyword("SAMPLE_BITS", "32");
-      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", toString((BigInt)0xffffffff));
+      if(m_forceSampleBitMask) imgObj += PvlKeyword("SAMPLE_BIT_MASK", std::to_string((BigInt)0xffffffff));
 
       if(p_endianType == Isis::Msb) {
         if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "IEEE_REAL");
@@ -649,11 +649,11 @@ namespace Isis {
       else {
         if(m_forceSampleType) imgObj += PvlKeyword("SAMPLE_TYPE", "PC_REAL");
       }
-      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", toString(Isis::INULL4));
-      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", toString(Isis::ILOW_REPR_SAT4));
-      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", toString(Isis::ILOW_INSTR_SAT4));
-      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", toString(Isis::IHIGH_REPR_SAT4));
-      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", toString(Isis::IHIGH_INSTR_SAT4));
+      if(m_forceCoreNull) imgObj += PvlKeyword("CORE_NULL", std::to_string(Isis::INULL4));
+      if(m_forceCoreLrs) imgObj += PvlKeyword("CORE_LOW_REPR_SATURATION", std::to_string(Isis::ILOW_REPR_SAT4));
+      if(m_forceCoreLis) imgObj += PvlKeyword("CORE_LOW_INSTR_SATURATION", std::to_string(Isis::ILOW_INSTR_SAT4));
+      if(m_forceCoreHrs) imgObj += PvlKeyword("CORE_HIGH_REPR_SATURATION", std::to_string(Isis::IHIGH_REPR_SAT4));
+      if(m_forceCoreHis) imgObj += PvlKeyword("CORE_HIGH_INSTR_SATURATION", std::to_string(Isis::IHIGH_INSTR_SAT4));
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel32.typ");
     }
     else {
@@ -698,62 +698,62 @@ namespace Isis {
 
     // Modify the radii to be km.
     PvlKeyword &aRadius = pdsMapObj["A_AXIS_RADIUS"];
-    QString unit = aRadius.unit();
+    QString unit = QString::fromStdString(aRadius.unit());
     if( (unit.toUpper() == "METERS") || (unit == "") ) { //if no units, assume in meters
       double dValue = (double)aRadius;
       dValue /= 1000.0;
-      aRadius.setValue(toString(dValue), "KM");
+      aRadius.setValue(std::to_string(dValue), "KM");
     }
     PvlKeyword &bRadius = pdsMapObj["B_AXIS_RADIUS"];
-    unit = bRadius.unit();
+    unit = QString::fromStdString(bRadius.unit());
     if( (unit.toUpper() == "METERS") || (unit == "") ) {
       double dValue = (double)bRadius;
       dValue /= 1000.0;
-      bRadius.setValue(toString(dValue), "KM");
+      bRadius.setValue(std::to_string(dValue), "KM");
     }
     PvlKeyword &cRadius = pdsMapObj["C_AXIS_RADIUS"];
-    unit = cRadius.unit();
+    unit = QString::fromStdString(cRadius.unit());
     if( (unit.toUpper() == "METERS") || (unit == "") ) {
       double dValue = (double)cRadius;
       dValue /= 1000.0;
-      cRadius.setValue(toString(dValue), "KM");
+      cRadius.setValue(std::to_string(dValue), "KM");
     }
 
     // Modify the units on MAP_SCALE and MAP_RESOLUTION
     PvlKeyword &mapScale = pdsMapObj["MAP_SCALE"];
-    unit = mapScale.unit();
+    unit = QString::fromStdString(mapScale.unit());
     //if no units, assume in meters/pixel
     if( (unit.toUpper() == "METERS/PIX") || (unit.toUpper() == "METERS/PIXEL") || (unit == "") ) {
       if(m_exportResolution == Kilometer) {
         double dValue = (double)mapScale;
         dValue /= 1000.0;
-        mapScale.setValue(toString(dValue), "KM/PIXEL");
+        mapScale.setValue(std::to_string(dValue), "KM/PIXEL");
       }
       else {
-        mapScale.setValue(toString((double)mapScale), "METERS/PIXEL");
+        mapScale.setValue(std::to_string((double)mapScale), "METERS/PIXEL");
       }
     }
     PvlKeyword &mapRes = pdsMapObj["MAP_RESOLUTION"];
-    unit = mapRes.unit();
+    unit = QString::fromStdString(mapRes.unit());
     //if no units, asume in pixels/degree
     if( (unit.toUpper() == "PIXELS/DEGREE") || (unit == "") ) {
-      mapRes.setValue((QString)mapRes, "PIX/DEG");
+      mapRes.setValue(mapRes, "PIX/DEG");
     }
 
     // Add the EASTERNMOST AND WESTERNMOST LONGITUDE keywords
     PvlKeyword &isisLonDir = inputMapping.findKeyword("LongitudeDirection");
-    QString lonDir = isisLonDir[0];
+    QString lonDir = QString::fromStdString(isisLonDir[0]);
     lonDir = lonDir.toUpper();
     if (inputMapping.hasKeyword("MaximumLongitude") && inputMapping.hasKeyword("MinimumLongitude")) {
       double maxLon = inputMapping.findKeyword("MaximumLongitude");
       double minLon = inputMapping.findKeyword("MinimumLongitude");
       if(lonDir == "POSITIVEEAST") {
-        pdsMapObj += PvlKeyword("EASTERNMOST_LONGITUDE", toString(maxLon));
-        pdsMapObj += PvlKeyword("WESTERNMOST_LONGITUDE", toString(minLon));
+        pdsMapObj += PvlKeyword("EASTERNMOST_LONGITUDE", std::to_string(maxLon));
+        pdsMapObj += PvlKeyword("WESTERNMOST_LONGITUDE", std::to_string(minLon));
       }
       else {
-        pdsMapObj += PvlKeyword("EASTERNMOST_LONGITUDE", toString(minLon));
-        pdsMapObj += PvlKeyword("WESTERNMOST_LONGITUDE", toString(maxLon));
+        pdsMapObj += PvlKeyword("EASTERNMOST_LONGITUDE", std::to_string(minLon));
+        pdsMapObj += PvlKeyword("WESTERNMOST_LONGITUDE", std::to_string(maxLon));
       }
     }
 
@@ -765,12 +765,12 @@ namespace Isis {
     lineOffset /= (double)inputMapping.findKeyword("PixelResolution");
     lineOffset *= 1.0;
     lineOffset -= 0.5; // Add half a line to get to the center of (1,1)
-    pdsMapObj += PvlKeyword("LINE_PROJECTION_OFFSET", toString(lineOffset), "PIXEL");
+    pdsMapObj += PvlKeyword("LINE_PROJECTION_OFFSET", std::to_string(lineOffset), "PIXEL");
     double sampleOffset = inputMapping.findKeyword("UpperLeftCornerX");
     sampleOffset /= (double)inputMapping.findKeyword("PixelResolution");
     sampleOffset *= -1.0;
     sampleOffset -= 0.5; // Add half a sample to get to the center of (1,1)
-    pdsMapObj += PvlKeyword("SAMPLE_PROJECTION_OFFSET", toString(sampleOffset), "PIXEL");
+    pdsMapObj += PvlKeyword("SAMPLE_PROJECTION_OFFSET", std::to_string(sampleOffset), "PIXEL");
 
     // Add units to keywords already in the IMAGE_MAP_PROJECTION object as necessary
     if(pdsMapObj.hasKeyword("CENTER_LATITUDE")) {
@@ -889,9 +889,9 @@ namespace Isis {
 
     if(m_exportType == Stream) {
       if(m_pdsFileType != ProcessExportPds::JP2Image) {
-        (*m_label)["LABEL_RECORDS"].setValue(toString(labSize), "BYTES");
+        (*m_label)["LABEL_RECORDS"].setValue(std::to_string(labSize), "BYTES");
         if(!m_detachedLabel) {
-          (*m_label)["^IMAGE"].setValue(toString(labSize + 1), "BYTES");
+          (*m_label)["^IMAGE"].setValue(std::to_string(labSize + 1), "BYTES");
         }
       }
       if(m_label->format() != NULL) {
@@ -910,13 +910,13 @@ namespace Isis {
       int labelRecords;
       if(m_pdsFileType != ProcessExportPds::JP2Image) {
         lineBytes = LineBytes();
-        (*m_label)["RECORD_BYTES"].setValue(toString(lineBytes));
+        (*m_label)["RECORD_BYTES"].setValue(std::to_string(lineBytes));
 
         // The number of label records is dependent on the number of label bytes
         // and the lint bytes
         labelRecords = (int)ceil((double)labSize / (double)lineBytes);
         if(m_label->hasKeyword("LABEL_RECORDS")) { //LRO MRF doesn't have this keyword
-          (*m_label)["LABEL_RECORDS"].setValue(toString(labelRecords));
+          (*m_label)["LABEL_RECORDS"].setValue(std::to_string(labelRecords));
         }
         int totalTableRecords = 0;
         for (unsigned int i = 0; i < m_tableRecords.size(); i++) {
@@ -925,10 +925,10 @@ namespace Isis {
         int imageRecords = InputCubes[0]->lineCount()
                            * InputCubes[0]->bandCount();
         int fileRecords = labelRecords + imageRecords + totalTableRecords;
-        (*m_label)["FILE_RECORDS"].setValue(toString(fileRecords));
+        (*m_label)["FILE_RECORDS"].setValue(std::to_string(fileRecords));
 
         if(!m_detachedLabel) {
-          (*m_label)["^IMAGE"].setValue(toString(labelRecords + 1));
+          (*m_label)["^IMAGE"].setValue(std::to_string(labelRecords + 1));
         }
       }
       if(m_label->format() != NULL) {
@@ -957,7 +957,7 @@ namespace Isis {
     // OuputLabel() has already created the label and necessary padding, we can simply update
     // the CHECKSUM value to the generated checksum and re-write the entire label.
     pdsFileStream.seekp(0);
-    (*m_label)["CHECKSUM"].setValue(checksum());
+    (*m_label)["CHECKSUM"].setValue(checksum().toStdString());
     pdsFileStream << *m_label;
   }
 
@@ -1034,10 +1034,10 @@ namespace Isis {
       }
       // for start record values, indexing begins with 1
       int tableStartRecord = 1 + labelRecords + imageRecords + totalTableRecords;
-      mainPvl += PvlKeyword("^" + pdsTableName, toString(tableStartRecord));
+      mainPvl += PvlKeyword("^" + pdsTableName.toStdString(), std::to_string(tableStartRecord));
     }
     else {
-      mainPvl += PvlKeyword("^" + pdsTableName, detachedPdsTableFileName);
+      mainPvl += PvlKeyword("^" + pdsTableName.toStdString(), detachedPdsTableFileName.toStdString());
       FileName labelFile(m_detachedPdsLabelFile);
       QString tableFileWithPath = labelFile.path() + "/"
                                   + detachedPdsTableFileName;

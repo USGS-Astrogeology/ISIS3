@@ -135,14 +135,14 @@ namespace Isis {
         for (unsigned int i = 0; i < m_bandpho.size(); i++) {
             Parameters &p = m_bandpho[i];
             units.addValue(p.units);
-            phostd.addValue(toString(p.phoStd));
-            bbc.addValue(toString(p.wavelength));
-            bbct.addValue(toString(p.tolerance));
-            bbn.addValue(toString(p.band));
+            phostd.addValue(std::to_string(p.phoStd));
+            bbc.addValue(std::to_string(p.wavelength));
+            bbct.addValue(std::to_string(p.tolerance));
+            bbn.addValue(std::to_string(p.band));
             for (unsigned int j = 0; j < aTermKeywords.size(); j++)
-                aTermKeywords[j].addValue(toString(p.aTerms[j]));
+                aTermKeywords[j].addValue(std::to_string(p.aTerms[j]));
             for (unsigned int j = 0; j < bTermKeywords.size(); j++)
-                bTermKeywords[j].addValue(toString(p.bTerms[j]));
+                bTermKeywords[j].addValue(std::to_string(p.bTerms[j]));
         }
         pvl += units;
         pvl += phostd;

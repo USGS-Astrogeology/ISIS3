@@ -145,14 +145,14 @@ void compute(vector<double> centers, vector<double> widths,
       small = (double)centers[i] - (double)widths[i] / 2.0;
     }
   }
-  pvlCenter.setValue(toString((large - small) / 2 + small), centerUnit);
+  pvlCenter.setValue(std::to_string((large - small) / 2 + small), centerUnit);
   if(hasWidth) {
     PvlKeyword &pvlWidth  = pvlg.findKeyword("Width");
-    pvlWidth.setValue(toString(large - small), pvlWidth.unit());
+    pvlWidth.setValue(std::to_string(large - small), pvlWidth.unit());
   }
   else {
     PvlKeyword pvlWidth = PvlKeyword("Width");
-    pvlWidth.setValue(toString(large - small), centerUnit);
+    pvlWidth.setValue(std::to_string(large - small), centerUnit);
     pvlg.addKeyword(pvlWidth);
   }
 

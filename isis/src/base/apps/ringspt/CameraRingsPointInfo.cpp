@@ -135,7 +135,7 @@ namespace Isis {
 
     if (!noErrors) {
       for (int i = 0; i < gp->keywords(); i++) {
-        QString name = (*gp)[i].name();
+        QString name = QString::fromStdString((*gp)[i].name());
         // These three keywords have 3 values, so they must have 3 NULLs
         if (name == "BodyFixedCoordinate" || name == "SpacecraftPosition" ||
             name == "SunPosition") {
@@ -148,14 +148,14 @@ namespace Isis {
         }
       }
       // Set all keywords that still have valid information
-      gp->findKeyword("Error").setValue(error);
-      gp->findKeyword("FileName").setValue(cube()->fileName());
-      gp->findKeyword("Sample").setValue(toString(camera()->Sample()));
-      gp->findKeyword("Line").setValue(toString(camera()->Line()));
-      gp->findKeyword("EphemerisTime").setValue(toString(camera()->time().Et()), "seconds");
+      gp->findKeyword("Error").setValue(error.toStdString());
+      gp->findKeyword("FileName").setValue(cube()->fileName().toStdString());
+      gp->findKeyword("Sample").setValue(std::to_string(camera()->Sample()));
+      gp->findKeyword("Line").setValue(std::to_string(camera()->Line()));
+      gp->findKeyword("EphemerisTime").setValue(std::to_string(camera()->time().Et()), "seconds");
       gp->findKeyword("EphemerisTime").addComment("Time");
       QString utc = camera()->time().UTC();
-      gp->findKeyword("UTC").setValue(utc);
+      gp->findKeyword("UTC").setValue(utc.toStdString());
       gp->findKeyword("SpacecraftPosition").addComment("Spacecraft Information");
       gp->findKeyword("SunPosition").addComment("Sun Information");
       gp->findKeyword("Phase").addComment("Illumination and Other");
@@ -176,13 +176,13 @@ namespace Isis {
       // double ssplat, ssplon, sslat, sslon, pwlon, oglat;
 
       {
-        gp->findKeyword("FileName").setValue(cube()->fileName());
-        gp->findKeyword("Sample").setValue(toString(camera()->Sample()));
-        gp->findKeyword("Line").setValue(toString(camera()->Line()));
-        gp->findKeyword("PixelValue").setValue(PixelToString(b[0]));
-        gp->findKeyword("RightAscension").setValue(toString(camera()->RightAscension()));
-        gp->findKeyword("Declination").setValue(toString(camera()->Declination()));
-        // gp->findKeyword("PlanetocentricLatitude").setValue(toString(
+        gp->findKeyword("FileName").setValue(cube()->fileName().toStdString());
+        gp->findKeyword("Sample").setValue(std::to_string(camera()->Sample()));
+        gp->findKeyword("Line").setValue(std::to_string(camera()->Line()));
+        gp->findKeyword("PixelValue").setValue(PixelToString(b[0]).toStdString());
+        gp->findKeyword("RightAscension").setValue(std::to_string(camera()->RightAscension()));
+        gp->findKeyword("Declination").setValue(std::to_string(camera()->Declination()));
+        // gp->findKeyword("PlanetocentricLatitude").setValue(std::to_string(
         //                 camera()->UniversalLatitude()));
 
         // Convert lat to planetographic
@@ -190,114 +190,114 @@ namespace Isis {
         // camera()->radii(radii);
         // oglat = Isis::TProjection::ToPlanetographic(camera()->UniversalLatitude(),
         //         radii[0].kilometers(), radii[2].kilometers());
-        // gp->findKeyword("PlanetographicLatitude").setValue(toString(oglat));
+        // gp->findKeyword("PlanetographicLatitude").setValue(std::to_string(oglat));
 
-        gp->findKeyword("CounterClockwise360RingLongitude").setValue(toString(
+        gp->findKeyword("CounterClockwise360RingLongitude").setValue(std::to_string(
           camera()->UniversalLongitude()));
-        // gp->findKeyword("PositiveEast360Longitude").setValue(toString(
+        // gp->findKeyword("PositiveEast360Longitude").setValue(std::to_string(
         //   camera()->UniversalLongitude()));
 
         //Convert lon to -180 - 180 range
-        gp->findKeyword("CounterClockwise180RingLongitude").setValue(toString(
+        gp->findKeyword("CounterClockwise180RingLongitude").setValue(std::to_string(
                         RingPlaneProjection::To180Domain(
                             camera()->UniversalLongitude())));
-        // gp->findKeyword("PositiveEast180Longitude").setValue(toString(
+        // gp->findKeyword("PositiveEast180Longitude").setValue(std::to_string(
         //   Isis::TProjection::To180Domain(
         //     camera()->UniversalLongitude())));
 
         //Convert ring longitude (az) to clockwise
         cwaz = Isis::RingPlaneProjection::ToClockwise(camera()->UniversalLongitude(),
                 360);
-        gp->findKeyword("Clockwise360RingLongitude").setValue(toString(cwaz));
+        gp->findKeyword("Clockwise360RingLongitude").setValue(std::to_string(cwaz));
         //Convert lon to positive west
         // pwlon = Isis::TProjection::ToPositiveWest(camera()->UniversalLongitude(),
         //         360);
-        // gp->findKeyword("PositiveWest360Longitude").setValue(toString(pwlon));
+        // gp->findKeyword("PositiveWest360Longitude").setValue(std::to_string(pwlon));
 
         //Convert cwaz to -180 - 180 range
-        gp->findKeyword("Clockwise180RingLongitude").setValue(toString(
+        gp->findKeyword("Clockwise180RingLongitude").setValue(std::to_string(
           Isis::RingPlaneProjection::To180Domain(cwaz)));
         //Convert pwlon to -180 - 180 range
-        // gp->findKeyword("PositiveWest180Longitude").setValue(toString(
+        // gp->findKeyword("PositiveWest180Longitude").setValue(std::to_string(
         //   Isis::TProjection::To180Domain(pwlon)));
 
         camera()->Coordinate(pB);
-        gp->findKeyword("BodyFixedCoordinate").addValue(toString(pB[0]), "km");
-        gp->findKeyword("BodyFixedCoordinate").addValue(toString(pB[1]), "km");
-        gp->findKeyword("BodyFixedCoordinate").addValue(toString(pB[2]), "km");
+        gp->findKeyword("BodyFixedCoordinate").addValue(std::to_string(pB[0]), "km");
+        gp->findKeyword("BodyFixedCoordinate").addValue(std::to_string(pB[1]), "km");
+        gp->findKeyword("BodyFixedCoordinate").addValue(std::to_string(pB[2]), "km");
 
-        gp->findKeyword("LocalRingRadius").setValue(toString(
+        gp->findKeyword("LocalRingRadius").setValue(std::to_string(
                         camera()->LocalRadius().meters()), "meters");
-        gp->findKeyword("SampleResolution").setValue(toString(
+        gp->findKeyword("SampleResolution").setValue(std::to_string(
                         camera()->SampleResolution()), "meters/pixel");
-        gp->findKeyword("LineResolution").setValue(toString(
+        gp->findKeyword("LineResolution").setValue(std::to_string(
                         camera()->LineResolution()), "meters/pixel");
 
         //body fixed
         camera()->instrumentPosition(spB);
-        gp->findKeyword("SpacecraftPosition").addValue(toString(spB[0]), "km");
-        gp->findKeyword("SpacecraftPosition").addValue(toString(spB[1]), "km");
-        gp->findKeyword("SpacecraftPosition").addValue(toString(spB[2]), "km");
+        gp->findKeyword("SpacecraftPosition").addValue(std::to_string(spB[0]), "km");
+        gp->findKeyword("SpacecraftPosition").addValue(std::to_string(spB[1]), "km");
+        gp->findKeyword("SpacecraftPosition").addValue(std::to_string(spB[2]), "km");
         gp->findKeyword("SpacecraftPosition").addComment("Spacecraft Information");
 
         // if IsValid
         if (Isis::IsValidPixel(camera()->SpacecraftAzimuth())) {
           double spacecraftAzi = camera()->SpacecraftAzimuth();
-          gp->findKeyword("SpacecraftAzimuth").setValue(toString(spacecraftAzi));
+          gp->findKeyword("SpacecraftAzimuth").setValue(std::to_string(spacecraftAzi));
         }
         else {
           gp->findKeyword("SpacecraftAzimuth").setValue("NULL");
         }
-        gp->findKeyword("SlantDistance").setValue(toString(camera()->SlantDistance()), "km");
-        gp->findKeyword("TargetCenterDistance").setValue(toString(
+        gp->findKeyword("SlantDistance").setValue(std::to_string(camera()->SlantDistance()), "km");
+        gp->findKeyword("TargetCenterDistance").setValue(std::to_string(
                         camera()->targetCenterDistance()), "km");
         camera()->subSpacecraftPoint(ssplat, ssplon);
-        gp->findKeyword("SubSpacecraftLatitude").setValue(toString(ssplat));
-        gp->findKeyword("SubSpacecraftLongitude").setValue(toString(ssplon));
-        gp->findKeyword("SpacecraftAltitude").setValue(toString(
+        gp->findKeyword("SubSpacecraftLatitude").setValue(std::to_string(ssplat));
+        gp->findKeyword("SubSpacecraftLongitude").setValue(std::to_string(ssplon));
+        gp->findKeyword("SpacecraftAltitude").setValue(std::to_string(
                         camera()->SpacecraftAltitude()), "km");
-        gp->findKeyword("OffNadirAngle").setValue(toString(camera()->OffNadirAngle()));
+        gp->findKeyword("OffNadirAngle").setValue(std::to_string(camera()->OffNadirAngle()));
 
         double subspcgrdaz = camera()->GroundAzimuth(camera()->UniversalLatitude(), 
                                                      camera()->UniversalLongitude(), 
                                                      ssplat, ssplon);
-        gp->findKeyword("SubSpacecraftGroundAzimuth").setValue(toString(subspcgrdaz));
+        gp->findKeyword("SubSpacecraftGroundAzimuth").setValue(std::to_string(subspcgrdaz));
 
         camera()->sunPosition(sB);
-        gp->findKeyword("SunPosition").addValue(toString(sB[0]), "km");
-        gp->findKeyword("SunPosition").addValue(toString(sB[1]), "km");
-        gp->findKeyword("SunPosition").addValue(toString(sB[2]), "km");
+        gp->findKeyword("SunPosition").addValue(std::to_string(sB[0]), "km");
+        gp->findKeyword("SunPosition").addValue(std::to_string(sB[1]), "km");
+        gp->findKeyword("SunPosition").addValue(std::to_string(sB[2]), "km");
         gp->findKeyword("SunPosition").addComment("Sun Information");
         
         if (Isis::IsValidPixel(camera()->SunAzimuth())) {
           double sunAzi = camera()->SunAzimuth();
-          gp->findKeyword("SubSolarAzimuth").setValue(toString(sunAzi));
+          gp->findKeyword("SubSolarAzimuth").setValue(std::to_string(sunAzi));
         }
         else {
           gp->findKeyword("SubSolarAzimuth").setValue("NULL");
         }
 
-        gp->findKeyword("SolarDistance").setValue(toString(camera()->SolarDistance()), "AU");
+        gp->findKeyword("SolarDistance").setValue(std::to_string(camera()->SolarDistance()), "AU");
         camera()->subSolarPoint(sslat, sslon);
-        gp->findKeyword("SubSolarLatitude").setValue(toString(sslat));
-        gp->findKeyword("SubSolarLongitude").setValue(toString(sslon));
+        gp->findKeyword("SubSolarLatitude").setValue(std::to_string(sslat));
+        gp->findKeyword("SubSolarLongitude").setValue(std::to_string(sslon));
         double subsolgrdaz;
         subsolgrdaz = camera()->GroundAzimuth(camera()->UniversalLatitude(), 
                                               camera()->UniversalLongitude(),
                                               sslat, sslon);
-        gp->findKeyword("SubSolarGroundAzimuth").setValue(toString(subsolgrdaz));
+        gp->findKeyword("SubSolarGroundAzimuth").setValue(std::to_string(subsolgrdaz));
 
-        gp->findKeyword("Phase").setValue(toString(camera()->PhaseAngle()));
+        gp->findKeyword("Phase").setValue(std::to_string(camera()->PhaseAngle()));
         gp->findKeyword("Phase").addComment("Illumination and Other");
-        gp->findKeyword("Incidence").setValue(toString(camera()->IncidenceAngle()));
-        gp->findKeyword("Emission").setValue(toString(camera()->EmissionAngle()));
+        gp->findKeyword("Incidence").setValue(std::to_string(camera()->IncidenceAngle()));
+        gp->findKeyword("Emission").setValue(std::to_string(camera()->EmissionAngle()));
 
-        gp->findKeyword("EphemerisTime").setValue(toString(camera()->time().Et()), "seconds");
+        gp->findKeyword("EphemerisTime").setValue(std::to_string(camera()->time().Et()), "seconds");
         gp->findKeyword("EphemerisTime").addComment("Time");
         utc = camera()->time().UTC();
-        gp->findKeyword("UTC").setValue(utc);
-        gp->findKeyword("LocalSolarTime").setValue(toString(camera()->LocalSolarTime()), "hour");
-        gp->findKeyword("SolarLongitude").setValue(toString(camera()->solarLongitude().degrees()));
+        gp->findKeyword("UTC").setValue(utc.toStdString());
+        gp->findKeyword("LocalSolarTime").setValue(std::to_string(camera()->LocalSolarTime()), "hour");
+        gp->findKeyword("SolarLongitude").setValue(std::to_string(camera()->solarLongitude().degrees()));
         if (allowErrors) gp->findKeyword("Error").setValue("NULL");
       }
     }

@@ -195,7 +195,7 @@ namespace Isis {
     }
 
     // Create correct camera type
-    QString type = (QString) inst["InstrumentType"];
+    QString type = QString::fromStdString(inst["InstrumentType"]);
     if (type.toUpper() == "FRAMING") {
       p_framing = true;
       new CameraDetectorMap(this);
@@ -223,8 +223,7 @@ namespace Isis {
       NaifStatus::CheckErrors();
     }
     else {
-      QString msg = "Unknown InstrumentType [" +
-                        (QString) inst["InstrumentType"] + "]";
+      std::string msg = "Unknown InstrumentType [" + std::to_string((int)inst["InstrumentType"]) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

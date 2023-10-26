@@ -151,9 +151,9 @@ namespace Isis {
       if(p_sl != 1 || p_ss != 1) {
         proj->SetWorld(p_ss - 0.5, p_sl - 0.5);
         PvlGroup &mapgroup = inlabel.findObject("IsisCube").findGroup("Mapping", Pvl::Traverse);
-        mapgroup.addKeyword(PvlKeyword("UpperLeftCornerX", toString(proj->XCoord())),
+        mapgroup.addKeyword(PvlKeyword("UpperLeftCornerX", std::to_string(proj->XCoord())),
                             Pvl::Replace);
-        mapgroup.addKeyword(PvlKeyword("UpperLeftCornerY", toString(proj->YCoord())),
+        mapgroup.addKeyword(PvlKeyword("UpperLeftCornerY", std::to_string(proj->YCoord())),
                             Pvl::Replace);
       }
 
@@ -161,14 +161,14 @@ namespace Isis {
       // mapping scale and resolution.
       if(p_linc == p_sinc && p_linc != 1.0) {
         PvlGroup &mapgroup = inlabel.findObject("IsisCube").findGroup("Mapping", Pvl::Traverse);
-        QString pixresUnit = mapgroup["PixelResolution"].unit();
-        double pixres = toDouble(mapgroup["PixelResolution"][0]);
-        mapgroup["PixelResolution"] = toString(pixres * p_linc);
-        mapgroup["PixelResolution"].setUnits(pixresUnit);
-        QString scaleUnit = mapgroup["Scale"].unit();
+        QString pixresUnit = QString::fromStdString(mapgroup["PixelResolution"].unit());
+        double pixres = std::stod(mapgroup["PixelResolution"][0]);
+        mapgroup["PixelResolution"] = std::to_string(pixres * p_linc);
+        mapgroup["PixelResolution"].setUnits(pixresUnit.toStdString());
+        QString scaleUnit = QString::fromStdString(mapgroup["Scale"].unit());
         double scale = mapgroup["Scale"];
-        mapgroup["Scale"] = toString(scale / p_linc);
-        mapgroup["Scale"].setUnits(scaleUnit);
+        mapgroup["Scale"] = std::to_string(scale / p_linc);
+        mapgroup["Scale"].setUnits(scaleUnit.toStdString());
       }
 
       // If the outer bounds of the image are changed, then the
@@ -218,10 +218,10 @@ namespace Isis {
                   maxlon = proj->ToPositiveWest(proj->Longitude(), 180);
                 }
               }
-              mapgroup.addKeyword(PvlKeyword("MinimumLatitude",toString(minlat)),Pvl::Replace);
-              mapgroup.addKeyword(PvlKeyword("MaximumLatitude",toString(maxlat)),Pvl::Replace);
-              mapgroup.addKeyword(PvlKeyword("MinimumLongitude",toString(minlon)),Pvl::Replace);
-              mapgroup.addKeyword(PvlKeyword("MaximumLongitude",toString(maxlon)),Pvl::Replace);
+              mapgroup.addKeyword(PvlKeyword("MinimumLatitude",std::to_string(minlat)),Pvl::Replace);
+              mapgroup.addKeyword(PvlKeyword("MaximumLatitude",std::to_string(maxlat)),Pvl::Replace);
+              mapgroup.addKeyword(PvlKeyword("MinimumLongitude",std::to_string(minlon)),Pvl::Replace);
+              mapgroup.addKeyword(PvlKeyword("MaximumLongitude",std::to_string(maxlon)),Pvl::Replace);
             }
           }
         }

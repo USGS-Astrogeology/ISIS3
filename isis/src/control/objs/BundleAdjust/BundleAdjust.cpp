@@ -81,11 +81,11 @@ namespace Isis {
     errlog = "SPARSE: ";
     errlog += message;
 
-    PvlGroup gp(errlog);
+    PvlGroup gp(errlog.toStdString());
 
     gp += PvlKeyword("File",file);
-    gp += PvlKeyword("Line_Number", toString(nLineNo));
-    gp += PvlKeyword("Status", toString(nStatus));
+    gp += PvlKeyword("Line_Number", std::to_string(nLineNo));
+    gp += PvlKeyword("Status", std::to_string(nStatus));
 
 //    Application::Log(gp);
 
@@ -1821,9 +1821,9 @@ namespace Isis {
 
     // check for "matrix not positive definite" error
     if (m_cholmodCommon.status == CHOLMOD_NOT_POSDEF) {
-      QString msg = "Matrix NOT positive-definite: failure at column " + toString((int) m_L->minor);
+      std::string msg = "Matrix NOT positive-definite: failure at column " + std::to_string((int) m_L->minor);
 //    throw IException(IException::User, msg, _FILEINFO_);
-      error(msg);
+      error(QString::fromStdString(msg));
       emit(finished());
       return false;
     }
@@ -2974,7 +2974,7 @@ namespace Isis {
   QString BundleAdjust::modelState(int i) {
     Camera *imageCam = m_controlNet->Camera(i);
     if (imageCam->GetCameraType() != Camera::Csm) {
-      QString msg = "Cannot get model state for image [" + toString(i) +
+      std::string msg = "Cannot get model state for image [" + std::to_string(i) +
                     "] because it is not a CSM camera model.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -3002,49 +3002,49 @@ namespace Isis {
         iterationNumber = "Iteration" + toString(m_iteration);
     }
 
-    PvlGroup summaryGroup(iterationNumber);
+    PvlGroup summaryGroup(iterationNumber.toStdString());
 
     summaryGroup += PvlKeyword("Sigma0",
-                               toString( m_bundleResults.sigma0() ) );
+                               std::to_string( m_bundleResults.sigma0() ) );
     summaryGroup += PvlKeyword("Observations",
-                               toString( m_bundleResults.numberObservations() ) );
+                               std::to_string( m_bundleResults.numberObservations() ) );
     summaryGroup += PvlKeyword("Constrained_Point_Parameters",
-                               toString( m_bundleResults.numberConstrainedPointParameters() ) );
+                               std::to_string( m_bundleResults.numberConstrainedPointParameters() ) );
     summaryGroup += PvlKeyword("Constrained_Image_Parameters",
-                               toString( m_bundleResults.numberConstrainedImageParameters() ) );
+                               std::to_string( m_bundleResults.numberConstrainedImageParameters() ) );
     if (m_bundleSettings->bundleTargetBody()) {
       summaryGroup += PvlKeyword("Constrained_Target_Parameters",
-                                toString( m_bundleResults.numberConstrainedTargetParameters() ) );
+                                std::to_string( m_bundleResults.numberConstrainedTargetParameters() ) );
     }
     summaryGroup += PvlKeyword("Unknown_Parameters",
-                               toString( m_bundleResults.numberUnknownParameters() ) );
+                               std::to_string( m_bundleResults.numberUnknownParameters() ) );
     summaryGroup += PvlKeyword("Degrees_of_Freedom",
-                               toString( m_bundleResults.degreesOfFreedom() ) );
+                               std::to_string( m_bundleResults.degreesOfFreedom() ) );
     summaryGroup += PvlKeyword( "Rejected_Measures",
-                                toString( m_bundleResults.numberRejectedObservations()/2) );
+                                std::to_string( m_bundleResults.numberRejectedObservations()/2) );
 
     if ( m_bundleResults.numberMaximumLikelihoodModels() >
          m_bundleResults.maximumLikelihoodModelIndex() ) {
       // if maximum likelihood estimation is being used
 
       summaryGroup += PvlKeyword("Maximum_Likelihood_Tier: ",
-                                 toString( m_bundleResults.maximumLikelihoodModelIndex() ) );
+                                 std::to_string( m_bundleResults.maximumLikelihoodModelIndex() ) );
       summaryGroup += PvlKeyword("Median_of_R^2_residuals: ",
-                                 toString( m_bundleResults.maximumLikelihoodMedianR2Residuals() ) );
+                                 std::to_string( m_bundleResults.maximumLikelihoodMedianR2Residuals() ) );
     }
 
     if ( m_bundleResults.converged() ) {
       summaryGroup += PvlKeyword("Converged", "TRUE");
-      summaryGroup += PvlKeyword("TotalElapsedTime", toString( m_bundleResults.elapsedTime() ) );
+      summaryGroup += PvlKeyword("TotalElapsedTime", std::to_string( m_bundleResults.elapsedTime() ) );
 
       if (m_bundleSettings->errorPropagation()) {
         summaryGroup += PvlKeyword("ErrorPropagationElapsedTime",
-                                   toString( m_bundleResults.elapsedTimeErrorProp() ) );
+                                   std::to_string( m_bundleResults.elapsedTimeErrorProp() ) );
       }
     }
     else {
       summaryGroup += PvlKeyword("Elapsed_Time",
-                                 toString( m_iterationTime ) );
+                                 std::to_string( m_iterationTime ) );
     }
 
     std::ostringstream ostr;

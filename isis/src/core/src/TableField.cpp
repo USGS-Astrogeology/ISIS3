@@ -57,25 +57,25 @@ namespace Isis {
    * @throws IException::Programmer - Invalid field type
    */
   TableField::TableField(PvlGroup &field) {
-    QString name = (QString)field["Name"];
-    m_name = name.toStdString();
+    std::string name = (std::string)field["Name"];
+    m_name = name;
     m_size = (int) field["Size"];
-    if ((QString) field["Type"] == "Integer") {
+    if ((std::string) field["Type"] == "Integer") {
       m_type = TableField::Integer;
       m_bytes = 4 * m_size;
       m_ivalues.resize(m_size);
     }
-    else if ((QString) field["Type"] == "Double") {
+    else if ((std::string) field["Type"] == "Double") {
       m_type = TableField::Double;
       m_bytes = 8 * m_size;
       m_dvalues.resize(m_size);
     }
-    else if ((QString) field["Type"] == "Text") {
+    else if ((std::string) field["Type"] == "Text") {
       m_type = TableField::Text;
       m_bytes = 1 * m_size;
       m_svalue.resize(m_size);
     }
-    else if ((QString) field["Type"] == "Real") {
+    else if ((std::string) field["Type"] == "Real") {
       m_type = TableField::Real;
       m_bytes = 4 * m_size;
       m_rvalues.resize(m_size);
@@ -589,7 +589,7 @@ namespace Isis {
    */
   PvlGroup TableField::pvlGroup() {
     PvlGroup group("Field");
-    group += PvlKeyword("Name", QString::fromStdString(m_name));
+    group += PvlKeyword("Name", m_name);
     if (m_type == TableField::Double) {
       group += PvlKeyword("Type", "Double");
     }
@@ -602,7 +602,7 @@ namespace Isis {
     else if (m_type == TableField::Real) {
       group += PvlKeyword("Type", "Real");
     }
-    group += PvlKeyword("Size", QString::number(m_size));
+    group += PvlKeyword("Size", std::to_string(m_size));
 
     return group;
   }

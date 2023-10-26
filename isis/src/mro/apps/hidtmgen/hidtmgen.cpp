@@ -513,11 +513,11 @@ namespace Isis{
     TProjection *proj = (TProjection *) ProjectionFactory::CreateFromCube(*inCube);
     double newRadius = proj->LocalRadius((double)mappingObject["CENTER_LATITUDE"]);
     newRadius /= 1000;
-    mappingObject.findKeyword("A_AXIS_RADIUS").setValue(toString(newRadius));
+    mappingObject.findKeyword("A_AXIS_RADIUS").setValue(std::to_string(newRadius));
     mappingObject.findKeyword("A_AXIS_RADIUS").setUnits("KM");
-    mappingObject.findKeyword("B_AXIS_RADIUS").setValue(toString(newRadius));
+    mappingObject.findKeyword("B_AXIS_RADIUS").setValue(std::to_string(newRadius));
     mappingObject.findKeyword("B_AXIS_RADIUS").setUnits("KM");
-    mappingObject.findKeyword("C_AXIS_RADIUS").setValue(toString(newRadius));
+    mappingObject.findKeyword("C_AXIS_RADIUS").setValue(std::to_string(newRadius));
     mappingObject.findKeyword("C_AXIS_RADIUS").setUnits("KM");
   }
 

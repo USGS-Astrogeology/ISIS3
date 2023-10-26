@@ -171,7 +171,7 @@ namespace Isis {
         inline int  Errno() const {  return (m_gerrno); }
         inline BigInt Count() const { return (m_count); }
         inline void BumpIt() { m_count++; }
-        PvlKeyword LogIt() const { return (PvlKeyword(m_keyname, toString(m_count))); }
+        PvlKeyword LogIt() const { return (PvlKeyword(m_keyname.toStdString(), std::to_string(m_count))); }
 
         int         m_gerrno;
         QString m_keyname;
@@ -304,7 +304,7 @@ namespace Isis {
         if(m_prof.exists(keyname)) {
           return(ValidateKey(keyname, value, unit));
         }
-        return (PvlKeyword(keyname, "Unbounded"));
+        return (PvlKeyword(keyname.toStdString(), "Unbounded"));
       };
 
 
@@ -324,10 +324,10 @@ namespace Isis {
                                     const double &value,
                                     const QString &unit = "") const {
         if(IsSpecial(value)) {
-          return (PvlKeyword(keyname, "NULL"));
+          return (PvlKeyword(keyname.toStdString(), "NULL"));
         }
         else {
-          return (PvlKeyword(keyname, toString(value), unit));
+          return (PvlKeyword(keyname.toStdString(), std::to_string(value), unit.toStdString()));
         }
       }
 

@@ -377,15 +377,15 @@ void IsisMain() {
 
   // Parameters
   PvlKeyword key("Bias_Bn");
-  key.addValue(toString(g_b0, 8));
-  key.addValue(toString(g_b1, 8));
-  key.addValue(toString(g_b2, 8));
+  key.addValue(std::to_string(g_b0, 8));
+  key.addValue(std::to_string(g_b1, 8));
+  key.addValue(std::to_string(g_b2, 8));
   calibrationLog.addKeyword(key);
   calibrationLog.addKeyword(PvlKeyword("Bias", toString(g_bias, 16), "DN"));
 
   key = PvlKeyword("Linearity_Ln");
-  key.addValue(toString(g_L0, 8));
-  key.addValue(toString(g_L1, 8));
+  key.addValue(std::to_string(g_L0, 8));
+  key.addValue(std::to_string(g_L1, 8));
   calibrationLog.addKeyword(key);
   calibrationLog.addKeyword(PvlKeyword("Linearity_Gamma", toString(g_gamma, 16)));
 
@@ -461,21 +461,21 @@ void IsisMain() {
 
         // Add PSF parameter to the calibration reporting
         key = PvlKeyword("PSF_KernelSize");
-        key.addValue(toString(g_size));
-        key.addValue(toString(g_size));
+        key.addValue(std::to_string(g_size));
+        key.addValue(std::to_string(g_size));
         calibrationLog.addKeyword(key);
 
         calibrationLog.addKeyword(PvlKeyword("PSF_Focused", toString(g_alpha, 6)));
 
         key = PvlKeyword("PSF_Sigma");
         for (int i = 0 ; i < g_N ; i++ ) {
-          key.addValue(toString(g_sigma[i]));
+          key.addValue(std::to_string(g_sigma[i]));
         }
         calibrationLog.addKeyword(key);
 
         key = PvlKeyword("PSF_Diffuse");
         for (int i = 0 ; i < g_N ; i++ ) {
-          key.addValue(toString(g_A[i]));
+          key.addValue(std::to_string(g_A[i]));
         }
 
       }

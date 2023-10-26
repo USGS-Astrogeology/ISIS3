@@ -80,10 +80,10 @@ namespace Isis {
     PvlGroup &kernels = pvl.findGroup("Kernels", Pvl::Traverse);
 
     if (kernels.hasKeyword("ElevationModel")) {
-      m_shapeFile = (QString) kernels["ElevationModel"];
+      m_shapeFile = QString::fromStdString(kernels["ElevationModel"]);
     }
     else { // if (kernels.hasKeyword("ShapeModel")) {
-      m_shapeFile = (QString) kernels["ShapeModel"];
+      m_shapeFile = QString::fromStdString(kernels["ShapeModel"]);
     }
 
     try {

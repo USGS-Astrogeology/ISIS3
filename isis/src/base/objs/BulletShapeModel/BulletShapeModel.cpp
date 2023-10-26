@@ -93,10 +93,10 @@ namespace Isis {
 
     QString shapefile;
     if (kernels.hasKeyword("ElevationModel")) {
-      shapefile = (QString) kernels["ElevationModel"];
+      shapefile = QString::fromStdString(kernels["ElevationModel"]);
     }
     else { // if (kernels.hasKeyword("ShapeModel")) {
-      shapefile = (QString) kernels["ShapeModel"];
+      shapefile = QString::fromStdString(kernels["ShapeModel"]);
     }
 
     QScopedPointer<BulletTargetShape> v_shape( BulletTargetShape::load(shapefile) );

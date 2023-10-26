@@ -114,8 +114,8 @@ namespace Isis {
     for (int sumIndex = 1; sumIndex < sumFiles.size(); sumIndex++) {
       double tdiff = fabs(sumFiles[sumIndex]->et() - sumFiles[sumIndex-1]->et());
       if ( qFuzzyCompare( tdiff+1.0, 0.0+1.0) ) {
-        PvlKeyword filePair("SumFilesWithDuplicateTimes", sumFiles[sumIndex-1]->name());
-        filePair.addValue(sumFiles[sumIndex]->name());
+        PvlKeyword filePair("SumFilesWithDuplicateTimes", sumFiles[sumIndex-1]->name().toStdString());
+        filePair.addValue(sumFiles[sumIndex]->name().toStdString());
         duplicates += filePair;
       }
     }
@@ -190,7 +190,7 @@ namespace Isis {
     if (warnings.size() > 0) {
       PvlKeyword message("Unmatched");
       BOOST_FOREACH ( QString mess, warnings ) {
-        message.addValue(mess);
+        message.addValue(mess.toStdString());
       }
       PvlGroup loggrp("Warnings");
       loggrp.addKeyword(message);

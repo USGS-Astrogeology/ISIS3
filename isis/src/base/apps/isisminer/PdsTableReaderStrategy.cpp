@@ -172,11 +172,11 @@ bool PdsTableReaderStrategy::processRow(const int &row,
   resource->add("Row", crow);
   BOOST_FOREACH (QString column, columns ) {
     ColumnDescr *description = findColumn(column);
-    PvlKeyword colkey = PvlKeyword(column);
+    PvlKeyword colkey = PvlKeyword(column.toStdString());
     if ( 0 != description ) {
       QStringList fields = getColumnFields(rowdata, *description, m_delimiter);
       BOOST_FOREACH (QString field, fields ) {
-        colkey.addValue(field.trimmed());
+        colkey.addValue(field.trimmed().toStdString());
       }
     }
     resource->add(colkey);

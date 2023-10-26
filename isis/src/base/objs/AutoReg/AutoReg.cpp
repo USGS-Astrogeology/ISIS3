@@ -197,11 +197,11 @@ namespace Isis {
       PvlGroup &algo = pvl.findGroup("Algorithm", Pvl::Traverse);
       SetTolerance(algo["Tolerance"]);
       if(algo.hasKeyword("ChipInterpolator")) {
-        SetChipInterpolator((QString)algo["ChipInterpolator"]);
+        SetChipInterpolator(QString::fromStdString(algo["ChipInterpolator"]));
       }
 
       if(algo.hasKeyword("SubpixelAccuracy")) {
-        SetSubPixelAccuracy((QString)algo["SubpixelAccuracy"] == "True");
+        SetSubPixelAccuracy(std::to_string((int)algo["SubpixelAccuracy"]) == "True");
       }
 
       if(algo.hasKeyword("ReductionFactor")) {
@@ -209,7 +209,7 @@ namespace Isis {
       }
 
       if (algo.hasKeyword("Gradient")) {
-        SetGradientFilterType((QString)algo["Gradient"]);
+        SetGradientFilterType(QString::fromStdString(algo["Gradient"]));
       }
 
       // Setup the pattern chip
@@ -257,7 +257,7 @@ namespace Isis {
 
     }
     catch(IException &e) {
-      QString msg = "Improper format for AutoReg PVL [" + pvl.fileName() + "]";
+      std::string msg = "Improper format for AutoReg PVL [" + pvl.fileName() + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
     return;
@@ -1177,30 +1177,30 @@ namespace Isis {
   Pvl AutoReg::RegistrationStatistics() {
     Pvl pvl;
     PvlGroup stats("AutoRegStatistics");
-    stats += Isis::PvlKeyword("Total", toString(p_totalRegistrations));
-    stats += Isis::PvlKeyword("Successful", toString(p_pixelSuccesses + p_subpixelSuccesses));
-    stats += Isis::PvlKeyword("Failure", toString(p_totalRegistrations - (p_pixelSuccesses + p_subpixelSuccesses)));
+    stats += Isis::PvlKeyword("Total", std::to_string(p_totalRegistrations));
+    stats += Isis::PvlKeyword("Successful", std::to_string(p_pixelSuccesses + p_subpixelSuccesses));
+    stats += Isis::PvlKeyword("Failure", std::to_string(p_totalRegistrations - (p_pixelSuccesses + p_subpixelSuccesses)));
     pvl.addGroup(stats);
 
     PvlGroup successes("Successes");
-    successes += PvlKeyword("SuccessPixel", toString(p_pixelSuccesses));
-    successes += PvlKeyword("SuccessSubPixel", toString(p_subpixelSuccesses));
+    successes += PvlKeyword("SuccessPixel", std::to_string(p_pixelSuccesses));
+    successes += PvlKeyword("SuccessSubPixel", std::to_string(p_subpixelSuccesses));
     pvl.addGroup(successes);
 
     PvlGroup grp("PatternChipFailures");
-    grp += PvlKeyword("PatternNotEnoughValidData", toString(p_patternChipNotEnoughValidDataCount));
-    grp += PvlKeyword("PatternZScoreNotMet", toString(p_patternZScoreNotMetCount));
+    grp += PvlKeyword("PatternNotEnoughValidData", std::to_string(p_patternChipNotEnoughValidDataCount));
+    grp += PvlKeyword("PatternZScoreNotMet", std::to_string(p_patternZScoreNotMetCount));
     pvl.addGroup(grp);
 
     PvlGroup fit("FitChipFailures");
-    fit += PvlKeyword("FitChipNoData", toString(p_fitChipNoDataCount));
-    fit += PvlKeyword("FitChipToleranceNotMet", toString(p_fitChipToleranceNotMetCount));
+    fit += PvlKeyword("FitChipNoData", std::to_string(p_fitChipNoDataCount));
+    fit += PvlKeyword("FitChipToleranceNotMet", std::to_string(p_fitChipToleranceNotMetCount));
     pvl.addGroup(fit);
 
     PvlGroup model("SurfaceModelFailures");
-    model += PvlKeyword("SurfaceModelNotEnoughValidData", toString(p_surfaceModelNotEnoughValidDataCount));
-    model += PvlKeyword("SurfaceModelSolutionInvalid", toString(p_surfaceModelSolutionInvalidCount));
-    model += PvlKeyword("SurfaceModelDistanceInvalid", toString(p_surfaceModelDistanceInvalidCount));
+    model += PvlKeyword("SurfaceModelNotEnoughValidData", std::to_string(p_surfaceModelNotEnoughValidDataCount));
+    model += PvlKeyword("SurfaceModelSolutionInvalid", std::to_string(p_surfaceModelSolutionInvalidCount));
+    model += PvlKeyword("SurfaceModelDistanceInvalid", std::to_string(p_surfaceModelDistanceInvalidCount));
     pvl.addGroup(model);
 
     return (AlgorithmStatistics(pvl));
@@ -1289,29 +1289,29 @@ namespace Isis {
   PvlGroup AutoReg::UpdatedTemplate() {
     PvlGroup reg("AutoRegistration");
 
-    reg += PvlKeyword("Algorithm", AlgorithmName());
-    reg += PvlKeyword("Tolerance", toString(Tolerance()));
+    reg += PvlKeyword("Algorithm", AlgorithmName().toStdString());
+    reg += PvlKeyword("Tolerance", std::to_string(Tolerance()));
     reg += PvlKeyword("SubpixelAccuracy",
         SubPixelAccuracy() ? "True" : "False");
-    reg += PvlKeyword("ReductionFactor", toString(ReductionFactor()));
-    reg += PvlKeyword("Gradient", GradientFilterString());
+    reg += PvlKeyword("ReductionFactor", std::to_string(ReductionFactor()));
+    reg += PvlKeyword("Gradient", GradientFilterString().toStdString());
 
     Chip *pattern = PatternChip();
-    reg += PvlKeyword("PatternSamples", toString(pattern->Samples()));
-    reg += PvlKeyword("PatternLines", toString(pattern->Lines()));
-    reg += PvlKeyword("MinimumZScore", toString(MinimumZScore()));
-    reg += PvlKeyword("ValidPercent", toString(PatternValidPercent()));
+    reg += PvlKeyword("PatternSamples", std::to_string(pattern->Samples()));
+    reg += PvlKeyword("PatternLines", std::to_string(pattern->Lines()));
+    reg += PvlKeyword("MinimumZScore", std::to_string(MinimumZScore()));
+    reg += PvlKeyword("ValidPercent", std::to_string(PatternValidPercent()));
     // TODO Chip needs accessors to valid minimum and maximum
 
     Chip *search = SearchChip();
-    reg += PvlKeyword("SearchSamples", toString(search->Samples()));
-    reg += PvlKeyword("SearchLines", toString(search->Lines()));
-    reg += PvlKeyword("SubchipValidPercent", toString(SubsearchValidPercent()));
+    reg += PvlKeyword("SearchSamples", std::to_string(search->Samples()));
+    reg += PvlKeyword("SearchLines", std::to_string(search->Lines()));
+    reg += PvlKeyword("SubchipValidPercent", std::to_string(SubsearchValidPercent()));
     // TODO Chip needs accessors to valid minimum and maximum
 
     if (SubPixelAccuracy()) {
-      reg += PvlKeyword("DistanceTolerance", toString(DistanceTolerance()));
-      reg += PvlKeyword("WindowSize", toString(WindowSize()));
+      reg += PvlKeyword("DistanceTolerance", std::to_string(DistanceTolerance()));
+      reg += PvlKeyword("WindowSize", std::to_string(WindowSize()));
     }
 
     return reg;

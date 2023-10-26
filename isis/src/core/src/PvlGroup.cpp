@@ -19,7 +19,7 @@ namespace Isis {
    * Creates a PvlGroup object with a name.
    * @param name The group name.
    */
-  PvlGroup::PvlGroup(const QString &name) :
+  PvlGroup::PvlGroup(const std::string &name) :
     Isis::PvlContainer("Group", name) {
   }
 
@@ -56,7 +56,7 @@ namespace Isis {
 
       is.seekg(beforeKeywordPos, ios::beg);
 
-      QString msg = "Expected PVL keyword named [Group], found keyword named [";
+      std::string msg = "Expected PVL keyword named [Group], found keyword named [";
       msg += readKeyword.name();
       msg += "] when reading PVL";
       throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -72,7 +72,7 @@ namespace Isis {
 
       is.seekg(beforeKeywordPos, ios::beg);
 
-      QString msg = "Expected a single value for group name, found [(";
+      std::string msg = "Expected a single value for group name, found [(";
 
       for(int i = 0; i < readKeyword.size(); i++) {
         if(i != 0) msg += ", ";
@@ -105,7 +105,7 @@ namespace Isis {
 
           is.seekg(beforeKeywordPos, ios::beg);
 
-          QString msg = "Unexpected [";
+          std::string msg = "Unexpected [";
           msg += readKeyword.name();
           msg += "] in Group [";
           msg += result.name();
@@ -129,7 +129,7 @@ namespace Isis {
 
       is.seekg(beforeKeywordPos, ios::beg);
 
-      QString msg = "Group [" + result.name();
+      std::string msg = "Group [" + result.name();
       msg += "] EndGroup not found before end of file when reading PVL";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -208,7 +208,7 @@ namespace Isis {
   {
     // Group cannot be empty - needs to have a keyword
     if(pPvlGrp.keywords() <= 0) {
-      QString sErrMsg = "Group \"" + pPvlGrp.name() + "\" has no Keywords\n";
+      std::string sErrMsg = "Group \"" + pPvlGrp.name() + "\" has no Keywords\n";
       throw IException(IException::User, sErrMsg, _FILEINFO_);
     }
 

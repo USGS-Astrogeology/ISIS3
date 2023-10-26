@@ -320,7 +320,7 @@ namespace Isis {
       }
 
       try {
-        network.write(ptfile);
+        network.write(ptfile.toStdString());
       }
       catch (IException &e) {
         QString msg = "Failed writing control network to file [" + ptfile + "]";
@@ -1717,12 +1717,12 @@ namespace Isis {
     }
 
     if (mapping.hasKeyword("TargetName")) {
-      p_targetName = mapping["TargetName"][0];
+      p_targetName = QString::fromStdString(mapping["TargetName"][0]);
     }
     else if (label.hasObject("IsisCube")
              && label.findObject("IsisCube").hasGroup("Instrument")
              && label.findObject("IsisCube").findGroup("Instrument").hasKeyword("TargetName")) {
-      p_targetName = label.findObject("IsisCube").findGroup("Instrument").findKeyword("TargetName")[0];
+      p_targetName = QString::fromStdString(label.findObject("IsisCube").findGroup("Instrument").findKeyword("TargetName")[0]);
     }
     else {
       p_targetName = "";

@@ -79,10 +79,10 @@ namespace Isis {
 
     QString demCubeFile;
     if (kernels.hasKeyword("ElevationModel")) {
-      demCubeFile = (QString) kernels["ElevationModel"];
+      demCubeFile = QString::fromStdString(kernels["ElevationModel"]);
     }
     else if(kernels.hasKeyword("ShapeModel")) {
-      demCubeFile = (QString) kernels["ShapeModel"];
+      demCubeFile = QString::fromStdString(kernels["ShapeModel"]);
     }
 
     m_demCube = CubeManager::Open(demCubeFile);

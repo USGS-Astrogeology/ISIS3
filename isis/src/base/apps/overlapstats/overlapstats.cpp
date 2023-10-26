@@ -112,7 +112,7 @@ namespace Isis {
         const geos::geom::MultiPolygon *mpLatLon = overlaps[index]->Polygon();
 
         // Construct a Projection for converting between Lon/Lat and X/Y
-        Pvl cubeLab(serialNumbers.fileName(0));
+        Pvl cubeLab(serialNumbers.fileName(0).toStdString());
 
         // Get empty mapping label
         Pvl maplab;
@@ -218,30 +218,30 @@ namespace Isis {
     //Create and Log the BRIEF description
     PvlGroup brief("Results");
 
-    brief += PvlKeyword("ThicknessMinimum", toString(thickness.Minimum()));
-    brief += PvlKeyword("ThicknessMaximum", toString(thickness.Maximum()));
-    brief += PvlKeyword("ThicknessAverage", toString(thickness.Average()));
-    brief += PvlKeyword("ThicknessStandardDeviation", toString(thickness.StandardDeviation()));
-    brief += PvlKeyword("ThicknessVariance", toString(thickness.Variance()));
+    brief += PvlKeyword("ThicknessMinimum", std::to_string(thickness.Minimum()));
+    brief += PvlKeyword("ThicknessMaximum", std::to_string(thickness.Maximum()));
+    brief += PvlKeyword("ThicknessAverage", std::to_string(thickness.Average()));
+    brief += PvlKeyword("ThicknessStandardDeviation", std::to_string(thickness.StandardDeviation()));
+    brief += PvlKeyword("ThicknessVariance", std::to_string(thickness.Variance()));
 
-    brief += PvlKeyword("AreaMinimum", toString(area.Minimum()));
-    brief += PvlKeyword("AreaMaximum", toString(area.Maximum()));
-    brief += PvlKeyword("AreaAverage", toString(area.Average()));
-    brief += PvlKeyword("AreaStandardDeviation", toString(area.StandardDeviation()));
-    brief += PvlKeyword("AreaVariance", toString(area.Variance()));
+    brief += PvlKeyword("AreaMinimum", std::to_string(area.Minimum()));
+    brief += PvlKeyword("AreaMaximum", std::to_string(area.Maximum()));
+    brief += PvlKeyword("AreaAverage", std::to_string(area.Average()));
+    brief += PvlKeyword("AreaStandardDeviation", std::to_string(area.StandardDeviation()));
+    brief += PvlKeyword("AreaVariance", std::to_string(area.Variance()));
 
-    brief += PvlKeyword("ImageStackMinimum", toString(sncount.Minimum()));
-    brief += PvlKeyword("ImageStackMaximum", toString(sncount.Maximum()));
-    brief += PvlKeyword("ImageStackAverage", toString(sncount.Average()));
-    brief += PvlKeyword("ImageStackStandardDeviation", toString(sncount.StandardDeviation()));
-    brief += PvlKeyword("ImageStackVariance", toString(sncount.Variance()));
+    brief += PvlKeyword("ImageStackMinimum", std::to_string(sncount.Minimum()));
+    brief += PvlKeyword("ImageStackMaximum", std::to_string(sncount.Maximum()));
+    brief += PvlKeyword("ImageStackAverage", std::to_string(sncount.Average()));
+    brief += PvlKeyword("ImageStackStandardDeviation", std::to_string(sncount.StandardDeviation()));
+    brief += PvlKeyword("ImageStackVariance", std::to_string(sncount.Variance()));
 
-    brief += PvlKeyword("PolygonCount", toString(overlaps.Size()));
+    brief += PvlKeyword("PolygonCount", std::to_string(overlaps.Size()));
 
     // Add non-overlapping cubes to the output
     if (!nooverlap.empty()) {
       for (set<QString>::iterator itt = nooverlap.begin(); itt != nooverlap.end(); itt ++) {
-        brief += PvlKeyword("NoOverlap", serialNumbers.fileName(*itt));
+        brief += PvlKeyword("NoOverlap", serialNumbers.fileName(*itt).toStdString());
       }
     }
 
@@ -259,7 +259,7 @@ namespace Isis {
     //Log error num in print.prt if there were errors
     if (errorNum > 0) {
       PvlGroup grp("OverlapStats");
-      PvlKeyword key("ErrorNumber", toString(errorNum));
+      PvlKeyword key("ErrorNumber", std::to_string(errorNum));
       grp.addKeyword(key);
       Application::AppendAndLog(grp, log);
     }

@@ -38,7 +38,7 @@ namespace Isis {
   InterestOperator *InterestOperatorFactory::Create(Pvl &pPvl) {
     // Get the algorithm name to create
     PvlGroup &op = pPvl.findGroup("Operator", Pvl::Traverse);
-    QString operatorName = op["Name"];
+    QString operatorName = QString::fromStdString(op["Name"]);
 
     // Open the factory plugin file
     Plugin p;

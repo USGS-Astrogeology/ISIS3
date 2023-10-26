@@ -255,7 +255,7 @@ namespace Isis {
 
     str = pdsXlater.Translate("PixelResolution");
     p_pixelResolution = toDouble(str);
-    str = pdsXlater.InputKeyword("PixelResolution").unit().toUpper();
+    str = QString::fromStdString(pdsXlater.InputKeyword("PixelResolution").unit()).toUpper();
     // Assume KM/PIXEL if the unit doesn't exist or is not METERS/PIXEL
     if ((str != "METERS/PIXEL") && (str != "M/PIXEL") && (str != "M/PIX")) {
       p_pixelResolution *= 1000.0;
@@ -295,10 +295,10 @@ namespace Isis {
     p_sampleProjectionOffset = toDouble(str);
     p_upperLeftX = xmult * (p_sampleProjectionOffset + xoff) * p_pixelResolution;
 
-    p_projectionOffsetGroup.addKeyword(PvlKeyword("xOffset", QString::number(xoff)));
-    p_projectionOffsetGroup.addKeyword(PvlKeyword("yOffset", QString::number(yoff)));
-    p_projectionOffsetGroup.addKeyword(PvlKeyword("xMultiplier", QString::number(xmult)));
-    p_projectionOffsetGroup.addKeyword(PvlKeyword("yMultiplier", QString::number(ymult)));
+    p_projectionOffsetGroup.addKeyword(PvlKeyword("xOffset", std::to_string(xoff)));
+    p_projectionOffsetGroup.addKeyword(PvlKeyword("yOffset", std::to_string(yoff)));
+    p_projectionOffsetGroup.addKeyword(PvlKeyword("xMultiplier", std::to_string(xmult)));
+    p_projectionOffsetGroup.addKeyword(PvlKeyword("yMultiplier", std::to_string(ymult)));
 
   }
 
@@ -356,16 +356,16 @@ namespace Isis {
     yoff = 0.5;
 
     //  Open projectionOffsetMults file
-    Isis::Pvl p(p_transDir + "/" + "translations/pdsProjectionLineSampToXY.def");
+    Isis::Pvl p(p_transDir.toStdString() + "/" + "translations/pdsProjectionLineSampToXY.def");
 
     Isis::PvlObject &projDef = p.findObject("ProjectionOffsetMults",
                                             Pvl::Traverse);
 
     for(int g = 0; g < projDef.groups(); g++) {
-      QString key = projDef.group(g)["Keyword"];
-      if (p_pdsLabel.hasKeyword(key)) {
-        QString value = p_pdsLabel[key];
-        QString pattern = projDef.group(g)["Pattern"];
+      QString key = QString::fromStdString(projDef.group(g)["Keyword"]);
+      if (p_pdsLabel.hasKeyword(key.toStdString())) {
+        QString value = QString::fromStdString(p_pdsLabel[key.toStdString()]);
+        QString pattern = QString::fromStdString(projDef.group(g)["Pattern"]);
         //  If value contains pattern, then set the mults to what is in translation file and
         //  update p_pdfChange
         if (value.contains(pattern)) {
@@ -496,7 +496,7 @@ namespace Isis {
       try {
         str = pdsXlater.Translate("DataFilePointer");
         offset = toInt(str);
-        units = dataFilePointer.unit();
+        units = QString::fromStdString(dataFilePointer.unit());
         // Successful? we have an offset, means current, p_labelFile
         // is the location of the data as well
         dataFileName = FileName(p_labelFile).name();
@@ -514,7 +514,7 @@ namespace Isis {
     else if (dataFilePointer.size() == 2) {
       dataFileName = pdsXlater.Translate("DataFilePointer", 0);
       offset = IString(pdsXlater.Translate("DataFilePointer", 1)).ToInteger();
-      units = dataFilePointer.unit(1);
+      units = QString::fromStdString(dataFilePointer.unit(1));
     }
     // Error, no value
     else if (dataFilePointer.size() == 0) {
@@ -901,7 +901,7 @@ namespace Isis {
     }
     else {
       PvlKeyword pdsCoreOrg = p_pdsLabel.findKeyword(pdsXlater.
-          InputKeywordName("CoreOrganization"), Pvl::Traverse);
+          InputKeywordName("CoreOrganization").toStdString(), Pvl::Traverse);
 
       stringstream pdsCoreOrgStream;
       pdsCoreOrgStream << pdsCoreOrg;
@@ -1152,8 +1152,8 @@ namespace Isis {
     }
 
     else {
-      QString msg = "Invalid PixelType and BitsPerPixel combination [" + str +
-                   ", " + toString(bitsPerPixel) + "]";
+      std::string msg = "Invalid PixelType and BitsPerPixel combination [" + str.toStdString() +
+                   ", " + std::to_string(bitsPerPixel) + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -1398,7 +1398,7 @@ namespace Isis {
 
     // Internalize the PDS label in the PVL that was passed in
     try {
-      pdsLabel.read(pdsLabelFile);
+      pdsLabel.read(pdsLabelFile.toStdString());
     }
     catch (IException &e) {
       throw IException(e, IException::User,
@@ -1482,9 +1482,9 @@ namespace Isis {
 
     if (inst.hasKeyword("StartTime")) {
       Isis::PvlKeyword &stkey = inst["StartTime"];
-      QString stime = stkey[0];
+      QString stime = QString::fromStdString(stkey[0]);
       stime = stime.remove(QRegExp("[Zz]$"));
-      stkey = stime;
+      stkey = stime.toStdString();
     }
   }
 
@@ -1602,46 +1602,46 @@ namespace Isis {
     ExtractPdsProjection(pdsXlater);
 
     Isis::PvlGroup mapGroup("Mapping");
-    mapGroup += Isis::PvlKeyword("ProjectionName", p_projection);
-    mapGroup += Isis::PvlKeyword("TargetName", p_targetName);
-    mapGroup += Isis::PvlKeyword("EquatorialRadius", toString(p_equatorialRadius), "meters");
-    mapGroup += Isis::PvlKeyword("PolarRadius", toString(p_polarRadius), "meters");
-    mapGroup += Isis::PvlKeyword("LongitudeDirection", p_longitudeDirection);
-    mapGroup += Isis::PvlKeyword("LongitudeDomain", toString(p_longitudeDomain));
-    mapGroup += Isis::PvlKeyword("LatitudeType", p_latitudeType);
+    mapGroup += Isis::PvlKeyword("ProjectionName", p_projection.toStdString());
+    mapGroup += Isis::PvlKeyword("TargetName", p_targetName.toStdString());
+    mapGroup += Isis::PvlKeyword("EquatorialRadius", std::to_string(p_equatorialRadius), "meters");
+    mapGroup += Isis::PvlKeyword("PolarRadius", std::to_string(p_polarRadius), "meters");
+    mapGroup += Isis::PvlKeyword("LongitudeDirection", p_longitudeDirection.toStdString());
+    mapGroup += Isis::PvlKeyword("LongitudeDomain", std::to_string(p_longitudeDomain));
+    mapGroup += Isis::PvlKeyword("LatitudeType", p_latitudeType.toStdString());
     if (p_minimumLatitude != Isis::NULL8) {
-      mapGroup += Isis::PvlKeyword("MinimumLatitude", toString(p_minimumLatitude));
+      mapGroup += Isis::PvlKeyword("MinimumLatitude", std::to_string(p_minimumLatitude));
     }
     if (p_maximumLatitude != Isis::NULL8) {
-      mapGroup += Isis::PvlKeyword("MaximumLatitude", toString(p_maximumLatitude));
+      mapGroup += Isis::PvlKeyword("MaximumLatitude", std::to_string(p_maximumLatitude));
     }
     if (p_minimumLongitude != Isis::NULL8) {
-      mapGroup += Isis::PvlKeyword("MinimumLongitude", toString(p_minimumLongitude));
+      mapGroup += Isis::PvlKeyword("MinimumLongitude", std::to_string(p_minimumLongitude));
     }
     if (p_maximumLongitude != Isis::NULL8) {
-      mapGroup += Isis::PvlKeyword("MaximumLongitude", toString(p_maximumLongitude));
+      mapGroup += Isis::PvlKeyword("MaximumLongitude", std::to_string(p_maximumLongitude));
     }
 
     // if both longitudes exist, verify they are ordered correctly
     if (p_minimumLongitude != Isis::NULL8 && p_maximumLongitude != Isis::NULL8) {
       if (p_maximumLongitude <= p_minimumLongitude) {
         if (p_longitudeDomain == 180) {
-          mapGroup["MinimumLongitude"] = toString(-180);
-          mapGroup["MaximumLongitude"] = toString(180);
+          mapGroup["MinimumLongitude"] = std::to_string(-180);
+          mapGroup["MaximumLongitude"] = std::to_string(180);
         }
         else {
-          mapGroup["MinimumLongitude"] = toString(0);
-          mapGroup["MaximumLongitude"] = toString(360);
+          mapGroup["MinimumLongitude"] = std::to_string(0);
+          mapGroup["MaximumLongitude"] = std::to_string(360);
         }
       }
     }
 
-    mapGroup += Isis::PvlKeyword("PixelResolution", toString(p_pixelResolution), "meters/pixel");
-    mapGroup += Isis::PvlKeyword("Scale", toString(p_scaleFactor), "pixels/degree");
-    mapGroup += Isis::PvlKeyword("UpperLeftCornerX", toString(p_upperLeftX), "meters");
-    mapGroup += Isis::PvlKeyword("UpperLeftCornerY", toString(p_upperLeftY), "meters");
+    mapGroup += Isis::PvlKeyword("PixelResolution", std::to_string(p_pixelResolution), "meters/pixel");
+    mapGroup += Isis::PvlKeyword("Scale", std::to_string(p_scaleFactor), "pixels/degree");
+    mapGroup += Isis::PvlKeyword("UpperLeftCornerX", std::to_string(p_upperLeftX), "meters");
+    mapGroup += Isis::PvlKeyword("UpperLeftCornerY", std::to_string(p_upperLeftY), "meters");
     if (p_rotation != 0.0) {
-      mapGroup += Isis::PvlKeyword("Rotation", toString(p_rotation));
+      mapGroup += Isis::PvlKeyword("Rotation", std::to_string(p_rotation));
     }
 
     // To handle new projections without the need to modify source code
@@ -1659,17 +1659,17 @@ namespace Isis {
     if (lab.findGroup("Mapping").hasKeyword("CenterLongitude")) {
       PvlKeyword &centerLon = lab.findGroup("Mapping")["CenterLongitude"];
       if (p_longitudeDomain == 180)
-        centerLon = toString(TProjection::To180Domain((double)centerLon));
+        centerLon = std::to_string(TProjection::To180Domain((double)centerLon));
       else
-        centerLon = toString(TProjection::To360Domain((double)centerLon));
+        centerLon = std::to_string(TProjection::To360Domain((double)centerLon));
     }
 
     if (lab.findGroup("Mapping").hasKeyword("PoleLongitude")) {
       PvlKeyword &poleLon = lab.findGroup("Mapping")["PoleLongitude"];
       if (p_longitudeDomain == 180)
-        poleLon = toString(TProjection::To180Domain((double)poleLon));
+        poleLon = std::to_string(TProjection::To180Domain((double)poleLon));
       else
-        poleLon = toString(TProjection::To360Domain((double)poleLon));
+        poleLon = std::to_string(TProjection::To360Domain((double)poleLon));
     }
 
     OutputCubes[0]->putGroup(lab.findGroup("Mapping"));

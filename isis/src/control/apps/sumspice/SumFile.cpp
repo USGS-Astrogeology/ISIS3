@@ -179,8 +179,8 @@ namespace Isis {
 
     // Put a comment in the record
     QString message = "Updated pointing with SUMFILE " + name() + " on " + iTime::CurrentLocalTime();
-    PvlKeyword sumFileKeyword("SUMFILE", name());
-    sumFileKeyword.addComment(message);
+    PvlKeyword sumFileKeyword("SUMFILE", name().toStdString());
+    sumFileKeyword.addComment(message.toStdString());
     table.Label().addKeyword(sumFileKeyword, PvlContainer::Replace);
     table.Update(rec0, 0);
 
@@ -243,8 +243,8 @@ namespace Isis {
 
     // Put a comment in the record
     QString message = "Updated position with SUMFILE " + name() + " on " + iTime::CurrentLocalTime();
-    PvlKeyword sumFileKeyword("SUMFILE", name());
-    sumFileKeyword.addComment(message);
+    PvlKeyword sumFileKeyword("SUMFILE", name().toStdString());
+    sumFileKeyword.addComment(message.toStdString());
     table.Label().addKeyword(sumFileKeyword, PvlContainer::Replace);
     table.Update(rec0, 0);
 

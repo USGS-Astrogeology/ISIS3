@@ -281,10 +281,10 @@ namespace Isis {
       double value, QString unit="") const {
 
     if(IsSpecial(value)) {
-      return (PvlKeyword(keyname, "NULL"));
+      return (PvlKeyword(keyname.toStdString(), "NULL"));
     }
     else {
-      return (PvlKeyword(keyname, toString(value), unit));
+      return (PvlKeyword(keyname.toStdString(), std::to_string(value), unit.toStdString()));
     }
   }
 

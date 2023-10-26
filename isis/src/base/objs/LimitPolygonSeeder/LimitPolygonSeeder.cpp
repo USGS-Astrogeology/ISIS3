@@ -161,7 +161,7 @@ namespace Isis {
         }
       }
       else {
-        QString msg = "PVL for LimitPolygonSeeder must contain [MajorAxisPoints] in [";
+        std::string msg = "PVL for LimitPolygonSeeder must contain [MajorAxisPoints] in [";
         msg += pvl.fileName() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -174,13 +174,13 @@ namespace Isis {
         }
       }
       else {
-        QString msg = "PVL for LimitPolygonSeeder must contain [MinorAxisPoints] in [";
+        std::string msg = "PVL for LimitPolygonSeeder must contain [MinorAxisPoints] in [";
         msg += pvl.fileName() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     catch(IException &e) {
-      QString msg = "Improper format for PolygonSeeder PVL [" + pvl.fileName() + "]";
+      std::string msg = "Improper format for PolygonSeeder PVL [" + pvl.fileName() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -196,13 +196,13 @@ namespace Isis {
   }
 
   PvlGroup LimitPolygonSeeder::PluginParameters(QString grpName) {
-    PvlGroup pluginInfo(grpName);
+    PvlGroup pluginInfo(grpName.toStdString());
 
-    PvlKeyword name("Name", Algorithm());
-    PvlKeyword minThickness("MinimumThickness", toString(MinimumThickness()));
-    PvlKeyword minArea("MinimumArea", toString(MinimumArea()));
-    PvlKeyword majAxis("MajorAxisPoints", toString(p_majorAxisPts));
-    PvlKeyword minAxis("MinorAxisPoints", toString(p_minorAxisPts));
+    PvlKeyword name("Name", Algorithm().toStdString());
+    PvlKeyword minThickness("MinimumThickness", std::to_string(MinimumThickness()));
+    PvlKeyword minArea("MinimumArea", std::to_string(MinimumArea()));
+    PvlKeyword majAxis("MajorAxisPoints", std::to_string(p_majorAxisPts));
+    PvlKeyword minAxis("MinorAxisPoints", std::to_string(p_minorAxisPts));
 
     pluginInfo.addKeyword(name);
     pluginInfo.addKeyword(minThickness);

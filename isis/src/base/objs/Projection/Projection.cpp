@@ -130,7 +130,7 @@ namespace Isis {
 
       m_sky = false;
       if (m_mappingGrp.hasKeyword("TargetName")) {
-        QString str = m_mappingGrp["TargetName"];
+        QString str = QString::fromStdString(m_mappingGrp["TargetName"]);
         if (str.toUpper() == "SKY") m_sky = true;
       }
 
@@ -1372,8 +1372,8 @@ namespace Isis {
    */
   void Projection::SetUpperLeftCorner(const Displacement &x,
                                       const Displacement &y) {
-    PvlKeyword xKeyword("UpperLeftCornerX", toString(x.meters()), "meters");
-    PvlKeyword yKeyword("UpperLeftCornerY", toString(y.meters()), "meters");
+    PvlKeyword xKeyword("UpperLeftCornerX", std::to_string(x.meters()), "meters");
+    PvlKeyword yKeyword("UpperLeftCornerY", std::to_string(y.meters()), "meters");
     m_mappingGrp.addKeyword(xKeyword,Pvl::Replace);
     m_mappingGrp.addKeyword(yKeyword,Pvl::Replace);
   }

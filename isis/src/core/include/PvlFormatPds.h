@@ -47,30 +47,30 @@ namespace Isis {
     public:
 
       PvlFormatPds();
-      PvlFormatPds(const QString &file);
+      PvlFormatPds(const std::string &file);
       PvlFormatPds(Pvl &keymap);
       virtual ~PvlFormatPds() {};
 
-      virtual QString formatValue(const PvlKeyword &keyword,
+      virtual std::string formatValue(const PvlKeyword &keyword,
                                       int valueIndex = 0);
-      virtual QString formatName(const PvlKeyword &keyword);
-      virtual QString formatEnd(const QString name,
+      virtual std::string formatName(const PvlKeyword &keyword);
+      virtual std::string formatEnd(const std::string name,
                                     const PvlKeyword &keyword);
-      virtual QString formatEOL() {
+      virtual std::string formatEOL() {
         return "\015\012";
       }
 
     protected:
-      virtual QString addQuotes(const QString value);
+      virtual std::string addQuotes(const std::string value);
 
-      QString formatString(const PvlKeyword &keyword, int num);
-      QString formatInteger(const PvlKeyword &keyword, int num, int bytes);
-      QString formatReal(const PvlKeyword &keyword, int num, int precision);
-      QString formatEnum(const PvlKeyword &keyword, int num);
-      QString formatBinary(const PvlKeyword &keyword, int num, int bytes);
-      QString formatHex(const PvlKeyword &keyword, int num, int bytes);
-      QString formatBool(const PvlKeyword &keyword, int num);
-      QString formatUnknown(const PvlKeyword &keyword, int num);
+      std::string formatString(const PvlKeyword &keyword, int num);
+      std::string formatInteger(const PvlKeyword &keyword, int num, int bytes);
+      std::string formatReal(const PvlKeyword &keyword, int num, int precision);
+      std::string formatEnum(const PvlKeyword &keyword, int num);
+      std::string formatBinary(const PvlKeyword &keyword, int num, int bytes);
+      std::string formatHex(const PvlKeyword &keyword, int num, int bytes);
+      std::string formatBool(const PvlKeyword &keyword, int num);
+      std::string formatUnknown(const PvlKeyword &keyword, int num);
 
     private:
       void init();

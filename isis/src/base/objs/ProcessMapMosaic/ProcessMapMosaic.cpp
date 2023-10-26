@@ -354,7 +354,7 @@ namespace Isis {
 
     int samples, lines, bands = 0;
     Pvl label;
-    label.read(propagationCubes[0].toString());
+    label.read(propagationCubes[0].toString().toStdString());
     PvlGroup mGroup = label.findGroup("Mapping", Pvl::Traverse);
 
     // All mosaicking programs use only the upper left x and y to determine where to
@@ -365,10 +365,10 @@ namespace Isis {
     // range. If the current values for the latitude and longitude range are out of
     // order or equal, then we don't write them to the labels.
     if (slat < elat && slon < elon) {
-      mGroup.addKeyword(PvlKeyword("MinimumLatitude", toString(slat)), Pvl::Replace);
-      mGroup.addKeyword(PvlKeyword("MaximumLatitude", toString(elat)), Pvl::Replace);
-      mGroup.addKeyword(PvlKeyword("MinimumLongitude", toString(slon)), Pvl::Replace);
-      mGroup.addKeyword(PvlKeyword("MaximumLongitude", toString(elon)), Pvl::Replace);
+      mGroup.addKeyword(PvlKeyword("MinimumLatitude", std::to_string(slat)), Pvl::Replace);
+      mGroup.addKeyword(PvlKeyword("MaximumLatitude", std::to_string(elat)), Pvl::Replace);
+      mGroup.addKeyword(PvlKeyword("MinimumLongitude", std::to_string(slon)), Pvl::Replace);
+      mGroup.addKeyword(PvlKeyword("MaximumLongitude", std::to_string(elon)), Pvl::Replace);
     }
 
     if (mGroup.hasKeyword("UpperLeftCornerX"))
@@ -403,8 +403,8 @@ namespace Isis {
       if (proj == NULL) {
       }
       else if (*proj != *projNew) {
-        QString msg = "Mapping groups do not match between cube [" + propagationCubes[i].toString() +
-                     "] and [" + propagationCubes[0].toString() + "]";
+        std::string msg = "Mapping groups do not match between cube [" + propagationCubes[i].toString().toStdString() +
+                     "] and [" + propagationCubes[0].toString().toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -443,12 +443,12 @@ namespace Isis {
 
     int samples, lines, bands = 0;
     Pvl label;
-    label.read(propagationCubes[0].toString());
+    label.read(propagationCubes[0].toString().toStdString());
     PvlGroup mGroup = label.findGroup("Mapping", Pvl::Traverse);
-    mGroup.addKeyword(PvlKeyword("MinimumRingRadius", toString(srad)), Pvl::Replace);
-    mGroup.addKeyword(PvlKeyword("MaximumRingRadius", toString(erad)), Pvl::Replace);
-    mGroup.addKeyword(PvlKeyword("MinimumRingLongitude", toString(saz)), Pvl::Replace);
-    mGroup.addKeyword(PvlKeyword("MaximumRingLongitude", toString(eaz)), Pvl::Replace);
+    mGroup.addKeyword(PvlKeyword("MinimumRingRadius", std::to_string(srad)), Pvl::Replace);
+    mGroup.addKeyword(PvlKeyword("MaximumRingRadius", std::to_string(erad)), Pvl::Replace);
+    mGroup.addKeyword(PvlKeyword("MinimumRingLongitude", std::to_string(saz)), Pvl::Replace);
+    mGroup.addKeyword(PvlKeyword("MaximumRingLongitude", std::to_string(eaz)), Pvl::Replace);
 
     if (mGroup.hasKeyword("UpperLeftCornerX"))
       mGroup.deleteKeyword("UpperLeftCornerX");
@@ -481,8 +481,8 @@ namespace Isis {
       if (proj == NULL) {
       }
       else if (*proj != *projNew) {
-        QString msg = "Mapping groups do not match between cube [" + propagationCubes[i].toString() +
-                     "] and [" + propagationCubes[0].toString() + "]";
+        std::string msg = "Mapping groups do not match between cube [" + propagationCubes[i].toString().toStdString() +
+                     "] and [" + propagationCubes[0].toString().toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -508,7 +508,7 @@ namespace Isis {
       double xmin, double xmax, double ymin, double ymax,
       double slat, double elat, double slon, double elon, int nbands,
       CubeAttributeOutput &oAtt, const QString &mosaicFile, bool latlonflag) {
-    Pvl fileLab(inputFile);
+    Pvl fileLab(inputFile.toStdString());
     PvlGroup &mapping = fileLab.findGroup("Mapping", Pvl::Traverse);
 
     // All mosaicking programs use only the upper left x and y to determine where to
@@ -519,10 +519,10 @@ namespace Isis {
     // range. If the current values for the latitude and longitude range are out of
     // order or equal, then we don't write them to the labels.
     if (latlonflag && slat < elat && slon < elon) {
-      mapping.addKeyword(PvlKeyword("MinimumLatitude", toString(slat)), Pvl::Replace);
-      mapping.addKeyword(PvlKeyword("MaximumLatitude", toString(elat)), Pvl::Replace);
-      mapping.addKeyword(PvlKeyword("MinimumLongitude", toString(slon)), Pvl::Replace);
-      mapping.addKeyword(PvlKeyword("MaximumLongitude", toString(elon)), Pvl::Replace);
+      mapping.addKeyword(PvlKeyword("MinimumLatitude", std::to_string(slat)), Pvl::Replace);
+      mapping.addKeyword(PvlKeyword("MaximumLatitude", std::to_string(elat)), Pvl::Replace);
+      mapping.addKeyword(PvlKeyword("MinimumLongitude", std::to_string(slon)), Pvl::Replace);
+      mapping.addKeyword(PvlKeyword("MaximumLongitude", std::to_string(elon)), Pvl::Replace);
     }
     else {
       if (mapping.hasKeyword("MinimumLatitude")) {
@@ -610,15 +610,15 @@ namespace Isis {
       double xmin, double xmax, double ymin, double ymax,
       double srad, double erad, double saz, double eaz, int nbands,
       CubeAttributeOutput &oAtt, const QString &mosaicFile) {
-    Pvl fileLab(inputFile);
+    Pvl fileLab(inputFile.toStdString());
     PvlGroup &mapping = fileLab.findGroup("Mapping", Pvl::Traverse);
 
-    mapping["UpperLeftCornerX"] = toString(xmin);
-    mapping["UpperLeftCornerY"] = toString(ymax);
-    mapping.addKeyword(PvlKeyword("MinimumRingRadius", toString(srad)), Pvl::Replace);
-    mapping.addKeyword(PvlKeyword("MaximumRingRadius", toString(erad)), Pvl::Replace);
-    mapping.addKeyword(PvlKeyword("MinimumRingLongitude", toString(saz)), Pvl::Replace);
-    mapping.addKeyword(PvlKeyword("MaximumRingLongitude", toString(eaz)), Pvl::Replace);
+    mapping["UpperLeftCornerX"] = std::to_string(xmin);
+    mapping["UpperLeftCornerY"] = std::to_string(ymax);
+    mapping.addKeyword(PvlKeyword("MinimumRingRadius", std::to_string(srad)), Pvl::Replace);
+    mapping.addKeyword(PvlKeyword("MaximumRingRadius", std::to_string(erad)), Pvl::Replace);
+    mapping.addKeyword(PvlKeyword("MinimumRingLongitude", std::to_string(saz)), Pvl::Replace);
+    mapping.addKeyword(PvlKeyword("MaximumRingLongitude", std::to_string(eaz)), Pvl::Replace);
 
     Projection *firstProj = ProjectionFactory::RingsCreateFromCube(fileLab);
     int samps = (int)(ceil(firstProj->ToWorldX(xmax) - firstProj->ToWorldX(xmin)) + 0.5);

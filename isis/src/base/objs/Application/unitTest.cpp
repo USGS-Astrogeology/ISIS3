@@ -33,7 +33,7 @@ void errorFormatting() {
   QString errorString = Isis::Application::formatError(exception);
   std::cout << errorString.toStdString() << std::endl;
 
-  QString &formatValue = errorPrefs["Format"][0];
+  std::string &formatValue = errorPrefs["Format"][0];
   formatValue = "Pvl";
 
   errorString = Isis::Application::formatError(exception);

@@ -165,7 +165,7 @@ TEST(TableTests, ToFromBlob) {
   rec[3] = -0.55;
   t += rec;
 
-  QString comment = "test comment";
+  std::string comment = "test comment";
   t.Label().addComment(comment);
 
   Blob tableBlob = t.toBlob();

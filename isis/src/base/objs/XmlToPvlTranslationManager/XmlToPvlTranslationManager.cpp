@@ -172,7 +172,7 @@ namespace Isis {
     const Pvl &transTable = TranslationTable();
     PvlGroup transGroup;
     try {
-      transGroup = transTable.findGroup(translationGroupName);
+      transGroup = transTable.findGroup(translationGroupName.toStdString());
     }
     catch (IException &e){
       QString msg = "Unable to retrieve translation group from translation table.";
@@ -189,12 +189,12 @@ namespace Isis {
                     "translation group.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
-    QString inputParentName = inputPosition[inputPosition.size() - 1];
+    QString inputParentName = QString::fromStdString(inputPosition[inputPosition.size() - 1]);
 
     // get input key (tag or att)
     QString inputKey;
     try {
-      inputKey = transGroup["InputKey"][0];
+      inputKey = QString::fromStdString(transGroup["InputKey"][0]);
     }
     catch (IException &e){
       QString msg = "Unable to retrieve [InputKey] keyword from "
@@ -203,7 +203,7 @@ namespace Isis {
     }
     QString attributeName;
     if (transGroup.hasKeyword("InputKeyAttribute")) {
-      attributeName = transGroup["InputKeyAttribute"][0];
+      attributeName = QString::fromStdString(transGroup["InputKeyAttribute"][0]);
     }
 
     // get dependencies
@@ -242,7 +242,7 @@ namespace Isis {
       inputParentElement = oldInputParentElement;
 
         for (int i = 0; i < inputPosition.size(); i++) {
-          childName = inputPosition[i];
+          childName = QString::fromStdString(inputPosition[i]);
           inputParentElement = inputParentElement.firstChildElement(childName);
           if(inputParentElement.isNull()) {
             break;
@@ -268,9 +268,9 @@ namespace Isis {
         return PvlTranslationTable::Translate( translationGroupName );
       }
       else {
-        QString msg = "Failed traversing input position. [" +
+        std::string msg = "Failed traversing input position. [" +
           inputPosition.name() + "] element does not have a child element named [" +
-          childName + "].";
+          childName.toStdString() + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -377,7 +377,7 @@ namespace Isis {
       cout << endl << "Testing dependencies:" << endl;
     }
     for (int i = 0; i < dependencies.size(); i++) {
-      QStringList specification = parseSpecification(dependencies[i]);
+      QStringList specification = parseSpecification(QString::fromStdString(dependencies[i]));
 
       if (specification.size() != 3) { // the specification is not a dependancy
         return true;

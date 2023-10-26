@@ -136,9 +136,9 @@ namespace Isis {
       }
     }
 
-    pcPvlLog += Isis::PvlKeyword("TotalPoints", toString(size));
-    pcPvlLog += Isis::PvlKeyword("ValidPoints", toString(size - iNotFound));
-    pcPvlLog += Isis::PvlKeyword("InvalidPoints", toString(iNotFound));
-    pcPvlLog += Isis::PvlKeyword("InvalidPointIds", sPointsNotFound);
+    pcPvlLog += Isis::PvlKeyword("TotalPoints", std::to_string(size));
+    pcPvlLog += Isis::PvlKeyword("ValidPoints", std::to_string(size - iNotFound));
+    pcPvlLog += Isis::PvlKeyword("InvalidPoints", std::to_string(iNotFound));
+    pcPvlLog += Isis::PvlKeyword("InvalidPointIds", sPointsNotFound.toStdString());
   }
 }

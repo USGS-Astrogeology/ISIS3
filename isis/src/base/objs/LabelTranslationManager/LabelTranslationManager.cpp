@@ -71,13 +71,13 @@ namespace Isis {
     // Attempt to translate every group in the translation table
     for(int i = 0; i < TranslationTable().groups(); i++) {
       PvlGroup &g = TranslationTable().group(i);
-      if(IsAuto(g.name())) {
+      if(IsAuto(QString::fromStdString(g.name()))) {
         try {
-          PvlContainer *con = CreateContainer(g.name(), outputLabel);
-          (*con) += DoTranslation(g.name());
+          PvlContainer *con = CreateContainer(QString::fromStdString(g.name()), outputLabel);
+          (*con) += DoTranslation(QString::fromStdString(g.name()));
         }
         catch(IException &e) {
-          if(!IsOptional(g.name())) {
+          if(!IsOptional(QString::fromStdString(g.name()))) {
             throw e;//??? is this needed???
           }
         }
@@ -108,7 +108,7 @@ namespace Isis {
     // Look at every pair in the output position
     for(int c = 0; c < np.size(); c += 2) {
       // If this pair is an object
-      if(np[c].toUpper() == "OBJECT") {
+      if(QString::fromStdString(np[c]).toUpper() == "OBJECT") {
         // If the object doesn't exist create it
         if(!obj->hasObject(np[c+1])) {
           obj->addObject(np[c+1]);
@@ -116,7 +116,7 @@ namespace Isis {
         obj = &(obj->findObject(np[c+1]));
       }
       // If this pair is a group
-      else if(np[c].toUpper() == "GROUP") {
+      else if(QString::fromStdString(np[c]).toUpper() == "GROUP") {
         // If the group doesn't exist create it
         if(!obj->hasGroup(np[c+1])) {
           obj->addGroup(np[c+1]);
@@ -142,7 +142,7 @@ namespace Isis {
    * @TODO output units
    */
   PvlKeyword LabelTranslationManager::DoTranslation(const QString outputName) {
-    PvlKeyword outputKeyword( outputName, Translate(outputName) );
+    PvlKeyword outputKeyword( outputName.toStdString(), Translate(outputName).toStdString() );
     return outputKeyword;
   }
 

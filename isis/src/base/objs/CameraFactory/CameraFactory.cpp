@@ -64,8 +64,8 @@ namespace Isis {
         // First get the spacecraft and instrument and combine them
         Pvl &lab = *cube.label();
         PvlGroup &inst = lab.findGroup("Instrument", Isis::Pvl::Traverse);
-        QString spacecraft = (QString) inst["SpacecraftName"];
-        QString name = (QString) inst["InstrumentId"];
+        QString spacecraft = QString::fromStdString(inst["SpacecraftName"]);
+        QString name = QString::fromStdString(inst["InstrumentId"]);
         spacecraft = spacecraft.toUpper();
         name = name.toUpper();
         QString group = spacecraft + "/" + name;
@@ -124,11 +124,11 @@ namespace Isis {
       if (m_cameraPlugin.fileName() == "") {
         FileName localFile("Camera.plugin");
         if (localFile.fileExists())
-          m_cameraPlugin.read(localFile.expanded());
+          m_cameraPlugin.read(localFile.expanded().toStdString());
 
         FileName systemFile("$ISISROOT/lib/Camera.plugin");
         if (systemFile.fileExists())
-          m_cameraPlugin.read(systemFile.expanded());
+          m_cameraPlugin.read(systemFile.expanded().toStdString());
       }
 
       // Find the CSM plugins by searching the directories identified in the Preferences.
@@ -137,7 +137,7 @@ namespace Isis {
       Preference &p = Preference::Preferences();
       PvlGroup &grp = p.findGroup("Plugins", Isis::Pvl::Traverse);
       for (int i = 0; i<grp["CSMDirectory"].size(); i++) {
-        FileName csmDir = grp["CSMDirectory"][i];
+        FileName csmDir = QString::fromStdString(grp["CSMDirectory"][i]);
 
         QDirIterator csmLib(csmDir.expanded(), {"*.so", "*.dylib"}, QDir::Files);
         while (csmLib.hasNext()) {
@@ -178,8 +178,8 @@ namespace Isis {
     try {
       // First get the spacecraft and instrument and combine them
       PvlGroup &inst = lab.findGroup("Instrument", Isis::Pvl::Traverse);
-      QString spacecraft = (QString) inst["SpacecraftName"];
-      QString name = (QString) inst["InstrumentId"];
+      QString spacecraft = QString::fromStdString(inst["SpacecraftName"]);
+      QString name = QString::fromStdString(inst["InstrumentId"]);
       spacecraft = spacecraft.toUpper();
       name = name.toUpper();
       QString group = spacecraft + "/" + name;
@@ -190,7 +190,7 @@ namespace Isis {
         bool found = false;
         // Find the most recent (last) version of the camera model
         for (int i = m_cameraPlugin.groups() - 1; i >= 0; i--) {
-          if (m_cameraPlugin.group(i) == group) {
+          if (m_cameraPlugin.group(i) == group.toStdString()) {
             plugin = m_cameraPlugin.group(i);
             found = true;
             break;

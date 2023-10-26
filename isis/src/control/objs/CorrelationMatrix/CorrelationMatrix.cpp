@@ -80,7 +80,7 @@ namespace Isis {
 
     try {
       m_covarianceFileName =
-          new FileName(storedMatrixData.findKeyword("CovarianceMatrixFileName")[0]);
+          new FileName(QString::fromStdString(storedMatrixData.findKeyword("CovarianceMatrixFileName")[0]));
     }
     catch (IException &e) {
       QString msg = "Could not find the Covariance Matrix .dat file name.";
@@ -88,7 +88,7 @@ namespace Isis {
     }
 
     try {
-      QString corrFileName = storedMatrixData.findKeyword("CorrelationMatrixFileName")[0];
+      QString corrFileName = QString::fromStdString(storedMatrixData.findKeyword("CorrelationMatrixFileName")[0]);
       if (corrFileName == "NULL") {
         m_correlationFileName = new FileName;
       }
@@ -105,8 +105,8 @@ namespace Isis {
       PvlObject::PvlKeywordIterator
           imgsIt = storedMatrixData.findGroup("ImagesAndParameters").begin();
       while ( imgsIt != storedMatrixData.findGroup("ImagesAndParameters").end() ) {
-        QStringList params = (*imgsIt)[0].split(",");
-        m_imagesAndParameters->insert(imgsIt->name(), params);
+        QStringList params = QString::fromStdString((*imgsIt)[0]).split(",");
+        m_imagesAndParameters->insert(QString::fromStdString(imgsIt->name()), params);
         imgsIt++;
       }
     }
@@ -476,14 +476,14 @@ namespace Isis {
   PvlObject CorrelationMatrix::pvlObject() {
     PvlObject corrMatInfo("CorrelationMatrixData");
 
-    corrMatInfo += PvlKeyword( "CovarianceMatrixFileName", m_covarianceFileName->expanded() );
-    corrMatInfo += PvlKeyword( "CorrelationMatrixFileName", m_correlationFileName->expanded() );
+    corrMatInfo += PvlKeyword( "CovarianceMatrixFileName", m_covarianceFileName->expanded().toStdString() );
+    corrMatInfo += PvlKeyword( "CorrelationMatrixFileName", m_correlationFileName->expanded().toStdString() );
 
     PvlGroup imgsAndParams("ImagesAndParameters");
     QMapIterator<QString, QStringList> imgParamIt(*m_imagesAndParameters);
     while ( imgParamIt.hasNext() ) {
       imgParamIt.next();
-      imgsAndParams += PvlKeyword( imgParamIt.key(), imgParamIt.value().join(",") );
+      imgsAndParams += PvlKeyword( imgParamIt.key().toStdString(), imgParamIt.value().join(",").toStdString() );
     }
     corrMatInfo += imgsAndParams;
 

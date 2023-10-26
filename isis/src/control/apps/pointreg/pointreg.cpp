@@ -248,7 +248,7 @@ namespace Isis {
     outNet.SetUserName(Application::UserName());
 
     // Create an AutoReg from the template file
-    Pvl pvl(ui.GetFileName("DEFFILE"));
+    Pvl pvl(ui.GetFileName("DEFFILE").toStdString());
     ar = AutoRegFactory::Create(pvl);
 
     Progress progress;
@@ -467,15 +467,15 @@ namespace Isis {
     }
 
     PvlGroup pLog("Points");
-    pLog += PvlKeyword("Total", toString(outNet.GetNumPoints()));
-    pLog += PvlKeyword("Ignored", toString(ignored));
+    pLog += PvlKeyword("Total", std::to_string(outNet.GetNumPoints()));
+    pLog += PvlKeyword("Ignored", std::to_string(ignored));
     Application::AppendAndLog(pLog, appLog);
 
     PvlGroup mLog("Measures");
-    mLog += PvlKeyword("Locked", toString(locked));
-    mLog += PvlKeyword("Registered", toString(registered));
-    mLog += PvlKeyword("NotIntersected", toString(notintersected));
-    mLog += PvlKeyword("Unregistered", toString(unregistered));
+    mLog += PvlKeyword("Locked", std::to_string(locked));
+    mLog += PvlKeyword("Registered", std::to_string(registered));
+    mLog += PvlKeyword("NotIntersected", std::to_string(notintersected));
+    mLog += PvlKeyword("Unregistered", std::to_string(unregistered));
     Application::AppendAndLog(mLog, appLog);
 
     // Log Registration Statistics
@@ -835,7 +835,7 @@ namespace Isis {
 
     // Get template pvl
     Pvl userTemp;
-    userTemp.read(ui.GetFileName("DEFFILE"));
+    userTemp.read(ui.GetFileName("DEFFILE").toStdString());
 
     //Write template file out to the log
     Isis::Application::GuiLog(userTemp);

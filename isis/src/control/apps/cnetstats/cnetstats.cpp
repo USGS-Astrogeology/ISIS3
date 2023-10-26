@@ -61,7 +61,7 @@ namespace Isis{
       if (ui.WasEntered("DEFFILE")) {
         sDefFile = ui.GetFileName("DEFFILE");
         sOutFile = ui.GetFileName("FLATFILE");
-        pvlDefFile = Pvl(sDefFile);
+        pvlDefFile = Pvl(sDefFile.toStdString());
 
         // Log the DefFile - Cannot log Object... only by Group
         for (int i=0; i<pvlDefFile.objects(); i++) {
@@ -154,7 +154,7 @@ namespace Isis{
     for (int i=0; i<iNumGroups; i++) {
       PvlGroup pvlGrp = filtersObj.group(i);
       // Get the pointer to ControlNetFilter member function based on Group name
-      pt2Filter=GetPtr2Filter(pvlGrp.name());
+      pt2Filter=GetPtr2Filter(QString::fromStdString(pvlGrp.name()));
       if (pt2Filter != NULL) {
         (pcNetFilter.*pt2Filter)(pvlGrp, ((i==(iNumGroups-1)) ? true : false));
       }

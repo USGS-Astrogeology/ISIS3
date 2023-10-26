@@ -109,8 +109,8 @@ int main(int argc, char *argv[]) {
   cout << "Testing allow defaults option ... " << endl;
   mapGroup.deleteKeyword("CenterLongitude");
   mapGroup.deleteKeyword("CenterLatitude");
-  mapGroup.findKeyword("MinimumLatitude").setValue(toString(0.0));
-  mapGroup.findKeyword("MinimumLongitude").setValue(toString(0.0));
+  mapGroup.findKeyword("MinimumLatitude").setValue(std::to_string(0.0));
+  mapGroup.findKeyword("MinimumLongitude").setValue(std::to_string(0.0));
   mapGroup.findKeyword("LongitudeDirection").setValue("PositiveWest");
   Equirectangular p2(lab, true);
   cout << lab << endl;

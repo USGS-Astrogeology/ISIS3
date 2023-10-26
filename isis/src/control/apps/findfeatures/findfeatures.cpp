@@ -72,7 +72,7 @@ using namespace std;
 namespace Isis {
 
   inline PvlGroup pvlmap_to_group( const PvlFlatMap &pvlmap, const QString &grpnam ) {
-    PvlGroup pgrp( grpnam );
+    PvlGroup pgrp(grpnam.toStdString());
     for ( auto pkey : pvlmap.values() ) {
       pgrp.addKeyword( pkey );
     }
@@ -84,7 +84,7 @@ namespace Isis {
       if ( !toname.isEmpty() ) {
         FileName toinfo(toname);
         QString fname = toinfo.expanded();
-        data.write(fname);
+        data.write(fname.toStdString());
       }
       else {
         if ( !ui.IsInteractive()  ) {
@@ -217,7 +217,7 @@ namespace Isis {
     // Check for parameters file provided by user
     if ( ui.WasEntered("PARAMETERS") ) {
       QString pfilename = ui.GetAsString("PARAMETERS");
-      Pvl pfile(pfilename);
+      Pvl pfile(pfilename.toStdString());
       PvlFlatMap parms =  PvlFlatMap(pfile);
       parameters.merge( parms );
       parameters.add("ParameterFile", pfilename);
@@ -445,13 +445,13 @@ namespace Isis {
     // Got some matches so lets process them
     Statistics quality = best->qualityStatistics();
     PvlGroup bestinfo("MatchSolution");
-    bestinfo += PvlKeyword("Matcher", best->matcher()->name());
-    bestinfo += PvlKeyword("MatchedPairs", toString(best->size()));
-    bestinfo += PvlKeyword("ValidPairs", toString(quality.ValidPixels()));
-    bestinfo += PvlKeyword("Efficiency",  toString(quality.Average()));
+    bestinfo += PvlKeyword("Matcher", best->matcher()->name().toStdString());
+    bestinfo += PvlKeyword("MatchedPairs", std::to_string(best->size()));
+    bestinfo += PvlKeyword("ValidPairs", std::to_string(quality.ValidPixels()));
+    bestinfo += PvlKeyword("Efficiency",  std::to_string(quality.Average()));
     if ( quality.ValidPixels() > 1 ) {
       bestinfo += PvlKeyword("StdDevEfficiency",
-                              toString(quality.StandardDeviation()));
+                              std::to_string(quality.StandardDeviation()));
     }
 
     Application::Log(bestinfo);

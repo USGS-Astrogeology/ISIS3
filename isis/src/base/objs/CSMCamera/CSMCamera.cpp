@@ -63,9 +63,8 @@ void sanitize(std::string &input);
     Blob state("CSMState", "String");
     cube.read(state);
     PvlObject &blobLabel = state.Label();
-
-    QString pluginName = blobLabel.findKeyword("PluginName")[0];
-    QString modelName = blobLabel.findKeyword("ModelName")[0];
+    QString pluginName = QString::fromStdString(blobLabel.findKeyword("PluginName")[0]);
+    QString modelName = QString::fromStdString(blobLabel.findKeyword("ModelName")[0]);
     QString stateString = QString::fromUtf8(state.getBuffer(), state.Size());
     init(cube, pluginName, modelName, stateString);
   }

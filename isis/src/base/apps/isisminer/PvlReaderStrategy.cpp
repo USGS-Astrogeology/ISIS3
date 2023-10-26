@@ -161,7 +161,7 @@ namespace Isis {
     QString rowBase(keys.get("PvlBaseName","Pvl"));
     QString rowId = rowBase + QString::number(nth);
   
-    Pvl pvl(pvlfile);
+    Pvl pvl(pvlfile.toStdString());
     PvlFlatMap pvlImports(pvl, m_pvlparms);
     SharedResource pvlsrc(new Resource(rowId, pvlImports));
   

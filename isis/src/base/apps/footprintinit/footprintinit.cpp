@@ -86,7 +86,7 @@ namespace Isis {
     }
 
     if (testXY) {
-      Pvl map(ui.GetFileName("MAP"));
+      Pvl map(ui.GetFileName("MAP").toStdString());
       PvlGroup &mapGroup = map.findGroup("MAPPING");
 
       // This call adds TargetName, EquatorialRadius and PolarRadius to mapGroup
@@ -142,8 +142,8 @@ namespace Isis {
 
     if (precision) {
       PvlGroup results("Results");
-      results.addKeyword(PvlKeyword("SINC", toString(sinc)));
-      results.addKeyword(PvlKeyword("LINC", toString(linc)));
+      results.addKeyword(PvlKeyword("SINC", std::to_string(sinc)));
+      results.addKeyword(PvlKeyword("LINC", std::to_string(linc)));
       Application::AppendAndLog(results, log);
     }
 

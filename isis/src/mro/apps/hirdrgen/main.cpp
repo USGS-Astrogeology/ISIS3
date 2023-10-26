@@ -306,9 +306,9 @@ void IsisMain() {
       TProjection *proj = (TProjection *) ProjectionFactory::CreateFromCube(*icube2);
       PvlGroup &mapping = icube2->label()->findGroup("MAPPING", Pvl::Traverse);
       double radius = proj->LocalRadius((double)mapping["CenterLatitude"]) / 1000.0;
-      mapObject["A_AXIS_RADIUS"].setValue(toString(radius), "KM");
-      mapObject["B_AXIS_RADIUS"].setValue(toString(radius), "KM");
-      mapObject["C_AXIS_RADIUS"].setValue(toString(radius), "KM");
+      mapObject["A_AXIS_RADIUS"].setValue(std::to_string(radius), "KM");
+      mapObject["B_AXIS_RADIUS"].setValue(std::to_string(radius), "KM");
+      mapObject["C_AXIS_RADIUS"].setValue(std::to_string(radius), "KM");
     }
 
     projName = mapObject["MAP_PROJECTION_TYPE"][0];

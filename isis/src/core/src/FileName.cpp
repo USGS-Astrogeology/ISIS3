@@ -843,9 +843,7 @@ namespace Isis {
 
     int varSearchStartPos = 0;
     int varStartPos = -1;
-    if(Preference::Preferences().hasGroup("DataDirectory")) {
-      PvlGroup &testing = Preference::Preferences().findGroup("DataDirectory");
-    }
+    
     // Loop while there are any "$" at the current position or after
     // Some "$" might be skipped if no translation can be found
     while((varStartPos = expandedStr.indexOf("$", varSearchStartPos)) != -1) {
@@ -868,8 +866,8 @@ namespace Isis {
           // Find the corresponding Isis Preference if one exists
           if(Preference::Preferences().hasGroup("DataDirectory")) {
             PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-            if(dataDir.hasKeyword(varName)) {
-              varValue = ((QString)dataDir[varName.toStdString().c_str()][0]);
+            if(dataDir.hasKeyword(varName.toStdString())) {
+              varValue = QString::fromStdString(dataDir[varName.toStdString()][0]);
             }
           }
 

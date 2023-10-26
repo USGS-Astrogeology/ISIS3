@@ -368,14 +368,14 @@ namespace Isis {
     GProperties g = getGeometrySummary();
 
 //geometry keywords for band output
-    pband += PvlKeyword("BandsUsed", toString(size()));
-    pband += PvlKeyword("ReferenceBand", toString(g.band));
-    pband += PvlKeyword("OriginalBand", toString(g.realBand));
+    pband += PvlKeyword("BandsUsed", std::to_string(size()));
+    pband += PvlKeyword("ReferenceBand", std::to_string(g.band));
+    pband += PvlKeyword("OriginalBand", std::to_string(g.realBand));
 
-    pband += PvlKeyword("Target", g.target);
+    pband += PvlKeyword("Target", g.target.toStdString());
 
-    pband += PvlKeyword("StartTime", g.startTime);
-    pband += PvlKeyword("EndTime", g.endTime);
+    pband += PvlKeyword("StartTime", g.startTime.toStdString());
+    pband += PvlKeyword("EndTime", g.endTime.toStdString());
 
     pband += ValidateKey("CenterLine", g.centerLine);
     pband += ValidateKey("CenterSample", g.centerSamp);
@@ -591,8 +591,8 @@ namespace Isis {
         // Compute new ranges
         double minLat180, maxLat180, minLon180, maxLon180;
         camera.GroundRange(minLat180, maxLat180, minLon180, maxLon180, sinuMap);
-        minkey.setValue(ToString(minLon180));
-        maxkey.setValue(ToString(maxLon180));
+        minkey.setValue(ToString(minLon180).toStdString());
+        maxkey.setValue(ToString(maxLon180).toStdString());
         clon = (minLon180 + maxLon180) / 2.0;
 
         // Convert the polygon to 180 domain
@@ -600,7 +600,7 @@ namespace Isis {
       }
     }
 
-    mapping += PvlKeyword("CenterLongitude", toString(clon));
+    mapping += PvlKeyword("CenterLongitude", std::to_string(clon));
 
     TProjection *sinu = (TProjection *) ProjectionFactory::Create(sinuMap, true);
     geos::geom::MultiPolygon *sPoly = PolygonTools::LatLonToXY(*poly, sinu);
@@ -647,15 +647,15 @@ namespace Isis {
     pband += ValidateKey("SurfaceArea", _summary.surfaceArea, "km^2");
     pband += ValidateKey("GlobalCoverage", globalCoverage, "percent");
     if(_combined != 0) {
-      pband += PvlKeyword("SampleIncrement", toString(_sampleInc));
-      pband += PvlKeyword("LineIncrement", toString(_lineInc));
+      pband += PvlKeyword("SampleIncrement", std::to_string(_sampleInc));
+      pband += PvlKeyword("LineIncrement", std::to_string(_lineInc));
       if(_combined->getGeometryTypeId() != geos::geom::GEOS_MULTIPOLYGON) {
         geos::geom::MultiPolygon *geom = makeMultiPolygon(_combined);
-        pband += PvlKeyword("GisFootprint", geom->toString().c_str());
+        pband += PvlKeyword("GisFootprint", geom->toString());
         delete geom;
       }
       else {
-        pband += PvlKeyword("GisFootprint", _combined->toString().c_str());
+        pband += PvlKeyword("GisFootprint", _combined->toString());
       }
     }
     else {

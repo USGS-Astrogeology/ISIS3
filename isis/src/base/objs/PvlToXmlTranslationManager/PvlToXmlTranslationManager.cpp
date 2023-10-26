@@ -223,15 +223,15 @@ namespace Isis {
     // Attempt to translate every group in the translation table
     for(int i = 0; i < TranslationTable().groups(); i++) {
       PvlGroup &g = TranslationTable().group(i);
-      if(IsAuto(g.name())) {
+      if(IsAuto(QString::fromStdString(g.name()))) {
         try {
           QDomElement element = outputLabel.documentElement();
-          QDomElement *parentElement = createParentElements(g.name(), element);
+          QDomElement *parentElement = createParentElements(QString::fromStdString(g.name()), element);
           // deal with siblings and attributes
           doTranslation(g, *parentElement);
         }
         catch(IException &e) {
-          if(!IsOptional(g.name())) {
+          if(!IsOptional(QString::fromStdString(g.name()))) {
             throw;//???
           }
         }

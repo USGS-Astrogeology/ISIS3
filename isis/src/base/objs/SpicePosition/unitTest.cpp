@@ -216,11 +216,11 @@ int main(int argc, char *argv[]) {
   // Add table label
   table.Label() += PvlKeyword("CacheType", "HermiteSpline");
   table.Label() += PvlKeyword("SpkTableStartTime");
-  table.Label()["SpkTableStartTime"].addValue(toString(-69382819.360519));
+  table.Label()["SpkTableStartTime"].addValue(std::to_string(-69382819.360519));
   table.Label() += PvlKeyword("SpkTableEndTime");
-  table.Label()["SpkTableEndTime"].addValue(toString(-69382512.160519));
+  table.Label()["SpkTableEndTime"].addValue(std::to_string(-69382512.160519));
   table.Label() += PvlKeyword("SpkTableOriginalSize");
-  table.Label()["SpkTableOriginalSize"].addValue(toString(769));
+  table.Label()["SpkTableOriginalSize"].addValue(std::to_string(769));
 
   // Load table into the object
   pos4.LoadCache(table);

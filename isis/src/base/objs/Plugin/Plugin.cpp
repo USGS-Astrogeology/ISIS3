@@ -38,13 +38,13 @@ namespace Isis {
    */
   QFunctionPointer Plugin::GetPlugin(const QString &group) {
     // Get the library and plugin to load
-    PvlGroup &g = findGroup(group);
-    QString library = g["Library"];
+    PvlGroup &g = findGroup(group.toStdString());
+    QString library = QString::fromStdString(g["Library"]);
 
     QString path = "./";
     Isis::FileName libraryFile(path + library);
 
-    QString pluginName = g["Routine"];
+    QString pluginName = QString::fromStdString(g["Routine"]);
 
     // Open the library, resolve the routine name, and return the function
     // address. The function will stay in memory until the application exists

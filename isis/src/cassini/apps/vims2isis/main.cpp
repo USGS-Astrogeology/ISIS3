@@ -454,7 +454,7 @@ void ProcessBands(Pvl &pdsLab, Cube *vimsCube, VimsType vtype) {
   PvlGroup bandbin("BandBin");
   PvlKeyword originalBand("OriginalBand");
   for(int i = vims.mi32OrigBandStart; i <= vims.mi32OrigBinEnd; i++) {
-    originalBand.addValue(toString(i));
+    originalBand.addValue(std::to_string(i));
   }
   bandbin += originalBand;
   PvlKeyword center("Center");

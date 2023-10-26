@@ -125,7 +125,7 @@ namespace Isis {
         }
       }
       else {
-        QString msg = "PVL for StripSeeder must contain [XSpacing] in [";
+        std::string msg = "PVL for StripSeeder must contain [XSpacing] in [";
         msg += pvl.fileName() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -138,13 +138,13 @@ namespace Isis {
         }
       }
       else {
-        QString msg = "PVL for StripSeeder must contain [YSpacing] in [";
+        std::string msg = "PVL for StripSeeder must contain [YSpacing] in [";
         msg += pvl.fileName() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     catch(IException &e) {
-      QString msg = "Improper format for PolygonSeeder PVL [" + pvl.fileName() + "]";
+      std::string msg = "Improper format for PolygonSeeder PVL [" + pvl.fileName() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -159,13 +159,13 @@ namespace Isis {
   }
 
   PvlGroup StripPolygonSeeder::PluginParameters(QString grpName) {
-    PvlGroup pluginInfo(grpName);
+    PvlGroup pluginInfo(grpName.toStdString());
 
-    PvlKeyword name("Name", Algorithm());
-    PvlKeyword minThickness("MinimumThickness", toString(MinimumThickness()));
-    PvlKeyword minArea("MinimumArea", toString(MinimumArea()));
-    PvlKeyword xSpac("XSpacing", toString(p_Xspacing));
-    PvlKeyword ySpac("YSpacing", toString(p_Yspacing));
+    PvlKeyword name("Name", Algorithm().toStdString());
+    PvlKeyword minThickness("MinimumThickness", std::to_string(MinimumThickness()));
+    PvlKeyword minArea("MinimumArea", std::to_string(MinimumArea()));
+    PvlKeyword xSpac("XSpacing", std::to_string(p_Xspacing));
+    PvlKeyword ySpac("YSpacing", std::to_string(p_Yspacing));
 
     pluginInfo.addKeyword(name);
     pluginInfo.addKeyword(minThickness);

@@ -70,10 +70,10 @@ namespace Isis {
     try {
       // Mapping group is read by the parent (Projection)
       // Get the RingLongitude Direction
-      if ((QString) m_mappingGrp["RingLongitudeDirection"] == "Clockwise") {
+      if ((std::string)m_mappingGrp["RingLongitudeDirection"] == "Clockwise") {
         m_ringLongitudeDirection = Clockwise;
       }
-      else if ((QString) m_mappingGrp["RingLongitudeDirection"] == "CounterClockwise") {
+      else if ((std::string)m_mappingGrp["RingLongitudeDirection"] == "CounterClockwise") {
         m_ringLongitudeDirection = CounterClockwise;
       }
       else {
@@ -84,10 +84,10 @@ namespace Isis {
       }
 
       // Get the RingLongitudeDomain
-      if ((QString) m_mappingGrp["RingLongitudeDomain"] == "360") {
+      if ((std::string)m_mappingGrp["RingLongitudeDomain"] == "360") {
         m_ringLongitudeDomain = 360;
       }
-      else if ((QString) m_mappingGrp["RingLongitudeDomain"] == "180") {
+      else if ((std::string)m_mappingGrp["RingLongitudeDomain"] == "180") {
         m_ringLongitudeDomain = 180;
       }
       else {

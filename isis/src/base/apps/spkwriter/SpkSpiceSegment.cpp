@@ -167,11 +167,11 @@ void SpkSpiceSegment::init(Cube &cube) {
  */
 QString SpkSpiceSegment::getKeyValue(PvlObject &label,
                                       const QString &keyword) {
-  QString value("");
-  if ( label.hasKeyword(keyword,Pvl::Traverse) ) {
-    value = label.findKeyword(keyword,Pvl::Traverse)[0];
+  std::string value("");
+  if ( label.hasKeyword(keyword.toStdString(), Pvl::Traverse) ) {
+    value = label.findKeyword(keyword.toStdString(), Pvl::Traverse)[0];
   }
-  return (value);
+  return QString::fromStdString(value);
 }
 
 
@@ -209,12 +209,12 @@ bool SpkSpiceSegment::getImageTimes(Pvl &lab, double &start, double &end) const 
   _kernels.Load("LSK,SCLK");
   PvlObject &cube = lab.findObject("IsisCube");
   // Get the start and end time for the cube
-  start = UTCtoET((QString) cube.findGroup("Instrument")["StartTime"]);
+  start = UTCtoET(QString::fromStdString(cube.findGroup("Instrument")["StartTime"]));
   if(cube.findGroup("Instrument").hasKeyword("StopTime")) {
-    end = UTCtoET((QString) cube.findGroup("Instrument")["StopTime"]);
+    end = UTCtoET(QString::fromStdString(cube.findGroup("Instrument")["StopTime"]));
   }
   else {
-    end = UTCtoET (cube.findGroup("Instrument")["StartTime"]);
+    end = UTCtoET (QString::fromStdString(cube.findGroup("Instrument")["StartTime"]));
   }
 
   return (true);

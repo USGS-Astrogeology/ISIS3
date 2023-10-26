@@ -259,11 +259,11 @@ namespace Isis {
     int iGreater = 0;
 
     if (pvlGrp.hasKeyword("LessThan")) {
-      iLesser = toInt(pvlGrp["LessThan"][0]);
+      iLesser = std::stoi(pvlGrp["LessThan"][0]);
     }
 
     if (pvlGrp.hasKeyword("GreaterThan")) {
-      iGreater = toInt(pvlGrp["GreaterThan"][0]);
+      iGreater = std::stoi(pvlGrp["GreaterThan"][0]);
     }
 
     if (iLesser < 0 || iGreater < 0 || iLesser < iGreater) {
@@ -443,7 +443,7 @@ namespace Isis {
    * @param pbLastFilter - Flag to indicate whether this is the last filter to print the stats
    */
   void ControlNetFilter::PointIDFilter(const PvlGroup &pvlGrp, bool pbLastFilter) {
-    QString sPointIDExpr = pvlGrp["Expression"][0];
+    QString sPointIDExpr = QString::fromStdString(pvlGrp["Expression"][0]);
     QString sSeparator("*");
     QStringList strTokens = sPointIDExpr.split(sSeparator, Qt::SkipEmptyParts);
 
@@ -501,13 +501,13 @@ namespace Isis {
 
     if (pvlGrp.hasKeyword("LessThan")) {
       if (pvlGrp["LessThan"][0] != "") {
-        iLesser = toInt(pvlGrp["LessThan"][0]);
+        iLesser = std::stoi(pvlGrp["LessThan"][0]);
       }
     }
 
     if (pvlGrp.hasKeyword("GreaterThan")) {
       if (pvlGrp["GreaterThan"][0] != "") {
-        iGreater = toInt(pvlGrp["GreaterThan"][0]);
+        iGreater = std::stoi(pvlGrp["GreaterThan"][0]);
       }
     }
 
@@ -736,7 +736,7 @@ namespace Isis {
     }
 
     if (pvlGrp.hasKeyword("Units")) {
-      sUnits = pvlGrp["Units"][0];
+      sUnits = QString::fromStdString(pvlGrp["Units"][0]);
     }
 
     if (pbLastFilter) {
@@ -1029,7 +1029,7 @@ namespace Isis {
 
     // Store the Cubenames from the PvlGroup
     for (int i = 0; i < pvlGrp.keywords(); i++) {
-      sCubeNames.push_back(pvlGrp[i][0]);
+      sCubeNames.push_back(QString::fromStdString(pvlGrp[i][0]));
     }
 
     int size = sCubeNames.size();
@@ -1173,7 +1173,7 @@ namespace Isis {
   void ControlNetFilter::CubeNameExpressionFilter(const PvlGroup &pvlGrp, bool pbLastFilter) {
     QString sCubeExpr("");
     if (pvlGrp.hasKeyword("Expression")) {
-      sCubeExpr = QString(pvlGrp["Expression"][0]);
+      sCubeExpr = QString::fromStdString(pvlGrp["Expression"][0]);
     }
 
     QString sSeparator("*");
@@ -1242,12 +1242,12 @@ namespace Isis {
     int iLessPoints = VALID_MAX2, iGreaterPoints = 0;
     if (pvlGrp.hasKeyword("LessThan")) {
       if (pvlGrp["LessThan"][0] != "") {
-        iLessPoints = toInt(pvlGrp["LessThan"][0]);
+        iLessPoints = std::stoi(pvlGrp["LessThan"][0]);
       }
     }
     if (pvlGrp.hasKeyword("GreaterThan")) {
       if (pvlGrp["GreaterThan"][0] != "") {
-        iGreaterPoints = toInt(pvlGrp["GreaterThan"][0]);
+        iGreaterPoints = std::stoi(pvlGrp["GreaterThan"][0]);
       }
     }
 
@@ -1303,7 +1303,7 @@ namespace Isis {
     }
 
     if (pvlGrp.hasKeyword("Units")) {
-      sUnits = pvlGrp["Units"][0];
+      sUnits = QString::fromStdString(pvlGrp["Units"][0]);
     }
 
     if (dDistance <= 0) {

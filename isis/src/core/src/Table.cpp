@@ -41,7 +41,7 @@ namespace Isis {
    * @param tableName Name of the Table to be read
    * @param rec Name of the TableRecord to be read into the Table
    */
-  Table::Table(const QString &tableName, Isis::TableRecord &rec) {
+  Table::Table(const std::string &tableName, Isis::TableRecord &rec) {
     p_name = tableName;
     p_assoc = Table::None;
     p_label += Isis::PvlKeyword("Records", 0);
@@ -65,7 +65,7 @@ namespace Isis {
    *
    * @param tableName Name of the Table to be read
    */
-  Table::Table(const QString &tableName) {
+  Table::Table(const std::string &tableName) {
     p_name = tableName;
     p_assoc = Table::None;
   }
@@ -85,8 +85,8 @@ namespace Isis {
    *
    * @see Blob::Read()
    */
-  Table::Table(const QString &tableName, const QString &file) {
-    Blob blob(tableName, "Table", file);
+  Table::Table(const std::string &tableName, const QString &file) {
+    Blob blob(QString::fromStdString(tableName), "Table", file);
     initFromBlob(blob);
   }
 
@@ -106,8 +106,8 @@ namespace Isis {
    *
    * @see Blob::Read()
    */
-  Table::Table(const QString &tableName, const QString &file, const Pvl &fileHeader) {
-    Blob blob(tableName, "Table");
+  Table::Table(const std::string &tableName, const QString &file, const Pvl &fileHeader) {
+    Blob blob(QString::fromStdString(tableName), "Table");
     blob.Read(file, fileHeader);
     initFromBlob(blob);
   }
@@ -221,15 +221,15 @@ namespace Isis {
 
     p_assoc = Table::None;
     if (p_label.hasKeyword("Association")) {
-      QString temp = (QString) p_label["Association"];
-      temp = temp.toUpper();
+      std::string temp = (std::string) p_label["Association"];
+      std::transform(temp.begin(), temp.end(), temp.begin(), ::toupper);
       if (temp == "SAMPLES") p_assoc = Table::Samples;
       if (temp == "LINES") p_assoc = Table::Lines;
       if (temp == "BANDS") p_assoc = Table::Bands;
     }
 
     // Determine if we need to swap stuff when we read the data
-    Isis::ByteOrder bo = Isis::ByteOrderEnumeration(p_label["ByteOrder"]);
+    Isis::ByteOrder bo = Isis::ByteOrderEnumeration(QString::fromStdString(p_label["ByteOrder"]));
     p_swap = false;
     if (Isis::IsLsb() && (bo == Isis::Msb)) p_swap = true;
     if (Isis::IsMsb() && (bo == Isis::Lsb)) p_swap = true;
@@ -300,9 +300,9 @@ namespace Isis {
   /**
    * The Table's name
    *
-   * @return @b QString the name of the Table
+   * @return @b std::string the name of the Table
    */
-  QString Table::Name() const {
+  std::string Table::Name() const {
     return p_name;
   }
 
@@ -419,10 +419,10 @@ namespace Isis {
     }
 
      if (RecordSize() != rec.RecordSize()) {
-       QString msg = "Unable to add the given record with size = ["
-                     + Isis::toString(rec.RecordSize()) + " bytes] to to Isis Table ["
+       std::string msg = "Unable to add the given record with size = ["
+                     + std::to_string(rec.RecordSize()) + " bytes] to to Isis Table ["
                      + p_name + "] with record size = ["
-                     + Isis::toString(RecordSize()) + " bytes]. Record sizes must match.";
+                     + std::to_string(RecordSize()) + " bytes]. Record sizes must match.";
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }
     char *newbuf = new char[RecordSize()];
@@ -470,18 +470,18 @@ namespace Isis {
    * @return @b Blob The Blob contaning the Table's data
    */
   Blob Table::toBlob() const {
-    Blob tableBlob(Name(), "Table");
+    Blob tableBlob(QString::fromStdString(Name()), "Table");
     PvlObject &blobLabel = tableBlob.Label();
 
     // Label setup
-    blobLabel += PvlKeyword("Records", Isis::toString(Records()));
+    blobLabel += PvlKeyword("Records", std::to_string(Records()));
     int nbytes = Records() * RecordSize();
 
     if (Isis::IsLsb()) {
-      blobLabel+= PvlKeyword("ByteOrder", Isis::ByteOrderName(Isis::Lsb));
+      blobLabel+= PvlKeyword("ByteOrder", Isis::ByteOrderName(Isis::Lsb).toStdString());
     }
     else {
-      blobLabel+= PvlKeyword("ByteOrder", Isis::ByteOrderName(Isis::Msb));
+      blobLabel+= PvlKeyword("ByteOrder", Isis::ByteOrderName(Isis::Msb).toStdString());
     }
 
     if (p_assoc == Samples) {

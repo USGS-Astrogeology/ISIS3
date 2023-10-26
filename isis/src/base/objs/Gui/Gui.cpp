@@ -101,13 +101,13 @@ namespace Isis {
     // However, Isis supports overriding this with a setting in IsisPreferences.
     // Here we check to see if this has been done and force the style if needed.
     if(uiPref.hasKeyword("GuiStyle")) {
-      QString style = uiPref["GuiStyle"];
+      QString style = QString::fromStdString(uiPref["GuiStyle"]);
       QApplication::setStyle(style);
     }
 
 
     if (uiPref.hasKeyword("GuiFontName")) {
-      QString fontString = uiPref["GuiFontName"];
+      QString fontString = QString::fromStdString(uiPref["GuiFontName"]);
       QFont font = QFont(fontString);
 
       if (uiPref.hasKeyword("GuiFontSize")) {
@@ -716,7 +716,7 @@ namespace Isis {
     Preference &p = Preference::Preferences();
 
     PvlGroup &grp = p.findGroup("UserInterface", Isis::Pvl::Traverse);
-    Isis::FileName progHist(grp["HistoryPath"][0] + "/" + ui.ProgramName() + ".par");
+    Isis::FileName progHist(QString::fromStdString(grp["HistoryPath"][0]) + "/" + ui.ProgramName() + ".par");
 
     if(!progHist.fileExists()) {
       p_historyEntry = -1;
@@ -727,7 +727,7 @@ namespace Isis {
     Isis::Pvl hist;
 
     try {
-      hist.read(progHist.expanded());
+      hist.read(progHist.expanded().toStdString());
     }
     catch(...) {
       p_historyEntry =  -1;
@@ -761,14 +761,14 @@ namespace Isis {
       ResetParameters();
       Isis::PvlGroup &up = hist.group(useEntry);
       for (int k = 0; k < up.keywords(); k++) {
-        QString key = up[k].name();
+        QString key = QString::fromStdString(up[k].name());
         QString val;
         // If the value has more than one element,
         // construct a string array of those elements
         if (up[k].size() > 1) {
           val = "(";
           for (int i = 0; i < up[k].size(); i++) {
-            QString newVal = up[k][i];
+            QString newVal = QString::fromStdString(up[k][i]);
             if (newVal.contains(",")) {
               newVal = '"' + newVal + '"';
             }
@@ -782,7 +782,7 @@ namespace Isis {
         }
         // Else, return the value on its own
         else {
-          QString newVal = up[k];
+          QString newVal = QString::fromStdString(up[k]);
           val = newVal;
         }
         ui.Clear(key);
@@ -878,7 +878,7 @@ namespace Isis {
     QString command = (QString) uig["GuiHelpBrowser"] +
                           " http://isis.astrogeology.usgs.gov >> /dev/null &";
 #elif defined(__APPLE__)
-    QString command = "open -a" + (QString) uig["GuiHelpBrowser"] +
+    QString command = "open -a" + QString::fromStdString(uig["GuiHelpBrowser"]) +
                       " http://isis.astrogeology.usgs.gov >> /dev/null &";
 #endif                  
     ProgramLauncher::RunSystemCommand(command);
@@ -893,7 +893,7 @@ namespace Isis {
                       Isis::Application::GetUserInterface().ProgramName() + "/" +
                       Isis::Application::GetUserInterface().ProgramName() + ".html";
 #elif defined(__APPLE__)
-    QString command = "open -a" + (QString) uig["GuiHelpBrowser"] +
+    QString command = "open -a" + QString::fromStdString(uig["GuiHelpBrowser"]) +
                       " http://isis.astrogeology.usgs.gov/Application/presentation/Tabbed/" +
                       Isis::Application::GetUserInterface().ProgramName() + "/" +
                       Isis::Application::GetUserInterface().ProgramName() + ".html";

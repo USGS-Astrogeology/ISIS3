@@ -287,7 +287,7 @@ namespace Isis {
             for (int iobj = 0; iobj < c->label()->objects(); iobj++) {
               PvlObject obj = c->label()->object(iobj);
               if (obj.name() != "Table") continue;
-              if (obj["Name"][0] != QString("CameraStatistics")) continue;
+              if (obj["Name"][0] != "CameraStatistics") continue;
               c->label()->deleteObject(iobj);
               break;
             }
@@ -300,14 +300,14 @@ namespace Isis {
               c->read(csmStateBlob);
               std::string modelState = bundleAdjustment->modelState(i).toStdString();
               csmStateBlob.setData(modelState.c_str(), modelState.size());
-              csmStateBlob.Label().addComment(jigComment);
+              csmStateBlob.Label().addComment(jigComment.toStdString());
               c->write(csmStateBlob);
             } else {
               // Write bundle adjustment values to cube
               Table cmatrix = bundleAdjustment->cMatrix(i);
-              cmatrix.Label().addComment(jigComment);
+              cmatrix.Label().addComment(jigComment.toStdString());
               Table spvector = bundleAdjustment->spVector(i);
-              spvector.Label().addComment(jigComment);
+              spvector.Label().addComment(jigComment.toStdString());
               c->write(cmatrix);
               c->write(spvector);
             }
@@ -433,7 +433,7 @@ namespace Isis {
     if (ui.GetBoolean("SOLVETARGETBODY") == true) {
       PvlObject obj;
       ui.GetFileName("TBPARAMETERS");
-      Pvl tbParPvl(FileName(ui.GetFileName("TBPARAMETERS")).expanded());
+      Pvl tbParPvl(FileName(ui.GetFileName("TBPARAMETERS")).expanded().toStdString());
       if (!tbParPvl.hasObject("Target")) {
         QString msg = "Input Target parameters file missing main Target object";
         throw IException(IException::User, msg, _FILEINFO_);
@@ -510,7 +510,7 @@ namespace Isis {
 
     if (ui.WasEntered("SCCONFIG")) {
       PvlObject obj;
-      Pvl scConfig(FileName(ui.GetFileName("SCCONFIG")).expanded());
+      Pvl scConfig(FileName(ui.GetFileName("SCCONFIG")).expanded().toStdString());
       // QMap<QString, BundleObservationSolveSettings*> instIDtoBOSS;
       if (!scConfig.hasObject("SensorParameters")) {
         QString msg = "Input SCCONFIG file missing SensorParameters object";

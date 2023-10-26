@@ -74,10 +74,10 @@ namespace Isis {
 
     QString dskFile;
     if (kernels.hasKeyword("ElevationModel")) {
-      dskFile = (QString) kernels["ElevationModel"];
+      dskFile = QString::fromStdString(kernels["ElevationModel"]);
     }
     else { // if (kernels.hasKeyword("ShapeModel")) {
-      dskFile = (QString) kernels["ShapeModel"];
+      dskFile = QString::fromStdString(kernels["ShapeModel"]);
     }
 
     // Attempt to initialize the DSK file - exception ensues if errors occur

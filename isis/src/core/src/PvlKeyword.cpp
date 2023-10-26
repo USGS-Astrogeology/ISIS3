@@ -5,9 +5,6 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include <QDebug>
-#include <QString>
-#include <QRegularExpression>
 #include "PvlKeyword.h"
 #include "IException.h"
 #include "Message.h"
@@ -31,7 +28,7 @@ namespace Isis {
    *
    * @param name The keyword name
    */
-  PvlKeyword::PvlKeyword(QString name) {
+  PvlKeyword::PvlKeyword(std::string name) {
     init();
     setName(name);
   }
@@ -45,8 +42,8 @@ namespace Isis {
    * @param value The keyword values.
    * @param unit The units the values are given in.
    */
-  PvlKeyword::PvlKeyword(QString name, QString value,
-                         QString unit) {
+  PvlKeyword::PvlKeyword(std::string name, std::string value,
+                         std::string unit) {
     init();
     setName(name);
     addValue(value, unit);
@@ -119,10 +116,15 @@ namespace Isis {
    *
    * @param name The new keyword name.
    */
-  void PvlKeyword::setName(QString name) {
-    QString final = name.trimmed();
-    if (final.contains(QRegExp("\\s"))) {
-      QString msg = "[" + name + "] is invalid. Keyword name cannot ";
+  void PvlKeyword::setName(std::string name) {
+    std::string final = name;
+    final.erase(0, final.find_first_not_of(" \n\r\t"));
+    final.erase(final.find_last_not_of(" \n\r\t")+1);
+
+    std::smatch sm;
+    std::regex re("\\s");
+    if (std::regex_search(final, sm, re)) {
+      std::string msg = "[" + name + "] is invalid. Keyword name cannot ";
       msg += "contain whitespace.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -133,9 +135,8 @@ namespace Isis {
     }
 
     if (final != "") {
-      QByteArray finalAscii = final.toLatin1();
-      m_name = new char[finalAscii.size() + 1];
-      strncpy(m_name, finalAscii.data(), final.size() + 1);
+      m_name = new char[final.size() + 1];
+      strncpy(m_name, final.c_str(), final.size() + 1);
     }
   }
 
@@ -145,7 +146,7 @@ namespace Isis {
    * If no current value exists, this method sets the given value
    * to the PvlKeyword.  Otherwise, it clears any existing values
    * and resets to the value given using addValue(). Defaults to
-   * unit = "" (empty QString).
+   * unit = "" (empty std::string).
    *
    * @param value New value to be assigned.
    * @param unit Units of measurement corresponding to the value.
@@ -154,7 +155,7 @@ namespace Isis {
    * @see operator=
    * @see operator+=
    */
-  void PvlKeyword::setValue(QString value, QString unit) {
+  void PvlKeyword::setValue(std::string value, std::string unit) {
     clear();
     addValue(value, unit);
   }
@@ -165,15 +166,14 @@ namespace Isis {
    * If no current value exists, this method sets the given json value
    * to the PvlKeyword.  Otherwise, it clears any existing values
    * and resets to the value given using addJsonValue(). Defaults to
-   * unit = "" (empty QString).
+   * unit = "" (empty std::string).
    *
    * @param jsonobj New jsobobj to be parsed and assigned.
    * @param unit Units of measurement corresponding to the value.
    *
    * @see addJsonValue()
    */
-  void PvlKeyword::setJsonValue(json jsonobj, QString unit)
-  {
+  void PvlKeyword::setJsonValue(json jsonobj, std::string unit) {
     clear();
     addJsonValue(jsonobj, unit);
   }
@@ -183,9 +183,9 @@ namespace Isis {
    *
    * @param units New units to be assigned.
    */
-  void PvlKeyword::setUnits(QString units) {
+  void PvlKeyword::setUnits(std::string units) {
     if (!m_units) {
-      m_units = new std::vector<QString>();
+      m_units = new std::vector<std::string>();
     }
 
     m_units->clear();
@@ -204,7 +204,7 @@ namespace Isis {
    *
    * @throws Isis::iException::Programmer - Given value must exist
    */
-  void PvlKeyword::setUnits(QString value, QString units) {
+  void PvlKeyword::setUnits(std::string value, std::string units) {
 
     bool found = false;
     int i = -1;
@@ -216,7 +216,7 @@ namespace Isis {
 
     if (found) {
       if (!m_units) {
-        m_units = new std::vector<QString>(m_values.size());
+        m_units = new std::vector<std::string>(m_values.size());
       }
       else {
         m_units->resize(m_values.size());
@@ -237,7 +237,7 @@ namespace Isis {
    *
    * Overwrites the '=' operator to add a new value using addValue(). Like
    * setValue(), this method clears any previously existing values and resets to
-   * the given value with unit = "" (empty QString).
+   * the given value with unit = "" (empty std::string).
    *
    * @param value The value to be added.
    * @return <B>PvlKeyword&</B> Reference to PvlKeyword object.
@@ -246,7 +246,7 @@ namespace Isis {
    * @see setValue()
    * @see operator+=
    */
-  PvlKeyword &PvlKeyword::operator=(QString value) {
+  PvlKeyword &PvlKeyword::operator=(std::string value) {
     clear();
     addValue(value);
     return *this;
@@ -258,7 +258,7 @@ namespace Isis {
    * If no current value exists, this method sets the given value.
    * Otherwise, it retains any current values and adds the value
    * given to the array of values for this PvlKeyword object.
-   * Defaults to unit = "" (empty QString).
+   * Defaults to unit = "" (empty std::string).
    *
    * @param value New value to be assigned.
    * @param unit Units of measurement corresponding to the value.
@@ -267,12 +267,12 @@ namespace Isis {
    * @see operator=
    * @see operator+=
    */
-  void PvlKeyword::addValue(QString value, QString unit) {
+  void PvlKeyword::addValue(std::string value, std::string unit) {
     m_values.append(value);
 
     if (unit != "") {
       if (!m_units) {
-        m_units = new std::vector<QString>(m_values.size());
+        m_units = new std::vector<std::string>(m_values.size());
       }
       else {
         m_units->resize(m_values.size());
@@ -292,7 +292,7 @@ namespace Isis {
    * If no current value exists, this method sets the given json value.
    * Otherwise, it retains any current values and adds the json value
    * given to the array of values for this PvlKeyword object using addValue.
-   * Defaults to unit = "" (empty QString).
+   * Defaults to unit = "" (empty std::string).
    *
    * @param jsonobj New jsonobj to be parsed and assigned.
    * @param unit Units of measurement corresponding to the value.
@@ -302,27 +302,27 @@ namespace Isis {
    *
    * @throws Isis::iException::Unknown - jsonobj cannot be an array of values
    */
-  void PvlKeyword::addJsonValue(json jsonobj, QString unit) {
-    QString value;
+  void PvlKeyword::addJsonValue(json jsonobj, std::string unit) {
+    std::string value;
     if (jsonobj.is_array()) {
-      QString msg = "Unable to convert " + name() + " with nested json array value into PvlKeyword";
+      std::string msg = "Unable to convert " + name() + " with nested json array value into PvlKeyword";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     else if (jsonobj.is_number())
     {
-      value = QString::number(jsonobj.get<double>(), 'g', 16);
+      value = jsonobj.get<double>(), 'g', 16;
     }
     else if (jsonobj.is_boolean())
     {
-      value = QString(jsonobj.get<bool>() ? "true" : "false");
+      value = std::string(jsonobj.get<bool>() ? "true" : "false");
     }
     else if (jsonobj.is_null())
     {
-      value = QString("Null");
+      value = std::string("Null");
     }
     else
     {
-      value = QString::fromStdString(jsonobj);
+      value = jsonobj;
     }
     addValue(value, unit);
   }
@@ -332,7 +332,7 @@ namespace Isis {
    *
    * Overwrites the '+=' operators to add a new value. Like
    * addValue(), this method keeps any previously existing values
-   * and adds the new value with unit = "" (empty QString) to the
+   * and adds the new value with unit = "" (empty std::string) to the
    * array of values for this PvlKeyword object.
    *
    * @param value The new value.
@@ -342,7 +342,7 @@ namespace Isis {
    * @see setValue()
    * @see operator=
    */
-  PvlKeyword &PvlKeyword::operator+=(QString value) {
+  PvlKeyword &PvlKeyword::operator+=(std::string value) {
     addValue(value);
     return *this;
   }
@@ -358,7 +358,7 @@ namespace Isis {
   }
 
 
-  PvlKeyword::operator QString() const {
+  PvlKeyword::operator std::string() const {
     return operator[](0);
   }
 
@@ -375,7 +375,7 @@ namespace Isis {
    *
    * @see const operator[]
    */
-  QString &PvlKeyword::operator[](int index) {
+  std::string &PvlKeyword::operator[](int index) {
     if (index < 0 || index >= (int)m_values.size()) {
       std::string msg = (Message::ArraySubscriptNotInRange(index)) +
                    "for Keyword [" + m_name + "]";
@@ -397,7 +397,7 @@ namespace Isis {
    *
    * @see operator[]
    */
-  const QString &PvlKeyword::operator[](int index) const {
+  const std::string &PvlKeyword::operator[](int index) const {
     if (index < 0 || index >= (int)m_values.size()) {
       std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -411,10 +411,10 @@ namespace Isis {
    * index = 0.
    *
    * @param index The index of the unit.
-   * @return <B>QString</B> The unit at the index.
+   * @return <B>std::string</B> The unit at the index.
    * @throws iException ArraySubscriptNotInRange (index) Index out of bounds.
    */
-  QString PvlKeyword::unit(int index) const {
+  std::string PvlKeyword::unit(int index) const {
     if (!m_units) return "";
 
     if (index < 0 || index >= (int)m_units->size()) {
@@ -433,9 +433,9 @@ namespace Isis {
    * @see addComments()
    * @see clearComment()
    */
-  void PvlKeyword::addComment(QString comment) {
+  void PvlKeyword::addComment(std::string comment) {
     if (!m_comments) {
-      m_comments = new std::vector<QString>();
+      m_comments = new std::vector<std::string>();
     }
 
     if (comment.size() == 0) {
@@ -467,7 +467,7 @@ namespace Isis {
    * @see addComments()
    * @see clearComment()
    */
-  void PvlKeyword::addCommentWrapped(QString comment) {
+  void PvlKeyword::addCommentWrapped(std::string comment) {
     IString cmt = comment;
     IString token = cmt.Token(" ");
     while(cmt != "") {
@@ -495,10 +495,10 @@ namespace Isis {
   /**
    * Return a comment at the specified index.
    * @param index The index of the comment.
-   * @return <B>QString</B> The comment at the index.
+   * @return <B>std::string</B> The comment at the index.
    * @throws iException ArraySubscriptNotInRange (index) Index out of bounds.
    */
-  QString PvlKeyword::comment(int index) const {
+  std::string PvlKeyword::comment(int index) const {
     if (!m_comments) return "";
 
     if (index < 0 || index >= (int)m_comments->size()) {
@@ -506,16 +506,16 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return (*m_comments)[index];
-  };
+  }
 
   /**
    * Checks if the value needs to be converted to PVL or iPVL and returns it in
    * the correct format.
    * @param value The value to be converted.
-   * @return <B>QString</B> The value in its proper format (iPVL or
+   * @return <B>std::string</B> The value in its proper format (iPVL or
    *         PVL).
    */
-  QString PvlKeyword::reform(const QString &value) const {
+  std::string PvlKeyword::reform(const std::string &value) const {
 #if 0
     static bool firstTime = true;
     static bool iPVL = true;
@@ -524,7 +524,7 @@ namespace Isis {
       Isis::PvlGroup &g = Isis::Preference::Preferences().findGroup(
                             "UserInterface", Isis::Pvl::Traverse);
 
-      Isis::IString s = (QString) g["PvlFormat"];
+      Isis::IString s = (std::string) g["PvlFormat"];
       s.UpCase();
       if (s == "PVL") iPVL = false;
     }
@@ -537,25 +537,29 @@ namespace Isis {
   /**
    * Converts a value to iPVL format.
    * @param value The value to be converted.
-   * @return <B>QString</B> The value in iPVL format.
+   * @return <B>std::string</B> The value in iPVL format.
    */
-  QString PvlKeyword::toIPvl(const QString &value) const {
-    QString out;
+  std::string PvlKeyword::toIPvl(const std::string &value) const {
+    std::string out;
     bool upcase = true;
     bool lastlower = true;
     for (int i = 0; i < value.size(); i++) {
-      if ((lastlower) && (value[i].isUpper())) upcase = true;
+      if ((lastlower) && isupper(value[i])) upcase = true;
       if (value[i] == '_') {
         upcase = true;
       }
       else if (upcase) {
-        out += value[i].toUpper();
+        std::string valueUpper = std::to_string(value[i]);
+        std::transform(valueUpper.begin(), valueUpper.end(), valueUpper.begin(), ::toupper);
+        out += valueUpper;
         lastlower = false;
         upcase = false;
       }
       else {
-        out += value[i].toLower();
-        if (value[i].isLower()) lastlower = true;
+        std::string valLower(m_values[i]);
+        std::transform(valLower.begin(), valLower.end(), valLower.begin(), ::tolower);
+        out += valLower;
+        if (islower(value[i])) lastlower = true;
         upcase = false;
       }
     }
@@ -565,37 +569,39 @@ namespace Isis {
   /**
    * Converts a value to PVL format.
    * @param value The value to be converted.
-   * @return <B>QString</B> The value in PVL format.
+   * @return <B>std::string</B> The value in PVL format.
    */
-  QString PvlKeyword::toPvl(const QString &value) const {
-    QString out;
+  std::string PvlKeyword::toPvl(const std::string &value) const {
+    std::string out;
     bool lastlower = false;
     for (int i = 0; i < value.size(); i++) {
-      if ((lastlower) && (value[i].isUpper())) out += "_";
+      if ((lastlower) && isupper(value[i])) out += "_";
       if (value[i] == '_') {
         out += "_";
         lastlower = false;
       }
       else {
-        out += value[i].toUpper();
-        if (value[i].isLower()) lastlower = true;
+        std::string valueUpper = std::to_string(value[i]);
+        std::transform(valueUpper.begin(), valueUpper.end(), valueUpper.begin(), ::toupper);
+        out += valueUpper;
+        if (islower(value[i])) lastlower = true;
       }
     }
     return out;
   }
 
   /**
-   * Checks to see if two QStrings are equal. Each is converted to uppercase
+   * Checks to see if two std::strings are equal. Each is converted to uppercase
    * and removed of underscores and whitespaces.
-   * @param QString1 The first QString
-   * @param QString2 The second QString
+   * @param std::string1 The first std::string
+   * @param std::string2 The second std::string
    * @return <B>bool</B> True or false, depending on whether
-   *          the QString values are equal.
+   *          the std::string values are equal.
    */
-  bool PvlKeyword::stringEqual(const QString &QString1,
-                               const QString &QString2) {
-    Isis::IString s1(QString1);
-    Isis::IString s2(QString2);
+  bool PvlKeyword::stringEqual(const std::string &string1,
+                               const std::string &string2) {
+    Isis::IString s1(string1);
+    Isis::IString s2(string2);
 
     s1.ConvertWhiteSpace();
     s2.ConvertWhiteSpace();
@@ -612,20 +618,20 @@ namespace Isis {
 
   /**
    * Checks to see if a value with a specified index is equivalent to another
-   * QString.
-   * @param QString1 The QString to compare the value to.
+   * std::string.
+   * @param string1 The std::string to compare the value to.
    * @param index The index of the existing value.
-   * @return <B>bool</B> True if the two QStrings are equivalent,
+   * @return <B>bool</B> True if the two std::strings are equivalent,
    *         false if they're not.
    * @throws iException ArraySubscriptNotInRange (index) Index out of bounds.
    */
-  bool PvlKeyword::isEquivalent(QString QString1, int index) const {
+  bool PvlKeyword::isEquivalent(std::string string1, int index) const {
     if (index < 0 || index >= (int)m_values.size()) {
       std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    return stringEqual(m_values[index], QString1);
+    return stringEqual(m_values[index], string1);
   }
 
   /**
@@ -648,7 +654,7 @@ namespace Isis {
         if (j < (int) seq[i].size() - 1) temp += ", ";
       }
       temp += ")";
-      this->operator+=(QString::fromStdString(temp));
+      this->operator+=(temp);
     }
 
     return *this;
@@ -669,7 +675,7 @@ namespace Isis {
    * @see operator<<
    */
   ostream &PvlKeyword::writeWithWrap(std::ostream &os,
-                                     const QString &textToWrite,
+                                     const std::string &textToWrite,
                                      int startColumn,
                                      PvlFormat &format) const {
 
@@ -686,18 +692,18 @@ namespace Isis {
     standards are referenced in separate sections.
 
     12.5.3.1 Implementation of String Values
-    A text QString read in from a label is reassembled into a QString of characters.
-    The way in which the QString is broken into lines in a label does not affect the
-    format of the QString after it has been reassembled. The following rules are used
-              when reading text QStrings: If a format effector or a sequence of
-              format effectors is encountered within a text QString,
+    A text std::string read in from a label is reassembled into a std::string of characters.
+    The way in which the std::string is broken into lines in a label does not affect the
+    format of the std::string after it has been reassembled. The following rules are used
+              when reading text std::strings: If a format effector or a sequence of
+              format effectors is encountered within a text std::string,
               the effector (or sequence of effectors) is replaced by a single space
               character, unless the last character is a hyphen (dash) character. Any
               spacing characters at the end of the line are removed and any spacing
               characters at the beginning of the following line are removed. This
-              allows a text QString in a label to appear with the left and right
-              margins set at arbitrary points without changing the QString value. For
-                       example, the following two QStrings are the same: "To be or
+              allows a text std::string in a label to appear with the left and right
+              margins set at arbitrary points without changing the std::string value. For
+                       example, the following two std::strings are the same: "To be or
                        not to be" and
                        "To be or
                        not to be"
@@ -705,38 +711,38 @@ namespace Isis {
               (dash) character, the hyphen is removed with any spacing characters at
               the beginning of the following line. This follows the standard
               convention in English of using a hyphen to break a word across lines.
-              For example, the following two QStrings are the same:
+              For example, the following two std::strings are the same:
                         "The planet Jupiter is very big" and
                        "The planet Jupi-
                        ter is very big"
               Control codes, other than the horizontal tabulation character and
-              format effectors, appearing within a text QString are removed.
+              format effectors, appearing within a text std::string are removed.
         */
 
     /*
       We will be adding a condition for human-readable purposes:
-        If a quoted QString of text does not fit on the current line,
+        If a quoted std::string of text does not fit on the current line,
         but will fit on the next line, use the next line.
     */
 
     // Position set
-    QString remainingText = textToWrite;
+    std::string remainingText = textToWrite;
     int spaceForText = format.charLimit() - 1 - format.formatEOL().length() - startColumn;
 
     // indexOf quote positions to better determine which line to put the
-    //  QString on. Data structure: vector< startPos, endPos > where
+    //  std::string on. Data structure: vector< startPos, endPos > where
     //  remainingText[startPos] and remainingText[endPos] must both be quotes.
     vector< pair<int, int> > quotedAreas;
     int  quoteStart = -1;
 
     // if its an array, indent subsequent lines 1 more
-    if (textToWrite.count() > 0 && (textToWrite[0] == '(' || textToWrite[0] == '"')) {
+    if (textToWrite.size() > 0 && (textToWrite[0] == '(' || textToWrite[0] == '"')) {
       startColumn ++;
     }
 
     /* Standard 12.3.3.1 ->
-      A quoted text QString may not contain the quotation mark, which is reserved
-      to be the text QString delimiter.
+      A quoted text std::string may not contain the quotation mark, which is reserved
+      to be the text std::string delimiter.
 
       So we don't have to worry about escaped quotes.
     */
@@ -749,14 +755,14 @@ namespace Isis {
     // clean up any EOL characters, they mustn't interfere, remove sections of
     //   multiple spaces (make them into one), and indexOf quoted areas
     for (int pos = 0; pos < remainingText.size(); pos++) {
-      // remove \r and \n from QString
+      // remove \r and \n from std::string
       if (remainingText[pos] == '\n' || remainingText[pos] == '\r') {
         if (pos != remainingText.size() - 1) {
-          remainingText = remainingText.mid(0, pos) +
-                          remainingText.mid(pos + 1);
+          remainingText = remainingText.substr(0, pos) +
+                          remainingText.substr(pos + 1);
         }
         else {
-          remainingText = remainingText.mid(0, pos);
+          remainingText = remainingText.substr(0, pos);
         }
       }
 
@@ -765,8 +771,8 @@ namespace Isis {
         while(pos > 0 &&
               remainingText[pos-1] == ' ' &&
               remainingText[pos] == ' ') {
-          remainingText = remainingText.mid(0, pos) +
-                          remainingText.mid(pos + 1);
+          remainingText = remainingText.substr(0, pos) +
+                          remainingText.substr(pos + 1);
         }
       }
 
@@ -810,18 +816,18 @@ namespace Isis {
     int printedSoFar = 0;
 
     // while we have something to write, keep going
-    while(!remainingText.isEmpty()) {
+    while(!remainingText.empty()) {
       // search backwards for the last space or comma *in the limit* (80 chars)
       int lastSpacePosition = charsLeft;
 
       // if everything fits into our remaining space, consider the last
-      //   spot in the QString to be printed still the split position.
+      //   spot in the std::string to be printed still the split position.
       if (lastSpacePosition >= (int)remainingText.length()) {
         lastSpacePosition = remainingText.length();
       }
       else {
         // Everything does not fit; use good space for mediocre splits (inside
-        //  quoted QStrings), and excellent space for good splits (between array
+        //  quoted std::strings), and excellent space for good splits (between array
         //  values for example)
         int goodSpace = -1;
         int excellentSpace = -1;
@@ -881,37 +887,37 @@ namespace Isis {
       // we found a space or comma in our limit, write to that chatacter
       //   and repeat the loop
       if (lastSpacePosition >= 0) {
-        os << remainingText.mid(0, lastSpacePosition);
+        os << remainingText.substr(0, lastSpacePosition);
 
-        remainingText = remainingText.mid(lastSpacePosition);
+        remainingText = remainingText.substr(lastSpacePosition);
         printedSoFar += lastSpacePosition;
       }
       // we failed to indexOf a space or a comma in our limit,
       //   use a hyphen (-)
       else {
         // Make sure we don't break on "//" since Isis thinks that is a comment
-        if (remainingText.mid(charsLeft-1, 2) == "//") {
-          os << remainingText.mid(0, charsLeft - 2);
+        if (remainingText.substr(charsLeft-1, 2) == "//") {
+          os << remainingText.substr(0, charsLeft - 2);
           os << "-";
-          remainingText = remainingText.mid(charsLeft - 2);
+          remainingText = remainingText.substr(charsLeft - 2);
           printedSoFar += charsLeft - 2;
         }
         else {
-          os << remainingText.mid(0, charsLeft - 1);
+          os << remainingText.substr(0, charsLeft - 1);
           os << "-";
-          remainingText = remainingText.mid(charsLeft - 1);
+          remainingText = remainingText.substr(charsLeft - 1);
           printedSoFar += charsLeft - 1;
         }
       }
 
       // we wrote as much as possible, do a newline and repeat
-      if (!remainingText.isEmpty()) {
+      if (!remainingText.empty()) {
         os << format.formatEOL();
         writeSpaces(os, startColumn);
 
         // dont allow spaces to begin the next line inside what we're printing
         if (remainingText[0] == ' ') {
-          remainingText = remainingText.mid(1);
+          remainingText = remainingText.substr(1);
           printedSoFar += 1;
         }
       }
@@ -968,8 +974,8 @@ namespace Isis {
    */
   std::istream &operator>>(std::istream &is, PvlKeyword &result) {
     result = PvlKeyword();
-    QString line;
-    QString keywordString;
+    std::string line;
+    std::string keywordString;
 
     bool keywordDone = false;
     bool multiLineComment = false;
@@ -983,8 +989,8 @@ namespace Isis {
       // We read an empty line (failed to read next non-empty line)
       // and didnt complete our keyword, essentially we hit the implicit
       // keyword named "End"
-      if (line.isEmpty() && !is.good()) {
-        if (keywordString.isEmpty() ||
+      if (line.empty() && !is.good()) {
+        if (keywordString.empty() ||
             keywordString[keywordString.size()-1] == '\n') {
           line = "End";
 
@@ -1010,8 +1016,10 @@ namespace Isis {
 
           if (line[1] == '*') {
             multiLineComment = true;
-            keywordString += line.mid(0, 2);
-            line = line.mid(2).trimmed();
+            keywordString += line.substr(0, 2);
+            line = line.substr(2);
+            line.erase(0, line.find_first_not_of(" \n\r\t"));
+            line.erase(line.find_last_not_of(" \n\r\t")+1);
           }
         }
       }
@@ -1019,20 +1027,20 @@ namespace Isis {
       if (multiLineComment) {
         comment = true;
 
-        if (line.contains("/*")) {
-          IString msg = "Error when reading a pvl: Cannot have ['/*'] inside a "
+        if (line.find("/*") != std::string::npos) {
+          std::string msg = "Error when reading a pvl: Cannot have ['/*'] inside a "
                         "multi-line comment";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 
-        if (line.contains("*/")) {
+        if (line.find("*/") != std::string::npos) {
           multiLineComment = false;
 
-          line = line.mid(0, line.indexOf("*/")).trimmed() + " */";
+          line = line.substr(0, line.find("*/")) + " */";
         }
       }
 
-      if (line.isEmpty()) {
+      if (line.empty()) {
         continue;
       }
       // comment line
@@ -1041,12 +1049,12 @@ namespace Isis {
         continue;
       }
       // first line of keyword data
-      else if (keywordString.isEmpty()) {
+      else if (keywordString.empty()) {
         keywordString = line;
       }
       // concatenation
       else if (!comment && keywordString[keywordString.size()-1] == '-') {
-        keywordString = keywordString.mid(0, keywordString.size() - 1) + line;
+        keywordString = keywordString.substr(0, keywordString.size() - 1) + line;
       }
       // Non-commented and non-concatenation -> put in the space
       else {
@@ -1057,9 +1065,9 @@ namespace Isis {
         continue;
       }
 
-      std::vector<QString> keywordComments;
-      QString keywordName;
-      std::vector< std::pair<QString, QString> > keywordValues;
+      std::vector<std::string> keywordComments;
+      std::string keywordName;
+      std::vector< std::pair<std::string, std::string> > keywordValues;
 
       bool attemptedRead = false;
 
@@ -1077,7 +1085,7 @@ namespace Isis {
 
         is.seekg(beforeLine, ios::beg);
 
-        QString msg = "Unable to read PVL keyword [";
+        std::string msg = "Unable to read PVL keyword [";
         msg += keywordString;
         msg += "]";
 
@@ -1112,13 +1120,13 @@ namespace Isis {
 
     if (error) {
       // skip comments
-      while(keywordString.contains('\n')) {
-        keywordString = keywordString.mid(keywordString.indexOf('\n') + 1);
+      if (keywordString.find('\n') != std::string::npos) {
+        keywordString = keywordString.substr(keywordString.find('\n') + 1);
       }
 
-      QString msg;
+      std::string msg;
 
-      if (keywordString.isEmpty() && !multiLineComment) {
+      if (keywordString.empty() && !multiLineComment) {
         msg = "PVL input contains no Pvl Keywords";
       }
       else if (multiLineComment) {
@@ -1134,12 +1142,12 @@ namespace Isis {
 
     if (!keywordDone) {
       // skip comments
-      while(keywordString.contains('\n'))
-        keywordString = keywordString.mid(keywordString.indexOf('\n') + 1);
+      while (keywordString.find('\n') != std::string::npos) {
+        keywordString = keywordString.substr(keywordString.find('\n') + 1);
+      }
+      std::string msg;
 
-      QString msg;
-
-      if (keywordString.isEmpty()) {
+      if (keywordString.empty()) {
         msg = "Error reading PVL keyword";
       }
       else {
@@ -1159,7 +1167,7 @@ namespace Isis {
    *
    * @param comments Comments to associate with this keyword
    */
-  void PvlKeyword::addComments(const std::vector<QString> &comments) {
+  void PvlKeyword::addComments(const std::vector<std::string> &comments) {
     for (unsigned int i = 0; i < comments.size(); i++) {
       addComment(comments[i]);
     }
@@ -1172,7 +1180,7 @@ namespace Isis {
    * keyword (if valid) and its status.
    *
    * @param keyword Pvl "#COMMENT\n//COMMENT\nKeyword = (Value1,Value2,...)"
-   *                QString
+   *                std::string
    * @param keywordComments Output: Lines of data that are comments
    * @param keywordName Output: Name of keyword
    * @param keywordValues Output: vector< pair<Value, Units> >
@@ -1180,10 +1188,10 @@ namespace Isis {
    * @return bool false if it is invalid but could become valid given more data,
    *              true if it is a valid keyword and successful
    */
-  bool PvlKeyword::readCleanKeyword(QString keyword,
-                                    std::vector<QString> &keywordComments,
-                                    QString &keywordName,
-                                    std::vector< std::pair<QString, QString> > &keywordValues) {
+  bool PvlKeyword::readCleanKeyword(std::string keyword,
+                                    std::vector<std::string> &keywordComments,
+                                    std::string &keywordName,
+                                    std::vector< std::pair<std::string, std::string> > &keywordValues) {
     // Reset outputs
     keywordComments.clear();
     keywordName = "";
@@ -1193,13 +1201,13 @@ namespace Isis {
     bool explicitIncomplete = false;
 
     // Possible (known) comment starts in pvl
-    QString comments[] = {
+    std::string comments[] = {
       "#",
       "//"
     };
 
     // Need more data if nothing is here!
-    if (keyword.isEmpty()) return 0;
+    if (keyword.empty()) return 0;
 
     /*
       Step 1: Read Comments
@@ -1218,32 +1226,32 @@ namespace Isis {
      */
 
     // While we have newlines, we have comments
-    while(keyword.contains("\n")) {
+    while (keyword.find('\n') != std::string::npos) {
       // Make sure we strip data every loop of comment types; otherwise we
       // have no comment and need to error out.
       bool noneStripped = true;
 
       // Check every comment type now and make sure this line (it isn't the last
       // line since a newline exists) starts in a comment
-      QString keywordStart = keyword.mid(0, 2);
+      std::string keywordStart = keyword.substr(0, 2);
 
       // Handle multi-line comments
       if (keywordStart == "/*") {
         noneStripped = false;
         bool inComment = true;
 
-        while(inComment && keyword.contains("*/")) {
+        while (inComment && keyword.find("*/") != std::string::npos) {
           // Correct the */ to make sure it has a \n after it,
           // without this we risk an infinite loop
-          int closePos = keyword.indexOf("*/\n");
+          int closePos = keyword.find("*/\n");
 
           if (closePos == -1) {
-            closePos = keyword.indexOf("*/") + 2;
-            keyword = keyword.mid(0, closePos) + "\n" +
-                      keyword.mid(closePos);
+            closePos = keyword.find("*/") + 2;
+            keyword = keyword.substr(0, closePos) + "\n" +
+                      keyword.substr(closePos);
           }
 
-          QString comment = keyword.mid(0, keyword.indexOf("\n")).trimmed();
+          std::string comment = keyword.substr(0, keyword.find("\n"));
 
           // Set these to true if too small, false if not (they need if
           //   cant currently fit).
@@ -1254,51 +1262,53 @@ namespace Isis {
           bool needsEnd = (commentEndPos < 0);
           bool needsEndSpace = comment.size() < 3;
 
-          // Needs are currently set based on QString size, apply real logic
+          // Needs are currently set based on std::string size, apply real logic
           //   to test for character sequences (try to convert them from false
           //   to true).
           if (!needsStart) {
-            needsStart = (comment.mid(0, 2) != "/*");
+            needsStart = (comment.substr(0, 2) != "/*");
           }
 
           if (!needsEnd) {
-            needsEnd = (comment.mid(commentEndPos, 2) != "*/");
+            needsEnd = (comment.substr(commentEndPos, 2) != "*/");
           }
 
           if (!needsStartSpace) {
-            needsStartSpace = (comment.mid(0, 3) != "/* ");
+            needsStartSpace = (comment.substr(0, 3) != "/* ");
           }
 
           if (!needsEndSpace) {
-            needsEndSpace = (comment.mid(commentEndPos - 1, 3) != " */");
+            needsEndSpace = (comment.substr(commentEndPos - 1, 3) != " */");
           }
 
           if (needsStart) {
             comment = "/* " + comment;
           }
           else if (needsStartSpace) {
-            comment = "/* " + comment.mid(2);
+            comment = "/* " + comment.substr(2);
           }
 
           if (needsEnd) {
             comment = comment + " */";
           }
           else if (needsEndSpace) {
-            comment = comment.mid(0, comment.size() - 2) + " */";;
+            comment = comment.substr(0, comment.size() - 2) + " */";;
           }
 
           inComment = needsEnd;
 
           keywordComments.push_back(comment);
 
-          if (keyword.contains("\n")) {
-            keyword = keyword.mid(keyword.indexOf("\n") + 1).trimmed();
+          if (keyword.find("\n") != std::string::npos) {
+            keyword = keyword.substr(keyword.find("\n") + 1);
+            keyword.erase(0, keyword.find_first_not_of(" \n\r\t"));
+	          keyword.erase(keyword.find_last_not_of(" \n\r\t") + 1);  
           }
 
           // Check for another comment start
           if (!inComment) {
             if (keyword.size() >= 2)
-              keywordStart = keyword.mid(0, 2);
+              keywordStart = keyword.substr(0, 2);
 
             inComment = (keywordStart == "/*");
           }
@@ -1308,7 +1318,7 @@ namespace Isis {
         //   Find longest
         int longest = 0;
         for (unsigned int index = 0; index < keywordComments.size(); index++) {
-          QString comment = keywordComments[index];
+          std::string comment = keywordComments[index];
 
           if (comment.size() > longest)
             longest = comment.size();
@@ -1316,11 +1326,11 @@ namespace Isis {
 
         // Now make all the sizes match longest
         for (unsigned int index = 0; index < keywordComments.size(); index++) {
-          QString comment = keywordComments[index];
+          std::string comment = keywordComments[index];
 
           while(comment.size() < longest) {
             // This adds a space to the end of the comment
-            comment = comment.mid(0, comment.size() - 2) + " */";
+            comment = comment.substr(0, comment.size() - 2) + " */";
           }
 
           keywordComments[index] = comment;
@@ -1330,36 +1340,45 @@ namespace Isis {
 
       // Search for single line comments
       for (unsigned int commentType = 0;
-          commentType < sizeof(comments) / sizeof(QString);
+          commentType < sizeof(comments) / sizeof(std::string);
           commentType++) {
 
-        if (keywordStart.startsWith(comments[commentType])) {
+        if (keywordStart.rfind(comments[commentType], 0) == 0) {
           // Found a comment start; strip this line out and store it as a
           // comment!
-          QString comment = keyword.mid(0, keyword.indexOf("\n"));
-          keywordComments.push_back(comment.trimmed());
+          std::string comment = keyword.substr(0, keyword.find("\n"));
+          comment.erase(0, comment.find_first_not_of(" \n\r\t"));
+	        comment.erase(comment.find_last_not_of(" \n\r\t") + 1);
+          keywordComments.push_back(comment);
 
           noneStripped = false;
-
-          if (keyword.contains("\n")) {
-            keyword = keyword.mid(keyword.indexOf("\n") + 1).trimmed();
+          if (keyword.find("\n") != std::string::npos) {
+            keyword = keyword.substr(keyword.find("\n") + 1);
+            keyword.erase(0, keyword.find_first_not_of(" \n\r\t"));
+	          keyword.erase(keyword.find_last_not_of(" \n\r\t") + 1);
           }
         }
       }
 
       // Does it look like Name=Value/*comm
       //                              mment*/ ?
-      if (noneStripped && keyword.contains("/*") &&
-          keyword.contains("*/")) {
-        QString firstPart = keyword.mid(0, keyword.indexOf("\n"));
-        QString lastPart = keyword.mid(keyword.indexOf("\n") + 1);
+      if (noneStripped && keyword.find("/*") != std::string::npos && 
+          keyword.find("*/") != std::string::npos) {
+        std::string firstPart = keyword.substr(0, keyword.find("\n"));
+        std::string lastPart = keyword.substr(keyword.find("\n") + 1);
+        
+        firstPart.erase(0, firstPart.find_first_not_of(" \n\r\t"));
+	      firstPart.erase(firstPart.find_last_not_of(" \n\r\t") + 1);
 
-        keyword = firstPart.trimmed() + " " + lastPart.trimmed();
+        lastPart.erase(0, lastPart.find_first_not_of(" \n\r\t"));
+	      lastPart.erase(lastPart.find_last_not_of(" \n\r\t") + 1);
+
+        keyword = firstPart + " " + lastPart;
         noneStripped = false;
       }
 
       if (noneStripped) {
-        QString msg = "Expected a comment in PVL but found [";
+        std::string msg = "Expected a comment in PVL but found [";
         msg += keyword;
         msg += "]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -1367,7 +1386,7 @@ namespace Isis {
     }
 
     // Do we have a keyword at all?
-    if (keyword.isEmpty()) {
+    if (keyword.empty()) {
       return false; // need more data
     }
 
@@ -1386,7 +1405,7 @@ namespace Isis {
 
     // we have taken the name; if nothing remains then it is value-less
     // and we are done.
-    if (keyword.isEmpty()) {
+    if (keyword.empty()) {
       /*
         Step 3.1
 
@@ -1418,16 +1437,18 @@ namespace Isis {
     // if we don't have an equal, then we have a problem - an invalid symbol.
     // Our possible remaining formats both are KEYWORD = ...
     if (keyword[0] != '=') {
-      QString msg = "Expected an assignment [=] when reading PVL, but found [";
+      std::string msg = "Expected an assignment [=] when reading PVL, but found [";
       msg += keyword[0];
       msg += "]";
 
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
-    keyword = keyword.mid(1).trimmed();
+    keyword = keyword.substr(1);
+    keyword.erase(0, keyword.find_first_not_of(" \n\r\t"));
+	  keyword.erase(keyword.find_last_not_of(" \n\r\t") + 1);
 
-    if (keyword.isEmpty()) {
+    if (keyword.empty()) {
       return false;
     }
 
@@ -1452,27 +1473,29 @@ namespace Isis {
 
       // strip '(' - onetime, this makes every element in the array the same
       // (except the last)
-      keyword = keyword.mid(1).trimmed();
+      keyword = keyword.substr(1);
+      keyword.erase(0, keyword.find_first_not_of(" \n\r\t"));
+	    keyword.erase(keyword.find_last_not_of(" \n\r\t") + 1);
 
       // handle empty arrays: KEYWORD = ()
-      if (!keyword.isEmpty() && keyword[0] == closingParen) {
+      if (!keyword.empty() && keyword[0] == closingParen) {
         closedProperly = true;
       }
 
       // Each iteration of this loop should consume 1 value in the array,
       // including the comma, i.e. we should start out with:
       //  'VALUE,VALUE,...)' until we hit ')' (our exit condition)
-      while(!keyword.isEmpty() && keyword[0] != closingParen) {
+      while(!keyword.empty() && keyword[0] != closingParen) {
         // foundComma delimits the end of this element in the array (remains
         //  false for last value which has no comma at the end)
         bool foundComma = false;
         // keyword should be of the format: VALUE <UNIT>,....)
         // Read VALUE from it
-        QString nextItem = readValue(keyword, explicitIncomplete, extraDelims);
+        std::string nextItem = readValue(keyword, explicitIncomplete, extraDelims);
 
-        if (!keyword.isEmpty() && keyword[0] == wrongClosingParen) {
+        if (!keyword.empty() && keyword[0] == wrongClosingParen) {
 
-          QString msg = "Incorrect array close when reading PVL; expected [";
+          std::string msg = "Incorrect array close when reading PVL; expected [";
           msg += closingParen;
           msg += "] but found [";
           msg += wrongClosingParen;
@@ -1483,32 +1506,34 @@ namespace Isis {
         }
 
         // This contains <VALUE, UNIT>
-        pair<QString, QString> keywordValue;
+        pair<std::string, std::string> keywordValue;
 
         // Store VALUE
         keywordValue.first = nextItem;
 
         // Now there's 2 possibilities: units or no units ->
         //   if we have units, read them
-        if (!keyword.isEmpty() && keyword[0] == '<') {
-          QString unitsValue = readValue(keyword, explicitIncomplete);
+        if (!keyword.empty() && keyword[0] == '<') {
+          std::string unitsValue = readValue(keyword, explicitIncomplete);
           keywordValue.second = unitsValue;
         }
 
         // Now we should* have a comma, strip it
-        if (!keyword.isEmpty() && keyword[0] == ',') {
+        if (!keyword.empty() && keyword[0] == ',') {
           foundComma = true;
-          keyword = keyword.mid(1).trimmed();
+          keyword = keyword.substr(1);
+          keyword.erase(0, keyword.find_first_not_of(" \n\r\t"));
+	        keyword.erase(keyword.find_last_not_of(" \n\r\t") + 1);
         }
 
-        // No comma and nothing more in QString - we found
+        // No comma and nothing more in std::string - we found
         //  KEYWORD = (VALUE,VALUE\0
         //  we need more information to finish this keyword
-        if (!foundComma && keyword.isEmpty()) {
+        if (!foundComma && keyword.empty()) {
           return false; // could become valid later
         }
 
-        bool foundCloseParen = (!keyword.isEmpty() && keyword[0] == closingParen);
+        bool foundCloseParen = (!keyword.empty() && keyword[0] == closingParen);
 
         if (foundCloseParen) {
           closedProperly = true;
@@ -1518,7 +1543,7 @@ namespace Isis {
         //  keyword = (VALUE,VALUE,)
         // which is unrecoverable
         if (foundComma && foundCloseParen) {
-          QString msg = "Unexpected close of keyword-value array when reading "
+          std::string msg = "Unexpected close of keyword-value array when reading "
                        "PVL";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
@@ -1529,7 +1554,7 @@ namespace Isis {
           if (explicitIncomplete) return false;
 
           // We have (VALUE VALUE
-          QString msg = "Found extra data after [";
+          std::string msg = "Found extra data after [";
           msg += nextItem;
           msg += "] in array when reading PVL";
           throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -1544,16 +1569,18 @@ namespace Isis {
       }
 
       // Trim off the closing paren
-      if (!keyword.isEmpty()) {
-        keyword = keyword.mid(1).trimmed();
+      if (!keyword.empty()) {
+        keyword = keyword.substr(1);
+        keyword.erase(0, keyword.find_first_not_of(" \n\r\t"));
+        keyword.erase(keyword.find_last_not_of(" \n\r\t") + 1);
       }
 
       // Read units here if they exist and apply them
       //  case: (A,B,C) <unit>
-      if (!keyword.isEmpty() && keyword[0] == '<') {
-        QString units = readValue(keyword, explicitIncomplete);
+      if (!keyword.empty() && keyword[0] == '<') {
+        std::string units = readValue(keyword, explicitIncomplete);
         for (unsigned int val = 0; val < keywordValues.size(); val++) {
-          if (keywordValues[val].second.isEmpty()) {
+          if (keywordValues[val].second.empty()) {
             keywordValues[val].second = units;
           }
         }
@@ -1568,10 +1595,10 @@ namespace Isis {
 
         We need to read the single value/unit in the keywordValues array.
        */
-      pair<QString, QString> keywordValue;
+      pair<std::string, std::string> keywordValue;
       keywordValue.first = readValue(keyword, explicitIncomplete);
 
-      if (!keyword.isEmpty() && keyword[0] == '<') {
+      if (!keyword.empty() && keyword[0] == '<') {
         keywordValue.second = readValue(keyword, explicitIncomplete);
       }
 
@@ -1589,15 +1616,15 @@ namespace Isis {
     /*
       See if we have a comment at the end of the keyword...
      */
-    if (!keyword.isEmpty()) {
+    if (!keyword.empty()) {
       // if the data left is a comment, we can handle it probably
       if (keyword[0] == '#' ||
           ((keyword.size() > 1 && keyword[0] == '/') &&
            (keyword[1] == '/' || keyword[1] == '*'))) {
         keywordComments.push_back(keyword);
 
-        if (keyword.size() > 1 && keyword.mid(0, 2) == "/*") {
-          if (keyword.mid(keyword.size() - 2, 2) != "*/")
+        if (keyword.size() > 1 && keyword.substr(0, 2) == "/*") {
+          if (keyword.substr(keyword.size() - 2, 2) != "*/")
             return false; // need more comment data
         }
 
@@ -1606,9 +1633,9 @@ namespace Isis {
     }
 
     // check for extraneous data in the keyword ... ,2,3
-    QRegularExpression regex("^,");
-    QRegularExpressionMatch match = regex.match(keyword);
-    if (!keyword.isEmpty() && match.hasMatch()) {
+    std::regex regex("^,");
+    std::smatch match; 
+    if (!keyword.empty() && std::regex_match(keyword, match, regex)) {
           keywordValues.at(0).first += keyword;
           keyword = "";
     }
@@ -1616,8 +1643,8 @@ namespace Isis {
     /*
       If more data remains, it is unrecognized.
     */
-    if (!keyword.isEmpty()) {
-      QString msg = "Keyword has extraneous data [";
+    if (!keyword.empty()) {
+      std::string msg = "Keyword has extraneous data [";
       msg += keyword;
       msg += "] at the end";
       throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -1628,16 +1655,16 @@ namespace Isis {
   }
 
 
-  QString PvlKeyword::readValue(QString &keyword, bool &quoteProblem) {
+  std::string PvlKeyword::readValue(std::string &keyword, bool &quoteProblem) {
     std::vector< std::pair<char, char> > otherDelims;
 
     return readValue(keyword, quoteProblem, otherDelims);
   }
 
   /**
-   * This method looks for a data element in the QString. A data element is a
-   * quoted QString, a units value, or one value of an array (not including
-   * units). As an example, each value in the following QString is quoted:
+   * This method looks for a data element in the std::string. A data element is a
+   * quoted std::string, a units value, or one value of an array (not including
+   * units). As an example, each value in the following std::string is quoted:
    *
    * 'VALUE' '=' ('VALUE','VALUE',  'VALUE' '<VALUE>')
    *
@@ -1646,20 +1673,21 @@ namespace Isis {
    *
    * @param keyword Input/Output: The keyword to get the next value from
    *                (DESTRUCTIVE)
-   * @param quoteProblem Output: The QString has an unclosed quote character
+   * @param quoteProblem Output: The std::string has an unclosed quote character
    *
-   * @return QString The stripped out token.
+   * @return std::string The stripped out token.
    */
-  QString PvlKeyword::readValue(QString &keyword, bool &quoteProblem,
+  std::string PvlKeyword::readValue(std::string &keyword, bool &quoteProblem,
                                     const std::vector< std::pair<char, char> > &
                                     otherDelimiters) {
-    QString value = "";
+    std::string value = "";
 
-    // This method ignores spaces except as delimiters; let's trim the QString
+    // This method ignores spaces except as delimiters; let's trim the std::string
     // to start
-    keyword = keyword.trimmed();
+    keyword.erase(0, keyword.find_first_not_of(" \n\r\t"));
+	  keyword.erase(keyword.find_last_not_of(" \n\r\t") + 1);
 
-    if (keyword.isEmpty()) {
+    if (keyword.empty()) {
       return "";
     }
 
@@ -1668,7 +1696,7 @@ namespace Isis {
     //  PVLs. However, "HELLO WORLD" has an explicit (not implied) double quote.
     //  We do consider <> as quotes.
     bool impliedQuote = true;
-    QChar quoteEnd = ' ';
+    char quoteEnd = ' ';
     bool keepQuotes = false;
 
     if (keyword[0] == '\'' || keyword[0] == '"') {
@@ -1718,34 +1746,35 @@ namespace Isis {
       }
     }
 
-    QString startQuote;
+    std::string startQuote;
     // non-implied delimeters need the opening delimiter ignored. Remember
     //  startQuote in case of error later on we can reconstruct the original
-    //  QString.
+    //  std::string.
     if (!impliedQuote) {
       startQuote += keyword[0];
-      keyword = keyword.mid(1);
+      keyword = keyword.substr(1);
     }
 
     // Do we have a known quote end?
-    int quoteEndPos = keyword.indexOf(quoteEnd);
+    int quoteEndPos = keyword.find(quoteEnd);
 
     if (quoteEndPos != -1) {
-      value = keyword.mid(0, quoteEndPos);
+      value = keyword.substr(0, quoteEndPos);
 
       // Trim keyword 1 past end delimiter (if end delimiter is last, this
-      // results in empty QString). If the close delimiter is ')' or ',' then
+      // results in empty std::string). If the close delimiter is ')' or ',' then
       // leave it be however, since we need to preserve that to denote this was
       //  an end of a valuein array keyword.
       if (!impliedQuote) {
-        keyword = keyword.mid(quoteEndPos + 1);
+        keyword = keyword.substr(quoteEndPos + 1);
       }
       else {
-        keyword = keyword.mid(quoteEndPos);
+        keyword = keyword.substr(quoteEndPos);
       }
 
       // Make sure we dont have padding
-      keyword = keyword.trimmed();
+      keyword.erase(0, keyword.find_first_not_of(" \n\r\t"));
+	    keyword.erase(keyword.find_last_not_of(" \n\r\t") + 1);
 
       if (keepQuotes) {
         value = startQuote + value + quoteEnd;
@@ -1756,7 +1785,7 @@ namespace Isis {
     // implied quotes terminate at end of keyword; otherwise we have a problem
     //   (which is this condition)
     else if (!impliedQuote) {
-      // restore the original QString
+      // restore the original std::string
       keyword = startQuote + keyword;
       quoteProblem = true;
 
@@ -1783,12 +1812,12 @@ namespace Isis {
    *
    * @param is The stream to read from
    *
-   * @return QString The first encountered line of data
+   * @return std::string The first encountered line of data
    */
-  QString PvlKeyword::readLine(std::istream &is, bool insideComment) {
-    QString lineOfData;
+  std::string PvlKeyword::readLine(std::istream &is, bool insideComment) {
+    std::string lineOfData;
 
-    while(is.good() && lineOfData.isEmpty()) {
+    while(is.good() && lineOfData.empty()) {
 
       // read until \n (works for both \r\n and \n) or */
       while(is.good() &&
@@ -1822,7 +1851,8 @@ namespace Isis {
       }
 
       // Trim off non-visible characters from this line of data
-      lineOfData = lineOfData.trimmed();
+      lineOfData.erase(0, lineOfData.find_first_not_of(" \n\r\t"));
+	    lineOfData.erase(lineOfData.find_last_not_of(" \n\r\t") + 1);
 
       // read up to next non-whitespace in input stream
       while(is.good() &&
@@ -1868,7 +1898,7 @@ namespace Isis {
       os << " ";
       ++startColumn;
     }
-    QString keyname = tempFormat->formatName(keyword);
+    std::string keyname = tempFormat->formatName(keyword);
     os << keyname;
     startColumn += keyname.length();
 
@@ -1886,7 +1916,7 @@ namespace Isis {
     }
 
     // Loop and write each array value
-    QString stringToWrite;
+    std::string stringToWrite;
     for (int i = 0; i < keyword.size(); i ++) {
       stringToWrite += tempFormat->formatValue(keyword, i);
     }
@@ -1924,7 +1954,7 @@ namespace Isis {
       }
 
       if (other.m_units) {
-        m_units = new std::vector<QString>(*other.m_units);
+        m_units = new std::vector<std::string>(*other.m_units);
       }
 
       if (m_comments) {
@@ -1933,7 +1963,7 @@ namespace Isis {
       }
 
       if (other.m_comments) {
-        m_comments = new std::vector<QString>(*other.m_comments);
+        m_comments = new std::vector<std::string>(*other.m_comments);
       }
 
       m_width = other.m_width;
@@ -1955,30 +1985,31 @@ namespace Isis {
    * @param psValueType  - Value Type (positive / negative) for numbers
    * @param pvlKwrdValue - Template Keyword __Value or __Range to validate keyword's value
    */
-  void PvlKeyword::validateKeyword(PvlKeyword & pvlKwrd, QString psValueType, PvlKeyword* pvlKwrdValue)
+  void PvlKeyword::validateKeyword(PvlKeyword & pvlKwrd, std::string psValueType, PvlKeyword* pvlKwrdValue)
   {
     int iSize = pvlKwrd.size();
 
-    QString sType = m_values[0].toLower();
+    std::string sType(m_values[0]);
+    std::transform(sType.begin(), sType.end(), sType.begin(), ::tolower);
 
     // Value type
     if (psValueType.length()) {
-      psValueType = psValueType.toLower();
+      std::transform(psValueType.begin(), psValueType.end(), psValueType.begin(), ::tolower);
     }
 
     double dRangeMin=0, dRangeMax=0;
     bool bRange = false;
     bool bValue = false;
     if (pvlKwrdValue != NULL) {
-      QString sValueName = pvlKwrdValue->name();
+      std::string sValueName = pvlKwrdValue->name();
 
       // Check for Range
-      if (sValueName.contains("__Range")) {
-        dRangeMin = toDouble((*pvlKwrdValue)[0]);
-        dRangeMax = toDouble((*pvlKwrdValue)[1]);
+      if (sValueName.find("__Range") != std::string::npos) {
+        dRangeMin = std::stod((*pvlKwrdValue)[0]);
+        dRangeMax = std::stod((*pvlKwrdValue)[1]);
         bRange = true;
       }
-      else if (sValueName.contains("__Value")) {
+      else if (sValueName.find("__Value") != std::string::npos) {
         bValue = true;
       }
     }
@@ -1986,36 +2017,37 @@ namespace Isis {
     // Type integer
     if (sType == "integer") {
       for (int i=0; i<iSize; i++) {
-        QString sValue = pvlKwrd[i].toLower();
+        std::string sValue = pvlKwrd[i];
+        std::transform(sValue.begin(), sValue.end(), sValue.begin(), ::tolower);
         if (sValue != "null"){
           int iValue=0;
           try {
-            iValue = toInt(sValue);
+            iValue = std::stoi(sValue);
           } catch (IException & e) {
-            QString sErrMsg = "\"" +pvlKwrd.name() +"\" expects an Integer value";
+            std::string sErrMsg = "\"" +pvlKwrd.name() +"\" expects an Integer value";
             throw IException(e, IException::User, sErrMsg, _FILEINFO_);
           }
           if (bRange && (iValue < dRangeMin || iValue > dRangeMax)) {
-            QString sErrMsg = "\"" +pvlKwrd.name() +"\" is not in the specified Range";
+            std::string sErrMsg = "\"" +pvlKwrd.name() +"\" is not in the specified Range";
             throw IException(IException::User, sErrMsg, _FILEINFO_);
           }
           if (bValue) {
             bool bFound = false;
             for (int j=0; j<pvlKwrdValue->size(); j++) {
-              if (iValue == toInt((*pvlKwrdValue)[j])) {
+              if (iValue == std::stoi((*pvlKwrdValue)[j])) {
                 bFound = true;
                 break;
               }
             }
             if (!bFound) {
-              QString sErrMsg = "\"" +pvlKwrd.name() +"\" has value not in the accepted list";
+              std::string sErrMsg = "\"" +pvlKwrd.name() +"\" has value not in the accepted list";
               throw IException(IException::User, sErrMsg, _FILEINFO_);
             }
           }
           // Type is specified (positive / negative)
           if (psValueType.length()) {
             if ((psValueType == "positive" && iValue < 0) || (psValueType == "negative" && iValue >= 0) ) {
-              QString sErrMsg = "\"" +pvlKwrd.name() +"\" has invalid value";
+              std::string sErrMsg = "\"" +pvlKwrd.name() +"\" has invalid value";
               throw IException(IException::User, sErrMsg, _FILEINFO_);
             }
           }
@@ -2027,30 +2059,31 @@ namespace Isis {
     // Type double
     if (sType == "double") {
       for (int i=0; i<iSize; i++) {
-        QString sValue = pvlKwrd[i].toLower();
+        std::string sValue = pvlKwrd[i];
+        std::transform(sValue.begin(), sValue.end(), sValue.begin(), ::tolower);
         if (sValue != "null"){
-          double dValue = toDouble(sValue);
+          double dValue = std::stod(sValue);
           if (bRange && (dValue < dRangeMin || dValue > dRangeMax)) {
-            QString sErrMsg = "\"" +pvlKwrd.name() +"\" is not in the specified Range";
+            std::string sErrMsg = "\"" +pvlKwrd.name() +"\" is not in the specified Range";
             throw IException(IException::User, sErrMsg, _FILEINFO_);
           }
           if (bValue) {
             bool bFound = false;
             for (int j=0; j<pvlKwrdValue->size(); j++) {
-              if (dValue == toDouble((*pvlKwrdValue)[j])) {
+              if (dValue == std::stod((*pvlKwrdValue)[j])) {
                 bFound = true;
                 break;
               }
             }
             if (!bFound) {
-              QString sErrMsg = "\"" +pvlKwrd.name() +"\" has value not in the accepted list";
+              std::string sErrMsg = "\"" +pvlKwrd.name() +"\" has value not in the accepted list";
               throw IException(IException::User, sErrMsg, _FILEINFO_);
             }
           }
           // Type is specified (positive / negative)
           if (psValueType.length()) {
             if ((psValueType == "positive" && dValue < 0) || (psValueType == "negative" && dValue >= 0) ) {
-              QString sErrMsg = "\"" +pvlKwrd.name() +"\" has invalid value";
+              std::string sErrMsg = "\"" +pvlKwrd.name() +"\" has invalid value";
               throw IException(IException::User, sErrMsg, _FILEINFO_);
             }
           }
@@ -2062,9 +2095,10 @@ namespace Isis {
     // Type boolean
     if (sType == "boolean") {
       for (int i=0; i<iSize; i++) {
-        QString sValue = pvlKwrd[i].toLower();
+        std::string sValue = pvlKwrd[i];
+        std::transform(sValue.begin(), sValue.end(), sValue.begin(), ::tolower);
         if (sValue != "null" && sValue != "true" && sValue != "false"){
-          QString sErrMsg = "Wrong Type of value in the Keyword \"" + name() + "\" \n";
+          std::string sErrMsg = "Wrong Type of value in the Keyword \"" + name() + "\" \n";
           throw IException(IException::User, sErrMsg, _FILEINFO_);
         }
       }
@@ -2074,17 +2108,20 @@ namespace Isis {
     // Type String
     if (sType == "string") {
       for (int i=0; i<iSize; i++) {
-        QString sValue = pvlKwrd[i].toLower();
+        std::string sValue = pvlKwrd[i];
+        std::transform(sValue.begin(), sValue.end(), sValue.begin(), ::tolower);
         if (bValue) {
           bool bValFound = false;
           for (int i=0; i<pvlKwrdValue->size(); i++) {
-            if (sValue == (*pvlKwrdValue)[i].toLower()) {
+            std::string kwrdValue = (*pvlKwrdValue)[i];
+            std::transform(kwrdValue.begin(), kwrdValue.end(), kwrdValue.begin(), ::tolower);
+            if (sValue == kwrdValue) {
               bValFound = true;
               break;
             }
           }
           if (!bValFound) {
-            QString sErrMsg = "Wrong Type of value in the Keyword \"" + name() + "\" \n";
+            std::string sErrMsg = "Wrong Type of value in the Keyword \"" + name() + "\" \n";
             throw IException(IException::User, sErrMsg, _FILEINFO_);
           }
         }

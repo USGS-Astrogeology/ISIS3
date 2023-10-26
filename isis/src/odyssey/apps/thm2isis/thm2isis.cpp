@@ -201,7 +201,7 @@ namespace Isis {
     // The original band is the original ISIS cube band number upon ingestion
     PvlKeyword originalBand("OriginalBand");
     for(int i = 1; i <= numBands; i++) {
-      originalBand.addValue(toString(i));
+      originalBand.addValue(std::to_string(i));
     }
     bandBin += originalBand;
 

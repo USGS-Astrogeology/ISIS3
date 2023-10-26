@@ -140,7 +140,7 @@ namespace Isis {
    * @param filename Name of Pvl file to open.
    */
   void DbAccess::load(const QString &filename) {
-    Pvl pvl(filename);
+    Pvl pvl(filename.toStdString());
     PvlObject db = pvl.findObject("Database");
     load(db);
   }

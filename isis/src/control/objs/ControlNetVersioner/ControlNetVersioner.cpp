@@ -206,12 +206,12 @@ namespace Isis {
     pvl.addObject(PvlObject("ControlNetwork"));
     PvlObject &network = pvl.findObject("ControlNetwork");
 
-    network += PvlKeyword("NetworkId", m_header.networkID);
-    network += PvlKeyword("TargetName", m_header.targetName);
-    network += PvlKeyword("UserName", m_header.userName);
-    network += PvlKeyword("Created", m_header.created);
-    network += PvlKeyword("LastModified", m_header.lastModified);
-    network += PvlKeyword("Description", m_header.description);
+    network += PvlKeyword("NetworkId", m_header.networkID.toStdString());
+    network += PvlKeyword("TargetName", m_header.targetName.toStdString());
+    network += PvlKeyword("UserName", m_header.userName.toStdString());
+    network += PvlKeyword("Created", m_header.created.toStdString());
+    network += PvlKeyword("LastModified", m_header.lastModified.toStdString());
+    network += PvlKeyword("Description", m_header.description.toStdString());
 
     // This is the Pvl version we're converting to
     network += PvlKeyword("Version", "5");
@@ -232,18 +232,18 @@ namespace Isis {
       }
 
       if ( controlPoint->GetId().isEmpty() ) {
-        QString msg = "Unable to write control net to PVL file. "
+        std::string msg = "Unable to write control net to PVL file. "
                       "Invalid control point has no point ID value.";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       else {
-        pvlPoint += PvlKeyword("PointId", controlPoint->GetId());
+        pvlPoint += PvlKeyword("PointId", controlPoint->GetId().toStdString());
       }
       if ( QString::compare(controlPoint->GetChooserName(), "Null", Qt::CaseInsensitive) != 0 ) {
-        pvlPoint += PvlKeyword("ChooserName", controlPoint->GetChooserName());
+        pvlPoint += PvlKeyword("ChooserName", controlPoint->GetChooserName().toStdString());
       }
       if ( QString::compare(controlPoint->GetDateTime(), "Null", Qt::CaseInsensitive) != 0 ) {
-        pvlPoint += PvlKeyword("DateTime", controlPoint->GetDateTime());
+        pvlPoint += PvlKeyword("DateTime", controlPoint->GetDateTime().toStdString());
       }
       if ( controlPoint->IsEditLocked() ) {
         pvlPoint += PvlKeyword("EditLock", "True");
@@ -274,7 +274,7 @@ namespace Isis {
 
       if ( controlPoint->HasAprioriSurfacePointSourceFile() ) {
         pvlPoint += PvlKeyword("AprioriXYZSourceFile",
-                        controlPoint->GetAprioriSurfacePointSourceFile());
+                        controlPoint->GetAprioriSurfacePointSourceFile().toStdString());
       }
 
       switch ( controlPoint->GetAprioriRadiusSource() ) {
@@ -299,25 +299,25 @@ namespace Isis {
 
       if ( controlPoint->HasAprioriRadiusSourceFile() ) {
         pvlPoint += PvlKeyword("AprioriRadiusSourceFile",
-                        controlPoint->GetAprioriRadiusSourceFile());
+                        controlPoint->GetAprioriRadiusSourceFile().toStdString());
         }
 
       // add surface point x/y/z, convert to lat,lon,radius and output as comment
       SurfacePoint aprioriSurfacePoint = controlPoint->GetAprioriSurfacePoint();
       if ( aprioriSurfacePoint.Valid() ) {
-        PvlKeyword aprioriX("AprioriX", toString(aprioriSurfacePoint.GetX().meters()), "meters");
-        PvlKeyword aprioriY("AprioriY", toString(aprioriSurfacePoint.GetY().meters()), "meters");
-        PvlKeyword aprioriZ("AprioriZ", toString(aprioriSurfacePoint.GetZ().meters()), "meters");
+        PvlKeyword aprioriX("AprioriX", std::to_string(aprioriSurfacePoint.GetX().meters()), "meters");
+        PvlKeyword aprioriY("AprioriY", std::to_string(aprioriSurfacePoint.GetY().meters()), "meters");
+        PvlKeyword aprioriZ("AprioriZ", std::to_string(aprioriSurfacePoint.GetZ().meters()), "meters");
 
         aprioriX.addComment("AprioriLatitude = "
-                            + toString(aprioriSurfacePoint.GetLatitude().degrees())
+                            + std::to_string(aprioriSurfacePoint.GetLatitude().degrees())
                             + " <degrees>");
         aprioriY.addComment("AprioriLongitude = "
-                            + toString(aprioriSurfacePoint.GetLongitude().degrees())
+                            + std::to_string(aprioriSurfacePoint.GetLongitude().degrees())
                             + " <degrees>");
 
         aprioriZ.addComment("AprioriRadius = "
-                            + toString(aprioriSurfacePoint.GetLocalRadius().meters())
+                            + std::to_string(aprioriSurfacePoint.GetLocalRadius().meters())
                             + " <meters>");
 
         pvlPoint += aprioriX;
@@ -331,12 +331,12 @@ namespace Isis {
 
           // Matrix units are meters squared
           PvlKeyword matrix("AprioriCovarianceMatrix");
-          matrix += toString(aprioriCovarianceMatrix(0, 0));
-          matrix += toString(aprioriCovarianceMatrix(0, 1));
-          matrix += toString(aprioriCovarianceMatrix(0, 2));
-          matrix += toString(aprioriCovarianceMatrix(1, 1));
-          matrix += toString(aprioriCovarianceMatrix(1, 2));
-          matrix += toString(aprioriCovarianceMatrix(2, 2));
+          matrix += std::to_string(aprioriCovarianceMatrix(0, 0));
+          matrix += std::to_string(aprioriCovarianceMatrix(0, 1));
+          matrix += std::to_string(aprioriCovarianceMatrix(0, 2));
+          matrix += std::to_string(aprioriCovarianceMatrix(1, 1));
+          matrix += std::to_string(aprioriCovarianceMatrix(1, 2));
+          matrix += std::to_string(aprioriCovarianceMatrix(2, 2));
 
           // *** TODO *** What do we do in the case of bundled in rectangular coordinates?
           // For now we do nothing.
@@ -351,7 +351,7 @@ namespace Isis {
               + " <meters>  AprioriRadiusSigma = "
               + toString(aprioriSurfacePoint.GetLocalRadiusSigma().meters())
               + " <meters>";
-            matrix.addComment(sigmas);
+            matrix.addComment(sigmas.toStdString());
           }
 
           // If the covariance matrix has a value, add it to the PVL point.
@@ -385,20 +385,20 @@ namespace Isis {
       SurfacePoint adjustedSurfacePoint = controlPoint->GetAdjustedSurfacePoint();
       if ( adjustedSurfacePoint.Valid() ) {
         PvlKeyword adjustedX("AdjustedX",
-                             toString(adjustedSurfacePoint.GetX().meters()), "meters");
+                             std::to_string(adjustedSurfacePoint.GetX().meters()), "meters");
         PvlKeyword adjustedY("AdjustedY",
-                             toString(adjustedSurfacePoint.GetY().meters()), "meters");
+                             std::to_string(adjustedSurfacePoint.GetY().meters()), "meters");
         PvlKeyword adjustedZ("AdjustedZ",
-                             toString(adjustedSurfacePoint.GetZ().meters()), "meters");
+                             std::to_string(adjustedSurfacePoint.GetZ().meters()), "meters");
 
         adjustedX.addComment("AdjustedLatitude = "
-                             + toString(adjustedSurfacePoint.GetLatitude().degrees())
+                             + std::to_string(adjustedSurfacePoint.GetLatitude().degrees())
                              + " <degrees>");
         adjustedY.addComment("AdjustedLongitude = "
-                             + toString(adjustedSurfacePoint.GetLongitude().degrees())
+                             + std::to_string(adjustedSurfacePoint.GetLongitude().degrees())
                              + " <degrees>");
         adjustedZ.addComment("AdjustedRadius = "
-                             + toString(adjustedSurfacePoint.GetLocalRadius().meters())
+                             + std::to_string(adjustedSurfacePoint.GetLocalRadius().meters())
                              + " <meters>");
 
         pvlPoint += adjustedX;
@@ -411,12 +411,12 @@ namespace Isis {
         if ( adjustedCovarianceMatrix.size1() > 0 ) {
 
           PvlKeyword matrix("AdjustedCovarianceMatrix");
-          matrix += toString(adjustedCovarianceMatrix(0, 0));
-          matrix += toString(adjustedCovarianceMatrix(0, 1));
-          matrix += toString(adjustedCovarianceMatrix(0, 2));
-          matrix += toString(adjustedCovarianceMatrix(1, 1));
-          matrix += toString(adjustedCovarianceMatrix(1, 2));
-          matrix += toString(adjustedCovarianceMatrix(2, 2));
+          matrix += std::to_string(adjustedCovarianceMatrix(0, 0));
+          matrix += std::to_string(adjustedCovarianceMatrix(0, 1));
+          matrix += std::to_string(adjustedCovarianceMatrix(0, 2));
+          matrix += std::to_string(adjustedCovarianceMatrix(1, 1));
+          matrix += std::to_string(adjustedCovarianceMatrix(1, 2));
+          matrix += std::to_string(adjustedCovarianceMatrix(2, 2));
 
           if ( adjustedSurfacePoint.GetLatSigmaDistance().meters() != Isis::Null
                && adjustedSurfacePoint.GetLonSigmaDistance().meters() != Isis::Null
@@ -430,7 +430,7 @@ namespace Isis {
               + toString(adjustedSurfacePoint.GetLocalRadiusSigma().meters())
               + " <meters>";
 
-            matrix.addComment(sigmas);
+            matrix.addComment(sigmas.toStdString());
           }
           // If the covariance matrix has a value, add it to the PVL point.
           if ( adjustedCovarianceMatrix(0, 0) != 0.0
@@ -448,7 +448,7 @@ namespace Isis {
       for (int j = 0; j < controlPoint->GetNumMeasures(); j++) {
         PvlGroup pvlMeasure("ControlMeasure");
         const ControlMeasure &controlMeasure = *controlPoint->GetMeasure(j);
-        pvlMeasure += PvlKeyword("SerialNumber", controlMeasure.GetCubeSerialNumber());
+        pvlMeasure += PvlKeyword("SerialNumber", controlMeasure.GetCubeSerialNumber().toStdString());
 
         switch ( controlMeasure.GetType() ) {
           case ControlMeasure::Candidate:
@@ -466,10 +466,10 @@ namespace Isis {
         }
 
         if (QString::compare(controlMeasure.GetChooserName(), "Null", Qt::CaseInsensitive) != 0) {
-          pvlMeasure += PvlKeyword("ChooserName", controlMeasure.GetChooserName());
+          pvlMeasure += PvlKeyword("ChooserName", controlMeasure.GetChooserName().toStdString());
         }
         if (QString::compare(controlMeasure.GetDateTime(), "Null", Qt::CaseInsensitive) != 0) {
-          pvlMeasure += PvlKeyword("DateTime", controlMeasure.GetDateTime());
+          pvlMeasure += PvlKeyword("DateTime", controlMeasure.GetDateTime().toStdString());
         }
         if ( controlMeasure.IsEditLocked() ) {
           pvlMeasure += PvlKeyword("EditLock", "True");
@@ -480,50 +480,50 @@ namespace Isis {
         }
 
         if ( controlMeasure.GetSample() != Isis::Null) {
-          pvlMeasure += PvlKeyword("Sample", toString(controlMeasure.GetSample()));
+          pvlMeasure += PvlKeyword("Sample", std::to_string(controlMeasure.GetSample()));
 
         }
 
         if ( controlMeasure.GetLine() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("Line", toString(controlMeasure.GetLine()));
+          pvlMeasure += PvlKeyword("Line", std::to_string(controlMeasure.GetLine()));
         }
 
         if ( controlMeasure.GetDiameter() != Isis::Null
              && controlMeasure.GetDiameter() != 0. ) {
-          pvlMeasure += PvlKeyword("Diameter", toString(controlMeasure.GetDiameter()));
+          pvlMeasure += PvlKeyword("Diameter", std::to_string(controlMeasure.GetDiameter()));
         }
 
         if ( controlMeasure.GetAprioriSample() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("AprioriSample", toString(controlMeasure.GetAprioriSample()));
+          pvlMeasure += PvlKeyword("AprioriSample", std::to_string(controlMeasure.GetAprioriSample()));
         }
 
         if ( controlMeasure.GetAprioriLine() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("AprioriLine", toString(controlMeasure.GetAprioriLine()));
+          pvlMeasure += PvlKeyword("AprioriLine", std::to_string(controlMeasure.GetAprioriLine()));
         }
 
         if ( controlMeasure.GetSampleSigma() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("SampleSigma", toString(controlMeasure.GetSampleSigma()),
+          pvlMeasure += PvlKeyword("SampleSigma", std::to_string(controlMeasure.GetSampleSigma()),
                                    "pixels");
         }
 
         if ( controlMeasure.GetLineSigma() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("LineSigma", toString(controlMeasure.GetLineSigma()),
+          pvlMeasure += PvlKeyword("LineSigma", std::to_string(controlMeasure.GetLineSigma()),
                                    "pixels");
         }
 
         if ( controlMeasure.GetSampleResidual() != Isis::Null ) {
           pvlMeasure += PvlKeyword("SampleResidual",
-                                   toString(controlMeasure.GetSampleResidual()),
+                                   std::to_string(controlMeasure.GetSampleResidual()),
                                    "pixels");
         }
 
         if ( controlMeasure.GetLineResidual() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("LineResidual", toString(controlMeasure.GetLineResidual()),
+          pvlMeasure += PvlKeyword("LineResidual", std::to_string(controlMeasure.GetLineResidual()),
                                    "pixels");
         }
 
         if ( controlMeasure.IsRejected() ) {
-          pvlMeasure += PvlKeyword("JigsawRejected", toString(controlMeasure.IsRejected()));
+          pvlMeasure += PvlKeyword("JigsawRejected", std::to_string(controlMeasure.IsRejected()));
         }
 
         foreach (ControlMeasureLogData log, controlMeasure.GetLogDataEntries()) {
@@ -553,7 +553,7 @@ namespace Isis {
   void ControlNetVersioner::read(const FileName netFile, Progress *progress) {
     try {
 
-      const Pvl &network(netFile.expanded());
+      const Pvl &network(netFile.expanded().toStdString());
 
       if ( network.hasObject("ProtoBuffer") ) {
         readProtobuf(network, netFile, progress);
@@ -562,12 +562,12 @@ namespace Isis {
         readPvl(network, progress);
       }
       else {
-        QString msg = "Could not determine the control network file type";
+        std::string msg = "Could not determine the control network file type";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
     }
     catch (IException &e) {
-      QString msg = "Reading the control network [" + netFile.name()
+      std::string msg = "Reading the control network [" + netFile.name().toStdString()
                     + "] failed";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
@@ -587,7 +587,7 @@ namespace Isis {
     int version = 1;
 
     if ( controlNetwork.hasKeyword("Version") ) {
-      version = toInt(controlNetwork["Version"][0]);
+      version = std::stoi(controlNetwork["Version"][0]);
     }
 
     switch ( version ) {
@@ -607,7 +607,7 @@ namespace Isis {
         readPvlV0005(controlNetwork, progress);
         break;
       default:
-        QString msg = "The Pvl file version [" + toString(version)
+        std::string msg = "The Pvl file version [" + std::to_string(version)
                       + "] is not supported";
         throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -625,16 +625,16 @@ namespace Isis {
     ControlNetHeaderV0001 header;
 
     try {
-      header.networkID = network.findKeyword("NetworkId")[0];
-      header.targetName = network.findKeyword("TargetName")[0];
-      header.created = network.findKeyword("Created")[0];
-      header.lastModified = network.findKeyword("LastModified")[0];
-      header.description = network.findKeyword("Description")[0];
-      header.userName = network.findKeyword("UserName")[0];
+      header.networkID = QString::fromStdString(network.findKeyword("NetworkId")[0]);
+      header.targetName = QString::fromStdString(network.findKeyword("TargetName")[0]);
+      header.created = QString::fromStdString(network.findKeyword("Created")[0]);
+      header.lastModified = QString::fromStdString(network.findKeyword("LastModified")[0]);
+      header.description = QString::fromStdString(network.findKeyword("Description")[0]);
+      header.userName = QString::fromStdString(network.findKeyword("UserName")[0]);
       createHeader(header);
     }
     catch (IException &e) {
-      QString msg = "Missing required header information.";
+      std::string msg = "Missing required header information.";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -659,8 +659,8 @@ namespace Isis {
 
       }
       catch (IException &e) {
-        QString msg = "Failed to initialize control point at index ["
-                      + toString(objectIndex) + "].";
+        std::string msg = "Failed to initialize control point at index ["
+                      + std::to_string(objectIndex) + "].";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -677,16 +677,16 @@ namespace Isis {
     // initialize the header
     try {
       ControlNetHeaderV0002 header;
-      header.networkID = network.findKeyword("NetworkId")[0];
-      header.targetName = network.findKeyword("TargetName")[0];
-      header.created = network.findKeyword("Created")[0];
-      header.lastModified = network.findKeyword("LastModified")[0];
-      header.description = network.findKeyword("Description")[0];
-      header.userName = network.findKeyword("UserName")[0];
+      header.networkID = QString::fromStdString(network.findKeyword("NetworkId")[0]);
+      header.targetName = QString::fromStdString(network.findKeyword("TargetName")[0]);
+      header.created = QString::fromStdString(network.findKeyword("Created")[0]);
+      header.lastModified = QString::fromStdString(network.findKeyword("LastModified")[0]);
+      header.description = QString::fromStdString(network.findKeyword("Description")[0]);
+      header.userName = QString::fromStdString(network.findKeyword("UserName")[0]);
       createHeader(header);
     }
     catch (IException &e) {
-      QString msg = "Missing required header information.";
+      std::string msg = "Missing required header information.";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -710,8 +710,8 @@ namespace Isis {
 
       }
       catch (IException &e) {
-        QString msg = "Failed to initialize control point at index ["
-                      + toString(objectIndex) + "].";
+        std::string msg = "Failed to initialize control point at index ["
+                      + std::to_string(objectIndex) + "].";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -728,16 +728,16 @@ namespace Isis {
     // initialize the header
     try {
       ControlNetHeaderV0003 header;
-      header.networkID = network.findKeyword("NetworkId")[0];
-      header.targetName = network.findKeyword("TargetName")[0];
-      header.created = network.findKeyword("Created")[0];
-      header.lastModified = network.findKeyword("LastModified")[0];
-      header.description = network.findKeyword("Description")[0];
-      header.userName = network.findKeyword("UserName")[0];
+      header.networkID = QString::fromStdString(network.findKeyword("NetworkId")[0]);
+      header.targetName = QString::fromStdString(network.findKeyword("TargetName")[0]);
+      header.created = QString::fromStdString(network.findKeyword("Created")[0]);
+      header.lastModified = QString::fromStdString(network.findKeyword("LastModified")[0]);
+      header.description = QString::fromStdString(network.findKeyword("Description")[0]);
+      header.userName = QString::fromStdString(network.findKeyword("UserName")[0]);
       createHeader(header);
     }
     catch (IException &e) {
-      QString msg = "Missing required header information.";
+      std::string msg = "Missing required header information.";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -760,8 +760,8 @@ namespace Isis {
 
       }
       catch (IException &e) {
-        QString msg = "Failed to initialize control point at index ["
-                      + toString(objectIndex) + "].";
+        std::string msg = "Failed to initialize control point at index ["
+                      + std::to_string(objectIndex) + "].";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -778,16 +778,16 @@ namespace Isis {
     // initialize the header
     try {
       ControlNetHeaderV0004 header;
-      header.networkID = network.findKeyword("NetworkId")[0];
-      header.targetName = network.findKeyword("TargetName")[0];
-      header.created = network.findKeyword("Created")[0];
-      header.lastModified = network.findKeyword("LastModified")[0];
-      header.description = network.findKeyword("Description")[0];
-      header.userName = network.findKeyword("UserName")[0];
+      header.networkID = QString::fromStdString(network.findKeyword("NetworkId")[0]);
+      header.targetName = QString::fromStdString(network.findKeyword("TargetName")[0]);
+      header.created = QString::fromStdString(network.findKeyword("Created")[0]);
+      header.lastModified = QString::fromStdString(network.findKeyword("LastModified")[0]);
+      header.description = QString::fromStdString(network.findKeyword("Description")[0]);
+      header.userName = QString::fromStdString(network.findKeyword("UserName")[0]);
       createHeader(header);
     }
     catch (IException &e) {
-      QString msg = "Missing required header information.";
+      std::string msg = "Missing required header information.";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -809,8 +809,8 @@ namespace Isis {
         }
       }
       catch (IException &e) {
-        QString msg = "Failed to initialize control point at index ["
-                      + toString(objectIndex) + "].";
+        std::string msg = "Failed to initialize control point at index ["
+                      + std::to_string(objectIndex) + "].";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -827,16 +827,16 @@ namespace Isis {
     // initialize the header
     try {
       ControlNetHeaderV0005 header;
-      header.networkID = network.findKeyword("NetworkId")[0];
-      header.targetName = network.findKeyword("TargetName")[0];
-      header.created = network.findKeyword("Created")[0];
-      header.lastModified = network.findKeyword("LastModified")[0];
-      header.description = network.findKeyword("Description")[0];
-      header.userName = network.findKeyword("UserName")[0];
+      header.networkID = QString::fromStdString(network.findKeyword("NetworkId")[0]);
+      header.targetName = QString::fromStdString(network.findKeyword("TargetName")[0]);
+      header.created = QString::fromStdString(network.findKeyword("Created")[0]);
+      header.lastModified = QString::fromStdString(network.findKeyword("LastModified")[0]);
+      header.description = QString::fromStdString(network.findKeyword("Description")[0]);
+      header.userName = QString::fromStdString(network.findKeyword("UserName")[0]);
       createHeader(header);
     }
     catch (IException &e) {
-      QString msg = "Missing required header information.";
+      std::string msg = "Missing required header information.";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -858,8 +858,8 @@ namespace Isis {
         }
       }
       catch (IException &e) {
-        QString msg = "Failed to initialize control point at index ["
-                      + toString(objectIndex) + "].";
+        std::string msg = "Failed to initialize control point at index ["
+                      + std::to_string(objectIndex) + "].";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -883,7 +883,7 @@ namespace Isis {
     const PvlGroup &netInfo = protoBuf.findGroup("ControlNetworkInfo");
 
     if ( netInfo.hasKeyword("Version") ) {
-      version = toInt(netInfo["Version"][0]);
+      version = std::stoi(netInfo["Version"][0]);
     }
     switch ( version ) {
       case 1:
@@ -896,7 +896,7 @@ namespace Isis {
         readProtobufV0005(header, netFile, progress);
         break;
       default:
-        QString msg = "The Protobuf file version [" + toString(version)
+        std::string msg = "The Protobuf file version [" + std::to_string(version)
                       + "] is not supported";
         throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -922,7 +922,7 @@ namespace Isis {
 
     fstream input(netFile.expanded().toLatin1().data(), ios::in | ios::binary);
     if ( !input.is_open() ) {
-      QString msg = "Failed to open protobuf file [" + netFile.name() + "].";
+      std::string msg = "Failed to open protobuf file [" + netFile.name().toStdString() + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -937,16 +937,16 @@ namespace Isis {
     ControlNetFileProtoV0001 protoNet;
     try {
       if ( !protoNet.ParseFromCodedStream(&codedInStream) ) {
-        QString msg = "Failed to read input PB file [" + netFile.name() + "].";
+        std::string msg = "Failed to read input PB file [" + netFile.name().toStdString() + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
     catch (IException &e) {
-      QString msg = "Cannot parse binary protobuf file";
+      std::string msg = "Cannot parse binary protobuf file";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
     catch (...) {
-      QString msg = "Cannot parse binary PB file";
+      std::string msg = "Cannot parse binary PB file";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -966,12 +966,12 @@ namespace Isis {
     ControlNetLogDataProtoV0001 protoLogData;
     try {
       if ( !protoLogData.ParseFromCodedStream(&codedLogInStream) ) {
-        QString msg = "Failed to read log data in protobuf file [" + netFile.name() + "].";
+        std::string msg = "Failed to read log data in protobuf file [" + netFile.name().toStdString() + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
     catch (...) {
-      QString msg = "Cannot parse binary protobuf file's log data";
+      std::string msg = "Cannot parse binary protobuf file's log data";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -992,7 +992,7 @@ namespace Isis {
       createHeader(header);
     }
     catch (IException &e) {
-      QString msg = "Failed to parse the header from the protobuf control network file.";
+      std::string msg = "Failed to parse the header from the protobuf control network file.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -1018,8 +1018,8 @@ namespace Isis {
 
       }
       catch (IException &e) {
-        QString msg = "Failed to convert version 1 protobuf control point at index ["
-                      + toString(i) + "] into a ControlPoint.";
+        std::string msg = "Failed to convert version 1 protobuf control point at index ["
+                      + std::to_string(i) + "] into a ControlPoint.";
         throw IException(e, IException::User, msg, _FILEINFO_);
       }
     }
@@ -1046,7 +1046,7 @@ namespace Isis {
 
     fstream input(netFile.expanded().toLatin1().data(), ios::in | ios::binary);
     if ( !input.is_open() ) {
-      QString msg = "Failed to open control network file" + netFile.name();
+      std::string msg = "Failed to open control network file" + netFile.name().toStdString();
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1061,15 +1061,15 @@ namespace Isis {
       headerCodedInStream.SetTotalBytesLimit(1024 * 1024 * 512);
       CodedInputStream::Limit oldLimit = headerCodedInStream.PushLimit(headerLength);
       if ( !protoHeader.ParseFromCodedStream(&headerCodedInStream) ) {
-        QString msg = "Failed to parse protobuf header from input control net file ["
-                      + netFile.name() + "]";
+        std::string msg = "Failed to parse protobuf header from input control net file ["
+                      + netFile.name().toStdString() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       headerCodedInStream.PopLimit(oldLimit);
       filePos += headerLength;
     }
     catch (...) {
-      QString msg = "An error occured while reading the protobuf control network header.";
+      std::string msg = "An error occured while reading the protobuf control network header.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
@@ -1090,7 +1090,7 @@ namespace Isis {
       createHeader(header);
     }
     catch (IException &e) {
-      QString msg = "Missing required header information.";
+      std::string msg = "Missing required header information.";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -1120,8 +1120,8 @@ namespace Isis {
         pointCodedInStream.PopLimit(oldPointLimit);
       }
       catch (...) {
-        QString msg = "Failed to read protobuf version 2 control point at index ["
-                      + toString(pointIndex) + "].";
+        std::string msg = "Failed to read protobuf version 2 control point at index ["
+                      + std::to_string(pointIndex) + "].";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -1135,8 +1135,8 @@ namespace Isis {
 
       }
       catch (IException &e) {
-        QString msg = "Failed to convert protobuf version 2 control point at index ["
-                      + toString(pointIndex) + "] into a ControlPoint.";
+        std::string msg = "Failed to convert protobuf version 2 control point at index ["
+                      + std::to_string(pointIndex) + "] into a ControlPoint.";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -1165,7 +1165,7 @@ namespace Isis {
 
     fstream input(netFile.expanded().toLatin1().data(), ios::in | ios::binary);
     if ( !input.is_open() ) {
-      QString msg = "Failed to open control network file" + netFile.name();
+      std::string msg = "Failed to open control network file" + netFile.name().toStdString();
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1185,8 +1185,8 @@ namespace Isis {
       CodedInputStream::Limit oldLimit = headerCodedInStream.PushLimit(headerLength);
 
       if ( !protoHeader.ParseFromCodedStream(&headerCodedInStream) ) {
-        QString msg = "Failed to parse protobuf header from input control net file ["
-                      + netFile.name() + "]";
+        std::string msg = "Failed to parse protobuf header from input control net file ["
+                      + netFile.name().toStdString()+ "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -1195,7 +1195,7 @@ namespace Isis {
       filePos += headerLength;
     }
     catch (...) {
-      QString msg = "An error occured while reading the protobuf control network header.";
+      std::string msg = "An error occured while reading the protobuf control network header.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
     // initialize the header from the protobuf header
@@ -1215,7 +1215,7 @@ namespace Isis {
       createHeader(header);
     }
     catch (IException &e) {
-      QString msg = "Missing required header information.";
+      std::string msg = "Missing required header information.";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -1269,8 +1269,8 @@ namespace Isis {
         pointCodedInStream.PopLimit(oldPointLimit);
       }
       catch (...) {
-        QString msg = "Failed to read protobuf version 2 control point at index ["
-                      + toString(pointIndex) + "].";
+        std::string msg = "Failed to read protobuf version 2 control point at index ["
+                      + std::to_string(pointIndex) + "].";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -1284,8 +1284,8 @@ namespace Isis {
 
       }
       catch (IException &e) {
-        QString msg = "Failed to convert protobuf version 2 control point at index ["
-                      + toString(pointIndex) + "] into a ControlPoint.";
+        std::string msg = "Failed to convert protobuf version 2 control point at index ["
+                      + std::to_string(pointIndex) + "] into a ControlPoint.";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -1366,8 +1366,8 @@ namespace Isis {
         pointType = ControlPoint::Fixed;
         break;
       default:
-        QString msg = "Unable to create ControlPoint [" + toString(protoPoint.id().c_str())
-                      + "] from file. Type enumeration [" + toString((int)(protoPoint.type()))
+        std::string msg = "Unable to create ControlPoint [" + protoPoint.id()
+                      + "] from file. Type enumeration [" + std::to_string((int)(protoPoint.type()))
                       + "] is invalid.";
         throw IException(IException::Programmer, msg, _FILEINFO_);
         break;
@@ -1405,7 +1405,7 @@ namespace Isis {
           break;
 
         default:
-          QString msg = "Unknown control point apriori radius source.";
+          std::string msg = "Unknown control point apriori radius source.";
           throw IException(IException::User, msg, _FILEINFO_);
           break;
       }
@@ -1445,7 +1445,7 @@ namespace Isis {
           break;
 
         default:
-          QString msg = "Unknown control point aprioir surface point source.";
+          std::string msg = "Unknown control point aprioir surface point source.";
           throw IException(IException::User, msg, _FILEINFO_);
           break;
       }
@@ -1566,7 +1566,7 @@ namespace Isis {
         measureType = ControlMeasure::RegisteredSubPixel;
         break;
       default:
-        QString msg = "Unknown control measure type.";
+        std::string msg = "Unknown control measure type.";
         throw IException(IException::User, msg, _FILEINFO_);
         break;
     }
@@ -1697,27 +1697,27 @@ namespace Isis {
 
       PvlObject protoCore("Core");
       protoCore.addKeyword(PvlKeyword("HeaderStartByte",
-                           toString((BigInt) startCoreHeaderPos)));
-      protoCore.addKeyword(PvlKeyword("HeaderBytes", toString((BigInt) coreHeaderSize)));
+                           std::to_string(((BigInt) startCoreHeaderPos))));
+      protoCore.addKeyword(PvlKeyword("HeaderBytes", std::to_string(((BigInt) coreHeaderSize))));
 
       BigInt pointsStartByte = (BigInt) (startCoreHeaderPos + coreHeaderSize);
 
-      protoCore.addKeyword(PvlKeyword("PointsStartByte", toString(pointsStartByte)));
+      protoCore.addKeyword(PvlKeyword("PointsStartByte", std::to_string((pointsStartByte))));
 
       protoCore.addKeyword(PvlKeyword("PointsBytes",
-                           toString(pointByteTotal)));
+                           std::to_string(pointByteTotal)));
       protoObj.addObject(protoCore);
 
       PvlGroup netInfo("ControlNetworkInfo");
       netInfo.addComment("This group is for informational purposes only");
-      netInfo += PvlKeyword("NetworkId", protobufHeader.networkid().c_str());
-      netInfo += PvlKeyword("TargetName", protobufHeader.targetname().c_str());
-      netInfo += PvlKeyword("UserName", protobufHeader.username().c_str());
-      netInfo += PvlKeyword("Created", protobufHeader.created().c_str());
-      netInfo += PvlKeyword("LastModified", protobufHeader.lastmodified().c_str());
-      netInfo += PvlKeyword("Description", protobufHeader.description().c_str());
-      netInfo += PvlKeyword("NumberOfPoints", toString(numPoints));
-      netInfo += PvlKeyword("NumberOfMeasures", toString(numMeasures));
+      netInfo += PvlKeyword("NetworkId", protobufHeader.networkid());
+      netInfo += PvlKeyword("TargetName", protobufHeader.targetname());
+      netInfo += PvlKeyword("UserName", protobufHeader.username());
+      netInfo += PvlKeyword("Created", protobufHeader.created());
+      netInfo += PvlKeyword("LastModified", protobufHeader.lastmodified());
+      netInfo += PvlKeyword("Description", protobufHeader.description());
+      netInfo += PvlKeyword("NumberOfPoints", std::to_string(numPoints));
+      netInfo += PvlKeyword("NumberOfMeasures", std::to_string(numMeasures));
       netInfo += PvlKeyword("Version", "5");
       protoObj.addGroup(netInfo);
 
@@ -1730,7 +1730,7 @@ namespace Isis {
 
     }
     catch (...) {
-      QString msg = "Can't write control net file";
+      std::string msg = "Can't write control net file";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -1754,7 +1754,7 @@ namespace Isis {
 
     // Write out the header
     if ( !protobufHeader.SerializeToOstream(output) ) {
-      QString msg = "Failed to write output control network file.";
+      std::string msg = "Failed to write output control network file.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -1777,7 +1777,7 @@ namespace Isis {
       ControlPoint *controlPoint = m_points.takeFirst();
 
       if ( controlPoint->GetId().isEmpty() ) {
-        QString msg = "Unbable to write first point of control net. "
+        std::string msg = "Unbable to write first point of control net. "
                       "Invalid control point has no point ID value.";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }

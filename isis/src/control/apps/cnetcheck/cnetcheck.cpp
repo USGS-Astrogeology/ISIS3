@@ -262,7 +262,7 @@ namespace Isis {
 
     stringstream ss(stringstream::in | stringstream::out);
 
-    results.addKeyword(PvlKeyword("Islands", toString((BigInt)islands.size())));
+    results.addKeyword(PvlKeyword("Islands", std::to_string((BigInt)islands.size())));
     ss << endl << "----------------------------------------" \
        "----------------------------------------" << endl;
     if (islands.size() == 1) {
@@ -279,7 +279,7 @@ namespace Isis {
 
     if (ui.GetBoolean("SINGLEMEASURE")  &&  singleMeasureSerialNumbers.size() > 0) {
       results.addKeyword(
-        PvlKeyword("SingleMeasure", toString((BigInt)singleMeasureSerialNumbers.size())));
+        PvlKeyword("SingleMeasure", std::to_string((BigInt)singleMeasureSerialNumbers.size())));
 
       QString name(FileName(prefix + "SinglePointCubes.txt").expanded());
       writeOutput(num2cube, name,
@@ -297,7 +297,7 @@ namespace Isis {
 
     if (ui.GetBoolean("NOLATLON")  &&  noLatLonSerialNumbers.size() > 0) {
       results.addKeyword(
-        PvlKeyword("NoLatLonCubes", toString((BigInt)noLatLonSerialNumbers.size())));
+        PvlKeyword("NoLatLonCubes", std::to_string((BigInt)noLatLonSerialNumbers.size())));
 
       QString name(FileName(prefix + "NoLatLon.txt").expanded());
       writeOutput(num2cube, name,
@@ -352,14 +352,14 @@ namespace Isis {
           "coverages, are listed in [" << FileName(name).name() << "]" << endl;
 
         results.addKeyword(
-            PvlKeyword(coverageOp, toString((BigInt) failedCoverageCheck)));
+            PvlKeyword(coverageOp.toStdString(), std::to_string((BigInt) failedCoverageCheck)));
       }
     }
 
     // At this point, inListNums is the list of cubes NOT included in the
     //  ControlNet, and inListNums are their those cube's serial numbers.
     if (ui.GetBoolean("NOCONTROL") && !inListNums.empty()) {
-      results.addKeyword(PvlKeyword("NoControl", toString((BigInt)inListNums.size())));
+      results.addKeyword(PvlKeyword("NoControl", std::to_string((BigInt)inListNums.size())));
 
       QString name(FileName(prefix + "NoControl.txt").expanded());
       ofstream out_stream;
@@ -387,7 +387,7 @@ namespace Isis {
     //  cube in the input list.
     if (ui.GetBoolean("NOCUBE")  &&  nonListedSerialNumbers.size() > 0) {
       results.addKeyword(
-        PvlKeyword("NoCube", toString((BigInt)nonListedSerialNumbers.size())));
+        PvlKeyword("NoCube", std::to_string((BigInt)nonListedSerialNumbers.size())));
 
       QString name(FileName(prefix + "NoCube.txt").expanded());
       ofstream out_stream;
@@ -428,7 +428,7 @@ namespace Isis {
 
       if (singleMeasureCubes.size() > 0) {
         results.addKeyword(
-          PvlKeyword("SingleCube", toString((BigInt)singleMeasureCubes.size())));
+          PvlKeyword("SingleCube", std::to_string((BigInt)singleMeasureCubes.size())));
 
         QString name(FileName(prefix + "SingleCube.txt").expanded());
         ofstream out_stream;

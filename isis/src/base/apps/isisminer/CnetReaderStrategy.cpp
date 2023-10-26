@@ -127,13 +127,13 @@ namespace Isis {
     for ( int p = 0 ; p < network.objects() ; p++ ) {
       PvlObject &point = network.object(p);
 
-      if ( "controlpoint" == point.name().toLower() ) {
+      if ( "controlpoint" == QString::fromStdString(point.name()).toLower() ) {
 
         PvlFlatMap netpoint(netkeys, loadkeys(point));
         for (int m = 0; m < point.groups() ; m++ ) {
           PvlGroup &measure = point.group(m);
 
-          if ( "controlmeasure" == measure.name().toLower() ) {
+          if ( "controlmeasure" == QString::fromStdString(measure.name()).toLower() ) {
             PvlFlatMap netmeasure(netpoint, loadkeys(measure));
             QString rowId = QString::number(nrows++);
             SharedResource rowmeasure(new Resource(rowId, netmeasure));

@@ -40,8 +40,8 @@ namespace Isis {
       CassiniIssFixDnFunctor(PvlKeyword &stretchPairs, QString dataConversionType, int validMax) {
         m_stretch = Stretch();
         for (size_t i = 0; i < (size_t)stretchPairs.size(); i+=2) {
-          m_stretch.AddPair(toDouble(stretchPairs[i]),
-                             toDouble(stretchPairs[i + 1]));
+          m_stretch.AddPair(std::stod(stretchPairs[i]),
+                             std::stod(stretchPairs[i + 1]));
         }
         m_validMax = validMax;
         m_dataConversionType = dataConversionType;
@@ -75,8 +75,8 @@ namespace Isis {
 
   void cassiniIssFixDnPostProcess(QString ioFile, PvlObject postProcessObj) {
     PvlKeyword stretchPairsKeyword = postProcessObj["stretchPairs"];
-    QString dataConversionType = postProcessObj["DataConversionType"];
-    int validMax = toInt(postProcessObj["ValidMaximum"]);
+    QString dataConversionType = QString::fromStdString(postProcessObj["DataConversionType"]);
+    int validMax = std::stoi(postProcessObj["ValidMaximum"]);
     CassiniIssFixDnFunctor cassiniIssFixDnFunctor(stretchPairsKeyword, dataConversionType, validMax);
 
     ProcessByLine postProcess;
@@ -98,16 +98,16 @@ namespace Isis {
 
   void cassiniIssCreateLinePrefixTable(Cube *cube, vector<char *> prefixData, PvlObject translation) {
     int sumMode = translation["SummingMode"];
-    QString compressionType = translation["CompressionType"];
+    QString compressionType = QString::fromStdString(translation["CompressionType"]);
     double flightSoftware = 0.0;
 
-    if (QString(translation["flightSoftwareVersionId"]).toStdString() != std::string("Unknown")) {
-      flightSoftware = toDouble(translation["flightSoftwareVersionId"]);
+    if (translation["flightSoftwareVersionId"] != std::string("Unknown")) {
+      flightSoftware = std::stod(translation["flightSoftwareVersionId"]);
     }
 
     PvlKeyword stretchPairsKeyword = translation["stretchPairs"];
-    QString dataConversionType = translation["DataConversionType"];
-    int validMax = toInt(translation["ValidMaximum"]);
+    QString dataConversionType = QString::fromStdString(translation["DataConversionType"]);
+    int validMax = std::stoi(translation["ValidMaximum"]);
     CassiniIssFixDnFunctor cassiniIssFixDnFunctor(stretchPairsKeyword, dataConversionType, validMax);
 
     TableField overclockPixels("OverclockPixels", TableField::Double, 3);
@@ -193,11 +193,11 @@ namespace Isis {
     PvlKeyword stretchPairs = translation["stretchPairs"];
     Stretch stretch;
     for (size_t i = 0; i < (size_t)stretchPairs.size(); i+=2) {
-      stretch.AddPair(toDouble(stretchPairs[i]),
-                         toDouble(stretchPairs[i + 1]));
+      stretch.AddPair(std::stod(stretchPairs[i]),
+                         std::stod(stretchPairs[i + 1]));
     }
     PvlGroup &inst = outputLabel->findGroup("Instrument", Pvl::Traverse);
-    QString dataConversionType = translation["DataConversionType"];
+    QString dataConversionType = QString::fromStdString(translation["DataConversionType"]);
     if(dataConversionType != "Table") {   //Conversion Type is 12Bit or 8LSB, only save off overclocked pixels
       if(dataConversionType == "12Bit") {
         importer->Progress()->SetText("Image was 12 bit. No conversion needed. \nSaving line prefix data...");
@@ -208,7 +208,7 @@ namespace Isis {
     }
     else {
       double biasStripMean = inst.findKeyword("BiasStripMean");
-      inst.findKeyword("BiasStripMean").setValue(toString(stretch.Map(biasStripMean)));
+      inst.findKeyword("BiasStripMean").setValue(std::to_string(stretch.Map(biasStripMean)));
       inst.findKeyword("BiasStripMean").addComment("BiasStripMean value converted back to 12 bit.");
       importer->Progress()->SetText("Image was converted using 12-to-8 bit table. \nConverting prefix pixels back to 12 bit and saving line prefix data...");
     }
@@ -217,7 +217,7 @@ namespace Isis {
     int vicarLabelBytes = translation.findKeyword("VicarLabelBytes");
     int roo = *(header + 50 + vicarLabelBytes) / 32 % 2; //**** THIS MAY NEED TO BE CHANGED,
     // SEE BOTTOM OF THIS FILE FOR IN DEPTH COMMENTS ON READOUTORDER
-    inst.addKeyword(PvlKeyword("ReadoutOrder", toString(roo)));
+    inst.addKeyword(PvlKeyword("ReadoutOrder", std::to_string(roo)));
   };
 }
 

@@ -541,7 +541,7 @@ namespace Isis {
 
     //  Create constant rotation frames
     PvlKeyword cf("ConstantFrames", toString(virZeroId));
-    cf.addValue(toString(virZeroId));
+    cf.addValue(std::to_string(virZeroId));
     quats.Label() += cf;
 
     SpiceDouble identity[3][3];
@@ -551,7 +551,7 @@ namespace Isis {
     PvlKeyword crot("ConstantRotation");
     for (int i = 0 ; i < 3 ; i++) {
       for (int j = 0 ; j < 3 ; j++) {
-        crot.addValue(toString(identity[i][j]));
+        crot.addValue(std::to_string(identity[i][j]));
       }
     }
 

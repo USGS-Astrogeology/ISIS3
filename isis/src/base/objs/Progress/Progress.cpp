@@ -25,7 +25,7 @@ namespace Isis {
     bool printPercent;
     Isis::PvlGroup &group = Isis::Preference::Preferences().findGroup("UserInterface");
     percent = group["ProgressBarPercent"];
-    QString temp = (QString) group["ProgressBar"];
+    QString temp = QString::fromStdString(group["ProgressBar"]);
     printPercent = temp.toUpper() == "ON";
 
     // Check for an error

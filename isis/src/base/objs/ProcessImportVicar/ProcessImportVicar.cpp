@@ -61,7 +61,7 @@ namespace Isis {
 
       SetDimensions(vLab["NS"], vLab["NL"], vLab["NB"]);
 
-      QString pixType = vLab["FORMAT"];
+      QString pixType = QString::fromStdString(vLab["FORMAT"]);
       Isis::PixelType pixelType = None;
       if(pixType == "BYTE") pixelType = UnsignedByte;
       if(pixType == "WORD") pixelType = UnsignedWord;
@@ -73,7 +73,7 @@ namespace Isis {
       }
       SetPixelType(pixelType);
 
-      QString order = vLab["INTFMT"];
+      QString order = QString::fromStdString(vLab["INTFMT"]);
       if(order == "LOW") {
         SetByteOrder(Lsb);
       }
@@ -81,7 +81,7 @@ namespace Isis {
         SetByteOrder(Msb);
       }
 
-      QString organization = vLab["ORG"];
+      QString organization = QString::fromStdString(vLab["ORG"]);
       if(organization == "BSQ") {
         SetOrganization(ProcessImport::BSQ);
       }

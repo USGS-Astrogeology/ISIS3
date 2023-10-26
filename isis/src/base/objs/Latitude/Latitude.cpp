@@ -94,17 +94,17 @@ namespace Isis {
     m_polarRadius = NULL;
 
     if (mapping.hasKeyword("EquatorialRadius") && mapping.hasKeyword("PolarRadius")) {
-      m_equatorialRadius = new Distance(toDouble(mapping["EquatorialRadius"][0]),
+      m_equatorialRadius = new Distance(std::stod(mapping["EquatorialRadius"][0]),
                                         Distance::Meters);
-      m_polarRadius = new Distance(toDouble(mapping["PolarRadius"][0]),
+      m_polarRadius = new Distance(std::stod(mapping["PolarRadius"][0]),
                                    Distance::Meters);
     }
     else {
       try {
-        PvlGroup radiiGrp = Target::radiiGroup(mapping["TargetName"][0]);
-        m_equatorialRadius = new Distance(toDouble(radiiGrp["EquatorialRadius"][0]),
+        PvlGroup radiiGrp = Target::radiiGroup(QString::fromStdString(mapping["TargetName"][0]));
+        m_equatorialRadius = new Distance(std::stod(radiiGrp["EquatorialRadius"][0]),
                                           Distance::Meters);
-        m_polarRadius = new Distance(toDouble(radiiGrp["PolarRadius"][0]),
+        m_polarRadius = new Distance(std::stod(radiiGrp["PolarRadius"][0]),
                                      Distance::Meters);
       }
       catch (IException &e) {
@@ -122,7 +122,7 @@ namespace Isis {
       setPlanetocentric(latitude.radians(), Radians);
     }
     else {
-      QString msg = "Latitude type [" + mapping["LatitudeType"][0] +
+      std::string msg = "Latitude type [" + mapping["LatitudeType"][0] +
         "] is not recognized";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -154,17 +154,17 @@ namespace Isis {
     m_polarRadius = NULL;
 
     if (mapping.hasKeyword("EquatorialRadius") && mapping.hasKeyword("PolarRadius")) {
-      m_equatorialRadius = new Distance(toDouble(mapping["EquatorialRadius"][0]),
+      m_equatorialRadius = new Distance(std::stod(mapping["EquatorialRadius"][0]),
                                         Distance::Meters);
-      m_polarRadius = new Distance(toDouble(mapping["PolarRadius"][0]),
+      m_polarRadius = new Distance(std::stod(mapping["PolarRadius"][0]),
                                    Distance::Meters);
     }
     else {
       try {
-        PvlGroup radiiGrp = Target::radiiGroup(mapping["TargetName"][0]);
-        m_equatorialRadius = new Distance(toDouble(radiiGrp["EquatorialRadius"][0]),
+        PvlGroup radiiGrp = Target::radiiGroup(QString::fromStdString(mapping["TargetName"][0]));
+        m_equatorialRadius = new Distance(std::stod(radiiGrp["EquatorialRadius"][0]),
                                           Distance::Meters);
-        m_polarRadius = new Distance(toDouble(radiiGrp["PolarRadius"][0]),
+        m_polarRadius = new Distance(std::stod(radiiGrp["PolarRadius"][0]),
                                      Distance::Meters);
       }
       catch (IException &e) {
@@ -182,7 +182,7 @@ namespace Isis {
       setPlanetocentric(latitude, latitudeUnits);
     }
     else {
-      QString msg = "Latitude type [" + mapping["LatitudeType"][0] +
+      std::string msg = "Latitude type [" + mapping["LatitudeType"][0] +
         "] is not recognized";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -507,17 +507,17 @@ namespace Isis {
     Distance equatorialRadius;
     Distance polarRadius;
     if (mapping.hasKeyword("EquatorialRadius") && mapping.hasKeyword("PolarRadius")) {
-      equatorialRadius = Distance(toDouble(mapping["EquatorialRadius"][0]),
+      equatorialRadius = Distance(std::stod(mapping["EquatorialRadius"][0]),
                                   Distance::Meters);
-      polarRadius = Distance(toDouble(mapping["PolarRadius"][0]),
+      polarRadius = Distance(std::stod(mapping["PolarRadius"][0]),
                              Distance::Meters);
     }
     else {
       try {
-        PvlGroup radiiGrp = Target::radiiGroup(mapping["TargetName"][0]);
-        equatorialRadius = Distance(toDouble(radiiGrp["EquatorialRadius"][0]),
+        PvlGroup radiiGrp = Target::radiiGroup(QString::fromStdString(mapping["TargetName"][0]));
+        equatorialRadius = Distance(std::stod(radiiGrp["EquatorialRadius"][0]),
                                     Distance::Meters);
-        polarRadius = Distance(toDouble(radiiGrp["PolarRadius"][0]),
+        polarRadius = Distance(std::stod(radiiGrp["PolarRadius"][0]),
                                Distance::Meters);
       }
       catch (IException &e) {
@@ -531,7 +531,7 @@ namespace Isis {
     else if (mapping["LatitudeType"][0] == "Planetographic")
       latType = Planetographic;
     else {
-      QString msg = "Latitude type [" + mapping["LatitudeType"][0] + "] is not recognized";
+      std::string msg = "Latitude type [" + mapping["LatitudeType"][0] + "] is not recognized";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

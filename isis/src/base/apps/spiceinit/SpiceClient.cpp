@@ -197,7 +197,7 @@ namespace Isis {
 
         if (err.findKeyword("Message")[0] != "") {
           *p_error += "  The error reported was: ";
-          *p_error += err.findKeyword("Message")[0];
+          *p_error += QString::fromStdString(err.findKeyword("Message")[0]);
         }
       }
       catch(IException &) {

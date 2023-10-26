@@ -75,7 +75,7 @@ void IsisMain() {
     PvlGroup results("Results");
     QString message = "Invalid input pixels converted to Isis NULL values";
     results += PvlKeyword("Error", message);
-    results += PvlKeyword("Count", toString(bad));
+    results += PvlKeyword("Count", std::to_string(bad));
     Application::Log(results);
   }
   p.EndProcess();

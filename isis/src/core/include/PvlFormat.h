@@ -8,6 +8,7 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <map>
 #include <string>
+#include <regex>
 
 #include "Pvl.h"
 
@@ -35,10 +36,13 @@ namespace Isis {
   * @param type The string to be converted.
   * @return The corresponding KeywordType enum.
   */
-  inline KeywordType toKeywordType(const QString type) {
+  inline KeywordType toKeywordType(const std::string type) {
 
-    QString t(type);
-    t = t.remove(QRegExp("[\\w_-\"'")).toUpper();
+    std::string t(type);
+    std::regex e("[\\w_-\"'");
+    t = std::regex_replace(t, e, "");
+
+    std::transform(t.begin(), t.end(), t.begin(), ::toupper);
 
     if(t == "STRING") return StringKeyword;
     else if(t == "BOOL") return BoolKeyword;
@@ -110,11 +114,11 @@ namespace Isis {
     public:
 
       PvlFormat();
-      PvlFormat(const QString &file);
+      PvlFormat(const std::string &file);
       PvlFormat(Pvl &keymap);
       virtual ~PvlFormat() {};
 
-      void add(const QString &file);
+      void add(const std::string &file);
       void add(Pvl &keymap);
 
       /**
@@ -139,12 +143,12 @@ namespace Isis {
         return m_charLimit;
       };
 
-      virtual QString formatValue(const PvlKeyword &keyword,
+      virtual std::string formatValue(const PvlKeyword &keyword,
                                       int valueIndex = 0);
-      virtual QString formatName(const PvlKeyword &keyword);
-      virtual QString formatEnd(const QString name,
+      virtual std::string formatName(const PvlKeyword &keyword);
+      virtual std::string formatEnd(const std::string name,
                                     const PvlKeyword &keyword);
-      virtual QString formatEOL() {
+      virtual std::string formatEOL() {
         return "\n";
       }
 
@@ -153,10 +157,10 @@ namespace Isis {
 
     protected:
 
-      virtual QString addQuotes(const QString value);
+      virtual std::string addQuotes(const std::string value);
       bool isSingleUnit(const PvlKeyword &keyword);
 
-      QString m_keywordMapFile;
+      std::string m_keywordMapFile;
       Pvl m_keywordMap;
 
       //! Maximum number of characters on a single line of a keyword value.

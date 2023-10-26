@@ -107,7 +107,7 @@ namespace Isis {
 
     // If the format is Keyword="1,2,3,4,5" rather than Keyword = (1,2,3,4,5) 
     if (phaseList.size() == 1) {
-      SetPhotoPhaseList(QString(phaseList));
+      SetPhotoPhaseList(QString::fromStdString(phaseList));
       return;
     }
 
@@ -115,7 +115,7 @@ namespace Isis {
     p_photoPhaseList.clear();
 
     for (int i=0; i< phaseList.size(); i++) {
-      phaseAngle = phaseList[i].toDouble();
+      phaseAngle = std::stod(phaseList[i]);
 
       if (phaseAngle < 0.0 || phaseAngle > 180.0) {
         QString msg = "Invalid value of empirical Lunar Lambert phase angle list value [" +
@@ -163,13 +163,13 @@ namespace Isis {
 
     // If the format is Keyword="1,2,3,4,5" rather than Keyword = (1,2,3,4,5) 
     if (lstrList.size() == 1) {
-      SetPhotoLList(QString(lstrList));
+      SetPhotoLList(QString::fromStdString(lstrList));
       return;
     }
 
     p_photoLList.clear();
     for (int i=0; i<lstrList.size(); i++) {
-      p_photoLList.push_back(lstrList[i].toDouble());
+      p_photoLList.push_back(std::stod(lstrList[i]));
     }
   }
 
@@ -205,13 +205,13 @@ namespace Isis {
 
     // If the format is Keyword="1,2,3,4,5" rather than Keyword = (1,2,3,4,5) 
     if (photocurvestrList.size() == 1) {
-      SetPhotoPhaseCurveList(QString(photocurvestrList));
+      SetPhotoPhaseCurveList(QString::fromStdString(photocurvestrList));
       return;
     }
 
     p_photoPhaseCurveList.clear();
     for (int i=0; i<photocurvestrList.size(); i++) {
-      p_photoPhaseCurveList.push_back(photocurvestrList[i].toDouble());
+      p_photoPhaseCurveList.push_back(std::stod(photocurvestrList[i]));
     }
   }
 

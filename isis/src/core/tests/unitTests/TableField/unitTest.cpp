@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
 
   group1 += PvlKeyword("name", "Test");
   group1 += PvlKeyword("type", "Integer");
-  group1 += PvlKeyword("size", toString(20));
+  group1 += PvlKeyword("size", std::to_string(20));
 
   TableField intVectorField20(group1);
   g = intVectorField20.pvlGroup();
@@ -159,7 +159,7 @@ int main(int argc, char *argv[]) {
 
   group2 += PvlKeyword("name", "Test");
   group2 += PvlKeyword("type", "Double");
-  group2 += PvlKeyword("size", toString(20));
+  group2 += PvlKeyword("size", std::to_string(20));
 
   TableField dblVectorField20(group2);
   g = dblVectorField20.pvlGroup();
@@ -171,7 +171,7 @@ int main(int argc, char *argv[]) {
 
   group3 += PvlKeyword("name", "Test");
   group3 += PvlKeyword("type", "Text");
-  group3 += PvlKeyword("size", toString(20));
+  group3 += PvlKeyword("size", std::to_string(20));
 
   TableField textField20(group3);
   g = textField20.pvlGroup();
@@ -183,7 +183,7 @@ int main(int argc, char *argv[]) {
 
   group4 += PvlKeyword("name", "Test");
   group4 += PvlKeyword("type", "Real");
-  group4 += PvlKeyword("size", toString(20));
+  group4 += PvlKeyword("size", std::to_string(20));
 
   TableField realVectorField20(group4);
   g = realVectorField20.pvlGroup();
@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
 
     group5 += PvlKeyword("name", "Test");
     group5 += PvlKeyword("type", "BLAH");
-    group5 += PvlKeyword("size", toString(20));
+    group5 += PvlKeyword("size", std::to_string(20));
 
     TableField unknownTypeField(group5);
     g = unknownTypeField.pvlGroup();
@@ -213,7 +213,7 @@ int main(int argc, char *argv[]) {
 
     group6 += PvlKeyword("name", "Test");
     group6 += PvlKeyword("type", "Integer");
-    group6 += PvlKeyword("size", toString(-7.3));
+    group6 += PvlKeyword("size", std::to_string(-7.3));
 
     TableField invalidSizeField(group6);
     g = invalidSizeField.pvlGroup();

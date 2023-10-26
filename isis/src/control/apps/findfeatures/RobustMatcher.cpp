@@ -1104,7 +1104,7 @@ const PvlFlatMap &RobustMatcher::parameters() const {
 PvlObject RobustMatcher::info(const QString &p_name) const {
   PvlObject description = MatcherAlgorithms::info(p_name);
   description.addKeyword(PvlKeyword("OpenCVVersion", CV_VERSION));
-  description.addKeyword(PvlKeyword("Name", name()));
+  description.addKeyword(PvlKeyword("Name", name().toStdString()));
   // description.addKeyword(PvlKeyword("Specification", name()));
 
   PvlObject aparms("Parameters");

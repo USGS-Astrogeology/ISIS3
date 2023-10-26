@@ -175,16 +175,16 @@ namespace Isis {
   
     //Records the error to the log
     PvlGroup error("Error");
-    error += PvlKeyword("Degree", toString(degree));
-    error += PvlKeyword("NumberOfPoints", toString((int)sampResiduals.size()));
-    error += PvlKeyword("SampleMinimumError", toString(sampErr.Minimum()));
-    error += PvlKeyword("SampleAverageError", toString(sampErr.Average()));
-    error += PvlKeyword("SampleMaximumError", toString(sampErr.Maximum()));
-    error += PvlKeyword("SampleStdDeviationError", toString(sampErr.StandardDeviation()));
-    error += PvlKeyword("LineMinimumError", toString(lineErr.Minimum()));
-    error += PvlKeyword("LineAverageError", toString(lineErr.Average()));
-    error += PvlKeyword("LineMaximumError", toString(lineErr.Maximum()));
-    error += PvlKeyword("LineStdDeviationError", toString(lineErr.StandardDeviation()));
+    error += PvlKeyword("Degree", std::to_string(degree));
+    error += PvlKeyword("NumberOfPoints", std::to_string((int)sampResiduals.size()));
+    error += PvlKeyword("SampleMinimumError", std::to_string(sampErr.Minimum()));
+    error += PvlKeyword("SampleAverageError", std::to_string(sampErr.Average()));
+    error += PvlKeyword("SampleMaximumError", std::to_string(sampErr.Maximum()));
+    error += PvlKeyword("SampleStdDeviationError", std::to_string(sampErr.StandardDeviation()));
+    error += PvlKeyword("LineMinimumError", std::to_string(lineErr.Minimum()));
+    error += PvlKeyword("LineAverageError", std::to_string(lineErr.Average()));
+    error += PvlKeyword("LineMaximumError", std::to_string(lineErr.Maximum()));
+    error += PvlKeyword("LineStdDeviationError", std::to_string(lineErr.StandardDeviation()));
 
     Application::Log(error);
 
@@ -195,7 +195,7 @@ namespace Isis {
     if (!ui.GetBoolean("NOWARP")) {
       //Creates the mapping group
       Pvl mapFile;
-      mapFile.read(ui.GetFileName("MAP"));
+      mapFile.read(ui.GetFileName("MAP").toStdString());
       PvlGroup &mapGrp = mapFile.findGroup("Mapping", Pvl::Traverse);
   
       //Reopen the lat and long cubes
@@ -211,12 +211,12 @@ namespace Isis {
   
       //If the user entered the target name
       if (ui.WasEntered("TARGET")) {
-        targetName = PvlKeyword("TargetName", ui.GetString("TARGET"));
+        targetName = PvlKeyword("TargetName", ui.GetString("TARGET").toStdString());
       }
       //Else read the target name from the input cube
       else {
         Pvl fromFile;
-        fromFile.read(inCube->fileName());
+        fromFile.read(inCube->fileName().toStdString());
         targetName = fromFile.findKeyword("TargetName", Pvl::Traverse);
       }
   
@@ -226,12 +226,12 @@ namespace Isis {
       PvlKeyword polRadius;
       //If the user entered the equatorial and polar radii
       if (ui.WasEntered("EQURADIUS") && ui.WasEntered("POLRADIUS")) {
-        equRadius = PvlKeyword("EquatorialRadius", toString(ui.GetDouble("EQURADIUS")));
-        polRadius = PvlKeyword("PolarRadius", toString(ui.GetDouble("POLRADIUS")));
+        equRadius = PvlKeyword("EquatorialRadius", std::to_string(ui.GetDouble("EQURADIUS")));
+        polRadius = PvlKeyword("PolarRadius", std::to_string(ui.GetDouble("POLRADIUS")));
       }
       //Else read them from the pck
       else {
-        PvlGroup radii = Target::radiiGroup(targetName[0]);
+        PvlGroup radii = Target::radiiGroup(QString::fromStdString(targetName[0]));
         equRadius = radii["EquatorialRadius"];
         polRadius = radii["PolarRadius"];
       }
@@ -277,7 +277,7 @@ namespace Isis {
         double minLat = latStats->Minimum();
         double maxLat = latStats->Maximum();
   
-        bool isOcentric = ((QString)mapGrp.findKeyword("LatitudeType")) == "Planetocentric";
+        bool isOcentric = ((std::string)mapGrp.findKeyword("LatitudeType")) == "Planetocentric";
   
         if (isOcentric) {
           if (ui.GetString("LATTYPE") != "PLANETOCENTRIC") {
@@ -298,7 +298,7 @@ namespace Isis {
         double maxLon = lonDomain == 360 ? TProjection::To360Domain(lonStats->Maximum()) :
                                                       TProjection::To180Domain(lonStats->Maximum());
   
-        bool isPosEast = ((QString)mapGrp.findKeyword("LongitudeDirection")) == "PositiveEast";
+        bool isPosEast = ((std::string)mapGrp.findKeyword("LongitudeDirection")) == "PositiveEast";
   
         if (isPosEast) {
           if (ui.GetString("LONDIR") != "POSITIVEEAST") {
@@ -319,31 +319,31 @@ namespace Isis {
           maxLon = temp;
         }
   
-        mapGrp.addKeyword(PvlKeyword("MinimumLatitude", toString(minLat)), Pvl::Replace);
-        mapGrp.addKeyword(PvlKeyword("MaximumLatitude", toString(maxLat)), Pvl::Replace);
-        mapGrp.addKeyword(PvlKeyword("MinimumLongitude", toString(minLon)), Pvl::Replace);
-        mapGrp.addKeyword(PvlKeyword("MaximumLongitude", toString(maxLon)), Pvl::Replace);
+        mapGrp.addKeyword(PvlKeyword("MinimumLatitude", std::to_string(minLat)), Pvl::Replace);
+        mapGrp.addKeyword(PvlKeyword("MaximumLatitude", std::to_string(maxLat)), Pvl::Replace);
+        mapGrp.addKeyword(PvlKeyword("MinimumLongitude", std::to_string(minLon)), Pvl::Replace);
+        mapGrp.addKeyword(PvlKeyword("MaximumLongitude", std::to_string(maxLon)), Pvl::Replace);
       }
   
       //If the user decided to enter a ground range then override
       if (ui.WasEntered("MINLAT")) {
         mapGrp.addKeyword(PvlKeyword("MinimumLatitude",
-                                     toString(ui.GetDouble("MINLAT"))), Pvl::Replace);
+                                     std::to_string(ui.GetDouble("MINLAT"))), Pvl::Replace);
       }
   
       if (ui.WasEntered("MAXLAT")) {
         mapGrp.addKeyword(PvlKeyword("MaximumLatitude",
-                                     toString(ui.GetDouble("MAXLAT"))), Pvl::Replace);
+                                     std::to_string(ui.GetDouble("MAXLAT"))), Pvl::Replace);
       }
   
       if (ui.WasEntered("MINLON")) {
         mapGrp.addKeyword(PvlKeyword("MinimumLongitude",
-                                     toString(ui.GetDouble("MINLON"))), Pvl::Replace);
+                                     std::to_string(ui.GetDouble("MINLON"))), Pvl::Replace);
       }
   
       if (ui.WasEntered("MAXLON")) {
         mapGrp.addKeyword(PvlKeyword("MaximumLongitude",
-                                     toString(ui.GetDouble("MAXLON"))), Pvl::Replace);
+                                     std::to_string(ui.GetDouble("MAXLON"))), Pvl::Replace);
       }
   
       //If the pixel resolution is to be computed, compute the pixels/degree from the input
@@ -378,7 +378,7 @@ namespace Isis {
   
         //Add the scale in pixels/degree to the mapping group
         mapGrp.addKeyword(PvlKeyword("Scale",
-                                     toString(pixels / angle), "pixels/degree"),
+                                     std::to_string(pixels / angle), "pixels/degree"),
                           Pvl::Replace);
         if (mapGrp.hasKeyword("PixelResolution")) {
           mapGrp.deleteKeyword("PixelResolution");
@@ -389,7 +389,7 @@ namespace Isis {
       // If the user decided to enter a resolution then override
       if (ui.GetString("PIXRES") == "MPP") {
         mapGrp.addKeyword(PvlKeyword("PixelResolution",
-                                     toString(ui.GetDouble("RESOLUTION")), "meters/pixel"),
+                                     std::to_string(ui.GetDouble("RESOLUTION")), "meters/pixel"),
                           Pvl::Replace);
         if (mapGrp.hasKeyword("Scale")) {
           mapGrp.deleteKeyword("Scale");
@@ -397,7 +397,7 @@ namespace Isis {
       }
       else if (ui.GetString("PIXRES") == "PPD") {
         mapGrp.addKeyword(PvlKeyword("Scale",
-                                     toString(ui.GetDouble("RESOLUTION")), "pixels/degree"),
+                                     std::to_string(ui.GetDouble("RESOLUTION")), "pixels/degree"),
                           Pvl::Replace);
         if (mapGrp.hasKeyword("PixelResolution")) {
           mapGrp.deleteKeyword("PixelResolution");
@@ -705,16 +705,16 @@ namespace Isis {
       tablesToDelete.push_back( tmpTablesToDelete[i] );
     }
     for (int j=0; j < kernels.keywords(); j++) {   
-      if (kernels[j].operator[](0) == tableStr)  {
+      if (kernels[j].operator[](0) == tableStr.toStdString())  {
         bool newTableToDelete=true;
         for (int k = 0; k<sizeOfTablesToDelete; k++) {
-          if ( tablesToDelete[k] == kernels[j].name() ) {
+          if ( tablesToDelete[k].toStdString() == kernels[j].name() ) {
             newTableToDelete=false;
             break;
           }
         }
         if (newTableToDelete) {
-          tablesToDelete.push_back( kernels[j].name() );
+          tablesToDelete.push_back( QString::fromStdString(kernels[j].name()) );
           sizeOfTablesToDelete++;
         }
       }
@@ -725,10 +725,10 @@ namespace Isis {
     int indecesToDeleteSize=0;
     for (int k=0; k < label->objects(); k++) {
       PvlObject &currentObject=(*label).object(k);
-      if (currentObject.name() == tableStr) {
-        PvlKeyword &nameKeyword = currentObject.findKeyword(nameStr);
+      if (currentObject.name() == tableStr.toStdString()) {
+        PvlKeyword &nameKeyword = currentObject.findKeyword(nameStr.toStdString());
         for (int l=0; l < tablesToDeleteSize; l++) {
-          if ( nameKeyword[0] == tablesToDelete[l] ) {
+          if ( nameKeyword[0] == tablesToDelete[l].toStdString() ) {
             indecesToDelete.push_back(k-indecesToDeleteSize);
             indecesToDeleteSize++;
             //(*label).deleteObject(k);

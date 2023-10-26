@@ -33,7 +33,7 @@ namespace Isis {
    * @param furnish Do we load the kernels we find?
    */
   SpiceManager::SpiceManager(const QString &filename, bool furnish) {
-    Pvl pvl(filename);
+    Pvl pvl(filename.toStdString());
     Load(pvl, furnish);
   }
 

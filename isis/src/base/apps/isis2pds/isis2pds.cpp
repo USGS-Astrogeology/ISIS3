@@ -113,13 +113,13 @@ namespace Isis{
 
       //Records what it did to the print.prt file
       PvlGroup results("DNs Used");
-      results += PvlKeyword("Null", toString(p.OutputNull()));
-      results += PvlKeyword("LRS", toString(p.OutputLrs()));
-      results += PvlKeyword("LIS", toString(p.OutputLis()));
-      results += PvlKeyword("HIS", toString(p.OutputHis()));
-      results += PvlKeyword("HRS", toString(p.OutputHrs()));
-      results += PvlKeyword("ValidMin", toString(min));
-      results += PvlKeyword("ValidMax", toString(max));
+      results += PvlKeyword("Null", std::to_string(p.OutputNull()));
+      results += PvlKeyword("LRS", std::to_string(p.OutputLrs()));
+      results += PvlKeyword("LIS", std::to_string(p.OutputLis()));
+      results += PvlKeyword("HIS", std::to_string(p.OutputHis()));
+      results += PvlKeyword("HRS", std::to_string(p.OutputHrs()));
+      results += PvlKeyword("ValidMin", std::to_string(min));
+      results += PvlKeyword("ValidMax", std::to_string(max));
       Application::Log(results);
     }
     else {
@@ -187,13 +187,13 @@ namespace Isis{
 
       // Records what it did to the print.prt file
       PvlGroup results("DNs Used");
-      results += PvlKeyword("Null", toString(process.OutputNull()));
-      results += PvlKeyword("LRS", toString(process.OutputLrs()));
-      results += PvlKeyword("LIS", toString(process.OutputLis()));
-      results += PvlKeyword("HIS", toString(process.OutputHis()));
-      results += PvlKeyword("HRS", toString(process.OutputHrs()));
-      results += PvlKeyword("ValidMin", toString(min));
-      results += PvlKeyword("ValidMax", toString(max));
+      results += PvlKeyword("Null", std::to_string(process.OutputNull()));
+      results += PvlKeyword("LRS", std::to_string(process.OutputLrs()));
+      results += PvlKeyword("LIS", std::to_string(process.OutputLis()));
+      results += PvlKeyword("HIS", std::to_string(process.OutputHis()));
+      results += PvlKeyword("HRS", std::to_string(process.OutputHrs()));
+      results += PvlKeyword("ValidMin", std::to_string(min));
+      results += PvlKeyword("ValidMax", std::to_string(max));
       Application::Log(results);
 
       process.StandardPds4Label();

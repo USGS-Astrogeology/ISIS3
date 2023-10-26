@@ -25,15 +25,15 @@ int main(int argc, char *argv[]) {
   Pvl lab;
   lab.addGroup(PvlGroup("Mapping"));
   PvlGroup &mapGroup = lab.findGroup("Mapping");
-  mapGroup += PvlKeyword("EquatorialRadius", toString(1.0));
-  mapGroup += PvlKeyword("PolarRadius", toString(1.0));
+  mapGroup += PvlKeyword("EquatorialRadius", std::to_string(1.0));
+  mapGroup += PvlKeyword("PolarRadius", std::to_string(1.0));
   mapGroup += PvlKeyword("LatitudeType", "Planetographic");
   mapGroup += PvlKeyword("LongitudeDirection", "PositiveEast");
-  mapGroup += PvlKeyword("LongitudeDomain", toString(180));
-  mapGroup += PvlKeyword("MinimumLatitude", toString(-70.0));
-  mapGroup += PvlKeyword("MaximumLatitude", toString(70.0));
-  mapGroup += PvlKeyword("MinimumLongitude", toString(-90.0));
-  mapGroup += PvlKeyword("MaximumLongitude", toString(-60.0));
+  mapGroup += PvlKeyword("LongitudeDomain", std::to_string(180));
+  mapGroup += PvlKeyword("MinimumLatitude", std::to_string(-70.0));
+  mapGroup += PvlKeyword("MaximumLatitude", std::to_string(70.0));
+  mapGroup += PvlKeyword("MinimumLongitude", std::to_string(-90.0));
+  mapGroup += PvlKeyword("MaximumLongitude", std::to_string(-60.0));
   mapGroup += PvlKeyword("ProjectionName", "TransverseMercator");
 
   cout << "Test missing center longitude keyword ..." << endl;
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
   }
   cout << endl;
 
-  mapGroup += PvlKeyword("CenterLongitude", toString(-75.0));
+  mapGroup += PvlKeyword("CenterLongitude", std::to_string(-75.0));
 
   cout << "Test missing center latitude keyword..." << endl;
   try {
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
   }
   cout << endl;
 
-  mapGroup += PvlKeyword("CenterLatitude", toString(0.0));
+  mapGroup += PvlKeyword("CenterLatitude", std::to_string(0.0));
 
   cout << "Test missing scale factor keyword..." << endl;
   try {
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
   }
   cout << endl;
 
-  mapGroup += PvlKeyword("ScaleFactor", toString(1.0));
+  mapGroup += PvlKeyword("ScaleFactor", std::to_string(1.0));
 
   try {
     TProjection *p = (TProjection *) ProjectionFactory::Create(lab);
@@ -130,19 +130,19 @@ int main(int argc, char *argv[]) {
   Pvl lab2;
   lab2.addGroup(PvlGroup("Mapping"));
   PvlGroup &mapGroup2 = lab2.findGroup("Mapping");
-  mapGroup2 += PvlKeyword("EquatorialRadius", toString(6378206.4));
-  mapGroup2 += PvlKeyword("PolarRadius", toString(6356583.8));
+  mapGroup2 += PvlKeyword("EquatorialRadius", std::to_string(6378206.4));
+  mapGroup2 += PvlKeyword("PolarRadius", std::to_string(6356583.8));
   mapGroup2 += PvlKeyword("LatitudeType", "Planetographic");
   mapGroup2 += PvlKeyword("LongitudeDirection", "PositiveEast");
-  mapGroup2 += PvlKeyword("LongitudeDomain", toString(180));
-  mapGroup2 += PvlKeyword("MinimumLatitude", toString(-70.0));
-  mapGroup2 += PvlKeyword("MaximumLatitude", toString(70.0));
-  mapGroup2 += PvlKeyword("MinimumLongitude", toString(-90.0));
-  mapGroup2 += PvlKeyword("MaximumLongitude", toString(-60.0));
+  mapGroup2 += PvlKeyword("LongitudeDomain", std::to_string(180));
+  mapGroup2 += PvlKeyword("MinimumLatitude", std::to_string(-70.0));
+  mapGroup2 += PvlKeyword("MaximumLatitude", std::to_string(70.0));
+  mapGroup2 += PvlKeyword("MinimumLongitude", std::to_string(-90.0));
+  mapGroup2 += PvlKeyword("MaximumLongitude", std::to_string(-60.0));
   mapGroup2 += PvlKeyword("ProjectionName", "TransverseMercator");
-  mapGroup2 += PvlKeyword("CenterLongitude", toString(-75.0));
-  mapGroup2 += PvlKeyword("CenterLatitude", toString(0.0));
-  mapGroup2 += PvlKeyword("ScaleFactor", toString(0.9996));
+  mapGroup2 += PvlKeyword("CenterLongitude", std::to_string(-75.0));
+  mapGroup2 += PvlKeyword("CenterLatitude", std::to_string(0.0));
+  mapGroup2 += PvlKeyword("ScaleFactor", std::to_string(0.9996));
   cout << endl;
 
   try {

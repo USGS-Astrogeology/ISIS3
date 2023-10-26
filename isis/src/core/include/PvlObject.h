@@ -61,9 +61,9 @@ namespace Isis {
   class PvlObject : public Isis::PvlContainer {
     public:
       PvlObject();
-      PvlObject(const QString &name);
+      PvlObject(const std::string &name);
       PvlObject(const PvlObject &other);
-      PvlObject(const QString &name, const nlohmann::json &jsonobj);
+      PvlObject(const std::string &name, const nlohmann::json &jsonobj);
 
       friend std::ostream &operator<<(std::ostream &os, Isis::PvlObject &object);
       friend std::istream &operator>>(std::istream &is, PvlObject &result);
@@ -126,7 +126,7 @@ namespace Isis {
        * @param beg The lower index
        * @param end The higher index
        */
-      PvlGroupIterator findGroup(const QString &name,
+      PvlGroupIterator findGroup(const std::string &name,
                                  PvlGroupIterator beg,
                                  PvlGroupIterator end) {
         Isis::PvlGroup temp(name);
@@ -140,7 +140,7 @@ namespace Isis {
        * @param beg The lower index
        * @param end The higher index
        */
-      ConstPvlGroupIterator findGroup(const QString &name,
+      ConstPvlGroupIterator findGroup(const std::string &name,
                                       ConstPvlGroupIterator beg,
                                       ConstPvlGroupIterator end) const {
         Isis::PvlGroup temp(name);
@@ -164,20 +164,20 @@ namespace Isis {
       using PvlContainer::findKeyword;
 
 
-      PvlKeyword &findKeyword(const QString &kname,
+      PvlKeyword &findKeyword(const std::string &kname,
                               FindOptions opts);
 
 
       using PvlContainer::hasKeyword;
 
 
-      bool hasKeyword(const QString &kname,
+      bool hasKeyword(const std::string &kname,
                       FindOptions opts) const;
 
-      Isis::PvlGroup &findGroup(const QString &name,
+      Isis::PvlGroup &findGroup(const std::string &name,
                                 FindOptions opts = None);
 
-      const Isis::PvlGroup &findGroup(const QString &name,
+      const Isis::PvlGroup &findGroup(const std::string &name,
                                       FindOptions opts = None) const;
       /**
        * Add a group to the object.
@@ -196,7 +196,7 @@ namespace Isis {
         addObject(obj);
       }
 
-      void deleteGroup(const QString &name);
+      void deleteGroup(const std::string &name);
 
       void deleteGroup(const int index);
 
@@ -207,7 +207,7 @@ namespace Isis {
        * @param name The name of the group to look for.
        * @return True if the object has the group, false if not.
        */
-      bool hasGroup(const QString &name) const {
+      bool hasGroup(const std::string &name) const {
         if(findGroup(name, beginGroup(), endGroup()) == endGroup()) return false;
         return true;
       }
@@ -271,7 +271,7 @@ namespace Isis {
        * @param end The higher index.
        * @return The index of the object.
        */
-      PvlObjectIterator findObject(const QString &name,
+      PvlObjectIterator findObject(const std::string &name,
                                    PvlObjectIterator beg,
                                    PvlObjectIterator end) {
         PvlObject temp(name);
@@ -286,7 +286,7 @@ namespace Isis {
        * @param end The higher index.
        * @return The index of the object.
        */
-      ConstPvlObjectIterator findObject(const QString &name,
+      ConstPvlObjectIterator findObject(const std::string &name,
                                         ConstPvlObjectIterator beg,
                                         ConstPvlObjectIterator end) const {
         PvlObject temp(name);
@@ -294,10 +294,10 @@ namespace Isis {
       }
 
 
-      PvlObject &findObject(const QString &name,
+      PvlObject &findObject(const std::string &name,
                             FindOptions opts = None);
 
-      const PvlObject &findObject(const QString &name,
+      const PvlObject &findObject(const std::string &name,
                                   FindOptions opts = None) const;
 
       /**
@@ -309,7 +309,7 @@ namespace Isis {
         m_objects[m_objects.size()-1].setFileName(fileName());
       }
 
-      void deleteObject(const QString &name);
+      void deleteObject(const std::string &name);
       void deleteObject(const int index);
 
 
@@ -320,7 +320,7 @@ namespace Isis {
        * @return True if the current PvlObject has the specified object, false
        * if it does not.
        */
-      bool hasObject(const QString &name) const {
+      bool hasObject(const std::string &name) const {
         if(findObject(name, beginObject(), endObject()) == endObject()) return false;
         return true;
       }

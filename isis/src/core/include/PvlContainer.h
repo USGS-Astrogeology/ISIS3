@@ -49,20 +49,20 @@ namespace Isis {
   class PvlContainer {
     public:
       PvlContainer() = default;
-      PvlContainer(const QString &type);
-      PvlContainer(const QString &type, const QString &name);
+      PvlContainer(const std::string &type);
+      PvlContainer(const std::string &type, const std::string &name);
       PvlContainer(const PvlContainer &other);
 
       //! Set the name of the container.
-      void setName(const QString &name) {
+      void setName(const std::string &name) {
         m_name.setValue(name);
       };
       /**
        * Returns the container name.
        * @return The container name.
        */
-      inline QString name() const {
-        return (QString) m_name;
+      inline std::string name() const {
+        return (std::string) m_name;
       };
       /**
        * Returns whether the given string is equal to the container name or not.
@@ -70,14 +70,14 @@ namespace Isis {
        * @return True if the name and string are the same, false if they are
        * not.
        */
-      bool isNamed(const QString &match) const {
-        return PvlKeyword::stringEqual(match, (QString)m_name);
+      bool isNamed(const std::string &match) const {
+        return PvlKeyword::stringEqual(match, (std::string)m_name);
       }
       /**
        * Returns the container type.
        * @return The container type.
        */
-      inline QString type() const {
+      inline std::string type() const {
         return m_name.name();
       };
       /**
@@ -112,13 +112,13 @@ namespace Isis {
         addKeyword(keyword);
       };
 
-      PvlKeyword &findKeyword(const QString &name);
+      PvlKeyword &findKeyword(const std::string &name);
       /**
        * When you use the [] operator with a (string) name, it will call the
        * findKeyword() method.
        * @param name The name of the keyword to find.
        */
-      PvlKeyword &operator[](const QString &name) {
+      PvlKeyword &operator[](const std::string &name) {
         return findKeyword(name);
       };
       PvlKeyword &operator[](const int index);
@@ -129,17 +129,17 @@ namespace Isis {
        * @param name The name of the keyword to find.
        */
       PvlKeyword &operator[](const char *name) {
-        return operator[](QString(name));
+        return operator[](std::string(name));
       };
 
-      const PvlKeyword &findKeyword(const QString &name) const;
+      const PvlKeyword &findKeyword(const std::string &name) const;
       /**
        * When you use the [] operator with a (string) name, it will call the
        * findKeyword() method.
        * @param name The name of the keyword to find.
        */
 
-      const PvlKeyword &operator[](const QString &name) const {
+      const PvlKeyword &operator[](const std::string &name) const {
         return findKeyword(name);
       };
       const PvlKeyword &operator[](const int index) const;
@@ -150,10 +150,10 @@ namespace Isis {
        * @param name The name of the keyword to find.
        */
       PvlKeyword operator[](const char *name) const {
-        return operator[](QString(name));
+        return operator[](std::string(name));
       };
 
-      bool hasKeyword(const QString &name) const;
+      bool hasKeyword(const std::string &name) const;
       //! The keyword iterator.
       typedef QList<PvlKeyword>::iterator PvlKeywordIterator;
 
@@ -161,11 +161,11 @@ namespace Isis {
       typedef QList<PvlKeyword>::const_iterator ConstPvlKeywordIterator;
 
 
-      PvlKeywordIterator findKeyword(const QString &name,
+      PvlKeywordIterator findKeyword(const std::string &name,
                                      PvlKeywordIterator beg,
                                      PvlKeywordIterator end);
 
-      ConstPvlKeywordIterator findKeyword(const QString &name,
+      ConstPvlKeywordIterator findKeyword(const std::string &name,
                                           ConstPvlKeywordIterator beg,
                                           ConstPvlKeywordIterator end) const;
 
@@ -204,7 +204,7 @@ namespace Isis {
         return m_keywords.end();
       };
 
-      void deleteKeyword(const QString &name);
+      void deleteKeyword(const std::string &name);
       void deleteKeyword(const int index);
 
       bool cleanDuplicateKeywords();
@@ -214,7 +214,7 @@ namespace Isis {
        * deleteKeyword() method.
        * @param name The name of the keyword to remove.
        */
-      void operator-= (const QString &name) {
+      void operator-= (const std::string &name) {
         deleteKeyword(name);
       };
       /**
@@ -230,7 +230,7 @@ namespace Isis {
        * was not initialized using a file, this string is empty.
        * @return The filename.
        */
-      QString fileName() const {
+      std::string fileName() const {
         return m_filename;
       };
 
@@ -263,11 +263,11 @@ namespace Isis {
       inline int comments() const {
         return m_name.comments();
       };
-      QString comment(const int index) const {
+      std::string comment(const int index) const {
         return m_name.comment(index);
       }
 
-      void addComment(const QString &comment) {
+      void addComment(const std::string &comment) {
         m_name.addComment(comment);
       }
 
@@ -281,7 +281,7 @@ namespace Isis {
       const PvlContainer &operator=(const PvlContainer &other);
 
     protected:
-      QString m_filename;                   /**<This contains the filename
+      std::string m_filename;                   /**<This contains the filename
                                                     used to initialize
                                                     the pvl object. If the
                                                     object was not
@@ -299,7 +299,7 @@ namespace Isis {
        *
        * @param filename The new filename to use.
        */
-      void setFileName(const QString &filename) {
+      void setFileName(const std::string &filename) {
         m_filename = filename;
       }
 

@@ -76,7 +76,7 @@ void IsisMain() {
 
       // Set Keyword
       else if(option == "SETKEY") {
-        if(grp.hasKeyword(key)) {
+        if(grp.hasKeyword(key.toStdString())) {
           PvlKeyword *first = NULL;
           // Clean duplicate keywords of ONLY the provided keyword
           for(int i = 0; i < grp.keywords(); i++) {

@@ -488,11 +488,11 @@ namespace Isis {
     if(userPref.hasGroup("Database")) {
       PvlGroup &dbgroup = userPref.findGroup("Database");
       if(dbgroup.hasKeyword("AccessConfig")) {
-        addAccessProfile(dbgroup["AccessConfig"]);
+        addAccessProfile(QString::fromStdString(dbgroup["AccessConfig"]));
       }
       // Get default profile name for later use
       if(dbgroup.hasKeyword("DefaultProfile"))
-        _defProfName = (QString) dbgroup["DefaultProfile"];
+        _defProfName = QString::fromStdString(dbgroup["DefaultProfile"]);
     }
     return;
   }

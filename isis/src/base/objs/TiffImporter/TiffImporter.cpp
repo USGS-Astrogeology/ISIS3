@@ -132,7 +132,7 @@ namespace Isis {
                                  toString(coordSysType) + ".trn");
           if (transFile.fileExists()) {
             Pvl tmp;
-            tmp += PvlKeyword("Code", toString(coordSysType));
+            tmp += PvlKeyword("Code", std::to_string(coordSysType));
             PvlToPvlTranslationManager geoTiffCodeTranslater(tmp, transFile.expanded());
             geoTiffCodeTranslater.Auto(outPvl);
           }
@@ -351,7 +351,7 @@ namespace Isis {
         double localRadius = proj->LocalRadius(trueScaleLat);
 
         double scale = (2.0 * Isis::PI * localRadius) / (360.0 * pixelResolution);
-        mapGroup += PvlKeyword("Scale", toString(scale), "pixels/degree");
+        mapGroup += PvlKeyword("Scale", std::to_string(scale), "pixels/degree");
       }
       catch (IException &e) {
         outPvl.findGroup("Mapping").clear();
@@ -393,19 +393,19 @@ namespace Isis {
               if (gdalElement.tagName() == "Item") {
                 if (gdalElement.attribute("name", "") == "WEST_LONGITUDE") {
                   QString westLon = gdalElement.text();
-                  map += PvlKeyword("MinimumLongitude", toString(Angle(westLon).degrees()));
+                  map += PvlKeyword("MinimumLongitude", std::to_string(Angle(westLon).degrees()));
                 }
                 else if (gdalElement.attribute("name", "") == "EAST_LONGITUDE") {
                   QString eastLon = gdalElement.text();
-                  map += PvlKeyword("MaximumLongitude", toString(Angle(eastLon).degrees()));
+                  map += PvlKeyword("MaximumLongitude", std::to_string(Angle(eastLon).degrees()));
                 }
                 else if (gdalElement.attribute("name", "") == "SOUTH_LATITUDE") {
                   QString southLat = gdalElement.text();
-                  map += PvlKeyword("MinimumLatitude", toString(Angle(southLat).degrees()));
+                  map += PvlKeyword("MinimumLatitude", std::to_string(Angle(southLat).degrees()));
                 }
                 else if (gdalElement.attribute("name", "") == "NORTH_LATITUDE") {
                   QString northLat = gdalElement.text();
-                  map += PvlKeyword("MaximumLatitude", toString(Angle(northLat).degrees()));
+                  map += PvlKeyword("MaximumLatitude", std::to_string(Angle(northLat).degrees()));
                 }
               }
             }
@@ -451,8 +451,8 @@ namespace Isis {
           map.deleteKeyword("FalseNorthing");
         }
 
-        map += PvlKeyword("UpperLeftCornerX", toString(x), "meters");
-        map += PvlKeyword("UpperLeftCornerY", toString(y), "meters");
+        map += PvlKeyword("UpperLeftCornerX", std::to_string(x), "meters");
+        map += PvlKeyword("UpperLeftCornerY", std::to_string(y), "meters");
       }
       else {
         QString msg = "The upper left X and Y can not be calculated. Unsupported tiepoint "
@@ -485,7 +485,7 @@ namespace Isis {
       // The expected scales are TIFF(x, y, z) = ISIS(sample, line, 0)
       // Make sure the (x, y) are the same but not zero (0) for ISIS
       if ((scaleCount == 3) && (scales[0] > 0.0 && scales[1] > 0.0) && (scales[0] == scales[1])) {
-        map += PvlKeyword("PixelResolution", toString(scales[0]), "meters");
+        map += PvlKeyword("PixelResolution", std::to_string(scales[0]), "meters");
       }
       else {
         QString msg = "The pixel resolution could not be retrieved from the TIFF file. Unsupported "

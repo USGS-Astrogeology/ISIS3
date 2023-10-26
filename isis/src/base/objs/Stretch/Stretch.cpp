@@ -321,7 +321,7 @@ namespace Isis {
    *                keywords from
    */
   void Stretch::Load(QString &file, QString &grpName) {
-    Pvl pvl(file);
+    Pvl pvl(file.toStdString());
     Load(pvl, grpName);
   }
 
@@ -340,7 +340,7 @@ namespace Isis {
    *                keywords from
    */
   void Stretch::Load(Isis::Pvl &pvl, QString &grpName) {
-    PvlGroup grp = pvl.findGroup(grpName, Isis::PvlObject::Traverse);
+    PvlGroup grp = pvl.findGroup(grpName.toStdString(), Isis::PvlObject::Traverse);
     PvlKeyword inputs = grp.findKeyword("Input");
     PvlKeyword outputs = grp.findKeyword("Output");
 
@@ -349,7 +349,7 @@ namespace Isis {
       throw IException(IException::User, msg, _FILEINFO_);
     }
     for(int i = 0; i < inputs.size(); i++) {
-      AddPair(toDouble(inputs[i]), toDouble(outputs[i]));
+      AddPair(std::stod(inputs[i]), std::stod(outputs[i]));
     }
   }
 
@@ -367,16 +367,16 @@ namespace Isis {
   void Stretch::Save(QString &file, QString &grpName) {
     Pvl p;
     Save(p, grpName);
-    p.write(file);
+    p.write(file.toStdString());
   }
 
   void Stretch::Save(Isis::Pvl &pvl, QString &grpName) {
-    PvlGroup *grp = new PvlGroup(grpName);
+    PvlGroup *grp = new PvlGroup(grpName.toStdString());
     PvlKeyword inputs("Input");
     PvlKeyword outputs("Output");
     for(int i = 0; i < Pairs(); i++) {
-      inputs.addValue(toString(Input(i)));
-      outputs.addValue(toString(Output(i)));
+      inputs.addValue(std::to_string(Input(i)));
+      outputs.addValue(std::to_string(Output(i)));
     }
     grp->addKeyword(inputs);
     grp->addKeyword(outputs);

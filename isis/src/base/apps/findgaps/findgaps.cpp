@@ -65,7 +65,7 @@ namespace Isis {
       }
 
       if (logFileSpecified) {
-        gapsFunctor.gaps().write(ui.GetFileName("LOG"));
+        gapsFunctor.gaps().write(ui.GetFileName("LOG").toStdString());
       }
     }
     else {

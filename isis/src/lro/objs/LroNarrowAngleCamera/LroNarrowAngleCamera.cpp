@@ -75,14 +75,14 @@ namespace Isis {
     // Get the start time from labels
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString stime = inst["SpacecraftClockPrerollCount"];
+    std::string stime = inst["SpacecraftClockPrerollCount"];
     SpiceDouble etStart;
 
     if(stime != "NULL") {
       etStart = getClockTime(stime).Et();
     }
     else {
-      etStart = iTime((QString)inst["PrerollTime"]).Et();
+      etStart = iTime(QString::fromStdString(inst["PrerollTime"])).Et();
     }
 
     // Get other info from labels

@@ -249,15 +249,15 @@ namespace Isis {
       m_connectTime.start();
       //cerr << "History GUI start clock=" << p_startClock << " time=" << p_startTime << endl;
     }
-    PvlObject history(p_ui->ProgramName());
-    history += PvlKeyword("IsisVersion", Version());
-    history += PvlKeyword("ProgramVersion", p_ui->Version());
+    PvlObject history(p_ui->ProgramName().toStdString());
+    history += PvlKeyword("IsisVersion", Version().toStdString());
+    history += PvlKeyword("ProgramVersion", p_ui->Version().toStdString());
     QString path = QCoreApplication::applicationDirPath();
-    history += PvlKeyword("ProgramPath", path);
-    history += PvlKeyword("ExecutionDateTime", p_datetime);
-    history += PvlKeyword("HostName", HostName());
-    history += PvlKeyword("UserName", UserName());
-    history += PvlKeyword("Description", p_ui->Brief());
+    history += PvlKeyword("ProgramPath", path.toStdString());
+    history += PvlKeyword("ExecutionDateTime", p_datetime.toStdString());
+    history += PvlKeyword("HostName", HostName().toStdString());
+    history += PvlKeyword("UserName", UserName().toStdString());
+    history += PvlKeyword("Description", p_ui->Brief().toStdString());
 
     // Add the user parameters
     Pvl pvl;
@@ -296,8 +296,8 @@ namespace Isis {
 
     // Add this information to the log
     PvlGroup acct("Accounting");
-    acct += PvlKeyword("ConnectTime", conTime);
-    acct += PvlKeyword("CpuTime", cpuTime);
+    acct += PvlKeyword("ConnectTime", conTime.toStdString());
+    acct += PvlKeyword("CpuTime", cpuTime.toStdString());
 
     // Not sure if these are really valuable.  If deemed so then
     // uncomment and complete private methods (DirectIO, Pagefaults, and
@@ -638,7 +638,7 @@ namespace Isis {
     for (int i = 0; i < errors.groups(); i++) {
       PvlGroup &group = errors.group(i);
       if (group.isNamed("Error")) {
-        group += PvlKeyword("Program", Application::Name());
+        group += PvlKeyword("Program", Application::Name().toStdString());
       }
     }
     SessionLog::TheLog().AddError(errors);
@@ -746,7 +746,7 @@ namespace Isis {
       for (int i = 0; i < errors.groups(); i++) {
         PvlGroup &group = errors.group(i);
         if (group.isNamed("Error")) {
-          group += PvlKeyword("Program", Application::Name());
+          group += PvlKeyword("Program", Application::Name().toStdString());
         }
       }
       stringStream.str(std::string());

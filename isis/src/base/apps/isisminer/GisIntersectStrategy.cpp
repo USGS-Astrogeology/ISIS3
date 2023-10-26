@@ -123,11 +123,11 @@ namespace Isis {
   
     QString pfile = translateKeywordArgs("GisGeometry", globals); 
 
-    Pvl pvl(pfile); 
+    Pvl pvl(pfile.toStdString()); 
 
     //Keywoard in IsisMiner PVL that has an assoc. geometric value in pfile
     QString key = parms.get("GisGeometryRef"); 
-    QString gisgeom = pvl.findKeyword(key, PvlObject::Traverse);
+    QString gisgeom = QString::fromStdString(pvl.findKeyword(key.toStdString(), PvlObject::Traverse));
   
     QString gistype = parms.get("GisType"); //must be pvlWKT or pvlWKB
     gistype = gistype.remove("pvl", Qt::CaseInsensitive);

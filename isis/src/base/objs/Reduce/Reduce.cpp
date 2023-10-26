@@ -117,16 +117,16 @@ namespace Isis {
     // Information will be added to it if the Mapping or Instrument
     // groups are deleted from the output image label
     PvlGroup resultsGrp("Results");
-    resultsGrp += PvlKeyword("InputLines",      toString(miInputLines));
-    resultsGrp += PvlKeyword("InputSamples",    toString(miInputSamples));
-    resultsGrp += PvlKeyword("StartingLine",    toString(miStartLine));
-    resultsGrp += PvlKeyword("StartingSample",  toString(miStartSample));
-    resultsGrp += PvlKeyword("EndingLine",      toString(miEndLine));
-    resultsGrp += PvlKeyword("EndingSample",    toString(miEndSample));
-    resultsGrp += PvlKeyword("LineIncrement",   toString(mdLineScale));
-    resultsGrp += PvlKeyword("SampleIncrement", toString(mdSampleScale));
-    resultsGrp += PvlKeyword("OutputLines",     toString(miOutputLines));
-    resultsGrp += PvlKeyword("OutputSamples",   toString(miOutputSamples));
+    resultsGrp += PvlKeyword("InputLines",      std::to_string(miInputLines));
+    resultsGrp += PvlKeyword("InputSamples",    std::to_string(miInputSamples));
+    resultsGrp += PvlKeyword("StartingLine",    std::to_string(miStartLine));
+    resultsGrp += PvlKeyword("StartingSample",  std::to_string(miStartSample));
+    resultsGrp += PvlKeyword("EndingLine",      std::to_string(miEndLine));
+    resultsGrp += PvlKeyword("EndingSample",    std::to_string(miEndSample));
+    resultsGrp += PvlKeyword("LineIncrement",   std::to_string(mdLineScale));
+    resultsGrp += PvlKeyword("SampleIncrement", std::to_string(mdSampleScale));
+    resultsGrp += PvlKeyword("OutputLines",     std::to_string(miOutputLines));
+    resultsGrp += PvlKeyword("OutputSamples",   std::to_string(miOutputSamples));
    
     Isis::SubArea subArea;
     subArea.SetSubArea(mInCube->lineCount(), mInCube->sampleCount(), miStartLine, miStartSample, 

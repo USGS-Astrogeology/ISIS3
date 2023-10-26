@@ -121,7 +121,7 @@ namespace Isis {
       void SetPatternReduction(std::vector<int> samples, std::vector<int> lines);
 
       //! Return name of the matching operator
-      inline QString operatorName() const {
+      inline std::string operatorName() const {
         return mOperatorGrp["Name"];
       };
 

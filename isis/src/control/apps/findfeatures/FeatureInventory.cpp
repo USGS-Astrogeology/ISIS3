@@ -165,7 +165,7 @@ namespace Isis {
 
   PvlObject FeatureInventory::info(const QStringList algorithms,
                                    const QString &name) const {
-    PvlObject algos(name);
+    PvlObject algos(name.toStdString());
 
     BOOST_FOREACH ( QString algorithmName, algorithms ) {
       algos += algorithmInfo( algorithmName );
@@ -176,7 +176,7 @@ namespace Isis {
 
 
   PvlObject FeatureInventory::algorithmInfo(const QString algorithmName) const {
-    PvlObject algorithmObject(algorithmName);
+    PvlObject algorithmObject(algorithmName.toStdString());
     QString lowerName = algorithmName.toLower().trimmed();
 
     try {
@@ -196,7 +196,7 @@ namespace Isis {
     }
     catch (IException &e) {
       algorithmObject.clear();
-      algorithmObject += PvlKeyword( "Error", e.toString() );
+      algorithmObject += PvlKeyword( "Error", e.toString().toStdString() );
     }
 
     return ( algorithmObject );
@@ -211,14 +211,14 @@ namespace Isis {
       FeatureCreator creator = m_theFeatureCreator.value(lowerName);
       QStringList aliasList = m_theFeatureCreator.keys(creator);
       BOOST_FOREACH ( QString alias, aliasList) {
-        aliasKey += alias;
+        aliasKey += alias.toStdString();
       }
     }
     else if ( m_theMatcherCreator.contains( lowerName ) ) {
       MatcherCreator creator = m_theMatcherCreator.value(lowerName);
       QStringList aliasList = m_theMatcherCreator.keys(creator);
       BOOST_FOREACH ( QString alias, aliasList) {
-        aliasKey += alias;
+        aliasKey += alias.toStdString();
       }
     }
     else {
@@ -277,9 +277,9 @@ namespace Isis {
      BOOST_FOREACH ( QString parm, fromConfig) {
        QStringList parts = parse(parm, ":");
        if ( parts.size() > 0 ) {
-         PvlKeyword key(parts.takeFirst().trimmed());
+         PvlKeyword key(parts.takeFirst().trimmed().toStdString());
          BOOST_FOREACH  (QString value, parts) {
-           key.addValue(value);
+           key.addValue(value.toStdString());
          }
          parms.add(key);
        }

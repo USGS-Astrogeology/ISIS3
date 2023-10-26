@@ -423,7 +423,7 @@ namespace Isis {
       }
       PvlKeyword originalBand("OriginalBand");
       for (int i = 1; i <= numBands; i++) {
-        originalBand.addValue(toString(i));
+        originalBand.addValue(std::to_string(i));
       }
       bandGroup += originalBand;
       ocube->putGroup(bandGroup);

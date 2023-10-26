@@ -76,7 +76,7 @@ namespace Isis {
    * @param regdef Gruen definitions Pvl file
    */
   void SmtkMatcher::setGruenDef(const QString &regdef) {
-    Pvl reg(regdef);
+    Pvl reg(regdef.toStdString());
     m_gruen = QSharedPointer<Gruen> (new Gruen(reg));  // Deallocation automatic
     return;
   }

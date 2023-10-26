@@ -83,10 +83,10 @@ namespace Isis {
     blob.setData((char*)orglblStr.data(), orglblStr.length());
     blob.Label() += Isis::PvlKeyword("ByteOrder", "NULL");
     if (Isis::IsLsb()) {
-      blob.Label()["ByteOrder"] = Isis::ByteOrderName(Isis::Lsb);
+      blob.Label()["ByteOrder"] = Isis::ByteOrderName(Isis::Lsb).toStdString();
     }
     else {
-      blob.Label()["ByteOrder"] = Isis::ByteOrderName(Isis::Msb);
+      blob.Label()["ByteOrder"] = Isis::ByteOrderName(Isis::Msb).toStdString();
     }
     return blob;
   }

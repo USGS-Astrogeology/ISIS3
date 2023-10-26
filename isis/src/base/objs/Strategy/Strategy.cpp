@@ -46,7 +46,7 @@ namespace Isis {
    */ 
   Strategy::Strategy(const QString &name, const QString &type) : 
                      m_globals(),
-                     m_definition(new PvlObject(name)),
+                     m_definition(new PvlObject(name.toStdString())),
                      m_name(name), m_type(type), m_total(0), 
                      m_applyDiscarded(false), m_debug(false), m_progress() { 
   }
@@ -200,7 +200,7 @@ namespace Isis {
  */
   QString Strategy::description() const {
     if ( m_definition->hasKeyword("Description") ) {
-      return (m_definition->findKeyword("Description")[0]);
+      return QString::fromStdString(m_definition->findKeyword("Description")[0]);
     }
     else {
       QString descr = "Strategy::" + name() + " is running a " + type() +
@@ -646,13 +646,13 @@ namespace Isis {
       BOOST_FOREACH ( QString key, keySources ) {
         if ( resourceA->exists(key) ) {
           PvlKeyword keyword(resourceA->keyword(key));
-          keyword.setName(keyword.name().append(keySuffix.first));
+          keyword.setName(keyword.name().append(keySuffix.first.toStdString()));
           composite->add(keyword);
         }
 
         if ( resourceB->exists(key) ) {
           PvlKeyword keyword(resourceB->keyword(key));
-          keyword.setName(keyword.name().append(keySuffix.second));
+          keyword.setName(keyword.name().append(keySuffix.second.toStdString()));
           composite->add(keyword);
         }
       }
@@ -663,7 +663,7 @@ namespace Isis {
       PvlFlatMap::ConstPvlFlatMapIterator pkeys = rkeysA.begin();
       while ( rkeysA.constEnd() != pkeys) {
         PvlKeyword keyword(pkeys.value());
-        keyword.setName(keyword.name().append(keySuffix.first));
+        keyword.setName(keyword.name().append(keySuffix.first.toStdString()));
         composite->add(keyword);
         ++pkeys;
       }
@@ -672,7 +672,7 @@ namespace Isis {
       pkeys = rkeysB.begin();
       while ( rkeysB.constEnd() != pkeys) {
         PvlKeyword keyword(pkeys.value());
-        keyword.setName(keyword.name().append(keySuffix.second));
+        keyword.setName(keyword.name().append(keySuffix.second.toStdString()));
         composite->add(keyword);
         ++pkeys;
       }
@@ -1203,7 +1203,7 @@ namespace Isis {
     QStringList objList;
     PvlObject::ConstPvlObjectIterator object = source.beginObject();
     while ( object != source.endObject() ) {
-      objList << object->name();
+      objList <<QString::fromStdString(object->name());
       ++object;
     }
     return (objList);

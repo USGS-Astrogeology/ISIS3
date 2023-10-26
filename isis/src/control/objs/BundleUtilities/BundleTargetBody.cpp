@@ -1193,7 +1193,7 @@ namespace Isis {
     for (g = tbObject.beginGroup(); g != tbObject.endGroup(); ++g) {
       if (g->hasKeyword("Ra")) {
         try {
-          str = g->findKeyword("Ra")[0];
+          str = QString::fromStdString(g->findKeyword("Ra")[0]);
         }
         catch (IException &e) {
           QString msg = "Ra must be given as none, position, velocity, or acceleration";
@@ -1215,7 +1215,7 @@ namespace Isis {
 
       if (g->hasKeyword("Dec")) {
         try {
-          str = g->findKeyword("Dec")[0];
+          str = QString::fromStdString(g->findKeyword("Dec")[0]);
         }
         catch (IException &e) {
           QString msg = "Dec must be given as none, position, velocity, or acceleration";
@@ -1237,7 +1237,7 @@ namespace Isis {
 
       if (g->hasKeyword("Pm")) {
         try {
-          str = g->findKeyword("Pm")[0];
+          str = QString::fromStdString(g->findKeyword("Pm")[0]);
         }
         catch (IException &e) {
           QString msg = "Pm must be given as none, position, velocity, or acceleration";
@@ -1259,7 +1259,7 @@ namespace Isis {
 
       if (g->hasKeyword("RadiiSolveOption")) {
         try {
-          str = g->findKeyword("RadiiSolveOption")[0];
+          str = QString::fromStdString(g->findKeyword("RadiiSolveOption")[0]);
         }
         catch (IException &e) {
           QString msg = "RadiiSolveOption must be given as none, triaxial, or mean";

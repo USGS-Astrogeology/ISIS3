@@ -41,7 +41,7 @@ namespace Isis {
   class PvlGroup : public Isis::PvlContainer {
     public:
       PvlGroup();
-      PvlGroup(const QString &name);
+      PvlGroup(const std::string &name);
       PvlGroup(const PvlGroup &other);
 
       //! Validate a Group comparing with the Template Group

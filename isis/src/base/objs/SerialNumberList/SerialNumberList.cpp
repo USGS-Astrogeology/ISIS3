@@ -119,7 +119,7 @@ namespace Isis {
    *                           does not exist.
    */
   void SerialNumberList::add(const QString &filename, bool def2filename) {
-    Pvl p(Isis::FileName(filename).expanded());
+    Pvl p(Isis::FileName(filename).expanded().toStdString());
     PvlObject cubeObj = p.findObject("IsisCube");
 
     try {
@@ -149,7 +149,7 @@ namespace Isis {
           throw IException(IException::User, msg, _FILEINFO_);
         }
 
-        target = targetGroup["TargetName"][0];
+        target = QString::fromStdString(targetGroup["TargetName"][0]);
         target = target.toUpper();
         if (m_target.isEmpty()) {
           m_target = target;
@@ -186,8 +186,8 @@ namespace Isis {
       if (cubeObj.hasGroup("CsmInfo")) {
         PvlGroup csmGroup = cubeObj.findGroup("CsmInfo");
         if (csmGroup.hasKeyword("CSMPlatformID") && csmGroup.hasKeyword("CSMInstrumentId")) {
-          nextpair.spacecraftName = cubeObj.findGroup("CsmInfo")["CSMPlatformID"][0];
-          nextpair.instrumentId = cubeObj.findGroup("CsmInfo")["CSMInstrumentId"][0];
+          nextpair.spacecraftName = QString::fromStdString(cubeObj.findGroup("CsmInfo")["CSMPlatformID"][0]);
+          nextpair.instrumentId = QString::fromStdString(cubeObj.findGroup("CsmInfo")["CSMInstrumentId"][0]);
         }
       }
 
@@ -196,8 +196,8 @@ namespace Isis {
       else if (cubeObj.hasGroup("Instrument")) {
         PvlGroup instGroup = cubeObj.findGroup("Instrument");
         if (instGroup.hasKeyword("SpacecraftName") && instGroup.hasKeyword("InstrumentId")) {
-          nextpair.spacecraftName = cubeObj.findGroup("Instrument")["SpacecraftName"][0];
-          nextpair.instrumentId = cubeObj.findGroup("Instrument")["InstrumentId"][0];
+          nextpair.spacecraftName = QString::fromStdString(cubeObj.findGroup("Instrument")["SpacecraftName"][0]);
+          nextpair.instrumentId = QString::fromStdString(cubeObj.findGroup("Instrument")["InstrumentId"][0]);
         }
       }
 
@@ -249,7 +249,7 @@ namespace Isis {
    *
    */
   void SerialNumberList::add(const QString &serialNumber, const QString &filename) {
-    Pvl p(Isis::FileName(filename).expanded());
+    Pvl p(Isis::FileName(filename).expanded().toStdString());
     PvlObject cubeObj = p.findObject("IsisCube");
 
     try {
@@ -271,7 +271,7 @@ namespace Isis {
             throw IException(IException::User, msg, _FILEINFO_);
         }
 
-        target = targetGroup["TargetName"][0];
+        target = QString::fromStdString(targetGroup["TargetName"][0]);
         target = target.toUpper();
         if (m_target.isEmpty()) {
           m_target = target;
@@ -334,8 +334,8 @@ namespace Isis {
       if (cubeObj.hasGroup("CsmInfo")) {
         PvlGroup csmGroup = cubeObj.findGroup("CsmInfo");
         if (csmGroup.hasKeyword("CSMPlatformID") && csmGroup.hasKeyword("CSMInstrumentId")) {
-          nextpair.spacecraftName = cubeObj.findGroup("CsmInfo")["CSMPlatformID"][0];
-          nextpair.instrumentId = cubeObj.findGroup("CsmInfo")["CSMInstrumentId"][0];
+          nextpair.spacecraftName = QString::fromStdString(cubeObj.findGroup("CsmInfo")["CSMPlatformID"][0]);
+          nextpair.instrumentId = QString::fromStdString(cubeObj.findGroup("CsmInfo")["CSMInstrumentId"][0]);
         }
       }
 
@@ -344,8 +344,8 @@ namespace Isis {
       else if (cubeObj.hasGroup("Instrument")) {
         PvlGroup instGroup = cubeObj.findGroup("Instrument");
         if (instGroup.hasKeyword("SpacecraftName") && instGroup.hasKeyword("InstrumentId")) {
-          nextpair.spacecraftName = cubeObj.findGroup("Instrument")["SpacecraftName"][0];
-          nextpair.instrumentId = cubeObj.findGroup("Instrument")["InstrumentId"][0];
+          nextpair.spacecraftName = QString::fromStdString(cubeObj.findGroup("Instrument")["SpacecraftName"][0]);
+          nextpair.instrumentId = QString::fromStdString(cubeObj.findGroup("Instrument")["InstrumentId"][0]);
         }
       }
 

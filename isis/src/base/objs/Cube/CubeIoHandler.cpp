@@ -105,12 +105,12 @@ namespace Isis {
       const PvlObject &core = label.findObject("IsisCube").findObject("Core");
       const PvlGroup &pixelGroup = core.findGroup("Pixels");
 
-      QString byteOrderStr = pixelGroup.findKeyword("ByteOrder")[0];
+      QString byteOrderStr = QString::fromStdString(pixelGroup.findKeyword("ByteOrder")[0]);
       m_byteSwapper = new EndianSwapper(
           byteOrderStr.toUpper());
       m_base = pixelGroup.findKeyword("Base");
       m_multiplier = pixelGroup.findKeyword("Multiplier");
-      m_pixelType = PixelTypeEnumeration(pixelGroup.findKeyword("Type"));
+      m_pixelType = PixelTypeEnumeration(QString::fromStdString(pixelGroup.findKeyword("Type")));
 
       // If the byte swapper isn't going to do anything, then get rid of it
       //   because it's quicker to check for a NULL byte swapper member than to

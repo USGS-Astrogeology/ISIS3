@@ -67,9 +67,9 @@ namespace Isis {
     PvlObject &core = labels.findObject("IsisCube").findObject("Core");
     core.addKeyword(PvlKeyword("Format", "Tile"),
                     PvlContainer::Replace);
-    core.addKeyword(PvlKeyword("TileSamples", toString(getSampleCountInChunk())),
+    core.addKeyword(PvlKeyword("TileSamples", std::to_string(getSampleCountInChunk())),
                     PvlContainer::Replace);
-    core.addKeyword(PvlKeyword("TileLines", toString(getLineCountInChunk())),
+    core.addKeyword(PvlKeyword("TileLines", std::to_string(getLineCountInChunk())),
                     PvlContainer::Replace);
   }
 

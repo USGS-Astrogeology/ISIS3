@@ -209,7 +209,7 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
    */
   StrategyList StrategyFactory::buildRun(const QString &configFile,
                                          const ResourceList &globals) const {
-  Pvl pvl(configFile);
+  Pvl pvl(configFile.toStdString());
   if (!pvl.hasObject("IsisMiner") ) {
     throw IException(IException::User,
                      "Strategy config file [" + configFile +
@@ -270,10 +270,14 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
                                     const ResourceList &globals) const {
   Strategy *strategy = findStrategy(definition, globals);
   if ( !strategy ) {
-    QString sname("UNKNOWN"), stype("UNKNOWN");
-    if ( definition.hasKeyword("Name") ) { sname = definition["Name"][0]; }
-    if ( definition.hasKeyword("Type") ) { stype = definition["Type"][0]; }
-    QString mess = "Could not create a " + sname +
+    std:string sname("UNKNOWN"), stype("UNKNOWN");
+    if ( definition.hasKeyword("Name") ) { 
+      sname = definition["Name"][0]; 
+    }
+    if ( definition.hasKeyword("Type") ) { 
+      stype = definition["Type"][0]; 
+    }
+    std::string mess = "Could not create a " + sname +
                    " strategy for type [" + stype + "].";
     throw IException(IException::User, mess, _FILEINFO_);
   }
@@ -318,12 +322,12 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
         // Search Resource list for parameter
         int found(0);
         BOOST_FOREACH ( SharedResource resource, parameters ) {
-          if ( resource->exists(keys[i]) ) found++;
+          if ( resource->exists(QString::fromStdString(keys[i])) ) found++;
         }
 
         // If it doesn't exist in any resource, this is an error. Save it off
         // for reporting.
-        if ( !found) missing.push_back(keys[i]);
+        if ( !found) missing.push_back(QString::fromStdString(keys[i]));
       }
 
       if ( !missing.isEmpty() ) {
@@ -358,11 +362,13 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
 
     QString stype;
     try {
-      stype = definition["Type"][0].toLower();
+      stype = QString::fromStdString(definition["Type"][0]).toLower();
     }
     catch (IException &ie) {
       QString sname("UNKNOWN");
-      if ( definition.hasKeyword("Name") ) { sname = definition["Name"][0]; }
+      if ( definition.hasKeyword("Name") ) { 
+        sname = QString::fromStdString(definition["Name"][0]); 
+      }
       QString mess = "Strategy Type does not exist in configuration for " +
                       sname + " strategy!";
       throw IException(ie, IException::User, mess, _FILEINFO_);
@@ -542,10 +548,12 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
      strategy = maker(definition, globals);
    }
    catch (IException &ie) {
-     QString sname("UNKNOWN");
-     if ( definition.hasKeyword("Name") ) { sname = definition["Name"][0]; }
-     QString mess = "Failed to load " + sname + " Strategy plugin!";
-     throw IException(ie, IException::User, mess, _FILEINFO_);
+      std::string sname("UNKNOWN");
+      if ( definition.hasKeyword("Name") ) { 
+        sname = definition["Name"][0]; 
+      }
+      std::string mess = "Failed to load " + sname + " Strategy plugin!";
+      throw IException(ie, IException::User, mess, _FILEINFO_);
    }
 
    return ( strategy );

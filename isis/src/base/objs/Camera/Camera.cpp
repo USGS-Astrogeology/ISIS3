@@ -55,8 +55,8 @@ namespace Isis {
    */
   Camera::Camera(Cube &cube) : Sensor(cube) {
 
-    m_instrumentId = cube.label()->findGroup("Instrument",
-                        PvlObject::FindOptions::Traverse).findKeyword("InstrumentId")[0];
+    m_instrumentId = QString::fromStdString(cube.label()->findGroup("Instrument",
+                        PvlObject::FindOptions::Traverse).findKeyword("InstrumentId")[0]);
 
     m_instrumentNameLong = "Unknown";
     m_instrumentNameShort = "Unknown";
@@ -1206,16 +1206,16 @@ namespace Isis {
     PvlGroup map = pvl.findGroup("Mapping", Pvl::Traverse);
 
     if(map.hasKeyword("EquatorialRadius"))
-      a = Distance(toDouble(map["EquatorialRadius"][0]), Distance::Meters);
+      a = Distance(std::stod(map["EquatorialRadius"][0]), Distance::Meters);
 
     if(map.hasKeyword("PolarRadius"))
-      b = Distance(toDouble(map["PolarRadius"][0]), Distance::Meters);
+      b = Distance(std::stod(map["PolarRadius"][0]), Distance::Meters);
 
     // Convert to planetographic if necessary
     minlat = p_minlat;
     maxlat = p_maxlat;
     if(map.hasKeyword("LatitudeType")) {
-      QString latType = (QString) map["LatitudeType"];
+      QString latType = QString::fromStdString(map["LatitudeType"]);
       if (latType.toUpper() == "PLANETOGRAPHIC") {
         if (abs(minlat) < 90.0) {  // So tan doesn't fail
           minlat *= PI / 180.0;
@@ -1236,7 +1236,7 @@ namespace Isis {
     maxlon = p_maxlon;
     bool domain360 = true;
     if(map.hasKeyword("LongitudeDomain")) {
-      QString lonDomain = (QString) map["LongitudeDomain"];
+      QString lonDomain = QString::fromStdString(map["LongitudeDomain"]);
       if(lonDomain.toUpper() == "180") {
         minlon = p_minlon180;
         maxlon = p_maxlon180;
@@ -1246,7 +1246,7 @@ namespace Isis {
 
     // Convert to the proper longitude direction
     if(map.hasKeyword("LongitudeDirection")) {
-      QString lonDirection = (QString) map["LongitudeDirection"];
+      QString lonDirection = QString::fromStdString(map["LongitudeDirection"]);
       if(lonDirection.toUpper() == "POSITIVEWEST") {
         double swap = minlon;
         minlon = -maxlon;
@@ -1311,7 +1311,7 @@ namespace Isis {
     maxRingLongitude = p_maxRingLongitude;
     bool domain360 = true;
     if (map.hasKeyword("RingLongitudeDomain")) {
-      QString ringLongitudeDomain = (QString) map["RingLongitudeDomain"];
+      QString ringLongitudeDomain = QString::fromStdString(map["RingLongitudeDomain"]);
       if (ringLongitudeDomain == "180") {
         minRingLongitude = p_minRingLongitude180;
         maxRingLongitude = p_maxRingLongitude180;
@@ -1321,7 +1321,7 @@ namespace Isis {
 
     // Convert to the proper azimuth direction
     if (map.hasKeyword("RingLongitudeDirection")) {
-      QString ringLongitudeDirection = (QString) map["RingLongitudeDirection"];
+      QString ringLongitudeDirection = QString::fromStdString(map["RingLongitudeDirection"]);
       if (ringLongitudeDirection.toUpper() == "Clockwise") {
         double swap = minRingLongitude;
         minRingLongitude = -maxRingLongitude;
@@ -1366,22 +1366,22 @@ namespace Isis {
    */
   void Camera::BasicMapping(Pvl &pvl) {
     PvlGroup map("Mapping");
-    map += PvlKeyword("TargetName", target()->name());
+    map += PvlKeyword("TargetName", target()->name().toStdString());
 
     std::vector<Distance> radii = target()->radii();
-    map += PvlKeyword("EquatorialRadius", toString(radii[0].meters()), "meters");
-    map += PvlKeyword("PolarRadius", toString(radii[2].meters()), "meters");
+    map += PvlKeyword("EquatorialRadius", std::to_string(radii[0].meters()), "meters");
+    map += PvlKeyword("PolarRadius", std::to_string(radii[2].meters()), "meters");
 
     map += PvlKeyword("LatitudeType", "Planetocentric");
     map += PvlKeyword("LongitudeDirection", "PositiveEast");
     map += PvlKeyword("LongitudeDomain", "360");
 
     GroundRangeResolution();
-    map += PvlKeyword("MinimumLatitude", toString(p_minlat));
-    map += PvlKeyword("MaximumLatitude", toString(p_maxlat));
-    map += PvlKeyword("MinimumLongitude", toString(p_minlon));
-    map += PvlKeyword("MaximumLongitude", toString(p_maxlon));
-    map += PvlKeyword("PixelResolution", toString(p_minres));
+    map += PvlKeyword("MinimumLatitude", std::to_string(p_minlat));
+    map += PvlKeyword("MaximumLatitude", std::to_string(p_maxlat));
+    map += PvlKeyword("MinimumLongitude", std::to_string(p_minlon));
+    map += PvlKeyword("MaximumLongitude", std::to_string(p_maxlon));
+    map += PvlKeyword("PixelResolution", std::to_string(p_minres));
 
     map += PvlKeyword("ProjectionName", "Sinusoidal");
     pvl.addGroup(map);
@@ -1402,17 +1402,17 @@ namespace Isis {
     }
 
     PvlGroup map("Mapping");
-    map += PvlKeyword("TargetName", target()->name());
+    map += PvlKeyword("TargetName", target()->name().toStdString());
 
     map += PvlKeyword("RingLongitudeDirection", "CounterClockwise");
     map += PvlKeyword("RingLongitudeDomain", "360");
 
     ringRangeResolution();
-    map += PvlKeyword("MinimumRingRadius", toString(p_minRingRadius));
-    map += PvlKeyword("MaximumRingRadius", toString(p_maxRingRadius));
-    map += PvlKeyword("MinimumRingLongitude", toString(p_minRingLongitude));
-    map += PvlKeyword("MaximumRingLongitude", toString(p_maxRingLongitude));
-    map += PvlKeyword("PixelResolution", toString(p_minres));
+    map += PvlKeyword("MinimumRingRadius", std::to_string(p_minRingRadius));
+    map += PvlKeyword("MaximumRingRadius", std::to_string(p_maxRingRadius));
+    map += PvlKeyword("MinimumRingLongitude", std::to_string(p_minRingLongitude));
+    map += PvlKeyword("MaximumRingLongitude", std::to_string(p_maxRingLongitude));
+    map += PvlKeyword("PixelResolution", std::to_string(p_minres));
 
     map += PvlKeyword("ProjectionName", "Planar");
     pvl.addGroup(map);

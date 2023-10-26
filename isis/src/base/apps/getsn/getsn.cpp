@@ -52,9 +52,9 @@ namespace Isis {
 
     PvlGroup sn("Results");
 
-    if (WriteFile) sn += PvlKeyword("Filename", from);
-    if (WriteSN) sn += PvlKeyword( "SerialNumber", SerialNumber::Compose( *label, ui.GetBoolean("DEFAULT") ) );
-    if (WriteObservation) sn += PvlKeyword( "ObservationNumber", ObservationNumber::Compose( *label, ui.GetBoolean("DEFAULT") ) );
+    if (WriteFile) sn += PvlKeyword("Filename", from.toStdString());
+    if (WriteSN) sn += PvlKeyword( "SerialNumber", SerialNumber::Compose( *label, ui.GetBoolean("DEFAULT") ).toStdString() );
+    if (WriteObservation) sn += PvlKeyword( "ObservationNumber", ObservationNumber::Compose( *label, ui.GetBoolean("DEFAULT") ).toStdString() );
 
     if ( ui.WasEntered("TO") ) {
       // PVL option
@@ -63,9 +63,9 @@ namespace Isis {
 	Pvl pvl;
 	pvl.addGroup(sn);
 	if ( ui.GetBoolean("APPEND") )
-	  pvl.append( ui.GetFileName("TO") );
+	  pvl.append( ui.GetFileName("TO").toStdString() );
 	else
-	  pvl.write( ui.GetFileName("TO") );
+	  pvl.write( ui.GetFileName("TO").toStdString() );
       }
       // FLAT option
       else {
@@ -78,7 +78,7 @@ namespace Isis {
 	for (int i = 0; i < sn.keywords(); i++) {
 	  if (i != 0)
 	    line += ",";
-	  line += sn[i][0];
+	  line += QString::fromStdString(sn[i][0]);
 	}
 	txt.PutLine(line);
       }

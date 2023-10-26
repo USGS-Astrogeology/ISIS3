@@ -75,7 +75,7 @@ namespace Isis {
       if (!mapGroup.hasKeyword("CenterLongitude")) {
         if (allowDefaults) {
           double centerLon = (MinimumLongitude() + MaximumLongitude()) / 2.0;
-          mapGroup += PvlKeyword("CenterLongitude", toString(centerLon), "Degrees");
+          mapGroup += PvlKeyword("CenterLongitude", std::to_string(centerLon), "Degrees");
         }
         else {
           QString message = "Cannot project using Lambert Azimuthal equal-area";
@@ -90,7 +90,7 @@ namespace Isis {
       if (!mapGroup.hasKeyword("CenterLatitude")) {
         if (allowDefaults) {
           double centerLat = (MinimumLatitude() + MaximumLatitude()) / 2.0;
-          mapGroup += PvlKeyword("CenterLatitude", toString(centerLat), "Degrees");
+          mapGroup += PvlKeyword("CenterLatitude", std::to_string(centerLat), "Degrees");
         }
         else {
           QString message = "Cannot project using Lambert Azimuthal equal-area";

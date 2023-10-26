@@ -239,9 +239,9 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
     PvlGroup error("ERROR");
     error.addComment("The decrypted code is invalid.");
     for (int i=0; i<4; i++) {
-      PvlKeyword keyword("Column"+toString(i+1));
+      PvlKeyword keyword("Column"+std::to_string(i+1));
       for (int j=0; j<32; j++) {
-        keyword += toString((int)code[i][j]);
+        keyword += std::to_string((int)code[i][j]);
       }
       error.addKeyword(keyword);
       codeGroup += keyword;
@@ -250,17 +250,17 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
   }
   else {
     codeGroup += PvlKeyword("StartTime", FrameTime());
-    codeGroup += PvlKeyword("SpacecraftAltitude", toString(Altitude()),"meters");
+    codeGroup += PvlKeyword("SpacecraftAltitude", std::to_string(Altitude()),"meters");
 
     if (apollo->IsMetric()){
-      codeGroup += PvlKeyword("ExposureDuration", toString(ShutterInterval()), "milliseconds");
+      codeGroup += PvlKeyword("ExposureDuration", std::to_string(ShutterInterval()), "milliseconds");
       codeGroup += PvlKeyword("ForwardMotionCompensation", FMC());
     }
 
     for (int i=0; i<4; i++) {
-      PvlKeyword keyword("Column"+toString(i+1));
+      PvlKeyword keyword("Column"+ std::to_string(i+1));
       for (int j=0; j<32; j++) {
-        keyword += toString((int)code[i][j]);
+        keyword += std::to_string((int)code[i][j]);
       }
       codeGroup += keyword;
     }
@@ -292,9 +292,9 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
         y += 20;
     }
 
-    reseaus->findKeyword("Sample")[i] = toString(
+    reseaus->findKeyword("Sample")[i] = std::to_string(
         cos(rotation)*(x-sampleTranslation) - sin(rotation)*(y-lineTranslation) + sampleTranslation);
-    reseaus->findKeyword("Line")[i] = toString(
+    reseaus->findKeyword("Line")[i] = std::to_string(
         sin(rotation)*(x-sampleTranslation) + cos(rotation)*(y-lineTranslation) + lineTranslation);
   }
   inst += PvlKeyword("StartTime", utcTime);

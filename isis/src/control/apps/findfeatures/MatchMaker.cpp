@@ -158,7 +158,7 @@ MatcherSolutionList MatchMaker::match(const RobustMatcherList &matchers) {
     logger().flush();
   }
 
-  cnetinfo += PvlKeyword("SolutionSize", toString(solution.size()) );
+  cnetinfo += PvlKeyword("SolutionSize", std::to_string(solution.size()) );
   if ( solution.size() <= 0 ) {
     cnetinfo += PvlKeyword("Error", "No matches, no network!!");
     return (cnetinfo);
@@ -217,12 +217,12 @@ MatcherSolutionList MatchMaker::match(const RobustMatcherList &matchers) {
     }
   }
 
-  cnetinfo += PvlKeyword("ImagesMatched", toString(nImages) );
-  cnetinfo += PvlKeyword("ControlPoints", toString(nPoints) );
-  cnetinfo += PvlKeyword("ControlMeasures", toString(nMeasures) );
-  cnetinfo += PvlKeyword("InvalidIgnoredPoints", toString(nBadPoints) );
-  cnetinfo += PvlKeyword("InvalidIgnoredMeasures", toString(nBadMeasures) );
-  cnetinfo += PvlKeyword("PreserveIgnoredControl", toString(preserve_ignored) );
+  cnetinfo += PvlKeyword("ImagesMatched", std::to_string(nImages) );
+  cnetinfo += PvlKeyword("ControlPoints", std::to_string(nPoints) );
+  cnetinfo += PvlKeyword("ControlMeasures", std::to_string(nMeasures) );
+  cnetinfo += PvlKeyword("InvalidIgnoredPoints", std::to_string(nBadPoints) );
+  cnetinfo += PvlKeyword("InvalidIgnoredMeasures", std::to_string(nBadMeasures) );
+  cnetinfo += PvlKeyword("PreserveIgnoredControl", std::to_string(preserve_ignored) );
   if ( isDebug() ) {
     logger() << "  Images Matched:                 " << nImages << "\n";
     logger() << "  ControlPoints created:          " << nPoints << "\n";
@@ -234,7 +234,7 @@ MatcherSolutionList MatchMaker::match(const RobustMatcherList &matchers) {
   }
 
   // Report measure statistics
-  PvlKeyword mkey = PvlKeyword("ValidPoints", toString(pointStats.ValidPixels()) );
+  PvlKeyword mkey = PvlKeyword("ValidPoints", std::to_string(pointStats.ValidPixels()) );
   mkey.addComment(" -- Valid Point/Measure Statistics ---");
   cnetinfo += mkey;
   if ( isDebug() ) {
@@ -243,11 +243,11 @@ MatcherSolutionList MatchMaker::match(const RobustMatcherList &matchers) {
   }
 
   if ( pointStats.ValidPixels() > 0 ) {
-    cnetinfo += PvlKeyword("MinimumMeasures", toString(pointStats.Minimum()) );
-    cnetinfo += PvlKeyword("MaximumMeasures", toString(pointStats.Maximum()) );
-    cnetinfo += PvlKeyword("AverageMeasures", toString(pointStats.Average()) );
-    cnetinfo += PvlKeyword("StdDevMeasures", toString(pointStats.StandardDeviation()) );
-    cnetinfo += PvlKeyword("TotalMeasures", toString((int) pointStats.Sum()) );
+    cnetinfo += PvlKeyword("MinimumMeasures", std::to_string(pointStats.Minimum()) );
+    cnetinfo += PvlKeyword("MaximumMeasures", std::to_string(pointStats.Maximum()) );
+    cnetinfo += PvlKeyword("AverageMeasures", std::to_string(pointStats.Average()) );
+    cnetinfo += PvlKeyword("StdDevMeasures", std::to_string(pointStats.StandardDeviation()) );
+    cnetinfo += PvlKeyword("TotalMeasures", std::to_string((int) pointStats.Sum()) );
     if ( isDebug() ) {
       logger() << "  MinimumMeasures:       " << pointStats.Minimum() << "\n";
       logger() << "  MaximumMeasures:       " << pointStats.Maximum() << "\n";

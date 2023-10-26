@@ -305,7 +305,7 @@ namespace Isis {
     startTime = centerTime - (exposureTime / 2.0 );
     if ( instGrp.hasKeyword("SpacecraftClockStartCount") ) {
       PvlKeyword startSClock = instGrp["SpacecraftClockStartCount"];
-      QString originalClock = startSClock[0];
+      QString originalClock = QString::fromStdString(startSClock[0]);
       startTime = cube.camera()->getClockTime(originalClock) + exposureDelay;
     }
 
@@ -313,7 +313,7 @@ namespace Isis {
     stopTime = centerTime + (exposureTime / 2.0);
     if ( instGrp.hasKeyword("SpacecraftClockStopCount") ) {
       PvlKeyword stopSClock = instGrp["SpacecraftClockStopCount"];
-      QString originalClock = stopSClock[0];
+      QString originalClock = QString::fromStdString(stopSClock[0]);
       try {
         stopTime = cube.camera()->getClockTime(originalClock) - stopDelay;
       }
@@ -340,8 +340,8 @@ namespace Isis {
     Pvl *cubeLabels = cube.label();
     PvlGroup &instGrp = cubeLabels->findGroup("Instrument", Pvl::Traverse);
     PvlKeyword exptime = instGrp["ExposureDuration"];
-    QString units = exptime.unit(0).toLower();
-    double etime = toDouble(exptime[0]);
+    QString units = QString::fromStdString(exptime.unit(0)).toLower();
+    double etime = std::stod(exptime[0]);
 
     // Convert to seconds if indicated
     if ( "milliseconds" == units) etime /= 1000.0;
@@ -416,10 +416,10 @@ namespace Isis {
     Pvl *cubeLabel = cube.label();
     PvlGroup &instGrp = cubeLabel->findGroup("Instrument", Pvl::Traverse);
 
-    QString scname = instGrp["SpacecraftName"];
+    QString scname = QString::fromStdString(instGrp["SpacecraftName"]);
     if ( scname.toLower() != "dawn" ) { return (0.0); }
 
-    QString instname = instGrp["InstrumentId"];
+    QString instname = QString::fromStdString(instGrp["InstrumentId"]);
     if ( instname.toLower() == "fc1") { return (0.193); }
     if ( instname.toLower() == "fc2") { return (0.193); }
 
@@ -499,7 +499,7 @@ namespace Isis {
       sumtFileKeyword.addComment("SUMFILE(s) used to update the SCLK timing "
                                  "in the instrument group (SPC).");
     }
-    sumtFileKeyword.addValue(m_sumfile->name());
+    sumtFileKeyword.addValue(m_sumfile->name().toStdString());
     setKeyword(sumtFileKeyword, sumtGrp);
 
     // Compute new values for existing keywords if we got them
@@ -517,7 +517,7 @@ namespace Isis {
       NaifStatus::CheckErrors();
 
       sumtStartClock.addValue(origStartClock[0], origStartClock.unit());
-      origStartClock.setValue(QString(newSCLK), origStartClock.unit());
+      origStartClock.setValue(QString(newSCLK).toStdString(), origStartClock.unit());
 
       setKeyword(origStartClock, instGrp);
       setKeyword(sumtStartClock, sumtGrp);
@@ -533,7 +533,7 @@ namespace Isis {
       NaifStatus::CheckErrors();
 
       sumtStopClock.addValue(origStopClock[0], origStopClock.unit());
-      origStopClock.setValue(QString(newSCLK), origStopClock.unit());
+      origStopClock.setValue(QString(newSCLK).toStdString(), origStopClock.unit());
 
       setKeyword(origStopClock, instGrp);
       setKeyword(sumtStopClock, sumtGrp);
@@ -543,7 +543,7 @@ namespace Isis {
     // Now check for StartTime
     if ( origStartTime.size() > 0 ) {
       sumtStartTime.addValue(origStartTime[0], origStartTime.unit());
-      origStartTime.setValue(newStartClock.UTC(), origStartTime.unit());
+      origStartTime.setValue(newStartClock.UTC().toStdString(), origStartTime.unit());
 
       setKeyword(origStartTime, instGrp);
       setKeyword(sumtStartTime, sumtGrp);
@@ -552,7 +552,7 @@ namespace Isis {
     // Now check for StopTime
     if ( origStopTime.size() > 0 ) {
       sumtStopTime.addValue(origStopTime[0], origStopTime.unit());
-      origStopTime.setValue(newStopClock.UTC(), origStopTime.unit());
+      origStopTime.setValue(newStopClock.UTC().toStdString(), origStopTime.unit());
 
       setKeyword(origStopTime, instGrp);
       setKeyword(sumtStopTime, sumtGrp);
@@ -634,11 +634,11 @@ namespace Isis {
 
   PvlKeyword SumFinder::findKeyword(const QString &name,
                                     const PvlContainer &keys) const {
-    if ( keys.hasKeyword(name) ) {
-      return ( keys.findKeyword(name) );
+    if ( keys.hasKeyword(name.toStdString()) ) {
+      return ( keys.findKeyword(name.toStdString()) );
     }
 
-    return (PvlKeyword(name));
+    return (PvlKeyword(name.toStdString()));
   }
 
 
@@ -650,8 +650,8 @@ namespace Isis {
 
   bool SumFinder::deleteKeyword(const QString &keyword,
                                 PvlContainer &keys) const {
-    if ( keys.hasKeyword(keyword) ) {
-      keys.deleteKeyword(keyword);
+    if ( keys.hasKeyword(keyword.toStdString()) ) {
+      keys.deleteKeyword(keyword.toStdString());
       return ( true );
     }
 

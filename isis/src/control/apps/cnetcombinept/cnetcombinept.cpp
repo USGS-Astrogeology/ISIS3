@@ -489,15 +489,15 @@ namespace Isis{
     // Write out a report
     int pMerged = validPoints - vPoints;
     PvlGroup summary("Summary");
-    summary += PvlKeyword("TotalCubes",        toString(cube_measures_size));
-    summary += PvlKeyword("TotalInputPoints",  toString(all_points.size()));
-    summary += PvlKeyword("TotalOutputPoints", toString(oPoints));
-    summary += PvlKeyword("PointsMerged",      toString(pMerged));
-    summary += PvlKeyword("PointsEvaluated",   toString(nfound));
-    summary += PvlKeyword("TotalMeasures",     toString(allPoints));
-    summary += PvlKeyword("MeasuresMerged",    toString(nMerged));
-    summary += PvlKeyword("MeasuresDeleted",   toString(nRemoved));
-    summary += PvlKeyword("MinimumMeasures",   toString(nMinMeasures));
+    summary += PvlKeyword("TotalCubes",        std::to_string(cube_measures_size));
+    summary += PvlKeyword("TotalInputPoints",  std::to_string(all_points.size()));
+    summary += PvlKeyword("TotalOutputPoints", std::to_string(oPoints));
+    summary += PvlKeyword("PointsMerged",      std::to_string(pMerged));
+    summary += PvlKeyword("PointsEvaluated",   std::to_string(nfound));
+    summary += PvlKeyword("TotalMeasures",     std::to_string(allPoints));
+    summary += PvlKeyword("MeasuresMerged",    std::to_string(nMerged));
+    summary += PvlKeyword("MeasuresDeleted",   std::to_string(nRemoved));
+    summary += PvlKeyword("MinimumMeasures",   std::to_string(nMinMeasures));
     Application::Log(summary);
 
     pbl.EndProcess();

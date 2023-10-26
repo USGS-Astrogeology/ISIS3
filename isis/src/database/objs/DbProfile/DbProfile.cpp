@@ -81,10 +81,10 @@ namespace Isis {
    */
   void DbProfile::add(const QString &key, const QString &value) {
     if(_keys.exists(key)) {
-      _keys.get(key).addValue(value);
+      _keys.get(key).addValue(value.toStdString());
     }
     else {
-      _keys.add(key, PvlKeyword(key, value));
+      _keys.add(key, PvlKeyword(key.toStdString(), value.toStdString()));
     }
   }
 
@@ -101,7 +101,7 @@ namespace Isis {
    * @param value Value to add to the keyword
    */
   void DbProfile::replace(const QString &key, const QString &value) {
-    _keys.add(key, PvlKeyword(key, value));
+    _keys.add(key, PvlKeyword(key.toStdString(), value.toStdString()));
   }
 
 
@@ -145,7 +145,7 @@ namespace Isis {
    */
   QString DbProfile::value(const QString &key, int nth) const {
     try {
-      return (_keys.get(key)[nth]);
+      return QString::fromStdString(_keys.get(key)[nth]);
     }
     catch(IException &ie) {
       ostringstream mess;

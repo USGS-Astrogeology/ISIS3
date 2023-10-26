@@ -896,10 +896,10 @@ namespace Isis {
       PvlKeyword polygon("Polygon");
 
       for (int i = 0; i < p_lonLatOverlaps.at(overlap1)->Size(); i++) {
-        serialNumbers += (*p_lonLatOverlaps.at(overlap1))[i];
+        serialNumbers += (*p_lonLatOverlaps.at(overlap1))[i].toStdString();
 
         if (snlist != NULL) {
-          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap1))[i]);
+          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap1))[i]).toStdString();
         }
       }
       polygon += p_lonLatOverlaps.at(overlap1)->Polygon()->toString().c_str();
@@ -920,10 +920,10 @@ namespace Isis {
       PvlKeyword polygon("Polygon");
 
       for (int i = 0; i < p_lonLatOverlaps.at(overlap2)->Size(); i++) {
-        serialNumbers += (*p_lonLatOverlaps.at(overlap2))[i];
+        serialNumbers += (*p_lonLatOverlaps.at(overlap2))[i].toStdString();
 
         if (snlist != NULL) {
-          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap2))[i]);
+          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap2))[i]).toStdString();
         }
       }
       polygon += p_lonLatOverlaps.at(overlap2)->Polygon()->toString().c_str();
@@ -940,7 +940,7 @@ namespace Isis {
     err += PvlKeyword("Error", e.what());
 
     if (!msg.isEmpty()) {
-      err += PvlKeyword("Description", msg);
+      err += PvlKeyword("Description", msg.toStdString());
     }
 
     p_errorLog.push_back(err);
@@ -971,10 +971,10 @@ namespace Isis {
       PvlKeyword filename("FileNames");
 
       for (int i = 0; i < p_lonLatOverlaps.at(overlap1)->Size(); i++) {
-        serialNumbers += (*p_lonLatOverlaps.at(overlap1))[i];
+        serialNumbers += (*p_lonLatOverlaps.at(overlap1))[i].toStdString();
 
         if (snlist != NULL) {
-          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap1))[i]);
+          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap1))[i]).toStdString();
         }
       }
 
@@ -991,10 +991,10 @@ namespace Isis {
       PvlKeyword filename("FileNames");
 
       for (int i = 0; i < p_lonLatOverlaps.at(overlap2)->Size(); i++) {
-        serialNumbers += (*p_lonLatOverlaps.at(overlap2))[i];
+        serialNumbers += (*p_lonLatOverlaps.at(overlap2))[i].toStdString();
 
         if (snlist != NULL) {
-          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap2))[i]);
+          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap2))[i]).toStdString();
         }
       }
 
@@ -1008,7 +1008,7 @@ namespace Isis {
     err += PvlKeyword("Error", exc->what());
 
     if (!msg.isEmpty()) {
-      err += PvlKeyword("Description", msg);
+      err += PvlKeyword("Description", msg.toStdString());
     }
 
     p_errorLog.push_back(err);
@@ -1041,10 +1041,10 @@ namespace Isis {
       PvlKeyword filename("FileNames");
 
       for (int i = 0; i < p_lonLatOverlaps.at(overlap1)->Size(); i++) {
-        serialNumbers += (*p_lonLatOverlaps.at(overlap1))[i];
+        serialNumbers += (*p_lonLatOverlaps.at(overlap1))[i].toStdString();
 
         if (snlist != NULL) {
-          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap1))[i]);
+          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap1))[i]).toStdString();
         }
       }
 
@@ -1061,10 +1061,10 @@ namespace Isis {
       PvlKeyword filename("FileNames");
 
       for (int i = 0; i < p_lonLatOverlaps.at(overlap2)->Size(); i++) {
-        serialNumbers += (*p_lonLatOverlaps.at(overlap2))[i];
+        serialNumbers += (*p_lonLatOverlaps.at(overlap2))[i].toStdString();
 
         if (snlist != NULL) {
-          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap2))[i]);
+          filename += snlist->fileName((*p_lonLatOverlaps.at(overlap2))[i]).toStdString();
         }
       }
 
@@ -1075,7 +1075,7 @@ namespace Isis {
       }
     }
 
-    err += PvlKeyword("Description", msg);
+    err += PvlKeyword("Description", msg.toStdString());
 
     p_errorLog.push_back(err);
 

@@ -68,7 +68,7 @@ namespace Isis {
   };
 
   void runProcess(QString ioFile, PvlObject process) {
-    std::string functionString = QString(process["ProcessFunction"]).toStdString();
+    std::string functionString = process["ProcessFunction"];
     switch (processMap[functionString]) {
       case 1:
         cassiniIssFixDnPostProcess(ioFile, process);

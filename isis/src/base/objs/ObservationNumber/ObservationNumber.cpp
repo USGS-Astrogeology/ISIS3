@@ -38,7 +38,7 @@ namespace Isis {
       if(def2filename) {
         //  Try to return the filename if it exists in the label, otherwise use
         //  "Unknown" as a last resort.
-        QString snTemp = label.fileName();
+        QString snTemp = QString::fromStdString(label.fileName());
         if(!snTemp.isEmpty()) {
           sn = FileName(snTemp).name();
         }
@@ -69,7 +69,7 @@ namespace Isis {
    * @param filename a filename to open
    */
   QString ObservationNumber::Compose(const QString &filename, bool def2filename) {
-    Pvl p(filename);
+    Pvl p(filename.toStdString());
     return Compose(p, def2filename);
   }
 
@@ -109,7 +109,7 @@ namespace Isis {
                                  instrument + "SerialNumber.trn");
 
       // Delets the extra
-      Pvl translation(snFile.expanded());
+      Pvl translation(snFile.expanded().toStdString());
       PvlKeyword observationKeys;
       if(translation.hasKeyword("ObservationKeys")) {
         observationKeys = translation["ObservationKeys"];
@@ -129,11 +129,11 @@ namespace Isis {
     PvlGroup snGroup = outLabel.findGroup("SerialNumberKeywords");
 
     // Delets the extra
-    if(!translationIterator->second.second.name().isEmpty()) {
+    if(!QString::fromStdString(translationIterator->second.second.name()).isEmpty()) {
       snGroup += translationIterator->second.second;
     }
     else {
-      snGroup += PvlKeyword("ObservationKeys", toString(snGroup.keywords()));
+      snGroup += PvlKeyword("ObservationKeys", std::to_string(snGroup.keywords()));
     }
 
     return snGroup;

@@ -47,9 +47,9 @@ namespace Isis {
     }
 
     if(algorithm.hasKeyword("ZeroB0Standard")) {
-      SetPhoto0B0Standard(algorithm["ZeroB0Standard"][0]);
+      SetPhoto0B0Standard(QString::fromStdString(algorithm["ZeroB0Standard"][0]));
     } else if (algorithm.hasKeyword("ZeroB0St")) {
-      SetPhoto0B0Standard(algorithm["ZeroB0St"][0]);
+      SetPhoto0B0Standard(QString::fromStdString(algorithm["ZeroB0St"][0]));
     } else {
       SetPhoto0B0Standard("TRUE");
     }

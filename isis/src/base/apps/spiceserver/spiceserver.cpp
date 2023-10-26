@@ -119,10 +119,10 @@ namespace Isis {
           }
         }
         else {
-          QString err = "Unable to read XML. The reason given was [";
-          err += error;
-          err += "] on line [" + toString(errorLine) + "] column [";
-          err += toString(errorCol) + "]";
+          std::string err = "Unable to read XML. The reason given was [";
+          err += error.toStdString();
+          err += "] on line [" + std::to_string(errorLine) + "] column [";
+          err += std::to_string(errorCol) + "]";
           throw IException(IException::Io, err, _FILEINFO_);
         }
       }
@@ -216,7 +216,7 @@ namespace Isis {
         demPvlKeyStream >> key;
 
         for (int value = 0; value < key.size(); value++) {
-          dem.push_back(key[value]);
+          dem.push_back(QString::fromStdString(key[value]));
         }
       }
 
@@ -273,7 +273,7 @@ namespace Isis {
          * This program has read and write access on the spice server in /tmp/spice_web_service.
          */
         inputLabels = FileName::createTempFile( ui.GetCubeName("TEMPFILE") );
-        label.write( inputLabels.expanded() );
+        label.write( inputLabels.expanded().toStdString() );
         Cube cube;
         cube.open(inputLabels.expanded(), "rw");
         kernelSuccess = tryKernels(cube, ui, log, label, p, lk, pck, targetSpk,
@@ -332,34 +332,34 @@ namespace Isis {
     PvlKeyword exkKeyword("Extra");
 
     for (int i = 0; i < lk.size(); i++) {
-      lkKeyword.addValue(lk[i]);
+      lkKeyword.addValue(lk[i].toStdString());
     }
     for (int i = 0; i < pck.size(); i++) {
-      pckKeyword.addValue(pck[i]);
+      pckKeyword.addValue(pck[i].toStdString());
     }
     for (int i = 0; i < targetSpk.size(); i++) {
-      targetSpkKeyword.addValue(targetSpk[i]);
+      targetSpkKeyword.addValue(targetSpk[i].toStdString());
     }
     for (int i = 0; i < ck.size(); i++) {
-      ckKeyword.addValue(ck[i]);
+      ckKeyword.addValue(ck[i].toStdString());
     }
     for (int i = 0; i < ik.size(); i++) {
-      ikKeyword.addValue(ik[i]);
+      ikKeyword.addValue(ik[i].toStdString());
     }
     for (int i = 0; i < sclk.size(); i++) {
-      sclkKeyword.addValue(sclk[i]);
+      sclkKeyword.addValue(sclk[i].toStdString());
     }
     for (int i = 0; i < spk.size(); i++) {
-      spkKeyword.addValue(spk[i]);
+      spkKeyword.addValue(spk[i].toStdString());
     }
     for (int i = 0; i < iak.size(); i++) {
-      iakKeyword.addValue(iak[i]);
+      iakKeyword.addValue(iak[i].toStdString());
     }
     for (int i = 0; i < dem.size(); i++) {
-      demKeyword.addValue(dem[i]);
+      demKeyword.addValue(dem[i].toStdString());
     }
     for (int i = 0; i < exk.size(); i++) {
-      exkKeyword.addValue(exk[i]);
+      exkKeyword.addValue(exk[i].toStdString());
     }
 
     PvlGroup originalKernels = lab.findGroup("Kernels", Pvl::Traverse);
@@ -410,14 +410,14 @@ namespace Isis {
 
     // Add any time padding the user specified to the spice group
     if (g_startPad > DBL_EPSILON)
-      currentKernels.addKeyword( PvlKeyword("StartPadding", toString(g_startPad), "seconds") );
+      currentKernels.addKeyword( PvlKeyword("StartPadding", std::to_string(g_startPad), "seconds") );
 
     if (g_endPad > DBL_EPSILON)
-      currentKernels.addKeyword( PvlKeyword("EndPadding", toString(g_endPad), "seconds") );
+      currentKernels.addKeyword( PvlKeyword("EndPadding", std::to_string(g_endPad), "seconds") );
 
 
     currentKernels.addKeyword(
-        PvlKeyword( "CameraVersion", toString( CameraFactory::CameraVersion(cube) ) ), Pvl::Replace);
+        PvlKeyword( "CameraVersion", std::to_string( CameraFactory::CameraVersion(cube) ) ), Pvl::Replace);
 
     // Add the modified Kernels group to the input cube labels
     cube.putGroup(currentKernels);
@@ -431,7 +431,7 @@ namespace Isis {
         // If success then pretend we had the shape model keyword in there...
         Pvl applicationLog;
         applicationLog += currentKernels;
-        applicationLog.write(ui.GetFileName("TO") + ".print");
+        applicationLog.write(ui.GetFileName("TO").toStdString() + ".print");
       }
       catch (IException &e) {
         Pvl errPvl = e.toPvl();
@@ -468,7 +468,7 @@ namespace Isis {
       for (int i = 0; i < pckKeyword.size(); i++)
         bodyTable.Label()["Kernels"].addValue(pckKeyword[i]);
 
-      bodyTable.Label() += PvlKeyword( "SolarLongitude", toString( cam->solarLongitude().degrees() ) );
+      bodyTable.Label() += PvlKeyword( "SolarLongitude", std::to_string( cam->solarLongitude().degrees() ) );
       bodyTable.toBlob().Write(ui.GetFileName("TO") + ".bodyrot");
 
       Table sunTable = cam->sunPosition()->Cache("SunPosition");
@@ -499,7 +499,7 @@ namespace Isis {
       Pvl kernelsLabels;
       kernelsLabels += currentKernels;
       kernelsLabels += cam->getStoredNaifKeywords();
-      kernelsLabels.write(ui.GetFileName("TO") + ".lab");
+      kernelsLabels.write(ui.GetFileName("TO").toStdString() + ".lab");
     }
     catch (IException &) {
       lab = origLabels;
@@ -598,7 +598,7 @@ namespace Isis {
     xml += "  <application_log>\n";
 
     QString logFile(toFile + ".print");
-    Pvl logMessage(logFile);
+    Pvl logMessage(logFile.toStdString());
     QFile::remove(logFile);
     stringstream logStream;
     logStream << logMessage;
@@ -608,7 +608,7 @@ namespace Isis {
     xml += "  <kernels_label>\n";
 
     QString kernLabelsFile(toFile + ".lab");
-    Pvl kernLabels(kernLabelsFile);
+    Pvl kernLabels(kernLabelsFile.toStdString());
     QFile::remove(kernLabelsFile);
     stringstream labelStream;
     labelStream << kernLabels;

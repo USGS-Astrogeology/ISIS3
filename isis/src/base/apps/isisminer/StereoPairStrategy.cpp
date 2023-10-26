@@ -411,12 +411,12 @@ namespace Isis {
       QVector<double> threshold;
       try {
         for ( nval = 0 ; nval < key.size() ; nval++ ) {
-          threshold.push_back(toDouble(key[nval]));
+          threshold.push_back(std::stod(key[nval]));
         }
       }
       catch (IException &ie) {
         // Traps float conversion errors
-        QString mess = "Error converting value [" + QString::number(nval+1) + 
+        std::string mess = "Error converting value [" + std::to_string(nval+1) + 
                        "] in keyword [" + key.name() + "] to double.";
         throw IException(ie, IException::User, mess, _FILEINFO_);
       }
@@ -425,13 +425,13 @@ namespace Isis {
       if ( (threshold.size() >= 3)  ) {
         // Check for valid pivot value
         if ( (threshold[2] < threshold[0]) || (threshold[2] > threshold[1]) ) {
-          QString mess = "Criteria keyword [" + key.name() + "] pivot value [" +
+          std::string mess = "Criteria keyword [" + key.name() + "] pivot value [" +
                          key[2] + "] exceeds min/max ranges [" +
                          key[0] + "," + key[1] + "].";
           throw IException(IException::User, mess, _FILEINFO_);
         }
       }
-      cmap.insert(key.name().toLower(), threshold);
+      cmap.insert(QString::fromStdString(key.name()).toLower(), threshold);
     }
 
     return (cmap);

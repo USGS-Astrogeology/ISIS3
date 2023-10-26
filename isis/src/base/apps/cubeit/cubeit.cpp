@@ -58,7 +58,7 @@ namespace Isis {
               newBands.push_back(QString::number(j+1));
             }
             else {
-              QString msg = "TRACKING band not propagated from " + cubeList[i].toString();
+              std::string msg = "TRACKING band not propagated from " + cubeList[i].toString().toStdString();
               results += PvlKeyword("UnpropagatedBand", msg);
             }
           }

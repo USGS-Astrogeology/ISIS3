@@ -108,7 +108,7 @@ namespace Isis {
     if ( isDebug() ) { 
       cout << "PdsTableCreator::PdsFormatFile = " << fmtfile << "\n"; 
     }
-    Pvl fmtpvl(fmtfile);
+    Pvl fmtpvl(fmtfile.toStdString());
     readColumns(fmtpvl);
   
       //  Check for argument replacement
@@ -195,7 +195,7 @@ namespace Isis {
    */  
   int PdsTableCreatorStrategy::readColumns(PvlObject &pvl) {
     QString colobj = m_parameters->value("ColumnObject", "");
-    PvlObject &obj = ( colobj.isEmpty() ? pvl : pvl.findObject(colobj, PvlObject::Traverse) );
+    PvlObject &obj = ( colobj.isEmpty() ? pvl : pvl.findObject(colobj.toStdString(), PvlObject::Traverse) );
   
     PvlObject::PvlObjectIterator pvlcol = obj.beginObject();
     while ( pvlcol != obj.endObject() ) {

@@ -25,18 +25,17 @@ namespace Isis {
     atexit(Shutdown);
   }
 
-  void Preference::Load(const QString &file) {
+  void Preference::Load(const std::string &file) {
     // Read the input PVL preference file
     Isis::Pvl pvl;
 
-    if(Isis::FileName(file).fileExists()) {
+    if(Isis::FileName(QString::fromStdString(file)).fileExists()) {
       pvl.read(file);
     }
     else {
       // Throw an exception if the preference file isn't found
-      throw IException(IException::User,
-                       QString("The preference file %1 was not found or does not exist").arg(file),
-                       _FILEINFO_);
+      std::string msg = "The preference file " + file + " was not found or does not exist";
+      throw IException(IException::User, msg, _FILEINFO_);
     }
 
 
@@ -129,8 +128,9 @@ namespace Isis {
     try {
       PvlGroup &errorFacility = this->findGroup("ErrorFacility");
       if (errorFacility.hasKeyword("Format")) {
-        QString format = errorFacility["Format"][0];
-        usePvlFormat = (format.toUpper() == "PVL");
+        std::string format = errorFacility["Format"][0];
+        std::transform(format.begin(), format.end(), format.begin(), ::toupper);
+        usePvlFormat = (format == "PVL");
       }
     }
     catch (IException &e) {
@@ -145,8 +145,9 @@ namespace Isis {
     if (this->hasGroup("ErrorFacility")) {
       PvlGroup &errorFacility = this->findGroup("ErrorFacility");
       if (errorFacility.hasKeyword("FileLine")) {
-        QString fileLine = errorFacility["FileLine"][0];
-        reportFileLine = (fileLine.toUpper() == "ON");
+        std::string fileLine = errorFacility["FileLine"][0];
+        std::transform(fileLine.begin(), fileLine.end(), fileLine.begin(), ::toupper);
+        reportFileLine = (fileLine == "ON");
       }
     }
 

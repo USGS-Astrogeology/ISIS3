@@ -132,17 +132,17 @@ namespace Isis {
                 for (unsigned int i = 0; i < m_bandpho.size(); i++) {
                     Parameters &p = m_bandpho[i];
                     units.addValue(p.units);
-                    phostd.addValue(toString(p.phoStd));
-                    bbc.addValue(toString(p.wavelength));
-                    bbct.addValue(toString(p.tolerance));
-                    bbn.addValue(toString(p.band));
-                    b0.addValue(toString(p.b0));
-                    b1.addValue(toString(p.b1));
-                    a0.addValue(toString(p.a0));
-                    a1.addValue(toString(p.a1));
-                    a2.addValue(toString(p.a2));
-                    a3.addValue(toString(p.a3));
-                    a4.addValue(toString(p.a4));
+                    phostd.addValue(std::to_string(p.phoStd));
+                    bbc.addValue(std::to_string(p.wavelength));
+                    bbct.addValue(std::to_string(p.tolerance));
+                    bbn.addValue(std::to_string(p.band));
+                    b0.addValue(std::to_string(p.b0));
+                    b1.addValue(std::to_string(p.b1));
+                    a0.addValue(std::to_string(p.a0));
+                    a1.addValue(std::to_string(p.a1));
+                    a2.addValue(std::to_string(p.a2));
+                    a3.addValue(std::to_string(p.a3));
+                    a4.addValue(std::to_string(p.a4));
                 }
                 pvl += units;
                 pvl += phostd;

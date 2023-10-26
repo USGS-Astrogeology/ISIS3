@@ -120,7 +120,7 @@ namespace Isis {
     Pvl fmtpvl;
     // Apply only if provided
     if ( !keyfmt.isEmpty() ) {
-      fmtpvl.setFormat(new PvlFormatPds(keyfmt)); 
+      fmtpvl.setFormat(new PvlFormatPds(keyfmt.toStdString())); 
     }
     fmtpvl.setTerminator("END");
 
@@ -147,7 +147,7 @@ namespace Isis {
     }
   
     // Now write the Pvl column file
-    fmtpvl.write(fmtfile);
+    fmtpvl.write(fmtfile.toStdString());
   
     return (resources.size());
   }

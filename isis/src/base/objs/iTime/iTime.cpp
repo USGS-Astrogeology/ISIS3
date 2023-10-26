@@ -475,7 +475,7 @@ namespace Isis {
 
     // Get the leap second kernel file open
     Isis::PvlGroup &dataDir = Isis::Preference::Preferences().findGroup("DataDirectory");
-    QString baseDir = dataDir["Base"];
+    QString baseDir = QString::fromStdString(dataDir["Base"]);
     baseDir += "/kernels/lsk/";
     FileName leapSecond(baseDir + "naif????.tls");
     QString leapSecondName;

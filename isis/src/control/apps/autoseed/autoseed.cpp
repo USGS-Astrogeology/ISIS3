@@ -60,7 +60,7 @@ namespace Isis {
 
   void autoseed(UserInterface &ui, SerialNumberList &serialNumbers, ControlNet *precnet, Pvl *log) {
     // Get the AutoSeed PVL internalized
-    Pvl seedDef(ui.GetFileName("DEFFILE"));
+    Pvl seedDef(ui.GetFileName("DEFFILE").toStdString());
 
     PolygonSeeder *seeder = PolygonSeederFactory::Create(seedDef);
     Pvl invalidInput = seeder->InvalidInput();
@@ -137,7 +137,7 @@ namespace Isis {
     // Get seed domain for unit conversion, no keyword == XY
     SeedDomain seedDomain = XY;
     if (seedDef.hasKeyword("SeedDomain", Pvl::Traverse)) {
-      IString domain = (QString) seedDef.findKeyword("SeedDomain", Pvl::Traverse);
+      IString domain = QString::fromStdString(seedDef.findKeyword("SeedDomain", Pvl::Traverse));
       if (unusedDefKeywords.hasKeyword("SeedDomain"))
         unusedDefKeywords.deleteKeyword("SeedDomain");
 
@@ -153,7 +153,7 @@ namespace Isis {
 
     // Grab the labels from the first filename in the SerialNumberList to get
     // some info
-    Pvl cubeLab(serialNumbers.fileName(0));
+    Pvl cubeLab(serialNumbers.fileName(0).toStdString());
 
     // Construct a Projection for converting between Lon/Lat and X/Y
     // This is used inside the seeding algorithms.
@@ -474,8 +474,8 @@ namespace Isis {
 
     // create SeedDef group and add to print.prt
     PvlGroup pluginInfo = seeder->PluginParameters("SeedDefinition");
-    pluginInfo.addKeyword(PvlKeyword("MaxIncidence", toString(maxIncidence)));
-    pluginInfo.addKeyword(PvlKeyword("MaxEmission", toString(maxEmission)));
+    pluginInfo.addKeyword(PvlKeyword("MaxIncidence", std::to_string(maxIncidence)));
+    pluginInfo.addKeyword(PvlKeyword("MaxEmission", std::to_string(maxEmission)));
     Application::Log(pluginInfo);
 
     // inform user of any unused (invalid) keywords found in the def file
@@ -493,10 +493,10 @@ namespace Isis {
     }
 
     // create Results group and add to print.prt
-    PvlKeyword cpCountKeyword("ControlPointCount", toString(cpCount));
-    PvlKeyword msCountKeyword("ControlMeasureCount", toString(msCount));
-    PvlKeyword cpIgnoredCountKeyword("ControlPointsIgnored", toString(cpIgnoredCount));
-    PvlKeyword cmIgnoredCountKeyword("ControlMeasuresIgnored", toString(cmIgnoredCount));
+    PvlKeyword cpCountKeyword("ControlPointCount", std::to_string(cpCount));
+    PvlKeyword msCountKeyword("ControlMeasureCount", std::to_string(msCount));
+    PvlKeyword cpIgnoredCountKeyword("ControlPointsIgnored", std::to_string(cpIgnoredCount));
+    PvlKeyword cmIgnoredCountKeyword("ControlMeasuresIgnored", std::to_string(cmIgnoredCount));
 
     PvlGroup resultsGrp("Results");
     resultsGrp.addKeyword(cpCountKeyword);

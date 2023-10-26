@@ -78,7 +78,7 @@ namespace Isis {
     p.EndProcess();
 
     PvlKeyword dnPairs = PvlKeyword("StretchPairs");
-    dnPairs.addValue(str.Text());
+    dnPairs.addValue(str.Text().toStdString());
 
     PvlGroup results = PvlGroup("Results");
     results.addKeyword(dnPairs);

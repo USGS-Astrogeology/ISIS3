@@ -49,12 +49,12 @@ namespace Isis {
       NaifStatus::CheckErrors();
 
       foreach (QString kernelFile, allKernelFiles) {
-        kernelsUsed += kernelFile;
+        kernelsUsed += kernelFile.toStdString();
         furnsh_c(FileName(kernelFile).expanded().toLatin1().data());
       }
 
       // Find the NAIF target code for the DEM's target
-      QString name = demCube->label()->findGroup("Mapping", Pvl::Traverse)["TargetName"];
+      QString name = QString::fromStdString(demCube->label()->findGroup("Mapping", Pvl::Traverse)["TargetName"]);
       SpiceDouble sunPosition[3];
       SpiceDouble lightTime;
 

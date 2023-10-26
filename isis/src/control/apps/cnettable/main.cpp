@@ -372,16 +372,16 @@ void Write(PvlGroup *point, const ControlMeasure &cm) {
     // point information
     for (int i = 0; i < maxCount; i++) {
       if ((*point)[i].size() == 3) {
-        output += QString((*point)[i].name()) + "X,";
-        output += QString((*point)[i].name()) + "Y,";
-        output += QString((*point)[i].name()) + "Z,";
+        output += QString::fromStdString((*point)[i].name()) + "X,";
+        output += QString::fromStdString((*point)[i].name()) + "Y,";
+        output += QString::fromStdString((*point)[i].name()) + "Z,";
       }
       else {
-        output += QString((*point)[i].name()) + ",";
+        output += QString::fromStdString((*point)[i].name()) + ",";
       }
     }
 
-    if (errors) output += QString((*point)[maxCount].name());
+    if (errors) output += QString::fromStdString((*point)[maxCount].name());
     isFirst = false;
     measureLabels += output;
     // In some cases, we need to trim a trailing comma:
@@ -403,16 +403,16 @@ void Write(PvlGroup *point, const ControlMeasure &cm) {
   // point information
   for (int i = 0; i < maxCount; i++) {
     if ((*point)[i].size() == 3) {
-      output += QString(CheckValue((*point)[i][0])) + ",";
-      output += QString(CheckValue((*point)[i][1])) + ",";
-      output += QString(CheckValue((*point)[i][2])) + ",";
+      output += QString(CheckValue(QString::fromStdString((*point)[i][0]))) + ",";
+      output += QString(CheckValue(QString::fromStdString((*point)[i][1]))) + ",";
+      output += QString(CheckValue(QString::fromStdString((*point)[i][2]))) + ",";
     }
     else {
-      output += QString(CheckValue((*point)[i][0])) + ",";
+      output += QString(CheckValue(QString::fromStdString((*point)[i][0]))) + ",";
     }
   }
 
-  if (errors) output += QString((*point)[maxCount][0]);
+  if (errors) output += QString::fromStdString((*point)[maxCount][0]);
 
   // Measure info comes first
   QString pri = "";

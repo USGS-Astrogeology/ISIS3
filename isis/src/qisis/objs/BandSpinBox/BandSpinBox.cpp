@@ -64,9 +64,9 @@ namespace Isis {
         list.clear();
         if(bandBin[i].size() == p_bands) {
           for(int j = 0; j < bandBin[i].size(); j++) {
-            list.push_back(QString(bandBin[i][j]));
+            list.push_back(QString::fromStdString((bandBin[i][j])));
           }
-          QString bandBinName = bandBin[i].name();
+          QString bandBinName = QString::fromStdString(bandBin[i].name());
           p_map[bandBinName] = list;
         }
       }

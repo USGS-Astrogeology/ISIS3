@@ -436,13 +436,13 @@ namespace Isis {
 
     // Load the full cache time information from the label if available
     if(table.Label().hasKeyword("SpkTableStartTime")) {
-      p_fullCacheStartTime = toDouble(table.Label().findKeyword("SpkTableStartTime")[0]);
+      p_fullCacheStartTime = std::stod(table.Label().findKeyword("SpkTableStartTime")[0]);
     }
     if(table.Label().hasKeyword("SpkTableEndTime")) {
-      p_fullCacheEndTime = toDouble(table.Label().findKeyword("SpkTableEndTime")[0]);
+      p_fullCacheEndTime = std::stod(table.Label().findKeyword("SpkTableEndTime")[0]);
     }
     if(table.Label().hasKeyword("SpkTableOriginalSize")) {
-      p_fullCacheSize = toDouble(table.Label().findKeyword("SpkTableOriginalSize")[0]);
+      p_fullCacheSize = std::stod(table.Label().findKeyword("SpkTableOriginalSize")[0]);
     }
 
 
@@ -579,7 +579,7 @@ namespace Isis {
       record += t;
 
     // create output table
-      Table table(tableName, record);
+      Table table(tableName.toStdString(), record);
 
       int inext = 0;
 
@@ -619,7 +619,7 @@ namespace Isis {
       record += spacecraftY;
       record += spacecraftZ;
 
-      Table table(tableName, record);
+      Table table(tableName.toStdString(), record);
 
       for(int cindex = 0; cindex < p_degree + 1; cindex++) {
         record[0] = p_coefficients[0][cindex];
@@ -669,20 +669,20 @@ namespace Isis {
       tabletype = "PolyFunction";
     }
 
-    table.Label() += PvlKeyword("CacheType", tabletype);
+    table.Label() += PvlKeyword("CacheType", tabletype.toStdString());
 
     // Write original time coverage
     if(p_fullCacheStartTime != 0) {
       table.Label() += PvlKeyword("SpkTableStartTime");
-      table.Label()["SpkTableStartTime"].addValue(toString(p_fullCacheStartTime));
+      table.Label()["SpkTableStartTime"].addValue(std::to_string(p_fullCacheStartTime));
     }
     if(p_fullCacheEndTime != 0) {
       table.Label() += PvlKeyword("SpkTableEndTime");
-      table.Label()["SpkTableEndTime"].addValue(toString(p_fullCacheEndTime));
+      table.Label()["SpkTableEndTime"].addValue(std::to_string(p_fullCacheEndTime));
     }
     if(p_fullCacheSize != 0) {
       table.Label() += PvlKeyword("SpkTableOriginalSize");
-      table.Label()["SpkTableOriginalSize"].addValue(toString(p_fullCacheSize));
+      table.Label()["SpkTableOriginalSize"].addValue(std::to_string(p_fullCacheSize));
     }
   }
 

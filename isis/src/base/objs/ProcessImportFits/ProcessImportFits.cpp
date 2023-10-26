@@ -90,8 +90,8 @@ namespace Isis {
         // Check for blank lines
         if (line.substr(0, 1) != " " && line.substr(0, 1) != "/") {
           // Name of keyword
-          PvlKeyword label(line.Token(" =").ToQt()); // Stop on spaces OR equal sign
-          if (QString::compare(label.name(), "OBJECT", Qt::CaseInsensitive) == 0) {
+          PvlKeyword label(line.Token(" =")); // Stop on spaces OR equal sign
+          if (QString::compare(QString::fromStdString(label.name()), "OBJECT", Qt::CaseInsensitive) == 0) {
             label.setName("TARGET");
             label.addComment("NOTE: This keyword name was changed from 'OBJECT' in the original "
                              "fit header file.");
@@ -100,13 +100,13 @@ namespace Isis {
           line.TrimHead(" =");
           line.TrimTail(" ");
           if (label.name() == "COMMENT" || label.name() == "HISTORY") {
-            label += line.ToQt();
+            label += line;
           }
           else {
             // Check for a quoted value
             if (line.substr(0,1) == "'") {
               line.TrimHead("'");
-              label += line.Token("'").TrimHead(" ").TrimTail(" ").ToQt();
+              label += line.Token("'").TrimHead(" ").TrimTail(" ");
               line.TrimHead(" '");
             }
             else {
@@ -114,16 +114,16 @@ namespace Isis {
               IString value = line.Token("/");
               // Clear to end of data
               value.TrimTail(" ");
-              label += value.ToQt();
+              label += value;
               line.TrimHead(" ");
             }
             // If the line still has anything in it, treat it is as a comment.
             if (line.size() > 2) {
               line.TrimHead(" /");
-              label.addComment(line.ToQt());
+              label.addComment(line);
               // A possible format for units, other possiblites exist.
               if (line != line.Token("[")) {
-                label.setUnits(line.Token("[").Token("]").ToQt());
+                label.setUnits(line.Token("[").Token("]"));
               }
             }
           }
@@ -162,16 +162,16 @@ namespace Isis {
           bytesPerPixel /= 8;
           
           unsigned int axis1 = 1;
-          axis1 = toInt((*fitsLabel)["NAXIS1"]);
+          axis1 = std::stoi((*fitsLabel)["NAXIS1"]);
           
           unsigned int axis2 = 1;
           if (fitsLabel->hasKeyword("NAXIS2")) {
-            axis2 = toInt((*fitsLabel)["NAXIS2"]);
+            axis2 = std::stoi((*fitsLabel)["NAXIS2"]);
           }
           
           unsigned int axis3 = 1;
           if (fitsLabel->hasKeyword("NAXIS3")) {
-            axis3 = toInt((*fitsLabel)["NAXIS3"]);
+            axis3 = std::stoi((*fitsLabel)["NAXIS3"]);
           }
           
           jump = (int)(ceil(bytesPerPixel * axis1 * axis2 * axis3 / 2880.0) * 2880.0);
@@ -377,8 +377,8 @@ namespace Isis {
 
     // Find pixel type. NOTE: There are several unsupported possiblites
     Isis::PixelType type;
-    QString msg = "";
-    switch (toInt(label["BITPIX"][0])) {
+    std::string msg = "";
+    switch (std::stoi(label["BITPIX"][0])) {
       case 8:
         type = Isis::UnsignedByte;
         break;
@@ -414,60 +414,60 @@ namespace Isis {
     // considered part of the DNs. So, use the parent class' prefix/suffix byte count to reduce
     // the number of samples.
     if (Organization() == BSQ) {
-      if (toInt(label["NAXIS"][0]) == 2) {
-        SetDimensions(toInt(label["NAXIS1"][0])
+      if (std::stoi(label["NAXIS"][0]) == 2) {
+        SetDimensions(std::stoi(label["NAXIS1"][0])
                       - (DataPrefixBytes()+DataSuffixBytes())/SizeOf(type),
-                      toInt(label["NAXIS2"][0]), 1);
+                      std::stoi(label["NAXIS2"][0]), 1);
       }
-      else if (toInt(label["NAXIS"][0]) == 3) {
-        SetDimensions(toInt(label["NAXIS1"][0]) 
+      else if (std::stoi(label["NAXIS"][0]) == 3) {
+        SetDimensions(std::stoi(label["NAXIS1"][0]) 
                       - (DataPrefixBytes()+DataSuffixBytes())/SizeOf(type),
-                      toInt(label["NAXIS2"][0]), toInt(label["NAXIS3"][0]));
+                      std::stoi(label["NAXIS2"][0]), std::stoi(label["NAXIS3"][0]));
       }
       else {
-        QString msg = "NAXIS count of [" 
+        std::string msg = "NAXIS count of [" 
                       + label["NAXIS"][0]
                       + "] is not supported for FITS imports.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     else if (Organization() == BIL) {
-      if (toInt(label["NAXIS"][0]) == 2) {
-        SetDimensions(toInt(label["NAXIS1"][0]) 
+      if (std::stoi(label["NAXIS"][0]) == 2) {
+        SetDimensions(std::stoi(label["NAXIS1"][0]) 
                       - (DataPrefixBytes()+DataSuffixBytes())/SizeOf(type),
-                      1, toInt(label["NAXIS2"][0]));
+                      1, std::stoi(label["NAXIS2"][0]));
       }
-      else if (toInt(label["NAXIS"][0]) == 3) {
-        SetDimensions(toInt(label["NAXIS1"][0]) 
+      else if (std::stoi(label["NAXIS"][0]) == 3) {
+        SetDimensions(std::stoi(label["NAXIS1"][0]) 
                       - (DataPrefixBytes()+DataSuffixBytes())/SizeOf(type),
-                      toInt(label["NAXIS3"][0]), toInt(label["NAXIS2"][0]));
+                      std::stoi(label["NAXIS3"][0]), std::stoi(label["NAXIS2"][0]));
       }
       else {
-        QString msg = "NAXIS count of [" 
+        std::string msg = "NAXIS count of [" 
                       + label["NAXIS"][0] 
                       + "] is not supported for FITS imports.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     else if (Organization() == BIP) {
-      QString msg = "BIP (Band Interleaved by Pixel) "
+      std::string msg = "BIP (Band Interleaved by Pixel) "
                     "organization is not supported for FITS imports.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     else {
-      QString msg = "Unknown organization is not supported for FITS imports.";
+      std::string msg = "Unknown organization is not supported for FITS imports.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     // Base and multiplier
     if (label.hasKeyword("BZERO")) {
-      SetBase(toDouble(label["BZERO"][0]));
+      SetBase(std::stod(label["BZERO"][0]));
     }
     else {
       SetBase(0.0);
     }
     if (label.hasKeyword("BSCALE")) {
-      SetMultiplier(toDouble(label["BSCALE"][0]));
+      SetMultiplier(std::stod(label["BSCALE"][0]));
     }
     else {
       SetMultiplier(1.0);

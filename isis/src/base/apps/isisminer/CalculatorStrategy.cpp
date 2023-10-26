@@ -96,10 +96,10 @@ namespace Isis {
       PvlGroup::PvlKeywordIterator i;
       for (i = eqns.begin(); i != eqns.end(); i++) {      
         Equation eqn;
-        eqn.equation = QString(*i);
+        eqn.equation = QString::fromStdString(*i);
         InlineCalculator *calc = new InlineCalculator(eqn.equation);
         eqn.calculator = QSharedPointer<InlineCalculator> (calc);
-        eqn.store = i->name();
+        eqn.store = QString::fromStdString(i->name());
         m_equations.append(eqn);
       }
 
@@ -192,8 +192,8 @@ namespace Isis {
       BOOST_FOREACH ( PvlKeyword key, *m_initializers) {
         PvlKeyword newkey(key.name());
         for (int i = 0 ; i < key.size() ; i++) {
-          QString value = processArgs(key[i], m_initArgs, myGlobals);
-          newkey.addValue(value);
+          QString value = processArgs(QString::fromStdString(key[i]), m_initArgs, myGlobals);
+          newkey.addValue(value.toStdString());
           if ( isDebug() ) {
             cout << "Initializing " << key.name() << "[" << i << "] = " 
                   << value << "\n"; 

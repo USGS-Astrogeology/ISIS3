@@ -25,7 +25,7 @@ namespace Isis {
    * @param name The blob name
    * @param type The blob type
    */
-  Blob::Blob(const QString &name, const QString &type) {
+  Blob::Blob(const QString &name, const std::string &type) {
     p_blobName = name;
     p_buffer = NULL;
     p_labelFile = "";
@@ -33,7 +33,7 @@ namespace Isis {
     p_type = type;
 
     p_blobPvl.setName(p_type);
-    p_blobPvl += PvlKeyword("Name", p_blobName);
+    p_blobPvl += PvlKeyword("Name", p_blobName.toStdString());
     p_blobPvl += PvlKeyword("StartByte", "0");
     p_blobPvl += PvlKeyword("Bytes", "0");
   }
@@ -46,7 +46,7 @@ namespace Isis {
    * @param type The blob type
    * @param file The filename to read from.
    */
-  Blob::Blob(const QString &name, const QString &type,
+  Blob::Blob(const QString &name, const std::string &type,
              const QString &file) {
     p_blobName = name;
     p_buffer = NULL;
@@ -121,7 +121,7 @@ namespace Isis {
    *
    *  @return @b string Type of Blob.
    */
-  QString Blob::Type() const {
+  std::string Blob::Type() const {
     return p_type;
   }
 
@@ -172,9 +172,9 @@ namespace Isis {
       for (int o = 0; o < pvl.objects(); o++) {
         const PvlObject &obj = pvl.object(o);
         if (obj.isNamed(p_type)) {
-          QString curName = obj["Name"];
-          curName = curName.toUpper();
-          if (blobName == curName) {
+          std::string curName = obj["Name"];
+          std::transform(curName.begin(), curName.end(), curName.begin(), ::toupper);
+          if (blobName.toStdString() == curName) {
             // If there are keywords supplied, check that those match, too!
             if (!keywords.empty()){
               bool keywordFound = true;
@@ -214,13 +214,13 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      QString msg = "Invalid " + p_type + " label format";
+      std::string msg = "Invalid " + p_type + " label format";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
 
     // Did we find it?
     if (!found) {
-      QString msg = "Unable to find " + p_type + " [" + p_blobName + "]";
+      std::string msg = "Unable to find " + p_type + " [" + p_blobName.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -234,12 +234,12 @@ namespace Isis {
         if (p_labelFile != "") {
           path = FileName(p_labelFile).path() + "/";
         }
-        p_detached = path + (QString) p_blobPvl["^"+p_type];
+        p_detached = path + QString::fromStdString((std::string) p_blobPvl["^"+p_type]);
         p_blobPvl.deleteKeyword("^" + p_type);
       }
     }
     catch (IException &e) {
-      QString msg = "Invalid " + p_type + " label format";
+      std::string msg = "Invalid " + p_type + " label format";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -254,7 +254,7 @@ namespace Isis {
    */
   void Blob::Read(const QString &file, const std::vector<PvlKeyword> keywords) {
     // Expand the filename
-    QString temp(FileName(file).expanded());
+    std::string temp(FileName(file).expanded().toStdString());
 
     // Get the pvl
     Pvl pvl;
@@ -262,7 +262,7 @@ namespace Isis {
       pvl.read(temp);
     }
     catch (IException &e) {
-      QString msg = "Invalid " + p_type + " label format";
+      std::string msg = "Invalid " + p_type + " label format";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
     Read(file, pvl, keywords);
@@ -294,8 +294,8 @@ namespace Isis {
     }
     catch (IException &e) {
       istm.close();
-      QString msg = "Unable to open " + p_type + " [" + p_blobName +
-                   "] in file [" + temp + "]";
+      std::string msg = "Unable to open " + p_type + " [" + p_blobName.toStdString() +
+                   "] in file [" + temp.toStdString() + "]";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -328,7 +328,7 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      QString msg = "Unable to read " + p_type + " [" + p_blobName + "]";
+      std::string msg = "Unable to read " + p_type + " [" + p_blobName.toStdString() + "]";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
   }
@@ -356,14 +356,14 @@ namespace Isis {
     streampos sbyte = p_startByte - 1;
     stream.seekg(sbyte, std::ios::beg);
     if (!stream.good()) {
-      QString msg = "Error preparing to read data from " + p_type +
-                   " [" + p_blobName + "]";
+      std::string msg = "Error preparing to read data from " + p_type +
+                   " [" + p_blobName.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
     stream.read(p_buffer, p_nbytes);
     if (!stream.good()) {
-      QString msg = "Error reading data from " + p_type + " [" + p_blobName + "]";
+      std::string msg = "Error reading data from " + p_type + " [" + p_blobName.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -425,9 +425,9 @@ namespace Isis {
       os.seekp(0, std::ios::end);
       BigInt nbytes = (BigInt) os.tellp() + (BigInt) 64;
       p_startByte = nbytes + 1 + 1; // 1-based;
-      pvl.findObject(p_type)["StartByte"] = toString(p_startByte);
-      pvl.findObject(p_type)["Bytes"] = toString(p_nbytes);
-      pvl.write(file);
+      pvl.findObject(p_type)["StartByte"] = std::to_string(p_startByte);
+      pvl.findObject(p_type)["Bytes"] = std::to_string(p_nbytes);
+      pvl.write(file.toStdString());
 
       // Prepare and write the binary data
       fstream stream;
@@ -442,8 +442,8 @@ namespace Isis {
       stream.seekp(sbyte, std::ios::beg);
       if (!stream.good()) {
         stream.close();
-        QString msg = "Error preparing to write data to " +
-                     p_type + " [" + p_blobName + "]";
+        std::string msg = "Error preparing to write data to " +
+                     p_type + " [" + p_blobName.toStdString() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -451,7 +451,7 @@ namespace Isis {
       stream.close();
     }
     catch (IException &e) {
-      QString msg = "Unable to create " + p_type + " file [" + file + "]";
+      std::string msg = "Unable to create " + p_type + " file [" + file.toStdString() + "]";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
   }
@@ -479,12 +479,12 @@ namespace Isis {
 
     // Handle detached blobs
     if (detachedFileName != "") {
-      p_blobPvl += PvlKeyword("^" + p_type, detachedFileName);
+      p_blobPvl += PvlKeyword("^" + p_type, detachedFileName.toStdString());
     }
 
 
-    p_blobPvl["StartByte"] = toString((BigInt)sbyte);
-    p_blobPvl["Bytes"] = toString(p_nbytes);
+    p_blobPvl["StartByte"] = std::to_string((BigInt)sbyte);
+    p_blobPvl["Bytes"] = std::to_string(p_nbytes);
 
 
     // See if the blob is already in the file
@@ -494,7 +494,7 @@ namespace Isis {
       for (int i = 0; i < pvl.objects(); i++) {
         if (pvl.object(i).name() == p_blobPvl.name()) {
           PvlObject &obj = pvl.object(i);
-          if ((QString)obj["Name"] == (QString)p_blobPvl["Name"]) {
+          if ((std::string)obj["Name"] == (std::string)p_blobPvl["Name"]) {
             found = true;
 
             BigInt oldSbyte = obj["StartByte"];
@@ -564,7 +564,7 @@ namespace Isis {
   void Blob::WriteData(std::fstream &stream) {
     stream.write(p_buffer, p_nbytes);
     if (!stream.good()) {
-      QString msg = "Error writing data to " + p_type + " [" + p_blobName + "]";
+      std::string msg = "Error writing data to " + p_type + " [" + p_blobName.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }

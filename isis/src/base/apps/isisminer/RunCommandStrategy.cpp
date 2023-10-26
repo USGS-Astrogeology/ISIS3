@@ -80,7 +80,7 @@ namespace Isis {
     // Flatten RunCommand Strategy object definition
     PvlObject config( getDefinition() );
     if ( config.hasKeyword("Command") ) {
-      m_commands.push_back(Command("Command", config["Command"][0]));
+      m_commands.push_back(Command("Command", QString::fromStdString(config["Command"][0])));
     }
 
     // Read and store all PRE commands
@@ -88,7 +88,7 @@ namespace Isis {
       PvlGroup &commands = config.findGroup("PreCommands");
       PvlContainer::ConstPvlKeywordIterator key = commands.begin();
       while ( key != commands.end() ) {
-         m_preCommands.push_back(Command(key->name(), (*key)[0]));
+         m_preCommands.push_back(Command(QString::fromStdString(key->name()), QString::fromStdString((*key)[0])));
          ++key;
       }
     }
@@ -98,7 +98,7 @@ namespace Isis {
       PvlGroup &commands = config.findGroup("Commands");
       PvlContainer::ConstPvlKeywordIterator key = commands.begin();
       while ( key != commands.end() ) {
-         m_commands.push_back(Command(key->name(), (*key)[0]));
+         m_commands.push_back(Command(QString::fromStdString(key->name()), QString::fromStdString((*key)[0])));
          ++key;
       }
     }
@@ -108,7 +108,7 @@ namespace Isis {
       PvlGroup &commands = config.findGroup("PostCommands");
       PvlContainer::ConstPvlKeywordIterator key = commands.begin();
       while ( key != commands.end() ) {
-         m_postCommands.push_back(Command(key->name(), (*key)[0]));
+         m_postCommands.push_back(Command(QString::fromStdString(key->name()), QString::fromStdString((*key)[0])));
          ++key;
       }
     }

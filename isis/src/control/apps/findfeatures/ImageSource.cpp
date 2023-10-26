@@ -92,7 +92,7 @@ bool ImageSource::hasCamera() const {
 QString ImageSource::getTargetName() const {
   if ( hasProjection() ) {
     PvlGroup mapping = m_data->m_projection->Mapping();
-    return (mapping["TargetName"][0]);
+    return QString::fromStdString(mapping["TargetName"][0]);
   }
   else if ( hasCamera() ) {
     return ( m_data->m_camera->targetName() );

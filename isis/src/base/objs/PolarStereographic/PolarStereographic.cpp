@@ -49,7 +49,7 @@ namespace Isis {
       // necessary
       if ((allowDefaults) && (!mapGroup.hasKeyword("CenterLongitude"))) {
         double lon = (m_minimumLongitude + m_maximumLongitude) / 2.0;
-        mapGroup += PvlKeyword("CenterLongitude", toString(lon));
+        mapGroup += PvlKeyword("CenterLongitude", std::to_string(lon));
       }
 
       // Compute and write the default center latitude if allowed and
@@ -57,10 +57,10 @@ namespace Isis {
       if ((allowDefaults) && (!mapGroup.hasKeyword("CenterLatitude"))) {
         double lat = (m_minimumLatitude + m_maximumLatitude) / 2.0;
         if (lat > 0.0) {
-          mapGroup += PvlKeyword("CenterLatitude", toString(90.0));
+          mapGroup += PvlKeyword("CenterLatitude", std::to_string(90.0));
         }
         else {
-          mapGroup += PvlKeyword("CenterLatitude", toString(-90.0));
+          mapGroup += PvlKeyword("CenterLatitude", std::to_string(-90.0));
         }
       }
 

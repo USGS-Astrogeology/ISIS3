@@ -97,23 +97,23 @@ namespace Isis {
       mOperatorGrp += Isis::PvlKeyword(op["Name"]);
 
       p_samples   = op["Samples"];
-      mOperatorGrp += Isis::PvlKeyword("Samples", toString(p_samples));
+      mOperatorGrp += Isis::PvlKeyword("Samples", std::to_string(p_samples));
 
       p_lines     = op["Lines"];
-      mOperatorGrp += Isis::PvlKeyword("Lines", toString(p_lines));
+      mOperatorGrp += Isis::PvlKeyword("Lines", std::to_string(p_lines));
 
       p_deltaLine = op["DeltaLine"];
-      mOperatorGrp += Isis::PvlKeyword("DeltaLine", toString(p_deltaLine));
+      mOperatorGrp += Isis::PvlKeyword("DeltaLine", std::to_string(p_deltaLine));
 
       p_deltaSamp = op["DeltaSamp"];
-      mOperatorGrp += Isis::PvlKeyword("DeltaSamp", toString(p_deltaSamp));
+      mOperatorGrp += Isis::PvlKeyword("DeltaSamp", std::to_string(p_deltaSamp));
 
       p_minimumInterest = op["MinimumInterest"];
-      mOperatorGrp += Isis::PvlKeyword("MinimumInterest", toString(p_minimumInterest));
+      mOperatorGrp += Isis::PvlKeyword("MinimumInterest", std::to_string(p_minimumInterest));
 
     }
     catch (IException &e) {
-      QString msg = "Improper format for InterestOperator PVL [" + pPvl.fileName() + "]";
+      std::string msg = "Improper format for InterestOperator PVL [" + pPvl.fileName() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -298,9 +298,9 @@ namespace Isis {
 
       // Log
       PvlGroup pvlMeasureGrp("MeasureDetails");
-      pvlMeasureGrp += Isis::PvlKeyword("SerialNum", sn);
+      pvlMeasureGrp += Isis::PvlKeyword("SerialNum", sn.toStdString());
       pvlMeasureGrp += Isis::PvlKeyword("OriginalLocation",
-                   LocationString(newMeasure->GetSample(), newMeasure->GetLine()));
+                   LocationString(newMeasure->GetSample(), newMeasure->GetLine()).toStdString());
 
       if (bMeasureLocked) {
         pvlMeasureGrp += Isis::PvlKeyword("EditLock", "True");
@@ -387,7 +387,7 @@ namespace Isis {
 
       // Logging
       PvlObject pvlPointObj("PointDetails");
-      pvlPointObj += Isis::PvlKeyword("PointId", newPnt->GetId());
+      pvlPointObj += Isis::PvlKeyword("PointId", newPnt->GetId().toStdString());
 
       // Get number of measures locked and check if Reference
       // Measure is locked
@@ -462,9 +462,9 @@ namespace Isis {
 
           // Log
           PvlGroup pvlMeasureGrp("MeasureDetails");
-          pvlMeasureGrp += Isis::PvlKeyword("SerialNum", sn);
+          pvlMeasureGrp += Isis::PvlKeyword("SerialNum", sn.toStdString());
           pvlMeasureGrp += Isis::PvlKeyword("OriginalLocation", LocationString(newMeasure->GetSample(),
-                                            newMeasure->GetLine()));
+                                            newMeasure->GetLine()).toStdString());
 
           // Initialize the UGM of this cube with the reference lat/lon
           if (!newMeasure->IsIgnored() && iBestMeasureIndex >= 0 &&
@@ -496,9 +496,9 @@ namespace Isis {
 
 
                 pvlMeasureGrp += Isis::PvlKeyword("NewLocation",  LocationString(mtInterestResults[measure].mdBestSample,
-                                                  mtInterestResults[measure].mdBestLine));
-                pvlMeasureGrp += Isis::PvlKeyword("DeltaSample",  toString(mtInterestResults[measure].miDeltaSample));
-                pvlMeasureGrp += Isis::PvlKeyword("DeltaLine",    toString(mtInterestResults[measure].miDeltaLine));
+                                                  mtInterestResults[measure].mdBestLine).toStdString());
+                pvlMeasureGrp += Isis::PvlKeyword("DeltaSample",  std::to_string(mtInterestResults[measure].miDeltaSample));
+                pvlMeasureGrp += Isis::PvlKeyword("DeltaLine",    std::to_string(mtInterestResults[measure].miDeltaLine));
                 pvlMeasureGrp += Isis::PvlKeyword("Reference",    "true");
               }
               else {
@@ -514,12 +514,12 @@ namespace Isis {
                   ValidStandardOptions(newMeasure, measureCube);
                 if (!results.isValid()) {
                   iNumIgnore++;
-                  pvlMeasureGrp += Isis::PvlKeyword("Ignored",   "Failed Validation Test-" + results.toString());
+                  pvlMeasureGrp += Isis::PvlKeyword("Ignored",   "Failed Validation Test-" + results.toString().toStdString());
                   newMeasure->SetIgnored(true);
                 }
-                pvlMeasureGrp += Isis::PvlKeyword("NewLocation", LocationString(dSample, dLine));
-                pvlMeasureGrp += Isis::PvlKeyword("DeltaSample", toString((int)abs((int)dSample - (int)origSample)));
-                pvlMeasureGrp += Isis::PvlKeyword("DeltaLine", toString((int)abs((int)dLine - (int)origLine)));
+                pvlMeasureGrp += Isis::PvlKeyword("NewLocation", LocationString(dSample, dLine).toStdString());
+                pvlMeasureGrp += Isis::PvlKeyword("DeltaSample", std::to_string((int)abs((int)dSample - (int)origSample)));
+                pvlMeasureGrp += Isis::PvlKeyword("DeltaLine", std::to_string((int)abs((int)dLine - (int)origLine)));
                 pvlMeasureGrp += Isis::PvlKeyword("Reference",   "false");
               }
             }
@@ -543,11 +543,11 @@ namespace Isis {
             iMeasuresModified ++;
           }
 
-          pvlMeasureGrp += Isis::PvlKeyword("BestInterest",   toString(mtInterestResults[measure].mdInterest));
-          pvlMeasureGrp += Isis::PvlKeyword("EmissionAngle",  toString(mtInterestResults[measure].mdEmission));
-          pvlMeasureGrp += Isis::PvlKeyword("IncidenceAngle", toString(mtInterestResults[measure].mdIncidence));
-          pvlMeasureGrp += Isis::PvlKeyword("Resolution",     toString(mtInterestResults[measure].mdResolution));
-          pvlMeasureGrp += Isis::PvlKeyword("DNValue",        toString(mtInterestResults[measure].mdDn));
+          pvlMeasureGrp += Isis::PvlKeyword("BestInterest",   std::to_string(mtInterestResults[measure].mdInterest));
+          pvlMeasureGrp += Isis::PvlKeyword("EmissionAngle",  std::to_string(mtInterestResults[measure].mdEmission));
+          pvlMeasureGrp += Isis::PvlKeyword("IncidenceAngle", std::to_string(mtInterestResults[measure].mdIncidence));
+          pvlMeasureGrp += Isis::PvlKeyword("Resolution",     std::to_string(mtInterestResults[measure].mdResolution));
+          pvlMeasureGrp += Isis::PvlKeyword("DNValue",        std::to_string(mtInterestResults[measure].mdDn));
           pvlPointObj += pvlMeasureGrp;
         } // Measures Loop
 
@@ -567,18 +567,18 @@ namespace Isis {
           iRefChanged ++;
           PvlGroup pvlRefChangeGrp("ReferenceChangeDetails");
           if (iOrigRefIndex >= 0) {
-            pvlRefChangeGrp += Isis::PvlKeyword("PrevSerialNumber", mtInterestResults[iOrigRefIndex].msSerialNum);
-            pvlRefChangeGrp += Isis::PvlKeyword("PrevBestInterest", toString(mtInterestResults[iOrigRefIndex].mdInterest));
+            pvlRefChangeGrp += Isis::PvlKeyword("PrevSerialNumber", mtInterestResults[iOrigRefIndex].msSerialNum.toStdString());
+            pvlRefChangeGrp += Isis::PvlKeyword("PrevBestInterest", std::to_string(mtInterestResults[iOrigRefIndex].mdInterest));
             pvlRefChangeGrp += Isis::PvlKeyword("PrevLocation",     LocationString(mtInterestResults[iOrigRefIndex].mdOrigSample,
-                                                mtInterestResults[iOrigRefIndex].mdOrigLine));
+                                                mtInterestResults[iOrigRefIndex].mdOrigLine).toStdString());
           }
           else {
             pvlRefChangeGrp += Isis::PvlKeyword("PrevReference", "Not Set");
           }
-          pvlRefChangeGrp += Isis::PvlKeyword("NewSerialNumber",  mtInterestResults[iBestMeasureIndex].msSerialNum);
-          pvlRefChangeGrp += Isis::PvlKeyword("NewBestInterest",  toString(mtInterestResults[iBestMeasureIndex].mdInterest));
+          pvlRefChangeGrp += Isis::PvlKeyword("NewSerialNumber",  mtInterestResults[iBestMeasureIndex].msSerialNum.toStdString());
+          pvlRefChangeGrp += Isis::PvlKeyword("NewBestInterest",  std::to_string(mtInterestResults[iBestMeasureIndex].mdInterest));
           pvlRefChangeGrp += Isis::PvlKeyword("NewLocation",      LocationString(mtInterestResults[iBestMeasureIndex].mdBestSample,
-                                              mtInterestResults[iBestMeasureIndex].mdBestLine));
+                                              mtInterestResults[iBestMeasureIndex].mdBestLine).toStdString());
 
           // Log info, if Point not locked, apriori source == Reference and a new reference
           if (newPnt->GetAprioriSurfacePointSource() == ControlPoint::SurfacePointSource::Reference) {
@@ -598,25 +598,25 @@ namespace Isis {
         int iComment = 0;
 
         if (numMeasures == 0) {
-          QString sComment = "Comment";
-          sComment += toString(++iComment);
+          std::string sComment = "Comment";
+          sComment += std::to_string(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "No Measures in the Point");
         }
 
         if (newPnt->IsIgnored()) {
-          QString sComment = "Comment";
-          sComment += toString(++iComment);
+          std::string sComment = "Comment";
+          sComment += std::to_string(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Point was originally Ignored");
         }
 
         if (newPnt->GetType() == ControlPoint::Fixed) {
-          QString sComment = "Comment";
-          sComment += toString(++iComment);
+          std::string sComment = "Comment";
+          sComment += std::to_string(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Fixed Point");
         }
         else if (newPnt->GetType() == ControlPoint::Constrained) {
-          QString sComment = "Comment";
-          sComment += toString(++iComment);
+          std::string sComment = "Comment";
+          sComment += std::to_string(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Constrained Point");
         }
 
@@ -639,9 +639,9 @@ namespace Isis {
     } // Point loop
 
     // CnetRef Change Statistics
-    mStatisticsGrp += Isis::PvlKeyword("PointsModified",   toString(iPointsModified));
-    mStatisticsGrp += Isis::PvlKeyword("ReferenceChanged", toString(iRefChanged));
-    mStatisticsGrp += Isis::PvlKeyword("MeasuresModified", toString(iMeasuresModified));
+    mStatisticsGrp += Isis::PvlKeyword("PointsModified",   std::to_string(iPointsModified));
+    mStatisticsGrp += Isis::PvlKeyword("ReferenceChanged", std::to_string(iRefChanged));
+    mStatisticsGrp += Isis::PvlKeyword("MeasuresModified", std::to_string(iMeasuresModified));
 
     mPvlLog += mStatisticsGrp;
   }

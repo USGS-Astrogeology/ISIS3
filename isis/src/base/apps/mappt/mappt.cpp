@@ -56,10 +56,10 @@ void mappt(Cube *icube, UserInterface &ui, Pvl *log, CubeAttributeInput* inAtt) 
     // Write the pvl group out to the file
     if(ui.GetString("FORMAT") == "PVL") {
       if(append) {
-        log->append(outFile);
+        log->append(outFile.toStdString());
       }
       else {
-        log->write(outFile);
+        log->write(outFile.toStdString());
       }
     }
 
@@ -95,7 +95,7 @@ void mappt(Cube *icube, UserInterface &ui, Pvl *log, CubeAttributeInput* inAtt) 
       for(int i = 0; i < log->groups(); i++) {
         PvlGroup group = log->group(i);
         for(int j = 0; j < group.keywords(); j++) {
-          os << (QString)group[j];
+          os << group[j];
           if(j < group.keywords() - 1) {
             os << ",";
           }
@@ -140,8 +140,8 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
 
     // Make sure we have a valid latitude value
     if(fabs(lat) > 90.0) {
-      QString msg = "Invalid value for LATITUDE ["
-                   + toString(lat) + "] outside range of ";
+      std::string msg = "Invalid value for LATITUDE ["
+                   + std::to_string(lat) + "] outside range of ";
       msg += "[-90,90]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -175,7 +175,7 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
 
       // Load it up into a new projection
       Pvl mapPvl;
-      mapPvl.read(mapFile.expanded());
+      mapPvl.read(mapFile.expanded().toStdString());
       TProjection *altmap = (TProjection *) ProjectionFactory::CreateFromCube(mapPvl);
 
       // Set lat and lon in its system
@@ -247,44 +247,44 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
   if ( icube->label()->findObject("IsisCube").hasGroup("BandBin")) {
     PvlGroup bandBin = icube->label()->findObject("IsisCube").findGroup("BandBin");
     if (bandBin.hasKeyword("FilterName")) {
-        filterName = bandBin.findKeyword("FilterName")[0];
+        filterName = QString::fromStdString(bandBin.findKeyword("FilterName")[0]);
     }
   }
 
   // Log the position
   if(proj->IsGood()) {
     results += PvlKeyword("Filename",
-                          FileName(icube->fileName()).expanded());
-    results += PvlKeyword("Sample", toString(proj->WorldX()));
-    results += PvlKeyword("Line", toString(proj->WorldY()));
-    results += PvlKeyword("Band", toString(icube->physicalBand(1)));
-    results += PvlKeyword("FilterName", filterName);
-    results += PvlKeyword("PixelValue", PixelToString(b[0]));
-    results += PvlKeyword("X", toString(proj->XCoord()));
-    results += PvlKeyword("Y", toString(proj->YCoord()));
+                          FileName(icube->fileName()).expanded().toStdString());
+    results += PvlKeyword("Sample", std::to_string(proj->WorldX()));
+    results += PvlKeyword("Line", std::to_string(proj->WorldY()));
+    results += PvlKeyword("Band", std::to_string(icube->physicalBand(1)));
+    results += PvlKeyword("FilterName", filterName.toStdString());
+    results += PvlKeyword("PixelValue", PixelToString(b[0]).toStdString());
+    results += PvlKeyword("X", std::to_string(proj->XCoord()));
+    results += PvlKeyword("Y", std::to_string(proj->YCoord()));
 
     // Put together all the keywords for different coordinate systems.
     PvlKeyword centLat =
-      PvlKeyword("PlanetocentricLatitude", toString(proj->UniversalLatitude()));
+      PvlKeyword("PlanetocentricLatitude", std::to_string(proj->UniversalLatitude()));
 
     PvlKeyword graphLat =
       PvlKeyword("PlanetographicLatitude",
-                 toString(proj->ToPlanetographic(proj->UniversalLatitude())));
+                 std::to_string(proj->ToPlanetographic(proj->UniversalLatitude())));
 
     PvlKeyword pE360 =
-      PvlKeyword("PositiveEast360Longitude", toString(proj->UniversalLongitude()));
+      PvlKeyword("PositiveEast360Longitude", std::to_string(proj->UniversalLongitude()));
 
     PvlKeyword pW360 =
       PvlKeyword("PositiveWest360Longitude",
-                 toString(proj->ToPositiveWest(proj->UniversalLongitude(), 360)));
+                 std::to_string(proj->ToPositiveWest(proj->UniversalLongitude(), 360)));
 
     PvlKeyword pE180 =
       PvlKeyword("PositiveEast180Longitude",
-                 toString(proj->To180Domain(proj->UniversalLongitude())));
+                 std::to_string(proj->To180Domain(proj->UniversalLongitude())));
 
     PvlKeyword pW180 =
       PvlKeyword("PositiveWest180Longitude",
-                 toString(proj->To180Domain(proj->ToPositiveEast(
+                 std::to_string(proj->To180Domain(proj->ToPositiveEast(
                             proj->UniversalLongitude(), 360))));
 
 

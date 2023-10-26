@@ -90,11 +90,11 @@ namespace Isis {
     }
     else if (kernelsPvlGroup.hasKeyword("ElevationModel") &&
              !kernelsPvlGroup["ElevationModel"].isNull())  {
-      shapeModelFilenames = (QString) kernelsPvlGroup["ElevationModel"];
+      shapeModelFilenames = QString::fromStdString(kernelsPvlGroup["ElevationModel"]);
     }
     else if (kernelsPvlGroup.hasKeyword("ShapeModel") &&
              !kernelsPvlGroup["ShapeModel"].isNull()) {
-      shapeModelFilenames = (QString) kernelsPvlGroup["ShapeModel"];
+      shapeModelFilenames = QString::fromStdString(kernelsPvlGroup["ShapeModel"]);
     }
 
     // Create shape model
@@ -181,9 +181,9 @@ namespace Isis {
             b_model->setTolerance(tolerance);
 
             // Do this here, otherwise default behavior will ensue from here on out
-            kernelsPvlGroup.addKeyword(PvlKeyword("RayTraceEngine", preferred), PvlContainer::Replace);
-            kernelsPvlGroup.addKeyword(PvlKeyword("OnError", onerror), PvlContainer::Replace);
-            kernelsPvlGroup.addKeyword(PvlKeyword("Tolerance", toString(tolerance)),
+            kernelsPvlGroup.addKeyword(PvlKeyword("RayTraceEngine", preferred.toStdString()), PvlContainer::Replace);
+            kernelsPvlGroup.addKeyword(PvlKeyword("OnError", onerror.toStdString()), PvlContainer::Replace);
+            kernelsPvlGroup.addKeyword(PvlKeyword("Tolerance", std::to_string(tolerance)),
                                                   PvlContainer::Replace);
 
             return ( b_model );
@@ -218,9 +218,9 @@ namespace Isis {
           embreeModel->setTolerance(tolerance);
 
           // Do this here, otherwise default behavior will ensue from here on out
-          kernelsPvlGroup.addKeyword(PvlKeyword("RayTraceEngine", preferred), PvlContainer::Replace);
-          kernelsPvlGroup.addKeyword(PvlKeyword("OnError", onerror), PvlContainer::Replace);
-          kernelsPvlGroup.addKeyword(PvlKeyword("Tolerance", toString(tolerance)),
+          kernelsPvlGroup.addKeyword(PvlKeyword("RayTraceEngine", preferred.toStdString()), PvlContainer::Replace);
+          kernelsPvlGroup.addKeyword(PvlKeyword("OnError", onerror.toStdString()), PvlContainer::Replace);
+          kernelsPvlGroup.addKeyword(PvlKeyword("Tolerance", std::to_string(tolerance)),
                                                 PvlContainer::Replace);
 
           return ( embreeModel );

@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
       cout << "true! ..................................... [   OK   ]\n";
     else
       cout << "false! .................................... [ FAILED ]\n";
-    mapGroup["PolarRadius"].setValue(toString(42));
+    mapGroup["PolarRadius"].setValue(std::to_string(42));
     Pvl tmp1;
     TProjection *p2 = (TProjection *) ProjectionFactory::Create(lab);
     tmp1.addGroup(p2->Mapping());

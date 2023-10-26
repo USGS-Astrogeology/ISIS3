@@ -53,10 +53,10 @@ namespace Isis {
                                 const double &value,
                                 const QString &unit = "") {
     if(IsSpecial(value)) {
-      return (PvlKeyword(keyname, "NULL"));
+      return (PvlKeyword(keyname.toStdString(), "NULL"));
     }
     else {
-      return (PvlKeyword(keyname, toString(value), unit));
+      return (PvlKeyword(keyname.toStdString(), std::to_string(value), unit.toStdString()));
     }
   }
 
@@ -75,7 +75,7 @@ namespace Isis {
   inline PvlKeyword ValidateKey(const QString keyname, PvlKeyword &key,
                                 const QString &unit = "") {
     if(key.isNull()) {
-      return (PvlKeyword(keyname, "NULL"));
+      return (PvlKeyword(keyname.toStdString(), "NULL"));
     }
     else {
       return (ValidateKey(keyname, (double) key, unit));

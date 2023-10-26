@@ -67,14 +67,14 @@ namespace Isis {
     if (diffFile.hasGroup("Tolerances")) {
       PvlGroup tolerances = diffFile.findGroup("Tolerances");
       for (int i = 0; i < tolerances.keywords(); i++)
-        m_tolerances->insert(tolerances[i].name(),
-            toDouble(tolerances[i][0]));
+        m_tolerances->insert(QString::fromStdString(tolerances[i].name()),
+            std::stod(tolerances[i][0]));
     }
 
     if (diffFile.hasGroup("IgnoreKeys")) {
       PvlGroup ignoreKeys = diffFile.findGroup("IgnoreKeys");
       for (int i = 0; i < ignoreKeys.keywords(); i++)
-        m_ignoreKeys->insert(ignoreKeys[i].name());
+        m_ignoreKeys->insert(QString::fromStdString(ignoreKeys[i].name()));
     }
   }
 
@@ -113,13 +113,13 @@ namespace Isis {
 
     for (int p = 0; p < net1NumPts; p++) {
       PvlObject &point = net1Obj.object(p);
-      pointMap[point.findKeyword("PointId")[0]].insert(
+      pointMap[QString::fromStdString(point.findKeyword("PointId")[0])].insert(
           0, point);
     }
 
     for (int p = 0; p < net2NumPts; p++) {
       PvlObject &point = net2Obj.object(p);
-      pointMap[point.findKeyword("PointId")[0]].insert(
+      pointMap[QString::fromStdString(point.findKeyword("PointId")[0])].insert(
           1, point);
     }
 
@@ -131,10 +131,10 @@ namespace Isis {
         compare(idMap[0], idMap[1], report);
       }
       else if (idMap.contains(0)) {
-        addUniquePoint("PointId", idMap[0].findKeyword("PointId")[0], "N/A", report);
+        addUniquePoint("PointId", QString::fromStdString(idMap[0].findKeyword("PointId")[0]), "N/A", report);
       }
       else if (idMap.contains(1)) {
-        addUniquePoint("PointId", "N/A", idMap[1].findKeyword("PointId")[0], report);
+        addUniquePoint("PointId", "N/A", QString::fromStdString(idMap[1].findKeyword("PointId")[0]), report);
       }
     }
 
@@ -155,8 +155,8 @@ namespace Isis {
   void ControlNetDiff::compare(PvlObject &point1Pvl, PvlObject &point2Pvl, PvlObject &report) {
     PvlObject pointReport("Point");
 
-    QString id1 = point1Pvl.findKeyword("PointId")[0];
-    QString id2 = point2Pvl.findKeyword("PointId")[0];
+    QString id1 = QString::fromStdString(point1Pvl.findKeyword("PointId")[0]);
+    QString id2 = QString::fromStdString(point2Pvl.findKeyword("PointId")[0]);
     pointReport.addKeyword(makeKeyword("PointId", id1, id2));
 
     int p1Measures = point1Pvl.groups();
@@ -168,13 +168,13 @@ namespace Isis {
     QMap< QString, QMap<int, PvlGroup> > measureMap;
     for (int m = 0; m < p1Measures; m++) {
       PvlGroup &measure = point1Pvl.group(m);
-      measureMap[measure.findKeyword("SerialNumber")[0]].insert(
+      measureMap[QString::fromStdString(measure.findKeyword("SerialNumber")[0])].insert(
           0, measure);
     }
 
     for (int m = 0; m < p2Measures; m++) {
       PvlGroup &measure = point2Pvl.group(m);
-      measureMap[measure.findKeyword("SerialNumber")[0]].insert(
+      measureMap[QString::fromStdString(measure.findKeyword("SerialNumber")[0])].insert(
           1, measure);
     }
 
@@ -185,10 +185,10 @@ namespace Isis {
         compareGroups(idMap[0], idMap[1], pointReport);
       }
       else if (idMap.contains(0)) {
-        addUniqueMeasure("SerialNumber", idMap[0].findKeyword("SerialNumber")[0], "N/A", pointReport);
+        addUniqueMeasure("SerialNumber", QString::fromStdString(idMap[0].findKeyword("SerialNumber")[0]), "N/A", pointReport);
       }
       else if (idMap.contains(1)) {
-        addUniqueMeasure("SerialNumber", "N/A", idMap[1].findKeyword("SerialNumber")[0], pointReport);
+        addUniqueMeasure("SerialNumber", "N/A", QString::fromStdString(idMap[1].findKeyword("SerialNumber")[0]), pointReport);
       }
     }
 
@@ -212,8 +212,8 @@ namespace Isis {
   void ControlNetDiff::compareGroups(PvlContainer &g1, PvlContainer &g2, PvlObject &report) {
     PvlGroup measureReport("Measure");
     if (g1.hasKeyword("SerialNumber")) {
-      QString sn1 = g1.findKeyword("SerialNumber")[0];
-      QString sn2 = g1.findKeyword("SerialNumber")[0];
+      QString sn1 = QString::fromStdString(g1.findKeyword("SerialNumber")[0]);
+      QString sn2 = QString::fromStdString(g1.findKeyword("SerialNumber")[0]);
       measureReport.addKeyword(makeKeyword("SerialNumber", sn1, sn2));
     }
     PvlContainer &groupReport = g1.hasKeyword("SerialNumber") ?
@@ -221,9 +221,9 @@ namespace Isis {
 
     QMap< QString, QMap<int, PvlKeyword> > keywordMap;
     for (int k = 0; k < g1.keywords(); k++)
-      keywordMap[g1[k].name()].insert(0, g1[k]);
+      keywordMap[QString::fromStdString(g1[k].name())].insert(0, g1[k]);
     for (int k = 0; k < g2.keywords(); k++)
-      keywordMap[g2[k].name()].insert(1, g2[k]);
+      keywordMap[QString::fromStdString(g2[k].name())].insert(1, g2[k]);
 
     QList<QString> keywordNames = keywordMap.keys();
     for (int i = 0; i < keywordNames.size(); i++) {
@@ -232,14 +232,14 @@ namespace Isis {
         compare(idMap[0], idMap[1], groupReport);
       }
       else if (idMap.contains(0)) {
-        QString name = idMap[0].name();
+        QString name = QString::fromStdString(idMap[0].name());
         if (!m_ignoreKeys->contains(name))
-          diff(name, idMap[0][0], "N/A", groupReport);
+          diff(name, QString::fromStdString(idMap[0][0]), "N/A", groupReport);
       }
       else if (idMap.contains(1)) {
-        QString name = idMap[1].name();
+        QString name = QString::fromStdString(idMap[1].name());
         if (!m_ignoreKeys->contains(name))
-          diff(name, "N/A", idMap[1][0], groupReport);
+          diff(name, "N/A", QString::fromStdString(idMap[1][0]), groupReport);
       }
     }
 
@@ -262,11 +262,11 @@ namespace Isis {
    *               keywords
    */
   void ControlNetDiff::compare(PvlKeyword &k1, PvlKeyword &k2, PvlContainer &report) {
-    QString name = k1.name();
+    QString name = QString::fromStdString(k1.name());
     if (m_tolerances->contains(name))
-      diff(name, toDouble(k1[0]), toDouble(k2[0]), (*m_tolerances)[name], report);
+      diff(name, std::stod(k1[0]), std::stod(k2[0]), (*m_tolerances)[name], report);
     else
-      diff(name, k1[0], k2[0], report);
+      diff(name, QString::fromStdString(k1[0]), QString::fromStdString(k2[0]), report);
   }
 
 
@@ -281,8 +281,8 @@ namespace Isis {
    *               the keyword with the given name
    */
   void ControlNetDiff::diff(QString name, PvlObject &o1, PvlObject &o2, PvlContainer &report) {
-    QString v1 = o1[name][0];
-    QString v2 = o2[name][0];
+    QString v1 = QString::fromStdString(o1[name.toStdString()][0]);
+    QString v2 = QString::fromStdString(o2[name.toStdString()][0]);
     diff(name, v1, v2, report);
   }
 
@@ -315,9 +315,9 @@ namespace Isis {
    * @return PvlKeyword Container for the two values
    */
   PvlKeyword ControlNetDiff::makeKeyword(QString name, QString v1, QString v2) {
-    PvlKeyword keyword(name);
-    keyword.addValue(v1);
-    if (v1 != v2) keyword.addValue(v2);
+    PvlKeyword keyword(name.toStdString());
+    keyword.addValue(v1.toStdString());
+    if (v1 != v2) keyword.addValue(v2.toStdString());
     return keyword;
   }
 
@@ -354,11 +354,11 @@ namespace Isis {
    * @return PvlKeyword Container for the two values
    */
   PvlKeyword ControlNetDiff::makeKeyword(QString name, double v1, double v2, double tol) {
-    PvlKeyword keyword(name);
-    keyword.addValue(toString(v1));
+    PvlKeyword keyword(name.toStdString());
+    keyword.addValue(std::to_string(v1));
     if (fabs(v1 - v2) > tol) {
-      keyword.addValue(toString(v2));
-      keyword.addValue(toString(tol));
+      keyword.addValue(std::to_string(v2));
+      keyword.addValue(std::to_string(tol));
     }
     return keyword;
   }
@@ -376,9 +376,9 @@ namespace Isis {
   void ControlNetDiff::addUniquePoint(QString label, QString v1, QString v2, PvlObject &parent) {
     PvlObject point("Point");
 
-    PvlKeyword keyword(label);
-    keyword.addValue(v1);
-    keyword.addValue(v2);
+    PvlKeyword keyword(label.toStdString());
+    keyword.addValue(v1.toStdString());
+    keyword.addValue(v2.toStdString());
     point.addKeyword(keyword);
 
     parent.addObject(point);
@@ -398,9 +398,9 @@ namespace Isis {
   void ControlNetDiff::addUniqueMeasure(QString label, QString v1, QString v2, PvlObject &parent) {
     PvlGroup measure("Measure");
 
-    PvlKeyword keyword(label);
-    keyword.addValue(v1);
-    keyword.addValue(v2);
+    PvlKeyword keyword(label.toStdString());
+    keyword.addValue(v1.toStdString());
+    keyword.addValue(v2.toStdString());
     measure.addKeyword(keyword);
 
     parent.addGroup(measure);

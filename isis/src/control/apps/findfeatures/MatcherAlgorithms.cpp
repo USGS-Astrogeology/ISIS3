@@ -172,7 +172,7 @@ namespace Isis {
 
   /** Return a PvlObject containing the chain of algorithm information   */
   PvlObject MatcherAlgorithms::info(const QString &name) const {
-    PvlObject data(name);
+    PvlObject data(name.toStdString());
     data += m_detector->info("Detector");
     data += m_extractor->info("Extractor");
     data += m_matcher->info("Matcher");

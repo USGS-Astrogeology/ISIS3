@@ -79,7 +79,7 @@ namespace Isis {
     for (int i = 0; i < list.size(); i++) {
       if (!m.StartProcess(list[i].toString())) {
         PvlGroup outsiders("Outside");
-        outsiders += PvlKeyword("File", list[i].toString());
+        outsiders += PvlKeyword("File", list[i].toString().toStdString());
         Application::Log(outsiders);
       }
       else {

@@ -143,11 +143,11 @@ void translateLabels(FileName in, Cube *ocube) {
     //Band Bin group
     double center = pdsLab["CenterFilterWavelength"];
     center /= 1000.0;
-    bBin.findKeyword("Center").setValue(toString(center), "micrometers");
+    bBin.findKeyword("Center").setValue(std::to_string(center), "micrometers");
   }
   double width = pdsLab["Bandwidth"];
   width /= 1000.0;
-  bBin.findKeyword("Width").setValue(toString(width), "micrometers");
+  bBin.findKeyword("Width").setValue(std::to_string(width), "micrometers");
   ocube->putGroup(bBin);
 
   //Kernel group

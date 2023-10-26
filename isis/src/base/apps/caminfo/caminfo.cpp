@@ -61,7 +61,7 @@ namespace Isis{
       PvlObject params("Caminfo");
       PvlObject common("Parameters");
       for(int i = 0; i < general->size(); i++)
-        common += PvlKeyword((*general)[i].first, (*general)[i].second);
+        common += PvlKeyword((*general)[i].first.toStdString(), (*general)[i].second.toStdString());
       params.addObject(common);
 
       // Add the camstats
@@ -123,9 +123,9 @@ namespace Isis{
       pout.addObject(params);
 
       if(ui.GetBoolean("APPEND"))
-        pout.append(outFile);
+        pout.append(outFile.toStdString());
       else
-        pout.write(outFile);
+        pout.write(outFile.toStdString());
     }
 
 
@@ -181,8 +181,8 @@ namespace Isis{
         PvlObject geomGrp("Geometry");
         bandGeom->generateGeometryKeys(geomGrp);
         for(int i = 0; i < geomGrp.keywords(); i++) {
-          if(not appending) keys += "Geom_" + geomGrp[i].name() + delim;
-          values += geomGrp[i][0] + delim;
+          if(not appending) keys += "Geom_" + QString::fromStdString(geomGrp[i].name()) + delim;
+          values += QString::fromStdString(geomGrp[i][0]) + delim;
         }
       }
 
@@ -308,36 +308,36 @@ namespace Isis{
 
           // Add keywords for backwards comaptibility
           PvlGroup cg = camPvl.findGroup("Latitude", Pvl::Traverse);
-          camstats->append(MakePair("MinimumLatitude", cg["latitudeminimum"][0]));
-          camstats->append(MakePair("MaximumLatitude", cg["latitudemaximum"][0]));
+          camstats->append(MakePair("MinimumLatitude", QString::fromStdString(cg["latitudeminimum"][0])));
+          camstats->append(MakePair("MaximumLatitude", QString::fromStdString(cg["latitudemaximum"][0])));
 
           cg = camPvl.findGroup("Longitude", Pvl::Traverse);
-          camstats->append(MakePair("MinimumLongitude", cg["longitudeminimum"][0]));
-          camstats->append(MakePair("MaximumLongitude", cg["longitudemaximum"][0]));
+          camstats->append(MakePair("MinimumLongitude", QString::fromStdString(cg["longitudeminimum"][0])));
+          camstats->append(MakePair("MaximumLongitude", QString::fromStdString(cg["longitudemaximum"][0])));
 
           cg = camPvl.findGroup("Resolution", Pvl::Traverse);
-          camstats->append(MakePair("MinimumResolution", cg["resolutionminimum"][0]));
-          camstats->append(MakePair("MaximumResolution", cg["resolutionmaximum"][0]));
+          camstats->append(MakePair("MinimumResolution", QString::fromStdString(cg["resolutionminimum"][0])));
+          camstats->append(MakePair("MaximumResolution", QString::fromStdString(cg["resolutionmaximum"][0])));
 
           cg = camPvl.findGroup("PhaseAngle", Pvl::Traverse);
-          camstats->append(MakePair("MinimumPhase", cg["phaseminimum"][0]));
-          camstats->append(MakePair("MaximumPhase", cg["phasemaximum"][0]));
+          camstats->append(MakePair("MinimumPhase", QString::fromStdString(cg["phaseminimum"][0])));
+          camstats->append(MakePair("MaximumPhase", QString::fromStdString(cg["phasemaximum"][0])));
 
           cg = camPvl.findGroup("EmissionAngle", Pvl::Traverse);
-          camstats->append(MakePair("MinimumEmission", cg["emissionminimum"][0]));
-          camstats->append(MakePair("MaximumEmission", cg["emissionmaximum"][0]));
+          camstats->append(MakePair("MinimumEmission", QString::fromStdString(cg["emissionminimum"][0])));
+          camstats->append(MakePair("MaximumEmission", QString::fromStdString(cg["emissionmaximum"][0])));
 
           cg = camPvl.findGroup("IncidenceAngle", Pvl::Traverse);
-          camstats->append(MakePair("MinimumIncidence", cg["incidenceminimum"][0]));
-          camstats->append(MakePair("MaximumIncidence", cg["incidencemaximum"][0]));
+          camstats->append(MakePair("MinimumIncidence", QString::fromStdString(cg["incidenceminimum"][0])));
+          camstats->append(MakePair("MaximumIncidence", QString::fromStdString(cg["incidencemaximum"][0])));
 
           cg = camPvl.findGroup("LocalSolarTime", Pvl::Traverse);
-          camstats->append(MakePair("LocalTimeMinimum", cg["localsolartimeMinimum"][0]));
-          camstats->append(MakePair("LocalTimeMaximum", cg["localsolartimeMaximum"][0]));
+          camstats->append(MakePair("LocalTimeMinimum", QString::fromStdString(cg["localsolartimeMinimum"][0])));
+          camstats->append(MakePair("LocalTimeMaximum", QString::fromStdString(cg["localsolartimeMaximum"][0])));
 
           cg = camPvl.findGroup("ObliqueResolution", Pvl::Traverse);
-          camstats->append(MakePair("ObliqueResolutionMinimum", cg["ObliqueResolutionMinimum"][0]));
-          camstats->append(MakePair("ObliqueResolutionMaximum", cg["ObliqueResolutionMaximum"][0]));
+          camstats->append(MakePair("ObliqueResolutionMinimum", QString::fromStdString(cg["ObliqueResolutionMinimum"][0])));
+          camstats->append(MakePair("ObliqueResolutionMaximum", QString::fromStdString(cg["ObliqueResolutionMaximum"][0])));
 
           // Add keywords for all camera values
           // Skips first "UserParameters" group.
@@ -346,7 +346,7 @@ namespace Isis{
 
             for (int j = 0; j < group.keywords(); j++) {
               PvlKeyword &keyword = group[j];
-              camstats->append(MakePair(keyword.name(), keyword[0]));
+              camstats->append(MakePair(QString::fromStdString(keyword.name()), QString::fromStdString(keyword[0])));
             }
           }
         }
@@ -441,7 +441,7 @@ namespace Isis{
             bool found = false;
             PvlGroup fpgrp;
             for (objIter=pvl.endObject()-1; objIter>=pvl.beginObject(); objIter--) {
-              if (objIter->name().toUpper() == "FOOTPRINTINIT") {
+              if (QString::fromStdString(objIter->name()).toUpper() == "FOOTPRINTINIT") {
                 found = true;
                 fpgrp = objIter->findGroup("UserParameters");
                 break;
@@ -451,7 +451,7 @@ namespace Isis{
               std::string msg = "Footprint blob was not found in input image history";
               throw IException(IException::User, msg, _FILEINFO_);
             }
-            QString prec = (QString)fpgrp.findKeyword("INCREASEPRECISION");
+            QString prec = QString::fromStdString(fpgrp.findKeyword("INCREASEPRECISION"));
             prec = prec.toUpper();
             if (prec == "TRUE") {
               precision = true;
@@ -459,7 +459,7 @@ namespace Isis{
             else {
               precision = false;
             }
-            QString inctype = (QString)fpgrp.findKeyword("INCTYPE");
+            QString inctype = QString::fromStdString(fpgrp.findKeyword("INCTYPE"));
             inctype = inctype.toUpper();
             if (inctype == "LINCSINC") {
               int linc = fpgrp.findKeyword("LINC");

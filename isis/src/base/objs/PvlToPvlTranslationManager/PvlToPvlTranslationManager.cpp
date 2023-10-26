@@ -111,9 +111,9 @@ namespace Isis {
 
     while((grp = InputGroup(translationGroupName, inst++)).name() != "") {
       if((con = GetContainer(grp)) != NULL) {
-        if(con->hasKeyword(InputKeywordName(translationGroupName))) {
+        if(con->hasKeyword(InputKeywordName(translationGroupName).toStdString())) {
           return PvlTranslationTable::Translate(translationGroupName,
-                                                (*con)[InputKeywordName(translationGroupName)][findex]);
+                                                QString::fromStdString((*con)[InputKeywordName(translationGroupName).toStdString()][findex]));
         }
       }
     }
@@ -149,7 +149,7 @@ namespace Isis {
 
      while((grp = InputGroup(translationGroupName, inst++)).name() != "") {
        if((con = GetContainer(grp)) != NULL) {
-         transGroup = TranslationTable().findGroup(translationGroupName);
+         transGroup = TranslationTable().findGroup(translationGroupName.toStdString());
          Pvl::ConstPvlKeywordIterator it = transGroup.findKeyword("InputKey",
                                            transGroup.begin(),
                                            transGroup.end());
@@ -158,12 +158,10 @@ namespace Isis {
          while(it != transGroup.end()) {
            const PvlKeyword &result = *it;
            if(con->hasKeyword(result[0])) {
-             key.setName(OutputName(translationGroupName));
+             key.setName(OutputName(translationGroupName).toStdString());
 
              for(int v = 0; v < (*con)[(result[0])].size(); v++) {
-               key.addValue(PvlTranslationTable::Translate(translationGroupName,
-                                                           (*con)[result[0]][v]),
-                            (*con)[result[0]].unit(v));
+               key.addValue(PvlTranslationTable::Translate(translationGroupName, QString::fromStdString((*con)[result[0]][v])).toStdString(),(*con)[result[0]].unit(v));
              }
 
              return key;
@@ -173,8 +171,8 @@ namespace Isis {
        }
      }
 
-     return PvlKeyword(OutputName(translationGroupName),
-                       PvlTranslationTable::Translate(translationGroupName, ""));
+     return PvlKeyword(OutputName(translationGroupName).toStdString(),
+                       PvlTranslationTable::Translate(translationGroupName, "").toStdString());
    }
 
 
@@ -200,13 +198,13 @@ namespace Isis {
     // Attempt to translate every group in the translation table
     for(int i = 0; i < TranslationTable().groups(); i++) {
       PvlGroup &g = TranslationTable().group(i);
-      if(IsAuto(g.name())) {
+      if(IsAuto(QString::fromStdString(g.name()))) {
         try {
-          PvlContainer *con = CreateContainer(g.name(), outputLabel);
-          (*con) += DoTranslation(g.name());
+          PvlContainer *con = CreateContainer(QString::fromStdString(g.name()), outputLabel);
+          (*con) += DoTranslation(QString::fromStdString(g.name()));
         }
         catch(IException &e) {
-          if(!IsOptional(g.name())) {
+          if(!IsOptional(QString::fromStdString(g.name()))) {
             throw;
           }
         }
@@ -239,8 +237,8 @@ namespace Isis {
       if(containingGroup != NULL) {
         anInputGroupFound = true;
 
-        if(containingGroup->hasKeyword(InputKeywordName(translationGroupName))) {
-          return containingGroup->findKeyword(InputKeywordName(translationGroupName));
+        if(containingGroup->hasKeyword(InputKeywordName(translationGroupName).toStdString())) {
+          return containingGroup->findKeyword(InputKeywordName(translationGroupName).toStdString());
         }
       }
 
@@ -249,8 +247,8 @@ namespace Isis {
     }
 
     if(anInputGroupFound) {
-      QString msg = "Unable to find input keyword [" + InputKeywordName(translationGroupName) +
-                   "] for output name [" + translationGroupName + "] in file [" + TranslationTable().fileName() + "]";
+      std::string msg = "Unable to find input keyword [" + InputKeywordName(translationGroupName).toStdString() +
+                   "] for output name [" + translationGroupName.toStdString() + "] in file [" + TranslationTable().fileName() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     else {
@@ -259,11 +257,11 @@ namespace Isis {
       for(int i = 0; i < InputGroup(translationGroupName).size(); i++) {
         if(i > 0) container += ",";
 
-        container += InputGroup(translationGroupName)[i];
+        container += QString::fromStdString(InputGroup(translationGroupName)[i]);
       }
 
-      QString msg = "Unable to find input group [" + container +
-                   "] for output name [" + translationGroupName + "] in file [" + TranslationTable().fileName() + "]";
+      std::string msg = "Unable to find input group [" + container.toStdString() +
+                   "] for output name [" + translationGroupName.toStdString() + "] in file [" + TranslationTable().fileName() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -291,7 +289,7 @@ namespace Isis {
     PvlKeyword grp;
     while((grp = InputGroup(translationGroupName, inst++)).name() != "") {
       if((con = GetContainer(grp)) != NULL) {
-        if(con->hasKeyword(InputKeywordName(translationGroupName))) return true;
+        if(con->hasKeyword(InputKeywordName(translationGroupName).toStdString())) return true;
       }
     }
 

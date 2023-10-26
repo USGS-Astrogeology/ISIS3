@@ -221,7 +221,6 @@ namespace Isis {
       m_overRangePixels(other.m_overRangePixels),
       m_removedData(other.m_removedData) {
   }
-   // : m_id(new QUuid(other.m_id->toString())),
 
 
   //! Destroys the IsisStats object.
@@ -409,8 +408,8 @@ namespace Isis {
 
     if (m_validMaximum < m_validMinimum) {
       // get the min and max DN values in the chosen range
-      QString msg = "Invalid Range: Minimum [" + toString(minimum) 
-                    + "] must be less than the Maximum [" + toString(maximum) + "].";
+      std::string msg = "Invalid Range: Minimum [" + std::to_string(minimum) 
+                    + "] must be less than the Maximum [" + std::to_string(maximum) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     //??? throw exception if data has already been added???
@@ -801,8 +800,8 @@ namespace Isis {
     if (StandardDeviation() == 0) {
       if (value == Maximum()) return 0;
       else {
-        QString msg = "Undefined Z-score. Standard deviation is zero and the input value[" 
-                      + toString(value) + "] is out of range [" + toString(Maximum()) + "].";
+        std::string msg = "Undefined Z-score. Standard deviation is zero and the input value[" 
+                      + std::to_string(value) + "] is out of range [" + std::to_string(Maximum()) + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -848,27 +847,27 @@ namespace Isis {
       name = "Statistics";
     }
     // Construct a label with the results
-    PvlGroup results(name);  
-    results += PvlKeyword("Sum", toString(Sum()));
-    results += PvlKeyword("SumSquare", toString(SumSquare()));
-    results += PvlKeyword("Minimum", toString(Minimum()));
-    results += PvlKeyword("Maximum", toString(Maximum()));
-    results += PvlKeyword("ValidMinimum", toString(ValidMinimum()));
-    results += PvlKeyword("ValidMaximum", toString(ValidMaximum()));
+    PvlGroup results(name.toStdString());  
+    results += PvlKeyword("Sum", std::to_string(Sum()));
+    results += PvlKeyword("SumSquare", std::to_string(SumSquare()));
+    results += PvlKeyword("Minimum", std::to_string(Minimum()));
+    results += PvlKeyword("Maximum", std::to_string(Maximum()));
+    results += PvlKeyword("ValidMinimum", std::to_string(ValidMinimum()));
+    results += PvlKeyword("ValidMaximum", std::to_string(ValidMaximum()));
     if (ValidPixels() != 0) {
-      results += PvlKeyword("Average", toString(Average()));
-      results += PvlKeyword("StandardDeviation", toString(StandardDeviation()));
-      results += PvlKeyword("Variance", toString(Variance()));
+      results += PvlKeyword("Average", std::to_string(Average()));
+      results += PvlKeyword("StandardDeviation", std::to_string(StandardDeviation()));
+      results += PvlKeyword("Variance", std::to_string(Variance()));
     }
-    results += PvlKeyword("TotalPixels", toString(TotalPixels()));
-    results += PvlKeyword("ValidPixels", toString(ValidPixels()));
-    results += PvlKeyword("OverValidMaximumPixels", toString(OverRangePixels()));
-    results += PvlKeyword("UnderValidMinimumPixels", toString(UnderRangePixels()));
-    results += PvlKeyword("NullPixels", toString(NullPixels()));
-    results += PvlKeyword("LisPixels", toString(LisPixels()));
-    results += PvlKeyword("LrsPixels", toString(LrsPixels()));
-    results += PvlKeyword("HisPixels", toString(HisPixels()));
-    results += PvlKeyword("HrsPixels", toString(HrsPixels()));
+    results += PvlKeyword("TotalPixels", std::to_string(TotalPixels()));
+    results += PvlKeyword("ValidPixels", std::to_string(ValidPixels()));
+    results += PvlKeyword("OverValidMaximumPixels", std::to_string(OverRangePixels()));
+    results += PvlKeyword("UnderValidMinimumPixels", std::to_string(UnderRangePixels()));
+    results += PvlKeyword("NullPixels", std::to_string(NullPixels()));
+    results += PvlKeyword("LisPixels", std::to_string(LisPixels()));
+    results += PvlKeyword("LrsPixels", std::to_string(LrsPixels()));
+    results += PvlKeyword("HisPixels", std::to_string(HisPixels()));
+    results += PvlKeyword("HrsPixels", std::to_string(HrsPixels()));
 
     return results;
   }
@@ -877,7 +876,7 @@ namespace Isis {
   void Statistics::save(QXmlStreamWriter &stream, const Project *project) const {   // TODO: does xml stuff need project???
 
     stream.writeStartElement("statistics");
-//    stream.writeTextElement("id", m_id->toString());
+//    stream.writeTextElement("id", m_id->std::to_string());
  
     stream.writeTextElement("sum", toString(m_sum));
     stream.writeTextElement("sumSquares", toString(m_sumsum));
@@ -930,7 +929,6 @@ namespace Isis {
            << (qint64)m_overRangePixels
            << (qint32)m_removedData;
     return stream;
-//    stream << m_id->toString()
   }
 
 

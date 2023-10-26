@@ -28,7 +28,7 @@ namespace Isis {
   ReseauDistortionMap::ReseauDistortionMap(Camera *parent, Pvl &labels, const QString &fname) :
     CameraDistortionMap(parent, 1.0) {
     // Set up distortion coefficients
-    Pvl mast(fname);
+    Pvl mast(fname.toStdString());
     PvlGroup dim = mast.findGroup("Dimensions");
     p_distortedLines = dim.findKeyword("DistortedLines");
     p_distortedSamps = dim.findKeyword("DistortedSamples");
@@ -44,8 +44,8 @@ namespace Isis {
       throw IException(IException::User, msg, _FILEINFO_);
     }
     for(int i = 0; i < p_numRes; i++) {
-      p_mlines.push_back(toDouble(mline[i]));
-      p_msamps.push_back(toDouble(msamp[i]));
+      p_mlines.push_back(std::stod(mline[i]));
+      p_msamps.push_back(std::stod(msamp[i]));
     }
     p_pixelPitch = parent->PixelPitch();
 
@@ -58,8 +58,8 @@ namespace Isis {
       throw IException(IException::User, msg, _FILEINFO_);
     }
     for(int i = 0; i < p_numRes; i++) {
-      p_rlines.push_back(toDouble(rline[i]));
-      p_rsamps.push_back(toDouble(rsamp[i]));
+      p_rlines.push_back(std::stod(rline[i]));
+      p_rsamps.push_back(std::stod(rsamp[i]));
     }
     if(p_mlines.size() != p_rlines.size()) {
       string msg = "The number of master reseaus and refined reseaus";

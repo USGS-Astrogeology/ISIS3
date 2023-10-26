@@ -115,7 +115,7 @@ namespace Isis {
    * @return Pvl group of gaps to be displayed
    */
   void FindGapsFunctor::setModification(QString newModValue) {
-    m_gaps->findKeyword("Modification").setValue(newModValue);
+    m_gaps->findKeyword("Modification").setValue(newModValue.toStdString());
   }
 
   
@@ -151,18 +151,18 @@ namespace Isis {
         if( !(*m_inGap) ) {
 
           *m_inGap = true;
-          m_gap->addKeyword(PvlKeyword("NewGapInBand", toString(in.Band())));
-          m_gap->addKeyword(PvlKeyword("StartLine", toString(in.Line())));
+          m_gap->addKeyword(PvlKeyword("NewGapInBand", std::to_string(in.Band())));
+          m_gap->addKeyword(PvlKeyword("StartLine", std::to_string(in.Line())));
           
           if(correlation == Isis::Null) {
             correlation = 0.0;
           }
-          m_gap->addKeyword(PvlKeyword("Correlation", toString(correlation)));
+          m_gap->addKeyword(PvlKeyword("Correlation", std::to_string(correlation)));
         }
         
         if (in.Line() == m_lineCount) {
-          m_gap->addKeyword(PvlKeyword("LastGapLine", toString(in.Line())));
-          m_gap->addKeyword(PvlKeyword("ToEndOfBand", toString(m_lineCount)));
+          m_gap->addKeyword(PvlKeyword("LastGapLine", std::to_string(in.Line())));
+          m_gap->addKeyword(PvlKeyword("ToEndOfBand", std::to_string(m_lineCount)));
 
           addGapToGroup();
         }
@@ -174,7 +174,7 @@ namespace Isis {
          * correlate. Or this line is the last line and it is in the gap.
          */
 
-        m_gap->addKeyword(PvlKeyword("LastGapLine", toString(in.Line() - 2)));
+        m_gap->addKeyword(PvlKeyword("LastGapLine", std::to_string(in.Line() - 2)));
         addGapToGroup();
       }
       
@@ -195,9 +195,9 @@ namespace Isis {
 
     for (int i = 0; i < m_gaps->groups(); i++) {
 
-      int gapBand = toInt((*m_gaps).group(i).findKeyword(" NewGapInBand")[0]);
-      int gapStart = toInt((*m_gaps).group(i).findKeyword("StartLine")[0]);
-      int gapEnd = toInt((*m_gaps).group(i).findKeyword("LastGapLine")[0]);
+      int gapBand = std::stoi((*m_gaps).group(i).findKeyword(" NewGapInBand")[0]);
+      int gapStart = std::stoi((*m_gaps).group(i).findKeyword("StartLine")[0]);
+      int gapEnd = std::stoi((*m_gaps).group(i).findKeyword("LastGapLine")[0]);
 
       if ( (in.Line() >= gapStart - m_bufferSizeBeforeGap) &&
            (in.Line() <= gapEnd + m_bufferSizeAfterGap) &&
@@ -239,8 +239,8 @@ namespace Isis {
     * In case the gap is a flase positive. The end of the gap will end up being the line
     * before the start of the gap.
     */
-    if (toInt(m_gap->findKeyword("StartLine")[0]) <
-        toInt(m_gap->findKeyword("LastGapLine")[0])) {
+    if (std::stoi(m_gap->findKeyword("StartLine")[0]) <
+        std::stoi(m_gap->findKeyword("LastGapLine")[0])) {
 
       m_gaps->addGroup(*m_gap);
     }

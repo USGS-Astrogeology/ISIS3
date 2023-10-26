@@ -304,9 +304,9 @@ void IsisMain() {
 
   // Parameters
   PvlKeyword key("Bias_Bn");
-  key.addValue(toString(g_b0, 8));
-  key.addValue(toString(g_b1, 8));
-  key.addValue(toString(g_b2, 8));
+  key.addValue(std::to_string(g_b0, 8));
+  key.addValue(std::to_string(g_b1, 8));
+  key.addValue(std::to_string(g_b2, 8));
   calibrationLog.addKeyword(key);
   calibrationLog.addKeyword(PvlKeyword("Bias", toString(g_bias, 16), "DN"));
 

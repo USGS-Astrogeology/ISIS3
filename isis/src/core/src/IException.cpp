@@ -489,11 +489,11 @@ namespace Isis {
 
       if (exception.m_errorType != Unknown) {
         errGroup += PvlKeyword("Class",
-                               errorTypeToString(exception.m_errorType));
+                               errorTypeToString(exception.m_errorType).toStdString());
         exceptionIsBlank = false;
       }
 
-      errGroup += PvlKeyword("Code", Isis::toString(exception.m_errorType));
+      errGroup += PvlKeyword("Code", to_string(exception.m_errorType));
 
       if (exception.m_message) {
         exceptionIsBlank = false;
@@ -501,15 +501,15 @@ namespace Isis {
 
         if (message.size() && message[message.size() - 1] == '.')
           message = message.mid(0, message.size() - 1);
-        errGroup += PvlKeyword("Message", message);
+        errGroup += PvlKeyword("Message", message.toStdString());
       }
 
       if (exception.m_fileName) {
         exceptionIsBlank = false;
-        errGroup += PvlKeyword("File", *exception.m_fileName);
+        errGroup += PvlKeyword("File", exception.m_fileName->toStdString());
 
         if (exception.m_lineNumber != -1)
-          errGroup += PvlKeyword("Line", Isis::toString(exception.m_lineNumber));
+          errGroup += PvlKeyword("Line", std::to_string(exception.m_lineNumber));
       }
 
       if (!exceptionIsBlank)
