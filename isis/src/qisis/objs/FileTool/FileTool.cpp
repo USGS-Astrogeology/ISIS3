@@ -617,7 +617,7 @@ namespace Isis {
       Pvl &inlab = *icube->label();
       for(int i = 0; i < inlab.objects(); i++) {
         if (inlab.object(i).isNamed("Table")) {
-          Blob t((QString)inlab.object(i)["Name"], inlab.object(i).name());
+          Blob t(QString::fromStdString(inlab.object(i)["Name"]), inlab.object(i).name());
           icube->read(t);
           ocube->write(t);
         }
@@ -627,7 +627,7 @@ namespace Isis {
       inlab = *icube->label();
       for(int i = 0; i < inlab.objects(); i++) {
         if (inlab.object(i).isNamed("Polygon")) {
-          Blob t((QString)inlab.object(i)["Name"], inlab.object(i).name());
+          Blob t(QString::fromStdString(inlab.object(i)["Name"]), inlab.object(i).name());
           icube->read(t);
           ocube->write(t);
         }
@@ -705,16 +705,16 @@ namespace Isis {
     int iNumBands   = pInCube->bandCount();
 
     PvlGroup results("Results");
-    results += PvlKeyword("InputLines",      toString(pInCube->lineCount()));
-    results += PvlKeyword("InputSamples",    toString(pInCube->sampleCount()));
-    results += PvlKeyword("StartingLine",    toString(dStartLine));
-    results += PvlKeyword("StartingSample",  toString(dStartSample));
-    results += PvlKeyword("EndingLine",      toString(dEndLine));
-    results += PvlKeyword("EndingSample",    toString(dEndSample));
-    results += PvlKeyword("LineIncrement",   toString(1));
-    results += PvlKeyword("SampleIncrement", toString(1));
-    results += PvlKeyword("OutputLines",     toString(pNumLines));
-    results += PvlKeyword("OutputSamples",   toString(pNumSamples));
+    results += PvlKeyword("InputLines",      std::to_string(pInCube->lineCount()));
+    results += PvlKeyword("InputSamples",    std::to_string(pInCube->sampleCount()));
+    results += PvlKeyword("StartingLine",    std::to_string(dStartLine));
+    results += PvlKeyword("StartingSample",  std::to_string(dStartSample));
+    results += PvlKeyword("EndingLine",      std::to_string(dEndLine));
+    results += PvlKeyword("EndingSample",    std::to_string(dEndSample));
+    results += PvlKeyword("LineIncrement",   std::to_string(1));
+    results += PvlKeyword("SampleIncrement", std::to_string(1));
+    results += PvlKeyword("OutputLines",     std::to_string(pNumLines));
+    results += PvlKeyword("OutputSamples",   std::to_string(pNumSamples));
     SubArea subArea;
     subArea.SetSubArea(pInCube->lineCount(), pInCube->sampleCount(), dStartLine, dStartSample,
                        dEndLine, dEndSample, 1.0, 1.0);
@@ -769,7 +769,7 @@ namespace Isis {
 
     Pvl whatsThisPvl;
     cubeViewport()->getAllWhatsThisInfo(whatsThisPvl);
-    whatsThisPvl.write(output);
+    whatsThisPvl.write(output.toStdString());
   }
 
 

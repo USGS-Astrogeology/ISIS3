@@ -31,7 +31,7 @@ void IsisMain() {
   Pvl * source = NULL;
   QString sourceFileName = ui.GetCubeName("Source");
   mergeTo = inOut.label();
-  source = new Pvl(sourceFileName);
+  source = new Pvl(sourceFileName.toStdString());
 
   // We have 3 possible running options, those are
   // We received labels as SOURCE
@@ -190,7 +190,7 @@ void IsisMain() {
     foreach (grp, list) {
       if (grp.size() != 0) {
         bool success = copyGroup(source, mergeTo, grp);
-        results += PvlKeyword(grp, success ? "true" : "false");
+        results += PvlKeyword(grp.toStdString(), success ? "true" : "false");
       }
     }
   }
@@ -203,7 +203,7 @@ void IsisMain() {
     foreach (obj, list) {
       if (obj.size() != 0) {
         bool success = copyObject(source, mergeTo, obj);
-        results += PvlKeyword(obj, success ? "true" : "false");
+        results += PvlKeyword(obj.toStdString(), success ? "true" : "false");
       }
     }
   }
@@ -224,10 +224,10 @@ void IsisMain() {
         }
         bool success = copyBlob(&sourceCube, &inOut, brk[1],
                          brk[0], sourceFileName);
-        results += PvlKeyword(blob, success ? "true" : "false");
+        results += PvlKeyword(blob.toStdString(), success ? "true" : "false");
       }
       else {
-        results += PvlKeyword(blob, "false");
+        results += PvlKeyword(blob.toStdString(), "false");
       }
     }
   }
@@ -257,10 +257,10 @@ void IsisMain() {
 bool copyGroup(Pvl * source, Pvl * mergeTo, QString name) {
   try {
     // The call we're looking to get an exception on is the one just below.
-    PvlGroup & toCopy = source->findGroup(name, Pvl::Traverse);
+    PvlGroup & toCopy = source->findGroup(name.toStdString(), Pvl::Traverse);
     PvlObject & isiscube = mergeTo->findObject("IsisCube");
-    if (isiscube.hasGroup(name))
-      isiscube.deleteGroup(name);
+    if (isiscube.hasGroup(name.toStdString()))
+      isiscube.deleteGroup(name.toStdString());
     isiscube.addGroup(toCopy);
     return true;
   }
@@ -277,9 +277,9 @@ bool copyObject(Pvl *source, Pvl *mergeTo, QString name)
   try
   {
     // The call we're looking to get an exception on is the one just below.
-    PvlObject &toCopy = source->findObject(name, Pvl::Traverse);
-    if (mergeTo->hasObject(name))
-      mergeTo->deleteGroup(name);
+    PvlObject &toCopy = source->findObject(name.toStdString(), Pvl::Traverse);
+    if (mergeTo->hasObject(name.toStdString()))
+      mergeTo->deleteGroup(name.toStdString());
     mergeTo->addObject(toCopy);
     return true;
   }
@@ -291,7 +291,7 @@ bool copyObject(Pvl *source, Pvl *mergeTo, QString name)
 
 bool copyBlob(Cube * from, Cube * to, QString name, QString type, QString fname) {
   try {
-    Blob blob(name, type, fname);
+    Blob blob(name, type.toStdString(), fname);
     from->read(blob);
     to->write(blob);
     return true;

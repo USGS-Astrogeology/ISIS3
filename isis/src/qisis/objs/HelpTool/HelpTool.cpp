@@ -68,7 +68,7 @@ namespace Isis {
                       QApplication::applicationName() + "/" +
                       QApplication::applicationName() + ".html";
 #elif defined(__APPLE__)
-    QString command = "open -a" + (QString) uig["GuiHelpBrowser"] +
+    QString command = "open -a" + QString::fromStdString(uig["GuiHelpBrowser"]) +
                       " http://isis.astrogeology.usgs.gov/Application/presentation/Tabbed/" +
                       QApplication::applicationName() + "/" +
                       QApplication::applicationName() + ".html";

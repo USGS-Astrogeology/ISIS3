@@ -118,7 +118,7 @@ void IsisMain() {
   if(ui.WasEntered("TO")) {
     Pvl lab;
     lab.addGroup(results);
-    lab.write(ui.GetFileName("TO", "txt"));
+    lab.write(ui.GetFileName("TO", "txt").toStdString());
   }
   if(doTable) {
     QString filename = FileName(ui.GetFileName("TO", "txt")).expanded();
@@ -278,7 +278,7 @@ void diffTable(std::ofstream &target, int precision) {
   for(unsigned int i = 0; i < samps.size(); i++) {
     Column currCol;
     //Prepare and add the first file's column
-    currCol.SetName(QString("File1_") + std::to_string(samps[i]));
+    currCol.SetName(QString::fromStdString("File1_" + std::to_string(samps[i])));
     if((int)(colWidth + precision + 1) < (int)currCol.Name().length()) {
       currCol.SetWidth(currCol.Name().length() + 1);
     }
@@ -290,7 +290,7 @@ void diffTable(std::ofstream &target, int precision) {
     cols.push_back(currCol);
 
     //Prepare and add the second file's column
-    currCol.SetName(QString("File2_") + std::to_string(samps[i]));
+    currCol.SetName(QString::fromStdString("File2_" + std::to_string(samps[i])));
     cols.push_back(currCol);
   }
 

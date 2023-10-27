@@ -42,7 +42,7 @@ void IsisMain() {
     dbFileName = FileName(demFile).highestVersion();
   }
 
-  Pvl dems(dbFileName.expanded());
+  Pvl dems(dbFileName.expanded().toStdString());
   PvlObject &demObject = dems.findObject("Dem");
 
   QMap< QString, QList<QString> > demMap;
@@ -55,14 +55,14 @@ void IsisMain() {
 
       // The third element in the Match keyword describes the DEM target (e.g.
       // Mars)
-      QString target = match[2];
+      QString target = QString::fromStdString(match[2]);
 
       // The first element of the File keyword gives the "mission" associated
       // with the keyword (currently, always "base").  The second element gives
       // the path from "base" to the actual DEM cube.
-      QString mission = file[0];
-      QString area = "$" + file[0];
-      QString pattern = file[1];
+      QString mission = QString::fromStdString(file[0]);
+      QString area = "$" + QString::fromStdString(file[0]);
+      QString pattern = QString::fromStdString(file[1]);
 
       // Some DEMs are hardcoded, but others are versioned.
       FileName demFileName(area + "/" + pattern);
@@ -75,8 +75,8 @@ void IsisMain() {
 
         // If the mission name maps to a data area in the Isis Preferences file,
         // then replace the variable $MISSION with the path to that area
-        if (dataDir.hasKeyword(mission)) {
-          area = (QString) dataDir[mission];
+        if (dataDir.hasKeyword(mission.toStdString())) {
+          area = QString::fromStdString(dataDir[mission.toStdString()]);
         }
       }
 

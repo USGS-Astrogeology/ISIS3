@@ -74,7 +74,7 @@ namespace Isis {
    * @see KernelDb(int)
    */
   KernelDb::KernelDb(const QString &dbName, const unsigned int allowedKernelTypes) :
-    m_kernelData(dbName) {
+    m_kernelData(dbName.toStdString()) {
     m_filename = dbName;
     m_allowedKernelTypes = allowedKernelTypes;
     m_kernelDbFiles.clear();
@@ -376,7 +376,7 @@ namespace Isis {
     }
 
     // Make sure the entry has been loaded into memory
-    if (!m_kernelData.hasObject(entry)) {
+    if (!m_kernelData.hasObject(entry.toStdString())) {
       priority_queue<Kernel> emptyKernelQueue;
       emptyKernelQueue.push(Kernel());
       queues.push_back(emptyKernelQueue);
@@ -388,19 +388,19 @@ namespace Isis {
     iTime end;
 
     if (cube.hasGroup("Instrument")) {
-      start = (QString) cube.findGroup("Instrument")["StartTime"];
+      start = QString::fromStdString(cube.findGroup("Instrument")["StartTime"]);
 
       if (cube.findGroup("Instrument").hasKeyword("StopTime")) {
-        end = ((QString) cube.findGroup("Instrument")["StopTime"]);
+        end = QString::fromStdString(cube.findGroup("Instrument")["StopTime"]);
       }
       else {
-        end = ((QString) cube.findGroup("Instrument")["StartTime"]);
+        end = QString::fromStdString(cube.findGroup("Instrument")["StartTime"]);
       }
     }
 
     // Loop through the objects to look for all matches to the entry value
     for (int i = 0; i < m_kernelData.objects(); i++) {
-      if (m_kernelData.object(i).isNamed(entry)) {
+      if (m_kernelData.object(i).isNamed(entry.toStdString())) {
         priority_queue<Kernel> filesFound;
         PvlObject &obj = m_kernelData.object(i);
 
@@ -416,7 +416,7 @@ namespace Isis {
 
           // Make sure the type is allowed
           if (grp.hasKeyword("Type")) {
-            type = (QString) grp["Type"];
+            type = QString::fromStdString(grp["Type"]);
             if (!(Kernel::typeEnum(type) & m_allowedKernelTypes)) {
               // will return 1 for each bit that has 1 in both type and allowed and
               // return 0 for all other bits
@@ -475,8 +475,8 @@ namespace Isis {
 
                 if (!key.isNamed("Time")) continue;
 
-                iTime timeRangeStart((QString)key[0]);
-                iTime timeRangeEnd((QString)key[1]);
+                iTime timeRangeStart(QString::fromStdString(key[0]));
+                iTime timeRangeEnd(QString::fromStdString(key[1]));
 
                 bool thisEndMatches = matches(lab, endTimeGrp,
                                               timeRangeEnd, cameraVersion);
@@ -592,7 +592,7 @@ namespace Isis {
       endOffset = (double) grp["EndOffset"] + 0.001;
     }
     if (grp.hasKeyword("Instrument")){
-      instrument = (QString) grp["Instrument"];
+      instrument = QString::fromStdString(grp["Instrument"]);
     }
 
     // First, the time search. Loop through the keywords, if the name isn't
@@ -604,8 +604,8 @@ namespace Isis {
       if (key.isNamed("Time")) {
 
         // Pull the selections start and end time out
-        iTime kernelStart = (QString) key[0];
-        iTime kernelEnd   = (QString) key[1];
+        iTime kernelStart = QString::fromStdString(key[0]);
+        iTime kernelEnd   = QString::fromStdString(key[1]);
 
         // If the kernel times inside of the requested times we
         // set the matchTime to be true.
@@ -616,7 +616,7 @@ namespace Isis {
         // the instrument id in the label then the timing is always invalid
         if (!instrument.isEmpty()) {
           const PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-          QString instId = (QString) inst.findKeyword("InstrumentId");
+          QString instId = QString::fromStdString(inst.findKeyword("InstrumentId"));
           if (instId.compare(instrument) != 0) {
             matchTime = false;
           }
@@ -625,11 +625,11 @@ namespace Isis {
 
       else if (key.isNamed("Match")) {
         try {
-          QString matchGroup = key[0];
-          QString matchKey   = key[1];
-          QString matchValue = key[2];
+          QString matchGroup = QString::fromStdString(key[0]);
+          QString matchKey   = QString::fromStdString(key[1]);
+          QString matchValue = QString::fromStdString(key[2]);
 
-          QString cubeValue = cube.findGroup(matchGroup)[matchKey];
+          QString cubeValue = QString::fromStdString(cube.findGroup(matchGroup.toStdString())[matchKey.toStdString()]);
           cubeValue = cubeValue.simplified().trimmed().toUpper();
           matchValue = matchValue.simplified().trimmed().toUpper();
 
@@ -732,10 +732,10 @@ namespace Isis {
 
     // Get the base DataDirectory
     PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-    QString baseDir = dataDir["Base"];
+    QString baseDir = QString::fromStdString(dataDir["Base"]);
 
     // Get the mission DataDirectory
-    QString missionDir = dataDir[mission];
+    QString missionDir = QString::fromStdString(dataDir[mission.toStdString()]);
 
     // Load the leapsecond DB
     loadKernelDbFiles(dataDir, baseDir + "/kernels/lsk", lab);
@@ -818,7 +818,7 @@ namespace Isis {
       m_kernelDbFiles.append(kernelDb.highestVersion());
     }
     else { // else, read in the appropriate database files from the config file
-      PvlObject inst = Pvl(configFile.expanded()).findObject("Instrument");
+      PvlObject inst = Pvl(configFile.expanded().toStdString()).findObject("Instrument");
       bool foundMatch = false;
       // loop through each group until we find a match
       for (int groupIndex = 0; groupIndex < inst.groups(); groupIndex++) {
@@ -832,8 +832,8 @@ namespace Isis {
             for (int keyIndex = 0; keyIndex < grp.keywords(); keyIndex++) {
               PvlKeyword keyword = grp[keyIndex];
               if (keyword.isNamed("File")) {
-                QString dir = dataDir[keyword[0]];
-                FileName kernelDb( dir + "/" + keyword[1]);
+                QString dir = QString::fromStdString(dataDir[keyword[0]]);
+                FileName kernelDb( dir + "/" + QString::fromStdString(keyword[1]));
                 m_kernelDbFiles.append(kernelDb.highestVersion());
               }
             }
@@ -866,7 +866,7 @@ namespace Isis {
     // read each of the database files appended to the list into m_kernelData
     foreach (FileName kernelDbFile, m_kernelDbFiles) {
       try {
-        m_kernelData.read(kernelDbFile.expanded());
+        m_kernelData.read(kernelDbFile.expanded().toStdString());
       }
       catch (IException &e) {
         QString msg = "Unable to read kernel database file ["
@@ -908,8 +908,8 @@ namespace Isis {
       // indicates an ISIS preference in the DataDirectory section
       // and a filename
       if (kfile.size() == 2) {
-        QString pref = kfile[0];
-        QString version = kfile[1];
+        QString pref = QString::fromStdString(kfile[0]);
+        QString version = QString::fromStdString(kfile[1]);
         FileName filename("$" + pref + "/" + version);
         if (filename.isVersioned())
           filename = filename.highestVersion();
@@ -917,15 +917,15 @@ namespace Isis {
       }
       // One value in "File" indicates a full file spec
       else if (kfile.size() == 1) {
-        FileName filename(kfile[0]);
+        FileName filename(QString::fromStdString(kfile[0]));
         if (filename.isVersioned())
           filename = filename.highestVersion();
         files.push_back(filename.originalPath() + "/" + filename.name());
       }
       else {
-        QString msg = "Invalid File keyword value in [Group = ";
+        std::string msg = "Invalid File keyword value in [Group = ";
         msg += grp.name() + "] in database file [";
-        msg += m_filename + "]";
+        msg += m_filename.toStdString() + "]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }

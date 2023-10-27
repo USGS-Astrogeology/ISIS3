@@ -45,7 +45,7 @@ void IsisMain() {
 
   //Get the map projection file provided by the user
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
 
   // Create the ISIS map projection
   int ns, nl;

@@ -240,7 +240,7 @@ void pvlOut(const QString &StatFile) {
 
   Pvl t;
   t.addGroup(results);
-  t.write(StatFile);
+  t.write(StatFile.toStdString());
 }
 
 //********************************************************
@@ -298,27 +298,27 @@ void tableOut(const QString &StatFile) {
 //*******************************************************
 void PVLIn(const Isis::FileName &filename) {
   Pvl pvlFileIn;
-  pvlFileIn.read(filename.name());
+  pvlFileIn.read(filename.name().toStdString());
   PvlGroup results = pvlFileIn.findGroup("Results");
   PvlObject::PvlKeywordIterator itr = results.begin();
 
   while(itr != results.end()) {
     StaticStats newStat;
-    band.push_back(toInt((*itr)[0]));
+    band.push_back(std::stoi((*itr)[0]));
     itr++;
-    element.push_back(toInt((*itr)[0]));
+    element.push_back(std::stoi((*itr)[0]));
     itr++;
-    newStat.setValidPixels(toInt((*itr)[0]));
+    newStat.setValidPixels(std::stoi((*itr)[0]));
     itr++;
-    newStat.setMean(toDouble((*itr)[0]));
+    newStat.setMean(std::stod((*itr)[0]));
     itr++;
-    median.push_back(toDouble((*itr)[0]));
+    median.push_back(std::stod((*itr)[0]));
     itr++;
-    newStat.setStandardDeviation(toDouble((*itr)[0]));
+    newStat.setStandardDeviation(std::stod((*itr)[0]));
     itr++;
-    newStat.setMinimum(toDouble((*itr)[0]));
+    newStat.setMinimum(std::stod((*itr)[0]));
     itr++;
-    newStat.setMaximum(toDouble((*itr)[0]));
+    newStat.setMaximum(std::stod((*itr)[0]));
     itr++;
     st.push_back(newStat);
 

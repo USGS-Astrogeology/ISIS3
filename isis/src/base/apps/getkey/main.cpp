@@ -35,7 +35,7 @@ void IsisMain() {
 
   // Open the file ... it must be a label-type file
   Pvl lab;
-  lab.read(labelFile);
+  lab.read(labelFile.toStdString());
   bool recursive = ui.GetBoolean("RECURSIVE");
 
   // Set up the requested object
@@ -45,17 +45,17 @@ void IsisMain() {
 
     // Get the keyword from the entered group
     if(ui.WasEntered("GRPNAME")) {
-      PvlObject object = lab.findObject(obj, Pvl::Traverse);
+      PvlObject object = lab.findObject(obj.toStdString(), Pvl::Traverse);
       QString grp = ui.GetString("GRPNAME");
-      key = object.findGroup(grp, Pvl::Traverse)[ui.GetString("KEYWORD")];
+      key = object.findGroup(grp.toStdString(), Pvl::Traverse)[ui.GetString("KEYWORD").toStdString()];
     }
     // Find the keyword in the object
     else {
       if(recursive) {
-        key = lab.findObject(obj, Pvl::Traverse).findKeyword(ui.GetString("KEYWORD"), Pvl::Traverse);
+        key = lab.findObject(obj.toStdString(), Pvl::Traverse).findKeyword(ui.GetString("KEYWORD").toStdString(), Pvl::Traverse);
       }
       else {
-        key = lab.findObject(obj, Pvl::Traverse)[ui.GetString("KEYWORD")];
+        key = lab.findObject(obj.toStdString(), Pvl::Traverse)[ui.GetString("KEYWORD").toStdString()];
       }
     }
   }
@@ -63,16 +63,16 @@ void IsisMain() {
   // Set up the requested group
   else if(ui.WasEntered("GRPNAME")) {
     QString grp = ui.GetString("GRPNAME");
-    key = lab.findGroup(grp, Pvl::Traverse)[ui.GetString("KEYWORD")];
+    key = lab.findGroup(grp.toStdString(), Pvl::Traverse)[ui.GetString("KEYWORD").toStdString()];
   }
 
   // Find the keyword in the label, outside of any object or group
   else {
     if(recursive) {
-      key = lab.findKeyword(ui.GetString("KEYWORD"), Pvl::Traverse);
+      key = lab.findKeyword(ui.GetString("KEYWORD").toStdString(), Pvl::Traverse);
     }
     else {
-      key = lab[ui.GetString("KEYWORD")];
+      key = lab[ui.GetString("KEYWORD").toStdString()];
     }
   }
 
@@ -87,7 +87,7 @@ void IsisMain() {
       throw IException(IException::User, msg, _FILEINFO_);
     }
     // Get the keyword value
-    else value = key[i-1];
+    else value = QString::fromStdString(key[i-1]);
   }
   else {
 
@@ -96,7 +96,7 @@ void IsisMain() {
       QStringList values;
 
       for (int i = 0; i < key.size(); i++) {
-        QString thisValue = key[i];
+        QString thisValue = QString::fromStdString(key[i]);
 
         if (thisValue.contains (" "))
           thisValue = "\"" + thisValue + "\"";
@@ -107,15 +107,15 @@ void IsisMain() {
       value = values.join( ", ");
     }
     // Just get the keyword value since it isnt a list
-    else value = (QString)key;
+    else value = QString::fromStdString(key);
   }
 
   if(ui.GetBoolean("UPPER")) value = value.toUpper();
 
   // Construct a label with the results
   PvlGroup results("Results");
-  results += PvlKeyword("From", labelFile);
-  results += PvlKeyword(ui.GetString("KEYWORD"), value);
+  results += PvlKeyword("From", labelFile.toStdString());
+  results += PvlKeyword(ui.GetString("KEYWORD").toStdString(), value.toStdString());
   if(ui.IsInteractive()) {
     Application::GuiLog(results);
   }
@@ -131,7 +131,7 @@ void helperButtonLog() {
   UserInterface &ui = Application::GetUserInterface();
   QString file(ui.GetCubeName("FROM"));
   Pvl p;
-  p.read(file);
+  p.read(file.toStdString());
   Application::GuiLog(p);
 }
 //...........end of helper function LogMap ........

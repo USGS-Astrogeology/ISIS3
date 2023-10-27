@@ -108,7 +108,7 @@ void PrintMap() {
 
   // Get mapping group from map file
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   //Write map file out to the log
@@ -121,7 +121,7 @@ void LoadMapRes() {
 
   // Get mapping group from map file
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   // Set resolution
@@ -151,7 +151,7 @@ void ComputeInputRange() {
 
   UserInterface &ui = Application::GetUserInterface();
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   Statistics *latStats = latCub->statistics();
@@ -167,7 +167,7 @@ void ComputeInputRange() {
                                        TProjection::To180Domain(lonStats->Maximum());
 
   if (userGrp.hasKeyword("LatitudeType")) {
-    bool isOcentric = ((QString)userGrp.findKeyword("LatitudeType")) == "Planetocentric";
+    bool isOcentric = ((std::string)userGrp.findKeyword("LatitudeType")) == "Planetocentric";
 
     double equRadius;
     double polRadius;
@@ -188,8 +188,8 @@ void ComputeInputRange() {
       //Else read the target name from the input cube
       else {
         Pvl fromFile;
-        fromFile.read(ui.GetCubeName("FROM"));
-        target = (QString)fromFile.findKeyword("TargetName", Pvl::Traverse);
+        fromFile.read(ui.GetCubeName("FROM").toStdString());
+        target = QString::fromStdString(fromFile.findKeyword("TargetName", Pvl::Traverse));
       }
 
       PvlGroup radii = Target::radiiGroup(target);
@@ -212,7 +212,7 @@ void ComputeInputRange() {
   }
 
   if (userGrp.hasKeyword("LongitudeDirection")) {
-    bool isPosEast = ((QString)userGrp.findKeyword("LongitudeDirection")) == "PositiveEast";
+    bool isPosEast = ((std::string)userGrp.findKeyword("LongitudeDirection")) == "PositiveEast";
 
     if (isPosEast) {
       if (ui.GetString("LONDIR") != "POSITIVEEAST") {
@@ -263,7 +263,7 @@ void LoadMapRange() {
 
   // Get map file
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   // Set ground range keywords that are found in mapfile

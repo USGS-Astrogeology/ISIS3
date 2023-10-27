@@ -350,7 +350,7 @@ namespace Isis {
             for (int iobj = 0; iobj < ecub->label()->objects(); iobj++) {
               PvlObject obj = ecub->label()->object(iobj);
               if (obj.name() != "Table") continue;
-              if (obj["Name"][0] != QString("CameraStatistics")) continue;
+              if (obj["Name"][0] != "CameraStatistics") continue;
               ecub->label()->deleteObject(iobj);
               break;
             }
@@ -359,8 +359,8 @@ namespace Isis {
             QString bundleTimestamp = "Jigged = " + m_bundleSolutionInfo->runTime();
             Table cMatrix = m_bundleAdjust->cMatrix(i);
             Table spVector = m_bundleAdjust->spVector(i);
-            cMatrix.Label().addComment(bundleTimestamp);
-            spVector.Label().addComment(bundleTimestamp);
+            cMatrix.Label().addComment(bundleTimestamp.toStdString());
+            spVector.Label().addComment(bundleTimestamp.toStdString());
             ecub->write(cMatrix);
             ecub->write(spVector);
             // The ecub is now adjusted, add this to our list of adjusted images

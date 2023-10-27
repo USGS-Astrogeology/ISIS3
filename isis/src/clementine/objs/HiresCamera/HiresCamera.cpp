@@ -43,7 +43,7 @@ namespace Isis {
     NaifStatus::CheckErrors();
     Pvl &lab = *cube.label();
     // Get the camera characteristics
-    QString filter = (QString)(lab.findGroup("BandBin", Pvl::Traverse))["FilterName"];
+    QString filter = QString::fromStdString(lab.findGroup("BandBin", Pvl::Traverse)["FilterName"]);
     filter = filter.toUpper();
 
     SetFocalLength();
@@ -53,7 +53,7 @@ namespace Isis {
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
 
     // set variables startTime and exposureDuration
-    double time = iTime((QString)inst["StartTime"]).Et();
+    double time = iTime(QString::fromStdString(inst["StartTime"])).Et();
 
     // divide exposure duration keyword value by 1000 to convert to seconds
     double exposureDuration = ((double) inst["ExposureDuration"]) / 1000.0;

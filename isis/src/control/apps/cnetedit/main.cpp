@@ -44,7 +44,7 @@ void PrintTemp() {
 
   // Get template PVL
   Pvl userTemp;
-  userTemp.read(ui.GetFileName("DEFFILE"));
+  userTemp.read(ui.GetFileName("DEFFILE").toStdString());
 
   // Write template file out to the log
   Isis::Application::GuiLog(userTemp);

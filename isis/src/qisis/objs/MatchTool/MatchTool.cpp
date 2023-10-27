@@ -2882,12 +2882,12 @@ namespace Isis {
   void MatchTool::viewTemplateFile() {
     try{
       // Get the template file from the ControlPointEditor object
-      Pvl templatePvl(m_pointEditor->templateFileName());
+      Pvl templatePvl(m_pointEditor->templateFileName().toStdString());
       // Create registration dialog window using PvlEditDialog class
       // to view and/or edit the template
       PvlEditDialog registrationDialog(templatePvl);
       registrationDialog.setWindowTitle("View or Edit Template File: "
-                                         + templatePvl.fileName());
+                                         + QString::fromStdString(templatePvl.fileName()));
       registrationDialog.resize(550,360);
       registrationDialog.exec();
     }

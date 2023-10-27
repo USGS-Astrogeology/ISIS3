@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
 
     // Test Shutter Open/Close
     const PvlGroup &inst = c.label()->findGroup("Instrument", Pvl::Traverse);
-    QString stime = inst["StartTime"];
+    QString stime = QString::fromStdString(inst["StartTime"]);
     double et; // StartTime keyword is the center exposure time
     str2et_c(stime.toLatin1().data(), &et);
     // approximate 1 tenth of a second since Apollo did not

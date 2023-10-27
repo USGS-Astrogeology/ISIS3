@@ -43,7 +43,7 @@ namespace Isis {
     else if (ui.GetString("TYPE") == "SPK") {
       kernelType = "SpacecraftPosition";
     }
-    PvlObject selections(kernelType);
+    PvlObject selections(kernelType.toStdString());
 
     // Specify whether to use SPICE segments (made up of SPICE intervals)
     // or SPICE intervals for the SPICE database. Naif referes to this as "coverage level"
@@ -56,7 +56,7 @@ namespace Isis {
     }
     sdg.setCoverageLevel(coverageLevel);
 
-    selections += PvlKeyword("RunTime", iTime::CurrentLocalTime());
+    selections += PvlKeyword("RunTime", iTime::CurrentLocalTime().toStdString());
     selections.addGroup(dependency);
 
     /* Removed because Nadir is not done using this*/
@@ -168,7 +168,7 @@ namespace Isis {
 
     Pvl writer;
     writer.addObject(selections);
-    writer.write(to.expanded());
+    writer.write(to.expanded().toStdString());
   }
 
 
@@ -213,7 +213,7 @@ namespace Isis {
 
         // Try to get kernel file names out of db, if a db was specified instead of an actual kernel
         if (kernelFileName.extension() == "db") {
-          Pvl kernelDbPvl(kernelFileName.expanded());
+          Pvl kernelDbPvl(kernelFileName.expanded().toStdString());
 
           if (kernelDbPvl.objects() == 1) {
             PvlObject &primaryObject = kernelDbPvl.object(0);
@@ -221,14 +221,14 @@ namespace Isis {
             if (primaryObject.groups() == 1) {
               PvlGroup &primaryGroup = primaryObject.group(0);
 
-              if (primaryGroup.name().toLower() == "selection") {
+              if (QString::fromStdString(primaryGroup.name()).toLower() == "selection") {
 
                 if (primaryGroup.keywords() == 1) {
                   PvlKeyword &key = primaryGroup[0];
 
                   if (key.isNamed("File")) {
                     if (key.size() == 2) {
-                      kernelFileName = safeHighestVersion(QString("$%1/%2").arg(key[0]).arg(key[1]));
+                      kernelFileName = safeHighestVersion(QString("$%1/%2").arg(QString::fromStdString(key[0])).arg(QString::fromStdString(key[1])));
                     }
                     else {
                       throw IException(IException::Unknown,
@@ -241,41 +241,28 @@ namespace Isis {
                   }
                   else {
                     throw IException(IException::Unknown,
-                                     QObject::tr("Expected Pvl Group [%1] in the first Pvl Object "
-                                                 "[%2] in the DB file [%3] to have a single keyword "
-                                                 "named File, but the keyword was named [%4] "
-                                                 "instead")
-                                       .arg(primaryGroup.name()).arg(primaryObject.name())
-                                       .arg(kernelFileName.original()).arg(key.name()),
+                                     "Expected Pvl Group " + primaryGroup.name() + " in the first Pvl Object "
+                                                 " " + primaryObject.name() + " in the DB file " + kernelFileName.original().toStdString() + " to have a single keyword "
+                                                 "named File, but the keyword was named " + key.name() + "instead",
                                      _FILEINFO_);
                   }
                 }
                 else {
-                  throw IException(IException::Unknown,
-                                   QObject::tr("Expected Pvl Group [%1] in the first Pvl Object [%2] "
-                                               "in the DB file [%3] to have a single keyword (named "
-                                               "File), but found [%4] keywords")
-                                     .arg(primaryGroup.name()).arg(primaryObject.name())
-                                     .arg(kernelFileName.original()).arg(primaryGroup.keywords()),
+                  throw IException(IException::Unknown, "Expected Pvl Group " + primaryGroup.name() + " in the first Pvl Object " + primaryObject.name() + " "
+                                               "in the DB file " + kernelFileName.original().toStdString() + " to have a single keyword (named "
+                                               "File), but found " + std::to_string(primaryGroup.keywords()) + " keywords",
                                    _FILEINFO_);
                 }
               }
               else {
-                throw IException(IException::Unknown,
-                                 QObject::tr("Expected Pvl Group in the first Pvl Object [%1] in "
-                                             "the DB file [%2] to be named Selection but found [%3]")
-                                   .arg(primaryObject.name()).arg(kernelFileName.original())
-                                   .arg(primaryGroup.name()),
+                throw IException(IException::Unknown, "Expected Pvl Group in the first Pvl Object " + primaryObject.name() + " in "
+                                             "the DB file " + kernelFileName.original().toStdString() + " to be named Selection but found " + primaryGroup.name(),
                                  _FILEINFO_);
               }
             }
             else {
-              throw IException(IException::Unknown,
-                               QObject::tr("Expected one Pvl Group in the first Pvl Object [%1] in "
-                                           "the DB file [%2] but found [%3]")
-                                 .arg(primaryObject.name()).arg(kernelFileName.original())
-                                 .arg(primaryObject.groups()),
-                               _FILEINFO_);
+              throw IException(IException::Unknown,"Expected one Pvl Group in the first Pvl Object " + primaryObject.name() + " in "
+                                           "the DB file " + kernelFileName.original().toStdString() + " but found " + std::to_string(primaryObject.groups()), _FILEINFO_);
             }
           }
           else {
@@ -288,7 +275,7 @@ namespace Isis {
         }
 
         results.append(kernelFileName);
-        dependencyGroup += PvlKeyword(kernelTypeName, kernelFileName.original());
+        dependencyGroup += PvlKeyword(kernelTypeName.toStdString(), (kernelFileName.original().toStdString()));
       }
     }
 

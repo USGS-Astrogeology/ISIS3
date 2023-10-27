@@ -83,7 +83,7 @@ int main() {
 
     // test ShutterOpenCloseTimes() method
     PvlGroup inst = cube.label()->findGroup("Instrument", Pvl::Traverse);
-    QString startTime = inst["StartTime"];
+    QString startTime = QString::fromStdString(inst["StartTime"]);
     double eTime = 0.0;
     utc2et_c(startTime.toLatin1().data(), &eTime);
     double expoDur = ((double) inst["ExposureDuration"])/1000; // in seconds

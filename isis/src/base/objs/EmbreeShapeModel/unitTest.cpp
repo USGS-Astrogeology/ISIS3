@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "";
     Pvl testLabel;
     PvlGroup testKernels("Kernels");
-    testKernels += PvlKeyword("ShapeModel", dskfile);
+    testKernels += PvlKeyword("ShapeModel", dskfile.toStdString());
     testLabel += testKernels;
     EmbreeShapeModel itokawaPvlModel(itokawaTarget, testLabel, manager);
     outputModelStatus(itokawaPvlModel);
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "";
     Pvl elevationLabel;
     PvlGroup elevationKernels("Kernels");
-    elevationKernels += PvlKeyword("ElevationModel", dskfile);
+    elevationKernels += PvlKeyword("ElevationModel", dskfile.toStdString());
     elevationLabel += elevationKernels;
     EmbreeShapeModel itokawaElevationModel(itokawaTarget, elevationLabel, manager);
     outputModelStatus(itokawaElevationModel);

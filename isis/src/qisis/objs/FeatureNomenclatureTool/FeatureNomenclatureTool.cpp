@@ -747,7 +747,7 @@ namespace Isis {
         PvlGroup mappingGrp = vp->projection()->Mapping();
 
         if (mappingGrp.hasKeyword("TargetName"))
-          target = mappingGrp["TargetName"][0];
+          target = QString::fromStdString(mappingGrp["TargetName"][0]);
       }
 
       Latitude minLat;

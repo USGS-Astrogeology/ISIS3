@@ -374,7 +374,7 @@ void IsisMain() {
   ocube = new Cube();
   ocube->setDimensions(numOutputSamples, tempFileLength, 2);
   PvlGroup &prefs = Preference::Preferences().findGroup("DataDirectory", Pvl::Traverse);
-  QString outTmpName = (QString)prefs["Temporary"][0] + "/";
+  QString outTmpName = QString::fromStdString(prefs["Temporary"][0]) + "/";
   outTmpName += FileName(ui.GetCubeName("TO")).baseName() + ".tmp.cub";
   ocube->create(outTmpName);
   oLineMgr = new LineManager(*ocube);
@@ -395,14 +395,14 @@ void IsisMain() {
     }
 
     PvlObject currFile("Exclusions");
-    currFile += PvlKeyword("FileName", inList[currImage].toString());
-    currFile += PvlKeyword("Tolerance", toString(maxStdev));
+    currFile += PvlKeyword("FileName", inList[currImage].toString().toStdString());
+    currFile += PvlKeyword("Tolerance", std::to_string(maxStdev));
 
     if(cameraType == LineScan) {
-      currFile += PvlKeyword("FrameLines", toString(numFrameLines));
+      currFile += PvlKeyword("FrameLines", std::to_string(numFrameLines));
     }
     else if(cameraType == PushFrame) {
-      currFile += PvlKeyword("FrameletLines", toString(numFrameLines));
+      currFile += PvlKeyword("FrameletLines", std::to_string(numFrameLines));
     }
 
     excludedDetails.push_back(currFile);
@@ -496,7 +496,7 @@ void IsisMain() {
   PvlGroup excludedFiles("ExcludedFiles");
   for(currImage = 0; currImage < inList.size(); currImage++) {
     if(Excluded(currImage)) {
-      excludedFiles += PvlKeyword("File", inList[currImage].original());
+      excludedFiles += PvlKeyword("File", inList[currImage].original().toStdString());
     }
   }
 
@@ -513,7 +513,7 @@ void IsisMain() {
       excludeFile.addObject(excludedDetails[i]);
     }
 
-    excludeFile.write(FileName(ui.GetFileName("EXCLUDE")).expanded());
+    excludeFile.write(FileName(ui.GetFileName("EXCLUDE")).expanded().toStdString());
   }
 
   remove(outTmpName.toLatin1().data());
@@ -663,11 +663,11 @@ void CreateTemporaryData(Buffer &in) {
 
         // Record the exclusion
         PvlGroup currExclusion("ExcludedLines");
-        currExclusion += PvlKeyword("FrameStartLine", toString(in.Line()));
-        currExclusion += PvlKeyword("ValidPixels", toString(inputFrameStats.ValidPixels()));
+        currExclusion += PvlKeyword("FrameStartLine", std::to_string(in.Line()));
+        currExclusion += PvlKeyword("ValidPixels", std::to_string(inputFrameStats.ValidPixels()));
 
         if(!IsSpecial(inputFrameStats.StandardDeviation()))
-          currExclusion += PvlKeyword("StandardDeviation", toString(inputFrameStats.StandardDeviation()));
+          currExclusion += PvlKeyword("StandardDeviation", std::to_string(inputFrameStats.StandardDeviation()));
         else
           currExclusion += PvlKeyword("StandardDeviation", "N/A");
 
@@ -711,12 +711,12 @@ void CreateTemporaryData(Buffer &in) {
 
     if(excluded && ((in.Line() - 1) % numFrameLines == 0)) {
       PvlGroup currExclusion("ExcludedFramelet");
-      currExclusion += PvlKeyword("FrameletStartLine", toString(in.Line()));
-      currExclusion += PvlKeyword("FrameletNumber", toString((in.Line() - 1) / numFrameLines));
+      currExclusion += PvlKeyword("FrameletStartLine", std::to_string(in.Line()));
+      currExclusion += PvlKeyword("FrameletNumber", std::to_string((in.Line() - 1) / numFrameLines));
 
       if(!IsSpecial(stdev)) {
         currExclusion += PvlKeyword("StandardDeviation",
-                                    toString(stdev));
+                                    std::to_string(stdev));
       }
       else {
         currExclusion += PvlKeyword("StandardDeviation",

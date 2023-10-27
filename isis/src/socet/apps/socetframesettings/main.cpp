@@ -74,7 +74,7 @@ void IsisMain() {
 
   // Make sure the image contains the SPICE blobs/tables
   PvlGroup test = cube.label()->findGroup("Kernels", Pvl::Traverse);
-  QString instrumentPointing = (QString) test["InstrumentPointing"];
+  QString instrumentPointing = QString::fromStdString(test["InstrumentPointing"]);
   if (instrumentPointing != "Table") {
     QString msg = QString("Input image [%1] does not contain needed SPICE blobs.  Please run "
                           "spiceinit on the image with attach=yes.").arg(from);
@@ -93,14 +93,14 @@ void IsisMain() {
 
   // Get required keywords from instrument and band groups
   PvlGroup inst = cube.label()->findGroup("Instrument", Pvl::Traverse);
-  QString instrumentId = (QString) inst["InstrumentId"];
-  QString spacecraftName = (QString) inst["SpacecraftName"];
+  QString instrumentId = QString::fromStdString(inst["InstrumentId"]);
+  QString spacecraftName = QString::fromStdString(inst["SpacecraftName"]);
 
   // Compensate for noproj altering cube labels
   if (instrumentId == "IdealCamera") {
     PvlGroup orig = cube.label()->findGroup("OriginalInstrument", Pvl::Traverse);
-    instrumentId = (QString) orig["InstrumentId"];
-    spacecraftName = (QString) orig["SpacecraftName"];
+    instrumentId = QString::fromStdString(orig["InstrumentId"]);
+    spacecraftName = QString::fromStdString(orig["SpacecraftName"]);
   }
 
   // Get sensor position and orientation (opk) angles
@@ -162,7 +162,7 @@ void IsisMain() {
   else if (spacecraftName == "Galileo Orbiter") {
     //Check if this image was aquired with the cover on or off
     iTime removeCoverDate("1994/04/01 00:00:00");
-    iTime imageDate((QString) inst["StartTime"]);
+    iTime imageDate(QString::fromStdString(inst["StartTime"]));
 
     if (imageDate < removeCoverDate) {
       socetCamFile += "Galileo_SSI_Cover.cam";
@@ -174,7 +174,7 @@ void IsisMain() {
   else if (spacecraftName == "Cassini-Huygens") {
     // Get the image filter and replace "/" with "_"
     PvlGroup bandBin = cube.label()->findGroup("BandBin", Pvl::Traverse);
-    QString filter = (QString) bandBin["FilterName"];
+    QString filter = QString::fromStdString(bandBin["FilterName"]);
     filter.replace("/", "_");
 
     socetCamFile += "Cassini_ISSNA_";
@@ -387,15 +387,15 @@ void IsisMain() {
     PvlObject naifKeywordsObject = cube.label()->findObject("NaifKeywords");
     if (instrumentId == "MDIS-NAC") {
       ikCode = "236820";
-      swapObserverTarget = (QString) naifKeywordsObject["INS-236820_SWAP_OBSERVER_TARGET"];
-      lightTimeCorrection = (QString) naifKeywordsObject["INS-236820_LIGHTTIME_CORRECTION"];
-      ltSurfaceCorrect = (QString) naifKeywordsObject["INS-236820_LT_SURFACE_CORRECT"];
+      swapObserverTarget = QString::fromStdString(naifKeywordsObject["INS-236820_SWAP_OBSERVER_TARGET"]);
+      lightTimeCorrection = QString::fromStdString(naifKeywordsObject["INS-236820_LIGHTTIME_CORRECTION"]);
+      ltSurfaceCorrect = QString::fromStdString(naifKeywordsObject["INS-236820_LT_SURFACE_CORRECT"]);
     }
     else {
       ikCode = "236800";
-      swapObserverTarget = (QString) naifKeywordsObject["INS-236800_SWAP_OBSERVER_TARGET"];
-      lightTimeCorrection = (QString) naifKeywordsObject["INS-236800_LIGHTTIME_CORRECTION"];
-      ltSurfaceCorrect = (QString) naifKeywordsObject["INS-236800_LT_SURFACE_CORRECT"];
+      swapObserverTarget = QString::fromStdString(naifKeywordsObject["INS-236800_SWAP_OBSERVER_TARGET"]);
+      lightTimeCorrection = QString::fromStdString(naifKeywordsObject["INS-236800_LIGHTTIME_CORRECTION"]);
+      ltSurfaceCorrect = QString::fromStdString(naifKeywordsObject["INS-236800_LT_SURFACE_CORRECT"]);
     }
 
     toStrm << "\nSENSOR_TYPE FrameOffAxis" << endl;

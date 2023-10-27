@@ -29,7 +29,7 @@ UserInterface &ui = Application::GetUserInterface();
 
 // Get mapping group from map file
 Pvl userMap;
-userMap.read(ui.GetFileName("MAP"));
+userMap.read(ui.GetFileName("MAP").toStdString());
 PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
 //Write map file out to the log
@@ -43,7 +43,7 @@ UserInterface &ui = Application::GetUserInterface();
 Pvl userMap;
 
 try {
-userMap.read(ui.GetFileName("MAP"));
+userMap.read(ui.GetFileName("MAP").toStdString());
 }
 catch(IException &e) {
 }
@@ -52,7 +52,7 @@ catch(IException &e) {
 Pvl fromMap;
 
 try {
-fromMap.read(ui.GetCubeName("FROM"));
+fromMap.read(ui.GetCubeName("FROM").toStdString());
 }
 catch(IException &e) {
 }
@@ -78,7 +78,7 @@ catch(IException &e) {
 
 // Longitude conversions first
 if(userMapping.hasKeyword("LongitudeDirection")) {
-if(((QString)userMapping["LongitudeDirection"]).compare(fromMapping["LongitudeDirection"]) != 0) {
+if((QString::fromStdString(userMapping["LongitudeDirection"])).compare(QString::fromStdString(fromMapping["LongitudeDirection"])) != 0) {
   double minLon = fromMapping["MinimumLongitude"];
   double maxLon = fromMapping["MaximumLongitude"];
   int domain = fromMapping["LongitudeDomain"];
@@ -87,36 +87,36 @@ if(((QString)userMapping["LongitudeDirection"]).compare(fromMapping["LongitudeDi
     domain = userMapping["LongitudeDomain"];
   }
 
-  if((QString)userMapping["LongitudeDirection"] == "PositiveEast") {
-    fromMapping["MaximumLongitude"] = toString(TProjection::ToPositiveEast(minLon, domain));
-    fromMapping["MinimumLongitude"] = toString(TProjection::ToPositiveEast(maxLon, domain));
+  if(QString::fromStdString(userMapping["LongitudeDirection"]) == "PositiveEast") {
+    fromMapping["MaximumLongitude"] = std::to_string(TProjection::ToPositiveEast(minLon, domain));
+    fromMapping["MinimumLongitude"] = std::to_string(TProjection::ToPositiveEast(maxLon, domain));
   }
-  else if((QString)userMapping["LongitudeDirection"] == "PositiveWest") {
-    fromMapping["MaximumLongitude"] = toString(TProjection::ToPositiveWest(minLon, domain));
-    fromMapping["MinimumLongitude"] = toString(TProjection::ToPositiveWest(maxLon, domain));
+  else if(QString::fromStdString(userMapping["LongitudeDirection"]) == "PositiveWest") {
+    fromMapping["MaximumLongitude"] = std::to_string(TProjection::ToPositiveWest(minLon, domain));
+    fromMapping["MinimumLongitude"] = std::to_string(TProjection::ToPositiveWest(maxLon, domain));
   }
 }
 }
 
 // Latitude conversions now
 if(userMapping.hasKeyword("LatitudeType")) { // user set a new domain?
-if(((QString)userMapping["LatitudeType"]).compare(fromMapping["LatitudeType"]) != 0) { // new lat type different?
-  if(((QString)userMapping["LatitudeType"]).compare("Planetographic") == 0) {
-    fromMapping["MinimumLatitude"] = toString(TProjection::ToPlanetographic(
+if((QString::fromStdString(userMapping["LatitudeType"])).compare(QString::fromStdString(fromMapping["LatitudeType"])) != 0) { // new lat type different?
+  if((QString::fromStdString(userMapping["LatitudeType"])).compare("Planetographic") == 0) {
+    fromMapping["MinimumLatitude"] = std::to_string(TProjection::ToPlanetographic(
                                        (double)fromMapping["MinimumLatitude"],
                                        (double)fromMapping["EquatorialRadius"],
                                        (double)fromMapping["PolarRadius"]));
-    fromMapping["MaximumLatitude"] = toString(TProjection::ToPlanetographic(
+    fromMapping["MaximumLatitude"] = std::to_string(TProjection::ToPlanetographic(
                                        (double)fromMapping["MaximumLatitude"],
                                        (double)fromMapping["EquatorialRadius"],
                                        (double)fromMapping["PolarRadius"]));
   }
   else {
-    fromMapping["MinimumLatitude"] = toString(TProjection::ToPlanetocentric(
+    fromMapping["MinimumLatitude"] = std::to_string(TProjection::ToPlanetocentric(
                                        (double)fromMapping["MinimumLatitude"],
                                        (double)fromMapping["EquatorialRadius"],
                                        (double)fromMapping["PolarRadius"]));
-    fromMapping["MaximumLatitude"] = toString(TProjection::ToPlanetocentric(
+    fromMapping["MaximumLatitude"] = std::to_string(TProjection::ToPlanetocentric(
                                        (double)fromMapping["MaximumLatitude"],
                                        (double)fromMapping["EquatorialRadius"],
                                        (double)fromMapping["PolarRadius"]));

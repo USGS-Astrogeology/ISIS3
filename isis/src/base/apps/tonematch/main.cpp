@@ -62,8 +62,8 @@ void IsisMain() {
 
   PvlGroup results("Results");
   QString stringNum = "";
-  results += PvlKeyword( "Offset", stringNum.setNum(base) );
-  results += PvlKeyword( "Gain", stringNum.setNum(mult) );
+  results += PvlKeyword( "Offset", stringNum.setNum(base).toStdString() );
+  results += PvlKeyword( "Gain", stringNum.setNum(mult).toStdString() );
   Pvl fileOutput;
   fileOutput += results;
   oStats.SetMincount( ui.GetInteger("MINCOUNT") );
@@ -71,7 +71,7 @@ void IsisMain() {
   Application::Log(results);
 
   if (ui.WasEntered("OUTSTATS")) {
-    fileOutput.write(ui.GetFileName("OUTSTATS"));
+    fileOutput.write(ui.GetFileName("OUTSTATS").toStdString());
   }
 
   // Apply the correction

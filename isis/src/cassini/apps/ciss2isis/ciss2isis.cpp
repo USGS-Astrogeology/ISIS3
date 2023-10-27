@@ -120,7 +120,7 @@ namespace Isis{
     int roo = *(header + 50 + vicarLabelBytes) / 32 % 2; //**** THIS MAY NEED TO BE CHANGED,
     // SEE BOTTOM OF THIS FILE FOR IN DEPTH COMMENTS ON READOUTORDER
     PvlGroup &inst = ocube->label()->findGroup("Instrument", Pvl::Traverse);
-    inst.addKeyword(PvlKeyword("ReadoutOrder", toString(roo)));
+    inst.addKeyword(PvlKeyword("ReadoutOrder", std::to_string(roo)));
     p.EndProcess();
 
     // PROCESS 2 : Do 8 bit to 12 bit conversion for image ==============================================//
@@ -209,7 +209,7 @@ namespace Isis{
   void CreateStretchPairs() {
     // Set up the strech for the 8 to 12 bit conversion from file
     PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-    QString missionDir = (QString) dataDir["Cassini"];
+    QString missionDir = QString::fromStdString(dataDir["Cassini"]);
     FileName *lutFile = new FileName(missionDir + "/calibration/lut/lut.tab");
     CisscalFile *stretchPairs = new CisscalFile(lutFile->expanded());
     // Create the stretch pairs
@@ -276,7 +276,7 @@ namespace Isis{
     FileName transFile(dir + "/CassiniIss.trn");
 
     // Get the translation manager ready
-    Pvl inputLabel(labelFile.expanded());
+    Pvl inputLabel(labelFile.expanded().toStdString());
     PvlToPvlTranslationManager labelXlater(inputLabel, transFile.expanded());
 
     // Pvl outputLabels;
@@ -285,9 +285,9 @@ namespace Isis{
 
     //Add needed keywords that are not in translation table to cube's instrument group
     PvlGroup &inst = outputLabel->findGroup("Instrument", Pvl::Traverse);
-    QString scc = inputLabel.findKeyword("SPACECRAFT_CLOCK_CNT_PARTITION");
-    scc += "/" + (QString) inputLabel.findKeyword("SPACECRAFT_CLOCK_START_COUNT");
-    inst.addKeyword(PvlKeyword("SpacecraftClockCount", scc));
+    QString scc = QString::fromStdString(inputLabel.findKeyword("SPACECRAFT_CLOCK_CNT_PARTITION"));
+    scc += "/" + QString::fromStdString(inputLabel.findKeyword("SPACECRAFT_CLOCK_START_COUNT"));
+    inst.addKeyword(PvlKeyword("SpacecraftClockCount", scc.toStdString()));
 
     //Add units of measurement to keywords from translation table
     double exposureDuration = inst.findKeyword("ExposureDuration");
@@ -304,10 +304,10 @@ namespace Isis{
     inst.findKeyword("InstrumentDataRate").setValue(std::to_string(instDataRate), "KilobitsPerSecond");
 
     //  initialize global variables
-    dataConversionType = (QString) inst.findKeyword("DataConversionType");
+    dataConversionType = QString::fromStdString(inst.findKeyword("DataConversionType"));
     sumMode = inst.findKeyword("SummingMode");
-    compressionType = (QString) inst.findKeyword("CompressionType");
-    IString fsw((QString) inst.findKeyword("FlightSoftwareVersionId"));
+    compressionType = QString::fromStdString(inst.findKeyword("CompressionType"));
+    IString fsw(QString::fromStdString(inst.findKeyword("FlightSoftwareVersionId")));
     if(fsw == "Unknown") {
       flightSoftware = 0.0;
     }
@@ -316,24 +316,24 @@ namespace Isis{
     }
 
     // Remove the trailing 'Z' in some pds labels
-    QString sUpdateTime = inst.findKeyword("StartTime")[0];
+    QString sUpdateTime = QString::fromStdString(inst.findKeyword("StartTime")[0]);
     sUpdateTime.remove(QRegExp("[Zz]"));
-    inst.findKeyword("StartTime").setValue(sUpdateTime);
+    inst.findKeyword("StartTime").setValue(sUpdateTime.toStdString());
 
-    sUpdateTime = inst.findKeyword("StopTime")[0];
+    sUpdateTime = QString::fromStdString(inst.findKeyword("StopTime")[0]);
     sUpdateTime.remove(QRegExp("[Zz]"));
-    inst.findKeyword("StopTime").setValue(sUpdateTime);
+    inst.findKeyword("StopTime").setValue(sUpdateTime.toStdString());
 
-    sUpdateTime = inst.findKeyword("ImageTime")[0];
+    sUpdateTime = QString::fromStdString(inst.findKeyword("ImageTime")[0]);
     sUpdateTime.remove(QRegExp("[Zz]"));
-    inst.findKeyword("ImageTime").setValue(sUpdateTime);
+    inst.findKeyword("ImageTime").setValue(sUpdateTime.toStdString());
 
 
     // create BandBin group
-    QString filter = inputLabel.findKeyword("FilterName")[0] + "/" +
-                     inputLabel.findKeyword("FilterName")[1];
+    QString filter = QString::fromStdString(inputLabel.findKeyword("FilterName")[0]) + "/" +
+                     QString::fromStdString(inputLabel.findKeyword("FilterName")[1]);
 
-    QString instrumentID = inst.findKeyword("InstrumentId");
+    QString instrumentID = QString::fromStdString(inst.findKeyword("InstrumentId"));
     QString cameraAngleDefs;
     if(instrumentID.at(3) == 'N') {
       cameraAngleDefs = dir + "/CassiniIssNarrowAngle.def";
@@ -361,16 +361,16 @@ namespace Isis{
       }
     }
     PvlGroup bandBin("BandBin");
-    bandBin += PvlKeyword("FilterName", filter);
+    bandBin += PvlKeyword("FilterName", filter.toStdString());
     bandBin += PvlKeyword("OriginalBand", "1");
 
     if(foundfilter) {
-      bandBin += PvlKeyword("Center", toString(center));
-      bandBin += PvlKeyword("Width", toString(width));
+      bandBin += PvlKeyword("Center", std::to_string(center));
+      bandBin += PvlKeyword("Width", std::to_string(width));
     }
     else {
       PvlGroup msgGrp("Warnings");
-      msgGrp += PvlKeyword("CameraAngleLookup", "Failed! No Camera information for filter combination: " + filter);
+      msgGrp += PvlKeyword("CameraAngleLookup", "Failed! No Camera information for filter combination: " + filter.toStdString());
       Application::Log(msgGrp);
       bandBin += PvlKeyword("Center", "None found for filter combination.");
       bandBin += PvlKeyword("Width", "None found for filter combination.");

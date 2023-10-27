@@ -3463,12 +3463,12 @@ namespace Isis {
   void QnetTool::viewTemplateFile() {
     try{
       // Get the template file from the ControlPointEditor object
-      Pvl templatePvl(m_pointEditor->templateFileName());
+      Pvl templatePvl(m_pointEditor->templateFileName().toStdString());
       // Create registration dialog window using PvlEditDialog class
       // to view and/or edit the template
       PvlEditDialog registrationDialog(templatePvl);
       registrationDialog.setWindowTitle("View or Edit Template File: "
-                                         + templatePvl.fileName());
+                                         + QString::fromStdString(templatePvl.fileName()));
       registrationDialog.resize(550,360);
       registrationDialog.exec();
     }
@@ -3784,7 +3784,7 @@ namespace Isis {
             m_groundSurfacePointSource = ControlPoint::SurfacePointSource::Reference;
             if (!m_demOpen) {
               PvlGroup kernels = m_groundCube->group("Kernels");
-              QString shapeFile = kernels ["ShapeModel"];
+              QString shapeFile = QString::fromStdString(kernels["ShapeModel"]);
               if (shapeFile.contains("dem")) {
                 m_groundRadiusSource = ControlPoint::RadiusSource::DEM;
                 m_radiusSourceFile = shapeFile;
@@ -3792,7 +3792,7 @@ namespace Isis {
               else {
                 m_groundRadiusSource = ControlPoint::RadiusSource::Ellipsoid;
                 //  Find pck file from Kernels group
-                m_radiusSourceFile = (QString) kernels["TargetAttitudeShape"];
+                m_radiusSourceFile = QString::fromStdString(kernels["TargetAttitudeShape"]);
               }
             }
           }
@@ -3862,7 +3862,7 @@ namespace Isis {
     QString referenceFileName = m_serialNumberList->fileName(referenceSN);
     QScopedPointer<Cube> referenceCube(new Cube(referenceFileName, "r"));
     PvlGroup kernels = referenceCube->group("Kernels");
-    QString shapeFile = kernels["ShapeModel"];
+    QString shapeFile = QString::fromStdString(kernels["ShapeModel"]);
 
     //  If the reference measure has a shape model cube then set that as the radius
     //  This will NOT WORK for shape model files (not the default of Null or Ellipsoid)

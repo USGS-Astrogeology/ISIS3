@@ -17,7 +17,7 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
 
   // Extract label from file
-  Pvl *label = new Pvl(ui.GetFileName("FROM"));
+  Pvl *label = new Pvl(ui.GetFileName("FROM").toStdString());
   PvlObject *pvl = label;
   QString option = ui.GetString("OPTION");
 
@@ -32,7 +32,7 @@ void IsisMain() {
   // Add Template File
   if(option == "ADDTEMP") {
     QString tempfile = ui.GetFileName("TEMPFILE");
-    Pvl tempobj(tempfile);
+    Pvl tempobj(tempfile.toStdString());
     for(int i = 0; i < tempobj.groups(); ++i) {
       pvl->addGroup(tempobj.group(i));
     }
@@ -43,35 +43,35 @@ void IsisMain() {
 
     // Add Group
     if(option == "ADDG") {
-      PvlGroup g(grpname);
+      PvlGroup g(grpname.toStdString());
       if(ui.WasEntered("COMMENT"))
-        g.addComment(ui.GetString("COMMENT"));
+        g.addComment(ui.GetString("COMMENT").toStdString());
       pvl->addGroup(g);
     }
 
     // Delete Group
     else if(option == "DELG") {
-      pvl->deleteGroup(grpname);
+      pvl->deleteGroup(grpname.toStdString());
     }
 
     else {
       QString key = ui.GetString("KEYWORD");
-      PvlGroup &grp = pvl->findGroup(grpname, PvlObject::Traverse);
+      PvlGroup &grp = pvl->findGroup(grpname.toStdString(), PvlObject::Traverse);
 
       // Add Keyword
       if(option == "ADDKEY") {
-        PvlKeyword keywrd(key);
+        PvlKeyword keywrd(key.toStdString());
         grp.addKeyword(modifyKeyword(ui, keywrd));
       }
 
       // Delete Keyword
       else if(option == "DELKEY") {
-        grp.deleteKeyword(key);
+        grp.deleteKeyword(key.toStdString());
       }
 
       // Modify Keyword
       else if(option == "MODKEY") {
-        modifyKeyword(ui, grp.findKeyword(key));
+        modifyKeyword(ui, grp.findKeyword(key.toStdString()));
       }
 
       // Set Keyword
@@ -80,7 +80,7 @@ void IsisMain() {
           PvlKeyword *first = NULL;
           // Clean duplicate keywords of ONLY the provided keyword
           for(int i = 0; i < grp.keywords(); i++) {
-            if(grp[i].isNamed(key)) {
+            if(grp[i].isNamed(key.toStdString())) {
               if(not first)
                 first = &grp[i];
               else
@@ -90,7 +90,7 @@ void IsisMain() {
           modifyKeyword(ui, *first);
         }
         else {
-          PvlKeyword keywrd(key);
+          PvlKeyword keywrd(key.toStdString());
           grp.addKeyword(modifyKeyword(ui, keywrd));
         }
       }
@@ -110,7 +110,7 @@ void IsisMain() {
     cube = NULL;
   }
   else {
-    label->write(ui.GetFileName("FROM"));
+    label->write(ui.GetFileName("FROM").toStdString());
   }
 
   delete label;
@@ -128,10 +128,10 @@ void IsisMain() {
  */
 PvlKeyword &modifyKeyword(UserInterface &ui, PvlKeyword &keyword) {
   if(ui.WasEntered("UNITS"))
-    keyword.setValue(ui.GetString("VALUE"), ui.GetString("UNITS"));
+    keyword.setValue(ui.GetString("VALUE").toStdString(), ui.GetString("UNITS").toStdString());
   else
-    keyword.setValue(ui.GetString("VALUE"));
+    keyword.setValue(ui.GetString("VALUE").toStdString());
   if(ui.WasEntered("COMMENT"))
-    keyword.addComment(ui.GetString("COMMENT"));
+    keyword.addComment(ui.GetString("COMMENT").toStdString());
   return keyword;
 }

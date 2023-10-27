@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
   results = equalizer.getResults();
   cout << "Results:" << endl;
   for (int i = 0; i < results["NonOverlaps"].size(); i++) {
-    results["NonOverlaps"][i].replace(QRegularExpression("(\\/[\\w\\-\\. ]*)+\\/odyssey"), "odyssey");
+    QString::fromStdString(results["NonOverlaps"][i]).replace(QRegularExpression("(\\/[\\w\\-\\. ]*)+\\/odyssey"), "odyssey");
   }
   cout << results << endl;
 
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
   cout << "Results:" << endl;
   for (int i = 0; i < results.keywords(); i++) {
     if (results[i].isNamed("FileName")) {
-      results[i].setValue(QString(results[i]).replace(QRegularExpression("(\\/[\\w\\-\\. ]*)+\\/odyssey"), "odyssey"));
+      results[i].setValue(QString::fromStdString(results[i]).replace(QRegularExpression("(\\/[\\w\\-\\. ]*)+\\/odyssey"), "odyssey").toStdString());
     }
   }
   cout << results << endl;

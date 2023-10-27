@@ -48,7 +48,7 @@ namespace Isis {
     // Get the start time from labels
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString stime = inst["SpacecraftClockStartCount"];
+    QString stime = QString::fromStdString((std::string)inst["SpacecraftClockStartCount"]);
     double etStart = getClockTime(stime).Et();
 
     // Get other info from labels

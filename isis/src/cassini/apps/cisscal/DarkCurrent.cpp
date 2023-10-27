@@ -1027,7 +1027,7 @@ namespace Isis {
   void DarkCurrent::FindDarkFiles() {
     // Get the directory where the CISS darkcurrent directory is
     PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-    QString missionDir = (QString) dataDir["Cassini"];
+    QString missionDir = QString::fromStdString(dataDir["Cassini"]);
     QString darkDir(missionDir + "/calibration/darkcurrent/");
 
     QString instrumentId("");

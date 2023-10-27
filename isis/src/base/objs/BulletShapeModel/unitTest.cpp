@@ -74,9 +74,9 @@ int main(int argc, char *argv[]) {
     qDebug() << "";
     qDebug() << "";
     qDebug() << "Using: " << itokawaCubeFile;
-    Pvl itokawaLabel(itokawaCubeFile);
+    Pvl itokawaLabel(itokawaCubeFile.toStdString());
     PvlObject &itokawaCubeLabel = itokawaLabel.findObject("IsisCube");
-    itokawaCubeLabel.findGroup("Kernels").findKeyword("ShapeModel").setValue(itokawaDskFile);
+    itokawaCubeLabel.findGroup("Kernels").findKeyword("ShapeModel").setValue(itokawaDskFile.toStdString());
     BulletShapeModel itokawaModel( itokawaTarget, itokawaLabel );
     itokawaModel.setTolerance(0.001);
     outputModelStatus(itokawaModel);

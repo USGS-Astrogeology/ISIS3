@@ -77,7 +77,7 @@ void IsisMain() {
 
       // Load it up into a new projection
       Pvl mapPvl;
-      mapPvl.read(mapFile.expanded());
+      mapPvl.read(mapFile.expanded().toStdString());
       RingPlaneProjection *altmap = (RingPlaneProjection *) ProjectionFactory::CreateFromCube(mapPvl);
 
       // Set lat and lon in its system
@@ -130,31 +130,31 @@ void IsisMain() {
   if(proj->IsGood()) {
     PvlGroup results("Results");
     results += PvlKeyword("Filename",
-                          FileName(ui.GetCubeName("FROM")).expanded());
-    results += PvlKeyword("Sample", toString(proj->WorldX()));
-    results += PvlKeyword("Line", toString(proj->WorldY()));
-    results += PvlKeyword("PixelValue", PixelToString(b[0]));
-    results += PvlKeyword("X", toString(proj->XCoord()));
-    results += PvlKeyword("Y", toString(proj->YCoord()));
+                          FileName(ui.GetCubeName("FROM")).expanded().toStdString());
+    results += PvlKeyword("Sample", std::to_string(proj->WorldX()));
+    results += PvlKeyword("Line", std::to_string(proj->WorldY()));
+    results += PvlKeyword("PixelValue", PixelToString(b[0]).toStdString());
+    results += PvlKeyword("X", std::to_string(proj->XCoord()));
+    results += PvlKeyword("Y", std::to_string(proj->YCoord()));
 
     // Put together all the keywords for different coordinate systems.
     PvlKeyword ringRad =
-      PvlKeyword("RingRadius", toString(proj->UniversalRingRadius()));
+      PvlKeyword("RingRadius", std::to_string(proj->UniversalRingRadius()));
 
     PvlKeyword cC360 =
-      PvlKeyword("CounterClockwise360RingLongitude", toString(proj->UniversalRingLongitude()));
+      PvlKeyword("CounterClockwise360RingLongitude", std::to_string(proj->UniversalRingLongitude()));
 
     PvlKeyword c360 =
       PvlKeyword("Clockwise360RingLongitude",
-                 toString(proj->ToClockwise(proj->UniversalRingLongitude(), 360)));
+                 std::to_string(proj->ToClockwise(proj->UniversalRingLongitude(), 360)));
 
     PvlKeyword cC180 =
       PvlKeyword("CounterClockwise180RingLongitude",
-                 toString(proj->To180Domain(proj->UniversalRingLongitude())));
+                 std::to_string(proj->To180Domain(proj->UniversalRingLongitude())));
 
     PvlKeyword c180 =
       PvlKeyword("Clockwise180RingLongitude",
-                 toString(proj->To180Domain(proj->ToCounterClockwise(
+                 std::to_string(proj->To180Domain(proj->ToCounterClockwise(
                             proj->UniversalRingLongitude(), 360))));
 
     // Input map coordinate system location
@@ -198,10 +198,10 @@ void IsisMain() {
         Pvl temp;
         temp.addGroup(results);
         if(append) {
-          temp.append(outFile);
+          temp.append(outFile.toStdString());
         }
         else {
-          temp.write(outFile);
+          temp.write(outFile.toStdString());
         }
       }
 
@@ -233,7 +233,7 @@ void IsisMain() {
         }
 
         for(int i = 0; i < results.keywords(); i++) {
-          os << (QString)results[i];
+          os << results[i];
 
           if(i < results.keywords() - 1) {
             os << ",";
@@ -259,7 +259,7 @@ void PrintMap() {
 
   // Get mapping group from map file
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   //Write map file out to the log

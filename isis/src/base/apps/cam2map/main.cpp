@@ -44,7 +44,7 @@ void printMap() {
 
   // Get mapping group from map file
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   //Write map file out to the log
@@ -57,7 +57,7 @@ void loadMapRes() {
 
   // Get mapping group from map file
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   // Set resolution
@@ -105,7 +105,7 @@ void loadMapRange() {
 
   // Get map file
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   // Set ground range keywords that are found in mapfile
@@ -149,7 +149,7 @@ void loadCameraRange() {
 
   // Get the map projection file provided by the user
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
 
   // Open the input cube, get the camera object, and the cam map projection
   Cube c;

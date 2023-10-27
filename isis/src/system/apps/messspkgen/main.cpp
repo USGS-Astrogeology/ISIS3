@@ -39,7 +39,7 @@ void IsisMain() {
     QString dbString("$messenger/kernels/spk/kernels.????.db");
     dbFileName = FileName(dbString).highestVersion();
   }
-  Pvl kernelDb(dbFileName.expanded());
+  Pvl kernelDb(dbFileName.expanded().toStdString());
 
   // Get our main objects
   PvlObject &position = kernelDb.findObject("SpacecraftPosition");
@@ -48,8 +48,8 @@ void IsisMain() {
   // cutoff
   PvlGroup &reconstructed = position.findGroup("Selection");
   PvlKeyword &time = reconstructed[reconstructed.keywords() - 3];
-  QString reconstructedEnd = time[1];
-  time[1] = convertUtcToTdb(ui.GetString("TIME"));
+  QString reconstructedEnd = QString::fromStdString(time[1]);
+  time[1] = convertUtcToTdb(ui.GetString("TIME")).toStdString();
 
   // Get the predicted group from the previous file, set the start time to the
   // orbit cutoff and the end to whatever the reconstructed end was before
@@ -57,7 +57,7 @@ void IsisMain() {
 
   PvlKeyword predictedTime("Time");
   predictedTime += time[1];
-  predictedTime += reconstructedEnd;
+  predictedTime += reconstructedEnd.toStdString();
   predicted.addKeyword(predictedTime);
 
   PvlKeyword predictedFile("File");
@@ -80,7 +80,7 @@ void IsisMain() {
   }
 
   // Write the updated PVL as the new SPK DB file
-  kernelDb.write(outDBfile.expanded());
+  kernelDb.write(outDBfile.expanded().toStdString());
 }
 
 

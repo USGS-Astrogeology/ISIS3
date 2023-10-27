@@ -55,14 +55,14 @@ void IsisMain() {
   Cube *ocube = p.SetOutputCube("TO");
   Cube *ffcube, *ofcube, *afcube, *dccube, *biascube, *bpcube;
 
-  QString filter = (QString)(icube->group("BandBin"))["FilterName"];
+  QString filter = QString::fromStdString((icube->group("BandBin"))["FilterName"]);
   filter = filter.toLower();
-  QString productID = (QString)(icube->group("Archive"))["ProductID"];
+  QString productID = QString::fromStdString((icube->group("Archive"))["ProductID"]);
   QString orbit = productID.mid(productID.indexOf('.') + 1, productID.length() - 1);
 
   // If hemisphere code greater than 'I' set to 'n' else set to 's'
   char hemisphereCode = (productID[productID.indexOf('.')-1] > 'I') ? 'n' : 's';
-  QString compressionType = (QString)(icube->group("Instrument"))["EncodingFormat"];
+  QString compressionType = QString::fromStdString((icube->group("Instrument"))["EncodingFormat"]);
   offsetModeID = (icube->group("Instrument"))["OffsetModeID"];
   int gainModeID = (icube->group("Instrument"))["GainModeID"];
   QString gainModeIDStr = toString(gainModeID);
@@ -123,18 +123,18 @@ void IsisMain() {
 
     QString gainFactorDef = "$clementine1/calibration/nir/";
     gainFactorDef += "clemnircal.def";
-    Pvl gainFactorData(gainFactorDef);
+    Pvl gainFactorData(gainFactorDef.toStdString());
     QString group = "GainModeID";
     group += toString(gainModeID);
 
-    if(!gainFactorData.hasGroup(group)) {
+    if(!gainFactorData.hasGroup(group.toStdString())) {
       QString err = "The Gain Factor for Gain Mode ID [";
       err += toString(gainModeID);
       err += "] could not be found in clemnircal.def";
       throw IException(IException::Programmer, err, _FILEINFO_);
     }
 
-    gainFactor = (gainFactorData.findGroup(group))["GAIN"];
+    gainFactor = (gainFactorData.findGroup(group.toStdString()))["GAIN"];
 
     if(abs(gainFactor) < DBL_EPSILON) {
       QString err = "The Gain Factor for Gain Mode ID [";
@@ -239,26 +239,26 @@ void IsisMain() {
 
   // Add the radiometry group
   PvlGroup calgrp("Radiometry");
-  calgrp += PvlKeyword("FlatFieldFile", ffcube->fileName());
-  calgrp += PvlKeyword("OrbitFlatFieldFile", ofcube->fileName());
-  calgrp += PvlKeyword("AdditiveFile", afcube->fileName());
-  calgrp += PvlKeyword("DarkCurrentFile", dccube->fileName());
-  calgrp += PvlKeyword("BiasFile", biascube->fileName());
-  calgrp += PvlKeyword("BadPixelFile", bpcube->fileName());
+  calgrp += PvlKeyword("FlatFieldFile", ffcube->fileName().toStdString());
+  calgrp += PvlKeyword("OrbitFlatFieldFile", ofcube->fileName().toStdString());
+  calgrp += PvlKeyword("AdditiveFile", afcube->fileName().toStdString());
+  calgrp += PvlKeyword("DarkCurrentFile", dccube->fileName().toStdString());
+  calgrp += PvlKeyword("BiasFile", biascube->fileName().toStdString());
+  calgrp += PvlKeyword("BadPixelFile", bpcube->fileName().toStdString());
 
   //Table files
-  calgrp += PvlKeyword("ThermalCorrectionTable", thermTbl);
-  calgrp += PvlKeyword("AdditiveFileTable", afFileTableLoc);
+  calgrp += PvlKeyword("ThermalCorrectionTable", thermTbl.toStdString());
+  calgrp += PvlKeyword("AdditiveFileTable", afFileTableLoc.toStdString());
 
-  calgrp += PvlKeyword("DigitalOffset", toString(digitalOffset));
-  calgrp += PvlKeyword("GlobalBias", toString(globalBias));
-  calgrp += PvlKeyword("GlobalDarkCoefficient", toString(globalDarkCoefficient));
-  calgrp += PvlKeyword("V", toString(vConstant));
+  calgrp += PvlKeyword("DigitalOffset", std::to_string(digitalOffset));
+  calgrp += PvlKeyword("GlobalBias", std::to_string(globalBias));
+  calgrp += PvlKeyword("GlobalDarkCoefficient", std::to_string(globalDarkCoefficient));
+  calgrp += PvlKeyword("V", std::to_string(vConstant));
   //Calculated in processing routine
-  calgrp += PvlKeyword("GainFactor", toString(gainFactor));
-  calgrp += PvlKeyword("AbsoluteCoefficient", toString(absoluteCoefficient));
-  calgrp += PvlKeyword("CryoNorm", toString(cryonorm));
-  calgrp += PvlKeyword("OptimalExposureDuration", toString(optimalExposureDuration));
+  calgrp += PvlKeyword("GainFactor", std::to_string(gainFactor));
+  calgrp += PvlKeyword("AbsoluteCoefficient", std::to_string(absoluteCoefficient));
+  calgrp += PvlKeyword("CryoNorm", std::to_string(cryonorm));
+  calgrp += PvlKeyword("OptimalExposureDuration", std::to_string(optimalExposureDuration));
 
   ocube->putGroup(calgrp);
   p.EndProcess();

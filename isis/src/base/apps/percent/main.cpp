@@ -34,8 +34,8 @@ void IsisMain() {
     // Obtain the Histogram and the value at the percentage
     Histogram *hist = icube->histogram();
     double value = hist->Percent(percentage);
-    kwPercent += toString(percentage);
-    kwValue += toString(value);
+    kwPercent += std::to_string(percentage);
+    kwValue += std::to_string(value);
   }
   results += kwPercent;
   results += kwValue;
@@ -46,6 +46,6 @@ void IsisMain() {
   if(ui.WasEntered("TO")) {
     Pvl temp;
     temp.addGroup(results);
-    temp.write(ui.GetFileName("TO", "txt"));
+    temp.write(ui.GetFileName("TO", "txt").toStdString());
   }
 }

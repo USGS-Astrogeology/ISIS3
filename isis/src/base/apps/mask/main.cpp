@@ -74,10 +74,10 @@ void IsisMain() {
   PvlGroup results("Results");
 
   if(g_masked == true) {
-      results += PvlKeyword("PixelsMasked", toString(g_pixelsMasked));
+      results += PvlKeyword("PixelsMasked", std::to_string(g_pixelsMasked));
   }
   else {
-      PvlKeyword pm("PixelsMasked", toString(g_pixelsMasked));
+      PvlKeyword pm("PixelsMasked", std::to_string(g_pixelsMasked));
       pm.addComment( "No pixels were masked for this image");
       results += pm;
   }

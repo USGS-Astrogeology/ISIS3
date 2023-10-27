@@ -52,7 +52,7 @@ void IsisMain() {
   // lat/lons the user wants
   if(ui.WasEntered("MAP")) {
     Pvl lab;
-    lab.read(ui.GetFileName("MAP"));
+    lab.read(ui.GetFileName("MAP").toStdString());
     proj = (TProjection *) ProjectionFactory::Create(lab);
 
     // add mapping to print.prt

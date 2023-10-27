@@ -191,9 +191,9 @@ int main() {
       Pvl elPvl;
       PvlGroup kernels = pvl.findGroup("Kernels", Pvl::Traverse);
       QString demCubeFile;
-      demCubeFile = (QString) kernels["ShapeModel"];
+      demCubeFile = QString::fromStdString(kernels["ShapeModel"]);
       kernels.deleteKeyword("ShapeModel");
-      PvlKeyword shapeKey("ElevationModel", demCubeFile);
+      PvlKeyword shapeKey("ElevationModel", demCubeFile.toStdString());
       kernels.addKeyword(shapeKey);
       elPvl.addGroup(kernels);
       DemShape elShape (&targ, elPvl);

@@ -373,7 +373,7 @@ void IsisMain() {
   calibrationLog.addKeyword(PvlKeyword("CalibrationFile", calfile));
   calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", flatfile.originalPath()
                                                         + "/" + flatfile.name()));
-  calibrationLog.addKeyword(PvlKeyword("CompressionFactor", toString(g_compfactor, 2)));
+  calibrationLog.addKeyword(PvlKeyword("CompressionFactor", std::to_string(g_compfactor, 2)));
 
   // Parameters
   PvlKeyword key("Bias_Bn");
@@ -381,22 +381,22 @@ void IsisMain() {
   key.addValue(std::to_string(g_b1, 8));
   key.addValue(std::to_string(g_b2, 8));
   calibrationLog.addKeyword(key);
-  calibrationLog.addKeyword(PvlKeyword("Bias", toString(g_bias, 16), "DN"));
+  calibrationLog.addKeyword(PvlKeyword("Bias", std::to_string(g_bias, 16), "DN"));
 
   key = PvlKeyword("Linearity_Ln");
   key.addValue(std::to_string(g_L0, 8));
   key.addValue(std::to_string(g_L1, 8));
   calibrationLog.addKeyword(key);
-  calibrationLog.addKeyword(PvlKeyword("Linearity_Gamma", toString(g_gamma, 16)));
+  calibrationLog.addKeyword(PvlKeyword("Linearity_Gamma", std::to_string(g_gamma, 16)));
 
-  calibrationLog.addKeyword(PvlKeyword("Smear_tvct", toString(g_tvct, 16)));
+  calibrationLog.addKeyword(PvlKeyword("Smear_tvct", std::to_string(g_tvct, 16)));
 
   calibrationLog.addKeyword(PvlKeyword("CalibrationUnits", g_iofCorrection));
-  calibrationLog.addKeyword(PvlKeyword("RadianceStandard", toString(g_radStd, 16)));
-  calibrationLog.addKeyword(PvlKeyword("RadianceScaleFactor", toString(g_iofScale, 16)));
-  calibrationLog.addKeyword(PvlKeyword("SolarDistance", toString(g_solarDist, 16), "AU"));
-  calibrationLog.addKeyword(PvlKeyword("SolarFlux", toString(g_solarFlux, 16)));
-  calibrationLog.addKeyword(PvlKeyword("IOFFactor", toString(g_calibrationScale, 16)));
+  calibrationLog.addKeyword(PvlKeyword("RadianceStandard", std::to_string(g_radStd, 16)));
+  calibrationLog.addKeyword(PvlKeyword("RadianceScaleFactor", std::to_string(g_iofScale, 16)));
+  calibrationLog.addKeyword(PvlKeyword("SolarDistance", std::to_string(g_solarDist, 16), "AU"));
+  calibrationLog.addKeyword(PvlKeyword("SolarFlux", std::to_string(g_solarFlux, 16)));
+  calibrationLog.addKeyword(PvlKeyword("IOFFactor", std::to_string(g_calibrationScale, 16)));
   calibrationLog.addKeyword(PvlKeyword("Units", g_units));
 
 #if 0
@@ -465,7 +465,7 @@ void IsisMain() {
         key.addValue(std::to_string(g_size));
         calibrationLog.addKeyword(key);
 
-        calibrationLog.addKeyword(PvlKeyword("PSF_Focused", toString(g_alpha, 6)));
+        calibrationLog.addKeyword(PvlKeyword("PSF_Focused", std::to_string(g_alpha, 6)));
 
         key = PvlKeyword("PSF_Sigma");
         for (int i = 0 ; i < g_N ; i++ ) {

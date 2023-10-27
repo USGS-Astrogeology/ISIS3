@@ -451,13 +451,13 @@ void IsisMain ()
   // VIRTIS_H is also supported.
   PvlGroup kerns("Kernels");
   if (channelid == "VIRTIS_M_IR") {
-    kerns += PvlKeyword("NaifFrameCode", toString(-226213));
+    kerns += PvlKeyword("NaifFrameCode", std::to_string(-226213));
   }
   else if (channelid == "VIRTIS_M_VIS") {
-    kerns += PvlKeyword("NaifFrameCode", toString(-226211));
+    kerns += PvlKeyword("NaifFrameCode", std::to_string(-226211));
   }
   else if (channelid == "VIRTIS_H") {
-    kerns += PvlKeyword("NaifFrameCode", toString(-226220));
+    kerns += PvlKeyword("NaifFrameCode", std::to_string(-226220));
   }
   else {
     QString msg = "Input file [" + inFile.expanded() + "] has an invalid " +

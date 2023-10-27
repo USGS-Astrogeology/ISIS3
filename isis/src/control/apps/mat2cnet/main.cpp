@@ -70,7 +70,7 @@ void IsisMain() {
   for (int f = 0; f < list2.size(); f++) {
     progress.CheckStatus();
     QString currFile(list2[f].toString());
-    Pvl lab(currFile);
+    Pvl lab(currFile.toStdString());
     PvlObject qube(lab.findObject("QUBE"));
 
     IString fsc;
@@ -469,7 +469,7 @@ void IsisMain() {
     // Write results to Logs
     // Summary group is created with the counts of RAND PPP only points
     PvlGroup summaryGroup = PvlGroup("Summary");
-    summaryGroup.addKeyword(PvlKeyword("RandOnlyPoints", toString(numRandOnly)));
+    summaryGroup.addKeyword(PvlKeyword("RandOnlyPoints", std::to_string(numRandOnly)));
 
     bool log;
     FileName logFile;
@@ -501,7 +501,7 @@ void IsisMain() {
         summaryGroup.addComment("Some Point IDs in the RAND PPP file have no "
                                 "measures in the MATCH file.");
         summaryGroup.addComment("These Point IDs are contained "
-                                "in [" + logFile.name() + "].");
+                                "in [" + logFile.name().toStdString() + "].");
         TextFile outlog(logFile.expanded(), "overwrite", randOnlyIDs);
       }
       else {

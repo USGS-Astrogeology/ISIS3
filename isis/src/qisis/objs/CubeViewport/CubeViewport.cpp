@@ -1372,18 +1372,18 @@ namespace Isis {
   {
     // Get Cube Info
     PvlObject whatsThisObj = PvlObject("WhatsThis");
-    whatsThisObj += PvlKeyword("Cube", p_cube->fileName());
+    whatsThisObj += PvlKeyword("Cube", p_cube->fileName().toStdString());
 
     PvlGroup cubeGrp("CubeDimensions");
-    cubeGrp += PvlKeyword("Samples", toString(p_cube->sampleCount()));
-    cubeGrp += PvlKeyword("Lines",   toString(p_cube->lineCount()));
-    cubeGrp += PvlKeyword("Bands",   toString(p_cube->bandCount()));
+    cubeGrp += PvlKeyword("Samples", std::to_string(p_cube->sampleCount()));
+    cubeGrp += PvlKeyword("Lines",   std::to_string(p_cube->lineCount()));
+    cubeGrp += PvlKeyword("Bands",   std::to_string(p_cube->bandCount()));
     whatsThisObj += cubeGrp;
 
     // Get Viewport Info
     PvlGroup viewportGrp("ViewportDimensions");
-    viewportGrp += PvlKeyword("Samples", toString(viewport()->width()));
-    viewportGrp += PvlKeyword("Lines",   toString(viewport()->height()));
+    viewportGrp += PvlKeyword("Samples", std::to_string(viewport()->width()));
+    viewportGrp += PvlKeyword("Lines",   std::to_string(viewport()->height()));
     whatsThisObj += viewportGrp;
 
     // Get Cube area Info
@@ -1403,14 +1403,14 @@ namespace Isis {
 
       bandGrp += PvlKeyword("Color", "RGB");
 
-      virtualKey = toString(iRedBand);
-      virtualKey += toString(iGreenBand);
-      virtualKey += toString(iBlueBand);
+      virtualKey = std::to_string(iRedBand);
+      virtualKey += std::to_string(iGreenBand);
+      virtualKey += std::to_string(iBlueBand);
       bandGrp   += virtualKey;
 
-      physicalKey =  toString(p_cube->physicalBand(iRedBand));
-      physicalKey += toString(p_cube->physicalBand(iGreenBand));
-      physicalKey += toString(p_cube->physicalBand(iBlueBand));
+      physicalKey =  std::to_string(p_cube->physicalBand(iRedBand));
+      physicalKey += std::to_string(p_cube->physicalBand(iGreenBand));
+      physicalKey += std::to_string(p_cube->physicalBand(iBlueBand));
       bandGrp += physicalKey;
 
       if(iFilterSize) {
@@ -1442,8 +1442,8 @@ namespace Isis {
 
       bandGrp  += PvlKeyword("Color", "Gray");
 
-      bandGrp  += PvlKeyword("Virtual", toString(iGrayBand));
-      bandGrp  += PvlKeyword("Physical", toString(p_cube->physicalBand(iGrayBand)));
+      bandGrp  += PvlKeyword("Virtual", std::to_string(iGrayBand));
+      bandGrp  += PvlKeyword("Physical", std::to_string(p_cube->physicalBand(iGrayBand)));
 
       if(iFilterSize && iGrayBand <= iFilterSize) {
         bandGrp  += PvlKeyword("FilterName", filterName[iGrayBand-1]);
@@ -1453,10 +1453,10 @@ namespace Isis {
     //start, end  line and sample
     double sl, ss, es, el;
     getCubeArea(ss, es, sl, el);
-    cubeAreaPvl += PvlKeyword("StartSample", toString(int(ss + 0.5)));
-    cubeAreaPvl += PvlKeyword("EndSample",   toString(int(es + 0.5)));
-    cubeAreaPvl += PvlKeyword("StartLine",   toString(int(sl + 0.5)));
-    cubeAreaPvl += PvlKeyword("EndLine",     toString(int(el + 0.5)));
+    cubeAreaPvl += PvlKeyword("StartSample", std::to_string(int(ss + 0.5)));
+    cubeAreaPvl += PvlKeyword("EndSample",   std::to_string(int(es + 0.5)));
+    cubeAreaPvl += PvlKeyword("StartLine",   std::to_string(int(sl + 0.5)));
+    cubeAreaPvl += PvlKeyword("EndLine",     std::to_string(int(el + 0.5)));
     cubeAreaPvl += bandGrp;
     whatsThisObj += cubeAreaPvl;
     pWhatsThisPvl += whatsThisObj;
@@ -1545,7 +1545,7 @@ namespace Isis {
       if(iFilterSize) {
         sBandInfo += "<br>FilterName = ";
         if(iRedBand <= iFilterSize) {
-          sBandInfo += QString(filterNameKey[iRedBand-1]);
+          sBandInfo += QString::fromStdString(filterNameKey[iRedBand-1]);
         }
         else {
           sBandInfo += "None";
@@ -1553,7 +1553,7 @@ namespace Isis {
         sBandInfo += ", ";
 
         if(iGreenBand <= iFilterSize) {
-          sBandInfo += QString(filterNameKey[iGreenBand-1]);
+          sBandInfo += QString::fromStdString(filterNameKey[iGreenBand-1]);
         }
         else {
           sBandInfo += "None";
@@ -1561,7 +1561,7 @@ namespace Isis {
         sBandInfo += ", ";
 
         if(iBlueBand <= iFilterSize) {
-          sBandInfo += QString(filterNameKey[iBlueBand-1]);
+          sBandInfo += QString::fromStdString(filterNameKey[iBlueBand-1]);
         }
         else {
           sBandInfo += "None";
@@ -1576,7 +1576,7 @@ namespace Isis {
       sBandInfo += "Physical = " + QString::number(p_cube->physicalBand(iGrayBand));
 
       if(iFilterSize && iGrayBand <= iFilterSize) {
-        sBandInfo += "<br>FilterName = " + QString(filterNameKey[iGrayBand-1]);
+        sBandInfo += "<br>FilterName = " + QString::fromStdString(filterNameKey[iGrayBand-1]);
       }
     }
 
@@ -2375,7 +2375,7 @@ namespace Isis {
     PvlGroup trackingGroup = p_cube->group("Tracking");
     //Because the tracking group does not have a path, get the path from the main cube
     FileName cubeName(p_cube->fileName());
-    QString trackingCubeName = trackingGroup.findKeyword("Filename")[0];
+    QString trackingCubeName = QString::fromStdString(trackingGroup.findKeyword("Filename")[0]);
     FileName trackingCubeFileName(cubeName.path() + "/" + trackingCubeName);
     Cube *trackingCube = new Cube(trackingCubeFileName);
     p_trackingCube = trackingCube;

@@ -82,7 +82,7 @@ void IsisMain() {
   bool checkMeasureValidity = ui.WasEntered("DEFFILE");
   QScopedPointer<ControlNetValidMeasure> validator;
   if (checkMeasureValidity) {
-    Pvl deffile(ui.GetFileName("DEFFILE"));
+    Pvl deffile(ui.GetFileName("DEFFILE").toStdString());
     validator.reset(new ControlNetValidMeasure(deffile));
   }
 
@@ -104,7 +104,7 @@ void IsisMain() {
 
       // Check for duplicate SNs accross the lists
       if (fromSerials->hasSerialNumber(addSerials.serialNumber(i))) {
-        duplicates.addValue(addSerials.fileName(i));
+        duplicates.addValue(addSerials.fileName(i).toStdString());
       }
 
       // Check for duplicate SNs within the addlist
@@ -259,7 +259,7 @@ void IsisMain() {
 
     if (log) {
       PvlKeyword &logKeyword = (imageAdded) ? added : omitted;
-      logKeyword.addValue(addList[img].baseName());
+      logKeyword.addValue(addList[img].baseName().toStdString());
     }
 
     progress.CheckStatus();
@@ -269,7 +269,7 @@ void IsisMain() {
     // Add the list of modified points to the output log file
     QList<QString> modifiedPointsList = g_modifications.keys();
     for (int i = 0; i < modifiedPointsList.size(); i++)
-      pointsModified += modifiedPointsList[i];
+      pointsModified += modifiedPointsList[i].toStdString();
 
     results.addKeyword(added);
     results.addKeyword(omitted);
@@ -278,7 +278,7 @@ void IsisMain() {
       results.addKeyword(duplicates);
     }
 
-    results.write(logFile.expanded());
+    results.write(logFile.expanded().toStdString());
   }
 
   // List the modified points

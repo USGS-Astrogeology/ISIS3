@@ -26,19 +26,19 @@ int main() {
   try {
     PvlGroup op("Operator");
     op += PvlKeyword("Name", "StandardDeviation");
-    op += PvlKeyword("DeltaLine", toString(100));
-    op += PvlKeyword("DeltaSamp", toString(100));
-    op += PvlKeyword("Samples", toString(15));
-    op += PvlKeyword("Lines", toString(15));
-    op += PvlKeyword("MinimumInterest", toString(0.01));
+    op += PvlKeyword("DeltaLine", std::to_string(100));
+    op += PvlKeyword("DeltaSamp", std::to_string(100));
+    op += PvlKeyword("Samples", std::to_string(15));
+    op += PvlKeyword("Lines", std::to_string(15));
+    op += PvlKeyword("MinimumInterest", std::to_string(0.01));
 
     PvlGroup opv("ValidMeasure");
-    opv += PvlKeyword("MinDN", toString(0.0));
-    opv += PvlKeyword("MaxDN", toString(1.0));
-    opv += PvlKeyword("MinEmission", toString(15.0));
-    opv += PvlKeyword("MaxEmission", toString(25.0));
-    opv += PvlKeyword("MinIncidence", toString(0.0));
-    opv += PvlKeyword("MaxIncidence", toString(135.0));
+    opv += PvlKeyword("MinDN", std::to_string(0.0));
+    opv += PvlKeyword("MaxDN", std::to_string(1.0));
+    opv += PvlKeyword("MinEmission", std::to_string(15.0));
+    opv += PvlKeyword("MaxEmission", std::to_string(25.0));
+    opv += PvlKeyword("MinIncidence", std::to_string(0.0));
+    opv += PvlKeyword("MaxIncidence", std::to_string(135.0));
     //op += PvlKeyword("MinResolution", 100);
     //op += PvlKeyword("MaxResolution", 300);
 

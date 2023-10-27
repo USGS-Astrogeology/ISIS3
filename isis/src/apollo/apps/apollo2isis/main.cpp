@@ -60,7 +60,7 @@ void IsisMain() {
 
   apollo = new Apollo(filename);
 
-  utcTime = (QString)pdsLabel["START_TIME"];
+  utcTime = QString::fromStdString(pdsLabel["START_TIME"]);
 
   // Setup the output cube attributes for a 16-bit unsigned tiff
   Isis::CubeAttributeOutput cao;
@@ -231,9 +231,9 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
   PvlGroup kern("Kernels");
   PvlGroup codeGroup("Code");
 
-  inst += PvlKeyword("SpacecraftName", apollo->SpacecraftName());
-  inst += PvlKeyword("InstrumentId", apollo->InstrumentId());
-  inst += PvlKeyword("TargetName", apollo->TargetName());
+  inst += PvlKeyword("SpacecraftName", apollo->SpacecraftName().toStdString());
+  inst += PvlKeyword("InstrumentId", apollo->InstrumentId().toStdString());
+  inst += PvlKeyword("TargetName", apollo->TargetName().toStdString());
 
   if ( !IsValidCode() ){
     PvlGroup error("ERROR");
@@ -249,12 +249,12 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
     Application::Log(error);
   }
   else {
-    codeGroup += PvlKeyword("StartTime", FrameTime());
+    codeGroup += PvlKeyword("StartTime", FrameTime().toStdString());
     codeGroup += PvlKeyword("SpacecraftAltitude", std::to_string(Altitude()),"meters");
 
     if (apollo->IsMetric()){
       codeGroup += PvlKeyword("ExposureDuration", std::to_string(ShutterInterval()), "milliseconds");
-      codeGroup += PvlKeyword("ForwardMotionCompensation", FMC());
+      codeGroup += PvlKeyword("ForwardMotionCompensation", FMC().toStdString());
     }
 
     for (int i=0; i<4; i++) {
@@ -272,20 +272,20 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
   bandBin += PvlKeyword("FilterName", "CLEAR");
   bandBin += PvlKeyword("FilterId", "1");
 
-  kern += PvlKeyword("NaifFrameCode", apollo->NaifFrameCode());
+  kern += PvlKeyword("NaifFrameCode", apollo->NaifFrameCode().toStdString());
 
   // Set up the nominal reseaus group
   Isis::PvlGroup &dataDir = Isis::Preference::Preferences().findGroup("DataDirectory");
   Process p;
   PvlTranslationTable tTable("$ISISROOT/appdata/translations/MissionName2DataDir.trn");
-  QString missionDir = dataDir[tTable.Translate("MissionName", apollo->SpacecraftName())][0];
-  Pvl resTemplate(missionDir + "/reseaus/" + apollo->InstrumentId() + "_NOMINAL.pvl");
+  QString missionDir = dataDir[tTable.Translate("MissionName", QString::fromStdString(apollo->SpacecraftName()))][0];
+  Pvl resTemplate(missionDir.toStdString() + "/reseaus/" + apollo->InstrumentId().toStdString() + "_NOMINAL.pvl");
   PvlGroup *reseaus = &resTemplate.findGroup("Reseaus");
 
   // Update reseau locations based on refined code location
   for (int i=0; i<(reseaus->findKeyword("Type")).size(); i++) {
-    double x = toDouble(reseaus->findKeyword("Sample")[i]) + sampleTranslation + 2278,
-           y = toDouble(reseaus->findKeyword("Line")[i]) + lineTranslation - 20231;
+    double x = std::stod(reseaus->findKeyword("Sample")[i]) + sampleTranslation + 2278,
+           y = std::stod(reseaus->findKeyword("Line")[i]) + lineTranslation - 20231;
 
     if (apollo->IsApollo17()) {
         x += 50;
@@ -297,7 +297,7 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
     reseaus->findKeyword("Line")[i] = std::to_string(
         sin(rotation)*(x-sampleTranslation) + cos(rotation)*(y-lineTranslation) + lineTranslation);
   }
-  inst += PvlKeyword("StartTime", utcTime);
+  inst += PvlKeyword("StartTime", utcTime.toStdString());
 
   opack->putGroup(inst);
   opack->putGroup(bandBin);

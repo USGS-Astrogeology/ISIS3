@@ -17,15 +17,15 @@ void IsisMain() {
   QString file = ui.GetCubeName("FROM");
   
   // Extract label from file
-  Pvl label(file);
+  Pvl label(file.toStdString());
 
   // Output to file if entered
   if(ui.WasEntered("TO")) {
     if (ui.GetBoolean("APPEND")) {
-      label.append(FileName(ui.GetFileName("TO")).expanded());
+      label.append(FileName(ui.GetFileName("TO")).expanded().toStdString());
     }
     else {
-      label.write(FileName(ui.GetFileName("TO")).expanded());
+      label.write(FileName(ui.GetFileName("TO")).expanded().toStdString());
     }
   }
 

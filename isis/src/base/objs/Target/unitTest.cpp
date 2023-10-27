@@ -50,40 +50,40 @@ int main(int argc, char *argv[]) {
   FileName f2("$base/dems");
   QString dir = f.expanded() + "/";
   QString dir2 = f2.expanded() + "/";
-  kern1 += PvlKeyword("NaifFrameCode", toString(-94031));
-  kern1 += PvlKeyword("LeapSecond", dir + "naif0007.tls");
-  kern1 += PvlKeyword("SpacecraftClock", dir + "MGS_SCLKSCET.00045.tsc");
-  kern1 += PvlKeyword("TargetPosition", dir + "de405.bsp");
-  kern1 += PvlKeyword("TargetAttitudeShape", dir + "pck00006.tpc");
-  kern1 += PvlKeyword("Instrument", dir + "mocSpiceUnitTest.ti");
-  kern1 += PvlKeyword("InstrumentAddendum", dir + "mocAddendum.ti");
-  kern1 += PvlKeyword("InstrumentPosition", dir + "moc.bsp");
-  kern1 += PvlKeyword("InstrumentPointing", dir + "moc.bc");
+  kern1 += PvlKeyword("NaifFrameCode", std::to_string(-94031));
+  kern1 += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
+  kern1 += PvlKeyword("SpacecraftClock", dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
+  kern1 += PvlKeyword("TargetPosition", dir.toStdString() + "de405.bsp");
+  kern1 += PvlKeyword("TargetAttitudeShape", dir.toStdString() + "pck00006.tpc");
+  kern1 += PvlKeyword("Instrument", dir.toStdString() + "mocSpiceUnitTest.ti");
+  kern1 += PvlKeyword("InstrumentAddendum", dir.toStdString() + "mocAddendum.ti");
+  kern1 += PvlKeyword("InstrumentPosition", dir.toStdString() + "moc.bsp");
+  kern1 += PvlKeyword("InstrumentPointing", dir.toStdString() + "moc.bc");
   kern1 += PvlKeyword("Frame", "");
 
   PvlGroup kern2("Kernels");
-  kern2 += PvlKeyword("NaifIkCode", toString(-94031));
-  kern2 += PvlKeyword("LeapSecond", dir + "naif0007.tls");
-  kern2 += PvlKeyword("SpacecraftClock", dir + "MGS_SCLKSCET.00045.tsc");
-  kern2 += PvlKeyword("TargetPosition", dir + "de405.bsp");
-  kern2 += PvlKeyword("TargetAttitudeShape", dir + "pck00006.tpc");
-  kern2 += PvlKeyword("Instrument", dir + "mocSpiceUnitTest.ti");
-  kern2 += PvlKeyword("InstrumentAddendum", dir + "mocAddendum.ti");
-  kern2 += PvlKeyword("InstrumentPosition", dir + "moc.bsp");
-  kern2 += PvlKeyword("InstrumentPointing", dir + "moc.bc");
+  kern2 += PvlKeyword("NaifIkCode", std::to_string(-94031));
+  kern2 += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
+  kern2 += PvlKeyword("SpacecraftClock", dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
+  kern2 += PvlKeyword("TargetPosition", dir.toStdString() + "de405.bsp");
+  kern2 += PvlKeyword("TargetAttitudeShape", dir.toStdString() + "pck00006.tpc");
+  kern2 += PvlKeyword("Instrument", dir.toStdString() + "mocSpiceUnitTest.ti");
+  kern2 += PvlKeyword("InstrumentAddendum", dir.toStdString() + "mocAddendum.ti");
+  kern2 += PvlKeyword("InstrumentPosition", dir.toStdString() + "moc.bsp");
+  kern2 += PvlKeyword("InstrumentPointing", dir.toStdString() + "moc.bc");
   kern2 += PvlKeyword("Frame", "");
-  kern2 += PvlKeyword("NaifBodyCode", toString(499));
+  kern2 += PvlKeyword("NaifBodyCode", std::to_string(499));
 
   PvlGroup kern3 = kern2;
-  kern3 += PvlKeyword("ShapeModel", dir2  + "molaMarsPlanetaryRadius0005.cub");
+  kern3 += PvlKeyword("ShapeModel", dir2.toStdString()  + "molaMarsPlanetaryRadius0005.cub");
 
   // Time Setup
   double startTime = -69382819.0;
   double endTime = -69382512.0;
   double slope = (endTime - startTime) / (10 - 1);
 
-  kern1 += PvlKeyword("StartPadding", toString(slope));
-  kern1 += PvlKeyword("EndPadding", toString(slope));
+  kern1 += PvlKeyword("StartPadding", std::to_string(slope));
+  kern1 += PvlKeyword("EndPadding", std::to_string(slope));
 
   Pvl lab1;
   lab1.addGroup(inst1);

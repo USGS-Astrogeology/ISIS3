@@ -255,9 +255,9 @@ void LoadPvl() {
       PvlObject::PvlGroupIterator atmGrp = atmObj.beginGroup();
       bool wasFound = false;
       if (atmGrp->hasKeyword("ATMNAME")) {
-        atmVal = (QString)atmGrp->findKeyword("ATMNAME");
+        atmVal = QString::fromStdString(atmGrp->findKeyword("ATMNAME"));
       } else if (atmGrp->hasKeyword("NAME")) {
-        atmVal = (QString)atmGrp->findKeyword("NAME");
+        atmVal = QString::fromStdString(atmGrp->findKeyword("NAME"));
       } else {
         QString message = "The input PVL does not contain a valid atmospheric model so you must specify one ";
         message += "- the [Atmname] keyword is missing in your [Algorithm] group";
@@ -271,9 +271,9 @@ void LoadPvl() {
         while (atmGrp != atmObj.endGroup()) {
           if (atmGrp->hasKeyword("ATMNAME") || atmGrp->hasKeyword("NAME")) {
             if (atmGrp->hasKeyword("ATMNAME")) {
-              atmVal = (QString)atmGrp->findKeyword("ATMNAME");
+              atmVal = QString::fromStdString(atmGrp->findKeyword("ATMNAME"));
             } else if (atmGrp->hasKeyword("NAME")) {
-              atmVal = (QString)atmGrp->findKeyword("NAME");
+              atmVal = QString::fromStdString(atmGrp->findKeyword("NAME"));
             } else {
               QString message = "The input PVL does not contain a valid atmospheric model so you must specify one ";
               message += "- the [Atmname] keyword is missing in your [Algorithm] group";
@@ -324,7 +324,7 @@ void LoadPvl() {
             ui.PutAsString("WHA", os.str().c_str());
           }
           if (atmGrp->hasKeyword("NULNEG")) {
-            QString nulneg = (QString)atmGrp->findKeyword("NULNEG");
+            QString nulneg = QString::fromStdString(atmGrp->findKeyword("NULNEG"));
             if (nulneg.compare("YES")) {
               ui.PutString("NULNEG", "YES");
             } else if (nulneg.compare("NO")) {
@@ -380,7 +380,7 @@ void IsisMain() {
 
   if (ui.WasEntered("FROMPVL")) {
     QString input = ui.GetFileName("FROMPVL");
-    p.read(input);
+    p.read(input.toStdString());
   }
 
   //Check to make sure that a model was specified
@@ -416,9 +416,9 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
     if (pvlObj.hasGroup("Algorithm")) {
       PvlObject::PvlGroupIterator pvlGrp = pvlObj.beginGroup();
       if (pvlGrp->hasKeyword("PHTNAME")) {
-        phtVal = (QString)pvlGrp->findKeyword("PHTNAME");
+        phtVal = QString::fromStdString(pvlGrp->findKeyword("PHTNAME"));
       } else if (pvlGrp->hasKeyword("NAME")) {
-        phtVal = (QString)pvlGrp->findKeyword("NAME");
+        phtVal = QString::fromStdString(pvlGrp->findKeyword("NAME"));
       } else {
         phtVal = "NONE";
       }

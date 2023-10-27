@@ -173,17 +173,17 @@ namespace Isis {
       bool isGoodToGo( doVersioning );
       try {
         if ( key.size() == 2 ) {
-          dbfile = fname = "$" + key[0] + "/" + key[1];  // In case the translation fails...
-          dbfile = prefdata[key[0]][0] + "/" + key[1];
+          dbfile = fname = "$" + QString::fromStdString(key[0]) + "/" + QString::fromStdString(key[1]);  // In case the translation fails...
+          dbfile = QString::fromStdString(prefdata[key[0]][0]) + "/" + QString::fromStdString(key[1]);
         }
         else if ( key.size() == 1 ) {
-          dbfile = fname = key[0];
+          dbfile = fname = QString::fromStdString(key[0]);
         }
         else {
           // Ill-formed string, prepare a return string
           QString bad;
           for ( int v = 0 ; v < key.size() ; v++) {
-            bad += "[" + key[v] + "]";
+            bad += "[" + QString::fromStdString(key[v]) + "]";
           }
 
           // If its an empty PvlKeyword...
@@ -393,13 +393,13 @@ namespace Isis {
         else if ( key.isNamed("Time") ) {
           if ( dbselection.hasTime() == false ) {
             // Set first time coverage
-            s_starttime = iTime( key[0] );
-            s_stoptime   = iTime( key[1] );
+            s_starttime = iTime(QString::fromStdString(key[0]));
+            s_stoptime   = iTime(QString::fromStdString(key[1]));
           }
           else {
             // Test limits of current span
-            iTime start_time_t( key[0] );
-            iTime  stop_time_t( key[1] );
+            iTime start_time_t(QString::fromStdString(key[0]));
+            iTime  stop_time_t(QString::fromStdString(key[1]));
 
             if ( start_time_t < s_starttime ) s_starttime = start_time_t;
             if (  stop_time_t > s_stoptime  ) s_stoptime  = stop_time_t;
@@ -410,11 +410,11 @@ namespace Isis {
         }
         else if ( key.isNamed( "Match") ) {
           // Add a match keyword
-          dbselection.addMatch( DBMatch( key[0], key[1], key[2] ) );
+          dbselection.addMatch( DBMatch(QString::fromStdString(key[0]),QString::fromStdString(key[1]),QString::fromStdString(key[2])));
         }
         else if ( key.isNamed( "Type" ) ) {
           // Update the type which will be "Reconstructed", "Smithed", etc...
-          dbselection.setType( key[0] );
+          dbselection.setType(QString::fromStdString(key[0]));
         }
       }
 
@@ -515,7 +515,7 @@ namespace Isis {
       }
 
       // Got a kerneldb file
-      Pvl db( dbfile.expanded() );
+      Pvl db( dbfile.expanded().toStdString() );
 
       // Check if there are any specs in the file
       if ( db.objects() < 1 ) {
@@ -523,11 +523,11 @@ namespace Isis {
       }
 
       PvlObject &inst = db.object(0);  // Get first object of .db or .conf
-      DBKernelDb dbkernel( dbfile, inst.name() );
+      DBKernelDb dbkernel( dbfile, QString::fromStdString(inst.name()) );
 
       // Check for a Runtime keyword
       if ( inst.hasKeyword("Runtime") ) {
-        dbkernel.setRuntime( iTime( inst["Runtime"][0] ) );
+        dbkernel.setRuntime(iTime(QString::fromStdString(inst["Runtime"][0])));
       }
 
       // Set up the data dir translation for the files

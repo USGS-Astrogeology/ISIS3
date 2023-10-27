@@ -130,8 +130,8 @@ namespace Isis {
       /** Find a string in a PvlContainer */
       QString findKey(PvlContainer &kset, const QString &key) const {
         QString value("");
-        if ( kset.hasKeyword(key) ) {
-          value = kset[key][0];
+        if ( kset.hasKeyword(key.toStdString()) ) {
+          value = QString::fromStdString(kset[key.toStdString()][0]);
         }
         return (value);
       }

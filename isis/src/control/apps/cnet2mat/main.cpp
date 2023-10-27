@@ -41,14 +41,14 @@ void IsisMain() {
   SerialNumberList snl(ui.GetFileName("LIST3"));
   for (int f = 0; f < list2.size(); f++) {
     QString currFile(list2[f].toString());
-    Pvl lab(currFile);
+    Pvl lab(currFile.toStdString());
     PvlObject qube(lab.findObject("QUBE"));
     QString fsc;
     if(qube.hasKeyword("IMAGE_NUMBER")) {
-      fsc = qube.findKeyword("IMAGE_NUMBER")[0];
+      fsc = QString::fromStdString(qube.findKeyword("IMAGE_NUMBER")[0]);
     }
     else if(qube.hasKeyword("IMAGE_ID")) {
-      fsc = qube.findKeyword("IMAGE_ID")[0];
+      fsc = QString::fromStdString(qube.findKeyword("IMAGE_ID")[0]);
     }
     else {
       QString msg = "Unable to find keyword [\"IMAGE_NUMBER\" or \"IMAGE_ID\"] in file [";

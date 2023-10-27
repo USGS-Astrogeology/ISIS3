@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     cout << "Is equatorial cylindrical? = " << p->IsEquatorialCylindrical() << endl;
     cout << "Projection version         = " << p->Version() << endl;
     cout << "  Projection name          =  " <<  p->Name()  << endl;
-    cout << "  Target name              =  " << (QString) mapGrp["TargetName"]  << endl;
+    cout << "  Target name              =  " << (std::string) mapGrp["TargetName"]  << endl;
     cout << "  Ring Longitude direction = " << p->RingLongitudeDirectionString() << endl;
     cout << "  Ring Longitude domain    = " << p->RingLongitudeDomainString() << endl;
     cout << "  Minimum ring radius      = " << p->MinimumRingRadius() << endl;
@@ -160,7 +160,7 @@ int main(int argc, char *argv[]) {
     // Projection 3 test
     cout << "Projection 3 parameters..." << endl;
     cout << "  Projection name           =  " <<  p3.Name()  << endl;
-    cout << "  Target name               =  " << (QString) mapGrp["TargetName"]  << endl;
+    cout << "  Target name               =  " << (std::string) mapGrp["TargetName"]  << endl;
     cout << "  Ring Longitude direction  = " << p3.RingLongitudeDirectionString() << endl;
     cout << "  Ring Longitude domain     = " << p3.RingLongitudeDomainString() << endl;
     cout << "  Minimum ring radius       = " << p3.MinimumRingRadius() << endl;
@@ -238,7 +238,7 @@ int main(int argc, char *argv[]) {
     RingCylindrical p4(lab, true);
     cout << "Projection 4 parameters...No range" << endl;
     cout << "  Projection name           =  " <<  p4.Name()  << endl;
-    cout << "  Target name               =  " << (QString) mapGrp["TargetName"]  << endl;
+    cout << "  Target name               =  " << (std::string) mapGrp["TargetName"]  << endl;
     cout << "  Ring Longitude direction  = " << p4.RingLongitudeDirectionString() << endl;
     cout << "  Ring Longitude domain     = " << p4.RingLongitudeDomainString() << endl;
     cout << "  Center ring radius        = " << p4.CenterRingRadius() << endl;

@@ -41,7 +41,7 @@ namespace Isis {
                 FileName preferenceFile(argv[nextIndex]);
                 QString filePath = preferenceFile.expanded();
                 Preference::Preferences().clear();
-                Preference::Preferences().Load(filePath);
+                Preference::Preferences().Load(filePath.toStdString());
             }
             else {
                 QMessageBox::warning(NULL, "Warning", "Preference flag set but no preference file given.");

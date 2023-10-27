@@ -27,12 +27,12 @@ void IsisMain() {
   // Check to see if it is an Apollo image and if the reseaus have been refined
   //    (note: a status of 'Removed' implies it is also 'Refined')
   PvlGroup &reseaus = ipacket->group("Reseaus");
-  QString mission = (ipacket->group("Instrument"))["SpacecraftName"];
+  QString mission = QString::fromStdString(ipacket->group("Instrument")["SpacecraftName"]);
   if (mission.mid(0,6) != "APOLLO") {
     std::string msg = "This application is for use with Apollo spacecrafts only. ";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
-  if ((QString)reseaus["Status"] != "Refined" && (QString)reseaus["Status"] != "Removed") {
+  if ((std::string)reseaus["Status"] != "Refined" && (std::string)reseaus["Status"] != "Removed") {
     std::string msg = "This application can only be run after findapollorx.";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
@@ -43,14 +43,14 @@ void IsisMain() {
   vector<double> inputLine,inputSample,outputLine,outputSample;
   // Setup the parameters for the transform
   for (int i=0; i<reseaus["Sample"].size(); i++) {
-    inputLine.push_back(toDouble(reseaus["Line"][i]));
-    inputSample.push_back(toDouble(reseaus["Sample"][i]));
-    outputLine.push_back(toDouble(master["Line"][i]));
-    outputSample.push_back(toDouble(master["Sample"][i]));
+    inputLine.push_back(std::stod(reseaus["Line"][i]));
+    inputSample.push_back(std::stod(reseaus["Sample"][i]));
+    outputLine.push_back(std::stod(master["Line"][i]));
+    outputSample.push_back(std::stod(master["Sample"][i]));
 
     // Update the cube's reseau information
-    reseaus["Line"][i] = toString(outputLine[i]);
-    reseaus["Sample"][i] = toString(outputSample[i]);
+    reseaus["Line"][i] = std::to_string(outputLine[i]);
+    reseaus["Sample"][i] = std::to_string(outputSample[i]);
   }
 
   // Get the final output image dimensions

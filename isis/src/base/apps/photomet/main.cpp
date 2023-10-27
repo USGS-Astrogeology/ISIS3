@@ -37,7 +37,7 @@ void PrintPvl() {
   // Write file out to log
   QString inFile(ui.GetFileName("FROMPVL"));
   Pvl inPvl;
-  inPvl.read(ui.GetFileName("FROMPVL"));
+  inPvl.read(ui.GetFileName("FROMPVL").toStdString());
   QString OQString = "***** Output of [" + inFile + "] *****";
   Application::GuiLog(OQString);
   Application::GuiLog(inPvl);
@@ -49,7 +49,7 @@ void LoadPvl() {
   UserInterface &ui = Application::GetUserInterface();
   QString inFile(ui.GetFileName("FROMPVL"));
   Pvl inPvl;
-  inPvl.read(inFile);
+  inPvl.read(inFile.toStdString());
   QString phtName = ui.GetAsString("PHTNAME");
   phtName = phtName.toUpper();
   QString atmName = ui.GetAsString("ATMNAME");

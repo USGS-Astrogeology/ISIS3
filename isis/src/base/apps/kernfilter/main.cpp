@@ -20,7 +20,7 @@ void IsisMain() {
 
   // Get information from the input kernel
   UserInterface &ui = Application::GetUserInterface();
-  Pvl pvl(ui.GetFileName("KERNEL"));
+  Pvl pvl(ui.GetFileName("KERNEL").toStdString());
 
   // Access the Kernel group section of the input file
   const PvlGroup &kern = pvl.findGroup("KERNEL");
@@ -56,7 +56,7 @@ void IsisMain() {
 
   // Iterate through the input kernel's data values to fill the coefs array
   for(int i = 0 ; i < kern["data"].size() ; i ++) {
-    coefs.push_back(toDouble(kern["data"][i]));
+    coefs.push_back(std::stod(kern["data"][i]));
   }
 
   // Weight for multiplication of resultant immidately before completion

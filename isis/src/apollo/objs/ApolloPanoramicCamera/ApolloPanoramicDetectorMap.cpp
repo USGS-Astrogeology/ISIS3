@@ -98,7 +98,7 @@ namespace Isis {
       //read the fidicial measurements from the attached table in the camera labels to define a
       //  series of affine transformation between image (aka encoder aka machine) coordinates
       //  and fiducial coordinates
-      Table tableFid("Fiducial Measurement", m_lab->fileName());
+      Table tableFid("Fiducial Measurement", QString::fromStdString(m_lab->fileName()));
 
       nrec = tableFid.Records();  //get the number of records found in the cube blobs
 

@@ -60,7 +60,7 @@ namespace Isis {
 
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString channel = (QString) inst ["Channel"];
+    QString channel = QString::fromStdString(inst ["Channel"]);
 
     //  Vims pixel pitch is not always square, but ISISdoes not have the ability to store
     //  more than a single value for pixel pitch.  Member variables for pixelPitch x and y
@@ -69,23 +69,23 @@ namespace Isis {
       //LoadFrameMounting ("CASSINI_SC_COORD","CASSINI_VIMS_V");
 
       SetFocalLength(143.0);
-      if (QString((QString)inst["SamplingMode"]).toUpper() == "NORMAL") {
+      if (QString(QString::fromStdString(inst["SamplingMode"])).toUpper() == "NORMAL") {
         SetPixelPitch(3 * .024);
         // Should this .506?  According to 2002 paper ground calibration shows .506 +/- .003 mrad
         m_pixelPitchX = 0.024 * 3;
         m_pixelPitchY = 0.024 * 3;
       }
-      else if (QString((QString)inst["SamplingMode"]).toUpper() == "HI-RES") {
+      else if (QString::fromStdString(inst["SamplingMode"]).toUpper() == "HI-RES") {
         SetPixelPitch(.024);
         m_pixelPitchX = 0.024;
         m_pixelPitchY = 0.024;
       }
-      else if (QString((QString)inst["SamplingMode"]).toUpper() == "UNDER") {
-        QString msg = "Isis cannot process images with a SamplingMode = \"UNDER\" (or NYQUIST)";
+      else if (QString::fromStdString(inst["SamplingMode"]).toUpper() == "UNDER") {
+        std::string msg = "Isis cannot process images with a SamplingMode = \"UNDER\" (or NYQUIST)";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
       else {
-        QString msg = "Unknown SamplingMode [" + (QString) inst["SamplingMode"] + "]";
+        std::string msg = "Unknown SamplingMode [" + (std::string)inst["SamplingMode"] + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -94,31 +94,31 @@ namespace Isis {
 
       SetFocalLength(426.0);
       SetPixelPitch(.2);
-      if (QString((QString)inst["SamplingMode"]).toUpper() == "NORMAL") {
+      if ((QString::fromStdString(inst["SamplingMode"])).toUpper() == "NORMAL") {
         m_pixelPitchX = 0.2;
         m_pixelPitchY = 0.2;
       }
-      else if (QString((QString)inst["SamplingMode"]).toUpper() == "HI-RES") {
+      else if ((QString::fromStdString(inst["SamplingMode"])).toUpper() == "HI-RES") {
         m_pixelPitchX = 0.103;
         m_pixelPitchY = 0.2;
       }
-      else if (QString((QString)inst["SamplingMode"]).toUpper() == "UNDER") {
-        QString msg = "Isis cannot process images with a SamplingMode = \"UNDER\" (or NYQUIST)";
+      else if ((QString::fromStdString(inst["SamplingMode"])).toUpper() == "UNDER") {
+        std::string msg = "Isis cannot process images with a SamplingMode = \"UNDER\" (or NYQUIST)";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
       else {
-        QString msg = "Unknown SamplingMode [" + (QString) inst["SamplingMode"] + "]";
+        std::string msg = "Unknown SamplingMode [" + (std::string)inst["SamplingMode"] + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
 
     // Get the start time in et
-    QString stime = inst ["NativeStartTime"][0];
+    QString stime = QString::fromStdString(inst ["NativeStartTime"][0]);
     QString intTime = stime.split(".").first();
     stime = stime.split(".").last();
 
     // Get the end time in et
-    QString etime = (QString) inst ["NativeStopTime"];
+    QString etime = QString::fromStdString(inst ["NativeStopTime"]);
     intTime = etime.split(".").first();
     etime = etime.split(".").last();
 

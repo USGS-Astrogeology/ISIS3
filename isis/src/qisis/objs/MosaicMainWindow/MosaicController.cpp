@@ -124,7 +124,7 @@ namespace Isis {
     projFile += m_fileList->toPvl();
     projFile += m_scene->toPvl();
 
-    projFile.write(projFileName);
+    projFile.write(projFileName.toStdString());
   }
 
 
@@ -234,7 +234,7 @@ namespace Isis {
 
   void MosaicController::readProject(QString filename) {
     try {
-      Pvl projectPvl(filename);
+      Pvl projectPvl(filename.toStdString());
 
       // Convert versions <= isis3.4.1 to newer
       if (projectPvl.hasObject("Cubes")) {
@@ -312,19 +312,19 @@ namespace Isis {
       QDataStream idStream(&idDataBuffer);
 
       QUuid newId = QUuid::createUuid();
-      QString fileName = image["FileName"][0];
+      QString fileName = QString::fromStdString(image["FileName"][0]);
       idStream << newId;
 
       idDataBuffer.seek(0);
 
       QString idHex;
-      image += PvlKeyword("ID", QString(idDataBuffer.data().toHex()));
+      image += PvlKeyword("ID", std::string(idDataBuffer.data().toHex()));
 
       PvlKeyword oldDisplayPropsValues = image["Values"];
       image.deleteKeyword("Values");
 
       PvlObject displayProps("DisplayProperties");
-      displayProps += PvlKeyword("DisplayName", FileName(fileName).name());
+      displayProps += PvlKeyword("DisplayName", FileName(fileName).name().toStdString());
 
       // Convert display properties over
       enum OldDispProps {
@@ -339,7 +339,7 @@ namespace Isis {
       };
 
       QMap<int, QVariant> oldProps;
-      QByteArray oldHexValues(oldDisplayPropsValues[0].toLatin1());
+      QByteArray oldHexValues(QString::fromStdString(oldDisplayPropsValues[0]).toLatin1());
       QDataStream oldValuesStream(QByteArray::fromHex(oldHexValues));
       oldValuesStream >> oldProps;
 
@@ -385,7 +385,7 @@ namespace Isis {
 
         if (key.isNamed("Cube")) {
           key.setName("Image");
-          key[0] = imageFileToNewId[key[0]];
+          key[0] = imageFileToNewId[QString::fromStdString(key[0])].toStdString();
         }
       }
     }
@@ -400,7 +400,7 @@ namespace Isis {
         PvlKeyword &key = zOrdering[i];
 
         if (key.isNamed("ZValue")) {
-          key[0] = imageFileToNewId[key[0]];
+          key[0] = imageFileToNewId[QString::fromStdString(key[0])].toStdString();
         }
       }
     }

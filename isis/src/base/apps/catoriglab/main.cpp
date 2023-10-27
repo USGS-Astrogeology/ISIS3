@@ -22,7 +22,7 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
   QString file = ui.GetCubeName("FROM");
 
-  Pvl fromLabel(file);
+  Pvl fromLabel(file.toStdString());
   if ( fromLabel.hasObject("OriginalLabel") ) {
     OriginalLabel origLab(file);
     Pvl pvl = origLab.ReturnLabels();
@@ -31,10 +31,10 @@ void IsisMain() {
     }
     else if (ui.WasEntered("TO")) {
       if (ui.GetBoolean("APPEND")) {
-        pvl.append(FileName(ui.GetFileName("TO")).expanded());
+        pvl.append(FileName(ui.GetFileName("TO")).expanded().toStdString());
       }
       else {
-        pvl.write(FileName(ui.GetFileName("TO")).expanded());
+        pvl.write(FileName(ui.GetFileName("TO")).expanded().toStdString());
       }
     } 
     else {

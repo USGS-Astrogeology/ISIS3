@@ -57,9 +57,9 @@ void IsisMain ()
   QString missid;
 
   try {
-    Pvl lab(inFile.expanded());
-    instid = (QString) lab.findKeyword ("CHANNEL_ID");
-    missid = (QString) lab.findKeyword ("INSTRUMENT_HOST_ID");
+    Pvl lab(inFile.expanded().toStdString());
+    instid = QString::fromStdString(lab.findKeyword ("CHANNEL_ID"));
+    missid = QString::fromStdString(lab.findKeyword ("INSTRUMENT_HOST_ID"));
   }
   catch (IException &e) {
     QString msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
@@ -87,7 +87,7 @@ void IsisMain ()
   Cube *outcube = p.SetOutputCube ("TO");
 //  p.SaveFileHeader();
 
-  Pvl labelPvl (inFile.expanded());
+  Pvl labelPvl (inFile.expanded().toStdString());
 
   p.StartProcess ();
 
@@ -115,7 +115,7 @@ void IsisMain ()
   //  Update target if user specifies it
   if (!target.isEmpty()) {
     PvlGroup &igrp = outLabel.findGroup("Instrument",Pvl::Traverse);
-    igrp["TargetName"] = target;
+    igrp["TargetName"] = target.toStdString();
   }
 
   // Write the BandBin, Archive, and Instrument groups
@@ -145,7 +145,7 @@ void IsisMain ()
    hktable.setType("MirrorCos", "DOUBLE");
    Table hktab = hktable.importTable("ScetTimeClock,ShutterStatus,MirrorSin,MirrorCos",
                                       "VIRHouseKeeping");
-   hktab.Label().addKeyword(PvlKeyword("SourceFile", hkLabel));
+   hktab.Label().addKeyword(PvlKeyword("SourceFile", hkLabel.toStdString()));
    outcube->write(hktab);
  }
  catch (IException &e) {

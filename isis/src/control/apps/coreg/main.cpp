@@ -98,7 +98,7 @@ void IsisMain() {
   // We need to get a user definition of how to auto correlate around each
   // of the control points.
   Pvl regdef;
-  regdef.read(ui.GetFileName("DEFFILE"));
+  regdef.read(ui.GetFileName("DEFFILE").toStdString());
   AutoReg *ar = AutoRegFactory::Create(regdef);
 
   // We want to create a grid of control points that is N rows by M columns.
@@ -201,14 +201,14 @@ void IsisMain() {
   double lMax = (int)(lStats.Maximum() * 100.0) / 100.0;
   double lDev = (int)(lStats.StandardDeviation() * 100.0) / 100.0;
 
-  results += PvlKeyword("SampleMinimum", toString(sMin));
-  results += PvlKeyword("SampleAverage", toString(sTrans));
-  results += PvlKeyword("SampleMaximum", toString(sMax));
-  results += PvlKeyword("SampleStandardDeviation", toString(sDev));
-  results += PvlKeyword("LineMinimum", toString(lMin));
-  results += PvlKeyword("LineAverage", toString(lTrans));
-  results += PvlKeyword("LineMaximum", toString(lMax));
-  results += PvlKeyword("LineStandardDeviation", toString(lDev));
+  results += PvlKeyword("SampleMinimum", std::to_string(sMin));
+  results += PvlKeyword("SampleAverage", std::to_string(sTrans));
+  results += PvlKeyword("SampleMaximum", std::to_string(sMax));
+  results += PvlKeyword("SampleStandardDeviation", std::to_string(sDev));
+  results += PvlKeyword("LineMinimum", std::to_string(lMin));
+  results += PvlKeyword("LineAverage", std::to_string(lTrans));
+  results += PvlKeyword("LineMaximum", std::to_string(lMax));
+  results += PvlKeyword("LineStandardDeviation", std::to_string(lDev));
   Application::Log(results);
 
   Pvl arPvl = ar->RegistrationStatistics();
@@ -289,7 +289,7 @@ void helperButtonLog() {
   UserInterface &ui = Application::GetUserInterface();
   QString file(ui.GetFileName("DEFFILE"));
   Pvl p;
-  p.read(file);
+  p.read(file.toStdString());
   Application::GuiLog(p);
 }
 //...........end of helper function ........

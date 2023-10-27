@@ -45,7 +45,7 @@ namespace Isis {
   void DisplayProperties::fromPvl(const PvlObject &pvl) {
     setDisplayName(((IString)pvl["DisplayName"][0]).ToQt());
 
-    QByteArray hexValues(pvl["Values"][0].toLatin1());
+    QByteArray hexValues(QString::fromStdString(pvl["Values"][0]).toLatin1());
     QDataStream valuesStream(QByteArray::fromHex(hexValues));
     valuesStream >> *m_propertyValues;
   }
@@ -58,7 +58,7 @@ namespace Isis {
    */
   PvlObject DisplayProperties::toPvl() const {
     PvlObject output("DisplayProperties");
-    output += PvlKeyword("DisplayName", displayName());
+    output += PvlKeyword("DisplayName", displayName().toStdString());
 
     QBuffer dataBuffer;
     dataBuffer.open(QIODevice::ReadWrite);
@@ -67,7 +67,7 @@ namespace Isis {
     propsStream << *m_propertyValues;
     dataBuffer.seek(0);
 
-    output += PvlKeyword("Values", QString(dataBuffer.data().toHex()));
+    output += PvlKeyword("Values", std::string(dataBuffer.data().toHex()));
 
     return output;
   }

@@ -920,16 +920,16 @@ namespace Isis {
     p_matchCube->write(*cmatrix);
     History h = p_matchCube->readHistory();
     PvlObject history("qtie");
-    history += PvlKeyword("IsisVersion", Application::Version());
+    history += PvlKeyword("IsisVersion", Application::Version().toStdString());
     QString path = QCoreApplication::applicationDirPath();
-    history += PvlKeyword("ProgramPath", path);
+    history += PvlKeyword("ProgramPath", path.toStdString());
     history += PvlKeyword("ExecutionDateTime",
-                                Application::DateTime());
-    history += PvlKeyword("HostName", Application::HostName());
-    history += PvlKeyword("UserName", Application::UserName());
+                                Application::DateTime().toStdString());
+    history += PvlKeyword("HostName", Application::HostName().toStdString());
+    history += PvlKeyword("UserName", Application::UserName().toStdString());
     PvlGroup results("Results");
     results += PvlKeyword("CameraAnglesUpdated", "True");
-    results += PvlKeyword("BaseMap", p_baseCube->fileName());
+    results += PvlKeyword("BaseMap", p_baseCube->fileName().toStdString());
     history += results;
 
     h.AddEntry(history);
@@ -974,12 +974,12 @@ namespace Isis {
   void QtieTool::viewTemplateFile() {
     try {
       // Get the template file from the ControlPointEditor object
-      Pvl templatePvl(p_pointEditor->templateFileName());
+      Pvl templatePvl(p_pointEditor->templateFileName().toStdString());
       // Create registration dialog window using PvlEditDialog class
       // to view and/or edit the template
       PvlEditDialog registrationDialog(templatePvl);
       registrationDialog.setWindowTitle("View or Edit Template File: "
-                                        + (templatePvl.fileName()));
+                                        + QString::fromStdString(templatePvl.fileName()));
       registrationDialog.resize(550, 360);
       registrationDialog.exec();
     }

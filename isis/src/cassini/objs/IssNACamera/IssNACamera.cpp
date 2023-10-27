@@ -46,7 +46,7 @@ namespace Isis {
     try {
       PvlGroup bandBin = lab.findGroup("BandBin", Pvl::Traverse);
       QString key = QString("INS%1_%2_FOCAL_LENGTH").
-                      arg(naifIkCode()).arg(bandBin["FilterName"][0]);
+                      arg(naifIkCode()).arg(QString::fromStdString(bandBin["FilterName"][0]));
       key = key.replace("/", "_");
       focalLength = getDouble(key);
     }
@@ -58,9 +58,9 @@ namespace Isis {
       catch (IException &secondException) {
         PvlGroup bandBin = lab.findGroup("BandBin", Pvl::Traverse);
         IException finalError(IException::Unknown,
-            QString("Unable to find a focal length for the requested Cassini ISS NA "
-                    "filter combination [%1] or the default focal length")
-                        .arg(bandBin["FilterName"][0]),
+            "Unable to find a focal length for the requested Cassini ISS NA "
+                    "filter combination [%1] or the default focal length" +
+                        bandBin["FilterName"][0],
             _FILEINFO_);
         finalError.append(firstException);
         finalError.append(secondException);
@@ -77,7 +77,7 @@ namespace Isis {
     // Get the start time in et
     PvlGroup inst = lab.findGroup("Instrument", Pvl::Traverse);
 
-    double et = iTime((QString)inst["StartTime"]).Et();
+    double et = iTime(QString::fromStdString(inst["StartTime"])).Et();
 
     // divide exposure duration keyword value by 1000 to convert to seconds
     double exposureDuration = ((double) inst["ExposureDuration"]) / 1000.0;

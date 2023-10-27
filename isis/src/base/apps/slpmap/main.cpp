@@ -76,7 +76,7 @@ void IsisMain() {
   g_groundMap = 0;
   if(g_outputType == Aspect) {
     p.StartProcess(createAspectCube);
-    bbGroup.addKeyword( PvlKeyword( "Name", "Aspect", ui.GetString("UNITS").toLower() ) );
+    bbGroup.addKeyword( PvlKeyword( "Name", "Aspect", ui.GetString("UNITS").toLower().toStdString() ) );
   }
   else {
     if (ui.GetString("PIXRES") == "AUTOMATIC") {
@@ -100,7 +100,7 @@ void IsisMain() {
       bbGroup.addKeyword( PvlKeyword("Name", "Slope", "percent") );
     }
     else {
-      bbGroup.addKeyword( PvlKeyword( "Name", "Slope", ui.GetString("UNITS").toLower() ) );
+      bbGroup.addKeyword( PvlKeyword( "Name", "Slope", ui.GetString("UNITS").toLower().toStdString() ) );
     }
   }
 

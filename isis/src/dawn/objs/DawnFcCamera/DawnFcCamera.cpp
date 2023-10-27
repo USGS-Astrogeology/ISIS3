@@ -119,7 +119,7 @@ namespace Isis {
     // needs to be obtained.
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString stime = inst["SpacecraftClockStartCount"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     double et = getClockTime(stime).Et();
     et += 193.0 / 1000.0;
     double exposureDuration = (double)inst["ExposureDuration"] / 1000.0;

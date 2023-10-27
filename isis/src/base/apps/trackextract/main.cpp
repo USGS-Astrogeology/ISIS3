@@ -179,7 +179,7 @@ void createMosaicCube(QString inputName, QString outputName, QVector<QString> ba
   PvlGroup trackingGroup = PvlGroup("Tracking");
   PvlKeyword trackingName = PvlKeyword("Filename");
   FileName cubeName = FileName(outputName);
-  trackingName.setValue(cubeName.baseName() + "_tracking.cub"); //Strip off path and add _tracking
+  trackingName.setValue(cubeName.baseName().toStdString() + "_tracking.cub"); //Strip off path and add _tracking
   trackingGroup.addKeyword(trackingName);
   mosaicCube.putGroup(trackingGroup);
 

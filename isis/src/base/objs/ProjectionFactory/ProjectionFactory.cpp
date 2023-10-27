@@ -837,7 +837,7 @@ namespace Isis {
                                Displacement(upperLeftY, Displacement::Meters));
     }
     catch(IException &e) {
-      QString msg = "Unable to create projection";
+      std::string msg = "Unable to create projection";
       if (label.fileName() != "") msg += " from file [" + label.fileName() + "]";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
@@ -895,9 +895,9 @@ namespace Isis {
         pixelResolution = (2.0 * Isis::PI * localRadius) / (360.0 * scale);
       }
       // Write out the scale and resolution with units and truescale radius
-      mapGroup.addKeyword(Isis::PvlKeyword("PixelResolution", toString(pixelResolution),
+      mapGroup.addKeyword(Isis::PvlKeyword("PixelResolution", std::to_string(pixelResolution),
                                            "meters/pixel"), Isis::Pvl::Replace);
-      mapGroup.addKeyword(Isis::PvlKeyword("Scale", toString(scale), "pixels/degree"),
+      mapGroup.addKeyword(Isis::PvlKeyword("Scale", std::to_string(scale), "pixels/degree"),
                           Isis::Pvl::Replace);
 
       // Initialize the rest of the projection
@@ -1019,11 +1019,11 @@ namespace Isis {
 
       // Set the upper left corner and add to the labels
       double upperLeftX = minX;
-      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerX", toString(upperLeftX)),
+      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerX", std::to_string(upperLeftX)),
                           Isis::Pvl::Replace);
 
       double upperLeftY = maxY;
-      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerY", toString(upperLeftY)),
+      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerY", std::to_string(upperLeftY)),
                           Isis::Pvl::Replace);
 
       // Make sure labels have good units
@@ -1051,7 +1051,7 @@ namespace Isis {
                                Displacement(upperLeftY, Displacement::Meters));
     }
     catch(IException &e) {
-      QString msg = "Unable to create projection";
+      std::string msg = "Unable to create projection";
       if (label.fileName() != "") msg += " from file [" + label.fileName() + "]";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
@@ -1114,7 +1114,7 @@ namespace Isis {
                                Displacement(upperLeftY, Displacement::Meters));
     }
     catch (IException &e) {
-      QString msg = "Unable to initialize cube projection";
+      std::string msg = "Unable to initialize cube projection";
       if (label.fileName() != "") msg += " from file [" + label.fileName() + "]";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
@@ -1153,7 +1153,7 @@ namespace Isis {
                                Displacement(upperLeftY, Displacement::Meters));
     }
     catch (IException &e) {
-      QString msg = "Unable to initialize cube projection";
+      std::string msg = "Unable to initialize cube projection";
       if (label.fileName() != "") msg += " from file [" + label.fileName() + "]";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }

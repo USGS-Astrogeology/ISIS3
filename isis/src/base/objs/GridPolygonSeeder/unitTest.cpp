@@ -39,14 +39,14 @@ int main() {
       if(!alg.hasKeyword("Name")) {
         cout << "Test without subgrid" << endl;
         alg += PvlKeyword("Name", "Grid");
-        alg += PvlKeyword("MinimumThickness", toString(0.3));
-        alg += PvlKeyword("MinimumArea", toString(10));
-        alg += PvlKeyword("XSpacing", toString(1500));
-        alg += PvlKeyword("YSpacing", toString(1500));
+        alg += PvlKeyword("MinimumThickness", std::to_string(0.3));
+        alg += PvlKeyword("MinimumArea", std::to_string(10));
+        alg += PvlKeyword("XSpacing", std::to_string(1500));
+        alg += PvlKeyword("YSpacing", std::to_string(1500));
       }
       else {
         cout << "Test with subgrid" << endl;
-        alg += PvlKeyword("SubGrid", toString(true));
+        alg += PvlKeyword("SubGrid", std::to_string(true));
       }
 
       PvlObject o("AutoSeed");
@@ -93,9 +93,9 @@ int main() {
         mapGroup += Isis::PvlKeyword("PolarRadius", radii["PolarRadius"]);
         mapGroup += Isis::PvlKeyword("LatitudeType", "Planetocentric");
         mapGroup += Isis::PvlKeyword("LongitudeDirection", "PositiveEast");
-        mapGroup += Isis::PvlKeyword("LongitudeDomain", toString(360));
-        mapGroup += Isis::PvlKeyword("CenterLatitude", toString(0));
-        mapGroup += Isis::PvlKeyword("CenterLongitude", toString(0));
+        mapGroup += Isis::PvlKeyword("LongitudeDomain", std::to_string(360));
+        mapGroup += Isis::PvlKeyword("CenterLatitude", std::to_string(0));
+        mapGroup += Isis::PvlKeyword("CenterLongitude", std::to_string(0));
         mapGroup += Isis::PvlKeyword("ProjectionName", "Sinusoidal");
 
         TProjection *proj = (TProjection *) Isis::ProjectionFactory::Create(maplab);
@@ -155,9 +155,9 @@ int main() {
         mapGroup += Isis::PvlKeyword("PolarRadius", radii["PolarRadius"]);
         mapGroup += Isis::PvlKeyword("LatitudeType", "Planetocentric");
         mapGroup += Isis::PvlKeyword("LongitudeDirection", "PositiveEast");
-        mapGroup += Isis::PvlKeyword("LongitudeDomain", toString(360));
-        mapGroup += Isis::PvlKeyword("CenterLatitude", toString(0));
-        mapGroup += Isis::PvlKeyword("CenterLongitude", toString(0));
+        mapGroup += Isis::PvlKeyword("LongitudeDomain", std::to_string(360));
+        mapGroup += Isis::PvlKeyword("CenterLatitude", std::to_string(0));
+        mapGroup += Isis::PvlKeyword("CenterLongitude", std::to_string(0));
         mapGroup += Isis::PvlKeyword("ProjectionName", "Sinusoidal");
         TProjection *proj = (TProjection *) Isis::ProjectionFactory::Create(maplab);
 

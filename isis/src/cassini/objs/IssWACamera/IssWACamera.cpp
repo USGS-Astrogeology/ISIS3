@@ -41,7 +41,7 @@ namespace Isis {
     Pvl &lab = *cube.label();
     PvlGroup &bandBin = lab.findGroup("BandBin", Pvl::Traverse);
     // Get the camera characteristics
-    QString key = "INS" + toString(naifIkCode()) + "_" + bandBin["FilterName"][0] + "_FOCAL_LENGTH";
+    QString key = "INS" + toString(naifIkCode()) + "_" + QString::fromStdString(bandBin["FilterName"][0]) + "_FOCAL_LENGTH";
     key = key.replace("/", "_");
     double focalLength = Spice::getDouble(key);
 
@@ -53,7 +53,7 @@ namespace Isis {
     // Get the start time in et
     PvlGroup inst = lab.findGroup("Instrument", Pvl::Traverse);
 
-    double et = iTime((QString)inst["StartTime"]).Et();
+    double et = iTime(QString::fromStdString(inst["StartTime"])).Et();
 
     // divide exposure duration keyword value by 1000 to convert to seconds
     double exposureDuration = ((double) inst["ExposureDuration"]) / 1000.0;

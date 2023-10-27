@@ -62,7 +62,7 @@ void IsisMain() {
     QString pivotString("$messenger/kernels/ck/pivot_kernels.????.db");
     pivotFileName = FileName(pivotString).highestVersion();
   }
-  Pvl pivot(pivotFileName.expanded());
+  Pvl pivot(pivotFileName.expanded().toStdString());
 
   // Fetch the atthist file
   FileName atthistFileName;
@@ -74,7 +74,7 @@ void IsisMain() {
     QString atthistString("$messenger/kernels/ck/atthist_kernels.????.db");
     atthistFileName = FileName(atthistString).highestVersion();
   }
-  Pvl atthist(atthistFileName.expanded());
+  Pvl atthist(atthistFileName.expanded().toStdString());
 
   // Open the input file from the GUI or find the latest version of the DB file
   FileName dbFileName;
@@ -85,7 +85,7 @@ void IsisMain() {
     QString dbString("$messenger/kernels/ck/kernels.????.db");
     dbFileName = FileName(dbString).highestVersion();
   }
-  Pvl kernelDb(dbFileName.expanded());
+  Pvl kernelDb(dbFileName.expanded().toStdString());
 
   PvlObject &pointing = kernelDb.findObject("SpacecraftPointing");
   PvlObject &pivotPointing = pivot.findObject("SpacecraftPointing");
@@ -118,7 +118,7 @@ void IsisMain() {
       // We're looking for the group with a comment that says MAPPING,
       // signifying the beginning of the section we wish to update
       for (int j = 0; j < ckGroup.comments(); j++) {
-        QString comment = ckGroup.comment(j);
+        QString comment = QString::fromStdString(ckGroup.comment(j));
         if (comment.contains("MAPPING")) {
           foundMapping = true;
           updatePointing(ckGroup, pivotPointing, atthistPointing);
@@ -132,7 +132,7 @@ void IsisMain() {
           for (int k = pivotSelection.keywords() - 1; k >= 0; k--) {
             PvlKeyword &keyword = pivotSelection[k];
             if (keyword.isNamed("Time")) {
-              pivotEndRaw = keyword[1];
+              pivotEndRaw = QString::fromStdString(keyword[1]);
               break;
             }
           }
@@ -143,7 +143,7 @@ void IsisMain() {
           QString pivotEnd = pivotEndRaw;
 
           PvlKeyword &time = ckGroup.findKeyword("Time");
-          QString currentStartRaw = time[0];
+          QString currentStartRaw = QString::fromStdString(time[0]);
           currentStartRaw.remove(QRegExp(" TDB$"));
           QString currentStart = currentStartRaw;
 
@@ -154,7 +154,7 @@ void IsisMain() {
 
           // See if a week has passed from the start time to the pivot end time
           iTime pivotEndTime(pivotEnd);
-          time[1] = newEnd;
+          time[1] = newEnd.toStdString();
 
           PvlGroup *currentGroup = &ckGroup;
 
@@ -189,8 +189,8 @@ void IsisMain() {
 
               // If the current day's file isn't already present in the group,
               // then go ahead and add it
-              if ((*itr)[0] != bcFileName) {
-                PvlKeyword bcKeyword("File", bcFileName);
+              if ((*itr)[0] != bcFileName.toStdString()) {
+                PvlKeyword bcKeyword("File", bcFileName.toStdString());
                 itr = currentGroup->addKeyword(bcKeyword, itr);
               }
               itr++;
@@ -213,10 +213,10 @@ void IsisMain() {
               weekFromStart += 7 * 24 * 3600;
 
               PvlKeyword &currentTime = currentGroup->findKeyword("Time");
-              currentTime[1] = newEndTime;
+              currentTime[1] = newEndTime.toStdString();
               PvlKeyword latestTime(currentTime);
-              latestTime[0] = newEndTime;
-              latestTime[1] = newEnd;
+              latestTime[0] = newEndTime.toStdString();
+              latestTime[1] = newEnd.toStdString();
 
               PvlGroup *latestGroup = new PvlGroup("Selection");
               latestGroup->addKeyword(latestTime);
@@ -252,7 +252,7 @@ void IsisMain() {
   }
 
   // Write the updated PVL as the new CK DB file
-  kernelDb.write(outDBfile.expanded());
+  kernelDb.write(outDBfile.expanded().toStdString());
 }
 
 
@@ -300,7 +300,7 @@ PvlGroup* insertGroup(PvlObject &object, PvlGroup &group, int index) {
       PvlGroup &currentGroup = object.group(i);
       bool foundMapping = false;
       for (int j = 0; j < currentGroup.comments(); j++) {
-        QString comment = currentGroup.comment(j);
+        QString comment = QString::fromStdString(currentGroup.comment(j));
         mappingComments.append(comment);
 
         if (comment.contains("MAPPING"))
@@ -326,7 +326,7 @@ PvlGroup* insertGroup(PvlObject &object, PvlGroup &group, int index) {
   // Add all the mapping comments
   PvlGroup &currentGroup = object.group(index);
   for (int i = 0; i < mappingComments.size(); i++)
-    currentGroup.addComment(mappingComments[i]);
+    currentGroup.addComment(mappingComments[i].toStdString());
 
   // Return the location of the new group
   return &currentGroup;

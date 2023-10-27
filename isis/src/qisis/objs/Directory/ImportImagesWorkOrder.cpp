@@ -534,10 +534,10 @@ namespace Isis {
             // Confirm that the target body and the gui camera do not exist before creating and 
             // and adding them for each image. Since a target may be covered by many cameras and a 
             // camera may cover many targets, have to get tricky with the checking.
-            QString instrumentId = cube->label()->findGroup("Instrument", 
-                              PvlObject::FindOptions::Traverse).findKeyword("InstrumentId")[0];
-            QString targetName = cube->label()->findGroup("Instrument", 
-                              PvlObject::FindOptions::Traverse).findKeyword("TargetName")[0];
+            QString instrumentId = QString::fromStdString(cube->label()->findGroup("Instrument", 
+                              PvlObject::FindOptions::Traverse).findKeyword("InstrumentId")[0]);
+            QString targetName = QString::fromStdString(cube->label()->findGroup("Instrument", 
+                              PvlObject::FindOptions::Traverse).findKeyword("TargetName")[0]);
             if (!project()->hasTarget(targetName)) {
               Camera *camera = cube->camera();
               Target *target = camera->target();

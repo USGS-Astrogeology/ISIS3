@@ -88,14 +88,14 @@ void IsisMain() {
     // Execute the requested method
     //----------------------------------------------------------------------------------
     PvlGroup results("DeltackResults");
-    results += PvlKeyword("Method", method);
+    results += PvlKeyword("Method", method.toStdString());
     if ( "direct" == method ) {
       Camera *v_cam = c.camera();
 
       // Map the latitude/longitude to a line/sample of the desired update
       // cout << "Input Lat, Lon = " << lat1.degrees() << "," << lon1.degrees() << "\n";
-      results += PvlKeyword("Lat1", toString(lat1.degrees()), "degrees");
-      results += PvlKeyword("Lon1", toString(lon1.degrees()), "degrees");
+      results += PvlKeyword("Lat1", std::to_string(lat1.degrees()), "degrees");
+      results += PvlKeyword("Lon1", std::to_string(lon1.degrees()), "degrees");
       if ( !v_cam->SetUniversalGround(lat1.degrees(), lon1.degrees()) ) {
         QString mess = "Geometry coordinate does not map into image at location (" +
                        QString::number(lat1.degrees()) + "," + QString::number(lon1.degrees()) + ")";
@@ -104,15 +104,15 @@ void IsisMain() {
 
       // Get the surface coordinate in body fixed
       // cout << "Sample, Line = " << v_cam->Sample() << "," << v_cam->Line() << "\n";
-      results += PvlKeyword("Lat1Lon1Sample", toString(v_cam->Sample()));
-      results += PvlKeyword("Lat1Lon1Line", toString(v_cam->Line()));
+      results += PvlKeyword("Lat1Lon1Sample", std::to_string(v_cam->Sample()));
+      results += PvlKeyword("Lat1Lon1Line", std::to_string(v_cam->Line()));
       double pt2[3];
       v_cam->Coordinate(pt2);
 
 
       // Retrieve the current geometry of a point to use as reference for the update
-      results += PvlKeyword("Samp1", toString(samp1));
-      results += PvlKeyword("Line1", toString(line1));
+      results += PvlKeyword("Samp1", std::to_string(samp1));
+      results += PvlKeyword("Line1", std::to_string(line1));
       if ( !v_cam->SetImage(samp1, line1) ) {
         // Ignore the SetImage() error as long as the coordinate is a valid
         // image coordinate.
@@ -130,8 +130,8 @@ void IsisMain() {
         results += PvlKeyword("Samp1Line1Lon");
       }
       else {
-        results += PvlKeyword("Samp1Line1Lat",  toString(v_cam->GetLatitude().degrees()), "degrees");
-        results += PvlKeyword("Samp1Line1Lon", toString(v_cam->GetLongitude().degrees()), "degrees");
+        results += PvlKeyword("Samp1Line1Lat",  std::to_string(v_cam->GetLatitude().degrees()), "degrees");
+        results += PvlKeyword("Samp1Line1Lon", std::to_string(v_cam->GetLongitude().degrees()), "degrees");
       }
 
       // Get vector to surface from S/C and S/C position in body-fixed.
@@ -155,7 +155,7 @@ void IsisMain() {
 
       // Compute angle difference of update
       double j2kAngle = vsep_c(&ldir1[0], &ldir2[0]);
-      results += PvlKeyword("AdjustedAngle", toString(j2kAngle * dpr_c()), "degrees");
+      results += PvlKeyword("AdjustedAngle", std::to_string(j2kAngle * dpr_c()), "degrees");
 
       // Compute rotation of vectors
       SpiceDouble R[3][3];
@@ -185,7 +185,7 @@ void IsisMain() {
 
         // Get the line cache and apply rotation using that cache. Then refit
         // to polynomials
-        Table lcache = v_cam->instrumentRotation()->LineCache(o_cmat.Name());
+        Table lcache = v_cam->instrumentRotation()->LineCache(QString::fromStdString(o_cmat.Name()));
         ApplyRotation(R, lcache);
         v_cam->instrumentRotation()->LoadCache(lcache);
         v_cam->instrumentRotation()->SetPolynomial();
@@ -193,9 +193,9 @@ void IsisMain() {
       }
 
       // Write out a description in the spice table
-      results += PvlKeyword("RecordsUpdated", toString(o_cmat.Records()));
+      results += PvlKeyword("RecordsUpdated", std::to_string(o_cmat.Records()));
       QString deltackComment = "deltackDirectAdjusted = " + Isis::iTime::CurrentLocalTime();
-      o_cmat.Label().addComment(deltackComment);
+      o_cmat.Label().addComment(deltackComment.toStdString());
 
       // Write out the updated pointing dataset
       c.write(o_cmat);
@@ -280,7 +280,7 @@ void IsisMain() {
 
       // Write out a description in the spice table
       QString deltackComment = "deltackAdjusted = " + Isis::iTime::CurrentLocalTime();
-      cmatrix.Label().addComment(deltackComment);
+      cmatrix.Label().addComment(deltackComment.toStdString());
       //PvlKeyword description("Description");
       //description = "Camera pointing updated via deltack application";
       //cmatrix.Label().findObject("Table",Pvl::Traverse).addKeyword(description);
@@ -330,8 +330,8 @@ Distance GetRadius(QString filename, Latitude lat, Longitude lon) {
   sensor->SetGround(SurfacePoint(lat, lon, sensor->LocalRadius(lat, lon)));
   Distance radius = sensor->LocalRadius();
   if (!radius.isValid()) {
-    QString msg = "Could not determine radius from DEM at lat/lon [";
-    msg += toString(lat.degrees()) + "," + toString(lon.degrees()) + "]";
+    std::string msg = "Could not determine radius from DEM at lat/lon [";
+    msg += std::to_string(lat.degrees()) + "," + std::to_string(lon.degrees()) + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
   return radius;

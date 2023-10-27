@@ -142,7 +142,7 @@ void IsisMain() {
 
 
   try {
-    timeString = QString(inst["StartTime"]);
+    timeString = QString::fromStdString(inst["StartTime"]);
 
   }
   catch(IException &e) {
@@ -414,7 +414,7 @@ void calculateSolarRemove(Cube *icube, ProcessByLine *p) {
   solarFileName = solarFileName.highestVersion();
 
   calibInfo += PvlKeyword("SolarColorFile",
-                          solarFileName.originalPath() + "/" + solarFileName.name());
+                          solarFileName.originalPath() + "/" + solarFileName.name().toStdString());
 
   p->SetInputCube(createCroppedFile(icube, solarFileName.expanded()), iatt);
 }
@@ -431,26 +431,26 @@ void loadCalibrationValues() {
   calibFile = calibFile.highestVersion();
 
   //Pvl configFile;
-  g_configFile.read(calibFile.expanded());
+  g_configFile.read(calibFile.expanded().toStdString());
   PvlGroup &multipliers = g_configFile.findGroup("CalibrationMultipliers");
 
-  calVersion = (QString)multipliers["version"];
+  calVersion = QString::fromStdString(multipliers["version"]);
 
-  g_solar = multipliers["solar"][0].toDouble();
+  g_solar = std::stod(multipliers["solar"][0]);
 
-  g_ir = multipliers["IR"][0].toDouble();
+  g_ir = std::stod(multipliers["IR"][0]);
 
-  g_vis = multipliers["VIS"][0].toDouble();
+  g_vis = std::stod(multipliers["VIS"][0]);
 
-  g_wavecal = multipliers["wave-cal"][0].toDouble();
+  g_wavecal = std::stod(multipliers["wave-cal"][0]);
 
 
 
-  calibInfo += PvlKeyword("CalibrationVersion", calVersion);
-  calibInfo += PvlKeyword("SolarMultiplier",QString::number(g_solar,'f',2));
-  calibInfo += PvlKeyword("IR_Multiplier",QString::number(g_ir,'f',2));
-  calibInfo += PvlKeyword("VIS_Multiplier",QString::number(g_vis,'f',2));
-  calibInfo += PvlKeyword("Wave-CalMultiplier",QString::number(g_wavecal,'f',2));
+  calibInfo += PvlKeyword("CalibrationVersion", calVersion.toStdString());
+  calibInfo += PvlKeyword("SolarMultiplier",QString::number(g_solar,'f',2).toStdString());
+  calibInfo += PvlKeyword("IR_Multiplier",QString::number(g_ir,'f',2).toStdString());
+  calibInfo += PvlKeyword("VIS_Multiplier",QString::number(g_vis,'f',2).toStdString());
+  calibInfo += PvlKeyword("Wave-CalMultiplier",QString::number(g_wavecal,'f',2).toStdString());
 
 
 }
@@ -488,11 +488,11 @@ void updateWavelengths(Cube *icube) {
   averageBandwidthCube.open(averageBandwidthFileName.expanded());
 
   calibInfo += PvlKeyword("BandwidthFile",
-                          bandwidthFileName.originalPath() + "/" + bandwidthFileName.name());
+                          bandwidthFileName.originalPath().toStdString() + "/" + bandwidthFileName.name().toStdString());
 
   calibInfo += PvlKeyword("AverageBandwidthFile",
-                          averageBandwidthFileName.originalPath() + "/"
-                          + averageBandwidthFileName.name());
+                          averageBandwidthFileName.originalPath().toStdString() + "/"
+                          + averageBandwidthFileName.name().toStdString());
 
   LineManager bandwidthMgr(bandwidthCube);
   LineManager averageBandwidthMgr(averageBandwidthCube);
@@ -541,12 +541,12 @@ void updateWavelengths(Cube *icube) {
 
 
   PvlKeyword &centerBand = bandBin.findKeyword("Center");
-  centerBand.setValue(bandbinCenterString);
+  centerBand.setValue(bandbinCenterString.toStdString());
 
   PvlKeyword averageBand("MissionAverage");
-  averageBand.setValue(averageBandbinString);
+  averageBand.setValue(averageBandbinString.toStdString());
   bandBin.addKeyword(averageBand);
-  centerBand.setValue(bandbinCenterString);
+  centerBand.setValue(bandbinCenterString.toStdString());
 
 }
 
@@ -571,7 +571,7 @@ void calculateSpecificEnergy(Cube *icube) {
   }
 
   if(g_visBool) {
-    coefficient /= toDouble(inst["ExposureDuration"][1]) / 1000.0;
+    coefficient /= std::stod(inst["ExposureDuration"][1]) / 1000.0;
   }
   else {
 

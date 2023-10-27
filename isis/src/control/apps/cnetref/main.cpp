@@ -54,7 +54,7 @@ void IsisMain() {
     Pvl pvlTemplate, pvlResults;
     if (ui.WasEntered("DEFFILE")) {
       bDefFile = true;
-      pvlDefFile = new Pvl(ui.GetFileName("DEFFILE"));
+      pvlDefFile = new Pvl(ui.GetFileName("DEFFILE").toStdString());
 
       // Log the DefFile
       Application::Log(pvlDefFile->group(0));
@@ -164,7 +164,7 @@ void IsisMain() {
       if (bLogFile) {
         Pvl pvlLog = interestOp->GetLogPvl();
         pvlLog += opGroup;
-        pvlLog.write(sLogFile);
+        pvlLog.write(sLogFile.toStdString());
       }
       Application::Log(interestOp->GetStdOptions());
       Application::Log(interestOp->GetStatistics());
@@ -182,7 +182,7 @@ void IsisMain() {
     if (cnetValidMeas) {
       Pvl pvlLog = cnetValidMeas->GetLogPvl();
       if (bLogFile) {
-        pvlLog.write(sLogFile);
+        pvlLog.write(sLogFile.toStdString());
       }
       Application::Log(cnetValidMeas->GetStdOptions());
       Application::Log(cnetValidMeas->GetStatistics());
@@ -244,7 +244,7 @@ void ViewDefFile() {
 
   // Get template PVL
   Pvl defFile;
-  defFile.read(ui.GetFileName("DEFFILE"));
+  defFile.read(ui.GetFileName("DEFFILE").toStdString());
 
   // Write deffile file out to the log
   Isis::Application::GuiLog(defFile);

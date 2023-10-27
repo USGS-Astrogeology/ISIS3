@@ -184,7 +184,7 @@ void IsisMain() {
                        + bitweightFile.expanded() + "*** not found.", _FILEINFO_);
     }
     else {
-      gbl::calgrp += PvlKeyword("BitweightFile", bitweightFile.original());
+      gbl::calgrp += PvlKeyword("BitweightFile", bitweightFile.original().toStdString());
       gbl::CreateBitweightStretch(bitweightFile);
       firstpass.Progress()->SetText("Computing bitweight correction...");
       firstpass.StartProcess(gbl::BitweightCorrect);
@@ -203,9 +203,9 @@ void IsisMain() {
     gbl::dark_DN = dark.ComputeDarkDN();
     gbl::calgrp += PvlKeyword("DarkSubtractionPerformed", "Yes");
     gbl::calgrp.findKeyword("DarkSubtractionPerformed").addComment("Dark Current Subtraction Parameters");
-    gbl::calgrp += PvlKeyword("DarkParameterFile", dark.DarkParameterFile().original());
+    gbl::calgrp += PvlKeyword("DarkParameterFile", dark.DarkParameterFile().original().toStdString());
     if(gbl::cissLab->NarrowAngle()) {
-      gbl::calgrp += PvlKeyword("BiasDistortionTable", dark.BiasDistortionTable().original());
+      gbl::calgrp += PvlKeyword("BiasDistortionTable", dark.BiasDistortionTable().original().toStdString());
     }
     else {
       gbl::calgrp += PvlKeyword("BiasDistortionTable", "ISSWA: No bias distortion table used");
@@ -647,7 +647,7 @@ void gbl::ComputeBias() {
     gbl::bias.resize(1);
     gbl::bias[0] = gbl::cissLab->BiasStripMean();
   }
-  gbl::calgrp += PvlKeyword("NumberOfOverclocks", toString(gbl::numberOfOverclocks));
+  gbl::calgrp += PvlKeyword("NumberOfOverclocks", std::to_string(gbl::numberOfOverclocks));
   return;
 }
 
@@ -792,7 +792,7 @@ void gbl::Linearize() {
   }
   gbl::calgrp += PvlKeyword("LinearityCorrectionPerformed", "Yes");
   gbl::calgrp.findKeyword("LinearityCorrectionPerformed").addComment("Linearity Correction Parameters");
-  gbl::calgrp += PvlKeyword("LinearityCorrectionTable", linearLUT.original());
+  gbl::calgrp += PvlKeyword("LinearityCorrectionTable", linearLUT.original().toStdString());
 
   TextFile *pairs = new TextFile(linearLUT.original());
   for(int i = 0; i < pairs->LineCount(); i++) {
@@ -912,7 +912,7 @@ void gbl::FindDustRingParameters() {
                        "Unable to calibrate image. DustRingFile2 ***"
                        + gbl::dustFile2.expanded() + "*** not found.", _FILEINFO_);
     }
-    gbl::calgrp += PvlKeyword("DustRingFile2", gbl::dustFile2.original());
+    gbl::calgrp += PvlKeyword("DustRingFile2", gbl::dustFile2.original().toStdString());
   }
 
   // No Mottling correction for images before sclk=1444733393: (i.e., 2003-286T10:28:04)
@@ -957,7 +957,7 @@ void gbl::FindDustRingParameters() {
                        "Unable to calibrate image. EffectiveWavelengthFile ***"
                        + effectiveWavelength.expanded() + "*** not found.", _FILEINFO_);
     }
-    gbl::calgrp += PvlKeyword("EffectiveWavelengthFile", effectiveWavelength.original());
+    gbl::calgrp += PvlKeyword("EffectiveWavelengthFile", effectiveWavelength.original().toStdString());
     CisscalFile *effwlDB = new CisscalFile(effectiveWavelength.original());
     QString col1, col2, col3, col4, col5;
     double effwl;
@@ -982,7 +982,7 @@ void gbl::FindDustRingParameters() {
           }
           else {
             effwl = toDouble(col5);
-            gbl::calgrp += PvlKeyword("EffectiveWavelength", toString(effwl));
+            gbl::calgrp += PvlKeyword("EffectiveWavelength", std::to_string(effwl));
             gbl::strengthFactor = 1.30280 - 0.000717552 * effwl;
           }
           break;
@@ -1067,7 +1067,7 @@ void gbl::FindDustRingParameters() {
         }
     }
   }
-  gbl::calgrp += PvlKeyword("StrengthFactor", toString(gbl::strengthFactor));
+  gbl::calgrp += PvlKeyword("StrengthFactor", std::to_string(gbl::strengthFactor));
   return;
 }
 
@@ -1180,7 +1180,7 @@ FileName gbl::FindFlatFile() {
   col8 = "flat" + col8.mid(5, (j - 5) + 1);
   flatFile = (gbl::GetCalibrationDirectory("slope/flat") + col8
               + gbl::cissLab->InstrumentModeId() + ".cub");
-  gbl::calgrp += PvlKeyword("FlatFile", flatFile.original());
+  gbl::calgrp += PvlKeyword("FlatFile", flatFile.original().toStdString());
   if(!flatFile.fileExists()) { // flat file not found, stop calibration
     throw IException(IException::Io,
                      "Unable to calibrate image. FlatFile ***"
@@ -1259,7 +1259,7 @@ void gbl::DNtoElectrons() {
                          _FILEINFO_);
     }
   }
-  gbl::calgrp += PvlKeyword("TrueGain", toString(gbl::trueGain));
+  gbl::calgrp += PvlKeyword("TrueGain", std::to_string(gbl::trueGain));
   return;
 }
 
@@ -1306,7 +1306,7 @@ void gbl::FindShutterOffset() {
                      "Unable to calibrate image. ShutterOffsetFile ***"
                      + shutterOffsetFile.expanded() + "*** not found.", _FILEINFO_);
   }
-  gbl::calgrp += PvlKeyword("ShutterOffsetFile", shutterOffsetFile.original());
+  gbl::calgrp += PvlKeyword("ShutterOffsetFile", shutterOffsetFile.original().toStdString());
   Cube offsetCube;
   offsetCube.open(shutterOffsetFile.original());
   gbl::offset = new Brick(gbl::incube->sampleCount(), 1, 1, offsetCube.pixelType());
@@ -1364,9 +1364,9 @@ void gbl::DivideByAreaPixel() {
   // it was expressed in IDL as the following:
   //       [gbl::sumFactor = (gbl::incube->sampleCount()/1024.0)*(gbl::incube->lineCount()/1024.0);]
   gbl::sumFactor = 1 / pow(gbl::cissLab->SummingMode(), 2.0);
-  gbl::calgrp += PvlKeyword("SolidAngle", toString(gbl::solidAngle));
-  gbl::calgrp += PvlKeyword("OpticsArea", toString(gbl::opticsArea));
-  gbl::calgrp += PvlKeyword("SumFactor", toString(gbl::sumFactor));
+  gbl::calgrp += PvlKeyword("SolidAngle", std::to_string(gbl::solidAngle));
+  gbl::calgrp += PvlKeyword("OpticsArea", std::to_string(gbl::opticsArea));
+  gbl::calgrp += PvlKeyword("SumFactor", std::to_string(gbl::sumFactor));
   return;
 }
 
@@ -1434,7 +1434,7 @@ void gbl::FindEfficiencyFactor(QString fluxunits) {
   }
 
   gbl::calgrp += PvlKeyword("DividedByEfficiency", "Yes");
-  gbl::calgrp += PvlKeyword("EfficiencyFactorMethod", fluxunits);
+  gbl::calgrp += PvlKeyword("EfficiencyFactorMethod", fluxunits.toStdString());
   vector<double> lambda; // lambda will contain all wavelength vectors used
 
   //--- 1) CREATE LINEAR APPROXIMATION FROM SYSTEM TRANSMISSION FILE ----------
@@ -1450,7 +1450,7 @@ void gbl::FindEfficiencyFactor(QString fluxunits) {
                      + transfile.expanded() + "*** not found.", _FILEINFO_);
   }
   // read in system transmission to find transmitted wavelength and flux
-  gbl::calgrp += PvlKeyword("TransmissionFile", transfile.original());
+  gbl::calgrp += PvlKeyword("TransmissionFile", transfile.original().toStdString());
   CisscalFile *trans = new CisscalFile(transfile.original());
   vector<double> wavelengthT, transmittedFlux;
   double x, y;
@@ -1494,7 +1494,7 @@ void gbl::FindEfficiencyFactor(QString fluxunits) {
                      + qecorrfile.expanded() + "*** not found.", _FILEINFO_);
   }
   // read qe file to find qe wavelength and correction
-  gbl::calgrp += PvlKeyword("QuantumEfficiencyFile", qecorrfile.original());
+  gbl::calgrp += PvlKeyword("QuantumEfficiencyFile", qecorrfile.original().toStdString());
   CisscalFile *qeCorr = new CisscalFile(qecorrfile.original());
   vector<double> wavelengthQE, qecorrection;
   for(int i = 0; i < qeCorr->LineCount(); i++) {
@@ -1578,7 +1578,7 @@ void gbl::FindEfficiencyFactor(QString fluxunits) {
                        "Unable to calibrate image using I/F. SpectralFile ***"
                        + specfile.expanded() + "*** not found.", _FILEINFO_);
     }
-    gbl::calgrp += PvlKeyword("SpectralFile", specfile.original());
+    gbl::calgrp += PvlKeyword("SpectralFile", specfile.original().toStdString());
 
     // get distance from sun (AU):
     double angstromsToNm = 10.0;
@@ -1605,7 +1605,7 @@ void gbl::FindEfficiencyFactor(QString fluxunits) {
                        "Unable to calibrate image using I/F. Solar Distance calculated is less than or equal to 0.",
                        _FILEINFO_);
     }
-    gbl::calgrp += PvlKeyword("SolarDistance", toString(distFromSun));
+    gbl::calgrp += PvlKeyword("SolarDistance", std::to_string(distFromSun));
 
     // read spectral file to find wavelength and flux
     CisscalFile *spectral = new CisscalFile(specfile.original());
@@ -1673,8 +1673,8 @@ void gbl::FindEfficiencyFactor(QString fluxunits) {
   spline2.AddData(lambda, fluxproduct2);
   gbl::efficiencyFactor = spline1.BoolesRule(spline1.DomainMinimum(), spline1.DomainMaximum());
   double efficiency = spline2.BoolesRule(spline2.DomainMinimum(), spline2.DomainMaximum());
-  gbl::calgrp += PvlKeyword("EfficiencyFactor", toString(gbl::efficiencyFactor), units);
-  gbl::calgrp += PvlKeyword("TotalEfficiency", toString(efficiency));
+  gbl::calgrp += PvlKeyword("EfficiencyFactor", gbl::efficiencyFactor, units);
+  gbl::calgrp += PvlKeyword("TotalEfficiency", efficiency);
 
   // Cannot divide by 0.0
   if(gbl::efficiencyFactor == 0) {
@@ -1739,7 +1739,7 @@ void gbl::FindCorrectionFactors() {
   gbl::calgrp += PvlKeyword("CorrectionFactorPerformed", "Yes");
   gbl::calgrp.findKeyword("CorrectionFactorPerformed").addComment("Correction Factor Parameters");
 
-  gbl::calgrp += PvlKeyword("CorrectionFactorFile", correctionFactorFile.original());
+  gbl::calgrp += PvlKeyword("CorrectionFactorFile", correctionFactorFile.original().toStdString());
   CisscalFile *corrFact = new CisscalFile(correctionFactorFile.original());
   gbl::correctionFactor = 0.0;
   QString col1, col2, col3, col4;
@@ -1787,7 +1787,7 @@ void gbl::FindCorrectionFactors() {
     gbl::calgrp.findKeyword("CorrectionFactorPerformed").addComment("Correction Factor Parameters");
 
   }
-  gbl::calgrp += PvlKeyword("CorrectionFactor", toString(gbl::correctionFactor));
+  gbl::calgrp += PvlKeyword("CorrectionFactor", std::to_string(gbl::correctionFactor));
   return;
 }
 
@@ -1840,7 +1840,7 @@ void gbl::FindSensitivityCorrection() {
   gbl::calgrp += PvlKeyword("SensitivityCorrectionPerformed", "Yes");
   gbl::calgrp.findKeyword("SensitivityCorrectionPerformed").addComment("Sensitivity vs Time Correction Parameters");
   gbl::sensCorrection = true;
-  gbl::calgrp += PvlKeyword("SensVsTimeCorr", toString(gbl::sensVsTimeCorr));
+  gbl::calgrp += PvlKeyword("SensVsTimeCorr", std::to_string(gbl::sensVsTimeCorr));
 }
 
 

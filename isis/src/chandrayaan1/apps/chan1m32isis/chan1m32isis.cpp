@@ -85,10 +85,10 @@ namespace Isis {
 
     FileName in = ui.GetFileName("FROM");
 
-    Pvl pdsLabel(in.expanded());
+    Pvl pdsLabel(in.expanded().toStdString());
     if (fileType == (ProcessImportPds::L0 | ProcessImportPds::Rdn)) {
       //  Is this a L0 or L1B product?
-      if ((QString) pdsLabel["PRODUCT_TYPE"] == "RAW_IMAGE") {
+      if ((std::string) pdsLabel["PRODUCT_TYPE"] == "RAW_IMAGE") {
         fileType = ProcessImportPds::L0;
       }
       else {
@@ -121,8 +121,8 @@ namespace Isis {
       //                                          west side of image
       // 4.  Ascending yaw / Reverse orbit limb - Lines/times are reversed so northernmost image
       //                                          line first,
-      QString yawDirection = (QString) pdsLabel["CH1:SPACECRAFT_YAW_DIRECTION"];
-      QString limbDirection = (QString) pdsLabel["CH1:ORBIT_LIMB_DIRECTION"];
+      QString yawDirection = QString::fromStdString(pdsLabel["CH1:SPACECRAFT_YAW_DIRECTION"]);
+      QString limbDirection = QString::fromStdString(pdsLabel["CH1:ORBIT_LIMB_DIRECTION"]);
       samplesNeedFlipped = ( ((yawDirection == "REVERSE") && (limbDirection == "DESCENDING")) ||
                              ((yawDirection == "FORWARD") && (limbDirection == "ASCENDING")) );
       linesNeedFlipped = (limbDirection == "ASCENDING");
@@ -143,7 +143,7 @@ namespace Isis {
 
         if (g_utcTable->Records() >= 1) {
 
-          QString instMode = (QString) pdsLabel["INSTRUMENT_MODE_ID"];
+          QString instMode = QString::fromStdString(pdsLabel["INSTRUMENT_MODE_ID"]);
           // Initialize to the value for a GLOBAL mode observation
           g_expectedLineRate = 0.10176;
           if (instMode == "TARGET") {
@@ -207,11 +207,11 @@ namespace Isis {
       }
       else {
         importPds.StartProcess(writeCubeWithDroppedLines);
-        g_results += PvlKeyword("LinesFlipped", toString(linesNeedFlipped));
-        g_results += PvlKeyword("SamplesFlipped", toString(samplesNeedFlipped));
-        g_results += PvlKeyword("LinesAdded", toString(g_totalLinesAdded));
-        g_results += PvlKeyword("OutputLines", toString(outputLines));
-        g_results += PvlKeyword("CalculatedOutputLines", toString(calcOutputLines));
+        g_results += PvlKeyword("LinesFlipped", std::to_string(linesNeedFlipped));
+        g_results += PvlKeyword("SamplesFlipped", std::to_string(samplesNeedFlipped));
+        g_results += PvlKeyword("LinesAdded", std::to_string(g_totalLinesAdded));
+        g_results += PvlKeyword("OutputLines", std::to_string(outputLines));
+        g_results += PvlKeyword("CalculatedOutputLines", std::to_string(calcOutputLines));
       }
 
       delete g_oBuff;
@@ -392,17 +392,17 @@ namespace Isis {
         lastEt = firstEt + (g_expectedLineRate / 2.0);
       }
 
-      inst.findKeyword("StartTime").setValue(firstEt.UTC());
+      inst.findKeyword("StartTime").setValue(firstEt.UTC().toStdString());
       SpiceChar startClockString[100];
       sce2s_c (sclkCode, firstEt.Et(), 100, startClockString);
       QString startClock(startClockString);
-      inst.findKeyword("SpacecraftClockStartCount").setValue(startClock);
+      inst.findKeyword("SpacecraftClockStartCount").setValue(startClock.toStdString());
 
-      inst.findKeyword("StopTime").setValue(lastEt.UTC());
+      inst.findKeyword("StopTime").setValue(lastEt.UTC().toStdString());
       SpiceChar stopClockString[100];
       sce2s_c (sclkCode, lastEt.Et(), 100, stopClockString);
       QString stopClock(stopClockString);
-      inst.findKeyword("SpacecraftClockStopCount").setValue(stopClock);
+      inst.findKeyword("SpacecraftClockStopCount").setValue(stopClock.toStdString());
     }
 
     ocube->putGroup(inst);
@@ -410,12 +410,12 @@ namespace Isis {
     if (fileType == ProcessImportPds::L0 || fileType == ProcessImportPds::Rdn) {
       // Setup the band bin group
       QString bandFile = "$chandrayaan1/bandBin/bandBin.pvl";
-      Pvl bandBinTemplate(bandFile);
+      Pvl bandBinTemplate(bandFile.toStdString());
       PvlObject modeObject = bandBinTemplate.findObject(pdsLabel["INSTRUMENT_MODE_ID"]);
       PvlGroup bandGroup = modeObject.findGroup("BandBin");
       //  Add OriginalBand
       int numBands;
-      if ((QString)pdsLabel["INSTRUMENT_MODE_ID"] == "TARGET") {
+      if ((std::string)pdsLabel["INSTRUMENT_MODE_ID"] == "TARGET") {
         numBands = 256;
       }
       else {
@@ -433,14 +433,14 @@ namespace Isis {
         PvlGroup calib("RadiometricCalibration");
         PvlKeyword solar = pdsLabel["SOLAR_DISTANCE"];
         calib += PvlKeyword("Units", "W/m2/um/sr");
-        calib += PvlKeyword("SolarDistance", toString((double)solar), solar.unit());
-        calib += PvlKeyword("DetectorTemperature", toString((double)pdsLabel["DETECTOR_TEMPERATURE"]));
+        calib += PvlKeyword("SolarDistance", std::to_string((double)solar), solar.unit());
+        calib += PvlKeyword("DetectorTemperature", std::to_string((double)pdsLabel["DETECTOR_TEMPERATURE"]));
         calib += PvlKeyword("SpectralCalibrationFileName",
-                            (QString)pdsLabel["CH1:SPECTRAL_CALIBRATION_FILE_NAME"]);
+                            pdsLabel["CH1:SPECTRAL_CALIBRATION_FILE_NAME"]);
         calib += PvlKeyword("RadGainFactorFileName",
-                            (QString)pdsLabel["CH1:RAD_GAIN_FACTOR_FILE_NAME"]);
+                            pdsLabel["CH1:RAD_GAIN_FACTOR_FILE_NAME"]);
         calib += PvlKeyword("GlobalBandpassFileName",
-                            (QString)pdsLabel["CH1:SPECTRAL_CALIBRATION_FILE_NAME"]);
+                            pdsLabel["CH1:SPECTRAL_CALIBRATION_FILE_NAME"]);
         ocube->putGroup(calib);
       }
     }

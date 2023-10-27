@@ -9,7 +9,7 @@ void IsisMain() {
 
   UserInterface &ui = Application::GetUserInterface();
   bool append = ui.GetBoolean("APPEND");
-  Pvl input(ui.GetFileName("FROM"));
+  Pvl input(ui.GetFileName("FROM").toStdString());
   Pvl output;
 
   // Check to see if output file exists
@@ -29,14 +29,14 @@ void IsisMain() {
       numErrors++;
     }
   }
-  PvlKeyword errors("TotalErrors", toString(numErrors));
+  PvlKeyword errors("TotalErrors", std::to_string(numErrors));
   output.addKeyword(errors);
   // write output to file
   if(!append) {
-    output.write(outFile.expanded());
+    output.write(outFile.expanded().toStdString());
   }
   else {
-    output.append(outFile.expanded());
+    output.append(outFile.expanded().toStdString());
   }
   cout << errors << endl;
 }

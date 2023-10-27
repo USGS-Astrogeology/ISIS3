@@ -129,7 +129,7 @@ void IsisMain() {
   // Brief
   if(mode == "BRIEF") {
     PvlGroup results("Results");
-    results += PvlKeyword("NumberOfIslands", toString((int)islandPolys.size()));
+    results += PvlKeyword("NumberOfIslands", std::to_string((int)islandPolys.size()));
     Application::Log(results);
   }
   else if(mode == "FULL") {
@@ -138,11 +138,11 @@ void IsisMain() {
     for(unsigned int p = 0; p < islandPolys.size(); p++) {
       int numFiles = islands[p].size();
       QString isle = "FootprintIsland_" + toString((int)p + 1);
-      PvlGroup island(isle);
-      island += PvlKeyword("NumberFiles", toString(numFiles));
+      PvlGroup island(isle.toStdString());
+      island += PvlKeyword("NumberFiles", std::to_string(numFiles));
       PvlKeyword files("Files");
       for(int f = 0; f < numFiles; f++) {
-        files.addValue(islands[p][f]);
+        files.addValue(islands[p][f].toStdString());
       }
       island.addKeyword(files);
       results.addGroup(island);
@@ -150,10 +150,10 @@ void IsisMain() {
     Pvl temp;
     temp.addObject(results);
     if(FileName(out).fileExists()) {
-      temp.append(out);
+      temp.append(out.toStdString());
     }
     else {
-      temp.write(out);
+      temp.write(out.toStdString());
     }
 
   }

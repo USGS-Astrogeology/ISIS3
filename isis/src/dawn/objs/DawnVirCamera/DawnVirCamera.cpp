@@ -58,9 +58,9 @@ namespace Isis {
 
     // Get the start time from labels
     PvlGroup &inst = lab.findGroup("Instrument", Isis::Pvl::Traverse);
-    QString channelId = inst["ChannelId"];
+    QString channelId = QString::fromStdString(inst["ChannelId"]);
 
-    QString instMode = inst["InstrumentModeId"];
+    QString instMode = QString::fromStdString(inst["InstrumentModeId"]);
     m_slitMode = instMode[14].toLatin1();   // "F" for full slit, Q for quarter slit
 
     // Check for presence of articulation kernel
@@ -88,13 +88,13 @@ namespace Isis {
 
     // Get other info from labels
     PvlKeyword &frameParam = inst["FrameParameter"];
-    m_exposureTime = toDouble(frameParam[0]);
-    m_summing  = toDouble(frameParam[1]);
-    m_scanRate = toDouble(frameParam[2]);
+    m_exposureTime = std::stod(frameParam[0]);
+    m_summing  = std::stod(frameParam[1]);
+    m_scanRate = std::stod(frameParam[2]);
 
     // Setup detector map
     //  Get the line scan rates/times
-    readHouseKeeping(lab.fileName(), m_scanRate);
+    readHouseKeeping(QString::fromStdString(lab.fileName()), m_scanRate);
     new VariableLineScanCameraDetectorMap(this, m_lineRates);
     DetectorMap()->SetDetectorSampleSumming(m_summing);
 
@@ -480,20 +480,20 @@ namespace Isis {
     }
 
     // Add some necessary keywords
-    quats.Label() += PvlKeyword("CkTableStartTime", toString(startTime()));
-    quats.Label() += PvlKeyword("CkTableEndTime", toString(endTime()));
-    quats.Label() += PvlKeyword("CkTableOriginalSize", toString(quats.Records()));
+    quats.Label() += PvlKeyword("CkTableStartTime", std::to_string(startTime()));
+    quats.Label() += PvlKeyword("CkTableEndTime", std::to_string(endTime()));
+    quats.Label() += PvlKeyword("CkTableOriginalSize", std::to_string(quats.Records()));
 
     // Create the time dependant frames keyword
     int virZeroId = getInteger("FRAME_" + virZero);
-    PvlKeyword tdf("TimeDependentFrames", toString(virZeroId)); // DAWN_VIR_{ID}_ZERO
+    PvlKeyword tdf("TimeDependentFrames", std::to_string(virZeroId)); // DAWN_VIR_{ID}_ZERO
     tdf.addValue("-203200");  // DAWN_VIR
     tdf.addValue("-203000");  // DAWN_SPACECRAFT
     tdf.addValue("1");        // J2000
     quats.Label() += tdf;
 
     //  Create constant rotation frames
-    PvlKeyword cf("ConstantFrames", toString(virZeroId));
+    PvlKeyword cf("ConstantFrames", std::to_string(virZeroId));
     cf.addValue(std::to_string(virZeroId));
     quats.Label() += cf;
 

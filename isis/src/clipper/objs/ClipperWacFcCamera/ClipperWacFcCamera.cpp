@@ -59,7 +59,7 @@ namespace Isis {
 
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString startTime = inst["StartTime"];
+    QString startTime = QString::fromStdString(inst["StartTime"]);
     iTime etStart(startTime);
 
     // double exposureDuration = (double)inst["ExposureDuration"] / 1000.0;

@@ -160,20 +160,20 @@ namespace Isis {
 
 
   PvlObject MosaicControlNetTool::toPvl() const {
-    PvlObject obj(projectPvlObjectName());
+    PvlObject obj(projectPvlObjectName().toStdString());
 
-    obj += PvlKeyword("FileName", m_controlNetFile);
+    obj += PvlKeyword("FileName", m_controlNetFile.toStdString());
     obj += PvlKeyword("Visible",
-        Isis::toString((int)(m_controlNetGraphics && m_controlNetGraphics->isVisible())));
-    obj += PvlKeyword("Movement", toString(m_movementArrowColorSource));
+        std::to_string((int)(m_controlNetGraphics && m_controlNetGraphics->isVisible())));
+    obj += PvlKeyword("Movement", std::to_string(m_movementArrowColorSource));
 
     if (maxMovementColorMeasureCount() != -1) {
-      obj += PvlKeyword("MovementColorMaxMeasureCount", Isis::toString(m_measureCount));
+      obj += PvlKeyword("MovementColorMaxMeasureCount", std::to_string(m_measureCount));
     }
 
     if (maxMovementColorResidualMagnitude() != Null) {
       obj += PvlKeyword("MovementColorMaxResidualMagnitude",
-                        Isis::toString(m_residualMagnitude));
+                        std::to_string(m_residualMagnitude));
     }
 
     return obj;
@@ -181,26 +181,26 @@ namespace Isis {
 
 
   void MosaicControlNetTool::fromPvl(const PvlObject &obj) {
-    m_controlNetFile = obj["FileName"][0];
+    m_controlNetFile = QString::fromStdString(obj["FileName"][0]);
     if (m_controlNetFile == "Null")
       m_controlNetFile = "";
 
     if (obj.hasKeyword("Movement")) {
-      m_movementArrowColorSource = fromMovementColorSourceString(obj["Movement"]);
+      m_movementArrowColorSource = fromMovementColorSourceString(QString::fromStdString(obj["Movement"]));
     }
 
     if (obj.hasKeyword("MovementColorMaxMeasureCount")) {
-      m_measureCount = toInt(obj["MovementColorMaxMeasureCount"][0]);
+      m_measureCount = std::stoi(obj["MovementColorMaxMeasureCount"][0]);
     }
 
     if (obj.hasKeyword("MovementColorMaxResidualMagnitude")) {
-      m_residualMagnitude = toDouble(obj["MovementColorMaxResidualMagnitude"][0]);
+      m_residualMagnitude = std::stod(obj["MovementColorMaxResidualMagnitude"][0]);
     }
 
     loadNetwork();
 
     if (m_controlNetGraphics && m_displayControlNetButton) {
-      m_displayControlNetButton->setChecked( toBool(obj["Visible"][0]) );
+      m_displayControlNetButton->setChecked( toBool(QString::fromStdString(obj["Visible"][0])) );
       displayControlNet();
     }
   }

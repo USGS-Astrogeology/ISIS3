@@ -31,19 +31,19 @@ void IsisMain() {
   }
 
   // Read PCK DB file into a PVL and search the PVL for the main object
-  Pvl db(inputName.expanded());
+  Pvl db(inputName.expanded().toStdString());
   PvlObject &main = db.findObject("TargetAttitudeShape");
 
   // Add a timestamp for when this file was created
   PvlObject latestMain("TargetAttitudeShape");
-  latestMain += PvlKeyword("RunTime", iTime::CurrentLocalTime());
+  latestMain += PvlKeyword("RunTime", iTime::CurrentLocalTime().toStdString());
 
   // Add our dependencies, only the Leapsecond Kernel
   PvlGroup dependencies("Dependencies");
   FileName lskName("$base/kernels/lsk/naif????.tls");
   lskName = lskName.highestVersion();
   QString lskString = lskName.originalPath() + "/" + lskName.name();
-  dependencies += PvlKeyword("LeapsecondKernel", lskString);
+  dependencies += PvlKeyword("LeapsecondKernel", lskString.toStdString());
   latestMain += dependencies;
 
   for (int g = 0; g < main.groups(); g++) {
@@ -59,7 +59,7 @@ void IsisMain() {
       for (int k = 0; k < group.keywords(); k++) {
         PvlKeyword &keyword = group[k];
         if (keyword.isNamed("File")) {
-          FileName pckName(keyword[0]);
+          FileName pckName(QString::fromStdString(keyword[0]));
           if (pckName.isDateVersioned()) {
             pckName = pckName.highestVersion();
             QString latestPck = pckName.originalPath() + "/" + pckName.name();
@@ -67,7 +67,7 @@ void IsisMain() {
             // Replace the date-versioned filename with the direct path to the
             // latest PCK
             PvlKeyword &latestKeyword = latestGroup[k];
-            latestKeyword[0] = latestPck;
+            latestKeyword[0] = latestPck.toStdString();
 
             hasDateVersioning = true;
           }
@@ -83,7 +83,7 @@ void IsisMain() {
         // Add comment specifying that this PCK is hardcoded for legacy support
         QString comment = "This PCK is hardcoded to support versions of "
           "Isis prior to v3.3.2";
-        latestGroup.addComment(comment);
+        latestGroup.addComment(comment.toStdString());
 
         // Add the direct path to the DB file to support older versions of Isis
         // that do not support date-versioned filenames
@@ -106,5 +106,5 @@ void IsisMain() {
   // Write the updated PVL as the new PCK DB file
   Pvl latestDb;
   latestDb.addObject(latestMain);
-  latestDb.write(outputName.expanded());
+  latestDb.write(outputName.expanded().toStdString());
 }

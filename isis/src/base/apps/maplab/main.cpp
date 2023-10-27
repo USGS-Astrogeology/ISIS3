@@ -21,24 +21,24 @@ void IsisMain() {
 
   //Get the map projection file provided by the user
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &mapGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   // Error checking to ensure the map projection file provided contains
   // information pertaining to a target, body radius, and longitude direction
   if(!mapGrp.hasKeyword("TargetName")) {
-    QString msg = "The given MAP [" + userMap.name() +
+    std::string msg = "The given MAP [" + userMap.name() +
                   "] does not have the TargetName keyword.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   else if(!mapGrp.hasKeyword("EquatorialRadius") ||
           !mapGrp.hasKeyword("PolarRadius")) {
-    QString msg = "The given MAP [" + userMap.name() +
+    std::string msg = "The given MAP [" + userMap.name() +
                   "] does not have the EquatorialRadius and PolarRadius keywords.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   else if(!mapGrp.hasKeyword("LongitudeDomain")) {
-    QString msg = "The given MAP [" + userMap.name() +
+    std::string msg = "The given MAP [" + userMap.name() +
                   "] does not have the LongitudeDomain keyword.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -78,7 +78,7 @@ void IsisMain() {
     res = (2.0 * Isis::PI * localRadius) / (360.0 * scale);
   }
   else {
-    QString msg = "The given MAP[" + userMap.name() +
+    std::string msg = "The given MAP[" + userMap.name() +
                  "] does not have the PixelResolution or Scale keywords.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -90,14 +90,14 @@ void IsisMain() {
   y = y + res * (line - 0.5);
 
   //add origen values to Mapping Group
-  mapGrp.addKeyword(PvlKeyword("UpperLeftCornerX", toString(x), "meters"), Pvl::Replace);
-  mapGrp.addKeyword(PvlKeyword("UpperLeftCornerY", toString(y), "meters"), Pvl::Replace);
+  mapGrp.addKeyword(PvlKeyword("UpperLeftCornerX", std::to_string(x), "meters"), Pvl::Replace);
+  mapGrp.addKeyword(PvlKeyword("UpperLeftCornerY", std::to_string(y), "meters"), Pvl::Replace);
 
   if(!mapGrp.hasKeyword("PixelResolution")) {
-    mapGrp.addKeyword(PvlKeyword("PixelResolution", toString(res), "meters"));
+    mapGrp.addKeyword(PvlKeyword("PixelResolution", std::to_string(res), "meters"));
   }
   if(!mapGrp.hasKeyword("Scale")) {
-    mapGrp.addKeyword(PvlKeyword("Scale", toString(scale), "pixels/degree"));
+    mapGrp.addKeyword(PvlKeyword("Scale", std::to_string(scale), "pixels/degree"));
   }
 
 

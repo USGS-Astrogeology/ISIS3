@@ -282,7 +282,7 @@ namespace Isis {
       bool success = false;
 
       try {
-        Pvl mapFilePvl(mapFile);
+        Pvl mapFilePvl(mapFile.toStdString());
         PvlGroup &mapping = mapFilePvl.findGroup("Mapping", PvlObject::Traverse);
 
         Pvl trimmedMapFilePvl;

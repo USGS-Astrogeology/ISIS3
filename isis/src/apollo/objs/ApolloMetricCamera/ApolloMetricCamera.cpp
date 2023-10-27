@@ -106,7 +106,7 @@ namespace Isis {
     // Create a cache and grab spice info since it does not change for
     // a framing camera (fixed spacecraft position and pointing)
     // Convert the start time to et
-    setTime((QString)inst["StartTime"]);
+    setTime(QString::fromStdString(inst["StartTime"]));
     LoadCache();
     NaifStatus::CheckErrors();
   }

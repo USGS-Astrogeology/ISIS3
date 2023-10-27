@@ -156,7 +156,7 @@ void IsisMain() {
   if (report) {
     Pvl outPvl;
     outPvl.addObject(conflictLog);
-    outPvl.write(logName);
+    outPvl.write(logName.toStdString());
   }
 
   // Writes out the final Control Net
@@ -185,10 +185,10 @@ ControlNet * mergeNetworks(FileList &filelist, PvlObject &conflictLog,
 
           if (report) {
             PvlObject duplicate("Duplicate");
-            duplicate.addKeyword(PvlKeyword("PointId", point->GetId()));
+            duplicate.addKeyword(PvlKeyword("PointId", point->GetId().toStdString()));
             duplicate.addKeyword(PvlKeyword(
-                  "SourceNetwork", pointSources[point->GetId()]));
-            duplicate.addKeyword(PvlKeyword("AddNetwork", cnetName.name()));
+                  "SourceNetwork", pointSources[point->GetId()].toStdString()));
+            duplicate.addKeyword(PvlKeyword("AddNetwork", cnetName.name().toStdString()));
             errors.addObject(duplicate);
           }
           else {
@@ -210,7 +210,7 @@ ControlNet * mergeNetworks(FileList &filelist, PvlObject &conflictLog,
     if (hasDuplicates && report) {
       Pvl outPvl;
       outPvl.addObject(errors);
-      outPvl.write(logName);
+      outPvl.write(logName.toStdString());
 
       QString msg = "Networks contained duplicate points.  See log file [" +
         FileName(logName).name() + "] for details.  "
@@ -478,7 +478,7 @@ void addMeasure(ControlPoint *basePoint, ControlPoint *newPoint,
 
 PvlObject createNetworkLog(ControlNet &cnet) {
   PvlObject cnetLog("Network");
-  PvlKeyword networkId("NetworkId", cnet.GetNetworkId());
+  PvlKeyword networkId("NetworkId", cnet.GetNetworkId().toStdString());
   cnetLog.addKeyword(networkId);
   return cnetLog;
 }
@@ -486,7 +486,7 @@ PvlObject createNetworkLog(ControlNet &cnet) {
 
 PvlObject createPointLog(ControlPoint *point) {
   PvlObject pointLog("Point");
-  PvlKeyword pointId("PointId", point->GetId());
+  PvlKeyword pointId("PointId", point->GetId().toStdString());
   pointLog.addKeyword(pointId);
   return pointLog;
 }
@@ -502,7 +502,7 @@ void reportConflict(PvlObject &pointLog, QString conflict) {
   // Add a point conflict message to the point log if we're reporting these
   // conflicts to a log file
   if (report) {
-    PvlKeyword resolution("Resolution", conflict);
+    PvlKeyword resolution("Resolution", conflict.toStdString());
     pointLog.addKeyword(resolution);
   }
 }
@@ -512,7 +512,7 @@ void reportConflict(PvlGroup &measureLog, QString sn, QString conflict) {
   // Add a measure conflict message to the measure log if we're reporting these
   // conflicts to a log file
   if (report) {
-    PvlKeyword resolution(sn, conflict);
+    PvlKeyword resolution(sn.toStdString(), conflict.toStdString());
     measureLog.addKeyword(resolution);
   }
 }

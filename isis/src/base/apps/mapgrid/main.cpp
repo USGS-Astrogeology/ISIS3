@@ -33,7 +33,7 @@ void IsisMain() {
 
   // Get mapfile, add values for range and create projection
   QString mapFile = ui.GetFileName("MAPFILE");
-  Pvl p(mapFile);
+  Pvl p(mapFile.toStdString());
   PvlGroup &mapping = p.findGroup("Mapping", Pvl::Traverse);
 
   if(mapping.hasKeyword("MinimumLatitude")) {
@@ -52,10 +52,10 @@ void IsisMain() {
     mapping.deleteKeyword("MaximumLongitude");
   }
 
-  mapping += PvlKeyword("MinimumLatitude", toString(latStart));
-  mapping += PvlKeyword("MaximumLatitude", toString(latEnd));
-  mapping += PvlKeyword("MinimumLongitude", toString(lonStart));
-  mapping += PvlKeyword("MaximumLongitude", toString(lonEnd));
+  mapping += PvlKeyword("MinimumLatitude", std::to_string(latStart));
+  mapping += PvlKeyword("MaximumLatitude", std::to_string(latEnd));
+  mapping += PvlKeyword("MinimumLongitude", std::to_string(lonStart));
+  mapping += PvlKeyword("MaximumLongitude", std::to_string(lonEnd));
 
   TProjection *proj;
   try {

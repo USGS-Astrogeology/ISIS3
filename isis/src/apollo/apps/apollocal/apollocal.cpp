@@ -39,10 +39,11 @@ namespace Isis {
     PvlGroup &dataDir =
         Preference::Preferences().findGroup("DataDirectory");
     PvlTranslationTable tTable("$ISISROOT/appdata/translations/MissionName2DataDir.trn");
-    QString missionDir = dataDir[tTable.Translate("MissionName",
-        (inCube->group("Instrument")).findKeyword("SpacecraftName")[0])][0];
+    QString missionDir = QString::fromStdString(
+      dataDir[tTable.Translate("MissionName", QString::fromStdString(
+        (inCube->group("Instrument")).findKeyword("SpacecraftName")[0])).toStdString()][0]);
     QString camera =
-        (inCube->group("Instrument")).findKeyword("InstrumentId")[0];
+        QString::fromStdString((inCube->group("Instrument")).findKeyword("InstrumentId")[0]);
 
     CubeAttributeInput cai;
     p.SetInputCube(missionDir + "/calibration/" + camera + "_flatfield.cub", cai);

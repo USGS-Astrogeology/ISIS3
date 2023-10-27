@@ -1558,12 +1558,12 @@ namespace Isis {
   void StereoTool::viewTemplateFile() {
     try {
       // Get the template file from the ControlPointEditor object
-      Pvl templatePvl( m_pointEditor->templateFileName() );
+      Pvl templatePvl( m_pointEditor->templateFileName().toStdString() );
       // Create registration dialog window using PvlEditDialog class
       // to view and/or edit the template
       PvlEditDialog registrationDialog(templatePvl);
       registrationDialog.setWindowTitle( "View or Edit Template File: "
-                                         + templatePvl.fileName() );
+                                         + QString::fromStdString(templatePvl.fileName()) );
       registrationDialog.resize(550, 360);
       registrationDialog.exec();
     }
@@ -1741,7 +1741,7 @@ namespace Isis {
     double elevation = 0.;
     double elevationError = 0.;
 
-    Pvl regDef = m_pointEditor->templateFileName();
+    Pvl regDef = m_pointEditor->templateFileName().toStdString();
     AutoReg *ar = AutoRegFactory::Create(regDef);
 
     int failureCount = 0;

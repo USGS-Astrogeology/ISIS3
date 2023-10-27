@@ -104,7 +104,7 @@ void IsisMain() {
     // Pull out the pointing cache as a table and write it
     Table cmatrix = crot.Cache("InstrumentPointing");
     //    cmatrix.Label().addComment("Corrected using appjit and" + ui.GetFileName("JITTERFILE"));
-    cmatrix.Label() += PvlKeyword("Description", "Corrected using appjit and" + ui.GetFileName("JITTERFILE"));
+    cmatrix.Label() += PvlKeyword("Description", "Corrected using appjit and" + ui.GetFileName("JITTERFILE").toStdString());
     cmatrix.Label() += PvlKeyword("Kernels");
     PvlKeyword ckKeyword = crot.InstrumentPointingValue();
 
@@ -127,7 +127,7 @@ void IsisMain() {
 
     cube.putGroup(kernels);
     cube.close();
-    gp += PvlKeyword("StatusMaster", ui.GetCubeName("MASTER") + ":  camera pointing updated");
+    gp += PvlKeyword("StatusMaster", ui.GetCubeName("MASTER").toStdString() + ":  camera pointing updated");
 
     // Apply the dejittered pointing to the rest of the files
     step2 = true;
@@ -160,7 +160,7 @@ void IsisMain() {
         }
         cube.putGroup(kernels);
         cube.close();
-        gp += PvlKeyword("Status" + toString(ifile), list[ifile].toString() + ":  camera pointing updated");
+        gp += PvlKeyword("Status" + std::to_string(ifile), list[ifile].toString().toStdString() + ":  camera pointing updated");
       }
     }
     Application::Log(gp);

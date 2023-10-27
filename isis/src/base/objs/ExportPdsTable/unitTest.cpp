@@ -56,9 +56,9 @@ int main(int argc, char *argv[]) {
   FileName lsbLabelFile("$temporary/lsbPdsTable.lbl");
   ofstream outputLsbLabel((lsbLabelFile.expanded()).toLatin1().data());
   outputLsbLabel << PvlKeyword("RECORD_TYPE", "FIXED_LENGTH") << endl;
-  outputLsbLabel << PvlKeyword("RECORD_BYTES", toString(tableRecBytes)) << endl;
-  QString tableName = ExportPdsTable::formatPdsTableName(table.Name());
-  outputLsbLabel << PvlKeyword("^" + tableName, "lsbPdsTable.dat") << endl;
+  outputLsbLabel << PvlKeyword("RECORD_BYTES", std::to_string(tableRecBytes)) << endl;
+  QString tableName = ExportPdsTable::formatPdsTableName(QString::fromStdString(table.Name()));
+  outputLsbLabel << PvlKeyword("^" + tableName.toStdString(), "lsbPdsTable.dat") << endl;
   outputLsbLabel << endl;
   // Add table object to label keywords
   outputLsbLabel << metadata;
@@ -76,10 +76,10 @@ int main(int argc, char *argv[]) {
   cout << reimportedLsbTable[0][2].name() << "\t";
   cout << reimportedLsbTable[0][3].name() << "\n";
   for (int i = 0; i < reimportedLsbTable.Records(); i++) {
-    cout << toString((double) reimportedLsbTable[i][0]) << "\t\t\t";
-    cout << toString((int)    reimportedLsbTable[i][1]) << "\t\t\t\t";
+    cout << std::to_string((double) reimportedLsbTable[i][0]) << "\t\t\t";
+    cout << std::to_string((int)    reimportedLsbTable[i][1]) << "\t\t\t\t";
     cout <<         (std::string) reimportedLsbTable[i][2]  << "\t\t\t";
-    cout << toString((float)  reimportedLsbTable[i][3]) << "\n";
+    cout << std::to_string((float)  reimportedLsbTable[i][3]) << "\n";
   }
   // remove files and reset buffer
   QFile::remove((lsbLabelFile.expanded()));
@@ -98,8 +98,8 @@ int main(int argc, char *argv[]) {
   FileName msbLabelFile("$temporary/msbPdsTable.lbl");
   ofstream outputMsbLabel((msbLabelFile.expanded()).toLatin1().data());
   outputMsbLabel << PvlKeyword("RECORD_TYPE", "FIXED_LENGTH") << endl;
-  outputMsbLabel << PvlKeyword("RECORD_BYTES", toString(tableRecBytes)) << endl;
-  outputMsbLabel << PvlKeyword("^" + tableName, "msbPdsTable.dat") << endl;
+  outputMsbLabel << PvlKeyword("RECORD_BYTES", std::to_string(tableRecBytes)) << endl;
+  outputMsbLabel << PvlKeyword("^" + tableName.toStdString(), "msbPdsTable.dat") << endl;
   outputMsbLabel << endl;
   // Add table object to label keywords
   outputMsbLabel << metadata;

@@ -168,20 +168,20 @@ namespace Isis {
 
 
   PvlObject MosaicFindTool::toPvl() const {
-    PvlObject obj(projectPvlObjectName());
+    PvlObject obj(projectPvlObjectName().toStdString());
 
-    obj += PvlKeyword("Latitude", p_latLineEdit->text());
-    obj += PvlKeyword("Longitude", p_lonLineEdit->text());
-    obj += PvlKeyword("Visible", toString((int)(p_findSpot != NULL)));
+    obj += PvlKeyword("Latitude", p_latLineEdit->text().toStdString());
+    obj += PvlKeyword("Longitude", p_lonLineEdit->text().toStdString());
+    obj += PvlKeyword("Visible", std::to_string((int)(p_findSpot != NULL)));
 
     return obj;
   }
 
 
   void MosaicFindTool::fromPvl(const PvlObject &obj) {
-    p_latLineEdit->setText(obj["Latitude"][0]);
-    p_lonLineEdit->setText(obj["Longitude"][0]);
-    if(toBool(obj["Visible"][0])) {
+    p_latLineEdit->setText(QString::fromStdString(obj["Latitude"][0]));
+    p_lonLineEdit->setText(QString::fromStdString(obj["Longitude"][0]));
+    if(toBool(QString::fromStdString(obj["Visible"][0]))) {
       getUserGroundPoint();
     }
   }

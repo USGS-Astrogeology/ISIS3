@@ -42,7 +42,7 @@ void IsisMain() {
 
   // get the pvl containing a mapping group
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &mapGroup = userMap.findGroup("Mapping", Pvl::Traverse);
 
   QString target;
@@ -50,7 +50,7 @@ void IsisMain() {
     target = ui.GetString("TARGET");
   }
   else if (mapGroup.hasKeyword("TargetName")) {
-    target = mapGroup.findKeyword("TargetName")[0];
+    target = QString::fromStdString(mapGroup.findKeyword("TargetName")[0]);
     ui.PutAsString("TARGET", target);
   }
   else {
@@ -59,7 +59,7 @@ void IsisMain() {
         "projection file [MAP].";
     throw IException(IException::User, msg, _FILEINFO_);
   }
-  mapGroup.addKeyword(PvlKeyword("TargetName", target), PvlContainer::Replace);
+  mapGroup.addKeyword(PvlKeyword("TargetName", target.toStdString()), PvlContainer::Replace);
 
   // Use the target name to create the control net to store the points in.
   ControlNet cnet;
@@ -79,7 +79,7 @@ void IsisMain() {
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
-  double equatorialRadius = toDouble(mapGroup.findKeyword("EquatorialRadius")[0]);
+  double equatorialRadius = std::stod(mapGroup.findKeyword("EquatorialRadius")[0]);
 
   QString networkId;
   if (ui.WasEntered("NETWORKID")) {
@@ -102,7 +102,7 @@ void IsisMain() {
   checkLatitude(minLat, maxLat);
   int lonDomain =
       (mapGroup.hasKeyword("LongitudeDomain") ?
-          toInt(mapGroup.findKeyword("LongitudeDomain")[0]) :
+          std::stoi(mapGroup.findKeyword("LongitudeDomain")[0]) :
           360);
   checkLongitude(minLon, maxLon, lonDomain);
 
@@ -120,10 +120,10 @@ void IsisMain() {
       mapGroup += PvlKeyword("CenterLongitude", "0.0");
     }
 
-    mapGroup.addKeyword(PvlKeyword("MinimumLatitude", toString(minLat)), Pvl::Replace);
-    mapGroup.addKeyword(PvlKeyword("MaximumLatitude", toString(maxLat)), Pvl::Replace);
-    mapGroup.addKeyword(PvlKeyword("MinimumLongitude", toString(minLon)), Pvl::Replace);
-    mapGroup.addKeyword(PvlKeyword("MaximumLongitude", toString(maxLon)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MinimumLatitude", std::to_string(minLat)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MaximumLatitude", std::to_string(maxLat)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MinimumLongitude", std::to_string(minLon)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MaximumLongitude", std::to_string(maxLon)), Pvl::Replace);
 
     // create the projection from the editted map
     TProjection *proj = (TProjection *) ProjectionFactory::Create(userMap);
@@ -228,8 +228,8 @@ void IsisMain() {
   }
 
   PvlGroup results("Results");
-  results += PvlKeyword("EquatorialRadius", toString(equatorialRadius));
-  results += PvlKeyword("NumberControlPoints", toString(cnet.GetNumPoints()));
+  results += PvlKeyword("EquatorialRadius", std::to_string(equatorialRadius));
+  results += PvlKeyword("NumberControlPoints", std::to_string(cnet.GetNumPoints()));
   Application::Log(results);
 
   cnet.Write(ui.GetFileName("ONET"));
@@ -290,7 +290,7 @@ void printMap() {
 
   // Get mapping group from map file
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   //Write map file out to the log

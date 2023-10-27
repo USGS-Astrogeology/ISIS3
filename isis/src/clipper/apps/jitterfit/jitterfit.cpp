@@ -44,7 +44,7 @@ namespace Isis{
     checkCube.open(ui.GetCubeName("FROM2"), "r");
 
     Pvl defFile;
-    defFile.read(ui.GetFileName("DEFFILE"));
+    defFile.read(ui.GetFileName("DEFFILE").toStdString());
     AutoReg *ar = AutoRegFactory::Create(defFile);
 
     double scale = ui.GetDouble("SCALE");
@@ -64,8 +64,8 @@ namespace Isis{
     }
 
     // ???? Question: Why use a file name here? Can't Table/blob read from an open Cube?
-    Table mainReadouts(QString("Normalized Main Readout Line Times"), jitterCube.fileName());
-    Table checklineReadouts(QString("Normalized Checkline Readout Line Times"), checkCube.fileName());
+    Table mainReadouts("Normalized Main Readout Line Times", jitterCube.fileName());
+    Table checklineReadouts("Normalized Checkline Readout Line Times", checkCube.fileName());
 
     // Register each check line to the area near the corresponding main image line using the
     // registration definition file
@@ -186,8 +186,8 @@ namespace Isis{
         jitterSampleCoefficients.setValue(std::to_string(sampleFunction->Coefficient(i)));
       }
       else {
-        jitterLineCoefficients += toString(lineFunction->Coefficient(i));
-        jitterSampleCoefficients += toString(sampleFunction->Coefficient(i));
+        jitterLineCoefficients += std::to_string(lineFunction->Coefficient(i));
+        jitterSampleCoefficients += std::to_string(sampleFunction->Coefficient(i));
       }
     }
 

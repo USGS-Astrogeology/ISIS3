@@ -23,7 +23,7 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
 
   // Get Parameters
-  g_table = new Table(ui.GetString("TABLENAME"), ui.GetFileName("FROM"));
+  g_table = new Table(ui.GetString("TABLENAME").toStdString(), ui.GetFileName("FROM"));
 
   g_field = ui.GetString("FIELD");
   g_startRecord = ui.GetInteger("STARTREC");

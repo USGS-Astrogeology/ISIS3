@@ -63,15 +63,15 @@ void IsisMain() {
 
   // Generate a results group and log it
   PvlGroup results("Results");
-  results += PvlKeyword("DarkPixelsReplaced", toString(darkPixelsReplaced));
-  results += PvlKeyword("BrightPixelsReplaced", toString(brightPixelsReplaced));
-  results += PvlKeyword("SpecialPixelsReplaced", toString(specialPixelsReplaced));
+  results += PvlKeyword("DarkPixelsReplaced", std::to_string(darkPixelsReplaced));
+  results += PvlKeyword("BrightPixelsReplaced", std::to_string(brightPixelsReplaced));
+  results += PvlKeyword("SpecialPixelsReplaced", std::to_string(specialPixelsReplaced));
   int pixelsReplaced = darkPixelsReplaced + brightPixelsReplaced + specialPixelsReplaced;
-  results += PvlKeyword("TotalPixelsReplaced", toString(pixelsReplaced));
+  results += PvlKeyword("TotalPixelsReplaced", std::to_string(pixelsReplaced));
   double pct = ((double)pixelsReplaced /
                 ((double)icube->sampleCount() * (double)icube->lineCount())) * 100.;
   pct = (int)(pct * 10.0) / 10.0;
-  results += PvlKeyword("PercentChanged", toString(pct));
+  results += PvlKeyword("PercentChanged", std::to_string(pct));
   Application::Log(results);
   p.EndProcess();
 }

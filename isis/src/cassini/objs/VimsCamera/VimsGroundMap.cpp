@@ -118,9 +118,9 @@ namespace Isis {
     PvlGroup inst = lab.findGroup("Instrument", Pvl::Traverse);
 
     //  Vis or IR
-    p_channel = (QString) inst ["Channel"];
+    p_channel = QString::fromStdString(inst ["Channel"]);
     // Get the start time in et
-    QString stime = (QString) inst ["NativeStartTime"];
+    QString stime = QString::fromStdString(inst ["NativeStartTime"]);
     QString intTime = stime.split(".").first();
     stime = stime.split(".").last();
 
@@ -130,12 +130,12 @@ namespace Isis {
     //  Because of inaccuracy with the 15 Mhz clock, the IR exposure and
     //  interline delay need to be adjusted.
     //----------------------------------------------------------------------
-    p_irExp = (toDouble(inst ["ExposureDuration"][0]) * 1.01725) / 1000.;
-    p_visExp = (toDouble(inst ["ExposureDuration"][1])) / 1000.;
-    p_interlineDelay = (toDouble(inst ["InterlineDelayDuration"]) * 1.01725) / 1000.;
+    p_irExp = (std::stod(inst ["ExposureDuration"][0]) * 1.01725) / 1000.;
+    p_visExp = (std::stod(inst ["ExposureDuration"][1])) / 1000.;
+    p_interlineDelay = (std::stod(inst ["InterlineDelayDuration"]) * 1.01725) / 1000.;
 
     // Get summation mode
-    QString sampMode = QString((QString)inst ["SamplingMode"]).toUpper();
+    QString sampMode = QString::fromStdString(inst ["SamplingMode"]).toUpper();
 
     //  Get sample/line offsets
     int sampOffset = inst ["XOffset"];

@@ -1043,7 +1043,7 @@ namespace Isis {
     // if the auto registration factory has not been initialized, do it here
     if (m_autoRegFact == NULL) {
       try {
-        Pvl pvl(m_templateFileName);
+        Pvl pvl(m_templateFileName.toStdString());
         m_autoRegFact = AutoRegFactory::Create(pvl);
       }
       catch (IException &e) {
@@ -1631,7 +1631,7 @@ namespace Isis {
       m_templateFileName = fn;
 
       // Create PVL object with this file
-      Pvl pvl(fn);
+      Pvl pvl(fn.toStdString());
 
       // try to register file
       reg = AutoRegFactory::Create(pvl);

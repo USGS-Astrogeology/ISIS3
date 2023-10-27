@@ -65,24 +65,24 @@ int main() {
     QString dir = f.expanded() + "/";
     QString dir2 = f2.expanded() + "/";
     QString dir3 = f3.expanded() + "/";
-    kern1 += PvlKeyword("NaifFrameCode", toString(-94031));
-    kern1 += PvlKeyword("LeapSecond", dir + "naif0007.tls");
-    kern1 += PvlKeyword("SpacecraftClock", dir + "MGS_SCLKSCET.00045.tsc");
-    kern1 += PvlKeyword("TargetPosition", dir + "de405.bsp");
-    kern1 += PvlKeyword("TargetAttitudeShape", dir + "pck00006.tpc");
-    kern1 += PvlKeyword("Instrument", dir + "mocSpiceUnitTest.ti");
-    kern1 += PvlKeyword("InstrumentAddendum", dir + "mocAddendum.ti");
-    kern1 += PvlKeyword("InstrumentPosition", dir + "moc.bsp");
-    kern1 += PvlKeyword("InstrumentPointing", dir + "moc.bc");
+    kern1 += PvlKeyword("NaifFrameCode", std::to_string(-94031));
+    kern1 += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
+    kern1 += PvlKeyword("SpacecraftClock", dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
+    kern1 += PvlKeyword("TargetPosition", dir.toStdString() + "de405.bsp");
+    kern1 += PvlKeyword("TargetAttitudeShape", dir.toStdString() + "pck00006.tpc");
+    kern1 += PvlKeyword("Instrument", dir.toStdString() + "mocSpiceUnitTest.ti");
+    kern1 += PvlKeyword("InstrumentAddendum", dir.toStdString() + "mocAddendum.ti");
+    kern1 += PvlKeyword("InstrumentPosition", dir.toStdString() + "moc.bsp");
+    kern1 += PvlKeyword("InstrumentPointing", dir.toStdString() + "moc.bc");
     kern1 += PvlKeyword("Frame", "");
-    kern1 += PvlKeyword("NaifBodyCode", toString(499));
+    kern1 += PvlKeyword("NaifBodyCode", std::to_string(499));
     // Time Setup
     double startTime = -69382819.0;
     double endTime = -69382512.0;
     double slope = (endTime - startTime) / (10 - 1);
 
-    kern1 += PvlKeyword("StartPadding", toString(slope));
-    kern1 += PvlKeyword("EndPadding", toString(slope));
+    kern1 += PvlKeyword("StartPadding", std::to_string(slope));
+    kern1 += PvlKeyword("EndPadding", std::to_string(slope));
 
     Pvl lab1;
     lab1.addGroup(inst1);
@@ -91,7 +91,7 @@ int main() {
     // Test ShapeModel keyword
     cout << endl << "  Testing ShapeModel keyword (EquatorialCylindrical DEM)..." << endl;
     PvlGroup kern2 = kern1;
-    kern2 += PvlKeyword("ShapeModel", dir2 + "molaMarsPlanetaryRadius0005.cub");
+    kern2 += PvlKeyword("ShapeModel", dir2.toStdString() + "molaMarsPlanetaryRadius0005.cub");
     Pvl lab2;
     lab2.addGroup(inst2);
     lab2.addGroup(kern2);
@@ -103,7 +103,7 @@ int main() {
     // Test ElevationModel keyword with value
     cout << endl << "  Testing ElevationModel keyword (EquatorialCylindrical DEM)..." << endl;
     PvlGroup kern3 = kern1;
-    kern3 += PvlKeyword("ElevationModel", dir2 + "molaMarsPlanetaryRadius0005.cub");
+    kern3 += PvlKeyword("ElevationModel", dir2.toStdString() + "molaMarsPlanetaryRadius0005.cub");
     Pvl lab3;
     lab3.addGroup(inst2);
     lab3.addGroup(kern3);
@@ -139,7 +139,7 @@ int main() {
     // Test ShapeModel dem that's not Equatorial Cylindrical
     cout << endl << "  Testing DEM not equatorial cylindrical" << endl;
     PvlGroup kern6 = kern1;
-    kern6 += PvlKeyword("ShapeModel", dir3 + "ab102402.lev2.cub");
+    kern6 += PvlKeyword("ShapeModel", dir3.toStdString() + "ab102402.lev2.cub");
     Pvl lab6;
     lab6.addGroup(inst2);
     lab6.addGroup(kern6);
@@ -153,7 +153,7 @@ int main() {
     PvlGroup kern7 = kern1;
     FileName f7("$ISISTESTDATA/isis/src/base/unitTestData");
     QString dir7 = f7.expanded() + "/";
-    kern7 += PvlKeyword("ShapeModel", dir7 + "hay_a_amica_5_itokawashape_v1_0_64q.bds");
+    kern7 += PvlKeyword("ShapeModel", dir7.toStdString() + "hay_a_amica_5_itokawashape_v1_0_64q.bds");
     Pvl lab7;
     lab7.addGroup(inst2);
     lab7.addGroup(kern7);
@@ -270,7 +270,7 @@ int main() {
       // Test ShapeModel that's not a valid Isis map projection
       cout << endl << "  Testing Isis cube file for dem that is not map projected" << endl;
       PvlGroup kernError = kern1;
-      kernError += PvlKeyword("ShapeModel", dir3 + "ab102401.cub");
+      kernError += PvlKeyword("ShapeModel", dir3.toStdString() + "ab102401.cub");
       Pvl labError;
       labError.addGroup(inst2);
       labError.addGroup(kernError);

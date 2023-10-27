@@ -502,14 +502,14 @@ void TranslateVimsLabels(Pvl &pdsLab, Cube *vimscube, VimsType vType) {
   //trim start and stop time
   QString strTime = inst.findKeyword("StartTime")[0];
   inst.findKeyword("StartTime").setValue(strTime.remove("Z"));
-  strTime = (QString)qube["StopTime"];
-  inst.findKeyword("StopTime").setValue(strTime.remove("Z"));
+  strTime = QString::fromStdString(qube["StopTime"]);
+  inst.findKeyword("StopTime").setValue((strTime).remove("Z").toStdString());
 
   if(vType == IR) {
-    inst += PvlKeyword("SamplingMode", (QString)qube["SamplingModeId"][0]);
+    inst += PvlKeyword("SamplingMode", qube["SamplingModeId"][0]);
   }
   else {
-    inst += PvlKeyword("SamplingMode", (QString)qube["SamplingModeId"][1]);
+    inst += PvlKeyword("SamplingMode", qube["SamplingModeId"][1]);
   }
   if(vType == VIS) {
     inst += PvlKeyword("Channel", "VIS");
@@ -524,10 +524,10 @@ void TranslateVimsLabels(Pvl &pdsLab, Cube *vimscube, VimsType vType) {
   inst += expDuration;
 
   if(vType == IR) {
-    inst += PvlKeyword("GainMode", (QString)qube["GainModeId"][0]);
+    inst += PvlKeyword("GainMode", qube["GainModeId"][0]);
   }
   else {
-    inst += PvlKeyword("GainMode", (QString)qube["GainModeId"][1]);
+    inst += PvlKeyword("GainMode", qube["GainModeId"][1]);
   }
 
   vimscube->putGroup(inst);

@@ -65,7 +65,7 @@ void IsisMain() {
     for (int i = 0 ; i < analyzer.Programs() ; i++) {
       temp.addGroup(analyzer.summarize(i));
     }
-    temp.write(ui.GetFileName("SUMMARY"));
+    temp.write(ui.GetFileName("SUMMARY").toStdString());
   }
 
   // Write the output file if requested of CSV formatted data

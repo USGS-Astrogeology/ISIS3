@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 
       for (int j = 0; j < group.keywords(); j++) {
         PvlKeyword &keyword = group[j];
-        cout << "  " << keyword.name() << " = " << toDouble(keyword[0]) << endl;
+        cout << "  " << keyword.name() << " = " << std::stod(keyword[0]) << endl;
       }
 
       cout << endl;

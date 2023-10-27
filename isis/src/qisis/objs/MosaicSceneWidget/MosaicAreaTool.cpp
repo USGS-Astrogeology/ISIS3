@@ -290,13 +290,13 @@ namespace Isis {
 
 
   PvlObject MosaicAreaTool::toPvl() const {
-    PvlObject obj(projectPvlObjectName());
+    PvlObject obj(projectPvlObjectName().toStdString());
 
     if(m_box) {
-      obj += PvlKeyword("Latitude", m_latLineEdit->text());
-      obj += PvlKeyword("Longitude", m_lonLineEdit->text());
-      obj += PvlKeyword("Area", m_areaLineEdit->text());
-      obj += PvlKeyword("Visible", toString((int)(m_box != NULL)));
+      obj += PvlKeyword("Latitude", m_latLineEdit->text().toStdString());
+      obj += PvlKeyword("Longitude", m_lonLineEdit->text().toStdString());
+      obj += PvlKeyword("Area", m_areaLineEdit->text().toStdString());
+      obj += PvlKeyword("Visible", std::to_string((int)(m_box != NULL)));
     }
 
     return obj;
@@ -306,15 +306,15 @@ namespace Isis {
   void MosaicAreaTool::fromPvl(const PvlObject &obj) {
     if(obj.hasKeyword("Visible")) {
       if(obj.hasKeyword("Latitude") && obj["Latitude"][0] != "Null")
-        m_latLineEdit->setText(obj["Latitude"][0]);
+        m_latLineEdit->setText(QString::fromStdString(obj["Latitude"][0]));
 
       if(obj.hasKeyword("Longitude") && obj["Longitude"][0] != "Null")
-        m_lonLineEdit->setText(obj["Longitude"][0]);
+        m_lonLineEdit->setText(QString::fromStdString(obj["Longitude"][0]));
 
       if(obj.hasKeyword("Area") && obj["Area"][0] != "Null")
-        m_areaLineEdit->setText(obj["Area"][0]);
+        m_areaLineEdit->setText(QString::fromStdString(obj["Area"][0]));
 
-      if(toBool(obj["Visible"][0]) != false) {
+      if(toBool(QString::fromStdString(obj["Visible"][0])) != false) {
         userChangedBox();
       }
     }

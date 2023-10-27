@@ -82,13 +82,13 @@ namespace Isis {
 
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString stime = (QString)inst["StartTime"];
+    QString stime = QString::fromStdString(inst["StartTime"]);
     SpiceDouble etStart;
     str2et_c(stime.toLatin1().data(), &etStart);
-    stime = (QString) inst["StopTime"];
+    stime = QString::fromStdString(inst["StopTime"]);
     SpiceDouble etStop;
     str2et_c(stime.toLatin1().data(), &etStop);
-    iTime isisTime( (QString) inst["StartTime"]);
+    iTime isisTime( QString::fromStdString(inst["StartTime"]));
 
     // Get other info from labels
     // line exposure duration, sec/mm
@@ -135,7 +135,7 @@ namespace Isis {
     new LineScanCameraSkyMap(this);
 
     PvlGroup &instP = lab.findGroup("Kernels", Pvl::Traverse);
-    m_CkFrameId = toInt(instP["NaifFrameCode"][0]);
+    m_CkFrameId = std::stoi(instP["NaifFrameCode"][0]);
     m_CkFrameId = -int(-m_CkFrameId/1000)*1000;
 
     LoadCache();

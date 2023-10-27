@@ -52,10 +52,10 @@ void IsisMain() {
   if (sumall.ValidPixels() > 0) {
     csamp = sumX / sumall.Sum();
     cline = sumY / sumall.Sum();
-    results += PvlKeyword("CentroidLine", toString(cline));
-    results += PvlKeyword("CentroidSample", toString(csamp));
-    results += PvlKeyword("LineOffset", toString(lMiddle - cline));
-    results += PvlKeyword("SampleOffset", toString(sMiddle - csamp));
+    results += PvlKeyword("CentroidLine", std::to_string(cline));
+    results += PvlKeyword("CentroidSample", std::to_string(csamp));
+    results += PvlKeyword("LineOffset", std::to_string(lMiddle - cline));
+    results += PvlKeyword("SampleOffset", std::to_string(sMiddle - csamp));
   }
   else {
     PvlKeyword badl = PvlKeyword("CentroidLine", "Null");

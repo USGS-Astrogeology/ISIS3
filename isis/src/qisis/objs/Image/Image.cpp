@@ -178,7 +178,7 @@ namespace Isis {
     displayProperties()->fromPvl(pvl.findObject("DisplayProperties"));
 
     if (pvl.hasKeyword("ID")) {
-      QByteArray hexValues(pvl["ID"][0].toLatin1());
+      QByteArray hexValues(QString::fromStdString(pvl["ID"][0]).toLatin1());
       QDataStream valuesStream(QByteArray::fromHex(hexValues));
       valuesStream >> *m_id;
     }
@@ -201,7 +201,7 @@ namespace Isis {
   PvlObject Image::toPvl() const {
     PvlObject output("Image");
 
-    output += PvlKeyword("FileName", m_fileName);
+    output += PvlKeyword("FileName", m_fileName.toStdString());
 
     // Do m_id
     QBuffer dataBuffer;
@@ -212,7 +212,7 @@ namespace Isis {
 
     dataBuffer.seek(0);
 
-    output += PvlKeyword("ID", QString(dataBuffer.data().toHex()));
+    output += PvlKeyword("ID", std::string(dataBuffer.data().toHex()));
 
     output += displayProperties()->toPvl();
 
@@ -235,7 +235,7 @@ namespace Isis {
     if (!result && m_cube) {
       Blob example = ImagePolygon().toBlob();
 
-      QString blobType = example.Type();
+      QString blobType = QString::fromStdString(example.Type());
       QString blobName = example.Name();
 
       Pvl &labels = *m_cube->label();
@@ -243,7 +243,7 @@ namespace Isis {
       for (int i = 0; i < labels.objects(); i++) {
         PvlObject &obj = labels.object(i);
 
-        if (obj.isNamed(blobType) && obj.hasKeyword("Name") && obj["Name"][0] == blobName)
+        if (obj.isNamed(blobType.toStdString()) && obj.hasKeyword("Name") && QString::fromStdString(obj["Name"][0]) == blobName)
           result = true;
       }
     }
@@ -773,10 +773,10 @@ namespace Isis {
           PvlGroup instGroup = obj.findGroup("Instrument");
 
           if (instGroup.hasKeyword("SpacecraftName"))
-            m_spacecraftName = obj.findGroup("Instrument")["SpacecraftName"][0];
+            m_spacecraftName = QString::fromStdString(obj.findGroup("Instrument")["SpacecraftName"][0]);
 
           if (instGroup.hasKeyword("InstrumentId"))
-            m_instrumentId = obj.findGroup("Instrument")["InstrumentId"][0];
+            m_instrumentId = QString::fromStdString(obj.findGroup("Instrument")["InstrumentId"][0]);
         }
       }
       catch (IException &) {

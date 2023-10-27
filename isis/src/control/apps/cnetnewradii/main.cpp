@@ -161,11 +161,11 @@ void IsisMain() {
   // Write results to Logs
   // Summary group is created with the counts of successes and failures
   PvlGroup summaryGroup = PvlGroup("Summary");
-  summaryGroup.addKeyword(PvlKeyword("Successes", toString(numSuccesses)));
-  summaryGroup.addKeyword(PvlKeyword("Failures", toString(numFailures)));
+  summaryGroup.addKeyword(PvlKeyword("Successes", std::to_string(numSuccesses)));
+  summaryGroup.addKeyword(PvlKeyword("Failures", std::to_string(numFailures)));
   summaryGroup.addKeyword(PvlKeyword("NumberFixedConstrainedPoints",
-                                      toString(numConstrainedFixed)));
-  summaryGroup.addKeyword(PvlKeyword("NumberEditLockedPoints", toString(numLocked)));
+                                      std::to_string(numConstrainedFixed)));
+  summaryGroup.addKeyword(PvlKeyword("NumberEditLockedPoints", std::to_string(numLocked)));
 
   bool errorlog;
   FileName errorlogFile;
@@ -194,14 +194,14 @@ void IsisMain() {
     if (numFailures > 0) {
       // if there are any failures, add comment to the summary log to alert user
       summaryGroup.addComment("Unable to calculate radius for all points. Point"
-              " IDs for failures contained in [" + errorlogFile.name() + "].");
+              " IDs for failures contained in [" + errorlogFile.name().toStdString() + "].");
       PvlGroup failGroup = PvlGroup("Failures");
       failGroup.addComment("A point fails if we are unable to set universal "
                "ground or if the radius calculated is a special pixel value.");
-      failGroup.addKeyword(PvlKeyword("PointIDs", failedIDs));
+      failGroup.addKeyword(PvlKeyword("PointIDs", failedIDs.toStdString()));
       results.addGroup(failGroup);
     }
-    results.write(errorlogFile.expanded());
+    results.write(errorlogFile.expanded().toStdString());
   }
   // Write summary to application log
   Application::Log(summaryGroup);

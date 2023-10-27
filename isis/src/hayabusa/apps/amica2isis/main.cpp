@@ -132,7 +132,7 @@ void IsisMain ()
 
   //  Create YearDoy keyword in Archive group
   iTime stime(outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]);
-  PvlKeyword yeardoy("YearDoy", toString(stime.Year()*1000 + stime.DayOfYear()));
+  PvlKeyword yeardoy("YearDoy", std::to_string(stime.Year()*1000 + stime.DayOfYear()));
   outLabel.findGroup("Archive", Pvl::Traverse).addKeyword(yeardoy);
 
 

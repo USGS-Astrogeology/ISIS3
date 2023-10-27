@@ -98,7 +98,7 @@ void IsisMain() {
     // Record apollofindrx history to the cube
 
   // create a History Blob with value found in the History PvlObject's Name keyword
-  QString histName = (QString)inCube->label()->findObject("History")["Name"];
+  QString histName = QString::fromStdString(inCube->label()->findObject("History")["Name"]);
   // read cube's History PvlObject data into the History Object
   History histBlob = inCube->readHistory(histName);
   histBlob.AddEntry();

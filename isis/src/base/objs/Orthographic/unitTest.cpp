@@ -167,10 +167,10 @@ int main(int argc, char *argv[]) {
     QList<QString> lon;
     foreach (lon, lonInfo) {
       try {
-        mapGroup.findKeyword("MinimumLongitude").setValue(lon[0]);
-        mapGroup.findKeyword("MaximumLongitude").setValue(lon[1]);
-        mapGroup.findKeyword("CenterLongitude").setValue(lon[2]);
-        mapGroup.findKeyword("LongitudeDomain").setValue(lon[3]);
+        mapGroup.findKeyword("MinimumLongitude").setValue(lon[0].toStdString());
+        mapGroup.findKeyword("MaximumLongitude").setValue(lon[1].toStdString());
+        mapGroup.findKeyword("CenterLongitude").setValue(lon[2].toStdString());
+        mapGroup.findKeyword("LongitudeDomain").setValue(lon[3].toStdString());
         r = Orthographic(lab);
         r.XYRange(minX, maxX, minY, maxY);
         cout << "Lon Range: [" << r.MinimumLongitude() << ", "

@@ -82,7 +82,7 @@ namespace Isis {
    * @param transFile The name of the translation file to be added.
    */
   void PvlTranslationTable::AddTable(const QString &transFile) {
-    p_trnsTbl.read(FileName(transFile).expanded());
+    p_trnsTbl.read(FileName(transFile).expanded().toStdString());
   }
 
 
@@ -110,7 +110,7 @@ namespace Isis {
       PvlGroup currGroup = p_trnsTbl.group(i);
 
       if (!currGroup.hasKeyword("InputKey")) {
-        QString message = "Unable to find InputKey for group ["
+        std::string message = "Unable to find InputKey for group ["
                          + currGroup.name() + "] in file [" +
                          p_trnsTbl.fileName() + "]";
         throw IException(IException::User, message, _FILEINFO_);
@@ -128,7 +128,7 @@ namespace Isis {
             key++) {
 
           // If this is the right keyword (names match) then test sizes
-          if (currKey.name() == validKeywordSizes[key].first) {
+          if (currKey.name() == validKeywordSizes[key].first.toStdString()) {
 
             // if -1 then test that size() > 0
             if (validKeywordSizes[key].second == -1) {
@@ -150,17 +150,17 @@ namespace Isis {
         // if we had an error report it
         if (!validKeyword) {
           if (!keywordSizeMismatch) {
-            QString message = "Keyword [" + currKey.name();
+            std::string message = "Keyword [" + currKey.name();
             message += "] is not a valid keyword.";
             message += " Error in file [" + p_trnsTbl.fileName() + "]" ;
 
             throw IException(IException::User, message, _FILEINFO_);
           }
           else {
-            QString message = "Keyword [" + currKey.name();
+            std::string message = "Keyword [" + currKey.name();
             message += "] does not have the correct number of elements.";
             message += " Error in file [" + p_trnsTbl.fileName() + "]" ;
-
+ 
             throw IException(IException::User, message, _FILEINFO_);
           }
 
@@ -222,12 +222,12 @@ namespace Isis {
     QString tmpFValue = inputKeyValue;
     if (tmpFValue.isEmpty()) {
       if (translationGroup.hasKeyword("InputDefault")) {
-        tmpFValue = (QString) translationGroup["InputDefault"];
+        tmpFValue = QString::fromStdString(translationGroup["InputDefault"]);
       }
       else {
-        QString msg = "No value or default value to translate for ";
+        std::string msg = "No value or default value to translate for ";
         msg += "translation group [";
-        msg += translationGroupName;
+        msg += translationGroupName.toStdString();
         msg += "] in file [" + p_trnsTbl.fileName() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
@@ -242,8 +242,8 @@ namespace Isis {
       const PvlKeyword &key = *it;
       // compare the value from the input file to the second value of each Translation in the trans file.
       // ignore cases for input values  
-      if (QString::compare((QString) key[1], tmpFValue, Qt::CaseInsensitive) == 0) {
-        return key[0];
+      if (QString::compare(QString::fromStdString(key[1]), tmpFValue, Qt::CaseInsensitive) == 0) {
+        return QString::fromStdString(key[0]);
       }
       else if ((std::string) key[1] == "*") {
         if ((std::string) key[0] == "*") {
@@ -258,7 +258,7 @@ namespace Isis {
     }
 
     std::string msg = "Unable to find a translation value for [" +
-                 translationGroupName.toStdString() +  ", " + inputKeyValue + "] in file [" +
+                 translationGroupName.toStdString() +  ", " + inputKeyValue.toStdString() + "] in file [" +
                  p_trnsTbl.fileName() + "]";
 
     throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -542,7 +542,7 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    return p_trnsTbl.findGroup(translationGroupName);
+    return p_trnsTbl.findGroup(translationGroupName.toStdString());
   }
 } // end namespace isis
 

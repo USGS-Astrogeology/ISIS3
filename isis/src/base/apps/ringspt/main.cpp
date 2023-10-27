@@ -72,10 +72,10 @@ void IsisMain() {
       temp.setTerminator("");
       temp.addGroup((*point));
       if(append) {
-        temp.append(outFile);
+        temp.append(outFile.toStdString());
       }
       else {
-        temp.write(outFile);
+        temp.write(outFile.toStdString());
       }
     }
 
@@ -115,12 +115,12 @@ void IsisMain() {
 
       for(int i = 0; i < (*point).keywords(); i++) {
         if((*point)[i].size() == 3) {
-          os << (QString)(*point)[i][0] << ","
-             << (QString)(*point)[i][1] << ","
-             << (QString)(*point)[i][2];
+          os << (*point)[i][0] << ","
+             << (*point)[i][1] << ","
+             << (*point)[i][2];
         }
         else {
-          os << (QString)(*point)[i];
+          os << (*point)[i];
         }
 
         if(i < (*point).keywords() - 1) {

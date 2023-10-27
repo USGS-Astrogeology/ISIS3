@@ -139,7 +139,7 @@ namespace Isis {
 
           PvlGroup kernels = cube()->group("Kernels");
           if (kernels.hasKeyword("ShapeModel")) {
-            QString shapeFile = kernels["ShapeModel"];
+            QString shapeFile = QString::fromStdString(kernels["ShapeModel"]);
             if (shapeFile.contains("dem")) {
               m_radiusSource = ControlPoint::RadiusSource::DEM;
             }
@@ -229,7 +229,7 @@ namespace Isis {
     displayProperties()->fromPvl(pvl.findObject("DisplayProperties"));
 
     if (pvl.hasKeyword("ID")) {
-      QByteArray hexValues(pvl["ID"][0].toLatin1());
+      QByteArray hexValues(QString::fromStdString(pvl["ID"][0]).toLatin1());
       QDataStream valuesStream(QByteArray::fromHex(hexValues));
       valuesStream >> *m_id;
     }
@@ -252,7 +252,7 @@ namespace Isis {
   PvlObject Shape::toPvl() const {
     PvlObject output("Shape");
 
-    output += PvlKeyword("FileName", m_fileName);
+    output += PvlKeyword("FileName", m_fileName.toStdString());
 
     // Do m_id
     QBuffer dataBuffer;
@@ -263,7 +263,7 @@ namespace Isis {
 
     dataBuffer.seek(0);
 
-    output += PvlKeyword("ID", QString(dataBuffer.data().toHex()));
+    output += PvlKeyword("ID", std::string(dataBuffer.data().toHex()));
 
     output += displayProperties()->toPvl();
 
@@ -284,7 +284,7 @@ namespace Isis {
     if (!result && m_cube) {
       Blob example = ImagePolygon().toBlob();
 
-      QString blobType = example.Type();
+      QString blobType = QString::fromStdString(example.Type());
       QString blobName = example.Name();
 
       Pvl &labels = *m_cube->label();
@@ -292,7 +292,7 @@ namespace Isis {
       for (int i = 0; i < labels.objects(); i++) {
         PvlObject &obj = labels.object(i);
 
-        if (obj.isNamed(blobType) && obj.hasKeyword("Name") && obj["Name"][0] == blobName)
+        if (obj.isNamed(blobType.toStdString()) && obj.hasKeyword("Name") && QString::fromStdString(obj["Name"][0]) == blobName)
           result = true;
       }
     }
@@ -714,10 +714,10 @@ namespace Isis {
           PvlGroup instGroup = obj.findGroup("Instrument");
 
           if (instGroup.hasKeyword("SpacecraftName"))
-            m_spacecraftName = obj.findGroup("Instrument")["SpacecraftName"][0];
+            m_spacecraftName = QString::fromStdString(obj.findGroup("Instrument")["SpacecraftName"][0]);
 
           if (instGroup.hasKeyword("InstrumentId"))
-            m_instrumentId = obj.findGroup("Instrument")["InstrumentId"][0];
+            m_instrumentId = QString::fromStdString(obj.findGroup("Instrument")["InstrumentId"][0]);
         }
       }
       catch (IException &e) {
@@ -737,43 +737,43 @@ namespace Isis {
           PvlGroup instGroup = obj.findGroup("Instrument");
 
           if (instGroup.hasKeyword("SpacecraftName"))
-            m_spacecraftName = obj.findGroup("Instrument")["SpacecraftName"][0];
+            m_spacecraftName = QString::fromStdString(obj.findGroup("Instrument")["SpacecraftName"][0]);
 
           if (instGroup.hasKeyword("InstrumentId"))
-            m_instrumentId = obj.findGroup("Instrument")["InstrumentId"][0];
+            m_instrumentId = QString::fromStdString(obj.findGroup("Instrument")["InstrumentId"][0]);
         }
 
         if (obj.hasGroup("Mapping")) {
           PvlGroup mapGroup = obj.findGroup("Mapping");
 
           if (mapGroup.hasKeyword("TargetName"))
-            m_targetName = obj.findGroup("Mapping")["TargetName"][0];
+            m_targetName = QString::fromStdString(obj.findGroup("Mapping")["TargetName"][0]);
 
           if (mapGroup.hasKeyword("ProjectionName"))
-            m_projectionName = obj.findGroup("Mapping")["ProjectionName"][0];
+            m_projectionName = QString::fromStdString(obj.findGroup("Mapping")["ProjectionName"][0]);
 
           if (mapGroup.hasKeyword("CenterLongitude"))
-            m_centerLongitude = Longitude(toDouble(obj.findGroup("Mapping")["CenterLongitude"][0]),
+            m_centerLongitude = Longitude(std::stod(obj.findGroup("Mapping")["CenterLongitude"][0]),
                                           mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("CenterLatitude"))
-            m_centerLatitude = Latitude(toDouble(obj.findGroup("Mapping")["CenterLatitude"][0]),
+            m_centerLatitude = Latitude(std::stod(obj.findGroup("Mapping")["CenterLatitude"][0]),
                                         mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("MinimumLatitude"))
-            m_minimumLatitude = Latitude(toDouble(obj.findGroup("Mapping")["MinimumLatitude"][0]),
+            m_minimumLatitude = Latitude(std::stod(obj.findGroup("Mapping")["MinimumLatitude"][0]),
                                          mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("MaximumLatitude"))
-            m_maximumLatitude = Latitude(toDouble(obj.findGroup("Mapping")["MaximumLatitude"][0]),
+            m_maximumLatitude = Latitude(std::stod(obj.findGroup("Mapping")["MaximumLatitude"][0]),
                                          mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("MinimumLongitude"))
-            m_minimumLongitude = Longitude(toDouble(obj.findGroup("Mapping")["MinimumLongitude"][0]),
+            m_minimumLongitude = Longitude(std::stod(obj.findGroup("Mapping")["MinimumLongitude"][0]),
                                            mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("MaximumLongitude"))
-            m_maximumLongitude = Longitude(toDouble(obj.findGroup("Mapping")["MaximumLongitude"][0]),
+            m_maximumLongitude = Longitude(std::stod(obj.findGroup("Mapping")["MaximumLongitude"][0]),
                                            mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("PixelResolution"))

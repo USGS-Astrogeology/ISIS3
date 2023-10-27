@@ -293,10 +293,10 @@ void IsisMain() {
     os << "BEST_FIT_MULTIPLIER = " << lFitParams.c1 << endl;
     os << "RMS_ERROR_OF_FIT = " << parmin << endl;
     PvlGroup fitParams("Results");
-    fitParams += PvlKeyword("PhaseAngle", toString(datum.m_phase), "degrees");
-    fitParams += PvlKeyword("LimbDarkeningParameter", toString(xb));
-    fitParams += PvlKeyword("BestFitMultiplier", toString(lFitParams.c1));
-    fitParams += PvlKeyword("RMSErrorOfFit", toString(parmin));
+    fitParams += PvlKeyword("PhaseAngle", std::to_string(datum.m_phase), "degrees");
+    fitParams += PvlKeyword("LimbDarkeningParameter", std::to_string(xb));
+    fitParams += PvlKeyword("BestFitMultiplier", std::to_string(lFitParams.c1));
+    fitParams += PvlKeyword("RMSErrorOfFit", std::to_string(parmin));
     Application::Log(fitParams);
   }
   else {
@@ -305,11 +305,11 @@ void IsisMain() {
     os << "BEST_FIT_MULTIPLIER = " << lFitParams.c1 << endl;
     os << "RMS_ERROR_OF_FIT = " << parmin << endl;
     PvlGroup fitParams("Results");
-    fitParams += PvlKeyword("PhaseAngle", toString(datum.m_phase), "degrees");
-    fitParams += PvlKeyword("LimbDarkeningParameter", toString(xb));
-    fitParams += PvlKeyword("BestFitAdditiveTerm", toString(lFitParams.c0));
-    fitParams += PvlKeyword("BestFitMultiplier", toString(lFitParams.c1));
-    fitParams += PvlKeyword("RMSErrorOfFit", toString(parmin));
+    fitParams += PvlKeyword("PhaseAngle", std::to_string(datum.m_phase), "degrees");
+    fitParams += PvlKeyword("LimbDarkeningParameter", std::to_string(xb));
+    fitParams += PvlKeyword("BestFitAdditiveTerm", std::to_string(lFitParams.c0));
+    fitParams += PvlKeyword("BestFitMultiplier", std::to_string(lFitParams.c1));
+    fitParams += PvlKeyword("RMSErrorOfFit", std::to_string(parmin));
     Application::Log(fitParams);
   }
 
@@ -318,7 +318,7 @@ void IsisMain() {
 
   if (ui.WasEntered("NOTE")) {
     note.addComment("NOTE DESCRIBING DATA IN THE FOLLOWING RESULTS SECTION");
-    note += PvlKeyword("NOTE", ui.GetString("NOTE"));
+    note += PvlKeyword("NOTE", ui.GetString("NOTE").toStdString());
   }
 
 
@@ -332,9 +332,9 @@ void IsisMain() {
     bool append = ui.GetBoolean("APPEND");
     ofstream os;
     if (append) {
-      mainpvl.append(sOutFile);
+      mainpvl.append(sOutFile.toStdString());
     } else {
-      mainpvl.write(sOutFile);
+      mainpvl.write(sOutFile.toStdString());
     }
   }
 

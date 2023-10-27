@@ -98,14 +98,14 @@ void IsisMain() {
   //  Print out number of values changed
   PvlGroup results("Results");
   results.addComment("The number and type of pixels created");
-  results += PvlKeyword("Null", toString(nnull));
-  results += PvlKeyword("Lrs", toString(nlrs));
-  results += PvlKeyword("Lis", toString(nlis));
-  results += PvlKeyword("Hrs", toString(nhrs));
-  results += PvlKeyword("His", toString(nhis));
+  results += PvlKeyword("Null", std::to_string(nnull));
+  results += PvlKeyword("Lrs", std::to_string(nlrs));
+  results += PvlKeyword("Lis", std::to_string(nlis));
+  results += PvlKeyword("Hrs", std::to_string(nhrs));
+  results += PvlKeyword("His", std::to_string(nhis));
   //tjw:  int total -> BigInt total
   BigInt total = nnull + nlrs + nhrs + nlis + nhis;
-  results += PvlKeyword("Total", toString(total));
+  results += PvlKeyword("Total", std::to_string(total));
 
   Application::Log(results);
 

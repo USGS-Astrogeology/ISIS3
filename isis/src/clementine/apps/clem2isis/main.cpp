@@ -40,10 +40,10 @@ void IsisMain() {
   // Make sure it is a Clementine EDR
   bool projected;
   try {
-    Pvl lab(in.expanded());
+    Pvl lab(in.expanded().toStdString());
     projected = lab.hasObject("IMAGE_MAP_PROJECTION");
     QString id;
-    id = (QString)lab["DATA_SET_ID"];
+    id = QString::fromStdString(lab["DATA_SET_ID"]);
     id = id.simplified().trimmed();
     if (!id.contains("CLEM")) {
       QString msg = "Invalid DATA_SET_ID [" + id + "]";
@@ -110,7 +110,7 @@ void translateLabels(FileName in, Cube *ocube) {
   QString transDir = "$ISISROOT/appdata/translations/";
   FileName transFile(transDir + "Clementine.trn");
 
-  Pvl pdsLab(in.expanded());
+  Pvl pdsLab(in.expanded().toStdString());
   PvlToPvlTranslationManager labelXlater(pdsLab, transFile.expanded());
 
   // Pvl outputLabels;
@@ -121,24 +121,24 @@ void translateLabels(FileName in, Cube *ocube) {
   PvlGroup inst = outputLabel->findGroup("Instrument", Pvl::Traverse);
 
   PvlKeyword &startTime = inst.findKeyword("StartTime");
-  startTime.setValue(startTime[0].mid(0, startTime[0].size() - 1));
+  startTime.setValue(startTime[0].substr(0, startTime[0].size() - 1));
 
   // Old PDS labels used keyword INSTRUMENT_COMPRESSION_TYPE & PDS Labels now use ENCODING_TYPE
   if (pdsLab.findObject("Image").hasKeyword("InstrumentCompressionType")) {
-    inst += PvlKeyword("EncodingFormat", (QString) pdsLab.findObject("Image")["InstrumentCompressionType"]);
+    inst += PvlKeyword("EncodingFormat", pdsLab.findObject("Image")["InstrumentCompressionType"]);
   }
   else {
-    inst += PvlKeyword("EncodingFormat", (QString) pdsLab.findObject("Image")["EncodingType"]);
+    inst += PvlKeyword("EncodingFormat", pdsLab.findObject("Image")["EncodingType"]);
   }
 
-  if (((QString)inst["InstrumentId"]) == "HIRES") {
-    inst += PvlKeyword("MCPGainModeID", (QString)pdsLab["MCP_Gain_Mode_ID"], "");
+  if (((std::string)inst["InstrumentId"]) == "HIRES") {
+    inst += PvlKeyword("MCPGainModeID", pdsLab["MCP_Gain_Mode_ID"], "");
   }
 
   ocube->putGroup(inst);
 
   PvlGroup bBin = outputLabel->findGroup("BandBin", Pvl::Traverse);
-  QString filter = pdsLab["FilterName"];
+  QString filter = QString::fromStdString(pdsLab["FilterName"]);
   if (filter != "F") {
     //Band Bin group
     double center = pdsLab["CenterFilterWavelength"];
@@ -152,10 +152,10 @@ void translateLabels(FileName in, Cube *ocube) {
 
   //Kernel group
   PvlGroup kern("Kernels");
-  if (((QString)inst["InstrumentId"]) == "HIRES") {
+  if (((std::string)inst["InstrumentId"]) == "HIRES") {
     kern += PvlKeyword("NaifFrameCode", "-40001");
   }
-  if (((QString)inst["InstrumentId"]) == "UVVIS") {
+  if (((std::string)inst["InstrumentId"]) == "UVVIS") {
     // JAA & VS ... modified to support variable focal length and optical
     // distortion for UVVIS
     if (filter == "A") {
@@ -177,10 +177,10 @@ void translateLabels(FileName in, Cube *ocube) {
       kern += PvlKeyword("NaifFrameCode", "-40026");
     }
   }
-  if (((QString)inst["InstrumentId"]) == "NIR") {
+  if (((std::string)inst["InstrumentId"]) == "NIR") {
     kern += PvlKeyword("NaifFrameCode", "-40003");
   }
-  if (((QString)inst["InstrumentId"]) == "LWIR") {
+  if (((std::string)inst["InstrumentId"]) == "LWIR") {
     kern += PvlKeyword("NaifFrameCode", "-40004");
   }
   ocube->putGroup(kern);

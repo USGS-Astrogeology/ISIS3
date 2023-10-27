@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     PvlGroup &uiPref = Preference::Preferences().findGroup(
         "UserInterface");
     if (uiPref.hasKeyword("GuiStyle")) {
-      QString style = uiPref["GuiStyle"];
+      QString style = QString::fromStdString(uiPref["GuiStyle"]);
       QApplication::setStyle((QString) style);
     }
 

@@ -37,10 +37,10 @@ void IsisMain() {
     }
     else if (ui.WasEntered("TO")) {
       if (append) {
-        pvl.append(tofile.expanded());
+        pvl.append(tofile.expanded().toStdString());
       }
       else {
-        pvl.write(tofile.expanded());
+        pvl.write(tofile.expanded().toStdString());
       }
     }
     else {
@@ -60,7 +60,7 @@ void IsisMain() {
       }
     }
     for(int i = 0; i < pvl.objects(); ++i) {
-      QString all = pvl.object(i).name() + " ";
+      QString all = QString::fromStdString(pvl.object(i).name()) + " ";
       PvlGroup user = pvl.object(i).findGroup("UserParameters");
       for(int j = 0; j < user.keywords(); ++j) {
         ostringstream os;

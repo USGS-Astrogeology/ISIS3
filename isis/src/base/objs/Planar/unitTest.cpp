@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
     cout << "Projection 1 parameters..." << endl;
     cout << "Projection version         = " << p->Version() << endl;
     cout << "  Projection name          =  " <<  p->Name()  << endl;
-    cout << "  Target name              =  " << (QString) mapGroup["TargetName"]  << endl;
+    cout << "  Target name              =  " << (std::string) mapGroup["TargetName"]  << endl;
     cout << "  RingLongitude direction  = " << p->RingLongitudeDirectionString() << endl;
     cout << "  RingLongitude domain     = " << p->RingLongitudeDomainString() << endl;
     cout << "  Minimum ring radius      = " << p->MinimumRingRadius() << endl;
@@ -134,7 +134,7 @@ int main(int argc, char *argv[]) {
     // Projection 3 test
     cout << "Projection 3 parameters..." << endl;
     cout << "  Projection name          =  " <<  p3.Name()  << endl;
-    cout << "  Target name              =  " << (QString) mapGroup["TargetName"]  << endl;
+    cout << "  Target name              =  " << (std::string) mapGroup["TargetName"]  << endl;
     cout << "  RingLongitude direction  = " << p3.RingLongitudeDirectionString() << endl;
     cout << "  RingLongitude domain     = " << p3.RingLongitudeDomainString() << endl;
     cout << "  Minimum ring radius      = " << p3.MinimumRingRadius() << endl;
@@ -191,7 +191,7 @@ int main(int argc, char *argv[]) {
     Planar p4(lab, true);
     cout << "Projection 4 parameters...No range" << endl;
     cout << "  Projection name          =  " <<  p4.Name()  << endl;
-    cout << "  Target name              =  " << (QString) mapGroup["TargetName"]  << endl;
+    cout << "  Target name              =  " << (std::string) mapGroup["TargetName"]  << endl;
     cout << "  RingLongitude direction  = " << p4.RingLongitudeDirectionString() << endl;
     cout << "  RingLongitude domain     = " << p4.RingLongitudeDomainString() << endl;
     cout << "  Center ring radius       = " << p4.CenterRingRadius() << endl;

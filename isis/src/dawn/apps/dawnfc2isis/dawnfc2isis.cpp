@@ -31,9 +31,9 @@ namespace Isis {
     QString missid;
 
     try {
-      Pvl lab(inFile.expanded());
-      instid = (QString) lab.findKeyword("INSTRUMENT_ID");
-      missid = (QString) lab.findKeyword("MISSION_ID");
+      Pvl lab(inFile.expanded().toStdString());
+      instid = QString::fromStdString(lab.findKeyword("INSTRUMENT_ID"));
+      missid = QString::fromStdString(lab.findKeyword("MISSION_ID"));
     }
     catch(IException &e) {
       QString msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
@@ -63,7 +63,7 @@ namespace Isis {
     p.SetOutputCube(tmpFile.expanded(), outatt);
     p.SaveFileHeader();
 
-    Pvl labelPvl(inFile.expanded());
+    Pvl labelPvl(inFile.expanded().toStdString());
 
     p.StartProcess();
     p.EndProcess();
@@ -97,7 +97,7 @@ namespace Isis {
     //  Update target if user specifies it
     if (!target.isEmpty()) {
       PvlGroup &igrp = outLabel.findGroup("Instrument",Pvl::Traverse);
-      igrp["TargetName"] = target;
+      igrp["TargetName"] = target.toStdString();
     }
 
     // Write the BandBin, Archive, and Instrument groups
@@ -158,17 +158,17 @@ namespace Isis {
                    "FilterNumber. The FilterNumber must fall in the range 1 to 8.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
-    bbGrp.addKeyword(PvlKeyword("Center", toString(center)));
-    bbGrp.addKeyword(PvlKeyword("Width", toString(width)));
-    bbGrp.addKeyword(PvlKeyword("FilterName", filtname));
+    bbGrp.addKeyword(PvlKeyword("Center", std::to_string(center)));
+    bbGrp.addKeyword(PvlKeyword("Width", std::to_string(width)));
+    bbGrp.addKeyword(PvlKeyword("FilterName", filtname.toStdString()));
     outcube->putGroup(bbGrp);
 
     PvlGroup kerns("Kernels");
     if(instid == "FC1") {
-      kerns += PvlKeyword("NaifFrameCode", toString(-203110-filtno));
+      kerns += PvlKeyword("NaifFrameCode", std::to_string(-203110-filtno));
     }
     else if(instid == "FC2") {
-      kerns += PvlKeyword("NaifFrameCode", toString(-203120-filtno));
+      kerns += PvlKeyword("NaifFrameCode", std::to_string(-203120-filtno));
     }
     else {
       QString msg = "Input file [" + inFile.expanded() + "] has an invalid " +

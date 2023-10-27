@@ -106,14 +106,14 @@ int main(int argc, char *argv[]) {
   FileName f("$ISISTESTDATA/isis/src/base/unitTestData/kernels");
   QString dir = f.expanded() + "/";
   kernelsGroup += PvlKeyword("NaifFrameCode", "-94031");
-  kernelsGroup += PvlKeyword("LeapSecond", dir + "naif0007.tls");
-  kernelsGroup += PvlKeyword("SpacecraftClock", dir + "MGS_SCLKSCET.00045.tsc");
-  kernelsGroup += PvlKeyword("TargetPosition", dir + "de405.bsp");
-  kernelsGroup += PvlKeyword("TargetAttitudeShape", dir + "pck00006.tpc");
-  kernelsGroup += PvlKeyword("Instrument", dir + "mocSpiceUnitTest.ti");
-  kernelsGroup += PvlKeyword("InstrumentAddendum", dir + "mocAddendum.ti");
-  kernelsGroup += PvlKeyword("InstrumentPosition", dir + "moc.bsp");
-  kernelsGroup += PvlKeyword("InstrumentPointing", dir + "moc.bc");
+  kernelsGroup += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
+  kernelsGroup += PvlKeyword("SpacecraftClock", dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
+  kernelsGroup += PvlKeyword("TargetPosition", dir.toStdString() + "de405.bsp");
+  kernelsGroup += PvlKeyword("TargetAttitudeShape", dir.toStdString() + "pck00006.tpc");
+  kernelsGroup += PvlKeyword("Instrument", dir.toStdString() + "mocSpiceUnitTest.ti");
+  kernelsGroup += PvlKeyword("InstrumentAddendum", dir.toStdString() + "mocAddendum.ti");
+  kernelsGroup += PvlKeyword("InstrumentPosition", dir.toStdString() + "moc.bsp");
+  kernelsGroup += PvlKeyword("InstrumentPointing", dir.toStdString() + "moc.bc");
   kernelsGroup += PvlKeyword("Frame", "");
 
   // Time Setup
@@ -121,8 +121,8 @@ int main(int argc, char *argv[]) {
   double endTime = -69382512.0;
   double slope = (endTime - startTime) / (10 - 1);
 
-  kernelsGroup += PvlKeyword("StartPadding", toString(slope));
-  kernelsGroup += PvlKeyword("EndPadding", toString(slope));
+  kernelsGroup += PvlKeyword("StartPadding", std::to_string(slope));
+  kernelsGroup += PvlKeyword("EndPadding", std::to_string(slope));
 
   Pvl &lab = *dummyCube.label();
   PvlObject &isisCubeObj = lab.findObject("IsisCube");

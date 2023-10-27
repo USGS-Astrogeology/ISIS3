@@ -289,7 +289,7 @@ namespace Isis {
 
     if (m_mapButton) {
       PvlKeyword projectionKeyword = mapping.findKeyword("ProjectionName");
-      QString projName = projectionKeyword[0];
+      QString projName = QString::fromStdString(projectionKeyword[0]);
       m_mapButton->setText(tr("View/Edit %1 Projection").arg(projName));
     }
 
@@ -356,10 +356,10 @@ namespace Isis {
         Distance radii[3];
         cam->radii(radii);
 
-        mappingGrp += PvlKeyword("TargetName", cam->target()->name());
-        mappingGrp += PvlKeyword("EquatorialRadius", toString(radii[0].meters()),
+        mappingGrp += PvlKeyword("TargetName", cam->target()->name().toStdString());
+        mappingGrp += PvlKeyword("EquatorialRadius", std::to_string(radii[0].meters()),
                                  "meters");
-        mappingGrp += PvlKeyword("PolarRadius", toString(radii[2].meters()),
+        mappingGrp += PvlKeyword("PolarRadius", std::to_string(radii[2].meters()),
                                  "meters");
 
       }
@@ -390,7 +390,7 @@ namespace Isis {
     if (m_projection) {
       PvlKeyword projectionKeyword =
           m_projection->Mapping().findKeyword("ProjectionName");
-      QString projName = projectionKeyword[0];
+      QString projName = QString::fromStdString(projectionKeyword[0]);
       m_mapButton->setText(projName);
     }
 
@@ -533,10 +533,10 @@ namespace Isis {
 
       PvlObject mosaicScenePosition("SceneVisiblePosition");
       mosaicScenePosition += PvlKeyword("ViewTransform",
-                                        QString(dataBuffer.data().toHex()));
+                                        std::string(dataBuffer.data().toHex()));
       PvlKeyword scrollPos("ScrollPosition");
-      scrollPos += toString(getView()->horizontalScrollBar()->value());
-      scrollPos += toString(getView()->verticalScrollBar()->value());
+      scrollPos += std::to_string(getView()->horizontalScrollBar()->value());
+      scrollPos += std::to_string(getView()->verticalScrollBar()->value());
       mosaicScenePosition += scrollPos;
 
       output += mosaicScenePosition;
@@ -545,7 +545,7 @@ namespace Isis {
       foreach(tool, *m_tools) {
         if (tool->projectPvlObjectName() != "") {
           PvlObject toolObj = tool->toPvl();
-          toolObj.setName(tool->projectPvlObjectName());
+          toolObj.setName(tool->projectPvlObjectName().toStdString());
           output += toolObj;
         }
       }
@@ -553,8 +553,8 @@ namespace Isis {
       PvlObject zOrders("ZOrdering");
       foreach(MosaicSceneItem * mosaicSceneItem, *m_mosaicSceneItems) {
         PvlKeyword zValue("ZValue");
-        zValue += mosaicSceneItem->image()->id();
-        zValue += toString(mosaicSceneItem->zValue());
+        zValue += mosaicSceneItem->image()->id().toStdString();
+        zValue += std::to_string(mosaicSceneItem->zValue());
         zOrders += zValue;
       }
 
@@ -582,9 +582,9 @@ namespace Isis {
     MosaicTool *tool;
     foreach(tool, *m_tools) {
       if (tool->projectPvlObjectName() != "") {
-        if (project.hasObject(tool->projectPvlObjectName())) {
+        if (project.hasObject(tool->projectPvlObjectName().toStdString())) {
           const PvlObject &toolSettings(
-              project.findObject(tool->projectPvlObjectName()));
+              project.findObject(tool->projectPvlObjectName().toStdString()));
           tool->fromPvl(toolSettings);
         }
       }
@@ -601,7 +601,7 @@ namespace Isis {
              zOrderIndex ++) {
           const PvlKeyword &zOrder = zOrders[zOrderIndex];
 
-          (*m_projectImageZOrders)[zOrder[0]] = toDouble(zOrder[1]);
+          (*m_projectImageZOrders)[QString::fromStdString(zOrder[0])] = std::stod(zOrder[1]);
         }
       }
 
@@ -651,7 +651,7 @@ namespace Isis {
         QString projectPvlObjectName = tool->projectPvlObjectName();
         if (projectPvlObjectName != "") {
           PvlObject toolObj = tool->toPvl();
-          toolObj.setName(projectPvlObjectName);
+          toolObj.setName(projectPvlObjectName.toStdString());
 
           stream.writeStartElement("toolData");
           stream.writeAttribute("objectName", projectPvlObjectName);
@@ -1370,15 +1370,15 @@ namespace Isis {
 
     if (m_projectViewTransform) {
       PvlObject &positionInfo = *m_projectViewTransform;
-      QByteArray hexValues(positionInfo["ViewTransform"][0].toLatin1());
+      QByteArray hexValues(QString::fromStdString(positionInfo["ViewTransform"][0]).toLatin1());
       QDataStream transformStream(QByteArray::fromHex(hexValues));
 
       QTransform viewTransform;
       transformStream >> viewTransform;
       getView()->setTransform(viewTransform);
 
-      QPoint projectScrollPos(toInt(positionInfo["ScrollPosition"][0]),
-                              toInt(positionInfo["ScrollPosition"][1]));
+      QPoint projectScrollPos(std::stoi(positionInfo["ScrollPosition"][0]),
+                              std::stoi(positionInfo["ScrollPosition"][1]));
 
       getView()->horizontalScrollBar()->setValue(projectScrollPos.x());
       getView()->verticalScrollBar()->setValue(projectScrollPos.y());

@@ -975,7 +975,7 @@ namespace Isis {
     QString referenceFileName = m_serialNumberList->fileName(referenceSN);
     QScopedPointer<Cube> referenceCube(new Cube(referenceFileName, "r"));
     PvlGroup kernels = referenceCube->group("Kernels");
-    QString shapeFile = kernels["ShapeModel"];
+    QString shapeFile = QString::fromStdString(kernels["ShapeModel"]);
 
     //  If the reference measure has a shape model cube then set that as the radius
     //  This will NOT WORK for shape model files (not the default of Null or Ellipsoid)
@@ -2920,12 +2920,12 @@ namespace Isis {
 
     try{
       // Get the template file from the ControlPointEditWidget object
-      Pvl templatePvl(m_measureEditor->templateFileName());
+      Pvl templatePvl(m_measureEditor->templateFileName().toStdString());
       // Create registration dialog window using PvlEditDialog class
       // to view and/or edit the template
       PvlEditDialog registrationDialog(templatePvl);
       registrationDialog.setWindowTitle("View or Edit Template File: "
-                                         + templatePvl.fileName());
+                                         + QString::fromStdString(templatePvl.fileName()));
       registrationDialog.resize(550,360);
       registrationDialog.exec();
     }

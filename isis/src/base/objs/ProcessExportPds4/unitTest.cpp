@@ -199,7 +199,7 @@ void IsisMain() {
       e.print();
     }
 
-    QString cassisTarget = instGroup["targetName"];
+    QString cassisTarget = QString::fromStdString(instGroup["targetName"]);
     try {
       std::cout << "Test a missing target" << std::endl;
       ProcessExportPds4 testProcess;
@@ -213,7 +213,7 @@ void IsisMain() {
       cout << endl;
       cout << endl;
     }
-    instGroup.addKeyword( PvlKeyword("targetName", cassisTarget) );
+    instGroup.addKeyword( PvlKeyword("targetName", cassisTarget.toStdString()) );
   }
   catch(Isis::IException &e) {
     e.print();

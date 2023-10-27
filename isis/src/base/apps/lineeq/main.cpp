@@ -45,14 +45,14 @@ void IsisMain() {
   }
 
   PvlGroup data("lineeq");
-  data += PvlKeyword("BoxcarSize", toString(boxcarSize), "lines");
-  data += PvlKeyword("OutputCsv", toString((int)ui.GetBoolean("AVERAGES")));
+  data += PvlKeyword("BoxcarSize", std::to_string(boxcarSize), "lines");
+  data += PvlKeyword("OutputCsv", std::to_string((int)ui.GetBoolean("AVERAGES")));
 
   TextFile *csvOutput = NULL;
   if(ui.GetBoolean("AVERAGES")) {
     csvOutput = new TextFile(ui.GetFileName("CSV"), "overwrite", "");
     csvOutput->PutLine("Average,SmoothedAvg");
-    data += PvlKeyword("CsvFile", ui.GetFileName("CSV"));
+    data += PvlKeyword("CsvFile", ui.GetFileName("CSV").toStdString());
   }
 
   Application::Log(data);

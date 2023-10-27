@@ -109,9 +109,9 @@ namespace Isis {
 
     while((grp = InputGroup(transGroupName, inst++)).name() != "") {
       if((con = GetContainer(grp)) != NULL) {
-        if(con->hasKeyword(InputKeywordName(transGroupName))) {
+        if(con->hasKeyword(InputKeywordName(transGroupName).toStdString())) {
           return PvlTranslationTable::Translate(
-              transGroupName, (*con)[InputKeywordName(transGroupName)][inputIndex]);
+              transGroupName, QString::fromStdString((*con)[InputKeywordName(transGroupName).toStdString()][inputIndex]));
         }
       }
     }
@@ -134,25 +134,25 @@ namespace Isis {
                                                  QDomElement &parentElement) {
 
     int inst = 0;
-    QString transGroupName = transGroup.name();
+    QString transGroupName = QString::fromStdString(transGroup.name());
     PvlKeyword grp = InputGroup(transGroupName, inst);
 
     while (grp.name() != "") {
 
       const PvlContainer *con = GetContainer(grp);
       if (con != NULL) {
-        if (con->hasKeyword(InputKeywordName(transGroupName))) {
+        if (con->hasKeyword(InputKeywordName(transGroupName).toStdString())) {
 
           QStringList outputName = parseSpecification(OutputName(transGroupName));
           // Get the InputKey from the input label.
-          PvlKeyword inputKeyword = (*con)[InputKeywordName(transGroupName)];
+          PvlKeyword inputKeyword = (*con)[InputKeywordName(transGroupName).toStdString()];
           // Translate input keyword value and set the qdomelement
           // NOTE: We are assuming this is a single valued keyword since
           //       xml does not allow multiple values
-          QString untranslatedValue = inputKeyword[0];
+          QString untranslatedValue = QString::fromStdString(inputKeyword[0]);
           QString translatedValue = PvlTranslationTable::Translate(transGroupName, 
                                                                    untranslatedValue);
-          QString units = inputKeyword.unit(); 
+          QString units = QString::fromStdString(inputKeyword.unit()); 
           if (outputName.size() == 2 && outputName[0] == "att") {
             parentElement.setAttribute(outputName[1], translatedValue);
             if (transGroup.hasKeyword("OutputAttributes")) {
@@ -262,8 +262,8 @@ namespace Isis {
       if(containingGroup != NULL) {
         anInputGroupFound = true;
 
-        if(containingGroup->hasKeyword(InputKeywordName(transGroupName))) {
-          return containingGroup->findKeyword(InputKeywordName(transGroupName));
+        if(containingGroup->hasKeyword(InputKeywordName(transGroupName).toStdString())) {
+          return containingGroup->findKeyword(InputKeywordName(transGroupName).toStdString());
         }
       }
 
@@ -272,8 +272,8 @@ namespace Isis {
     }
 
     if(anInputGroupFound) {
-      QString msg = "Unable to find input keyword [" + InputKeywordName(transGroupName) +
-                     "] for output name [" + transGroupName + "] in file [" + 
+      std::string msg = "Unable to find input keyword [" + InputKeywordName(transGroupName).toStdString() +
+                     "] for output name [" + transGroupName.toStdString() + "] in file [" + 
                      TranslationTable().fileName() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -283,11 +283,11 @@ namespace Isis {
       for(int i = 0; i < InputGroup(transGroupName).size(); i++) {
         if(i > 0) container += ",";
 
-        container += InputGroup(transGroupName)[i];
+        container += QString::fromStdString(InputGroup(transGroupName)[i]);
       }
 
-      QString msg = "Unable to find input group [" + container + "] for output name [" + 
-                     transGroupName + "] in file [" + TranslationTable().fileName() + "]";
+      std::string msg = "Unable to find input group [" + container.toStdString() + "] for output name [" + 
+                     transGroupName.toStdString() + "] in file [" + TranslationTable().fileName() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -311,7 +311,7 @@ namespace Isis {
     PvlKeyword grp;
     while((grp = InputGroup(transGroupName, inst++)).name() != "") {
       if((con = GetContainer(grp)) != NULL) {
-        if(con->hasKeyword(InputKeywordName(transGroupName))) return true;
+        if(con->hasKeyword(InputKeywordName(transGroupName).toStdString())) return true;
       }
     }
 
@@ -386,7 +386,7 @@ namespace Isis {
     int i = 0;
     // Check if the root node (e.g. Product_Observational) exits in the OutputPosition values
     // If so, skip over that OutputPosition value so we don't add it as a child of itself
-    if (containers.size() > 0 && currentElement->tagName() == containers[0]) {
+    if (containers.size() > 0 && currentElement->tagName().toStdString() == containers[0]) {
      i = 1;
     }
 
@@ -395,7 +395,7 @@ namespace Isis {
 
       // Parse current value in the OuputPosition
       // (i.e. parse into string tokens using "@" and ":" as delimiters)
-      QStringList specifications = parseSpecification(containers[i]);
+      QStringList specifications = parseSpecification(QString::fromStdString(containers[i]));
 
       bool addNewElement = false;
       // After parsing, if the first token is "new", then add a new child element
@@ -411,14 +411,14 @@ namespace Isis {
       }
 
       // If the current element does not have a direct child with the name at containers[i]
-      else if (currentElement->namedItem(containers[i]).isNull()) {
+      else if (currentElement->namedItem(QString::fromStdString(containers[i])).isNull()) {
         QDomElement childElement = xmlRootElement.ownerDocument().createElement(specifications[0]);
         *currentElement = currentElement->appendChild(childElement).toElement();
       }
 
       // Otherwise, if we are not requesting a container with @new, grab the child container
       else {
-        *currentElement = currentElement->firstChildElement(containers[i]);
+        *currentElement = currentElement->firstChildElement(QString::fromStdString(containers[i]));
       }
       i++;
     }
@@ -441,10 +441,10 @@ namespace Isis {
     for (int i = 0; i < outputSiblings.size(); i++) {
       QStringList parsedSibling;
       parsedSibling.reserve(5);
-      parsedSibling = parseSpecification(outputSiblings[i]);
+      parsedSibling = parseSpecification(QString::fromStdString(outputSiblings[i]));
       if (parsedSibling.size() != 2) {
         // If the sibling does not have a tag name AND a tag value
-        QString msg = "Malformed OutputSibling [" + outputSiblings[i] + "]. OutputSiblings must" +
+        std::string msg = "Malformed OutputSibling [" + outputSiblings[i] + "]. OutputSiblings must" +
                       " be in the form of tag|value";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
@@ -473,10 +473,10 @@ namespace Isis {
     QStringList parsedAttribute;
 
     for (int i = 0; i < outputAttributes.size(); i++) {
-      parsedAttribute = parseSpecification(outputAttributes[i]);
+      parsedAttribute = parseSpecification(QString::fromStdString(outputAttributes[i]));
 
       if (parsedAttribute.size() != 2) {
-        QString msg = "Malformed output attribute [" + outputAttributes[i] +
+        std::string msg = "Malformed output attribute [" + outputAttributes[i] +
                         "]. OutputAttributes must be in the form of att@attribute_name|value";
         throw IException(IException::Programmer,msg ,_FILEINFO_);
       }

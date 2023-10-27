@@ -208,7 +208,7 @@ void translateLabels(Pvl &pdsLabel, Cube *ocube) {
     summingMode = 2;
   }
 
-  inst.addKeyword(PvlKeyword("Summing", toString(summingMode)));
+  inst.addKeyword(PvlKeyword("Summing", std::to_string(summingMode)));
   inst.addKeyword(PvlKeyword("FrameModeId", frameModeId));
 
   // Create the Band bin Group

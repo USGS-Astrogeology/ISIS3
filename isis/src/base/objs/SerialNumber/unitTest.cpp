@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
   cout << SerialNumber::Compose(cube, true) << endl;
 
   FileName file("$ISISTESTDATA/isis/src/lo/unitTestData/3133_h1.cub");
-  Pvl p1(file.expanded());
+  Pvl p1(file.expanded().toStdString());
 
   cout << SerialNumber::Compose(p1) << endl;
 

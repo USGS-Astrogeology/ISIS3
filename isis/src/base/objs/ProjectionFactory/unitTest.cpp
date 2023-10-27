@@ -29,29 +29,29 @@ int main(int argc, char *argv[]) {
     Pvl lab;
     lab.addGroup(PvlGroup("Mapping"));
     PvlGroup &mapGroup = lab.findGroup("Mapping");
-    mapGroup += PvlKeyword("EquatorialRadius", toString(3396190.0));
-    mapGroup += PvlKeyword("PolarRadius", toString(3376200.0));
+    mapGroup += PvlKeyword("EquatorialRadius", std::to_string(3396190.0));
+    mapGroup += PvlKeyword("PolarRadius", std::to_string(3376200.0));
 
     mapGroup += PvlKeyword("LatitudeType", "Planetographic");
     mapGroup += PvlKeyword("LongitudeDirection", "PositiveEast");
-    mapGroup += PvlKeyword("LongitudeDomain", toString(360));
+    mapGroup += PvlKeyword("LongitudeDomain", std::to_string(360));
 
     mapGroup += PvlKeyword("ProjectionName", "SimpleCylindrical");
-    mapGroup += PvlKeyword("CenterLongitude", toString(220.0));
+    mapGroup += PvlKeyword("CenterLongitude", std::to_string(220.0));
 
     cout << "Test for missing pixel resolution ... " << endl;
     doit(lab);
     doit2(lab);
 
-    mapGroup += PvlKeyword("PixelResolution", toString(2000.0));
+    mapGroup += PvlKeyword("PixelResolution", std::to_string(2000.0));
     cout << "Test for missing upper left X ... " << endl;
     doit(lab);
 
-    mapGroup += PvlKeyword("UpperLeftCornerX", toString(-18000.0));
+    mapGroup += PvlKeyword("UpperLeftCornerX", std::to_string(-18000.0));
     cout << "Test for missing upper left Y ... " << endl;
     doit(lab);
 
-    mapGroup += PvlKeyword("UpperLeftCornerY", toString(2062000.0));
+    mapGroup += PvlKeyword("UpperLeftCornerY", std::to_string(2062000.0));
 
     cout << "Testing conversion from image to ground ... " << endl;
     TProjection *proj = (TProjection *) ProjectionFactory::CreateFromCube(lab);
@@ -70,10 +70,10 @@ int main(int argc, char *argv[]) {
     cout << "Testing missing ground range on create method ... " << endl;
     doit2(lab);
 
-    mapGroup += PvlKeyword("MinimumLatitude", toString(10.8920539924144));
-    mapGroup += PvlKeyword("MaximumLatitude", toString(34.7603960060206));
-    mapGroup += PvlKeyword("MinimumLongitude", toString(219.72432466275));
-    mapGroup += PvlKeyword("MaximumLongitude", toString(236.186050244411));
+    mapGroup += PvlKeyword("MinimumLatitude", std::to_string(10.8920539924144));
+    mapGroup += PvlKeyword("MaximumLatitude", std::to_string(34.7603960060206));
+    mapGroup += PvlKeyword("MinimumLongitude", std::to_string(219.72432466275));
+    mapGroup += PvlKeyword("MaximumLongitude", std::to_string(236.186050244411));
     mapGroup.deleteKeyword("UpperLeftCornerX");
     mapGroup.deleteKeyword("UpperLeftCornerY");
 
@@ -87,15 +87,15 @@ int main(int argc, char *argv[]) {
     cout << endl;
 
     cout << "Testing create method with existing cube labels" << endl;
-    mapGroup.addKeyword(PvlKeyword("UpperLeftCornerX", toString(-16000.0)), Pvl::Replace);
-    mapGroup.addKeyword(PvlKeyword("UpperLeftCornerY", toString(2060000.0)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("UpperLeftCornerX", std::to_string(-16000.0)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("UpperLeftCornerY", std::to_string(2060000.0)), Pvl::Replace);
 
     Pvl lab2;
     PvlObject icube("IsisCube");
     PvlObject core("Core");
     PvlGroup dims("Dimensions");
-    dims += PvlKeyword("Lines", toString(400));
-    dims += PvlKeyword("Samples", toString(600));
+    dims += PvlKeyword("Lines", std::to_string(400));
+    dims += PvlKeyword("Samples", std::to_string(600));
     core.addGroup(dims);
     icube.addObject(core);
     icube.addGroup(mapGroup);
@@ -121,18 +121,18 @@ int main(int argc, char *argv[]) {
     Pvl lab;
     lab.addGroup(PvlGroup("Mapping"));
     PvlGroup &mapGroup = lab.findGroup("Mapping");
-    mapGroup += PvlKeyword("EquatorialRadius", toString(3396190.0));
-    mapGroup += PvlKeyword("PolarRadius", toString(3376200.0));
+    mapGroup += PvlKeyword("EquatorialRadius", std::to_string(3396190.0));
+    mapGroup += PvlKeyword("PolarRadius", std::to_string(3376200.0));
 
     mapGroup += PvlKeyword("LatitudeType", "Planetographic");
     mapGroup += PvlKeyword("LongitudeDirection", "PositiveEast");
-    mapGroup += PvlKeyword("LongitudeDomain", toString(360));
+    mapGroup += PvlKeyword("LongitudeDomain", std::to_string(360));
 
     mapGroup += PvlKeyword("ProjectionName", "UnsupportedProjection");
-    mapGroup += PvlKeyword("CenterLongitude", toString(220.0));
-    mapGroup += PvlKeyword("PixelResolution", toString(2000.0));
-    mapGroup += PvlKeyword("UpperLeftCornerX", toString(-18000.0));
-    mapGroup += PvlKeyword("UpperLeftCornerY", toString(2062000.0));
+    mapGroup += PvlKeyword("CenterLongitude", std::to_string(220.0));
+    mapGroup += PvlKeyword("PixelResolution", std::to_string(2000.0));
+    mapGroup += PvlKeyword("UpperLeftCornerX", std::to_string(-18000.0));
+    mapGroup += PvlKeyword("UpperLeftCornerY", std::to_string(2062000.0));
 
     TProjection *proj = (TProjection *) ProjectionFactory::Create(lab);
     proj->SetWorld(245.0, 355.0);
@@ -152,18 +152,18 @@ int main(int argc, char *argv[]) {
     southMap.addGroup(PvlGroup("Mapping"));
     PvlGroup   &mapGroupSouth = southMap.findGroup("Mapping");
     mapGroupSouth += PvlKeyword("ProjectionName", "Equirectangular");
-    mapGroupSouth += PvlKeyword("CenterLongitude", toString(0.0));
-    mapGroupSouth += PvlKeyword("CenterLatitude", toString(0.0));
-    mapGroupSouth += PvlKeyword("EquatorialRadius", toString(13400.0));
-    mapGroupSouth += PvlKeyword("PolarRadius", toString(9200.0));
+    mapGroupSouth += PvlKeyword("CenterLongitude", std::to_string(0.0));
+    mapGroupSouth += PvlKeyword("CenterLatitude", std::to_string(0.0));
+    mapGroupSouth += PvlKeyword("EquatorialRadius", std::to_string(13400.0));
+    mapGroupSouth += PvlKeyword("PolarRadius", std::to_string(9200.0));
     mapGroupSouth += PvlKeyword("LatitudeType", "Planetocentric");
     mapGroupSouth += PvlKeyword("LongitudeDirection", "PositiveEast");
-    mapGroupSouth += PvlKeyword("LongitudeDomain", toString(360));
-    mapGroupSouth += PvlKeyword("MinimumLatitude", toString(-60.0));
-    mapGroupSouth += PvlKeyword("MaximumLatitude", toString(0.0));
-    mapGroupSouth += PvlKeyword("MinimumLongitude", toString(0.0));
-    mapGroupSouth += PvlKeyword("MaximumLongitude", toString(360.0));
-    mapGroupSouth += PvlKeyword("PixelResolution", toString(10.0));
+    mapGroupSouth += PvlKeyword("LongitudeDomain", std::to_string(360));
+    mapGroupSouth += PvlKeyword("MinimumLatitude", std::to_string(-60.0));
+    mapGroupSouth += PvlKeyword("MaximumLatitude", std::to_string(0.0));
+    mapGroupSouth += PvlKeyword("MinimumLongitude", std::to_string(0.0));
+    mapGroupSouth += PvlKeyword("MaximumLongitude", std::to_string(360.0));
+    mapGroupSouth += PvlKeyword("PixelResolution", std::to_string(10.0));
 
 
     Pvl northMap;
@@ -171,18 +171,18 @@ int main(int argc, char *argv[]) {
     northMap.addGroup(PvlGroup("Mapping"));
     PvlGroup &mapGroupNorth = northMap.findGroup("Mapping");
     mapGroupNorth += PvlKeyword("ProjectionName", "Equirectangular");
-    mapGroupNorth += PvlKeyword("CenterLongitude", toString(0.0));
-    mapGroupNorth += PvlKeyword("CenterLatitude", toString(0.0));
-    mapGroupNorth += PvlKeyword("EquatorialRadius", toString(13400.0));
-    mapGroupNorth += PvlKeyword("PolarRadius", toString(9200.0));
+    mapGroupNorth += PvlKeyword("CenterLongitude", std::to_string(0.0));
+    mapGroupNorth += PvlKeyword("CenterLatitude", std::to_string(0.0));
+    mapGroupNorth += PvlKeyword("EquatorialRadius", std::to_string(13400.0));
+    mapGroupNorth += PvlKeyword("PolarRadius", std::to_string(9200.0));
     mapGroupNorth += PvlKeyword("LatitudeType", "Planetocentric");
     mapGroupNorth += PvlKeyword("LongitudeDirection", "PositiveEast");
-    mapGroupNorth += PvlKeyword("LongitudeDomain", toString(360));
-    mapGroupNorth += PvlKeyword("MinimumLatitude", toString(0.0));
-    mapGroupNorth += PvlKeyword("MaximumLatitude", toString(60.0));
-    mapGroupNorth += PvlKeyword("MinimumLongitude", toString(0.0));
-    mapGroupNorth += PvlKeyword("MaximumLongitude", toString(360.0));
-    mapGroupNorth += PvlKeyword("PixelResolution", toString(10.0));
+    mapGroupNorth += PvlKeyword("LongitudeDomain", std::to_string(360));
+    mapGroupNorth += PvlKeyword("MinimumLatitude", std::to_string(0.0));
+    mapGroupNorth += PvlKeyword("MaximumLatitude", std::to_string(60.0));
+    mapGroupNorth += PvlKeyword("MinimumLongitude", std::to_string(0.0));
+    mapGroupNorth += PvlKeyword("MaximumLongitude", std::to_string(360.0));
+    mapGroupNorth += PvlKeyword("PixelResolution", std::to_string(10.0));
 
 
     TProjection *projNorth = (TProjection *) ProjectionFactory::CreateForCube(southMap,
@@ -222,18 +222,18 @@ int main(int argc, char *argv[]) {
     eastMap.addGroup(PvlGroup("Mapping"));
     PvlGroup   &mapGroupEast = eastMap.findGroup("Mapping");
     mapGroupEast += PvlKeyword("ProjectionName", "Equirectangular");
-    mapGroupEast += PvlKeyword("CenterLongitude", toString(0.0));
-    mapGroupEast += PvlKeyword("CenterLatitude", toString(0.0));
-    mapGroupEast += PvlKeyword("EquatorialRadius", toString(13400.0));
-    mapGroupEast += PvlKeyword("PolarRadius", toString(9200.0));
+    mapGroupEast += PvlKeyword("CenterLongitude", std::to_string(0.0));
+    mapGroupEast += PvlKeyword("CenterLatitude", std::to_string(0.0));
+    mapGroupEast += PvlKeyword("EquatorialRadius", std::to_string(13400.0));
+    mapGroupEast += PvlKeyword("PolarRadius", std::to_string(9200.0));
     mapGroupEast += PvlKeyword("LatitudeType", "Planetocentric");
     mapGroupEast += PvlKeyword("LongitudeDirection", "PositiveEast");
-    mapGroupEast += PvlKeyword("LongitudeDomain", toString(360));
-    mapGroupEast += PvlKeyword("MinimumLatitude", toString(0.0));
-    mapGroupEast += PvlKeyword("MaximumLatitude", toString(60.0));
-    mapGroupEast += PvlKeyword("MinimumLongitude", toString(0.0));
-    mapGroupEast += PvlKeyword("MaximumLongitude", toString(90.0));
-    mapGroupEast += PvlKeyword("PixelResolution", toString(10.0));
+    mapGroupEast += PvlKeyword("LongitudeDomain", std::to_string(360));
+    mapGroupEast += PvlKeyword("MinimumLatitude", std::to_string(0.0));
+    mapGroupEast += PvlKeyword("MaximumLatitude", std::to_string(60.0));
+    mapGroupEast += PvlKeyword("MinimumLongitude", std::to_string(0.0));
+    mapGroupEast += PvlKeyword("MaximumLongitude", std::to_string(90.0));
+    mapGroupEast += PvlKeyword("PixelResolution", std::to_string(10.0));
 
 
     Pvl westMap;
@@ -241,18 +241,18 @@ int main(int argc, char *argv[]) {
     westMap.addGroup(PvlGroup("Mapping"));
     PvlGroup &mapGroupWest = westMap.findGroup("Mapping");
     mapGroupWest += PvlKeyword("ProjectionName", "Equirectangular");
-    mapGroupWest += PvlKeyword("CenterLongitude", toString(0.0));
-    mapGroupWest += PvlKeyword("CenterLatitude", toString(0.0));
-    mapGroupWest += PvlKeyword("EquatorialRadius", toString(13400.0));
-    mapGroupWest += PvlKeyword("PolarRadius", toString(9200.0));
+    mapGroupWest += PvlKeyword("CenterLongitude", std::to_string(0.0));
+    mapGroupWest += PvlKeyword("CenterLatitude", std::to_string(0.0));
+    mapGroupWest += PvlKeyword("EquatorialRadius", std::to_string(13400.0));
+    mapGroupWest += PvlKeyword("PolarRadius", std::to_string(9200.0));
     mapGroupWest += PvlKeyword("LatitudeType", "Planetocentric");
     mapGroupWest += PvlKeyword("LongitudeDirection", "PositiveEast");
-    mapGroupWest += PvlKeyword("LongitudeDomain", toString(360));
-    mapGroupWest += PvlKeyword("MinimumLatitude", toString(0.0));
-    mapGroupWest += PvlKeyword("MaximumLatitude", toString(60.0));
-    mapGroupWest += PvlKeyword("MinimumLongitude", toString(-90.0));
-    mapGroupWest += PvlKeyword("MaximumLongitude", toString(0.0));
-    mapGroupWest += PvlKeyword("PixelResolution", toString(10.0));
+    mapGroupWest += PvlKeyword("LongitudeDomain", std::to_string(360));
+    mapGroupWest += PvlKeyword("MinimumLatitude", std::to_string(0.0));
+    mapGroupWest += PvlKeyword("MaximumLatitude", std::to_string(60.0));
+    mapGroupWest += PvlKeyword("MinimumLongitude", std::to_string(-90.0));
+    mapGroupWest += PvlKeyword("MaximumLongitude", std::to_string(0.0));
+    mapGroupWest += PvlKeyword("PixelResolution", std::to_string(10.0));
 
 
     TProjection *projEast = (TProjection *) ProjectionFactory::CreateForCube(eastMap,

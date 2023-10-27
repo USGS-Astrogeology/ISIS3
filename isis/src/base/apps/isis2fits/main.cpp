@@ -57,8 +57,8 @@ void IsisMain() {
 
   // determine core base and multiplier, set up the stretch
   PvlGroup pix = icube->label()->findObject("IsisCube").findObject("Core").findGroup("Pixels");
-  double scale = toDouble(pix["Multiplier"][0]);
-  double base = toDouble(pix["Base"][0]);
+  double scale = std::stod(pix["Multiplier"][0]);
+  double base = std::stod(pix["Base"][0]);
 
   if (ui.GetString("STRETCH") != "NONE" && bitpix != "-32") {
     if (ui.GetString("STRETCH") == "LINEAR") {
@@ -123,7 +123,7 @@ void IsisMain() {
 
     if (icube->hasGroup("mapping")) {
       map = icube->group("mapping");
-      msg = (QString)map["targetname"];
+      msg = QString::fromStdString(map["targetname"]);
     }
     // If we have sky we want it
     if (msg == "Sky") {
@@ -243,11 +243,11 @@ QString FitsKeyword(QString key, bool isValue, QString value, QString unit) {
 QString WritePvl(QString fitsKey, QString group, QString key, Cube *icube, bool isString) {
   if (icube->hasGroup(group)) {
     PvlGroup theGroup = icube->group(group);
-    QString name = (QString)theGroup[key];
+    QString name = QString::fromStdString(theGroup[key.toStdString()]);
     if (isString) {
       name = "'" + name + "'";
     }
-    QString unit = theGroup[key].unit();
+    QString unit = QString::fromStdString(theGroup[key.toStdString()].unit());
     return FitsKeyword(fitsKey, true, name, unit);
   }
   return NULL;

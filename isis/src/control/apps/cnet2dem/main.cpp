@@ -205,7 +205,7 @@ void IsisMain() {
   std::cout << "\nCreating output DEM to determine 3-D normalization...\n";
   //Get the map projection file provided by the user
   Pvl userMap;
-  userMap.read(ui.GetFileName("MAP"));
+  userMap.read(ui.GetFileName("MAP").toStdString());
   // PvlGroup &mapGrp = userMap.FindGroup("Mapping", Pvl::Traverse);
 
   int csamps, clines;
@@ -380,8 +380,8 @@ void IsisMain() {
   PvlKeyword fname("Name");
   PvlKeyword cnumber("Number");
   for (int i = 0 ; i < functors.size() ; i++) {
-    fname.addValue(functors[i]->name());
-    cnumber.addValue(QString::number(i+1));
+    fname.addValue(functors[i]->name().toStdString());
+    cnumber.addValue(std::to_string(i+1));
   }
 
   // Create the BandBin group

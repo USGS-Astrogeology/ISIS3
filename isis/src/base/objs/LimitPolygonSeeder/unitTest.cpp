@@ -81,8 +81,8 @@ int main() {
       Isis::Pvl maplab;
       maplab.addGroup(Isis::PvlGroup("Mapping"));
       Isis::PvlGroup &mapGroup = maplab.findGroup("Mapping");
-      mapGroup += Isis::PvlKeyword("EquatorialRadius", (QString)radii["EquatorialRadius"]);
-      mapGroup += Isis::PvlKeyword("PolarRadius", (QString)radii["PolarRadius"]);
+      mapGroup += Isis::PvlKeyword("EquatorialRadius", (std::string)radii["EquatorialRadius"]);
+      mapGroup += Isis::PvlKeyword("PolarRadius", (std::string)radii["PolarRadius"]);
       mapGroup += Isis::PvlKeyword("LatitudeType", "Planetocentric");
       mapGroup += Isis::PvlKeyword("LongitudeDirection", "PositiveEast");
       mapGroup += Isis::PvlKeyword("LongitudeDomain", "360");
@@ -143,8 +143,8 @@ int main() {
       Isis::Pvl maplab;
       maplab.addGroup(Isis::PvlGroup("Mapping"));
       Isis::PvlGroup &mapGroup = maplab.findGroup("Mapping");
-      mapGroup += Isis::PvlKeyword("EquatorialRadius", (QString)radii["EquatorialRadius"]);
-      mapGroup += Isis::PvlKeyword("PolarRadius", (QString)radii["PolarRadius"]);
+      mapGroup += Isis::PvlKeyword("EquatorialRadius", (std::string)radii["EquatorialRadius"]);
+      mapGroup += Isis::PvlKeyword("PolarRadius", (std::string)radii["PolarRadius"]);
       mapGroup += Isis::PvlKeyword("LatitudeType", "Planetocentric");
       mapGroup += Isis::PvlKeyword("LongitudeDirection", "PositiveEast");
       mapGroup += Isis::PvlKeyword("LongitudeDomain", "360");

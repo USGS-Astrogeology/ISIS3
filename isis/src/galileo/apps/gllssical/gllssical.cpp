@@ -126,23 +126,23 @@ namespace Isis {
                                          gainFileName.name()));
     calibrationLog.addKeyword(PvlKeyword("ShutterFile", shutterFileName.originalPath() + "/" +
                                          shutterFileName.name()));
-    calibrationLog.addKeyword(PvlKeyword("ScaleFactor", toString(scaleFactor)));
+    calibrationLog.addKeyword(PvlKeyword("ScaleFactor", std::to_string(scaleFactor)));
     calibrationLog.addKeyword(PvlKeyword("OutputUnits", iof ? "I/F" : "Radiance"));
     if (iof) {
-      calibrationLog.addKeyword(PvlKeyword("S1", toString(s1), "I/F per Ft-Lambert"));
-      calibrationLog.addKeyword(PvlKeyword("RSUN", toString(rsun), "(Planet-Sun range)/5.2 A.U."));
-      calibrationLog.addKeyword(PvlKeyword("Scale", toString(scaleFactor), "I/F units per DN"));
-      calibrationLog.addKeyword(PvlKeyword("GC", toString(cubeConversion), "Cube gain conversion"));
-      calibrationLog.addKeyword(PvlKeyword("GG", toString(gainConversion), "Gain file gain conversion"));
-      calibrationLog.addKeyword(PvlKeyword("IOF-SCALE0", toString(scaleFactor0), "(S1/Scale)*(GC/GG)/RSUN**2"));
+      calibrationLog.addKeyword(PvlKeyword("S1", std::to_string(s1), "I/F per Ft-Lambert"));
+      calibrationLog.addKeyword(PvlKeyword("RSUN", std::to_string(rsun), "(Planet-Sun range)/5.2 A.U."));
+      calibrationLog.addKeyword(PvlKeyword("Scale", std::to_string(scaleFactor), "I/F units per DN"));
+      calibrationLog.addKeyword(PvlKeyword("GC", std::to_string(cubeConversion), "Cube gain conversion"));
+      calibrationLog.addKeyword(PvlKeyword("GG", std::to_string(gainConversion), "Gain file gain conversion"));
+      calibrationLog.addKeyword(PvlKeyword("IOF-SCALE0", std::to_string(scaleFactor0), "(S1/Scale)*(GC/GG)/RSUN**2"));
     }
     else {
-      calibrationLog.addKeyword(PvlKeyword("S2", toString(s2), "Nanowatts per Ft-Lambert"));
-      calibrationLog.addKeyword(PvlKeyword("Scale", toString(scaleFactor),
+      calibrationLog.addKeyword(PvlKeyword("S2", std::to_string(s2), "Nanowatts per Ft-Lambert"));
+      calibrationLog.addKeyword(PvlKeyword("Scale", std::to_string(scaleFactor),
                                            "Nanowatts/cm**2/steradian/nanometer/DN"));
-      calibrationLog.addKeyword(PvlKeyword("GC", toString(cubeConversion), "Cube gain conversion"));
-      calibrationLog.addKeyword(PvlKeyword("GG", toString(gainConversion), "Gain file gain conversion"));
-      calibrationLog.addKeyword(PvlKeyword("Radiance-SCALE0", toString(scaleFactor0), "(S2/Scale)*(GC/GG)"));
+      calibrationLog.addKeyword(PvlKeyword("GC", std::to_string(cubeConversion), "Cube gain conversion"));
+      calibrationLog.addKeyword(PvlKeyword("GG", std::to_string(gainConversion), "Gain file gain conversion"));
+      calibrationLog.addKeyword(PvlKeyword("Radiance-SCALE0", std::to_string(scaleFactor0), "(S2/Scale)*(GC/GG)"));
     }
   
     ocube->putGroup(calibrationLog);

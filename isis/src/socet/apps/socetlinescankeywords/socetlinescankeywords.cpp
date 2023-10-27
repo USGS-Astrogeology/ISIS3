@@ -73,7 +73,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 
   // Make sure the image contains the InstrumentPointing (aka CK) blob/table
   PvlGroup test = input->label()->findGroup("Kernels", Pvl::Traverse);
-  QString InstrumentPointing = (QString) test["InstrumentPointing"];
+  QString InstrumentPointing = QString::fromStdString(test["InstrumentPointing"]);
   if (InstrumentPointing != "Table") {
     QString msg = "Input image does not contain needed SPICE blobs...run spiceinit with attach=yes.";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -89,7 +89,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 
   // Get required keywords from instrument and band groups
   PvlGroup inst =input->label()->findGroup("Instrument", Pvl::Traverse);
-  QString instrumentId = (QString) inst["InstrumentId"];
+  QString instrumentId = QString::fromStdString(inst["InstrumentId"]);
 
   bool     isMocNA = false;
 //TO DO: UNCOMMENT THIS LINES ONCE MOC IS WORKING IN SS
@@ -117,7 +117,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 //TO DO: DELETE THIS LINE ONCE MOC IS WORKING IN SS
   if (instrumentId == "IdealCamera") {
     PvlGroup orig = input->label()->findGroup("OriginalInstrument",  Pvl::Traverse);
-    QString origInstrumentId = (QString) orig["InstrumentId"];
+    QString origInstrumentId = QString::fromStdString(orig["InstrumentId"]);
     if (origInstrumentId == "HIRISE") {
       isHiRise = true;
     }
@@ -380,14 +380,14 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   QList< QList<double> > ephemRates;
 
   PvlGroup kernels = input->label()->findGroup("Kernels", Pvl::Traverse);
-  QString InstrumentPosition = (QString) kernels["InstrumentPosition"];
+  QString InstrumentPosition = QString::fromStdString(kernels["InstrumentPosition"]);
 
   int numEphem = 0;      // number of ephemeris points
   double dtEphem = 0.0;  // delta time of ephemeris points, seconds
   if (InstrumentPosition == "Table") {
     // Labels contain SPK blob
     // set up Ephem pts/rates number and spacing
-    Table tablePosition("InstrumentPosition", cubeHeader->fileName());
+    Table tablePosition("InstrumentPosition", QString::fromStdString(cubeHeader->fileName()));
     numEphem = tablePosition.Records();
 
     // increase the number of ephem nodes by 20%.  This is somewhat random but
@@ -549,7 +549,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   // quarternions
 
   //set up quaternions number and spacing
-  Table tablePointing("InstrumentPointing", cubeHeader->fileName());
+  Table tablePointing("InstrumentPointing", QString::fromStdString(cubeHeader->fileName()));
 
   //number of quaternions
   int numQuaternions = tablePointing.Records();
@@ -692,8 +692,8 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   Distance targetRadii[3];
   if (input->label()->hasGroup("Mapping")) {
     PvlGroup &mappingGroup = input->label()->findGroup("Mapping");
-    targetRadii[0].setMeters(toDouble(mappingGroup["EquatorialRadius"][0]));
-    targetRadii[2].setMeters(toDouble(mappingGroup["PolarRadius"][0]));
+    targetRadii[0].setMeters(std::stod(mappingGroup["EquatorialRadius"][0]));
+    targetRadii[2].setMeters(std::stod(mappingGroup["PolarRadius"][0]));
   }
   else {
     try {
