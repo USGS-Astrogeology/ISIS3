@@ -40,7 +40,7 @@ void IsisMain() {
   Pvl label;
   processPDS.SetPdsFile (detachedLabel.expanded(), "", label);
 
-  QString fitsImage = detachedLabel.path() + "/" + (QString) label.findKeyword("^COMBINED_SPECTRUM");
+  QString fitsImage = detachedLabel.path() + "/" + QString::fromStdString(label.findKeyword("^COMBINED_SPECTRUM"));
   FileName fitsFile(fitsImage);
   NirsImportFits fits(fitsFile, "FitsLabel");
   label += fits.label();
@@ -49,9 +49,9 @@ void IsisMain() {
   QString axis1Length;
   QString axis2Length;
   try {
-    axisCount   = (QString) label.findKeyword ("NAXIS", PvlObject::Traverse);
-    axis1Length = (QString) label.findKeyword ("NAXIS1", PvlObject::Traverse);
-    axis2Length = (QString) label.findKeyword ("NAXIS2", PvlObject::Traverse);
+    axisCount   = QString::fromStdString(label.findKeyword ("NAXIS", PvlObject::Traverse));
+    axis1Length = QString::fromStdString(label.findKeyword ("NAXIS1", PvlObject::Traverse));
+    axis2Length = QString::fromStdString(label.findKeyword ("NAXIS2", PvlObject::Traverse));
   }
   catch (IException &e) {
     QString msg = "Unable to read [NAXIS], [NAXIS1] or [NAXIS2] "
@@ -156,16 +156,16 @@ void IsisMain() {
   PvlKeyword filterNumber("FilterNumber");
   PvlKeyword center("Center");
   for (int channelNumber = 1; channelNumber <= 64; channelNumber++) {
-    filterNumber += toString( channelNumber );
-    center += toString( 2.27144 - 0.02356 * (65 - channelNumber) );
+    filterNumber += std::to_string( channelNumber );
+    center += std::to_string( 2.27144 - 0.02356 * (65 - channelNumber) );
   }
   newLabel.findGroup("BandBin", Pvl::Traverse).addKeyword(filterNumber);
   newLabel.findGroup("BandBin", Pvl::Traverse).addKeyword(center);
   newLabel.findGroup("BandBin", Pvl::Traverse).findKeyword("Width").setUnits("micrometers");
 
   //  Create YearDoy keyword in Archive group
-  iTime stime(newLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]);
-  PvlKeyword yeardoy("YearDoy", toString(stime.Year()*1000 + stime.DayOfYear()));
+  iTime stime(QString::fromStdString(newLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]));
+  PvlKeyword yeardoy("YearDoy", std::to_string(stime.Year()*1000 + stime.DayOfYear()));
   newLabel.findGroup("Archive", Pvl::Traverse).addKeyword(yeardoy);
 
   // Add the instrument, band bin, archive, mission data, and kernels

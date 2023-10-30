@@ -22,18 +22,18 @@ namespace Isis {
   Pvl label;
 
   QString labelFile = ui.GetFileName("FROM");
-  label.read(labelFile);
+  label.read(labelFile.toStdString());
 
   // The Kaguya MI MAP files have an incorrect SAMPLE_PROJECTION_OFFSET
   // keyword value in their labels. The following code creates a temporary
   // detached PDS label with the correct (negated) keyword value.
   PvlObject obj = label.findObject("IMAGE_MAP_PROJECTION");
-  double soff = toDouble(obj.findKeyword("SAMPLE_PROJECTION_OFFSET")[0]);
+  double soff = std::stod(obj.findKeyword("SAMPLE_PROJECTION_OFFSET")[0]);
   soff = -soff;
-  label.findObject("IMAGE_MAP_PROJECTION").addKeyword(PvlKeyword("SAMPLE_PROJECTION_OFFSET",toString(soff)),Pvl::Replace);
+  label.findObject("IMAGE_MAP_PROJECTION").addKeyword(PvlKeyword("SAMPLE_PROJECTION_OFFSET",std::to_string(soff)),Pvl::Replace);
   FileName tempFileName = FileName::createTempFile("TEMPORARYlabel.pvl").name();
   QString fn(tempFileName.expanded());
-  label.write(fn);
+  label.write(fn.toStdString());
 
   QString imageFile("");
   QString datafile = labelFile;

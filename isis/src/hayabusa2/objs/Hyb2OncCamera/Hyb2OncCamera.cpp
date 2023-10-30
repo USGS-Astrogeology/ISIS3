@@ -66,7 +66,7 @@ namespace Isis {
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
 
     // set variables startTime and exposureDuration
-    QString stime = inst["SpacecraftClockStartCount"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     iTime etStart = getClockTime(stime);
 
     double exposureDuration = ((double) inst["ExposureDuration"]);

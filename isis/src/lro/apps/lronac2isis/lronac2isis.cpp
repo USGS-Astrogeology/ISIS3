@@ -44,9 +44,9 @@ namespace Isis {
     FileName inFile = ui.GetFileName("FROM");
     QString id;
     try {
-      Pvl lab(inFile.expanded());
+      Pvl lab(inFile.expanded().toStdString());
       if(lab.hasKeyword("DATA_SET_ID"))
-        id = (QString) lab.findKeyword("DATA_SET_ID");
+        id = QString::fromStdString(lab.findKeyword("DATA_SET_ID"));
       else {
         QString msg = "Unable to read [DATA_SET_ID] from input file [" + inFile.expanded() + "]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -70,12 +70,12 @@ namespace Isis {
       }
 
       for(int i = 0; i < xtermKeyword.size(); i++) {
-        g_xterm.push_back(toDouble(xtermKeyword[i]));
-        g_mterm.push_back(toDouble(mtermKeyword[i]));
-        g_bterm.push_back(toDouble(btermKeyword[i]));
+        g_xterm.push_back(std::stod(xtermKeyword[i]));
+        g_mterm.push_back(std::stod(mtermKeyword[i]));
+        g_bterm.push_back(std::stod(btermKeyword[i]));
       }
 
-      double versionId = toDouble(lab.findKeyword("PRODUCT_VERSION_ID")[0].remove(QRegExp("^v")));
+      double versionId = std::stod(QString::fromStdString(lab.findKeyword("PRODUCT_VERSION_ID")[0]).remove(QRegExp("^v")));
       if(lab.findKeyword("FRAME_ID")[0] == "RIGHT" && versionId < 1.30)
         g_flip = true;
       else
@@ -193,7 +193,7 @@ namespace Isis {
     //Pvl to store the labels
     Pvl outLabel;
     //Set up the directory where the translations are
-    Pvl labelPvl(labelFile.expanded());
+    Pvl labelPvl(labelFile.expanded().toStdString());
 
     //Translate the Instrument group
     FileName transFile("$ISISROOT/appdata/translations/LroNacInstrument.trn");
@@ -210,7 +210,7 @@ namespace Isis {
     PvlToPvlTranslationManager bandBinXlater(labelPvl, transFile.expanded());
     bandBinXlater.Auto(outLabel);
 
-    Pvl lab(labelFile.expanded());
+    Pvl lab(labelFile.expanded().toStdString());
 
     //Set up the Kernels group
     PvlGroup kern("Kernels");

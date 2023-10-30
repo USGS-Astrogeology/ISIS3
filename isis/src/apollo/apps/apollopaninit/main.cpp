@@ -132,19 +132,19 @@ void IsisMain() {
 
   //four that are the same for every panaramic mission
   keyword.setName("SpacecraftName");
-  keyword.setValue(mission);
+  keyword.setValue(mission.toStdString());
   inst_pvlG.addKeyword(keyword);
 
   keyword.setName("InstrumentName");
-  keyword.setValue(transTable.Translate("InstrumentName","whatever"));
+  keyword.setValue(transTable.Translate("InstrumentName","whatever").toStdString());
   inst_pvlG.addKeyword(keyword);
 
   keyword.setName("InstrumentId");
-  keyword.setValue(transTable.Translate("InstrumentId","whatever"));
+  keyword.setValue(transTable.Translate("InstrumentId","whatever").toStdString());
   inst_pvlG.addKeyword(keyword);
 
   keyword.setName("TargetName");
-  keyword.setValue(transTable.Translate("TargetName","whatever"));
+  keyword.setValue(transTable.Translate("TargetName","whatever").toStdString());
   inst_pvlG.addKeyword(keyword);
 
   //three that need to be calculated from input values
@@ -171,17 +171,17 @@ void IsisMain() {
 
   isisTime = time0;
   keyword.setName("StartTime");
-  keyword.setValue(iStrTEMP=isisTime.UTC());
+  keyword.setValue(isisTime.UTC().toStdString());
   inst_pvlG.addKeyword(keyword);
 
   isisTime = time1;
   keyword.setName("StopTime");
-  keyword.setValue(iStrTEMP=isisTime.UTC());
+  keyword.setValue(isisTime.UTC().toStdString());
   inst_pvlG.addKeyword(keyword);
 
   keyword.setName("LineExposureDuration");
   //converted led to msec/mm--negative sign to account for the anti-parallel time and line axes
-  keyword.setValue(iStrTEMP=std::to_string(-led),"sec/mm");
+  keyword.setValue(std::to_string(-led),"sec/mm");
   inst_pvlG.addKeyword(keyword);
 
   panCube.putGroup(inst_pvlG);
@@ -195,23 +195,23 @@ void IsisMain() {
   kernels_pvlG.addKeyword(keyword);
 
   keyword.setName("LeapSecond");
-  keyword.setValue( transTable.Translate("LeapSecond","File1") );
+  keyword.setValue( transTable.Translate("LeapSecond","File1").toStdString() );
   kernels_pvlG.addKeyword(keyword);
 
   keyword.setName("TargetAttitudeShape");
-  keyword.setValue( transTable.Translate("TargetAttitudeShape", "File1") );
-  keyword.addValue( transTable.Translate("TargetAttitudeShape", "File2") );
-  keyword.addValue( transTable.Translate("TargetAttitudeShape", "File3") );
+  keyword.setValue( transTable.Translate("TargetAttitudeShape", "File1").toStdString() );
+  keyword.addValue( transTable.Translate("TargetAttitudeShape", "File2").toStdString() );
+  keyword.addValue( transTable.Translate("TargetAttitudeShape", "File3").toStdString() );
   kernels_pvlG.addKeyword(keyword);
 
   keyword.setName("TargetPosition");
   keyword.setValue("Table");
-  keyword.addValue( transTable.Translate("TargetPosition", "File1") );
-  keyword.addValue( transTable.Translate("TargetPosition", "File2") );
+  keyword.addValue( transTable.Translate("TargetPosition", "File1").toStdString() );
+  keyword.addValue( transTable.Translate("TargetPosition", "File2").toStdString() );
   kernels_pvlG.addKeyword(keyword);
 
   keyword.setName("ShapeModel");
-  keyword.setValue( transTable.Translate("ShapeModel", "File1") );
+  keyword.setValue( transTable.Translate("ShapeModel", "File1").toStdString() );
   kernels_pvlG.addKeyword(keyword);
 
   keyword.setName("InstrumentPointing");
@@ -223,7 +223,7 @@ void IsisMain() {
   kernels_pvlG.addKeyword(keyword);
 
   keyword.setName("InstrumentAddendum");
-  keyword.setValue( transTable.Translate("InstrumentAddendum",mission));
+  keyword.setValue( transTable.Translate("InstrumentAddendum", mission).toStdString());
   kernels_pvlG.addKeyword(keyword);
 
   panCube.putGroup(kernels_pvlG);
@@ -630,7 +630,7 @@ void IsisMain() {
   //parameters for maximum correlation autoregestration
   // see:  file:///usgs/pkgs/isis3nightly2011-09-21/isis/doc/documents/patternSMatch/patternSMatch.html#DistanceTolerance
   FileName fiducialPvl("$ISISROOT/appdata/templates/apollo/PanFiducialFinder.def");
-  pvl.read(fiducialPvl.expanded());  //read in the autoreg parameters
+  pvl.read(fiducialPvl.expanded().toStdString());  //read in the autoreg parameters
   AutoReg *arS = AutoRegFactory::Create(pvl);
 
   *arS->PatternChip()   = patternS;  //patternS chip is constant
@@ -797,12 +797,12 @@ void Load_Kernel(Isis::PvlKeyword &key) {
 
   for(int i = 0; i < key.size(); i++) {
      if(key[i] == "") continue;
-     if(QString(key[i]).toUpper() == "NULL") break;
-     if(QString(key[i]).toUpper() == "NADIR") break;
+     if(QString::fromStdString(key[i]).toUpper() == "NULL") break;
+     if(QString::fromStdString(key[i]).toUpper() == "NADIR") break;
      //Table was left as the first value of these keywords because one is about to be attached,
      //  still though it needs to be skipped in this loop
-     if(QString(key[i]).toUpper() == "TABLE") continue;
-     Isis::FileName file(key[i]);
+     if(QString::fromStdString(key[i]).toUpper() == "TABLE") continue;
+     Isis::FileName file(QString::fromStdString(key[i]));
      if(!file.fileExists()) {
        QString msg = "Spice file does not exist [" + file.expanded() + "]";
        throw IException(IException::Io, msg, _FILEINFO_);

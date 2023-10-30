@@ -23,11 +23,11 @@ namespace Isis {
     ProcessImportPds importPds;
     FileName inFile = ui.GetFileName("FROM");
     QString labelFile = inFile.expanded();
-    Pvl label(labelFile);
+    Pvl label(labelFile.toStdString());
 
     QString dataFile = "";
     if ( inFile.extension().toLower() == "lbl" ) {
-      dataFile = inFile.path() + "/" + (QString) label.findKeyword("FILE_NAME");
+      dataFile = inFile.path() + "/" + QString::fromStdString(label.findKeyword("FILE_NAME"));
     }
     else {
       dataFile = labelFile;
@@ -35,7 +35,7 @@ namespace Isis {
 
     QString id = "";
     try {
-      id = (QString) label.findKeyword("DATA_SET_ID");
+      id = QString::fromStdString(label.findKeyword("DATA_SET_ID"));
     }
     catch(IException &e) {
       QString msg = "Unable to read [DATA_SET_ID] from label file ["
@@ -125,19 +125,19 @@ namespace Isis {
       if (inst.hasKeyword("StartTime")) {
         // Remove trailing "Z" from keyword
         PvlKeyword &startTime = inst["StartTime"];
-        QString startTimeString = startTime[0];
+        QString startTimeString = QString::fromStdString(startTime[0]);
         if (QString::compare(startTimeString.at(startTimeString.size() - 1), "Z", Qt::CaseInsensitive) == 0){
           startTimeString = startTimeString.left(startTimeString.length() - 1);
-          startTime.setValue(startTimeString);
+          startTime.setValue(startTimeString.toStdString());
         }
       }
       if (inst.hasKeyword("StopTime")) {
         // Remove trailing "Z" from keyword
         PvlKeyword &stopTime = inst["StopTime"];
-        QString stopTimeString = stopTime[0];
+        QString stopTimeString = QString::fromStdString(stopTime[0]);
         if (QString::compare(stopTimeString.at(stopTimeString.size() - 1), "Z", Qt::CaseInsensitive) == 0){
           stopTimeString = stopTimeString.left(stopTimeString.length() - 1);
-          stopTime.setValue(stopTimeString);
+          stopTime.setValue(stopTimeString.toStdString());
         }
       }
       outcube->putGroup(otherLabels.findGroup("Instrument"));

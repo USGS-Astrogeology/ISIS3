@@ -56,16 +56,16 @@ namespace Isis {
     // Get the ephemeris time from the labels
     double et;
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString stime = inst["SpacecraftClockStartCount"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     et = getClockTime(stime).Et();
 
-    p_exposureDur = toDouble(inst["ExposureDuration"]);
+    p_exposureDur = std::stod(inst["ExposureDuration"]);
     // TODO:  Changed et - exposure to et + exposure.
     //   Think about if this is correct
     p_etStart = et + ((p_exposureDur / 1000.0) / 2.0);
 
     // Compute the framelet size and number of framelets
-    QString instId = inst["InstrumentId"][0].toUpper();
+    QString instId = QString::fromStdString(inst["InstrumentId"][0]).toUpper();
 
     int frameletSize = 14;
     int sumMode = 1;
@@ -108,7 +108,7 @@ namespace Isis {
     }
 
     // Is the data flipped?
-    bool dataflipped = (inst["DataFlipped"][0].toUpper() == "YES");
+    bool dataflipped = (QString::fromStdString(inst["DataFlipped"][0]).toUpper() == "YES");
 
     //  Now create detector offsets
     QString instCode = "INS" + QString::number(naifIkCode());
@@ -148,15 +148,15 @@ namespace Isis {
     //  Now map the actual filters that exist in cube to camera components or
     // storage vectors for later band selection (see SetBand(vband))
     for (int i = 0; i < filtNames.size(); i++) {
-      if (!filterToDetectorOffset.exists(filtNames[i].toInt())) {
-        QString msg = "Unrecognized filter name [" + filtNames[i] + "]";
+      if (!filterToDetectorOffset.exists(std::stoi(filtNames[i]))) {
+        std::string msg = "Unrecognized filter name [" + filtNames[i] + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
-      p_detectorStartLines.push_back(filterToDetectorOffset.get(filtNames[i].toInt()));
-      p_frameletOffsets.push_back(filterToFrameletOffset.get(filtNames[i].toInt()));
+      p_detectorStartLines.push_back(filterToDetectorOffset.get(std::stoi(filtNames[i])));
+      p_frameletOffsets.push_back(filterToFrameletOffset.get(std::stoi(filtNames[i])));
 
-      QString kBase = "INS" + QString::number(filterIKCode.get(filtNames[i].toInt()));
+      QString kBase = "INS" + QString::number(filterIKCode.get(std::stoi(filtNames[i])));
       p_focalLength.push_back(getDouble(kBase+"_FOCAL_LENGTH"));
       p_boreSightSample.push_back(getDouble(kBase+"_BORESIGHT_SAMPLE"));
       p_boreSightLine.push_back(getDouble(kBase+"_BORESIGHT_LINE"));
@@ -175,11 +175,11 @@ namespace Isis {
     dmap->SetFrameletsGeometricallyFlipped(false);
 
     //  get instrument-specific sample offset
-    QString instModeId = inst["InstrumentModeId"][0].toUpper();
+    QString instModeId = QString::fromStdString(inst["InstrumentModeId"][0]).toUpper();
     // For BW mode, add the mode (0,1 (non-polar) or 2,3 (polar)) used to
     // acquire image
     if (instModeId == "BW") {
-      instModeId += inst["Mode"][0];
+      instModeId += QString::fromStdString(inst["Mode"][0]);
       // There are no offsets for BW mode.. there can only be 1 filter
       //   and there must be 1 filter.
       p_frameletOffsets[0] = 0;
@@ -194,12 +194,12 @@ namespace Isis {
     LroWideAngleCameraDistortionMap *distort = new LroWideAngleCameraDistortionMap(this, naifIkCode());
 
     for ( int i = 0 ; i < filtNames.size() ; i++ ) {
-      fplane->addFilter(filterIKCode.get(filtNames[i].toInt()));
-      distort->addFilter(filterIKCode.get(filtNames[i].toInt()));
+      fplane->addFilter(filterIKCode.get(std::stoi(filtNames[i])));
+      distort->addFilter(filterIKCode.get(std::stoi(filtNames[i])));
     }
 
     // Setup the ground and sky map
-    bool evenFramelets = (inst["Framelets"][0].toUpper() == "EVEN");
+    bool evenFramelets = (QString::fromStdString(inst["Framelets"][0]).toUpper() == "EVEN");
     new PushFrameCameraGroundMap(this, evenFramelets);
     new CameraSkyMap(this);
 
@@ -300,14 +300,14 @@ namespace Isis {
 
     if (nvals <= 0) {
       PvlObject NaifKeywords = getStoredNaifKeywords();
-      if (!NaifKeywords.hasKeyword(key)){
+      if (!NaifKeywords.hasKeyword(key.toStdString())){
         QString mess = "Kernel pool keyword " + key + " not found!";
         throw IException(IException::Programmer, mess, _FILEINFO_);
       }
-      PvlKeyword kw = NaifKeywords[key];
+      PvlKeyword kw = NaifKeywords[key.toStdString()];
       IntParameterList parms;
       for (int i = 0; i<kw.size(); i++){
-        parms.push_back(toInt(kw[i]));
+        parms.push_back(std::stoi(kw[i]));
       }
       return parms;
     }

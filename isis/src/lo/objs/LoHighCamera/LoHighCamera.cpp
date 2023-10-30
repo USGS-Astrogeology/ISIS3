@@ -66,8 +66,8 @@ namespace Isis {
     // Get the Instrument label information needed to define the camera for this frame
     Pvl &lab = *cube.label();
     PvlGroup inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString spacecraft = (QString)inst["SpacecraftName"];
-    QString instId = (QString)inst["InstrumentId"];
+    QString spacecraft = QString::fromStdString(inst["SpacecraftName"]);
+    QString instId = QString::fromStdString(inst["InstrumentId"]);
 
     // Turn off the aberration corrections for the instrument position object
     instrumentPosition()->SetAberrationCorrection("NONE");
@@ -77,7 +77,7 @@ namespace Isis {
     SetPixelPitch();
 
     // Get the start time in et
-    double time = iTime((QString)inst["StartTime"]).Et();
+    double time = iTime(QString::fromStdString(inst["StartTime"])).Et();
 
     // Setup focal plane map
     LoCameraFiducialMap fid(inst, naifIkCode());

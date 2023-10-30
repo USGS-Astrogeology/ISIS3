@@ -152,7 +152,7 @@ void importQubs(QString coreParamName, QString suffixParamName) {
 
   const PvlObject &qube = pdsLabel->findObject("Qube");
 
-  QString dataSetId(qube["DATA_SET_ID"]);
+  QString dataSetId(QString::fromStdString(qube["DATA_SET_ID"]));
 
   //Verify that we have a NIMS cube
   QRegExp galileoRx("GO-[A-Z]-NIMS*");
@@ -172,11 +172,11 @@ void importQubs(QString coreParamName, QString suffixParamName) {
   }
 
   //Determine the dimensions and pixel type of the core/suffix bands
-  QString g_coreItemBytesStr(qube["CORE_ITEM_BYTES"][0]);
-  QString g_suffixItemBytesStr(qube["SUFFIX_BYTES"][0]);
+  QString g_coreItemBytesStr(QString::fromStdString(qube["CORE_ITEM_BYTES"][0]));
+  QString g_suffixItemBytesStr(QString::fromStdString(qube["SUFFIX_BYTES"][0]));
 
-  QString backPlanesStr(qube["SUFFIX_ITEMS"][2]);
-  QString corePlanesStr(qube["CORE_ITEMS"][2]);
+  QString backPlanesStr(QString::fromStdString(qube["SUFFIX_ITEMS"][2]));
+  QString corePlanesStr(QString::fromStdString(qube["CORE_ITEMS"][2]));
 
   g_coreItemBytes = g_coreItemBytesStr.toInt();
   g_suffixItemBytes = g_suffixItemBytesStr.toInt();
@@ -549,29 +549,29 @@ void ProcessBands(Pvl &pdsLab, Cube *nimsCube, ProcessImportPds &importPds) {
   vector<double> base(g_suffixBands);
 
   for(int i = 0; i < g_suffixBands; i++) {
-    suffixNames+= (QString)qube["BAND_SUFFIX_NAME"][i];
+    suffixNames+= (std::string)qube["BAND_SUFFIX_NAME"][i];
 
     if(qube.hasKeyword("BAND_SUFFIX_UNIT"))
-        suffixUnits+= (QString)qube["BAND_SUFFIX_UNIT"][i];
+        suffixUnits+= (std::string)qube["BAND_SUFFIX_UNIT"][i];
 
     if (qube.hasKeyword("BAND_BIN_CENTER") )
-        suffixCenters += (QString)qube["BAND_BIN_CENTER"][i];
+        suffixCenters += (std::string)qube["BAND_BIN_CENTER"][i];
 
     if (qube.hasKeyword("BAND_BIN_ORIGINAL_BAND") )
-        suffixOriginalBands += (QString)qube["BAND_BIN_ORIGINAL_BAND"][i];
+        suffixOriginalBands += (std::string)qube["BAND_BIN_ORIGINAL_BAND"][i];
 
     if (qube.hasKeyword("BAND_BIN_GRATING_POSITION") )
-        suffixGratingPositions += (QString)qube["BAND_BIN_GRATING_POSITION"][i];
+        suffixGratingPositions += (std::string)qube["BAND_BIN_GRATING_POSITION"][i];
 
 
     if (qube.hasKeyword("BAND_BIN_DETECTOR") )
-        suffixDetectors += (QString)qube["BAND_BIN_DETECTOR"][i];
+        suffixDetectors += (std::string)qube["BAND_BIN_DETECTOR"][i];
 
     if (qube.hasKeyword("BAND_BIN_SOLAR_FLUX") )
-        suffixSolarFluxes += (QString)qube["BAND_BIN_SOLAR_FLUX"][i];
+        suffixSolarFluxes += (std::string)qube["BAND_BIN_SOLAR_FLUX"][i];
 
     if (qube.hasKeyword("BAND_BIN_SENSITIVITY") )
-        suffixSensitivities += (QString)qube["BAND_BIN_SENSITIVITY"][i];
+        suffixSensitivities += (std::string)qube["BAND_BIN_SENSITIVITY"][i];
   }
 
   bandBin += suffixNames;
@@ -584,14 +584,14 @@ void ProcessBands(Pvl &pdsLab, Cube *nimsCube, ProcessImportPds &importPds) {
   bandBin += suffixSolarFluxes;
 
    if(qube.hasKeyword("BAND_SUFFIX_NOTE"))
-     bandBin += (QString)qube["BAND_SUFFIX_NOTE"];
+     bandBin += (std::string)qube["BAND_SUFFIX_NOTE"];
 
    if(qube.hasKeyword("STD_DEV_SELECTED_BAND_NUMBER"))
-     bandBin += (QString)qube["STD_DEV_SELECTED_BAND_NUMBER"];
+     bandBin += (std::string)qube["STD_DEV_SELECTED_BAND_NUMBER"];
 
   for(int i = 0; i < g_suffixBands; i++) {
-    multStr = (QString)qube["BAND_SUFFIX_MULTIPLIER"];
-    baseStr = (QString)qube["BAND_SUFFIX_BASE"];
+    multStr = QString::fromStdString(qube["BAND_SUFFIX_MULTIPLIER"]);
+    baseStr = QString::fromStdString(qube["BAND_SUFFIX_BASE"]);
     multi[i]=multStr.toDouble();
     base[i] = baseStr.toDouble();
     }

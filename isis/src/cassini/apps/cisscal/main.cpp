@@ -902,7 +902,7 @@ void gbl::FindDustRingParameters() {
                       + gbl::dustFile.expanded() + "*** not found.", _FILEINFO_);
     }
   }
-  gbl::calgrp += PvlKeyword("DustRingFile", gbl::dustFile.original());
+  gbl::calgrp += PvlKeyword("DustRingFile", gbl::dustFile.original().toStdString());
   // if anti-blooming correction is off correct ring at sample=887, line=388
   if (!gbl::cissLab->AntibloomingOn()) {
     gbl::dustFile2 = (gbl::GetCalibrationDirectory("dustring") + "nac_dustring_aboff"
@@ -936,7 +936,7 @@ void gbl::FindDustRingParameters() {
   }
   gbl::mottleCorrection = true;
   gbl::calgrp += PvlKeyword("MottleCorrectionPerformed", "Yes");
-  gbl::calgrp += PvlKeyword("MottleFile", gbl::mottleFile.original());
+  gbl::calgrp += PvlKeyword("MottleFile", gbl::mottleFile.original().toStdString());
 
   // determine strength factor, need effective wavelength of filter
   vector <int> filterIndex(2);
@@ -1107,7 +1107,7 @@ FileName gbl::FindFlatFile() {
   }
   gbl::calgrp += PvlKeyword("FlatfieldCorrectionPerformed", "Yes");
   gbl::calgrp.findKeyword("FlatfieldCorrectionPerformed").addComment("Flatfield Correction Parameters");
-  gbl::calgrp += PvlKeyword("SlopeDataBase", slopeDatabaseName.original());
+  gbl::calgrp += PvlKeyword("SlopeDataBase", slopeDatabaseName.original().toStdString());
   gbl::flatCorrection = true;
 
   // Find the best-match flat file
@@ -1673,8 +1673,8 @@ void gbl::FindEfficiencyFactor(QString fluxunits) {
   spline2.AddData(lambda, fluxproduct2);
   gbl::efficiencyFactor = spline1.BoolesRule(spline1.DomainMinimum(), spline1.DomainMaximum());
   double efficiency = spline2.BoolesRule(spline2.DomainMinimum(), spline2.DomainMaximum());
-  gbl::calgrp += PvlKeyword("EfficiencyFactor", gbl::efficiencyFactor, units);
-  gbl::calgrp += PvlKeyword("TotalEfficiency", efficiency);
+  gbl::calgrp += PvlKeyword("EfficiencyFactor", std::to_string(gbl::efficiencyFactor), units.toStdString());
+  gbl::calgrp += PvlKeyword("TotalEfficiency", std::to_string(efficiency));
 
   // Cannot divide by 0.0
   if(gbl::efficiencyFactor == 0) {
@@ -1859,6 +1859,6 @@ void gbl::FindSensitivityCorrection() {
 QString gbl::GetCalibrationDirectory(QString calibrationType) {
   // Get the directory where the CISS calibration directories are.
   PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-  QString missionDir = (QString) dataDir["Cassini"];
+  QString missionDir = QString::fromStdString(dataDir["Cassini"]);
   return missionDir + "/calibration/" + calibrationType + "/";
 }

@@ -131,7 +131,7 @@ void IsisMain() {
   PvlGroup &inst = icube->group("Instrument");
   PvlGroup &bandbin = icube->group("BandBin");
 
-  QString filter = bandbin["FilterName"];
+  QString filter = QString::fromStdString(bandbin["FilterName"]);
 
   g_filter = filter;
 
@@ -156,11 +156,11 @@ void IsisMain() {
     throw IException(e, IException::Io,msg, _FILEINFO_);
   }
 
-  QString instrumentId = inst["InstrumentId"];
+  QString instrumentId = QString::fromStdString(inst["InstrumentId"]);
   QString oncCCDTemperature = "ONC";
   try {
     oncCCDTemperature += instrumentId.section('-',1,1) + "CCDTemperature";
-    g_temp = inst[oncCCDTemperature];
+    g_temp = inst[oncCCDTemperature.toStdString()];
   }
   catch(IException &e) {
     QString msg = "Unable to read [" + oncCCDTemperature + "] keyword in the Instrument group "
@@ -169,17 +169,17 @@ void IsisMain() {
 
   }
 
-  QString startTime = inst["SpacecraftClockStartCount"];
+  QString startTime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
 
   g_startTime = startTime;
 
   nsubImages = inst["SubImageCount"];  // If > 1, some correction is not needed/performed
 
-  QString compmode = inst["Compression"];
+  QString compmode = QString::fromStdString(inst["Compression"]);
   // TODO: verify that the compression factor/scale is actually 16 for compressed Hayabusa2 images.
   g_compfactor = ( "lossy" == compmode.toLower() ) ? 16.0 : 1.0;
 
-  QString target = inst["TargetName"];
+  QString target = QString::fromStdString(inst["TargetName"]);
   g_target = target;
 
 
@@ -294,31 +294,31 @@ void IsisMain() {
 
   // Log calibration activity performed so far
   PvlGroup calibrationLog("RadiometricCalibration");
-  calibrationLog.addKeyword(PvlKeyword("SoftwareName", hyb2cal_program));
-  calibrationLog.addKeyword(PvlKeyword("SoftwareVersion", hyb2cal_version));
-  calibrationLog.addKeyword(PvlKeyword("ProcessDate", hyb2cal_runtime));
-  calibrationLog.addKeyword(PvlKeyword("CalibrationFile", calfile));
-  calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", flatfile.originalPath()
-  + "/" + flatfile.name()));
-  calibrationLog.addKeyword(PvlKeyword("CompressionFactor", toString(g_compfactor, 2)));
+  calibrationLog.addKeyword(PvlKeyword("SoftwareName", hyb2cal_program.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("SoftwareVersion", hyb2cal_version.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("ProcessDate", hyb2cal_runtime.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("CalibrationFile", calfile.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", flatfile.originalPath().toStdString()
+  + "/" + flatfile.name().toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("CompressionFactor", toString(g_compfactor, 2).toStdString()));
 
   // Parameters
   PvlKeyword key("Bias_Bn");
-  key.addValue(std::to_string(g_b0, 8));
-  key.addValue(std::to_string(g_b1, 8));
-  key.addValue(std::to_string(g_b2, 8));
+  key.addValue(toString(g_b0, 8).toStdString());
+  key.addValue(toString(g_b1, 8).toStdString());
+  key.addValue(toString(g_b2, 8).toStdString());
   calibrationLog.addKeyword(key);
-  calibrationLog.addKeyword(PvlKeyword("Bias", toString(g_bias, 16), "DN"));
+  calibrationLog.addKeyword(PvlKeyword("Bias", toString(g_bias, 16).toStdString(), "DN"));
 
   // calibrationLog.addKeyword(PvlKeyword("Smear_Tvct", toString(g_Tvct, 16)));
 
-  calibrationLog.addKeyword(PvlKeyword("CalibrationUnits", g_iofCorrection));
-  calibrationLog.addKeyword(PvlKeyword("RadianceStandard", toString(g_v_standard, 16)));
-  calibrationLog.addKeyword(PvlKeyword("RadianceScaleFactor", toString(g_iofScale, 16)));
-  calibrationLog.addKeyword(PvlKeyword("SolarDistance", toString(g_solarDist, 16), "AU"));
-  calibrationLog.addKeyword(PvlKeyword("SolarFlux", toString(g_solarFlux, 16)));
-  calibrationLog.addKeyword(PvlKeyword("IOFFactor", toString(g_iof, 16)));
-  calibrationLog.addKeyword(PvlKeyword("Units", g_units));
+  calibrationLog.addKeyword(PvlKeyword("CalibrationUnits", g_iofCorrection.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("RadianceStandard", toString(g_v_standard, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("RadianceScaleFactor", toString(g_iofScale, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("SolarDistance", toString(g_solarDist, 16).toStdString(), "AU"));
+  calibrationLog.addKeyword(PvlKeyword("SolarFlux", toString(g_solarFlux, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("IOFFactor", toString(g_iof, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("Units", g_units.toStdString()));
 
   // Write Calibration group to output file
   ocube->putGroup(calibrationLog);
@@ -360,7 +360,7 @@ QString loadCalibrationVariables(const QString &config)  {
   if ( config.contains("?") ) calibFile = calibFile.highestVersion();
 
   // Pvl configFile;
-  g_configFile.read(calibFile.expanded());
+  g_configFile.read(calibFile.expanded().toStdString());
 
   // Load the groups
   PvlGroup &Bias = g_configFile.findGroup("Bias");
@@ -373,20 +373,20 @@ QString loadCalibrationVariables(const QString &config)  {
   // g_Tvct = Smear["Tvct"];
 
   // Load DarkCurrent variables
-  g_d0 = DarkCurrent["D"][0].toDouble();
-  g_d1 = DarkCurrent["D"][1].toDouble();
+  g_d0 = std::stod(DarkCurrent["D"][0]);
+  g_d1 = std::stod(DarkCurrent["D"][1]);
 
   // Load Bias variables
-  g_b0 = Bias["B"][0].toDouble();
-  g_b1 = Bias["B"][1].toDouble();
-  g_b2 = Bias["B"][2].toDouble();
+  g_b0 = std::stod(Bias["B"][0]);
+  g_b1 = std::stod(Bias["B"][1]);
+  g_b2 = std::stod(Bias["B"][2]);
 
   // Compute BIAS correction factor (it's a constant so do it once!)
   g_bias = g_b0 + g_b1 * g_AEtemperature + g_b2 * (g_AEtemperature * g_AEtemperature);
   std::cout << "bias: " << g_bias << std::endl;
 
   // Load the Solar Flux for the specific filter
-  g_solarFlux = solar[g_filter.toLower()];
+  g_solarFlux = solar[g_filter.toLower().toStdString()];
 
   // radiance = g_v_standard * g_iofScale
   // iof      = radiance * pi *dist_au^2

@@ -278,7 +278,7 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
   Isis::PvlGroup &dataDir = Isis::Preference::Preferences().findGroup("DataDirectory");
   Process p;
   PvlTranslationTable tTable("$ISISROOT/appdata/translations/MissionName2DataDir.trn");
-  QString missionDir = dataDir[tTable.Translate("MissionName", QString::fromStdString(apollo->SpacecraftName()))][0];
+  QString missionDir = QString::fromStdString(dataDir[tTable.Translate("MissionName", apollo->SpacecraftName()).toStdString()][0]);
   Pvl resTemplate(missionDir.toStdString() + "/reseaus/" + apollo->InstrumentId().toStdString() + "_NOMINAL.pvl");
   PvlGroup *reseaus = &resTemplate.findGroup("Reseaus");
 

@@ -36,7 +36,7 @@ void IsisMain ()
   p.SetPdsFile (inFile.expanded(), "", label);
 
   // Add FITS header
-  QString fitsImage = inFile.path() + "/" + (QString) label.findKeyword("^IMAGE");
+  QString fitsImage = inFile.path() + "/" + QString::fromStdString(label.findKeyword("^IMAGE"));
   FileName fitsFile(fitsImage);
   AmicaImportFits fits(fitsFile, "FitsLabel");
   label.addGroup(fits.label());
@@ -44,8 +44,8 @@ void IsisMain ()
   QString instid;
   QString missid;
   try {
-    instid = (QString) label.findKeyword ("INSTRUMENT_ID", PvlObject::Traverse);
-    missid = (QString) label.findKeyword ("INSTRUMENT_HOST_NAME", PvlObject::Traverse);
+    instid = QString::fromStdString(label.findKeyword ("INSTRUMENT_ID", PvlObject::Traverse));
+    missid = QString::fromStdString(label.findKeyword ("INSTRUMENT_HOST_NAME", PvlObject::Traverse));
   }
   catch (IException &e) {
     QString msg = "Unable to read [INSTRUMENT_ID] or [INSTRUMENT_HOST_NAME] "
@@ -131,7 +131,7 @@ void IsisMain ()
   kernelsXlater.Auto(outLabel);
 
   //  Create YearDoy keyword in Archive group
-  iTime stime(outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]);
+  iTime stime(QString::fromStdString(outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]));
   PvlKeyword yeardoy("YearDoy", std::to_string(stime.Year()*1000 + stime.DayOfYear()));
   outLabel.findGroup("Archive", Pvl::Traverse).addKeyword(yeardoy);
 
@@ -139,18 +139,18 @@ void IsisMain ()
   //  Update target if user specifies it
   if (!target.isEmpty()) {
     PvlGroup &igrp = outLabel.findGroup("Instrument",Pvl::Traverse);
-    igrp["TargetName"] = target;
+    igrp["TargetName"] = target.toStdString();
   }
 
   QString units = "";
   if (outLabel.findGroup("BandBin", Pvl::Traverse).hasKeyword("Unit")) {
-    units = outLabel.findGroup("BandBin", Pvl::Traverse).findKeyword("Unit")[0].toLower();
+    units = QString::fromStdString(outLabel.findGroup("BandBin", Pvl::Traverse).findKeyword("Unit")[0]).toLower();
   }
   else {
     units = "nanometers";
   }
-  outLabel.findGroup("BandBin", Pvl::Traverse).findKeyword("Center").setUnits(units);
-  outLabel.findGroup("BandBin", Pvl::Traverse).findKeyword("Width").setUnits(units);
+  outLabel.findGroup("BandBin", Pvl::Traverse).findKeyword("Center").setUnits(units.toStdString());
+  outLabel.findGroup("BandBin", Pvl::Traverse).findKeyword("Width").setUnits(units.toStdString());
 
   // Write the BandBin, Archive, and Instrument groups
   // to the output cube label

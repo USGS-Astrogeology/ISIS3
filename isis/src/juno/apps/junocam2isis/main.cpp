@@ -161,14 +161,14 @@ void IsisMain() {
       // Update the labels
       Pvl *fullFrameLabel = g_outputCubes[i]->label();
       fullFrameLabel->findGroup("Instrument", PvlObject::Traverse)
-                              .addKeyword(PvlKeyword("FrameNumber", toString(i+1)));
+                              .addKeyword(PvlKeyword("FrameNumber", std::to_string(i+1)));
 
       PvlGroup &bandBin = fullFrameLabel->findGroup("BandBin", PvlObject::Traverse);
       bandBin.addKeyword(PvlKeyword("FilterName", "FULLCCD"),
                          PvlObject::Replace);
 
       // Add filter-specific code to band bin Group
-      bandBin.addKeyword(PvlKeyword("NaifIkCode", toString(spacecraftCode)));
+      bandBin.addKeyword(PvlKeyword("NaifIkCode", std::to_string(spacecraftCode)));
 
       importPds.WriteHistory(*g_outputCubes[i]);
       g_outputCubes[i]->write(origLabels);
@@ -182,7 +182,7 @@ void IsisMain() {
     int numSubimages = importPds.Lines() / g_frameletLines;
     int frameletsPerFilter = numSubimages / g_filterList.size();
     outputLabel.findGroup("Instrument", PvlObject::Traverse)
-                         .addKeyword(PvlKeyword("NumberFramelets", toString(frameletsPerFilter)));
+                         .addKeyword(PvlKeyword("NumberFramelets", std::to_string(frameletsPerFilter)));
 
     // get output file name and remove cube extension, if entered
     FileName outputFileName(ui.GetCubeName("TO"));
@@ -255,12 +255,12 @@ void IsisMain() {
       int frameNumber = (i / g_filterList.size()) + 1;
       Pvl *frameletLabel = g_outputCubes[i]->label();
       frameletLabel->findGroup("Instrument", PvlObject::Traverse)
-                              .addKeyword(PvlKeyword("FrameNumber", toString(frameNumber)));
+                              .addKeyword(PvlKeyword("FrameNumber", std::to_string(frameNumber)));
 
       int filterIndex = i % g_filterList.size();
       QString filterName = g_filterList[filterIndex];
       PvlGroup &bandBin = frameletLabel->findGroup("BandBin", PvlObject::Traverse);
-      bandBin.addKeyword(PvlKeyword("FilterName", filterName),
+      bandBin.addKeyword(PvlKeyword("FilterName", filterName.toStdString()),
                          PvlObject::Replace);
 
       if (filterName.compare("BLUE", Qt::CaseInsensitive) == 0) {
@@ -276,7 +276,7 @@ void IsisMain() {
         spacecraftCode = -61504;
       }
       // Add filter-specific code to band bin Group
-      bandBin.addKeyword(PvlKeyword("NaifIkCode", toString(spacecraftCode)));
+      bandBin.addKeyword(PvlKeyword("NaifIkCode", std::to_string(spacecraftCode)));
 
       importPds.WriteHistory(*g_outputCubes[i]);
       g_outputCubes[i]->write(origLabels);
@@ -310,8 +310,8 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
                                "i.e. start time for FrameNumber 1.");
   inst["SpacecraftClockStartCount"].addComment("Start count for the entire observation, "
                                                "i.e. start count for FrameNumber 1.");
-  QString instId  = (QString) inst.findKeyword("InstrumentId");
-  QString spcName = (QString) inst.findKeyword("SpacecraftName");
+  QString instId  = QString::fromStdString(inst.findKeyword("InstrumentId"));
+  QString spcName = QString::fromStdString(inst.findKeyword("SpacecraftName"));
   if (spcName.compare("JUNO", Qt::CaseInsensitive) != 0
       || instId.compare("JNC", Qt::CaseInsensitive) != 0) {
 
@@ -328,10 +328,10 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
   PvlToPvlTranslationManager bandBinXlater(inputLabel, bandBinTransFile.expanded());
   bandBinXlater.Auto(outputLabel);
   PvlGroup &bandBin = outputLabel.findGroup("BandBin", PvlObject::Traverse);
-  QString filter  = (QString) bandBin.findKeyword("FilterName");
+  QString filter  = QString::fromStdString(bandBin.findKeyword("FilterName"));
 
   // COMPUTE FRAMELET SIZE
-  QString summingKey = outputLabel.findKeyword("SummingMode", PvlObject::Traverse)[0];
+  QString summingKey = QString::fromStdString(outputLabel.findKeyword("SummingMode", PvlObject::Traverse)[0]);
   if (summingKey.compare("1") != 0 &&
       summingKey.compare("2") != 0) {
     QString msg = "Invalid summing mode [" + summingKey + "], expected [1] or [2].";
@@ -344,7 +344,7 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
   g_filterList.clear();
   PvlKeyword filterKey = outputLabel.findKeyword("FilterName", PvlObject::Traverse);
   for (int i = 0; i < filterKey.size(); i++) {
-    g_filterList.append(filterKey[i]);
+    g_filterList.append(QString::fromStdString(filterKey[i]));
   }
 
   // Translate the Archive group
@@ -352,21 +352,21 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
   PvlToPvlTranslationManager archiveXlater(inputLabel, archiveTransFile.expanded());
   archiveXlater.Auto(outputLabel);
   PvlGroup &archive = outputLabel.findGroup("Archive", PvlObject::Traverse);
-  iTime startTime(inst["StartTime"][0]);
-  PvlKeyword yeardoy("YearDoy", toString(startTime.Year()*1000 + startTime.DayOfYear()));
+  iTime startTime(QString::fromStdString(inst["StartTime"][0]));
+  PvlKeyword yeardoy("YearDoy", std::to_string(startTime.Year()*1000 + startTime.DayOfYear()));
   archive.addKeyword(yeardoy);
   UserInterface &ui = Application::GetUserInterface();
 
   //  NOTE - This needs to be the complete base name of the output filter file, not as it
   // is here, which is just the base name of the input file. It should be moved the place
   // where the file is created with the full label in it.
-  PvlKeyword sourceProductId("SourceProductId", FileName(ui.GetFileName("FROM")).baseName());
+  PvlKeyword sourceProductId("SourceProductId", FileName(ui.GetFileName("FROM")).baseName().toStdString());
   archive.addKeyword(sourceProductId);
 
   // Setup the kernel group
   PvlGroup kern("Kernels");
   int spacecraftCode = -61500;
-  kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
+  kern += PvlKeyword("NaifFrameCode", std::to_string(spacecraftCode));
   outputLabel.findObject("IsisCube").addGroup(kern);
 
 }

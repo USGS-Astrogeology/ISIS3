@@ -85,7 +85,7 @@ namespace Isis {
       }
     }
 
-    QString instModeId = pdsLab["INSTRUMENT_MODE_ID"];
+    QString instModeId = QString::fromStdString(pdsLab["INSTRUMENT_MODE_ID"]);
 
     // this will be used to convert num input lines to num output lines,
     //   only changed for when both uv and vis exist (varying summing)
@@ -222,7 +222,7 @@ namespace Isis {
     OriginalLabel origLabel(pdsLab);
 
     int numFramelets = padding.size();
-    PvlKeyword numFrameletsKeyword("NumFramelets", toString(numFramelets));
+    PvlKeyword numFrameletsKeyword("NumFramelets", std::to_string(numFramelets));
 
     if(uveven) {
       for(int grp = 0; grp < isis3UvEvenLab.groups(); grp++) {
@@ -495,10 +495,10 @@ namespace Isis {
 
     // color offset doesn't apply to BW mode (single band cubes)
     if(colorOffset && viseven && viseven->bandCount() == 1) {
-      genericInstrument.push_back(PvlKeyword("ColorOffset", QString::number(0)));
+      genericInstrument.push_back(PvlKeyword("ColorOffset", std::to_string(0)));
     }
     else {
-      genericInstrument.push_back(PvlKeyword("ColorOffset", toString(colorOffset)));
+      genericInstrument.push_back(PvlKeyword("ColorOffset", std::to_string(colorOffset)));
     }
 
     genericInstrument.push_back(PvlKeyword("Decompanded", (ui.GetBoolean("UNLUT") ? "Yes" : "No")));
@@ -520,16 +520,16 @@ namespace Isis {
     // add labels unique to particular files
     if(viseven) {
       visEvenInst.addKeyword(PvlKeyword("Framelets", "Even"));
-      visEvenInst.addKeyword(PvlKeyword("NumFramelets", toString(viseven->lineCount() / 14)));
+      visEvenInst.addKeyword(PvlKeyword("NumFramelets", std::to_string(viseven->lineCount() / 14)));
       visEvenInst.addKeyword(PvlKeyword("InstrumentId", "WAC-VIS"), Pvl::Replace);
-      visEvenInst.addKeyword(PvlKeyword("InstrumentModeId", (QString) pdsLab["INSTRUMENT_MODE_ID"]));
+      visEvenInst.addKeyword(PvlKeyword("InstrumentModeId", pdsLab["INSTRUMENT_MODE_ID"]));
     }
 
     if(visodd) {
       visOddInst.addKeyword(PvlKeyword("Framelets", "Odd"));
-      visOddInst.addKeyword(PvlKeyword("NumFramelets", toString(visodd->lineCount() / 14)));
+      visOddInst.addKeyword(PvlKeyword("NumFramelets", std::to_string(visodd->lineCount() / 14)));
       visOddInst.addKeyword(PvlKeyword("InstrumentId", "WAC-VIS"), Pvl::Replace);
-      visOddInst.addKeyword(PvlKeyword("InstrumentModeId", (QString) pdsLab["INSTRUMENT_MODE_ID"]));
+      visOddInst.addKeyword(PvlKeyword("InstrumentModeId", pdsLab["INSTRUMENT_MODE_ID"]));
     }
 
     // **TEMPORARY. This should be done by a translation table.
@@ -549,7 +549,7 @@ namespace Isis {
     }
     else {
       for(int i = 0; i < pdsLab["FILTER_NUMBER"].size(); i++) {
-        if(toInt(pdsLab["FILTER_NUMBER"][i]) > 2) {
+        if(std::stoi(pdsLab["FILTER_NUMBER"][i]) > 2) {
           visWavelength += pdsLab["CENTER_FILTER_WAVELENGTH"][i];
           visFilterNum += pdsLab["FILTER_NUMBER"][i];
 
@@ -577,16 +577,16 @@ namespace Isis {
 
     if(uveven) {
       uvEvenInst.addKeyword(PvlKeyword("Framelets", "Even"));
-      uvEvenInst.addKeyword(PvlKeyword("NumFramelets", toString(uveven->lineCount() / 4)));
+      uvEvenInst.addKeyword(PvlKeyword("NumFramelets", std::to_string(uveven->lineCount() / 4)));
       uvEvenInst.addKeyword(PvlKeyword("InstrumentId", "WAC-UV"), Pvl::Replace);
-      uvEvenInst.addKeyword(PvlKeyword("InstrumentModeId", (QString) pdsLab["INSTRUMENT_MODE_ID"]));
+      uvEvenInst.addKeyword(PvlKeyword("InstrumentModeId", pdsLab["INSTRUMENT_MODE_ID"]));
     }
 
     if(uvodd) {
       uvOddInst.addKeyword(PvlKeyword("Framelets", "Odd"));
-      uvOddInst.addKeyword(PvlKeyword("NumFramelets", toString(uvodd->lineCount() / 4)));
+      uvOddInst.addKeyword(PvlKeyword("NumFramelets", std::to_string(uvodd->lineCount() / 4)));
       uvOddInst.addKeyword(PvlKeyword("InstrumentId", "WAC-UV"), Pvl::Replace);
-      uvOddInst.addKeyword(PvlKeyword("InstrumentModeId", (QString) pdsLab["INSTRUMENT_MODE_ID"]));
+      uvOddInst.addKeyword(PvlKeyword("InstrumentModeId", pdsLab["INSTRUMENT_MODE_ID"]));
     }
 
     // Translate the BandBin group
@@ -742,10 +742,10 @@ namespace Isis {
         bool found = false;
         bool match = false;
         for(int j = 0; !found && j < (int) filters.size(); j++) {
-          if(toInt(pdsLab["FILTER_NUMBER"][i]) == filters[j].first) {
+          if(std::stoi(pdsLab["FILTER_NUMBER"][i]) == filters[j].first) {
             found = true;
 
-            match = (pdsLab["CENTER_FILTER_WAVELENGTH"][i] == filters[j].second);
+            match = (pdsLab["CENTER_FILTER_WAVELENGTH"][i] == filters[j].second.toStdString());
           }
         }
 
@@ -778,7 +778,7 @@ namespace Isis {
       PvlKeyword &orbitNumber = pdsLab["ORBIT_NUMBER"];
       QRegExp integerRegex("[0-9]+");
 
-      if(orbitNumber.size() != 1 || !integerRegex.exactMatch(orbitNumber[0])) {
+      if(orbitNumber.size() != 1 || !integerRegex.exactMatch(QString::fromStdString(orbitNumber[0]))) {
         QString msg = "The value of keyword [ORBIT_NUMBER] is not valid";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
@@ -797,7 +797,7 @@ namespace Isis {
       };
 
       for(unsigned int i = 0; i < sizeof(numericKeywords) / sizeof(QString); i++) {
-        if(pdsLab[numericKeywords[i]].size() != 1 || !numberRegex.exactMatch(pdsLab[numericKeywords[i]][0])) {
+        if(pdsLab[numericKeywords[i].toStdString()].size() != 1 || !numberRegex.exactMatch(QString::fromStdString(pdsLab[numericKeywords[i].toStdString()][0]))) {
           QString msg = "The value of keyword [";
           msg += numericKeywords[i];
           msg += "] is not valid";
@@ -813,7 +813,7 @@ namespace Isis {
       };
 
       for(unsigned int i = 0; i < sizeof(timeKeywords) / sizeof(QString); i++) {
-        if(pdsLab[timeKeywords[i]].size() != 1 || !timeRegex.exactMatch(pdsLab[timeKeywords[i]][0])) {
+        if(pdsLab[timeKeywords[i].toStdString()].size() != 1 || !timeRegex.exactMatch(QString::fromStdString(pdsLab[timeKeywords[i].toStdString()][0]))) {
           QString msg = "The value of keyword [";
           msg += timeKeywords[i];
           msg += "] is not valid";
@@ -829,7 +829,7 @@ namespace Isis {
       };
 
       for(unsigned int i = 0; i < sizeof(clockKeywords) / sizeof(QString); i++) {
-        if(pdsLab[clockKeywords[i]].size() != 1 || !clockRegex.exactMatch(pdsLab[clockKeywords[i]][0])) {
+        if(pdsLab[clockKeywords[i].toStdString()].size() != 1 || !clockRegex.exactMatch(QString::fromStdString(pdsLab[clockKeywords[i].toStdString()][0]))) {
           QString msg = "The value of keyword [";
           msg += clockKeywords[i];
           msg += "] is not valid";

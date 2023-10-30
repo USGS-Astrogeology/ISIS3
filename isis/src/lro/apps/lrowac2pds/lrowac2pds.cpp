@@ -87,12 +87,12 @@ namespace Isis {
       for (int i = 0; i < list.size(); i++) {
 
           Pvl tempPvl;
-          tempPvl.read(list[i].toString());
+          tempPvl.read(list[i].toString().toStdString());
 
           OriginalLabel origLab(list[i].toString());
           pdsLab = origLab.ReturnLabels();
 
-          QString prodId = pdsLab["PRODUCT_ID"][0];
+          QString prodId = QString::fromStdString(pdsLab["PRODUCT_ID"][0]);
           if (productId == "")
               productId = prodId;
 
@@ -103,9 +103,9 @@ namespace Isis {
           }
 
           Isis::PvlGroup &inst = tempPvl.findGroup("Instrument", Pvl::Traverse);
-          QString instId = (QString) inst["InstrumentId"];
-          QString framelets = (QString) inst["Framelets"];
-          QString numFrames = inst["NumFramelets"];
+          QString instId = QString::fromStdString(inst["InstrumentId"]);
+          QString framelets = QString::fromStdString(inst["Framelets"]);
+          QString numFrames = QString::fromStdString(inst["NumFramelets"]);
 
           if (instId != "WAC-VIS" && instId != "WAC-UV") {
               QString msg = "This program is intended for use on LROC WAC images only. [";
@@ -113,12 +113,12 @@ namespace Isis {
               throw IException(IException::User, msg, _FILEINFO_);
           }
 
-          QString instModeId = (QString) inst["InstrumentModeId"];
+          QString instModeId = QString::fromStdString(inst["InstrumentModeId"]);
           if (instrumentModeId == "")
               instrumentModeId = instModeId;
           if (numFramelets == 0)
               numFramelets = toInt(numFrames);
-          g_isIoF = tempPvl.findGroup("Radiometry", Pvl::Traverse).findKeyword("RadiometricType")[0].toUpper() == "IOF";
+          g_isIoF = QString::fromStdString(tempPvl.findGroup("Radiometry", Pvl::Traverse).findKeyword("RadiometricType")[0]).toUpper() == "IOF";
 
           if (instId == "WAC-VIS" && framelets == "Even") {
               viseven = new Cube();
@@ -390,37 +390,37 @@ namespace Isis {
           QString unit = "";
           if (labelPvl[outLabel[i].name()].unit() != "") {
               hasUnit = true;
-              unit = labelPvl[outLabel[i].name()].unit();
+              unit = QString::fromStdString(labelPvl[outLabel[i].name()].unit());
           }
           bool hasComment = false;
           QString comment = "";
           if (labelPvl[outLabel[i].name()].comments() > 0) {
               hasComment = true;
-              comment = labelPvl[outLabel[i].name()].comment(0);
+              comment = QString::fromStdString(labelPvl[outLabel[i].name()].comment(0));
           }
           labelPvl[outLabel[i].name()] = outLabel[i];
 
           if (hasUnit)
-              labelPvl[outLabel[i].name()].setUnits(unit);
+              labelPvl[outLabel[i].name()].setUnits(unit.toStdString());
           if (hasComment)
-              labelPvl[outLabel[i].name()].addComment(comment);
+              labelPvl[outLabel[i].name()].addComment(comment.toStdString());
       }
 
       //Update the product ID
-      QString prod_id = labelPvl["PRODUCT_ID"][0];
+      QString prod_id = QString::fromStdString(labelPvl["PRODUCT_ID"][0]);
       labelPvl["PRODUCT_ID"][0].replace((prod_id.length()-1), 1, "C");
 
       // Update the product creation time
-      labelPvl["PRODUCT_CREATION_TIME"].setValue(iTime::CurrentGMT());
+      labelPvl["PRODUCT_CREATION_TIME"].setValue(iTime::CurrentGMT().toStdString());
 
-      labelPvl["PRODUCT_VERSION_ID"].setValue(g_productVersionId);
+      labelPvl["PRODUCT_VERSION_ID"].setValue(g_productVersionId.toStdString());
 
       // Update the "IMAGE" Object
       PvlObject &imageObject = labelPvl.findObject("IMAGE");
       imageObject.clear();
-      imageObject += PvlKeyword("LINES", toString(cube->lineCount()));
-      imageObject += PvlKeyword("LINE_SAMPLES", toString(cube->sampleCount()));
-      imageObject += PvlKeyword("SAMPLE_BITS", toString(32));
+      imageObject += PvlKeyword("LINES", std::to_string(cube->lineCount()));
+      imageObject += PvlKeyword("LINE_SAMPLES", std::to_string(cube->sampleCount()));
+      imageObject += PvlKeyword("SAMPLE_BITS", std::to_string(32));
       imageObject += PvlKeyword("SAMPLE_TYPE", "PC_REAL");
       imageObject += PvlKeyword("VALID_MINIMUM", "16#FF7FFFFA#");
       imageObject += PvlKeyword("NULL", "16#FF7FFFFB#");
@@ -432,17 +432,17 @@ namespace Isis {
           imageObject += PvlKeyword("UNIT", "\"I/F\"");
       else
       imageObject += PvlKeyword("UNIT", "W / (m**2 micrometer sr)");
-      imageObject += PvlKeyword("MD5_CHECKSUM", g_md5Checksum);
+      imageObject += PvlKeyword("MD5_CHECKSUM", g_md5Checksum.toStdString());
 
       stream << labelPvl;
 
       int recordBytes = cube->sampleCount();
       int labelRecords = (int) ((stream.str().length()) / recordBytes) + 1;
 
-      labelPvl["RECORD_BYTES"] = toString(recordBytes);
-      labelPvl["FILE_RECORDS"] = toString((int) (cube->lineCount() * 4 + labelRecords));
-      labelPvl["LABEL_RECORDS"] = toString(labelRecords);
-      labelPvl["^IMAGE"] = toString((int) (labelRecords + 1));
+      labelPvl["RECORD_BYTES"] = std::to_string(recordBytes);
+      labelPvl["FILE_RECORDS"] = std::to_string((int) (cube->lineCount() * 4 + labelRecords));
+      labelPvl["LABEL_RECORDS"] = std::to_string(labelRecords);
+      labelPvl["^IMAGE"] = std::to_string((int) (labelRecords + 1));
 
       stream.str(std::string());
 
@@ -455,9 +455,9 @@ namespace Isis {
       while ((int)pdsLabel.length() + 2 > (int)(labelRecords * recordBytes)) {
           labelRecords++;
           // Refresh the label content
-          labelPvl["FILE_RECORDS"] = toString((int) (cube->lineCount() * 4 + labelRecords));
-          labelPvl["LABEL_RECORDS"] = toString(labelRecords);
-          labelPvl["^IMAGE"] = toString((int) (labelRecords + 1));
+          labelPvl["FILE_RECORDS"] = std::to_string((int) (cube->lineCount() * 4 + labelRecords));
+          labelPvl["LABEL_RECORDS"] = std::to_string(labelRecords);
+          labelPvl["^IMAGE"] = std::to_string((int) (labelRecords + 1));
           stream.str(std::string());
           stream << labelPvl;
           pdsLabel = stream.str().c_str();

@@ -47,8 +47,8 @@ namespace Isis {
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
 
     // get the start and stop times
-    QString startTime = inst["SpacecraftClockStartCount"];
-    QString stopTime = inst["SpacecraftClockStopCount"];
+    QString startTime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
+    QString stopTime = QString::fromStdString(inst["SpacecraftClockStopCount"]);
     iTime etStart = getClockTime(startTime);
     iTime etStop = getClockTime(stopTime);
 

@@ -79,7 +79,7 @@ namespace Isis {
     SpiceDouble etStart;
 
     if(stime != "NULL") {
-      etStart = getClockTime(stime).Et();
+      etStart = getClockTime(QString::fromStdString(stime)).Et();
     }
     else {
       etStart = iTime(QString::fromStdString(inst["PrerollTime"])).Et();

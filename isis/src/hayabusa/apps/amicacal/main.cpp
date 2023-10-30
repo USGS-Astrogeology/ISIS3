@@ -171,7 +171,7 @@ void IsisMain() {
   PvlGroup &bandbin = inputCube->group("BandBin");
   PvlGroup &archive = inputCube->group("Archive");
 
-  QString filter = bandbin["Name"];
+  QString filter = QString::fromStdString(bandbin["Name"]);
   g_filter=filter;
 
   binning = inst["Binning"];
@@ -211,7 +211,7 @@ void IsisMain() {
 
   }
 
-  QString startTime = inst["SpacecraftClockStartCount"];
+  QString startTime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
 
   g_startTime = startTime;
   binning = inst["Binning"];
@@ -223,12 +223,12 @@ void IsisMain() {
   nsubImages = archive["SubImageCount"];  // If > 1, some correction is
                                           // not needed/performed
 
-  QString compmode = archive["OutputMode"];
+  QString compmode = QString::fromStdString(archive["OutputMode"]);
   g_compfactor = ( "lossy" == compmode.toLower() ) ? 16.0 : 1.0;
 
 
   // I/F values
-  QString target = inst["TargetName"];
+  QString target = QString::fromStdString(inst["TargetName"]);
   g_target = target;
 
   // Determine if we need to subsample the flat field should pixel binning
@@ -367,37 +367,37 @@ void IsisMain() {
 
   // Log calibration activity performed so far
   PvlGroup calibrationLog("RadiometricCalibration");
-  calibrationLog.addKeyword(PvlKeyword("SoftwareName", amicacalProgram));
-  calibrationLog.addKeyword(PvlKeyword("SoftwareVersion", amicacalVersion));
-  calibrationLog.addKeyword(PvlKeyword("ProcessDate", amicacalRuntime));
-  calibrationLog.addKeyword(PvlKeyword("CalibrationFile", calfile));
-  calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", flatfile.originalPath()
-                                                        + "/" + flatfile.name()));
-  calibrationLog.addKeyword(PvlKeyword("CompressionFactor", std::to_string(g_compfactor, 2)));
+  calibrationLog.addKeyword(PvlKeyword("SoftwareName", amicacalProgram.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("SoftwareVersion", amicacalVersion.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("ProcessDate", amicacalRuntime.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("CalibrationFile", calfile.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", flatfile.originalPath().toStdString()
+                                                        + "/" + flatfile.name().toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("CompressionFactor", toString(g_compfactor, 2).toStdString()));
 
   // Parameters
   PvlKeyword key("Bias_Bn");
-  key.addValue(std::to_string(g_b0, 8));
-  key.addValue(std::to_string(g_b1, 8));
-  key.addValue(std::to_string(g_b2, 8));
+  key.addValue(toString(g_b0, 8).toStdString());
+  key.addValue(toString(g_b1, 8).toStdString());
+  key.addValue(toString(g_b2, 8).toStdString());
   calibrationLog.addKeyword(key);
-  calibrationLog.addKeyword(PvlKeyword("Bias", std::to_string(g_bias, 16), "DN"));
+  calibrationLog.addKeyword(PvlKeyword("Bias", toString(g_bias, 16).toStdString(), "DN"));
 
   key = PvlKeyword("Linearity_Ln");
-  key.addValue(std::to_string(g_L0, 8));
-  key.addValue(std::to_string(g_L1, 8));
+  key.addValue(toString(g_L0, 8).toStdString());
+  key.addValue(toString(g_L1, 8).toStdString());
   calibrationLog.addKeyword(key);
-  calibrationLog.addKeyword(PvlKeyword("Linearity_Gamma", std::to_string(g_gamma, 16)));
+  calibrationLog.addKeyword(PvlKeyword("Linearity_Gamma", toString(g_gamma, 16).toStdString()));
 
-  calibrationLog.addKeyword(PvlKeyword("Smear_tvct", std::to_string(g_tvct, 16)));
+  calibrationLog.addKeyword(PvlKeyword("Smear_tvct", toString(g_tvct, 16).toStdString()));
 
-  calibrationLog.addKeyword(PvlKeyword("CalibrationUnits", g_iofCorrection));
-  calibrationLog.addKeyword(PvlKeyword("RadianceStandard", std::to_string(g_radStd, 16)));
-  calibrationLog.addKeyword(PvlKeyword("RadianceScaleFactor", std::to_string(g_iofScale, 16)));
-  calibrationLog.addKeyword(PvlKeyword("SolarDistance", std::to_string(g_solarDist, 16), "AU"));
-  calibrationLog.addKeyword(PvlKeyword("SolarFlux", std::to_string(g_solarFlux, 16)));
-  calibrationLog.addKeyword(PvlKeyword("IOFFactor", std::to_string(g_calibrationScale, 16)));
-  calibrationLog.addKeyword(PvlKeyword("Units", g_units));
+  calibrationLog.addKeyword(PvlKeyword("CalibrationUnits", g_iofCorrection.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("RadianceStandard", toString(g_radStd, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("RadianceScaleFactor", toString(g_iofScale, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("SolarDistance", toString(g_solarDist, 16).toStdString(), "AU"));
+  calibrationLog.addKeyword(PvlKeyword("SolarFlux", toString(g_solarFlux, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("IOFFactor", toString(g_calibrationScale, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("Units", g_units.toStdString()));
 
 #if 0
 // PSF correction is currently not working and has been removed as an option.
@@ -609,7 +609,7 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
   if ( config.contains("?") ) calibFile = calibFile.highestVersion();
 
   // Pvl configFile;
-  g_configFile.read(calibFile.expanded());
+  g_configFile.read(calibFile.expanded().toStdString());
 
   // Load the groups
   PvlGroup &biasGroup = g_configFile.findGroup("Bias");
@@ -629,8 +629,8 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
   // Load the hot pixels into a vector
   for (int i = 0; i< hotPixelsGroup.keywords(); i++ ){
 
-    int samp(hotPixelsGroup[i][0].toInt());
-    int line (hotPixelsGroup[i][1].toInt());
+    int samp(std::stoi(hotPixelsGroup[i][0]));
+    int line (std::stoi(hotPixelsGroup[i][1]));
 
     hotPixelVector.append( Pixel(alpha->BetaSample(samp), alpha->BetaLine(line), 1, 0));
   }
@@ -639,23 +639,23 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
   g_gamma = linearityGroup["Gamma"];
   g_gamma = 1.0 - g_gamma;
 
-  g_L0 = linearityGroup["L"][0].toDouble();
-  g_L1 = linearityGroup["L"][1].toDouble();
+  g_L0 = std::stod(linearityGroup["L"][0]);
+  g_L1 = std::stod(linearityGroup["L"][1]);
 
   // Load Smear Removal Variables
   g_tvct = smearGroup["tvct"];
 
   // Load DarkCurrent variables
-  g_d0 = darkCurrentGroup["D"][0].toDouble();
-  g_d1 = darkCurrentGroup["D"][1].toDouble();
+  g_d0 = std::stod(darkCurrentGroup["D"][0]);
+  g_d1 = std::stod(darkCurrentGroup["D"][1]);
 
   // Load Bias variables
-  g_b0 = biasGroup["B"][0].toDouble();
-  g_b1 = biasGroup["B"][1].toDouble();
-  g_b2 = biasGroup["B"][2].toDouble();
+  g_b0 = std::stod(biasGroup["B"][0]);
+  g_b1 = std::stod(biasGroup["B"][1]);
+  g_b2 = std::stod(biasGroup["B"][2]);
 
 
-  g_launchTimeStr = QString(biasGroup["launchTime"]);
+  g_launchTimeStr = QString::fromStdString(biasGroup["launchTime"]);
   g_launchTime = g_launchTimeStr;
 
   // Compute BIAS correction factor (it's a constant so do it once!)
@@ -719,7 +719,7 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
   g_solarFlux = solarFluxGroup["v"];
 
   g_radStd = radGroup["iof_standard"];
-  g_iofScale   = radGroup[g_filter];
+  g_iofScale   = radGroup[g_filter.toStdString()];
 
   return ( calibFile.original() );
 }

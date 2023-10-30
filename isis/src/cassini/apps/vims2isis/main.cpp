@@ -51,7 +51,7 @@ void IsisMain() {
   FileName in = ui.GetFileName("FROM");
   FileName outIr = ui.GetCubeName("IR");
   FileName outVis = ui.GetCubeName("VIS");
-  Pvl lab(in.expanded());
+  Pvl lab(in.expanded().toStdString());
 
   //Checks if in file is rdr
   if(lab.hasObject("IMAGE_MAP_PROJECTION")) {
@@ -64,7 +64,7 @@ void IsisMain() {
   try {
     PvlObject qube(lab.findObject("QUBE"));
     QString id;
-    id = (QString)qube["INSTRUMENT_ID"];
+    id = QString::fromStdString(qube["INSTRUMENT_ID"]);
     id = id.simplified().trimmed();
     if(id != "VIMS") {
       QString msg = "Invalid INSTRUMENT_ID [" + id + "]";
@@ -79,10 +79,10 @@ void IsisMain() {
   }
 
   FileName tempname(in.baseName() + ".bsq.cub");
-  Pvl pdsLab(in.expanded());
+  Pvl pdsLab(in.expanded().toStdString());
 
   // It's VIMS, let's figure out if it has the suffix data or not
-  if(toInt(lab.findObject("QUBE")["SUFFIX_ITEMS"][0]) == 0) {
+  if(std::stoi(lab.findObject("QUBE")["SUFFIX_ITEMS"][0]) == 0) {
     // No suffix data, we can use processimportpds
     ProcessImportPds p;
 
@@ -164,7 +164,7 @@ void IsisMain() {
  * @param outFile FileName of the output file
  */
 void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outFile) {
-  Pvl pdsLabel(inFileName);
+  Pvl pdsLabel(inFileName.toStdString());
   Isis::FileName transFile("$ISISROOT/appdata/translations/pdsQube.trn");
   Isis::PvlToPvlTranslationManager pdsXlater(pdsLabel, transFile.expanded());
 
@@ -339,10 +339,10 @@ void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outF
       out.SetBasePosition(1, line + 1, band + 1);
       outCube.write(out);
 
-      if(toInt(suffixItems[0]) != 0) {
+      if(std::stoi(suffixItems[0]) != 0) {
         pos = fin.tellg();
-        char *sideplaneData = new char[4*toInt(suffixItems[0])];
-        fin.read(sideplaneData, 4 * toInt(suffixItems[0]));
+        char *sideplaneData = new char[4*std::stoi(suffixItems[0])];
+        fin.read(sideplaneData, 4 * std::stoi(suffixItems[0]));
         int suffixData = (int)swapper.Int((int *)sideplaneData);
         record[0] = line + 1;
         record[1] = band + 1;
@@ -382,7 +382,7 @@ void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outF
       }
     } // End band loop
 
-    int backplaneSize = toInt(suffixItems[1]) * (4 * (ns + toInt(suffixItems[0])));
+    int backplaneSize = std::stoi(suffixItems[1]) * (4 * (ns + std::stoi(suffixItems[0])));
     fin.seekg(backplaneSize, ios_base::cur);
 
     // Check the last io
@@ -460,7 +460,7 @@ void ProcessBands(Pvl &pdsLab, Cube *vimsCube, VimsType vtype) {
   PvlKeyword center("Center");
   PvlGroup bbin(qube.findGroup("BandBin"));
   for(int i = vims.mi32BandCenterStart; i < vims.mi32BandCenterEnd; i++) {
-    center += (QString) bbin["BandBinCenter"][i];
+    center += bbin["BandBinCenter"][i];
   }
   bandbin += center;
 
@@ -468,7 +468,7 @@ void ProcessBands(Pvl &pdsLab, Cube *vimsCube, VimsType vtype) {
 
   //Create the Kernels Group
   PvlGroup kern("Kernels");
-  kern += PvlKeyword("NaifFrameCode", toString(vims.mi32NaifFrameCode));
+  kern += PvlKeyword("NaifFrameCode", std::to_string(vims.mi32NaifFrameCode));
   vimsCube->putGroup(kern);
 }
 
@@ -500,8 +500,8 @@ void TranslateVimsLabels(Pvl &pdsLab, Cube *vimscube, VimsType vType) {
   PvlGroup &inst = outputLabel.findGroup("Instrument", Pvl::Traverse);
 
   //trim start and stop time
-  QString strTime = inst.findKeyword("StartTime")[0];
-  inst.findKeyword("StartTime").setValue(strTime.remove("Z"));
+  QString strTime = QString::fromStdString(inst.findKeyword("StartTime")[0]);
+  inst.findKeyword("StartTime").setValue(strTime.remove("Z").toStdString());
   strTime = QString::fromStdString(qube["StopTime"]);
   inst.findKeyword("StopTime").setValue((strTime).remove("Z").toStdString());
 

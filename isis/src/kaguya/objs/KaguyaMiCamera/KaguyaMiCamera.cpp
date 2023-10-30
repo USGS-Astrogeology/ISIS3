@@ -67,7 +67,7 @@ namespace Isis {
     // Get the start time from labels
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString stime = (QString)inst["StartTime"];
+    QString stime = QString::fromStdString(inst["StartTime"]);
     SpiceDouble etStart=0;
 
     if(stime != "NULL") {

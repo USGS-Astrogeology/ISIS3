@@ -521,7 +521,7 @@ namespace Isis {
     auto GetCalibrationDirectory = [](QString calibrationType) -> QString {
       // Get the directory where the CISS calibration directories are.
       PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-      QString missionDir = (QString) dataDir["LRO"];
+      QString missionDir = QString::fromStdString(dataDir["LRO"]);
       if(calibrationType != "") {
         calibrationType += "/";
       }
@@ -538,7 +538,7 @@ namespace Isis {
 
     // Make sure it is a WAC cube
     Isis::PvlGroup &inst = icube->label()->findGroup("Instrument", Pvl::Traverse);
-    QString instId = (QString) inst["InstrumentId"];
+    QString instId = QString::fromStdString(inst["InstrumentId"]);
     instId = instId.toUpper();
     if (instId != "WAC-VIS" && instId != "WAC-UV") {
       QString msg = "This program is intended for use on LROC WAC images only. [";
@@ -558,12 +558,12 @@ namespace Isis {
     }
 
     // Determine the dark/flat files to use
-    QString offset = (QString) inst["BackgroundOffset"];
-    QString mode = (QString) inst["Mode"];
-    QString instModeId = (QString) inst["InstrumentModeId"];
+    QString offset = QString::fromStdString(inst["BackgroundOffset"]);
+    QString mode = QString::fromStdString(inst["Mode"]);
+    QString instModeId = QString::fromStdString(inst["InstrumentModeId"]);
     instModeId = instModeId.toUpper();
 
-    if (instModeId == "COLOR" && (QString) inst["InstrumentId"] == "WAC-UV")
+    if (instModeId == "COLOR" && QString::fromStdString(inst["InstrumentId"]) == "WAC-UV")
       instModeId = "UV";
     else if (instModeId == "VIS")
       instModeId = "COLOR";
@@ -579,8 +579,8 @@ namespace Isis {
     }
 
     Isis::PvlGroup &bandBin = icube->label()->findGroup("BandBin", Pvl::Traverse);
-    QString filter = (QString) bandBin["Center"][0];
-    QString filterNum = (QString) bandBin["FilterNumber"][0];
+    QString filter = QString::fromStdString(bandBin["Center"][0]);
+    QString filterNum = QString::fromStdString(bandBin["FilterNumber"][0]);
     //We have to pay special attention incase we are passed a
     //single band image that has been "exploded" from a multiband wac
     if (instModeId == "COLOR" && g_bands.size() == 1)
@@ -592,7 +592,7 @@ namespace Isis {
       if (darkFiles.size() == 0 || darkFiles[0] =="Default" || darkFiles[0].length() == 0) {
         darkFiles.resize(2);
         double temp = (double) inst["MiddleTemperatureFpa"];
-        double time = iTime(inst["StartTime"][0]).Et();
+        double time = iTime(QString::fromStdString(inst["StartTime"][0])).Et();
         QString darkFile = GetCalibrationDirectory("wac_darks") + "WAC_" + instModeId;
         if (instModeId == "BW")
           darkFile += "_" + filter + "_Mode" + mode;
@@ -647,25 +647,25 @@ namespace Isis {
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
-      Pvl radPvl(radFileName.expanded());
+      Pvl radPvl(radFileName.expanded().toStdString());
 
       if (g_iof) {
         responsivity = radPvl["IOF"];
 
         for (int i = 0; i < bands.size(); i++) {
-          g_iofResponsivity.push_back(toDouble(responsivity[toInt(bands[i]) - 1]));
+          g_iofResponsivity.push_back(std::stod(responsivity[std::stoi(bands[i]) - 1]));
         }
 
         try {
           Camera *cam = NULL;
           cam = icube->camera();
-          iTime startTime((QString) inst["StartTime"]);
+          iTime startTime(QString::fromStdString(inst["StartTime"]));
           cam->setTime(startTime);
           g_solarDistance = cam->sunToBodyDist() / KM_PER_AU;
         }
         catch(IException &e) {
           try {
-            iTime startTime((QString) inst["StartTime"]);
+            iTime startTime(QString::fromStdString(inst["StartTime"]));
             double etStart = startTime.Et();
             // Get the distance between the Moon and the Sun at the given time in
             // Astronomical Units (AU)
@@ -704,7 +704,7 @@ namespace Isis {
       else {
         responsivity = radPvl["Radiance"];
         for (int i = 0; i < bands.size(); i++)
-          g_radianceResponsivity.push_back(toDouble(responsivity[toInt(bands[i]) - 1]));
+          g_radianceResponsivity.push_back(std::stod(responsivity[std::stoi(bands[i]) - 1]));
       }
     }
 
@@ -735,11 +735,11 @@ namespace Isis {
       }
 
       Isis::PvlKeyword &bands = icube->label()->findGroup("BandBin", Pvl::Traverse).findKeyword("FilterNumber");
-      Pvl tempPvl(tempFileName.expanded());
-      temperaturePvl.addValue(tempFileName.expanded());
+      Pvl tempPvl(tempFileName.expanded().toStdString());
+      temperaturePvl.addValue(tempFileName.expanded().toStdString());
       for (int b = 0; b < bands.size(); b++){
-        g_TempratureConstants[g_bands[b]][0]=toDouble(tempPvl[bands[b]][0]);
-        g_TempratureConstants[g_bands[b]][1]=toDouble(tempPvl[bands[b]][1]);
+        g_TempratureConstants[g_bands[b]][0]=std::stod(tempPvl[bands[b]][0]);
+        g_TempratureConstants[g_bands[b]][1]=std::stod(tempPvl[bands[b]][1]);
       }
     }
 
@@ -769,13 +769,13 @@ namespace Isis {
     }
     if (g_dark) {
       PvlKeyword darks("DarkFiles");
-      darks.addValue(darkFiles[0]);
+      darks.addValue(QString::fromStdString(darkFiles[0]));
       if (darkFiles.size() > 1)
-        darks.addValue(darkFiles[1]);
+        darks.addValue(QString::fromStdString(darkFiles[1]));
       calgrp += darks;
     }
     if (g_flatfield)
-      calgrp += PvlKeyword("FlatFile", flatFile);
+      calgrp += PvlKeyword("FlatFile", flatFile.toStdString());
     if (g_radiometric) {
       PvlKeyword vals("ResponsivityValues");
       if (g_iof) {
@@ -789,10 +789,10 @@ namespace Isis {
           vals.addValue(std::to_string(g_radianceResponsivity[i]));
       }
       calgrp += vals;
-      calgrp += PvlKeyword("SolarDistance", toString(g_solarDistance));
+      calgrp += PvlKeyword("SolarDistance", std::to_string(g_solarDistance));
     }
     if (g_specpix)
-      calgrp += PvlKeyword("SpecialPixelsFile", specpixFile);
+      calgrp += PvlKeyword("SpecialPixelsFile", specpixFile.toStdString());
     ocube->putGroup(calgrp);
 
     delete g_darkCube1;

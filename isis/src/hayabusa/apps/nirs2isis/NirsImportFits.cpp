@@ -129,19 +129,19 @@ namespace Isis {
     m_label = parseLabel(input, fitsLabelName);
 
     //  Get data dimensions
-    int naxis = toInt(m_label["NAXIS"][0]);
+    int naxis = std::stoi(m_label["NAXIS"][0]);
     if (naxis == 2) {
-      m_samples = toInt(m_label["NAXIS1"][0]);
-      m_lines = toInt(m_label["NAXIS2"][0]);
+      m_samples = std::stoi(m_label["NAXIS1"][0]);
+      m_lines = std::stoi(m_label["NAXIS2"][0]);
       m_bands = 1;
     }
     else if (naxis == 3) {
-      m_samples = toInt(m_label["NAXIS1"][0]);
-      m_lines = toInt(m_label["NAXIS2"][0]);
-      m_bands = toInt(m_label["NAXIS3"][0]);
+      m_samples = std::stoi(m_label["NAXIS1"][0]);
+      m_lines = std::stoi(m_label["NAXIS2"][0]);
+      m_bands = std::stoi(m_label["NAXIS3"][0]);
     }
     else {
-      QString msg = "NAXIS count of [" + m_label["NAXIS"][0] +
+      std::string msg = "NAXIS count of [" + m_label["NAXIS"][0] +
                     "] is not supported at this time";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -179,7 +179,7 @@ namespace Isis {
     char reading[81];
     IString line = "";
     unsigned int place = 0;
-    PvlObject labels(fitLabelName);
+    PvlObject labels(fitLabelName.toStdString());
 
     // Load first line
     input.seekg(0);
@@ -193,18 +193,18 @@ namespace Isis {
       // Check for blank lines
       if (line.substr(0, 1) != " " && line.substr(0, 1) != "/") {
         // Name of keyword
-        PvlKeyword label(line.Token(" =").ToQt()); // Stop on spaces OR equal sign
+        PvlKeyword label(line.Token(" =")); // Stop on spaces OR equal sign
         // Remove up to beginning of data
         line.TrimHead(" =");
         line.TrimTail(" ");
         if (label.name() == "COMMENT" || label.name() == "HISTORY") {
-          label += line.ToQt();
+          label += line;
         }
         else {
           // Check for a quoted value
           if (line.substr(0,1) == "'") {
             line.TrimHead("'");
-            label += line.Token("'").TrimHead(" ").TrimTail(" ").ToQt();
+            label += line.Token("'").TrimHead(" ").TrimTail(" ");
             line.TrimHead(" '");
           }
           else {
@@ -212,16 +212,16 @@ namespace Isis {
             IString value = line.Token("/");
             // Clear to end of data
             value.TrimTail(" ");
-            label += value.ToQt();
+            label += value;
             line.TrimHead(" ");
           }
           // If the line still has anything in it, treat it is as a comment.
           if (line.size() > 0) {
             line.TrimHead(" /");
-            label.addComment(line.ToQt());
+            label.addComment(line);
             // A possible format for units, other possiblites exist.
             if (line != line.Token("[")) {
-              label.setUnits(line.Token("[").Token("]").ToQt());
+              label.setUnits(line.Token("[").Token("]"));
             }
           }
         }

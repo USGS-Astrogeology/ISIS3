@@ -103,7 +103,7 @@ namespace Isis{
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
-    Pvl params(algoFileName.expanded());
+    Pvl params(algoFileName.expanded().toStdString());
 
     algoName = PhotometricFunction::algorithmName(params);
     algoName = algoName.toUpper();

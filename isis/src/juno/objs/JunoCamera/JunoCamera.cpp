@@ -74,7 +74,7 @@ namespace Isis {
 
     // Set starting filter location on the detector
     const PvlGroup &bandBin = lab.findGroup("BandBin", Pvl::Traverse);
-    QString filterIkCode = bandBin.findKeyword("NaifIkCode")[0];
+    QString filterIkCode = QString::fromStdString(bandBin.findKeyword("NaifIkCode")[0]);
     detMap->SetStartingDetectorLine(getDouble("INS" + filterIkCode + "_FILTER_OFFSET"));
 
     // Set up distortion map, keeping z-direction positive JunoDistortion map defaults to z+
@@ -86,7 +86,7 @@ namespace Isis {
     new CameraSkyMap(this);
 
     // Set time based on clock count, frame number, exposure duration, and interframe delay
-    QString startClockCount   = inst["SpacecraftClockStartCount"];
+    QString startClockCount   = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     double observationStartEt = getClockTime(startClockCount).Et(); // in seconds
     double frameNumber     = (double) inst["FrameNumber"];
     double interFrameDelay    = (double) inst["InterFrameDelay"];  // in seconds

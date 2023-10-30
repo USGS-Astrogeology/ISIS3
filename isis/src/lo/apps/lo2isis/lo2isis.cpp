@@ -26,7 +26,7 @@ namespace Isis{
     FileName in = ui.GetCubeName("FROM");
 
     //Checks if in file is rdr
-    label = in.expanded();
+    label = in.expanded().toStdString();
     if(label.hasObject("IMAGE_MAP_PROJECTION")) {
       QString msg = "[" + in.name() + "] appears to be an rdr file.";
       msg += " Use pds2isis.";
@@ -48,14 +48,14 @@ namespace Isis{
 
     // Transfer the instrument group to the output cube
     QString transDir = "$ISISROOT/appdata/translations/";
-    Pvl inputLabel(labelFile.expanded());
+    Pvl inputLabel(labelFile.expanded().toStdString());
     FileName transFile;
     FileName bandBinTransFile;
 
     bool hasFiducial = false;
     // Check to see if file is PDS
     if(inputLabel.hasKeyword("PDS_VERSION_ID", Pvl::None)) {
-      QString pdsVersion = inputLabel.findKeyword("PDS_VERSION_ID", Pvl::None)[0];
+      QString pdsVersion = QString::fromStdString(inputLabel.findKeyword("PDS_VERSION_ID", Pvl::None)[0]);
 
       if(pdsVersion == "PDS3") {
         if(inputLabel.hasKeyword("LO:FIDUCIAL_ID", Pvl::Traverse)) {
@@ -105,11 +105,11 @@ namespace Isis{
 
     //Creates FiducialCoordinateMicron with the proper units
     if(!inputLabel.hasKeyword("LO:BORESIGHT_SAMPLE", Pvl::Traverse)) {
-      QString fcm = (QString) inst.findKeyword("FiducialCoordinateMicron");
+      QString fcm = QString::fromStdString(inst.findKeyword("FiducialCoordinateMicron"));
       QString fcmUnits = fcm;
       fcmUnits.remove(QRegExp("^[0-9.]*"));
       fcm.remove(QRegExp("[a-zA-Z]*$"));
-      inst.findKeyword("FiducialCoordinateMicron").setValue(fcm, fcmUnits);
+      inst.findKeyword("FiducialCoordinateMicron").setValue(fcm.toStdString(), fcmUnits.toStdString());
     }
 
     // High Resolution & Fiducial Medium Case
@@ -143,8 +143,8 @@ namespace Isis{
       //What needs to be done if it contains Boresight info
     }
 
-    QString instrumentID = inst.findKeyword("InstrumentId");
-    QString spacecraftName = inst.findKeyword("SpacecraftName");
+    QString instrumentID = QString::fromStdString(inst.findKeyword("InstrumentId"));
+    QString spacecraftName = QString::fromStdString(inst.findKeyword("SpacecraftName"));
 
     //Determines the NaifFrameCode
     PvlGroup kerns("Kernels");
@@ -167,14 +167,14 @@ namespace Isis{
     }
 
     //Create subframe and frame keywords
-    QString imgNumber = (QString) inst.findKeyword("ImageNumber");
+    QString imgNumber = QString::fromStdString(inst.findKeyword("ImageNumber"));
     int subFrame = toInt(imgNumber.mid(5));
 
-    inst.addKeyword(PvlKeyword("SubFrame", toString(subFrame)));
+    inst.addKeyword(PvlKeyword("SubFrame", std::to_string(subFrame)));
     //ImageNumber is auto translated, and no longer needed
     inst.deleteKeyword("ImageNumber");
 
-    kerns += PvlKeyword("NaifFrameCode", frameCode);
+    kerns += PvlKeyword("NaifFrameCode", frameCode.toStdString());
     outputLabel->findObject("IsisCube").addGroup(kerns);
 
     return;

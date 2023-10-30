@@ -123,11 +123,11 @@ namespace Isis {
     g_radiometric = ui.GetBoolean("RADIOMETRIC");
     g_iof = (ui.GetString("RADIOMETRICTYPE") == "IOF");
 
-    Isis::Pvl lab(ui.GetCubeName("FROM"));
+    Isis::Pvl lab(ui.GetCubeName("FROM").toStdString());
     Isis::PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
 
     // Check if it is a NAC image
-    QString instId = (QString) inst["InstrumentId"];
+    QString instId = QString::fromStdString(inst["InstrumentId"]);
     instId = instId.toUpper();
     if(instId != "NACL" && instId != "NACR") {
       QString msg = "This is not a NAC image.  lrocnaccal requires a NAC image.";
@@ -179,7 +179,7 @@ namespace Isis {
         QString msg = maskedFile + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
-      Pvl maskedPvl(maskedFileName.expanded());
+      Pvl maskedPvl(maskedFileName.expanded().toStdString());
       PvlKeyword maskedPixels;
       int cutoff;
       if(g_summed) {
@@ -192,10 +192,10 @@ namespace Isis {
       }
 
       for(int i = 0; i < maskedPixels.size(); i++)
-        if((g_isLeftNac && toInt(maskedPixels[i]) < cutoff) || (!g_isLeftNac && toInt(maskedPixels[i]) > cutoff))
-          g_maskedPixelsLeft.push_back(toInt(maskedPixels[i]));
+        if((g_isLeftNac && std::stoi(maskedPixels[i]) < cutoff) || (!g_isLeftNac && std::stoi(maskedPixels[i]) > cutoff))
+          g_maskedPixelsLeft.push_back(std::stoi(maskedPixels[i]));
         else
-          g_maskedPixelsRight.push_back(toInt(maskedPixels[i]));
+          g_maskedPixelsRight.push_back(std::stoi(maskedPixels[i]));
     }
     
     vector <QString> darkFiles;
@@ -228,7 +228,7 @@ namespace Isis {
       }
       else {
         QString darkFile;
-        g_imgTime = iTime(inst["StartTime"][0]).Et();
+        g_imgTime = iTime(QString::fromStdString(inst["StartTime"][0])).Et();
         GetCalibrationDirectory("nac_darks", darkFile);
         darkFile = darkFile + instId + "_AverageDarks_*T";
         
@@ -303,10 +303,10 @@ namespace Isis {
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
-      Pvl radPvl(radFileName.expanded());
+      Pvl radPvl(radFileName.expanded().toStdString());
 
       if(g_iof) {
-        iTime startTime((QString) inst["StartTime"]);
+        iTime startTime(QString::fromStdString(inst["StartTime"]));
 
         try {
           Camera *cam;
@@ -363,9 +363,9 @@ namespace Isis {
     if(g_masked) {
       PvlKeyword darkColumns("DarkColumns");
       for(unsigned int i = 0; i < g_maskedPixelsLeft.size(); i++)
-        darkColumns += toString(g_maskedPixelsLeft[i]);
+        darkColumns += std::to_string(g_maskedPixelsLeft[i]);
       for(unsigned int i = 0; i < g_maskedPixelsRight.size(); i++)
-        darkColumns += toString(g_maskedPixelsRight[i]);
+        darkColumns += std::to_string(g_maskedPixelsRight[i]);
       calgrp += darkColumns;
     }
 
@@ -385,8 +385,8 @@ namespace Isis {
     }
 
     if(g_nonlinear) {
-      calgrp += PvlKeyword("NonlinearOffset", offsetFile);
-      calgrp += PvlKeyword("LinearizationCoefficients", coefficientFile);
+      calgrp += PvlKeyword("NonlinearOffset", offsetFile.toStdString());
+      calgrp += PvlKeyword("LinearizationCoefficients", coefficientFile.toStdString());
     }
 
     if(g_flatfield)
@@ -395,18 +395,18 @@ namespace Isis {
       if(g_iof) {
         calgrp += PvlKeyword("RadiometricType", "IOF");
         if(g_isLeftNac)
-          calgrp += PvlKeyword("ResponsivityValue", toString(g_iofLeft));
+          calgrp += PvlKeyword("ResponsivityValue", std::to_string(g_iofLeft));
         else
-          calgrp += PvlKeyword("ResponsivityValue", toString(g_iofRight));
+          calgrp += PvlKeyword("ResponsivityValue", std::to_string(g_iofRight));
       }
       else {
         calgrp += PvlKeyword("RadiometricType", "AbsoluteRadiance");
         if(g_isLeftNac)
-          calgrp += PvlKeyword("ResponsivityValue", toString(g_radianceLeft));
+          calgrp += PvlKeyword("ResponsivityValue", std::to_string(g_radianceLeft));
         else
-          calgrp += PvlKeyword("ResponsivityValue", toString(g_radianceRight));
+          calgrp += PvlKeyword("ResponsivityValue", std::to_string(g_radianceRight));
       }
-      calgrp += PvlKeyword("SolarDistance", toString(g_solarDistance));
+      calgrp += PvlKeyword("SolarDistance", std::to_string(g_solarDistance));
     }
 
     oCube->putGroup(calgrp);

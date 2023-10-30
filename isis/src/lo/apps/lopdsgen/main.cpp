@@ -81,7 +81,7 @@ void IsisMain() {
   FileName outFileNoExt(ui.GetFileName("TO"));
   outFileNoExt = outFileNoExt.removeExtension();
   QString productID(outFileNoExt.baseName());
-  PvlKeyword productId("PRODUCT_ID", productID.toUpper());
+  PvlKeyword productId("PRODUCT_ID", productID.toUpper().toStdString());
   pdsLabel.addKeyword(productId);
 
   // Translate the keywords from the original labels that go in this label
@@ -109,15 +109,15 @@ void IsisMain() {
     PvlKeyword &scanDensityRange = ingestion.findKeyword("SCAN_DENSITY_RANGE");
 
     // Change the units of SCAN_RESOLUTION from "um" to "<micron>"
-    QString scanResolutionStr = scanResolution[0];
+    QString scanResolutionStr = QString::fromStdString(scanResolution[0]);
     int umPos = scanResolutionStr.indexOf("um");
     QString resolution = scanResolutionStr.mid(0, umPos);
-    scanResolution[0] = resolution;
+    scanResolution[0] = resolution.toStdString();
     scanResolution.setUnits("micron");
     scanResolution.setName("LO:FILMSTRIP_SCAN_RESOLUTION");
 
     // Break keyword SCAN_DENSITY_RANGE into two different parts
-    QString scanDensityRangeStr = scanDensityRange[0];
+    QString scanDensityRangeStr = QString::fromStdString(scanDensityRange[0]);
     int toPos = scanDensityRangeStr.indexOf("_TO_");
     QString range1 = scanDensityRangeStr.mid(0, toPos);
     QString range2 = scanDensityRangeStr.mid(toPos + 4);
@@ -139,10 +139,10 @@ void IsisMain() {
       PvlKeyword &outputMicron = qube.findKeyword("OUTPUT_MICRON");
 
       // Change the units of OUTPUT_MICRON from "um" to "<micron>"
-      QString outputMicronStr = outputMicron[0];
+      QString outputMicronStr = QString::fromStdString(outputMicron[0]);
       umPos = outputMicronStr.indexOf("um");
       resolution = outputMicronStr.mid(0, umPos);
-      outputMicron[0] = resolution;
+      outputMicron[0] = resolution.toStdString();
       outputMicron.setUnits("micron");
       outputMicron.setName("LO:FILMSTRIP_SCAN_PROCESSING_RES");
 
@@ -151,8 +151,8 @@ void IsisMain() {
       // Calculate statistics on the cube to be processed and place
       // its MINIMUM and MAXIMUM into the output label
       p.CalculateStatistics();
-      pdsLabel.findObject("IMAGE").addKeyword(PvlKeyword("MINIMUM", toString(p.CubeStatistics(0)->Minimum())), Pvl::Replace);
-      pdsLabel.findObject("IMAGE").addKeyword(PvlKeyword("MAXIMUM", toString(p.CubeStatistics(0)->Maximum())), Pvl::Replace);
+      pdsLabel.findObject("IMAGE").addKeyword(PvlKeyword("MINIMUM", std::to_string(p.CubeStatistics(0)->Minimum())), Pvl::Replace);
+      pdsLabel.findObject("IMAGE").addKeyword(PvlKeyword("MAXIMUM", std::to_string(p.CubeStatistics(0)->Maximum())), Pvl::Replace);
     }
     else {
       FileName inputFile(ui.GetCubeName("FROM"));
@@ -188,10 +188,10 @@ void IsisMain() {
     // Change the units of FIDCUAIL_COORDINATE_MICRON from "um" to "<micron>"
     PvlKeyword &coordMicron = iCube->label()->findKeyword(
         "FiducialCoordinateMicron", Pvl::Traverse);
-    QString coordMicronStr = coordMicron[0];
+    QString coordMicronStr = QString::fromStdString(coordMicron[0]);
     int umPos = coordMicronStr.indexOf("um");
     QString coord = coordMicronStr.mid(0, umPos);
-    coordMicron[0] = coord;
+    coordMicron[0] = coord.toStdString();
     coordMicron.setUnits("micron");
     coordMicron.setName("LO:FIDUCIAL_COORDINATE_MICRON");
 
@@ -216,22 +216,22 @@ void IsisMain() {
   strftime(timestr, 80, "%Y-%m-%dT%H:%M:%S", tmbuf);
   QString dateTime = (QString) timestr;
   iTime tmpDateTime(dateTime);
-  pdsLabel += PvlKeyword("PRODUCT_CREATION_TIME", tmpDateTime.UTC());
+  pdsLabel += PvlKeyword("PRODUCT_CREATION_TIME", tmpDateTime.UTC().toStdString());
 
   if(ui.WasEntered("NOTE")) {
-    pdsLabel.addKeyword(PvlKeyword("NOTE", ui.GetString("NOTE")), Pvl::Replace);
+    pdsLabel.addKeyword(PvlKeyword("NOTE", ui.GetString("NOTE").toStdString()), Pvl::Replace);
   }
 
   // Add a keyword type (i.e., QString, bool, int...) file to the PDS label Pvl
   PvlFormatPds *formatter = new PvlFormatPds();
   formatter->setCharLimit(128);
-  formatter->add(transDir + "LoExportFormatter.typ");
+  formatter->add(transDir.toStdString() + "LoExportFormatter.typ");
   pdsLabel.setFormat(formatter);
 
   // Add an output format template (group, object, & keyword output order) to
   // the PDS PVL
   QString formatDir = "$ISISROOT/appdata/translations/";
-  pdsLabel.setFormatTemplate(formatDir + "LoExportTemplate.pft");
+  pdsLabel.setFormatTemplate(formatDir.toStdString() + "LoExportTemplate.pft");
 
   // Write labels to output file
   FileName outFile(ui.GetFileName("TO", "img"));
