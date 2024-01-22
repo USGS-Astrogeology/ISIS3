@@ -143,6 +143,18 @@ namespace Isis {
       *m_systemCode = -1;
       (*m_systemName).append("THE COSMOS");
     }
+    
+    if (label.hasObject("NaifKeywords")) {
+      PvlObject naifKeywords = label.findObject("NaifKeywords");
+      QString m_bodyCode = naifKeywords["BODY_CODE"];
+      PvlKeyword radiiKey = naifKeywords.findKeyword("BODY" + m_bodyCode + "_RADII");
+      std::vector<Distance> radii(3, Distance());
+      radii[0] = Distance(radiiKey[0].toDouble(), Distance::Kilometers);
+      radii[1] = Distance(radiiKey[1].toDouble(), Distance::Kilometers);
+      radii[2] = Distance(radiiKey[2].toDouble(), Distance::Kilometers);
+
+      setRadii(radii);
+    }
 
     m_shape = ShapeModelFactory::create(this, label);
   }
