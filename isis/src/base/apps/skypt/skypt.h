@@ -6,19 +6,15 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include "Isis.h"
+#ifndef skypt_h
+#define skypt_h
 
+#include "Pvl.h"
 #include "UserInterface.h"
-#include "Application.h"
-#include "skypt.h"
 
-using namespace std;
-using namespace Isis;
-
-
-void IsisMain() {
-  UserInterface &ui = Application::GetUserInterface();
-  Pvl appLog;
-  skypt(ui, &appLog);
+namespace Isis{
+  extern void skypt(UserInterface &ui, Pvl *log);
+  extern void skypt(Cube *cube, UserInterface &ui, Pvl *log);
 }
 
+#endif
