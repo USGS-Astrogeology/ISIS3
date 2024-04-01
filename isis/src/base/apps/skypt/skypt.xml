@@ -50,6 +50,9 @@
     <change name="Kelvin Rodriguez" date="2016-06-27">
        Added functionality to compute celestial north clock angle, References #2365.
     </change>
+    <change name="Sarah Sutton" date="2024-03-26">
+       Converted to a callable app. References #5443.
+    </change>
   </history>
 
   <groups>
