@@ -15,6 +15,7 @@ find files of those names at the top level of this repository. **/
 #include <QMap>
 
 #include <nlohmann/json.hpp>
+#include <gdal_priv.h>
 
 #include "Endian.h"
 #include "PixelType.h"
@@ -451,6 +452,7 @@ namespace Isis {
 
       //! If allocated, converts from physical on-disk band # to virtual band #
       QList<int> *m_virtualBandList;
+      GDALDataset *m_dataset; 
   };
 }
 
