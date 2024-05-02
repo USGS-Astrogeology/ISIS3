@@ -59,17 +59,16 @@ namespace Isis {
    *          initialized into the file before this object is destructed.
    */
   CubeIoHandler::CubeIoHandler(QFile * dataFile,
-      const QList<int> *virtualBandList, const Pvl &label, bool alreadyOnDisk) {
+      const QList<int> *virtualBandList, const Pvl &label, bool alreadyOnDisk) :
+                 ImageIoHandler(virtualBandList) {
     m_byteSwapper = NULL;
     m_cachingAlgorithms = NULL;
     m_dataIsOnDiskMap = NULL;
     m_rawData = NULL;
-    m_virtualBands = NULL;
     m_nullChunkData = NULL;
     m_lastProcessByLineChunks = NULL;
     m_writeCache = NULL;
     m_ioThreadPool = NULL;
-    m_writeThreadMutex = NULL;
 
     try {
       if (!dataFile) {
@@ -134,8 +133,6 @@ namespace Isis {
       if(!alreadyOnDisk) {
         m_dataIsOnDiskMap = new QMap<int, bool>;
       }
-
-      setVirtualBands(virtualBandList);
     }
     catch(IException &e) {
       IString msg = "Constructing CubeIoHandler failed";
@@ -201,17 +198,11 @@ namespace Isis {
     delete m_byteSwapper;
     m_byteSwapper = NULL;
 
-    delete m_virtualBands;
-    m_virtualBands = NULL;
-
     delete m_nullChunkData;
     m_nullChunkData = NULL;
 
     delete m_lastProcessByLineChunks;
     m_lastProcessByLineChunks = NULL;
-
-    delete m_writeThreadMutex;
-    m_writeThreadMutex = NULL;
   }
 
 
@@ -423,37 +414,6 @@ namespace Isis {
            (BigInt)getChunkCountInLineDimension() *
            (BigInt)getChunkCountInBandDimension() *
            (BigInt)getBytesPerChunk();
-  }
-
-
-  /**
-   * This changes the virtual band list.
-   *
-   * @param virtualBandList A list where the indices are the vbands and the
-   *          values are the physical bands. The values are 1-based. This can
-   *          be specified as NULL, in which case the vbands are the physical
-   *          bands. The virtual band list is copied
-   *          (the pointer provided isn't remembered).
-   */
-  void CubeIoHandler::setVirtualBands(const QList<int> *virtualBandList) {
-    if(m_virtualBands) {
-      delete m_virtualBands;
-      m_virtualBands = NULL;
-    }
-
-    if(virtualBandList && !virtualBandList->empty())
-      m_virtualBands = new QList<int>(*virtualBandList);
-  }
-
-  /**
-   * Get the mutex that this IO handler is using around I/Os on the given
-   *   data file. A lock should be acquired before doing any reads/writes on
-   *   the data file externally.
-   *
-   * @return A mutex that can guarantee exclusive access to the data file
-   */
-  QMutex *CubeIoHandler::dataFileMutex() {
-    return m_writeThreadMutex;
   }
 
   /**

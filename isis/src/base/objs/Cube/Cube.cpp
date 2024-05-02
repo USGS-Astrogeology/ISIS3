@@ -20,6 +20,7 @@ find files of those names at the top level of this repository. **/
 #include "Camera.h"
 #include "CameraFactory.h"
 #include "CubeAttribute.h"
+#include "ImageIoHandler.h"
 #include "CubeBsqHandler.h"
 #include "CubeTileHandler.h"
 #include "CubeStretch.h"
@@ -251,6 +252,17 @@ namespace Isis {
     return m_attached;
   }
 
+  /**
+   * Test if labels are external. If a cube is open, then this indicates
+   *   whether or not the opened cube's labels are external. If a cube is not
+   *   open, then this indicates whether or not a cube will be created with
+   *   external labels if create(...) is called.
+   *
+   * @returns True for attached labels, false for detached
+   */
+  bool Cube::labelsExternal() const {
+    return m_external;
+  }
 
   /**
    * Closes the cube and updates the labels. Optionally, it deletes the cube if
@@ -469,6 +481,21 @@ namespace Isis {
     PvlObject isiscube("IsisCube");
     PvlObject core("Core");
 
+    // Create the size of the core
+    PvlGroup dims("Dimensions");
+    dims += PvlKeyword("Samples", toString(m_samples));
+    dims += PvlKeyword("Lines", toString(m_lines));
+    dims += PvlKeyword("Bands", toString(m_bands));
+
+    // Create the pixel type
+    PvlGroup ptype("Pixels");
+    ptype += PvlKeyword("Type", PixelTypeName(m_pixelType));
+
+    // And the byte ordering
+    ptype += PvlKeyword("ByteOrder", ByteOrderName(m_byteOrder));
+    ptype += PvlKeyword("Base", toString(m_base));
+    ptype += PvlKeyword("Multiplier", toString(m_multiplier));
+
     if (m_storesDnData) {
       cubFile = cubFile.addExtension("cub");
 
@@ -492,32 +519,42 @@ namespace Isis {
         m_labelFile = new QFile(m_labelFileName->expanded());
       }
 
-      // Create the size of the core
-      PvlGroup dims("Dimensions");
-      dims += PvlKeyword("Samples", toString(m_samples));
-      dims += PvlKeyword("Lines",   toString(m_lines));
-      dims += PvlKeyword("Bands",   toString(m_bands));
       core.addGroup(dims);
-
-      // Create the pixel type
-      PvlGroup ptype("Pixels");
-      ptype += PvlKeyword("Type", PixelTypeName(m_pixelType));
-
-      // And the byte ordering
-      ptype += PvlKeyword("ByteOrder", ByteOrderName(m_byteOrder));
-      ptype += PvlKeyword("Base", toString(m_base));
-      ptype += PvlKeyword("Multiplier", toString(m_multiplier));
       core.addGroup(ptype);
     }
     else {
-      cubFile = cubFile.addExtension("ecub");
+      cubFile = cubFile.addExtension("cub");
 
-      core += PvlKeyword("^DnFile", m_dataFileName->original());
-//       m_dataFileName = new FileName(cubFile);
+      Pvl dnLabel;
+      PvlObject isiscube("IsisCube");
+      PvlObject dnCore(core);
+      
+      dnCore.addGroup(dims);
+      dnCore.addGroup(ptype);
+      if (m_format == Bsq) {
+        dnCore.addKeyword(PvlKeyword("Format", "BandSequential"),
+                          PvlContainer::Replace);
+      }
+      else {
+        dnCore.addKeyword(PvlKeyword("Format", "Tile"),
+                          PvlContainer::Replace);
+      }
+      isiscube.addObject(dnCore);
+      dnLabel.addObject(isiscube);
+
+      Cube dnCube;
+      dnCube.fromLabel(cubFile, dnLabel, "rw");
+      dnCube.close();
+
+      m_dataFileName = new FileName(cubFile);
       m_dataFile = new QFile(realDataFileName().expanded());
 
-      m_labelFileName = new FileName(cubFile);
-      m_labelFile = new QFile(cubFile.expanded());
+      core += PvlKeyword("^DnFile", m_dataFileName->original());
+
+      FileName labelFileName(cubFile);
+      labelFileName = labelFileName.setExtension("lbl");
+      m_labelFileName = new FileName(labelFileName);
+      m_labelFile = new QFile(m_labelFileName->expanded());
     }
 
     isiscube.addObject(core);
@@ -553,7 +590,7 @@ namespace Isis {
         cleanUp(false);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
-      else if (!m_storesDnData && !m_dataFile->open(QIODevice::ReadOnly)) {
+      else if (!m_storesDnData && !m_dataFile->open(QIODevice::ReadWrite)) {
         QString msg = "Failed to open [" + m_dataFile->fileName() + "] for reading. ";
         msg += "Verify the output path exists and you have permission to read from the path.";
         cleanUp(false);
@@ -567,13 +604,23 @@ namespace Isis {
       m_ioHandler = new CubeBsqHandler(dataFile(), m_virtualBandList, realDataFileLabel(),
                                        dataAlreadyOnDisk);
     }
-    else {
+    else if (m_format == Tile) {
       m_ioHandler = new CubeTileHandler(dataFile(), m_virtualBandList, realDataFileLabel(),
                                         dataAlreadyOnDisk);
     }
+    else if (m_format == Tiff) {
+      // m_io
+    }
 
-    if (m_storesDnData)
+    if (m_storesDnData) {
       m_ioHandler->updateLabels(*m_label);
+    }
+    else {
+      Cube dnCube(realDataFileName().expanded());
+      Pvl *dnLabel = dnCube.label();
+      m_ioHandler->updateLabels(*dnLabel);
+      dnCube.close();
+    }
 
     // Write the labels
     writeLabels();
@@ -1140,11 +1187,11 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    if (!m_storesDnData) {
-      QString msg = "The cube [" + QFileInfo(fileName()).fileName() +
-          "] does not support storing DN data because it is using an external file for DNs";
-      throw IException(IException::Unknown, msg, _FILEINFO_);
-    }
+    // if (!m_storesDnData) {
+    //   QString msg = "The cube [" + QFileInfo(fileName()).fileName() +
+    //       "] does not support storing DN data because it is using an external file for DNs";
+    //   throw IException(IException::Unknown, msg, _FILEINFO_);
+    // }
 
     QMutexLocker locker(m_mutex);
     m_ioHandler->write(bufferToWrite);
@@ -1293,6 +1340,22 @@ namespace Isis {
     m_attached = attach;
   }
 
+  /**
+   * Use prior to calling create, this sets whether or not to use separate
+   *   label and data files.
+   *
+   * @param attach If false, the labels and data will be in separate files.
+   */
+  void Cube::setLabelsExternal(bool external) {
+    openCheck();
+    m_external = external;
+    if (m_external) {
+      m_storesDnData = false;
+    }
+    else {
+      m_storesDnData = true;
+    }
+  }
 
   /**
    * Used prior to the Create method, this will allocate a specific number of

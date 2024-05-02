@@ -330,7 +330,8 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
       cube->setDimensions(ns, nl, nb);
       cube->setByteOrder(att.byteOrder());
       cube->setFormat(att.fileFormat());
-      cube->setLabelsAttached(att.labelAttachment() == AttachedLabel);
+      cube->setLabelsAttached(!(att.labelAttachment() == DetachedLabel));
+      cube->setLabelsExternal(att.labelAttachment() == ExternalLabel);
       if(att.propagatePixelType()) {
         if(InputCubes.size() > 0) {
           cube->setPixelType(InputCubes[0]->pixelType());

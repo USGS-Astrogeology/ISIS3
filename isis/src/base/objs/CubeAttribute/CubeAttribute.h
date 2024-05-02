@@ -71,7 +71,7 @@ namespace Isis {
     QString temp = labelType.toUpper();
     if(temp == "ATTACHED") return AttachedLabel;
     if(temp == "DETACHED") return DetachedLabel;
-    if(temp == "External") return ExternalLabel;
+    if(temp == "EXTERNAL") return ExternalLabel;
 
     QString msg = "Invalid label attachment type string [" + labelType + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);

@@ -13,6 +13,7 @@ find files of those names at the top level of this repository. **/
 
 #include "Constants.h"
 #include "Endian.h"
+#include "ImageIoHandler.h"
 #include "PixelType.h"
 
 class QFile;
@@ -106,19 +107,18 @@ namespace Isis {
    *   @history 2018-08-13 Summer Stapleton - Fixed incoming buffer comparison values for 
    *                            unsigned int type in writeIntoRaw(...). 
    */
-  class CubeIoHandler {
+  class CubeIoHandler : public ImageIoHandler {
     public:
       CubeIoHandler(QFile * dataFile, const QList<int> *virtualBandList,
           const Pvl &label, bool alreadyOnDisk);
       virtual ~CubeIoHandler();
 
-      void read(Buffer &bufferToFill) const;
-      void write(const Buffer &bufferToWrite);
+      virtual void read(Buffer &bufferToFill) const;
+      virtual void write(const Buffer &bufferToWrite);
 
-      void addCachingAlgorithm(CubeCachingAlgorithm *algorithm);
-      void clearCache(bool blockForWriteCache = true) const;
-      BigInt getDataSize() const;
-      void setVirtualBands(const QList<int> *virtualBandList);
+      virtual void addCachingAlgorithm(CubeCachingAlgorithm *algorithm);
+      virtual void clearCache(bool blockForWriteCache = true) const;
+      virtual BigInt getDataSize() const;
       /**
        * Function to update the labels with a Pvl object
        *
@@ -126,7 +126,7 @@ namespace Isis {
        */
       virtual void updateLabels(Pvl &labels) = 0;
 
-      QMutex *dataFileMutex();
+    protected:
       int bandCount() const;
       int getBandCountInChunk() const;
       BigInt getBytesPerChunk() const;
@@ -310,8 +310,6 @@ namespace Isis {
       //! The map from chunk index to on-disk status, all true if not allocated.
       mutable QMap<int, bool> * m_dataIsOnDiskMap;
 
-      //! Converts from virtual band to physical band.
-      QList<int> * m_virtualBands;
 
       //! The number of samples in a cube chunk.
       int m_samplesInChunk;
@@ -351,9 +349,6 @@ namespace Isis {
        *   optimized.
        */
       bool m_useOptimizedCubeWrite;
-
-      //! This enables us to block while the write thread is working
-      QMutex *m_writeThreadMutex;
 
       //! Ideal write cache flush size
       mutable volatile int m_idealFlushSize;
