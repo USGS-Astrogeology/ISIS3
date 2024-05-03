@@ -16,7 +16,7 @@ using json = nlohmann::json;
 using namespace Isis;
 
 TEST(GdalIoTests, DefaultRead) {
-  QString filePath = "/Users/acpaquette/repos/ISIS3/build/B10_013341_1010_XN_79S172W.tiff";
+  QString filePath = "/Users/krodriguez/cubes/gdal/B10_013341_1010_XN_79S172W.tiff";
   const QList<int> *bandList = new QList<int>;
   Pvl label;
 
@@ -54,4 +54,44 @@ TEST(GdalIoTests, DefaultRead) {
   // }
   // std::cout << sum << std::endl;
   // delete dataFile;
+}
+
+
+TEST(GdalIoTests, DefaulWrite) {
+  QString filePath = "/Users/krodriguez/cubes/gdal/B10_013341_1010_XN_79S172W.tiff";
+  
+  {
+    const QList<int> *bandList = new QList<int>;
+    Pvl label;
+
+    GdalIoHandler handler(filePath, bandList, label);
+    
+    Brick localBrick(200, 200, 1, SignedWord);
+
+    localBrick.SetBasePosition(1, 1, 1);
+    // init everything to 1
+    for (int i = 0; i < localBrick.size(); i++) {
+      localBrick[i] = 100;
+    }
+
+    localBrick.SetBasePosition(1, 1, 1);
+    handler.write(localBrick);
+  } // file is closed  
+
+  // read it back 
+  GDALDatasetUniquePtr ds = GDALDatasetUniquePtr(GDALDataset::FromHandle(GDALOpen(filePath.toStdString().c_str(), GA_ReadOnly)));
+  double* dbuf = (double *) CPLMalloc(sizeof(double)*200*200); 
+  GDALRasterBand  *poBand = ds->GetRasterBand(1);
+  CPLErr err = poBand->RasterIO(GF_Read, 0, 0, 
+                  200, 200,
+                  dbuf, 
+                  200, 200, 
+                  GDT_Float64,
+                  0, 0);
+
+  
+  for (int i = 0; i<200*200; i++) { 
+    EXPECT_EQ(dbuf[i], 1)00;
+  }
+
 }
