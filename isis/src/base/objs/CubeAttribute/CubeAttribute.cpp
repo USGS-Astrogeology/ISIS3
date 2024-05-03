@@ -392,22 +392,22 @@ namespace Isis {
   }
 
 
-  void CubeAttributeOutput::setLabelAttachment(LabelAttachment attachment) {
+  void CubeAttributeOutput::setLabelAttachment(Cube::LabelAttachment attachment) {
     setAttribute(LabelAttachmentName(attachment), &CubeAttributeOutput::isLabelAttachment);
   }
 
 
-  LabelAttachment CubeAttributeOutput::labelAttachment() const {
-    LabelAttachment result = AttachedLabel;
+  Cube::LabelAttachment CubeAttributeOutput::labelAttachment() const {
+    Cube::LabelAttachment result = Cube::AttachedLabel;
 
     QStringList labelAttachmentAtts = attributeList(&CubeAttributeOutput::isLabelAttachment);
     if (!labelAttachmentAtts.isEmpty()) {
       QString labelAttachmentAtt = labelAttachmentAtts.last();
 
       if (labelAttachmentAtt == "DETACHED")
-        result = DetachedLabel;
+        result = Cube::DetachedLabel;
       else if (labelAttachmentAtt == "EXTERNAL")
-        result = ExternalLabel;
+        result = Cube::ExternalLabel;
     }
 
     return result;
@@ -420,12 +420,12 @@ namespace Isis {
 
 
   bool CubeAttributeOutput::isFileFormat(QString attribute) const {
-    return QRegExp("(BANDSEQUENTIAL|BSQ|TILE)").exactMatch(attribute);
+    return QRegExp("(BANDSEQUENTIAL|BSQ|TILE|TIFF)").exactMatch(attribute);
   }
 
 
   bool CubeAttributeOutput::isLabelAttachment(QString attribute) const {
-    return QRegExp("(ATTACHED|DETACHED|EXTERNAL)").exactMatch(attribute);
+    return QRegExp("(ATTACHED|DETACHED|EXTERNAL|GDAL)").exactMatch(attribute);
   }
 
 

@@ -20,6 +20,9 @@ namespace Isis {
     std::string dataFilePathStr = dataFilePath.toUtf8().constData();
     const char *charDataFilePath = dataFilePathStr.c_str();
     m_geodataSet = GDALDatasetUniquePtr(GDALDataset::FromHandle(GDALOpen(charDataFilePath, eAccess)));
+    std::cout << m_geodataSet->GetRasterXSize() << std::endl;
+    std::cout << m_geodataSet->GetRasterYSize() << std::endl;
+    std::cout << m_geodataSet->GetRasterCount() << std::endl;
     if (!m_geodataSet) {
       QString msg = "Constructing GdalIoHandler failed";
       throw IException(IException::Programmer, msg, _FILEINFO_);

@@ -20,7 +20,6 @@ find files of those names at the top level of this repository. **/
 #include "Camera.h"
 #include "CameraFactory.h"
 #include "CubeAttribute.h"
-#include "ImageIoHandler.h"
 #include "CubeBsqHandler.h"
 #include "CubeTileHandler.h"
 #include "CubeStretch.h"
@@ -42,7 +41,6 @@ find files of those names at the top level of this repository. **/
 #include "Table.h"
 #include "TProjection.h"
 #include "Longitude.h"
-
 
 using namespace std;
 
@@ -248,21 +246,10 @@ namespace Isis {
    *
    * @returns True for attached labels, false for detached
    */
-  bool Cube::labelsAttached() const {
+  Cube::LabelAttachment Cube::labelsAttached() const {
     return m_attached;
   }
 
-  /**
-   * Test if labels are external. If a cube is open, then this indicates
-   *   whether or not the opened cube's labels are external. If a cube is not
-   *   open, then this indicates whether or not a cube will be created with
-   *   external labels if create(...) is called.
-   *
-   * @returns True for attached labels, false for detached
-   */
-  bool Cube::labelsExternal() const {
-    return m_external;
-  }
 
   /**
    * Closes the cube and updates the labels. Optionally, it deletes the cube if
@@ -296,15 +283,15 @@ namespace Isis {
 
 
     Cube *result = new Cube;
+    result->setLabelsAttached(newFileAttributes.labelAttachment());
 
-    if (newFileAttributes.labelAttachment() != ExternalLabel) {
+    if (result->labelsAttached() != ExternalLabel) {
       result->setDimensions(sampleCount(), lineCount(), bandCount());
       result->setByteOrder(newFileAttributes.byteOrder());
       result->setFormat(newFileAttributes.fileFormat());
 
-      if (newFileAttributes.labelAttachment() == DetachedLabel) {
-        result->setLabelsAttached(false);
-      }
+      // if (newFileAttributes.labelAttachment() == DetachedLabel) {
+      // }
 
       if (newFileAttributes.propagatePixelType()) {
         result->setPixelType(pixelType());
@@ -446,7 +433,7 @@ namespace Isis {
           _FILEINFO_);
     }
 
-    if (m_storesDnData) {
+    if (labelsAttached() == LabelAttachment::AttachedLabel) {
       // Make sure the cube is not going to exceed the maximum size preference
       BigInt size = (BigInt)m_samples * m_lines *
                     (BigInt)m_bands * (BigInt)SizeOf(m_pixelType);
@@ -496,18 +483,18 @@ namespace Isis {
     ptype += PvlKeyword("Base", toString(m_base));
     ptype += PvlKeyword("Multiplier", toString(m_multiplier));
 
-    if (m_storesDnData) {
+    if (labelsAttached() != LabelAttachment::ExternalLabel) {
       cubFile = cubFile.addExtension("cub");
 
       // See if we have attached or detached labels
-      if (m_attached) {
+      if (labelsAttached() == LabelAttachment::AttachedLabel) {
         // StartByte is 1-based (why!!) so we need to do + 1
         core += PvlKeyword("StartByte", toString(m_labelBytes + 1));
         m_labelFileName = new FileName(cubFile);
         m_dataFileName = new FileName(cubFile);
         m_labelFile = new QFile(m_labelFileName->expanded());
       }
-      else {
+      else if (labelsAttached() == LabelAttachment::DetachedLabel) {
         core += PvlKeyword("StartByte", toString(1));
         core += PvlKeyword("^Core", cubFile.name());
         m_dataFileName = new FileName(cubFile);
@@ -518,43 +505,26 @@ namespace Isis {
         m_labelFileName = new FileName(labelFileName);
         m_labelFile = new QFile(m_labelFileName->expanded());
       }
-
+      else {
+        QString msg = "Label type [" + LabelAttachmentName(labelsAttached()) + "] not handled";
+        throw IException(IException::Programmer, msg, _FILEINFO_);
+      }
       core.addGroup(dims);
       core.addGroup(ptype);
     }
-    else {
-      cubFile = cubFile.addExtension("cub");
-
-      Pvl dnLabel;
-      PvlObject isiscube("IsisCube");
-      PvlObject dnCore(core);
-      
-      dnCore.addGroup(dims);
-      dnCore.addGroup(ptype);
-      if (m_format == Bsq) {
-        dnCore.addKeyword(PvlKeyword("Format", "BandSequential"),
-                          PvlContainer::Replace);
-      }
-      else {
-        dnCore.addKeyword(PvlKeyword("Format", "Tile"),
-                          PvlContainer::Replace);
-      }
-      isiscube.addObject(dnCore);
-      dnLabel.addObject(isiscube);
-
-      Cube dnCube;
-      dnCube.fromLabel(cubFile, dnLabel, "rw");
-      dnCube.close();
-
-      m_dataFileName = new FileName(cubFile);
-      m_dataFile = new QFile(realDataFileName().expanded());
+    else if (labelsAttached() == LabelAttachment::ExternalLabel) {
+      cubFile = cubFile.addExtension("ecub");
 
       core += PvlKeyword("^DnFile", m_dataFileName->original());
+//       m_dataFileName = new FileName(cubFile);
+      m_dataFile = new QFile(realDataFileName().expanded());
 
-      FileName labelFileName(cubFile);
-      labelFileName = labelFileName.setExtension("lbl");
-      m_labelFileName = new FileName(labelFileName);
-      m_labelFile = new QFile(m_labelFileName->expanded());
+      m_labelFileName = new FileName(cubFile);
+      m_labelFile = new QFile(cubFile.expanded());
+    }
+    else {
+      QString msg = "Label type [" + LabelAttachmentName(labelsAttached()) + "] not handled";
+      throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     isiscube.addObject(core);
@@ -584,13 +554,13 @@ namespace Isis {
     }
 
     if (m_dataFile) {
-      if (m_storesDnData && !m_dataFile->open(QIODevice::Truncate | QIODevice::ReadWrite)) {
+      if (labelsAttached() != ExternalLabel && !m_dataFile->open(QIODevice::Truncate | QIODevice::ReadWrite)) {
         QString msg = "Failed to create [" + m_dataFile->fileName() + "]. ";
         msg += "Verify the output path exists and you have permission to write to the path.";
         cleanUp(false);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
-      else if (!m_storesDnData && !m_dataFile->open(QIODevice::ReadWrite)) {
+      else if (labelsAttached() == ExternalLabel && !m_dataFile->open(QIODevice::ReadOnly)) {
         QString msg = "Failed to open [" + m_dataFile->fileName() + "] for reading. ";
         msg += "Verify the output path exists and you have permission to read from the path.";
         cleanUp(false);
@@ -598,29 +568,19 @@ namespace Isis {
       }
     }
 
-    bool dataAlreadyOnDisk = m_storesDnData ? false : true;
+    bool dataAlreadyOnDisk = (labelsAttached() == ExternalLabel);
 
     if (m_format == Bsq) {
       m_ioHandler = new CubeBsqHandler(dataFile(), m_virtualBandList, realDataFileLabel(),
                                        dataAlreadyOnDisk);
     }
-    else if (m_format == Tile) {
+    else {
       m_ioHandler = new CubeTileHandler(dataFile(), m_virtualBandList, realDataFileLabel(),
                                         dataAlreadyOnDisk);
     }
-    else if (m_format == Tiff) {
-      // m_io
-    }
 
-    if (m_storesDnData) {
+    if (labelsAttached() != ExternalLabel)
       m_ioHandler->updateLabels(*m_label);
-    }
-    else {
-      Cube dnCube(realDataFileName().expanded());
-      Pvl *dnLabel = dnCube.label();
-      m_ioHandler->updateLabels(*dnLabel);
-      dnCube.close();
-    }
 
     // Write the labels
     writeLabels();
@@ -653,7 +613,7 @@ namespace Isis {
 
     setByteOrder(att.byteOrder());
     setFormat(att.fileFormat());
-    setLabelsAttached(att.labelAttachment() == AttachedLabel);
+    setLabelsAttached(att.labelAttachment());
     if (!att.propagatePixelType())
       setPixelType(att.pixelType());
     setMinMax(att.minimum(), att.maximum());
@@ -708,8 +668,7 @@ namespace Isis {
           m_dataFileName = new FileName(temp);
         }
 
-        m_attached = false;
-        m_storesDnData = true;
+        setLabelsAttached(LabelAttachment::DetachedLabel);
 
         m_dataFile = new QFile(realDataFileName().expanded());
       }
@@ -724,16 +683,14 @@ namespace Isis {
           m_dataFileName = new FileName(dataFileName);
         }
 
-        m_attached = true;
-        m_storesDnData = false;
+        setLabelsAttached(LabelAttachment::ExternalLabel);
         *m_dataFileName = FileName(realDataFileName().expanded());
         m_dataFile = new QFile(realDataFileName().expanded());
       }
       // Typical cube containing labels, SPICE, history and dn data
       else {
+        setLabelsAttached(LabelAttachment::AttachedLabel);
         m_dataFileName = new FileName(*m_labelFileName);
-        m_attached = true;
-        m_storesDnData = true;
       }
     }
     catch (IException &e) {
@@ -768,13 +725,13 @@ namespace Isis {
       }
 
       if (m_dataFile) {
-        if (m_storesDnData && !m_dataFile->open(QIODevice::ReadWrite)) {
+        if (labelsAttached() != ExternalLabel && !m_dataFile->open(QIODevice::ReadWrite)) {
           QString msg = "Failed to open [" + m_dataFile->fileName() + "] with "
               "read/write access";
           cleanUp(false);
           throw IException(IException::Io, msg, _FILEINFO_);
         }
-        else if (!m_storesDnData && !m_dataFile->open(QIODevice::ReadOnly)) {
+        else if (labelsAttached() == ExternalLabel && !m_dataFile->open(QIODevice::ReadOnly)) {
           QString msg = "Failed to open [" + m_dataFile->fileName() + "] with "
               "read access";
           cleanUp(false);
@@ -792,7 +749,7 @@ namespace Isis {
     initCoreFromLabel(*m_label);
 
     // Determine the number of bytes in the label
-    if (m_attached) {
+    if (labelsAttached() != LabelAttachment::DetachedLabel) {
       m_labelBytes = m_label->findObject("Label")["Bytes"];
     }
     else {
@@ -800,7 +757,7 @@ namespace Isis {
     }
 
     QPair<bool, Pvl *> dataLabel = qMakePair(false, m_label);
-    if (!m_storesDnData) {
+    if (labelsAttached() == LabelAttachment::ExternalLabel) {
       dataLabel = qMakePair(true, new Pvl(m_dataFileName->expanded()));
     }
 
@@ -1040,7 +997,7 @@ namespace Isis {
     }
 
     // Write an attached blob
-    if (m_attached) {
+    if (LabelAttachment() == LabelAttachment::AttachedLabel) {
       QMutexLocker locker(m_mutex);
       QMutexLocker locker2(m_ioHandler->dataFileMutex());
 
@@ -1055,9 +1012,7 @@ namespace Isis {
       // maxbyte = position after the cube DN data and labels
       streampos maxbyte = (streampos) m_labelBytes;
 
-      if (m_storesDnData) {
-        maxbyte += (streampos) m_ioHandler->getDataSize();
-      }
+      maxbyte += (streampos) m_ioHandler->getDataSize();
 
       // If EOF is too early, allocate space up to where we want the blob
       if (endByte < maxbyte) {
@@ -1187,11 +1142,11 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    // if (!m_storesDnData) {
-    //   QString msg = "The cube [" + QFileInfo(fileName()).fileName() +
-    //       "] does not support storing DN data because it is using an external file for DNs";
-    //   throw IException(IException::Unknown, msg, _FILEINFO_);
-    // }
+    if (labelsAttached() == ExternalLabel) {
+      QString msg = "The cube [" + QFileInfo(fileName()).fileName() +
+          "] does not support storing DN data because it is using an external file for DNs";
+      throw IException(IException::Unknown, msg, _FILEINFO_);
+    }
 
     QMutexLocker locker(m_mutex);
     m_ioHandler->write(bufferToWrite);
@@ -1305,7 +1260,7 @@ namespace Isis {
       throw;
     }
 
-    m_storesDnData = false;
+    setLabelsAttached(Cube::ExternalLabel);
     m_dataFileName = new FileName(cubeFileWithDnData);
 
     delete m_labelFile;
@@ -1335,27 +1290,11 @@ namespace Isis {
    *
    * @param attach If false, the labels and data will be in separate files.
    */
-  void Cube::setLabelsAttached(bool attach) {
+  void Cube::setLabelsAttached(LabelAttachment attach) {
     openCheck();
     m_attached = attach;
   }
 
-  /**
-   * Use prior to calling create, this sets whether or not to use separate
-   *   label and data files.
-   *
-   * @param attach If false, the labels and data will be in separate files.
-   */
-  void Cube::setLabelsExternal(bool external) {
-    openCheck();
-    m_external = external;
-    if (m_external) {
-      m_storesDnData = false;
-    }
-    else {
-      m_storesDnData = true;
-    }
-  }
 
   /**
    * Used prior to the Create method, this will allocate a specific number of
@@ -1449,7 +1388,7 @@ namespace Isis {
     }
 
 
-    if (m_storesDnData) {
+    if (labelsAttached() != ExternalLabel) {
       throw IException(IException::Unknown,
                        QString("The cube [%1] stores DN data. It cannot be relocated to [%2] - "
                                "this is only supported for external cube label files.")
@@ -1636,7 +1575,7 @@ namespace Isis {
                        _FILEINFO_);
     }
 
-    if (storesDnData()) {
+    if (LabelAttachment() == ExternalLabel) {
       throw IException(IException::Unknown,
                        "Cube::getExternalCubeFileName can only be called on an external cube label "
                          "file",
@@ -1993,16 +1932,6 @@ namespace Isis {
 
 
   /**
-   * This method returns a boolean value
-   *
-   * @return bool
-   */
-  bool Cube::storesDnData() const {
-    return m_storesDnData;
-  }
-
-
-  /**
    * This will add the given caching algorithm to the list of attempted caching
    *   algorithms. The algorithms are tried in the opposite order that they
    *   were added - the first algorithm added is the last algorithm tried.
@@ -2297,15 +2226,15 @@ namespace Isis {
     FileName result;
 
     // Attached, stores DN data - normal cube
-    if (m_attached && m_storesDnData) {
+    if (labelsAttached() == LabelAttachment::AttachedLabel) {
       result = *m_labelFileName;
     }
     // Detached, stores DN data - standard detached cube
-    else if (!m_attached && m_storesDnData) {
+    else if (labelsAttached() == LabelAttachment::DetachedLabel) {
       result = *m_dataFileName;
     }
     // External cube - go look at our external file
-    else if (!m_storesDnData) {
+    else if (labelsAttached() == LabelAttachment::ExternalLabel) {
       FileName guess = *m_dataFileName;
       QDir dir(guess.toString());
 
@@ -2362,8 +2291,7 @@ namespace Isis {
     m_format = Tile;
     m_pixelType = Real;
 
-    m_attached = true;
-    m_storesDnData = true;
+    m_attached = LabelAttachment::AttachedLabel;
     m_labelBytes = 65536;
 
     m_samples = 0;
@@ -2383,7 +2311,7 @@ namespace Isis {
   void Cube::initCoreFromLabel(const Pvl &label) {
     const PvlObject &core = label.findObject("IsisCube").findObject("Core");
 
-    if (!core.hasKeyword("^DnFile")) {
+    if (labelsAttached() != ExternalLabel) {
       // Dimensions
       const PvlGroup &dims = core.findGroup("Dimensions");
       m_samples = dims["Samples"];
@@ -2700,7 +2628,7 @@ namespace Isis {
     m_label->setFormatTemplate(m_formatTemplateFile->original());
 
     // Write them with attached data
-    if (m_attached) {
+    if (LabelAttachment() != LabelAttachment::DetachedLabel) {
       QMutexLocker locker(m_mutex);
       QMutexLocker locker2(m_ioHandler->dataFileMutex());
 

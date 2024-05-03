@@ -525,7 +525,7 @@ namespace Isis {
 
         // If this is an ecub (it should be) and is pointing to a relative file name,
         //   then we want to copy the DN cube also.
-        if (!origImage.storesDnData() ) {
+        if ( origImage.labelsAttached() == Cube::ExternalLabel) {
           if (origImage.externalCubeFileName().path() == ".") {
             Cube dnFile(
                 FileName(m_fileName).path() + "/" + origImage.externalCubeFileName().name());

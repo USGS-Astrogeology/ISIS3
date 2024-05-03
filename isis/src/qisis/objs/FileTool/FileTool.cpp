@@ -559,7 +559,7 @@ namespace Isis {
       ocube->setDimensions(piNumSamples, piNumLines, piNumBands);
       ocube->setByteOrder(outAtt.byteOrder());
       ocube->setFormat(outAtt.fileFormat());
-      ocube->setLabelsAttached(outAtt.labelAttachment() == AttachedLabel);
+      ocube->setLabelsAttached(outAtt.labelAttachment());
 
       if (outAtt.propagatePixelType()) {
         ocube->setPixelType(icube->pixelType());

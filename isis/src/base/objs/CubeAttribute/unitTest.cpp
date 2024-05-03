@@ -205,10 +205,10 @@ int main(int argc, char *argv[]) {
     att.setPixelType(Real);
     cout << att.toString() << endl;
 
-    att.setLabelAttachment(DetachedLabel);
+    att.setLabelAttachment(Cube::DetachedLabel);
     cout << att.toString() << endl;
 
-    att.setLabelAttachment(ExternalLabel);
+    att.setLabelAttachment(Cube::ExternalLabel);
     cout << att.toString() << endl;
   }
   catch (IException &e) {
@@ -300,8 +300,8 @@ void reportOutput(const CubeAttributeOutput &att, QString orderHint) {
   }
 
   cout << "Label attachment     = ";
-  if(att.labelAttachment() == AttachedLabel)  cout << LabelAttachmentName(AttachedLabel) << endl;
-  if(att.labelAttachment() == DetachedLabel) cout << LabelAttachmentName(DetachedLabel) << endl;
+  if(att.labelAttachment() == Cube::AttachedLabel)  cout << LabelAttachmentName(Cube::AttachedLabel) << endl;
+  if(att.labelAttachment() == Cube::DetachedLabel) cout << LabelAttachmentName(Cube::DetachedLabel) << endl;
 
 #if 0
   fstream stream("CubeAttribute.truth", ios::in | ios::out);

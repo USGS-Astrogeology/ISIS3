@@ -191,7 +191,7 @@ namespace Isis {
     CubeAttributeOutput cao;
 
     // Can we do a regular label? Didn't work on 12-15-2006
-    cao.setLabelAttachment(Isis::DetachedLabel);
+    cao.setLabelAttachment(Cube::DetachedLabel);
     FileName matchCubeFile = FileName::createTempFile("$Temporary/match.cub");
     QString matchCubeFileNoExt = matchCubeFile.path() + "/" + matchCubeFile.baseName();
 

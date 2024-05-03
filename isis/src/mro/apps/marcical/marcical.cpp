@@ -297,7 +297,7 @@ namespace Isis {
     ocube.setDimensions(icube.sampleCount(), icube.lineCount(), icube.bandCount());
     ocube.setByteOrder(outAtt.byteOrder());
     ocube.setFormat(outAtt.fileFormat());
-    ocube.setLabelsAttached(outAtt.labelAttachment() == AttachedLabel);
+    ocube.setLabelsAttached(outAtt.labelAttachment());
     ocube.setPixelType(outAtt.pixelType());
 
     ocube.create(FileName(ui.GetCubeName("TO")).expanded());

@@ -234,6 +234,27 @@ namespace Isis {
         Tiff
       };
 
+      /**
+       * @brief Input cube label type tracker
+       *
+       * This enumeration and its functions are for the label
+       * type of an input cube. The enum defines the type of labels (i.e.,
+       * Both the label and cube are in the same file and the label is in a
+       * separate file from the cube.
+       */
+      enum LabelAttachment {
+        AttachedLabel,  //!< The input label is embedded in the image file
+        DetachedLabel,  //!< The input label is in a separate data file from the image
+        /**
+         * The label is pointing to an external DN file - the label is also external to the data.
+         *
+         * This format implies that the output is a cube that contains everything except DN data
+         *   (more similar to attached than detached).
+         */
+        ExternalLabel,
+        GdalLabel
+      };
+
       void fromIsd(const FileName &fileName, Pvl &label, nlohmann::json &isd, QString access);
       void fromIsd(const FileName &fileName, FileName &labelFile, FileName &isdFile, QString access);
 
@@ -243,8 +264,8 @@ namespace Isis {
       bool isProjected() const;
       bool isReadOnly() const;
       bool isReadWrite() const;
-      bool labelsAttached() const;
-      bool labelsExternal() const;
+      LabelAttachment labelsAttached() const;
+      // bool labelsExternal() const;
 
       void attachSpiceFromIsd(nlohmann::json Isd);
       void attachLineScanTableFromIsd(nlohmann::json isd);
@@ -281,8 +302,8 @@ namespace Isis {
       void setDimensions(int ns, int nl, int nb);
       void setExternalDnData(FileName cubeFileWithDnData);
       void setFormat(Format format);
-      void setLabelsAttached(bool attached);
-      void setLabelsExternal(bool external);
+      void setLabelsAttached(LabelAttachment attached);
+      // void setLabelsExternal(bool external);
       void setLabelSize(int labelBytes);
       void setPixelType(PixelType pixelType);
       void setVirtualBands(const QList<QString> &vbands);
@@ -316,7 +337,6 @@ namespace Isis {
       Statistics *statistics(const int &band, const double &validMin,
                              const double &validMax,
                              QString msg = "Gathering statistics");
-      bool storesDnData() const;
 
       void addCachingAlgorithm(CubeCachingAlgorithm *);
       void clearIoCache();
@@ -416,7 +436,7 @@ namespace Isis {
       FileName *m_formatTemplateFile;
 
       //! True if labels are attached
-      bool m_attached;
+      LabelAttachment m_attached;
 
       //! True if labels are external
       bool m_external;

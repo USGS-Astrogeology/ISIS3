@@ -107,7 +107,7 @@ namespace Isis {
     g_ocube->setByteOrder(outAtt.byteOrder());
     g_ocube->setFormat(outAtt.fileFormat());
     g_ocube->setMinMax((double) VALID_MIN2, (double) VALID_MAX2);
-    g_ocube->setLabelsAttached(outAtt.labelAttachment() == AttachedLabel);
+    g_ocube->setLabelsAttached(outAtt.labelAttachment());
     g_ocube->setDimensions(p.Samples(), p.Lines(), p.Bands());
     g_ocube->setPixelType(Isis::Real);
     g_ocube->create(ui.GetCubeName("TO"));

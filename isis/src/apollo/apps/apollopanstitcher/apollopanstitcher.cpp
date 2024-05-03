@@ -715,11 +715,11 @@ namespace Isis {
     att.setFileFormat( panC[0]->format() );
     att.setByteOrder(  panC[0]->byteOrder() );
     att.setPixelType(  panC[0]->pixelType() );
-    if (panC[0]->labelsAttached()) {
-      att.setLabelAttachment(AttachedLabel);
+    if (panC[0]->labelsAttached() == Cube::AttachedLabel) {
+      att.setLabelAttachment(Cube::AttachedLabel);
     }
     else {
-      att.setLabelAttachment(DetachedLabel);
+      att.setLabelAttachment(Cube::DetachedLabel);
     }
 
     //define an output cube
