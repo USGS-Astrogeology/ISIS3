@@ -13,7 +13,7 @@
 using namespace std;
 
 namespace Isis {
-  GdalIoHandler::GdalIoHandler(QString &dataFilePath, const QList<int> *virtualBandList, const Pvl &label) : 
+  GdalIoHandler::GdalIoHandler(QString &dataFilePath, const QList<int> *virtualBandList, GDALDataType pixelType) : 
                  ImageIoHandler(virtualBandList) {
     GDALAllRegister();
     const GDALAccess eAccess = GA_Update;
@@ -27,6 +27,7 @@ namespace Isis {
       QString msg = "Constructing GdalIoHandler failed";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
+    m_pixelType = pixelType;
   }
 
   GdalIoHandler::~GdalIoHandler() {
@@ -38,14 +39,14 @@ namespace Isis {
     poBand = m_geodataSet->GetRasterBand(band);
     // Account for 1 based line and sample reading from ISIS process classes
     // as gdal reads 0 based lines and samples
-    int lineStart = bufferToFill.Line() - 1;
-    int sampleStart = bufferToFill.Sample() - 1;
+    int lineStart = bufferToFill.Line();
+    int sampleStart = bufferToFill.Sample();
     // silence warnings
     CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart, 
                      bufferToFill.SampleDimension(), bufferToFill.LineDimension(),
                      bufferToFill.DoubleBuffer(), 
                      bufferToFill.SampleDimension(), bufferToFill.LineDimension(), 
-                     GDT_Float64,
+                     m_pixelType,
                      0, 0);
   }
 
@@ -54,15 +55,15 @@ namespace Isis {
     int band = bufferToWrite.Band();
     poBand = m_geodataSet->GetRasterBand(band);
 
-    int lineStart = bufferToWrite.Line() - 1;
-    int sampleStart = bufferToWrite.Sample() - 1;
+    int lineStart = bufferToWrite.Line();
+    int sampleStart = bufferToWrite.Sample();
     
     // silence warning
     CPLErr err = poBand->RasterIO(GF_Write, sampleStart, lineStart, 
                      bufferToWrite.SampleDimension(), bufferToWrite.LineDimension(),
                      bufferToWrite.DoubleBuffer(), 
                      bufferToWrite.SampleDimension(), bufferToWrite.LineDimension(), 
-                     GDT_Float64,
+                     m_pixelType,
                      0, 0);
   }
 

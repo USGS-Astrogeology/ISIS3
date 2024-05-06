@@ -42,7 +42,7 @@ namespace Isis {
    */
   class GdalIoHandler : public ImageIoHandler {
     public:
-      GdalIoHandler(QString &dataFilePath, const QList<int> *virtualBandList, const Pvl &label);
+      GdalIoHandler(QString &dataFilePath, const QList<int> *virtualBandList, GDALDataType pixelType = GDT_Float64);
       virtual ~GdalIoHandler();
 
       virtual void read(Buffer &bufferToFill) const;
@@ -58,6 +58,7 @@ namespace Isis {
 
     private:
       GDALDatasetUniquePtr m_geodataSet = NULL;
+      GDALDataType m_pixelType;
   };
 }
 
