@@ -150,10 +150,10 @@ namespace Isis {
   const int IVALID_MAX4  = (*((const int *) &VALID_MAX4));
 
   // 2-byte signed special pixel values
-  const short VALID_MIN2     = ((short)(-32752));
-  const short NULL2          = ((short)(-32768));
-  const short LOW_REPR_SAT2  = ((short)(-32767));
-  const short LOW_INSTR_SAT2 = ((short)(-32766));
+  const short VALID_MIN2      = ((short)(-32752));
+  const short NULL2           = ((short)(-32768));
+  const short LOW_REPR_SAT2   = ((short)(-32767));
+  const short LOW_INSTR_SAT2  = ((short)(-32766));
   const short HIGH_INSTR_SAT2 = ((short)(-32765));
   const short HIGH_REPR_SAT2  = ((short)(-32764));
   const short VALID_MAX2      = ((short)   32767);
@@ -167,6 +167,15 @@ namespace Isis {
   const unsigned short HIGH_REPR_SATU2  = ((unsigned short)   65535);
   const unsigned short VALID_MAXU2      = ((unsigned short)   65522);
 
+  // 4-byte signed special pixel values
+  const int VALID_MINI4      = ((int)(-2147483632));
+  const int NULLI4           = ((int)(-2147483648));
+  const int LOW_REPR_SATI4   = ((int)(-2147483647));
+  const int LOW_INSTR_SATI4  = ((int)(-2147483646));
+  const int HIGH_INSTR_SATI4 = ((int)(-2147483645));
+  const int HIGH_REPR_SATI4  = ((int)(-2147483644));
+  const int VALID_MAXI4      = ((int)  2147483647 );
+
   // 4-byte unsigned special pixel values
   const unsigned int VALID_MINUI4      = ((unsigned int)       3);
   const unsigned int NULLUI4           = ((unsigned int)       0);
@@ -176,8 +185,16 @@ namespace Isis {
   const unsigned int HIGH_REPR_SATUI4  = ((unsigned int)   4294967295);
   const unsigned int VALID_MAXUI4      = ((unsigned int)   4294967282);
 
+  // 1-byte signed special pixel values
+  const char VALID_MINS1      = ((char) -126);
+  const char NULLS1           = ((char) -128);
+  const char LOW_REPR_SATS1   = ((char) -128);
+  const char LOW_INSTR_SATS1  = ((char) -128);
+  const char HIGH_INSTR_SATS1 = ((char) -127);
+  const char HIGH_REPR_SATS1  = ((char) -127);
+  const char VALID_MAXS1      = ((char) 127);
 
-  // 1-byte special pixel values
+  // 1-byte unsigned special pixel values
   const unsigned char VALID_MIN1      = ((unsigned char) 1);
   const unsigned char NULL1           = ((unsigned char) 0);
   const unsigned char LOW_REPR_SAT1   = ((unsigned char) 0);
