@@ -58,7 +58,7 @@ TEST(GdalIoTests, DefaulWrite) {
 
 TEST_F(ReadWriteTiff, GdalIoTestsReadFloat64) {
   PixelType isisPixelType = Double;
-  writeTiff(isisPixelType);
+  createTiff(isisPixelType);
 
   const QList<int> *bandList = new QList<int>;
   GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
@@ -75,7 +75,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadFloat64) {
 
 TEST_F(ReadWriteTiff, GdalIoTestsReadFloat32) {
   PixelType isisPixelType = Real;
-  writeTiff(isisPixelType);
+  createTiff(isisPixelType);
 
   const QList<int> *bandList = new QList<int>;
   GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
@@ -92,7 +92,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadFloat32) {
 
 TEST_F(ReadWriteTiff, GdalIoTestsReadInt32) {
   PixelType isisPixelType = SignedInteger;
-  writeTiff(isisPixelType);
+  createTiff(isisPixelType);
 
   const QList<int> *bandList = new QList<int>;
   GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
@@ -109,7 +109,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadInt32) {
 
 TEST_F(ReadWriteTiff, GdalIoTestsReadUInt32) {
   PixelType isisPixelType = UnsignedInteger;
-  writeTiff(isisPixelType);
+  createTiff(isisPixelType);
 
   const QList<int> *bandList = new QList<int>;
   GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
@@ -126,7 +126,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadUInt32) {
 
 TEST_F(ReadWriteTiff, GdalIoTestsReadInt16) {
   PixelType isisPixelType = SignedWord;
-  writeTiff(isisPixelType);
+  createTiff(isisPixelType);
 
   const QList<int> *bandList = new QList<int>;
   GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
@@ -143,7 +143,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadInt16) {
 
 TEST_F(ReadWriteTiff, GdalIoTestsReadUInt16) {
   PixelType isisPixelType = UnsignedWord;
-  writeTiff(isisPixelType);
+  createTiff(isisPixelType);
  
   const QList<int> *bandList = new QList<int>;
   GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
@@ -160,7 +160,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadUInt16) {
 
 TEST_F(ReadWriteTiff, GdalIoTestsReadInt8) {
   PixelType isisPixelType = SignedByte;
-  writeTiff(isisPixelType);
+  createTiff(isisPixelType);
 
   const QList<int> *bandList = new QList<int>;
   GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
@@ -177,7 +177,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadInt8) {
 
 TEST_F(ReadWriteTiff, GdalIoTestsReadByte) {
   PixelType isisPixelType = UnsignedByte;
-  writeTiff(isisPixelType);
+  createTiff(isisPixelType);
 
   const QList<int> *bandList = new QList<int>;
   GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
@@ -190,4 +190,43 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadByte) {
   EXPECT_EQ(brickDoubleBuff[3], NULL8);
   EXPECT_EQ(brickDoubleBuff[4], NULL8);
   EXPECT_EQ(brickDoubleBuff[5], 50);
+}
+
+TEST_F(ReadWriteTiff, GdalIoTestsWriteFloat32) {
+  PixelType isisPixelType = Real;
+  createTiff(isisPixelType, false);
+  // Create a context so the handler goes out of scope and closes the file
+  {
+    const QList<int> *bandList = new QList<int>;
+    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+
+    localBrick = new Brick(6, 1, 1, isisPixelType);
+    localBrick->SetBasePosition(1, 1, 1);
+
+    double *brickDoubleBuff = localBrick->DoubleBuffer();
+
+    brickDoubleBuff[0] = HIGH_INSTR_SAT8;
+    brickDoubleBuff[1] = HIGH_REPR_SAT8;
+    brickDoubleBuff[3] = LOW_REPR_SAT8;
+    brickDoubleBuff[4] = NULL8;
+    brickDoubleBuff[5] = 1000;
+
+    handler.write(*localBrick);
+  }
+
+  dataset = GDALDataset::FromHandle(GDALOpen(path.toStdString().c_str(), GA_ReadOnly));
+  dbuf = (float *)CPLMalloc(sizeof(float) * 6);
+  GDALRasterBand *poBand = dataset->GetRasterBand(1);
+  CPLErr err = poBand->RasterIO(GF_Read, 0, 0,
+                                         6, 1,
+                                         dbuf,
+                                         6, 1,
+                                         IsisPixelToGdal(isisPixelType),
+                                         0, 0);
+  ((float *)dbuf)[0] = HIGH_INSTR_SAT4;
+  ((float *)dbuf)[1] = HIGH_REPR_SAT4;
+  ((float *)dbuf)[2] = LOW_INSTR_SAT4;
+  ((float *)dbuf)[3] = LOW_REPR_SAT4;
+  ((float *)dbuf)[4] = NULL4;
+  ((float *)dbuf)[5] = 1000;
 }
