@@ -274,6 +274,9 @@ namespace Isis {
 
       if (formatString == "BSQ" || formatString == "BANDSEQUENTIAL")
         result = Cube::Bsq;
+      else if(formatString == "GTIFF") {
+        result = Cube::GTiff
+      }
     }
 
     return result;
@@ -420,12 +423,12 @@ namespace Isis {
 
 
   bool CubeAttributeOutput::isFileFormat(QString attribute) const {
-    return QRegExp("(BANDSEQUENTIAL|BSQ|TILE|TIFF)").exactMatch(attribute);
+    return QRegExp("(BANDSEQUENTIAL|BSQ|TILE|GTIFF)").exactMatch(attribute);
   }
 
 
   bool CubeAttributeOutput::isLabelAttachment(QString attribute) const {
-    return QRegExp("(ATTACHED|DETACHED|EXTERNAL|GDAL)").exactMatch(attribute);
+    return QRegExp("(ATTACHED|DETACHED|EXTERNAL)").exactMatch(attribute);
   }
 
 
