@@ -57,8 +57,16 @@ namespace Isis {
       virtual void updateLabels(Pvl &labels);
 
     private:
+      void readPixelType(double *doubleBuff, void *rawBuff, int idx) const;
+      void writePixelType(double *doubleBuff, void *rawBuff, int idx) const;
+
       GDALDatasetUniquePtr m_geodataSet = NULL;
       GDALDataType m_pixelType;
+      int m_lines;
+      int m_samples;
+      int m_bands;
+      double m_offset;
+      double m_scale;
   };
 }
 

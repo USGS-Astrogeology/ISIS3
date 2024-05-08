@@ -3,6 +3,7 @@
 #include "Buffer.h"
 #include "CubeCachingAlgorithm.h"
 #include "IException.h"
+#include "SpecialPixel.h"
 
 #include <QList>
 #include <QMutex>
@@ -25,6 +26,12 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     m_pixelType = pixelType;
+    m_samples = m_geodataSet->GetRasterXSize();
+    m_lines = m_geodataSet->GetRasterYSize();
+    m_bands = m_geodataSet->GetRasterCount();
+    GDALRasterBand *band = m_geodataSet->GetRasterBand(1);
+    m_offset = band->GetOffset();
+    m_scale = band->GetScale();
   }
 
   GdalIoHandler::~GdalIoHandler() {
@@ -33,18 +40,40 @@ namespace Isis {
   void GdalIoHandler::read(Buffer &bufferToFill) const {
     GDALRasterBand  *poBand;
     int band = bufferToFill.Band();
+    // Check bands and apply virtual bands
     poBand = m_geodataSet->GetRasterBand(band);
     // Account for 1 based line and sample reading from ISIS process classes
     // as gdal reads 0 based lines and samples
     int lineStart = bufferToFill.Line() - 1;
     int sampleStart = bufferToFill.Sample() - 1;
+    int lineEnd = bufferToFill.LineDimension();
+    int sampleEnd = bufferToFill.SampleDimension();
+    if (lineStart < 0) {
+      lineStart = 0;
+    }
+    if (lineStart + bufferToFill.LineDimension() > m_lines) {
+      lineEnd = m_lines - lineStart;
+    }
+    if (sampleStart < 0) {
+      sampleStart = 0;
+    }
+    if (sampleStart + bufferToFill.SampleDimension() > m_samples) {
+      sampleEnd = m_samples - sampleStart;
+    }
     // silence warnings
-    CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart, 
-                     bufferToFill.SampleDimension(), bufferToFill.LineDimension(),
-                     bufferToFill.DoubleBuffer(), 
-                     bufferToFill.SampleDimension(), bufferToFill.LineDimension(), 
-                     m_pixelType,
-                     0, 0);
+    poBand->RasterIO(GF_Read, sampleStart, lineStart, 
+                              sampleEnd, lineEnd,
+                              bufferToFill.RawBuffer(), 
+                              bufferToFill.SampleDimension(), bufferToFill.LineDimension(), 
+                              m_pixelType,
+                              0, 0);
+
+    // Handle pixel type conversion
+    char *buffersRawBuf = (char *)bufferToFill.RawBuffer();
+    double *buffersDoubleBuf = bufferToFill.DoubleBuffer();
+    for (int bufferIdx = 0; bufferIdx < bufferToFill.size(); bufferIdx++) {
+      readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+    }
   }
 
   void GdalIoHandler::write(const Buffer &bufferToWrite) {
@@ -54,14 +83,37 @@ namespace Isis {
 
     int lineStart = bufferToWrite.Line() - 1;
     int sampleStart = bufferToWrite.Sample() - 1;
+    int lineEnd = bufferToWrite.LineDimension();
+    int sampleEnd = bufferToWrite.SampleDimension();
+    // Handle buffers the exit valid DN dimensions
+    if (lineStart <= 0) {
+      lineStart = 0;
+    }
+    if (lineStart + bufferToWrite.LineDimension() > m_lines) {
+      lineEnd = m_lines - lineStart;
+    }
+    if (sampleStart <= 0) {
+      sampleStart = 0;
+    }
+    if (sampleStart + bufferToWrite.SampleDimension() > m_samples) {
+      sampleEnd = m_samples - sampleStart;
+    }
+
+    // Handle pixel type conversion
+    // if (m_scale != 1 || m_offset != 0) {
+    //   double *buffersDoubleBuf = bufferToWrite.DoubleBuffer();
+    //   for (int i = 0; i < bufferToWrite.size(); i++) {
+    //     buffersDoubleBuf[i] = (buffersDoubleBuf[i] - m_offset) / m_scale;
+    //   }
+    // }
     
     // silence warning
-    CPLErr err = poBand->RasterIO(GF_Write, sampleStart, lineStart, 
-                     bufferToWrite.SampleDimension(), bufferToWrite.LineDimension(),
-                     bufferToWrite.DoubleBuffer(), 
-                     bufferToWrite.SampleDimension(), bufferToWrite.LineDimension(), 
-                     m_pixelType,
-                     0, 0);
+    CPLErr err = poBand->RasterIO(GF_Write, sampleStart, lineStart,
+                                  sampleEnd, lineEnd,
+                                  bufferToWrite.RawBuffer(),
+                                  bufferToWrite.SampleDimension(), bufferToWrite.LineDimension(),
+                                  m_pixelType,
+                                  0, 0);
   }
 
   BigInt GdalIoHandler::getDataSize() const {
@@ -73,4 +125,331 @@ namespace Isis {
    * @param labels Pvl object to update with
    */
   void GdalIoHandler::updateLabels(Pvl &labels) {}
+
+  void GdalIoHandler::readPixelType(double *doubleBuff, void *rawBuff, int idx) const {
+    double &bufferVal = doubleBuff[idx];
+    if (m_pixelType == GDT_Float64) {
+      double raw = ((double *)rawBuff)[idx];
+      bufferVal = raw;
+    }
+    
+    else if(m_pixelType == GDT_Float32) {
+      float raw = ((float *)rawBuff)[idx];
+      // if(m_byteSwapper)
+      //   raw = m_byteSwapper->Float(&raw);
+
+      if(raw >= VALID_MIN4) {
+        bufferVal = (double) raw;
+      }
+      else {
+        if(raw == NULL4)
+          bufferVal = NULL8;
+        else if(raw == LOW_INSTR_SAT4)
+          bufferVal = LOW_INSTR_SAT8;
+        else if(raw == LOW_REPR_SAT4)
+          bufferVal = LOW_REPR_SAT8;
+        else if(raw == HIGH_INSTR_SAT4)
+          bufferVal = HIGH_INSTR_SAT8;
+        else if(raw == HIGH_REPR_SAT4)
+          bufferVal = HIGH_REPR_SAT8;
+        else
+          bufferVal = LOW_REPR_SAT8;
+      }
+
+      ((float *)rawBuff)[idx] = raw;
+    }
+
+    else if(m_pixelType == GDT_Int32) {
+      int raw = ((int *)rawBuff)[idx];
+      // if(m_byteSwapper)
+      //   raw = m_byteSwapper->Uint32_t(&raw);
+
+      if(raw >= VALID_MINI4) {
+        bufferVal = (double) raw * m_scale + m_offset;
+      }
+      else {
+        if (raw == NULLI4)
+          bufferVal = NULL8;
+        else if (raw == LOW_INSTR_SATI4)
+          bufferVal = LOW_INSTR_SAT8;
+        else if (raw == LOW_REPR_SATI4)
+          bufferVal = LOW_REPR_SAT8;
+        else if (raw == HIGH_INSTR_SATI4)
+          bufferVal = HIGH_INSTR_SAT8;
+        else if (raw == HIGH_REPR_SATI4)
+          bufferVal = HIGH_REPR_SAT8;
+        else
+          bufferVal = LOW_REPR_SAT8;
+      }
+      ((unsigned int *)rawBuff)[idx] = raw;
+    }
+
+    else if(m_pixelType == GDT_UInt32) {
+      unsigned int raw = ((unsigned int *)rawBuff)[idx];
+      // if(m_byteSwapper)
+      //   raw = m_byteSwapper->Uint32_t(&raw);
+
+      if(raw >= VALID_MINUI4) {
+        bufferVal = (double) raw * m_scale + m_offset;
+        if (raw >= VALID_MAXUI4) {
+          if(raw == HIGH_INSTR_SATUI4)
+            bufferVal = HIGH_INSTR_SAT8;
+          else if(raw == HIGH_REPR_SATUI4)
+            bufferVal = HIGH_REPR_SAT8;
+          else
+            bufferVal = HIGH_REPR_SAT8;
+        }
+      }
+      else {
+        if(raw == NULLUI4)
+          bufferVal = NULL8;
+        else if(raw == LOW_INSTR_SATUI4)
+          bufferVal = LOW_INSTR_SAT8;
+        else if(raw == LOW_REPR_SATUI4)
+          bufferVal = LOW_REPR_SAT8;
+        else
+          bufferVal = LOW_REPR_SAT8;
+      }
+      ((unsigned int *)rawBuff)[idx] = raw;
+    }
+
+    else if(m_pixelType == GDT_Int16) {
+      short raw = ((short *)rawBuff)[idx];
+      // if(m_byteSwapper)
+      //   raw = m_byteSwapper->ShortInt(&raw);
+
+      if(raw >= VALID_MIN2) {
+        bufferVal = (double) raw * m_scale + m_offset;
+      }
+      else {
+        if(raw == NULL2)
+          bufferVal = NULL8;
+        else if(raw == LOW_INSTR_SAT2)
+          bufferVal = LOW_INSTR_SAT8;
+        else if(raw == LOW_REPR_SAT2)
+          bufferVal = LOW_REPR_SAT8;
+        else if(raw == HIGH_INSTR_SAT2)
+          bufferVal = HIGH_INSTR_SAT8;
+        else if(raw == HIGH_REPR_SAT2)
+          bufferVal = HIGH_REPR_SAT8;
+        else
+          bufferVal = LOW_REPR_SAT8;
+      }
+
+      ((short *)rawBuff)[idx] = raw;
+    }
+
+    else if(m_pixelType == GDT_UInt16) {
+      unsigned short raw = ((unsigned short *)rawBuff)[idx];
+      // if(m_byteSwapper)
+      //   raw = m_byteSwapper->UnsignedShortInt(&raw);
+
+      if(raw >= VALID_MINU2) {
+        bufferVal = (double) raw * m_scale + m_offset;
+        if (raw > VALID_MAXU2) {
+          if(raw == HIGH_INSTR_SATU2)
+            bufferVal = HIGH_INSTR_SAT8;
+          else if(raw == HIGH_REPR_SATU2)
+            bufferVal = HIGH_REPR_SAT8;
+          else
+            bufferVal = HIGH_REPR_SAT8;
+        }
+      }
+      else {
+        if(raw == NULLU2)
+          bufferVal = NULL8;
+        else if(raw == LOW_INSTR_SATU2)
+          bufferVal = LOW_INSTR_SAT8;
+        else if(raw == LOW_REPR_SATU2)
+          bufferVal = LOW_REPR_SAT8;
+        else
+          bufferVal = LOW_REPR_SAT8;
+      }
+      ((unsigned short *)rawBuff)[idx] = raw;
+    }
+
+    else if(m_pixelType == GDT_Int8) {
+      char raw = ((char *)rawBuff)[idx];
+
+      if(raw == NULLS1) {
+        bufferVal = NULL8;
+      }
+      else if(raw == HIGH_REPR_SATS1) {
+        bufferVal = HIGH_REPR_SAT8;
+      }
+      else {
+        bufferVal = (double) raw * m_scale + m_offset;
+      }
+
+      ((char *)rawBuff)[idx] = raw;
+    }
+    
+    else if(m_pixelType == GDT_Byte) {
+      unsigned char raw = ((unsigned char *)rawBuff)[idx];
+
+      if(raw == NULL1) {
+        bufferVal = NULL8;
+      }
+      else if(raw == HIGH_REPR_SAT1) {
+        bufferVal = HIGH_REPR_SAT8;
+      }
+      else {
+        bufferVal = (double) raw * m_scale + m_offset;
+      }
+
+      ((unsigned char *)rawBuff)[idx] = raw;
+    }
+  }
+
+  void GdalIoHandler::writePixelType(double *doubleBuff, void *rawBuff, int idx) const {
+    double bufferVal = doubleBuff[idx];
+    if (m_pixelType == GDT_Float64) {
+
+    }
+    
+    else if(m_pixelType == GDT_Float32) {
+      float raw = 0;
+
+      if(bufferVal >= VALID_MIN8) {
+        double filePixelValueDbl = (bufferVal - m_offset) /
+            m_scale;
+
+        if(filePixelValueDbl < (double) VALID_MIN4) {
+          raw = LOW_REPR_SAT4;
+        }
+        else if(filePixelValueDbl > (double) VALID_MAX4) {
+          raw = HIGH_REPR_SAT4;
+        }
+        else {
+          raw = (float) filePixelValueDbl;
+        }
+      }
+      else {
+        if(bufferVal == NULL8)
+          raw = NULL4;
+        else if(bufferVal == LOW_INSTR_SAT8)
+          raw = LOW_INSTR_SAT4;
+        else if(bufferVal == LOW_REPR_SAT8)
+          raw = LOW_REPR_SAT4;
+        else if(bufferVal == HIGH_INSTR_SAT8)
+          raw = HIGH_INSTR_SAT4;
+        else if(bufferVal == HIGH_REPR_SAT8)
+          raw = HIGH_REPR_SAT4;
+        else
+          raw = LOW_REPR_SAT4;
+      }
+      ((float *)rawBuff)[idx] = raw;
+    }
+
+    else if(m_pixelType == GDT_Int32) {
+
+    }
+
+    else if(m_pixelType == GDT_UInt32) {
+
+      unsigned int raw = ((unsigned int *)chunkBuf)[chunkIndex];
+      if(m_byteSwapper)
+        raw = m_byteSwapper->Uint32_t(&raw);
+
+      if(raw >= VALID_MINUI4) {
+        bufferVal = (double) raw * m_multiplier + m_base;
+      }
+      else if (raw > VALID_MAXUI4) {
+        if(raw == HIGH_INSTR_SATUI4)
+          bufferVal = HIGH_INSTR_SAT8;
+        else if(raw == HIGH_REPR_SATUI4)
+          bufferVal = HIGH_REPR_SAT8;
+        else
+          bufferVal = LOW_REPR_SAT8;
+      }
+      else {
+        if(raw == NULLUI4)
+          bufferVal = NULL8;
+        else if(raw == LOW_INSTR_SATUI4)
+          bufferVal = LOW_INSTR_SAT8;
+        else if(raw == LOW_REPR_SATUI4)
+          bufferVal = LOW_REPR_SAT8;
+        else
+          bufferVal = LOW_REPR_SAT8;
+      }
+
+      ((unsigned int *)buffersRawBuf)[bufferIndex] = raw;
+    }
+
+    else if(m_pixelType == GDT_Int16) {
+      short raw = ((short *)chunkBuf)[chunkIndex];
+      if(m_byteSwapper)
+        raw = m_byteSwapper->ShortInt(&raw);
+
+      if(raw >= VALID_MIN2) {
+        bufferVal = (double) raw * m_multiplier + m_base;
+      }
+      else {
+        if(raw == NULL2)
+          bufferVal = NULL8;
+        else if(raw == LOW_INSTR_SAT2)
+          bufferVal = LOW_INSTR_SAT8;
+        else if(raw == LOW_REPR_SAT2)
+          bufferVal = LOW_REPR_SAT8;
+        else if(raw == HIGH_INSTR_SAT2)
+          bufferVal = HIGH_INSTR_SAT8;
+        else if(raw == HIGH_REPR_SAT2)
+          bufferVal = HIGH_REPR_SAT8;
+        else
+          bufferVal = LOW_REPR_SAT8;
+      }
+
+      ((short *)buffersRawBuf)[bufferIndex] = raw;
+    }
+
+    else if(m_pixelType == GDT_UInt16) {
+      unsigned short raw = ((unsigned short *)chunkBuf)[chunkIndex];
+      if(m_byteSwapper)
+        raw = m_byteSwapper->UnsignedShortInt(&raw);
+
+      if(raw >= VALID_MINU2) {
+        bufferVal = (double) raw * m_multiplier + m_base;
+      }
+      else if (raw > VALID_MAXU2) {
+        if(raw == HIGH_INSTR_SATU2)
+          bufferVal = HIGH_INSTR_SAT8;
+        else if(raw == HIGH_REPR_SATU2)
+          bufferVal = HIGH_REPR_SAT8;
+        else
+          bufferVal = LOW_REPR_SAT8;
+      }
+      else {
+        if(raw == NULLU2)
+          bufferVal = NULL8;
+        else if(raw == LOW_INSTR_SATU2)
+          bufferVal = LOW_INSTR_SAT8;
+        else if(raw == LOW_REPR_SATU2)
+          bufferVal = LOW_REPR_SAT8;
+        else
+          bufferVal = LOW_REPR_SAT8;
+      }
+
+      ((unsigned short *)buffersRawBuf)[bufferIndex] = raw;
+    }
+
+    else if(m_pixelType == GDT_Int8) {
+
+    }
+
+    else if(m_pixelType == GDT_Byte) {
+      unsigned char raw = ((unsigned char *)chunkBuf)[chunkIndex];
+
+      if(raw == NULL1) {
+        bufferVal = NULL8;
+      }
+      else if(raw == HIGH_REPR_SAT1) {
+        bufferVal = HIGH_REPR_SAT8;
+      }
+      else {
+        bufferVal = (double) raw * m_multiplier + m_base;
+      }
+
+      ((unsigned char *)buffersRawBuf)[bufferIndex] = raw;
+    }
+  }
 }

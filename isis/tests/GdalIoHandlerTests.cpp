@@ -1,13 +1,17 @@
 #include <QTemporaryFile>
 #include <QString>
 #include <iostream>
+#include <iomanip>
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
 #include "Brick.h"
+#include "PixelType.h"
 #include "GdalIoHandler.h"
 #include "CubeTileHandler.h"
+#include "SpecialPixel.h"
+#include "TiffFixtures.h"
 
 #include "TestUtilities.h"
 
@@ -15,57 +19,13 @@ using json = nlohmann::json;
 
 using namespace Isis;
 
-TEST(GdalIoTests, DefaultRead) {
-  QString filePath = "/Users/krodriguez/cubes/gdal/B10_013341_1010_XN_79S172W.tiff";
-  const QList<int> *bandList = new QList<int>;
-  Pvl label;
-
-  GdalIoHandler handler(filePath, bandList);
-  Brick localBrick(200, 200, 1, SignedWord);
-  localBrick.SetBasePosition(1, 1, 1);
-  handler.read(localBrick);
-
-  long int sum = 0;
-  for (int i = 0; i < localBrick.size(); i++) {
-    sum += localBrick.at(i);
-    localBrick[i] = 0.0;
-  }
-  EXPECT_EQ(sum, 19832794);
-
-  // QString cubeFilePath = "/Users/acpaquette/repos/ISIS3/build/B10_013341_1010_XN_79S172W.cub";
-  // label = Pvl(cubeFilePath);
-  // QFile *dataFile = new QFile(cubeFilePath);
-  // if (!dataFile->open(QIODevice::ReadWrite)) {
-  //   QString msg = "Failed to open [" + dataFile->fileName() + "] for reading. ";
-  //   msg += "Verify the output path exists and you have permission to read from the path.";
-  //   throw IException(IException::Io, msg, _FILEINFO_);
-  // }
-  // PvlObject &core = label.findObject("Core", Isis::PvlObject::Traverse);
-  // PvlGroup &pixelGroup = core.findGroup("Pixels");
-  // PvlKeyword type = pixelGroup.findKeyword("Type");
-  // QString strType = type[0];
-  // Brick localBuf(200, 200, 1, PixelTypeEnumeration(strType));
-  // localBuf.SetBasePosition(1, 1, 1);
-  // CubeTileHandler cubeHandler(dataFile, bandList, label, true);
-  // cubeHandler.read(localBuf);
-  // sum = 0;
-  // for (int i = 0; i < localBuf.size(); i++) {
-  //   sum += localBuf.at(i);
-  // }
-  // std::cout << sum << std::endl;
-  // delete dataFile;
-}
-
-
 TEST(GdalIoTests, DefaulWrite) {
-  QString filePath = "/Users/krodriguez/cubes/gdal/B10_013341_1010_XN_79S172W.tiff";
+  QString filePath = "/Users/acpaquette/repos/ISIS3/build/gdal_files/B10_013341_1010_XN_79S172W.tiff";
   
   {
     const QList<int> *bandList = new QList<int>;
-    Pvl label;
 
     GdalIoHandler handler(filePath, bandList);
-    
     Brick localBrick(200, 200, 1, SignedWord);
 
     localBrick.SetBasePosition(1, 1, 1);
@@ -83,15 +43,151 @@ TEST(GdalIoTests, DefaulWrite) {
   double* dbuf = (double *) CPLMalloc(sizeof(double)*200*200); 
   GDALRasterBand  *poBand = ds->GetRasterBand(1);
   CPLErr err = poBand->RasterIO(GF_Read, 0, 0, 
-                  200, 200,
-                  dbuf, 
-                  200, 200, 
-                  GDT_Float64,
-                  0, 0);
+                                         200, 200,
+                                         dbuf, 
+                                         200, 200, 
+                                         GDT_Float64,
+                                         0, 0);
 
   
   for (int i = 0; i<200*200; i++) { 
-    EXPECT_EQ(dbuf[i], 100);
+    ASSERT_EQ(dbuf[i], 100);
   }
 
+}
+
+TEST_F(ReadWriteTiff, GdalIoTestsReadFloat64) {
+  PixelType isisPixelType = Double;
+  writeTiff(isisPixelType);
+
+  const QList<int> *bandList = new QList<int>;
+  GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+  handler.read(*localBrick);
+
+  double *brickDoubleBuff = localBrick->DoubleBuffer();
+  EXPECT_EQ(brickDoubleBuff[0], HIGH_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[1], HIGH_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[2], LOW_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[3], LOW_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[4], NULL8);
+  EXPECT_EQ(brickDoubleBuff[5], 1000.0);
+}
+
+TEST_F(ReadWriteTiff, GdalIoTestsReadFloat32) {
+  PixelType isisPixelType = Real;
+  writeTiff(isisPixelType);
+
+  const QList<int> *bandList = new QList<int>;
+  GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+  handler.read(*localBrick);
+
+  double *brickDoubleBuff = localBrick->DoubleBuffer();
+  EXPECT_EQ(brickDoubleBuff[0], HIGH_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[1], HIGH_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[2], LOW_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[3], LOW_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[4], NULL8);
+  EXPECT_EQ(brickDoubleBuff[5], 1000.0);
+}
+
+TEST_F(ReadWriteTiff, GdalIoTestsReadInt32) {
+  PixelType isisPixelType = SignedInteger;
+  writeTiff(isisPixelType);
+
+  const QList<int> *bandList = new QList<int>;
+  GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+  handler.read(*localBrick);
+
+  double *brickDoubleBuff = localBrick->DoubleBuffer();
+  EXPECT_EQ(brickDoubleBuff[0], HIGH_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[1], HIGH_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[2], LOW_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[3], LOW_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[4], NULL8);
+  EXPECT_EQ(brickDoubleBuff[5], 1000.0);
+}
+
+TEST_F(ReadWriteTiff, GdalIoTestsReadUInt32) {
+  PixelType isisPixelType = UnsignedInteger;
+  writeTiff(isisPixelType);
+
+  const QList<int> *bandList = new QList<int>;
+  GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+  handler.read(*localBrick);
+
+  double *brickDoubleBuff = localBrick->DoubleBuffer();
+  EXPECT_EQ(brickDoubleBuff[0], HIGH_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[1], HIGH_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[2], LOW_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[3], LOW_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[4], NULL8);
+  EXPECT_EQ(brickDoubleBuff[5], 1000.0);
+}
+
+TEST_F(ReadWriteTiff, GdalIoTestsReadInt16) {
+  PixelType isisPixelType = SignedWord;
+  writeTiff(isisPixelType);
+
+  const QList<int> *bandList = new QList<int>;
+  GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+  handler.read(*localBrick);
+
+  double *brickDoubleBuff = localBrick->DoubleBuffer();
+  EXPECT_EQ(brickDoubleBuff[0], HIGH_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[1], HIGH_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[2], LOW_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[3], LOW_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[4], NULL8);
+  EXPECT_EQ(brickDoubleBuff[5], 1000.0);
+}
+
+TEST_F(ReadWriteTiff, GdalIoTestsReadUInt16) {
+  PixelType isisPixelType = UnsignedWord;
+  writeTiff(isisPixelType);
+ 
+  const QList<int> *bandList = new QList<int>;
+  GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+  handler.read(*localBrick);
+
+  double *brickDoubleBuff = localBrick->DoubleBuffer();
+  EXPECT_EQ(brickDoubleBuff[0], HIGH_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[1], HIGH_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[2], LOW_INSTR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[3], LOW_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[4], NULL8);
+  EXPECT_EQ(brickDoubleBuff[5], 1000.0);
+}
+
+TEST_F(ReadWriteTiff, GdalIoTestsReadInt8) {
+  PixelType isisPixelType = SignedByte;
+  writeTiff(isisPixelType);
+
+  const QList<int> *bandList = new QList<int>;
+  GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+  handler.read(*localBrick);
+
+  double *brickDoubleBuff = localBrick->DoubleBuffer();
+  EXPECT_EQ(brickDoubleBuff[0], HIGH_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[1], HIGH_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[2], NULL8);
+  EXPECT_EQ(brickDoubleBuff[3], NULL8);
+  EXPECT_EQ(brickDoubleBuff[4], NULL8);
+  EXPECT_EQ(brickDoubleBuff[5], 50);
+}
+
+TEST_F(ReadWriteTiff, GdalIoTestsReadByte) {
+  PixelType isisPixelType = UnsignedByte;
+  writeTiff(isisPixelType);
+
+  const QList<int> *bandList = new QList<int>;
+  GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+  handler.read(*localBrick);
+
+  double *brickDoubleBuff = localBrick->DoubleBuffer();
+  EXPECT_EQ(brickDoubleBuff[0], HIGH_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[1], HIGH_REPR_SAT8);
+  EXPECT_EQ(brickDoubleBuff[2], NULL8);
+  EXPECT_EQ(brickDoubleBuff[3], NULL8);
+  EXPECT_EQ(brickDoubleBuff[4], NULL8);
+  EXPECT_EQ(brickDoubleBuff[5], 50);
 }
