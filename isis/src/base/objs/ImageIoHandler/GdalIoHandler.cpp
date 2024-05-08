@@ -20,9 +20,6 @@ namespace Isis {
     std::string dataFilePathStr = dataFilePath.toUtf8().constData();
     const char *charDataFilePath = dataFilePathStr.c_str();
     m_geodataSet = GDALDatasetUniquePtr(GDALDataset::FromHandle(GDALOpen(charDataFilePath, eAccess)));
-    std::cout << m_geodataSet->GetRasterXSize() << std::endl;
-    std::cout << m_geodataSet->GetRasterYSize() << std::endl;
-    std::cout << m_geodataSet->GetRasterCount() << std::endl;
     if (!m_geodataSet) {
       QString msg = "Constructing GdalIoHandler failed";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -39,8 +36,8 @@ namespace Isis {
     poBand = m_geodataSet->GetRasterBand(band);
     // Account for 1 based line and sample reading from ISIS process classes
     // as gdal reads 0 based lines and samples
-    int lineStart = bufferToFill.Line();
-    int sampleStart = bufferToFill.Sample();
+    int lineStart = bufferToFill.Line() - 1;
+    int sampleStart = bufferToFill.Sample() - 1;
     // silence warnings
     CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart, 
                      bufferToFill.SampleDimension(), bufferToFill.LineDimension(),
@@ -55,8 +52,8 @@ namespace Isis {
     int band = bufferToWrite.Band();
     poBand = m_geodataSet->GetRasterBand(band);
 
-    int lineStart = bufferToWrite.Line();
-    int sampleStart = bufferToWrite.Sample();
+    int lineStart = bufferToWrite.Line() - 1;
+    int sampleStart = bufferToWrite.Sample() - 1;
     
     // silence warning
     CPLErr err = poBand->RasterIO(GF_Write, sampleStart, lineStart, 
