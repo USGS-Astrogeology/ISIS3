@@ -265,7 +265,6 @@ namespace Isis {
       bool isReadOnly() const;
       bool isReadWrite() const;
       LabelAttachment labelsAttached() const;
-      // bool labelsExternal() const;
 
       void attachSpiceFromIsd(nlohmann::json Isd);
       void attachLineScanTableFromIsd(nlohmann::json isd);

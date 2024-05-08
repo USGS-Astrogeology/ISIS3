@@ -506,7 +506,7 @@ namespace Isis {
         m_labelFile = new QFile(m_labelFileName->expanded());
       }
       else {
-        QString msg = "Label type [" + LabelAttachmentName(labelsAttached()) + "] not handled";
+        QString msg = "Label type [" + LabelAttachmentName(labelsAttached()) + "] not supported";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
       core.addGroup(dims);
@@ -516,14 +516,13 @@ namespace Isis {
       cubFile = cubFile.addExtension("ecub");
 
       core += PvlKeyword("^DnFile", m_dataFileName->original());
-//       m_dataFileName = new FileName(cubFile);
       m_dataFile = new QFile(realDataFileName().expanded());
 
       m_labelFileName = new FileName(cubFile);
       m_labelFile = new QFile(cubFile.expanded());
     }
     else {
-      QString msg = "Label type [" + LabelAttachmentName(labelsAttached()) + "] not handled";
+      QString msg = "Label type [" + LabelAttachmentName(labelsAttached()) + "] not supported";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
