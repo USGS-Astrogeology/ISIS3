@@ -128,8 +128,7 @@ namespace Isis {
   void GdalIoHandler::readPixelType(double *doubleBuff, void *rawBuff, int idx) const {
     double &bufferVal = doubleBuff[idx];
     if (m_pixelType == GDT_Float64) {
-      double raw = ((double *)rawBuff)[idx];
-      bufferVal = raw;
+      bufferVal = ((double *)rawBuff)[idx];
     }
     
     else if(m_pixelType == GDT_Float32) {
@@ -303,7 +302,7 @@ namespace Isis {
   void GdalIoHandler::writePixelType(double *doubleBuff, void *rawBuff, int idx) const {
     double bufferVal = doubleBuff[idx];
     if (m_pixelType == GDT_Float64) {
-
+      ((double *)rawBuff)[idx] = bufferVal;
     }
     
     else if(m_pixelType == GDT_Float32) {
@@ -341,7 +340,46 @@ namespace Isis {
     }
 
     else if(m_pixelType == GDT_Int32) {
+      int raw;
 
+      if(bufferVal >= VALID_MINI4) {
+        double filePixelValueDbl = (bufferVal - m_offset) /
+            m_scale;
+        if(filePixelValueDbl < VALID_MINI4 - 0.5) {
+          raw = LOW_REPR_SATI4;
+        }
+        if(filePixelValueDbl > VALID_MAXI4) {
+          raw = HIGH_REPR_SATI4;
+        }
+        else {
+          int filePixelValue = (int)round(filePixelValueDbl);
+
+          if(filePixelValue < VALID_MINI4) {
+            raw = LOW_REPR_SATI4;
+          }
+          else if(filePixelValue > VALID_MAXI4) {
+            raw = HIGH_REPR_SATI4;
+          }
+          else {
+            raw = filePixelValue;
+          }
+        }
+      }
+      else {
+        if(bufferVal == NULL8)
+          raw = NULLI4;
+        else if(bufferVal == LOW_INSTR_SAT8)
+          raw = LOW_INSTR_SATI4;
+        else if(bufferVal == LOW_REPR_SAT8)
+          raw = LOW_REPR_SATI4;
+        else if(bufferVal == HIGH_INSTR_SAT8)
+          raw = HIGH_INSTR_SATI4;
+        else if(bufferVal == HIGH_REPR_SAT8)
+          raw = HIGH_REPR_SATI4;
+        else
+          raw = LOW_REPR_SATI4;
+      }
+      ((int *)rawBuff)[idx] = raw;
     }
 
     else if(m_pixelType == GDT_UInt32) {
@@ -474,7 +512,45 @@ namespace Isis {
     }
 
     else if(m_pixelType == GDT_Int8) {
+     char raw;
 
+      if(bufferVal >= VALID_MIN8) {
+        double filePixelValueDbl = (bufferVal - m_offset) /
+            m_scale;
+        if(filePixelValueDbl < VALID_MINS1 - 0.5) {
+          raw = LOW_REPR_SATS1;
+        }
+        else if(filePixelValueDbl > VALID_MAXS1 + 0.5) {
+          raw = HIGH_REPR_SATS1;
+        }
+        else {
+          int filePixelValue = (int)(filePixelValueDbl + 0.5);
+          if(filePixelValue < VALID_MINS1) {
+            raw = LOW_REPR_SATS1;
+          }
+          else if(filePixelValue > VALID_MAXS1) {
+            raw = HIGH_REPR_SATS1;
+          }
+          else {
+            raw = (char)(filePixelValue);
+          }
+        }
+      }
+      else {
+        if(bufferVal == NULL8)
+          raw = NULLS1;
+        else if(bufferVal == LOW_INSTR_SAT8)
+          raw = LOW_INSTR_SATS1;
+        else if(bufferVal == LOW_REPR_SAT8)
+          raw = LOW_REPR_SATS1;
+        else if(bufferVal == HIGH_INSTR_SAT8)
+          raw = HIGH_INSTR_SATS1;
+        else if(bufferVal == HIGH_REPR_SAT8)
+          raw = HIGH_REPR_SATS1;
+        else
+          raw = LOW_REPR_SATS1;
+      }
+      ((char *)rawBuff)[idx] = raw;
     }
 
     else if(m_pixelType == GDT_Byte) {
