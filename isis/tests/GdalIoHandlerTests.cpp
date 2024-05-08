@@ -20,7 +20,7 @@ TEST(GdalIoTests, DefaultRead) {
   const QList<int> *bandList = new QList<int>;
   Pvl label;
 
-  GdalIoHandler handler(filePath, bandList, label);
+  GdalIoHandler handler(filePath, bandList);
   Brick localBrick(200, 200, 1, SignedWord);
   localBrick.SetBasePosition(1, 1, 1);
   handler.read(localBrick);
@@ -64,7 +64,7 @@ TEST(GdalIoTests, DefaulWrite) {
     const QList<int> *bandList = new QList<int>;
     Pvl label;
 
-    GdalIoHandler handler(filePath, bandList, label);
+    GdalIoHandler handler(filePath, bandList);
     
     Brick localBrick(200, 200, 1, SignedWord);
 
@@ -91,7 +91,7 @@ TEST(GdalIoTests, DefaulWrite) {
 
   
   for (int i = 0; i<200*200; i++) { 
-    EXPECT_EQ(dbuf[i], 1)00;
+    EXPECT_EQ(dbuf[i], 100);
   }
 
 }

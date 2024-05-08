@@ -360,6 +360,7 @@ namespace Isis {
       void initialize();
       void initCoreFromLabel(const Pvl &label);
       void initCoreFromGdal(const QString &labelFile);
+      void initLabelState(const Pvl &label);
       void initLabelFromFile(FileName labelFileName, bool readWrite);
       void openCheck();
       Pvl realDataFileLabel() const;

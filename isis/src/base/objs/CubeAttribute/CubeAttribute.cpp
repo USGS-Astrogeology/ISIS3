@@ -275,7 +275,7 @@ namespace Isis {
       if (formatString == "BSQ" || formatString == "BANDSEQUENTIAL")
         result = Cube::Bsq;
       else if(formatString == "GTIFF") {
-        result = Cube::GTiff
+        result = Cube::GTiff;
       }
     }
 

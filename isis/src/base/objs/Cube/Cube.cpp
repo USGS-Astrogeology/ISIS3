@@ -1239,7 +1239,7 @@ namespace Isis {
     m_base = 0.0;
     m_multiplier = 1.0;
 
-    double x1, x2;
+    double x1 = 0.0, x2 = 0.0;
     if (m_pixelType == UnsignedByte) {
       x1 = VALID_MIN1;
       x2 = VALID_MAX1;
