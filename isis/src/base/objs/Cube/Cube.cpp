@@ -521,7 +521,9 @@ namespace Isis {
           Pvl dnLabel;
           PvlObject isiscube("IsisCube");
           PvlObject dnCore(core);
+          PvlKeyword fileFormat("Format", toString(format()));
 
+          dnCore.addKeyword(fileFormat);
           dnCore.addGroup(dims);
           dnCore.addGroup(ptype);
 
@@ -625,7 +627,7 @@ namespace Isis {
     }
     else if(format() == GTiff) {
       QString dataFileName = realDataFileName().expanded();
-      m_ioHandler = new GdalIoHandler(dataFileName, m_virtualBandList);
+      m_ioHandler = new GdalIoHandler(dataFileName, m_virtualBandList, IsisPixelToGdal(pixelType()));
     }
 
     if (labelsAttached() != ExternalLabel)
@@ -821,7 +823,7 @@ namespace Isis {
     }
     else if (m_format == GTiff) {
       QString datafile = realDataFileName().expanded();
-      m_ioHandler = new GdalIoHandler(datafile, m_virtualBandList);
+      m_ioHandler = new GdalIoHandler(datafile, m_virtualBandList, IsisPixelToGdal(pixelType()));
     }
 
     if (dataLabel.first) {
