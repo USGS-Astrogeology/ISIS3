@@ -33,9 +33,6 @@ namespace Isis {
         band->SetScale(1);
         band->SetOffset(0);
       }
-      if (dataset) {
-        delete dataset;
-      }
     }
     if (write) {
       if (pixelType == Double) {
@@ -122,8 +119,6 @@ namespace Isis {
       localBrick = new Brick(6, 1, 1, pixelType);
       localBrick->SetBasePosition(1, 1, 1);
 
-      dataset = GDALDataset::FromHandle(GDALOpen(path.toStdString().c_str(), GA_Update));
-
       GDALRasterBand *poBand = dataset->GetRasterBand(1);
       CPLErr err = poBand->RasterIO(GF_Write, 0, 0,
                                               6, 1,
@@ -131,7 +126,7 @@ namespace Isis {
                                               6, 1,
                                               IsisPixelToGdal(pixelType),
                                               0, 0);
-      dataset->Close();
     }
+    dataset->Close();
   }
 }
