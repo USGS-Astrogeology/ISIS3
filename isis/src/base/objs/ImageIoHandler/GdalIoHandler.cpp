@@ -61,12 +61,12 @@ namespace Isis {
       sampleEnd = m_samples - sampleStart;
     }
     // silence warnings
-    poBand->RasterIO(GF_Read, sampleStart, lineStart, 
-                              sampleEnd, lineEnd,
-                              bufferToFill.RawBuffer(), 
-                              bufferToFill.SampleDimension(), bufferToFill.LineDimension(), 
-                              m_pixelType,
-                              0, 0);
+    CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
+                                  sampleEnd, lineEnd,
+                                  bufferToFill.RawBuffer(),
+                                  bufferToFill.SampleDimension(), bufferToFill.LineDimension(),
+                                  m_pixelType,
+                                  0, 0);
 
     // Handle pixel type conversion
     char *buffersRawBuf = (char *)bufferToFill.RawBuffer();
