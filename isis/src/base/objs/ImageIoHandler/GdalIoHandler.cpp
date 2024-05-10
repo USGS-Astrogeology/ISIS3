@@ -40,8 +40,11 @@ namespace Isis {
   void GdalIoHandler::read(Buffer &bufferToFill) const {
     GDALRasterBand  *poBand;
     int band = bufferToFill.Band();
-    // Check bands and apply virtual bands
+
+    if (m_virtualBands)
+      band = m_virtualBands->at(band - 1);
     poBand = m_geodataSet->GetRasterBand(band);
+    
     // Account for 1 based line and sample reading from ISIS process classes
     // as gdal reads 0 based lines and samples
     int lineStart = bufferToFill.Line() - 1;
@@ -78,7 +81,11 @@ namespace Isis {
 
   void GdalIoHandler::write(const Buffer &bufferToWrite) {
     GDALRasterBand  *poBand;
+    
     int band = bufferToWrite.Band();
+    if(m_virtualBands) 
+      band = m_virtualBands->indexOf(band) + 1;
+
     poBand = m_geodataSet->GetRasterBand(band);
 
     int lineStart = bufferToWrite.Line() - 1;
