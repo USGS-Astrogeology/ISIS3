@@ -11,12 +11,21 @@ find files of those names at the top level of this repository. **/
 #include <locale>
 #include <fstream>
 #include <sstream>
+#include <cctype>
+
+#include <filesystem>
+#include <random>
+#include <gdal_priv.h>
+#include <nlohmann/json.hpp>
 
 #include "FileName.h"
 #include "IException.h"
 #include "Message.h"
 #include "PvlTokenizer.h"
 #include "PvlFormat.h"
+
+namespace fs = std::filesystem;
+using json = nlohmann::json;
 
 using namespace std;
 namespace Isis {
@@ -32,8 +41,74 @@ namespace Isis {
    * @param file The file containing the pvl formatted information
    */
   Pvl::Pvl(const QString &file) : Isis::PvlObject("Root") {
+
+    function<PvlObject(PvlObject&, json)> read_object = [&](PvlObject &pvlobj, json jdata) -> PvlObject { 
+      for(auto &[key, value] : jdata.items()) { 
+        string name = key; 
+        if(value.contains("_type")) { 
+          string type = value.at("_type"); 
+          value.erase("_type"); 
+          if (value.contains("_container_name")) { 
+            name = value["_container_name"];
+            value.erase("_container_name");
+          }
+
+          if(type == "object") { 
+            PvlObject nestedObj(QString::fromStdString(name));
+            pvlobj.addObject(read_object(nestedObj, value)); 
+          }
+          if(type == "group") { 
+            // parse keys 
+            PvlGroup group(QString::fromStdString(name)); 
+            for(auto &[pvlkeyword, pvlvalue] : value.items())  { 
+              PvlKeyword keyword;
+              keyword.setName(QString::fromStdString(pvlkeyword));
+              if (pvlvalue.is_array())
+                  keyword.addJsonArrayValue(pvlvalue);
+              else 
+                keyword.setJsonValue(pvlvalue);
+              group.addKeyword(keyword);
+            }
+            pvlobj.addGroup(group);
+          } // end of group
+        } // end of _type search
+
+        // not a group or object, must be a keyword
+        else if (key != "_type" && key != "_filename") { 
+          PvlKeyword keyword;
+          keyword.setName(QString::fromStdString(key));
+          if (value.is_array()) 
+            keyword.setJsonArrayValue(value);
+          else 
+            keyword.setJsonValue(value);
+
+          pvlobj.addKeyword(keyword);
+        }
+      }
+      return pvlobj;
+    };
+
+
     init();
-    read(file);
+    // try to read as a geodataset 
+    try{ 
+      GDALAllRegister();
+      const GDALAccess eAccess = GA_ReadOnly;
+      GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen( file.toStdString().c_str(), eAccess ));
+
+      char** metadata = dataset->GetMetadata("json:ISIS3");
+      json jsonlabel = json::parse(metadata[0]);
+      if (jsonlabel.contains("_name")) { 
+        QString name = QString::fromStdString(jsonlabel["name"].get<string>());
+        this->setName(name);
+      }
+
+      read_object(*this, jsonlabel);
+
+    } catch (exception &e) { 
+      cout << "failed : " << e.what() << endl;
+      read(file);
+    }
   }
 
 

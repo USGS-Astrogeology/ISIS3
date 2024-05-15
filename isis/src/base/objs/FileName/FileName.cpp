@@ -447,6 +447,9 @@ namespace Isis {
    * @return Boolean
    */
   bool FileName::fileExists() const {
+    if (toString().contains((QString)"https://")) { 
+      return true; 
+    }
     return QFileInfo(expanded()).exists();
   }
 

@@ -117,7 +117,9 @@ namespace Isis {
       };
 
       void setValue(QString value, QString unit = "");
-      void setJsonValue(nlohmann::json jsonobj, QString unit = "");
+      void setJsonValue(nlohmann::json jsonobj);
+      void setJsonArrayValue(nlohmann::json jsonobj);
+
 
       void setUnits(QString units);
       void setUnits(QString value, QString units);
@@ -125,7 +127,8 @@ namespace Isis {
       PvlKeyword &operator=(QString value);
 
       void addValue(QString value, QString unit = "");
-      void addJsonValue(nlohmann::json jsonobj, QString unit = "");
+      void addJsonValue(nlohmann::json jsonobj);
+      void addJsonArrayValue(nlohmann::json jsonobj);
 
       PvlKeyword &operator+=(QString value);
 
