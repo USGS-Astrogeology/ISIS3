@@ -172,10 +172,9 @@ namespace Isis {
    *
    * @see addJsonValue()
    */
-  void PvlKeyword::setJsonValue(json jsonobj, QString unit)
-  {
+  void PvlKeyword::setJsonValue(json jsonobj) {
     clear();
-    addJsonValue(jsonobj, unit);
+    addJsonValue(jsonobj);
   }
 
   /**
@@ -301,30 +300,89 @@ namespace Isis {
    *
    * @throws Isis::iException::Unknown - jsonobj cannot be an array of values
    */
-  void PvlKeyword::addJsonValue(json jsonobj, QString unit) {
+  void PvlKeyword::addJsonValue(json jsonobj) {
     QString value;
-    if (jsonobj.is_array()) {
+    QString unit = "";
+    json jvalue = jsonobj; 
+    if (jsonobj.contains("unit")) {
+       unit = QString::fromStdString(jsonobj["unit"].get<string>());
+       jvalue = jsonobj["value"];
+    }
+
+    if (jvalue.is_array()) {
       QString msg = "Unable to convert " + name() + " with nested json array value into PvlKeyword";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
-    else if (jsonobj.is_number())
-    {
-      value = QString::number(jsonobj.get<double>(), 'g', 16);
+    else if (jvalue.is_number()) {
+      value = QString::number(jvalue.get<double>(), 'g', 16);
     }
-    else if (jsonobj.is_boolean())
-    {
-      value = QString(jsonobj.get<bool>() ? "true" : "false");
+    else if (jvalue.is_boolean()) {
+      value = QString(jvalue.get<bool>() ? "true" : "false");
     }
-    else if (jsonobj.is_null())
-    {
+    else if (jvalue.is_null()) {
       value = QString("Null");
     }
-    else
-    {
-      value = QString::fromStdString(jsonobj);
+    else {
+      value = QString::fromStdString(jvalue);
     }
     addValue(value, unit);
   }
+
+  /**
+   * Adds multiple items from a json array.
+   *
+   * If no current value exists, this method sets the given json value.
+   * Otherwise, it retains any current values and adds the json value
+   * given to the array of values for this PvlKeyword object using addValue.
+   * Defaults to unit = "" (empty QString).
+   *
+   * @param jsonobj New jsonobj to be parsed and assigned.
+   * @param unit Units of measurement corresponding to the value.
+   *
+   * @see setJsonValue()
+   * @see addValue()
+   *
+   * @throws Isis::iException::Unknown - jsonobj must be a json array
+   */
+  void PvlKeyword::addJsonArrayValue(json jsonobj) { 
+    if(!jsonobj.is_array()) { 
+      QString msg = "Unable to convert to a json array:\n" + QString::fromStdString(jsonobj.dump());
+      throw IException(IException::Unknown, msg, _FILEINFO_); 
+    } 
+
+    for(auto ar = jsonobj.begin(); ar!=jsonobj.end(); ar++) {
+      try {
+        addJsonValue(*ar);
+      }
+      catch (IException &e) {
+        QString msg = "While attempting to parse " + name() + " the following occured";
+        throw IException(e, IException::Unknown, msg, _FILEINFO_);
+      }
+    }
+  }
+
+
+  /**
+   * sets multiple items from a json array.
+   *
+   * If no current value exists, this method sets the given json value.
+   * Otherwise, it retains any current values and adds the json value
+   * given to the array of values for this PvlKeyword object using addValue.
+   * Defaults to unit = "" (empty QString).
+   *
+   * @param jsonobj New jsonobj to be parsed and assigned.
+   * @param unit Units of measurement corresponding to the value.
+   *
+   * @see setJsonValue()
+   * @see addValue()
+   *
+   * @throws Isis::iException::Unknown - jsonobj must be a json array
+   */
+  void PvlKeyword::setJsonArrayValue(json jsonobj) { 
+    clear(); 
+    addJsonArrayValue(jsonobj);
+  }
+
 
   /**
    * Adds a value.
