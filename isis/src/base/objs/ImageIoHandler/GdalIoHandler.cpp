@@ -25,6 +25,8 @@ namespace Isis {
       QString msg = "Constructing GdalIoHandler failed";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
+    m_geodataSet->CreateMaskBand(0);
+    m_geodataSet->GetRasterBand(1)->GetMaskBand()->Fill(255);
     m_pixelType = pixelType;
     m_samples = m_geodataSet->GetRasterXSize();
     m_lines = m_geodataSet->GetRasterYSize();
@@ -81,6 +83,10 @@ namespace Isis {
 
   void GdalIoHandler::write(const Buffer &bufferToWrite) {
     GDALRasterBand  *poBand;
+    m_maskBuff = (char *) CPLMalloc(sizeof(char) * bufferToWrite.size());
+    for (int i = 0; i < bufferToWrite.size(); i++) {
+      m_maskBuff[i] = 255;
+    }
     
     int band = bufferToWrite.Band();
     if(m_virtualBands) 
@@ -92,7 +98,7 @@ namespace Isis {
     int sampleStart = bufferToWrite.Sample() - 1;
     int lineEnd = bufferToWrite.LineDimension();
     int sampleEnd = bufferToWrite.SampleDimension();
-    // Handle buffers the exit valid DN dimensions
+    // Handle buffers that exit valid DN dimensions
     if (lineStart <= 0) {
       lineStart = 0;
     }
@@ -110,7 +116,9 @@ namespace Isis {
     char *buffersRawBuf = (char *)bufferToWrite.RawBuffer();
     double *buffersDoubleBuf = bufferToWrite.DoubleBuffer();
     for (int bufferIdx = 0; bufferIdx < bufferToWrite.size(); bufferIdx++) {
-      writePixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+      if (writePixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx)) {
+        m_maskBuff[bufferIdx] = 0;
+      };
     }
 
     // silence warning
@@ -120,6 +128,14 @@ namespace Isis {
                                   bufferToWrite.SampleDimension(), bufferToWrite.LineDimension(),
                                   m_pixelType,
                                   0, 0);
+    poBand = m_geodataSet->GetRasterBand(band)->GetMaskBand();
+    err = poBand->RasterIO(GF_Write, sampleStart, lineStart,
+                           sampleEnd, lineEnd,
+                           m_maskBuff,
+                           bufferToWrite.SampleDimension(), bufferToWrite.LineDimension(),
+                           GDT_Byte,
+                           0, 0);
+    free(m_maskBuff);
   }
 
   BigInt GdalIoHandler::getDataSize() const {
@@ -306,8 +322,9 @@ namespace Isis {
     }
   }
 
-  void GdalIoHandler::writePixelType(double *doubleBuff, void *rawBuff, int idx) const {
+  bool GdalIoHandler::writePixelType(double *doubleBuff, void *rawBuff, int idx) const {
     double bufferVal = doubleBuff[idx];
+    bool isSpecial = false;
     if (m_pixelType == GDT_Float64) {
       ((double *)rawBuff)[idx] = bufferVal;
     }
@@ -321,27 +338,41 @@ namespace Isis {
 
         if(filePixelValueDbl < (double) VALID_MIN4) {
           raw = LOW_REPR_SAT4;
+          isSpecial = true;
         }
         else if(filePixelValueDbl > (double) VALID_MAX4) {
           raw = HIGH_REPR_SAT4;
+          isSpecial = true;
         }
         else {
           raw = (float) filePixelValueDbl;
         }
       }
       else {
-        if(bufferVal == NULL8)
+        if(bufferVal == NULL8) {
           raw = NULL4;
-        else if(bufferVal == LOW_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_INSTR_SAT8) {
           raw = LOW_INSTR_SAT4;
-        else if(bufferVal == LOW_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_REPR_SAT8) {
           raw = LOW_REPR_SAT4;
-        else if(bufferVal == HIGH_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_INSTR_SAT8) {
           raw = HIGH_INSTR_SAT4;
-        else if(bufferVal == HIGH_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_REPR_SAT8) {
           raw = HIGH_REPR_SAT4;
-        else
+          isSpecial = true;
+        }
+        else {
           raw = LOW_REPR_SAT4;
+          isSpecial = true;
+        }
       }
       ((float *)rawBuff)[idx] = raw;
     }
@@ -354,18 +385,22 @@ namespace Isis {
             m_scale;
         if(filePixelValueDbl < VALID_MINI4 - 0.5) {
           raw = LOW_REPR_SATI4;
+          isSpecial = true;
         }
         if(filePixelValueDbl > VALID_MAXI4) {
           raw = HIGH_REPR_SATI4;
+          isSpecial = true;
         }
         else {
           int filePixelValue = (int)round(filePixelValueDbl);
 
           if(filePixelValue < VALID_MINI4) {
             raw = LOW_REPR_SATI4;
+            isSpecial = true;
           }
           else if(filePixelValue > VALID_MAXI4) {
             raw = HIGH_REPR_SATI4;
+            isSpecial = true;
           }
           else {
             raw = filePixelValue;
@@ -373,18 +408,30 @@ namespace Isis {
         }
       }
       else {
-        if(bufferVal == NULL8)
+        if(bufferVal == NULL8) {
           raw = NULLI4;
-        else if(bufferVal == LOW_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_INSTR_SAT8) {
           raw = LOW_INSTR_SATI4;
-        else if(bufferVal == LOW_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_REPR_SAT8) {
           raw = LOW_REPR_SATI4;
-        else if(bufferVal == HIGH_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_INSTR_SAT8) {
           raw = HIGH_INSTR_SATI4;
-        else if(bufferVal == HIGH_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_REPR_SAT8) {
           raw = HIGH_REPR_SATI4;
-        else
+          isSpecial = true;
+        }
+        else {
           raw = LOW_REPR_SATI4;
+          isSpecial = true;
+        }
       }
       ((int *)rawBuff)[idx] = raw;
     }
@@ -397,18 +444,22 @@ namespace Isis {
             m_scale;
         if(filePixelValueDbl < VALID_MINUI4 - 0.5) {
           raw = LOW_REPR_SATUI4;
+          isSpecial = true;
         }
         if(filePixelValueDbl > VALID_MAXUI4) {
           raw = HIGH_REPR_SATUI4;
+          isSpecial = true;
         }
         else {
           unsigned int filePixelValue = (unsigned int)round(filePixelValueDbl);
 
           if(filePixelValue < VALID_MINUI4) {
             raw = LOW_REPR_SATUI4;
+            isSpecial = true;
           }
           else if(filePixelValue > VALID_MAXUI4) {
             raw = HIGH_REPR_SATUI4;
+            isSpecial = true;
           }
           else {
             raw = filePixelValue;
@@ -416,18 +467,30 @@ namespace Isis {
         }
       }
       else {
-        if(bufferVal == NULL8)
+        if(bufferVal == NULL8) {
           raw = NULLUI4;
-        else if(bufferVal == LOW_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_INSTR_SAT8) {
           raw = LOW_INSTR_SATUI4;
-        else if(bufferVal == LOW_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_REPR_SAT8) {
           raw = LOW_REPR_SATUI4;
-        else if(bufferVal == HIGH_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_INSTR_SAT8) {
           raw = HIGH_INSTR_SATUI4;
-        else if(bufferVal == HIGH_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_REPR_SAT8) {
           raw = HIGH_REPR_SATUI4;
-        else
+          isSpecial = true;
+        }
+        else {
           raw = LOW_REPR_SATUI4;
+          isSpecial = true;
+        }
       }
       ((unsigned int *)rawBuff)[idx] = raw;
     }
@@ -440,18 +503,22 @@ namespace Isis {
             m_scale;
         if(filePixelValueDbl < VALID_MIN2 - 0.5) {
           raw = LOW_REPR_SAT2;
+          isSpecial = true;
         }
         if(filePixelValueDbl > VALID_MAX2 + 0.5) {
           raw = HIGH_REPR_SAT2;
+          isSpecial = true;
         }
         else {
           int filePixelValue = (int)round(filePixelValueDbl);
 
           if(filePixelValue < VALID_MIN2) {
             raw = LOW_REPR_SAT2;
+            isSpecial = true;
           }
           else if(filePixelValue > VALID_MAX2) {
             raw = HIGH_REPR_SAT2;
+            isSpecial = true;
           }
           else {
             raw = filePixelValue;
@@ -459,18 +526,30 @@ namespace Isis {
         }
       }
       else {
-        if(bufferVal == NULL8)
+        if(bufferVal == NULL8) {
           raw = NULL2;
-        else if(bufferVal == LOW_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_INSTR_SAT8) {
           raw = LOW_INSTR_SAT2;
-        else if(bufferVal == LOW_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_REPR_SAT8) {
           raw = LOW_REPR_SAT2;
-        else if(bufferVal == HIGH_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_INSTR_SAT8) {
           raw = HIGH_INSTR_SAT2;
-        else if(bufferVal == HIGH_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_REPR_SAT8) {
           raw = HIGH_REPR_SAT2;
-        else
+          isSpecial = true;
+        }
+        else {
           raw = LOW_REPR_SAT2;
+          isSpecial = true;
+        }
       }
       ((short *)rawBuff)[idx] = raw;
     }
@@ -483,18 +562,22 @@ namespace Isis {
             m_scale;
         if(filePixelValueDbl < VALID_MINU2 - 0.5) {
           raw = LOW_REPR_SATU2;
+          isSpecial = true;
         }
         if(filePixelValueDbl > VALID_MAXU2 + 0.5) {
           raw = HIGH_REPR_SATU2;
+          isSpecial = true;
         }
         else {
           int filePixelValue = (int)round(filePixelValueDbl);
 
           if(filePixelValue < VALID_MINU2) {
             raw = LOW_REPR_SATU2;
+            isSpecial = true;
           }
           else if(filePixelValue > VALID_MAXU2) {
             raw = HIGH_REPR_SATU2;
+            isSpecial = true;
           }
           else {
             raw = filePixelValue;
@@ -502,18 +585,30 @@ namespace Isis {
         }
       }
       else {
-        if(bufferVal == NULL8)
+        if(bufferVal == NULL8) {
           raw = NULLU2;
-        else if(bufferVal == LOW_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_INSTR_SAT8) {
           raw = LOW_INSTR_SATU2;
-        else if(bufferVal == LOW_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_REPR_SAT8) {
           raw = LOW_REPR_SATU2;
-        else if(bufferVal == HIGH_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_INSTR_SAT8) {
           raw = HIGH_INSTR_SATU2;
-        else if(bufferVal == HIGH_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_REPR_SAT8) {
           raw = HIGH_REPR_SATU2;
-        else
+          isSpecial = true;
+        }
+        else {
           raw = LOW_REPR_SATU2;
+          isSpecial = true;
+        }
       }
       ((unsigned short *)rawBuff)[idx] = raw;
     }
@@ -526,17 +621,21 @@ namespace Isis {
             m_scale;
         if(filePixelValueDbl < VALID_MINS1 - 0.5) {
           raw = LOW_REPR_SATS1;
+          isSpecial = true;
         }
         else if(filePixelValueDbl > VALID_MAXS1 + 0.5) {
           raw = HIGH_REPR_SATS1;
+          isSpecial = true;
         }
         else {
           int filePixelValue = (int)(filePixelValueDbl + 0.5);
           if(filePixelValue < VALID_MINS1) {
             raw = LOW_REPR_SATS1;
+            isSpecial = true;
           }
           else if(filePixelValue > VALID_MAXS1) {
             raw = HIGH_REPR_SATS1;
+            isSpecial = true;
           }
           else {
             raw = (char)(filePixelValue);
@@ -544,18 +643,30 @@ namespace Isis {
         }
       }
       else {
-        if(bufferVal == NULL8)
+        if(bufferVal == NULL8) {
           raw = NULLS1;
-        else if(bufferVal == LOW_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_INSTR_SAT8) {
           raw = LOW_INSTR_SATS1;
-        else if(bufferVal == LOW_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_REPR_SAT8) {
           raw = LOW_REPR_SATS1;
-        else if(bufferVal == HIGH_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_INSTR_SAT8) {
           raw = HIGH_INSTR_SATS1;
-        else if(bufferVal == HIGH_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_REPR_SAT8) {
           raw = HIGH_REPR_SATS1;
-        else
+          isSpecial = true;
+        }
+        else {
           raw = LOW_REPR_SATS1;
+          isSpecial = true;
+        }
       }
       ((char *)rawBuff)[idx] = raw;
     }
@@ -568,17 +679,21 @@ namespace Isis {
             m_scale;
         if(filePixelValueDbl < VALID_MIN1 - 0.5) {
           raw = LOW_REPR_SAT1;
+          isSpecial = true;
         }
         else if(filePixelValueDbl > VALID_MAX1 + 0.5) {
           raw = HIGH_REPR_SAT1;
+          isSpecial = true;
         }
         else {
           int filePixelValue = (int)(filePixelValueDbl + 0.5);
           if(filePixelValue < VALID_MIN1) {
             raw = LOW_REPR_SAT1;
+            isSpecial = true;
           }
           else if(filePixelValue > VALID_MAX1) {
             raw = HIGH_REPR_SAT1;
+            isSpecial = true;
           }
           else {
             raw = (unsigned char)(filePixelValue);
@@ -586,20 +701,33 @@ namespace Isis {
         }
       }
       else {
-        if(bufferVal == NULL8)
+        if(bufferVal == NULL8) {
           raw = NULL1;
-        else if(bufferVal == LOW_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_INSTR_SAT8) {
           raw = LOW_INSTR_SAT1;
-        else if(bufferVal == LOW_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == LOW_REPR_SAT8) {
           raw = LOW_REPR_SAT1;
-        else if(bufferVal == HIGH_INSTR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_INSTR_SAT8) {
           raw = HIGH_INSTR_SAT1;
-        else if(bufferVal == HIGH_REPR_SAT8)
+          isSpecial = true;
+        }
+        else if(bufferVal == HIGH_REPR_SAT8) {
           raw = HIGH_REPR_SAT1;
-        else
+          isSpecial = true;
+        }
+        else {
           raw = LOW_REPR_SAT1;
+          isSpecial = true;
+        }
       }
       ((unsigned char *)rawBuff)[idx] = raw;
     }
+    return isSpecial;
   }
 }

@@ -546,11 +546,40 @@ namespace Isis {
             std::string dataFileName = m_dataFileName->expanded().toStdString();
             char **papszOptions = NULL;
             papszOptions = CSLSetNameValue(papszOptions, "COMPRESS", "DEFLATE");
+            double noDataValue;
+            switch (pixelType()) {
+              case UnsignedByte:
+                noDataValue = (double) NULL1;
+                break;
+              case SignedByte:
+                noDataValue = (double) NULLS1;
+                break;
+              case UnsignedWord:
+                noDataValue = (double) NULLU2;
+                break;
+              case SignedWord:
+                noDataValue = (double) NULL2;
+                break;
+              case UnsignedInteger:
+                noDataValue = (double) NULLUI4;
+                break;
+              case SignedInteger:
+                noDataValue = (double) NULLI4;
+                break;
+              case Real:
+                noDataValue = (double) NULL4;
+                break;
+
+              default:
+                noDataValue = NULL8;
+                break;
+            }
             GDALDataset *dataset = driver->Create(dataFileName.c_str(), sampleCount(), lineCount(), bandCount(), IsisPixelToGdal(pixelType()), papszOptions);
             for (int i = 1; i <= bandCount(); i++) {
               GDALRasterBand *band = dataset->GetRasterBand(i);
               band->SetScale(multiplier());
               band->SetOffset(base());
+              band->SetNoDataValue(noDataValue);
             }
             if (dataset) {
               delete dataset;

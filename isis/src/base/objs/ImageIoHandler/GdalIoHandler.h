@@ -58,7 +58,7 @@ namespace Isis {
 
     private:
       void readPixelType(double *doubleBuff, void *rawBuff, int idx) const;
-      void writePixelType(double *doubleBuff, void *rawBuff, int idx) const;
+      bool writePixelType(double *doubleBuff, void *rawBuff, int idx) const;
 
       GDALDatasetUniquePtr m_geodataSet = NULL;
       GDALDataType m_pixelType;
@@ -67,6 +67,7 @@ namespace Isis {
       int m_bands;
       double m_offset;
       double m_scale;
+      char *m_maskBuff;
   };
 }
 
