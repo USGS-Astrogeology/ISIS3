@@ -1,5 +1,6 @@
 #include "GdalIoHandler.h"
 
+#include "Brick.h"
 #include "Buffer.h"
 #include "CubeCachingAlgorithm.h"
 #include "IException.h"
@@ -51,33 +52,60 @@ namespace Isis {
     // as gdal reads 0 based lines and samples
     int lineStart = bufferToFill.Line() - 1;
     int sampleStart = bufferToFill.Sample() - 1;
-    int lineEnd = bufferToFill.LineDimension();
-    int sampleEnd = bufferToFill.SampleDimension();
+    int lineSize = bufferToFill.LineDimension();
+    int sampleSize = bufferToFill.SampleDimension();
+
+    // Handle reading out of bound pixels as cube IO handler would
+    bool outOfBounds = false;
     if (lineStart < 0) {
       lineStart = 0;
+      outOfBounds = true;
     }
     if (lineStart + bufferToFill.LineDimension() > m_lines) {
-      lineEnd = m_lines - lineStart;
+      lineStart = m_lines - bufferToFill.LineDimension();
+      outOfBounds = true;
     }
     if (sampleStart < 0) {
       sampleStart = 0;
+      outOfBounds = true;
     }
     if (sampleStart + bufferToFill.SampleDimension() > m_samples) {
-      sampleEnd = m_samples - sampleStart;
+      sampleStart = m_samples - bufferToFill.SampleDimension();
+      outOfBounds = true;
     }
-    // silence warnings
-    CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
-                                  sampleEnd, lineEnd,
-                                  bufferToFill.RawBuffer(),
-                                  bufferToFill.SampleDimension(), bufferToFill.LineDimension(),
-                                  m_pixelType,
-                                  0, 0);
+    if (outOfBounds) {
+      Brick boundedBrick(bufferToFill.SampleDimension(), bufferToFill.LineDimension(), bufferToFill.BandDimension(), GdalPixelToIsis(m_pixelType));
+      boundedBrick.SetBasePosition(lineStart + 1, sampleStart + 1, bufferToFill.Band());
+      CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
+                                    sampleSize, lineSize,
+                                    boundedBrick.RawBuffer(),
+                                    boundedBrick.SampleDimension(), boundedBrick.LineDimension(),
+                                    m_pixelType,
+                                    0, 0);
 
-    // Handle pixel type conversion
-    char *buffersRawBuf = (char *)bufferToFill.RawBuffer();
-    double *buffersDoubleBuf = bufferToFill.DoubleBuffer();
-    for (int bufferIdx = 0; bufferIdx < bufferToFill.size(); bufferIdx++) {
-      readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+      // Handle pixel type conversion
+      char *buffersRawBuf = (char *)boundedBrick.RawBuffer();
+      double *buffersDoubleBuf = boundedBrick.DoubleBuffer();
+      for (int bufferIdx = 0; bufferIdx < boundedBrick.size(); bufferIdx++) {
+        readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+      }
+      bufferToFill.CopyOverlapFrom(boundedBrick);
+    }
+    else {
+      // silence warnings
+      CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
+                                    sampleSize, lineSize,
+                                    bufferToFill.RawBuffer(),
+                                    bufferToFill.SampleDimension(), bufferToFill.LineDimension(),
+                                    m_pixelType,
+                                    0, 0);
+
+      // Handle pixel type conversion
+      char *buffersRawBuf = (char *)bufferToFill.RawBuffer();
+      double *buffersDoubleBuf = bufferToFill.DoubleBuffer();
+      for (int bufferIdx = 0; bufferIdx < bufferToFill.size(); bufferIdx++) {
+        readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+      }
     }
   }
 
@@ -99,18 +127,18 @@ namespace Isis {
     int lineEnd = bufferToWrite.LineDimension();
     int sampleEnd = bufferToWrite.SampleDimension();
     // Handle buffers that exit valid DN dimensions
-    if (lineStart <= 0) {
-      lineStart = 0;
-    }
-    if (lineStart + bufferToWrite.LineDimension() > m_lines) {
-      lineEnd = m_lines - lineStart;
-    }
-    if (sampleStart <= 0) {
-      sampleStart = 0;
-    }
-    if (sampleStart + bufferToWrite.SampleDimension() > m_samples) {
-      sampleEnd = m_samples - sampleStart;
-    }
+    // if (lineStart <= 0) {
+    //   lineStart = 0;
+    // }
+    // if (lineStart + bufferToWrite.LineDimension() > m_lines) {
+    //   lineEnd = m_lines - lineStart;
+    // }
+    // if (sampleStart <= 0) {
+    //   sampleStart = 0;
+    // }
+    // if (sampleStart + bufferToWrite.SampleDimension() > m_samples) {
+    //   sampleEnd = m_samples - sampleStart;
+    // }
 
     // Handle pixel type conversion
     char *buffersRawBuf = (char *)bufferToWrite.RawBuffer();
