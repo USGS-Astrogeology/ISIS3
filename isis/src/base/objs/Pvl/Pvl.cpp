@@ -41,7 +41,7 @@ namespace Isis {
    * @param file The file containing the pvl formatted information
    */
   Pvl::Pvl(const QString &file) : Isis::PvlObject("Root") {
-
+    // This function specifically reads from GDAL-style JSON metadata.  
     function<PvlObject(PvlObject&, json)> read_object = [&](PvlObject &pvlobj, json jdata) -> PvlObject { 
       for(auto &[key, value] : jdata.items()) { 
         string name = key; 
