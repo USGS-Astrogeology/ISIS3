@@ -9,7 +9,6 @@ using json = nlohmann::json;
 #include "Brick.h"
 #include "PixelType.h"
 #include "GdalIoHandler.h"
-#include "CubeTileHandler.h"
 #include "SpecialPixel.h"
 #include "TiffFixtures.h"
 
@@ -512,3 +511,75 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteUInt8) {
   EXPECT_EQ(((unsigned char *)dbuf)[5], 50);
 }
 
+TEST_F(ReadWriteTiff, GdalIoTestsReadOutside) {
+  PixelType isisPixelType = SignedWord;
+  const QList<int> *bandList = new QList<int>;
+
+  // Create a context so the handler goes out of scope and closes the file
+  {
+    int samples = 5;
+    int lines = 5;
+    createSizedTiff(samples, lines, 1, isisPixelType);
+    dataset = GDALDataset::FromHandle(GDALOpen(path.toStdString().c_str(), GA_Update));
+    dbuf = (void *)CPLMalloc(sizeof(short) * samples * lines);
+
+    for (short i = 0; i < samples * lines; i++) {
+     ((short *)dbuf)[i] = i;
+    }
+    GDALRasterBand *poBand = dataset->GetRasterBand(1);
+    CPLErr err = poBand->RasterIO(GF_Write, 0, 0,
+                                            samples, lines,
+                                            dbuf,
+                                            samples, lines,
+                                            IsisPixelToGdal(isisPixelType),
+                                            0, 0);
+    dataset->Close();
+  }
+
+  GdalIoHandler gdalHandler(path, bandList, IsisPixelToGdal(isisPixelType));
+
+  delete localBrick;
+  localBrick = new Brick(4, 4, 1, isisPixelType);
+  
+  // Test out of bounds read at the topleft
+  localBrick->SetBasePosition(-1, -1, 1);
+  gdalHandler.read(*localBrick);
+  double *brickDoubleBuff = localBrick->DoubleBuffer();
+  std::vector<double> resultVec = {NULL8, NULL8, NULL8, NULL8,
+                                   NULL8, NULL8, NULL8, NULL8,
+                                   NULL8, NULL8,     0,     1,
+                                   NULL8, NULL8,     5,     6};
+  for (short i = 0; i < 4 * 4; i++) {
+    EXPECT_EQ(brickDoubleBuff[i], resultVec[i]);
+  }
+
+  // Test out of bounds read at the bottom right
+  localBrick->SetBasePosition(4, 4, 1);
+  gdalHandler.read(*localBrick);
+  brickDoubleBuff = localBrick->DoubleBuffer();
+  resultVec = {   18,    19, NULL8, NULL8,
+                  23,    24, NULL8, NULL8,
+               NULL8, NULL8, NULL8, NULL8,
+               NULL8, NULL8, NULL8, NULL8};
+  for (short i = 0; i < 4 * 4; i++) {
+    EXPECT_EQ(brickDoubleBuff[i], resultVec[i]);
+  }
+
+  delete localBrick;
+  localBrick = new Brick(7, 7, 1, isisPixelType);
+  localBrick->SetBasePosition(0, 0, 1);
+
+  // Test filling a larger buffer than is in the image
+  gdalHandler.read(*localBrick);
+  brickDoubleBuff = localBrick->DoubleBuffer();
+  resultVec = {NULL8, NULL8, NULL8, NULL8, NULL8, NULL8, NULL8,
+               NULL8,     0,     1,     2,     3,     4, NULL8,
+               NULL8,     5,     6,     7,     8,     9, NULL8,
+               NULL8,    10,    11,    12,    13,    14, NULL8,
+               NULL8,    15,    16,    17,    18,    19, NULL8,
+               NULL8,    20,    21,    22,    23,    24, NULL8,
+               NULL8, NULL8, NULL8, NULL8, NULL8, NULL8, NULL8};
+  for (short i = 0; i < 7 * 7; i++) {
+    EXPECT_EQ(brickDoubleBuff[i], resultVec[i]);
+  }
+}
