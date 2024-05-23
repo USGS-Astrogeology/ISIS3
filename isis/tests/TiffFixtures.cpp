@@ -22,19 +22,27 @@ namespace Isis {
     free(dbuf);
   }
 
-  void ReadWriteTiff::createTiff(PixelType pixelType, bool write) {
+  void ReadWriteTiff::createSizedTiff(int samples, int lines, int bands, PixelType pixelType) {
     GDALAllRegister();
     GDALDriver* driver = GetGDALDriverManager()->GetDriverByName("GTiff");
     if (driver) {
       char **papszOptions = NULL;
-      dataset = driver->Create(path.toStdString().c_str(), 6, 1, 1, IsisPixelToGdal(pixelType), papszOptions);
-      for (int i = 1; i <= 1; i++) {
-        GDALRasterBand *band = dataset->GetRasterBand(i);
-        band->SetScale(1);
-        band->SetOffset(0);
+      dataset = driver->Create(path.toStdString().c_str(), samples, lines, bands, IsisPixelToGdal(pixelType), papszOptions);
+      if (dataset) {
+        for (int i = 1; i <= bands; i++) {
+          GDALRasterBand *band = dataset->GetRasterBand(i);
+          band->SetScale(1);
+          band->SetOffset(0);
+        }
+        dataset->Close();
       }
     }
+  }
+
+  void ReadWriteTiff::createTiff(PixelType pixelType, bool write) {
+    createSizedTiff(6, 1, 1, pixelType);
     if (write) {
+      dataset = GDALDataset::FromHandle(GDALOpen(path.toStdString().c_str(), GA_Update));
       if (pixelType == Double) {
         dbuf = (void *)CPLMalloc(sizeof(double) * 6);
 
@@ -126,7 +134,7 @@ namespace Isis {
                                               6, 1,
                                               IsisPixelToGdal(pixelType),
                                               0, 0);
+      dataset->Close();
     }
-    dataset->Close();
   }
 }

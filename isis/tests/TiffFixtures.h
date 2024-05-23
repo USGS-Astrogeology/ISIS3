@@ -20,6 +20,7 @@ namespace Isis {
 
       void SetUp() override;
       void TearDown() override;
+      void createSizedTiff(int samples, int lines, int bands, PixelType pixelType);
       void createTiff(PixelType pixelType, bool write=true);
   };
 }
