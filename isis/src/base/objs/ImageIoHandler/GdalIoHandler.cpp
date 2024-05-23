@@ -61,25 +61,25 @@ namespace Isis {
       lineStart = 0;
       outOfBounds = true;
     }
-    if (lineStart + bufferToFill.LineDimension() > m_lines) {
-      lineStart = m_lines - bufferToFill.LineDimension();
+    if (lineStart + lineSize > m_lines) {
+      lineSize = m_lines - lineStart;
       outOfBounds = true;
     }
     if (sampleStart < 0) {
       sampleStart = 0;
       outOfBounds = true;
     }
-    if (sampleStart + bufferToFill.SampleDimension() > m_samples) {
-      sampleStart = m_samples - bufferToFill.SampleDimension();
+    if (sampleStart + sampleSize > m_samples) {
+      sampleSize = m_samples - sampleStart;
       outOfBounds = true;
     }
     if (outOfBounds) {
-      Brick boundedBrick(bufferToFill.SampleDimension(), bufferToFill.LineDimension(), bufferToFill.BandDimension(), GdalPixelToIsis(m_pixelType));
-      boundedBrick.SetBasePosition(lineStart + 1, sampleStart + 1, bufferToFill.Band());
+      Brick boundedBrick(sampleSize, lineSize, bufferToFill.BandDimension(), GdalPixelToIsis(m_pixelType));
+      boundedBrick.SetBasePosition(sampleStart + 1, lineStart + 1, bufferToFill.Band());
       CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
                                     sampleSize, lineSize,
                                     boundedBrick.RawBuffer(),
-                                    boundedBrick.SampleDimension(), boundedBrick.LineDimension(),
+                                    sampleSize, lineSize,
                                     m_pixelType,
                                     0, 0);
 
@@ -89,6 +89,7 @@ namespace Isis {
       for (int bufferIdx = 0; bufferIdx < boundedBrick.size(); bufferIdx++) {
         readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
       }
+      bufferToFill = NULL8;
       bufferToFill.CopyOverlapFrom(boundedBrick);
     }
     else {
@@ -96,7 +97,7 @@ namespace Isis {
       CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
                                     sampleSize, lineSize,
                                     bufferToFill.RawBuffer(),
-                                    bufferToFill.SampleDimension(), bufferToFill.LineDimension(),
+                                    sampleSize, lineSize,
                                     m_pixelType,
                                     0, 0);
 
@@ -113,7 +114,7 @@ namespace Isis {
     GDALRasterBand  *poBand;
     m_maskBuff = (char *) CPLMalloc(sizeof(char) * bufferToWrite.size());
     for (int i = 0; i < bufferToWrite.size(); i++) {
-      m_maskBuff[i] = 255;
+      m_maskBuff[i] = -1;
     }
     
     int band = bufferToWrite.Band();
@@ -124,21 +125,8 @@ namespace Isis {
 
     int lineStart = bufferToWrite.Line() - 1;
     int sampleStart = bufferToWrite.Sample() - 1;
-    int lineEnd = bufferToWrite.LineDimension();
-    int sampleEnd = bufferToWrite.SampleDimension();
-    // Handle buffers that exit valid DN dimensions
-    // if (lineStart <= 0) {
-    //   lineStart = 0;
-    // }
-    // if (lineStart + bufferToWrite.LineDimension() > m_lines) {
-    //   lineEnd = m_lines - lineStart;
-    // }
-    // if (sampleStart <= 0) {
-    //   sampleStart = 0;
-    // }
-    // if (sampleStart + bufferToWrite.SampleDimension() > m_samples) {
-    //   sampleEnd = m_samples - sampleStart;
-    // }
+    int lineSize = bufferToWrite.LineDimension();
+    int sampleSize = bufferToWrite.SampleDimension();
 
     // Handle pixel type conversion
     char *buffersRawBuf = (char *)bufferToWrite.RawBuffer();
@@ -151,16 +139,16 @@ namespace Isis {
 
     // silence warning
     CPLErr err = poBand->RasterIO(GF_Write, sampleStart, lineStart,
-                                  sampleEnd, lineEnd,
+                                  sampleSize, lineSize,
                                   bufferToWrite.RawBuffer(),
-                                  bufferToWrite.SampleDimension(), bufferToWrite.LineDimension(),
+                                  sampleSize, lineSize,
                                   m_pixelType,
                                   0, 0);
     poBand = m_geodataSet->GetRasterBand(band)->GetMaskBand();
     err = poBand->RasterIO(GF_Write, sampleStart, lineStart,
-                           sampleEnd, lineEnd,
+                           sampleSize, lineSize,
                            m_maskBuff,
-                           bufferToWrite.SampleDimension(), bufferToWrite.LineDimension(),
+                           sampleSize, lineSize,
                            GDT_Byte,
                            0, 0);
     free(m_maskBuff);
