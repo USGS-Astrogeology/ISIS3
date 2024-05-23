@@ -580,6 +580,7 @@ namespace Isis {
               band->SetScale(multiplier());
               band->SetOffset(base());
               band->SetNoDataValue(noDataValue);
+              band->Fill(noDataValue);
             }
             if (dataset) {
               delete dataset;
