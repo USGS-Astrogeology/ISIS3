@@ -196,20 +196,20 @@ namespace Isis {
    */
   int Buffer::Index(const int i_samp, const int i_line, const int i_band)
       const {
-    // if((i_samp < p_sample) || (i_samp > (p_sample + p_nsamps - 1))) {
-    //   QString message = Message::ArraySubscriptNotInRange(i_samp);
-    //   throw IException(IException::Programmer, message, _FILEINFO_);
-    // }
+    if((i_samp < p_sample) || (i_samp > (p_sample + p_nsamps - 1))) {
+      QString message = Message::ArraySubscriptNotInRange(i_samp);
+      throw IException(IException::Programmer, message, _FILEINFO_);
+    }
 
-    // if((i_line < p_line) || (i_line > (p_line + p_nlines - 1))) {
-    //   QString message = Message::ArraySubscriptNotInRange(i_line);
-    //   throw IException(IException::Programmer, message, _FILEINFO_);
-    // }
+    if((i_line < p_line) || (i_line > (p_line + p_nlines - 1))) {
+      QString message = Message::ArraySubscriptNotInRange(i_line);
+      throw IException(IException::Programmer, message, _FILEINFO_);
+    }
 
-    // if((i_band < p_band) || (i_band > (p_band + p_nbands - 1))) {
-    //   QString message = Message::ArraySubscriptNotInRange(i_band);
-    //   throw IException(IException::Programmer, message, _FILEINFO_);
-    // }
+    if((i_band < p_band) || (i_band > (p_band + p_nbands - 1))) {
+      QString message = Message::ArraySubscriptNotInRange(i_band);
+      throw IException(IException::Programmer, message, _FILEINFO_);
+    }
 
     //  Got a valid reference location so compute the index and return
     int index = (i_band - p_band) * (p_nlines * p_nsamps) +
@@ -283,7 +283,7 @@ namespace Isis {
    * @return The operation was successful (the buffers overlapped)
    */
   bool Buffer::CopyOverlapFrom(const Buffer &in) {
-    bool isSubareaOfIn = (p_npixels <= in.size());
+    bool isSubareaOfIn = true;
 
     // If one rectangle is on left side of other
     // if (l1.x > r2.x || l2.x > r1.x)
@@ -306,33 +306,13 @@ namespace Isis {
 
       for (int i = topLine; i < bottomLine; i++) {
         for (int j = topSamp; j < bottomSamp; j++) {
-          (*this)[Index(j, i, Band())] = in[in.Index(j, i, in.Band())];
+          try {
+            (*this)[Index(j, i, Band())] = in[in.Index(j, i, in.Band())];
+          }
+          catch(...) {
+            (*this)[Index(j, i, Band())] = NULL;
+          }
         }
-      }
-    }
-
-    return isSubareaOfIn;
-    isSubareaOfIn = (p_npixels <= in.size());
-    isSubareaOfIn &= (p_sample >= in.p_sample);
-    isSubareaOfIn &= (p_line >= in.p_line);
-    isSubareaOfIn &= (p_band >= in.p_band);
-
-    int endSample = p_sample + p_nsamps - 1;
-    int otherEndSample = in.p_sample + in.p_nsamps - 1;
-
-    int endLine = p_line + p_nlines - 1;
-    int otherEndLine = in.p_line + in.p_nlines - 1;
-
-    int endBand = p_band + p_nbands - 1;
-    int otherEndBand = in.p_band + in.p_nbands - 1;
-
-    isSubareaOfIn &= (endSample <= otherEndSample);
-    isSubareaOfIn &= (endLine <= otherEndLine);
-    isSubareaOfIn &= (endBand <= otherEndBand);
-
-    if (isSubareaOfIn) {
-      for (int i = 0; i < size(); i++) {
-        (*this)[i] = in[in.Index(Sample(i), Line(i), Band(i))];
       }
     }
 
