@@ -38,6 +38,9 @@ namespace Isis {
   }
 
   GdalIoHandler::~GdalIoHandler() {
+    if (m_maskBuff) {
+      delete m_maskBuff;
+    }
   }
 
   void GdalIoHandler::read(Buffer &bufferToFill) const {
@@ -151,7 +154,8 @@ namespace Isis {
                            sampleSize, lineSize,
                            GDT_Byte,
                            0, 0);
-    free(m_maskBuff);
+    delete m_maskBuff;
+    m_maskBuff = NULL;
   }
 
   BigInt GdalIoHandler::getDataSize() const {

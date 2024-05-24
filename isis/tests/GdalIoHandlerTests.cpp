@@ -539,6 +539,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadOutside) {
   GdalIoHandler gdalHandler(path, bandList, IsisPixelToGdal(isisPixelType));
 
   delete localBrick;
+  localBrick = NULL;
   localBrick = new Brick(4, 4, 1, isisPixelType);
   
   // Test out of bounds read at the topleft
@@ -566,6 +567,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadOutside) {
   }
 
   delete localBrick;
+  localBrick = NULL;
   localBrick = new Brick(7, 7, 1, isisPixelType);
   localBrick->SetBasePosition(0, 0, 1);
 

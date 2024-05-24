@@ -19,7 +19,9 @@ namespace Isis {
     if (localBrick) {
       delete localBrick;
     }
-    free(dbuf);
+    if (dbuf) {
+      delete dbuf;
+    }
   }
 
   void ReadWriteTiff::createSizedTiff(int samples, int lines, int bands, PixelType pixelType) {

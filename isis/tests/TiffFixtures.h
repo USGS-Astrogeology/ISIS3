@@ -13,9 +13,9 @@ namespace Isis {
 
   class ReadWriteTiff : public TempTestingFiles {
     protected:
-      void *dbuf;
-      GDALDataset *dataset;
-      Brick *localBrick;
+      void *dbuf = NULL;
+      GDALDataset *dataset = NULL;
+      Brick *localBrick = NULL;
       QString path;
 
       void SetUp() override;
