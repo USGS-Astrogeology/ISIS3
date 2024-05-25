@@ -5,10 +5,11 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include "PixelType.h"
 #include "Buffer.h"
 #include "IException.h"
 #include "Message.h"
+#include "PixelType.h"
+#include "SpecialPixel.h"
 
 #include <iostream>
 
@@ -310,11 +311,29 @@ namespace Isis {
             (*this)[Index(j, i, Band())] = in[in.Index(j, i, in.Band())];
           }
           catch(...) {
-            (*this)[Index(j, i, Band())] = NULL;
+            (*this)[Index(j, i, Band())] = NULL8;
           }
         }
       }
     }
+
+    isSubareaOfIn = (p_npixels <= in.size());
+    isSubareaOfIn &= (p_sample >= in.p_sample);
+    isSubareaOfIn &= (p_line >= in.p_line);
+    isSubareaOfIn &= (p_band >= in.p_band);
+
+    int endSample = p_sample + p_nsamps - 1;
+    int otherEndSample = in.p_sample + in.p_nsamps - 1;
+
+    int endLine = p_line + p_nlines - 1;
+    int otherEndLine = in.p_line + in.p_nlines - 1;
+
+    int endBand = p_band + p_nbands - 1;
+    int otherEndBand = in.p_band + in.p_nbands - 1;
+
+    isSubareaOfIn &= (endSample <= otherEndSample);
+    isSubareaOfIn &= (endLine <= otherEndLine);
+    isSubareaOfIn &= (endBand <= otherEndBand);
 
     return isSubareaOfIn;
   }
@@ -373,5 +392,6 @@ namespace Isis {
       QString message = Message::MemoryAllocationFailed();
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
+    (*this) = NULL8;
   }
 }
