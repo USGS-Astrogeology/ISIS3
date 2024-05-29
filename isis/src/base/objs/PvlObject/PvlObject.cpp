@@ -151,19 +151,6 @@ namespace Isis {
   }
 
   /**
-   * Add a group to the object and report it to the log/terminal. 
-   *
-   * @param group The PvlGroup object to add.
-   */
-  void PvlObject::addLogGroup(Isis::PvlGroup &group) {
-    addGroup(group);
-    Application::Log(group);
-    QString msg = "This function(PvlObject::addLogGroup) will be depreciated in ISIS3 v9.0 in "
-                  "favor of Application::appendLogGroup";
-    std::cerr << msg << std::endl;
-  };
-
-  /**
    * Finds a keyword in the current PvlObject, or deeper inside
    * other PvlObjects and Pvlgroups within this one. Note: This
    * member has the same name as the PvlContainer and hides those
