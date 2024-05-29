@@ -225,7 +225,7 @@ namespace Isis {
       // Log parameters loaded from the PARAMETERS file
       if ( log ) {
         auto parmgrp = pvlmap_to_group( parms, "Parameters");
-        log->addLogGroup( parmgrp );
+        Application::AppendAndLog(parmgrp, log);
       }
     }
 
@@ -274,14 +274,14 @@ namespace Isis {
         // Load values parsed from the GLOBALS string
        if ( log ) {
         auto globalgrp = pvlmap_to_group( globals, "Globals");
-        log->addLogGroup( globalgrp );
+        Application::AppendAndLog(globalgrp, log);
       }
     }
 
     // Now report the list of all global parameters in the pool
     if ( log ) {
       auto gpool = pvlmap_to_group( factory->globalParameters(), "GlobalParameterPool");
-      log->addLogGroup( gpool );
+      Application::AppendAndLog(gpool, log);
     }
 
     // Create a list of algorithm specifications from user specs and log it
