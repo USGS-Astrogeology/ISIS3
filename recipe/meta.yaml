@@ -97,9 +97,9 @@ requirements:
    - pytest
    - rclone
    - qhull
-   - qt>=5.9.6,<5.15.0
-   - qwt
-   - sqlite
+   - qt-main
+   - qwt <6.3.0
+   - sqlite >=3.43.0,<4.0a0
    - suitesparse
    - superlu
    - swig

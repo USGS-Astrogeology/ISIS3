@@ -51,6 +51,9 @@ dependencies:
   - protobuf<3.20
   - python>=3.7.11
   - pytest
+  - qhull
+  - qt-main
+  - qwt<6.3.0
   - rclone
   - qhull
   - qt>=5.9.6,<5.15.0
