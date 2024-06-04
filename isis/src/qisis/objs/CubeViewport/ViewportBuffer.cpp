@@ -754,7 +754,14 @@ namespace Isis {
    * @return bool
    */
   bool ViewportBuffer::working() {
-    return !p_actions->empty() || !p_bufferInitialized || !p_enabled;
+    bool hasFillAction = false;
+    for (auto action : *p_actions) {
+      if (action->getActionType() == ViewportBufferAction::fill) {
+        hasFillAction = true;
+        break;
+      }
+    }
+    return hasFillAction || !p_bufferInitialized || !p_enabled;
   }
 
 
