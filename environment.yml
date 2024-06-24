@@ -55,11 +55,8 @@ dependencies:
   - qt-main
   - qwt<6.3.0
   - rclone
-  - qhull
-  - qt>=5.9.6,<5.15.0
-  - qwt
-  - sqlite
-  - suitesparse
+  - sqlite>=3.43.0,<4.0a0
+  - suitesparse<7.7.0
   - superlu
   - swig
   - texlive-core

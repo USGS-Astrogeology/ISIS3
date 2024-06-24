@@ -100,7 +100,7 @@ requirements:
    - qt-main
    - qwt <6.3.0
    - sqlite >=3.43.0,<4.0a0
-   - suitesparse
+   - suitesparse <7.7.0
    - superlu
    - swig
    - texlive-core
