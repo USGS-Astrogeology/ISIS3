@@ -9,6 +9,8 @@ find files of those names at the top level of this repository. **/
 #include <cstring>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
+#include <gdal_priv.h>
 
 #include <QDebug>
 
@@ -17,7 +19,10 @@ find files of those names at the top level of this repository. **/
 #include "Message.h"
 #include "Pvl.h"
 
+namespace fs = std::filesystem;
+using json = nlohmann::json;
 using namespace std;
+
 namespace Isis {
   /**
    * Constructs a Blob object using a name and type.
@@ -255,7 +260,7 @@ namespace Isis {
   void Blob::Read(const QString &file, const std::vector<PvlKeyword> keywords) {
     // Expand the filename
     QString temp(FileName(file).expanded());
-
+    
     // Get the pvl
     Pvl pvl;
     try {
@@ -405,6 +410,54 @@ namespace Isis {
     p_buffer = buffer;
   }
 
+  void Blob::WriteGdal(const string file) {
+    try {
+      WriteInit();
+      Pvl pvl;
+      pvl.addObject(p_blobPvl);
+      ostringstream os;
+      os << pvl << endl;
+      os.seekp(0, std::ios::end);
+
+      stringstream stream;
+      WriteData(stream);
+      PvlObject blobObj = pvl.findObject(p_type);
+
+      blobObj["Bytes"] = toString(p_nbytes); 
+      if(blobObj.hasKeyword("Data")) { 
+        blobObj["Data"] = QString::fromStdString(stream.str()); 
+      }
+      else { 
+        blobObj += PvlKeyword("Data", QString::fromStdString(stream.str()));
+      }
+
+      if(blobObj.hasKeyword("Name")) { 
+        blobObj["Name"] = p_blobName; 
+      }
+      else { 
+        blobObj += PvlKeyword("Name", p_blobName);
+      }
+
+      // update metadata
+      GDALAllRegister();
+      const GDALAccess eAccess = GA_Update;
+      GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen(file.c_str(), eAccess));
+      if(!dataset) {
+        throw IException(IException::Io, "cannot read using GDAL", _FILEINFO_);
+      }
+      
+      string jsonblobstr = pvl.toJson().dump();
+      cout << "NAME: " <<  this->Name().toStdString().c_str() << endl;
+      cout <<  jsonblobstr.c_str() << endl; 
+      dataset->SetMetadataItem(this->Name().toStdString().c_str(), jsonblobstr.c_str(), "json:ISIS3");
+      GDALClose(dataset);
+    }
+    catch(exception &e) { 
+      cout << "failed to write: " << e.what() << endl;
+    }
+  }
+
+
   /**
    * Write the blob data out to a file.
    *
@@ -415,7 +468,7 @@ namespace Isis {
    * @throws IException::Io - Error creating file
    */
   void Blob::Write(const QString &file) {
-    // Determine the size of the label and write it out
+    // Determine the size of the label and write it out   
     try {
       WriteInit();
       Pvl pvl;
@@ -456,6 +509,7 @@ namespace Isis {
     }
   }
 
+
   /**
    * Write the blob data out to a Pvl object.
    * @param pvl The pvl object to update
@@ -464,10 +518,11 @@ namespace Isis {
    * the name of the file
    */
   void Blob::Write(Pvl &pvl, std::fstream &stm,
-                   const QString &detachedFileName, bool overwrite) {
+                   const QString &detachedFileName, bool overwrite, bool inline_data) {
+                    
     // Handle 64-bit I/O
     WriteInit();
-
+    cout << "writing table: " << p_blobName << endl;
     // Find out where they wanted to write the blob
     streampos sbyte = stm.tellp();
     sbyte += 1;
@@ -482,11 +537,11 @@ namespace Isis {
       p_blobPvl += PvlKeyword("^" + p_type, detachedFileName);
     }
 
-
     p_blobPvl["StartByte"] = toString((BigInt)sbyte);
     p_blobPvl["Bytes"] = toString(p_nbytes);
 
-
+    cout << "trying to write data to: " << pvl.fileName() << endl;    
+    cout << p_blobPvl << endl;
     // See if the blob is already in the file
     bool found = false;
     if (overwrite) {
@@ -568,6 +623,48 @@ namespace Isis {
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
+
+
+  /**
+   * Writes blob data to a stream
+   *
+   * @param stream Output steam blob data will be written to
+   *
+   * @throws IException::Io - Error writing data to stream
+   */
+  void Blob::WriteData(std::stringstream &stream) {
+    stream << std::hex;
+    for (int i = 0; i < p_nbytes; ++i)
+        stream << std::setw(2) << std::setfill('0') << static_cast<int>(p_buffer[i]);
+
+    if (!stream.good()) {
+      QString msg = "Error writing data to " + p_type + " [" + p_blobName + "]";
+      throw IException(IException::Io, msg, _FILEINFO_);
+    }
+  }
+
+
+  /**
+   * Writes blob data to a stream
+   *
+   * @param stream Output steam blob data will be written to
+   *
+   * @throws IException::Io - Error writing data to stream
+   */
+  void Blob::ReadData(string &hexdata) {
+   
+    // Loop through the hex string and bytes, hex is two characters at a time 
+    for (size_t i=0,j=0; i < p_nbytes; i++,j+=2) { 
+        string byteString = hexdata.substr(j, 2); 
+  
+        uint8_t byteValue = static_cast<uint8_t>( 
+            stoi(byteString, nullptr, 16)); 
+  
+        // Add the byte to the byte array 
+        p_buffer[i] = byteValue; 
+    }
+  }
+
 
 
   /**

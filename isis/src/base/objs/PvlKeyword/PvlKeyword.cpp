@@ -19,6 +19,7 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 using json = nlohmann::json;
+
 namespace Isis {
   //! Constructs a blank PvlKeyword object.
   PvlKeyword::PvlKeyword() {
@@ -359,6 +360,24 @@ namespace Isis {
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
     }
+  }
+
+
+  json PvlKeyword::toJson() { 
+    if(size() == 1) { 
+      if(unit() == "") {
+        return this->operator[](0).toStdString();
+      } else { 
+        return {{"unit", unit().toStdString()}, {"value", this->operator[](0).toStdString()}};
+      }
+    } else { 
+      // it's an array 
+      json jsonarr = json::array();
+      for(int i = 0; i < size(); i++) { 
+        jsonarr += this->operator[](0).toStdString();
+      }
+      return jsonarr;
+    } 
   }
 
 

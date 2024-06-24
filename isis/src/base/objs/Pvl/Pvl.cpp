@@ -104,7 +104,11 @@ namespace Isis {
     try{
 
       char** metadata = dataset->GetMetadata("json:ISIS3");
-      json jsonlabel = json::parse(metadata[0]);
+      if(!metadata) { 
+        throw IException(IException::Io, "Could not find 'json:ISIS3' in GDAL metadata.", _FILEINFO_);
+      }
+      const char *json_lab = CSLFetchNameValue(metadata, "IsisCube");
+      json jsonlabel = json::parse(json_lab);
 
       if (jsonlabel.contains("_name")) { 
         QString name = QString::fromStdString(jsonlabel["name"].get<string>());
@@ -132,6 +136,50 @@ namespace Isis {
     m_internalTemplate = false;
   }
 
+
+  json Pvl::toJson() { 
+    // needs to be a function because recursion 
+    function<json(PvlObject&)> pvlobject_to_json = [&](PvlObject &pvlobj) -> json { 
+      json jsonobj;
+      string okey = (pvlobj.name()+"_"+(QString)pvlobj.findKeyword("Name")).toStdString();
+      jsonobj[okey] = {};
+      jsonobj[okey]["_type"] = "object"; 
+      jsonobj[okey]["_container_name"] = pvlobj.name().toStdString();
+      
+      for (int i=0; i < pvlobj.objects(); i++) { 
+        jsonobj[okey].merge_patch(pvlobject_to_json(pvlobj.object(i)));
+      }
+      
+      for (int i=0; i<pvlobj.groups(); i++) { 
+        PvlGroup g = pvlobj.group(i);
+        string gkey = (g.name()+"_"+(QString)g.findKeyword("Name")).toStdString();
+        jsonobj[okey][gkey] = {};
+        jsonobj[okey][gkey]["_type"] = "group"; 
+        jsonobj[okey][gkey]["_container_name"] = g.name().toStdString();
+
+        // go through keywords
+        for(int j =0; j<g.keywords();j++) { 
+          PvlKeyword k=g[j]; 
+          jsonobj[okey][gkey][k.name().toStdString()] = k.toJson();         
+        }        
+      }
+
+      // get left over keywords
+      for(int i =0; i<pvlobj.keywords();i++) { 
+        PvlKeyword k=pvlobj[i]; 
+        jsonobj[okey][k.name().toStdString()] = k.toJson();         
+      }
+      return jsonobj;
+    };
+
+
+    if (this->name() == "Root" && this->objects() == 1) { 
+      return pvlobject_to_json(this->object(0));
+    }
+    else { 
+      return pvlobject_to_json(*this); 
+    }
+  }
 
   /**
    * Load PVL information from a string 

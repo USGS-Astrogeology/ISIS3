@@ -70,11 +70,12 @@ namespace Isis {
                 const std::vector<PvlKeyword> keywords = std::vector<PvlKeyword>());
       virtual void Read(const Pvl &pvl, std::istream &is,
                         const std::vector<PvlKeyword> keywords = std::vector<PvlKeyword>());
+      void ReadData(std::string &hexdata);
 
       void Write(const QString &file);
       void Write(Pvl &pvl, std::fstream &stm,
-                 const QString &detachedFileName = "", bool overwrite=true);
-
+                 const QString &detachedFileName = "", bool overwrite=true, bool inline_data=true);
+      void WriteGdal(const std::string file);
 
       char *getBuffer();
       void setData(const char *buffer, int nbytes);
@@ -86,6 +87,7 @@ namespace Isis {
       virtual void ReadData(std::istream &is);
       virtual void WriteInit();
       virtual void WriteData(std::fstream &os);
+      virtual void WriteData(std::stringstream &os);
 
       PvlObject p_blobPvl;     //!< Pvl Blob object
       QString p_blobName;  //!< Name of the Blob object

@@ -158,6 +158,8 @@ namespace Isis {
 
       operator QString() const;
 
+      nlohmann::json toJson();
+
       const QString &operator[](int index) const;
       QString &operator[](int index);
       QString unit(const int index = 0) const;
