@@ -591,6 +591,7 @@ namespace Isis {
       delete the180Polys;
       the180Polys = NULL;
 
+      result->normalize();
       geos::geom::MultiPolygon *fixedResult = FixSeam(result);
       delete result;
       result = NULL;
