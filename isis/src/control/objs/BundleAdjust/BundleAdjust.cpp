@@ -474,6 +474,13 @@ namespace Isis {
         QString serialNumber = m_serialNumberList->serialNumber(i);
         QString fileName = m_serialNumberList->fileName(i);
 
+        // If any camera is initialized via CSMInit, but no csm solve options are specified, fail early.
+        if (camera->GetCameraType() == Camera::Csm && m_bundleSettings->observationSolveSettings(observationNumber).csmSolveOption() == 0){
+          QString msg = fileName + " camera was initialized using CSMInit, so jigsaw must use CSM parameters." +
+                                   " Please refer to documentation for more information." + "\n";
+          throw IException(IException::User, msg, _FILEINFO_);
+        }
+
         // create a new BundleImage and add to new (or existing if observation mode is on)
         // BundleObservation
         BundleImageQsp image = BundleImageQsp(new BundleImage(camera, serialNumber, fileName));
