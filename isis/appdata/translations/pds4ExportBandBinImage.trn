@@ -46,7 +46,7 @@ End_Group
 
 Group = FilterName1
   Auto             = 1
-  Debug
+  Debug            = 1
   Optional         = 1
   InputKey         = FilterName
   InputPosition    = (IsisCube, BandBin)
@@ -57,7 +57,7 @@ End_Group
 
 Group = FilterName2
   Auto             = 1
-  Debug
+  Debug            = 1
   Optional         = 1
   InputKey         = Name
   InputPosition    = (IsisCube, BandBin)
@@ -68,7 +68,7 @@ End_Group
 
 Group = FilterName3
   Auto             = 1
-  Debug
+  Debug            = 1
   Optional         = 1
   InputKey         = FilterId
   InputPosition    = (IsisCube, BandBin)
@@ -79,7 +79,7 @@ End_Group
 
 Group = FilterId1
   Auto             = 1
-  Debug
+  Debug            = 1
   Optional         = 1
   InputKey         = FilterId
   InputPosition    = (IsisCube, BandBin)
@@ -90,7 +90,7 @@ End_Group
 
 Group = FilterId2
   Auto             = 1
-  Debug
+  Debug            = 1
   Optional         = 1
   InputKey         = FilterName
   InputPosition    = (IsisCube, BandBin)
@@ -101,7 +101,7 @@ End_Group
 
 Group = FilterId3
   Auto             = 1
-  Debug
+  Debug            = 1
   Optional         = 1
   InputKey         = Name
   InputPosition    = (IsisCube, BandBin)
@@ -154,7 +154,7 @@ End_Group
 
 Group = CenterWavelength1
   Auto             = 1
-  Debug
+  Debug            = 1
   Optional         = 1
   InputKey         = Center
   InputPosition    = (IsisCube,BandBin)
@@ -166,7 +166,7 @@ End_Group
 
 Group = CenterWavelength2
   Auto             = 1
-  Debug
+  Debug            = 1
   Optional         = 1
   InputKey         = FilterCenter
   InputPosition    = (IsisCube,BandBin)
