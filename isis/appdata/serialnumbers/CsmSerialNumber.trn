@@ -1,6 +1,6 @@
 Group = Keyword1
-  Auto
-  InputKey       = CSMPlatformId
+  Auto           = 1
+  InputKey       = CSMPlatformID
   InputGroup     = "IsisCube,CsmInfo"
   InputPosition  = (IsisCube, CsmInfo)
   OutputName     = Keyword1
@@ -9,7 +9,7 @@ Group = Keyword1
 End_Group
 
 Group = Keyword2
-  Auto
+  Auto           = 1
   InputKey       = CSMInstrumentId
   InputGroup     = "IsisCube,CsmInfo"
   InputPosition  = (IsisCube, CsmInfo)
@@ -19,7 +19,7 @@ Group = Keyword2
 End_Group
 
 Group = Keyword3
-  Auto
+  Auto           = 1
   InputKey       = ReferenceTime
   InputGroup     = "IsisCube,CsmInfo"
   InputPosition  = (IsisCube, CsmInfo)
