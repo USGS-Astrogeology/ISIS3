@@ -1,13 +1,13 @@
 #Group = DisplayInformation
-#  Auto
+#  Auto            = 1
 #  OutputSiblings  = (disp:horizontal_display_axis|Sample, disp:vertical_display_axis|Line)
-##  OutputSiblings  = (disp:horizontal_display_axis|Sample, disp:horizontal_display_direction|"Left To Right", disp:vertical_display_axis|Line, disp:vertical_display_direction|"Top To Bottom")
+##  OutputSiblings = (disp:horizontal_display_axis|Sample, disp:horizontal_display_direction|"Left To Right", disp:vertical_display_axis|Line, disp:vertical_display_direction|"Top To Bottom")
 #  OutputPosition  = (Product_Observational, Observation_Area, Discipline_Area, disp:Display_Settings, disp:Display_Direction)
 #  Translation     = (*, *)
 #End_Group
 
 Group = Samples
-  Auto
+  Auto            = 1
   InputKey        = Samples
   InputPosition   = (IsisCube, Core, Dimensions)
   OutputName      = elements
@@ -17,7 +17,7 @@ Group = Samples
 End_Group
 
 Group = Lines
-  Auto
+  Auto            = 1
   InputKey        = Lines
   InputPosition   = (IsisCube, Core, Dimensions)
   OutputName      = elements

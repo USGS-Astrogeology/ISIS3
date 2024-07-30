@@ -8,7 +8,7 @@
 #                        TBDs since they are required to be set. 
  
 Group = LocalIdentifierReference
-  Auto
+  Auto             = 1
   InputDefault     = Image_Array_Object
   InputPosition    = (IsisCube, Mapping)
   OutputName       = local_identifier_reference
@@ -17,7 +17,7 @@ Group = LocalIdentifierReference
 End_Group
 
 Group = LocalReferenceType
-  Auto
+  Auto             = 1
   InputDefault     = cartography_parameters_to_image_object
   InputPosition    = (IsisCube, Mapping)
   OutputName       = local_reference_type
@@ -27,7 +27,7 @@ End_Group
 
 # Bounding Coordinates
 Group = west_bounding_coordinate
-  Auto
+  Auto           = 1
   InputKey       = MaximumLongitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -39,7 +39,7 @@ Group = west_bounding_coordinate
 End_Group
 
 Group = east_bounding_coordinate
-  Auto
+  Auto           = 1
   InputKey       = MinimumLongitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -51,7 +51,7 @@ Group = east_bounding_coordinate
 End_Group
 
 Group = north_bounding_coordinate
-  Auto
+  Auto           = 1
   InputKey       = MaximumLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -63,7 +63,7 @@ Group = north_bounding_coordinate
 End_Group
 
 Group = south_bounding_coordinate
-  Auto
+  Auto           = 1
   InputKey       = MinimumLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -79,7 +79,7 @@ End_Group
 # Spatial Reference Information -> Horizontal_Cooridnate_System_Definition -> Planar
 # Map Projection
 Group = MapProjectionName
-  Auto
+  Auto           = 1
   InputKey       = ProjectionName
   InputGroup     = "IsisCube, Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -89,7 +89,7 @@ Group = MapProjectionName
 End_Group
 
 Group = StandardParallel1
-  Auto
+  Auto           = 1
   Optional
   InputKey       = CenterLatitude
   InputGroup     = "IsisCube,Mapping"
@@ -101,7 +101,7 @@ Group = StandardParallel1
 End_Group
 
 Group = StandardParallel2
-  Auto
+  Auto           = 1
   Optional
   InputKey       = SecondStandardParallel
   InputGroup     = "IsisCube,Mapping"
@@ -113,7 +113,7 @@ Group = StandardParallel2
 End_Group
 
 Group = LongitudeOfCentralMeridian
-  Auto
+  Auto           = 1
   InputKey       = CenterLongitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -124,8 +124,8 @@ Group = LongitudeOfCentralMeridian
 End_Group
 
 Group = LatitudeOfProjectionOrigin
-  Auto
-  InputDefault = 0
+  Auto           = 1
+  InputDefault   = 0
   OutputName     = cart:latitude_of_projection_origin
   OutputAttributes = unit|deg
   OutputPosition = (Product_Observational, Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Planar, cart:Map_Projection, cart:Equirectangular)
@@ -133,7 +133,7 @@ Group = LatitudeOfProjectionOrigin
 End_Group
 
 Group = PlanarCoordinateEncodingMethod
-  Auto
+  Auto           = 1
   InputDefault  = "Coordinate Pair" 
   OutputName     = cart:planar_coordinate_encoding_method
   OutputPosition = (Product_Observational, Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Planar, cart:Planar_Coordinate_Information)
@@ -141,7 +141,7 @@ Group = PlanarCoordinateEncodingMethod
 End_Group
 
 Group = PixelResolutionX
-  Auto
+  Auto           = 1
   InputKey       = PixelResolution
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -152,7 +152,7 @@ Group = PixelResolutionX
 End_Group
 
 Group = PixelResolutionY
-  Auto
+  Auto           = 1
   InputKey       = PixelResolution
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -163,7 +163,7 @@ Group = PixelResolutionY
 End_Group
 
 Group = PixelScaleX
-  Auto
+  Auto           = 1
   InputKey       = Scale
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -174,7 +174,7 @@ Group = PixelScaleX
 End_Group
 
 Group = PixelScaleY
-  Auto
+  Auto           = 1
   InputKey       = Scale
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -185,7 +185,7 @@ Group = PixelScaleY
 End_Group
 
 Group = UpperLeftCornerX
-  Auto
+  Auto           = 1
   Optional
   InputKey       = UpperLeftCornerX
   InputGroup     = "IsisCube,Mapping"
@@ -197,7 +197,7 @@ Group = UpperLeftCornerX
 End_Group
 
 Group = UpperLeftCornerY
-  Auto
+  Auto           = 1
   Optional
   InputKey       = UpperLeftCornerY
   InputGroup     = "IsisCube,Mapping"
@@ -210,7 +210,7 @@ End_Group
 
 ### Spatial Reference Information -> Horizontal_Cooridnate_System_Definition -> Geodetic_Model 
 Group = LatitudeType
-  Auto
+  Auto           = 1
   InputKey       = LatitudeType
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -221,7 +221,7 @@ Group = LatitudeType
 End_Group
 
 Group = SemimajorAxis
-  Auto
+  Auto           = 1
   InputKey       = EquatorialRadius
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -232,7 +232,7 @@ Group = SemimajorAxis
 End_Group
 
 Group = SemiminorAxis
-  Auto
+  Auto           = 1
   InputKey       = EquatorialRadius
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -243,7 +243,7 @@ Group = SemiminorAxis
 End_Group
 
 Group = PolarRadius
-  Auto
+  Auto           = 1
   InputKey       = PolarRadius
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -254,7 +254,7 @@ Group = PolarRadius
 End_Group
 
 Group = LongitudeDirection 
-  Auto
+  Auto           = 1
   InputKey       = LongitudeDirection
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)

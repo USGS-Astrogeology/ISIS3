@@ -17,7 +17,7 @@
 #    </img:local_reference_type>
 #  </img:Local_Internal_Reference>
 Group = LocalIdentifierReference
-  Auto
+  Auto             = 1
   InputDefault     = Image_Array_Object
   InputPosition    = (IsisCube, BandBin)
   OutputName       = local_identifier_reference
@@ -26,7 +26,7 @@ Group = LocalIdentifierReference
 End_Group
 
 Group = LocalReferenceType
-  Auto
+  Auto             = 1
   InputDefault     = imaging_parameters_to_image_object
   InputPosition    = (IsisCube, BandBin)
   OutputName       = local_reference_type
@@ -45,7 +45,7 @@ End_Group
 #            </img:Filter>
 
 Group = FilterName1
-  Auto
+  Auto             = 1
   Debug
   Optional
   InputKey         = FilterName
@@ -56,7 +56,7 @@ Group = FilterName1
 End_Group
 
 Group = FilterName2
-  Auto
+  Auto             = 1
   Debug
   Optional
   InputKey         = Name
@@ -67,7 +67,7 @@ Group = FilterName2
 End_Group
 
 Group = FilterName3
-  Auto
+  Auto             = 1
   Debug
   Optional
   InputKey         = FilterId
@@ -78,7 +78,7 @@ Group = FilterName3
 End_Group
 
 Group = FilterId1
-  Auto
+  Auto             = 1
   Debug
   Optional
   InputKey         = FilterId
@@ -89,7 +89,7 @@ Group = FilterId1
 End_Group
 
 Group = FilterId2
-  Auto
+  Auto             = 1
   Debug
   Optional
   InputKey         = FilterName
@@ -100,7 +100,7 @@ Group = FilterId2
 End_Group
 
 Group = FilterId3
-  Auto
+  Auto             = 1
   Debug
   Optional
   InputKey         = Name
@@ -111,7 +111,7 @@ Group = FilterId3
 End_Group
 
 Group = FilterNumber1
-  Auto
+  Auto             = 1
   Optional
   InputKey         = OriginalBand
   InputPosition    = (IsisCube, BandBin)
@@ -121,7 +121,7 @@ Group = FilterNumber1
 End_Group
 
 Group = FilterNumber2
-  Auto
+  Auto             = 1
   Optional
   InputKey         = FilterNumber
   InputPosition    = (IsisCube, BandBin)
@@ -131,7 +131,7 @@ Group = FilterNumber2
 End_Group
 
 Group = BandWidth1
-  Auto
+  Auto             = 1
   Optional
   InputKey         = Width
   InputPosition    = (IsisCube, BandBin)
@@ -142,7 +142,7 @@ Group = BandWidth1
 End_Group
 
 Group = BandWidth2
-  Auto
+  Auto             = 1
   Optional
   InputKey         = FilterWidth
   InputPosition    = (IsisCube, BandBin)
@@ -153,7 +153,7 @@ Group = BandWidth2
 End_Group
 
 Group = CenterWavelength1
-  Auto
+  Auto             = 1
   Debug
   Optional
   InputKey         = Center
@@ -165,7 +165,7 @@ Group = CenterWavelength1
 End_Group
 
 Group = CenterWavelength2
-  Auto
+  Auto             = 1
   Debug
   Optional
   InputKey         = FilterCenter

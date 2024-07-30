@@ -45,7 +45,7 @@
 #
 
 Group = SpacecraftName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Investigation_Area)
   InputKey             = name
   OutputName           = SpacecraftName
@@ -54,7 +54,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Observing_System, Observing_System_Component)
   InputKeyDependencies = "tag@type|Instrument"
   InputKey             = name
@@ -64,7 +64,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Target_Identification)
   InputKey             = name
   OutputName           = TargetName
@@ -73,7 +73,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Time_Coordinates)
   InputKey             = start_date_time
   OutputName           = StartTime
@@ -82,7 +82,7 @@ Group = StartTime
 End_Group
 
 #Group = SpacecraftClockStartCount
-#  Auto
+#  Auto                 = 1
 #  InputPosition        = CaSSIS_Header
 #  InputKey             = FSW_HEADER
 #  InputKeyAttribute    = ExposureTimestamp
@@ -92,7 +92,7 @@ End_Group
 #End_Group
 
 #Group = ExposureDuration
-#  Auto
+#  Auto           = 1
 #  InputPosition        = CaSSIS_Header
 #  InputKey             = PEHK_HEADER
 #  InputKeyAttribute    = Exposure_Time
@@ -102,7 +102,7 @@ End_Group
 #End_Group
 
 #Group = Filter
-#  Auto
+#  Auto           = 1
 #  InputPosition        = (CaSSIS_Header, DERIVED_HEADER_DATA)
 #  InputKey             = Filter
 #  OutputName           = Filter
@@ -111,7 +111,7 @@ End_Group
 #End_Group
 
 #Group = Expanded
-#  Auto
+#  Auto           = 1
 #  Optional
 #  InputPosition        = (CaSSIS_Header, DERIVED_HEADER_DATA)
 #  InputKey             = Expanded

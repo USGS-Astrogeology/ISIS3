@@ -1,7 +1,7 @@
 ObservationKeys = 3
 
 Group = Keyword1
-  Auto
+  Auto           = 1
   InputKey       = SpacecraftName
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)

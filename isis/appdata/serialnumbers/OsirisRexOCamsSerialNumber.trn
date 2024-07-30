@@ -8,32 +8,32 @@
 #                        model.
 
 Group = Keyword1
-  Auto
-  InputKey = SpacecraftName
-  InputGroup = "IsisCube,Instrument"
+  Auto           = 1
+  InputKey       = SpacecraftName
+  InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
-  OutputName = Keyword1
+  OutputName     = Keyword1
   OutputPosition = ("Group","SerialNumberKeywords")
-  Translation = ("OsirisRex", "OSIRIS-REx")
-  Translation = (*,*)
+  Translation    = ("OsirisRex", "OSIRIS-REx")
+  Translation    = (*,*)
 EndGroup
 Group = Keyword2
-  Auto
-  InputKey = InstrumentId
-  InputGroup = "IsisCube,Instrument"
+  Auto           = 1
+  InputKey       = InstrumentId
+  InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
-  OutputName = Keyword2
+  OutputName     = Keyword2
   OutputPosition = ("Group","SerialNumberKeywords")
-  Translation = (*,*)
+  Translation    = (*,*)
 EndGroup
 Group = Keyword3
-  Auto
-  InputKey = SpacecraftClockStartCount
-  InputGroup = "IsisCube,Instrument"
+  Auto           = 1
+  InputKey       = SpacecraftClockStartCount
+  InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
-  OutputName = Keyword3
+  OutputName     = Keyword3
   OutputPosition = ("Group","SerialNumberKeywords")
-  Translation = (*,*)
+  Translation    = (*,*)
 EndGroup
 
 /* This keyword is an optional keyword that is to be used to */
@@ -45,13 +45,13 @@ EndGroup
 /* processing. It has no effect if the keyword does not   */
 /* exist. */
 Group = Keyword4
-  Auto
+  Auto           = 1
   Optional
-  InputKey = ControlSN
-  InputGroup = "IsisCube,Instrument"
+  InputKey       = ControlSN
+  InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
-  OutputName = Keyword4
+  OutputName     = Keyword4
   OutputPosition = ("Group","SerialNumberKeywords")
-  Translation = (*,*)
+  Translation    = (*,*)
 EndGroup
 End

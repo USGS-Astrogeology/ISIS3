@@ -1,5 +1,5 @@
 Group = LINES
-  Auto
+  Auto           = 1
   InputKey       = Lines
   InputGroup     = "IsisCube,Core,Dimensions"
   InputPosition  = (IsisCube, Core, Dimensions)
@@ -9,7 +9,7 @@ Group = LINES
 End_Group
 
 Group = LINE_SAMPLES
-  Auto
+  Auto           = 1
   InputKey       = Samples
   InputGroup     = "IsisCube,Core,Dimensions"
   InputPosition  = (IsisCube, Core, Dimensions)
@@ -19,7 +19,7 @@ Group = LINE_SAMPLES
 End_Group
 
 Group = BANDS
-  Auto
+  Auto           = 1
   InputKey       = Bands
   InputGroup     = "IsisCube,Core,Dimensions"
   InputPosition  = (IsisCube, Core, Dimensions)
@@ -29,7 +29,7 @@ Group = BANDS
 End_Group
 
 Group = BAND_NAME
-  Auto
+  Auto           = 1
   Optional
   InputKey       = Name
   InputGroup     = "IsisCube,BandBin"
@@ -40,7 +40,7 @@ Group = BAND_NAME
 End_Group
 
 Group = CENTER_FILTER_WAVELENGTH
-  Auto
+  Auto           = 1
   Optional
   InputKey       = Center
   InputGroup     = "IsisCube,Bandbin"
@@ -51,7 +51,7 @@ Group = CENTER_FILTER_WAVELENGTH
 End_Group
 
 Group = BANDWIDTH
-  Auto
+  Auto           = 1
   Optional
   InputKey       = Width
   InputGroup     = "IsisCube,Bandbin"

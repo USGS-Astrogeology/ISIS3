@@ -4,7 +4,7 @@
 # history 2017-11-03 Jeannie Backer - Original version
 
 Group = TargetName
-  Auto
+  Auto            = 1
   InputKey        = TargetName
   InputPosition   = (IsisCube, Mapping)
   OutputName      = name
@@ -82,7 +82,7 @@ Group = TargetName
 End_Group
 
 Group = TargetType
-  Auto
+  Auto            = 1
   InputKey        = TargetName
   InputPosition   = (IsisCube, Mapping)
   OutputName      = type

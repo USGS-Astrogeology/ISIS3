@@ -4,7 +4,7 @@
 # history 2017-11-22 Jeannie Backer - Added ImageLocalId.
 
 Group = ImageLocalId
-  Auto
+  Auto              = 1
   InputDefault      = Image_Array_Object
   OutputName        = local_identifier
   OutputPosition    = (Product_Observational, File_Area_Observational, Array_3D_Image)
@@ -12,7 +12,7 @@ Group = ImageLocalId
 End_Group
 
 Group = OffsetBytes
-  Auto
+  Auto              = 1
   InputDefault      = 0
   OutputName        = offset
   OutputAttributes  = unit|byte
@@ -21,7 +21,7 @@ Group = OffsetBytes
 End_Group
 
 Group = AxesCount
-  Auto
+  Auto              = 1
   InputDefault      = 3
   OutputName        = axes
   OutputPosition    = (Product_Observational, File_Area_Observational, Array_3D_Image)
@@ -29,7 +29,7 @@ Group = AxesCount
 End_Group
 
 Group = AxisIndexOrder
-  Auto
+  Auto              = 1
   InputDefault      = "Last Index Fastest"
   OutputName        = axis_index_order
   OutputPosition    = (Product_Observational, File_Area_Observational, Array_3D_Image)
@@ -37,7 +37,7 @@ Group = AxisIndexOrder
 End_Group
 
 Group = Bands
-  Auto
+  Auto            = 1
   InputKey        = Bands
   InputPosition   = (IsisCube, Core, Dimensions)
   OutputName      = elements
@@ -47,7 +47,7 @@ Group = Bands
 End_Group
 
 Group = Lines
-  Auto
+  Auto            = 1
   InputKey        = Lines
   InputPosition   = (IsisCube, Core, Dimensions)
   OutputName      = elements
@@ -57,7 +57,7 @@ Group = Lines
 End_Group
 
 Group = Samples
-  Auto
+  Auto            = 1
   InputKey        = Samples
   InputPosition   = (IsisCube, Core, Dimensions)
   OutputName      = elements

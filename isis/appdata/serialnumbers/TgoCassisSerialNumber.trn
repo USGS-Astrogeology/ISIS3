@@ -15,7 +15,7 @@
 #                        form changes.
 ObservationKeys = 3
 Group = Keyword1
-  Auto
+  Auto           = 1
   InputKey       = SpacecraftName
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -25,7 +25,7 @@ Group = Keyword1
 End_Group
 
 Group = Keyword2
-  Auto
+  Auto           = 1
   InputKey       = InstrumentId
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -35,7 +35,7 @@ Group = Keyword2
 End_Group
 
 Group = Keyword3
-  Auto
+  Auto           = 1
   InputKey       = StartTime
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -45,7 +45,7 @@ Group = Keyword3
 End_Group
 
 Group = Keyword4
-  Auto
+  Auto           = 1
   InputKey       = Filter
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)

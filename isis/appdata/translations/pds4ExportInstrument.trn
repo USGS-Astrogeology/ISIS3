@@ -7,7 +7,7 @@
 
 # Time Coordinate
 Group = StartDateTime
-  Auto
+  Auto            = 1
   InputKey        = StartTime
   InputPosition   = (IsisCube, Instrument)
   InputDefault    = ""
@@ -18,7 +18,7 @@ End_Group
 
 # create the output keyword using the StartTime. The value will be fixed in ProcessExportPds4
 Group = StopDateTime
-  Auto
+  Auto            = 1
   InputKey        = StartTime
   InputPosition   = (IsisCube, Instrument)
   InputDefault    = ""
@@ -29,7 +29,7 @@ End_Group
 
 # Investigation Area
 Group = MissionName
-  Auto
+  Auto            = 1
   InputKey        = SpacecraftName
   InputPosition   = (IsisCube, Instrument)
   InputDefault    = TBD
@@ -40,7 +40,7 @@ Group = MissionName
 End_Group
 
 Group = LIDReference
-  Auto
+  Auto            = 1
   InputDefault    = urn:nasa:pds:TBD
   OutputName      = lid_reference
   OutputPosition  = (Product_Observational, Observation_Area, Investigation_Area, Internal_Reference)
@@ -48,7 +48,7 @@ Group = LIDReference
 End_Group
 
 Group = MissionInternalReference
-  Auto
+  Auto            = 1
   InputDefault    = data_to_investigation
   OutputName      = reference_type
   OutputPosition  = (Product_Observational, Observation_Area, Investigation_Area, Internal_Reference)
@@ -57,7 +57,7 @@ End_Group
 
 # Observing System
 Group = SpacecraftName
-  Auto
+  Auto            = 1
   InputKey        = SpacecraftName
   InputPosition   = (IsisCube, Instrument)
   InputDefault    = TBD
@@ -68,7 +68,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto            = 1
   InputKey        = InstrumentId
   InputPosition   = (IsisCube, Instrument)
   InputDefault    = TBD
@@ -79,7 +79,7 @@ Group = InstrumentName
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto            = 1
   Optional
   InputKey        = ExposureDuration
   InputPosition   = (IsisCube, Instrument)
