@@ -7,7 +7,7 @@
 # Consider the following translation group and xml
 #
 # Group = Samples
-#   Auto
+#   Auto           = 1
 #   InputPosition  = (Array_2D_Image, Axis_Array)
 #   Dependencies   = "tag@axis_name|Sample"
 #   InputKey       = elements
@@ -41,7 +41,7 @@
 
 
 Group = FilterName
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey       = Filter
@@ -52,7 +52,7 @@ End_Group
 
 # Nominal filter specifications from ppt
 Group = Center
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey       = Filter
@@ -66,7 +66,7 @@ Group = Center
 End_Group
 
 Group = Width
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey       = Filter

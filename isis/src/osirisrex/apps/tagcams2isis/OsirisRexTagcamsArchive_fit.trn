@@ -7,7 +7,7 @@
 # history 2019-01-10 Kris Becker - Original version added to UofA codebase. 
 #
 Group = ProducerId
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = ORIGIN
   InputPosition  = FITSLABELS
@@ -17,7 +17,7 @@ Group = ProducerId
 End_Group
 
 Group = CheckSumStatus
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CKPASS
   InputPosition  = FITSLABELS
@@ -27,7 +27,7 @@ Group = CheckSumStatus
 End_Group
 
 Group = MetaKernel
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = META_KER
   InputPosition  = FITSLABELS
@@ -37,7 +37,7 @@ Group = MetaKernel
 End_Group
 
 Group = TAGCAMSCommandedSequenceId
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = TCSEQID
   InputPosition  = FITSLABELS
@@ -47,7 +47,7 @@ Group = TAGCAMSCommandedSequenceId
 End_Group
 
 Group = TAGCAMSCommandedImageId
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = TCIMGID
   InputPosition  = FITSLABELS
@@ -57,7 +57,7 @@ Group = TAGCAMSCommandedImageId
 End_Group
 
 Group = RawCameraHeadTemperature
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = TCCHTEMP
   InputPosition  = FITSLABELS
@@ -68,7 +68,7 @@ Group = RawCameraHeadTemperature
 End_Group
 
 Group = RAAtReferencePixel
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CRVAL1
   InputPosition  = FITSLABELS
@@ -79,7 +79,7 @@ Group = RAAtReferencePixel
 End_Group
 
 Group = DecAtReferencePixel
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CRVAL2
   InputPosition  = FITSLABELS

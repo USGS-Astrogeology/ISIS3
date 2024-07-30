@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   InputDefault   = UNKNOWN
   OutputName     = SpacecraftName
@@ -31,7 +31,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputDefault   = UNKNOWN
   OutputName     = InstrumentName
@@ -40,7 +40,7 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputDefault   = UNKNOWN
   OutputName     = InstrumentId
@@ -49,7 +49,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputDefault   = Sky
   OutputName     = TargetName
@@ -64,7 +64,7 @@ Group = TargetName
 End_Group
 
 Group = OriginalTargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputDefault   = Sky
   OutputName     = OriginalTargetName
@@ -73,7 +73,7 @@ Group = OriginalTargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputDefault   = -9999
   OutputName     = StartTime
@@ -82,7 +82,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputDefault   = -9999
   OutputName     = StopTime
@@ -91,7 +91,7 @@ Group = StopTime
 End_Group
 
 Group = SpacecraftClockCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputDefault   = -9999
   OutputName     = SpacecraftClockCount
@@ -100,7 +100,7 @@ Group = SpacecraftClockCount
 End_Group
 
 Group = MissionPhaseName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   InputDefault   = UNKNOWN
   OutputName     = MissionPhaseName
@@ -110,7 +110,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION
   InputDefault   = -9999
   OutputName     = ExposureDuration
@@ -119,7 +119,7 @@ Group = ExposureDuration
 End_Group
 
 Group = ExposureType
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_TYPE
   InputDefault   = UNKNOWN
   OutputName     = ExposureType
@@ -130,7 +130,7 @@ Group = ExposureType
 End_Group
 
 Group = DetectorTemperature
-  Auto
+  Auto           = 1
   InputKey       = DETECTOR_TEMPERATURE
   InputDefault   = UNKNOWN
   OutputName     = DetectorTemperature
@@ -139,7 +139,7 @@ Group = DetectorTemperature
 End_Group
 
 Group = FocalPlaneTemperature
-  Auto
+  Auto           = 1
   InputKey       = FOCAL_PLANE_TEMPERATURE
   InputDefault   = UNKNOWN
   OutputName     = FocalPlaneTemperature
@@ -148,7 +148,7 @@ Group = FocalPlaneTemperature
 End_Group
 
 Group = FilterTemperature
-  Auto
+  Auto           = 1
   InputKey       = FILTER_TEMPERATURE
   InputDefault   = UNKNOWN
   OutputName     = FilterTemperature
@@ -157,7 +157,7 @@ Group = FilterTemperature
 End_Group
 
 Group = OpticsTemperature
-  Auto
+  Auto           = 1
   InputKey       = OPTICS_TEMPERATURE
   InputDefault   = UNKNOWN
   OutputName     = OpticsTemperature
@@ -166,7 +166,7 @@ Group = OpticsTemperature
 End_Group
 
 Group = AttitudeQuality
-  Auto
+  Auto           = 1
   InputKey       = MESS:ATT_FLAG
   InputDefault   = UNKNOWN
   OutputName     = AttitudeQuality
@@ -182,7 +182,7 @@ Group = AttitudeQuality
 End_Group
 
 Group = FilterWheelPosition
-  Auto
+  Auto           = 1
   InputKey       = MESS:FW_POS
   InputDefault   = UNKNOWN
   OutputName     = FilterWheelPosition
@@ -191,7 +191,7 @@ Group = FilterWheelPosition
 End_Group
 
 Group = PivotPosition
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIV_POS
   InputDefault   = UNKNOWN
   OutputName     = PivotPosition
@@ -200,7 +200,7 @@ Group = PivotPosition
 End_Group
 
 Group = FpuBinningMode
-  Auto
+  Auto           = 1
   InputKey       = MESS:FPU_BIN
   InputDefault   = UNKNOWN
   OutputName     = FpuBinningMode
@@ -209,7 +209,7 @@ Group = FpuBinningMode
 End_Group
 
 Group = PixelBinningMode
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIXELBIN
   InputDefault   = UNKNOWN
   OutputName     = PixelBinningMode
@@ -218,7 +218,7 @@ Group = PixelBinningMode
 End_Group
 
 Group = SubFrameMode
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBFRAME
   InputDefault   = 0
   OutputName     = SubFrameMode
@@ -227,7 +227,7 @@ Group = SubFrameMode
 End_Group
 
 Group = JailBars
-  Auto
+  Auto           = 1
   InputKey       = MESS:JAILBARS
   InputDefault   = 0
   OutputName     = JailBars
@@ -236,7 +236,7 @@ Group = JailBars
 End_Group
 
 Group = DpuId
-  Auto
+  Auto           = 1
   InputKey       = MESS:DPU_ID
   InputDefault   = UNKNOWN
   OutputName     = DpuId

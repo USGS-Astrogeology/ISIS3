@@ -1,5 +1,5 @@
 Group = PixelSize
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = PIXSIZE
   InputPosition  = FITSLABELS
@@ -9,7 +9,7 @@ Group = PixelSize
 End_Group
 
 Group = PixelFov
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = PIXFOV
   InputPosition  = FITSLABELS
@@ -19,7 +19,7 @@ Group = PixelFov
 End_Group
 
 Group = Gain
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = GAIN
   InputPosition  = FITSLABELS
@@ -29,7 +29,7 @@ Group = Gain
 End_Group
 
 Group = ReadNoise
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = READNOI
   InputPosition  = FITSLABELS
@@ -39,7 +39,7 @@ Group = ReadNoise
 End_Group
 
 Group = TdiRate
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = TDIRATE
   InputPosition  = FITSLABELS
@@ -49,7 +49,7 @@ Group = TdiRate
 End_Group
 
 Group = SolarSpectrumResolved
-  Auto
+  Auto           = 1
   InputKey       = RSOLAR
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -59,7 +59,7 @@ Group = SolarSpectrumResolved
 End_Group
 
 Group = SolarSpectrumUnresolved
-  Auto
+  Auto           = 1
   InputKey       = PSOLAR
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -69,7 +69,7 @@ Group = SolarSpectrumUnresolved
 End_Group
 
 Group = PholusSpectrumResolved
-  Auto
+  Auto           = 1
   InputKey       = RPHOLUS
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -79,7 +79,7 @@ Group = PholusSpectrumResolved
 End_Group
 
 Group = PholusSpectrumUnresolved
-  Auto
+  Auto           = 1
   InputKey       = PPHOLUS
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -89,7 +89,7 @@ Group = PholusSpectrumUnresolved
 End_Group
 
 Group = CharonSpectrumResolved
-  Auto
+  Auto           = 1
   InputKey       = RCHARON
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -99,7 +99,7 @@ Group = CharonSpectrumResolved
 End_Group
 
 Group = CharonSpectrumUnresolved
-  Auto
+  Auto           = 1
   InputKey       = PCHARON
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -109,7 +109,7 @@ Group = CharonSpectrumUnresolved
 End_Group
 
 Group = JupiterSpectrumResolved
-  Auto
+  Auto           = 1
   InputKey       = RJUPITER
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -119,7 +119,7 @@ Group = JupiterSpectrumResolved
 End_Group
 
 Group = JupiterSpectrumUnresolved
-  Auto
+  Auto           = 1
   InputKey       = PJUPITER
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -129,7 +129,7 @@ Group = JupiterSpectrumUnresolved
 End_Group
 
 Group = PlutoSpectrumResolved
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = RPLUTO
   InputPosition  = FITSLABELS
@@ -140,7 +140,7 @@ Group = PlutoSpectrumResolved
 End_Group
 
 Group = PlutoSpectrumUnresolved
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = PPLUTO
   InputPosition  = FITSLABELS
@@ -151,7 +151,7 @@ Group = PlutoSpectrumUnresolved
 End_Group
 
 Group = SolarPivotWavelength
-  Auto
+  Auto           = 1
   InputKey       = WSOLAR
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -161,7 +161,7 @@ Group = SolarPivotWavelength
 End_Group
 
 Group = JupiterPivotWavelength
-  Auto
+  Auto           = 1
   InputKey       = WJUPITER
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -171,7 +171,7 @@ Group = JupiterPivotWavelength
 End_Group
 
 Group = PholusPivotWavelength
-  Auto
+  Auto           = 1
   InputKey       = WPHOLUS
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -181,7 +181,7 @@ Group = PholusPivotWavelength
 End_Group
 
 Group = PlutoPivotWavelength
-  Auto
+  Auto           = 1
   InputKey       = WPLUTO
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -191,7 +191,7 @@ Group = PlutoPivotWavelength
 End_Group
 
 Group = CharonPivotWavelength
-  Auto
+  Auto           = 1
   InputKey       = WCHARON
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -201,7 +201,7 @@ Group = CharonPivotWavelength
 End_Group
 
 Group = FlatFile
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = FLAT
   InputPosition  = FITSLABELS

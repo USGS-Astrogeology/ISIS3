@@ -9,7 +9,7 @@
 # they are listed for documentation purposes. Note the filter name does not
 # correspond directly to the filter number unless the camera is known (NA, WA).
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NAME
   OutputName     = FilterName
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -26,7 +26,7 @@ End_Group
 
 # The filter numbers are different for NA and WA. Valid filter numbers are 0-7
 Group = FilterNumber
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   OutputName     = FilterNumber
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -42,7 +42,7 @@ Group = FilterNumber
 End_Group
 
 Group = CenterFilterWavelength
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   OutputName     = Center
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -58,7 +58,7 @@ Group = CenterFilterWavelength
  End_Group
 
 Group = BandWidth
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   OutputName     = Width
   OutputPosition = (Object, IsisCube, Group, BandBin)

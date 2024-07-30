@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputDefault   = UNKNOWN
   OutputName     = DataSetId
@@ -30,7 +30,7 @@ Group = DataSetId
 End_Group
 
 Group = OriginalProductId
-  Auto
+  Auto           = 1
   InputKey       = ORIGINAL_PRODUCT_ID
   InputDefault   = UNKNOWN
   OutputName     = OriginalProductId
@@ -39,7 +39,7 @@ Group = OriginalProductId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputDefault   = UNKNOWN
   OutputName     = ProductId
@@ -48,7 +48,7 @@ Group = ProductId
 End_Group
 
 Group = ProducerId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_ID
   InputDefault   = UNKNOWN
   OutputName     = ProducerId
@@ -57,7 +57,7 @@ Group = ProducerId
 End_Group
 
 Group = ProducerInstitutionName
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_INSTITUTION_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -67,7 +67,7 @@ Group = ProducerInstitutionName
 End_Group
 
 Group = ProductVersionId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_VERSION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -77,7 +77,7 @@ Group = ProductVersionId
 End_Group
 
 Group = UploadId
-  Auto
+  Auto           = 1
   InputKey       = UPLOAD_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -87,7 +87,7 @@ Group = UploadId
 End_Group
 
 Group = OrbitNumber
-  Auto
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   InputDefault   = UNKNOWN
   OutputName     = OrbitNumber
@@ -96,7 +96,7 @@ Group = OrbitNumber
 End_Group
 
 Group = RationaleDescription
-  Auto
+  Auto           = 1
   InputKey       = RATIONALE_DESC
   InputDefault   = UNKNOWN
   OutputName     = RationaleDescription
@@ -105,7 +105,7 @@ Group = RationaleDescription
 End_Group
 
 Group = DataQualityId
-  Auto
+  Auto           = 1
   InputKey       = DATA_QUALITY_ID
   InputDefault   = UNKNOWN
   OutputName     = DataQualityId
@@ -114,7 +114,7 @@ Group = DataQualityId
 End_Group
 
 Group = TemperatureSCSRaw
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_SCS_RAW
   InputDefault   = UNKNOWN
   OutputName     = TemperatureSCSRaw
@@ -123,7 +123,7 @@ Group = TemperatureSCSRaw
 End_Group
 
 Group = TemperatureFPARaw
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_FPA_RAW
   InputDefault   = UNKNOWN
   OutputName     = TemperatureFPARaw
@@ -132,7 +132,7 @@ Group = TemperatureFPARaw
 End_Group
 
 Group = TemperatureFPGARaw
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_FPGA_RAW
   InputDefault   = UNKNOWN
   OutputName     = TemperatureFPGARaw
@@ -141,7 +141,7 @@ Group = TemperatureFPGARaw
 End_Group
 
 Group = TemperatureTelescopeRaw
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_TELESCOPE_RAW
   InputDefault   = UNKNOWN
   OutputName     = TemperatureTelescopeRaw
@@ -150,7 +150,7 @@ Group = TemperatureTelescopeRaw
 End_Group
 
 Group = LineExposureCode
-  Auto
+  Auto           = 1
   InputKey       = LRO:LINE_EXPOSURE_CODE
   InputDefault   = UNKNOWN
   OutputName     = LineExposureCode
@@ -159,7 +159,7 @@ Group = LineExposureCode
 End_Group
 
 Group = DACResetLevel
-  Auto
+  Auto           = 1
   InputKey       = LRO:DAC_RESET_LEVEL
   InputDefault   = UNKNOWN
   OutputName     = DACResetLevel
@@ -168,7 +168,7 @@ Group = DACResetLevel
 End_Group
 
 Group = ChannelAOffset
-  Auto
+  Auto           = 1
   InputKey       = LRO:CHANNEL_A_OFFSET
   InputDefault   = UNKNOWN
   OutputName     = ChannelAOffset
@@ -177,7 +177,7 @@ Group = ChannelAOffset
 End_Group
 
 Group = ChannelBOffset
-  Auto
+  Auto           = 1
   InputKey       = LRO:CHANNEL_B_OFFSET
   InputDefault   = UNKNOWN
   OutputName     = ChannelBOffset
@@ -186,7 +186,7 @@ Group = ChannelBOffset
 End_Group
 
 Group = CompandCode
-  Auto
+  Auto           = 1
   InputKey       = LRO:COMPAND_CODE
   InputDefault   = UNKNOWN
   OutputName     = CompandCode
@@ -195,7 +195,7 @@ Group = CompandCode
 End_Group
 
 Group = LineCode
-  Auto
+  Auto           = 1
   InputKey       = LRO:LINE_CODE
   InputDefault   = UNKNOWN
   OutputName     = LineCode
@@ -204,7 +204,7 @@ Group = LineCode
 End_Group
 
 Group = BTerms
-  Auto
+  Auto           = 1
   InputKey       = LRO:BTERM
   InputDefault   = UNKNOWN
   OutputName     = BTerms
@@ -213,7 +213,7 @@ Group = BTerms
 End_Group
 
 Group = MTerms
-  Auto
+  Auto           = 1
   InputKey       = LRO:MTERM
   InputDefault   = UNKNOWN
   OutputName     = MTerms
@@ -222,7 +222,7 @@ Group = MTerms
 End_Group
 
 Group = XTerms
-  Auto
+  Auto           = 1
   InputKey       = LRO:XTERM
   InputDefault   = UNKNOWN
   OutputName     = XTerms
@@ -231,7 +231,7 @@ Group = XTerms
 End_Group
 
 Group = CompressionFlag
-  Auto
+  Auto           = 1
   InputKey       = LRO:COMPRESSION_FLAG
   InputDefault   = UNKNOWN
   OutputName     = CompressionFlag
@@ -240,7 +240,7 @@ Group = CompressionFlag
 End_Group
 
 Group = Mode
-  Auto
+  Auto           = 1
   InputKey       = LRO:MODE
   InputDefault   = UNKNOWN
   OutputName     = Mode

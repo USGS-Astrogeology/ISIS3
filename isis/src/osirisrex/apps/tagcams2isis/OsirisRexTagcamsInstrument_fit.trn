@@ -7,7 +7,7 @@
 # history 2019-01-10 Kris Becker - Original version added to UofA codebase. 
 
 Group = MissionName
-  Auto
+  Auto           = 1
   InputKey       = MISSION
   InputPosition  = FITSLABELS
   OutputName     = MissionName
@@ -16,7 +16,7 @@ Group = MissionName
 End_Group
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = HOSTNAME
   InputPosition  = FITSLABELS
   OutputName     = SpacecraftName
@@ -26,7 +26,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUME
   InputPosition  = FITSLABELS
   OutputName     = InstrumentId
@@ -37,7 +37,7 @@ Group = InstrumentId
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUME
   InputPosition  = FITSLABELS
   InputDefault   = TAGCAMS
@@ -49,7 +49,7 @@ Group = InstrumentName
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET
   InputPosition  = FITSLABELS
   InputDefault   = Bennu
@@ -60,7 +60,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = DATE_OBS
   InputPosition  = FITSLABELS
   OutputName     = StartTime
@@ -69,7 +69,7 @@ Group = StartTime
 End_Group
 
 Group = MidObservationTime
-  Auto
+  Auto           = 1
   InputKey       = MIDOBS
   InputPosition  = FITSLABELS
   OutputName     = MidObservationTime
@@ -78,7 +78,7 @@ Group = MidObservationTime
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPTIME
   InputPosition  = FITSLABELS
   OutputName     = ExposureDuration
@@ -88,7 +88,7 @@ Group = ExposureDuration
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SCLK_STR
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -98,7 +98,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = EphemerisTime
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = ET
   InputPosition  = FITSLABELS
@@ -108,7 +108,7 @@ Group = EphemerisTime
 End_Group
 
 Group = Binning
-  Auto
+  Auto           = 1
   InputKey       = TCSSMPL
   InputPosition  = FITSLABELS
   InputDefault   = 0
@@ -118,7 +118,7 @@ Group = Binning
 End_Group
 
 Group = Summing
-  Auto
+  Auto           = 1
   InputKey       = TCSUM
   InputPosition  = FITSLABELS
   InputDefault   = 1
@@ -128,7 +128,7 @@ Group = Summing
 End_Group
 
 Group = BScale
-  Auto
+  Auto           = 1
   InputKey       = BSCALE
   InputPosition  = FITSLABELS
   InputDefault   = 1
@@ -138,7 +138,7 @@ Group = BScale
 End_Group
 
 Group = DataCollectionMode
-  Auto
+  Auto           = 1
   InputKey       = TCMODE
   InputPosition  = FITSLABELS
   InputDefault   = 0
@@ -148,7 +148,7 @@ Group = DataCollectionMode
 End_Group
 
 Group = CompressionMode
-  Auto
+  Auto           = 1
   InputKey       = TCCOMP
   InputPosition  = FITSLABELS
   InputDefault   = 0
@@ -158,7 +158,7 @@ Group = CompressionMode
 End_Group
 
 Group = TCGain
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = TCGAIN
   InputPosition  = FITSLABELS
@@ -168,7 +168,7 @@ Group = TCGain
 End_Group
 
 Group = XReferenceCoordinate
-  Auto
+  Auto           = 1
   InputKey       = CRPIX1
   InputPosition  = FITSLABELS
   InputDefault   = 1044.5
@@ -178,7 +178,7 @@ Group = XReferenceCoordinate
 End_Group
 
 Group = YReferenceCoordinate
-  Auto
+  Auto           = 1
   InputKey       = CRPIX2
   InputPosition  = FITSLABELS
   InputDefault   = 1026.5
@@ -188,7 +188,7 @@ Group = YReferenceCoordinate
 End_Group
 
 Group = StartXFactor
-  Auto
+  Auto           = 1
   InputKey       = TCSX
   InputPosition  = FITSLABELS
   InputDefault   = 0
@@ -198,7 +198,7 @@ Group = StartXFactor
 End_Group
 
 Group = StartYFactor
-  Auto
+  Auto           = 1
   InputKey       = TCSY
   InputPosition  = FITSLABELS
   InputDefault   = 0

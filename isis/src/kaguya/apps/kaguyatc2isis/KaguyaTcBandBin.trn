@@ -25,7 +25,7 @@
 #                        for all supported TC images.
 Group = FilterName
   Optional       = 1
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -36,7 +36,7 @@ End_Group
 
 Group = Center
   Optional       = 1
-  Auto
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -47,7 +47,7 @@ End_Group
 
 Group = Width
   Optional       = 1
-  Auto
+  Auto           = 1
   InputKey       = BANDWIDTH
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -58,7 +58,7 @@ End_Group
 
 Group = BaseBand
   Optional       = 1
-  Auto
+  Auto           = 1
   InputKey       = BASE_BAND
   InputGroup     = ROOT
   InputPosition  = ROOT

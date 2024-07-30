@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NAME
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -33,7 +33,7 @@ Group = FilterName
 End_Group
 
 Group = FilterCenter
-  Auto
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -47,7 +47,7 @@ End_Group
 
 # SCS 2006-03-30 Modified translations keywords. Removed 100 and 150. Added 200
 Group = FilterWidth
-  Auto
+  Auto           = 1
   InputKey       = BANDWIDTH
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS

@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = MaximumLatitude
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = MAXIMUM_LATITUDE
   InputGroup     = IMAGE
@@ -32,7 +32,7 @@ Group = MaximumLatitude
 End_Group
 
 Group = MinimumLatitude
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = MINIMUM_LATITUDE
   InputGroup     = IMAGE
@@ -43,7 +43,7 @@ Group = MinimumLatitude
 End_Group
 
 Group = WesternmostLongitude
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = WESTERNMOST_LONGITUDE
   InputGroup     = IMAGE
@@ -54,7 +54,7 @@ Group = WesternmostLongitude
 End_Group
 
 Group = EasternmostLongitude
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = EASTERNMOST_LONGITUDE
   InputGroup     = IMAGE
@@ -65,7 +65,7 @@ Group = EasternmostLongitude
 End_Group
 
 Group = CenterLongitude
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CENTER_LONGITUDE
   InputGroup     = IMAGE
@@ -76,7 +76,7 @@ Group = CenterLongitude
 End_Group
 
 Group = CenterLatitude
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CENTER_LATITUDE
   InputGroup     = IMAGE
@@ -87,7 +87,7 @@ Group = CenterLatitude
 End_Group
 
 Group = Minimum
-  Auto
+  Auto           = 1
   InputKey       = MINIMUM
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -97,7 +97,7 @@ Group = Minimum
 End_Group
 
 Group = Maximum
-  Auto
+  Auto           = 1
   InputKey       = MAXIMUM
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -107,7 +107,7 @@ Group = Maximum
 End_Group
 
 Group = Mean
-  Auto
+  Auto           = 1
   InputKey       = MEAN
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -117,7 +117,7 @@ Group = Mean
 End_Group
 
 Group = StandardDeviation
-  Auto
+  Auto           = 1
   InputKey       = STANDARD_DEVIATION
   InputGroup     = IMAGE
   InputPosition  = IMAGE

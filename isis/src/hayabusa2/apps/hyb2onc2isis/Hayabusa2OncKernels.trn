@@ -4,7 +4,7 @@
 # Translation = (left,right) convert the input "right" to "left"
 
 Group = NaifCode
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = P_ID
   InputKey       = NAIFID

@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = MissionName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -31,7 +31,7 @@ Group = MissionName
 End_Group
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -44,7 +44,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentHostId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -54,7 +54,7 @@ Group = InstrumentHostId
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -64,7 +64,7 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -74,7 +74,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -84,7 +84,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -94,7 +94,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -104,7 +104,7 @@ Group = StopTime
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -114,7 +114,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -124,7 +124,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = OrbitNumber
-  Auto
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -134,7 +134,7 @@ Group = OrbitNumber
 End_Group
 
 Group = IncidenceAngle
-  Auto
+  Auto           = 1
   InputKey       = INCIDENCE_ANGLE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -144,7 +144,7 @@ Group = IncidenceAngle
 End_Group
 
 Group = InstrumentModeId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -154,7 +154,7 @@ Group = InstrumentModeId
 End_Group
 
 Group = InstrumentModeDesc
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_DESC
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -164,7 +164,7 @@ Group = InstrumentModeDesc
 End_Group
 
 Group = LookDirection
-  Auto
+  Auto           = 1
   InputKey       = LOOK_DIRECTION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -174,7 +174,7 @@ Group = LookDirection
 End_Group
 
 Group = ScaledPixelHeight
-  Auto
+  Auto           = 1
   InputKey       = SCALED_PIXEL_HEIGHT
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -184,7 +184,7 @@ Group = ScaledPixelHeight
 End_Group
 
 Group = ScaledPixelWidth
-  Auto
+  Auto           = 1
   InputKey       = SCALED_PIXEL_WIDTH
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -194,7 +194,7 @@ Group = ScaledPixelWidth
 End_Group
 
 Group = LineExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = LINE_EXPOSURE_DURATION
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -204,7 +204,7 @@ Group = LineExposureDuration
 End_Group
 
 Group = CH1AzimuthResolution
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CH1:AZIMUTH_RESOLUTION
   InputGroup     = IMAGE
@@ -215,7 +215,7 @@ Group = CH1AzimuthResolution
 End_Group
 
 Group = CH1RangeResolution
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CH1:RANGE_RESOLUTION
   InputGroup     = IMAGE
@@ -226,7 +226,7 @@ Group = CH1RangeResolution
 End_Group
 
 Group = CH1RangeCoefficientSet
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CH1:RANGE_COEFFICIENT_SET
   InputGroup     = ROOT
@@ -237,7 +237,7 @@ Group = CH1RangeCoefficientSet
 End_Group
 
 Group = LROAzimuthResolution
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = LRO:AZIMUTH_RESOLUTION
   InputGroup     = IMAGE
@@ -248,7 +248,7 @@ Group = LROAzimuthResolution
 End_Group
 
 Group = LRORangeResolution
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = LRO:RANGE_RESOLUTION
   InputGroup     = IMAGE
@@ -259,7 +259,7 @@ Group = LRORangeResolution
 End_Group
 
 Group = LRORangeCoefficientSet
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = LRO:RANGE_COEFFICIENT_SET
   InputGroup     = ROOT
@@ -270,7 +270,7 @@ Group = LRORangeCoefficientSet
 End_Group
 
 Group = Frequency
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CENTER_FREQUENCY
   InputGroup     = ROOT

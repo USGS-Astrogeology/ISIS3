@@ -4,7 +4,7 @@
 #
 # history 2018-10-04 Jeannie Backer - Original version.
 Group = NaifCkCode
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
@@ -15,7 +15,7 @@ Group = NaifCkCode
   Translation    = (-131370, TC2)
 End_Group
 Group = NaifFrameCode
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT

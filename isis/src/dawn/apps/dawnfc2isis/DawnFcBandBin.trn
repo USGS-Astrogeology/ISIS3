@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = FilterNumber
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   InputGroup     = ROOT
   InputPosition  = ROOT

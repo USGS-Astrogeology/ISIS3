@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputDefault   = UNKNOWN
   OutputName     = SpacecraftName
@@ -30,7 +30,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputDefault   = UNKNOWN
   OutputName     = InstrumentId
@@ -39,7 +39,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputDefault   = UNKNOWN
   OutputName     = TargetName
@@ -53,7 +53,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -64,7 +64,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -75,7 +75,7 @@ Group = StopTime
 End_Group
 
 Group = ObservationStartCount
-  Auto
+  Auto           = 1
   InputKey       = MRO:OBSERVATION_START_COUNT
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -86,7 +86,7 @@ Group = ObservationStartCount
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFTCLOCK_START_COUNT
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -97,7 +97,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFTCLOCK_STOP_COUNT
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -108,7 +108,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = ReadoutStartCount
-  Auto
+  Auto           = 1
   InputKey       = MRO:READOUT_START_COUNT
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -119,7 +119,7 @@ Group = ReadoutStartCount
 End_Group
 
 Group = CalibrationStartTime
-  Auto
+  Auto           = 1
   InputKey       = MRO:CALIBRATION_START_TIME
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -130,7 +130,7 @@ Group = CalibrationStartTime
 End_Group
 
 Group = CalibrationStartCount
-  Auto
+  Auto           = 1
   InputKey       = MRO:CALIBRATION_START_COUNT
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -141,7 +141,7 @@ Group = CalibrationStartCount
 End_Group
 
 Group = AnalogPowerStartTime
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = MRO:ANALOG_POWER_START_TIME
   InputGroup     = TIME_PARAMETERS
@@ -153,7 +153,7 @@ Group = AnalogPowerStartTime
 End_Group
 
 Group = AnalogPowerStartCount
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = MRO:ANALOG_POWER_START_COUNT
   InputGroup     = TIME_PARAMETERS
@@ -165,7 +165,7 @@ Group = AnalogPowerStartCount
 End_Group
 
 Group = MissionPhaseName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   InputDefault   = UNKNOWN
   OutputName     = MissionPhaseName
@@ -174,7 +174,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = LineExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = MRO:LINE_EXPOSURE_DURATION
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -185,7 +185,7 @@ Group = LineExposureDuration
 End_Group
 
 Group = ScanExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = MRO:SCAN_EXPOSURE_DURATION
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -196,7 +196,7 @@ Group = ScanExposureDuration
 End_Group
 
 Group = DeltaLineTimerCount
-  Auto
+  Auto           = 1
   InputKey       = MRO:DELTA_LINE_TIMER_COUNT
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -207,7 +207,7 @@ Group = DeltaLineTimerCount
 End_Group
 
 Group = Summing
-  Auto
+  Auto           = 1
   InputKey       = MRO:BINNING
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -224,7 +224,7 @@ Group = Summing
 End_Group
 
 Group = Tdi
-  Auto
+  Auto           = 1
   InputKey       = MRO:TDI
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -241,7 +241,7 @@ End_Group
 #
 # Added by Stuart Sides 2006-04-12
 Group = FocusPositionCount
-  Auto
+  Auto           = 1
   InputKey       = MRO:FOCUS_POSITION_COUNT
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -252,7 +252,7 @@ Group = FocusPositionCount
 End_Group
 
 Group = PoweredCpmmFlag
-  Auto
+  Auto           = 1
   InputKey       = MRO:POWERED_CPMM_FLAG
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -265,7 +265,7 @@ Group = PoweredCpmmFlag
 End_Group
 
 Group = CpmmNumber
-  Auto
+  Auto           = 1
   InputKey       = MRO:CPMM_NUMBER
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -290,7 +290,7 @@ Group = CpmmNumber
 End_Group
 
 Group = CcdId
-  Auto
+  Auto           = 1
   InputKey       = MRO:CPMM_NUMBER
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -315,7 +315,7 @@ Group = CcdId
 End_Group
 
 Group = ChannelNumber
-  Auto
+  Auto           = 1
   InputKey       = MRO:CHANNEL_NUMBER
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -328,7 +328,7 @@ Group = ChannelNumber
 End_Group
 
 Group = LookupTableType
-  Auto
+  Auto           = 1
   InputKey       = MRO:LOOKUP_TABLE_TYPE
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -344,7 +344,7 @@ Group = LookupTableType
 End_Group
 
 Group = LookupTableNumber
-  Auto
+  Auto           = 1
   InputKey       = MRO:LOOKUP_TABLE_NUMBER
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -355,7 +355,7 @@ Group = LookupTableNumber
 End_Group
 
 Group = LookupTable
-  Auto
+  Auto           = 1
   InputKey       = MRO:LOOKUP_CONVERSION_TABLE
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -366,7 +366,7 @@ Group = LookupTable
 End_Group
 
 Group = LookupTableMinimum
-  Auto
+  Auto           = 1
   InputKey       = MRO:LOOKUP_TABLE_MINIMUM
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -377,7 +377,7 @@ Group = LookupTableMinimum
 End_Group
 
 Group = LookupTableMaximum
-  Auto
+  Auto           = 1
   InputKey       = MRO:LOOKUP_TABLE_MAXIMUM
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -388,7 +388,7 @@ Group = LookupTableMaximum
 End_Group
 
 Group = LookupTableMedian
-  Auto
+  Auto           = 1
   InputKey       = MRO:LOOKUP_TABLE_MEDIAN
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -399,7 +399,7 @@ Group = LookupTableMedian
 End_Group
 
 Group = LookupTableKValue
-  Auto
+  Auto           = 1
   InputKey       = MRO:LOOKUP_TABLE_K_VALUE
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -410,7 +410,7 @@ Group = LookupTableKValue
 End_Group
 
 Group = StimulationLampFlag
-  Auto
+  Auto           = 1
   InputKey       = MRO:STIMULATION_LAMP_FLAG
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -423,7 +423,7 @@ Group = StimulationLampFlag
 End_Group
 
 Group = HeaterControlFlag
-  Auto
+  Auto           = 1
   InputKey       = MRO:HEATER_CONTROL_FLAG
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -436,7 +436,7 @@ Group = HeaterControlFlag
 End_Group
 
 Group = OptBnchFlexureTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:OPT_BNCH_FLEXURE_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -447,7 +447,7 @@ Group = OptBnchFlexureTemperature
 End_Group
 
 Group = OptBnchMirrorTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:OPT_BNCH_MIRROR_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -458,7 +458,7 @@ Group = OptBnchMirrorTemperature
 End_Group
 
 Group = OptBnchFoldFlatTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:OPT_BNCH_FOLD_FLAT_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -469,7 +469,7 @@ Group = OptBnchFoldFlatTemperature
 End_Group
 
 Group = OptBnchFpaTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:OPT_BNCH_FPA_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -480,7 +480,7 @@ Group = OptBnchFpaTemperature
 End_Group
 
 Group = OptBnchFpeTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:OPT_BNCH_FPE_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -491,7 +491,7 @@ Group = OptBnchFpeTemperature
 End_Group
 
 Group = OptBnchLivingRmTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:OPT_BNCH_LIVING_RM_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -502,7 +502,7 @@ Group = OptBnchLivingRmTemperature
 End_Group
 
 Group = OptBnchBoxBeamTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:OPT_BNCH_BOX_BEAM_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -513,7 +513,7 @@ Group = OptBnchBoxBeamTemperature
 End_Group
 
 Group = OptBnchCoverTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:OPT_BNCH_COVER_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -524,7 +524,7 @@ Group = OptBnchCoverTemperature
 End_Group
 
 Group = FieldStopTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:FIELD_STOP_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -535,7 +535,7 @@ Group = FieldStopTemperature
 End_Group
 
 Group = FpaPositiveYTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:FPA_POSITIVE_Y_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -546,7 +546,7 @@ Group = FpaPositiveYTemperature
 End_Group
 
 Group = FpaNegativeYTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:FPA_NEGATIVE_Y_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -557,7 +557,7 @@ Group = FpaNegativeYTemperature
 End_Group
 
 Group = FpeTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:FPE_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -568,7 +568,7 @@ Group = FpeTemperature
 End_Group
 
 Group = PrimaryMirrorMntTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:PRIMARY_MIRROR_MNT_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -579,7 +579,7 @@ Group = PrimaryMirrorMntTemperature
 End_Group
 
 Group = PrimaryMirrorTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:PRIMARY_MIRROR_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -590,7 +590,7 @@ Group = PrimaryMirrorTemperature
 End_Group
 
 Group = PrimaryMirrorBafTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:PRIMARY_MIRROR_BAF_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -601,7 +601,7 @@ Group = PrimaryMirrorBafTemperature
 End_Group
 
 Group = MsTrussLeg0ATemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:MS_TRUSS_LEG_0_A_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -612,7 +612,7 @@ Group = MsTrussLeg0ATemperature
 End_Group
 
 Group = MsTrussLeg0BTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:MS_TRUSS_LEG_0_B_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -623,7 +623,7 @@ Group = MsTrussLeg0BTemperature
 End_Group
 
 Group = MsTrussLeg120ATemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:MS_TRUSS_LEG_120_A_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -634,7 +634,7 @@ Group = MsTrussLeg120ATemperature
 End_Group
 
 Group = MsTrussLeg120BTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:MS_TRUSS_LEG_120_B_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -645,7 +645,7 @@ Group = MsTrussLeg120BTemperature
 End_Group
 
 Group = MsTrussLeg240ATemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:MS_TRUSS_LEG_240_A_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -656,7 +656,7 @@ Group = MsTrussLeg240ATemperature
 End_Group
 
 Group = MsTrussLeg240BTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:MS_TRUSS_LEG_240_B_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -667,7 +667,7 @@ Group = MsTrussLeg240BTemperature
 End_Group
 
 Group = BarrelBaffleTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:BARREL_BAFFLE_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -678,7 +678,7 @@ Group = BarrelBaffleTemperature
 End_Group
 
 Group = SunShadeTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:SUN_SHADE_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -689,7 +689,7 @@ Group = SunShadeTemperature
 End_Group
 
 Group = SpiderLeg30Temperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:SPIDER_LEG_30_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -700,7 +700,7 @@ Group = SpiderLeg30Temperature
 End_Group
 
 Group = SpiderLeg150Temperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:SPIDER_LEG_150_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -711,7 +711,7 @@ Group = SpiderLeg150Temperature
 End_Group
 
 Group = SpiderLeg270Temperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:SPIDER_LEG_270_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -722,7 +722,7 @@ Group = SpiderLeg270Temperature
 End_Group
 
 Group = SecMirrorMtrRngTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:SEC_MIRROR_MTR_RNG_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -733,7 +733,7 @@ Group = SecMirrorMtrRngTemperature
 End_Group
 
 Group = SecMirrorTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:SEC_MIRROR_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -744,7 +744,7 @@ Group = SecMirrorTemperature
 End_Group
 
 Group = SecMirrorBaffleTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:SEC_MIRROR_BAFFLE_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -755,7 +755,7 @@ Group = SecMirrorBaffleTemperature
 End_Group
 
 Group = IeaTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:IEA_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -766,7 +766,7 @@ Group = IeaTemperature
 End_Group
 
 Group = FocusMotorTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:FOCUS_MOTOR_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -777,7 +777,7 @@ Group = FocusMotorTemperature
 End_Group
 
 Group = IePwsBoardTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:IE_PWS_BOARD_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -788,7 +788,7 @@ Group = IePwsBoardTemperature
 End_Group
 
 Group = CpmmPwsBoardTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:CPMM_PWS_BOARD_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -799,7 +799,7 @@ Group = CpmmPwsBoardTemperature
 End_Group
 
 Group = MechTlmBoardTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:MECH_TLM_BOARD_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -810,7 +810,7 @@ Group = MechTlmBoardTemperature
 End_Group
 
 Group = InstContBoardTemperature
-  Auto
+  Auto           = 1
   InputKey       = MRO:INST_CONT_BOARD_TEMPERATURE
   InputGroup     = TEMPERATURE_PARAMETERS
   InputPosition  = TEMPERATURE_PARAMETERS
@@ -821,7 +821,7 @@ Group = InstContBoardTemperature
 End_Group
 
 Group = DllLockedFlag
-  Auto
+  Auto           = 1
   InputKey       = MRO:DLL_LOCKED_FLAG
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -835,7 +835,7 @@ Group = DllLockedFlag
 End_Group
 
 Group = DllResetCount
-  Auto
+  Auto           = 1
   InputKey       = MRO:DLL_RESET_COUNT
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -846,7 +846,7 @@ Group = DllResetCount
 End_Group
 
 Group = DllLockedOnceFlag
-  Auto
+  Auto           = 1
   InputKey       = MRO:DLL_LOCKED_ONCE_FLAG
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -860,7 +860,7 @@ Group = DllLockedOnceFlag
 End_Group
 
 Group = DllFrequenceCorrectCount
-  Auto
+  Auto           = 1
   InputKey       = MRO:DLL_FREQUENCY_CORRECT_COUNT
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -871,7 +871,7 @@ Group = DllFrequenceCorrectCount
 End_Group
 
 Group = ADCTimingSetting
-  Auto
+  Auto           = 1
   InputKey       = MRO:ADC_TIMING_SETTINGS
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS

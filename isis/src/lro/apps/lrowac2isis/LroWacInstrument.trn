@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = INSTRUMENT_HOST_NAME
   OutputName     = SpacecraftName
@@ -30,7 +30,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputDefault   = UNKNOWN
   OutputName     = InstrumentId
@@ -39,7 +39,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputDefault   = UNKNOWN
   OutputName     = TargetName
@@ -53,7 +53,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   OutputName     = StartTime
   OutputPosition = (Group, Instrument)
@@ -61,7 +61,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   OutputName     = StopTime
   OutputPosition = (Group, Instrument)
@@ -69,7 +69,7 @@ Group = StopTime
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFTCLOCK_START_COUNT
   OutputName     = SpacecraftClockStartCount
   OutputPosition = (Group, Instrument)
@@ -77,7 +77,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFTCLOCK_STOP_COUNT
   OutputName     = SpacecraftClockStopCount
   OutputPosition = (Group, Instrument)
@@ -85,7 +85,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = MissionPhaseName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   OutputName     = MissionPhaseName
   OutputPosition = (Group, Instrument)
@@ -93,7 +93,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION
   OutputName     = ExposureDuration
   OutputPosition = (Group, Instrument)
@@ -101,7 +101,7 @@ Group = ExposureDuration
 End_Group
 
 Group = InterframeDelay
-  Auto
+  Auto           = 1
   InputKey       = INTERFRAME_DELAY
   OutputName     = InterframeDelay
   OutputPosition = (Group, Instrument)
@@ -109,7 +109,7 @@ Group = InterframeDelay
 End_Group
 
 Group = BeginTemperatureFpa
-  Auto
+  Auto           = 1
   InputKey       = LRO:BEGIN_TEMPERATURE_FPA
   OutputName     = BeginTemperatureFpa
   OutputPosition = (Group, Instrument)
@@ -117,7 +117,7 @@ Group = BeginTemperatureFpa
 End_Group
 
 Group = MiddleTemperatureFpa
-  Auto
+  Auto           = 1
   InputKey       = LRO:MIDDLE_TEMPERATURE_FPA
   OutputName     = MiddleTemperatureFpa
   OutputPosition = (Group, Instrument)
@@ -125,7 +125,7 @@ Group = MiddleTemperatureFpa
 End_Group
 
 Group = EndTemperatureFpa
-  Auto
+  Auto           = 1
   InputKey       = LRO:END_TEMPERATURE_FPA
   OutputName     = EndTemperatureFpa
   OutputPosition = (Group, Instrument)
@@ -133,7 +133,7 @@ Group = EndTemperatureFpa
 End_Group
 
 Group = BeginTemperatureScs
-  Auto
+  Auto           = 1
   InputKey       = LRO:BEGIN_TEMPERATURE_SCS
   OutputName     = BeginTemperatureScs
   OutputPosition = (Group, Instrument)
@@ -141,7 +141,7 @@ Group = BeginTemperatureScs
 End_Group
 
 Group = MiddleTemperatureScs
-  Auto
+  Auto           = 1
   InputKey       = LRO:MIDDLE_TEMPERATURE_SCS
   OutputName     = MiddleTemperatureScs
   OutputPosition = (Group, Instrument)
@@ -149,7 +149,7 @@ Group = MiddleTemperatureScs
 End_Group
 
 Group = EndTemperatureScs
-  Auto
+  Auto           = 1
   InputKey       = LRO:END_TEMPERATURE_SCS
   OutputName     = EndTemperatureScs
   OutputPosition = (Group, Instrument)
@@ -157,7 +157,7 @@ Group = EndTemperatureScs
 End_Group
 
 Group = BackgroundOffset
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = LRO:BACKGROUND_OFFSET
   OutputName     = BackgroundOffset
@@ -166,7 +166,7 @@ Group = BackgroundOffset
 End_Group
 
 Group = Mode
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = LRO:MODE
   OutputName     = Mode

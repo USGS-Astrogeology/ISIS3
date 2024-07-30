@@ -3,7 +3,7 @@
 # for the New Horizons MVIC camera.
 #
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = HOSTNAME
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -13,7 +13,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRU
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -23,7 +23,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -38,7 +38,7 @@ Group = TargetName
 End_Group
 
 Group = MidObservationTime
-  Auto
+  Auto           = 1
   InputKey       = SPCUTCAL
   InputPosition  = FITSLABELS
   OutputName     = MidObservationTime
@@ -49,7 +49,7 @@ End_Group
 # Commented out until/if we have start and stop times
 # Currently there are only center of exposure times
 #Group = StopTime
-#  Auto
+#  Auto           = 1
 #  InputKey       = SPCUTCAL
 #  InputPosition  = FITSLABELS
 #  OutputName     = StopTime
@@ -58,7 +58,7 @@ End_Group
 #End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPCSCLK0
   InputPosition  = FITSLABELS
   OutputName     = SpacecraftClockStartCount
@@ -69,7 +69,7 @@ End_Group
 # Commented out until/if we have start and stop times
 # Currently there are only center of exposure times
 #Group = SpacecraftClockStopCount
-#  Auto
+#  Auto           = 1
 #  InputKey       = SPCSCDP
 #  InputPosition  = FITSLABELS
 #  OutputName     = SpacecraftClockStopCount
@@ -78,7 +78,7 @@ End_Group
 #End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = RALPHEXP
   InputPosition  = FITSLABELS
   OutputName     = ExposureDuration
@@ -87,7 +87,7 @@ Group = ExposureDuration
 End_Group
 
 Group = Detector
-  Auto
+  Auto           = 1
   InputKey       = DETECTOR
   InputPosition  = FITSLABELS
   OutputName     = Detector
@@ -97,7 +97,7 @@ End_Group
 
 Group = PanCcd
   Optional       = 1
-  Auto
+  Auto           = 1
   InputKey       = PANCCD
   InputPosition  = FITSLABELS
   OutputName     = PanCcd
@@ -106,7 +106,7 @@ Group = PanCcd
 End_Group
 
 Group = HwSide
-  Auto
+  Auto           = 1
   InputKey       = SIDE
   InputPosition  = FITSLABELS
   OutputName     = HwSide
@@ -115,7 +115,7 @@ Group = HwSide
 End_Group
 
 Group = ScanType
-  Auto
+  Auto           = 1
   InputKey       = SCANTYPE
   InputPosition  = FITSLABELS
   OutputName     = ScanType
@@ -124,7 +124,7 @@ Group = ScanType
 End_Group
 
 Group = InstrumentMode
-  Auto
+  Auto           = 1
   InputKey       = MODE
   InputPosition  = FITSLABELS
   OutputName     = InstrumentMode
@@ -133,7 +133,7 @@ Group = InstrumentMode
 End_Group
 
 Group = RalphExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = RALPHEXP
   InputPosition  = FITSLABELS
   OutputName     = RalphExposureDuration
@@ -142,7 +142,7 @@ Group = RalphExposureDuration
 End_Group
 
 Group = TdiRate
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = TDIRATE
   InputPosition  = FITSLABELS

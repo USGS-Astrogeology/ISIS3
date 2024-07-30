@@ -16,7 +16,7 @@
 
 
 Group = LidVid
-  Auto
+  Auto            = 1
   Debug
   InputKey        = LID
   InputPosition   = (IsisCube, Archive)
@@ -26,7 +26,7 @@ Group = LidVid
 End_Group
 
 Group = LidVidReference
-  Auto
+  Auto            = 1
   InputDefault    = data_to_calibrated_products
   OutputName      = reference_type
   OutputPosition  = (Product_Observational, Reference_List, Internal_Reference)
@@ -34,7 +34,7 @@ Group = LidVidReference
 End_Group
 
 Group = StartTime
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = StartTime
   InputPosition   = (IsisCube, Mosaic)
@@ -44,7 +44,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = StopTime
   InputPosition   = (IsisCube, Mosaic)
@@ -54,7 +54,7 @@ Group = StopTime
 End_Group
 
 Group = LocalTime
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = LocalTime
   InputPosition   = (IsisCube, Mosaic)
@@ -64,7 +64,7 @@ Group = LocalTime
 End_Group
 
 Group = SolarLongitude
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = SolarLongitude
   InputPosition   = (IsisCube, Mosaic)
@@ -76,7 +76,7 @@ End_Group
 # Geometry area
 
 Group = HorizontalDisplayAxis
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = Sample
   OutputName      = geom:horizontal_display_axis
@@ -85,7 +85,7 @@ Group = HorizontalDisplayAxis
 End_Group
 
 Group = HorizontalDisplayDirection
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = "Left to Right"
   OutputName      = geom:horizontal_display_direction
@@ -94,7 +94,7 @@ Group = HorizontalDisplayDirection
 End_Group
 
 Group = VerticalDisplayAxis
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = Line
   OutputName      = geom:vertical_display_axis
@@ -103,7 +103,7 @@ Group = VerticalDisplayAxis
 End_Group
 
 Group = VerticalDisplayDirection
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = "Top to Bottom"
   OutputName      = geom:vertical_display_direction
@@ -112,7 +112,7 @@ Group = VerticalDisplayDirection
 End_Group
 
 Group = NorthAzimuth
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = NorthAzimuth
   InputPosition   = (IsisCube, Mosaic)
@@ -122,7 +122,7 @@ Group = NorthAzimuth
 End_Group
 
 Group = EastAzimuth
-  Auto
+  Auto            = 1
   InputKey        = EastAzimuth
   InputDefault    = 0.0
   OutputName      = geom:east_azimuth
@@ -131,7 +131,7 @@ Group = EastAzimuth
 End_Group
 
 Group = ReferenceFrame
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = ReferenceFrame
   InputDefault    = "J2000"
@@ -142,7 +142,7 @@ Group = ReferenceFrame
 End_Group
 
 Group = GeomRefTime
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = StartTime
   InputPosition   = (IsisCube, Mosaic)
@@ -152,7 +152,7 @@ Group = GeomRefTime
 End_Group
 
 Group = SubsolarAzimuth
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = SubsolarAzimuth
   InputPosition   = (IsisCube, Mosaic)
@@ -162,7 +162,7 @@ Group = SubsolarAzimuth
 End_Group
 
 Group = ReferencePixelLocation
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = Center
   OutputName      = geom:reference_pixel_location
@@ -171,7 +171,7 @@ Group = ReferencePixelLocation
 End_Group
 
 Group = IncidenceAngle
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = IncidenceAngle
   InputPosition   = (IsisCube, Mosaic)
@@ -181,7 +181,7 @@ Group = IncidenceAngle
 End_Group
 
 Group = EmissionAngle
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = EmissionAngle
   InputPosition   = (IsisCube, Mosaic)
@@ -191,7 +191,7 @@ Group = EmissionAngle
 End_Group
 
 Group = PhaseAngle
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = PhaseAngle
   InputPosition   = (IsisCube, Mosaic)
@@ -203,7 +203,7 @@ End_Group
 # Export Footprint Coordinates 
 
 Group = Corner1Lattiude
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = Corner1Latitude
   InputPosition   = (IsisCube, Archive)
@@ -214,7 +214,7 @@ Group = Corner1Lattiude
 End_Group
 
 Group = Corner1Longitude
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = Corner1Longitude
   InputPosition   = (IsisCube, Archive)
@@ -224,7 +224,7 @@ Group = Corner1Longitude
 End_Group
 
 Group = Corner2Lattiude
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = Corner2Latitude
   InputPosition   = (IsisCube, Archive)
@@ -235,7 +235,7 @@ Group = Corner2Lattiude
 End_Group
 
 Group = Corner2Longitude
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = Corner2Longitude
   InputPosition   = (IsisCube, Archive)
@@ -245,7 +245,7 @@ Group = Corner2Longitude
 End_Group
 
 Group = Corner3Lattiude
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = Corner3Latitude
   InputPosition   = (IsisCube, Archive)
@@ -256,7 +256,7 @@ Group = Corner3Lattiude
 End_Group
 
 Group = Corner3Longitude
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = Corner3Longitude
   InputPosition   = (IsisCube, Archive)
@@ -266,7 +266,7 @@ Group = Corner3Longitude
 End_Group
 
 Group = Corner4Lattiude
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = Corner4Latitude
   InputPosition   = (IsisCube, Archive)
@@ -277,7 +277,7 @@ Group = Corner4Lattiude
 End_Group
 
 Group = Corner4Longitude
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = Corner4Longitude
   InputPosition   = (IsisCube, Archive)
@@ -287,7 +287,7 @@ Group = Corner4Longitude
 End_Group
 
 Group = SmithedMetakernel
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = em16_cassis.tm
   OutputName      = geom:spice_kernel_file_name
@@ -298,7 +298,7 @@ End_Group
 
 # Investigation Area
 Group = MissionName
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = SpacecraftName
   InputPosition   = (IsisCube, Mosaic)
@@ -310,7 +310,7 @@ End_Group
 
 # Observing System
 Group = SpacecraftName
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = SpacecraftName
   InputPosition   = (IsisCube, Mosaic)
@@ -321,7 +321,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey       = InstrumentId
   InputPosition   = (IsisCube, Mosaic)
@@ -334,7 +334,7 @@ End_Group
 # Internal Reference
 
 Group = InternalReference
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = "urn:esa:psa:context:investigation:mission.tgo"
   OutputName      = lid_reference
@@ -343,7 +343,7 @@ Group = InternalReference
 End_Group
 
 Group = InternalReferenceType
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = "data_to_investigation"
   OutputName      = reference_type
@@ -352,7 +352,7 @@ Group = InternalReferenceType
 End_Group
 
 Group = InternalReferenceComment
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = "This is the PDS4 logical identifier for the ExoMars Trace Gas Orbiter mission."
   OutputName      = comment
@@ -362,7 +362,7 @@ End_Group
 
 # Added for Alias_List
 Group = AliasList
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = ObservationId
   InputPosition   = (IsisCube, Mosaic)
@@ -372,7 +372,7 @@ Group = AliasList
 End_Group
 
 Group = Comment
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = "CaSSIS Internal Identifier"
   InputPosition   = (IsisCube, Archive)
@@ -383,7 +383,7 @@ End_Group
 
 # New Mission_Area exports
 Group = MissionPhase
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = MissionPhase
   InputPosition   = (IsisCube, Archive)
@@ -393,7 +393,7 @@ Group = MissionPhase
 End_Group
 
 Group = SubInstrumentIdentifier
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = SCI
   InputPosition   = (IsisCube, Archive)
@@ -403,7 +403,7 @@ Group = SubInstrumentIdentifier
 End_Group
 
 Group = SubInstrumentName
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = "CASSIS Science"
   InputPosition   = (IsisCube, Archive)
@@ -414,7 +414,7 @@ End_Group
 
 
 Group = SubInstrumentType
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = Imager
   InputPosition   = (IsisCube, Archive)
@@ -424,7 +424,7 @@ Group = SubInstrumentType
 End_Group
 
 Group = ProcessingSoftwareTitle
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = Geometry_Pipeline 
   InputPosition   = (IsisCube, Archive)
@@ -434,7 +434,7 @@ Group = ProcessingSoftwareTitle
 End_Group
 
 Group = ProcessingSoftwareVersion
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault    = 1.0.1
   InputKey        = GeometryPipelineVersion
@@ -446,7 +446,7 @@ End_Group
 
 # Observation_Context
 Group = InstrumentPointingMode
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault   = "No pointing" 
   InputPosition   = (IsisCube, Archive)
@@ -456,7 +456,7 @@ Group = InstrumentPointingMode
 End_Group
 
 Group = InstrumentPointingDescription
-  Auto
+  Auto            = 1
   Optional        = 1
   InputDefault   = "No pointing"
   InputPosition   = (IsisCube, Archive)
@@ -466,7 +466,7 @@ Group = InstrumentPointingDescription
 End_Group
 
 Group = ObservationContextIdentifier
-  Auto
+  Auto            = 1
   InputKey        = UID
   InputPosition   = (IsisCube, Archive)
   OutputName      = psa:observation_identifier
@@ -475,7 +475,7 @@ Group = ObservationContextIdentifier
 End_Group
 
 Group = IFOV
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = IFOV
   InputPosition   = (IsisCube, Archive)
@@ -486,7 +486,7 @@ End_Group
 
 
 Group = IFOVUnit
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = IFOVUnit
   InputPosition   = (IsisCube, Archive)
@@ -496,7 +496,7 @@ Group = IFOVUnit
 End_Group
 
 Group = FiltersAvailable
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = FiltersAvailable
   InputPosition   = (IsisCube, Archive)
@@ -506,7 +506,7 @@ Group = FiltersAvailable
 End_Group
 
 Group = FocalLength
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = FocalLength
   InputPosition   = (IsisCube, Archive)
@@ -516,7 +516,7 @@ Group = FocalLength
 End_Group
 
 Group = FocalLengthUnit
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = FocalLengthUnit
   InputPosition   = (IsisCube, Archive)
@@ -526,7 +526,7 @@ Group = FocalLengthUnit
 End_Group
 
 Group = TelescopeFNumber
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = FNumber
   InputPosition   = (IsisCube, Archive)
@@ -536,7 +536,7 @@ Group = TelescopeFNumber
 End_Group
 
 Group = TelescopeType
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = TelescopeType
   InputPosition   = (IsisCube, Archive)
@@ -546,7 +546,7 @@ Group = TelescopeType
 End_Group
 
 Group = DetectorDescription
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = TelescopeType
   InputPosition   = (IsisCube, Archive)
@@ -556,7 +556,7 @@ Group = DetectorDescription
 End_Group
 
 Group = PixelHeight
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = PixelHeight
   InputPosition   = (IsisCube, Archive)
@@ -566,7 +566,7 @@ Group = PixelHeight
 End_Group
 
 Group = PixelHeightUnit
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = PixelHeightUnit
   InputPosition   = (IsisCube, Archive)
@@ -576,7 +576,7 @@ Group = PixelHeightUnit
 End_Group
 
 Group = PixelWidth
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = PixelWidth
   InputPosition   = (IsisCube, Archive)
@@ -586,7 +586,7 @@ Group = PixelWidth
 End_Group
 
 Group = PixelWidthUnit
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = PixelWidthUnit
   InputPosition   = (IsisCube, Archive)
@@ -596,7 +596,7 @@ Group = PixelWidthUnit
 End_Group
 
 Group = DetectorType
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = DetectorType
   InputPosition   = (IsisCube, Archive)
@@ -606,7 +606,7 @@ Group = DetectorType
 End_Group
 
 Group = ReadNoise
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = ReadNoise
   InputPosition   = (IsisCube, Archive)
@@ -616,7 +616,7 @@ Group = ReadNoise
 End_Group
 
 Group = ReadNoiseUnit
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = ReadNoise
   InputPosition   = (IsisCube, Archive)
@@ -626,7 +626,7 @@ Group = ReadNoiseUnit
 End_Group
 
 Group = SmithedCK
-  Auto
+  Auto            = 1
   Optional        = 1
   InputKey        = SmithedCK 
   InputPosition   = (IsisCube, Archive)

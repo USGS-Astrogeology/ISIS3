@@ -2,7 +2,7 @@
 
 ############################## Hard-coded values ##############################
 Group = DATA_SET_ID
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputKey       = DataSetId
   InputDefault   = MRO-M-HIRISE-3-CDR-V1.0
@@ -12,7 +12,7 @@ Group = DATA_SET_ID
 End_Group
 
 Group = DATA_SET_NAME
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_NAME
   InputKey       = DataSetName
   InputDefault   = "MRO MARS HIGH RESOLUTION IMAGING SCIENCE EXPERIMENT CDR
@@ -24,7 +24,7 @@ Group = DATA_SET_NAME
 End_Group
 
 Group = SPACECRAFT_NAME
-  Auto
+  Auto           = 1
   InputKey       = SpacecraftName
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -35,7 +35,7 @@ End_Group
 
 ############################ From Instrument Group ############################
 Group = TARGET_NAME
-  Auto
+  Auto           = 1
   InputKey       = TargetName
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -45,7 +45,7 @@ Group = TARGET_NAME
 End_Group
 
 Group = SAMPLE_DETECTORS
-  Auto
+  Auto           = 1
   InputKey       = SampleDetectors
   InputGroup     = "IsisCube, Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -55,7 +55,7 @@ Group = SAMPLE_DETECTORS
 End_Group
 
 Group = LINE_DETECTORS
-  Auto
+  Auto           = 1
   InputKey       = LineDetectors
   InputGroup     = "IsisCube, Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -65,7 +65,7 @@ Group = LINE_DETECTORS
 End_Group
 
 Group = INSTRUMENT_TYPE
-  Auto
+  Auto           = 1
   InputKey       = InstrumentType
   InputGroup     = "IsisCube, Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -75,7 +75,7 @@ Group = INSTRUMENT_TYPE
 End_Group
 
 Group = FOCAL_LENGTH
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = FocalLength
   InputGroup     = "IsisCube, Instrument"
@@ -86,7 +86,7 @@ Group = FOCAL_LENGTH
 End_Group
 
 Group = PIXEL_PITCH
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = PixelPitch
   InputGroup     = "IsisCube, Instrument"
@@ -97,7 +97,7 @@ Group = PIXEL_PITCH
 End_Group
 
 Group = EPHEMERIS_TIME
-  Auto
+  Auto           = 1
   InputKey       = EphemerisTime
   InputGroup     = "IsisCube, Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -107,7 +107,7 @@ Group = EPHEMERIS_TIME
 End_Group
 
 Group = FOCAL_PLANE_X_DEPENDENCY
-  Auto
+  Auto           = 1
   InputKey       = FocalPlaneXDependency
   InputGroup     = "IsisCube, Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -118,7 +118,7 @@ Group = FOCAL_PLANE_X_DEPENDENCY
 End_Group
 
 Group = TRANS_X
-  Auto
+  Auto           = 1
   InputKey       = TransX
   InputGroup     = "IsisCube, Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -128,7 +128,7 @@ Group = TRANS_X
 End_Group
 
 Group = TRANS_Y
-  Auto
+  Auto           = 1
   InputKey       = TransY
   InputGroup     = "IsisCube, Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -138,7 +138,7 @@ Group = TRANS_Y
 End_Group
 
 Group = EXPOSURE_DURATION
-  Auto
+  Auto           = 1
   InputKey       = ExposureDuration
   InputGroup     = "IsisCube, Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -149,7 +149,7 @@ End_Group
 
 ############################# From Archive Group #############################
 Group = PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = ProductId
   InputGroup     = "IsisCube,Archive"
   InputPosition  = (IsisCube, Archive)
@@ -159,7 +159,7 @@ Group = PRODUCT_ID
 End_Group
 
 Group = MRO:OBSERVATION_START_TIME
-  Auto
+  Auto           = 1
   InputKey       = OBSERVATION_START_TIME
   InputKey       = ObservationStartTime
   InputGroup     = "IsisCube,Archive"
@@ -171,7 +171,7 @@ End_Group
 
 ############################ From Archive Group  ############################
 Group = SOURCE_PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = SourceProductId
   InputGroup     = "IsisCube,Archive"
   InputPosition  = (IsisCube, Archive)
@@ -193,7 +193,7 @@ End_Group
 ######################## From OriginalInstrument Group ########################
 ################ Keywords that go into GROUP = TIME_PARAMETERS ################
 Group = MRO:OBSERVATION_START_TIME
-  Auto
+  Auto           = 1
   InputKey       = MRO:OBSERVATION_START_TIME
   InputKey       = ObservationStartTime
   InputGroup     = "IsisCube,OriginalInstrument"
@@ -204,7 +204,7 @@ Group = MRO:OBSERVATION_START_TIME
 End_Group
 
 Group = START_TIME
-  Auto
+  Auto           = 1
   InputName      = START_TIME
   InputKey       = StartTime
   InputGroup     = "IsisCube,Instrument"
@@ -215,7 +215,7 @@ Group = START_TIME
 End_Group
 
 Group = STOP_TIME
-  Auto
+  Auto           = 1
   InputName      = STOP_TIME
   InputKey       = StopTime
   InputGroup     = "IsisCube,Instrument"
@@ -226,7 +226,7 @@ Group = STOP_TIME
 End_Group
 
 Group = SPACECRAFT_CLOCK_START_COUNT
-  Auto
+  Auto           = 1
   InputName      = SPACECRAFT_CLOCK_START_COUNT
   InputKey       = SpacecraftClockStartCount
   InputGroup     = "IsisCube,OriginalInstrument"
@@ -237,7 +237,7 @@ Group = SPACECRAFT_CLOCK_START_COUNT
 End_Group
 
 Group = SPACECRAFT_CLOCK_STOP_COUNT
-  Auto
+  Auto           = 1
   InputName      = SPACECRAFT_CLOCK_STOP_COUNT
   InputKey       = SpacecraftClockStopCount
   InputGroup     = "IsisCube,OriginalInstrument"

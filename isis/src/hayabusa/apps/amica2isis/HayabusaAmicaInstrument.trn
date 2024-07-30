@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
  
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -32,7 +32,7 @@ Group = SpacecraftName
 End_Group
  
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -44,7 +44,7 @@ End_Group
  
  
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = TI_0
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -55,7 +55,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = TI_1
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -66,7 +66,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -77,7 +77,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -88,7 +88,7 @@ Group = StopTime
 End_Group
  
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -99,7 +99,7 @@ Group = ExposureDuration
 End_Group
  
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -111,7 +111,7 @@ Group = TargetName
 End_Group
 
 Group = TargetType
-  Auto
+  Auto           = 1
   InputKey       = TARGET_TYPE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -123,7 +123,7 @@ Group = TargetType
 End_Group
 
 Group = OriginalTargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -135,7 +135,7 @@ End_Group
  
  
 Group = Binning
-  Auto
+  Auto           = 1
   InputKey       = BINNING
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -146,7 +146,7 @@ Group = Binning
 End_Group
 
 Group = FirstLine
-  Auto
+  Auto           = 1
   InputKey       = START_V
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -157,7 +157,7 @@ Group = FirstLine
 End_Group
 
 Group = LastLine
-  Auto
+  Auto           = 1
   InputKey       = LAST_V
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -168,7 +168,7 @@ Group = LastLine
 End_Group
 
 Group = FirstSample
-  Auto
+  Auto           = 1
   InputKey       = START_H
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -179,7 +179,7 @@ Group = FirstSample
 End_Group
 
 Group = LastSample
-  Auto
+  Auto           = 1
   InputKey       = LAST_H
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -190,7 +190,7 @@ Group = LastSample
 End_Group
 
 Group = CcdTemperature
-  Auto
+  Auto           = 1
   InputKey       = TEMP_0
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel

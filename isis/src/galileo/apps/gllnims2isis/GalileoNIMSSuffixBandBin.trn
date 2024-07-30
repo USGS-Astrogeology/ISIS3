@@ -3,7 +3,7 @@
 
 
 Group = BandSuffixName
-        Auto
+        Auto             = 1
         Optional         = 1
         InputKey         =  BAND_SUFFIX_NAME
         InputPosition    =  QUBE
@@ -14,7 +14,7 @@ End_Group
 
 
 Group = BandSuffixUnit
-	Auto
+	Auto             = 1
 	Optional         = 1
         InputKey         =  BAND_SUFFIX_UNIT
 	InputPosition	 =  QUBE
@@ -25,7 +25,7 @@ End_Group
 
 
 Group = BandSuffixBase
-        Auto
+        Auto             = 1
         Optional         = 1
         InputKey         =  BAND_SUFFIX_BASE
         InputPosition    =  QUBE
@@ -36,7 +36,7 @@ End_Group
 
 
 Group = BandSuffixMulitplier
-        Auto
+        Auto             = 1
         Optional         = 1
         InputKey         =  BAND_SUFFIX_MULTIPLIER
         InputPosition    =  QUBE

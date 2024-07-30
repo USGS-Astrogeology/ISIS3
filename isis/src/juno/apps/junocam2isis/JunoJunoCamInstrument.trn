@@ -1,5 +1,5 @@
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = SPACECRAFT_NAME
   InputGroup     = ROOT
@@ -10,7 +10,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentHostId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_ID
   InputDefault   = UNKNOWN
   OutputName     = InstrumentHostId
@@ -19,7 +19,7 @@ Group = InstrumentHostId
 End_Group
 
 Group = SpacecraftId
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = INSTRUMENT_HOST_ID
   InputGroup     = ROOT
@@ -30,7 +30,7 @@ Group = SpacecraftId
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = INSTRUMENT_NAME
   InputGroup     = ROOT
@@ -41,7 +41,7 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
@@ -52,7 +52,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
@@ -63,7 +63,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   OutputName     = StartTime
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -71,7 +71,7 @@ Group = StartTime
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputGroup     = ROOT
@@ -82,7 +82,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = EXPOSURE_DURATION
   InputGroup     = ROOT
@@ -93,7 +93,7 @@ Group = ExposureDuration
 End_Group
 
 Group = InterFrameDelay
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = INTERFRAME_DELAY
   InputGroup     = ROOT
@@ -104,7 +104,7 @@ Group = InterFrameDelay
 End_Group
 
 Group = SummingMode
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = SAMPLING_FACTOR
   InputGroup     = ROOT

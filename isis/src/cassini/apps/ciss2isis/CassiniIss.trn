@@ -1,6 +1,6 @@
 #Archive Group
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   OutputName     = DataSetId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -8,7 +8,7 @@ Group = DataSetId
 End_Group
 
 Group = ImageNumber
-  Auto
+  Auto           = 1
   InputKey       = IMAGE_NUMBER
   OutputName     = ImageNumber
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -16,7 +16,7 @@ Group = ImageNumber
 End_Group
 
 Group = ObservationId
-  Auto
+  Auto           = 1
   InputKey       = OBSERVATION_ID
   OutputName     = ObservationId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -24,7 +24,7 @@ Group = ObservationId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   OutputName     = ProductId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -33,7 +33,7 @@ End_Group
 
 #Instrument Group
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   OutputName     = SpacecraftName
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -41,7 +41,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   OutputName     = InstrumentId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -50,7 +50,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   OutputName     = TargetName
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -136,7 +136,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   OutputName     = StartTime
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -144,7 +144,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   OutputName     = StopTime
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -152,7 +152,7 @@ Group = StopTime
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION
   OutputName     = ExposureDuration
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -160,7 +160,7 @@ Group = ExposureDuration
 End_Group
 
 Group = AntibloomingStateFlag
-  Auto
+  Auto           = 1
   InputKey       = ANTIBLOOMING_STATE_FLAG
   OutputName     = AntibloomingStateFlag
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -170,7 +170,7 @@ Group = AntibloomingStateFlag
 End_Group
 
 Group = BiasStripMean
-  Auto
+  Auto           = 1
   InputKey       = BIAS_STRIP_MEAN
   OutputName     = BiasStripMean
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -178,7 +178,7 @@ Group = BiasStripMean
 End_Group
 
 Group = CompressionRatio1
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = INST_CMPRS_RATIO
   OutputName     = CompressionRatio
@@ -188,7 +188,7 @@ Group = CompressionRatio1
 End_Group
 
 Group = CompressionRatio2
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = COMPRESSION_RATIO
   OutputName     = CompressionRatio
@@ -198,7 +198,7 @@ Group = CompressionRatio2
 End_Group
 
 Group = CompressionType1
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = INST_CMPRS_TYPE
   OutputName     = CompressionType
@@ -209,7 +209,7 @@ Group = CompressionType1
 End_Group
 
 Group = CompressionType2
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = ENCODING_TYPE
   OutputName     = CompressionType
@@ -220,7 +220,7 @@ Group = CompressionType2
 End_Group
 
 Group = DataConversionType
-  Auto
+  Auto           = 1
   InputKey       = DATA_CONVERSION_TYPE
   OutputName     = DataConversionType
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -230,7 +230,7 @@ Group = DataConversionType
 End_Group
 
 Group = DelayedReadoutFlag
-  Auto
+  Auto           = 1
   InputKey       = DELAYED_READOUT_FLAG
   OutputName     = DelayedReadoutFlag
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -240,7 +240,7 @@ Group = DelayedReadoutFlag
 End_Group
 
 Group = FlightSoftwareVersionId
-  Auto
+  Auto           = 1
   InputKey       = FLIGHT_SOFTWARE_VERSION_ID
   OutputName     = FlightSoftwareVersionId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -251,7 +251,7 @@ Group = FlightSoftwareVersionId
 End_Group
 
 Group = GainModeId
-  Auto
+  Auto           = 1
   InputKey       = GAIN_MODE_ID
   OutputName     = GainModeId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -262,7 +262,7 @@ Group = GainModeId
 End_Group
 
 Group = GainState
-  Auto
+  Auto           = 1
   InputKey       = GAIN_MODE_ID
   OutputName     = GainState
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -273,7 +273,7 @@ Group = GainState
 End_Group
 
 Group = ImageTime
-  Auto
+  Auto           = 1
   InputKey       = IMAGE_TIME
   OutputName     = ImageTime
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -281,7 +281,7 @@ Group = ImageTime
 End_Group
 
 Group = InstrumentDataRate
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_DATA_RATE
   OutputName     = InstrumentDataRate
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -289,7 +289,7 @@ Group = InstrumentDataRate
 End_Group
 
 Group = OpticsTemperature
-  Auto
+  Auto           = 1
   InputKey       = OPTICS_TEMPERATURE
   OutputName     = OpticsTemperature
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -298,7 +298,7 @@ Group = OpticsTemperature
 End_Group
 
 Group = ReadoutCycleIndex
-  Auto
+  Auto           = 1
   InputKey       = READOUT_CYCLE_INDEX
   OutputName     = ReadoutCycleIndex
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -307,7 +307,7 @@ Group = ReadoutCycleIndex
 End_Group
 
 Group = ShutterModeId
-  Auto
+  Auto           = 1
   InputKey       = SHUTTER_MODE_ID
   OutputName     = ShutterModeId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -318,7 +318,7 @@ Group = ShutterModeId
 End_Group
 
 Group = ShutterStateId
-  Auto
+  Auto           = 1
   InputKey       = SHUTTER_STATE_ID
   OutputName     = ShutterStateId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -327,7 +327,7 @@ Group = ShutterStateId
 End_Group
 
 Group = SummingMode
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   OutputName     = SummingMode
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -337,7 +337,7 @@ Group = SummingMode
 End_Group
 
 Group = InstrumentModeId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   OutputName     = InstrumentModeId
   OutputPosition = (Object, IsisCube, Group, Instrument)

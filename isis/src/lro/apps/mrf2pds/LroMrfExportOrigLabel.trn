@@ -1,5 +1,5 @@
 Group = AZIMUTH_RESOLUTION
-  Auto
+  Auto           = 1
   OutputName = AZIMUTH_RESOLUTION
   OutputPosition = ("OBJECT", "IMAGE")
   InputKey = LRO:AZIMUTH_RESOLUTION
@@ -9,7 +9,7 @@ Group = AZIMUTH_RESOLUTION
 EndGroup
 
 Group = RANGE_RESOLUTION
-  Auto
+  Auto           = 1
   OutputName = RANGE_RESOLUTION
   OutputPosition = ("OBJECT", "IMAGE")
   InputKey = LRO:RANGE_RESOLUTION

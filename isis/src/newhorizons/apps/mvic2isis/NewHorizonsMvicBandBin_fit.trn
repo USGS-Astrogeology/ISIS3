@@ -1,5 +1,5 @@
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = FILTER
   InputPosition  = FITSLABELS
   OutputName     = Name
@@ -8,7 +8,7 @@ Group = FilterName
 End_Group
 
 Group = FilterCenter
-  Auto
+  Auto           = 1
   InputKey       = FILTER
   InputPosition  = FITSLABELS
   OutputName     = Center
@@ -21,7 +21,7 @@ Group = FilterCenter
 End_Group
 
 Group = FilterWidth
-  Auto
+  Auto           = 1
   InputKey       = FILTER
   InputPosition  = FITSLABELS
   OutputName     = Width
@@ -35,7 +35,7 @@ End_Group
 
 Group = FilterTime
   Optional       = 1
-  Auto
+  Auto           = 1
   InputKey       = UTCMID00
   InputPosition  = FITSLABELS
   OutputName     = UtcTime

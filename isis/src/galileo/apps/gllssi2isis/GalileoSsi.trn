@@ -1,7 +1,7 @@
 # History:
 #   2009-04-23 - Steve Koechle - Added InputDefault to ReadoutMode, this allows ingestion of early SSI images
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   OutputName     = DataSetId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -9,7 +9,7 @@ Group = DataSetId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = ImageId
   OutputName     = ProductId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -17,7 +17,7 @@ Group = ProductId
 End_Group
 
 Group = ObservationId
-  Auto
+  Auto           = 1
   InputKey       = observationId
   OutputName     = ObservationId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -25,7 +25,7 @@ Group = ObservationId
 End_Group
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = spacecraftName
   OutputName     = SpacecraftName
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -33,7 +33,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   OutputName     = InstrumentId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -42,7 +42,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = targetName
   OutputName     = TargetName
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -50,7 +50,7 @@ Group = TargetName
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = spacecraftClockStartCount
   OutputName     = SpacecraftClockStartCount
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -58,7 +58,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = imageTime
   OutputName     = StartTime
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -66,7 +66,7 @@ Group = StartTime
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = exposureDuration
   OutputName     = ExposureDuration
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -74,7 +74,7 @@ Group = ExposureDuration
 End_Group
 
 Group = GainModeId
-  Auto
+  Auto           = 1
   InputKey       = gainModeId
   OutputName     = GainModeId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -85,7 +85,7 @@ Group = GainModeId
 End_Group
 
 Group = TelemetryFormat
-  Auto
+  Auto           = 1
   InputKey       = telemetryFormatId
   OutputName     = TelemetryFormat
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -93,7 +93,7 @@ Group = TelemetryFormat
 End_Group
 
 Group = LightFloodStateFlag
-  Auto
+  Auto           = 1
   InputKey       = lightFloodStateFlag
   OutputName     = LightFloodStateFlag
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -101,7 +101,7 @@ Group = LightFloodStateFlag
 End_Group
 
 Group = InvertedClockStateFlag
-  Auto
+  Auto           = 1
   InputKey       = invertedClockStateFlag
   OutputName     = InvertedClockStateFlag
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -109,7 +109,7 @@ Group = InvertedClockStateFlag
 End_Group
 
 Group = BlemishProtectionFlag
-  Auto
+  Auto           = 1
   InputKey       = blemishProtectionFlag
   OutputName     = BlemishProtectionFlag
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -117,7 +117,7 @@ Group = BlemishProtectionFlag
 End_Group
 
 Group = ExposureType
-  Auto
+  Auto           = 1
   InputKey       = exposureType
   OutputName     = ExposureType
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -125,7 +125,7 @@ Group = ExposureType
 End_Group
 
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = filterName
   OutputName     = FilterName
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -133,7 +133,7 @@ Group = FilterName
 End_Group
 
 Group = FilterNumber
-  Auto
+  Auto           = 1
   InputKey       = filterNumber
   OutputName     = FilterNumber
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -141,7 +141,7 @@ Group = FilterNumber
 End_Group
 
 Group = ReadoutMode
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   InputDefault   = N/A
   OutputName     = ReadoutMode

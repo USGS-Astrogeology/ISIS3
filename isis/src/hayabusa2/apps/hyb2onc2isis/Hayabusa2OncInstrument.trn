@@ -5,7 +5,7 @@
 #
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = SPCECRFT
   InputPosition  = FitsLabels
   OutputName     = SpacecraftName
@@ -15,7 +15,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = P_NAME
   InputKey       = NAIFNAME
   InputPosition  = FitsLabels
@@ -27,7 +27,7 @@ Group = InstrumentId
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUME
   InputPosition  = FitsLabels
   OutputName     = InstrumentName
@@ -36,7 +36,7 @@ Group = InstrumentName
 End_Group
 
 Group = OriginalTargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET
   InputPosition  = FitsLabels
   OutputName     = OriginalTargetName
@@ -48,7 +48,7 @@ Group = OriginalTargetName
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET
   InputPosition  = FitsLabels
   OutputName     = TargetName
@@ -61,7 +61,7 @@ End_Group
 
 # According to the FITS files, this is the actual start time, DATE-OBS is the center time
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = DATE-BEG
   InputPosition  = FitsLabels
   OutputName     = StartTime
@@ -70,7 +70,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = DATE-END
   InputPosition  = FitsLabels
   OutputName     = StopTime
@@ -79,7 +79,7 @@ Group = StopTime
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE
   InputKey       = XPOSURE
   InputPosition  = FitsLabels
@@ -89,7 +89,7 @@ Group = ExposureDuration
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = P_SCCSC
   InputKey       = SCCL-BEG
   InputPosition  = FitsLabels
@@ -99,7 +99,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockEndCount
-  Auto
+  Auto           = 1
   InputKey       = P_SCCEC
   InputKey       = SCCL-END
   InputPosition  = FitsLabels
@@ -110,7 +110,7 @@ End_Group
 
 # in increments of 1/32 sec and represented in hex.
 Group = RawSpacecraftClockCount
-  Auto
+  Auto           = 1
   InputKey       = ti_0
   InputPosition  = FitsLabels
   OutputName     = RawSpacecraftClockCount
@@ -120,7 +120,7 @@ End_Group
 
 #s/c counter at data recorded time
 Group = OnboardDataRecordedTime
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = P_RECTI
   InputPosition  = FitsExtras
@@ -130,7 +130,7 @@ Group = OnboardDataRecordedTime
 End_Group
 
 Group = Binning
-  Auto
+  Auto           = 1
   InputKey       = P_BINN
   InputKey       = NPIXBIN
   InputPosition  = FitsLabels
@@ -141,7 +141,7 @@ End_Group
 
 # selected image areas (units: pixel coords of the detector):
 Group = SelectedImageAreaX1
-  Auto
+  Auto           = 1
   InputKey       = P_OPOSX1
   InputKey       = ROI_LLX
   InputPosition  = FitsLabels
@@ -151,7 +151,7 @@ Group = SelectedImageAreaX1
 End_Group
 
 Group = SelectedImageAreaY1
-  Auto
+  Auto           = 1
   InputKey       = P_OPOSY1
   InputKey       = ROI_LLY
   InputPosition  = FitsLabels
@@ -161,7 +161,7 @@ Group = SelectedImageAreaY1
 End_Group
 
 Group = SelectedImageAreaX2
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = P_OPOSX2
   InputKey       = ROI_URX
@@ -172,7 +172,7 @@ Group = SelectedImageAreaX2
 End_Group
 
 Group = SelectedImageAreaY2
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = P_OPOSY2
   InputKey       = ROI_URY
@@ -183,7 +183,7 @@ Group = SelectedImageAreaY2
 End_Group
 
 Group = SelectedImageAreaX3
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = P_OPOSX3
   InputPosition  = FitsLabels
@@ -193,7 +193,7 @@ Group = SelectedImageAreaX3
 End_Group
 
 Group = SelectedImageAreaY3
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = P_OPOSY3
   InputPosition  = FitsLabels
@@ -203,7 +203,7 @@ Group = SelectedImageAreaY3
 End_Group
 
 Group = SelectedImageAreaX4
-  Auto
+  Auto           = 1
   InputKey       = P_OPOSX4
   InputKey       = ROI_URX
   InputPosition  = FitsLabels
@@ -213,7 +213,7 @@ Group = SelectedImageAreaX4
 End_Group
 
 Group = SelectedImageAreaY4
-  Auto
+  Auto           = 1
   InputKey       = P_OPOSY4
   InputKey       = ROI_URY
   InputPosition  = FitsLabels
@@ -223,7 +223,7 @@ Group = SelectedImageAreaY4
 End_Group
 
 Group = SmearCorrection
-  Auto
+  Auto           = 1
   InputKey       = SMEARCR
   InputPosition  = FitsLabels
   OutputName     = SmearCorrection
@@ -232,7 +232,7 @@ Group = SmearCorrection
 End_Group
 
 Group = OffsetCorrection
-  Auto
+  Auto           = 1
   InputKey       = OFFSETCR
   InputKey       = AOFFSET
   InputPosition  = FitsLabels
@@ -242,7 +242,7 @@ Group = OffsetCorrection
 End_Group
 
 Group = FlatCorrection
-  Auto
+  Auto           = 1
   InputKey       = FLATCR
   InputPosition  = FitsLabels
   OutputName     = FlatCorrection
@@ -251,7 +251,7 @@ Group = FlatCorrection
 End_Group
 
 Group = RadianceConversion
-  Auto
+  Auto           = 1
   InputKey       = RADIANCE
   InputKey       = RADCONV
   InputPosition  = FitsLabels
@@ -261,7 +261,7 @@ Group = RadianceConversion
 End_Group
 
 Group = PhotometricCorrection
-  Auto
+  Auto           = 1
   InputKey       = PHOTOCR
   InputPosition  = FitsLabels
   OutputName     = PhotometricCorrection
@@ -270,7 +270,7 @@ Group = PhotometricCorrection
 End_Group
 
 Group = BandRegistration
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = REGIST
   InputPosition  = FitsLabels
@@ -280,7 +280,7 @@ Group = BandRegistration
 End_Group
 
 Group = L2BFlatFileName
-  Auto
+  Auto           = 1
   InputKey       = L2BFLTFN
   InputKey       = FLATFN
   InputPosition  = FitsLabels
@@ -290,7 +290,7 @@ Group = L2BFlatFileName
 End_Group
 
 Group = L2BSystemEfficiencyFileName
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = L2BEFCFN
   InputPosition  = FitsLabels
@@ -300,7 +300,7 @@ Group = L2BSystemEfficiencyFileName
 End_Group
 
 Group = L2CShapeModelFileName
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = L2CSHPFN
   InputKey       = SHAPEFN
@@ -311,7 +311,7 @@ Group = L2CShapeModelFileName
 End_Group
 
 Group = L2DPhaseFunctionFileName
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = L2DPHSFN
   InputKey       = PHASEFN
@@ -322,7 +322,7 @@ Group = L2DPhaseFunctionFileName
 End_Group
 
 Group = L2DShapeModelFileName
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = L2DSHPFN
   InputKey       = SHAPEFN
@@ -334,7 +334,7 @@ End_Group
 
 # the following image ID is assigned by the onboard image processor:
 Group = ImageID
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = P_IMGID
   InputPosition  = FitsExtras
@@ -344,7 +344,7 @@ Group = ImageID
 End_Group
 
 Group = SubImageCount
-  Auto
+  Auto           = 1
   InputKey       = NSUBIMG
   InputPosition  = FitsLabels
   OutputName     = SubImageCount
@@ -354,7 +354,7 @@ End_Group
 
 # the following are housekeeping keywords:
 Group = BusLineVoltage
-  Auto
+  Auto           = 1
   InputKey       = BUS_V
   InputPosition  = FitsLabels
   OutputName     = BusLineVoltage
@@ -363,7 +363,7 @@ Group = BusLineVoltage
 End_Group
 
 Group = ONCCurrent
-  Auto
+  Auto           = 1
   InputKey       = ONC_I
   InputPosition  = FitsLabels
   OutputName     = ONCCurrent
@@ -372,7 +372,7 @@ Group = ONCCurrent
 End_Group
 
 Group = FLACCurrent
-  Auto
+  Auto           = 1
   InputKey       = FLAC_I
   InputPosition  = FitsLabels
   OutputName     = FLACCurrent
@@ -382,7 +382,7 @@ End_Group
 
 # ONC-AE temperature (units: C)
 Group = ONCAETemperature
-  Auto
+  Auto           = 1
   InputKey       = ONC_AET
   InputPosition  = FitsLabels
   OutputName     = ONCAETemperature
@@ -392,7 +392,7 @@ End_Group
 
 # ONC-T optics temperature (units: C)
 Group = ONCTOpticsTemperature
-  Auto
+  Auto           = 1
   InputKey       = T_OPTT
   InputPosition  = FitsLabels
   OutputName     = ONCTOpticsTemperature
@@ -402,7 +402,7 @@ End_Group
 
 # ONC-T CCD temperature (units: C)
 Group = ONCTCCDTemperature
-  Auto
+  Auto           = 1
   InputKey       = T_CCDT
   InputPosition  = FitsLabels
   OutputName     = ONCTCCDTemperature
@@ -412,7 +412,7 @@ End_Group
 
 # ONC-T electric circuit temperature (units: C)
 Group = ONCTElectricCircuitTemperature
-  Auto
+  Auto           = 1
   InputKey       = T_ELET
   InputPosition  = FitsLabels
   OutputName     = ONCTElectricCircuitTemperature
@@ -422,7 +422,7 @@ End_Group
 
 # ONC-W1 optics temperature (units: C)
 Group = ONCW1OpticsTemperature
-  Auto
+  Auto           = 1
   InputKey       = W1_OPTT
   InputPosition  = FitsLabels
   OutputName     = ONCW1OpticsTemperature
@@ -432,7 +432,7 @@ End_Group
 
 # ONC-W1 CCD temperature (units: C)
 Group = ONCW1CCDTemperature
-  Auto
+  Auto           = 1
   InputKey       = W1_CCDT
   InputPosition  = FitsLabels
   OutputName     = ONCW1CCDTemperature
@@ -442,7 +442,7 @@ End_Group
 
 # ONC-W1 electric circuit temperature (units: C)
 Group = ONCW1ElectricCircuitTemperature
-  Auto
+  Auto           = 1
   InputKey       = W1_ELET
   InputPosition  = FitsLabels
   OutputName     = ONCW1ElectricCircuitTemperature
@@ -452,7 +452,7 @@ End_Group
 
 # ONC-W2 optics temperature (units: C)
 Group = ONCW2OpticsTemperature
-  Auto
+  Auto           = 1
   InputKey       = W2_OPTT
   InputPosition  = FitsLabels
   OutputName     = ONCW2OpticsTemperature
@@ -462,7 +462,7 @@ End_Group
 
 # ONC-W2 CCD temperature (units: C)
 Group = ONCW2CCDTemperature
-  Auto
+  Auto           = 1
   InputKey       = W2_CCDT
   InputPosition  = FitsLabels
   OutputName     = ONCW2CCDTemperature
@@ -472,7 +472,7 @@ End_Group
 
 # ONC-W2 electric circuit temperature (units: C)
 Group = ONCW2ElectricCircuitTemperature
-  Auto
+  Auto           = 1
   InputKey       = W2_ELET
   InputPosition  = FitsLabels
   OutputName     = ONCW2ElectricCircuitTemperature
@@ -482,7 +482,7 @@ End_Group
 
 # FLA-C temperature (units: C)
 Group = FLACTemperature
-  Auto
+  Auto           = 1
   InputKey       = FLAC_T
   InputPosition  = FitsLabels
   OutputName     = FLACTemperature
@@ -492,7 +492,7 @@ End_Group
 
 # Output mode (compression type)
 Group = Compression
-  Auto
+  Auto           = 1
   InputKey       = P_CMPSTY
   InputKey       = IMGCMPRV
   InputPosition  = FitsLabels

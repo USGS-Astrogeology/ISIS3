@@ -1,6 +1,6 @@
 # Keyword that go into ROOT of the PDS label
 Group = DATA_SET_ID
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputDefault   = MRO-M-HIRISE-3-RDR-V1.0
   OutputName     = DATA_SET_ID
@@ -9,7 +9,7 @@ Group = DATA_SET_ID
 End_Group
 
 Group = DATA_SET_NAME
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_NAME
   InputDefault   = "MRO MARS HIGH RESOLUTION IMAGING SCIENCE EXPERIMENT RDR
                     V1.0"
@@ -20,7 +20,7 @@ Group = DATA_SET_NAME
 End_Group
 
 Group = PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = ProductId
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -30,7 +30,7 @@ Group = PRODUCT_ID
 End_Group
 
 Group = SOURCE_PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = SourceProductId
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -41,7 +41,7 @@ End_Group
 
 # Keywords that go into GROUP = TIME_PARAMETERS
 Group = START_TIME
-  Auto
+  Auto           = 1
   InputKey       = StartTime
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -51,7 +51,7 @@ Group = START_TIME
 End_Group
 
 Group = SPACECRAFT_CLOCK_START_COUNT
-  Auto
+  Auto           = 1
   InputKey       = SpacecraftClockStartCount
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -61,7 +61,7 @@ Group = SPACECRAFT_CLOCK_START_COUNT
 End_Group
 
 Group = STOP_TIME
-  Auto
+  Auto           = 1
   InputKey       = StopTime
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -71,7 +71,7 @@ Group = STOP_TIME
 End_Group
 
 Group = SPACECRAFT_CLOCK_STOP_COUNT
-  Auto
+  Auto           = 1
   InputKey       = SpacecraftClockStopCount
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -82,7 +82,7 @@ End_Group
 
 # Keywords that go into GROUP = VIEWING_PARAMETERS
 Group = INCIDENCE_ANGLE
-  Auto
+  Auto           = 1
   InputKey       = IncidenceAngle
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -92,7 +92,7 @@ Group = INCIDENCE_ANGLE
 End_Group
 
 Group = EMISSION_ANGLE
-  Auto
+  Auto           = 1
   InputKey       = EmissionAngle
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -102,7 +102,7 @@ Group = EMISSION_ANGLE
 End_Group
 
 Group = PHASE_ANGLE
-  Auto
+  Auto           = 1
   InputKey       = PhaseAngle
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -112,7 +112,7 @@ Group = PHASE_ANGLE
 End_Group
 
 Group = LOCAL_TIME
-  Auto
+  Auto           = 1
   InputKey       = LocalTime
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -122,7 +122,7 @@ Group = LOCAL_TIME
 End_Group
 
 Group = SOLAR_LONGITUDE
-  Auto
+  Auto           = 1
   InputKey       = SolarLongitude
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -132,7 +132,7 @@ Group = SOLAR_LONGITUDE
 End_Group
 
 Group = SubSolarAzimuth
-  Auto
+  Auto           = 1
   InputKey       = SubSolarAzimuth
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)
@@ -142,7 +142,7 @@ Group = SubSolarAzimuth
 End_Group
 
 Group = NorthAzimuth
-  Auto
+  Auto           = 1
   InputKey       = NorthAzimuth
   InputGroup     = "IsisCube,Mosaic"
   InputPosition  = (IsisCube, Mosaic)

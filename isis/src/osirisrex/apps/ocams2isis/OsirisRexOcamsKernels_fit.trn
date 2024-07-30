@@ -7,7 +7,7 @@
 #                        a different input label value to find the proper code.
 
 Group = NaifCode
-  Auto
+  Auto           = 1
   InputKey       = CAMERAID
   InputPosition  = FITSLABELS
   OutputName     = NaifFrameCode

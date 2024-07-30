@@ -2,7 +2,7 @@
 # for the ingested ISIS cube labels.
 
 Group = SpacecraftName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Observing_System, Observing_System_Component)
   InputKeyDependencies = "tag@type|Host"
   InputKey             = name
@@ -12,7 +12,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Observing_System, Observing_System_Component)
   InputKeyDependencies = "tag@type|Instrument"
   InputKey             = name
@@ -22,7 +22,7 @@ Group = InstrumentId
 End_Group
 
 Group = Expanded
-  Auto
+  Auto                 = 1
   InputDefault         = 1
   InputPosition        = (Observation_Area, Observing_System, Observing_System_Component)
   InputKeyDependencies = "tag@type|Host"
@@ -33,7 +33,7 @@ Group = Expanded
 End_Group
 
 Group = TargetName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Target_Identification)
   InputKey             = name
   OutputName           = TargetName
@@ -42,7 +42,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Time_Coordinates)
   InputKey             = start_date_time
   OutputName           = StartTime
@@ -51,7 +51,7 @@ Group = StartTime
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Mission_Area, em16_tgo_cas:Cassis_Data, em16_tgo_cas:PEHK_Derived_Data)
   InputKey             = em16_tgo_cas:exposure_time
   OutputName           = ExposureDuration
@@ -60,7 +60,7 @@ Group = ExposureDuration
 End_Group
 
 Group = Filter
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Mission_Area, em16_tgo_cas:Cassis_Data, em16_tgo_cas:HK_Derived_Data)
   InputKey             = em16_tgo_cas:filter
   OutputName           = Filter
@@ -69,7 +69,7 @@ Group = Filter
 End_Group
 
 Group = FilterName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Mission_Area, em16_tgo_cas:Cassis_Data, em16_tgo_cas:HK_Derived_Data)
   InputKey             = em16_tgo_cas:filter
   OutputName           = Filter
@@ -78,7 +78,7 @@ Group = FilterName
 End_Group
 
 Group = Center
-  Auto
+  Auto                 = 1
   InputPosition  = (Observation_Area, Mission_Area, em16_tgo_cas:Cassis_Data, em16_tgo_cas:HK_Derived_Data)
   InputKey       = em16_tgo_cas:filter
   OutputName     = Center
@@ -90,7 +90,7 @@ Group = Center
 End_Group
 
 Group = Width
-  Auto
+  Auto                 = 1
   InputPosition  = (Observation_Area, Mission_Area, em16_tgo_cas:Cassis_Data, em16_tgo_cas:HK_Derived_Data)
   InputKey       = em16_tgo_cas:filter
   OutputName     = Width
@@ -102,7 +102,7 @@ Group = Width
 End_Group
 
 Group = Expanded
-  Auto
+  Auto                 = 1
   Optional             = 1
   InputPosition        = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey             = Expanded
@@ -112,7 +112,7 @@ Group = Expanded
 End_Group
 
 Group = UniqueIdentifier
-  Auto
+  Auto                 = 1
   Optional             = 1
   InputPosition  = (Observation_Area, Mission_Area, em16_tgo_cas:Cassis_Data, em16_tgo_cas:Image_Command)
   InputKey       = em16_tgo_cas:unique_identifier

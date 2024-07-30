@@ -4,7 +4,7 @@
 #
 
 Group = ProducerId
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = ORIGIN
   InputPosition  = FitsExtras
@@ -14,7 +14,7 @@ Group = ProducerId
 End_Group
 
 Group = L0FileName
-  Auto
+  Auto           = 1
   InputKey       = P_L0NAME
   InputKey       = L0FILE
   InputPosition  = FitsLabels
@@ -24,7 +24,7 @@ Group = L0FileName
 End_Group
 
 Group = FormatType
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = FMTTYPE
   InputPosition  = FitsExtras
@@ -34,7 +34,7 @@ Group = FormatType
 End_Group
 
 Group = FormatTypeVersion
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = FTYPEVER
   InputPosition  = FitsExtras
@@ -44,7 +44,7 @@ Group = FormatTypeVersion
 End_Group
 
 Group = ContentType
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CNTTYPE
   InputPosition  = FitsExtras
@@ -54,7 +54,7 @@ Group = ContentType
 End_Group
 
 Group = ContentVersion
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = CNTVER
   InputPosition  = FitsExtras
@@ -64,7 +64,7 @@ Group = ContentVersion
 End_Group
 
 Group = ImageType
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = P_IMGTYP
   InputPosition  = FitsExtras
@@ -74,7 +74,7 @@ Group = ImageType
 End_Group
 
 Group = SourceProductId
-  Auto
+  Auto           = 1
   InputKey       = FILENAME
   InputPosition  = FitsExtras
   OutputName     = SourceProductId
@@ -83,7 +83,7 @@ Group = SourceProductId
 End_Group
 
 Group = SubImageCount
-  Auto
+  Auto           = 1
   InputKey       = NSUBIMG
   InputPosition  = FitsLabels
   OutputName     = SubImageCount
@@ -94,7 +94,7 @@ End_Group
 # the following image ID is assigned by the onboard image processor.
 # AMICA calls this one "ImageNumber"
 Group = ImageNumber
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = P_IMGID
   InputPosition  = FitsExtras

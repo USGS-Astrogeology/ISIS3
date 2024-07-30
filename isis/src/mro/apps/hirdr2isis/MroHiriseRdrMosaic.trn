@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -31,7 +31,7 @@ Group = ProductId
 End_Group
 
 Group = SourceProductId
-  Auto
+  Auto           = 1
   InputKey       = SOURCE_PRODUCT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -41,7 +41,7 @@ Group = SourceProductId
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -51,7 +51,7 @@ Group = StartTime
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -61,7 +61,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -71,7 +71,7 @@ Group = StopTime
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -81,7 +81,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = IncidenceAngle
-  Auto
+  Auto           = 1
   InputKey       = INCIDENCE_ANGLE
   InputGroup     = VIEWING_PARAMETERS
   InputPosition  = VIEWING_PARAMETERS
@@ -91,7 +91,7 @@ Group = IncidenceAngle
 End_Group
 
 Group = EmissionAngle
-  Auto
+  Auto           = 1
   InputKey       = EMISSION_ANGLE
   InputGroup     = VIEWING_PARAMETERS
   InputPosition  = VIEWING_PARAMETERS
@@ -101,7 +101,7 @@ Group = EmissionAngle
 End_Group
 
 Group = PhaseAngle
-  Auto
+  Auto           = 1
   InputKey       = PHASE_ANGLE
   InputGroup     = VIEWING_PARAMETERS
   InputPosition  = VIEWING_PARAMETERS
@@ -111,7 +111,7 @@ Group = PhaseAngle
 End_Group
 
 Group = LocalTime
-  Auto
+  Auto           = 1
   InputKey       = LOCAL_TIME
   InputGroup     = VIEWING_PARAMETERS
   InputPosition  = VIEWING_PARAMETERS
@@ -121,7 +121,7 @@ Group = LocalTime
 End_Group
 
 Group = SolarLongitude
-  Auto
+  Auto           = 1
   InputKey       = SOLAR_LONGITUDE
   InputGroup     = VIEWING_PARAMETERS
   InputPosition  = VIEWING_PARAMETERS
@@ -131,7 +131,7 @@ Group = SolarLongitude
 End_Group
 
 Group = SubSolarAzimuth
-  Auto
+  Auto           = 1
   InputKey       = SUB_SOLAR_AZIMUTH
   InputGroup     = VIEWING_PARAMETERS
   InputPosition  = VIEWING_PARAMETERS
@@ -141,7 +141,7 @@ Group = SubSolarAzimuth
 End_Group
 
 Group = NorthAzimuth
-  Auto
+  Auto           = 1
   InputKey       = NORTH_AZIMUTH
   InputGroup     = VIEWING_PARAMETERS
   InputPosition  = VIEWING_PARAMETERS
@@ -151,7 +151,7 @@ Group = NorthAzimuth
 End_Group
 
 Group = TdiFlag
-  Auto
+  Auto           = 1
   InputKey       = MRO:TDI
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -162,7 +162,7 @@ Group = TdiFlag
 End_Group
 
 Group = SummingFlag
-  Auto
+  Auto           = 1
   InputKey       = MRO:BINNING
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -173,7 +173,7 @@ Group = SummingFlag
 End_Group
 
 Group = SpecialProcessingFlag
-  Auto
+  Auto           = 1
   InputKey       = MRO:SPECIAL_PROCESSING_FLAG
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS

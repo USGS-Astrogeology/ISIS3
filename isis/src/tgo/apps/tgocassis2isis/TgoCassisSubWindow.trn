@@ -9,7 +9,7 @@
 # history 2018-05-18 Jeannie Backer - Changed group names to upper camel case for consistency.
 
 Group = WindowCount
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = FSW_HEADER
@@ -20,7 +20,7 @@ Group = WindowCount
 End_Group
 
 Group = Window1Binning
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -31,7 +31,7 @@ Group = Window1Binning
 End_Group
 
 Group = Window1StartSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -42,7 +42,7 @@ Group = Window1StartSample
 End_Group
 
 Group = Window1EndSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -53,7 +53,7 @@ Group = Window1EndSample
 End_Group
 
 Group = Window1StartLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -64,7 +64,7 @@ Group = Window1StartLine
 End_Group
 
 Group = Window1EndLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -75,7 +75,7 @@ Group = Window1EndLine
 End_Group
 
 Group = Window2Binning
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -86,7 +86,7 @@ Group = Window2Binning
 End_Group
 
 Group = Window2StartSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -97,7 +97,7 @@ Group = Window2StartSample
 End_Group
 
 Group = Window2EndSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -108,7 +108,7 @@ Group = Window2EndSample
 End_Group
 
 Group = Window2StartLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -119,7 +119,7 @@ Group = Window2StartLine
 End_Group
 
 Group = Window2EndLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -130,7 +130,7 @@ Group = Window2EndLine
 End_Group
 
 Group = Window3Binning
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -141,7 +141,7 @@ Group = Window3Binning
 End_Group
 
 Group = Window3StartSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -152,7 +152,7 @@ Group = Window3StartSample
 End_Group
 
 Group = Window3EndSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -164,7 +164,7 @@ End_Group
 
 Group = Window3StartLine
   Optional       = 1
-  Auto
+  Auto           = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
   InputKeyAttribute = Window3_Start_Row
@@ -174,7 +174,7 @@ Group = Window3StartLine
 End_Group
 
 Group = Window3EndLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -185,7 +185,7 @@ Group = Window3EndLine
 End_Group
 
 Group = Window4Binning
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -196,7 +196,7 @@ Group = Window4Binning
 End_Group
 
 Group = Window4StartSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -207,7 +207,7 @@ Group = Window4StartSample
 End_Group
 
 Group = Window4EndSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -218,7 +218,7 @@ Group = Window4EndSample
 End_Group
 
 Group = Window4StartLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -229,7 +229,7 @@ Group = Window4StartLine
 End_Group
 
 Group = Window4EndLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -240,7 +240,7 @@ Group = Window4EndLine
 End_Group
 
 Group = Window5Binning
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -251,7 +251,7 @@ Group = Window5Binning
 End_Group
 
 Group = Window5StartSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -262,7 +262,7 @@ Group = Window5StartSample
 End_Group
 
 Group = Window5EndSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -273,7 +273,7 @@ Group = Window5EndSample
 End_Group
 
 Group = Window5StartLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -284,7 +284,7 @@ Group = Window5StartLine
 End_Group
 
 Group = Window5EndLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -295,7 +295,7 @@ Group = Window5EndLine
 End_Group
 
 Group = Window6Binning
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -306,7 +306,7 @@ Group = Window6Binning
 End_Group
 
 Group = Window6StartSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -317,7 +317,7 @@ Group = Window6StartSample
 End_Group
 
 Group = Window6EndSample
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -328,7 +328,7 @@ Group = Window6EndSample
 End_Group
 
 Group = Window6StartLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER
@@ -339,7 +339,7 @@ Group = Window6StartLine
 End_Group
 
 Group = Window6EndLine
-  Auto
+  Auto           = 1
   Optional       = 1
   InputPosition  = CaSSIS_Header
   InputKey       = PEHK_HEADER

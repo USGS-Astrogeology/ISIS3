@@ -5,7 +5,7 @@
 
 
 Group = StdDevSelectedBandNumber
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey        =  STD_DEV_SELECTED_NUMBER
         InputPosition   =  QUBE
@@ -17,7 +17,7 @@ End_Group
 
 
 Group = StdDevSelectedBackplane
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey        =  STD_DEV_SELECTED_BACKPLANE
         InputPosition   =  QUBE
@@ -28,7 +28,7 @@ End_Group
 
 
 Group = DataSetID
-	Auto
+	Auto            = 1
 	Optional        = 1
 	InputKey	=  DATA_SET_ID
 	InputPosition	=  QUBE
@@ -38,7 +38,7 @@ Group = DataSetID
 End_Group
 
 Group = SpacecraftName
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         =  SPACECRAFT_NAME
         InputPosition    =  QUBE
@@ -48,7 +48,7 @@ Group = SpacecraftName
 End_Group
 
 Group = MissionPhaseName
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = MISSION_PHASE_NAME
         InputPosition    = QUBE
@@ -58,7 +58,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = InstrumentName
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = INSTRUMENT_NAME
         InputPosition    = QUBE
@@ -68,7 +68,7 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentID
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = INSTRUMENT_ID
         InputPosition    = QUBE
@@ -78,7 +78,7 @@ Group = InstrumentID
 End_Group
 
 Group = InstrumentDescription
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = ^INSTRUMENT_DESCRIPTION
         InputPosition    = QUBE
@@ -88,7 +88,7 @@ Group = InstrumentDescription
 End_Group
 
 Group = TargetName
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = TARGET_NAME
         InputPosition    = QUBE
@@ -98,7 +98,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = START_TIME
         InputPosition    = QUBE
@@ -108,7 +108,7 @@ Group = StartTime
 End_Group
 
 Group = EndTime
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = STOP_TIME 
         InputPosition    = QUBE
@@ -118,7 +118,7 @@ Group = EndTime
 End_Group
 
 Group = NativeStartTime
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = NATIVE_START_TIME
         InputPosition    = QUBE
@@ -128,7 +128,7 @@ Group = NativeStartTime
 End_Group
 
 Group = NativeStopTime
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = NATIVE_STOP_TIME
         InputPosition    = QUBE
@@ -138,7 +138,7 @@ Group = NativeStopTime
 End_Group
 
 Group = ObservationName
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = OBSERVATION_NAME
         InputPosition    = QUBE
@@ -148,7 +148,7 @@ Group = ObservationName
 End_Group
 
 Group = MissionNote        
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = NOTE
         InputPosition    = QUBE
@@ -160,7 +160,7 @@ End_Group
 
 
 Group = InstrumentModeID
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = INSTRUMENT_MODE_ID
         InputPosition    = QUBE
@@ -171,7 +171,7 @@ End_Group
 
 
 Group = GainModeID
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = GAIN_MODE_ID
         InputPosition    = QUBE
@@ -181,7 +181,7 @@ Group = GainModeID
 End_Group
 
 Group = ChopperModeID
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = CHOPPER_MODE_ID
         InputPosition    = QUBE
@@ -191,7 +191,7 @@ Group = ChopperModeID
 End_Group
 
 Group = StartGratingPosition
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = START_GRATING_POSITION
         InputPosition    = QUBE
@@ -201,7 +201,7 @@ Group = StartGratingPosition
 End_Group
 
 Group = GratingPositions
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = GRATING_POSITIONS
         InputPosition    = QUBE
@@ -211,7 +211,7 @@ Group = GratingPositions
 End_Group
 
 Group = OffsetGratingPosition
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = OFFSET_GRATING_POSITION
         InputPosition    = QUBE
@@ -221,7 +221,7 @@ Group = OffsetGratingPosition
 End_Group
 
 Group = GratingPositionIncrement
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey        =  GRATING_POSIITON_INCRMENT
         InputPosition   =  QUBE
@@ -233,7 +233,7 @@ End_Group
 
 
 Group = MeanFocalPlaneTemperature
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = MEAN_FOCAL_PLANE_TEMPERATURE
         InputPosition    = QUBE
@@ -243,7 +243,7 @@ Group = MeanFocalPlaneTemperature
 End_Group
 
 Group = MeanRadShieldTemperature
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = MEAN_RAD_SHIELD_TEMPERATURE
         InputPosition    = QUBE
@@ -253,7 +253,7 @@ Group = MeanRadShieldTemperature
 End_Group
 
 Group = MeanTelescopeTemperature
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = MEAN_TELESCOPE_TEMPERATURE
         InputPosition    = QUBE
@@ -263,7 +263,7 @@ Group = MeanTelescopeTemperature
 End_Group
 
 Group = MeanGratingTemperature
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = MEAN_GRATING_TEMPERATURE
         InputPosition    = QUBE
@@ -273,7 +273,7 @@ Group = MeanGratingTemperature
 End_Group
 
 Group = MeanChopperTemperature
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = MEAN_CHOPPER_TEMPERATURE
         InputPosition    = QUBE
@@ -283,7 +283,7 @@ Group = MeanChopperTemperature
 End_Group
 
 Group = MeanElectronicsTemperature
-        Auto
+        Auto            = 1
 	Optional        = 1
         InputKey         = MEAN_ELECTRONICS_TEMPERATURE
         InputPosition    = QUBE
@@ -293,7 +293,7 @@ Group = MeanElectronicsTemperature
 End_Group
 
 Group = MeanDarkDataNumber
-	Auto
+	Auto            = 1
 	Optional        = 1
         InputKey         = MEAN_DARK_DATA_NUMBER
         InputPosition    = QUBE
@@ -303,7 +303,7 @@ Group = MeanDarkDataNumber
 End_Group
 
 Group = MeanDarkDataNumberNote
-	Auto
+	Auto             = 1
 	Optional        = 1
 	InputKey	= MEAN_DARK_DATA_NUMBER_NOTE
 	InputPosition   = QUBE

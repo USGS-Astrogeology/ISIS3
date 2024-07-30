@@ -1,5 +1,5 @@
 Group = DataSetID
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -9,7 +9,7 @@ Group = DataSetID
 End_Group
 
 Group = ProducerInstitutionName
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_INSTITUTION_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -19,7 +19,7 @@ Group = ProducerInstitutionName
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -29,7 +29,7 @@ Group = ProductId
 End_Group
 
 Group = SourceProductId
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = SOURCE_PRODUCT_ID
   InputGroup     = ROOT
@@ -40,7 +40,7 @@ Group = SourceProductId
 End_Group
 
 Group = ProductType
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_TYPE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -50,7 +50,7 @@ Group = ProductType
 End_Group
 
 Group = ProductCreationTime
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_CREATION_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -60,7 +60,7 @@ Group = ProductCreationTime
 End_Group
 
 Group = ProductVersionType
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_VERSION_TYPE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -70,7 +70,7 @@ Group = ProductVersionType
 End_Group
 
 Group = ProductVersionId
-  Auto
+  Auto           = 1
   Optional       = 1
   InputKey       = PRODUCT_VERSION_ID
   InputGroup     = ROOT
@@ -81,7 +81,7 @@ Group = ProductVersionId
 End_Group
 
 Group = SoftwareName
-  Auto
+  Auto           = 1
   InputKey       = SOFTWARE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -91,7 +91,7 @@ Group = SoftwareName
 End_Group
 
 Group = SoftwareVersionId
-  Auto
+  Auto           = 1
   InputKey       = SOFTWARE_VERSION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -101,7 +101,7 @@ Group = SoftwareVersionId
 End_Group
 
 Group = Description
-  Auto
+  Auto           = 1
   InputKey       = DESCRIPTION
   InputGroup     = ROOT
   InputPosition  = ROOT

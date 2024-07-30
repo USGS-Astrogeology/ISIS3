@@ -7,7 +7,7 @@
 # Consider the following translation group and xml
 #
 # Group = Samples
-#   Auto
+#   Auto           = 1
 #   InputPosition  = (Array_2D_Image, Axis_Array)
 #   Dependencies   = "tag@axis_name|Sample"
 #   InputKey       = elements

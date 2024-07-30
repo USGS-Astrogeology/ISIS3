@@ -6,7 +6,7 @@
 # history 2019-01-19 Kris Becker - Original version added to UofA codebase.
 
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = FILTNAME
   InputPosition  = FITSLABELS
   InputDefault   = Monochrome
@@ -17,7 +17,7 @@ Group = FilterName
 End_Group
 
 Group = Name
-  Auto
+  Auto           = 1
   InputKey       = INSTRUME
   InputPosition  = FITSLABELS
   InputDefault   = TagCams
@@ -31,7 +31,7 @@ Group = Name
 End_Group
 
 Group = FilterNumber
-  Auto
+  Auto           = 1
   InputKey       = FILTNUMB
   InputPosition  = FITSLABELS
   InputDefault = 1
@@ -42,7 +42,7 @@ Group = FilterNumber
 End_Group
 
 Group = FilterCenter
-  Auto
+  Auto           = 1
   InputKey       = INSTRUME
   InputPosition  = FITSLABELS
   OutputName     = Center
