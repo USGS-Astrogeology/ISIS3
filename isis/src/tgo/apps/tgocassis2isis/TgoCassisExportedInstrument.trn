@@ -101,7 +101,7 @@ End_Group
 
 Group = ExposureDuration
   Auto
-  Optional
+  Optional             = 1
   InputPosition        = (Observation_Area, Discipline_Area, img:Imaging, img:Imaging_Instrument_Parameters)
   InputKey             = img:exposure_duration
   OutputName           = ExposureDuration
@@ -155,7 +155,7 @@ End_Group
 
 Group = Expanded
   Auto
-  Optional
+  Optional             = 1
   InputPosition        = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey             = Expanded
   OutputName           = Expanded

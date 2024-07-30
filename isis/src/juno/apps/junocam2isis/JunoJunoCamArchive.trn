@@ -1,6 +1,6 @@
 Group = MissionPhase
   Auto
-  Optional
+  Optional       = 1
   InputKey       = MISSION_PHASE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -11,7 +11,7 @@ End_Group
 
 Group = OrbitNumber
   Auto
-  Optional
+  Optional       = 1
   InputKey       = ORBIT_NUMBER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -22,7 +22,7 @@ End_Group
 
 Group = FocalPlaneTemperature
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FOCAL_PLANE_TEMPERATURE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -33,7 +33,7 @@ End_Group
 
 Group = TDICount
   Auto
-  Optional
+  Optional       = 1
   InputKey       = JNO:TDI_STAGES_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -44,7 +44,7 @@ End_Group
 
 Group = CompressionType
   Auto
-  Optional
+  Optional       = 1
   InputKey       = COMPRESSION_TYPE
   InputGroup     = ROOT
   InputPosition  = ROOT

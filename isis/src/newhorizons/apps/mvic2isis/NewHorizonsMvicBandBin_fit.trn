@@ -34,7 +34,7 @@ Group = FilterWidth
 End_Group
 
 Group = FilterTime
-  Optional
+  Optional       = 1
   Auto
   InputKey       = UTCMID00
   InputPosition  = FITSLABELS

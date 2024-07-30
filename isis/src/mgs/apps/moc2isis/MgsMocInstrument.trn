@@ -76,7 +76,7 @@ Group = SpacecraftClockCount
 End_Group
 
 Group = RationaleDesc
-  Optional
+  Optional     = 1
   InputKey     = RATIONALE_DESC
   InputDefault = NONE
   Translation  = (*, *)

@@ -23,7 +23,7 @@
 
 Group = PhaseAngle
   Auto
-  Optional
+  Optional       = 1
   InputKey       = PHASE_ANGLE
   InputGroup     = FitsLabel
   InputPosition  = ROOT
@@ -34,7 +34,7 @@ End_Group
 
 Group = IncidenceAngle
   Auto
-  Optional
+  Optional       = 1
   InputKey       = INCIDENCE_ANGLE
   InputGroup     = FitsLabel
   InputPosition  = ROOT
@@ -45,7 +45,7 @@ End_Group
 
 Group = EmissionAngle
   Auto
-  Optional
+  Optional       = 1
   InputKey       = EMISSION_ANGLE
   InputGroup     = FitsLabel
   InputPosition  = ROOT
@@ -56,7 +56,7 @@ End_Group
 
 Group = CenterLatitude
   Auto
-  Optional
+  Optional       = 1
   InputKey       = HAY:FOOTPRINT_CENTER_LATITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -67,7 +67,7 @@ End_Group
 
 Group = CenterLongitude
   Auto
-  Optional
+  Optional       = 1
   InputKey       = HAY:FOOTPRINT_CENTER_LONGITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -78,7 +78,7 @@ End_Group
 
 Group = CornersLatitude
   Auto
-  Optional
+  Optional       = 1
   InputKey       = HAY:FOOTPRINT_CORNER_LATITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -89,7 +89,7 @@ End_Group
 
 Group = CornersLongitude
   Auto
-  Optional
+  Optional       = 1
   InputKey       = HAY:FOOTPRINT_CORNER_LONGITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -100,7 +100,7 @@ End_Group
 
 Group = Pixel0Wavelength
   Auto
-  Optional
+  Optional       = 1
   InputKey       = PIXEL0
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -111,7 +111,7 @@ End_Group
 
 Group = WavelengthInterval
   Auto
-  Optional
+  Optional       = 1
   InputKey       = WLENINT
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -122,7 +122,7 @@ End_Group
 
 Group = StackingEndTime
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TIME
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -133,7 +133,7 @@ End_Group
 
 Group = SWHistMode
   Auto
-  Optional
+  Optional       = 1
   InputKey       = HIST
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -144,7 +144,7 @@ End_Group
 
 Group = SWLIDARMode
   Auto
-  Optional
+  Optional       = 1
   InputKey       = LIDAR
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -155,7 +155,7 @@ End_Group
 
 Group = SWFLashMode
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FLASH
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -166,7 +166,7 @@ End_Group
 
 Group = SWRawMode
   Auto
-  Optional
+  Optional       = 1
   InputKey       = RAW
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -177,7 +177,7 @@ End_Group
 
 Group = SWDeviationOutput
   Auto
-  Optional
+  Optional       = 1
   InputKey       = DEV
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -188,7 +188,7 @@ End_Group
 
 Group = SWMaxMinOutput
   Auto
-  Optional
+  Optional       = 1
   InputKey       = MAXMIN
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -199,7 +199,7 @@ End_Group
 
 Group = HWPower
   Auto
-  Optional
+  Optional       = 1
   InputKey       = POWER
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -210,7 +210,7 @@ End_Group
 
 Group = HWChopper
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CHOPPER
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -221,7 +221,7 @@ End_Group
 
 Group = HWChopperMode
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CHOPMODE
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -232,7 +232,7 @@ End_Group
 
 Group = HWTEC
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TEC
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -243,7 +243,7 @@ End_Group
 
 Group = HWTECModeV
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TECTEMPV
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -254,7 +254,7 @@ End_Group
 
 Group = HWTECModeC
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TECTEMPC
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -265,7 +265,7 @@ End_Group
 
 Group = HWLamp
   Auto
-  Optional
+  Optional       = 1
   InputKey       = LAMP
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -276,7 +276,7 @@ End_Group
 
 Group = HWLED
   Auto
-  Optional
+  Optional       = 1
   InputKey       = LED
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -287,7 +287,7 @@ End_Group
 
 Group = DarkCurrentSubtraction
   Auto
-  Optional
+  Optional       = 1
   InputKey       = SUBTDARK
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel

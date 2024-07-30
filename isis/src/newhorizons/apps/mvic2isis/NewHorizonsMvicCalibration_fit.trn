@@ -1,6 +1,6 @@
 Group = PixelSize
   Auto
-  Optional
+  Optional       = 1
   InputKey       = PIXSIZE
   InputPosition  = FITSLABELS
   OutputName     = PixelSize
@@ -10,7 +10,7 @@ End_Group
 
 Group = PixelFov
   Auto
-  Optional
+  Optional       = 1
   InputKey       = PIXFOV
   InputPosition  = FITSLABELS
   OutputName     = PixelFov
@@ -20,7 +20,7 @@ End_Group
 
 Group = Gain
   Auto
-  Optional
+  Optional       = 1
   InputKey       = GAIN
   InputPosition  = FITSLABELS
   OutputName     = Gain
@@ -30,7 +30,7 @@ End_Group
 
 Group = ReadNoise
   Auto
-  Optional
+  Optional       = 1
   InputKey       = READNOI
   InputPosition  = FITSLABELS
   OutputName     = ReadNoise
@@ -40,7 +40,7 @@ End_Group
 
 Group = TdiRate
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TDIRATE
   InputPosition  = FITSLABELS
   OutputName     = TdiRate
@@ -130,7 +130,7 @@ End_Group
 
 Group = PlutoSpectrumResolved
   Auto
-  Optional
+  Optional       = 1
   InputKey       = RPLUTO
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -141,7 +141,7 @@ End_Group
 
 Group = PlutoSpectrumUnresolved
   Auto
-  Optional
+  Optional       = 1
   InputKey       = PPLUTO
   InputPosition  = FITSLABELS
   InputDefault   = 0.0
@@ -202,7 +202,7 @@ End_Group
 
 Group = FlatFile
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FLAT
   InputPosition  = FITSLABELS
   OutputName     = FlatFile

@@ -6,7 +6,7 @@
 
 Group = ExposureDuration
   Auto
-  Optional
+  Optional        = 1
   InputKey        = TotalIntegrationTime
   InputPosition   = (IsisCube, Instrument)
   OutputName      = img:exposure_duration

@@ -4,7 +4,7 @@
 
 Group = BinCenter
 	Auto
-	Optional
+	Optional         = 1
         InputKey         =  BAND_BIN_CENTER
 	InputGroup	 =  "QUBE,BAND_BIN"  
 	InputPosition	 =  (QUBE,BAND_BIN)
@@ -15,7 +15,7 @@ End_Group
 
 Group = BinUnit
 	Auto
-	Optional
+	Optional         = 1
         InputKey         =  BAND_BIN_UNIT
 	InputGroup	 =  "QUBE,BAND_BIN"  
 	InputPosition	 =  (QUBE,BAND_BIN)
@@ -26,7 +26,7 @@ End_Group
 
 Group = OriginalBand
 	Auto
-	Optional
+	Optional         = 1
         InputKey         =  BAND_BIN_ORIGINAL_BAND
 	InputGroup	 =  "QUBE,BAND_BIN"  
 	InputPosition	 =  (QUBE,BAND_BIN)
@@ -37,7 +37,7 @@ End_Group
 
 Group = GratingPosition
 	Auto
-	Optional
+	Optional         = 1
         InputKey         =  BAND_BIN_GRATING_POSIITON
 	InputGroup	 =  "QUBE,BAND_BIN"  
 	InputPosition	 =  (QUBE,BAND_BIN)
@@ -48,7 +48,7 @@ End_Group
 
 Group = Detector
 	Auto
-	Optional
+	Optional         = 1
         InputKey         =  BAND_BIN_DETECTOR
 	InputGroup	 =  "QUBE,BAND_BIN"  
 	InputPosition	 =  (QUBE,BAND_BIN)
@@ -60,7 +60,7 @@ End_Group
 
 Group = SolarFlux
 	Auto
-	Optional
+	Optional         = 1
         InputKey         =  BAND_BIN_SOLAR_FLUX
 	InputGroup	 =  "QUBE,BAND_BIN"  
 	InputPosition	 =  (QUBE,BAND_BIN)
@@ -71,7 +71,7 @@ End_Group
 
 Group = Sensitivity
 	Auto
-	Optional
+	Optional         = 1
         InputKey         =  BAND_BIN_SENSITIVITY
 	InputGroup	 =  "QUBE,BAND_BIN"  
 	InputPosition	 =  (QUBE,BAND_BIN)

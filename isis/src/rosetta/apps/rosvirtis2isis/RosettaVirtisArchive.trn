@@ -51,7 +51,7 @@ Group = ProductId
 End_Group
 
 Group = OriginalProductId
-  Optional
+  Optional       = 1
   Auto
   InputKey       = ORIGINAL_PRODUCT_ID
   InputGroup     = ROOT

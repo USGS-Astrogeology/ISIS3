@@ -68,7 +68,7 @@ End_Group
 
 Group = StandardParallel1
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = CenterLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -80,7 +80,7 @@ End_Group
 
 Group = StandardParallel2
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = SecondStandardParallel
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -103,7 +103,7 @@ End_Group
 
 Group = LatitudeOfProjectionOrigin
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = CenterLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -167,7 +167,7 @@ End_Group
 
 Group = UpperLeftCornerX
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = UpperLeftCornerX
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -179,7 +179,7 @@ End_Group
 
 Group = UpperLeftCornerY
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = UpperLeftCornerY
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)

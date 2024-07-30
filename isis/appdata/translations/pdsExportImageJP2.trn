@@ -30,7 +30,7 @@ End_Group
 
 Group = BAND_NAME
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = Name
   InputGroup     = "IsisCube,BandBin"
   InputPosition  = (IsisCube, BandBin)
@@ -41,7 +41,7 @@ End_Group
 
 Group = CENTER_FILTER_WAVELENGTH
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = Center
   InputGroup     = "IsisCube,Bandbin"
   InputPosition  = (IsisCube, Bandbin)
@@ -52,7 +52,7 @@ End_Group
 
 Group = BANDWIDTH
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = Width
   InputGroup     = "IsisCube,Bandbin"
   InputPosition  = (IsisCube, Bandbin)

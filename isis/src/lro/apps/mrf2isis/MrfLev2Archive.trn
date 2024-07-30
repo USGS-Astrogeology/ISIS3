@@ -282,7 +282,7 @@ End_Group
 
 Group = ScaledPixelHeight
   Auto
-  Optional
+  Optional       = 1
   InputKey       = SCALED_PIXEL_HEIGHT
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -293,7 +293,7 @@ End_Group
 
 Group = ScaledPixelWidth
   Auto
-  Optional
+  Optional       = 1
   InputKey       = SCALED_PIXEL_WIDTH
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -304,7 +304,7 @@ End_Group
 
 Group = AzimuthResolution
   Auto
-  Optional
+  Optional       = 1
   InputKey       = AZIMUTH_RESOLUTION
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -315,7 +315,7 @@ End_Group
 
 Group = RangeResolution
   Auto
-  Optional
+  Optional       = 1
   InputKey       = RANGE_RESOLUTION
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -326,7 +326,7 @@ End_Group
 
 Group = LineExposureDuration
   Auto
-  Optional
+  Optional       = 1
   InputKey       = LINE_EXPOSURE_DURATION
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -337,7 +337,7 @@ End_Group
 
 Group = Minimum
   Auto
-  Optional
+  Optional       = 1
   InputKey       = MINIMUM
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -348,7 +348,7 @@ End_Group
 
 Group = Maximum
   Auto
-  Optional
+  Optional       = 1
   InputKey       = MAXIMUM
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -359,7 +359,7 @@ End_Group
 
 Group = Mean
   Auto
-  Optional
+  Optional       = 1
   InputKey       = MEAN
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -370,7 +370,7 @@ End_Group
 
 Group = StandardDeviation
   Auto
-  Optional
+  Optional       = 1
   InputKey       = STANDARD_DEVIATION
   InputGroup     = IMAGE
   InputPosition  = IMAGE

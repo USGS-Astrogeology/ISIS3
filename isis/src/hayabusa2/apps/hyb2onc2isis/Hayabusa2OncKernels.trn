@@ -5,7 +5,7 @@
 
 Group = NaifCode
   Auto
-  Optional
+  Optional       = 1
   InputKey       = P_ID
   InputKey       = NAIFID
   InputPosition  = FitsLabels

@@ -179,7 +179,7 @@ End_Group
 
 Group = CompressionRatio1
   Auto
-  Optional
+  Optional       = 1
   InputKey       = INST_CMPRS_RATIO
   OutputName     = CompressionRatio
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -189,7 +189,7 @@ End_Group
 
 Group = CompressionRatio2
   Auto
-  Optional
+  Optional       = 1
   InputKey       = COMPRESSION_RATIO
   OutputName     = CompressionRatio
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -199,7 +199,7 @@ End_Group
 
 Group = CompressionType1
   Auto
-  Optional
+  Optional       = 1
   InputKey       = INST_CMPRS_TYPE
   OutputName     = CompressionType
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -210,7 +210,7 @@ End_Group
 
 Group = CompressionType2
   Auto
-  Optional
+  Optional       = 1
   InputKey       = ENCODING_TYPE
   OutputName     = CompressionType
   OutputPosition = (Object, IsisCube, Group, Instrument)

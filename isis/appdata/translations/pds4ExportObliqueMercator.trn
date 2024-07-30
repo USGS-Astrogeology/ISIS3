@@ -125,7 +125,7 @@ End_Group
 # TODO: is N/A a valid value? 
 Group = standard_parallel_1
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = FirstStandardParallel
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -136,7 +136,7 @@ End_Group
 
 Group = standard_parallel_2
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = SecondStandardParallel
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -148,7 +148,7 @@ End_Group
 
 Group = latitude_of_projection_origin
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = CenterLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -159,7 +159,7 @@ End_Group
 
 Group = longitude_of_central_meridian
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = CenterLongitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -218,7 +218,7 @@ End_Group
 
 Group = upperleft_corner_x
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = UpperLeftCornerX
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -229,7 +229,7 @@ End_Group
 
 Group = upperleft_corner_y
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = UpperLeftCornerY
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)

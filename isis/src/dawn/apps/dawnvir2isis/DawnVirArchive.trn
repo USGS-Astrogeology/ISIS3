@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = SoftwareVersionId
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SOFTWARE_VERSION_ID
   InputGroup     = ROOT
@@ -32,7 +32,7 @@ Group = SoftwareVersionId
 End_Group
 
 Group = DataSetName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DATA_SET_NAME
   InputGroup     = ROOT
@@ -163,7 +163,7 @@ Group = EncodingType
 End_Group
 
 Group = PhotometricCorrectionType
-  Optional
+  Optional       = 1
   Auto
   InputKey       = PHOTOMETRIC_CORRECTION_TYPE
   InputGroup     = ROOT

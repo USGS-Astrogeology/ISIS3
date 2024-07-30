@@ -30,7 +30,7 @@ End_Group
 
 Group = DataQualityDesc
   Auto
-  Optional
+  Optional       = 1
   InputKey       = DATA_QUALITY_DESC
   OutputName     = DataQualityDesc
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -40,7 +40,7 @@ End_Group
 
 Group = DataQualityId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = DATA_QUALITY_ID
   OutputName     = DataQualityId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -58,7 +58,7 @@ End_Group
 
 Group = OriginalProductId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = ORIGINAL_PRODUCT_ID
   OutputName     = OriginalProductId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -67,7 +67,7 @@ End_Group
 
 Group = EdrSourceProductId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = SOURCE_PRODUCT_ID
   OutputName     = EdrSourceProductId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -191,7 +191,7 @@ End_Group
 
 Group = OrbitNumber
   Auto
-  Optional
+  Optional       = 1
   InputKey       = ORBIT_NUMBER
   InputDefault   = 0
   OutputName     = OrbitNumber

@@ -32,7 +32,7 @@ Group = SpacecraftName
 End_Group
 
 Group = MissionPhaseName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = MISSION_PHASE_NAME
   InputGroup     = ROOT
@@ -105,7 +105,7 @@ Group = TargetName
 End_Group
 
 Group = OriginalTargetName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = TARGET_NAME 
   InputGroup     = ROOT
@@ -116,7 +116,7 @@ Group = OriginalTargetName
 End_Group
 
 Group = OrbitNumber
-  Optional
+  Optional       = 1
   Auto
   InputKey       = ORBIT_NUMBER
   InputGroup     = ROOT
@@ -127,7 +127,7 @@ Group = OrbitNumber
 End_Group
 
 Group = DataQualityId
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DATA_QUALITY_ID
   InputGroup     = ROOT
@@ -168,7 +168,7 @@ Group = ScanModeId
 End_Group
 
 Group = ScanParameter
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DAWN:SCAN_PARAMETER
   InputGroup     = ROOT
@@ -189,7 +189,7 @@ Group = FrameParameter
 End_Group
 
 Group = VirIrStartXPosition
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DAWN:VIR_IR_START_X_POSITION
   InputGroup     = ROOT
@@ -200,7 +200,7 @@ Group = VirIrStartXPosition
 End_Group
 
 Group = VirIrStartYPosition
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DAWN:VIR_IR_START_Y_POSITION
   InputGroup     = ROOT
@@ -211,7 +211,7 @@ Group = VirIrStartYPosition
 End_Group
 
 Group = VirVisStartXPosition
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DAWN:VIR_VIS_START_X_POSITION
   InputGroup     = ROOT
@@ -222,7 +222,7 @@ Group = VirVisStartXPosition
 End_Group
 
 Group = VirVisStartYPosition
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DAWN:VIR_VIS_START_Y_POSITION
   InputGroup     = ROOT
@@ -233,7 +233,7 @@ Group = VirVisStartYPosition
 End_Group
 
 Group = MaximumInstrumentTemperature
-  Optional
+  Optional       = 1
   Auto
   InputKey       = MAXIMUM_INSTRUMENT_TEMPERATURE
   InputGroup     = ROOT

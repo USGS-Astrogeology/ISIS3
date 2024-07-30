@@ -81,7 +81,7 @@ End_Group
 
 Group = Summing
   Auto
-  Optional
+  Optional       = 1
   InputKey       = MACROPIXEL_SIZE
   OutputName     = Summing
   OutputPosition = (Group, Instrument)
@@ -90,7 +90,7 @@ End_Group
 
 Group = ExpousreDuration
   Auto
-  Optional
+  Optional       = 1
   InputKey       = EXPOSURE_DURATION
   OutputName     = ExposureDuration
   OutputPosition = (Group, Instrument)
@@ -99,7 +99,7 @@ End_Group
 
 Group = FocalPlaneTemperature
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FOCAL_PLANE_TEMPERATURE
   OutputName     = FocalPlaneTemperature
   OutputPosition = (Group, Instrument)
@@ -108,7 +108,7 @@ End_Group
 
 Group = LensTemperature
   Auto
-  Optional
+  Optional       = 1
   InputKey       = LENS_TEMPERATURE
   OutputName     = LensTemperature
   OutputPosition = (Group, Instrument)
@@ -117,7 +117,7 @@ End_Group
 
 Group = InstrumentTemperature
   Auto
-  Optional
+  Optional       = 1
   InputKey       = INSTRUMENT_TEMPERATURE
   OutputName     = InstrumentTemperature
   OutputPosition = (Group, Instrument)

@@ -8,7 +8,7 @@
 #
 Group = ProducerId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = ORIGIN
   InputPosition  = FITSLABELS
   OutputName     = ProducerId
@@ -18,7 +18,7 @@ End_Group
 
 Group = CheckSumStatus
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CKPASS
   InputPosition  = FITSLABELS
   OutputName     = CheckSumStatus
@@ -28,7 +28,7 @@ End_Group
 
 Group = MetaKernel
   Auto
-  Optional
+  Optional       = 1
   InputKey       = META_KER
   InputPosition  = FITSLABELS
   OutputName     = MetaKernel
@@ -38,7 +38,7 @@ End_Group
 
 Group = TAGCAMSCommandedSequenceId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TCSEQID
   InputPosition  = FITSLABELS
   OutputName     = TagcamsCommandedSequenceId
@@ -48,7 +48,7 @@ End_Group
 
 Group = TAGCAMSCommandedImageId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TCIMGID
   InputPosition  = FITSLABELS
   OutputName     = TagcamsCommandedImageId
@@ -58,7 +58,7 @@ End_Group
 
 Group = RawCameraHeadTemperature
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TCCHTEMP
   InputPosition  = FITSLABELS
   InputDefault   = 0
@@ -69,7 +69,7 @@ End_Group
 
 Group = RAAtReferencePixel
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CRVAL1
   InputPosition  = FITSLABELS
   InputDefault   = 0
@@ -80,7 +80,7 @@ End_Group
 
 Group = DecAtReferencePixel
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CRVAL2
   InputPosition  = FITSLABELS
   InputDefault   = 0

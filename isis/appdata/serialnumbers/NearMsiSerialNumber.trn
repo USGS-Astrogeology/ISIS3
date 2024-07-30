@@ -37,7 +37,7 @@ EndGroup
 /* exist. */
 Group = Keyword4
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = ControlSN
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)

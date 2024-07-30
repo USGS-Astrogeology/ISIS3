@@ -23,7 +23,7 @@
 
 Group = SpacecraftName
   Auto
-  Optional
+  Optional       = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -34,7 +34,7 @@ End_Group
 
 Group = InstrumentId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -45,7 +45,7 @@ End_Group
 
 Group = SpacecraftClockStartCount
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TI-START
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -56,7 +56,7 @@ End_Group
 
 Group = SpacecraftClockStopCount
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TI-END
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -67,7 +67,7 @@ End_Group
 
 Group = StartTime
   Auto
-  Optional
+  Optional       = 1
   InputKey       = UT-START
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -78,7 +78,7 @@ End_Group
 
 Group = StopTime
   Auto
-  Optional
+  Optional       = 1
   InputKey       = UT-END
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -89,7 +89,7 @@ End_Group
 
 Group = TotalIntegrationTime
   Auto
-  Optional
+  Optional       = 1
   InputKey       = EXPOSURE_DURATION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -100,7 +100,7 @@ End_Group
 
 Group = IntegrationTime
   Auto
-  Optional
+  Optional       = 1
   InputKey       = INTEG
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -111,7 +111,7 @@ End_Group
 
 Group = AveragedSpectra
   Auto
-  Optional
+  Optional       = 1
   InputKey       = HAY:STACK_COUNT
   InputGroup     = ROOT
   InputPosition  = FitsLabel
@@ -122,7 +122,7 @@ End_Group
 
 Group = TargetName
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TARGET
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -133,7 +133,7 @@ End_Group
 
 Group = TargetType
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TARGET_TYPE
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel

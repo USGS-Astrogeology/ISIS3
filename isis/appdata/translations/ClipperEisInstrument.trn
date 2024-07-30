@@ -112,7 +112,7 @@ End_Group
 
 #Group = Expanded
 #  Auto           = 1
-#  Optional
+#  Optional             = 1
 #  InputPosition        = (CaSSIS_Header, DERIVED_HEADER_DATA)
 #  InputKey             = Expanded
 #  OutputName           = Expanded

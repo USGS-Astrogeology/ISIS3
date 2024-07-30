@@ -96,7 +96,7 @@ Group = Detector
 End_Group
 
 Group = PanCcd
-  Optional
+  Optional       = 1
   Auto
   InputKey       = PANCCD
   InputPosition  = FITSLABELS
@@ -143,7 +143,7 @@ End_Group
 
 Group = TdiRate
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TDIRATE
   InputPosition  = FITSLABELS
   OutputName     = TdiRate

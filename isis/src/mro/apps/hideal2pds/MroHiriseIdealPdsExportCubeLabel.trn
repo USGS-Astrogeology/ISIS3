@@ -76,7 +76,7 @@ End_Group
 
 Group = FOCAL_LENGTH
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FocalLength
   InputGroup     = "IsisCube, Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -87,7 +87,7 @@ End_Group
 
 Group = PIXEL_PITCH
   Auto
-  Optional
+  Optional       = 1
   InputKey       = PixelPitch
   InputGroup     = "IsisCube, Instrument"
   InputPosition  = (IsisCube, Instrument)

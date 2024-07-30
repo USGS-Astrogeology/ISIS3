@@ -5,7 +5,7 @@
 # history 2018-10-04 Jeannie Backer - Original version.
 Group = NaifCkCode
   Auto
-  Optional
+  Optional       = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -16,7 +16,7 @@ Group = NaifCkCode
 End_Group
 Group = NaifFrameCode
   Auto
-  Optional
+  Optional       = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT

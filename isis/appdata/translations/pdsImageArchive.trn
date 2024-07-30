@@ -1,6 +1,6 @@
 Group = DataSetID
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = DATA_SET_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -11,7 +11,7 @@ End_Group
 
 Group = DataSetName
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = DATA_SET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -22,7 +22,7 @@ End_Group
 
 Group = ProducerInstitutionName
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = PRODUCER_INSTITUTION_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -33,7 +33,7 @@ End_Group
 
 Group = ProducerId
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = PRODUCER_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -44,7 +44,7 @@ End_Group
 
 Group = ProducerFullName
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = PRODUCER_FULL_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -55,7 +55,7 @@ End_Group
 
 Group = ObservationId
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = OBSERVATION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -66,7 +66,7 @@ End_Group
 
 Group = ProductId
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = PRODUCT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -77,7 +77,7 @@ End_Group
 
 Group = ProductVersionId
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = PRODUCT_VERSION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -88,7 +88,7 @@ End_Group
 
 Group = InstrumentHostName
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -99,7 +99,7 @@ End_Group
 
 Group = InstrumentHostId
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = INSTRUMENT_HOST_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -110,7 +110,7 @@ End_Group
 
 Group = InstrumentName
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = INSTRUMENT_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -121,7 +121,7 @@ End_Group
 
 Group = InstrumentId
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -132,7 +132,7 @@ End_Group
 
 Group = TargetName
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -143,7 +143,7 @@ End_Group
 
 Group = MissionPhaseName
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = MISSION_PHASE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -154,7 +154,7 @@ End_Group
 
 Group = OrbitNumber
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = ORBIT_NUMBER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -165,7 +165,7 @@ End_Group
 
 Group = RationaleDescription
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = RATIONALE_DESC
   InputGroup     = ROOT
   InputPosition  = ROOT

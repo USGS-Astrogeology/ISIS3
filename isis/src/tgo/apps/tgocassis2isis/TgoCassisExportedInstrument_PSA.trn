@@ -103,7 +103,7 @@ End_Group
 
 Group = Expanded
   Auto
-  Optional
+  Optional             = 1
   InputPosition        = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey             = Expanded
   OutputName           = Expanded
@@ -113,7 +113,7 @@ End_Group
 
 Group = UniqueIdentifier
   Auto
-  Optional
+  Optional             = 1
   InputPosition  = (Observation_Area, Mission_Area, em16_tgo_cas:Cassis_Data, em16_tgo_cas:Image_Command)
   InputKey       = em16_tgo_cas:unique_identifier
   OutputName     = UniqueIdentifier

@@ -22,7 +22,7 @@
 #
 Group = FilterName
   Auto
-  Optional
+  Optional       = 1
   InputKey       = BAND_NAME
   InputGroup     = IMAGE
   InputPosition  = IMAGE

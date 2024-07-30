@@ -6,7 +6,7 @@
 
 Group = FilterNumber
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FILTER
   InputPosition  = FitsLabels
   OutputName     = FilterNumber
@@ -40,7 +40,7 @@ End_Group
 
 Group = Center
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FILTER
   InputPosition  = FitsLabels
   OutputName     = Center
@@ -57,7 +57,7 @@ End_Group
 
 Group = Width
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FILTER
   InputPosition  = FitsLabels
   OutputName     = Width

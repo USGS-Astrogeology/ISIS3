@@ -202,7 +202,7 @@ End_Group
 
 Group = ORBIT_NUMBER
   Auto
-  Optional
+  Optional       = 1
   InputKey       = ORBIT_NUMBER
 #  InputGroup     = OriginalLabelObject
 #  InputPosition  = OriginalLabelObject

@@ -22,7 +22,7 @@
 #
 Group = OriginalBand
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FILTER_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT

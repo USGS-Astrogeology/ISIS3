@@ -30,7 +30,7 @@ End_Group
 
 Group = SourceProductId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = SOURCE_PRODUCT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -71,7 +71,7 @@ End_Group
 
 Group = ProductVersionId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = PRODUCT_VERSION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT

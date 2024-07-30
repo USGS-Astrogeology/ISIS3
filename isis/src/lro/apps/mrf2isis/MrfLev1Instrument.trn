@@ -205,7 +205,7 @@ End_Group
 
 Group = CH1AzimuthResolution
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CH1:AZIMUTH_RESOLUTION
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -216,7 +216,7 @@ End_Group
 
 Group = CH1RangeResolution
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CH1:RANGE_RESOLUTION
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -227,7 +227,7 @@ End_Group
 
 Group = CH1RangeCoefficientSet
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CH1:RANGE_COEFFICIENT_SET
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -238,7 +238,7 @@ End_Group
 
 Group = LROAzimuthResolution
   Auto
-  Optional
+  Optional       = 1
   InputKey       = LRO:AZIMUTH_RESOLUTION
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -249,7 +249,7 @@ End_Group
 
 Group = LRORangeResolution
   Auto
-  Optional
+  Optional       = 1
   InputKey       = LRO:RANGE_RESOLUTION
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -260,7 +260,7 @@ End_Group
 
 Group = LRORangeCoefficientSet
   Auto
-  Optional
+  Optional       = 1
   InputKey       = LRO:RANGE_COEFFICIENT_SET
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -271,7 +271,7 @@ End_Group
 
 Group = Frequency
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CENTER_FREQUENCY
   InputGroup     = ROOT
   InputPosition  = ROOT

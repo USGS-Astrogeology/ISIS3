@@ -22,7 +22,7 @@
 #
 Group = SpacecraftName
   Auto
-  Optional
+  Optional       = 1
   InputKey       = INSTRUMENT_HOST_NAME
   OutputName     = SpacecraftName
   OutputPosition = (Group, Instrument)
@@ -158,7 +158,7 @@ End_Group
 
 Group = BackgroundOffset
   Auto
-  Optional
+  Optional       = 1
   InputKey       = LRO:BACKGROUND_OFFSET
   OutputName     = BackgroundOffset
   OutputPosition = (Group, Instrument)
@@ -167,7 +167,7 @@ End_Group
 
 Group = Mode
   Auto
-  Optional
+  Optional       = 1
   InputKey       = LRO:MODE
   OutputName     = Mode
   OutputPosition = (Group, Instrument)

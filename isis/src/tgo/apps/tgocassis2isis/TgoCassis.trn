@@ -60,7 +60,7 @@ End_Group
 
 Group = CoreBands
   Auto
-  Optional
+  Optional       = 1
   InputPosition  = (File_Area_Observational, Array_3D_Image, Axis_Array)
   InputKeyDependencies   = "tag@axis_name|Band"
   InputKey       = elements

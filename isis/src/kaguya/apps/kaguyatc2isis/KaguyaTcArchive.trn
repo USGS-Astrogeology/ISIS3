@@ -78,7 +78,7 @@ Group = ProductCreationTime
 End_Group
 
 Group = ProgramStartTime
-  Optional
+  Optional       = 1
   Auto
   InputKey       = PROGRAM_START_TIME
   InputGroup     = ROOT
@@ -119,7 +119,7 @@ Group = ProductVersionId
 End_Group
 
 Group = RegisteredProduct
-  Optional
+  Optional       = 1
   Auto
   InputKey       = REGISTERED_PRODUCT
   InputGroup     = ROOT
@@ -130,7 +130,7 @@ Group = RegisteredProduct
 End_Group
 
 Group = Level2AFileName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = LEVEL2A_FILE_NAME
   InputGroup     = ROOT
@@ -141,7 +141,7 @@ Group = Level2AFileName
 End_Group
 
 Group = SpiceMetakernelFileName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SPICE_METAKERNEL_FILE_NAME
   InputGroup     = ROOT
@@ -172,7 +172,7 @@ Group = ImageValueType
 End_Group
 
 Group = ImageUnit
-  Optional
+  Optional       = 1
   Auto
   InputKey       = UNIT
   InputGroup     = IMAGE
@@ -183,7 +183,7 @@ Group = ImageUnit
 End_Group
 
 Group = MinForStatisticalEvaluation
-  Optional
+  Optional       = 1
   Auto
   InputKey       = MIN_FOR_STATISTICAL_EVALUATION
   InputGroup     = IMAGE
@@ -194,7 +194,7 @@ Group = MinForStatisticalEvaluation
 End_Group
 
 Group = MaxForStatisticalEvaluation
-  Optional
+  Optional       = 1
   Auto
   InputKey       = MAX_FOR_STATISTICAL_EVALUATION
   InputGroup     = IMAGE
@@ -205,7 +205,7 @@ Group = MaxForStatisticalEvaluation
 End_Group
 
 Group = SceneMaximumDn
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SCENE_MAXIMUM_DN
   InputGroup     = IMAGE
@@ -216,7 +216,7 @@ Group = SceneMaximumDn
 End_Group
 
 Group = SceneMinimumDn
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SCENE_MINIMUM_DN
   InputGroup     = IMAGE
@@ -227,7 +227,7 @@ Group = SceneMinimumDn
 End_Group
 
 Group = SceneAverageDn
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SCENE_AVERAGE_DN
   InputGroup     = IMAGE
@@ -238,7 +238,7 @@ Group = SceneAverageDn
 End_Group
 
 Group = SceneStdevDn
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SCENE_STDEV_DN
   InputGroup     = IMAGE
@@ -249,7 +249,7 @@ Group = SceneStdevDn
 End_Group
 
 Group = SceneModeDn
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SCENE_MODE_DN
   InputGroup     = IMAGE
@@ -260,7 +260,7 @@ Group = SceneModeDn
 End_Group
 
 Group = ShadowedAreaMinimum
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SHADOWED_AREA_MINIMUM
   InputGroup     = IMAGE
@@ -271,7 +271,7 @@ Group = ShadowedAreaMinimum
 End_Group
 
 Group = ShadowedAreaMaximum
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SHADOWED_AREA_MAXIMUM
   InputGroup     = IMAGE
@@ -282,7 +282,7 @@ Group = ShadowedAreaMaximum
 End_Group
 
 Group = ShadowedAreaPercentage
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SHADOWED_AREA_PERCENTAGE
   InputGroup     = IMAGE
@@ -293,7 +293,7 @@ Group = ShadowedAreaPercentage
 End_Group
 
 Group = InvalidType
-  Optional
+  Optional       = 1
   Auto
   InputKey       = INVALID_TYPE
   InputGroup     = IMAGE
@@ -304,7 +304,7 @@ Group = InvalidType
 End_Group
 
 Group = InvalidValue
-  Optional
+  Optional       = 1
   Auto
   InputKey       = INVALID_VALUE
   InputGroup     = IMAGE
@@ -315,7 +315,7 @@ Group = InvalidValue
 End_Group
 
 Group = InvalidPixels
-  Optional
+  Optional       = 1
   Auto
   InputKey       = INVALID_PIXELS
   InputGroup     = IMAGE
@@ -326,7 +326,7 @@ Group = InvalidPixels
 End_Group
 
 Group = OutOfImageBoundsValue
-  Optional
+  Optional       = 1
   Auto
   InputKey       = OUT_OF_IMAGE_BOUNDS_VALUE
   InputGroup     = IMAGE
@@ -337,7 +337,7 @@ Group = OutOfImageBoundsValue
 End_Group
 
 Group = OutOfImageBoundsPixel
-  Optional
+  Optional       = 1
   Auto
   InputKey       = OUT_OF_IMAGE_BOUNDS_PIXELS
   InputGroup     = IMAGE
@@ -348,7 +348,7 @@ Group = OutOfImageBoundsPixel
 End_Group
 
 Group = StretchedFlag
-  Optional
+  Optional       = 1
   Auto
   InputKey       = STRETCHED_FLAG
   InputGroup     = IMAGE
@@ -359,7 +359,7 @@ Group = StretchedFlag
 End_Group
 
 Group = DarkFileName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DARK_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
@@ -370,7 +370,7 @@ Group = DarkFileName
 End_Group
 
 Group = FtFileName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = FT_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
@@ -381,7 +381,7 @@ Group = FtFileName
 End_Group
 
 Group = FlatFileName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = FLAT_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
@@ -392,7 +392,7 @@ Group = FlatFileName
 End_Group
 
 Group = EfficFileName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = EFFIC_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
@@ -403,7 +403,7 @@ Group = EfficFileName
 End_Group
 
 Group = NonlinFileName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = NONLIN_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
@@ -414,7 +414,7 @@ Group = NonlinFileName
 End_Group
 
 Group = RadCnvCoef
-  Optional
+  Optional       = 1
   Auto
   InputKey       = RAD_CNV_COEF
   InputGroup     = PROCESSING_PARAMETERS
@@ -425,7 +425,7 @@ Group = RadCnvCoef
 End_Group
 
 Group = RefCnvCoef
-  Optional
+  Optional       = 1
   Auto
   InputKey       = REF_CNV_COEF
   InputGroup     = PROCESSING_PARAMETERS
@@ -436,7 +436,7 @@ Group = RefCnvCoef
 End_Group
 
 Group = StandardGeometry
-  Optional
+  Optional       = 1
   Auto
   InputKey       = STANDARD_GEOMETRY
   InputGroup     = PROCESSING_PARAMETERS
@@ -447,7 +447,7 @@ Group = StandardGeometry
 End_Group
 
 Group = PhotoCorrId
-  Optional
+  Optional       = 1
   Auto
   InputKey       = PHOTO_CORR_ID
   InputGroup     = PROCESSING_PARAMETERS
@@ -458,7 +458,7 @@ Group = PhotoCorrId
 End_Group
 
 Group = PhotoCorrCoef
-  Optional
+  Optional       = 1
   Auto
   InputKey       = PHOTO_CORR_COEF
   InputGroup     = PROCESSING_PARAMETERS
@@ -469,7 +469,7 @@ Group = PhotoCorrCoef
 End_Group
 
 Group = ResamplingMethod
-  Optional
+  Optional       = 1
   Auto
   InputKey       = RESAMPLING_METHOD
   InputGroup     = PROCESSING_PARAMETERS
@@ -480,7 +480,7 @@ Group = ResamplingMethod
 End_Group
 
 Group = TcoMosaicFileName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = TCO_MOSAIC_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
@@ -491,7 +491,7 @@ Group = TcoMosaicFileName
 End_Group
 
 Group = DtmMosaicFileName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DTM_MOSAIC_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
@@ -502,7 +502,7 @@ Group = DtmMosaicFileName
 End_Group
 
 Group = OverlapSelectionId
-  Optional
+  Optional       = 1
   Auto
   InputKey       = OVERLAP_SELECTION_ID
   InputGroup     = PROCESSING_PARAMETERS
@@ -513,7 +513,7 @@ Group = OverlapSelectionId
 End_Group
 
 Group = MatchingMosaic
-  Optional
+  Optional       = 1
   Auto
   InputKey       = MATCHING_MOSAIC
   InputGroup     = PROCESSING_PARAMETERS
@@ -524,7 +524,7 @@ Group = MatchingMosaic
 End_Group
 
 Group = L2aDeadPixelThreshold
-  Optional
+  Optional       = 1
   Auto
   InputKey       = L2A_DEAD_PIXEL_THRESHOLD
   InputGroup     = PROCESSING_PARAMETERS
@@ -535,7 +535,7 @@ Group = L2aDeadPixelThreshold
 End_Group
 
 Group = L2aSaturationThreshold
-  Optional
+  Optional       = 1
   Auto
   InputKey       = L2A_SATURATION_THRESHOLD
   InputGroup     = PROCESSING_PARAMETERS
@@ -546,7 +546,7 @@ Group = L2aSaturationThreshold
 End_Group
 
 Group = DarkValidMinimum
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DARK_VALID_MINIMUM
   InputGroup     = PROCESSING_PARAMETERS
@@ -557,7 +557,7 @@ Group = DarkValidMinimum
 End_Group
 
 Group = FtValidMinimum
-  Optional
+  Optional       = 1
   Auto
   InputKey       = FT_VALID_MINIMUM
   InputGroup     = PROCESSING_PARAMETERS
@@ -568,7 +568,7 @@ Group = FtValidMinimum
 End_Group
 
 Group = RadianceSaturationThreshold
-  Optional
+  Optional       = 1
   Auto
   InputKey       = RADIANCE_SATURATION_THRESHOLD
   InputGroup     = PROCESSING_PARAMETERS
@@ -579,7 +579,7 @@ Group = RadianceSaturationThreshold
 End_Group
 
 Group = RefSaturationThreshold
-  Optional
+  Optional       = 1
   Auto
   InputKey       = REF_SATURATION_THRESHOLD
   InputGroup     = PROCESSING_PARAMETERS
@@ -590,7 +590,7 @@ Group = RefSaturationThreshold
 End_Group
 
 Group = ParameterSetName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = PARAMETER_SET_NAME
   InputGroup     = PROCESSING_PARAMETERS
@@ -601,7 +601,7 @@ Group = ParameterSetName
 End_Group
 
 Group = RefCnvSw
-  Optional
+  Optional       = 1
   Auto
   InputKey       = REF_CNV_SW
   InputGroup     = PROCESSING_PARAMETERS
@@ -612,7 +612,7 @@ Group = RefCnvSw
 End_Group
 
 Group = RefCnvCoef
-  Optional
+  Optional       = 1
   Auto
   InputKey       = REF_CNV_COEF
   InputGroup     = PROCESSING_PARAMETERS
@@ -623,7 +623,7 @@ Group = RefCnvCoef
 End_Group
 
 Group = StandardGeometry
-  Optional
+  Optional       = 1
   Auto
   InputKey       = STANDARD_GEOMETRY
   InputGroup     = PROCESSING_PARAMETERS
@@ -634,7 +634,7 @@ Group = StandardGeometry
 End_Group
 
 Group = PhotoCorrId
-  Optional
+  Optional       = 1
   Auto
   InputKey       = PHOTO_CORR_ID
   InputGroup     = PROCESSING_PARAMETERS
@@ -645,7 +645,7 @@ Group = PhotoCorrId
 End_Group
 
 Group = PhotoCorrCoef
-  Optional
+  Optional       = 1
   Auto
   InputKey       = PHOTO_CORR_COEF
   InputGroup     = PROCESSING_PARAMETERS
@@ -656,7 +656,7 @@ Group = PhotoCorrCoef
 End_Group
 
 Group = HorizontalTransformMethod
-  Optional
+  Optional       = 1
   Auto
   InputKey       = HORIZONTAL_TRANSFORM_METHOD
   InputGroup     = PROCESSING_PARAMETERS
@@ -667,7 +667,7 @@ Group = HorizontalTransformMethod
 End_Group
 
 Group = VerticalTransformMethod
-  Optional
+  Optional       = 1
   Auto
   InputKey       = VERTICAL_TRANSFORM_METHOD
   InputGroup     = PROCESSING_PARAMETERS
@@ -678,7 +678,7 @@ Group = VerticalTransformMethod
 End_Group
 
 Group = MosaicPriority
-  Optional
+  Optional       = 1
   Auto
   InputKey       = MOSAIC_PRIORITY
   InputGroup     = PROCESSING_PARAMETERS
@@ -689,7 +689,7 @@ Group = MosaicPriority
 End_Group
 
 Group = SmoothingWidth
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SMOOTHING_WIDTH
   InputGroup     = PROCESSING_PARAMETERS
@@ -700,7 +700,7 @@ Group = SmoothingWidth
 End_Group
 
 Group = ValidMinimum
-  Optional
+  Optional       = 1
   Auto
   InputKey       = VALID_MINIMUM
   InputGroup     = IMAGE
@@ -711,7 +711,7 @@ Group = ValidMinimum
 End_Group
 
 Group = ValidMaximum
-  Optional
+  Optional       = 1
   Auto
   InputKey       = VALID_MAXIMUM
   InputGroup     = IMAGE
@@ -722,7 +722,7 @@ Group = ValidMaximum
 End_Group
 
 Group = Dummy
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DUMMY
   InputGroup     = IMAGE
@@ -733,7 +733,7 @@ Group = Dummy
 End_Group
 
 Group = LowReprSaturation
-  Optional
+  Optional       = 1
   Auto
   InputKey       = LOW_REPR_SATURATION
   InputGroup     = IMAGE
@@ -744,7 +744,7 @@ Group = LowReprSaturation
 End_Group
 
 Group = LowInstrSaturation
-  Optional
+  Optional       = 1
   Auto
   InputKey       = LOW_INSTR_SATURATION
   InputGroup     = IMAGE
@@ -755,7 +755,7 @@ Group = LowInstrSaturation
 End_Group
 
 Group = HighReprSaturation
-  Optional
+  Optional       = 1
   Auto
   InputKey       = HIGH_REPR_SATURATION
   InputGroup     = IMAGE
@@ -766,7 +766,7 @@ Group = HighReprSaturation
 End_Group
 
 Group = HighInstrSaturation
-  Optional
+  Optional       = 1
   Auto
   InputKey       = HIGH_INSTR_SATURATION
   InputGroup     = IMAGE
@@ -777,7 +777,7 @@ Group = HighInstrSaturation
 End_Group
 
 Group = Minimum
-  Optional
+  Optional       = 1
   Auto
   InputKey       = MINIMUM
   InputGroup     = IMAGE
@@ -788,7 +788,7 @@ Group = Minimum
 End_Group
 
 Group = Maximum
-  Optional
+  Optional       = 1
   Auto
   InputKey       = MAXIMUM
   InputGroup     = IMAGE
@@ -799,7 +799,7 @@ Group = Maximum
 End_Group
 
 Group = Average
-  Optional
+  Optional       = 1
   Auto
   InputKey       = AVERAGE
   InputGroup     = IMAGE
@@ -810,7 +810,7 @@ Group = Average
 End_Group
 
 Group = Stdev
-  Optional
+  Optional       = 1
   Auto
   InputKey       = STDEV
   InputGroup     = IMAGE
@@ -821,7 +821,7 @@ Group = Stdev
 End_Group
 
 Group = ModePixel
-  Optional
+  Optional       = 1
   Auto
   InputKey       = MODE_PIXEL
   InputGroup     = IMAGE
@@ -832,7 +832,7 @@ Group = ModePixel
 End_Group
 
 Group = UpperLeftLatitude
-  Optional
+  Optional       = 1
   Auto
   InputKey       = UPPER_LEFT_LATITUDE
   InputGroup     = ROOT
@@ -843,7 +843,7 @@ Group = UpperLeftLatitude
 End_Group
 
 Group = UpperLeftLongitude
-  Optional
+  Optional       = 1
   Auto
   InputKey       = UPPER_LEFT_LONGITUDE
   InputGroup     = ROOT
@@ -854,7 +854,7 @@ Group = UpperLeftLongitude
 End_Group
 
 Group = UpperRightLatitude
-  Optional
+  Optional       = 1
   Auto
   InputKey       = UPPER_RIGHT_LATITUDE
   InputGroup     = ROOT
@@ -865,7 +865,7 @@ Group = UpperRightLatitude
 End_Group
 
 Group = UpperRightLongitude
-  Optional
+  Optional       = 1
   Auto
   InputKey       = UPPER_RIGHT_LONGITUDE
   InputGroup     = ROOT
@@ -876,7 +876,7 @@ Group = UpperRightLongitude
 End_Group
 
 Group = LowerLeftLatitude
-  Optional
+  Optional       = 1
   Auto
   InputKey       = LOWER_LEFT_LATITUDE
   InputGroup     = ROOT
@@ -887,7 +887,7 @@ Group = LowerLeftLatitude
 End_Group
 
 Group = LowerLeftLongitude
-  Optional
+  Optional       = 1
   Auto
   InputKey       = LOWER_LEFT_LONGITUDE
   InputGroup     = ROOT
@@ -898,7 +898,7 @@ Group = LowerLeftLongitude
 End_Group
 
 Group = LowerRightLatitude
-  Optional
+  Optional       = 1
   Auto
   InputKey       = LOWER_RIGHT_LATITUDE
   InputGroup     = ROOT
@@ -909,7 +909,7 @@ Group = LowerRightLatitude
 End_Group
 
 Group = LowerRightLongitude
-  Optional
+  Optional       = 1
   Auto
   InputKey       = LOWER_RIGHT_LONGITUDE
   InputGroup     = ROOT

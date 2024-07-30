@@ -6,7 +6,7 @@
 
 Group = RadianceScalingFactor
   Auto
-  Optional
+  Optional         = 1
   InputKey         = RadianceScaleFactor
   InputPosition    = (IsisCube, Instrument)
   OutputName       = img:radiance_scaling_factor_WO_units
@@ -16,7 +16,7 @@ End_Group
 
 Group = FirstSample
   Auto
-  Optional
+  Optional        = 1
   InputKey        = FirstSample
   InputPosition   = (IsisCube, Instrument)
   OutputName      = img:first_sample
@@ -26,7 +26,7 @@ End_Group
 
 Group = FirstLine
   Auto
-  Optional
+  Optional        = 1
   InputKey        = FirstLine
   InputPosition   = (IsisCube, Instrument)
   OutputName      = img:first_line
@@ -36,7 +36,7 @@ End_Group
 
 Group = PixelAveragingHeight
   Auto
-  Optional
+  Optional        = 1
   InputKey        = Binning
   InputPosition   = (IsisCube, Instrument)
   OutputName      = img:pixel_averaging_height
@@ -46,7 +46,7 @@ End_Group
 
 Group = PixelAveragingWidth
   Auto
-  Optional
+  Optional        = 1
   InputKey        = Binning
   InputPosition   = (IsisCube, Instrument)
   OutputName      = img:pixel_averaging_width

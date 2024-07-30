@@ -80,7 +80,7 @@ End_Group
 
 Group = ExposureDuration
   Auto            = 1
-  Optional
+  Optional        = 1
   InputKey        = ExposureDuration
   InputPosition   = (IsisCube, Instrument)
   OutputName      = img:exposure_duration

@@ -115,7 +115,7 @@ Group = TargetName
 End_Group
 
 Group = OriginalTargetName
-  Optional
+  Optional       = 1
   Auto
   InputKey       = TARGET_NAME 
   InputGroup     = ROOT
@@ -159,7 +159,7 @@ End_Group
 
 Group = ScanModeId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = ROSETTA:SCAN_MODE_ID 
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -169,7 +169,7 @@ Group = ScanModeId
 End_Group
 
 Group = ScanParameter
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SCAN_PARAMETER
   InputGroup     = ROOT
@@ -180,7 +180,7 @@ Group = ScanParameter
 End_Group
 
 Group = ScanParameterDesc
-  Optional
+  Optional       = 1
   Auto
   InputKey       = SCAN_PARAMETER_DESC
   InputGroup     = ROOT
@@ -211,7 +211,7 @@ Group = FrameParameterDesc
 End_Group
 
 Group = VirIrStartXPosition
-  Optional
+  Optional       = 1
   Auto
   InputKey       = ROSETTA:VIR_IR_START_X_POSITION
   InputGroup     = ROOT
@@ -222,7 +222,7 @@ Group = VirIrStartXPosition
 End_Group
 
 Group = VirIrStartYPosition
-  Optional
+  Optional       = 1
   Auto
   InputKey       = ROSETTA:VIR_IR_START_Y_POSITION
   InputGroup     = ROOT
@@ -233,7 +233,7 @@ Group = VirIrStartYPosition
 End_Group
 
 Group = VirVisStartXPosition
-  Optional
+  Optional       = 1
   Auto
   InputKey       = ROSETTA:VIR_VIS_START_X_POSITION
   InputGroup     = ROOT
@@ -244,7 +244,7 @@ Group = VirVisStartXPosition
 End_Group
 
 Group = VirVisStartYPosition
-  Optional
+  Optional       = 1
   Auto
   InputKey       = ROSETTA:VIR_VIS_START_Y_POSITION
   InputGroup     = ROOT
@@ -255,7 +255,7 @@ Group = VirVisStartYPosition
 End_Group
 
 Group = MaximumInstrumentTemperature
-  Optional
+  Optional       = 1
   Auto
   InputKey       = MAXIMUM_INSTRUMENT_TEMPERATURE
   InputGroup     = ROOT
@@ -266,7 +266,7 @@ Group = MaximumInstrumentTemperature
 End_Group
 
 Group = DataQualityId
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DATA_QUALITY_ID
   InputGroup     = ROOT
@@ -277,7 +277,7 @@ Group = DataQualityId
 End_Group
 
 Group = DataQualityDesc
-  Optional
+  Optional       = 1
   Auto
   InputKey       = DATA_QUALITY_DESC
   InputGroup     = ROOT

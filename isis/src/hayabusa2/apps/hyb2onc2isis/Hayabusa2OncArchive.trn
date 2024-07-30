@@ -5,7 +5,7 @@
 
 Group = ProducerId
   Auto
-  Optional
+  Optional       = 1
   InputKey       = ORIGIN
   InputPosition  = FitsExtras
   OutputName     = ProducerId
@@ -25,7 +25,7 @@ End_Group
 
 Group = FormatType
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FMTTYPE
   InputPosition  = FitsExtras
   OutputName     = FormatType
@@ -35,7 +35,7 @@ End_Group
 
 Group = FormatTypeVersion
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FTYPEVER
   InputPosition  = FitsExtras
   OutputName     = FormatTypeVersion
@@ -45,7 +45,7 @@ End_Group
 
 Group = ContentType
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CNTTYPE
   InputPosition  = FitsExtras
   OutputName     = ContentType
@@ -55,7 +55,7 @@ End_Group
 
 Group = ContentVersion
   Auto
-  Optional
+  Optional       = 1
   InputKey       = CNTVER
   InputPosition  = FitsExtras
   OutputName     = ContentVersion
@@ -65,7 +65,7 @@ End_Group
 
 Group = ImageType
   Auto
-  Optional
+  Optional       = 1
   InputKey       = P_IMGTYP
   InputPosition  = FitsExtras
   OutputName     = ImageType
@@ -95,7 +95,7 @@ End_Group
 # AMICA calls this one "ImageNumber"
 Group = ImageNumber
   Auto
-  Optional
+  Optional       = 1
   InputKey       = P_IMGID
   InputPosition  = FitsExtras
   OutputName     = ImageNumber

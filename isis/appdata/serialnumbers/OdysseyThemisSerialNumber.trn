@@ -32,7 +32,7 @@ End_Group
 
 Group = Keyword4
   Auto           = 1
-  Optional
+  Optional       = 1
   InputKey       = Framelets
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)

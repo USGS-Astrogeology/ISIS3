@@ -60,7 +60,7 @@ End_Group
 
 Group = FocalLength
   Auto
-  Optional
+  Optional       = 1
   InputKey       = FOCAL_LENGTH
   InputKey       = FocalLength
   InputPosition   = ROOT
@@ -71,7 +71,7 @@ End_Group
 
 Group = PixelPitch
   Auto
-  Optional
+  Optional       = 1
   InputKey       = PIXEL_PITCH
   InputKey       = PixelPitch
   InputPosition   = ROOT

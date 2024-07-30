@@ -99,7 +99,7 @@ End_Group
 
 Group = EphemerisTime
   Auto
-  Optional
+  Optional       = 1
   InputKey       = ET
   InputPosition  = FITSLABELS
   OutputName     = EphemerisTime
@@ -159,7 +159,7 @@ End_Group
 
 Group = TCGain
   Auto
-  Optional
+  Optional       = 1
   InputKey       = TCGAIN
   InputPosition  = FITSLABELS
   OutputName     = SensorAnalogGain

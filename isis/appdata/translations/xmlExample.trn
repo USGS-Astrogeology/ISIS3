@@ -143,7 +143,7 @@ End_Group
 # cannot be found, then it will not cause an error.
 #
 Group = Illegitimate_Child
-  Optional
+  Optional             = 1
   InputPosition        = (Ruler, Child)
   InputKey             = Name
   InputKeyDependencies = "tag@Mother:Unknown"
@@ -182,7 +182,7 @@ End_Group
 #
 Group = Ancient_Name
   Auto                 = 1
-  Optional
+  Optional             = 1
   InputPosition        = (Region, City)
   InputKey             = Name
   InputKeyDependencies = ("tag@Type:Capital", "att@Era:Ancient")
@@ -229,7 +229,7 @@ End_Group
 #
 Group = Size_Units
   Auto                 = 1
-  Optional
+  Optional             = 1
   InputPosition        = (Region, City)
   InputKey             = Area
   InputKeyAttribute    = Units

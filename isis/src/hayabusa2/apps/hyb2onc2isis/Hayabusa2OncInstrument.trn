@@ -121,7 +121,7 @@ End_Group
 #s/c counter at data recorded time
 Group = OnboardDataRecordedTime
   Auto
-  Optional
+  Optional       = 1
   InputKey       = P_RECTI
   InputPosition  = FitsExtras
   OutputName     = OnboardDataRecordedTime
@@ -162,7 +162,7 @@ End_Group
 
 Group = SelectedImageAreaX2
   Auto
-  Optional
+  Optional       = 1
   InputKey       = P_OPOSX2
   InputKey       = ROI_URX
   InputPosition  = FitsLabels
@@ -173,7 +173,7 @@ End_Group
 
 Group = SelectedImageAreaY2
   Auto
-  Optional
+  Optional       = 1
   InputKey       = P_OPOSY2
   InputKey       = ROI_URY
   InputPosition  = FitsLabels
@@ -184,7 +184,7 @@ End_Group
 
 Group = SelectedImageAreaX3
   Auto
-  Optional
+  Optional       = 1
   InputKey       = P_OPOSX3
   InputPosition  = FitsLabels
   OutputName     = SelectedImageAreaX3
@@ -194,7 +194,7 @@ End_Group
 
 Group = SelectedImageAreaY3
   Auto
-  Optional
+  Optional       = 1
   InputKey       = P_OPOSY3
   InputPosition  = FitsLabels
   OutputName     = SelectedImageAreaY3
@@ -271,7 +271,7 @@ End_Group
 
 Group = BandRegistration
   Auto
-  Optional
+  Optional       = 1
   InputKey       = REGIST
   InputPosition  = FitsLabels
   OutputName     = BandRegistration
@@ -291,7 +291,7 @@ End_Group
 
 Group = L2BSystemEfficiencyFileName
   Auto
-  Optional
+  Optional       = 1
   InputKey       = L2BEFCFN
   InputPosition  = FitsLabels
   OutputName     = L2BSystemEfficiencyFileName
@@ -301,7 +301,7 @@ End_Group
 
 Group = L2CShapeModelFileName
   Auto
-  Optional
+  Optional       = 1
   InputKey       = L2CSHPFN
   InputKey       = SHAPEFN
   InputPosition  = FitsLabels
@@ -312,7 +312,7 @@ End_Group
 
 Group = L2DPhaseFunctionFileName
   Auto
-  Optional
+  Optional       = 1
   InputKey       = L2DPHSFN
   InputKey       = PHASEFN
   InputPosition  = FitsLabels
@@ -323,7 +323,7 @@ End_Group
 
 Group = L2DShapeModelFileName
   Auto
-  Optional
+  Optional       = 1
   InputKey       = L2DSHPFN
   InputKey       = SHAPEFN
   InputPosition  = FitsLabels
@@ -335,7 +335,7 @@ End_Group
 # the following image ID is assigned by the onboard image processor:
 Group = ImageID
   Auto
-  Optional
+  Optional       = 1
   InputKey       = P_IMGID
   InputPosition  = FitsExtras
   OutputName     = ImageID

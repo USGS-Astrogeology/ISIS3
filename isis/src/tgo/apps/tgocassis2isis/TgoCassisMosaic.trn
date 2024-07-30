@@ -140,7 +140,7 @@ End_Group
 
 Group = NorthAzimuth
   Auto
-  Optional
+  Optional        = 1
   InputKey        = geom:north_azimuth
   InputPosition   = (Observation_Area, Discipline_Area, geom:Geometry, Object_Orientation_North_East)
   OutputName      = NorthAzimuth
