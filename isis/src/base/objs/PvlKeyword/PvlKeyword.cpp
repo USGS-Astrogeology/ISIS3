@@ -1391,8 +1391,24 @@ namespace Isis {
           KEYWORD
 
         Well, no value/units may exist so we're done processing this keyword.
+        Now check if it's a reserved keyword that is valueless
        */
-      return 1; // Valid & Successful
+      bool allowedValueless = false;
+      std::vector<QString> reservedKeywordNames = {"OBJECT",
+                                                   "BEGIN_OBJECT",
+                                                   "END_OBJECT",
+                                                   "ENDOBJECT",
+                                                   "GROUP",
+                                                   "END_GROUP",
+                                                   "ENDGROUP",
+                                                   "END"};
+      QString keywordNameUpper = keywordName.toUpper();
+      for (auto reservedKeywordName : reservedKeywordNames) {
+        if (keywordNameUpper == reservedKeywordName) {
+          allowedValueless = true;
+        }
+      }
+      return allowedValueless;
     }
 
     // if we don't have an equal, then we have a problem - an invalid symbol.
