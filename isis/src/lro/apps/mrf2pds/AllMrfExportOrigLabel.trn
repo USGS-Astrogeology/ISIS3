@@ -92,7 +92,7 @@ Group = LINE_EXPOSURE_DURATION
 EndGroup
 
 Group = SCALED_PIXEL_HEIGHT
-  Auto 
+  Auto           = 1
   OutputName = SCALED_PIXEL_HEIGHT
   OutputPosition = ("OBJECT", "IMAGE")
   InputKey = SCALED_PIXEL_HEIGHT

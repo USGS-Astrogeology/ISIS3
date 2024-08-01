@@ -15,6 +15,8 @@ find files of those names at the top level of this repository. **/
 #include "PvlFormat.h"
 #include "PvlSequence.h"
 
+#include <sstream>
+
 using namespace std;
 using json = nlohmann::json;
 namespace Isis {

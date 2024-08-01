@@ -1,89 +1,89 @@
-PDS_VERSION_ID
+PDS_VERSION_ID = NULL
 /*          File format & locations of Data Objects                      */
 /* This file contains an unstructured byte stream.                       */
 /* The UNDEFINED RECORD_TYPE is used to meet PDS standards requirements. */
 /* A label "record" is actually a single byte.                           */
 /*     >>> Caution <<< The first byte is location 1 (not 0)              */
-RECORD_TYPE
-LABEL_RECORDS
-^IMAGE
+RECORD_TYPE = NULL
+LABEL_RECORDS = NULL
+^IMAGE = NULL
 /* Identification Information */
-NOT_APPLICABLE_CONSTANT
-DATA_SET_ID
-DATA_SET_NAME
-PRODUCER_INSTITUTION_NAME
-PRODUCER_ID
-PRODUCER_FULL_NAME
-OBSERVATION_ID
-PRODUCT_ID
-PRODUCT_VERSION_ID
-INSTRUMENT_HOST_NAME
-INSTRUMENT_HOST_ID
-INSTRUMENT_NAME
-INSTRUMENT_ID
-TARGET_NAME
-MISSION_PHASE_NAME
-ORBIT_NUMBER
-SOURCE_PRODUCT_ID
-RATIONALE_DESC
-SOFTWARE_NAME
+NOT_APPLICABLE_CONSTANT = NULL
+DATA_SET_ID = NULL
+DATA_SET_NAME = NULL
+PRODUCER_INSTITUTION_NAME = NULL
+PRODUCER_ID = NULL
+PRODUCER_FULL_NAME = NULL
+OBSERVATION_ID = NULL
+PRODUCT_ID = NULL
+PRODUCT_VERSION_ID = NULL
+INSTRUMENT_HOST_NAME = NULL
+INSTRUMENT_HOST_ID = NULL
+INSTRUMENT_NAME = NULL
+INSTRUMENT_ID = NULL
+TARGET_NAME = NULL
+MISSION_PHASE_NAME = NULL
+ORBIT_NUMBER = NULL
+SOURCE_PRODUCT_ID = NULL
+RATIONALE_DESC = NULL
+SOFTWARE_NAME = NULL
 
 /* All xxx_COUNT values are for the MRO spacecraft clock (SCLK)         */
 /* in seconds:subseconds form. A subsecond tick = 15.2588 microseconds. */
 /* All xxx_TIME values are referenced to UTC.                           */
 GROUP = TIME_PARAMETERS
 /* Time when the observation first started */
-  MRO:OBSERVATION_START_TIME
-  MRO:OBSERVATION_START_COUNT
+  MRO:OBSERVATION_START_TIME = NULL
+  MRO:OBSERVATION_START_COUNT = NULL
   /* Time of the first image line */
-  START_TIME
-  SPACECRAFT_CLOCK_START_COUNT
+  START_TIME = NULL
+  SPACECRAFT_CLOCK_START_COUNT = NULL
   /* Time of the last image line */
-  STOP_TIME
-  SPACECRAFT_CLOCK_STOP_COUNT
+  STOP_TIME = NULL
+  SPACECRAFT_CLOCK_STOP_COUNT = NULL
   /* Time when this RDR product was created */
-  PRODUCT_CREATION_TIME
+  PRODUCT_CREATION_TIME = NULL
 END_GROUP = TIME_PARAMETERS
 
 GROUP = INSTRUMENT_SETTING_PARAMETERS
-  MRO:CCD_FLAG
-  MRO:BINNING
-  MRO:TDI
+  MRO:CCD_FLAG = NULL
+  MRO:BINNING = NULL
+  MRO:TDI = NULL
 END_GROUP = INSTRUMENT_SETTING_PARAMETERS
 
 OBJECT = IMAGE
-  DESCRIPTION
-  LINES
-  LINE_SAMPLES
-  BANDS
-  SAMPLE_TYPE
-  SAMPLE_BITS
-  SAMPLE_BIT_MASK
+  DESCRIPTION = NULL
+  LINES = NULL
+  LINE_SAMPLES = NULL
+  BANDS = NULL
+  SAMPLE_TYPE = NULL
+  SAMPLE_BITS = NULL
+  SAMPLE_BIT_MASK = NULL
   /* NOTE: The conversion from DN to I/F (intensity/flux) is: */
   /* I/F = (DN * SCALING_FACTOR) + OFFSET                     */
   /* I/F is defined as the ratio of the observed radiance and */
   /* the radiance of a 100% lambertian reflector with the sun */
   /* and camera orthogonal to the observing surface.          */
-  SCALING_FACTOR
-  OFFSET
-  BAND_STORAGE_TYPE
-  VALID_MINIMUM
-  CORE_NULL
-  CORE_LOW_REPR_SATURATION
-  CORE_LOW_INSTR_SATURATION
-  CORE_HIGH_REPR_SATURATION
-  CORE_HIGH_INSTR_SATURATION
-  BAND_NAME
-  CENTER_FILTER_WAVELENGTH
-  BANDWIDTH
-  MRO:MINIMUM_STRETCH
-  MRO:MAXIMUM_STRETCH
+  SCALING_FACTOR = NULL
+  OFFSET = NULL
+  BAND_STORAGE_TYPE = NULL
+  VALID_MINIMUM = NULL
+  CORE_NULL = NULL
+  CORE_LOW_REPR_SATURATION = NULL
+  CORE_LOW_INSTR_SATURATION = NULL
+  CORE_HIGH_REPR_SATURATION = NULL
+  CORE_HIGH_INSTR_SATURATION = NULL
+  BAND_NAME = NULL
+  CENTER_FILTER_WAVELENGTH = NULL
+  BANDWIDTH = NULL
+  MRO:MINIMUM_STRETCH = NULL
+  MRO:MAXIMUM_STRETCH = NULL
 END_OBJECT = IMAGE
 
 OBJECT = IMAGE_MAP_PROJECTION
-  ^DATA_SET_MAP_PROJECTION
-  MAP_PROJECTION_TYPE
-  PROJECTION_LATITUDE_TYPE
+  ^DATA_SET_MAP_PROJECTION = NULL
+  MAP_PROJECTION_TYPE = NULL
+  PROJECTION_LATITUDE_TYPE = NULL
     /* NOTE: The EQUIRECTANGULAR projection is based on the formula  */
     /* for a sphere. To eliminate confusion in the                   */
     /* IMAGE_MAP_PROJECTION object we have set all three radii,      */
@@ -94,9 +94,9 @@ OBJECT = IMAGE_MAP_PROJECTION
     /* 3376.200000 kilometers. Using the local radius of the         */
     /* ellipsoid implies that the MAP_SCALE and MAP_RESOLUTION are   */
     /* true at the CENTER_LATITUDE.                                  */
-    A_AXIS_RADIUS
-    B_AXIS_RADIUS
-    C_AXIS_RADIUS
+    A_AXIS_RADIUS = NULL
+    B_AXIS_RADIUS = NULL
+    C_AXIS_RADIUS = NULL
     Isis:PvlTemplate:File = $ISISROOT/appdata/templates/labels/pdsExportAllMapping.pft
 END_OBJECT = IMAGE_MAP_PROJECTION
 End

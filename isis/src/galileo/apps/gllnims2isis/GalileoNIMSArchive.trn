@@ -267,7 +267,7 @@ End_Group
 
 
 Group = DataFileRecordBytes
-	Auto  
+	Auto           = 1
 	Optional       = 1
 	InputKey       = RECORD_BYTES
 	OutputName     = DataFileRecordBytes
@@ -277,7 +277,7 @@ End_Group
 
 Group = DataFileRecords
   	Auto             = 1
-	Optional       = 1
+	Optional         = 1
 	InputKey         = FILE_RECORDS  
   	OutputName       = DataFileRecords
 	OutputPosition   = (Object,IsisCube,Group,Archive)
