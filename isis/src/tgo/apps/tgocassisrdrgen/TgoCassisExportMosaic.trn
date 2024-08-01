@@ -17,7 +17,7 @@
 
 Group = LidVid
   Auto            = 1
-  Debug
+  Debug           = 1
   InputKey        = LID
   InputPosition   = (IsisCube, Archive)
   OutputName      = lidvid_reference
