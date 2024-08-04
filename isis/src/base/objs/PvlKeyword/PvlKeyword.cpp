@@ -1396,17 +1396,17 @@ namespace Isis {
         Now check if it's a reserved keyword that is valueless
        */
       bool allowedValueless = false;
-      std::vector<QString> reservedKeywordNames = {"OBJECT",
-                                                   "BEGIN_OBJECT",
-                                                   "END_OBJECT",
-                                                   "ENDOBJECT",
-                                                   "GROUP",
-                                                   "END_GROUP",
-                                                   "ENDGROUP",
-                                                   "END"};
-      QString keywordNameUpper = keywordName.toUpper();
-      for (auto reservedKeywordName : reservedKeywordNames) {
-        if (keywordNameUpper == reservedKeywordName) {
+      static const std::vector<QString> reservedKeywordNames = {"OBJECT",
+                                                                "BEGIN_OBJECT",
+                                                                "END_OBJECT",
+                                                                "ENDOBJECT",
+                                                                "GROUP",
+                                                                "END_GROUP",
+                                                                "ENDGROUP",
+                                                                "END"};
+      const QString keywordNameUpper = keywordName.toUpper();
+      for (const auto &reservedKeywordName : reservedKeywordNames) {
+        if (reservedKeywordName == keywordNameUpper) {
           allowedValueless = true;
         }
       }
