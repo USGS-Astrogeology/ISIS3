@@ -1406,7 +1406,7 @@ namespace Isis {
                                                                 "END"};
       const QString keywordNameUpper = keywordName.toUpper();
       for (const auto &reservedKeywordName : reservedKeywordNames) {
-        if (reservedKeywordName == keywordNameUpper) {
+        if (keywordNameUpper == reservedKeywordName) {
           allowedValueless = true;
         }
       }
