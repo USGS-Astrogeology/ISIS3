@@ -6,15 +6,14 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include "Isis.h"
+#ifndef bandtrim_h
+#define bandtrim_h
 
-#include "bandtrim.h"
+#include "UserInterface.h"
 
-#include "Application.h"
-
-using namespace Isis;
-
-void IsisMain() {
-  UserInterface &ui = Application::GetUserInterface();
-  bandtrim(ui);
+namespace Isis{  
+  extern void bandtrim(UserInterface &ui);
+  extern void bandtrim(Cube *iCube, UserInterface &ui);
 }
+
+#endif
