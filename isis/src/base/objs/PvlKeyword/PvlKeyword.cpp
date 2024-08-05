@@ -1408,6 +1408,7 @@ namespace Isis {
       for (const auto &reservedKeywordName : reservedKeywordNames) {
         if (keywordNameUpper == reservedKeywordName) {
           allowedValueless = true;
+          break;
         }
       }
       return allowedValueless;
