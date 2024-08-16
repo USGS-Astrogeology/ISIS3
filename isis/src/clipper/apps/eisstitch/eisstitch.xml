@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<application name="eis2isis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://isis.astrogeology.usgs.gov/Schemas/Application/application.xsd">
+
+  <brief>
+    Combine Clipper EIS files into a single ISIS cube
+  </brief>
+  <description>
+    <p>
+      This program takes a series of Clipper EIS cubes and combines them into a single cube with a unified ephemeris time table
+      as well as a unified camera.
+    </p>
+  </description>
+
+  <history>
+    <change name="Adam Paquette" date="2024-08-12">
+      Original version.
+    </change>
+  </history>
+
+  <category>
+    <missionItem>Clipper</missionItem>
+  </category>
+
+  <groups>
+
+    <group name="Files">
+      <parameter name="FROMLIST">
+        <type>filename</type>
+        <fileMode>input</fileMode>
+        <brief>
+          List of cubes to stitch together
+        </brief>
+        <description>
+          The name of a file containing a list of HiRISE image files to be
+          stitched together.  Each file should be listed on a separate
+          line.
+        </description>
+        <filter>
+          *
+        </filter>
+      </parameter>
+
+    <parameter name="TO">
+        <type>cube</type>
+        <fileMode>output</fileMode>
+        <brief>
+          Output ISIS cube file for the stitched image
+        </brief>
+        <description>
+          The output cube file that will contain the EIS <em>stitched image</em> in ISIS format.
+          Currently, no cube is written out.
+        </description>
+        <filter>
+          *.cub
+        </filter>
+      </parameter>
+    </group>
+
+   </groups>
+
+</application>
