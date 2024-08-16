@@ -6,15 +6,14 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include "Isis.h"
+#ifndef photrim_h
+#define photrim_h
 
-#include "photrim.h"
+#include "UserInterface.h"
 
-#include "Application.h"
-
-using namespace Isis;
-
-void IsisMain() {
-  UserInterface &ui = Application::GetUserInterface();
-  photrim(ui);
+namespace Isis{
+  extern void photrim(UserInterface &ui);
+  extern void photrim(Cube *icube, UserInterface &ui);
 }
+
+#endif
