@@ -182,7 +182,7 @@ namespace Isis {
     }
 
     if (icube.group("Archive")["SampleBitModeId"][0] != "SQROOT") {
-      QString msg = "Sample bit mode [" + icube.group("Archive")["SampleBitModeId"][0] + "] is not supported.";
+      QString msg = "Sample bit mode [" + QString::fromStdString(icube.group("Archive")["SampleBitModeId"][0]) + "] is not supported.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -198,7 +198,7 @@ namespace Isis {
       decimation.push_back(1.0);
     }
 
-    QString startTime = icube.label()->findGroup("Instrument", Pvl::Traverse)["StartTime"][0];
+    QString startTime = QString::fromStdString(icube.label()->findGroup("Instrument", Pvl::Traverse)["StartTime"][0]);
     iTime start(startTime);
     iTime changeTime("November 6, 2006 21:30:00 UTC");
 
@@ -226,7 +226,7 @@ namespace Isis {
     stretchPairs.Close();
 
     // This file stores radiance/spectral distance coefficients
-    Pvl calibrationData(calFile.expanded());
+    Pvl calibrationData(calFile.expanded().toStdString());
 
     // This will store the radiance coefficient and solar spectral distance coefficients
     // for each band.
@@ -256,9 +256,9 @@ namespace Isis {
 
     vector<Cube *> flatcubes;
     vector<LineManager *> fcubeMgrs;
-    int summing = toInt(icube.group("Instrument")["SummingMode"][0]);
-    double ifdelay = toDouble(icube.group("Instrument")["InterframeDelay"][0]) * 1000.0;
-    int flipped = toInt(icube.group("Instrument")["DataFlipped"][0]);
+    int summing = std::stoi(icube.group("Instrument")["SummingMode"][0]);
+    double ifdelay = std::stod(icube.group("Instrument")["InterframeDelay"][0]) * 1000.0;
+    int flipped = std::stoi(icube.group("Instrument")["DataFlipped"][0]);
 
     // Read in the flat files
     for (int band = 0; band < 7; band++) {
@@ -320,26 +320,26 @@ namespace Isis {
     PvlKeyword filtNames = icube.label()->findGroup("BandBin", Pvl::Traverse)["FilterName"];
     int numFilters = filtNames.size();
     for (int i = 0; i < filtNames.size(); i++) {
-      if (filterNameToFilterNumber.find(filtNames[i]) != filterNameToFilterNumber.end()) {
-        filter.push_back(filterNameToFilterNumber.find(filtNames[i])->second);
+      if (filterNameToFilterNumber.find(QString::fromStdString(filtNames[i])) != filterNameToFilterNumber.end()) {
+        filter.push_back(filterNameToFilterNumber.find(QString::fromStdString(filtNames[i]))->second);
       }
       else {
-        QString msg = "Unrecognized filter name [" + QString(filtNames[i]) + "]";
+        QString msg = "Unrecognized filter name [" + QString::fromStdString(filtNames[i]) + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
 
     PvlKeyword &sumMode = icube.label()->findGroup("Instrument", Pvl::Traverse)["SummingMode"];
-    int summingMode = toInt(sumMode[0]);
+    int summingMode = std::stoi(sumMode[0]);
     int filterHeight = 16 / summingMode;
     std::vector<int> padding;
     padding.resize(numFilters);
     PvlKeyword &colOff = icube.label()->findGroup("Instrument", Pvl::Traverse)["ColorOffset"];
-    int colorOffset = toInt(colOff[0]);
+    int colorOffset = std::stoi(colOff[0]);
 
     for (int i = 0; i < numFilters; i++) {
       if (colorOffset > 0) {
-        int filtNum = filterNameToFilterNumber[filtNames[i]] - 1; // if first vis filter (Blue) there is no offset 1 -> 0
+        int filtNum = filterNameToFilterNumber[QString::fromStdString(filtNames[i])] - 1; // if first vis filter (Blue) there is no offset 1 -> 0
 
         padding[i] = (colorOffset * filterHeight) * filtNum;
       }
@@ -351,7 +351,7 @@ namespace Isis {
     int maxOffset = *max_element(padding.begin(),padding.end());
 
 
-    QString prodId = icube.label()->findGroup("Archive", Pvl::Traverse)["ProductId"][0];
+    QString prodId = QString::fromStdString(icube.label()->findGroup("Archive", Pvl::Traverse)["ProductId"][0]);
     prodId = prodId.toUpper();
     vector<int> frameseq;
     vector<double> exptime;
@@ -377,9 +377,9 @@ namespace Isis {
     PvlKeyword expTimesKey = inst["VariableExposureDuration"];
     PvlKeyword frameNumbersKey = inst["FrameNumber"];
     for (int i=0; i<expTimesKey.size(); i++) {
-      if (toInt(frameNumbersKey[i]) != 0) {
-        exptime.push_back(toDouble(expTimesKey[i]));
-        frameseq.push_back(toInt(frameNumbersKey[i]));
+      if (std::stoi(frameNumbersKey[i]) != 0) {
+        exptime.push_back(std::stod(expTimesKey[i]));
+        frameseq.push_back(std::stoi(frameNumbersKey[i]));
       }
     }
 
@@ -458,8 +458,8 @@ namespace Isis {
                 exposure = ((double)icube.label()->findGroup("Instrument", Pvl::Traverse)["ExposureDuration"]) * 1000.0;
               }
               // Exposure duration for the UV filters are calculated from the non-UV exposure duration
-              if ((QString)icube.label()->findGroup("BandBin", Pvl::Traverse)["FilterName"][band-1] == "LONG_UV" ||
-                  (QString)icube.label()->findGroup("BandBin", Pvl::Traverse)["FilterName"][band-1] == "SHORT_UV") {
+              if (QString::fromStdString(icube.label()->findGroup("BandBin", Pvl::Traverse)["FilterName"][band-1]) == "LONG_UV" ||
+                  QString::fromStdString(icube.label()->findGroup("BandBin", Pvl::Traverse)["FilterName"][band-1]) == "SHORT_UV") {
                 exposure = ifdelay - 57.763 - exposure;
               }
               seqno++;
@@ -471,8 +471,8 @@ namespace Isis {
             if (frame < frameseq[seqno]) {
               exposure = exptime[seqno];
               seqno++;
-              if ((QString)icube.label()->findGroup("BandBin", Pvl::Traverse)["FilterName"][band-1] == "LONG_UV" ||
-                  (QString)icube.label()->findGroup("BandBin", Pvl::Traverse)["FilterName"][band-1] == "SHORT_UV") {
+              if (QString::fromStdString(icube.label()->findGroup("BandBin", Pvl::Traverse)["FilterName"][band-1]) == "LONG_UV" ||
+                  QString::fromStdString(icube.label()->findGroup("BandBin", Pvl::Traverse)["FilterName"][band-1]) == "SHORT_UV") {
                 exposure = ifdelay - 57.763 - exposure;
               }
             }
@@ -549,7 +549,7 @@ namespace Isis {
 
     for (int o = 0; o < icube.label()->objects(); o++) {
       if (icube.label()->object(o).isNamed("Table")) {
-        Blob t(icube.label()->object(o)["Name"], icube.label()->object(o).name());
+        Blob t(QString::fromStdString(icube.label()->object(o)["Name"]), icube.label()->object(o).name());
         icube.read(t);
         ocube.write(t);
       }

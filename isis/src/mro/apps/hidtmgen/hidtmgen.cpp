@@ -120,7 +120,7 @@ namespace Isis{
       // -------------------------------------------------------------------------//
       // Get required global ui...
       // -------------------------------------------------------------------------//
-      Pvl paramsPvl(ui.GetFileName("PARAMSPVL"));
+      Pvl paramsPvl(ui.GetFileName("PARAMSPVL").toStdString());
       bool defaultNames = ui.GetBoolean("DEFAULTNAMES");
 
       // parameters:
@@ -194,7 +194,7 @@ namespace Isis{
         // These are our output labels, will be modifying heavily
         Pvl &pdsLabel = pdsExportProcess.StandardPdsLabel(ProcessExportPds::Image);
         PvlObject &mappingObject = pdsLabel.findObject("IMAGE_MAP_PROJECTION");
-        QString projectionType = mappingObject["MAP_PROJECTION_TYPE"][0];
+        QString projectionType = QString::fromStdString(mappingObject["MAP_PROJECTION_TYPE"][0]);
         setProjectionInformation(inCube, pdsLabel, mappingObject, projectionType);
         customizeDtmLabels(inCube,  pdsLabel,  mappingObject);
 
@@ -299,7 +299,7 @@ namespace Isis{
 
           // set map projection information
           PvlObject &mappingObject = pdsLabel.findObject("IMAGE_MAP_PROJECTION");
-          QString projectionType = mappingObject["MAP_PROJECTION_TYPE"][0];
+          QString projectionType = QString::fromStdString(mappingObject["MAP_PROJECTION_TYPE"][0]);
           setProjectionInformation(inCube, pdsLabel, mappingObject, projectionType);
 
           QString productId = "";
@@ -332,9 +332,9 @@ namespace Isis{
             source += paramsPvl["ORTHO_SOURCE_DTM_ID"];
           }
           else {
-            source += dtmProductId;
+            source += dtmProductId.toStdString();
           }
-          source += orthoId;
+          source += orthoId.toStdString();
           setIdentificationInformation(pdsLabel, productId, source, paramsPvl, ui);
 
           processCube(orthoExportProcess, outFile);
@@ -499,7 +499,7 @@ namespace Isis{
 
     PvlObject viewingParameters("VIEWING_PARAMETERS");
     if (northAzimuth != Isis::Null) {
-      viewingParameters.addKeyword(PvlKeyword("NORTH_AZIMUTH", toString(northAzimuth), "DEG"));
+      viewingParameters.addKeyword(PvlKeyword("NORTH_AZIMUTH", std::to_string(northAzimuth), "DEG"));
     }
     else {
       viewingParameters.addKeyword(PvlKeyword("NORTH_AZIMUTH", "N/A"));
@@ -532,14 +532,14 @@ namespace Isis{
 
       // find the center latitude of this set of images
       // (not the same as the center lat for the projection)
-      double clat = ((toDouble(mappingObject["MAXIMUM_LATITUDE"][0]) -
-                      toDouble(mappingObject["MINIMUM_LATITUDE"][0])) / 2) +
-                    toDouble(mappingObject["MINIMUM_LATITUDE"][0]);
+      double clat = ((std::stod(mappingObject["MAXIMUM_LATITUDE"][0]) -
+                      std::stod(mappingObject["MINIMUM_LATITUDE"][0])) / 2) +
+                    std::stod(mappingObject["MINIMUM_LATITUDE"][0]);
       // find the center longitude of this set of images
       // (not the same as the center lon for the projection)
-      double clon = ((toDouble(mappingObject["EASTERNMOST_LONGITUDE"][0]) -
-                      toDouble(mappingObject["WESTERNMOST_LONGITUDE"][0])) / 2) +
-                    toDouble(mappingObject["WESTERNMOST_LONGITUDE"][0]);
+      double clon = ((std::stod(mappingObject["EASTERNMOST_LONGITUDE"][0]) -
+                      std::stod(mappingObject["WESTERNMOST_LONGITUDE"][0])) / 2) +
+                    std::stod(mappingObject["WESTERNMOST_LONGITUDE"][0]);
 
       if (clat > 0.0 && clon < 270.0) { // Northern Hemisphere, 0 to 270 lon
         northAzimuth = 270.00 - clon;
@@ -597,13 +597,13 @@ namespace Isis{
   QString dtmSourceOrbitAndTargetCodes(const PvlKeyword &sourceKeyword) {
     // we use the source product id for the DTM to get the orbit IDs and target code
     // for the source products (i.e. the stereo pair)
-    return sourceKeyword[0].mid(4,11) + "_" +
-           sourceKeyword[1].mid(4,12) + "_";
+    return QString::fromStdString(sourceKeyword[0]).mid(4,11) + "_" +
+           QString::fromStdString(sourceKeyword[1]).mid(4,12) + "_";
   }
 
 
   QString versionNumber(const Pvl &paramsPvl, const UserInterface &ui) {
-    double version = toDouble(paramsPvl["PRODUCT_VERSION_ID"]);
+    double version = std::stod(paramsPvl["PRODUCT_VERSION_ID"]);
 
     // Format the version for the output name:
     // Only important thing to note is that a #.0 number is converted to 0#
@@ -652,7 +652,7 @@ namespace Isis{
 
 
   QString producingInstitution(const Pvl &paramsPvl, const UserInterface &ui) {
-    QString producing = paramsPvl["PRODUCING_INSTITUTION"][0];
+    QString producing = QString::fromStdString(paramsPvl["PRODUCING_INSTITUTION"][0]);
     if (producing.size() > 1) {
       QString msg = "PRODUCING_INSTITUTION value [" + producing + "] in the PARAMSPVL file must be a "
                     "single character. See hidtmgen documentation for these character codes.";
@@ -693,7 +693,7 @@ namespace Isis{
     pdsLabel.addKeyword(paramsPvl["PRODUCER_FULL_NAME"]);
 
     // given product id
-    pdsLabel.addKeyword(PvlKeyword("PRODUCT_ID", productId));
+    pdsLabel.addKeyword(PvlKeyword("PRODUCT_ID", productId.toStdString()));
 
     // This comes from the user (PARAMSPVL)
     pdsLabel.addKeyword(paramsPvl["PRODUCT_VERSION_ID"]);
@@ -761,7 +761,7 @@ namespace Isis{
         "units is given by the keyvalues for SCALING_FACTOR and OFFSET. This "
         "DTM was produced using ISIS and SOCET Set (copyright BAE Systems) "
         "software as described in Kirk et al. (2008).";
-    dtmPdsLabel.findObject("IMAGE").addKeyword(PvlKeyword("NOTE", note));
+    dtmPdsLabel.findObject("IMAGE").addKeyword(PvlKeyword("NOTE", note.toStdString()));
 
     // Label records should always be 1, my example didn't included it, so we won't.
     dtmPdsLabel.deleteKeyword("LABEL_RECORDS");
@@ -777,8 +777,8 @@ namespace Isis{
 
     // Create statistics and add to image group
     Statistics *stat = inCube->statistics();
-    image.addKeyword(PvlKeyword("VALID_MINIMUM", toString(stat->Minimum())));
-    image.addKeyword(PvlKeyword("VALID_MAXIMUM", toString(stat->Maximum())));
+    image.addKeyword(PvlKeyword("VALID_MINIMUM", std::to_string(stat->Minimum())));
+    image.addKeyword(PvlKeyword("VALID_MAXIMUM", std::to_string(stat->Maximum())));
 
     // delete unneeded keywords in map object
     mappingObject.deleteKeyword("FIRST_STANDARD_PARALLEL");

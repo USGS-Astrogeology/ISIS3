@@ -162,7 +162,7 @@ void IsisMain() {
     if(!pvl.isEmpty()) {
       Pvl pout;
       pout.addGroup(mdiskeys);
-      pout.write(pvl);
+      pout.write(pvl.toStdString());
     }
 
 //  Log the results to the log/terminal/gui

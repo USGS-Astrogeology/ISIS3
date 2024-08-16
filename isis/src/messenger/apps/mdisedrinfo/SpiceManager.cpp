@@ -135,7 +135,7 @@ namespace Isis {
     }
 
     //  Add a specific kernel to the list
-    PvlKeyword kernel("Kernels", kfile);
+    PvlKeyword kernel("Kernels", kfile.toStdString());
     loadKernel(kernel);
     return;
   }
@@ -210,14 +210,14 @@ namespace Isis {
       if(IString(key[i]).UpCase() == "NULL") continue;
       if(IString(key[i]).UpCase() == "NADIR") continue;
       if(IString(key[i]).UpCase() == "TABLE") continue;
-      Isis::FileName file(key[i]);
+      Isis::FileName file(QString::fromStdString(key[i]));
       if(!file.fileExists()) {
         QString msg = "Spice file does not exist [" + file.expanded() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       QString fileName(file.expanded());
       if(_furnish) furnsh_c(fileName.toLatin1().data());
-      addKernelName((QString)key[i]);
+      addKernelName(QString::fromStdString(key[i]));
     }
     NaifStatus::CheckErrors();
   }
@@ -235,15 +235,15 @@ namespace Isis {
    */
   void SpiceManager::loadKernelFromTable(PvlKeyword &key,
                                          const QString &tblname, Pvl &pvl) {
-    if(key[0].toUpper() != "TABLE") {
+    if(QString::fromStdString(key[0]).toUpper() != "TABLE") {
       loadKernel(key);
     }
     else {
       PvlObject::PvlObjectIterator objIter;
       for(objIter = pvl.beginObject() ; objIter != pvl.endObject() ; ++objIter) {
-        if(objIter->name().toUpper() == "TABLE") {
+        if(QString::fromStdString(objIter->name()).toUpper() == "TABLE") {
           if(objIter->hasKeyword("Name")) {
-            if(objIter->findKeyword("Name")[0].toUpper() == tblname.toUpper()) {
+            if(QString::fromStdString(objIter->findKeyword("Name")[0]).toUpper() == tblname.toUpper()) {
               loadKernel(objIter->findKeyword("Kernels"));
               return;
             }

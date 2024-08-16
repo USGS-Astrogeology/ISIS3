@@ -160,22 +160,22 @@ void IsisMain() {
   PvlGroup res("Results");
 
   if(ui.WasEntered("IAKCODE")) {
-    PvlKeyword naifFormatX("INS" + ui.GetString("IAKCODE") + "_TRANSX");
-    naifFormatX += toString(eq1[0]);
-    naifFormatX += toString(eq1[1]);
-    naifFormatX += toString(eq1[2]);
-    PvlKeyword naifFormatY("INS" + ui.GetString("IAKCODE") + "_TRANSY");
-    naifFormatY += toString(eq2[0]);
-    naifFormatY += toString(eq2[1]);
-    naifFormatY += toString(eq2[2]);
-    PvlKeyword naifFormatS("INS" + ui.GetString("IAKCODE") + "_ITRANSS");
-    naifFormatS += toString(res1[0]);
-    naifFormatS += toString(res1[1]);
-    naifFormatS += toString(res1[2]);
-    PvlKeyword naifFormatL("INS" + ui.GetString("IAKCODE") + "_ITRANSL");
-    naifFormatL += toString(res2[0]);
-    naifFormatL += toString(res2[1]);
-    naifFormatL += toString(res2[2]);
+    PvlKeyword naifFormatX("INS" + ui.GetString("IAKCODE").toStdString() + "_TRANSX");
+    naifFormatX += std::to_string(eq1[0]);
+    naifFormatX += std::to_string(eq1[1]);
+    naifFormatX += std::to_string(eq1[2]);
+    PvlKeyword naifFormatY("INS" + ui.GetString("IAKCODE").toStdString() + "_TRANSY");
+    naifFormatY += std::to_string(eq2[0]);
+    naifFormatY += std::to_string(eq2[1]);
+    naifFormatY += std::to_string(eq2[2]);
+    PvlKeyword naifFormatS("INS" + ui.GetString("IAKCODE").toStdString() + "_ITRANSS");
+    naifFormatS += std::to_string(res1[0]);
+    naifFormatS += std::to_string(res1[1]);
+    naifFormatS += std::to_string(res1[2]);
+    PvlKeyword naifFormatL("INS" + ui.GetString("IAKCODE").toStdString() + "_ITRANSL");
+    naifFormatL += std::to_string(res2[0]);
+    naifFormatL += std::to_string(res2[1]);
+    naifFormatL += std::to_string(res2[2]);
 
     res += naifFormatX;
     res += naifFormatY;
@@ -183,10 +183,10 @@ void IsisMain() {
     res += naifFormatL;
   }
   else {
-    res += PvlKeyword("EquationX", inEquationX);
-    res += PvlKeyword("EquationY", inEquationY);
-    res += PvlKeyword("EquationS", outEquationS);
-    res += PvlKeyword("EquationL", outEquationL);
+    res += PvlKeyword("EquationX", inEquationX.toStdString());
+    res += PvlKeyword("EquationY", inEquationY.toStdString());
+    res += PvlKeyword("EquationS", outEquationS.toStdString());
+    res += PvlKeyword("EquationL", outEquationL.toStdString());
   }
 
   Application::Log(res);

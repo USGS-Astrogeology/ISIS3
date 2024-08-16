@@ -53,10 +53,10 @@ inline void validateUnit(PvlKeyword &key, const QString &kunit) {
   for (int i = 0; i < temp.size(); i++) {
     try {
       //  If this works, check unit, otherwise an exception is thrown
-      (void) toDouble(temp[i]);
-      QString unit = temp.unit(i);
+      (void) std::stod(temp[i]);
+      QString unit =  QString::fromStdString(temp.unit(i));
       if (unit.isEmpty()) unit = kunit;
-      key.addValue(temp[i], unit);
+      key.addValue(temp[i], unit.toStdString());
     }
     catch (...) {
       key.addValue(temp[i]);
@@ -66,8 +66,8 @@ inline void validateUnit(PvlKeyword &key, const QString &kunit) {
 }
 
 inline void fixUnit(PvlObject &obj, const QString &key, const QString &unit) {
-  if (obj.hasKeyword(key, PvlObject::Traverse)) {
-    validateUnit(obj.findKeyword(key, PvlObject::Traverse), unit);
+  if (obj.hasKeyword(key.toStdString(), PvlObject::Traverse)) {
+    validateUnit(obj.findKeyword(key.toStdString(), PvlObject::Traverse), unit);
   }
   return;
 }
@@ -76,7 +76,7 @@ inline void fixQuotes(PvlContainer &kcont, const QString &value = "N/A") {
   PvlContainer::PvlKeywordIterator kiter;
   for (kiter = kcont.begin(); kiter != kcont.end(); ++kiter) {
     for (int nv = 0; nv < kiter->size(); nv++) {
-      if ((*kiter)[nv] == value)(*kiter)[nv] = quote((*kiter)[nv]);
+      if (QString::fromStdString((*kiter)[nv]) == value) QString::fromStdString((*kiter)[nv]) = quote(QString::fromStdString((*kiter)[nv]));
     }
   }
 }
@@ -141,7 +141,7 @@ void IsisMain() {
   //  Wrap a try clause so that if anything goes wrong below, we can remove
   //  the phocube file.
   try {
-    Pvl phoLabel(pfile);
+    Pvl phoLabel(pfile.toStdString());
     BandMap bandmap;
     PvlKeyword bn = phoLabel.findGroup("BandBin", Pvl::Traverse)["Name"];
     for (int i = 0; i < bn.size(); i++) {
@@ -214,14 +214,14 @@ void IsisMain() {
     QString lnote = "2007-12-20, S. Murchie (JHU/APL); "
                     "2008-01-02, S. Murchie (JHU/APL); "
                     "2008-01-11, J. Ward (GEO)";
-    pdsLabel += PvlKeyword("LABEL_REVISION_NOTE", lnote);
-    pdsLabel += PvlKeyword("SPACECRAFT_NAME", quote("MESSENGER"));
+    pdsLabel += PvlKeyword("LABEL_REVISION_NOTE", lnote.toStdString());
+    pdsLabel += PvlKeyword("SPACECRAFT_NAME", quote("MESSENGER").toStdString());
 
     // Fix bad keywords
     // data set id
     PvlKeyword &dataSetIdKeyword = pdsLabel.findKeyword("DATA_SET_ID",
                                                         Pvl::Traverse);
-    dataSetIdKeyword.setValue(dataSetID);
+    dataSetIdKeyword.setValue(dataSetID.toStdString());
 
     // product set id
     QString prodid(input.baseName());
@@ -229,14 +229,14 @@ void IsisMain() {
                                                         Pvl::Traverse);
     if ((productIdKeyword.size() == 0)
         || ((productIdKeyword.size() > 0) && (productIdKeyword[0] == "N/A"))) {
-      productIdKeyword.setValue(prodid);
+      productIdKeyword.setValue(prodid.toStdString());
     }
     else {
-      QString pid = productIdKeyword[0];
+      QString pid =  QString::fromStdString(productIdKeyword[0]);
       pid[0] = 'D';
       pid.remove(QRegExp("_.*"));
       pid.append("_DE_0");
-      productIdKeyword.setValue(pid);
+      productIdKeyword.setValue(pid.toStdString());
       prodid = pid;
     }
     // Now we have enough to establish output file name
@@ -248,23 +248,23 @@ void IsisMain() {
     // product creation time
     PvlKeyword &productCreationTimeKeyword = pdsLabel.findKeyword("PRODUCT_CREATION_TIME",
                                                              Pvl::Traverse);
-    productCreationTimeKeyword.setValue(mdisddrRuntime);
+    productCreationTimeKeyword.setValue(mdisddrRuntime.toStdString());
 
     // software name
     PvlKeyword &softwareNameKeyword = pdsLabel.findKeyword("SOFTWARE_NAME",
                                                            Pvl::Traverse);
-    softwareNameKeyword.setValue(mdisddrProgram);
+    softwareNameKeyword.setValue(mdisddrProgram.toStdString());
 
     // software version id
     PvlKeyword &softwareVersionIdKeyword = pdsLabel.findKeyword("SOFTWARE_VERSION_ID",
                                                                 Pvl::Traverse);
-    softwareVersionIdKeyword.setValue(quote(mdisddrVersion));
+    softwareVersionIdKeyword.setValue(quote(mdisddrVersion).toStdString());
 
     // filter number
     PvlKeyword &filterNumberKeyword = pdsLabel.findKeyword("FILTER_NUMBER",
                                                            Pvl::Traverse);
     if ((filterNumberKeyword.size() > 0)) {
-      filterNumberKeyword.setValue(quote(filterNumberKeyword[0]));
+      filterNumberKeyword.setValue(quote(QString::fromStdString(filterNumberKeyword[0])).toStdString());
     }
 
 
@@ -272,22 +272,22 @@ void IsisMain() {
     // data quality id
     PvlKeyword &dataQualityIdKeyword = pdsLabel.findKeyword("DATA_QUALITY_ID",
                                                             Pvl::Traverse);
-    dataQualityIdKeyword.setValue(quote(dataQualityIdKeyword));
+    dataQualityIdKeyword.setValue(quote(QString::fromStdString(dataQualityIdKeyword)).toStdString());
 
     // sequence name
     PvlKeyword &sequenceNameKeyword = pdsLabel.findKeyword("SEQUENCE_NAME",
                                                            Pvl::Traverse);
-    sequenceNameKeyword.setValue(quote(sequenceNameKeyword));
+    sequenceNameKeyword.setValue(quote(QString::fromStdString(sequenceNameKeyword)).toStdString());
 
     // spacecraft clock start count
     PvlKeyword &startCountKeyword = pdsLabel.findKeyword("SPACECRAFT_CLOCK_START_COUNT",
                                                          Pvl::Traverse);
-    startCountKeyword.setValue(quote(startCountKeyword));
+    startCountKeyword.setValue(quote(QString::fromStdString(startCountKeyword)).toStdString());
 
     // spacecraft clock stop count
     PvlKeyword &stopCountKeyword = pdsLabel.findKeyword("SPACECRAFT_CLOCK_STOP_COUNT",
                                                         Pvl::Traverse);
-    stopCountKeyword.setValue(quote(stopCountKeyword));
+    stopCountKeyword.setValue(quote(QString::fromStdString(stopCountKeyword)).toStdString());
 
     // source product id
     //  For DDRs, the SOURCE_PRODUCT_ID is made up of SPICE kernels.  I need to go get em.
@@ -298,7 +298,7 @@ void IsisMain() {
     sourceProductIdKeyword.clear();
     for (int i = 0; i < kfiles.size(); i++) {
       FileName kfile(kfiles[i]);
-      sourceProductIdKeyword.addValue(quote(kfile.name()));
+      sourceProductIdKeyword.addValue(quote(kfile.name()).toStdString());
     }
     //  Enforce parentheses for scalars
     if (sourceProductIdKeyword.size() == 1)
@@ -352,8 +352,8 @@ void IsisMain() {
     for (int i = 1; i <= 5; i++) {
       QString n(toString(i));
       QString group = "SUBFRAME" + n + "_PARAMETERS";
-      if (pdsLabel.hasGroup(group)) {
-        PvlGroup &grp = pdsLabel.findGroup(group);
+      if (pdsLabel.hasGroup(group.toStdString())) {
+        PvlGroup &grp = pdsLabel.findGroup(group.toStdString());
         validateUnit(grp.findKeyword("RETICLE_POINT_LATITUDE"), "DEG");
         validateUnit(grp.findKeyword("RETICLE_POINT_LONGITUDE"), "DEG");
       }

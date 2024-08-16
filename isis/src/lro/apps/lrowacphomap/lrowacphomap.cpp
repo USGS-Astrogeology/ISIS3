@@ -135,7 +135,7 @@ namespace Isis {
       QString msg = algoFileName.expanded() + " does not exist.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
-    Pvl par(algoFileName.expanded());
+    Pvl par(algoFileName.expanded().toStdString());
 
     QString parCubeFile = ui.GetCubeName("PHOPARCUBE");
     FileName parCubeFileName(parCubeFile);

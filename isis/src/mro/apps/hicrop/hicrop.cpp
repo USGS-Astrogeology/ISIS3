@@ -118,14 +118,14 @@ namespace Isis {
       // actual start time of the input cube
       Pvl &inLabels = *g_cube->label();
       PvlGroup &inputInst = inLabels.findObject("IsisCube").findGroup("Instrument");
-      QString instId = (inputInst["InstrumentId"]);
+      QString instId = QString::fromStdString(inputInst["InstrumentId"]);
       if (instId.toUpper() != "HIRISE") {
         IString msg = "Input cube has invalid InstrumentId = [" + instId + "]. "
                       "A HiRise image is required.";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       double tdiMode = inputInst["Tdi"]; //Original Instrument
-      QString labelStartClockCount = inputInst["SpacecraftClockStartCount"];
+      QString labelStartClockCount = QString::fromStdString(inputInst["SpacecraftClockStartCount"]);
       double binMode = inputInst["Summing"];
       double deltaLineTimerCount = inputInst["DeltaLineTimerCount"];
 
@@ -343,10 +343,10 @@ namespace Isis {
       Pvl &outLabels = *ocube->label();
       // Change the start/end times and spacecraft start/stop counts in the labels
       PvlGroup &outputInst = outLabels.findObject("IsisCube").findGroup("Instrument");
-      outputInst["StartTime"][0] = cropStartTime.UTC(); //??? use actual or adjusted like clock counts ???
-      outputInst["StopTime"][0] = cropStopTime.UTC(); // adjustedCropStopTime ???
-      outputInst["SpacecraftClockStartCount"][0] = adjustedCropStartClockCount;
-      outputInst["SpacecraftClockStopCount"][0] = adjustedCropStopClockCount;
+      outputInst["StartTime"][0] = cropStartTime.UTC().toStdString(); //??? use actual or adjusted like clock counts ???
+      outputInst["StopTime"][0] = cropStopTime.UTC().toStdString(); // adjustedCropStopTime ???
+      outputInst["SpacecraftClockStartCount"][0] = adjustedCropStartClockCount.toStdString();
+      outputInst["SpacecraftClockStopCount"][0] = adjustedCropStopClockCount.toStdString();
 
       // Create a buffer for reading the input cube
       // Crop the input cube
@@ -355,15 +355,15 @@ namespace Isis {
 
       // Construct a label with the results
       PvlGroup results("Results");
-      results += PvlKeyword("InputLines", toString(inputLineCount));
-      results += PvlKeyword("NumberOfLinesCropped", toString(inputLineCount-g_cropLineCount));
-      results += PvlKeyword("OututStartingLine", toString(g_cropStartLine));
-      results += PvlKeyword("OututEndingLine", toString(g_cropEndLine));
-      results += PvlKeyword("OututLineCount", toString(g_cropLineCount));
-      results += PvlKeyword("OututStartTime", cropStartTime.UTC());
-      results += PvlKeyword("OututStopTime", cropStopTime.UTC()); //??? adjustedCropStopTime
-      results += PvlKeyword("OututStartClock", adjustedCropStartClockCount);
-      results += PvlKeyword("OututStopClock", adjustedCropStopClockCount);
+      results += PvlKeyword("InputLines", std::to_string(inputLineCount));
+      results += PvlKeyword("NumberOfLinesCropped", std::to_string(inputLineCount-g_cropLineCount));
+      results += PvlKeyword("OututStartingLine", std::to_string(g_cropStartLine));
+      results += PvlKeyword("OututEndingLine", std::to_string(g_cropEndLine));
+      results += PvlKeyword("OututLineCount", std::to_string(g_cropLineCount));
+      results += PvlKeyword("OututStartTime", cropStartTime.UTC().toStdString());
+      results += PvlKeyword("OututStopTime", cropStopTime.UTC().toStdString()); //??? adjustedCropStopTime
+      results += PvlKeyword("OututStartClock", adjustedCropStartClockCount.toStdString());
+      results += PvlKeyword("OututStopClock", adjustedCropStopClockCount.toStdString());
 
       // Cleanup
       p.EndProcess();

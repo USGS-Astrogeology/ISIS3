@@ -55,23 +55,23 @@ void IsisMain() {
   PvlObject *isisCubeLab = inputCube->label();
 
   // Error check to make sure this is a valid cube for this program
-  QString origInstrument = isisCubeLab->findObject("IsisCube")
-                           .findGroup("OriginalInstrument")["InstrumentId"][0];
+  QString origInstrument = QString::fromStdString(isisCubeLab->findObject("IsisCube")
+                           .findGroup("OriginalInstrument")["InstrumentId"][0]);
   if (origInstrument != "HIRISE") {
     QString msg = "Input cube must from a HiRISE image. The original "
                   "InstrumentId = [" + origInstrument
                   + "] is unsupported by hideal2pds.";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
-  QString instrumentId = isisCubeLab->findObject("IsisCube")
-                                    .findGroup("Instrument")["InstrumentId"][0];
+  QString instrumentId = QString::fromStdString(isisCubeLab->findObject("IsisCube")
+                                    .findGroup("Instrument")["InstrumentId"][0]);
   if (instrumentId != "IdealCamera") {
     QString msg = "Input cube must be IdealCamera. InstrumentId = ["
                   + instrumentId + "] is unsupported by hideal2pds.";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
-  QString target = isisCubeLab->findObject("IsisCube")
-                              .findGroup("Instrument")["TargetName"][0];
+  QString target = QString::fromStdString(isisCubeLab->findObject("IsisCube")
+                              .findGroup("Instrument")["TargetName"][0]);
   if (target.toUpper() != "MARS") {
     QString msg = "Input cube must from a HiRise image. The target = ["
                   + target + "] is unsupported by hideal2pds.";
@@ -194,7 +194,7 @@ void IsisMain() {
 
   // change SAMPLE_BIT_MASK value according to BITS input
   PvlObject &image = pdsLabel.findObject("IMAGE");
-  image.addKeyword(PvlKeyword("SAMPLE_BIT_MASK", toString((int)pow(2.0, (double)nbits) - 1)),
+  image.addKeyword(PvlKeyword("SAMPLE_BIT_MASK", std::to_string((int)pow(2.0, (double)nbits) - 1)),
                    Pvl::Replace);
 
   Camera *cam = inputCube->camera();
@@ -273,7 +273,7 @@ void IsisMain() {
   }
   else {
     tableKeyword = PvlKeyword("SOLAR_LONGITUDE",
-                              toString(cam->solarLongitude().force360Domain()
+                              std::to_string(cam->solarLongitude().force360Domain()
                                    .positiveEast(Angle::Degrees)),
                               "DEGREES");
   }
@@ -419,17 +419,17 @@ void updatePdsLabelImageObject(PvlObject *isisCubeLab, Pvl &pdsLabel) {
     firstSample = alphaStartingSample;
     firstLine = alphaStartingLine;
   }
-  image += PvlKeyword("SOURCE_LINE_SAMPLES", toString(sourceSamples));
-  image += PvlKeyword("SOURCE_LINES", toString(sourceLines));
-  image += PvlKeyword("FIRST_LINE_SAMPLE", toString(firstSample));
-  image += PvlKeyword("FIRST_LINE", toString(firstLine));
+  image += PvlKeyword("SOURCE_LINE_SAMPLES", std::to_string(sourceSamples));
+  image += PvlKeyword("SOURCE_LINES", std::to_string(sourceLines));
+  image += PvlKeyword("FIRST_LINE_SAMPLE", std::to_string(firstSample));
+  image += PvlKeyword("FIRST_LINE", std::to_string(firstLine));
 
 
   // Add center wavelength and bandwidth with correct units to the IMAGE object
   PvlKeyword &oldCenter = image["CENTER_FILTER_WAVELENGTH"];
   PvlKeyword newCenter("CENTER_FILTER_WAVELENGTH");
   for(int val = 0; val < oldCenter.size(); ++val) {
-    if(((QString)(oldCenter.unit(val))).toUpper() == "NANOMETERS") {
+    if((QString::fromStdString((oldCenter.unit(val)))).toUpper() == "NANOMETERS") {
       newCenter.addValue(oldCenter[val], "NM");
     }
     else {
@@ -441,7 +441,7 @@ void updatePdsLabelImageObject(PvlObject *isisCubeLab, Pvl &pdsLabel) {
   PvlKeyword &oldBandWidth = image["BAND_WIDTH"];
   PvlKeyword newBandWidth("BAND_WIDTH");
   for(int val = 0; val < oldBandWidth.size(); ++val) {
-    if(((QString)(oldBandWidth.unit(val))).toUpper() == "NANOMETERS") {
+    if((QString::fromStdString(oldBandWidth.unit(val))).toUpper() == "NANOMETERS") {
       newBandWidth.addValue(oldBandWidth[val], "NM");
     }
     else {
@@ -490,49 +490,49 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
 
   // Add user-entered keywords to ROOT object in the label of the PDS product
   if(ui.WasEntered("RATIONALE_DESC")) {
-    PvlKeyword rationale("RATIONALE_DESC", ui.GetAsString("RATIONALE_DESC"));
+    PvlKeyword rationale("RATIONALE_DESC", ui.GetAsString("RATIONALE_DESC").toStdString());
     pdsLabel.addKeyword(rationale, PvlContainer::Replace);
   }
   else if ( !pdsLabel.hasKeyword("RATIONALE_DESC")
-            || QString(pdsLabel["RATIONALE_DESC"]) == "NULL" ){
+            || QString::fromStdString(pdsLabel["RATIONALE_DESC"]) == "NULL" ){
     QString msg = "Unable to export HiRise product to PDS without "
                   "RationaleDescription value. The input cube value for this "
                   "keyword is Null, the user is required to enter a value.";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
-  pdsLabel += PvlKeyword("PRODUCT_VERSION_ID", ui.GetString("VERSION"));
+  pdsLabel += PvlKeyword("PRODUCT_VERSION_ID", ui.GetString("VERSION").toStdString());
 
   // Add the N/A constant keyword to the ROOT object
-  pdsLabel += PvlKeyword("NOT_APPLICABLE_CONSTANT", toString(-9998));
+  pdsLabel += PvlKeyword("NOT_APPLICABLE_CONSTANT", std::to_string(-9998));
 
   // Compute and add SOFTWARE_NAME to the ROOT object
   QString sfname;
   sfname.clear();
   sfname += "Isis " + Application::Version() + " " +
             Application::GetUserInterface().ProgramName();
-  pdsLabel += PvlKeyword("SOFTWARE_NAME", sfname);
-  QString matchedCube = isisCubeLab->findObject("IsisCube").findGroup("Instrument")
-                                  .findKeyword("MatchedCube")[0];
+  pdsLabel += PvlKeyword("SOFTWARE_NAME", sfname.toStdString());
+  QString matchedCube = QString::fromStdString(isisCubeLab->findObject("IsisCube").findGroup("Instrument")
+                                  .findKeyword("MatchedCube")[0]);
   FileName matchedCubeFileNoPath(matchedCube);
-  pdsLabel += PvlKeyword("MATCHED_CUBE", matchedCubeFileNoPath.name());
+  pdsLabel += PvlKeyword("MATCHED_CUBE", matchedCubeFileNoPath.name().toStdString());
 
   // Add jitter correction flag value to the ROOT object
   bool jitter = false;
   if (isisCubeLab->findObject("IsisCube").findGroup("Instrument")
                  .hasKeyword("ImageJitterCorrected")) {
-    jitter = toInt(isisCubeLab->findObject("IsisCube")
+    jitter = std::stoi(isisCubeLab->findObject("IsisCube")
                             .findGroup("Instrument")["ImageJitterCorrected"][0]);
-    pdsLabel += PvlKeyword("IMAGE_JITTER_CORRECTED", toString((int)jitter));
+    pdsLabel += PvlKeyword("IMAGE_JITTER_CORRECTED", std::to_string((int)jitter));
   }
   else {
     pdsLabel += PvlKeyword("IMAGE_JITTER_CORRECTED", "UNK");
   }
 
   // Add Isis Kernels group keywords to the ROOT object
-  QString shapeModel = isisCubeLab->findObject("IsisCube").findGroup("Kernels")
-                                  .findKeyword("ShapeModel")[0];
+  QString shapeModel = QString::fromStdString(isisCubeLab->findObject("IsisCube").findGroup("Kernels")
+                                  .findKeyword("ShapeModel")[0]);
   FileName shapeModelFileNoPath(shapeModel);
-  pdsLabel += PvlKeyword("SHAPE_MODEL", shapeModelFileNoPath.name());
+  pdsLabel += PvlKeyword("SHAPE_MODEL", shapeModelFileNoPath.name().toStdString());
 
   // PRODUCT_ID and SOURCE_PRODUCT_ID should be keywords added when creating the
   // mosaic input cube.
@@ -541,8 +541,8 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
   QString radiiName = "BODY" + QString::number(cam->naifBodyCode()) + "_RADII";
   PvlObject naifKeywordGroup = cam->getStoredNaifKeywords();
 
-  if (naifKeywordGroup.hasKeyword(radiiName)) {
-    PvlKeyword naifBodyRadii = naifKeywordGroup.findKeyword(radiiName);
+  if (naifKeywordGroup.hasKeyword(radiiName.toStdString())) {
+    PvlKeyword naifBodyRadii = naifKeywordGroup.findKeyword(radiiName.toStdString());
     pdsLabel += PvlKeyword("A_AXIS_RADIUS", naifBodyRadii[0], "KILOMETERS");
     pdsLabel += PvlKeyword("B_AXIS_RADIUS", naifBodyRadii[1], "KILOMETERS");
     pdsLabel += PvlKeyword("C_AXIS_RADIUS", naifBodyRadii[2], "KILOMETERS");
@@ -550,30 +550,30 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
   else {
     Distance naifBodyRadii[3];
     cam->radii(naifBodyRadii);
-    pdsLabel += PvlKeyword("A_AXIS_RADIUS", toString(naifBodyRadii[0].kilometers()), "KILOMETERS");
-    pdsLabel += PvlKeyword("B_AXIS_RADIUS", toString(naifBodyRadii[1].kilometers()), "KILOMETERS");
-    pdsLabel += PvlKeyword("C_AXIS_RADIUS", toString(naifBodyRadii[2].kilometers()), "KILOMETERS");
+    pdsLabel += PvlKeyword("A_AXIS_RADIUS", std::to_string(naifBodyRadii[0].kilometers()), "KILOMETERS");
+    pdsLabel += PvlKeyword("B_AXIS_RADIUS", std::to_string(naifBodyRadii[1].kilometers()), "KILOMETERS");
+    pdsLabel += PvlKeyword("C_AXIS_RADIUS", std::to_string(naifBodyRadii[2].kilometers()), "KILOMETERS");
   }
 
   if (naifKeywordGroup.hasKeyword("BODY_FRAME_CODE")) {
     pdsLabel += naifKeywordGroup.findKeyword("BODY_FRAME_CODE");
   }
   else {
-    pdsLabel += PvlKeyword("BODY_FRAME_CODE", toString(cam->naifBodyFrameCode()));
+    pdsLabel += PvlKeyword("BODY_FRAME_CODE", std::to_string(cam->naifBodyFrameCode()));
   }
 
   if (naifKeywordGroup.hasKeyword("IDEAL_FOCAL_LENGTH")) {
     pdsLabel += naifKeywordGroup.findKeyword("IDEAL_FOCAL_LENGTH");
   }
   else {
-    pdsLabel += PvlKeyword("IDEAL_FOCAL_LENGTH", toString(cam->FocalLength()));
+    pdsLabel += PvlKeyword("IDEAL_FOCAL_LENGTH", std::to_string(cam->FocalLength()));
   }
 
   if (naifKeywordGroup.hasKeyword("IDEAL_PIXEL_PITCH")) {
     pdsLabel += naifKeywordGroup.findKeyword("IDEAL_PIXEL_PITCH");
   }
   else {
-    pdsLabel += PvlKeyword("IDEAL_PIXEL_PITCH", toString(cam->PixelPitch()));
+    pdsLabel += PvlKeyword("IDEAL_PIXEL_PITCH", std::to_string(cam->PixelPitch()));
   }
 
   if (naifKeywordGroup.hasKeyword("IDEAL_TRANSX")) {
@@ -583,7 +583,7 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
     const double *transXValues = cam->FocalPlaneMap()->TransX();
     PvlKeyword transX("IDEAL_TRANSX");
     for (int i = 0; i < 3; i++) {
-      transX += toString(transXValues[i]);
+      transX += std::to_string(transXValues[i]);
     }
     pdsLabel += transX;
   }
@@ -595,7 +595,7 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
     const double *transYValues = cam->FocalPlaneMap()->TransY();
     PvlKeyword transY("IDEAL_TRANSY");
     for (int i = 0; i < 3; i++) {
-      transY += toString(transYValues[i]);
+      transY += std::to_string(transYValues[i]);
     }
     pdsLabel += transY;
   }
@@ -607,7 +607,7 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
     const double *transSValues = cam->FocalPlaneMap()->TransS();
     PvlKeyword transS("IDEAL_TRANSS");
     for (int i = 0; i < 3; i++) {
-      transS += toString(transSValues[i]);
+      transS += std::to_string(transSValues[i]);
     }
     pdsLabel += transS;
   }
@@ -619,7 +619,7 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
     const double *transLValues = cam->FocalPlaneMap()->TransL();
     PvlKeyword transL("IDEAL_TRANSL");
     for (int i = 0; i < 3; i++) {
-      transL += toString(transLValues[i]);
+      transL += std::to_string(transLValues[i]);
     }
     pdsLabel += transL;
   }
@@ -644,5 +644,5 @@ void updatePdsLabelTimeParametersGroup(Pvl &pdsLabel) {
   QString dateTime = (QString) timestr;
   iTime tmpDateTime(dateTime);
   PvlGroup &timeParam = pdsLabel.findGroup("TIME_PARAMETERS");
-  timeParam += PvlKeyword("PRODUCT_CREATION_TIME", tmpDateTime.UTC());
+  timeParam += PvlKeyword("PRODUCT_CREATION_TIME", tmpDateTime.UTC().toStdString());
 }

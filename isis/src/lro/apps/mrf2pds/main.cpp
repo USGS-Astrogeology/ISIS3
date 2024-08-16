@@ -98,7 +98,7 @@ void IsisMain() {
 
     if(cInLabel->findObject("IsisCube").findGroup("Instrument").hasKeyword("MissionName")) {
       PvlKeyword &cKeyMissionName = cInLabel->findObject("IsisCube").findGroup("Instrument").findKeyword("MissionName");
-      int sFound = cKeyMissionName[0].indexOf("CHANDRAYAAN");
+      int sFound = QString::fromStdString(cKeyMissionName[0]).indexOf("CHANDRAYAAN");
       if(sFound != -1) {
         cCubeLabel2 = PvlToPvlTranslationManager(cOrigLabel, "$ISISROOT/appdata/translations/Chandrayaan1MrfExportOrigLabel.trn");
         cCubeLabel2.Auto(pdsLabel);
@@ -176,7 +176,7 @@ void IsisMain() {
  * @param pcPdsLbl  - Output Pds PVL
  */
 void GetUserLabel(QString psUserLbl, Pvl &pcPdsLbl, bool pbLevel2) {
-  Pvl cUsrPvl(psUserLbl);
+  Pvl cUsrPvl(psUserLbl.toStdString());
 
   /*if (pbLevel2 &&
       (cUsrPvl.hasKeyword("SPACECRAFT_CLOCK_START_COUNT") ||
@@ -241,7 +241,7 @@ void GetSourceProductID(QString psSrcListFile, QString psSrcType, Pvl &pcPdsLbl)
   if(psSrcType == "LIST") {
     SerialNumberList cSnl = psSrcListFile;
     for(int i = 0; i < cSnl.size(); i++) {
-      cKeySrcPrdId += cSnl.serialNumber(i);
+      cKeySrcPrdId += cSnl.serialNumber(i).toStdString();
     }
   }
   // ID's - add directly to the PvlKeyword
@@ -327,7 +327,7 @@ void FixLabel(Pvl &pcPdsLbl, bool &pbLevel2) {
   PvlKeyword cKeySoftware("SOFTWARE_NAME", "ISIS3");
   pcPdsLbl += cKeySoftware;
 
-  PvlKeyword cKeySoftwareVersion("SOFTWARE_VERSION_ID", Application::Version());
+  PvlKeyword cKeySoftwareVersion("SOFTWARE_VERSION_ID", Application::Version().toStdString());
   pcPdsLbl += cKeySoftwareVersion;
 
   // Specific to IMAGE Object
@@ -339,11 +339,11 @@ void FixLabel(Pvl &pcPdsLbl, bool &pbLevel2) {
   // Update SAMPLE_TYPE from "IEEE_" to "PC_"
   if(cImageObject.hasKeyword("SAMPLE_TYPE")) {
     PvlKeyword &cSampleType = cImageObject.findKeyword("SAMPLE_TYPE");
-    QString sVal = cSampleType[0];
+    QString sVal = QString::fromStdString(cSampleType[0]);
     int iFound = sVal.indexOf('_');
     if(iFound >= 0) {
       sVal.replace(0, iFound, "PC");
-      cSampleType.setValue(sVal);
+      cSampleType.setValue(sVal.toStdString());
     }
   }
 
@@ -396,13 +396,13 @@ void FixLabel(Pvl &pcPdsLbl, bool &pbLevel2) {
         PvlKeyword cKeyRefLon("REFERENCE_LONGITUDE");
         QString iStr = toString(dLon, 6);
         iStr += " <DEG>";
-        cKeyRefLon.setValue(iStr);
+        cKeyRefLon.setValue(iStr.toStdString());
         cProjectionObject.addKeyword(cKeyRefLon);
 
         PvlKeyword cKeyRefLat("REFERENCE_LATITUDE");
         iStr = toString(dLat, 6);
         iStr += " <DEG>";
-        cKeyRefLat.setValue(iStr);
+        cKeyRefLat.setValue(iStr.toStdString());
         cProjectionObject.addKeyword(cKeyRefLat);
       }
       else { // Level3 Projection object
@@ -433,31 +433,31 @@ void FixLabel(Pvl &pcPdsLbl, bool &pbLevel2) {
 
   if(cProjectionObject.hasKeyword("LINE_PROJECTION_OFFSET")) {
     PvlKeyword &cLineProjOffset = cProjectionObject.findKeyword("LINE_PROJECTION_OFFSET");
-    QString sVal = cLineProjOffset[0];
+    QString sVal = QString::fromStdString(cLineProjOffset[0]);
     int iFound = sVal.indexOf('<');
     if(iFound >= 0) {
       sVal.remove(iFound, 1);
-      cLineProjOffset.setValue(sVal);
+      cLineProjOffset.setValue(sVal.toStdString());
     }
   }
 
   if(cProjectionObject.hasKeyword("SAMPLE_PROJECTION_OFFSET")) {
     PvlKeyword &cSampleProjOffset = cProjectionObject.findKeyword("SAMPLE_PROJECTION_OFFSET");
-    QString sVal = cSampleProjOffset[0];
+    QString sVal = QString::fromStdString(cSampleProjOffset[0]);
     int iFound = sVal.indexOf('<');
     if(iFound >= 0) {
       sVal.remove(iFound, 1);
-      cSampleProjOffset.setValue(sVal);
+      cSampleProjOffset.setValue(sVal.toStdString());
     }
   }
 
   if(cProjectionObject.hasKeyword("MAP_SCALE")) {
     PvlKeyword &cMapScale = cProjectionObject.findKeyword("MAP_SCALE");
-    QString sVal = cMapScale[0];
+    QString sVal = QString::fromStdString(cMapScale[0]);
     int iFound = sVal.indexOf("EL");
     if(iFound >= 0) {
       sVal.remove(iFound, 2);
-      cMapScale.setValue(sVal);
+      cMapScale.setValue(sVal.toStdString());
     }
   }
 }

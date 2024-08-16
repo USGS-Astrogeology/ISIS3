@@ -52,7 +52,7 @@ void hicolormos(Cube *from1, Cube* from2, UserInterface &ui) {
   PvlGroup from1Mosaic = from1lab.findGroup("Mosaic", Pvl::Traverse);
 
   // Make the procuct ID (from1 archive group)
-  QString ProdId = from1lab.findGroup("Archive", Pvl::Traverse)["ObservationId"];
+  QString ProdId = QString::fromStdString(from1lab.findGroup("Archive", Pvl::Traverse)["ObservationId"]);
   ProdId += "_COLOR";
 
   // Prep for second image if we have one
@@ -64,8 +64,8 @@ void hicolormos(Cube *from1, Cube* from2, UserInterface &ui) {
     tf.PutLine(from2->fileName() + "\n");
 
     // Test the observation ID between from1 and from2
-    if((QString)from1lab.findGroup("Archive", Pvl::Traverse)["ObservationId"] !=
-        (QString)from2lab.findGroup("Archive", Pvl::Traverse)["ObservationId"]) {
+    if(QString::fromStdString(from1lab.findGroup("Archive", Pvl::Traverse)["ObservationId"]) !=
+        QString::fromStdString(from2lab.findGroup("Archive", Pvl::Traverse)["ObservationId"])) {
       QString msg = "Images not from the same observation";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -212,16 +212,16 @@ void hicolormos(Cube *from1, Cube* from2, UserInterface &ui) {
   }
 
   //work on the times (from mosaic group)
-  QString startTime = from1Mosaic["StartTime"];
-  QString stopTime = from1Mosaic["StopTime"];
-  QString startClk = from1Mosaic["SpacecraftClockStartCount"];
-  QString stopClk = from1Mosaic["SpacecraftClockStopCount"];
+  QString startTime = QString::fromStdString(from1Mosaic["StartTime"]);
+  QString stopTime = QString::fromStdString(from1Mosaic["StopTime"]);
+  QString startClk = QString::fromStdString(from1Mosaic["SpacecraftClockStartCount"]);
+  QString stopClk = QString::fromStdString(from1Mosaic["SpacecraftClockStopCount"]);
 
   if(from2) {
-    if((QString)from2Mosaic["StartTime"] < startTime) startTime = (QString)from2Mosaic["StartTime"];
-    if((QString)from2Mosaic["StopTime"] > stopTime) stopTime = (QString)from2Mosaic["StopTime"];
-    if((QString)from2Mosaic["SpacecraftClockStartCount"] < startClk) startClk = (QString)from2Mosaic["SpacecraftClockStartCount"];
-    if((QString)from2Mosaic["SpacecraftClockStopCount"] < stopClk) stopClk = (QString)from2Mosaic["SpacecraftClockStopCount"];
+    if(QString::fromStdString(from2Mosaic["StartTime"]) < startTime) startTime = QString::fromStdString(from2Mosaic["StartTime"]);
+    if(QString::fromStdString(from2Mosaic["StopTime"]) > stopTime) stopTime = QString::fromStdString(from2Mosaic["StopTime"]);
+    if(QString::fromStdString(from2Mosaic["SpacecraftClockStartCount"]) < startClk) startClk = QString::fromStdString(from2Mosaic["SpacecraftClockStartCount"]);
+    if(QString::fromStdString(from2Mosaic["SpacecraftClockStopCount"]) < stopClk) stopClk = QString::fromStdString(from2Mosaic["SpacecraftClockStopCount"]);
   }
 
   // Get TDI and summing array
@@ -252,19 +252,19 @@ void hicolormos(Cube *from1, Cube* from2, UserInterface &ui) {
   ProgramLauncher::RunIsisProgram("automos", parameters);
 
   PvlGroup mos("Mosaic");
-  mos += PvlKeyword("ProductId ", ProdId);
+  mos += PvlKeyword("ProductId ", ProdId.toStdString());
   mos += sourceProductId;
-  mos += PvlKeyword("StartTime ", startTime);
-  mos += PvlKeyword("SpacecraftClockStartCount ", startClk);
-  mos += PvlKeyword("StopTime ", stopTime);
-  mos += PvlKeyword("SpacecraftClockStopCount ", stopClk);
-  mos += PvlKeyword("IncidenceAngle ", toString(Cincid), "DEG");
-  mos += PvlKeyword("EmissionAngle ", toString(Cemiss), "DEG");
-  mos += PvlKeyword("PhaseAngle ", toString(Cphase), "DEG");
-  mos += PvlKeyword("LocalTime ", toString(ClocalSolTime), "LOCALDAY/24");
-  mos += PvlKeyword("SolarLongitude ", toString(CsolarLong), "DEG");
-  mos += PvlKeyword("SubSolarAzimuth ", toString(CsunAzimuth), "DEG");
-  mos += PvlKeyword("NorthAzimuth ", toString(CnorthAzimuth), "DEG");
+  mos += PvlKeyword("StartTime ", startTime.toStdString());
+  mos += PvlKeyword("SpacecraftClockStartCount ", startClk.toStdString());
+  mos += PvlKeyword("StopTime ", stopTime.toStdString());
+  mos += PvlKeyword("SpacecraftClockStopCount ", stopClk.toStdString());
+  mos += PvlKeyword("IncidenceAngle ", std::to_string(Cincid), "DEG");
+  mos += PvlKeyword("EmissionAngle ", std::to_string(Cemiss), "DEG");
+  mos += PvlKeyword("PhaseAngle ", std::to_string(Cphase), "DEG");
+  mos += PvlKeyword("LocalTime ", std::to_string(ClocalSolTime), "LOCALDAY/24");
+  mos += PvlKeyword("SolarLongitude ", std::to_string(CsolarLong), "DEG");
+  mos += PvlKeyword("SubSolarAzimuth ", std::to_string(CsunAzimuth), "DEG");
+  mos += PvlKeyword("NorthAzimuth ", std::to_string(CnorthAzimuth), "DEG");
   mos += cpmmTdiFlag;
   mos += cpmmSummingFlag;
   mos += specialProcessingFlag;

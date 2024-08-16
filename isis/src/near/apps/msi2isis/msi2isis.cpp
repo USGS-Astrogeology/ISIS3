@@ -71,12 +71,12 @@ namespace Isis {
       throw IException(IException::Io,
                       "The input label [" + from.expanded() + "] has an invalid "
                       "value for INSTRUMENT_ID = ["
-                      + inputLabelPvl["INSTRUMENT_ID"][0]
+                      + QString::fromStdString(inputLabelPvl["INSTRUMENT_ID"][0])
                       + "]. The msi2isis program requires INSTRUMENT_ID = [MSI].",
                       _FILEINFO_);
     }
-    int lines = inputLabelPvl.findObject("IMAGE")["LINES"][0].toInt();
-    int samples = inputLabelPvl.findObject("IMAGE")["LINE_SAMPLES"][0].toInt();
+    int lines = std::stoi(inputLabelPvl.findObject("IMAGE")["LINES"][0]);
+    int samples = std::stoi(inputLabelPvl.findObject("IMAGE")["LINE_SAMPLES"][0]);
     if ( (  (lines != 244) && (lines != 412) ) || samples != 537) {
       QString msg = "The given file [" + from.expanded() + "] does not contain "
                     "a full MSI image. Full NEAR Shoemaker MSI images have "
@@ -88,7 +88,7 @@ namespace Isis {
     if (inputLabelPvl["SAMPLE_DISPLAY_DIRECTION"][0] != "RIGHT") {
       QString msg = "The input label [" + from.expanded() + "] has an invalid "
                     "value for SAMPLE_DISPLAY_DIRECTION = ["
-                    + inputLabelPvl["SAMPLE_DISPLAY_DIRECTION"][0]
+                    + QString::fromStdString(inputLabelPvl["SAMPLE_DISPLAY_DIRECTION"][0])
                     + "]. The msi2isis program requires "
                     "SAMPLE_DISPLAY_DIRECTION = [RIGHT].";
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -96,7 +96,7 @@ namespace Isis {
     if (inputLabelPvl["LINE_DISPLAY_DIRECTION"][0] != "UP") {
       QString msg = "The input label [" + from.expanded() + "] has an invalid "
                     "value for LINE_DISPLAY_DIRECTION = ["
-                    + inputLabelPvl["LINE_DISPLAY_DIRECTION"][0]
+                    + QString::fromStdString(inputLabelPvl["LINE_DISPLAY_DIRECTION"][0])
                     + "]. The msi2isis program requires "
                     "LINE_DISPLAY_DIRECTION = [UP].";
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -284,9 +284,9 @@ namespace Isis {
 
     // Correct format of SCLK by remove the .
     // Test if the correction has been made - it should be an integer
-    if ( sclkStart[0].contains(".") ) {
-      sclkStart = sclkStart[0].remove(".");
-      sclkStop  = sclkStop[0].remove(".");
+    if (QString::fromStdString(sclkStart[0]).contains(".") ) {
+      sclkStart = (QString::fromStdString(sclkStart[0]).remove(".")).toStdString();
+      sclkStop  = (QString::fromStdString(sclkStop[0]).remove(".")).toStdString();
     }
 
     // Read DPU deck temperature value from the labels (This value is also given

@@ -48,10 +48,10 @@ void IsisMain() {
     QString msg;
     try {
       msg = "File could not be opened.";
-      Pvl lab(inFile.expanded());
+      Pvl lab(inFile.expanded().toStdString());
 
       msg = "PVL Keyword [DATA_SET_ID] not found in label.";
-      id = (QString) lab.findKeyword("DATA_SET_ID");
+      id = QString::fromStdString(lab.findKeyword("DATA_SET_ID"));
       projected = lab.hasObject("IMAGE_MAP_PROJECTION");
 
       msg = "PVL Keywords [SPATIAL_SUMMING] and [SAMPLING_FACTOR] not found in label.";
@@ -64,7 +64,7 @@ void IsisMain() {
       }
 
       msg = "PVL Keyword [SAMPLE_BIT_MODE_ID] not found in label.";
-      bitMode = (QString) lab.findKeyword("SAMPLE_BIT_MODE_ID");
+      bitMode = QString::fromStdString(lab.findKeyword("SAMPLE_BIT_MODE_ID"));
 
       msg = "PVL Keywords [EDIT_MODE_ID] and [SAMPLE_FIRST_PIXEL] not found in label.";
       msg += "The mroctx2isis application requires at least one to exist in order to set edit mode.";
@@ -229,7 +229,7 @@ void TranslateMroCtxLabels(FileName &labelFile, Cube *ocube) {
   //Pvl to store the labels
   Pvl outLabel;
   QString transDir = "$ISISROOT/appdata/translations/";
-  Pvl labelPvl(labelFile.expanded());
+  Pvl labelPvl(labelFile.expanded().toStdString());
 
   //Translate the Instrument group
   FileName transFile(transDir + "MroCtxInstrument.trn");
@@ -244,14 +244,14 @@ void TranslateMroCtxLabels(FileName &labelFile, Cube *ocube) {
   // Set up the BandBin groups
   PvlGroup bbin("BandBin");
   bbin += PvlKeyword("FilterName", "BroadBand");
-  bbin += PvlKeyword("Center", toString(0.650), "micrometers");
-  bbin += PvlKeyword("Width", toString(0.150), "micrometers");
+  bbin += PvlKeyword("Center", std::to_string(0.650), "micrometers");
+  bbin += PvlKeyword("Width", std::to_string(0.150), "micrometers");
 
   //Set up the Kernels group
   PvlGroup kern("Kernels");
-  kern += PvlKeyword("NaifFrameCode", toString(-74021));
+  kern += PvlKeyword("NaifFrameCode", std::to_string(-74021));
 
-  Pvl lab(labelFile.expanded());
+  Pvl lab(labelFile.expanded().toStdString());
   int sumMode, startSamp;
   if(lab.hasKeyword("SPATIAL_SUMMING")) {
     sumMode = (int)lab.findKeyword("SPATIAL_SUMMING");
@@ -266,8 +266,8 @@ void TranslateMroCtxLabels(FileName &labelFile, Cube *ocube) {
     startSamp = (int)lab.findKeyword("SAMPLE_FIRST_PIXEL");
   }
   PvlGroup inst = outLabel.findGroup("Instrument", Pvl::Traverse);
-  inst += PvlKeyword("SpatialSumming", toString(sumMode));
-  inst += PvlKeyword("SampleFirstPixel", toString(startSamp));
+  inst += PvlKeyword("SpatialSumming", std::to_string(sumMode));
+  inst += PvlKeyword("SampleFirstPixel", std::to_string(startSamp));
 
   //Add all groups to the output cube
   ocube->putGroup(inst);

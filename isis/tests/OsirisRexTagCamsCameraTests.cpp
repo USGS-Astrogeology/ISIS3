@@ -41,7 +41,7 @@ TEST_F(OsirisRexTagcamsNAVCamCube, NavigationCam) {
 
   const PvlGroup &inst = testCube->label()->findGroup("Instrument", Pvl::Traverse);
   double exposureDuration = ((double) inst["ExposureDuration"])/1000;
-  QString stime = inst["StartTime"];
+  QString stime = QString::fromStdString(inst["StartTime"]);
   double et; // StartTime keyword is the center exposure time
   str2et_c(stime.toLatin1().data(), &et);
   pair <iTime, iTime> shuttertimes = cam->ShutterOpenCloseTimes(et, exposureDuration);
@@ -90,7 +90,7 @@ TEST_F(OsirisRexTagcamsNFTCamCube, NaturalFeatureTrackingCam) {
 
   const PvlGroup &inst = testCube->label()->findGroup("Instrument", Pvl::Traverse);
   double exposureDuration = ((double) inst["ExposureDuration"])/1000;
-  QString stime = inst["StartTime"];
+  QString stime = QString::fromStdString(inst["StartTime"]);
   double et; // StartTime keyword is the center exposure time
   str2et_c(stime.toLatin1().data(), &et);
   pair <iTime, iTime> shuttertimes = cam->ShutterOpenCloseTimes(et, exposureDuration);

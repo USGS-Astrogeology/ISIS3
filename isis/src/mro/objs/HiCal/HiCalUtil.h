@@ -435,7 +435,7 @@ inline HiVector rebin(const HiVector &v, int n) {
 inline void RemoveHiBlobs(Pvl &label) {
   for ( int blob = 0 ; blob < label.objects() ; blob++ ) {
     if ( label.object(blob).isNamed("Table") ) {
-      QString name = label.object(blob)["Name"][0];
+      QString name = QString::fromStdString(label.object(blob)["Name"][0]);
       if ( name.toLower() == "hirise calibration ancillary" ||
            name.toLower() == "hirise calibration images" ||
            name.toLower() == "hirise ancillary") {

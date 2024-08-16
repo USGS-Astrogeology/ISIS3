@@ -75,7 +75,7 @@ namespace Isis {
         g_bterm.push_back(std::stod(btermKeyword[i]));
       }
 
-      double versionId = std::stod(QString::fromStdString(lab.findKeyword("PRODUCT_VERSION_ID")[0]).remove(QRegExp("^v")));
+      double versionId = toDouble(QString::fromStdString(lab.findKeyword("PRODUCT_VERSION_ID")[0]).remove(QRegExp("^v")));
       if(lab.findKeyword("FRAME_ID")[0] == "RIGHT" && versionId < 1.30)
         g_flip = true;
       else

@@ -75,10 +75,10 @@ void IsisMain() {
 //  Modify the output Mosaic group if the Projection is of type
 //  Equirectangular.
   PvlGroup mapgrp = otherLabels.findGroup("Mapping");
-  if (mapgrp["ProjectionName"][0].toUpper() == "EQUIRECTANGULAR") {
+  if (QString::fromStdString(mapgrp["ProjectionName"][0]).toUpper() == "EQUIRECTANGULAR") {
 
     //  Get the target and check for validity
-    QString target = label.findKeyword("TargetName", PvlObject::Traverse)[0];
+    QString target = QString::fromStdString(label.findKeyword("TargetName", PvlObject::Traverse)[0]);
     PvlGroup radii = Target::radiiGroup(target);
 
     // Set existing radius to CenterLatitudeRadius

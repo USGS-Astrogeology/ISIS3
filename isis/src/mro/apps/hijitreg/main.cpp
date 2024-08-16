@@ -81,7 +81,7 @@ void IsisMain() {
 //  Open the shift definitions file
   Pvl shiftdef;
   if (ui.WasEntered("SHIFTDEF")) {
-    shiftdef.read(ui.GetFileName("SHIFTDEF"));
+    shiftdef.read(ui.GetFileName("SHIFTDEF").toStdString());
   }
   else {
     shiftdef.addObject(PvlObject("Hiccdstitch"));
@@ -144,7 +144,7 @@ void IsisMain() {
   // of the grid points.
   Pvl regdef;
   FileName regFile(ui.GetFileName("REGDEF"));
-  regdef.read(regFile.expanded());
+  regdef.read(regFile.expanded().toStdString());
   AutoReg *ar = AutoRegFactory::Create(regdef);
 
 
@@ -355,9 +355,9 @@ void IsisMain() {
   if (jparms.sStats.ValidPixels() > 0) {
     double sTrans = (int)(jparms.sStats.Average() * 100.0) / 100.0;
     double lTrans = (int)(jparms.lStats.Average() * 100.0) / 100.0;
-    results += PvlKeyword("Sample", toString(sTrans));
-    results += PvlKeyword("Line", toString(lTrans));
-    results += PvlKeyword("NSuspects", toString(jparms.nSuspects));
+    results += PvlKeyword("Sample", std::to_string(sTrans));
+    results += PvlKeyword("Line", std::to_string(lTrans));
+    results += PvlKeyword("NSuspects", std::to_string(jparms.nSuspects));
   }
   else {
     results += PvlKeyword("Sample", "NULL");

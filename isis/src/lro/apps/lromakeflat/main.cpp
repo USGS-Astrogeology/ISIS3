@@ -290,7 +290,7 @@ void IsisMain() {
     for(unsigned int i = 0; i < g_excludedDetails.size(); i++) {
       excludeFile.addObject(g_excludedDetails[i]);
     }
-    excludeFile.write(FileName(ui.GetFileName("EXCLUDE")).expanded());
+    excludeFile.write(FileName(ui.GetFileName("EXCLUDE")).expanded().toStdString());
   }
 } // end of main
 
@@ -360,9 +360,9 @@ void getCubeListNormalization(Matrix2d &matrix, int cubeWidth, int frameHeight, 
       int frame = cubeLine/frameLineCount;
       double normalizationAverage = hist.Average();
       matrix[listIndex][frame] = normalizationAverage;
-      normResults += PvlKeyword("FileName", g_list[listIndex].toString());
-      normResults += PvlKeyword("Frame", toString(frame));
-      normResults += PvlKeyword("Frame_MeanAverage", toString(normalizationAverage));
+      normResults += PvlKeyword("FileName", g_list[listIndex].toString().toStdString());
+      normResults += PvlKeyword("Frame", std::to_string(frame));
+      normResults += PvlKeyword("Frame_MeanAverage", std::to_string(normalizationAverage));
       Application::Log(normResults);
     }
     tmp.close();
@@ -474,8 +474,8 @@ void exclude(int listIndex, string reason) {
     g_excludedCubes.insert(pair<int, string>(listIndex, reason));
     PvlObject exclusion("Excluded_Items");
     PvlGroup excludedFiles("Excluded_Files");
-    excludedFiles += PvlKeyword("FileName", g_list[listIndex].toString());
-    excludedFiles += PvlKeyword("Reason", QString::fromStdString(reason));
+    excludedFiles += PvlKeyword("FileName", g_list[listIndex].toString().toStdString());
+    excludedFiles += PvlKeyword("Reason", reason);
     Application::Log(excludedFiles);
     exclusion.addGroup(excludedFiles);
     g_excludedDetails.push_back(exclusion);
@@ -503,9 +503,9 @@ void exclude(int listIndex, int frame, string reason){
     g_excludedFrames.insert(pair < pair < int, int > , string > (pair<int, int>(listIndex, frame), reason));
     PvlObject exclusion("Excluded_Items");
     PvlGroup excludedFiles("Excluded_Frames");
-    excludedFiles += PvlKeyword("Frame_from_cube", g_list[listIndex].toString());
-    excludedFiles += PvlKeyword("Frame_number", toString(frame));
-    excludedFiles += PvlKeyword("Exclusion_reason", QString::fromStdString(reason));
+    excludedFiles += PvlKeyword("Frame_from_cube", g_list[listIndex].toString().toStdString());
+    excludedFiles += PvlKeyword("Frame_number", std::to_string(frame));
+    excludedFiles += PvlKeyword("Exclusion_reason", reason);
     Application::Log(excludedFiles);
     exclusion.addGroup(excludedFiles);
     g_excludedDetails.push_back(exclusion);

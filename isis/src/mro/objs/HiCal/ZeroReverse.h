@@ -109,7 +109,7 @@ namespace Isis {
                      "],HisPixels["+ToString(_stats.HisPixels()) +
                      "],NulPixels["+ToString(_stats.NullPixels())+ "])");
 
-       DbAccess triggers(Pvl(tfile).findObject("ReverseClockStatistics"));
+       DbAccess triggers(Pvl(tfile.toStdString()).findObject("ReverseClockStatistics"));
        QString tprofName = conf.resolve("{FILTER}{CCD}_{CHANNEL}_{BIN}",prof);
        _history.add("ReverseClockStatistics(File["+tfile+
                     "],Profile["+tprofName+"])");

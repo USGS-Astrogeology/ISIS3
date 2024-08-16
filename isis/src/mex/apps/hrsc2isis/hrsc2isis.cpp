@@ -40,7 +40,7 @@ namespace Isis{
     // Decide if the file is an HRSC image or something else
     if (label["INSTRUMENT_ID"][0] != "HRSC") {
       IString msg = "File [" + ui.GetFileName("FROM") + "] with [INSTRUMENT_ID = " +
-                     label["INSTRUMENT_ID"][0] +
+                      QString::fromStdString(label["INSTRUMENT_ID"][0]) +
                     "] does not appear to be a Mars Express HRSC image. " +
                     "Consider using pds2isis to import the image.";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -65,13 +65,13 @@ namespace Isis{
     else {
       QString msg = "File [" + ui.GetFileName("FROM");
       msg += "] does not appear to be a Mars Express stereo or SRC file. Label keyword [DETECTOR_ID = ";
-      msg += label["DETECTOR_ID"][0] + "] is not recognized.";
+      msg +=  QString::fromStdString(label["DETECTOR_ID"][0]) + "] is not recognized.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if ((int)label["PROCESSING_LEVEL_ID"] >= 4) {
       QString msg = "File [" + ui.GetFileName("FROM");
-      msg += "] has keyword [PROCESSING_LEVEL_ID = " + label["PROCESSING_LEVEL_ID"][0] + "]";
+      msg += "] has keyword [PROCESSING_LEVEL_ID = " +  QString::fromStdString(label["PROCESSING_LEVEL_ID"][0]) + "]";
       msg += " and can not be read by this program.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -311,13 +311,13 @@ namespace Isis{
     instrumentXlater.Auto(outLabel);
 
     // Remove 'Z' from times
-    QString startTime = outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0];
+    QString startTime =  QString::fromStdString(outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]);
     startTime = startTime.mid(0, startTime.size() - 1);
-    outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"] = startTime;
+    outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"] = startTime.toStdString();
 
-    QString stopTime = outLabel.findGroup("Instrument", Pvl::Traverse)["StopTime"][0];
+    QString stopTime =  QString::fromStdString(outLabel.findGroup("Instrument", Pvl::Traverse)["StopTime"][0]);
     stopTime = stopTime.mid(0, stopTime.size() - 1);
-    outLabel.findGroup("Instrument", Pvl::Traverse)["StopTime"] = stopTime;
+    outLabel.findGroup("Instrument", Pvl::Traverse)["StopTime"] = stopTime.toStdString();
 
     // Translate the BandBin group
     transFile  = transDir + "MexHrscBandBin.trn";

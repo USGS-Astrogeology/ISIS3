@@ -41,7 +41,7 @@ void IsisMain() {
 
   QString translationFile = "$ISISROOT/appdata/translations/";
   PvlGroup instGroup = inputLabel->findObject("IsisCube").findGroup("Instrument");
-  if (instGroup["InstrumentId"][0].compare("NIRS", Qt::CaseInsensitive) == 0) {
+  if (QString::fromStdString(instGroup["InstrumentId"][0]).compare("NIRS", Qt::CaseInsensitive) == 0) {
 
     process.setImageType(ProcessExportPds4::BinSetSpectrum);
     QDomDocument &pdsLabel = process.StandardPds4Label();
@@ -134,7 +134,7 @@ void generateCSVOutput(Pvl &inputCubeLabel) {
     FileName csvOutput = imgOutput.removeExtension().setExtension("csv");
 
     PvlGroup instGroup = inputCubeLabel.findObject("IsisCube").findGroup("Instrument");
-    if (instGroup["InstrumentId"][0].compare("amica", Qt::CaseInsensitive) == 0) {
+    if (QString::fromStdString(instGroup["InstrumentId"][0]).compare("amica", Qt::CaseInsensitive) == 0) {
       if (inputCubeLabel.findObject("IsisCube").hasGroup("RadiometricCalibration")) {
         outFile.open(csvOutput.expanded().toLatin1().data(), std::ios::out);
         PvlGroup radiometricGroup = inputCubeLabel.findObject("IsisCube").findGroup("RadiometricCalibration");

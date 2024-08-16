@@ -122,7 +122,7 @@ namespace Isis {
 
     PvlGroup &kernels = label.findGroup("Kernels", Pvl::Traverse);
 
-    QString trykey = "NaifIkCode";
+    std::string trykey = "NaifIkCode";
 
     m_systemName = new QString;
 
@@ -133,7 +133,7 @@ namespace Isis {
     if (name().toUpper() == "SKY" && kernels.hasKeyword(trykey)) {
       m_radii[0] = m_radii[1] = m_radii[2] = Distance(1000.0, Distance::Meters);
       m_sky = true;
-      int ikCode = toInt(kernels[trykey][0]);
+      int ikCode = std::stoi(kernels[trykey][0]);
       *m_bodyCode  = ikCode / 1000;
       // Check for override in kernel group
       if (kernels.hasKeyword("NaifSpkCode")) {

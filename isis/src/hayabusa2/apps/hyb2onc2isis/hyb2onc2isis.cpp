@@ -55,8 +55,8 @@ namespace Isis {
         QString instid;
         QString missid;
         try {
-            instid = fitsLabel.findGroup("FitsLabels").findKeyword("INSTRUME")[0];
-            missid = fitsLabel.findGroup("FitsLabels").findKeyword ("SPCECRFT")[0];
+            instid = QString::fromStdString(fitsLabel.findGroup("FitsLabels").findKeyword("INSTRUME")[0]);
+            missid = QString::fromStdString(fitsLabel.findGroup("FitsLabels").findKeyword ("SPCECRFT")[0]);
         }
         catch (IException &e) {
             QString msg = "Unable to read instrument ID, [INSTRUME], or spacecraft ID, [SPCECRFT], "
@@ -86,7 +86,7 @@ namespace Isis {
         PvlGroup &instGrp = outputLabel.findGroup("Instrument",Pvl::Traverse);
         QString target;
         if (ui.WasEntered("TARGET")) {
-            instGrp["TargetName"] = ui.GetString("TARGET");
+            instGrp["TargetName"] = ui.GetString("TARGET").toStdString();
         }
         instGrp["ExposureDuration"].setUnits("seconds");
         outputCube->putGroup(instGrp);
@@ -107,12 +107,12 @@ namespace Isis {
         PvlToPvlTranslationManager archiveXlater (fitsLabel, transFile.expanded());
         archiveXlater.Auto(outputLabel);
         PvlGroup &archGrp = outputLabel.findGroup("Archive", Pvl::Traverse);
-        QString source = archGrp.findKeyword("SourceProductId")[0];
-        archGrp["SourceProductId"].setValue(FileName(source).baseName());
+        QString source = QString::fromStdString(archGrp.findKeyword("SourceProductId")[0]);
+        archGrp["SourceProductId"].setValue(FileName(source).baseName().toStdString());
 
         //  Create YearDoy keyword in Archive group
-        iTime stime(outputLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]);
-        PvlKeyword yeardoy("YearDoy", toString(stime.Year()*1000 + stime.DayOfYear()));
+        iTime stime(QString::fromStdString(outputLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]));
+        PvlKeyword yeardoy("YearDoy", std::to_string(stime.Year()*1000 + stime.DayOfYear()));
         archGrp.addKeyword(yeardoy);
         outputCube->putGroup(archGrp);
 

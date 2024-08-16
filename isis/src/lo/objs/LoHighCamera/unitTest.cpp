@@ -72,7 +72,7 @@ int main(void) {
       const PvlGroup &inst = c.label()->findGroup("Instrument", Pvl::Traverse);
       // approximate 1 tenth of a second since Lunar Orbiter did not provide
       double exposureDuration = .1;
-      QString stime = inst["StartTime"];
+      QString stime = QString::fromStdString(inst["StartTime"]);
       double et; // StartTime keyword is the center exposure time
       str2et_c(stime.toLatin1().data(), &et);
       pair <iTime, iTime> shuttertimes = cam->ShutterOpenCloseTimes(et, exposureDuration);

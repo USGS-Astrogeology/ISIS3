@@ -92,8 +92,8 @@ namespace Isis {
     OpenCube(filename);
 
     //  Determine if a shift of the CCD exists in the definitions file
-    if(shift.hasGroup(jdata.ccdName)) {
-      PvlGroup &ccddef = shift.findGroup(jdata.ccdName, Pvl::Traverse);
+    if(shift.hasGroup(jdata.ccdName.toStdString())) {
+      PvlGroup &ccddef = shift.findGroup(jdata.ccdName.toStdString(), Pvl::Traverse);
       if(ccddef.hasKeyword("SampleOffset")) {
         jdata.sampOffset = (int) ccddef["SampleOffset"];
       }
@@ -236,7 +236,7 @@ namespace Isis {
     Isis::PvlGroup idinst;
     jdata.filename = fileName();
     Isis::PvlGroup &archive = labelPvl->findGroup("Archive", Isis::Pvl::Traverse);
-    jdata.productId = (QString) archive["ProductId"];
+    jdata.productId = QString::fromStdString(archive["ProductId"]);
 
     jdata.lines = lineCount();
     if(labelPvl->findObject("IsisCube").hasGroup("OriginalInstrument")) {
@@ -276,8 +276,8 @@ namespace Isis {
     }
     jdata.ccdName = Instrument::CCD_NAMES[jdata.cpmmNumber];
     jdata.dltCount = inst["DeltaLineTimerCount"];
-    jdata.UTCStartTime = (QString) inst["StartTime"];
-    jdata.scStartTime = (QString) inst["SpacecraftClockStartCount"];
+    jdata.UTCStartTime = QString::fromStdString(inst["StartTime"]);
+    jdata.scStartTime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
 
     try {
       if(originst) {

@@ -371,12 +371,12 @@ namespace Isis {
 
     if(g_dark){
       PvlKeyword darks("DarkFiles");
-      darks.addValue(darkFiles[0]);
+      darks.addValue(darkFiles[0].toStdString());
       if(g_nearestDark)
         calgrp += PvlKeyword("DarkFileType", "NearestDarkFile");
       else if (g_nearestDarkPair){
         calgrp += PvlKeyword("DarkFileType", "NearestDarkFilePair");
-        darks.addValue(darkFiles[1]);
+        darks.addValue(darkFiles[1].toStdString());
       }
       else
         calgrp += PvlKeyword("DarkFileType", "CustomDarkFile");
@@ -390,7 +390,7 @@ namespace Isis {
     }
 
     if(g_flatfield)
-      calgrp += PvlKeyword("FlatFile", flatFile);
+      calgrp += PvlKeyword("FlatFile", flatFile.toStdString());
     if(g_radiometric) {
       if(g_iof) {
         calgrp += PvlKeyword("RadiometricType", "IOF");
@@ -686,7 +686,7 @@ namespace Isis {
   */
   void GetCalibrationDirectory(QString calibrationType, QString &calibrationDirectory) {
     PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-    QString missionDir = (QString) dataDir["LRO"];
+    QString missionDir = QString::fromStdString(dataDir["LRO"]);
     if(calibrationType != "")
       calibrationType += "/";
 

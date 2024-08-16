@@ -82,7 +82,7 @@ namespace Isis {
 
     while (algo != phoObj.endGroup()) {
 
-      if (algo->name().toLower() == "algorithm") {
+      if (QString::fromStdString(algo->name()).toLower() == "algorithm") {
         m_profiles.push_back(DbProfile(phoProf, DbProfile(*algo)));
       }
       ++algo;
@@ -93,7 +93,7 @@ namespace Isis {
     QString errs("");
 
     for (int i = 0; i < cube.bandCount(); i++) {
-      Parameters parms = findParameters(toDouble(center[i]));
+      Parameters parms = findParameters(std::stod(center[i]));
       if (parms.IsValid()) {
         parms.band = i + 1;
         parms.phoStd = photometry(parms, m_iRef, m_eRef, m_gRef);
@@ -110,7 +110,7 @@ namespace Isis {
 
     // Check for errors and throw them all at the same time
     if (!errs.isEmpty()) {
-      errs += " --> Errors in the input PVL file [" + pvl.fileName() + "]";
+      errs += " --> Errors in the input PVL file [" + QString::fromStdString(pvl.fileName()) + "]";
       throw IException(IException::User, errs, _FILEINFO_);
     }
 
@@ -236,10 +236,10 @@ namespace Isis {
     }
 
     pvl += PvlKeyword("Algorithm", "LROC_Empirical");
-    pvl += PvlKeyword("AlgorithmVersion", toString(m_bandpho[0].algoVersion), "" );
-    pvl += PvlKeyword("IncRef", toString(m_iRef), "degrees");
-    pvl += PvlKeyword("EmaRef", toString(m_eRef), "degrees");
-    pvl += PvlKeyword("PhaRef", toString(m_gRef), "degrees");
+    pvl += PvlKeyword("AlgorithmVersion", std::to_string(m_bandpho[0].algoVersion), "" );
+    pvl += PvlKeyword("IncRef", std::to_string(m_iRef), "degrees");
+    pvl += PvlKeyword("EmaRef", std::to_string(m_eRef), "degrees");
+    pvl += PvlKeyword("PhaRef", std::to_string(m_gRef), "degrees");
 
     PvlKeyword units("FunctionUnits");
     PvlKeyword phostd("PhotometricStandard");
@@ -250,13 +250,13 @@ namespace Isis {
     std::vector<PvlKeyword> aTermKeywords;
     std::vector<PvlKeyword> bTermKeywords;
     for (unsigned int i = 0; i < m_bandpho[0].aTerms.size(); i++)
-        aTermKeywords.push_back(PvlKeyword("A" + toString((int) i)));
+        aTermKeywords.push_back(PvlKeyword("A" + std::to_string((int) i)));
     for (unsigned int i = 0; i < m_bandpho[0].bTerms.size(); i++)
-        bTermKeywords.push_back(PvlKeyword("B" + toString((int) i)));
+        bTermKeywords.push_back(PvlKeyword("B" + std::to_string((int) i)));
 
     for (unsigned int i = 0; i < m_bandpho.size(); i++) {
         Parameters &p = m_bandpho[i];
-        units.addValue(p.units);
+        units.addValue(p.units.toStdString());
         phostd.addValue(std::to_string(p.phoStd));
         bbc.addValue(std::to_string(p.wavelength));
         bbct.addValue(std::to_string(p.tolerance));

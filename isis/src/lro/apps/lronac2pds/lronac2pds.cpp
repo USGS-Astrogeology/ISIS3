@@ -50,7 +50,7 @@ namespace Isis {
       CubeAttributeInput &att = ui.GetInputAttribute("FROM");
       Cube *inCube = p.SetInputCube(ui.GetCubeName("FROM"), att);
 
-      g_isIof = inCube->label()->findGroup("Radiometry", Pvl::Traverse).findKeyword("RadiometricType")[0].toUpper() == "IOF";
+      g_isIof = QString::fromStdString(inCube->label()->findGroup("Radiometry", Pvl::Traverse).findKeyword("RadiometricType")[0]).toUpper() == "IOF";
 
       FileName scaledCube("$TEMPORARY/" + FileName(ui.GetCubeName("FROM")).name());
       scaledCube.addExtension("cub");
@@ -172,31 +172,31 @@ namespace Isis {
           QString unit = "";
           if (labelPvl[outLabel[i].name()].unit() != "") {
               hasUnit = true;
-              unit = labelPvl[outLabel[i].name()].unit();
+              unit = QString::fromStdString(labelPvl[outLabel[i].name()].unit());
           }
           bool hasComment = false;
           QString comment = "";
           if (labelPvl[outLabel[i].name()].comments() > 0) {
               hasComment = true;
-              comment = labelPvl[outLabel[i].name()].comment(0);
+              comment = QString::fromStdString(labelPvl[outLabel[i].name()].comment(0));
           }
           labelPvl[outLabel[i].name()] = outLabel[i];
 
           if (hasUnit)
-              labelPvl[outLabel[i].name()].setUnits(unit);
+              labelPvl[outLabel[i].name()].setUnits(unit.toStdString());
           if (hasComment)
-              labelPvl[outLabel[i].name()].addComment(comment);
+              labelPvl[outLabel[i].name()].addComment(comment.toStdString());
       }
 
       //Update the product ID
       //we switch the last char in the id from edr->cdr
-      QString prod_id = labelPvl["PRODUCT_ID"][0];
+      QString prod_id = QString::fromStdString(labelPvl["PRODUCT_ID"][0]);
       labelPvl["PRODUCT_ID"][0].replace((prod_id.length()-1), 1, "C");
 
       // Update the product creation time
-      labelPvl["PRODUCT_CREATION_TIME"].setValue(iTime::CurrentGMT());
+      labelPvl["PRODUCT_CREATION_TIME"].setValue(iTime::CurrentGMT().toStdString());
 
-      labelPvl["PRODUCT_VERSION_ID"].setValue(g_productVersionId);
+      labelPvl["PRODUCT_VERSION_ID"].setValue(g_productVersionId.toStdString());
 
       // Update the "IMAGE" Object
       PvlObject &imageObject = labelPvl.findObject("IMAGE");

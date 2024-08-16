@@ -148,7 +148,7 @@ void IsisMain() {
 
 //  Open the shift definitions file
   Pvl shiftdef;
-  shiftdef.read(ui.GetFileName("SHIFTDEF"));
+  shiftdef.read(ui.GetFileName("SHIFTDEF").toStdString());
 
   PvlObject &stitch = shiftdef.findObject("Hiccdstitch", Pvl::Traverse);
 
@@ -167,11 +167,11 @@ void IsisMain() {
 
     PvlGroup arch = cube->label()->findGroup("Archive", Pvl::Traverse);
     if(first) {
-      obsId = (QString) arch["ObservationId"];
+      obsId = QString::fromStdString(arch["ObservationId"]);
       first = false;
     }
     else {
-      if(obsId != (QString) arch["ObservationId"]) {
+      if(obsId != QString::fromStdString(arch["ObservationId"])) {
         QString msg = "Input file " + list[i].toString()
                      + " has a different ObservationId";
         throw IException(IException::User, msg, _FILEINFO_);
@@ -234,8 +234,8 @@ void IsisMain() {
                      toString(CCDinfo.tdi);
 
     QString ccdId = ccdNames[ccd];
-    if(stitch.hasObject(ccdId)) {
-      PvlObject &ccddef = stitch.findObject(ccdId, Pvl::Traverse);
+    if(stitch.hasObject(ccdId.toStdString())) {
+      PvlObject &ccddef = stitch.findObject(ccdId.toStdString(), Pvl::Traverse);
       if(ccddef.hasKeyword("MosaicOrder")) {
         CCDinfo.mosOrder = (int) ccddef["MosaicOrder"];
       }
@@ -246,8 +246,8 @@ void IsisMain() {
         CCDinfo.fpline = yoffset[ccd] + (int) ccddef["LineOffset"];
       }
       //  See if there is a binning group
-      if(ccddef.hasGroup(sumTdi)) {
-        PvlGroup &sumGroup = ccddef.findGroup(sumTdi);
+      if(ccddef.hasGroup(sumTdi.toStdString())) {
+        PvlGroup &sumGroup = ccddef.findGroup(sumTdi.toStdString());
         if(sumGroup.hasKeyword("SampleOffset")) {
           CCDinfo.fpsamp = xoffset[ccd] + (int) sumGroup["SampleOffset"];
         }
@@ -374,17 +374,17 @@ void IsisMain() {
   // Write ccd order to results
   for(CCDindex = 0; CCDindex < CCDlist.size(); CCDindex++) {
 
-    PvlGroup ccdGroup(CCDlist[CCDindex].ccdName);
+    PvlGroup ccdGroup(CCDlist[CCDindex].ccdName.toStdString());
 
-    ccdGroup += PvlKeyword("File", CCDlist[CCDindex].filename);
-    ccdGroup += PvlKeyword("FocalPlaneSample", toString(CCDlist[CCDindex].fpsamp));
-    ccdGroup += PvlKeyword("FocalPlaneLine", toString(CCDlist[CCDindex].fpline));
-    ccdGroup += PvlKeyword("ImageSample", toString(CCDlist[CCDindex].outss));
-    ccdGroup += PvlKeyword("ImageLine", toString(CCDlist[CCDindex].outsl));
+    ccdGroup += PvlKeyword("File", CCDlist[CCDindex].filename.toStdString());
+    ccdGroup += PvlKeyword("FocalPlaneSample", std::to_string(CCDlist[CCDindex].fpsamp));
+    ccdGroup += PvlKeyword("FocalPlaneLine", std::to_string(CCDlist[CCDindex].fpline));
+    ccdGroup += PvlKeyword("ImageSample", std::to_string(CCDlist[CCDindex].outss));
+    ccdGroup += PvlKeyword("ImageLine", std::to_string(CCDlist[CCDindex].outsl));
 
     int ccd =  CCDlist[CCDindex].ccdNumber;
-    ccdGroup += PvlKeyword("SampleOffset", toString(CCDlist[CCDindex].fpsamp - xoffset[ccd]));
-    ccdGroup += PvlKeyword("LineOffset", toString(CCDlist[CCDindex].fpline - yoffset[ccd]));
+    ccdGroup += PvlKeyword("SampleOffset", std::to_string(CCDlist[CCDindex].fpsamp - xoffset[ccd]));
+    ccdGroup += PvlKeyword("LineOffset", std::to_string(CCDlist[CCDindex].fpline - yoffset[ccd]));
 
     results.addGroup(ccdGroup);
   }
@@ -528,7 +528,7 @@ void helperButtonLog() {
   UserInterface &ui = Application::GetUserInterface();
   QString file(ui.GetFileName("SHIFTDEF"));
   Pvl p;
-  p.read(file);
+  p.read(file.toStdString());
   Application::GuiLog(p);
 }
 //...........end of helper function ........

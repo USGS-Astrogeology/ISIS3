@@ -41,11 +41,11 @@ void IsisMain() {
 
   // Make sure we have a ctx cube and it has SpatialSumming of 1
   UserInterface &ui = Application::GetUserInterface();
-  Isis::Pvl lab(ui.GetCubeName("FROM"));
+  Isis::Pvl lab(ui.GetCubeName("FROM").toStdString());
   Isis::PvlGroup &inst =
     lab.findGroup("Instrument", Pvl::Traverse);
 
-  QString instId = inst["InstrumentId"];
+  QString instId = QString::fromStdString(inst["InstrumentId"]);
   if(instId != "CTX") {
     QString msg = "This is not a CTX image.  Ctxcevenodd requires a CTX image.";
     throw IException(IException::User, msg, _FILEINFO_);

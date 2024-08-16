@@ -200,7 +200,7 @@ namespace Isis {
           kernel_pvl << kernels;
 
           json props;
-          if (kernels["InstrumentPointing"][0].toUpper() == "NADIR") {
+          if (QString::fromStdString(kernels["InstrumentPointing"][0]).toUpper() == "NADIR") {
             props["nadir"] = true;
           }
 

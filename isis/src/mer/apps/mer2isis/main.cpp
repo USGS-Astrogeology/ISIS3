@@ -27,7 +27,7 @@ void IsisMain() {
   FileName input = FileName(ui.GetFileName("FROM"));
 
   //Checks if in file is rdr
-  Pvl lab(input.expanded());
+  Pvl lab(input.expanded().toStdString());
   if(lab.hasObject("IMAGE_MAP_PROJECTION")) {
     QString msg = "[" + input.name() + "] has already been projected.";
     msg += " Use pds2isis.";
@@ -64,7 +64,7 @@ void TranslateMerEdrLabels(FileName &labelFile, Cube *ocube) {
   QString transDir = "$ISISROOT/appdata/translations/";
 
   // Get a filename for the MESSENGER EDR label
-  Pvl labelPvl(labelFile.expanded());
+  Pvl labelPvl(labelFile.expanded().toStdString());
   FileName transFile;
 
   // Translate the Archive group
@@ -115,11 +115,11 @@ void MiFixLab(PvlGroup &instGroup) {
 
   //Code to remove "Z" from the StartTime and StopTime keywords
   //StartTime code
-  QString Newstarttime = (QString)instGroup.findKeyword("StartTime");
+  QString Newstarttime =  QString::fromStdString(instGroup.findKeyword("StartTime"));
   Newstarttime.remove("Z");
-  instGroup.findKeyword("StartTime").setValue(Newstarttime);
+  instGroup.findKeyword("StartTime").setValue(Newstarttime.toStdString());
   //StopTime code
-  QString Newstoptime = (QString)instGroup.findKeyword("StopTime");
+  QString Newstoptime =  QString::fromStdString(instGroup.findKeyword("StopTime"));
   Newstoptime.remove("Z");
-  instGroup.findKeyword("StopTime").setValue(Newstoptime);
+  instGroup.findKeyword("StopTime").setValue(Newstoptime.toStdString());
 }

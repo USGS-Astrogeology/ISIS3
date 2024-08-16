@@ -75,14 +75,14 @@ namespace Isis{
     // Create group with sky position
     PvlGroup sp("SkyPoint");
      {
-        sp += PvlKeyword("Filename", FileName(channel).expanded());
-        sp += PvlKeyword("Sample", toString(cam->Sample()));
-        sp += PvlKeyword("Line", toString(cam->Line()));
-        sp += PvlKeyword("RightAscension", toString(cam->RightAscension()));
-        sp += PvlKeyword("Declination", toString(cam->Declination()));
-        sp += PvlKeyword("EphemerisTime", toString(cam->time().Et()));
-        sp += PvlKeyword("PixelValue", PixelToString(b[0]));
-        sp += PvlKeyword("CelestialNorthClockAngle", toString(rot), "degrees");
+        sp += PvlKeyword("Filename", FileName(channel).expanded().toStdString());
+        sp += PvlKeyword("Sample", std::to_string(cam->Sample()));
+        sp += PvlKeyword("Line", std::to_string(cam->Line()));
+        sp += PvlKeyword("RightAscension", std::to_string(cam->RightAscension()));
+        sp += PvlKeyword("Declination", std::to_string(cam->Declination()));
+        sp += PvlKeyword("EphemerisTime", std::to_string(cam->time().Et()));
+        sp += PvlKeyword("PixelValue", PixelToString(b[0]).toStdString());
+        sp += PvlKeyword("CelestialNorthClockAngle", std::to_string(rot), "degrees");
      }
 
     //Write the group to the screen
@@ -101,10 +101,10 @@ namespace Isis{
         temp.setTerminator("");
         temp.addGroup(sp);
         if (append) {
-          temp.append(ui.GetAsString("TO"));
+          temp.append(ui.GetAsString("TO").toStdString());
         }
         else {
-          temp.write(ui.GetAsString("TO"));
+          temp.write(ui.GetAsString("TO").toStdString());
         }
       }
   
@@ -135,7 +135,7 @@ namespace Isis{
         }
 
         for(int i = 0; i < sp.keywords(); i++) {
-          os << (QString)sp[i];
+          os << sp[i];
           if (i < sp.keywords() - 1) {
             os << ",";
           }

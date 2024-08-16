@@ -66,31 +66,31 @@ namespace Isis {
     // Get stuff out of the instrument group
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    p_instrumentId = (QString) inst["InstrumentId"];
+    p_instrumentId =  QString::fromStdString(inst["InstrumentId"]);
     p_startingSample = inst["FirstLineSample"];
     p_crosstrackSumming = inst["CrosstrackSumming"];
     p_downtrackSumming = inst["DowntrackSumming"];
     p_exposureDuration = inst["LineExposureDuration"];
     p_focalPlaneTemp = inst["FocalPlaneTemperature"];
-    p_clockCount = (QString) inst["SpacecraftClockCount"];
+    p_clockCount =  QString::fromStdString(inst["SpacecraftClockCount"]);
     p_orbitNumber = 0;
     if(inst.hasKeyword("OrbitNumber")) {
       p_orbitNumber = inst["OrbitNumber"];
     }
-    p_gainModeId = (QString) inst["GainModeId"];
+    p_gainModeId =  QString::fromStdString(inst["GainModeId"]);
     p_offsetModeId = inst["OffsetModeId"];
-    p_startTime = (QString) inst["StartTime"];
+    p_startTime =  QString::fromStdString(inst["StartTime"]);
 
     // Get stuff out of the archive group
     p_dataQuality = "Unknown";
     PvlGroup &arch = lab.findGroup("Archive", Pvl::Traverse);
     if(arch.hasKeyword("DataQualityDesc")) {
-      p_dataQuality = (QString) arch["DataQualityDesc"];
+      p_dataQuality =  QString::fromStdString(arch["DataQualityDesc"]);
     }
 
     // Get Stuff out of the band bind group
     PvlGroup &bandBin = lab.findGroup("BandBin", Pvl::Traverse);
-    p_filter = (QString) bandBin["FilterName"];
+    p_filter =  QString::fromStdString(bandBin["FilterName"]);
 
     // Get the number of samples in the initial cube as it may have been
     // cropped or projected
@@ -100,8 +100,8 @@ namespace Isis {
 
     // Get the two kernels for time computations
     PvlGroup &kerns = lab.findGroup("Kernels", Pvl::Traverse);
-    p_lsk = FileName(kerns["LeapSecond"][0]);
-    p_sclk = FileName(kerns["SpacecraftClock"][0]);
+    p_lsk = FileName( QString::fromStdString(kerns["LeapSecond"][0]));
+    p_sclk = FileName( QString::fromStdString(kerns["SpacecraftClock"][0]));
   }
 
   /**

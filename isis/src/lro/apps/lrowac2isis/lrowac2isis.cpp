@@ -596,7 +596,7 @@ namespace Isis {
     PvlKeyword uvBandwidth("Width");
 
     for(int i = 0; i < pdsLab["FILTER_NUMBER"].size(); i++) {
-      if(toInt(pdsLab["FILTER_NUMBER"][i]) <= 2) {
+      if(std::stoi(pdsLab["FILTER_NUMBER"][i]) <= 2) {
         uvWavelength += pdsLab["CENTER_FILTER_WAVELENGTH"][i];
         uvFilterNum += pdsLab["FILTER_NUMBER"][i];
 
@@ -766,7 +766,7 @@ namespace Isis {
       };
 
       for(unsigned int i = 0; i < sizeof(QString) / sizeof(invalidKeywords); i++) {
-        if(pdsLab.hasKeyword(invalidKeywords[i])) {
+        if(pdsLab.hasKeyword(invalidKeywords[i].toStdString())) {
           QString msg = "Keyword [";
           msg += invalidKeywords[i];
           msg += "] must not exist";

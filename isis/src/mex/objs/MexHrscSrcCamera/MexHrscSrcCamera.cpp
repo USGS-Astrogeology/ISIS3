@@ -77,7 +77,7 @@ namespace Isis {
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
 
     iTime startTime;
-    startTime.setUtc((QString)inst["StartTime"]);   
+    startTime.setUtc(QString::fromStdString(inst["StartTime"]));   
     setTime(startTime);
 
     // Internalize all the NAIF SPICE information into memory.

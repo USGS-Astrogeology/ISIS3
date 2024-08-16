@@ -65,8 +65,8 @@ namespace Isis {
             sourceProductId += g["stitchedProductIds"][j];
           }
         }
-        ProdId = (QString)pmatch->findGroup("Archive", Pvl::Traverse)["ObservationId"];
-        QString bandname = (QString)pmatch->findGroup("BandBin", Pvl::Traverse)["Name"];
+        ProdId = QString::fromStdString(pmatch->findGroup("Archive", Pvl::Traverse)["ObservationId"]);
+        QString bandname = QString::fromStdString(pmatch->findGroup("BandBin", Pvl::Traverse)["Name"]);
         bandname = bandname.toUpper();
         ProdId = ProdId + "_" + bandname;
       }
@@ -186,21 +186,21 @@ namespace Isis {
         OriginalLabel origLab = clist[i]->readOriginalLabel();
         PvlGroup timegrp = origLab.ReturnLabels().findGroup("TIME_PARAMETERS", Pvl::Traverse);
         if(i == 0) {
-          startClock = (QString)timegrp["SpacecraftClockStartCount"];
-          stopClock = (QString)timegrp["SpacecraftClockStopCount"];
-          startTime = (QString)timegrp["StartTime"];
-          stopTime = (QString)timegrp["StopTime"];
+          startClock = QString::fromStdString(timegrp["SpacecraftClockStartCount"]);
+          stopClock = QString::fromStdString(timegrp["SpacecraftClockStopCount"]);
+          startTime = QString::fromStdString(timegrp["StartTime"]);
+          stopTime = QString::fromStdString(timegrp["StopTime"]);
         }
         else {
-          QString testStartTime = (QString)timegrp["StartTime"];
-          QString testStopTime = (QString)timegrp["StopTime"];
+          QString testStartTime = QString::fromStdString(timegrp["StartTime"]);
+          QString testStopTime = QString::fromStdString(timegrp["StopTime"]);
           if(testStartTime < startTime) {
             startTime = testStartTime;
-            startClock = (QString)timegrp["SpacecraftClockStartCount"];
+            startClock = QString::fromStdString(timegrp["SpacecraftClockStartCount"]);
           }
           if(testStopTime > stopTime) {
             stopTime = testStopTime;
-            stopClock = (QString)timegrp["spacecraftClockStopCount"];
+            stopClock = QString::fromStdString(timegrp["spacecraftClockStopCount"]);
           }
         }
       }
@@ -210,9 +210,9 @@ namespace Isis {
       PvlKeyword cpmmSummingFlag("cpmmSummingFlag");
       PvlKeyword specialProcessingFlag("SpecialProcessingFlag");
       for(int i = 0; i < 14; i++) {
-        cpmmTdiFlag += (QString)"";
-        cpmmSummingFlag += (QString)"";
-        specialProcessingFlag += (QString)"";
+        cpmmTdiFlag += "";
+        cpmmSummingFlag += "";
+        specialProcessingFlag += "";
       }
 
       for(int i = 0; i < (int)clist.size(); i++) {
@@ -220,11 +220,11 @@ namespace Isis {
         PvlGroup cInst = clab->findGroup("Instrument", Pvl::Traverse);
         OriginalLabel cOrgLab = clist[i]->readOriginalLabel();
         PvlGroup cGrp = cOrgLab.ReturnLabels().findGroup("INSTRUMENT_SETTING_PARAMETERS", Pvl::Traverse);
-        cpmmTdiFlag[(int)cInst["CpmmNumber"]] = (QString) cGrp["MRO:TDI"];
-        cpmmSummingFlag[(int)cInst["CpmmNumber"]] = (QString) cGrp["MRO:BINNING"];
+        cpmmTdiFlag[(int)cInst["CpmmNumber"]] = (std::string)cGrp["MRO:TDI"];
+        cpmmSummingFlag[(int)cInst["CpmmNumber"]] = (std::string)cGrp["MRO:BINNING"];
 
         if(cInst.hasKeyword("Special_Processing_Flag")) {
-          specialProcessingFlag[cInst["CpmmNumber"]] = (QString) cInst["Special_Processing_Flag"];
+          specialProcessingFlag[cInst["CpmmNumber"]] = (std::string)cInst["Special_Processing_Flag"];
         }
         else {
           // there may not be the keyword Special_Processing_Flag if no
@@ -253,19 +253,19 @@ namespace Isis {
 
       // write out new information to new group mosaic
       PvlGroup mos("Mosaic");
-      mos += PvlKeyword("ProductId ", ProdId);
+      mos += PvlKeyword("ProductId ", ProdId.toStdString());
       mos += PvlKeyword(sourceProductId);
-      mos += PvlKeyword("StartTime ", startTime);
-      mos += PvlKeyword("SpacecraftClockStartCount ", startClock);
-      mos += PvlKeyword("StopTime ", stopTime);
-      mos += PvlKeyword("SpacecraftClockStopCount ", stopClock);
-      mos += PvlKeyword("IncidenceAngle ", toString(Cincid), "DEG");
-      mos += PvlKeyword("EmissionAngle ", toString(Cemiss), "DEG");
-      mos += PvlKeyword("PhaseAngle ", toString(Cphase), "DEG");
-      mos += PvlKeyword("LocalTime ", toString(ClocalSolTime), "LOCALDAY/24");
-      mos += PvlKeyword("SolarLongitude ", toString(CsolarLong), "DEG");
-      mos += PvlKeyword("SubSolarAzimuth ", toString(CsunAzimuth), "DEG");
-      mos += PvlKeyword("NorthAzimuth ", toString(CnorthAzimuth), "DEG");
+      mos += PvlKeyword("StartTime ", startTime.toStdString());
+      mos += PvlKeyword("SpacecraftClockStartCount ", startClock.toStdString());
+      mos += PvlKeyword("StopTime ", stopTime.toStdString());
+      mos += PvlKeyword("SpacecraftClockStopCount ", stopClock.toStdString());
+      mos += PvlKeyword("IncidenceAngle ", std::to_string(Cincid), "DEG");
+      mos += PvlKeyword("EmissionAngle ", std::to_string(Cemiss), "DEG");
+      mos += PvlKeyword("PhaseAngle ", std::to_string(Cphase), "DEG");
+      mos += PvlKeyword("LocalTime ", std::to_string(ClocalSolTime), "LOCALDAY/24");
+      mos += PvlKeyword("SolarLongitude ", std::to_string(CsolarLong), "DEG");
+      mos += PvlKeyword("SubSolarAzimuth ", std::to_string(CsunAzimuth), "DEG");
+      mos += PvlKeyword("NorthAzimuth ", std::to_string(CnorthAzimuth), "DEG");
       mos += cpmmTdiFlag;
       mos += cpmmSummingFlag;
       mos += specialProcessingFlag;
@@ -295,8 +295,8 @@ namespace Isis {
     // test of the ObservationId
     PvlGroup matchgrp = pmatch.findGroup("Archive", Pvl::Traverse);
     PvlGroup compgrp = pcomp.findGroup("Archive", Pvl::Traverse);
-    QString obsMatch = matchgrp["ObservationId"];
-    QString obsComp = compgrp["ObservationId"];
+    QString obsMatch = QString::fromStdString(matchgrp["ObservationId"]);
+    QString obsComp = QString::fromStdString(compgrp["ObservationId"]);
 
     if(obsMatch != obsComp) {
       QString msg = "Images not from the same observation";
@@ -306,8 +306,8 @@ namespace Isis {
     // Test of the BandBin filter name
     PvlGroup bmatchgrp = pmatch.findGroup("BandBin", Pvl::Traverse);
     PvlGroup bcompgrp = pcomp.findGroup("BandBin", Pvl::Traverse);
-    QString bandMatch = bmatchgrp["Name"];
-    QString bandComp = bcompgrp["Name"];
+    QString bandMatch = QString::fromStdString(bmatchgrp["Name"]);
+    QString bandComp = QString::fromStdString(bcompgrp["Name"]);
 
     if(bandMatch != bandComp) {
       QString msg = "Images not the same filter";

@@ -100,7 +100,7 @@ void IsisMain() {
   ProcessByLine p;
   FileName calibFile("$messenger/calibration/mdisCalibration????.trn");
   calibFile = calibFile.highestVersion();
-  g_configFile.read(calibFile.expanded());
+  g_configFile.read(calibFile.expanded().toStdString());
 
   // Initialize variables
   g_calibrationValues.clear();
@@ -117,7 +117,7 @@ void IsisMain() {
 
   Cube *icube = p.SetInputCube("FROM");
   PvlGroup &inst = icube->group("Instrument");
-  g_isNarrowAngleCamera = ((QString)inst["InstrumentId"] == "MDIS-NAC");
+  g_isNarrowAngleCamera = (QString::fromStdString(inst["InstrumentId"]) == "MDIS-NAC");
   g_exposureDuration = inst["ExposureDuration"];
   g_exposureDuration /= 1000.0; // convert from milliseconds to seconds
 
@@ -304,7 +304,7 @@ void IsisMain() {
                                         smearfile);
 
   // Get s/c clock count
-  QString startTime = inst["SpacecraftClockCount"];
+  QString startTime =  QString::fromStdString(inst["SpacecraftClockCount"]);
 
   // Retrieve empirical correction parameter
   QString empiricalCorrectionFile   = "";
@@ -333,8 +333,8 @@ void IsisMain() {
   QString solirrfile = "";
   if (applyIOF) {
     PvlGroup& inst = icube->group("Instrument");
-    QString target = inst["TargetName"];
-    QString startTime = inst["SpacecraftClockCount"];
+    QString target =  QString::fromStdString(inst["TargetName"]);
+    QString startTime =  QString::fromStdString(inst["SpacecraftClockCount"]);
     if (sunDistanceAU(startTime, target, g_solarDist, icube)) {
       vector<double> sol = loadSolarIrr(g_isNarrowAngleCamera, g_isBinnedData,
                                         g_filterNumber + 1, solirrfile);
@@ -396,47 +396,47 @@ void IsisMain() {
 
   // Log calibration activity
   PvlGroup calibrationLog("RadiometricCalibration");
-  calibrationLog.addKeyword(PvlKeyword("SoftwareName", mdiscalProgram));
-  calibrationLog.addKeyword(PvlKeyword("SoftwareVersion", mdiscalVersion));
-  calibrationLog.addKeyword(PvlKeyword("ProcessDate", mdiscalRuntime));
-  calibrationLog.addKeyword(PvlKeyword("DarkCurrentModel", darkCurr));
+  calibrationLog.addKeyword(PvlKeyword("SoftwareName", mdiscalProgram.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("SoftwareVersion", mdiscalVersion.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("ProcessDate", mdiscalRuntime.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("DarkCurrentModel", darkCurr.toStdString()));
 
   if (g_darkCurrentMode == DarkCurrentLinear) {
     QString equation = "Y = " + toString(g_calibrationValues[0]) + QString(" + ")
                        + toString(g_calibrationValues[1]) + QString("x");
-    calibrationLog.addKeyword(PvlKeyword("DarkCurrentEquation", (QString)equation));
+    calibrationLog.addKeyword(PvlKeyword("DarkCurrentEquation", equation.toStdString()));
   }
   else if (g_darkCurrentMode == DarkCurrentModel) {
-    calibrationLog.addKeyword(PvlKeyword("DarkCurrentFile", darkCurrentFile));
+    calibrationLog.addKeyword(PvlKeyword("DarkCurrentFile", darkCurrentFile.toStdString()));
   }
 
-  calibrationLog.addKeyword(PvlKeyword("BinnedImage", toString((int)g_isBinnedData)));
-  calibrationLog.addKeyword(PvlKeyword("FilterNumber", toString(g_filterNumber + 1)));
+  calibrationLog.addKeyword(PvlKeyword("BinnedImage", std::to_string((int)g_isBinnedData)));
+  calibrationLog.addKeyword(PvlKeyword("FilterNumber", std::to_string(g_filterNumber + 1)));
   if (g_applyFlatfield) {
     calibrationLog.addKeyword(PvlKeyword("FlatFieldFile",
-                                         flatfield.originalPath() + "/" + flatfield.name()));
+                                         flatfield.originalPath().toStdString() + "/" + flatfield.name().toStdString()));
   }
   else {
     calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", "N/A"));
   }
   calibrationLog.addKeyword(PvlKeyword("CalibrationFile",
-                                       calibFile.originalPath() + "/" + calibFile.name()));
-  calibrationLog.addKeyword(PvlKeyword("ResponsivityFile", respfile));
-  calibrationLog.addKeyword(PvlKeyword("SmearCompFile", smearfile));
-  PvlKeyword rspKey("Response", toString(rsp[0]));
+                                       calibFile.originalPath().toStdString() + "/" + calibFile.name().toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("ResponsivityFile", respfile.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("SmearCompFile", smearfile.toStdString()));
+  PvlKeyword rspKey("Response", std::to_string(rsp[0]));
   for (unsigned int i = 1; i < rsp.size(); i++) {
     rspKey.addValue(std::to_string(rsp[i]));
   }
   calibrationLog.addKeyword(rspKey);
-  calibrationLog.addKeyword(PvlKeyword("SmearComponent", toString(g_smearComponent)));
+  calibrationLog.addKeyword(PvlKeyword("SmearComponent", std::to_string(g_smearComponent)));
 
   QString calibType;
   if (applyIOF  && validIOF) {
     calibrationLog.addKeyword(PvlKeyword("Units", "I over F"));
-    calibrationLog.addKeyword(PvlKeyword("SolarDistance", toString(g_solarDist), "AU"));
-    calibrationLog.addKeyword(PvlKeyword("SolarIrrFile", solirrfile));
-    calibrationLog.addKeyword(PvlKeyword("FilterIrradianceFactor", toString(g_Ff)));
-    calibrationLog.addKeyword(PvlKeyword("IOFFactor", toString(g_iof)));
+    calibrationLog.addKeyword(PvlKeyword("SolarDistance", std::to_string(g_solarDist), "AU"));
+    calibrationLog.addKeyword(PvlKeyword("SolarIrrFile", solirrfile.toStdString()));
+    calibrationLog.addKeyword(PvlKeyword("FilterIrradianceFactor", std::to_string(g_Ff)));
+    calibrationLog.addKeyword(PvlKeyword("IOFFactor", std::to_string(g_iof)));
     calibType = "IF";
   }
   else if (g_applyRadiometric) {
@@ -448,52 +448,52 @@ void IsisMain() {
     calibType = "DN";
   }
 
-  calibrationLog.addKeyword(PvlKeyword("EmpiricalCorrectionFile", empiricalCorrectionFile));
-  calibrationLog.addKeyword(PvlKeyword("EmpiricalCorrectionDate", empiricalCorrectionDate));
-  calibrationLog.addKeyword(PvlKeyword("EmpiricalCorrectionFactor", empiricalCorrectionFactor));
+  calibrationLog.addKeyword(PvlKeyword("EmpiricalCorrectionFile", empiricalCorrectionFile.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("EmpiricalCorrectionDate", empiricalCorrectionDate.toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("EmpiricalCorrectionFactor", empiricalCorrectionFactor.toStdString()));
 
 
-  calibrationLog.addKeyword(PvlKeyword("DarkStripColumns", toString(g_nDarkColumns)),
+  calibrationLog.addKeyword(PvlKeyword("DarkStripColumns", std::to_string(g_nDarkColumns)),
                             Pvl::Replace);
-  calibrationLog.addKeyword(PvlKeyword("ValidDarkColumns", toString(g_nValidDark)),
+  calibrationLog.addKeyword(PvlKeyword("ValidDarkColumns", std::to_string(g_nValidDark)),
                             Pvl::Replace);
   if (g_darkStrip.TotalPixels() > 0) {
     double avgDark = (g_darkStrip.ValidPixels() > 0) ? g_darkStrip.Average() : 0.0;
-    calibrationLog.addKeyword(PvlKeyword("DarkStripMean", toString(avgDark)),
+    calibrationLog.addKeyword(PvlKeyword("DarkStripMean", std::to_string(avgDark)),
                                          Pvl::Replace);
   }
 
   // Report nulled sample count
-  calibrationLog.addKeyword(PvlKeyword("LeftSamplesNulled", toString(g_nSampsToNull)));
+  calibrationLog.addKeyword(PvlKeyword("LeftSamplesNulled", std::to_string(g_nSampsToNull)));
 
   // Handle updates of ProductId and SourceProduct Id keywords
   PvlGroup& archive = ocube->group("Archive");
   PvlKeyword key = archive["ProductId"];
-  QString orgProdId = key[0];
+  QString orgProdId =  QString::fromStdString(key[0]);
   QString newProdId = orgProdId + "_" + calibType + "_" + toString(cdrVersion);
   newProdId[0] = 'C';
-  key.setValue(quote(newProdId));
+  key.setValue(quote(newProdId).toStdString());
   archive.addKeyword(key, Pvl::Replace);
 
   // Now SourceProductId
   if (archive.hasKeyword("SourceProductId")) {
     key = archive["SourceProductId"];
     for (int i = 0; i < key.size(); i++) {
-      key[i] = quote(key[i]);
+      key[i] = quote( QString::fromStdString(key[i])).toStdString();
     }
   }
   else {
-    key = PvlKeyword("SourceProductId", quote(orgProdId));
+    key = PvlKeyword("SourceProductId", quote(orgProdId).toStdString());
   }
 
   if (!darkCurrentFile.isEmpty()) {
-    key.addValue(quote(FileName(darkCurrentFile).baseName()));
+    key.addValue(quote(FileName(darkCurrentFile).baseName()).toStdString());
   }
-  key.addValue(quote(flatfield.baseName()));
-  key.addValue(quote(FileName(respfile).baseName()));
+  key.addValue(quote(flatfield.baseName()).toStdString());
+  key.addValue(quote(FileName(respfile).baseName()).toStdString());
   // key.addValue(quote(FileName(smearfile).baseName()));
   if (validIOF) {
-    key.addValue(quote(FileName(solirrfile).baseName()));
+    key.addValue(quote(FileName(solirrfile).baseName()).toStdString());
   }
   archive.addKeyword(key, Pvl::Replace);
 

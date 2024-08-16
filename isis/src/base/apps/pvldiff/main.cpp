@@ -32,11 +32,11 @@ void IsisMain() {
   differenceReason = "";
   filesMatch = true;
 
-  Pvl file1(ui.GetFileName("FROM"));
-  Pvl file2(ui.GetFileName("FROM2"));
+  Pvl file1(ui.GetFileName("FROM").toStdString());
+  Pvl file2(ui.GetFileName("FROM2").toStdString());
 
   if ( ui.WasEntered("DIFF") ) {
-    Pvl diffFile(ui.GetFileName("DIFF"));
+    Pvl diffFile(ui.GetFileName("DIFF").toStdString());
 
     if ( diffFile.hasGroup("Tolerances") ) {
       tolerances = diffFile.findGroup("Tolerances");
@@ -59,7 +59,7 @@ void IsisMain() {
   }
   else {
     differences += PvlKeyword("Compare", "Different");
-    differences += PvlKeyword("Reason", differenceReason);
+    differences += PvlKeyword("Reason", differenceReason.toStdString());
   }
 
   Application::Log(differences);
@@ -67,21 +67,21 @@ void IsisMain() {
   if ( ui.WasEntered("TO") ) {
     Pvl out;
     out.addGroup(differences);
-    out.write(ui.GetFileName("TO"));
+    out.write(ui.GetFileName("TO").toStdString());
   }
 
   differenceReason = "";
 }
 
 void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) { 
-  if ( pvl1.name().compare(pvl2.name()) != 0 ) {
+  if ( QString::fromStdString(pvl1.name()).compare(QString::fromStdString(pvl2.name())) != 0 ) {
     filesMatch = false;
-    differenceReason = "Keyword '" + pvl1.name() + "' does not match keyword '" + pvl2.name() + "'";
+    differenceReason = "Keyword '" + QString::fromStdString(pvl1.name()) + "' does not match keyword '" + QString::fromStdString(pvl2.name()) + "'";
   }
 
   if ( pvl1.size() != pvl2.size() ) {
     filesMatch = false;
-    differenceReason = "Keyword '" + pvl1.name() + "' size does not match.";
+    differenceReason = "Keyword '" + QString::fromStdString(pvl1.name()) + "' size does not match.";
     return;
   }
 
@@ -91,7 +91,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
        tolerances[pvl1.name()].size() > 1 &&
        pvl1.size() != tolerances[pvl1.name()].size() ) {
 
-    QString msg = "Size of keyword '" + pvl1.name() + "' does not match with ";
+    QString msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
     msg += "its number of tolerances in the DIFF file.";
     throw IException(IException::User, msg, _FILEINFO_);
 
@@ -101,7 +101,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
        ignoreKeys[pvl1.name()].size() > 1 &&
        pvl1.size() != ignoreKeys[pvl1.name()].size() ) {
 
-    QString msg = "Size of keyword '" + pvl1.name() + "' does not match with ";
+    QString msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
     msg += "its number of ignore keys in the DIFF file.";
     throw IException(IException::User, msg, _FILEINFO_);
 
@@ -111,18 +111,18 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
        ignoreFilePaths[pvl1.name()].size() > 1 &&
        pvl1.size() != ignoreFilePaths[pvl1.name()].size() ) {
 
-    QString msg = "Size of keyword '" + pvl1.name() + "' does not match with ";
+    QString msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
     msg += "its number of filepath ignores in the DIFF file.";
     throw IException(IException::User, msg, _FILEINFO_);
 
   }
 
   for (int i = 0; i < pvl1.size() && filesMatch; i++) {
-    QString val1 = pvl1[i];
-    QString val2 = pvl2[i];
+    QString val1 =  QString::fromStdString(pvl1[i]);
+    QString val2 = QString::fromStdString(pvl2[i]);
 
-    QString unit1 = pvl1.unit(i);
-    QString unit2 = pvl2.unit(i);
+    QString unit1 = QString::fromStdString(pvl1.unit(i));
+    QString unit2 = QString::fromStdString(pvl2.unit(i));
 
     int ignoreIndex = 0;
     if ( ignoreKeys.hasKeyword(pvl1.name()) && ignoreKeys[pvl1.name()].size() > 1 ) {
@@ -145,7 +145,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
 
         if ( unit1.toLower() != unit2.toLower() ) {
           filesMatch = false;
-          differenceReason = "Keyword '" + pvl1.name() + "': units do not match.";
+          differenceReason = "Keyword '" + QString::fromStdString(pvl1.name()) + "': units do not match.";
           return;
         }
 
@@ -153,7 +153,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
         double difference = abs(toDouble(val1) - toDouble(val2));
 
         if ( tolerances.hasKeyword(pvl1.name()) ) {
-          tolerance = toDouble(
+          tolerance = std::stod(
               (tolerances[pvl1.name()].size() == 1) ?
                  tolerances[pvl1.name()][0] : tolerances[pvl1.name()][i]);
         }
@@ -161,11 +161,11 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
         if ( difference > tolerance ) {
           filesMatch = false;
           if ( pvl1.size() == 1 ) {
-            differenceReason = "Keyword '" + pvl1.name() + "': difference is " +
+            differenceReason = "Keyword '" + QString::fromStdString(pvl1.name()) + "': difference is " +
                                toString(difference);
           }
           else {
-            differenceReason = "Keyword '" + pvl1.name() + "' at index " +
+            differenceReason = "Keyword '" + QString::fromStdString(pvl1.name()) + "' at index " +
                                toString(i) + ": difference is " + toString(difference);
           }
           differenceReason += " (tolerance is " + toString(tolerance) + ")";
@@ -175,7 +175,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
     catch (IException &) {
       if ( val1.toLower() != val2.toLower() ) {
         filesMatch = false;
-        differenceReason = "Keyword '" + pvl1.name() + "': values do not "
+        differenceReason = "Keyword '" + QString::fromStdString(pvl1.name()) + "': values do not "
             "match.";
       }
     }
@@ -186,25 +186,25 @@ void compareObjects(PvlObject &pvl1, PvlObject &pvl2) {
   
   removeIngoredKeys(pvl1, pvl2);
   
-  if ( pvl1.name().compare(pvl2.name()) != 0 ) {
+  if ( QString::fromStdString(pvl1.name()).compare(QString::fromStdString(pvl2.name())) != 0 ) {
     filesMatch = false;
-    differenceReason = "Object " + pvl1.name() + " does not match " +
-        pvl2.name();
+    differenceReason = "Object " + QString::fromStdString(pvl1.name()) + " does not match " +
+        QString::fromStdString(pvl2.name());
   }
 
   if ( pvl1.keywords() != pvl2.keywords() ) {
     filesMatch = false;
-    differenceReason = "Object " + pvl1.name() + " has varying keyword counts.";
+    differenceReason = "Object " + QString::fromStdString(pvl1.name()) + " has varying keyword counts.";
   }
 
   if ( pvl1.groups() != pvl2.groups() ) {
     filesMatch = false;
-    differenceReason = "Object " + pvl1.name() + " has varying group counts.";
+    differenceReason = "Object " + QString::fromStdString(pvl1.name()) + " has varying group counts.";
   }
 
   if ( pvl1.objects() != pvl2.objects())  {
     filesMatch = false;
-    differenceReason = "Object " + pvl1.name() + " has varying object counts.";
+    differenceReason = "Object " + QString::fromStdString(pvl1.name()) + " has varying object counts.";
   }
 
   if (!filesMatch) {
@@ -223,8 +223,8 @@ void compareObjects(PvlObject &pvl1, PvlObject &pvl2) {
     compareGroups(pvl1.group(group), pvl2.group(group));
   }
 
-  if ( !filesMatch && pvl1.name().compare("Root") != 0 ) {
-    differenceReason = "Object " + pvl1.name() + ": " + differenceReason;
+  if ( !filesMatch && QString::fromStdString(pvl1.name()).compare("Root") != 0 ) {
+    differenceReason = "Object " + QString::fromStdString(pvl1.name()) + ": " + differenceReason;
   }
 }
 
@@ -254,6 +254,6 @@ void compareGroups(PvlGroup &pvl1, PvlGroup &pvl2) {
   }
 
   if (!filesMatch) {
-    differenceReason = "Group " + pvl1.name() + ": " + differenceReason;
+    differenceReason = "Group " + QString::fromStdString(pvl1.name()) + ": " + differenceReason;
   }
 }

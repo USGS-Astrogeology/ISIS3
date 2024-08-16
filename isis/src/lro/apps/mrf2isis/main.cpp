@@ -27,10 +27,10 @@ void IsisMain() {
   QString labelFile = ui.GetFileName("FROM");
   FileName inFile = ui.GetFileName("FROM");
   QString id;
-  Pvl lab(inFile.expanded());
+  Pvl lab(inFile.expanded().toStdString());
 
   try {
-    id = (QString) lab.findKeyword("DATA_SET_ID");
+    id = QString::fromStdString(lab.findKeyword("DATA_SET_ID"));
   }
   catch(IException &e) {
     QString msg = "Unable to read [DATA_SET_ID] from input file [" +
@@ -56,7 +56,7 @@ void IsisMain() {
   Cube *outcube = p.SetOutputCube("TO");
 
   QString bandorder;
-  bandorder = (QString) lab.findObject("IMAGE").findKeyword("BAND_STORAGE_TYPE");
+  bandorder = QString::fromStdString(lab.findObject("IMAGE").findKeyword("BAND_STORAGE_TYPE"));
   bandorder = bandorder.toUpper();
   if(bandorder == "BAND_SEQUENTIAL") {
     p.SetOrganization(Isis::ProcessImport::BSQ);
@@ -140,7 +140,7 @@ void IsisMain() {
     // be done manually, because the frequency information was not
     // put in the PDS labels.
     if(!(instGrp.hasKeyword("Frequency"))) {
-      QString instmodeid = instGrp["InstrumentModeId"];
+      QString instmodeid = QString::fromStdString(instGrp["InstrumentModeId"]);
       double frequency;
       if(instmodeid.startsWith("BASELINE_S") ||
           instmodeid.startsWith("ZOOM_S")) {
@@ -149,15 +149,15 @@ void IsisMain() {
       else {   // BASELINE_X or ZOOM_X
         frequency = 7140000000.0;
       }
-      instGrp.addKeyword(PvlKeyword("Frequency", toString(frequency)));
+      instGrp.addKeyword(PvlKeyword("Frequency", std::to_string(frequency)));
       outcube->putGroup(instGrp);
     }
     PvlGroup kerns("Kernels");
     if(id.startsWith("CHAN1") || id.startsWith("CH1")) {
-      kerns += PvlKeyword("NaifFrameCode", toString(-86001));
+      kerns += PvlKeyword("NaifFrameCode", std::to_string(-86001));
     }
     else {   // LRO
-      kerns += PvlKeyword("NaifFrameCode", toString(-85700));
+      kerns += PvlKeyword("NaifFrameCode", std::to_string(-85700));
     }
     outcube->putGroup(kerns);
   }

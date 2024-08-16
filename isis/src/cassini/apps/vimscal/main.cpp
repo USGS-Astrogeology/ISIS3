@@ -414,7 +414,7 @@ void calculateSolarRemove(Cube *icube, ProcessByLine *p) {
   solarFileName = solarFileName.highestVersion();
 
   calibInfo += PvlKeyword("SolarColorFile",
-                          solarFileName.originalPath() + "/" + solarFileName.name().toStdString());
+                          solarFileName.originalPath().toStdString() + "/" + solarFileName.name().toStdString());
 
   p->SetInputCube(createCroppedFile(icube, solarFileName.expanded()), iatt);
 }
@@ -608,7 +608,7 @@ void calculateSpecificEnergy(Cube *icube) {
     */
 
     //USGS
-    coefficient /= (toDouble(inst["ExposureDuration"][0]) * 1.01725) / 1000.0 - 0.004;
+    coefficient /= (std::stod(inst["ExposureDuration"][0]) * 1.01725) / 1000.0 - 0.004;
 
 
     //University of Arizona
@@ -654,13 +654,13 @@ void calculateSpecificEnergy(Cube *icube) {
   waveCalCube.open(waveCalFileName.expanded());
 
   calibInfo += PvlKeyword("SpecificEnergyFile",
-                          specEnergyFileName.originalPath() + "/" + specEnergyFileName.name());
+                          specEnergyFileName.originalPath().toStdString() + "/" + specEnergyFileName.name().toStdString());
   if (g_visBool) {
     calibInfo += PvlKeyword("VisPerfFile",
-                            visPerfFileName.originalPath() + "/" + visPerfFileName.name());
+                            visPerfFileName.originalPath().toStdString() + "/" + visPerfFileName.name().toStdString());
   }
   calibInfo += PvlKeyword("WavelengthCalibrationFile",
-                          waveCalFileName.originalPath() + "/" + waveCalFileName.name());
+                          waveCalFileName.originalPath().toStdString() + "/" + waveCalFileName.name().toStdString());
 
   LineManager specEnergyMgr(specEnergyCube);
   LineManager visPerfMgr(specEnergyCube);
@@ -765,7 +765,7 @@ void calculateVisDarkCurrent(Cube *icube) {
   FileName calFileName(calFile);
   calFileName = calFileName.highestVersion();
 
-  calibInfo += PvlKeyword("DarkCurrentFile", calFileName.originalPath() + "/" + calFileName.name());
+  calibInfo += PvlKeyword("DarkCurrentFile", calFileName.originalPath().toStdString() + "/" + calFileName.name().toStdString());
 
   calFile = calFileName.expanded();
 
@@ -773,7 +773,7 @@ void calculateVisDarkCurrent(Cube *icube) {
 
   FILE *calFilePtr = fopen(calFile.toLatin1().data(), "r");
 
-  double visExposure = toDouble(inst["ExposureDuration"][1]);
+  double visExposure = std::stod(inst["ExposureDuration"][1]);
 
   int sampleOffset, lineOffset;
   GetOffsets(*icube->label(), sampleOffset, lineOffset);
@@ -1036,8 +1036,8 @@ if (!vis) {
   FileName calibrationFileName(calFile);
   calibrationFileName = calibrationFileName.highestVersion();
 
-  calibInfo += PvlKeyword("FlatFile", calibrationFileName.originalPath() +
-                          "/" + calibrationFileName.name());
+  calibInfo += PvlKeyword("FlatFile", calibrationFileName.originalPath().toStdString() +
+                          "/" + calibrationFileName.name().toStdString());
 
   CubeAttributeInput iatt;
   p->SetInputCube(createCroppedFile(icube, calibrationFileName.expanded(), true), iatt);
@@ -1094,7 +1094,7 @@ void GetOffsets(const Pvl &lab, int &finalSampOffset, int &finalLineOffset) {
   finalSampOffset = sampOffset;
   finalLineOffset = lineOffset;
 
-  QString samplingMode = QString(inst["SamplingMode"]).toUpper();
+  QString samplingMode = QString::fromStdString(inst["SamplingMode"]).toUpper();
   if(vis) {
     if(samplingMode == "NORMAL") {
       finalSampOffset = sampOffset - 1;

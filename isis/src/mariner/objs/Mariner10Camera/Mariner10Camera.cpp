@@ -59,10 +59,10 @@ namespace Isis {
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
     // Get utc start time
-    QString stime = inst["StartTime"];
+    QString stime = QString::fromStdString(inst["StartTime"]);
 
     iTime startTime;
-    startTime.setUtc((QString)inst["StartTime"]);
+    startTime.setUtc(QString::fromStdString(inst["StartTime"]));
     setTime(startTime);
 
     // Setup detector map
@@ -80,8 +80,8 @@ namespace Isis {
 
     // Setup distortion map which is dependent on encounter, use start time
     // MOON:  1973-11-08T03:16:26.350
-    QString spacecraft = (QString)inst["SpacecraftName"];
-    QString instId = (QString)inst["InstrumentId"];
+    QString spacecraft = QString::fromStdString(inst["SpacecraftName"]);
+    QString instId = QString::fromStdString(inst["InstrumentId"]);
     QString cam;
     if(instId == "M10_VIDICON_A") {
       cam = "a";

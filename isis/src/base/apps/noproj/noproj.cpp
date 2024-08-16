@@ -437,9 +437,9 @@ namespace Isis {
 
     // Check this object for a detached file spec
     QStringList detfiles;
-    QString dfilename = "^" + object.name();
+    std::string dfilename = "^" + object.name();
     if ( object.hasKeyword(dfilename) ) {
-      QString detname = object[dfilename];
+      QString detname = QString::fromStdString(object[dfilename]);
       detfiles.append(detname);
     }
 

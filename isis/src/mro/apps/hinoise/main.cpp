@@ -86,10 +86,10 @@ void IsisMain() {
     gdHardHighEndPercent = ui.GetDouble("HARD_HIGHEND_PERCENT");
 
     // Get Summing, CcdId and Channel Number from the cube label
-    Pvl cubeLabel = Pvl(sInputFile);
-    int iSumming  = toInt (cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("Summing")[0]);
-    int iChannel  = toInt (cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("ChannelNumber")[0]);
-    QString sCcdId = cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("CcdId");
+    Pvl cubeLabel = Pvl(sInputFile.toStdString());
+    int iSumming  = std::stoi(cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("Summing")[0]);
+    int iChannel  = std::stoi(cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("ChannelNumber")[0]);
+    QString sCcdId = QString::fromStdString(cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("CcdId"));
 
     // Get the image histogram
     Pipeline p1("hinoise1");

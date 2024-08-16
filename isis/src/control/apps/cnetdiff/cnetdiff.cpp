@@ -48,7 +48,7 @@ namespace Isis {
     ControlNet cnet2 = ControlNet(ui.GetFileName("FROM2"));
 
     if(ui.WasEntered("DIFF")) {
-      Pvl diffFile(ui.GetFileName("DIFF"));
+      Pvl diffFile(ui.GetFileName("DIFF").toStdString());
       return cnetdiff(cnet1, cnet2, ui, &diffFile);
     }
     
@@ -104,12 +104,12 @@ namespace Isis {
       }
       else {
         differences += PvlKeyword("Compare", "Different");
-        differences += PvlKeyword("Reason", differenceReason);
+        differences += PvlKeyword("Reason", differenceReason.toStdString());
       }
 
       Application::AppendAndLog(differences, &log);
 
-      if (ui.WasEntered("TO")) log.write(ui.GetFileName("TO"));
+      if (ui.WasEntered("TO")) log.write(ui.GetFileName("TO").toStdString());
 
       differenceReason = "";
     
@@ -125,7 +125,7 @@ namespace Isis {
       }
 
       Pvl out = differencer.compare(fileName1, fileName2);
-      if (ui.WasEntered("TO")) out.write(ui.GetFileName("TO"));
+      if (ui.WasEntered("TO")) out.write(ui.GetFileName("TO").toStdString());
 
       PvlGroup results("Results");
 
@@ -169,8 +169,8 @@ namespace Isis {
       return;
     }
 
-    QString id1 = net1Obj["NetworkId"][0];
-    QString id2 = net2Obj["NetworkId"][0];
+    QString id1 = QString::fromStdString(net1Obj["NetworkId"][0]);
+    QString id2 = QString::fromStdString(net2Obj["NetworkId"][0]);
 
     if (id1 != id2) {
       differenceReason = "The network IDs [" +
@@ -180,8 +180,8 @@ namespace Isis {
       return;
     }
 
-    QString target1 = net1Obj["TargetName"][0];
-    QString target2 = net2Obj["TargetName"][0];
+    QString target1 = QString::fromStdString(net1Obj["TargetName"][0]);
+    QString target2 = QString::fromStdString(net2Obj["TargetName"][0]);
 
     if (target1 != target2) {
       differenceReason = "The TargetName values [" +
@@ -237,12 +237,12 @@ namespace Isis {
 
       if(!filesMatch) {
         differenceReason = "Control Measure for Cube [" +
-                           measure1["SerialNumber"][0] + "] " + differenceReason;
+                           QString::fromStdString(measure1["SerialNumber"][0]) + "] " + differenceReason;
       }
     }
 
     if (!filesMatch) {
-      differenceReason = "Control Point [" + point1Pvl["PointId"][0] +
+      differenceReason = "Control Point [" + QString::fromStdString(point1Pvl["PointId"][0]) +
                          "] " + differenceReason;
     }
   }
@@ -303,14 +303,14 @@ namespace Isis {
 
     if (pvl1.size() != pvl2.size()) {
       filesMatch = false;
-      differenceReason = "Value '" + pvl1.name() + "' array size does not match.";
+      differenceReason = "Value '" + QString::fromStdString(pvl1.name()) + "' array size does not match.";
       return;
     }
 
     if (tolerances.hasKeyword(pvl1.name()) &&
         tolerances[pvl1.name()].size() > 1 &&
         pvl1.size() != tolerances[pvl1.name()].size()) {
-      QString msg = "Size of value '" + pvl1.name() + "' does not match with ";
+      QString msg = "Size of value '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
       msg += "its number of tolerances in the DIFF file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -318,16 +318,16 @@ namespace Isis {
     if (ignorekeys.hasKeyword(pvl1.name()) &&
         ignorekeys[pvl1.name()].size() > 1 &&
         pvl1.size() != ignorekeys[pvl1.name()].size()) {
-      QString msg = "Size of value '" + pvl1.name() + "' does not match with ";
+      QString msg = "Size of value '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
       msg += "its number of ignore keys in the DIFF file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     for(int i = 0; i < pvl1.size() && filesMatch; i++) {
-      QString val1 = pvl1[i];
-      QString val2 = pvl2[i];
-      QString unit1 = pvl1.unit(i);
-      QString unit2 = pvl2.unit(i);
+      QString val1 = QString::fromStdString(pvl1[i]);
+      QString val2 = QString::fromStdString(pvl2[i]);
+      QString unit1 = QString::fromStdString(pvl1.unit(i));
+      QString unit2 = QString::fromStdString(pvl2.unit(i));
 
       int ignoreIndex = 0;
       if (ignorekeys.hasKeyword(pvl1.name()) && ignorekeys[pvl1.name()].size() > 1) {
@@ -340,7 +340,7 @@ namespace Isis {
 
           if (unit1.toLower() != unit2.toLower()) {
             filesMatch = false;
-            differenceReason = "Value '" + pvl1.name() + "': units do not match.";
+            differenceReason = "Value '" + QString::fromStdString(pvl1.name()) + "': units do not match.";
             return;
           }
 
@@ -348,18 +348,18 @@ namespace Isis {
           double difference = abs(toDouble(val1) - toDouble(val2));
 
           if (tolerances.hasKeyword(pvl1.name())) {
-            tolerance = toDouble((tolerances[pvl1.name()].size() == 1) ?
+            tolerance = std::stod((tolerances[pvl1.name()].size() == 1) ?
                         tolerances[pvl1.name()][0] : tolerances[pvl1.name()][i]);
           }
 
           if (difference > tolerance) {
             filesMatch = false;
             if (pvl1.size() == 1) {
-              differenceReason = "Value [" + pvl1.name() + "] difference is " +
+              differenceReason = "Value [" + QString::fromStdString(pvl1.name()) + "] difference is " +
                                  toString(difference);
             }
             else {
-              differenceReason = "Value [" + pvl1.name() + "] at index " +
+              differenceReason = "Value [" + QString::fromStdString(pvl1.name()) + "] at index " +
                                  toString(i) + ": difference is " + toString(difference);
             }
             differenceReason += " (values are [" + val1 + "] and [" +
@@ -370,7 +370,7 @@ namespace Isis {
       catch(IException &e) {
         if (val1.toLower() != val2.toLower()) {
           filesMatch = false;
-          differenceReason = "Value '" + pvl1.name() + "': values do not match.";
+          differenceReason = "Value '" + QString::fromStdString(pvl1.name()) + "': values do not match.";
         }
       }
     }

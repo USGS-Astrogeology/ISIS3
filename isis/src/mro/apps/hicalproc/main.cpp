@@ -55,13 +55,13 @@ void IsisMain() {
     if (bIngestion) {
       int sDotPos = outFile.indexOf('.');
       QString sIngestedFile = outFile.mid(0, sDotPos);
-      cubeLabel = Pvl(sIngestedFile + ".lev2.cub");
+      cubeLabel = Pvl(sIngestedFile.toStdString() + ".lev2.cub");
     }
     else {
-      cubeLabel = Pvl(inFile);
+      cubeLabel = Pvl(inFile.toStdString());
     }
     // Get the Summing from the label
-    int iSumming = toInt(cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("Summing")[0]);
+    int iSumming = std::stoi(cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("Summing")[0]);
 
     Pipeline p1("hicalproc1");
     p1.SetInputFile("FROM");
@@ -456,7 +456,7 @@ void GetCCD_Channel_Coefficients(Pvl & pCubeLabel)
   }
   else {
     PvlKeyword binKey = instrGrp.findKeyword("Summing");
-    iSumming = toInt(binKey[0]);
+    iSumming = std::stoi(binKey[0]);
     if (iSumming != 1 && iSumming != 2 && iSumming != 4) {
       QString sMsg = "Invalid Summing value in input file, must be 1,2,or 4";
       throw IException(IException::User, sMsg, _FILEINFO_);
@@ -470,7 +470,7 @@ void GetCCD_Channel_Coefficients(Pvl & pCubeLabel)
   }
   else {
     PvlKeyword ccdKey = instrGrp.findKeyword("CcdId");
-    sCcd = ccdKey[0];
+    sCcd = QString::fromStdString(ccdKey[0]);
   }
 
   // Channel Keyword
@@ -480,7 +480,7 @@ void GetCCD_Channel_Coefficients(Pvl & pCubeLabel)
   }
   else {
     PvlKeyword channelKey = instrGrp.findKeyword("ChannelNumber");
-    iChannel = toInt(channelKey[0]);
+    iChannel = std::stoi(channelKey[0]);
   }
 
   // Get the coefficient file name

@@ -31,7 +31,7 @@ void PrintPvl() {
   // Write file out to log
   QString inFile(ui.GetFileName("FROMPVL"));
   Pvl inPvl;
-  inPvl.read(ui.GetFileName("FROMPVL"));
+  inPvl.read(ui.GetFileName("FROMPVL").toStdString());
   QString OQString = "***** Output of [" + inFile + "] *****";
   Application::GuiLog(OQString);
   Application::GuiLog(inPvl);
@@ -46,7 +46,7 @@ void LoadKeyValue(const PvlKeyword & key, QString & val){
     if (i > 0) {
       val += ", ";
     }
-    val += key[i];
+    val += QString::fromStdString(key[i]);
   }
 }
 
@@ -56,11 +56,11 @@ void OutputKeyValue(PvlKeyword & key, QString val){
   key.clear();
   int found = val.indexOf(",");
   while(found != -1) {
-    key += toString(toDouble(val.mid(0, found)));
+    key += std::to_string(toDouble(val.mid(0, found)));
     val = val.mid(found+1);
     found = val.indexOf(",");
   }
-  key += toString(toDouble(val));
+  key += std::to_string(toDouble(val));
 }
 
 // Helper function to load the input pvl file into the GUI
@@ -70,7 +70,7 @@ void LoadPvl() {
   UserInterface &ui = Application::GetUserInterface();
   QString inFile(ui.GetFileName("FROMPVL"));
   Pvl inPvl;
-  inPvl.read(inFile);
+  inPvl.read(inFile.toStdString());
   QString phtName = ui.GetAsString("PHTNAME");
   phtName = phtName.toUpper();
   QString atmName = ui.GetAsString("ATMNAME");
@@ -88,9 +88,9 @@ void LoadPvl() {
       PvlObject::PvlGroupIterator phtGrp = phtObj.beginGroup();
       bool wasFound = false;
       if (phtGrp->hasKeyword("PHTNAME")) {
-        phtVal = (QString)phtGrp->findKeyword("PHTNAME");
+        phtVal = QString::fromStdString(phtGrp->findKeyword("PHTNAME"));
       } else if (phtGrp->hasKeyword("NAME")) {
-        phtVal = (QString)phtGrp->findKeyword("NAME");
+        phtVal = QString::fromStdString(phtGrp->findKeyword("NAME"));
       } else {
         QString message = "The input PVL does not contain a valid photometric model so you must specify one ";
         message += "- the [Phtname] keyword is missing in your [Algorithm] group";
@@ -104,9 +104,9 @@ void LoadPvl() {
         while (phtGrp != phtObj.endGroup()) {
           if (phtGrp->hasKeyword("PHTNAME") || phtGrp->hasKeyword("NAME")) {
             if (phtGrp->hasKeyword("PHTNAME")) {
-              phtVal = (QString)phtGrp->findKeyword("PHTNAME");
+              phtVal = QString::fromStdString(phtGrp->findKeyword("PHTNAME"));
             } else if (phtGrp->hasKeyword("NAME")) {
-              phtVal = (QString)phtGrp->findKeyword("NAME");
+              phtVal = QString::fromStdString(phtGrp->findKeyword("NAME"));
             } else {
               QString message = "The input PVL does not contain a valid photometric model so you must specify one ";
               message += "- the [Phtname] keyword is missing in your [Algorithm] group";
@@ -160,7 +160,7 @@ void LoadPvl() {
             ui.PutAsString("B0", keyVal);
           }
           if (phtGrp->hasKeyword("ZEROB0STANDARD")) {
-            QString zerob0 = (QString)phtGrp->findKeyword("ZEROB0STANDARD");
+            QString zerob0 = QString::fromStdString(phtGrp->findKeyword("ZEROB0STANDARD"));
             QString izerob0 = zerob0;
             izerob0 = izerob0.toUpper();
             if (izerob0 == "TRUE") {
@@ -398,7 +398,7 @@ void IsisMain() {
     addAtmosModel(p, op);
   }
 
-  op.write(output);
+  op.write(output.toStdString());
 }
 
 //Function to add photometric model to the PVL
@@ -430,9 +430,9 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
         while (pvlGrp != pvlObj.endGroup()) {
           if (pvlGrp->hasKeyword("PHTNAME") || pvlGrp->hasKeyword("NAME")) {
             if (pvlGrp->hasKeyword("PHTNAME")) {
-              phtVal = (QString)pvlGrp->findKeyword("PHTNAME");
+              phtVal = QString::fromStdString(pvlGrp->findKeyword("PHTNAME"));
             } else if (pvlGrp->hasKeyword("NAME")) {
-              phtVal = (QString)pvlGrp->findKeyword("NAME");
+              phtVal = QString::fromStdString(pvlGrp->findKeyword("NAME"));
             } else {
               phtVal = "NONE";
             }
@@ -452,13 +452,13 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
       outPvl.addObject(PvlObject("PhotometricModel"));
       outPvl.findObject("PhotometricModel").addGroup(PvlGroup("Algorithm"));
       outPvl.findObject("PhotometricModel").findGroup("Algorithm").
-             addKeyword(PvlKeyword("PHTNAME",phtName),Pvl::Replace);
+             addKeyword(PvlKeyword("PHTNAME",phtName.toStdString()),Pvl::Replace);
     }
   } else {
     outPvl.addObject(PvlObject("PhotometricModel"));
     outPvl.findObject("PhotometricModel").addGroup(PvlGroup("Algorithm"));
     outPvl.findObject("PhotometricModel").findGroup("Algorithm").
-           addKeyword(PvlKeyword("PHTNAME",phtName),Pvl::Replace);
+           addKeyword(PvlKeyword("PHTNAME",phtName.toStdString()),Pvl::Replace);
   }
 
   //Get the photometric model and any parameters specific to that
@@ -726,9 +726,9 @@ void addAtmosModel(Pvl &pvl, Pvl &outPvl) {
     if (pvlObj.hasGroup("Algorithm")) {
       PvlObject::PvlGroupIterator pvlGrp = pvlObj.beginGroup();
       if (pvlGrp->hasKeyword("ATMNAME")) {
-        atmVal = (QString)pvlGrp->findKeyword("ATMNAME");
+        atmVal = QString::fromStdString(pvlGrp->findKeyword("ATMNAME"));
       } else if (pvlGrp->hasKeyword("NAME")) {
-        atmVal = (QString)pvlGrp->findKeyword("NAME");
+        atmVal = QString::fromStdString(pvlGrp->findKeyword("NAME"));
       } else {
         atmVal = "NONE";
       }
@@ -740,9 +740,9 @@ void addAtmosModel(Pvl &pvl, Pvl &outPvl) {
         while (pvlGrp != pvlObj.endGroup()) {
           if (pvlGrp->hasKeyword("ATMNAME") || pvlGrp->hasKeyword("NAME")) {
             if (pvlGrp->hasKeyword("ATMNAME")) {
-              atmVal = (QString)pvlGrp->findKeyword("ATMNAME");
+              atmVal =  QString::fromStdString(pvlGrp->findKeyword("ATMNAME"));
             } else if (pvlGrp->hasKeyword("NAME")) {
-              atmVal = (QString)pvlGrp->findKeyword("NAME");
+              atmVal = QString::fromStdString(pvlGrp->findKeyword("NAME"));
             } else {
               atmVal = "NONE";
             }
@@ -762,13 +762,13 @@ void addAtmosModel(Pvl &pvl, Pvl &outPvl) {
       outPvl.addObject(PvlObject("AtmosphericModel"));
       outPvl.findObject("AtmosphericModel").addGroup(PvlGroup("Algorithm"));
       outPvl.findObject("AtmosphericModel").findGroup("Algorithm").
-             addKeyword(PvlKeyword("ATMNAME",atmName),Pvl::Replace);
+             addKeyword(PvlKeyword("ATMNAME",atmName.toStdString()),Pvl::Replace);
     }
   } else {
     outPvl.addObject(PvlObject("AtmosphericModel"));
     outPvl.findObject("AtmosphericModel").addGroup(PvlGroup("Algorithm"));
     outPvl.findObject("AtmosphericModel").findGroup("Algorithm").
-           addKeyword(PvlKeyword("ATMNAME",atmName),Pvl::Replace);
+           addKeyword(PvlKeyword("ATMNAME",atmName.toStdString()),Pvl::Replace);
   }
 
   //Get the atmospheric model and any parameters specific to that

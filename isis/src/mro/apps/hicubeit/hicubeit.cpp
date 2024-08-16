@@ -39,9 +39,9 @@ namespace Isis {
     remove(tempFile.expanded().toLatin1().data());
 
     // Get the instrument group from each file
-    Pvl redLab(redFile);
-    Pvl irLab(irFile);
-    Pvl bgLab(bgFile);
+    Pvl redLab(redFile.toStdString());
+    Pvl irLab(irFile.toStdString());
+    Pvl bgLab(bgFile.toStdString());
 
     PvlGroup redInst = redLab.findGroup("Instrument", Pvl::Traverse);
     PvlGroup irInst  = irLab.findGroup("Instrument", Pvl::Traverse);
@@ -70,17 +70,17 @@ namespace Isis {
 
     // Concatenate all the source products into one keyword
     PvlKeyword sourceProductId("SourceProductId");
-    sourceProductId += (QString)bgInst["StitchedProductIds"][0];
+    sourceProductId += bgInst["StitchedProductIds"][0];
     if(bgInst["StitchedProductIds"].size() > 1) {
-      sourceProductId += (QString)bgInst["StitchedProductIds"][1];
+      sourceProductId += bgInst["StitchedProductIds"][1];
     }
-    sourceProductId += (QString)redInst["StitchedProductIds"][0];
+    sourceProductId += redInst["StitchedProductIds"][0];
     if(redInst["StitchedProductIds"].size() > 1) {
-      sourceProductId += (QString)redInst["StitchedProductIds"][1];
+      sourceProductId += redInst["StitchedProductIds"][1];
     }
-    sourceProductId += (QString)irInst["StitchedProductIds"][0];
+    sourceProductId += irInst["StitchedProductIds"][0];
     if(irInst["StitchedProductIds"].size() > 1) {
-      sourceProductId += (QString)irInst["StitchedProductIds"][1];
+      sourceProductId += irInst["StitchedProductIds"][1];
     }
 
     // Get min start and max stop time
@@ -89,31 +89,31 @@ namespace Isis {
     PvlKeyword startClk  = redInst["SpacecraftClockStartCount"];
     PvlKeyword stopClk   = redInst["SpacecraftClockStopCount"];
 
-    if((QString) irInst["StartTime"] < (QString)startTime) {
+    if((std::string) irInst["StartTime"] < (std::string)startTime) {
       startTime = irInst["StartTime"];
     }
-    if((QString) bgInst["StartTime"] < (QString)startTime) {
+    if((std::string) bgInst["StartTime"] < (std::string)startTime) {
       startTime = bgInst["StartTime"];
     }
 
-    if((QString) irInst["StopTime"] > (QString)stopTime) {
+    if((std::string) irInst["StopTime"] > (std::string)stopTime) {
       stopTime = irInst["StopTime"];
     }
-    if((QString) bgInst["StopTime"] > (QString)stopTime) {
+    if((std::string) bgInst["StopTime"] > (std::string)stopTime) {
       stopTime = bgInst["StopTime"];
     }
 
-    if((QString) irInst["SpacecraftClockStartCount"] < (QString)startClk) {
+    if((std::string) irInst["SpacecraftClockStartCount"] < (std::string)startClk) {
       startClk = irInst["SpacecraftClockStartCount"];
     }
-    if((QString) bgInst["SpacecraftClockStartCount"] < (QString)startClk) {
+    if((std::string) bgInst["SpacecraftClockStartCount"] < (std::string)startClk) {
       startClk = bgInst["SpacecraftClockStartCount"];
     }
 
-    if((QString) irInst["SpacecraftClockStopCount"] > (QString)stopClk) {
+    if((std::string) irInst["SpacecraftClockStopCount"] > (std::string)stopClk) {
       stopClk = irInst["SpacecraftClockStopCount"];
     }
-    if((QString) bgInst["SpacecraftClockStopCount"] > (QString)stopClk) {
+    if((std::string) bgInst["SpacecraftClockStopCount"] > (std::string)stopClk) {
       stopClk = bgInst["SpacecraftClockStopCount"];
     }
 
@@ -128,42 +128,42 @@ namespace Isis {
 
     PvlKeyword cpmmTdiFlag("cpmmTdiFlag");
     for(int i = 0; i < 14; i++) {
-      cpmmTdiFlag += (QString) "";
+      cpmmTdiFlag += "";
     }
-    cpmmTdiFlag[(int)redInst["CpmmNumber"]] = (QString) redGrp["MRO:TDI"];
-    cpmmTdiFlag[(int)irInst["CpmmNumber"]] = (QString) irGrp["MRO:TDI"];
-    cpmmTdiFlag[(int)bgInst["CpmmNumber"]] = (QString) bgGrp["MRO:TDI"];
+    cpmmTdiFlag[(int)redInst["CpmmNumber"]] = (std::string) redGrp["MRO:TDI"];
+    cpmmTdiFlag[(int)irInst["CpmmNumber"]] = (std::string) irGrp["MRO:TDI"];
+    cpmmTdiFlag[(int)bgInst["CpmmNumber"]] = (std::string) bgGrp["MRO:TDI"];
 
     // Concatenate all summing modes into one keyword
     PvlKeyword cpmmSummingFlag("cpmmSummingFlag");
     for(int i = 0; i < 14; i++) {
-      cpmmSummingFlag += (QString) "";
+      cpmmSummingFlag += "";
     }
-    cpmmSummingFlag[(int)redInst["CpmmNumber"]] = (QString) redGrp["MRO:BINNING"];
-    cpmmSummingFlag[(int)irInst["CpmmNumber"]] = (QString) irGrp["MRO:BINNING"];
-    cpmmSummingFlag[(int)bgInst["CpmmNumber"]] = (QString) bgGrp["MRO:BINNING"];
+    cpmmSummingFlag[(int)redInst["CpmmNumber"]] = (std::string) redGrp["MRO:BINNING"];
+    cpmmSummingFlag[(int)irInst["CpmmNumber"]] = (std::string) irGrp["MRO:BINNING"];
+    cpmmSummingFlag[(int)bgInst["CpmmNumber"]] = (std::string) bgGrp["MRO:BINNING"];
 
     //Concatenate all the Special_Processing_Flag into one keyword
     PvlKeyword specialProcessingFlag("SpecialProcessingFlag");
     for(int i = 0; i < 14; i++) {
-      specialProcessingFlag += (QString) "";
+      specialProcessingFlag += "";
     }
     //keyword Special_Processing_Flag may not be present so need to test
     // if not present set to NOMINAL
     if(redInst.hasKeyword("Special_Processing_Flag")) {
-      specialProcessingFlag[redInst["CpmmNumber"]] = (QString) redInst["Special_Processing_Flag"];
+      specialProcessingFlag[redInst["CpmmNumber"]] = (std::string) redInst["Special_Processing_Flag"];
     }
     else {
       specialProcessingFlag[redInst["CpmmNumber"]] = "NOMINAL";
     }
     if(irInst.hasKeyword("Special_Processing_Flag")) {
-      specialProcessingFlag[irInst["CpmmNumber"]] = (QString) irInst["Special_Processing_Flag"];
+      specialProcessingFlag[irInst["CpmmNumber"]] = (std::string) irInst["Special_Processing_Flag"];
     }
     else {
       specialProcessingFlag[irInst["CpmmNumber"]] = "NOMINAL";
     }
     if(bgInst.hasKeyword("Special_Processing_Flag")) {
-      specialProcessingFlag[bgInst["CpmmNumber"]] = (QString) bgInst["Special_Processing_Flag"];
+      specialProcessingFlag[bgInst["CpmmNumber"]] = (std::string) bgInst["Special_Processing_Flag"];
     }
     else {
       specialProcessingFlag[bgInst["CpmmNumber"]] = "NOMINAL";

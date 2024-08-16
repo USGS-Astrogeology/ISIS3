@@ -769,9 +769,9 @@ namespace Isis {
     }
     if (g_dark) {
       PvlKeyword darks("DarkFiles");
-      darks.addValue(QString::fromStdString(darkFiles[0]));
+      darks.addValue(darkFiles[0].toStdString());
       if (darkFiles.size() > 1)
-        darks.addValue(QString::fromStdString(darkFiles[1]));
+        darks.addValue(darkFiles[1].toStdString());
       calgrp += darks;
     }
     if (g_flatfield)

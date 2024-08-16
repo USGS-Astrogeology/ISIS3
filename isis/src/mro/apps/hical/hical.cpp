@@ -502,18 +502,18 @@ namespace Isis {
       // Ensure the RadiometricCalibration group is out there
       const QString rcalGroup("RadiometricCalibration");
       if (!ocube->hasGroup(rcalGroup)) {
-        PvlGroup temp(rcalGroup);
+        PvlGroup temp(rcalGroup.toStdString());
         ocube->putGroup(temp);
       }
 
       PvlGroup &rcal = ocube->group(rcalGroup);
-      rcal += PvlKeyword("Program", hical_program);
-      rcal += PvlKeyword("RunTime", hical_runtime);
-      rcal += PvlKeyword("Version",hical_version);
-      rcal += PvlKeyword("Revision",hical_revision);
+      rcal += PvlKeyword("Program", hical_program.toStdString());
+      rcal += PvlKeyword("RunTime", hical_runtime.toStdString());
+      rcal += PvlKeyword("Version",hical_version.toStdString());
+      rcal += PvlKeyword("Revision",hical_revision.toStdString());
 
-      PvlKeyword key("Conf", conf_file);
-      key.addCommentWrapped("/* " + hical_program + " application equation */");
+      PvlKeyword key("Conf", conf_file.toStdString());
+      key.addCommentWrapped("/* " + hical_program.toStdString() + " application equation */");
       key.addComment("/* hdn = idn - ZeroBufferFit(ZeroBufferSmooth) */");
       key.addComment("/*           - ZeroReverse - (ZeroDark OR ZeroDarkRate) */");
       key.addComment("/* odn = hdn / GainLineDrift * GainNonLinearity */");

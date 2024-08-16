@@ -78,13 +78,13 @@ void IsisMain() {
   FileName inFile = ui.GetFileName("FROM");
   IString id;
   bool projected;
-  Pvl lab(inFile.expanded());
+  Pvl lab(inFile.expanded().toStdString());
 
   try {
     needsUnlut = (int) lab.findKeyword("MESS:COMP12_8");
     // Check for NAC imager
     if((int) lab.findKeyword("MESS:IMAGER") == 1) validMaxDn = NACValidMaximum;
-    id = (QString) lab.findKeyword("MISSION_NAME");
+    id =  QString::fromStdString(lab.findKeyword("MISSION_NAME"));
     projected = lab.hasObject("IMAGE_MAP_PROJECTION");
   }
   catch(IException &e) {
@@ -117,11 +117,11 @@ void IsisMain() {
   // Perform PDS/EDR source keyword translations to ISIS label keywords
   p.SetPdsFile(inFile.expanded(), "", pdsLabel);
   Pvl outLabel = TranslateMdisEdrLabels(inFile, target);
-  PvlKeyword sourceId("SourceProductId", '"' + inFile.baseName() + '"');
+  PvlKeyword sourceId("SourceProductId", '"' + inFile.baseName().toStdString() + '"');
 
   //  Create YearDoy keyword in Archive group
-  iTime stime(outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]);
-  PvlKeyword yeardoy("YearDoy", toString(stime.Year()*1000 + stime.DayOfYear()));
+  iTime stime( QString::fromStdString(outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]));
+  PvlKeyword yeardoy("YearDoy", std::to_string(stime.Year()*1000 + stime.DayOfYear()));
   (void) outLabel.findGroup("Archive", Pvl::Traverse).addKeyword(yeardoy);
 
   if(ui.GetBoolean("UNLUT") == false || !needsUnlut) {
@@ -133,7 +133,7 @@ void IsisMain() {
     // Write the Instrument, BandBin, Archive, and Kernels groups to the output
     // cube label
     PvlGroup &group =  outLabel.findGroup("Instrument", Pvl::Traverse);
-    group.addKeyword(PvlKeyword("Unlutted", toString((int)!needsUnlut)));
+    group.addKeyword(PvlKeyword("Unlutted", std::to_string((int)!needsUnlut)));
     outCube->putGroup(group);
     outCube->putGroup(outLabel.findGroup("BandBin", Pvl::Traverse));
 
@@ -162,12 +162,12 @@ void IsisMain() {
     outCube->create(ui.GetCubeName("TO"));
 
     PvlGroup &group =  outLabel.findGroup("Instrument", Pvl::Traverse);
-    group.addKeyword(PvlKeyword("Unlutted", toString((int)true)));
-    group.addKeyword(PvlKeyword("LutInversionTable", lutfile));
+    group.addKeyword(PvlKeyword("Unlutted", std::to_string((int)true)));
+    group.addKeyword(PvlKeyword("LutInversionTable", lutfile.toStdString()));
     outCube->label()->findObject("IsisCube").addGroup(group);
 
     group = outLabel.findGroup("Archive", Pvl::Traverse);
-    sourceId.addValue('"' + lutid + '"');
+    sourceId.addValue('"' + lutid.toStdString() + '"');
     group.addKeyword(sourceId);
     outCube->label()->findObject("IsisCube").addGroup(group);
 
@@ -176,7 +176,7 @@ void IsisMain() {
 
     p.StartProcess(UnlutData);
 
-    OriginalLabel ol(Pvl(inFile.expanded()));
+    OriginalLabel ol(Pvl(inFile.expanded().toStdString()));
     outCube->write(ol);
     outCube->close();
     delete outCube;
@@ -193,7 +193,7 @@ Pvl TranslateMdisEdrLabels(FileName &labelFile, const QString &target) {
   QString transDir = "$ISISROOT/appdata/translations/";
 
   // Get a filename for the MESSENGER EDR label
-  Pvl labelPvl(labelFile.expanded());
+  Pvl labelPvl(labelFile.expanded().toStdString());
 
   // Translate the Instrument group
   FileName transFile(transDir + "MessengerMdisInstrument.trn");
@@ -214,30 +214,30 @@ Pvl TranslateMdisEdrLabels(FileName &labelFile, const QString &target) {
   PvlGroup kerns("Kernels");
   PvlGroup &bandbin(outLabel.findGroup("BandBin", Pvl::Traverse));
   PvlGroup &instGrp(outLabel.findGroup("Instrument", Pvl::Traverse));
-  QString instId = instGrp["InstrumentId"];
+  QString instId =  QString::fromStdString(instGrp["InstrumentId"]);
   QString naifCode;
 
   // Establish Filter specific keywords
   CreateFilterSpecs(instId, (int) instGrp["FilterWheelPosition"], bandbin,
                     naifCode);
-  kerns += PvlKeyword("NaifIkCode", naifCode);
+  kerns += PvlKeyword("NaifIkCode", naifCode.toStdString());
   outLabel.addGroup(kerns);
 
 //  If the user specifed the target explicitly or it doesn't exist, create
 //  something so the camera will always work
   if(instGrp.findKeyword("TargetName").isNull() || (!target.isEmpty())) {
     if(!target.isEmpty()) {
-      instGrp["TargetName"] = QString(target);
+      instGrp["TargetName"] = target.toStdString();
     }
     else {
-      instGrp["TargetName"] = QString("Sky");
+      instGrp["TargetName"] = "Sky";
     }
   }
 
 //  Compute the gimble pivot angle and write to the label
   double pivotCounter = (double) instGrp["PivotPosition"];
   double pivotAngle   = pivotCounter / ((double)(2 << 15)) * 180.0;
-  instGrp += PvlKeyword("PivotAngle", toString(pivotAngle), "Degrees");
+  instGrp += PvlKeyword("PivotAngle", std::to_string(pivotAngle), "Degrees");
 
   return outLabel;
 }
@@ -297,14 +297,14 @@ int CreateFilterSpecs(const QString &instId, int filter_code,
     //  Set up WAC calibration file
     FileName calibFile("$messenger/calibration/mdisCalibration????.trn");
     calibFile = calibFile.highestVersion();
-    Pvl config(calibFile.expanded());
+    Pvl config(calibFile.expanded().toStdString());
 
     PvlGroup &confgrp = config.findGroup("FilterWheel");
     int tolerance = confgrp["EncoderTolerance"];
 
     naifCode =  "-236800";
     for(int filterTry = 1; filterTry <= 12 ; filterTry++) {
-      int idealPosition = confgrp[QString("EncoderPosition") + toString(filterTry)];
+      int idealPosition = confgrp["EncoderPosition" + std::to_string(filterTry)];
       if((filter_code <= (idealPosition + tolerance)) &&
           (filter_code >= (idealPosition - tolerance))) {
         int fno = filterTry - 1;
@@ -324,10 +324,10 @@ int CreateFilterSpecs(const QString &instId, int filter_code,
   }
 
   if(!name.isEmpty()) {
-    bandbin.addKeyword(PvlKeyword("Number", toString(filter)), PvlContainer::Replace);
-    bandbin.addKeyword(PvlKeyword("Name", name), PvlContainer::Replace);
-    bandbin.addKeyword(PvlKeyword("Center", center, "NM"), PvlContainer::Replace);
-    bandbin.addKeyword(PvlKeyword("Width", width, "NM"), PvlContainer::Replace);
+    bandbin.addKeyword(PvlKeyword("Number", std::to_string(filter)), PvlContainer::Replace);
+    bandbin.addKeyword(PvlKeyword("Name", name.toStdString()), PvlContainer::Replace);
+    bandbin.addKeyword(PvlKeyword("Center", center.toStdString(), "NM"), PvlContainer::Replace);
+    bandbin.addKeyword(PvlKeyword("Width", width.toStdString(), "NM"), PvlContainer::Replace);
   }
   else {
     //  If we reach here, we cannot validate the number - set it to unknown

@@ -77,10 +77,10 @@ void IsisMain() {
     calKernelFile = p.MissionData("mer", "calibration/mical.ker.???", true);
     cout << "use the system kernel" << endl;
   }
-  Pvl calKernel(calKernelFile);
+  Pvl calKernel(calKernelFile.toStdString());
 //  gbl::mi = new Mer::MiCalibration(*(pack->GetCube()), calKernel);
   gbl::mi = new Mer::MiCalibration(*(pack), calKernel);
-  calgrp += PvlKeyword("CalibrationKernel", calKernelFile);
+  calgrp += PvlKeyword("CalibrationKernel", calKernelFile.toStdString());
 
 
   // See if User entered a temperature and call setTemperature functions
@@ -143,13 +143,13 @@ void IsisMain() {
     gbl::ReferencePixelValue = stat.Average();
 
     calgrp += PvlKeyword("ReferencePixelValueSource", "ERPImage");
-    calgrp += PvlKeyword("ReferencePixelValueImage", ui.GetCubeName("REFPIXIMAGE"));
-    calgrp += PvlKeyword("ReferencePixelValue", toString(gbl::ReferencePixelValue));
+    calgrp += PvlKeyword("ReferencePixelValueImage", ui.GetCubeName("REFPIXIMAGE").toStdString());
+    calgrp += PvlKeyword("ReferencePixelValue", std::to_string(gbl::ReferencePixelValue));
   }
   else {
     gbl::ReferencePixelValue = gbl::mi->ReferencePixelModel();
     calgrp += PvlKeyword("ReferencePixelValueSource", "ERPModel");
-    calgrp += PvlKeyword("ReferenceModel", toString(gbl::ReferencePixelValue));
+    calgrp += PvlKeyword("ReferenceModel", std::to_string(gbl::ReferencePixelValue));
   }
   // if user wants NO zero exposure or if shutter effect correction is true
   // set the user value to zero and set label output to reflect no correction
@@ -159,19 +159,19 @@ void IsisMain() {
     calgrp += PvlKeyword("ZeroExposureImage", "NoCorrection");
   }
   else {
-    calgrp += PvlKeyword("ZeroExposureValue", toString(gbl::mi->ZeroExposureValue()));
-    calgrp += PvlKeyword("ZeroExposureImage", gbl::mi->ZeroExposureImage());
+    calgrp += PvlKeyword("ZeroExposureValue", std::to_string(gbl::mi->ZeroExposureValue()));
+    calgrp += PvlKeyword("ZeroExposureImage", gbl::mi->ZeroExposureImage().toStdString());
   }
   // If user wants NO active area set user value to zero and set the label
   // output values to reflect no correction.
   if(!ui.GetBoolean("AACORRECTION")) {
     gbl::useActiveAreaValue = 0;
-    calgrp += PvlKeyword("ActiveAreaValue", QString::number(0));
+    calgrp += PvlKeyword("ActiveAreaValue", "0");
     calgrp += PvlKeyword("ActiveAreaImage", "NoCorrection");
   }
   else {
-    calgrp += PvlKeyword("ActiveAreaValue", toString(gbl::mi->ActiveAreaValue()));
-    calgrp += PvlKeyword("ActiveAreaImage", gbl::mi->ActiveAreaImage());
+    calgrp += PvlKeyword("ActiveAreaValue", std::to_string(gbl::mi->ActiveAreaValue()));
+    calgrp += PvlKeyword("ActiveAreaImage", gbl::mi->ActiveAreaImage().toStdString());
   }
 
 
@@ -187,7 +187,7 @@ void IsisMain() {
   if(ui.WasEntered("FLATFIELD")) {
     p.SetInputCube(ui.GetCubeName("FLATFIELD"), att);
     if(stagestop == "FLAT" || stagestop == "IOF") {
-      calgrp += PvlKeyword("FlatFieldImage", gbl::mi->FlatImageOpen());
+      calgrp += PvlKeyword("FlatFieldImage", gbl::mi->FlatImageOpen().toStdString());
     }
   }
   else {
@@ -195,13 +195,13 @@ void IsisMain() {
     if(gbl::mi->FilterName() == "MI_OPEN") {
       p.SetInputCube(gbl::mi->FlatImageOpen(), att);
       if(stagestop == "FLAT" || stagestop == "IOF") {
-        calgrp += PvlKeyword("FlatFieldImage", gbl::mi->FlatImageOpen());
+        calgrp += PvlKeyword("FlatFieldImage", gbl::mi->FlatImageOpen().toStdString());
       }
     }
     else if(gbl::mi->FilterName() == "MI_CLOSED") {
       p.SetInputCube(gbl::mi->FlatImageClosed(), att);
       if(stagestop == "FLAT" || stagestop == "IOF") {
-        calgrp += PvlKeyword("FlatFieldImage", gbl::mi->FlatImageClosed());
+        calgrp += PvlKeyword("FlatFieldImage", gbl::mi->FlatImageClosed().toStdString());
       }
     }
   }
@@ -211,14 +211,14 @@ void IsisMain() {
   double fullModel = gbl::mi->ReferencePixelModel() +
                      gbl::mi->ZeroExposureValue() +
                      gbl::mi->ActiveAreaValue();
-  calgrp += PvlKeyword("DarkCurrentFullModel", toString(fullModel));
+  calgrp += PvlKeyword("DarkCurrentFullModel", std::to_string(fullModel));
 
   //Add temperature values to the radiometry group
-  calgrp += PvlKeyword("CCDTemperture", toString(gbl::mi->CCDTemperatureCorrect()));
-  calgrp += PvlKeyword("PCBTemperature", toString(gbl::mi->PCBTemperature()));
+  calgrp += PvlKeyword("CCDTemperture", std::to_string(gbl::mi->CCDTemperatureCorrect()));
+  calgrp += PvlKeyword("PCBTemperature", std::to_string(gbl::mi->PCBTemperature()));
   if(stagestop == "IOF") {
-    calgrp += PvlKeyword("OmegaNaught", toString(gbl::mi->OmegaNaught()));
-    calgrp += PvlKeyword("SunAU", toString(gbl::sunAU));
+    calgrp += PvlKeyword("OmegaNaught", std::to_string(gbl::mi->OmegaNaught()));
+    calgrp += PvlKeyword("SunAU", std::to_string(gbl::sunAU));
   }
 
 //write Radiometry group to the output cube.
@@ -323,7 +323,7 @@ void helperButtonLogCalKernel() {
   }
 
   Pvl p;
-  p.read(calKernelFile);
+  p.read(calKernelFile.toStdString());
   QString OQString = "********** Output of [" + calKernelFile + "] *********";
   Application::GuiLog(OQString);
   Application::GuiLog(p);

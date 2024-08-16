@@ -195,7 +195,7 @@ void IsisMain() {
 
   if (ui.WasEntered("RATIONALE_DESC")) {
     pdsLabel.addKeyword(
-        PvlKeyword("RATIONALE_DESC", ui.GetString("RATIONALE_DESC")),
+        PvlKeyword("RATIONALE_DESC", ui.GetString("RATIONALE_DESC").toStdString()),
         Pvl::Replace);
   }
 
@@ -207,20 +207,20 @@ void IsisMain() {
   QString dateTime = (QString) timestr;
   iTime tmpDateTime(dateTime);
   PvlGroup &timeParam = pdsLabel.findGroup("TIME_PARAMETERS");
-  timeParam += PvlKeyword("PRODUCT_CREATION_TIME", tmpDateTime.UTC());
+  timeParam += PvlKeyword("PRODUCT_CREATION_TIME", tmpDateTime.UTC().toStdString());
 
   // Add the N/A constant keyword to the ROOT
-  pdsLabel += PvlKeyword("NOT_APPLICABLE_CONSTANT", toString(-9998));
+  pdsLabel += PvlKeyword("NOT_APPLICABLE_CONSTANT", std::to_string(-9998));
 
   // Add SOFTWARE_NAME to the ROOT
   QString sfname;
   sfname.clear();
   sfname += "Isis " + Application::Version() + " " +
             Application::GetUserInterface().ProgramName();
-  pdsLabel += PvlKeyword("SOFTWARE_NAME", sfname);
+  pdsLabel += PvlKeyword("SOFTWARE_NAME", sfname.toStdString());
 
   // Add the PRODUCT_VERSION_ID from the user parameter VERSION
-  pdsLabel += PvlKeyword("PRODUCT_VERSION_ID", ui.GetString("VERSION"));
+  pdsLabel += PvlKeyword("PRODUCT_VERSION_ID", ui.GetString("VERSION").toStdString());
 
   // Add MRO:CCD_FLAG, MRO:BINNING, MRO:TDI
   // As pulled from the input Isis cube, the values are in CPMM order, so
@@ -246,7 +246,7 @@ void IsisMain() {
     ccdTdi.addValue(cpmmTdi[cpmmByCcd[ccd]] != "Null" ? cpmmTdi[cpmmByCcd[ccd]] : "-9998");
     IString tmp = cpmmSpecial[cpmmByCcd[ccd]];
     tmp.Trim("\"");
-    ccdSpecial.addValue(tmp.ToQt());
+    ccdSpecial.addValue(tmp.ToQt().toStdString());
   }
 
   if (!pdsLabel.hasGroup("INSTRUMENT_SETTING_PARAMETERS")) {
@@ -311,7 +311,7 @@ void IsisMain() {
       mapObject["C_AXIS_RADIUS"].setValue(std::to_string(radius), "KM");
     }
 
-    projName = mapObject["MAP_PROJECTION_TYPE"][0];
+    projName = QString::fromStdString(mapObject["MAP_PROJECTION_TYPE"][0]);
   }
 
   // Calculate the min/max per band keywords
@@ -319,11 +319,11 @@ void IsisMain() {
   // The input to output mapping is opposite from the one above
   double slope = (p.GetOutputMaximum() - p.GetOutputMinimum()) / (maxmax - minmin);
   double intercept = p.GetOutputMaximum() - slope * maxmax;
-  PvlKeyword minimum("MRO:MINIMUM_STRETCH", toString(slope * g_min[0] + intercept));
-  PvlKeyword maximum("MRO:MAXIMUM_STRETCH", toString(slope * g_max[0] + intercept));
+  PvlKeyword minimum("MRO:MINIMUM_STRETCH", std::to_string(slope * g_min[0] + intercept));
+  PvlKeyword maximum("MRO:MAXIMUM_STRETCH", std::to_string(slope * g_max[0] + intercept));
   for (int band = 1; band < icube2->bandCount(); ++band) {
-    minimum += toString(slope * g_min[band] + intercept);
-    maximum += toString(slope * g_max[band] + intercept);
+    minimum += std::to_string(slope * g_min[band] + intercept);
+    maximum += std::to_string(slope * g_max[band] + intercept);
   }
 
   if (enctype.Equal("jp2")) {
@@ -334,18 +334,18 @@ void IsisMain() {
     imagejp2 += PvlKeyword("DESCRIPTION", "HiRISE projected and mosaicked product");
 
     // Add the SCALLING_FACTOR and OFFSET keywords
-    imagejp2.addKeyword(PvlKeyword("SCALING_FACTOR", toString(slope)), Pvl::Replace);
-    imagejp2.addKeyword(PvlKeyword("OFFSET", toString(intercept)), Pvl::Replace);
+    imagejp2.addKeyword(PvlKeyword("SCALING_FACTOR", std::to_string(slope)), Pvl::Replace);
+    imagejp2.addKeyword(PvlKeyword("OFFSET", std::to_string(intercept)), Pvl::Replace);
 
     // Reformat some keyword units in the image object
     // This is lame, but PDS units are difficult to work with, so for now???
     PvlKeyword &oldFilterNamejp2 = imagejp2["FILTER_NAME"];
     PvlKeyword newFilterName("FILTER_NAME");
     for (int val = 0; val < oldFilterNamejp2.size(); ++val) {
-      QString  filtname(oldFilterNamejp2[val].toUpper());
+      QString  filtname(QString::fromStdString(oldFilterNamejp2[val]).toUpper());
       if (filtname == "BLUEGREEN") filtname = "BLUE-GREEN";
       else if (filtname == "NEARINFRARED") filtname = "NEAR-INFRARED";
-      newFilterName.addValue(filtname);
+      newFilterName.addValue(filtname.toStdString());
     }
     imagejp2.addKeyword(newFilterName, Pvl::Replace);
 
@@ -381,7 +381,7 @@ void IsisMain() {
     // ProcessExportPds
     if (nbits != 8 && nbits != 16) {
       imagejp2.addKeyword(PvlKeyword("SAMPLE_BIT_MASK",
-                                     toString((int)pow(2.0, (double)ui.GetInteger("BITS")) - 1)),
+                                     std::to_string((int)pow(2.0, (double)ui.GetInteger("BITS")) - 1)),
                           Pvl::Replace);
     }
   }
@@ -402,18 +402,18 @@ void IsisMain() {
     // ??? unneccessary calculation - this is done by ProcessExportPds class.
     double slope = (maxmax - minmin) / (p.GetOutputMaximum() - p.GetOutputMinimum());
     double intercept = maxmax - slope * p.GetOutputMaximum();
-    image.addKeyword(PvlKeyword("SCALING_FACTOR", toString(slope)), Pvl::Replace);
-    image.addKeyword(PvlKeyword("OFFSET", toString(intercept)), Pvl::Replace);
+    image.addKeyword(PvlKeyword("SCALING_FACTOR", std::to_string(slope)), Pvl::Replace);
+    image.addKeyword(PvlKeyword("OFFSET", std::to_string(intercept)), Pvl::Replace);
 
     // Reformat some keyword units in the image object
     // This is lame, but PDS units are difficult to work with, so for now
     PvlKeyword &oldFilterName = image["FILTER_NAME"];
     PvlKeyword newFilterName("FILTER_NAME");
     for (int val = 0; val < oldFilterName.size(); ++val) {
-      QString  filtname(oldFilterName[val].toUpper());
+      QString  filtname(QString::fromStdString(oldFilterName[val]).toUpper());
       if (filtname == "BLUEGREEN") filtname = "BLUE-GREEN";
       else if (filtname == "NEARINFRARED") filtname = "NEAR-INFRARED";
-      newFilterName.addValue(filtname);
+      newFilterName.addValue(filtname.toStdString());
     }
     image.addKeyword(newFilterName, Pvl::Replace);
 
@@ -449,7 +449,7 @@ void IsisMain() {
     // ProcessExportPds
     if (nbits != 8 && nbits != 16) {
       image.addKeyword(PvlKeyword("SAMPLE_BIT_MASK",
-                                  toString((int)pow(2.0, (double)ui.GetInteger("BITS")) - 1)),
+                                  std::to_string((int)pow(2.0, (double)ui.GetInteger("BITS")) - 1)),
                        Pvl::Replace);
     }
   }

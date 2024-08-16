@@ -139,7 +139,7 @@ namespace Isis {
     //  !!NOTE:  The ephemeris time MUST be set prior to creating the
     //           cache (CreateCache) because the kernels are all unloaded
     //           after the cache is done and this operation will fail!!
-    QString stime = inst["SpacecraftClockCount"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockCount"]);
     double exposureDuration = ((double) inst["ExposureDuration"]) / 1000.0;// divide by 1000 to convert to seconds
 
     iTime etStart = getClockTime(stime);

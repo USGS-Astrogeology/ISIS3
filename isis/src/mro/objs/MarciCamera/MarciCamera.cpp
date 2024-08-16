@@ -62,7 +62,7 @@ namespace Isis {
 
     // Get the start and end time
     double et;
-    QString stime = inst["SpacecraftClockCount"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockCount"]);
     et = getClockTime(stime).Et();
     p_etStart = et - ((p_exposureDur / 1000.0) / 2.0);
     p_nframelets = (int) (ParentLines() / sumMode);
@@ -103,14 +103,14 @@ namespace Isis {
     const PvlKeyword &filtNames = bandBin["FilterName"];
 
     for(int i = 0; i < filtNames.size(); i++) {
-      if(filterToDetectorOffset.find(filtNames[i]) == filterToDetectorOffset.end()) {
-        QString msg = "Unrecognized filter name [" + filtNames[i] + "]";
+      if(filterToDetectorOffset.find(QString::fromStdString(filtNames[i])) == filterToDetectorOffset.end()) {
+        QString msg = "Unrecognized filter name [" + QString::fromStdString(filtNames[i]) + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
-      p_detectorStartLines.push_back(filterToDetectorOffset.find(filtNames[i])->second);
-      p_filterNumbers.push_back(filterToFilterNumbers.find(filtNames[i])->second);
-      p_frameletOffsets.push_back(filterToFrameletOffset.find(filtNames[i])->second);
+      p_detectorStartLines.push_back(filterToDetectorOffset.find(QString::fromStdString(filtNames[i]))->second);
+      p_filterNumbers.push_back(filterToFilterNumbers.find(QString::fromStdString(filtNames[i]))->second);
+      p_frameletOffsets.push_back(filterToFrameletOffset.find(QString::fromStdString(filtNames[i]))->second);
     }
 
     // Setup detector map

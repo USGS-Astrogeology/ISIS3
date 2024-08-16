@@ -58,7 +58,7 @@ bool HiCalConf::_naifLoaded = false;
    * @param conf Name of configuration file to use
    */
   HiCalConf::HiCalConf(Pvl &label, const QString &conf) :
-       DbAccess(Pvl(filepath(conf)).findObject("Hical", PvlObject::Traverse)) {
+       DbAccess(Pvl(filepath(conf).toStdString()).findObject("Hical", PvlObject::Traverse)) {
     _profName.clear();
     init(label);
   }
@@ -109,7 +109,7 @@ bool HiCalConf::_naifLoaded = false;
    * @param conf Name of configuration file to use
    */
   void HiCalConf::setConf(const QString &conf) {
-    load(Pvl(filepath(conf)).findObject("Hical", PvlObject::Traverse));
+    load((Pvl(filepath(conf).toStdString()).findObject("Hical", PvlObject::Traverse)));
   }
 
   /**
@@ -309,12 +309,12 @@ bool HiCalConf::_naifLoaded = false;
       try {
         loadNaifTiming();
 
-        QString scStartTime = getKey("SpacecraftClockStartCount", "Instrument");
+        QString scStartTime = QString::fromStdString(getKey("SpacecraftClockStartCount", "Instrument"));
         double obsStartTime;
         NaifStatus::CheckErrors();
         scs2e_c (-74999,scStartTime.toLatin1().data(),&obsStartTime);
 
-        QString targetName = getKey("TargetName", "Instrument");
+        QString targetName = QString::fromStdString(getKey("TargetName", "Instrument"));
         if (targetName.toLower() == "sky" ||
             targetName.toLower() == "cal" ||
             targetName.toLower() == "phobos" ||
@@ -479,11 +479,11 @@ void HiCalConf::init(Pvl &label) {
 PvlKeyword &HiCalConf::getKey(const QString &key,
                               const QString &group) {
   if (!group.isEmpty()) {
-    PvlGroup &grp = _label.findGroup(group, Pvl::Traverse);
-    return (grp[key]);
+    PvlGroup &grp = _label.findGroup(group.toStdString(), Pvl::Traverse);
+    return (grp[key.toStdString()]);
   }
   else {
-    return (_label.findKeyword(key));
+    return (_label.findKeyword(key.toStdString()));
   }
 }
 
@@ -543,7 +543,7 @@ DbProfile HiCalConf::getLabelProfile(const DbProfile &profile) const {
     Pvl label = _label;
     for ( int g = 0 ; g < ngroups ; g++ ) {
       QString group = profile("LabelGroups", g);
-      PvlGroup grp = label.findGroup(group, Pvl::Traverse);
+      PvlGroup grp = label.findGroup(group.toStdString(), Pvl::Traverse);
       lblprof = DbProfile(lblprof,DbProfile(grp));
     }
   }
@@ -562,8 +562,8 @@ DbProfile HiCalConf::makeParameters(Pvl &label) const {
   int channel = inst["ChannelNumber"];
   parms.add("CCD",ToString(ccd));
   parms.add("CHANNEL", ToString(channel));
-  parms.add("TDI", inst["Tdi"]);
-  parms.add("BIN", inst["Summing"]);
+  parms.add("TDI", QString::fromStdString(inst["Tdi"]));
+  parms.add("BIN", QString::fromStdString(inst["Summing"]));
   parms.add("FILTER", CcdToFilter(ccd));
   parms.add("CCDCHANNELINDEX", ToString(getChannelIndex(ccd, channel)));
   return (parms);

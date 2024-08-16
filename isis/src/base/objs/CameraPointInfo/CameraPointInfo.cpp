@@ -366,15 +366,15 @@ namespace Isis {
         double spB[3], sB[3];
 
         m_camera->instrumentPosition(spB);
-        gp->findKeyword("SpacecraftPosition").addValue(toString(spB[0]), "km");
-        gp->findKeyword("SpacecraftPosition").addValue(toString(spB[1]), "km");
-        gp->findKeyword("SpacecraftPosition").addValue(toString(spB[2]), "km");
+        gp->findKeyword("SpacecraftPosition").addValue(std::to_string(spB[0]), "km");
+        gp->findKeyword("SpacecraftPosition").addValue(std::to_string(spB[1]), "km");
+        gp->findKeyword("SpacecraftPosition").addValue(std::to_string(spB[2]), "km");
 
         try {
           m_camera->sunPosition(sB);
-          gp->findKeyword("SunPosition").addValue(toString(sB[0]), "km");
-          gp->findKeyword("SunPosition").addValue(toString(sB[1]), "km");
-          gp->findKeyword("SunPosition").addValue(toString(sB[2]), "km");
+          gp->findKeyword("SunPosition").addValue(std::to_string(sB[0]), "km");
+          gp->findKeyword("SunPosition").addValue(std::to_string(sB[1]), "km");
+          gp->findKeyword("SunPosition").addValue(std::to_string(sB[2]), "km");
         }
         catch (IException &e) {
           gp->findKeyword("SunPosition").addValue("Null");
@@ -383,15 +383,15 @@ namespace Isis {
         }
 
         std::vector<double>lookB = m_camera->lookDirectionBodyFixed();
-        gp->findKeyword("LookDirectionBodyFixed").addValue(toString(lookB[0]), "DEGREE");
-        gp->findKeyword("LookDirectionBodyFixed").addValue(toString(lookB[1]), "DEGREE");
-        gp->findKeyword("LookDirectionBodyFixed").addValue(toString(lookB[2]), "DEGREE");
+        gp->findKeyword("LookDirectionBodyFixed").addValue(std::to_string(lookB[0]), "DEGREE");
+        gp->findKeyword("LookDirectionBodyFixed").addValue(std::to_string(lookB[1]), "DEGREE");
+        gp->findKeyword("LookDirectionBodyFixed").addValue(std::to_string(lookB[2]), "DEGREE");
 
         try {
           std::vector<double>lookJ = m_camera->lookDirectionJ2000();
-          gp->findKeyword("LookDirectionJ2000").addValue(toString(lookJ[0]), "DEGREE");
-          gp->findKeyword("LookDirectionJ2000").addValue(toString(lookJ[1]), "DEGREE");
-          gp->findKeyword("LookDirectionJ2000").addValue(toString(lookJ[2]), "DEGREE");
+          gp->findKeyword("LookDirectionJ2000").addValue(std::to_string(lookJ[0]), "DEGREE");
+          gp->findKeyword("LookDirectionJ2000").addValue(std::to_string(lookJ[1]), "DEGREE");
+          gp->findKeyword("LookDirectionJ2000").addValue(std::to_string(lookJ[2]), "DEGREE");
         }
         catch (IException &e) {
           gp->findKeyword("LookDirectionJ2000").addValue("Null");
@@ -402,9 +402,9 @@ namespace Isis {
         try {
           double lookC[3];
           m_camera->LookDirection(lookC);
-          gp->findKeyword("LookDirectionCamera").addValue(toString(lookC[0]), "DEGREE");
-          gp->findKeyword("LookDirectionCamera").addValue(toString(lookC[1]), "DEGREE");
-          gp->findKeyword("LookDirectionCamera").addValue(toString(lookC[2]), "DEGREE");
+          gp->findKeyword("LookDirectionCamera").addValue(std::to_string(lookC[0]), "DEGREE");
+          gp->findKeyword("LookDirectionCamera").addValue(std::to_string(lookC[1]), "DEGREE");
+          gp->findKeyword("LookDirectionCamera").addValue(std::to_string(lookC[2]), "DEGREE");
         }
         catch (IException &e) {
           gp->findKeyword("LookDirectionCamera").addValue("Null");

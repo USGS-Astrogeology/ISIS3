@@ -65,9 +65,9 @@ class HiHistory {
     void clear() { _events.clear(); }
 
     PvlKeyword makekey(const QString &name = "History") const {
-      PvlKeyword key(name);
+      PvlKeyword key(name.toStdString());
       for (unsigned int i = 0 ; i < _events.size() ; i++) {
-        key.addValue(_events[i]);
+        key.addValue(_events[i].toStdString());
       }
       return (key);
     }

@@ -119,7 +119,7 @@ namespace Isis {
         std::string message = "No loaded model could be created from the ISD [" + isdFilePath.toStdString() + "]."
                           "Loaded plugin & model names:\n";
         for (const csm::Plugin * plugin : csm::Plugin::getList()) {
-          std:string currentPluginName = plugin->getPluginName();
+          std::string currentPluginName = plugin->getPluginName();
           for (size_t modelIndex = 0; modelIndex < plugin->getNumModels(); modelIndex++) {
             std::string modelName = plugin->getModelName(modelIndex);
             message += "Plugin [" + currentPluginName + "], Model [" + modelName + "]\n";

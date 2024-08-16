@@ -33,12 +33,12 @@ namespace Isis{
 
     Pvl outLabel;
 
-    Pvl labelPvl(inFile.expanded());
+    Pvl labelPvl(inFile.expanded().toStdString());
 
     QString prodType;
 
     if (labelPvl.hasKeyword("PRODUCT_TYPE")) {
-      prodType = (QString)labelPvl.findKeyword("PRODUCT_TYPE");
+      prodType = QString::fromStdString(labelPvl.findKeyword("PRODUCT_TYPE"));
     }
     else {
       QString msg = "Unsupported CRISM file type, supported types are: DDR, MRDR, and TRDR";
@@ -48,7 +48,7 @@ namespace Isis{
     if (prodType.toUpper() == "MAP_PROJECTED_MULTISPECTRAL_RDR") {
       QString prodId;
       if (labelPvl.hasKeyword("PRODUCT_ID")) {
-        prodId = (QString)labelPvl.findKeyword("PRODUCT_ID");
+        prodId = QString::fromStdString(labelPvl.findKeyword("PRODUCT_ID"));
         prodId = prodId.mid(prodId.indexOf("_") + 1, prodId.indexOf("_"));
       }
       else {
@@ -65,7 +65,7 @@ namespace Isis{
           PvlGroup bandBin = PvlGroup("BandBin");
           PvlKeyword origBand = PvlKeyword("OriginalBand");
           PvlKeyword widths = PvlKeyword("Width");
-          QString tablePath = (QString)labelPvl.findKeyword("MRO:WAVELENGTH_FILE_NAME");
+          QString tablePath = QString::fromStdString(labelPvl.findKeyword("MRO:WAVELENGTH_FILE_NAME"));
           tablePath = tablePath.toLower();
           FileName tableFile(inFile.path() + "/" + tablePath);
           //Check if the wavelength file exists
@@ -85,8 +85,8 @@ namespace Isis{
               st = st.simplified().trimmed();
               QStringList cols = st.split(",");
 
-              origBand += toString(band);
-              widths += cols[2];
+              origBand += std::to_string(band);
+              widths += cols[2].toStdString();
               band++;
             }
             delete fin;
@@ -111,7 +111,7 @@ namespace Isis{
         PvlKeyword bandName = PvlKeyword("BandName");
         PvlKeyword bandNames = labelPvl.findObject("IMAGE").findKeyword("BAND_NAME");
         for (int i = 0; i < bandNames.size(); i++) {
-          origBand += toString(i + 1);
+          origBand += std::to_string(i + 1);
           bandName += bandNames[i];
         }
         bandBin.addKeyword(origBand);
@@ -139,7 +139,7 @@ namespace Isis{
       PvlKeyword bandName = PvlKeyword("BandName");
       PvlKeyword bandNames = labelPvl.findObject("FILE").findObject("IMAGE").findKeyword("BAND_NAME");
       for (int i = 0; i < bandNames.size(); i++) {
-        origBand += toString(i + 1);
+        origBand += std::to_string(i + 1);
         bandName += bandNames[i];
       }
       bandBin.addKeyword(origBand);

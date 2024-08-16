@@ -62,7 +62,7 @@ namespace Isis {
    * @return @b QString The algorithm name from the PVL object.
    */
   QString PhotometricFunction::algorithmName( const PvlObject &pvl ) {
-    return pvl.findObject("PhotometricModel").findGroup("Algorithm", Pvl::Traverse).findKeyword("Name")[0];
+    return QString::fromStdString(pvl.findObject("PhotometricModel").findGroup("Algorithm", Pvl::Traverse).findKeyword("Name")[0]);
   }
 
 

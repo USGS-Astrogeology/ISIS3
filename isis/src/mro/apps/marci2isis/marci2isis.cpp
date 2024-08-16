@@ -58,7 +58,7 @@ namespace Isis{
     FileName inFile = ui.GetFileName("FROM");
 
     //Checks if in file is rdr
-    Pvl lab(inFile.expanded());
+    Pvl lab(inFile.expanded().toStdString());
     if(lab.hasObject("IMAGE_MAP_PROJECTION")) {
       QString msg = "[" + inFile.name() + "] appears to be an rdr file.";
       msg += " Use pds2isis.";
@@ -94,7 +94,7 @@ namespace Isis{
         int numKnownFilters = sizeof(knownFilters) / sizeof(QString);
 
         while(filtNum < numKnownFilters &&
-              (QString)pdsLab["FILTER_NAME"][filter] != knownFilters[filtNum]) {
+              pdsLab["FILTER_NAME"][filter] != knownFilters[filtNum].toStdString()) {
           filtNum ++;
         }
 
@@ -161,19 +161,19 @@ namespace Isis{
       translateMarciLabels(pdsLab, *outputCubes[i]->label());
 
       PvlObject &isisCube = outputCubes[i]->label()->findObject("IsisCube");
-      isisCube.findGroup("Instrument").addKeyword(PvlKeyword("Framelets", framelets[i]));
+      isisCube.findGroup("Instrument").addKeyword(PvlKeyword("Framelets", framelets[i].toStdString()));
 
       outputCubes[i]->write(origLabel);
     }
 
-    QString prodId = outputCubes[0]->label()->findGroup("Archive", Pvl::Traverse)["ProductId"][0];
+    QString prodId = QString::fromStdString(outputCubes[0]->label()->findGroup("Archive", Pvl::Traverse)["ProductId"][0]);
     prodId = prodId.toUpper();
     vector<int> frameseq;
     vector<double> exptime;
     // Populate with first values
     Pvl *isisLabelInitial = outputCubes[0]->label();
     PvlGroup &instInitial = isisLabelInitial->findGroup("Instrument", Pvl::Traverse);
-    double exposure = instInitial["ExposureDuration"][0].toDouble() * 1000.0;
+    double exposure = std::stod(instInitial["ExposureDuration"][0]) * 1000.0;
 
     frameseq.push_back(0);
     exptime.push_back(exposure);
@@ -223,9 +223,9 @@ namespace Isis{
     if (exptime.size() < 2) {
       PvlGroup missing("NoExposureTimeDataFound");
       PvlKeyword message("Message", "No variable exposure information found in the varexp file."
-                                    " Assuming exposure time is fixed for [" + inFile.toString() +  "]" );
+                                    " Assuming exposure time is fixed for [" + inFile.toString().toStdString() +  "]" );
       missing.addKeyword(message);
-      missing.addKeyword(PvlKeyword("FileNotFoundInVarexpFile", prodId), Pvl::Replace);
+      missing.addKeyword(PvlKeyword("FileNotFoundInVarexpFile", prodId.toStdString()), Pvl::Replace);
       Application::Log(missing);
     }
 
@@ -240,8 +240,8 @@ namespace Isis{
           PvlKeyword frameNumber("FrameNumber");
 
           for (unsigned int i=0; i < exptime.size(); i++) {
-            varExposure.addValue( QString::number(exptime[i]), "ms" );
-            frameNumber.addValue( QString::number(frameseq[i]) );
+            varExposure.addValue(std::to_string(exptime[i]), "ms" );
+            frameNumber.addValue(std::to_string(frameseq[i]));
           }
         inst.addKeyword(frameNumber);
         inst.addKeyword(varExposure);
@@ -366,46 +366,46 @@ namespace Isis{
     PvlGroup arch("Archive");
 
     if(pdsLabel.hasKeyword("SAMPLE_BIT_MODE_ID")) {
-      arch += PvlKeyword("ProductId", (QString)pdsLabel["PRODUCT_ID"]);
-      arch += PvlKeyword("OriginalProductId", (QString)pdsLabel["ORIGINAL_PRODUCT_ID"]);
-      arch += PvlKeyword("OrbitNumber", (QString)pdsLabel["ORBIT_NUMBER"]);
-      arch += PvlKeyword("SampleBitModeId", (QString)pdsLabel["SAMPLE_BIT_MODE_ID"]);
-      arch += PvlKeyword("FocalPlaneTemperature", (QString)pdsLabel["FOCAL_PLANE_TEMPERATURE"]);
-      arch += PvlKeyword("RationaleDesc", (QString)pdsLabel["RATIONALE_DESC"]);
+      arch += PvlKeyword("ProductId", pdsLabel["PRODUCT_ID"]);
+      arch += PvlKeyword("OriginalProductId", pdsLabel["ORIGINAL_PRODUCT_ID"]);
+      arch += PvlKeyword("OrbitNumber", pdsLabel["ORBIT_NUMBER"]);
+      arch += PvlKeyword("SampleBitModeId", pdsLabel["SAMPLE_BIT_MODE_ID"]);
+      arch += PvlKeyword("FocalPlaneTemperature", pdsLabel["FOCAL_PLANE_TEMPERATURE"]);
+      arch += PvlKeyword("RationaleDesc", pdsLabel["RATIONALE_DESC"]);
     }
 
     PvlGroup inst("Instrument");
 
-    if((QString)pdsLabel["SPACECRAFT_NAME"] == "MARS_RECONNAISSANCE_ORBITER") {
+    if(QString::fromStdString(pdsLabel["SPACECRAFT_NAME"]) == "MARS_RECONNAISSANCE_ORBITER") {
       inst += PvlKeyword("SpacecraftName", "MARS RECONNAISSANCE ORBITER");
     }
     else {
       throw IException(IException::User, "The input file does not appear to be a MARCI image", _FILEINFO_);
     }
 
-    if((QString)pdsLabel["INSTRUMENT_ID"] == "MARCI") {
+    if(QString::fromStdString(pdsLabel["INSTRUMENT_ID"]) == "MARCI") {
       inst += PvlKeyword("InstrumentId", "Marci");
     }
     else {
       throw IException(IException::User, "The input file does not appear to be a MARCI image", _FILEINFO_);
     }
 
-    inst += PvlKeyword("TargetName", (QString)pdsLabel["TARGET_NAME"]);
-    inst += PvlKeyword("SummingMode", (QString)pdsLabel["SAMPLING_FACTOR"]);
-    inst += PvlKeyword("StartTime", (QString) pdsLabel["START_TIME"]);
-    inst += PvlKeyword("StopTime", (QString) pdsLabel["STOP_TIME"]);
-    inst += PvlKeyword("SpacecraftClockCount", (QString)pdsLabel["SPACECRAFT_CLOCK_START_COUNT"]);
-    inst += PvlKeyword("DataFlipped", toString((int)(flip == 1)));
-    inst += PvlKeyword("ColorOffset", toString(colorOffset));
-    inst += PvlKeyword("InterframeDelay", toString((double)pdsLabel["INTERFRAME_DELAY"]), "seconds");
-    inst += PvlKeyword("ExposureDuration", toString((double)pdsLabel["LINE_EXPOSURE_DURATION"] / 1000.0), "seconds");
+    inst += PvlKeyword("TargetName", pdsLabel["TARGET_NAME"]);
+    inst += PvlKeyword("SummingMode", pdsLabel["SAMPLING_FACTOR"]);
+    inst += PvlKeyword("StartTime", pdsLabel["START_TIME"]);
+    inst += PvlKeyword("StopTime", pdsLabel["STOP_TIME"]);
+    inst += PvlKeyword("SpacecraftClockCount", pdsLabel["SPACECRAFT_CLOCK_START_COUNT"]);
+    inst += PvlKeyword("DataFlipped", std::to_string((int)(flip == 1)));
+    inst += PvlKeyword("ColorOffset", std::to_string(colorOffset));
+    inst += PvlKeyword("InterframeDelay", std::to_string((double)pdsLabel["INTERFRAME_DELAY"]), "seconds");
+    inst += PvlKeyword("ExposureDuration", std::to_string((double)pdsLabel["LINE_EXPOSURE_DURATION"] / 1000.0), "seconds");
 
     PvlGroup bandBin("BandBin");
     PvlKeyword filterName("FilterName");
     PvlKeyword origBands("OriginalBand");
     for(int filter = 0; filter < pdsLabel["FILTER_NAME"].size(); filter++) {
       filterName += pdsLabel["FILTER_NAME"][filter];
-      origBands += toString(filter + 1);
+      origBands += std::to_string(filter + 1);
     }
 
     bandBin += filterName;
@@ -433,9 +433,9 @@ namespace Isis{
     bandUvVis.insert(std::pair<QString, QString>("SHORT_UV", "MRO_MARCI_UV"));
 
     PvlGroup kerns("Kernels");
-    QString uvvis = bandUvVis.find((QString)bandBin["FilterName"][0])->second;
+    QString uvvis = bandUvVis.find(QString::fromStdString(bandBin["FilterName"][0]))->second;
     int iakCode = naifIkCodes.find(uvvis)->second;
-    kerns += PvlKeyword("NaifIkCode", toString(iakCode));
+    kerns += PvlKeyword("NaifIkCode", std::to_string(iakCode));
 
     isisCube.addGroup(kerns);
   }

@@ -22,7 +22,7 @@ namespace Isis {
    */
   PvlSequence &PvlSequence::operator=(PvlKeyword &key) {
     for(int i = 0; i < key.size(); i++) {
-      this->operator+=(key[i].toStdString());
+      this->operator+=(key[i]);
     }
     return *this;
   }
@@ -42,7 +42,7 @@ namespace Isis {
     PvlKeyword &key = pvl["temp"];
     std::vector<std::string> temp;
     for(int i = 0; i < key.size(); i++) {
-      temp.push_back(key[i].toStdString());
+      temp.push_back(key[i]);
     }
     p_sequence.push_back(temp);
     return *this;

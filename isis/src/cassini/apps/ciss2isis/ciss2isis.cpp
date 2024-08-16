@@ -99,11 +99,11 @@ namespace Isis{
       p.Progress()->SetText("Image was converted using 12-to-8 bit table. \nConverting prefix pixels back to 12 bit and saving line prefix data...");
     }
 
-    Pvl inputLabel(in.expanded());
+    Pvl inputLabel(in.expanded().toStdString());
     if (inputLabel.hasKeyword("VALID_MAXIMUM")) {
       PvlKeyword labelValidMax = inputLabel.findKeyword("VALID_MAXIMUM");
       if (labelValidMax[1] != "UNK") {
-        validMax = toInt(labelValidMax[1]);
+        validMax = std::stoi(labelValidMax[1]);
       }
     }
 

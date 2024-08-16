@@ -45,11 +45,11 @@ namespace Isis {
       // We will be processing by line
       ProcessByLine p;
 
-      Isis::Pvl lab(icube->fileName());
+      Isis::Pvl lab(icube->fileName().toStdString());
       Isis::PvlGroup &inst =
           lab.findGroup("Instrument", Pvl::Traverse);
 
-      QString instId = inst["InstrumentId"];
+      QString instId = QString::fromStdString(inst["InstrumentId"]);
       if(instId != "CTX") {
           QString msg = "This is not a CTX image.  Ctxcal requires a CTX image.";
           throw IException(IException::User, msg, _FILEINFO_);
@@ -92,7 +92,7 @@ namespace Isis {
       }
 
       // Get label parameters we will need for calibration equation
-      iTime startTime((QString) inst["StartTime"]);
+      iTime startTime(QString::fromStdString(inst["StartTime"]));
       double etStart = startTime.Et();
 
       //  Read exposure and convert to milliseconds
@@ -209,8 +209,8 @@ namespace Isis {
       // Add the radiometry group
       PvlGroup calgrp("Radiometry");
 
-      calgrp += PvlKeyword("FlatFile", flatFile.fileName());
-      calgrp += PvlKeyword("iof", toString(iof));
+      calgrp += PvlKeyword("FlatFile", flatFile.fileName().toStdString());
+      calgrp += PvlKeyword("iof", std::to_string(iof));
 
 
       ocube->putGroup(calgrp);

@@ -99,7 +99,7 @@ namespace Isis {
     PvlKeyword &target = label.findKeyword("TargetName", PvlObject::Traverse);
 
     try {
-      Target::lookupNaifBodyCode(target);
+      Target::lookupNaifBodyCode(QString::fromStdString(target));
       return (true);
     }
     catch (...) {
@@ -242,7 +242,7 @@ namespace Isis {
     Pvl geom;
 
     // Set initial keywords
-    geom += PvlKeyword("FILENAME", filename);
+    geom += PvlKeyword("FILENAME", filename.toStdString());
     geom += format("SOURCE_PRODUCT_ID", _spice.getList(true));
 
     //  Invoke routines to compute associated keys
@@ -652,13 +652,13 @@ namespace Isis {
     else {
       //  It does exist, extract coordinates from original image label
       QString n = Isis::toString(frameno);
-      sample  = (double) _orglabel.findKeyword("MESS:SUBF_X" + n,
+      sample  = (double) _orglabel.findKeyword("MESS:SUBF_X" + n.toStdString(),
                 PvlObject::Traverse);
-      line    = (double) _orglabel.findKeyword("MESS:SUBF_Y" + n,
+      line    = (double) _orglabel.findKeyword("MESS:SUBF_Y" + n.toStdString(),
                 PvlObject::Traverse);
-      width   = (double) _orglabel.findKeyword("MESS:SUBF_DX" + n,
+      width   = (double) _orglabel.findKeyword("MESS:SUBF_DX" + n.toStdString(),
                 PvlObject::Traverse);
-      height  = (double) _orglabel.findKeyword("MESS:SUBF_DY" + n,
+      height  = (double) _orglabel.findKeyword("MESS:SUBF_DY" + n.toStdString(),
                 PvlObject::Traverse);
 
     }
@@ -1061,10 +1061,10 @@ namespace Isis {
   PvlKeyword MdisGeometry::format(const QString &name, const double &value,
                                   const QString &unit) const {
     if (IsSpecial(value)) {
-      return (PvlKeyword(name, _NullDefault));
+      return (PvlKeyword(name.toStdString(), _NullDefault.toStdString()));
     }
     else  {
-      return (PvlKeyword(name, DoubleToString(value), unit));
+      return (PvlKeyword(name.toStdString(), DoubleToString(value).toStdString(), unit.toStdString()));
     }
   }
 
@@ -1089,13 +1089,13 @@ namespace Isis {
   PvlKeyword MdisGeometry::format(const QString &name,
                                   const std::vector<double> &values,
                                   const QString &unit) const {
-    PvlKeyword key(name);
+    PvlKeyword key(name.toStdString());
     for (unsigned int i = 0 ; i < values.size() ; i++) {
       if (IsSpecial(values[i])) {
-        key.addValue(_NullDefault);
+        key.addValue(_NullDefault.toStdString());
       }
       else {
-        key.addValue(DoubleToString(values[i]), unit);
+        key.addValue(DoubleToString(values[i]).toStdString(), unit.toStdString());
       }
     }
     return (key);
@@ -1119,13 +1119,13 @@ namespace Isis {
   PvlKeyword MdisGeometry::format(const QString &name,
                                   const std::vector<std::string> &values,
                                   const QString &unit) const {
-    PvlKeyword key(name);
+    PvlKeyword key(name.toStdString());
     for (unsigned int i = 0 ; i < values.size() ; i++) {
       if (values[i].empty()) {
-        key.addValue(_NullDefault);
+        key.addValue(_NullDefault.toStdString());
       }
       else {
-        key.addValue(values[i].c_str(), unit);
+        key.addValue(values[i].c_str(), unit.toStdString());
       }
     }
     return (key);
@@ -1149,13 +1149,13 @@ namespace Isis {
   PvlKeyword MdisGeometry::format(const QString &name,
                                   const std::vector<QString> &values,
                                   const QString &unit) const {
-    PvlKeyword key(name);
+    PvlKeyword key(name.toStdString());
     for (unsigned int i = 0 ; i < values.size() ; i++) {
       if (values[i].isEmpty()) {
-        key.addValue(_NullDefault);
+        key.addValue(_NullDefault.toStdString());
       }
       else {
-        key.addValue(values[i], unit);
+        key.addValue(values[i].toStdString(), unit.toStdString());
       }
     }
     return (key);

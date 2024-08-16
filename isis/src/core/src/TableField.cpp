@@ -589,7 +589,7 @@ namespace Isis {
    */
   PvlGroup TableField::pvlGroup() {
     PvlGroup group("Field");
-    group += PvlKeyword("Name", QString::fromStdString(m_name));
+    group += PvlKeyword("Name", m_name);
     if (m_type == TableField::Double) {
       group += PvlKeyword("Type", "Double");
     }

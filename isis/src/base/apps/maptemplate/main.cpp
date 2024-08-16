@@ -70,7 +70,7 @@ void IsisMain() {
   }
   Pvl p;
   p.addGroup(mapping);
-  p.write(output);
+  p.write(output.toStdString());
 }
 
 // Helper function to output map file to log.
@@ -78,7 +78,7 @@ void helperButtonLogMap() {
   UserInterface &ui = Application::GetUserInterface();
   QString mapFile(ui.GetFileName("MAP"));
   Pvl p;
-  p.read(mapFile);
+  p.read(mapFile.toStdString());
   PvlGroup t = p.findGroup("mapping", Pvl::Traverse);
   QString OQString = "***** Output of [" + mapFile + "] *****";
   Application::GuiLog(OQString);
@@ -91,7 +91,7 @@ void helperButtonLoadMap() {
   UserInterface &ui = Application::GetUserInterface();
   QString mapFile(ui.GetFileName("MAP"));
   Pvl p;
-  p.read(mapFile);
+  p.read(mapFile.toStdString());
   PvlGroup t = p.findGroup("mapping", Pvl::Traverse);
   // Projection Stuff
   ui.Clear("CLON");
@@ -105,7 +105,7 @@ void helperButtonLoadMap() {
   ui.Clear("DIST");
 
   if(t.hasKeyword("ProjectionName")) {
-    QString projIn = (QString)t["ProjectionName"];
+    QString projIn = QString::fromStdString(t["ProjectionName"]);
     projIn = projIn.toUpper();
     ui.Clear("PROJECTION");
     ui.PutAsString("PROJECTION", projIn);
@@ -171,28 +171,28 @@ void helperButtonLoadMap() {
     QString use = "USER";
     ui.Clear("TARGOPT");
     ui.PutAsString("TARGOPT", use);
-    QString tNameIn = t["TargetName"];
+    QString tNameIn = QString::fromStdString(t["TargetName"]);
     ui.Clear("TARGETNAME");
     ui.PutAsString("TARGETNAME", tNameIn);
 
-    QString LTIn = (QString)t["LatitudeType"];
+    QString LTIn = QString::fromStdString(t["LatitudeType"]);
     LTIn = LTIn.toUpper();
     ui.Clear("LATTYPE");
     ui.PutAsString("LATTYPE", LTIn);
 
-    QString LDIn = (QString)t["LongitudeDirection"];
+    QString LDIn = QString::fromStdString(t["LongitudeDirection"]);
     LDIn = LDIn.toUpper();
     ui.Clear("LONDIR");
     ui.PutAsString("LONDIR", LDIn);
 
-    QString LDomIn = t["LongitudeDomain"];
+    QString LDomIn = QString::fromStdString(t["LongitudeDomain"]);
     ui.Clear("LONDOM");
     ui.PutAsString("LONDOM", LDomIn);
 
-    QString EQIn = t["EquatorialRadius"];
+    QString EQIn = QString::fromStdString(t["EquatorialRadius"]);
     ui.Clear("EQRADIUS");
     ui.PutAsString("EQRADIUS", EQIn);
-    QString PRIn = t["PolarRadius"];
+    QString PRIn = QString::fromStdString(t["PolarRadius"]);
     ui.Clear("POLRADIUS");
     ui.PutAsString("POLRADIUS", PRIn);
   }
@@ -249,7 +249,7 @@ void helperButtonLogTargDef() {
   UserInterface &ui = Application::GetUserInterface();
   QString targetFile(ui.GetFileName("FILE"));
   Pvl p;
-  p.read(targetFile);
+  p.read(targetFile.toStdString());
   PvlGroup t = p.findGroup("mapping", Pvl::Traverse);
   QString OQString = "***** Output of [" + targetFile + "] *****";
   Application::GuiLog(OQString);
@@ -264,41 +264,41 @@ void helperButtonLoadTargDef() {
 
   // test if targdef was entered
   Pvl p;
-  p.read(targetFile);
+  p.read(targetFile.toStdString());
   PvlGroup t = p.findGroup("mapping", Pvl::Traverse);
   // Load the targdef values into the GUI
   QString tOpt = "USER";
   ui.Clear("TARGOPT");
   ui.PutAsString("TARGOPT", tOpt);
   if(t.hasKeyword("TargetName")) {
-    QString tNameIn = t["TargetName"];
+    QString tNameIn = QString::fromStdString(t["TargetName"]);
     ui.Clear("TARGETNAME");
     ui.PutAsString("TARGETNAME", tNameIn);
   }
   if(t.hasKeyword("LatitudeType")) {
-    QString LTIn = (QString)t["LatitudeType"];
+    QString LTIn = QString::fromStdString(t["LatitudeType"]);
     LTIn = LTIn.toUpper();
     ui.Clear("LATTYPE");
     ui.PutAsString("LATTYPE", LTIn);
   }
   if(t.hasKeyword("LongitudeDirection")) {
-    QString LDIn = (QString)t["LongitudeDirection"];
+    QString LDIn = QString::fromStdString(t["LongitudeDirection"]);
     LDIn = LDIn.toUpper();
     ui.Clear("LONDIR");
     ui.PutAsString("LONDIR", LDIn);
   }
   if(t.hasKeyword("LongitudeDomain")) {
-    QString LDomIn = t["LongitudeDomain"];
+    QString LDomIn = QString::fromStdString(t["LongitudeDomain"]);
     ui.Clear("LONDOM");
     ui.PutAsString("LONDOM", LDomIn);
   }
   if(t.hasKeyword("EquatorialRadius")) {
-    QString EQIn = t["EquatorialRadius"];
+    QString EQIn = QString::fromStdString(t["EquatorialRadius"]);
     ui.Clear("EQRADIUS");
     ui.PutAsString("EQRADIUS", EQIn);
   }
   if(t.hasKeyword("PolarRadius")) {
-    QString PRIn = t["PolarRadius"];
+    QString PRIn = QString::fromStdString(t["PolarRadius"]);
     ui.Clear("POLRADIUS");
     ui.PutAsString("POLRADIUS", PRIn);
   }
@@ -388,42 +388,42 @@ void addProject(PvlGroup &mapping) {
   projLUT ["ROBINSON"] = "Robinson";
 
   // Add Projection keywords to the mappping PVL
-  mapping += PvlKeyword("ProjectionName", projLUT[projName]);
+  mapping += PvlKeyword("ProjectionName", projLUT[projName].toStdString());
   if(ui.WasEntered("CLON")) {
     double clonOut = ui.GetDouble("CLON");
-    mapping += PvlKeyword("CenterLongitude", toString(clonOut));
+    mapping += PvlKeyword("CenterLongitude", std::to_string(clonOut));
   }
   if(ui.WasEntered("CLAT")) {
     double clatOut = ui.GetDouble("CLAT");
-    mapping += PvlKeyword("CenterLatitude", toString(clatOut));
+    mapping += PvlKeyword("CenterLatitude", std::to_string(clatOut));
   }
   if(ui.WasEntered("SCALEFACTOR")) {
     double scaleFactorOut = ui.GetDouble("SCALEFACTOR");
-    mapping += PvlKeyword("ScaleFactor", toString(scaleFactorOut));
+    mapping += PvlKeyword("ScaleFactor", std::to_string(scaleFactorOut));
   }
   if(ui.WasEntered("PAR1")) {
     double par1 = ui.GetDouble("PAR1");
-    mapping += PvlKeyword("FirstStandardParallel", toString(par1));
+    mapping += PvlKeyword("FirstStandardParallel", std::to_string(par1));
   }
   if(ui.WasEntered("PAR2")) {
     double par2 = ui.GetDouble("PAR2");
-    mapping += PvlKeyword("SecondStandardParallel", toString(par2));
+    mapping += PvlKeyword("SecondStandardParallel", std::to_string(par2));
   }
   if(ui.WasEntered("PLAT")) {
     double plat = ui.GetDouble("PLAT");
-    mapping += PvlKeyword("PoleLatitude", toString(plat));
+    mapping += PvlKeyword("PoleLatitude", std::to_string(plat));
   }
   if(ui.WasEntered("PLON")) {
     double plon = ui.GetDouble("PLON");
-    mapping += PvlKeyword("PoleLongitude", toString(plon));
+    mapping += PvlKeyword("PoleLongitude", std::to_string(plon));
   }
   if(ui.WasEntered("PROT")) {
     double prot = ui.GetDouble("PROT");
-    mapping += PvlKeyword("PoleRotation", toString(prot));
+    mapping += PvlKeyword("PoleRotation", std::to_string(prot));
   }
   if(ui.WasEntered("DIST")) {
     double dist = ui.GetDouble("DIST");
-    mapping += PvlKeyword("Distance", toString(dist));
+    mapping += PvlKeyword("Distance", std::to_string(dist));
   }
 }
 
@@ -433,7 +433,7 @@ void addTarget(PvlGroup &mapping) {
   if(ui.GetString("TARGOPT") == "SELECT") {
     QString targetFile(ui.GetFileName("FILE"));
     Pvl p;
-    p.read(targetFile);
+    p.read(targetFile.toStdString());
     PvlGroup t = p.findGroup("mapping");
     if(t.hasKeyword("TargetName")) {
       mapping += t["TargetName"];
@@ -456,7 +456,7 @@ void addTarget(PvlGroup &mapping) {
   else if(ui.GetString("TARGOPT") == "USER") {
 
     QString targetName = ui.GetString("TARGETNAME");
-    mapping += PvlKeyword("TargetName", targetName);
+    mapping += PvlKeyword("TargetName", targetName.toStdString());
 
     PvlGroup radii;
     // if either radius value was not entered, then we will attempt to get it from the target name
@@ -473,14 +473,14 @@ void addTarget(PvlGroup &mapping) {
     }
 
     if(ui.WasEntered("EQRADIUS")) {
-      mapping += PvlKeyword("EquatorialRadius", ui.GetAsString("EQRADIUS"), "meters");
+      mapping += PvlKeyword("EquatorialRadius", ui.GetAsString("EQRADIUS").toStdString(), "meters");
     }
     else {
       mapping += radii.findKeyword("EquatorialRadius"); // already formatted in meters
     }
 
     if(ui.WasEntered("POLRADIUS")) {
-      mapping += PvlKeyword("PolarRadius", ui.GetAsString("POLRADIUS"), "meters");
+      mapping += PvlKeyword("PolarRadius", ui.GetAsString("POLRADIUS").toStdString(), "meters");
     }
     else {
       mapping += radii.findKeyword("PolarRadius"); // already formatted in meters
@@ -501,7 +501,7 @@ void addTarget(PvlGroup &mapping) {
       mapping += PvlKeyword("LongitudeDirection", "PositiveWest");
     }
 
-    mapping += PvlKeyword("LongitudeDomain", ui.GetString("LONDOM"));
+    mapping += PvlKeyword("LongitudeDomain", ui.GetString("LONDOM").toStdString());
   }
 }
 
@@ -511,13 +511,13 @@ void addRange(PvlGroup &mapping) {
   // Use the values that have been entered in the GUI
   if(ui.GetString("RNGOPT") == "USER") {
     double minLat = ui.GetDouble("MINLAT");
-    mapping += PvlKeyword("MinimumLatitude", toString(minLat));
+    mapping += PvlKeyword("MinimumLatitude", std::to_string(minLat));
     double maxLat = ui.GetDouble("MAXLAT");
-    mapping += PvlKeyword("MaximumLatitude", toString(maxLat));
+    mapping += PvlKeyword("MaximumLatitude", std::to_string(maxLat));
     double minLon = ui.GetDouble("MINLON");
-    mapping += PvlKeyword("MinimumLongitude", toString(minLon));
+    mapping += PvlKeyword("MinimumLongitude", std::to_string(minLon));
     double maxLon = ui.GetDouble("MAXLON");
-    mapping += PvlKeyword("MaximumLongitude", toString(maxLon));
+    mapping += PvlKeyword("MaximumLongitude", std::to_string(maxLon));
   }
   else if(ui.GetString("RNGOPT") == "CALC") {
     // calculate range values using function calcRange and fromlist
@@ -527,10 +527,10 @@ void addRange(PvlGroup &mapping) {
     double maxLon;
     // Call calcRange to calculate min and max ground range values
     calcRange(minLat, maxLat, minLon, maxLon);
-    mapping += PvlKeyword("MinimumLatitude", toString(minLat));
-    mapping += PvlKeyword("MaximumLatitude", toString(maxLat));
-    mapping += PvlKeyword("MinimumLongitude", toString(minLon));
-    mapping += PvlKeyword("MaximumLongitude", toString(maxLon));
+    mapping += PvlKeyword("MinimumLatitude", std::to_string(minLat));
+    mapping += PvlKeyword("MaximumLatitude", std::to_string(maxLat));
+    mapping += PvlKeyword("MinimumLongitude", std::to_string(minLon));
+    mapping += PvlKeyword("MaximumLongitude", std::to_string(maxLon));
   }
 }
 
@@ -540,16 +540,16 @@ void addResolution(PvlGroup &mapping) {
   UserInterface &ui = Application::GetUserInterface();
   if(ui.GetString("RESOPT") == "PPD") {
     double res = ui.GetDouble("RESOLUTION");
-    mapping += PvlKeyword("Scale", toString(res), "pixels/degree");
+    mapping += PvlKeyword("Scale", std::to_string(res), "pixels/degree");
   }
   else if(ui.GetString("RESOPT") == "MPP") {
     double res = ui.GetDouble("RESOLUTION");
-    mapping += PvlKeyword("PixelResolution", toString(res), "meters/pixel");
+    mapping += PvlKeyword("PixelResolution", std::to_string(res), "meters/pixel");
   }
   else if(ui.GetString("RESOPT") == "CALC") {
     // run the function to calculate the resolution
     double Res = calcResolution();
-    mapping += PvlKeyword("PixelResolution", toString(Res), "meters/pixel");
+    mapping += PvlKeyword("PixelResolution", std::to_string(Res), "meters/pixel");
   }
 }
 
@@ -567,7 +567,7 @@ void calcRange(double &minLat, double &maxLat,
   Pvl userMap;
   PvlGroup userGrp("Mapping");
   if(ui.GetString("TARGOPT") == "SELECT") {
-    userMap.read(ui.GetFileName("FILE"));
+    userMap.read(ui.GetFileName("FILE").toStdString());
   }
   else if(ui.GetString("TARGOPT") == "USER") {
     QString targetName = ui.GetString("TARGETNAME");
@@ -577,9 +577,9 @@ void calcRange(double &minLat, double &maxLat,
     if ( !ui.WasEntered("EQRADIUS") || !ui.WasEntered("POLRADIUS") ) {
       try {
         // this ensures that we look for the target radii of the TARGET specified by the user
-        radii += PvlKeyword("TargetName", targetName);
+        radii += PvlKeyword("TargetName", targetName.toStdString());
         // this group will contain TargetName, EquatorialRadius, and PolarRadius
-        Pvl cubeLab(flist[0].expanded());
+        Pvl cubeLab(flist[0].expanded().toStdString());
         radii = Target::radiiGroup(cubeLab, radii);
       }
       catch (IException &e) {
@@ -589,18 +589,18 @@ void calcRange(double &minLat, double &maxLat,
       }
     }
 
-    userGrp += PvlKeyword("TargetName", targetName);
+    userGrp += PvlKeyword("TargetName", targetName.toStdString());
 
     // if radii were entered in GUI then set radii to entered value
     if(ui.WasEntered("EQRADIUS")) {
-      userGrp += PvlKeyword("EquatorialRadius", ui.GetAsString("EQRADIUS"), "Meters");
+      userGrp += PvlKeyword("EquatorialRadius", ui.GetAsString("EQRADIUS").toStdString(), "Meters");
     }
     else {
       userGrp += radii.findKeyword("EquatorialRadius");
     }
 
     if(ui.WasEntered("POLRADIUS")) {
-      userGrp += PvlKeyword("PolarRadius", ui.GetAsString("POLRADIUS"), "Meters");
+      userGrp += PvlKeyword("PolarRadius", ui.GetAsString("POLRADIUS").toStdString(), "Meters");
     }
     else {
       userGrp += radii.findKeyword("PolarRadius");
@@ -621,7 +621,7 @@ void calcRange(double &minLat, double &maxLat,
       userGrp += PvlKeyword("LongitudeDirection", "PositiveWest");
     }
 
-    userGrp += PvlKeyword("LongitudeDomain", ui.GetString("LONDOM"));
+    userGrp += PvlKeyword("LongitudeDomain", ui.GetString("LONDOM").toStdString());
     userMap.addGroup(userGrp);
   }
 

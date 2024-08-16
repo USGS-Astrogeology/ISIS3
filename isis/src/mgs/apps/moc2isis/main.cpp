@@ -36,8 +36,8 @@ void IsisMain() {
   bool compressed = false;
   bool projected;
   try {
-    Pvl lab(in.expanded());
-    id = (QString) lab["DATA_SET_ID"];
+    Pvl lab(in.expanded().toStdString());
+    id = QString::fromStdString(lab["DATA_SET_ID"]);
     if(lab.findObject("IMAGE").hasKeyword("ENCODING_TYPE")) compressed = true;
     projected = lab.hasObject("IMAGE_MAP_PROJECTION");
   }
@@ -107,95 +107,95 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
   FileName transFile(transDir + "MgsMocInstrument.trn");
 
   // Get the translation manager ready
-  Pvl labelPvl(labelFile.expanded());
+  Pvl labelPvl(labelFile.expanded().toStdString());
   PvlToPvlTranslationManager instrumentXlater(labelPvl, transFile.expanded());
 
   PvlGroup inst("Instrument");
 
   if(instrumentXlater.InputHasKeyword("SpacecraftName")) {
     QString str = instrumentXlater.Translate("SpacecraftName");
-    inst += PvlKeyword("SpacecraftName", str);
+    inst += PvlKeyword("SpacecraftName", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("InstrumentId")) {
     QString str = instrumentXlater.Translate("InstrumentId");
-    inst += PvlKeyword("InstrumentId", str);
+    inst += PvlKeyword("InstrumentId", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("TargetName")) {
     QString str = instrumentXlater.Translate("TargetName");
-    inst += PvlKeyword("TargetName", str);
+    inst += PvlKeyword("TargetName", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("StartTime")) {
     QString str = instrumentXlater.Translate("StartTime");
-    inst += PvlKeyword("StartTime", str);
+    inst += PvlKeyword("StartTime", str.toStdString());
     // isisLab.addKeyword ("StartTime", str+"Z");
     startTime = str;
   }
 
   if(instrumentXlater.InputHasKeyword("StopTime")) {
     QString str = instrumentXlater.Translate("StopTime");
-    inst += PvlKeyword("StopTime", str);
+    inst += PvlKeyword("StopTime", str.toStdString());
     // isisLab.addKeyword ("StopTime", str+"Z");
   }
 
   if(instrumentXlater.InputHasKeyword("CrosstrackSumming")) {
     QString str = instrumentXlater.Translate("CrosstrackSumming");
-    inst += PvlKeyword("CrosstrackSumming", str);
+    inst += PvlKeyword("CrosstrackSumming", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("DowntrackSumming")) {
     QString str = instrumentXlater.Translate("DowntrackSumming");
-    inst += PvlKeyword("DowntrackSumming", str);
+    inst += PvlKeyword("DowntrackSumming", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("FocalPlaneTemperature")) {
     QString str = instrumentXlater.Translate("FocalPlaneTemperature");
-    inst += PvlKeyword("FocalPlaneTemperature", str);
+    inst += PvlKeyword("FocalPlaneTemperature", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("GainModeId")) {
     QString str = instrumentXlater.Translate("GainModeId");
-    inst += PvlKeyword("GainModeId", str);
+    inst += PvlKeyword("GainModeId", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("LineExposureDuration")) {
     QString str = instrumentXlater.Translate("LineExposureDuration");
-    inst += PvlKeyword("LineExposureDuration", str, "milliseconds");
+    inst += PvlKeyword("LineExposureDuration", str.toStdString(), "milliseconds");
   }
 
   if(instrumentXlater.InputHasKeyword("MissionPhaseName")) {
     QString str = instrumentXlater.Translate("MissionPhaseName");
-    inst += PvlKeyword("MissionPhaseName", str);
+    inst += PvlKeyword("MissionPhaseName", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("OffsetModeId")) {
     QString str = instrumentXlater.Translate("OffsetModeId");
-    inst += PvlKeyword("OffsetModeId", str);
+    inst += PvlKeyword("OffsetModeId", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("SpacecraftClockCount")) {
     QString str = instrumentXlater.Translate("SpacecraftClockCount");
-    inst += PvlKeyword("SpacecraftClockCount", str);
+    inst += PvlKeyword("SpacecraftClockCount", str.toStdString());
     clockCount = str;
   }
 
   if(instrumentXlater.InputHasKeyword("RationaleDesc")) {
     QString str = instrumentXlater.Translate("RationaleDesc");
-    inst += PvlKeyword("RationaleDesc", str);
+    inst += PvlKeyword("RationaleDesc", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("OrbitNumber")) {
     QString str = instrumentXlater.Translate("OrbitNumber");
-    inst += PvlKeyword("OrbitNumber", str);
+    inst += PvlKeyword("OrbitNumber", str.toStdString());
   }
 
   if(instrumentXlater.InputHasKeyword("FirstLineSample")) {
     QString str = instrumentXlater.Translate("FirstLineSample");
     int num = toInt(str);
     num++;
-    inst += PvlKeyword("FirstLineSample", toString(num));
+    inst += PvlKeyword("FirstLineSample", std::to_string(num));
   }
 
   // Add the instrument specific info to the output file
@@ -211,38 +211,38 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
 
   if(archiveXlater.InputHasKeyword("DataSetId")) {
     QString str = archiveXlater.Translate("DataSetId");
-    arch += PvlKeyword("DataSetId", str);
+    arch += PvlKeyword("DataSetId", str.toStdString());
   }
 
   if(archiveXlater.InputHasKeyword("ProductId")) {
     QString str = archiveXlater.Translate("ProductId");
-    arch += PvlKeyword("ProductId", str);
+    arch += PvlKeyword("ProductId", str.toStdString());
     productId = str;
   }
 
   if(archiveXlater.InputHasKeyword("ProducerId")) {
     QString str = archiveXlater.Translate("ProducerId");
-    arch += PvlKeyword("ProducerId", str);
+    arch += PvlKeyword("ProducerId", str.toStdString());
   }
 
   if(archiveXlater.InputHasKeyword("ProductCreationTime")) {
     QString str = archiveXlater.Translate("ProductCreationTime");
-    arch += PvlKeyword("ProductCreationTime", str);
+    arch += PvlKeyword("ProductCreationTime", str.toStdString());
   }
 
   if(archiveXlater.InputHasKeyword("SoftwareName")) {
     QString str = archiveXlater.Translate("SoftwareName");
-    arch += PvlKeyword("SoftwareName", str);
+    arch += PvlKeyword("SoftwareName", str.toStdString());
   }
 
   if(archiveXlater.InputHasKeyword("UploadId")) {
     QString str = archiveXlater.Translate("UploadId");
-    arch += PvlKeyword("UploadId", str);
+    arch += PvlKeyword("UploadId", str.toStdString());
   }
 
   if(archiveXlater.InputHasKeyword("DataQualityDesc")) {
     QString str = archiveXlater.Translate("DataQualityDesc");
-    arch += PvlKeyword("DataQualityDesc", str);
+    arch += PvlKeyword("DataQualityDesc", str.toStdString());
   }
 
   // New labels (not in the PDS file)
@@ -260,15 +260,15 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
 
     imageNumber += productId.mid(4);
 
-    arch += PvlKeyword("ImageNumber", imageNumber);
+    arch += PvlKeyword("ImageNumber", imageNumber.toStdString());
   }
 
   // The ImageKeyId is made up of the:
   //   First five digits of the SpacecraftClockCount followed by the
   //   Last five dights of the ProductId
   if(clockCount.length() > 0 && productId.length() > 0) {
-    arch += PvlKeyword("ImageKeyId", clockCount.mid(0, 5) +
-                       productId.mid(4));
+    arch += PvlKeyword("ImageKeyId", clockCount.mid(0, 5).toStdString() +
+                       productId.mid(4).toStdString());
   }
 
   // Add the archive info to the output file
@@ -287,17 +287,17 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
     QString str = bandBinXlater.Translate("FilterName").toUpper();
 
     if(str == "BLUE") {
-      bandBin += PvlKeyword("FilterName", str);
-      bandBin += PvlKeyword("OriginalBand", toString(1));
-      bandBin += PvlKeyword("Center", toString(0.4346), "micrometers");
-      bandBin += PvlKeyword("Width", toString(0.050), "micrometers");
+      bandBin += PvlKeyword("FilterName", str.toStdString());
+      bandBin += PvlKeyword("OriginalBand", std::to_string(1));
+      bandBin += PvlKeyword("Center", std::to_string(0.4346), "micrometers");
+      bandBin += PvlKeyword("Width", std::to_string(0.050), "micrometers");
       frameCode = "-94033";
     }
     else if(str == "RED") {
-      bandBin += PvlKeyword("FilterName", str);
-      bandBin += PvlKeyword("OriginalBand", toString(1));
-      bandBin += PvlKeyword("Center", toString(0.6134), "micrometers");
-      bandBin += PvlKeyword("Width", toString(0.050), "micrometers");
+      bandBin += PvlKeyword("FilterName", str.toStdString());
+      bandBin += PvlKeyword("OriginalBand", std::to_string(1));
+      bandBin += PvlKeyword("Center", std::to_string(0.6134), "micrometers");
+      bandBin += PvlKeyword("Width", std::to_string(0.050), "micrometers");
       frameCode = "-94032";
     }
     else {
@@ -306,9 +306,9 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
   }
   else {
     bandBin += PvlKeyword("FilterName", "BROAD_BAND");
-    bandBin += PvlKeyword("OriginalBand", toString(1));
-    bandBin += PvlKeyword("Center", toString(0.700), "micrometers");
-    bandBin += PvlKeyword("Width", toString(0.400), "micrometers");
+    bandBin += PvlKeyword("OriginalBand", std::to_string(1));
+    bandBin += PvlKeyword("Center", std::to_string(0.700), "micrometers");
+    bandBin += PvlKeyword("Width", std::to_string(0.400), "micrometers");
     frameCode = "-94031";
   }
 
@@ -317,6 +317,6 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
 
   // Create the Kernel Group
   PvlGroup kerns("Kernels");
-  kerns += PvlKeyword("NaifFrameCode", frameCode);
+  kerns += PvlKeyword("NaifFrameCode", frameCode.toStdString());
   ocube->putGroup(kerns);
 }

@@ -358,10 +358,10 @@ void init(FileList &inList) {
   for (int i = 0; i < inList.size(); i++) {
     try {
       FileName currentFileName(inList[i]);
-      Pvl labels(currentFileName.expanded());
+      Pvl labels(currentFileName.expanded().toStdString());
       PvlGroup &inst = labels.findGroup("Instrument", Pvl::Traverse);
 
-      QString ccdKeywordValue = (QString)inst["CcdId"];
+      QString ccdKeywordValue = QString::fromStdString(inst["CcdId"]);
       int ccdNumber = 0;
       if (ccdKeywordValue.indexOf("RED") == 0) {
         ccdNumber = (int) toInt((QString)ccdKeywordValue.mid(3));

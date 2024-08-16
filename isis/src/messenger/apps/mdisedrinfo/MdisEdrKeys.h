@@ -66,7 +66,7 @@ namespace Isis {
        * @param edrfile  File containing the PDS EDR label
        */
       MdisEdrKeys(const QString &edrfile) {
-        _edrLabel = Pvl(edrfile);
+        _edrLabel = Pvl(edrfile.toStdString());
         LoadKeys(_edrLabel, _keys);
       }
 
@@ -208,15 +208,15 @@ namespace Isis {
               out << loopSep << "NULL";
             }
             else if(key.size() == 1) {
-              out << loopSep << key[0] << formatUnit(key.unit(0));
+              out << loopSep << key[0] << formatUnit(QString::fromStdString(key.unit(0)));
             }
             else {
               out << loopSep << "(";
               QString vsep("");
               for(int iv = 0 ; iv < key.size() ; iv++) {
                 out << vsep << key[iv];
-                if(key[iv] != NAstr) {
-                  out << formatUnit(key.unit(iv));
+                if(QString::fromStdString(key[iv]) != NAstr) {
+                  out << formatUnit(QString::fromStdString(key.unit(iv)));
                 }
                 vsep = ",";
               }
@@ -262,9 +262,9 @@ namespace Isis {
         if(!prefix.isEmpty()) prekey += "/";
         PvlContainer::PvlKeywordIterator keyIter = p.begin();
         for(; keyIter != p.end() ;  ++keyIter) {
-          QString keyname = prefix + keyIter->name();
+          QString keyname = prefix + QString::fromStdString(keyIter->name());
           PvlKeyword key = *keyIter;
-          key.setName(keyname);
+          key.setName(keyname.toStdString());
           keys.add(keyname, key);
         }
         return;
@@ -305,11 +305,11 @@ namespace Isis {
         //  all SUBFRAME[12345]_PARAMETERS since they are unsupported.
         PvlObject::PvlObjectIterator objIter = obj.beginObject();
         for(; objIter != obj.endObject() ; ++objIter) {
-          QString objname(objIter->name());
+          QString objname(QString::fromStdString(objIter->name()));
           objname = objname.toUpper();
           int gotSubframe = objname.indexOf("SUBFRAME");
           if(gotSubframe != -1) {
-            LoadKeys(*objIter, keys, objIter->name());
+            LoadKeys(*objIter, keys, QString::fromStdString(objIter->name()));
           }
           else {
             LoadKeys(*objIter, keys);
