@@ -70,6 +70,9 @@
     <change name="Marjorie Hahn" date="2016-08-05">
       Added the option to use the digital elevation model when trimming the image.
       Created examples for using the DEM and not using the DEM. Fixes #4181.
+    <change name="Ken Edmundson" date="2024-08-09">
+      Converted to callable app and converted Makefile tests to gtests. 
+    </change>
     </change>
   </history>
 
