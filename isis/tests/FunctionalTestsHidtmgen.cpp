@@ -33,26 +33,26 @@ TEST(Hidtmgen, HidtmgenTestColor){
     FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
   }
 
-  Pvl dtmLabel(prefix.path()+"/DTEEZ_042252_1930_042753_1930_A31.IMG");
+  Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_042252_1930_042753_1930_A31.IMG");
 
-  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(dtmLabel["RECORD_BYTES"], 32);
   ASSERT_DOUBLE_EQ(dtmLabel["FILE_RECORDS"], 155);
   ASSERT_DOUBLE_EQ(dtmLabel["^IMAGE"], 133);
 
-  ASSERT_EQ(dtmLabel["DATA_SET_ID"][0].toStdString(), "MRO-M-HIRISE-5-DTM-V1.0");
-  ASSERT_EQ(dtmLabel["PRODUCER_INSTITUTION_NAME"][0].toStdString(), "UNIVERSITY OF ARIZONA");
-  ASSERT_EQ(dtmLabel["PRODUCER_ID"][0].toStdString(), "UA");
-  ASSERT_EQ(dtmLabel["PRODUCER_FULL_NAME"][0].toStdString(), "ALFRED MCEWEN");
-  ASSERT_EQ(dtmLabel["PRODUCT_ID"][0].toStdString(), "DTEEZ_042252_1930_042753_1930_A31");
+  ASSERT_EQ(dtmLabel["DATA_SET_ID"][0], "MRO-M-HIRISE-5-DTM-V1.0");
+  ASSERT_EQ(dtmLabel["PRODUCER_INSTITUTION_NAME"][0], "UNIVERSITY OF ARIZONA");
+  ASSERT_EQ(dtmLabel["PRODUCER_ID"][0], "UA");
+  ASSERT_EQ(dtmLabel["PRODUCER_FULL_NAME"][0], "ALFRED MCEWEN");
+  ASSERT_EQ(dtmLabel["PRODUCT_ID"][0], "DTEEZ_042252_1930_042753_1930_A31");
   ASSERT_DOUBLE_EQ(dtmLabel["PRODUCT_VERSION_ID"], 0.314);
-  ASSERT_EQ(dtmLabel["INSTRUMENT_HOST_NAME"][0].toStdString(), "MARS RECONNAISSANCE ORBITER");
-  ASSERT_EQ(dtmLabel["INSTRUMENT_NAME"][0].toStdString(), "HIGH RESOLUTION IMAGING SCIENCE EXPERIMENT");
-  ASSERT_EQ(dtmLabel["INSTRUMENT_ID"][0].toStdString(), "HIRISE");
-  ASSERT_EQ(dtmLabel["TARGET_NAME"][0].toStdString(), "MARS");
-  ASSERT_EQ(dtmLabel["SOURCE_PRODUCT_ID"][0].toStdString(), "ESP_042252_1930");
-  ASSERT_EQ(dtmLabel["SOURCE_PRODUCT_ID"][1].toStdString(), "ESP_042753_1930");
-  ASSERT_EQ(dtmLabel["RATIONALE_DESC"][0].toStdString(), "NULL");
+  ASSERT_EQ(dtmLabel["INSTRUMENT_HOST_NAME"][0], "MARS RECONNAISSANCE ORBITER");
+  ASSERT_EQ(dtmLabel["INSTRUMENT_NAME"][0], "HIGH RESOLUTION IMAGING SCIENCE EXPERIMENT");
+  ASSERT_EQ(dtmLabel["INSTRUMENT_ID"][0], "HIRISE");
+  ASSERT_EQ(dtmLabel["TARGET_NAME"][0], "MARS");
+  ASSERT_EQ(dtmLabel["SOURCE_PRODUCT_ID"][0], "ESP_042252_1930");
+  ASSERT_EQ(dtmLabel["SOURCE_PRODUCT_ID"][1], "ESP_042753_1930");
+  ASSERT_EQ(dtmLabel["RATIONALE_DESC"][0], "NULL");
 
 
   PvlObject dtmImage = dtmLabel.findObject("IMAGE");
@@ -62,22 +62,22 @@ TEST(Hidtmgen, HidtmgenTestColor){
   ASSERT_DOUBLE_EQ(dtmImage["OFFSET"], 0.0);
   ASSERT_DOUBLE_EQ(dtmImage["SCALING_FACTOR"], 1.0);
   ASSERT_DOUBLE_EQ(dtmImage["SAMPLE_BITS"], 32);
-  ASSERT_EQ(dtmImage["SAMPLE_BIT_MASK"][0].toStdString(), "2#11111111111111111111111111111111#");
-  ASSERT_EQ(dtmImage["SAMPLE_TYPE"][0].toStdString(), "PC_REAL");
-  ASSERT_EQ(dtmImage["MISSING_CONSTANT"][0].toStdString(), "16#FF7FFFFB#");
+  ASSERT_EQ(dtmImage["SAMPLE_BIT_MASK"][0], "2#11111111111111111111111111111111#");
+  ASSERT_EQ(dtmImage["SAMPLE_TYPE"][0], "PC_REAL");
+  ASSERT_EQ(dtmImage["MISSING_CONSTANT"][0], "16#FF7FFFFB#");
   ASSERT_DOUBLE_EQ(dtmImage["VALID_MINIMUM"], -1884.17);
   ASSERT_DOUBLE_EQ(dtmImage["VALID_MAXIMUM"], -1324.12);
 
   PvlObject dtmProj = dtmLabel.findObject("IMAGE_MAP_PROJECTION");
-  ASSERT_EQ(dtmProj["^DATA_SET_MAP_PROJECTION"][0].toStdString(), "DSMAP.CAT");
-  ASSERT_EQ(dtmProj["MAP_PROJECTION_TYPE"][0].toStdString(), "EQUIRECTANGULAR");
-  ASSERT_EQ(dtmProj["PROJECTION_LATITUDE_TYPE"][0].toStdString(), "PLANETOCENTRIC");
+  ASSERT_EQ(dtmProj["^DATA_SET_MAP_PROJECTION"][0], "DSMAP.CAT");
+  ASSERT_EQ(dtmProj["MAP_PROJECTION_TYPE"][0], "EQUIRECTANGULAR");
+  ASSERT_EQ(dtmProj["PROJECTION_LATITUDE_TYPE"][0], "PLANETOCENTRIC");
   ASSERT_DOUBLE_EQ(dtmProj["A_AXIS_RADIUS"], 3396.19);
   ASSERT_DOUBLE_EQ(dtmProj["B_AXIS_RADIUS"], 3396.19);
   ASSERT_DOUBLE_EQ(dtmProj["C_AXIS_RADIUS"], 3396.19);
-  ASSERT_EQ(dtmProj["COORDINATE_SYSTEM_NAME"][0].toStdString(), "PLANETOCENTRIC");
-  ASSERT_EQ(dtmProj["POSITIVE_LONGITUDE_DIRECTION"][0].toStdString(), "EAST");
-  ASSERT_EQ(dtmProj["KEYWORD_LATITUDE_TYPE"][0].toStdString(), "PLANETOCENTRIC");
+  ASSERT_EQ(dtmProj["COORDINATE_SYSTEM_NAME"][0], "PLANETOCENTRIC");
+  ASSERT_EQ(dtmProj["POSITIVE_LONGITUDE_DIRECTION"][0], "EAST");
+  ASSERT_EQ(dtmProj["KEYWORD_LATITUDE_TYPE"][0], "PLANETOCENTRIC");
   ASSERT_DOUBLE_EQ(dtmProj["CENTER_LATITUDE"], 0.0);
   ASSERT_DOUBLE_EQ(dtmProj["CENTER_LONGITUDE"], 180.0);
   ASSERT_DOUBLE_EQ(dtmProj["LINE_FIRST_PIXEL"], 1);
@@ -99,29 +99,29 @@ TEST(Hidtmgen, HidtmgenTestColor){
   ASSERT_DOUBLE_EQ(dtmView["NORTH_AZIMUTH"], 270.0);
 
 
-  Pvl orthoLabel1(prefix.path()+"/ESP_042252_1930_IRB_B_41_ORTHO.IMG");
+  Pvl orthoLabel1(prefix.path().toStdString() +"/ESP_042252_1930_IRB_B_41_ORTHO.IMG");
 
-  ASSERT_EQ(orthoLabel1["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  ASSERT_EQ(orthoLabel1["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(orthoLabel1["RECORD_BYTES"], 40);
   ASSERT_DOUBLE_EQ(orthoLabel1["FILE_RECORDS"], 252);
   ASSERT_DOUBLE_EQ(orthoLabel1["^IMAGE"], 103);
 
-  ASSERT_EQ(orthoLabel1["DATA_SET_ID"][0].toStdString(), "MRO-M-HIRISE-5-DTM-V1.0");
-  ASSERT_EQ(orthoLabel1["PRODUCER_INSTITUTION_NAME"][0].toStdString(), "UNIVERSITY OF ARIZONA");
-  ASSERT_EQ(orthoLabel1["PRODUCER_ID"][0].toStdString(), "UA");
-  ASSERT_EQ(orthoLabel1["PRODUCER_FULL_NAME"][0].toStdString(), "ALFRED MCEWEN");
-  ASSERT_EQ(orthoLabel1["PRODUCT_ID"][0].toStdString(), "ESP_042252_1930_IRB_B_41_ORTHO");
+  ASSERT_EQ(orthoLabel1["DATA_SET_ID"][0], "MRO-M-HIRISE-5-DTM-V1.0");
+  ASSERT_EQ(orthoLabel1["PRODUCER_INSTITUTION_NAME"][0], "UNIVERSITY OF ARIZONA");
+  ASSERT_EQ(orthoLabel1["PRODUCER_ID"][0], "UA");
+  ASSERT_EQ(orthoLabel1["PRODUCER_FULL_NAME"][0], "ALFRED MCEWEN");
+  ASSERT_EQ(orthoLabel1["PRODUCT_ID"][0], "ESP_042252_1930_IRB_B_41_ORTHO");
   ASSERT_DOUBLE_EQ(orthoLabel1["PRODUCT_VERSION_ID"], 0.314);
-  ASSERT_EQ(orthoLabel1["INSTRUMENT_HOST_NAME"][0].toStdString(), "MARS RECONNAISSANCE ORBITER");
-  ASSERT_EQ(orthoLabel1["INSTRUMENT_HOST_ID"][0].toStdString(), "MRO");
-  ASSERT_EQ(orthoLabel1["INSTRUMENT_NAME"][0].toStdString(), "HIGH RESOLUTION IMAGING SCIENCE EXPERIMENT");
-  ASSERT_EQ(orthoLabel1["INSTRUMENT_ID"][0].toStdString(), "HIRISE");
-  ASSERT_EQ(orthoLabel1["TARGET_NAME"][0].toStdString(), "MARS");
-  ASSERT_EQ(orthoLabel1["SOURCE_PRODUCT_ID"][0].toStdString(), "DTEEZ_042252_1930_042753_1930_A31");
-  ASSERT_EQ(orthoLabel1["SOURCE_PRODUCT_ID"][1].toStdString(), "ESP_042252_1930");
-  ASSERT_EQ(orthoLabel1["RATIONALE_DESC"][0].toStdString(), "NULL");
-  ASSERT_EQ(orthoLabel1["SOFTWARE_NAME"][0].toStdString(), "Socet_Set 5.4.1");
-  ASSERT_EQ(orthoLabel1["RATIONALE_DESC"][0].toStdString(), "NULL");
+  ASSERT_EQ(orthoLabel1["INSTRUMENT_HOST_NAME"][0], "MARS RECONNAISSANCE ORBITER");
+  ASSERT_EQ(orthoLabel1["INSTRUMENT_HOST_ID"][0], "MRO");
+  ASSERT_EQ(orthoLabel1["INSTRUMENT_NAME"][0], "HIGH RESOLUTION IMAGING SCIENCE EXPERIMENT");
+  ASSERT_EQ(orthoLabel1["INSTRUMENT_ID"][0], "HIRISE");
+  ASSERT_EQ(orthoLabel1["TARGET_NAME"][0], "MARS");
+  ASSERT_EQ(orthoLabel1["SOURCE_PRODUCT_ID"][0], "DTEEZ_042252_1930_042753_1930_A31");
+  ASSERT_EQ(orthoLabel1["SOURCE_PRODUCT_ID"][1], "ESP_042252_1930");
+  ASSERT_EQ(orthoLabel1["RATIONALE_DESC"][0], "NULL");
+  ASSERT_EQ(orthoLabel1["SOFTWARE_NAME"][0], "Socet_Set 5.4.1");
+  ASSERT_EQ(orthoLabel1["RATIONALE_DESC"][0], "NULL");
   ASSERT_DOUBLE_EQ(orthoLabel1["LABEL_RECORDS"], 102);
 
   PvlObject orthoImage1 = orthoLabel1.findObject("IMAGE");
@@ -131,8 +131,8 @@ TEST(Hidtmgen, HidtmgenTestColor){
   ASSERT_DOUBLE_EQ(orthoImage1["OFFSET"], 0.0);
   ASSERT_DOUBLE_EQ(orthoImage1["SCALING_FACTOR"], 1.0);
   ASSERT_DOUBLE_EQ(orthoImage1["SAMPLE_BITS"], 8);
-  ASSERT_EQ(orthoImage1["SAMPLE_TYPE"][0].toStdString(), "MSB_UNSIGNED_INTEGER");
-  ASSERT_EQ(orthoImage1["BAND_STORAGE_TYPE"][0].toStdString(), "BAND_SEQUENTIAL");
+  ASSERT_EQ(orthoImage1["SAMPLE_TYPE"][0], "MSB_UNSIGNED_INTEGER");
+  ASSERT_EQ(orthoImage1["BAND_STORAGE_TYPE"][0], "BAND_SEQUENTIAL");
   ASSERT_DOUBLE_EQ(orthoImage1["CORE_NULL"], 0);
   ASSERT_DOUBLE_EQ(orthoImage1["CORE_LOW_REPR_SATURATION"], 1);
   ASSERT_DOUBLE_EQ(orthoImage1["CORE_LOW_INSTR_SATURATION"], 1);
@@ -140,15 +140,15 @@ TEST(Hidtmgen, HidtmgenTestColor){
   ASSERT_DOUBLE_EQ(orthoImage1["CORE_HIGH_INSTR_SATURATION"], 255);
 
   PvlObject orthoProj1 = orthoLabel1.findObject("IMAGE_MAP_PROJECTION");
-  ASSERT_EQ(orthoProj1["^DATA_SET_MAP_PROJECTION"][0].toStdString(), "DSMAP.CAT");
-  ASSERT_EQ(orthoProj1["MAP_PROJECTION_TYPE"][0].toStdString(), "EQUIRECTANGULAR");
-  ASSERT_EQ(orthoProj1["PROJECTION_LATITUDE_TYPE"][0].toStdString(), "PLANETOCENTRIC");
+  ASSERT_EQ(orthoProj1["^DATA_SET_MAP_PROJECTION"][0], "DSMAP.CAT");
+  ASSERT_EQ(orthoProj1["MAP_PROJECTION_TYPE"][0], "EQUIRECTANGULAR");
+  ASSERT_EQ(orthoProj1["PROJECTION_LATITUDE_TYPE"][0], "PLANETOCENTRIC");
   ASSERT_DOUBLE_EQ(orthoProj1["A_AXIS_RADIUS"], 3396.19);
   ASSERT_DOUBLE_EQ(orthoProj1["B_AXIS_RADIUS"], 3396.19);
   ASSERT_DOUBLE_EQ(orthoProj1["C_AXIS_RADIUS"], 3396.19);
-  ASSERT_EQ(orthoProj1["COORDINATE_SYSTEM_NAME"][0].toStdString(), "PLANETOCENTRIC");
-  ASSERT_EQ(orthoProj1["POSITIVE_LONGITUDE_DIRECTION"][0].toStdString(), "EAST");
-  ASSERT_EQ(orthoProj1["KEYWORD_LATITUDE_TYPE"][0].toStdString(), "PLANETOCENTRIC");
+  ASSERT_EQ(orthoProj1["COORDINATE_SYSTEM_NAME"][0], "PLANETOCENTRIC");
+  ASSERT_EQ(orthoProj1["POSITIVE_LONGITUDE_DIRECTION"][0], "EAST");
+  ASSERT_EQ(orthoProj1["KEYWORD_LATITUDE_TYPE"][0], "PLANETOCENTRIC");
   ASSERT_DOUBLE_EQ(orthoProj1["CENTER_LATITUDE"], 0.0);
   ASSERT_DOUBLE_EQ(orthoProj1["CENTER_LONGITUDE"], 180.0);
   ASSERT_DOUBLE_EQ(orthoProj1["LINE_FIRST_PIXEL"], 1);
@@ -164,37 +164,37 @@ TEST(Hidtmgen, HidtmgenTestColor){
   ASSERT_DOUBLE_EQ(orthoProj1["SAMPLE_PROJECTION_OFFSET"], -20600155.500001);
   ASSERT_NEAR(orthoProj1["EASTERNMOST_LONGITUDE"], 355.68076, .00001);
   ASSERT_NEAR(orthoProj1["WESTERNMOST_LONGITUDE"], 355.68041, .00001);
-  ASSERT_EQ(orthoProj1["FIRST_STANDARD_PARALLEL"][0].toStdString(), "N/A");
-  ASSERT_EQ(orthoProj1["SECOND_STANDARD_PARALLEL"][0].toStdString(), "N/A");
+  ASSERT_EQ(orthoProj1["FIRST_STANDARD_PARALLEL"][0], "N/A");
+  ASSERT_EQ(orthoProj1["SECOND_STANDARD_PARALLEL"][0], "N/A");
 
 
   PvlObject orthoView1 = orthoLabel1.findObject("VIEWING_PARAMETERS");
   ASSERT_DOUBLE_EQ(orthoView1["NORTH_AZIMUTH"], 270.0);
 
 
-  Pvl orthoLabel2(prefix.path()+"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
+  Pvl orthoLabel2(prefix.path().toStdString() +"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
 
-  ASSERT_EQ(orthoLabel2["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  ASSERT_EQ(orthoLabel2["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(orthoLabel2["RECORD_BYTES"], 40);
   ASSERT_DOUBLE_EQ(orthoLabel2["FILE_RECORDS"], 252);
   ASSERT_DOUBLE_EQ(orthoLabel2["^IMAGE"], 103);
 
-  ASSERT_EQ(orthoLabel2["DATA_SET_ID"][0].toStdString(), "MRO-M-HIRISE-5-DTM-V1.0");
-  ASSERT_EQ(orthoLabel2["PRODUCER_INSTITUTION_NAME"][0].toStdString(), "UNIVERSITY OF ARIZONA");
-  ASSERT_EQ(orthoLabel2["PRODUCER_ID"][0].toStdString(), "UA");
-  ASSERT_EQ(orthoLabel2["PRODUCER_FULL_NAME"][0].toStdString(), "ALFRED MCEWEN");
-  ASSERT_EQ(orthoLabel2["PRODUCT_ID"][0].toStdString(), "ESP_042252_1930_IRB_D_31_ORTHO");
+  ASSERT_EQ(orthoLabel2["DATA_SET_ID"][0], "MRO-M-HIRISE-5-DTM-V1.0");
+  ASSERT_EQ(orthoLabel2["PRODUCER_INSTITUTION_NAME"][0], "UNIVERSITY OF ARIZONA");
+  ASSERT_EQ(orthoLabel2["PRODUCER_ID"][0], "UA");
+  ASSERT_EQ(orthoLabel2["PRODUCER_FULL_NAME"][0], "ALFRED MCEWEN");
+  ASSERT_EQ(orthoLabel2["PRODUCT_ID"][0], "ESP_042252_1930_IRB_D_31_ORTHO");
   ASSERT_DOUBLE_EQ(orthoLabel2["PRODUCT_VERSION_ID"], 0.314);
-  ASSERT_EQ(orthoLabel2["INSTRUMENT_HOST_NAME"][0].toStdString(), "MARS RECONNAISSANCE ORBITER");
-  ASSERT_EQ(orthoLabel2["INSTRUMENT_HOST_ID"][0].toStdString(), "MRO");
-  ASSERT_EQ(orthoLabel2["INSTRUMENT_NAME"][0].toStdString(), "HIGH RESOLUTION IMAGING SCIENCE EXPERIMENT");
-  ASSERT_EQ(orthoLabel2["INSTRUMENT_ID"][0].toStdString(), "HIRISE");
-  ASSERT_EQ(orthoLabel2["TARGET_NAME"][0].toStdString(), "MARS");
-  ASSERT_EQ(orthoLabel2["SOURCE_PRODUCT_ID"][0].toStdString(), "DTEEZ_042252_1930_042753_1930_A31");
-  ASSERT_EQ(orthoLabel2["SOURCE_PRODUCT_ID"][1].toStdString(), "ESP_042252_1930");
-  ASSERT_EQ(orthoLabel2["RATIONALE_DESC"][0].toStdString(), "NULL");
-  ASSERT_EQ(orthoLabel2["SOFTWARE_NAME"][0].toStdString(), "Socet_Set 5.4.1");
-  ASSERT_EQ(orthoLabel2["RATIONALE_DESC"][0].toStdString(), "NULL");
+  ASSERT_EQ(orthoLabel2["INSTRUMENT_HOST_NAME"][0], "MARS RECONNAISSANCE ORBITER");
+  ASSERT_EQ(orthoLabel2["INSTRUMENT_HOST_ID"][0], "MRO");
+  ASSERT_EQ(orthoLabel2["INSTRUMENT_NAME"][0], "HIGH RESOLUTION IMAGING SCIENCE EXPERIMENT");
+  ASSERT_EQ(orthoLabel2["INSTRUMENT_ID"][0], "HIRISE");
+  ASSERT_EQ(orthoLabel2["TARGET_NAME"][0], "MARS");
+  ASSERT_EQ(orthoLabel2["SOURCE_PRODUCT_ID"][0], "DTEEZ_042252_1930_042753_1930_A31");
+  ASSERT_EQ(orthoLabel2["SOURCE_PRODUCT_ID"][1], "ESP_042252_1930");
+  ASSERT_EQ(orthoLabel2["RATIONALE_DESC"][0], "NULL");
+  ASSERT_EQ(orthoLabel2["SOFTWARE_NAME"][0], "Socet_Set 5.4.1");
+  ASSERT_EQ(orthoLabel2["RATIONALE_DESC"][0], "NULL");
   ASSERT_DOUBLE_EQ(orthoLabel2["LABEL_RECORDS"], 102);
 
   PvlObject orthoImage2 = orthoLabel2.findObject("IMAGE");
@@ -204,8 +204,8 @@ TEST(Hidtmgen, HidtmgenTestColor){
   ASSERT_DOUBLE_EQ(orthoImage2["OFFSET"], 0.0);
   ASSERT_DOUBLE_EQ(orthoImage2["SCALING_FACTOR"], 1.0);
   ASSERT_DOUBLE_EQ(orthoImage2["SAMPLE_BITS"], 8);
-  ASSERT_EQ(orthoImage2["SAMPLE_TYPE"][0].toStdString(), "MSB_UNSIGNED_INTEGER");
-  ASSERT_EQ(orthoImage2["BAND_STORAGE_TYPE"][0].toStdString(), "BAND_SEQUENTIAL");
+  ASSERT_EQ(orthoImage2["SAMPLE_TYPE"][0], "MSB_UNSIGNED_INTEGER");
+  ASSERT_EQ(orthoImage2["BAND_STORAGE_TYPE"][0], "BAND_SEQUENTIAL");
   ASSERT_DOUBLE_EQ(orthoImage2["CORE_NULL"], 0);
   ASSERT_DOUBLE_EQ(orthoImage2["CORE_LOW_REPR_SATURATION"], 1);
   ASSERT_DOUBLE_EQ(orthoImage2["CORE_LOW_INSTR_SATURATION"], 1);
@@ -213,15 +213,15 @@ TEST(Hidtmgen, HidtmgenTestColor){
   ASSERT_DOUBLE_EQ(orthoImage2["CORE_HIGH_INSTR_SATURATION"], 255);
 
   PvlObject orthoProj2 = orthoLabel2.findObject("IMAGE_MAP_PROJECTION");
-  ASSERT_EQ(orthoProj2["^DATA_SET_MAP_PROJECTION"][0].toStdString(), "DSMAP.CAT");
-  ASSERT_EQ(orthoProj2["MAP_PROJECTION_TYPE"][0].toStdString(), "EQUIRECTANGULAR");
-  ASSERT_EQ(orthoProj2["PROJECTION_LATITUDE_TYPE"][0].toStdString(), "PLANETOCENTRIC");
+  ASSERT_EQ(orthoProj2["^DATA_SET_MAP_PROJECTION"][0], "DSMAP.CAT");
+  ASSERT_EQ(orthoProj2["MAP_PROJECTION_TYPE"][0], "EQUIRECTANGULAR");
+  ASSERT_EQ(orthoProj2["PROJECTION_LATITUDE_TYPE"][0], "PLANETOCENTRIC");
   ASSERT_DOUBLE_EQ(orthoProj2["A_AXIS_RADIUS"], 3396.19);
   ASSERT_DOUBLE_EQ(orthoProj2["B_AXIS_RADIUS"], 3396.19);
   ASSERT_DOUBLE_EQ(orthoProj2["C_AXIS_RADIUS"], 3396.19);
-  ASSERT_EQ(orthoProj2["COORDINATE_SYSTEM_NAME"][0].toStdString(), "PLANETOCENTRIC");
-  ASSERT_EQ(orthoProj2["POSITIVE_LONGITUDE_DIRECTION"][0].toStdString(), "EAST");
-  ASSERT_EQ(orthoProj2["KEYWORD_LATITUDE_TYPE"][0].toStdString(), "PLANETOCENTRIC");
+  ASSERT_EQ(orthoProj2["COORDINATE_SYSTEM_NAME"][0], "PLANETOCENTRIC");
+  ASSERT_EQ(orthoProj2["POSITIVE_LONGITUDE_DIRECTION"][0], "EAST");
+  ASSERT_EQ(orthoProj2["KEYWORD_LATITUDE_TYPE"][0], "PLANETOCENTRIC");
   ASSERT_DOUBLE_EQ(orthoProj2["CENTER_LATITUDE"], 0.0);
   ASSERT_DOUBLE_EQ(orthoProj2["CENTER_LONGITUDE"], 180.0);
   ASSERT_DOUBLE_EQ(orthoProj2["LINE_FIRST_PIXEL"], 1);
@@ -237,8 +237,8 @@ TEST(Hidtmgen, HidtmgenTestColor){
   ASSERT_DOUBLE_EQ(orthoProj2["SAMPLE_PROJECTION_OFFSET"], -5150060.5);
   ASSERT_NEAR(orthoProj2["EASTERNMOST_LONGITUDE"], 355.68250, .00001);
   ASSERT_NEAR(orthoProj2["WESTERNMOST_LONGITUDE"], 355.68114, .00001);
-  ASSERT_EQ(orthoProj2["FIRST_STANDARD_PARALLEL"][0].toStdString(), "N/A");
-  ASSERT_EQ(orthoProj2["SECOND_STANDARD_PARALLEL"][0].toStdString(), "N/A");
+  ASSERT_EQ(orthoProj2["FIRST_STANDARD_PARALLEL"][0], "N/A");
+  ASSERT_EQ(orthoProj2["SECOND_STANDARD_PARALLEL"][0], "N/A");
 
   PvlObject orthoView2 = orthoLabel2.findObject("VIEWING_PARAMETERS");
   ASSERT_DOUBLE_EQ(orthoView2["NORTH_AZIMUTH"], 270.0);
@@ -262,9 +262,9 @@ TEST(Hidtmgen, HidtmgenTestDtmOnly){
     FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
   }
 
-  Pvl dtmLabel(prefix.path()+"/DTEEZ_042252_1930_042753_1930_A15.IMG");
+  Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_042252_1930_042753_1930_A15.IMG");
 
-  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(dtmLabel["RECORD_BYTES"], 32);
   ASSERT_DOUBLE_EQ(dtmLabel["FILE_RECORDS"], 155);
   ASSERT_DOUBLE_EQ(dtmLabel["^IMAGE"], 133);
@@ -289,24 +289,24 @@ TEST(Hidtmgen, HidtmgenTestEqui){
     FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
   }
 
-  Pvl dtmLabel(prefix.path()+"/DTEEZ_002118_1510_003608_1510_A02.IMG");
-  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_002118_1510_003608_1510_A02.IMG");
+  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(dtmLabel["RECORD_BYTES"], 28);
   ASSERT_DOUBLE_EQ(dtmLabel["FILE_RECORDS"], 203);
   ASSERT_DOUBLE_EQ(dtmLabel["^IMAGE"], 183);
 
   PvlObject dtmProj = dtmLabel.findObject("IMAGE_MAP_PROJECTION");
-  ASSERT_EQ(dtmProj["MAP_PROJECTION_TYPE"][0].toStdString(), "EQUIRECTANGULAR");
+  ASSERT_EQ(dtmProj["MAP_PROJECTION_TYPE"][0], "EQUIRECTANGULAR");
 
 
-  Pvl orthoLabel(prefix.path()+"/PSP_002118_1510_RED_C_01_ORTHO.IMG");
-  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl orthoLabel(prefix.path().toStdString() +"/PSP_002118_1510_RED_C_01_ORTHO.IMG");
+  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(orthoLabel["RECORD_BYTES"], 50);
   ASSERT_DOUBLE_EQ(orthoLabel["FILE_RECORDS"], 132);
   ASSERT_DOUBLE_EQ(orthoLabel["^IMAGE"], 83);
 
   PvlObject orthoProj = orthoLabel.findObject("IMAGE_MAP_PROJECTION");
-  ASSERT_EQ(orthoProj["MAP_PROJECTION_TYPE"][0].toStdString(), "EQUIRECTANGULAR");
+  ASSERT_EQ(orthoProj["MAP_PROJECTION_TYPE"][0], "EQUIRECTANGULAR");
 }
 
 
@@ -539,9 +539,9 @@ TEST(Hidtmgen, HidtmgenTestNonDefaultNames){
     FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
   }
 
-  Pvl dtmLabel(prefix.path()+"/dtm.img");
+  Pvl dtmLabel(prefix.path().toStdString() +"/dtm.img");
 
-  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(dtmLabel["RECORD_BYTES"], 28);
   ASSERT_DOUBLE_EQ(dtmLabel["FILE_RECORDS"], 203);
   ASSERT_DOUBLE_EQ(dtmLabel["^IMAGE"], 183);
@@ -566,10 +566,10 @@ TEST(Hidtmgen, HidtmgenTestOrthoOnly){
     FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
   }
 
-  Pvl orthoLabel(prefix.path()+"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
-  ASSERT_EQ(orthoLabel["SOURCE_PRODUCT_ID"][0].toStdString(), "DTems_xxxxxx_xxxx_yyyyyy_yyyy_vnn");
-  ASSERT_EQ(orthoLabel["SOURCE_PRODUCT_ID"][1].toStdString(), "ESP_042252_1930");
-  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl orthoLabel(prefix.path().toStdString() +"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
+  ASSERT_EQ(orthoLabel["SOURCE_PRODUCT_ID"][0], "DTems_xxxxxx_xxxx_yyyyyy_yyyy_vnn");
+  ASSERT_EQ(orthoLabel["SOURCE_PRODUCT_ID"][1], "ESP_042252_1930");
+  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(orthoLabel["RECORD_BYTES"], 40);
   ASSERT_DOUBLE_EQ(orthoLabel["FILE_RECORDS"], 254);
   ASSERT_DOUBLE_EQ(orthoLabel["^IMAGE"], 105);
@@ -603,8 +603,8 @@ TEST(Hidtmgen, HidtmgenTestOutputTypesAll832){
     FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
   }
 
-  Pvl dtmLabel(prefix.path()+"/DTEEZ_042252_1930_042753_1930_A31.IMG");
-  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_042252_1930_042753_1930_A31.IMG");
+  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(dtmLabel["RECORD_BYTES"], 8);
   ASSERT_DOUBLE_EQ(dtmLabel["FILE_RECORDS"], 558);
   ASSERT_DOUBLE_EQ(dtmLabel["^IMAGE"], 536);
@@ -612,17 +612,17 @@ TEST(Hidtmgen, HidtmgenTestOutputTypesAll832){
 
   PvlObject dtmImage = dtmLabel.findObject("IMAGE");
   ASSERT_DOUBLE_EQ(dtmImage["SAMPLE_BITS"], 8);
-  ASSERT_EQ(dtmImage["SAMPLE_TYPE"][0].toStdString(), "MSB_UNSIGNED_INTEGER");
+  ASSERT_EQ(dtmImage["SAMPLE_TYPE"][0], "MSB_UNSIGNED_INTEGER");
 
-  Pvl orthoLabel(prefix.path()+"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
-  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl orthoLabel(prefix.path().toStdString() +"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
+  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(orthoLabel["RECORD_BYTES"], 160);
   ASSERT_DOUBLE_EQ(orthoLabel["FILE_RECORDS"], 177);
   ASSERT_DOUBLE_EQ(orthoLabel["^IMAGE"], 28);
 
   PvlObject orthoImage = orthoLabel.findObject("IMAGE");
   ASSERT_DOUBLE_EQ(orthoImage["SAMPLE_BITS"], 32);
-  ASSERT_EQ(orthoImage["SAMPLE_TYPE"][0].toStdString(), "IEEE_REAL");
+  ASSERT_EQ(orthoImage["SAMPLE_TYPE"][0], "IEEE_REAL");
 
 }
 
@@ -653,8 +653,8 @@ TEST(Hidtmgen, HidtmgenTestOutputTypesAllU16S16){
     FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
   }
 
-  Pvl dtmLabel(prefix.path()+"/DTEEZ_042252_1930_042753_1930_A07.IMG");
-  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_042252_1930_042753_1930_A07.IMG");
+  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(dtmLabel["RECORD_BYTES"], 16);
   ASSERT_DOUBLE_EQ(dtmLabel["FILE_RECORDS"], 288);
   ASSERT_DOUBLE_EQ(dtmLabel["^IMAGE"], 266);
@@ -662,17 +662,17 @@ TEST(Hidtmgen, HidtmgenTestOutputTypesAllU16S16){
 
   PvlObject dtmImage = dtmLabel.findObject("IMAGE");
   ASSERT_DOUBLE_EQ(dtmImage["SAMPLE_BITS"], 16);
-  ASSERT_EQ(dtmImage["SAMPLE_TYPE"][0].toStdString(), "MSB_UNSIGNED_INTEGER");
+  ASSERT_EQ(dtmImage["SAMPLE_TYPE"][0], "MSB_UNSIGNED_INTEGER");
 
-  Pvl orthoLabel(prefix.path()+"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
-  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl orthoLabel(prefix.path().toStdString() +"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
+  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(orthoLabel["RECORD_BYTES"], 80);
   ASSERT_DOUBLE_EQ(orthoLabel["FILE_RECORDS"], 202);
   ASSERT_DOUBLE_EQ(orthoLabel["^IMAGE"], 53);
 
   PvlObject orthoImage = orthoLabel.findObject("IMAGE");
   ASSERT_DOUBLE_EQ(orthoImage["SAMPLE_BITS"], 16);
-  ASSERT_EQ(orthoImage["SAMPLE_TYPE"][0].toStdString(), "MSB_INTEGER");
+  ASSERT_EQ(orthoImage["SAMPLE_TYPE"][0], "MSB_INTEGER");
 }
 
 
@@ -702,8 +702,8 @@ TEST(Hidtmgen, HidtmgenTestOutputTypesNoneS16U16){
     FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
   }
 
-  Pvl dtmLabel(prefix.path()+"/DTEEZ_042252_1930_042753_1930_A07.IMG");
-  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_042252_1930_042753_1930_A07.IMG");
+  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(dtmLabel["RECORD_BYTES"], 16);
   ASSERT_DOUBLE_EQ(dtmLabel["FILE_RECORDS"], 288);
   ASSERT_DOUBLE_EQ(dtmLabel["^IMAGE"], 266);
@@ -711,17 +711,17 @@ TEST(Hidtmgen, HidtmgenTestOutputTypesNoneS16U16){
 
   PvlObject dtmImage = dtmLabel.findObject("IMAGE");
   ASSERT_DOUBLE_EQ(dtmImage["SAMPLE_BITS"], 16);
-  ASSERT_EQ(dtmImage["SAMPLE_TYPE"][0].toStdString(), "MSB_INTEGER");
+  ASSERT_EQ(dtmImage["SAMPLE_TYPE"][0], "MSB_INTEGER");
 
-  Pvl orthoLabel(prefix.path()+"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
-  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl orthoLabel(prefix.path().toStdString() +"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
+  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(orthoLabel["RECORD_BYTES"], 80);
   ASSERT_DOUBLE_EQ(orthoLabel["FILE_RECORDS"], 202);
   ASSERT_DOUBLE_EQ(orthoLabel["^IMAGE"], 53);
 
   PvlObject orthoImage = orthoLabel.findObject("IMAGE");
   ASSERT_DOUBLE_EQ(orthoImage["SAMPLE_BITS"], 16);
-  ASSERT_EQ(orthoImage["SAMPLE_TYPE"][0].toStdString(), "MSB_UNSIGNED_INTEGER");
+  ASSERT_EQ(orthoImage["SAMPLE_TYPE"][0], "MSB_UNSIGNED_INTEGER");
 }
 
 
@@ -743,21 +743,21 @@ TEST(Hidtmgen, HidtmgenTestPolar){
     FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
   }
 
-  Pvl dtmLabel(prefix.path()+"/DTEPZ_009404_2635_010221_2635_Z12.IMG");
-  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl dtmLabel(prefix.path().toStdString() +"/DTEPZ_009404_2635_010221_2635_Z12.IMG");
+  ASSERT_EQ(dtmLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(dtmLabel["RECORD_BYTES"], 52);
   ASSERT_DOUBLE_EQ(dtmLabel["FILE_RECORDS"], 96);
   ASSERT_DOUBLE_EQ(dtmLabel["^IMAGE"], 85);
 
   PvlObject dtmProj = dtmLabel.findObject("IMAGE_MAP_PROJECTION");
-  ASSERT_EQ(dtmProj["MAP_PROJECTION_TYPE"][0].toStdString(), "POLAR STEREOGRAPHIC");
+  ASSERT_EQ(dtmProj["MAP_PROJECTION_TYPE"][0], "POLAR STEREOGRAPHIC");
 
-  Pvl orthoLabel(prefix.path()+"/PSP_009404_2635_RED_C_1_ORTHO.IMG");
-  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0].toStdString(), "FIXED_LENGTH");
+  Pvl orthoLabel(prefix.path().toStdString() +"/PSP_009404_2635_RED_C_1_ORTHO.IMG");
+  ASSERT_EQ(orthoLabel["RECORD_TYPE"][0], "FIXED_LENGTH");
   ASSERT_DOUBLE_EQ(orthoLabel["RECORD_BYTES"], 50);
   ASSERT_DOUBLE_EQ(orthoLabel["FILE_RECORDS"], 115);
   ASSERT_DOUBLE_EQ(orthoLabel["^IMAGE"], 66);
 
   PvlObject orthoProj = orthoLabel.findObject("IMAGE_MAP_PROJECTION");
-  ASSERT_EQ(orthoProj["MAP_PROJECTION_TYPE"][0].toStdString(), "POLAR STEREOGRAPHIC");
+  ASSERT_EQ(orthoProj["MAP_PROJECTION_TYPE"][0], "POLAR STEREOGRAPHIC");
 }

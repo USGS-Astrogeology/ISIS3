@@ -56,20 +56,20 @@ TEST_F(DefaultCube, FunctionalTestMaptrimDefault){
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "VIKING_ORBITER_1");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "VISUAL_IMAGING_SUBSYSTEM_CAMERA_B");
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "MARS");
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "1977-07-09T20:05:51");
-  EXPECT_EQ(inst["ExposureDuration"][0].toStdString(), "0.008480");
-  EXPECT_EQ(inst["SpacecraftClockCount"][0].toStdString(), "33322515");
-  EXPECT_EQ(inst["FloodModeId"][0].toStdString(), "ON");
-  EXPECT_EQ(inst["GainModeId"][0].toStdString(), "HIGH");
-  EXPECT_EQ(inst["OffsetModeId"][0].toStdString(), "ON");
+  EXPECT_EQ(inst["SpacecraftName"][0], "VIKING_ORBITER_1");
+  EXPECT_EQ(inst["InstrumentId"][0], "VISUAL_IMAGING_SUBSYSTEM_CAMERA_B");
+  EXPECT_EQ(inst["TargetName"][0], "MARS");
+  EXPECT_EQ(inst["StartTime"][0], "1977-07-09T20:05:51");
+  EXPECT_EQ(inst["ExposureDuration"][0], "0.008480");
+  EXPECT_EQ(inst["SpacecraftClockCount"][0], "33322515");
+  EXPECT_EQ(inst["FloodModeId"][0], "ON");
+  EXPECT_EQ(inst["GainModeId"][0], "HIGH");
+  EXPECT_EQ(inst["OffsetModeId"][0], "ON");
 
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["DataSetId"][0].toStdString(), "VO1/VO2-M-VIS-2-EDR-V2.0");
-  EXPECT_EQ(archive["ProductId"][0].toStdString(), "387A06");
-  EXPECT_EQ(archive["MissionPhaseName"][0].toStdString(), "EXTENDED_MISSION");
+  EXPECT_EQ(archive["DataSetId"][0], "VO1/VO2-M-VIS-2-EDR-V2.0");
+  EXPECT_EQ(archive["ProductId"][0], "387A06");
+  EXPECT_EQ(archive["MissionPhaseName"][0], "EXTENDED_MISSION");
   EXPECT_EQ(int(archive["ImageNumber"]), 33322515);
   EXPECT_EQ(int(archive["OrbitNumber"]), 387);
 
@@ -81,21 +81,21 @@ TEST_F(DefaultCube, FunctionalTestMaptrimDefault){
 
   PvlGroup &kern = isisLabel->findGroup("Kernels", Pvl::Traverse);
   EXPECT_EQ(int(kern["NaifFrameCode"]), -27002);
-  EXPECT_EQ(kern["LeapSecond"][0].toStdString(), "$base/kernels/lsk/naif0012.tls");
-  EXPECT_EQ(kern["TargetAttitudeShape"][0].toStdString(), "$base/kernels/pck/pck00009.tpc");
-  EXPECT_EQ(kern["TargetPosition"][0].toStdString(), "Table");
-  EXPECT_EQ(kern["TargetPosition"][1].toStdString(), "$base/kernels/spk/de430.bsp");
-  EXPECT_EQ((kern["InstrumentPointing"][0].toStdString()), "Table");
-  EXPECT_EQ((kern["InstrumentPointing"][1].toStdString()), "$viking1/kernels/ck/vo1_sedr_ck2.bc");
-  EXPECT_EQ((kern["InstrumentPointing"][2].toStdString()), "$viking1/kernels/fk/vo1_v10.tf");
-  EXPECT_EQ(kern["Instrument"][0].toStdString(), "Null");
+  EXPECT_EQ(kern["LeapSecond"][0], "$base/kernels/lsk/naif0012.tls");
+  EXPECT_EQ(kern["TargetAttitudeShape"][0], "$base/kernels/pck/pck00009.tpc");
+  EXPECT_EQ(kern["TargetPosition"][0], "Table");
+  EXPECT_EQ(kern["TargetPosition"][1], "$base/kernels/spk/de430.bsp");
+  EXPECT_EQ((kern["InstrumentPointing"][0]), "Table");
+  EXPECT_EQ((kern["InstrumentPointing"][1]), "$viking1/kernels/ck/vo1_sedr_ck2.bc");
+  EXPECT_EQ((kern["InstrumentPointing"][2]), "$viking1/kernels/fk/vo1_v10.tf");
+  EXPECT_EQ(kern["Instrument"][0], "Null");
   EXPECT_EQ(kern["SpacecraftClock"][0], "$viking1/kernels/sclk/vo1_fict.tsc");
-  EXPECT_EQ(kern["InstrumentPosition"][0].toStdString(), "Table");
-  EXPECT_EQ(kern["InstrumentPosition"][1].toStdString(), "$viking1/kernels/spk/viking1a.bsp");
-  EXPECT_EQ(kern["InstrumentAddendum"][0].toStdString(), "$viking1/kernels/iak/vikingAddendum003.ti");
-  EXPECT_EQ(kern["ShapeModel"][0].toStdString(), "$base/dems/molaMarsPlanetaryRadius0005.cub");
-  EXPECT_EQ(kern["InstrumentPositionQuality"][0].toStdString(), "Reconstructed");
-  EXPECT_EQ(kern["InstrumentPointingQuality"][0].toStdString(), "Reconstructed");
+  EXPECT_EQ(kern["InstrumentPosition"][0], "Table");
+  EXPECT_EQ(kern["InstrumentPosition"][1], "$viking1/kernels/spk/viking1a.bsp");
+  EXPECT_EQ(kern["InstrumentAddendum"][0], "$viking1/kernels/iak/vikingAddendum003.ti");
+  EXPECT_EQ(kern["ShapeModel"][0], "$base/dems/molaMarsPlanetaryRadius0005.cub");
+  EXPECT_EQ(kern["InstrumentPositionQuality"][0], "Reconstructed");
+  EXPECT_EQ(kern["InstrumentPointingQuality"][0], "Reconstructed");
   EXPECT_EQ(int(kern["CameraVersion"]), 1);
 
   PvlGroup &mapping = isisLabel->findGroup("Mapping", Pvl::Traverse);

@@ -90,7 +90,7 @@ namespace Isis {
     new CameraSkyMap(this);
 
     // Setup clock start and stop times.
-    QString clockStartCount = inst["SpacecraftClockStartCount"];
+    QString clockStartCount = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     double start = getClockTime(clockStartCount).Et();
     // QString clockStopCount = inst["SpacecraftClockStopCount"];
     // double stop = getClockTime(clockStopCount).Et();
@@ -98,7 +98,7 @@ namespace Isis {
 
     // Setup the distortion map
     PvlGroup &BandBin = lab.findGroup("BandBin", Pvl::Traverse);
-    QString filterNumber = BandBin["FilterNumber"];
+    QString filterNumber = QString::fromStdString(BandBin["FilterNumber"]);
     initDistortion(ikCode, distortionMap);
     distortionMap->setPixelPitch(pixelPitch);
 

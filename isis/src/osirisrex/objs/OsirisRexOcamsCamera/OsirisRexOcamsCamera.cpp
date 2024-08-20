@@ -65,9 +65,9 @@ namespace Isis {
 
     QString ikCode = toString(frameCode);
     if (inst.hasKeyword("PolyCamFocusPositionNaifId") && frameCode == -64360) {
-      if (QString::compare("NONE", inst["PolyCamFocusPositionNaifId"],
+      if (QString::compare("NONE", QString::fromStdString(inst["PolyCamFocusPositionNaifId"]),
                            Qt::CaseInsensitive) != 0) {
-        ikCode = inst["PolyCamFocusPositionNaifId"][0];
+        ikCode = QString::fromStdString(inst["PolyCamFocusPositionNaifId"][0]);
       }
     }
 
@@ -80,7 +80,7 @@ namespace Isis {
 
     // Get the start time in et
     // Set the observation time and exposure duration
-    QString clockCount = inst["SpacecraftClockStartCount"];
+    QString clockCount = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     double startTime = getClockTime(clockCount).Et();
     double exposureDuration = ((double) inst["ExposureDuration"]) / 1000.0;
     pair<iTime, iTime> shuttertimes = ShutterOpenCloseTimes(startTime, exposureDuration);
@@ -106,7 +106,7 @@ namespace Isis {
 
     // Different distortion model for each instrument and filter
     PvlGroup bandBin = lab.findGroup("BandBin", Pvl::Traverse);
-    QString filterName = bandBin["FilterName"];
+    QString filterName = QString::fromStdString(bandBin["FilterName"]);
     distortionMap->SetDistortion(ikCode.toInt(), filterName);
 
     // Setup the ground and sky map

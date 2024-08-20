@@ -192,11 +192,11 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   // Camera_State_2 is from ShutterModeId and is 1 or 0, it is only 1 if
   // it is WA and BSIMAN or BOTSIM
   PvlKeyword sModeId = inst["ScanModeId"];
-  QString cs1 = sModeId[0].split(":").first();
-  inst.addKeyword(PvlKeyword("CameraState1",cs1));
+  QString cs1 = QString::fromStdString(sModeId[0]).split(":").first();
+  inst.addKeyword(PvlKeyword("CameraState1",cs1.toStdString()));
 
-  QString shutterMode = inst["ShutterModeId"];
-  QString cam = inst["InstrumentId"];
+  QString shutterMode = QString::fromStdString(inst["ShutterModeId"]);
+  QString cam = QString::fromStdString(inst["InstrumentId"]);
   if (cam == "WIDE_ANGLE_CAMERA" && (shutterMode == "BOTSIM" || shutterMode == "BSIMAN")) {
     inst.addKeyword(PvlKeyword("CameraState2","1"));
   }
@@ -205,7 +205,7 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   }
 
   // Translate the band bin group information
-  if((QString)inst["InstrumentId"] == "WIDE_ANGLE_CAMERA") {
+  if(QString::fromStdString(inst["InstrumentId"]) == "WIDE_ANGLE_CAMERA") {
     FileName bandBinTransFile(missionDir + "/translations/voyager_wa_bandbin.trn");
     PvlToPvlTranslationManager labelXlater(inputLabel, bandBinTransFile.expanded());
     labelXlater.Auto(*(outputLabel));
@@ -228,18 +228,18 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   QString spacecraftNumber;
   int spacecraftCode = 0;
 
-  QString instId = (QString) inst.findKeyword("InstrumentId");
+  QString instId = QString::fromStdString(inst.findKeyword("InstrumentId"));
 
-  if((QString) inst.findKeyword("SpacecraftName") == "VOYAGER_1") {
+  if(QString::fromStdString(inst.findKeyword("SpacecraftName")) == "VOYAGER_1") {
     spacecraftNumber = "1";
     if(instId == "NARROW_ANGLE_CAMERA") {
       spacecraftCode = -31101;
-      kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
+      kern += PvlKeyword("NaifFrameCode", std::to_string(spacecraftCode));
       instId = "issna";
     }
     else if (instId == "WIDE_ANGLE_CAMERA") {
       spacecraftCode = -31102;
-      kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
+      kern += PvlKeyword("NaifFrameCode", std::to_string(spacecraftCode));
       instId = "isswa";
     }
     else {
@@ -250,16 +250,16 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
-  else if((QString) inst.findKeyword("SpacecraftName") == "VOYAGER_2") {
+  else if(QString::fromStdString(inst.findKeyword("SpacecraftName")) == "VOYAGER_2") {
     spacecraftNumber = "2";
     if(instId == "NARROW_ANGLE_CAMERA") {
       spacecraftCode = -32101;
-      kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
+      kern += PvlKeyword("NaifFrameCode", std::to_string(spacecraftCode));
       instId = "issna";
     }
     else if (instId == "WIDE_ANGLE_CAMERA") {
       spacecraftCode = -32102;
-      kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
+      kern += PvlKeyword("NaifFrameCode", std::to_string(spacecraftCode));
       instId = "isswa";
     }
     else {
@@ -271,24 +271,24 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
     }
   }
   else {
-    QString msg = "Spacecraft name [" + (QString)inst.findKeyword("SpacecraftName") +
+    QString msg = "Spacecraft name [" + QString::fromStdString(inst.findKeyword("SpacecraftName")) +
                  "] does not match Voyager1 or Voyager2 spacecraft";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   ocube->putGroup(kern);
 
   // Modify time to remove Z from end
-  QString time = inst.findKeyword("StartTime")[0];
+  QString time = QString::fromStdString(inst.findKeyword("StartTime")[0]);
   time.remove("Z");
-  inst.findKeyword("StartTime").setValue(time);
+  inst.findKeyword("StartTime").setValue(time.toStdString());
 
   // Fix image number - remove the period, if Wide angle camera and one of two
   // shutter modes, we must fix the wide angle image number for use below.
   // Before #####.##     After #######
-  QString imgNumber = inst["SpacecraftClockCount"][0];
+  QString imgNumber = QString::fromStdString(inst["SpacecraftClockCount"][0]);
   imgNumber.replace(".", "");
   // Save this change
-  inst["SpacecraftClockCount"] = imgNumber;
+  inst["SpacecraftClockCount"] = imgNumber.toStdString();
 
   // From vgrfixlabel documentation in Isis2.
   // Wide Angle (WA) images off of CD's will have a fake image
@@ -303,7 +303,7 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   if((inst["ShutterModeId"][0] == "BSIMAN" ||
       inst["ShutterModeId"][0] == "BOTSIM") &&
       inst["InstrumentId"][0] == "WIDE_ANGLE_CAMERA") {
-    QString scanId = inst["ScanModeId"][0];
+    QString scanId = QString::fromStdString(inst["ScanModeId"][0]);
     int scanNum = toInt(scanId.mid(0, 1));
     int imgNum = toInt(imgNumber);
 
@@ -376,7 +376,7 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   // The purpose of the next two steps, getting the spacecraft clock count,
   // are simply to get the partition, the very first number 1/...
   double approxEphemeris = 0.0;
-  utc2et_c(inst["StartTime"][0].toLatin1().data(), &approxEphemeris);
+  utc2et_c(QString::fromStdString(inst["StartTime"][0]).toLatin1().data(), &approxEphemeris);
   char approxSpacecraftClock[80];
 
   // sce2s_c requires the spacecraft number, not the instrument number as
@@ -417,33 +417,33 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   char utcOut[25];
   et2utc_c(approxEphemeris, "ISOC", 3, 26, utcOut);
   NaifStatus::CheckErrors();
-  inst["StartTime"].setValue(QString(utcOut));
+  inst["StartTime"].setValue(utcOut);
 
   // Set up the nominal reseaus group
   PvlGroup res("Reseaus");
-  Pvl nomRes("$voyager" + spacecraftNumber + "/reseaus/nominal.pvl");
+  Pvl nomRes("$voyager" + spacecraftNumber.toStdString() + "/reseaus/nominal.pvl");
   PvlKeyword samps, lines, type, valid;
   lines = PvlKeyword("Line");
   samps = PvlKeyword("Sample");
   type = PvlKeyword("Type");
   valid = PvlKeyword("Valid");
 
-  PvlKeyword key = nomRes.findKeyword("VG" + spacecraftNumber + "_"
-                                      + instId.toUpper() + "_RESEAUS");
-  int numRes = nomRes["VG" + spacecraftNumber + "_" + instId.toUpper()
+  PvlKeyword key = nomRes.findKeyword("VG" + spacecraftNumber.toStdString() + "_"
+                                      + instId.toUpper().toStdString() + "_RESEAUS");
+  int numRes = nomRes["VG" + spacecraftNumber.toStdString() + "_" + instId.toUpper().toStdString()
                       + "_NUMBER_RESEAUS"];
   for(int i = 0; i < numRes * 3; i += 3) {
     lines += key[i];
     samps += key[i+1];
     type += key[i+2];
-    valid += QString("0");
+    valid += "0";
   }
   res += lines;
   res += samps;
   res += type;
   res += valid;
-  res += PvlKeyword("Template", "$voyager" + spacecraftNumber + "/reseaus/vg"
-                    + spacecraftNumber + "." + instId.toLower()
+  res += PvlKeyword("Template", "$voyager" + spacecraftNumber.toStdString() + "/reseaus/vg"
+                    + spacecraftNumber.toStdString() + "." + instId.toLower().toStdString()
                     + ".template.cub");
   res += PvlKeyword("Status", "Nominal");
   ocube->putGroup(res);
@@ -490,7 +490,7 @@ QByteArray fixLabels(QString fileName, History *hist){
     if (ui.GetString("INSTRUMENT") == "AUTOMATIC") {
       labels.replace("INSTRUMENT_NAME", "INSTRUMENT_NAME                  = Unknown");
       PvlGroup insNameWarning("Warning");
-      PvlKeyword insNameMsg("Message", "The INSTRUMENT_NAME for [" + fileName + "] is empty."
+      PvlKeyword insNameMsg("Message", "The INSTRUMENT_NAME for [" + fileName.toStdString() + "] is empty."
                                 + "The InstrumentId in the output cube will instead be set to "
                                 + "[Unknown] and the labels will not translate. To create a cube "
                                 + "with translated labels, re-run this "
@@ -533,8 +533,8 @@ QByteArray fixLabels(QString fileName, History *hist){
                    i - imageIdIndex - 1,
                    QByteArray("IMAGE_ID                         = ").append(baseName.toUtf8()));
     PvlGroup insIdWarning("Warning");
-    PvlKeyword insIdMsg("Message", "The IMAGE_ID for [" + fileName + "] is corrupted. The ProductId "
-                              + "in the output cube will instead be set to [" + baseName + "].");
+    PvlKeyword insIdMsg("Message", "The IMAGE_ID for [" + fileName.toStdString() + "] is corrupted. The ProductId "
+                              + "in the output cube will instead be set to [" + baseName.toStdString() + "].");
     insIdWarning += insIdMsg;
     Application::Log(insIdWarning);
 

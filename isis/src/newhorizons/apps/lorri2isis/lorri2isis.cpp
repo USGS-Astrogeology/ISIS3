@@ -37,7 +37,7 @@ namespace Isis {
     if (mainLabel["MISSION"][0] != "New Horizons" || mainLabel["INSTRU"][0] != "lor") {
       QString msg = QObject::tr("Input file [%1] does not appear to be a New Horizons LORRI FITS "
       "file. Input file label value for MISSION is [%2] and INSTRU is [%3]").
-      arg(ui.GetFileName("FROM")).arg(mainLabel["MISSION"][0]).arg(mainLabel["INSTRU"][0]);
+      arg(ui.GetFileName("FROM")).arg(QString::fromStdString(mainLabel["MISSION"][0])).arg(QString::fromStdString(mainLabel["INSTRU"][0]));
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -47,7 +47,7 @@ namespace Isis {
       if (errorLabel["XTENSION"][0] != "IMAGE" || errorLabel["EXTNAME"][0] != "LORRI Error image") {
         QString msg = QObject::tr("Input file [%1] does not appear to contain a LORRI Error image. "
             "Input file label value for EXTNAME is [%2] and XTENSION is [%3]").
-            arg(ui.GetFileName("FROM")).arg(errorLabel["EXTNAME"][0]).arg(errorLabel["XTENSION"][0]);
+            arg(ui.GetFileName("FROM")).arg(QString::fromStdString(errorLabel["EXTNAME"][0])).arg(QString::fromStdString(errorLabel["XTENSION"][0]));
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -59,7 +59,7 @@ namespace Isis {
           qualityLabel["EXTNAME"][0] != "LORRI Quality flag image") {
         QString msg = QObject::tr("Input file [%1] does not appear to contain a LORRI Quality image. "
             "Input file label value for EXTNAME is [%2] and XTENSION is [%3]").
-            arg(ui.GetFileName("FROM")).arg(qualityLabel["EXTNAME"][0]).arg(qualityLabel["XTENSION"][0]);
+            arg(ui.GetFileName("FROM")).arg(QString::fromStdString(qualityLabel["EXTNAME"][0])).arg(QString::fromStdString(qualityLabel["XTENSION"][0]));
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -86,7 +86,7 @@ namespace Isis {
 
     // Modify/add Instument group keywords not handled by the translater
     PvlGroup &inst = outLabel.findGroup("Instrument", Pvl::Traverse);
-    QString target = (QString)inst["TargetName"];
+    QString target = QString::fromStdString(inst["TargetName"]);
     if (target.startsWith("RADEC=")) {
       inst.addKeyword(PvlKeyword("TargetName", "Sky"), PvlGroup::Replace);
     }

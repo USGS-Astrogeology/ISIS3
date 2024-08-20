@@ -407,5 +407,5 @@ TEST_F( SmallGapCube, FillGapTestGapsOnEdge )
   }
 
   PvlGroup &mess = log.findGroup("Messages", Pvl::Traverse);
-  EXPECT_EQ(mess["Warning"][0].toStdString(), "Unable to fill 9 special pixels." );
+  EXPECT_EQ(mess["Warning"][0], "Unable to fill 9 special pixels." );
 }

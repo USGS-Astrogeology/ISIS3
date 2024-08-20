@@ -38,33 +38,33 @@ TEST_F(TempTestingFiles, Msi2isisTestGblIngestDefault) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "NEAR EARTH ASTEROID RENDEZVOUS");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "MSI" );
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "EROS" );
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "157063318856" );
-  EXPECT_EQ(inst["SpacecraftClockStopCount"][0].toStdString(), "157063318919" );
-  EXPECT_EQ(inst["OriginalSpacecraftClockStartCount"][0].toStdString(), "157063318.856" );
-  EXPECT_EQ(inst["OriginalSpacecraftClockStopCount"][0].toStdString(), "157063318.919" );
+  EXPECT_EQ(inst["SpacecraftName"][0], "NEAR EARTH ASTEROID RENDEZVOUS");
+  EXPECT_EQ(inst["InstrumentId"][0], "MSI" );
+  EXPECT_EQ(inst["TargetName"][0], "EROS" );
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "157063318856" );
+  EXPECT_EQ(inst["SpacecraftClockStopCount"][0], "157063318919" );
+  EXPECT_EQ(inst["OriginalSpacecraftClockStartCount"][0], "157063318.856" );
+  EXPECT_EQ(inst["OriginalSpacecraftClockStopCount"][0], "157063318.919" );
   ASSERT_DOUBLE_EQ(double(inst["ExposureDuration"]), 63.0);
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2001-02-08T17:24:42.217" );
-  EXPECT_EQ(inst["StopTime"][0].toStdString(), "2001-02-08T17:24:42.280" );
+  EXPECT_EQ(inst["StartTime"][0], "2001-02-08T17:24:42.217" );
+  EXPECT_EQ(inst["StopTime"][0], "2001-02-08T17:24:42.280" );
   ASSERT_DOUBLE_EQ(double(inst["DpuDeckTemperature"]), 286.5);
-  EXPECT_EQ(inst["DpuDeckTemperature"].unit().toStdString(), "K");
+  EXPECT_EQ(inst["DpuDeckTemperature"].unit(), "K");
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["DataSetId"][0].toStdString(), "NEAR-A-MSI-3-EDR-EROS/ORBIT-V1.0");
-  EXPECT_EQ(archive["ProductId"][0].toStdString(), "M0157063318F4_2P_IOF_GBL.FIT");
-  EXPECT_EQ(archive["InstrumentHostName"][0].toStdString(), "NEAR EARTH ASTEROID RENDEZVOUS");
-  EXPECT_EQ(archive["InstrumentName"][0].toStdString(), "MULTI-SPECTRAL IMAGER");
-  EXPECT_EQ(archive["InstrumentId"][0].toStdString(), "MSI");
-  EXPECT_EQ(archive["TargetName"][0].toStdString(), "EROS");
+  EXPECT_EQ(archive["DataSetId"][0], "NEAR-A-MSI-3-EDR-EROS/ORBIT-V1.0");
+  EXPECT_EQ(archive["ProductId"][0], "M0157063318F4_2P_IOF_GBL.FIT");
+  EXPECT_EQ(archive["InstrumentHostName"][0], "NEAR EARTH ASTEROID RENDEZVOUS");
+  EXPECT_EQ(archive["InstrumentName"][0], "MULTI-SPECTRAL IMAGER");
+  EXPECT_EQ(archive["InstrumentId"][0], "MSI");
+  EXPECT_EQ(archive["TargetName"][0], "EROS");
 
   // BandBin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
   EXPECT_EQ(int(bandbin["FilterNumber"]), 4);
   EXPECT_EQ(int(bandbin["Center"]), 950);
-  EXPECT_EQ(bandbin["Center"].unit().toStdString(), "nm");
+  EXPECT_EQ(bandbin["Center"].unit(), "nm");
 
  // Kernels Group
   PvlGroup &kernel = isisLabel->findGroup("Kernels", Pvl::Traverse);
@@ -223,33 +223,33 @@ TEST_F(TempTestingFiles, Msi2isisTestCubicConvolution) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "NEAR EARTH ASTEROID RENDEZVOUS");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "MSI" );
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "EROS" );
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "126865998830" );
-  EXPECT_EQ(inst["SpacecraftClockStopCount"][0].toStdString(), "126865998919" );
-  EXPECT_EQ(inst["OriginalSpacecraftClockStartCount"][0].toStdString(), "126865998.830" );
-  EXPECT_EQ(inst["OriginalSpacecraftClockStopCount"][0].toStdString(), "126865998.919" );
+  EXPECT_EQ(inst["SpacecraftName"][0], "NEAR EARTH ASTEROID RENDEZVOUS");
+  EXPECT_EQ(inst["InstrumentId"][0], "MSI" );
+  EXPECT_EQ(inst["TargetName"][0], "EROS" );
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "126865998830" );
+  EXPECT_EQ(inst["SpacecraftClockStopCount"][0], "126865998919" );
+  EXPECT_EQ(inst["OriginalSpacecraftClockStartCount"][0], "126865998.830" );
+  EXPECT_EQ(inst["OriginalSpacecraftClockStopCount"][0], "126865998.919" );
   EXPECT_DOUBLE_EQ(double(inst["ExposureDuration"]), 89.0);
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2000-02-25T05:16:12.656" );
-  EXPECT_EQ(inst["StopTime"][0].toStdString(), "2000-02-25T05:16:12.745" );
+  EXPECT_EQ(inst["StartTime"][0], "2000-02-25T05:16:12.656" );
+  EXPECT_EQ(inst["StopTime"][0], "2000-02-25T05:16:12.745" );
   EXPECT_DOUBLE_EQ(double(inst["DpuDeckTemperature"]), 286.5);
-  EXPECT_EQ(inst["DpuDeckTemperature"].unit().toStdString(), "K");
+  EXPECT_EQ(inst["DpuDeckTemperature"].unit(), "K");
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["DataSetId"][0].toStdString(), "NEAR-A-MSI-3-EDR-EROS/ORBIT-V1.0");
-  EXPECT_EQ(archive["ProductId"][0].toStdString(), "M0126865998F4_2P_IOF.FIT");
-  EXPECT_EQ(archive["InstrumentHostName"][0].toStdString(), "NEAR EARTH ASTEROID RENDEZVOUS");
-  EXPECT_EQ(archive["InstrumentName"][0].toStdString(), "MULTI-SPECTRAL IMAGER");
-  EXPECT_EQ(archive["InstrumentId"][0].toStdString(), "MSI");
-  EXPECT_EQ(archive["TargetName"][0].toStdString(), "EROS");
+  EXPECT_EQ(archive["DataSetId"][0], "NEAR-A-MSI-3-EDR-EROS/ORBIT-V1.0");
+  EXPECT_EQ(archive["ProductId"][0], "M0126865998F4_2P_IOF.FIT");
+  EXPECT_EQ(archive["InstrumentHostName"][0], "NEAR EARTH ASTEROID RENDEZVOUS");
+  EXPECT_EQ(archive["InstrumentName"][0], "MULTI-SPECTRAL IMAGER");
+  EXPECT_EQ(archive["InstrumentId"][0], "MSI");
+  EXPECT_EQ(archive["TargetName"][0], "EROS");
 
   // BandBin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
   EXPECT_EQ(int(bandbin["FilterNumber"]), 4);
   EXPECT_EQ(int(bandbin["Center"]), 950);
-  EXPECT_EQ(bandbin["Center"].unit().toStdString(), "nm");
+  EXPECT_EQ(bandbin["Center"].unit(), "nm");
 
  // Kernels Group
   PvlGroup &kernel = isisLabel->findGroup("Kernels", Pvl::Traverse);

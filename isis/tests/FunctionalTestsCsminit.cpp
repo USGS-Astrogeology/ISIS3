@@ -102,12 +102,12 @@ TEST_F(CSMPluginFixture, CSMInitDefault) {
   PvlObject blobPvl = stateString.Label();
 
   // Check that the plugin can create a model from the state string
-  std::string modelName = QString(blobPvl.findKeyword("ModelName")).toStdString();
+  std::string modelName = blobPvl.findKeyword("ModelName");
   std::string modelState(stateString.getBuffer(), stateString.Size());
   EXPECT_TRUE(plugin->canModelBeConstructedFromState(modelName, modelState));
 
   // Check blob label ModelName and Plugin Name
-  EXPECT_EQ(QString(blobPvl.findKeyword("PluginName")).toStdString(), plugin->getPluginName());
+  EXPECT_EQ(blobPvl.findKeyword("PluginName"), plugin->getPluginName());
   EXPECT_EQ(modelName, TestCsmModel::SENSOR_MODEL_NAME);
 
   // Check the Instrument group
@@ -119,23 +119,23 @@ TEST_F(CSMPluginFixture, CSMInitDefault) {
   ASSERT_TRUE(testCube->hasGroup("CsmInfo"));
   PvlGroup &infoGroup = testCube->group("CsmInfo");
   ASSERT_TRUE(infoGroup.hasKeyword("CSMPlatformID"));
-  EXPECT_EQ(infoGroup["CSMPlatformID"][0].toStdString(), model.getPlatformIdentifier());
+  EXPECT_EQ(infoGroup["CSMPlatformID"][0], model.getPlatformIdentifier());
   ASSERT_TRUE(infoGroup.hasKeyword("CSMInstrumentId"));
-  EXPECT_EQ(infoGroup["CSMInstrumentId"][0].toStdString(), model.getSensorIdentifier());
+  EXPECT_EQ(infoGroup["CSMInstrumentId"][0], model.getSensorIdentifier());
   ASSERT_TRUE(infoGroup.hasKeyword("ReferenceTime"));
-  EXPECT_EQ(infoGroup["ReferenceTime"][0].toStdString(), model.getReferenceDateAndTime());
+  EXPECT_EQ(infoGroup["ReferenceTime"][0], model.getReferenceDateAndTime());
   ASSERT_TRUE(infoGroup.hasKeyword("ModelParameterNames"));
   ASSERT_EQ(infoGroup["ModelParameterNames"].size(), 3);
-  EXPECT_EQ(infoGroup["ModelParameterNames"][0].toStdString(), TestCsmModel::PARAM_NAMES[0]);
-  EXPECT_EQ(infoGroup["ModelParameterNames"][1].toStdString(), TestCsmModel::PARAM_NAMES[1]);
+  EXPECT_EQ(infoGroup["ModelParameterNames"][0], TestCsmModel::PARAM_NAMES[0]);
+  EXPECT_EQ(infoGroup["ModelParameterNames"][1], TestCsmModel::PARAM_NAMES[1]);
   ASSERT_TRUE(infoGroup.hasKeyword("ModelParameterUnits"));
   ASSERT_EQ(infoGroup["ModelParameterUnits"].size(), 3);
-  EXPECT_EQ(infoGroup["ModelParameterUnits"][0].toStdString(), TestCsmModel::PARAM_UNITS[0]);
-  EXPECT_EQ(infoGroup["ModelParameterUnits"][1].toStdString(), TestCsmModel::PARAM_UNITS[1]);
+  EXPECT_EQ(infoGroup["ModelParameterUnits"][0], TestCsmModel::PARAM_UNITS[0]);
+  EXPECT_EQ(infoGroup["ModelParameterUnits"][1], TestCsmModel::PARAM_UNITS[1]);
   ASSERT_TRUE(infoGroup.hasKeyword("ModelParameterTypes"));
   ASSERT_EQ(infoGroup["ModelParameterTypes"].size(), 3);
-  EXPECT_EQ(infoGroup["ModelParameterTypes"][0].toStdString(), "REAL");
-  EXPECT_EQ(infoGroup["ModelParameterTypes"][1].toStdString(), "REAL");
+  EXPECT_EQ(infoGroup["ModelParameterTypes"][0], "REAL");
+  EXPECT_EQ(infoGroup["ModelParameterTypes"][1], "REAL");
 
   // Check the Kernels group
   ASSERT_TRUE(testCube->hasGroup("Kernels"));
@@ -173,11 +173,11 @@ TEST_F(CSMPluginFixture, CSMInitRunTwice) {
   PvlObject blobPvl = stateString.Label();
 
   // Check blob label ModelName and Plugin Name
-  EXPECT_EQ(QString(blobPvl.findKeyword("PluginName")).toStdString(), plugin->getPluginName());
-  EXPECT_EQ(QString(blobPvl.findKeyword("ModelName")).toStdString(), AlternativeTestCsmModel::SENSOR_MODEL_NAME);
+  EXPECT_EQ(blobPvl.findKeyword("PluginName"), plugin->getPluginName());
+  EXPECT_EQ(blobPvl.findKeyword("ModelName"), AlternativeTestCsmModel::SENSOR_MODEL_NAME);
 
   // Check that the plugin can create a model from the state string
-  std::string modelName = QString(blobPvl.findKeyword("ModelName")).toStdString();
+  std::string modelName = blobPvl.findKeyword("ModelName");
   std::string modelState(stateString.getBuffer(), stateString.Size());
   EXPECT_TRUE(plugin->canModelBeConstructedFromState(modelName, modelState));
 
@@ -233,38 +233,38 @@ TEST_F(CSMPluginFixture, CSMInitMultiplePossibleModels) {
   PvlObject blobPvl = stateString.Label();
 
   // Check that the plugin can create a model from the state string
-  std::string modelName = QString(blobPvl.findKeyword("ModelName")).toStdString();
+  std::string modelName = blobPvl.findKeyword("ModelName");
   std::string modelState(stateString.getBuffer(), stateString.Size());
   EXPECT_TRUE(plugin->canModelBeConstructedFromState(modelName, modelState));
 
   // check blob label ModelName and Plugin Name
-  EXPECT_EQ(QString(blobPvl.findKeyword("PluginName")).toStdString(), plugin->getPluginName());
-  EXPECT_EQ(QString(blobPvl.findKeyword("ModelName")).toStdString(), AlternativeTestCsmModel::SENSOR_MODEL_NAME);
+  EXPECT_EQ(blobPvl.findKeyword("PluginName"), plugin->getPluginName());
+  EXPECT_EQ(blobPvl.findKeyword("ModelName"), AlternativeTestCsmModel::SENSOR_MODEL_NAME);
 
   // Check the CsmInfo group
   ASSERT_TRUE(testCube->hasGroup("CsmInfo"));
   PvlGroup &infoGroup = testCube->group("CsmInfo");
   ASSERT_TRUE(infoGroup.hasKeyword("CSMPlatformID"));
-  EXPECT_EQ(infoGroup["CSMPlatformID"][0].toStdString(), altModel.getPlatformIdentifier());
+  EXPECT_EQ(infoGroup["CSMPlatformID"][0], altModel.getPlatformIdentifier());
   ASSERT_TRUE(infoGroup.hasKeyword("CSMInstrumentId"));
-  EXPECT_EQ(infoGroup["CSMInstrumentId"][0].toStdString(), altModel.getSensorIdentifier());
+  EXPECT_EQ(infoGroup["CSMInstrumentId"][0], altModel.getSensorIdentifier());
   ASSERT_TRUE(infoGroup.hasKeyword("ReferenceTime"));
-  EXPECT_EQ(infoGroup["ReferenceTime"][0].toStdString(), altModel.getReferenceDateAndTime());
+  EXPECT_EQ(infoGroup["ReferenceTime"][0], altModel.getReferenceDateAndTime());
   ASSERT_TRUE(infoGroup.hasKeyword("ModelParameterNames"));
   ASSERT_EQ(infoGroup["ModelParameterNames"].size(), 3);
-  EXPECT_EQ(infoGroup["ModelParameterNames"][0].toStdString(), AlternativeTestCsmModel::PARAM_NAMES[0]);
-  EXPECT_EQ(infoGroup["ModelParameterNames"][1].toStdString(), AlternativeTestCsmModel::PARAM_NAMES[1]);
-  EXPECT_EQ(infoGroup["ModelParameterNames"][2].toStdString(), AlternativeTestCsmModel::PARAM_NAMES[2]);
+  EXPECT_EQ(infoGroup["ModelParameterNames"][0], AlternativeTestCsmModel::PARAM_NAMES[0]);
+  EXPECT_EQ(infoGroup["ModelParameterNames"][1], AlternativeTestCsmModel::PARAM_NAMES[1]);
+  EXPECT_EQ(infoGroup["ModelParameterNames"][2], AlternativeTestCsmModel::PARAM_NAMES[2]);
   ASSERT_TRUE(infoGroup.hasKeyword("ModelParameterUnits"));
   ASSERT_EQ(infoGroup["ModelParameterUnits"].size(), 3);
-  EXPECT_EQ(infoGroup["ModelParameterUnits"][0].toStdString(), AlternativeTestCsmModel::PARAM_UNITS[0]);
-  EXPECT_EQ(infoGroup["ModelParameterUnits"][1].toStdString(), AlternativeTestCsmModel::PARAM_UNITS[1]);
-  EXPECT_EQ(infoGroup["ModelParameterUnits"][2].toStdString(), AlternativeTestCsmModel::PARAM_UNITS[2]);
+  EXPECT_EQ(infoGroup["ModelParameterUnits"][0], AlternativeTestCsmModel::PARAM_UNITS[0]);
+  EXPECT_EQ(infoGroup["ModelParameterUnits"][1], AlternativeTestCsmModel::PARAM_UNITS[1]);
+  EXPECT_EQ(infoGroup["ModelParameterUnits"][2], AlternativeTestCsmModel::PARAM_UNITS[2]);
   ASSERT_TRUE(infoGroup.hasKeyword("ModelParameterTypes"));
   ASSERT_EQ(infoGroup["ModelParameterTypes"].size(), 3);
-  EXPECT_EQ(infoGroup["ModelParameterTypes"][0].toStdString(), "FICTITIOUS");
-  EXPECT_EQ(infoGroup["ModelParameterTypes"][1].toStdString(), "REAL");
-  EXPECT_EQ(infoGroup["ModelParameterTypes"][2].toStdString(), "FIXED");
+  EXPECT_EQ(infoGroup["ModelParameterTypes"][0], "FICTITIOUS");
+  EXPECT_EQ(infoGroup["ModelParameterTypes"][1], "REAL");
+  EXPECT_EQ(infoGroup["ModelParameterTypes"][2], "FIXED");
 }
 
 

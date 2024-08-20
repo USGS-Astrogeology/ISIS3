@@ -130,10 +130,10 @@ TEST_F(MroHiriseCube, FunctionalTestHicubenormNewVersion) {
   PvlGroup stats("Results");
   for(int i = 1; i <= 1204; i++) {
     stats += PvlKeyword("Band", "1");
-    stats += PvlKeyword("RowCol", QString::number(i));
-    stats += PvlKeyword("ValidPixels", QString::number(1056));
-    stats += PvlKeyword("Mean", QString::number(i));
-    stats += PvlKeyword("Median", QString::number(i/2));
+    stats += PvlKeyword("RowCol", std::to_string(i));
+    stats += PvlKeyword("ValidPixels", std::to_string(1056));
+    stats += PvlKeyword("Mean", std::to_string(i));
+    stats += PvlKeyword("Median", std::to_string(i/2));
     // the rest shouldn't matter
     stats += PvlKeyword("Std", "0.0");
     stats += PvlKeyword("Minimum", "0.0");
@@ -142,7 +142,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicubenormNewVersion) {
 
   Pvl table;
   table.addGroup(stats);
-  table.write(tablePath);
+  table.write(tablePath.toStdString());
 
   QVector<QString> args = {"to="+outCubeFileName, "mode=subtract", "fromstats="+tablePath, "statsource=pvl", "normalizer=average", "new_version=yes"};
 

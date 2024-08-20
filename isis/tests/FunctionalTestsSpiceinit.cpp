@@ -103,11 +103,11 @@ TEST(Spiceinit, TestSpiceinitPredictAndReconCk) {
   ASSERT_TRUE(kernels.hasKeyword("InstrumentPointing"));
   PvlKeyword instrumentPointing = kernels["InstrumentPointing"];
   ASSERT_EQ(instrumentPointing.size(), 3);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instrumentPointing[0], "$Clementine1/kernels/ck/clem_2mn.bck");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instrumentPointing[1], "$Clementine1/kernels/ck/clem_5sc.bck");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instrumentPointing[2], "$clementine1/kernels/fk/clem_v12.tf");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instrumentPointing[0], "$Clementine1/kernels/ck/clem_2mn.bck");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instrumentPointing[1], "$Clementine1/kernels/ck/clem_5sc.bck");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instrumentPointing[2], "$clementine1/kernels/fk/clem_v12.tf");
   ASSERT_TRUE(kernels.hasKeyword("InstrumentPointingQuality"));
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, kernels["InstrumentPointingQuality"][0], "Reconstructed");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, kernels["InstrumentPointingQuality"][0], "Reconstructed");
 }
 
 
@@ -194,14 +194,14 @@ TEST(Spiceinit, TestSpiceinitCkConfigFile) {
   ASSERT_TRUE(kernels.hasKeyword("InstrumentPointing"));
   PvlKeyword instrumentPointing = kernels["InstrumentPointing"];
   ASSERT_EQ(instrumentPointing.size(), 4);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instrumentPointing[0], "Table");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instrumentPointing[1], "$mro/kernels/ck/mro_crm_psp_110223_101128.bc");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instrumentPointing[2], "$mro/kernels/ck/mro_sc_psp_110222_110228.bc");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instrumentPointing[0], "Table");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instrumentPointing[1], "$mro/kernels/ck/mro_crm_psp_110223_101128.bc");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instrumentPointing[2], "$mro/kernels/ck/mro_sc_psp_110222_110228.bc");
   // Use a regex to match the version # for the frame kernel because this sometimes updates
   // when new MRO spice is released.
   QRegularExpression fkRegex("mro_v\\d\\d\\.tf");
-  EXPECT_TRUE(fkRegex.match(instrumentPointing[3]).hasMatch()) << "Frame kernel ["
-      << instrumentPointing[3].toStdString() << "] doesn't match regex ["
+  EXPECT_TRUE(fkRegex.match(QString::fromStdString(instrumentPointing[3])).hasMatch()) << "Frame kernel ["
+      << instrumentPointing[3] << "] doesn't match regex ["
       << fkRegex.pattern().toStdString() << "].";
 }
 
@@ -419,7 +419,7 @@ TEST(Spiceinit, TestSpiceinitNadir) {
 
   ASSERT_TRUE(kernels.hasKeyword("InstrumentPointing"));
   ASSERT_EQ(kernels["InstrumentPointing"].size(), 1);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, kernels["InstrumentPointing"][0], "Nadir");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, kernels["InstrumentPointing"][0], "Nadir");
 }
 
 
@@ -518,13 +518,13 @@ TEST(Spiceinit, TestSpiceinitPadding) {
 
   ASSERT_TRUE(kernels.hasKeyword("StartPadding"));
   ASSERT_EQ(kernels["StartPadding"].size(), 1);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, kernels["StartPadding"][0], "1.1");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, kernels["StartPadding"].unit(0), "seconds");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, kernels["StartPadding"][0], "1.1");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, kernels["StartPadding"].unit(0), "seconds");
 
   ASSERT_TRUE(kernels.hasKeyword("EndPadding"));
   ASSERT_EQ(kernels["EndPadding"].size(), 1);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, kernels["EndPadding"][0], "0.5");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, kernels["EndPadding"].unit(0), "seconds");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, kernels["EndPadding"][0], "0.5");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, kernels["EndPadding"].unit(0), "seconds");
 }
 
 TEST_F(DefaultCube, TestSpiceinitCsmCleanup) {
@@ -661,7 +661,7 @@ TEST_F(DemCube, FunctionalTestSpiceinitWebAndShapeModel) {
   spiceinit(&testCube, options);
 
   PvlGroup kernels = testCube.label()->findGroup("Kernels", Pvl::Traverse);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, kernels.findKeyword("ShapeModel"), demCube->fileName());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, kernels.findKeyword("ShapeModel"), demCube->fileName().toStdString());
 }
 
 

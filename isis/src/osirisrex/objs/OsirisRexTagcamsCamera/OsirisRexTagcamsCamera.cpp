@@ -78,7 +78,7 @@ namespace Isis {
 
     // Get the start time in et
     // Set the observation time and exposure duration
-    QString clockCount = inst["SpacecraftClockStartCount"];
+    QString clockCount = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     double startTime = getClockTime(clockCount).Et();
     double exposureDuration = ((double) inst["ExposureDuration"]);
     pair<iTime, iTime> shuttertimes = ShutterOpenCloseTimes(startTime, exposureDuration);

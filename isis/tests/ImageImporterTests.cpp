@@ -30,15 +30,15 @@ TEST_F(TempTestingFiles, DISABLED_UnitTestImageImporterTestJpeg) {
   ASSERT_EQ((int)dimensions["Bands"], 3);
 
   PvlGroup pixels = outLabel->findGroup("Pixels", Pvl::Traverse);
-  ASSERT_EQ(pixels["Type"][0].toStdString(), "Real");
-  ASSERT_EQ(pixels["ByteOrder"][0].toStdString(), "Lsb");
+  ASSERT_EQ(pixels["Type"][0], "Real");
+  ASSERT_EQ(pixels["ByteOrder"][0], "Lsb");
   ASSERT_EQ((double)pixels["Base"], 0.0);
   ASSERT_EQ((double)pixels["Multiplier"], 1.0);
 
   PvlGroup bandbin = outLabel->findGroup("BandBin", Pvl::Traverse);
-  ASSERT_EQ(bandbin["Name"][0].toStdString(), "Red");
-  ASSERT_EQ(bandbin["Name"][1].toStdString(), "Green");
-  ASSERT_EQ(bandbin["Name"][2].toStdString(), "Blue");
+  ASSERT_EQ(bandbin["Name"][0], "Red");
+  ASSERT_EQ(bandbin["Name"][1], "Green");
+  ASSERT_EQ(bandbin["Name"][2], "Blue");
 
   std::unique_ptr<Histogram> hist (outCube.histogram());
   ASSERT_NEAR(hist->Average(), 113.11904761904762, .00001);
@@ -65,15 +65,15 @@ TEST_F(TempTestingFiles, UnitTestImageImporterStd2IsisTiffRgb) {
   ASSERT_EQ((int)dimensions["Bands"], 3);
 
   PvlGroup pixels = outLabel->findGroup("Pixels", Pvl::Traverse);
-  ASSERT_EQ(pixels["Type"][0].toStdString(), "Real");
-  ASSERT_EQ(pixels["ByteOrder"][0].toStdString(), "Lsb");
+  ASSERT_EQ(pixels["Type"][0], "Real");
+  ASSERT_EQ(pixels["ByteOrder"][0], "Lsb");
   ASSERT_EQ((double)pixels["Base"], 0.0);
   ASSERT_EQ((double)pixels["Multiplier"], 1.0);
 
   PvlGroup bandbin = outLabel->findGroup("BandBin", Pvl::Traverse);
-  ASSERT_EQ(bandbin["Name"][0].toStdString(), "Red");
-  ASSERT_EQ(bandbin["Name"][1].toStdString(), "Green");
-  ASSERT_EQ(bandbin["Name"][2].toStdString(), "Blue");
+  ASSERT_EQ(bandbin["Name"][0], "Red");
+  ASSERT_EQ(bandbin["Name"][1], "Green");
+  ASSERT_EQ(bandbin["Name"][2], "Blue");
 
   std::unique_ptr<Histogram> hist (outCube.histogram());
   ASSERT_NEAR(hist->Average(), 88.4844970703125, .00001);
@@ -100,15 +100,15 @@ TEST_F(TempTestingFiles, UnitTestImageImporterStd2IsisJp2) {
   ASSERT_EQ((int)dimensions["Bands"], 3);
 
   PvlGroup pixels = outLabel->findGroup("Pixels", Pvl::Traverse);
-  ASSERT_EQ(pixels["Type"][0].toStdString(), "Real");
-  ASSERT_EQ(pixels["ByteOrder"][0].toStdString(), "Lsb");
+  ASSERT_EQ(pixels["Type"][0], "Real");
+  ASSERT_EQ(pixels["ByteOrder"][0], "Lsb");
   ASSERT_EQ((double)pixels["Base"], 0.0);
   ASSERT_EQ((double)pixels["Multiplier"], 1.0);
 
   PvlGroup bandbin = outLabel->findGroup("BandBin", Pvl::Traverse);
-  ASSERT_EQ(bandbin["Name"][0].toStdString(), "Red");
-  ASSERT_EQ(bandbin["Name"][1].toStdString(), "Green");
-  ASSERT_EQ(bandbin["Name"][2].toStdString(), "Blue");
+  ASSERT_EQ(bandbin["Name"][0], "Red");
+  ASSERT_EQ(bandbin["Name"][1], "Green");
+  ASSERT_EQ(bandbin["Name"][2], "Blue");
 
   std::unique_ptr<Histogram> hist (outCube.histogram());
 

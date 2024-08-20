@@ -59,8 +59,8 @@ namespace Isis {
     // and camera
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup ("Instrument",Pvl::Traverse);
-    QString spacecraft = (QString)inst["SpacecraftName"];
-    QString instId = (QString)inst["InstrumentId"];
+    QString spacecraft = QString::fromStdString(inst["SpacecraftName"]);
+    QString instId = QString::fromStdString(inst["InstrumentId"]);
 
     QString reseauFileName = "";
 
@@ -143,7 +143,7 @@ namespace Isis {
     // exposure duration keyword value is measured in seconds
     double exposureDuration = inst["ExposureDuration"];
     iTime startTime;
-    startTime.setUtc((QString)inst["StartTime"]);
+    startTime.setUtc(QString::fromStdString(inst["StartTime"]));
 
     // set the start (shutter open) and end (shutter close) times for the image
     /*****************************************************************************

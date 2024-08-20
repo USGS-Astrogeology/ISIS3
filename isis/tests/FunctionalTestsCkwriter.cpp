@@ -40,7 +40,7 @@ TEST_F(DefaultCube, FunctionalTestCkwriterDefault) {
   kernels.addKeyword(targetPosition, PvlContainer::InsertMode::Replace);
 
   PvlKeyword instrumentPointing("InstrumentPointing");
-  instrumentPointing += options.GetFileName("TO");
+  instrumentPointing += options.GetFileName("TO").toStdString();
   instrumentPointing += "$viking1/kernels/fk/vo1_v10.tf";
   kernels.addKeyword(instrumentPointing, PvlContainer::InsertMode::Replace);
 
@@ -108,7 +108,7 @@ TEST_F(DefaultCube, FunctionalTestCkwriterFromlist) {
   kernels.addKeyword(targetPosition, PvlContainer::InsertMode::Replace);
 
   PvlKeyword instrumentPointing("InstrumentPointing");
-  instrumentPointing += options.GetFileName("TO");
+  instrumentPointing += options.GetFileName("TO").toStdString();
   instrumentPointing += kernels["InstrumentPointing"][2];
   kernels.addKeyword(instrumentPointing, PvlContainer::InsertMode::Replace);
 

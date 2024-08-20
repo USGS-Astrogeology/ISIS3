@@ -21,8 +21,8 @@ TEST_F(DefaultCube, FunctionalTestCamrangeMeta) {
   camrange(options, &appLog);
 
   PvlGroup target = appLog.findGroup("Target");
-  EXPECT_PRED_FORMAT2( AssertQStringsEqual, target.findKeyword("FROM"), testCube->fileName() );
-  EXPECT_PRED_FORMAT2( AssertQStringsEqual, target.findKeyword("TargetName"), "MARS");
+  EXPECT_PRED_FORMAT2( AssertStringsEqual, target.findKeyword("FROM"), testCube->fileName().toStdString() );
+  EXPECT_PRED_FORMAT2( AssertStringsEqual, target.findKeyword("TargetName"), "MARS");
   EXPECT_EQ( (double) target.findKeyword("RadiusA"), 3396190.0 );
   EXPECT_EQ( (double) target.findKeyword("RadiusB"), 3396190.0 );
   EXPECT_EQ( (double) target.findKeyword("RadiusC"), 3376200.0 );
@@ -40,9 +40,9 @@ TEST_F(DefaultCube, FunctionalTestCamrangeUniversalGround) {
   camrange(options, &appLog);
 
   PvlGroup universalGroundRange = appLog.findGroup("UniversalGroundRange");
-  EXPECT_PRED_FORMAT2( AssertQStringsEqual, universalGroundRange.findKeyword("LatitudeType"), "Planetocentric" );
-  EXPECT_PRED_FORMAT2( AssertQStringsEqual, universalGroundRange.findKeyword("LongitudeDirection"), "PositiveEast" );
-  EXPECT_PRED_FORMAT2( AssertQStringsEqual, universalGroundRange.findKeyword("LongitudeDirection"), "PositiveEast" );
+  EXPECT_PRED_FORMAT2( AssertStringsEqual, universalGroundRange.findKeyword("LatitudeType"), "Planetocentric" );
+  EXPECT_PRED_FORMAT2( AssertStringsEqual, universalGroundRange.findKeyword("LongitudeDirection"), "PositiveEast" );
+  EXPECT_PRED_FORMAT2( AssertStringsEqual, universalGroundRange.findKeyword("LongitudeDirection"), "PositiveEast" );
   EXPECT_EQ( (int) universalGroundRange.findKeyword("LongitudeDomain"), 360 );
   EXPECT_EQ( (double) universalGroundRange.findKeyword("MinimumLatitude"), 9.928429270844 );
   EXPECT_EQ( (double) universalGroundRange.findKeyword("MaximumLatitude"), 10.434928979804 );
@@ -58,7 +58,7 @@ TEST_F(DefaultCube, FunctionalTestCamrangeLatitude) {
   camrange(options, &appLog);
 
   PvlGroup latitudeRange = appLog.findGroup("LatitudeRange");
-  EXPECT_PRED_FORMAT2( AssertQStringsEqual, latitudeRange.findKeyword("LatitudeType"), "Planetographic" );
+  EXPECT_PRED_FORMAT2( AssertStringsEqual, latitudeRange.findKeyword("LatitudeType"), "Planetographic" );
   EXPECT_EQ( (double) latitudeRange.findKeyword("MinimumLatitude"), 10.043959653331 );
   EXPECT_EQ( (double) latitudeRange.findKeyword("MaximumLatitude"), 10.55609248546 );
 }
@@ -71,19 +71,19 @@ TEST_F(DefaultCube, FunctionalTestCamrangeCardinals) {
   camrange(options, &appLog);
 
   PvlGroup positiveWest360 = appLog.findGroup("PositiveWest360");
-  EXPECT_PRED_FORMAT2( AssertQStringsEqual, positiveWest360.findKeyword("LongitudeDirection"), "PositiveWest" );
+  EXPECT_PRED_FORMAT2( AssertStringsEqual, positiveWest360.findKeyword("LongitudeDirection"), "PositiveWest" );
   EXPECT_EQ( (int) positiveWest360.findKeyword("LongitudeDomain"), 360 );
   EXPECT_EQ( (double) positiveWest360.findKeyword("MinimumLongitude"), 103.85369874119 );
   EXPECT_EQ( (double) positiveWest360.findKeyword("MaximumLongitude"), 104.35467340125 );
 
   PvlGroup  positiveEast180 = appLog.findGroup("PositiveEast180");
-  EXPECT_PRED_FORMAT2( AssertQStringsEqual, positiveEast180.findKeyword("LongitudeDirection"), "PositiveEast" );
+  EXPECT_PRED_FORMAT2( AssertStringsEqual, positiveEast180.findKeyword("LongitudeDirection"), "PositiveEast" );
   EXPECT_EQ( (int) positiveEast180.findKeyword("LongitudeDomain"), 180 );
   EXPECT_EQ( (double) positiveEast180.findKeyword("MinimumLongitude"), -104.35467340125 );
   EXPECT_EQ( (double) positiveEast180.findKeyword("MaximumLongitude"), -103.85369874119 );
 
   PvlGroup positiveWest180 = appLog.findGroup("PositiveWest180");
-  EXPECT_PRED_FORMAT2( AssertQStringsEqual, positiveWest180.findKeyword("LongitudeDirection"), "PositiveWest" );
+  EXPECT_PRED_FORMAT2( AssertStringsEqual, positiveWest180.findKeyword("LongitudeDirection"), "PositiveWest" );
   EXPECT_EQ( (int) positiveWest180.findKeyword("LongitudeDomain"), 180 );
   EXPECT_EQ( (double) positiveWest180.findKeyword("MinimumLongitude"), 103.85369874119 );
   EXPECT_EQ( (double) positiveWest180.findKeyword("MaximumLongitude"), 104.35467340125 );

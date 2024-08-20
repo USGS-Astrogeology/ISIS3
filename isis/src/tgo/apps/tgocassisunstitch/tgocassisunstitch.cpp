@@ -89,26 +89,26 @@ namespace Isis {
     PvlKeyword filterWidth = inputLabel->findKeyword("FilterWidths", PvlObject::Traverse);
 
     for (int i = 0; i < filterKey.size(); i++) {
-      g_frameletInfoList.append(FilterInfo(filterIkCodes[i].toInt(),
-                                filterKey[i],
-                                filterStartSamples[i].toDouble(),
-                                filterStartLines[i].toDouble(),
-                                filterSamples[i].toDouble(),
-                                filterLines[i].toDouble(),
-                                filterWavelength[i].toDouble(),
-                                filterWidth[i].toDouble()));
+      g_frameletInfoList.append(FilterInfo(std::stoi(filterIkCodes[i]),
+                                QString::fromStdString(filterKey[i]),
+                                std::stod(filterStartSamples[i]),
+                                std::stod(filterStartLines[i]),
+                                std::stod(filterSamples[i]),
+                                std::stod(filterLines[i]),
+                                std::stod(filterWavelength[i]),
+                                std::stod(filterWidth[i])));
     }
 
     // Collect the tables and history from the input stitched cube
     QList<Blob> inputBlobs;
     for(int i = 0; i < inputLabel->objects(); i++) {
       if(inputLabel->object(i).isNamed("Table")) {
-        Blob table((QString)inputLabel->object(i)["Name"], inputLabel->object(i).name());
+        Blob table(QString::fromStdString(inputLabel->object(i)["Name"]), inputLabel->object(i).name());
         cube->read(table);
         inputBlobs.append(table);
       }
       if(inputLabel->object(i).isNamed("History") && iApp != NULL) {
-        History inputHistory = cube->readHistory((QString)inputLabel->object(i)["Name"]);
+        History inputHistory = cube->readHistory(QString::fromStdString(inputLabel->object(i)["Name"]));
         inputHistory.AddEntry();
         inputBlobs.append(inputHistory.toBlob());
       }
@@ -168,8 +168,8 @@ namespace Isis {
 
         // The stitched frame has ArchiveRED, ArchiveNIR, ArchivePAN, and ArchiveBLU.
         // We won't add the archive group unless
-        if ( group.name().contains("Archive") &&
-             group.name() != "Archive" + g_frameletInfoList[i].m_filterName ) {
+        if ( QString::fromStdString(group.name()).contains("Archive") &&
+             group.name() != "Archive" + g_frameletInfoList[i].m_filterName.toStdString() ) {
                continue;
              }
 
@@ -179,18 +179,18 @@ namespace Isis {
       // Update the labels
       Pvl *frameletLabel = g_outputCubes[i]->label();
       frameletLabel->findGroup("Instrument", PvlObject::Traverse).addKeyword(PvlKeyword("Filter",
-                                            g_frameletInfoList[i].m_filterName), PvlObject::Replace);
+                                            g_frameletInfoList[i].m_filterName.toStdString()), PvlObject::Replace);
 
       // Sets the name from ArchiveRED (or NIR, BLU, PAN) to just "Archive" in the unstitched cube.
-      frameletLabel->findGroup("Archive" + g_frameletInfoList[i].m_filterName, PvlObject::Traverse).setName("Archive");
+      frameletLabel->findGroup("Archive" + g_frameletInfoList[i].m_filterName.toStdString(), PvlObject::Traverse).setName("Archive");
 
       PvlGroup &bandBin = frameletLabel->findGroup("BandBin", PvlObject::Traverse);
 
-      bandBin.addKeyword(PvlKeyword("FilterName", g_frameletInfoList[i].m_filterName),
+      bandBin.addKeyword(PvlKeyword("FilterName", g_frameletInfoList[i].m_filterName.toStdString()),
                                                   PvlObject::Replace);
-      bandBin.addKeyword(PvlKeyword("Center", toString(g_frameletInfoList[i].m_wavelength)));
-      bandBin.addKeyword(PvlKeyword("Width", toString(g_frameletInfoList[i].m_width)));
-      bandBin.addKeyword(PvlKeyword("NaifIkCode", toString(g_frameletInfoList[i].m_frameId)));
+      bandBin.addKeyword(PvlKeyword("Center", std::to_string(g_frameletInfoList[i].m_wavelength)));
+      bandBin.addKeyword(PvlKeyword("Width", std::to_string(g_frameletInfoList[i].m_width)));
+      bandBin.addKeyword(PvlKeyword("NaifIkCode", std::to_string(g_frameletInfoList[i].m_frameId)));
 
       // Add the alpha cube
       AlphaCube frameletArea(cube->sampleCount(), cube->lineCount(),

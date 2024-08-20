@@ -370,18 +370,18 @@ namespace Isis {
 
     // Remove trailing "Z" from PDS4 .xml (on re-ingestion) and create YearDoy keyword in Archive group
     PvlKeyword *startTime = &outputLabel->findGroup("Instrument", Pvl::Traverse)["StartTime"];
-    QString startTimeString = startTime[0];
+    QString startTimeString = QString::fromStdString(startTime[0]);
     if (startTimeString.endsWith("Z", Qt::CaseInsensitive)) {
       startTimeString.chop(1);
-      startTime->setValue(startTimeString);
+      startTime->setValue(startTimeString.toStdString());
     }
 
     if (outputLabel->hasGroup("StopTime")) {
       PvlKeyword *stopTime = &outputLabel->findGroup("Instrument", Pvl::Traverse)["StopTime"];
-      QString stopTimeString = stopTime[0];
+      QString stopTimeString = QString::fromStdString(stopTime[0]);
       if (stopTimeString.endsWith("Z", Qt::CaseInsensitive)){
         stopTimeString.chop(1);
-        stopTime->setValue(stopTimeString);
+        stopTime->setValue(stopTimeString.toStdString());
       }
     }
 
@@ -395,9 +395,9 @@ namespace Isis {
       sumMode = "0";
     }
     else {
-      sumMode = (QString)archive["Window" + (QString)archive["WindowCount"] + "Binning"];
+      sumMode = QString::fromStdString(archive["Window" + (std::string)archive["WindowCount"] + "Binning"]);
     }
-    PvlKeyword summingMode("SummingMode", sumMode);
+    PvlKeyword summingMode("SummingMode", sumMode.toStdString());
     outputLabel->findGroup("Instrument", Pvl::Traverse).addKeyword(summingMode);
 
     PvlKeyword yeardoy("YearDoy", std::to_string(stime.Year()*1000 + stime.DayOfYear()));
@@ -435,9 +435,9 @@ namespace Isis {
     // Setup the kernel group
     PvlGroup kern("Kernels");
     QString spacecraftNumber;
-    QString instId  = (QString) inst.findKeyword("InstrumentId");
-    QString spcName = (QString) inst.findKeyword("SpacecraftName");
-    QString filter  = (QString) bandBin.findKeyword("FilterName");
+    QString instId  = QString::fromStdString(inst.findKeyword("InstrumentId"));
+    QString spcName = QString::fromStdString(inst.findKeyword("SpacecraftName"));
+    QString filter  = QString::fromStdString(bandBin.findKeyword("FilterName"));
 
     if(spcName.compare("TRACE GAS ORBITER", Qt::CaseInsensitive) == 0
        && instId.compare("CaSSIS", Qt::CaseInsensitive) == 0) {
@@ -482,10 +482,10 @@ namespace Isis {
     if (archive.hasKeyword("Window_Count")) {
       int windowNumber = (int)archive["Window_Count"] + 1;
       QString windowString = "Window_" + toString(windowNumber);
-      int frameletStartSample = (int) archive[windowString + "_Start_Sample"] + 1;
-      int frameletEndSample   = (int) archive[windowString + "_End_Sample"] + 1;
-      int frameletStartLine   = (int) archive[windowString + "_Start_Line"] + 1;
-      int frameletEndLine     = (int) archive[windowString + "_End_Line"] + 1;
+      int frameletStartSample = (int) archive[windowString.toStdString() + "_Start_Sample"] + 1;
+      int frameletEndSample   = (int) archive[windowString.toStdString() + "_End_Sample"] + 1;
+      int frameletStartLine   = (int) archive[windowString.toStdString() + "_Start_Line"] + 1;
+      int frameletEndLine     = (int) archive[windowString.toStdString() + "_End_Line"] + 1;
       AlphaCube frameletArea(2048, 2048,
                              frameletEndSample - frameletStartSample + 1,
                              frameletEndLine - frameletStartLine + 1,
@@ -504,16 +504,16 @@ namespace Isis {
 
     QString target = "";
     if (outputLabel.findObject("IsisCube").hasGroup("Instrument")) {
-      target = outputLabel.findGroup("Instrument", Pvl::Traverse)
-                          .findKeyword("TargetName")[0];
+      target = QString::fromStdString(outputLabel.findGroup("Instrument", Pvl::Traverse)
+                          .findKeyword("TargetName")[0]);
     }
     else {
-      target = outputLabel.findGroup("Mapping", Pvl::Traverse)
-                          .findKeyword("TargetName")[0];
+      target = QString::fromStdString(outputLabel.findGroup("Mapping", Pvl::Traverse)
+                          .findKeyword("TargetName")[0]);
     }
 
     PvlGroup &archiveGroup = outputLabel.findGroup("Archive", Pvl::Traverse);
-    QString uniqueId = archiveGroup.findKeyword("UniqueIdentifier")[0];
+    QString uniqueId = QString::fromStdString(archiveGroup.findKeyword("UniqueIdentifier")[0]);
 
     QString observationId = "";
     BigInt uniqueIdDecimalValue = uniqueId.toLongLong();
@@ -541,7 +541,7 @@ namespace Isis {
     observationId += "_";
     observationId += toString(imageType);
 
-    archiveGroup += PvlKeyword("ObservationId", observationId);
+    archiveGroup += PvlKeyword("ObservationId", observationId.toStdString());
 
     return observationId;
 

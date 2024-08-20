@@ -42,22 +42,22 @@ TEST_F(TempTestingFiles, FunctionalTestThm2isisVis) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "MARS_ODYSSEY");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "THEMIS_VIS" );
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "MARS" );
-  EXPECT_EQ(inst["SpacecraftClockCount"][0].toStdString(), "698642092.025" );
-  EXPECT_EQ(inst["ExposureDuration"][0].toStdString(), "6.0" );
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2002-02-20T03:14:02.471000" );
-  EXPECT_EQ(inst["StopTime"][0].toStdString(), "2002-02-20T03:14:09.471000" );
-  EXPECT_EQ(inst["Framelets"][0].toStdString(), "Even" );
-  EXPECT_EQ(inst["InterframeDelay"][0].toStdString(), "1.0" );
+  EXPECT_EQ(inst["SpacecraftName"][0], "MARS_ODYSSEY");
+  EXPECT_EQ(inst["InstrumentId"][0], "THEMIS_VIS" );
+  EXPECT_EQ(inst["TargetName"][0], "MARS" );
+  EXPECT_EQ(inst["SpacecraftClockCount"][0], "698642092.025" );
+  EXPECT_EQ(inst["ExposureDuration"][0], "6.0" );
+  EXPECT_EQ(inst["StartTime"][0], "2002-02-20T03:14:02.471000" );
+  EXPECT_EQ(inst["StopTime"][0], "2002-02-20T03:14:09.471000" );
+  EXPECT_EQ(inst["Framelets"][0], "Even" );
+  EXPECT_EQ(inst["InterframeDelay"][0], "1.0" );
   EXPECT_EQ(int(inst["NumFramelets"]), 1);
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["DataSetId"][0].toStdString(), "ODY-M-THM-3-VISRDR-V1.0" );
-  EXPECT_EQ(archive["ProductId"][0].toStdString(), "V00821003RDR" );
-  EXPECT_EQ(archive["ProductCreationTime"][0].toStdString(), "2003-07-08T03:07:17" );
+  EXPECT_EQ(archive["DataSetId"][0], "ODY-M-THM-3-VISRDR-V1.0" );
+  EXPECT_EQ(archive["ProductId"][0], "V00821003RDR" );
+  EXPECT_EQ(archive["ProductCreationTime"][0], "2003-07-08T03:07:17" );
   EXPECT_EQ(double(archive["ProductVersionId"]), 1.3);
 
   // BandBin Group
@@ -95,22 +95,22 @@ TEST_F(TempTestingFiles, FunctionalTestThm2isisVis) {
 
   // Instrument Group
   inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "MARS_ODYSSEY");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "THEMIS_VIS" );
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "MARS" );
-  EXPECT_EQ(inst["SpacecraftClockCount"][0].toStdString(), "698642092.025" );
-  EXPECT_EQ(inst["ExposureDuration"][0].toStdString(), "6.0" );
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2002-02-20T03:14:02.471000" );
-  EXPECT_EQ(inst["StopTime"][0].toStdString(), "2002-02-20T03:14:09.471000" );
-  EXPECT_EQ(inst["Framelets"][0].toStdString(), "Odd" );
-  EXPECT_EQ(inst["InterframeDelay"][0].toStdString(), "1.0" );
+  EXPECT_EQ(inst["SpacecraftName"][0], "MARS_ODYSSEY");
+  EXPECT_EQ(inst["InstrumentId"][0], "THEMIS_VIS" );
+  EXPECT_EQ(inst["TargetName"][0], "MARS" );
+  EXPECT_EQ(inst["SpacecraftClockCount"][0], "698642092.025" );
+  EXPECT_EQ(inst["ExposureDuration"][0], "6.0" );
+  EXPECT_EQ(inst["StartTime"][0], "2002-02-20T03:14:02.471000" );
+  EXPECT_EQ(inst["StopTime"][0], "2002-02-20T03:14:09.471000" );
+  EXPECT_EQ(inst["Framelets"][0], "Odd" );
+  EXPECT_EQ(inst["InterframeDelay"][0], "1.0" );
   EXPECT_EQ(int(inst["NumFramelets"]), 1);
 
   // Archive Group
   archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["DataSetId"][0].toStdString(), "ODY-M-THM-3-VISRDR-V1.0" );
-  EXPECT_EQ(archive["ProductId"][0].toStdString(), "V00821003RDR" );
-  EXPECT_EQ(archive["ProductCreationTime"][0].toStdString(), "2003-07-08T03:07:17" );
+  EXPECT_EQ(archive["DataSetId"][0], "ODY-M-THM-3-VISRDR-V1.0" );
+  EXPECT_EQ(archive["ProductId"][0], "V00821003RDR" );
+  EXPECT_EQ(archive["ProductCreationTime"][0], "2003-07-08T03:07:17" );
   EXPECT_EQ(double(archive["ProductVersionId"]), 1.3);
 
   // BandBin Group
@@ -165,19 +165,19 @@ TEST_F(TempTestingFiles, FunctionalTestThm2isisIr) {
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
 
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "MARS_ODYSSEY");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "THEMIS_IR" );
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "MARS" );
-  EXPECT_EQ(inst["SpacecraftClockCount"][0].toStdString(), "698713127.000" );
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2002-02-20T22:57:57.253000" );
-  EXPECT_EQ(inst["StopTime"][0].toStdString(), "2002-02-20T23:00:56.983000" );
+  EXPECT_EQ(inst["SpacecraftName"][0], "MARS_ODYSSEY");
+  EXPECT_EQ(inst["InstrumentId"][0], "THEMIS_IR" );
+  EXPECT_EQ(inst["TargetName"][0], "MARS" );
+  EXPECT_EQ(inst["SpacecraftClockCount"][0], "698713127.000" );
+  EXPECT_EQ(inst["StartTime"][0], "2002-02-20T22:57:57.253000" );
+  EXPECT_EQ(inst["StopTime"][0], "2002-02-20T23:00:56.983000" );
   EXPECT_EQ((int)inst["GainNumber"], 16);
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["DataSetId"][0].toStdString(), "ODY-M-THM-3-IRRDR-V1.0" );
-  EXPECT_EQ(archive["ProductId"][0].toStdString(), "I00831002RDR" );
-  EXPECT_EQ(archive["ProductCreationTime"][0].toStdString(), "2003-03-12T12:59:33" );
+  EXPECT_EQ(archive["DataSetId"][0], "ODY-M-THM-3-IRRDR-V1.0" );
+  EXPECT_EQ(archive["ProductId"][0], "I00831002RDR" );
+  EXPECT_EQ(archive["ProductCreationTime"][0], "2003-03-12T12:59:33" );
   EXPECT_EQ(double(archive["ProductVersionId"]), 1.4);
 
   // BandBin Group
@@ -215,8 +215,8 @@ TEST_F(TempTestingFiles, FunctionalTestThm2isisOutAttributes) {
   Cube evenCube( tempDir.path() + "/test.even.cub");
 
   // Pixels Group
-  EXPECT_EQ(PixelTypeName(evenCube.pixelType()).toStdString(), "UnsignedByte");
-  EXPECT_EQ(ByteOrderName(evenCube.byteOrder()).toStdString(), "Msb");
+  EXPECT_EQ(PixelTypeName(evenCube.pixelType()), "UnsignedByte");
+  EXPECT_EQ(ByteOrderName(evenCube.byteOrder()), "Msb");
   EXPECT_DOUBLE_EQ(evenCube.base(), 0.001199604743083);
   EXPECT_DOUBLE_EQ(evenCube.multiplier(), 3.95256916996048e-07);
 

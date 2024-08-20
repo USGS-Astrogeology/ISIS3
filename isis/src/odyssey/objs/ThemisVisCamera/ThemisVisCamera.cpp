@@ -56,7 +56,7 @@ namespace Isis {
     // make sure it is a themis vis image
     if(inst["InstrumentId"][0] != "THEMIS_VIS") {
       QString msg = "Unable to create Themis VIS camera model from an image with InstrumentId ["
-                   +  inst["InstrumentId"][0] + "].";
+                   +  QString::fromStdString(inst["InstrumentId"][0]) + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -67,7 +67,7 @@ namespace Isis {
 
     // Get the start and end time
     double et;
-    QString stime = inst["SpacecraftClockCount"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockCount"]);
     et = getClockTime(stime).Et();
 
     double offset = inst["SpacecraftClockOffset"];
@@ -79,7 +79,7 @@ namespace Isis {
 
     PvlKeyword &filterNumbers = bandBin["FilterNumber"];
     for (int i = 0; i < filterNumbers.size(); i++) {
-      p_filterNumber.append(toInt(filterNumbers[i]));
+      p_filterNumber.append(std::stoi(filterNumbers[i]));
     }
 
 

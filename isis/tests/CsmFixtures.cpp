@@ -88,8 +88,8 @@ namespace Isis {
     // CSMState BLOB
     Blob csmStateBlob("CSMState", "String");
     csmStateBlob.setData(mockModelName.c_str(), mockModelName.size());
-    csmStateBlob.Label() += PvlKeyword("ModelName", QString::fromStdString(mockModelName));
-    csmStateBlob.Label() += PvlKeyword("PluginName", QString::fromStdString(loadablePlugin.getPluginName()));
+    csmStateBlob.Label() += PvlKeyword("ModelName", mockModelName);
+    csmStateBlob.Label() += PvlKeyword("PluginName", loadablePlugin.getPluginName());
     testCube->write(csmStateBlob);
     filename = testCube->fileName();
     testCube->close();

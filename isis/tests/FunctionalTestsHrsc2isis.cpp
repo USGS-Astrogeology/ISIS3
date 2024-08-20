@@ -45,14 +45,14 @@ TEST(Hrsc2isis, Hrsc2IsisTestDefault) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  ASSERT_EQ(inst["SpacecraftName"][0].toStdString(), "MARS EXPRESS");
-  ASSERT_EQ(inst["InstrumentId"][0].toStdString(), "HRSC" );
-  ASSERT_EQ(inst["StartTime"][0].toStdString(), "2004-04-07T07:08:31.61500" );
-  ASSERT_EQ(inst["StopTime"][0].toStdString(), "2004-04-07T07:10:08.32300" );
-  ASSERT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "1/0029401660.57967" );
-  ASSERT_EQ(inst["SpacecraftClockStopCount"][0].toStdString(), "1/0029401808.32263" );
-  ASSERT_EQ(inst["MissionPhaseName"][0].toStdString(), "MC_Phase_5" );
-  ASSERT_EQ(inst["TargetName"][0].toStdString(), "Mars" );
+  ASSERT_EQ(inst["SpacecraftName"][0], "MARS EXPRESS");
+  ASSERT_EQ(inst["InstrumentId"][0], "HRSC" );
+  ASSERT_EQ(inst["StartTime"][0], "2004-04-07T07:08:31.61500" );
+  ASSERT_EQ(inst["StopTime"][0], "2004-04-07T07:10:08.32300" );
+  ASSERT_EQ(inst["SpacecraftClockStartCount"][0], "1/0029401660.57967" );
+  ASSERT_EQ(inst["SpacecraftClockStopCount"][0], "1/0029401808.32263" );
+  ASSERT_EQ(inst["MissionPhaseName"][0], "MC_Phase_5" );
+  ASSERT_EQ(inst["TargetName"][0], "Mars" );
   ASSERT_EQ(int(inst["Summing"]), 4);
   ASSERT_DOUBLE_EQ(inst["FocalPlaneTemperature"], 8.1755);
   ASSERT_DOUBLE_EQ(inst["LensTemperature"], 8.3794);
@@ -60,11 +60,11 @@ TEST(Hrsc2isis, Hrsc2IsisTestDefault) {
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  ASSERT_EQ(archive["DataSetId"][0].toStdString(), "MEX-M-HRSC-3-RDR-V2.0" );
-  ASSERT_EQ(archive["DetectorId"][0].toStdString(), "MEX_HRSC_RED" );
-  ASSERT_EQ(archive["EventType"][0].toStdString(), "MARS-REGIONAL-STEREO-Vo-Te-Im" );
+  ASSERT_EQ(archive["DataSetId"][0], "MEX-M-HRSC-3-RDR-V2.0" );
+  ASSERT_EQ(archive["DetectorId"][0], "MEX_HRSC_RED" );
+  ASSERT_EQ(archive["EventType"][0], "MARS-REGIONAL-STEREO-Vo-Te-Im" );
   ASSERT_EQ(int(archive["OrbitNumber"]), 279);
-  ASSERT_EQ(archive["ProductId"][0].toStdString(), "H0279_0000_RE2.IMG" );
+  ASSERT_EQ(archive["ProductId"][0], "H0279_0000_RE2.IMG" );
 
   // BandBin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
@@ -84,7 +84,7 @@ TEST(Hrsc2isis, Hrsc2IsisTestDefault) {
 
   // check original label exists
   Pvl ogLab = cube.readOriginalLabel().ReturnLabels();
-  ASSERT_EQ(archive["DETECTOR_ID"][0].toStdString(), "MEX_HRSC_RED" );
+  ASSERT_EQ(archive["DETECTOR_ID"][0], "MEX_HRSC_RED" );
 
 }
 
@@ -112,17 +112,17 @@ TEST(Hrsc2isis, Hrsc2IsisTestPhobos) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  ASSERT_EQ(inst["MissionPhaseName"][0].toStdString(), "ME_Phase_20" );
-  ASSERT_EQ(inst["TargetName"][0].toStdString(), "Phobos" );
+  ASSERT_EQ(inst["MissionPhaseName"][0], "ME_Phase_20" );
+  ASSERT_EQ(inst["TargetName"][0], "Phobos" );
   ASSERT_EQ(int(inst["Summing"]), 1);
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  ASSERT_EQ(archive["DataSetId"][0].toStdString(), "MEX-M-HRSC-3-RDR-V2.0" );
-  ASSERT_EQ(archive["DetectorId"][0].toStdString(), "MEX_HRSC_S2" );
-  ASSERT_EQ(archive["EventType"][0].toStdString(), "PHOBOS-LIMB-CARTOGRAPHY-Im" );
+  ASSERT_EQ(archive["DataSetId"][0], "MEX-M-HRSC-3-RDR-V2.0" );
+  ASSERT_EQ(archive["DetectorId"][0], "MEX_HRSC_S2" );
+  ASSERT_EQ(archive["EventType"][0], "PHOBOS-LIMB-CARTOGRAPHY-Im" );
   ASSERT_EQ(int(archive["OrbitNumber"]), 7926);
-  ASSERT_EQ(archive["ProductId"][0].toStdString(), "H7926_0009_S22.IMG" );
+  ASSERT_EQ(archive["ProductId"][0], "H7926_0009_S22.IMG" );
 
   // BandBin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
@@ -142,7 +142,7 @@ TEST(Hrsc2isis, Hrsc2IsisTestPhobos) {
 
   // check original label exists
   Pvl ogLab = cube.readOriginalLabel().ReturnLabels();
-  ASSERT_EQ(archive["DETECTOR_ID"][0].toStdString(), "MEX_HRSC_S2" );
+  ASSERT_EQ(archive["DETECTOR_ID"][0], "MEX_HRSC_S2" );
 }
 
 
@@ -192,18 +192,18 @@ TEST(Hrsc2isis, Hrsc2IsisTestSrcImage) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  ASSERT_EQ(inst["InstrumentId"][0].toStdString(), "SRC" );
-  ASSERT_EQ(inst["MissionPhaseName"][0].toStdString(), "ME_Phase_2" );
-  ASSERT_EQ(inst["TargetName"][0].toStdString(), "Deimos" );
+  ASSERT_EQ(inst["InstrumentId"][0], "SRC" );
+  ASSERT_EQ(inst["MissionPhaseName"][0], "ME_Phase_2" );
+  ASSERT_EQ(inst["TargetName"][0], "Deimos" );
   ASSERT_DOUBLE_EQ(inst["ExposureDuration"], 27.216);
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  ASSERT_EQ(archive["DataSetId"][0].toStdString(), "MEX-M-HRSC-3-RDR-V2.0" );
-  ASSERT_EQ(archive["DetectorId"][0].toStdString(), "MEX_HRSC_SRC" );
-  ASSERT_EQ(archive["EventType"][0].toStdString(), "DEIMOS-LIMB-CARTOGRAPHY-Im" );
+  ASSERT_EQ(archive["DataSetId"][0], "MEX-M-HRSC-3-RDR-V2.0" );
+  ASSERT_EQ(archive["DetectorId"][0], "MEX_HRSC_SRC" );
+  ASSERT_EQ(archive["EventType"][0], "DEIMOS-LIMB-CARTOGRAPHY-Im" );
   ASSERT_EQ(int(archive["OrbitNumber"]), 2862);
-  ASSERT_EQ(archive["ProductId"][0].toStdString(), "H2862_0006_SR2.IMG" );
+  ASSERT_EQ(archive["ProductId"][0], "H2862_0006_SR2.IMG" );
 
   // BandBin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);

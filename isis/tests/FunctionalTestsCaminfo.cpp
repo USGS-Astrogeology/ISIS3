@@ -45,7 +45,7 @@ TEST_F(DefaultCube, FunctionalTestCaminfoCsv) {
         FAIL() << "Failed to run caminfo with PVL output: " << e.what() << std::endl;
     }
 
-    Pvl caminfoPvl(outPvlFileName);
+    Pvl caminfoPvl(outPvlFileName.toStdString());
 
     ASSERT_TRUE(caminfoPvl.hasObject("Caminfo"));
     PvlObject camobj = caminfoPvl.findObject("Caminfo");
@@ -67,27 +67,27 @@ TEST_F(DefaultCube, FunctionalTestCaminfoCsv) {
 
     for (int i = 0; i < parameters.keywords(); i++) {
         PvlKeyword currentKey = parameters[i];
-        CSVReader::CSVAxis currentColumn = caminfoCsv.getColumn(currentKey.name());
+        CSVReader::CSVAxis currentColumn = caminfoCsv.getColumn(QString::fromStdString(currentKey.name()));
 
         // Skip RunDate as it's not in the CSV
         if (currentKey.name() != "RunDate") {
             EXPECT_TRUE(currentColumn.dim1() > 0) << "Failed to find column [" <<
-                    currentKey.name().toStdString() << "] in CSV";
+                    currentKey.name() << "] in CSV";
             QString stringCsvValue = currentColumn[0];
             bool isCsvNumeric = false;
             double numericCsvValue = stringCsvValue.toDouble(&isCsvNumeric);
-            QString stringPvlValue = QString(currentKey);
+            QString stringPvlValue = QString::fromStdString(currentKey);
             bool isPvlNumeric = false;
             double numericPvlValue = stringPvlValue.toDouble(&isPvlNumeric);
             if (isCsvNumeric && isPvlNumeric) {
                 EXPECT_NEAR(numericCsvValue, numericPvlValue, 0.001) <<
-                        "Column [" << currentKey.name().toStdString() << "] value [" <<
+                        "Column [" << currentKey.name() << "] value [" <<
                         stringCsvValue.toStdString() << "] does not match Pvl value [" <<
                         stringPvlValue.toStdString() << "] within tolerance [0.001].";
             }
             else {
                 EXPECT_EQ(stringCsvValue.toStdString(), stringPvlValue.toStdString()) <<
-                        "Column [" << currentKey.name().toStdString() << "] value [" <<
+                        "Column [" << currentKey.name() << "] value [" <<
                         stringCsvValue.toStdString() << "] does not match Pvl value [" <<
                         stringPvlValue.toStdString() << "].";
             }
@@ -96,14 +96,14 @@ TEST_F(DefaultCube, FunctionalTestCaminfoCsv) {
 
     for (int i = 0; i < camstats.keywords(); i++) {
         PvlKeyword currentKey = camstats[i];
-        QString columnName = "CamStats_" + currentKey.name();
+        QString columnName = "CamStats_" + QString::fromStdString(currentKey.name());
         CSVReader::CSVAxis currentColumn = caminfoCsv.getColumn(columnName);
         EXPECT_TRUE(currentColumn.dim1() > 0) << "Failed to find column [" <<
                                                  columnName.toStdString() << "] in CSV";
         QString stringCsvValue = currentColumn[0];
         bool isCsvNumeric = false;
         double numericCsvValue = stringCsvValue.toDouble(&isCsvNumeric);
-        QString stringPvlValue = QString(currentKey);
+        QString stringPvlValue = QString::fromStdString(currentKey);
         bool isPvlNumeric = false;
         double numericPvlValue = stringPvlValue.toDouble(&isPvlNumeric);
         if (isCsvNumeric && isPvlNumeric) {
@@ -122,14 +122,14 @@ TEST_F(DefaultCube, FunctionalTestCaminfoCsv) {
 
     for (int i = 0; i < statistics.keywords(); i++) {
         PvlKeyword currentKey = statistics[i];
-        QString columnName = "Stats_" + currentKey.name();
+        QString columnName = "Stats_" + QString::fromStdString(currentKey.name());
         CSVReader::CSVAxis currentColumn = caminfoCsv.getColumn(columnName);
         EXPECT_TRUE(currentColumn.dim1() > 0) << "Failed to find column [" <<
                                                  columnName.toStdString() << "] in CSV";
         QString stringCsvValue = currentColumn[0];
         bool isCsvNumeric = false;
         double numericCsvValue = stringCsvValue.toDouble(&isCsvNumeric);
-        QString stringPvlValue = QString(currentKey);
+        QString stringPvlValue = QString::fromStdString(currentKey);
         bool isPvlNumeric = false;
         double numericPvlValue = stringPvlValue.toDouble(&isPvlNumeric);
         if (isCsvNumeric && isPvlNumeric) {
@@ -148,14 +148,14 @@ TEST_F(DefaultCube, FunctionalTestCaminfoCsv) {
 
     for (int i = 0; i < geometry.keywords(); i++) {
         PvlKeyword currentKey = geometry[i];
-        QString columnName = "Geom_" + currentKey.name();
+        QString columnName = "Geom_" + QString::fromStdString(currentKey.name());
         CSVReader::CSVAxis currentColumn = caminfoCsv.getColumn(columnName);
         EXPECT_TRUE(currentColumn.dim1() > 0) << "Failed to find column [" <<
                                                  columnName.toStdString() << "] in CSV";
         QString stringCsvValue = currentColumn[0];
         bool isCsvNumeric = false;
         double numericCsvValue = stringCsvValue.toDouble(&isCsvNumeric);
-        QString stringPvlValue = QString(currentKey);
+        QString stringPvlValue = QString::fromStdString(currentKey);
         bool isPvlNumeric = false;
         double numericPvlValue = stringPvlValue.toDouble(&isPvlNumeric);
         if (isCsvNumeric && isPvlNumeric) {
@@ -197,10 +197,10 @@ TEST_F(DefaultCube, FunctionalTestCaminfoDefault) {
       PvlGroup &group = statsPvl.group(i);
 
       int entry = 0;
-      record[entry] = group.name().toStdString();
+      record[entry] = group.name();
       entry++;
       for (int j = 0; j < group.keywords(); j++) {
-        record[entry] = toDouble(group[j][0]);
+        record[entry] = std::stod(group[j][0]);
         entry++;
       }
       table += record;
@@ -220,7 +220,7 @@ TEST_F(DefaultCube, FunctionalTestCaminfoDefault) {
         FAIL() << "Unable to open image: " << e.what() << std::endl;
     }
 
-    Pvl pvlobject = Pvl(outFileName);
+    Pvl pvlobject = Pvl(outFileName.toStdString());
 
     ASSERT_TRUE(pvlobject.hasObject("Caminfo"));
     PvlObject camobj = pvlobject.findObject("Caminfo");
@@ -311,9 +311,9 @@ TEST_F(DefaultCube, FunctionalTestCaminfoDefault) {
     EXPECT_DOUBLE_EQ(geometry.findKeyword("BandsUsed"), 1);
     EXPECT_DOUBLE_EQ(geometry.findKeyword("ReferenceBand"), 1);
     EXPECT_DOUBLE_EQ(geometry.findKeyword("OriginalBand"), 1);
-    EXPECT_EQ(geometry.findKeyword("Target")[0].toStdString(), "MARS");
-    EXPECT_EQ(geometry.findKeyword("StartTime")[0].toStdString(), "1977-07-09T20:05:51.5549999");
-    EXPECT_EQ(geometry.findKeyword("EndTime")[0].toStdString(), "1977-07-09T20:05:51.5549999");
+    EXPECT_EQ(geometry.findKeyword("Target")[0], "MARS");
+    EXPECT_EQ(geometry.findKeyword("StartTime")[0], "1977-07-09T20:05:51.5549999");
+    EXPECT_EQ(geometry.findKeyword("EndTime")[0], "1977-07-09T20:05:51.5549999");
     EXPECT_DOUBLE_EQ(geometry.findKeyword("CenterLine"), 528.0);
     EXPECT_DOUBLE_EQ(geometry.findKeyword("CenterSample"), 602.0);
     EXPECT_NEAR(geometry.findKeyword("CenterLatitude"), 10.181441241544, 0.0001);
@@ -354,9 +354,9 @@ TEST_F(DefaultCube, FunctionalTestCaminfoDefault) {
     EXPECT_NEAR(geometry.findKeyword("ParallaxY"), -0.21479478952768, 0.0001);
     EXPECT_NEAR(geometry.findKeyword("ShadowX"), 1.3359751259293, 0.0001);
     EXPECT_NEAR(geometry.findKeyword("ShadowY"), 2.4227562244446, 0.0001);
-    EXPECT_EQ(geometry.findKeyword("HasLongitudeBoundary")[0].toStdString(), "FALSE");
-    EXPECT_EQ(geometry.findKeyword("HasNorthPole")[0].toStdString(), "FALSE");
-    EXPECT_EQ(geometry.findKeyword("HasSouthPole")[0].toStdString(), "FALSE");
+    EXPECT_EQ(geometry.findKeyword("HasLongitudeBoundary")[0], "FALSE");
+    EXPECT_EQ(geometry.findKeyword("HasNorthPole")[0], "FALSE");
+    EXPECT_EQ(geometry.findKeyword("HasSouthPole")[0], "FALSE");
     EXPECT_NEAR(geometry.findKeyword("ObliqueSampleResolution"), 19.589652452595999, 0.0001);
     EXPECT_NEAR(geometry.findKeyword("ObliqueLineResolution"), 19.589652452595999, 0.0001);
     EXPECT_NEAR(geometry.findKeyword("ObliquePixelResolution"), 19.589652452595999, 0.0001);
@@ -378,7 +378,7 @@ TEST_F(DefaultCube, FunctionalTestCaminfoPoly) {
         FAIL() << "Unable to open image: " << e.what() << std::endl;
     }
 
-    Pvl pvlobject = Pvl(outFileName);
+    Pvl pvlobject = Pvl(outFileName.toStdString());
     PvlObject camobj = pvlobject.findObject("Caminfo");
     PvlObject poly = camobj.findObject("Polygon");
 
@@ -409,7 +409,7 @@ TEST_F(DefaultCube, FunctionalTestCaminfoBoundary) {
         FAIL() << "Unable to open image: " << e.what() << std::endl;
     }
 
-    Pvl pvlobject = Pvl(outFileName);
+    Pvl pvlobject = Pvl(outFileName.toStdString());
     PvlObject camobj = pvlobject.findObject("Caminfo");
     PvlObject poly = camobj.findObject("Polygon");
 
@@ -466,10 +466,10 @@ TEST_F(DefaultCube, FunctionalTestCaminfoCamStatsTable) {
       PvlGroup &group = statsPvl.group(i);
 
       int entry = 0;
-      record[entry] = group.name().toStdString();
+      record[entry] = group.name();
       entry++;
       for (int j = 0; j < group.keywords(); j++) {
-        record[entry] = toDouble(group[j][0]);
+        record[entry] = std::stod(group[j][0]);
         entry++;
       }
       table += record;
@@ -489,7 +489,7 @@ TEST_F(DefaultCube, FunctionalTestCaminfoCamStatsTable) {
         FAIL() << "Unable to open image: " << e.what() << std::endl;
     }
 
-    Pvl pvlobject = Pvl(outFileName);
+    Pvl pvlobject = Pvl(outFileName.toStdString());
 
     ASSERT_TRUE(pvlobject.hasObject("Caminfo"));
     PvlObject camobj = pvlobject.findObject("Caminfo");

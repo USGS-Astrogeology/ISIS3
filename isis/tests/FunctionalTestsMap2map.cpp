@@ -36,15 +36,15 @@ TEST_F(ThreeImageNetwork, FunctionalTestMap2mapDefault) {
 
   PvlGroup &mapping = ocube.label()->findObject("IsisCube").findGroup("Mapping");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("ProjectionName"), "Equirectangular");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("ProjectionName"), "Equirectangular");
   EXPECT_NEAR((double)mapping.findKeyword("CenterLongitude"), 0.25400668736684, 0.0001);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("TargetName"), "Mars");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("TargetName"), "Mars");
   EXPECT_NEAR((double)mapping.findKeyword("EquatorialRadius"), 3396190.0, 0.0001);
   EXPECT_NEAR((double)mapping.findKeyword("PolarRadius"), 3376200.0, 0.0001);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("LatitudeType"), "Planetocentric");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("LongitudeDirection"), "PositiveEast");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("LatitudeType"), "Planetocentric");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("LongitudeDirection"), "PositiveEast");
   EXPECT_EQ((int)mapping.findKeyword("LongitudeDomain"), 180);
 
   EXPECT_NEAR((double)mapping.findKeyword("MinimumLatitude"), 0.47920860194551, 0.0001);
@@ -87,15 +87,15 @@ TEST_F(ThreeImageNetwork, FunctionalTestMap2mapKeywords) {
 
   PvlGroup &mapping = ocube.label()->findObject("IsisCube").findGroup("Mapping");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("ProjectionName"), "Equirectangular");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("ProjectionName"), "Equirectangular");
   EXPECT_NEAR((double)mapping.findKeyword("CenterLongitude"), 0.25400668736684, 0.0001);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("TargetName"), "Mars");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("TargetName"), "Mars");
   EXPECT_NEAR((double)mapping.findKeyword("EquatorialRadius"), 3396190.0, 0.0001);
   EXPECT_NEAR((double)mapping.findKeyword("PolarRadius"), 3376200.0, 0.0001);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("LatitudeType"), "Planetocentric");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("LongitudeDirection"), "PositiveEast");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("LatitudeType"), "Planetocentric");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("LongitudeDirection"), "PositiveEast");
   EXPECT_EQ((int)mapping.findKeyword("LongitudeDomain"), 180);
 
   EXPECT_NEAR((double)mapping.findKeyword("MinimumLatitude"), 0.47920860194551, 0.0001);
@@ -139,15 +139,15 @@ TEST_F(ThreeImageNetwork, FunctionalTestMap2mapKeywords) {
 
   PvlGroup &mapNoScale = ocubeNoScale.label()->findObject("IsisCube").findGroup("Mapping");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapNoScale.findKeyword("ProjectionName"), "Equirectangular");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapNoScale.findKeyword("ProjectionName"), "Equirectangular");
   EXPECT_NEAR((double)mapNoScale.findKeyword("CenterLongitude"), 0.25400668736684, 0.0001);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("TargetName"), "Mars");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("TargetName"), "Mars");
   EXPECT_NEAR((double)mapNoScale.findKeyword("EquatorialRadius"), 3396190.0, 0.0001);
   EXPECT_NEAR((double)mapNoScale.findKeyword("PolarRadius"), 3376200.0, 0.0001);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapNoScale.findKeyword("LatitudeType"), "Planetocentric");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapNoScale.findKeyword("LongitudeDirection"), "PositiveEast");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapNoScale.findKeyword("LatitudeType"), "Planetocentric");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapNoScale.findKeyword("LongitudeDirection"), "PositiveEast");
   EXPECT_EQ((int)mapNoScale.findKeyword("LongitudeDomain"), 180);
 
   EXPECT_NEAR((double)mapNoScale.findKeyword("MinimumLatitude"), 0.47920860194551, 0.0001);
@@ -190,15 +190,15 @@ TEST_F(ThreeImageNetwork, FunctionalTestMap2mapUnits) {
 
   PvlGroup &mapping = ocube.label()->findObject("IsisCube").findGroup("Mapping");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("ProjectionName"), "Equirectangular");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("ProjectionName"), "Equirectangular");
   EXPECT_NEAR((double)mapping.findKeyword("CenterLongitude"),  -0.25400668736682003, 0.0001);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("TargetName"), "Mars");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("TargetName"), "Mars");
   EXPECT_NEAR((double)mapping.findKeyword("EquatorialRadius"), 3396190.0, 0.0001);
   EXPECT_NEAR((double)mapping.findKeyword("PolarRadius"), 3376200.0, 0.0001);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("LatitudeType"), "Planetocentric");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("LongitudeDirection"), "PositiveWest");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("LatitudeType"), "Planetocentric");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("LongitudeDirection"), "PositiveWest");
   EXPECT_EQ((int)mapping.findKeyword("LongitudeDomain"), 180);
 
   EXPECT_NEAR((double)mapping.findKeyword("MinimumLatitude"), 0.47920860194551, 0.0001);
@@ -241,15 +241,15 @@ TEST(Map2mapTest, FunctionalTestMap2mapProjection) {
 
   PvlGroup &mapping = ocube.label()->findObject("IsisCube").findGroup("Mapping");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("ProjectionName"), "Orthographic");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("ProjectionName"), "Orthographic");
   EXPECT_DOUBLE_EQ((double)mapping.findKeyword("CenterLongitude"), 0.0);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("TargetName"), "Moon");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("TargetName"), "Moon");
   EXPECT_NEAR((double)mapping.findKeyword("EquatorialRadius"), 1737400.0, 0.0001);
   EXPECT_NEAR((double)mapping.findKeyword("PolarRadius"), 1737400.0, 0.0001);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("LatitudeType"), "Planetocentric");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("LongitudeDirection"), "PositiveEast");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("LatitudeType"), "Planetocentric");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("LongitudeDirection"), "PositiveEast");
   EXPECT_EQ((int)mapping.findKeyword("LongitudeDomain"), 360);
 
   EXPECT_EQ((int)mapping.findKeyword("MinimumLatitude"), -90);

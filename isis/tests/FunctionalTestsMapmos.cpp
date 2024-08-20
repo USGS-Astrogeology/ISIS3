@@ -229,7 +229,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosTracking) {
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup bandbin = mosaicLabel.findGroup("BandBin");
   PvlGroup tracking = mosaicLabel.findGroup("Tracking");
-  QString trackPath = prefix.path() + "/" + tracking["FileName"][0];
+  QString trackPath = prefix.path() + "/" + QString::fromStdString(tracking["FileName"][0]);
 
   try {
     Cube trackCube(trackPath);
@@ -375,7 +375,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosAppLog) {
   }
 
   PvlGroup location = appLog.findGroup("ImageLocation");
-  EXPECT_EQ(location["File"][0], fromPath);
+  EXPECT_EQ(location["File"][0], fromPath.toStdString());
   EXPECT_EQ(int(location["StartSample"]), 6);
   EXPECT_EQ(int(location["StartLine"]), 194);
 }

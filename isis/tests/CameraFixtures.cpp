@@ -219,9 +219,9 @@ namespace Isis {
     label.addObject(isisCube);
 
     PvlGroup &dim = label.findObject("IsisCube").findObject("Core").findGroup("Dimensions");
-    dim.findKeyword("Samples").setValue(QString::number(samples));
-    dim.findKeyword("Lines").setValue(QString::number(lines));
-    dim.findKeyword("Bands").setValue(QString::number(bands));
+    dim.findKeyword("Samples").setValue(std::to_string(samples));
+    dim.findKeyword("Lines").setValue(std::to_string(lines));
+    dim.findKeyword("Bands").setValue(std::to_string(bands));
 
     delete testCube;
     testCube = new Cube();
@@ -245,9 +245,9 @@ namespace Isis {
     projLabel.addObject(isisProjCube);
 
     PvlGroup &projDim = projLabel.findObject("IsisCube").findObject("Core").findGroup("Dimensions");
-    projDim.findKeyword("Samples").setValue(QString::number(samples));
-    projDim.findKeyword("Lines").setValue(QString::number(lines));
-    projDim.findKeyword("Bands").setValue(QString::number(bands));
+    projDim.findKeyword("Samples").setValue(std::to_string(samples));
+    projDim.findKeyword("Lines").setValue(std::to_string(lines));
+    projDim.findKeyword("Bands").setValue(std::to_string(bands));
 
     delete projTestCube;
     projTestCube = new Cube();
@@ -670,7 +670,7 @@ namespace Isis {
     label.addObject(isisCube);
 
     PvlGroup &kernels = label.findObject("IsisCube").findGroup("Kernels");
-    kernels.findKeyword("NaifFrameCode").setValue(ikid);
+    kernels.findKeyword("NaifFrameCode").setValue(ikid.toStdString());
     kernels["ShapeModel"] = "Null";
 
     PvlGroup &dim = label.findObject("IsisCube").findObject("Core").findGroup("Dimensions");
@@ -698,8 +698,8 @@ namespace Isis {
     PvlGroup newInstGroup;
     iss >> newInstGroup;
 
-    newInstGroup.findKeyword("InstrumentId").setValue(instrumentId);
-    newInstGroup.findKeyword("SpacecraftName").setValue(spacecraftName);
+    newInstGroup.findKeyword("InstrumentId").setValue(instrumentId.toStdString());
+    newInstGroup.findKeyword("SpacecraftName").setValue(spacecraftName.toStdString());
 
     inst = newInstGroup;
 
@@ -761,7 +761,7 @@ namespace Isis {
     testCube->fromIsd(newCube, label, isd, "rw");
 
     PvlGroup &kernels = testCube->label()->findObject("IsisCube").findGroup("Kernels");
-    kernels.findKeyword("NaifFrameCode").setValue(ikid);
+    kernels.findKeyword("NaifFrameCode").setValue(ikid.toStdString());
     kernels["ShapeModel"] = "Null";
 
     PvlGroup &inst = testCube->label()->findObject("IsisCube").findGroup("Instrument");
@@ -781,7 +781,7 @@ namespace Isis {
     PvlGroup newInstGroup;
     iss >> newInstGroup;
 
-    newInstGroup.findKeyword("InstrumentId").setValue(instrumentId);
+    newInstGroup.findKeyword("InstrumentId").setValue(instrumentId.toStdString());
 
     inst = newInstGroup;
 

@@ -68,7 +68,7 @@ namespace Isis {
       binning   = (int) flabel.findKeyword("TCSSMPL", Pvl::Traverse);
       rawcamT  = (int) flabel.findKeyword("TCCHTEMP", Pvl::Traverse);
       tcmode  = (int) flabel.findKeyword("TCMODE", Pvl::Traverse);
-      instId  = ((QString) flabel.findKeyword("INSTRUME", Pvl::Traverse)).simplified();
+      instId  = QString::fromStdString((flabel.findKeyword("INSTRUME", Pvl::Traverse))).simplified();
     }
     catch (IException &ie) {
       QString msg = QObject::tr("Unable to retrieve expected TAGCAMS keywords."
@@ -104,7 +104,7 @@ namespace Isis {
 
     // Compute the boundary pixels if present and requested.
     if ( removeCal && hasDark ) {
-      QString bitpix = flabel.findKeyword("BITPIX", Pvl::Traverse);
+      QString bitpix = QString::fromStdString(flabel.findKeyword("BITPIX", Pvl::Traverse));
       int bytesPerPix = abs(toInt(bitpix)) / 8;
       importFits.SetDataHeaderBytes(bytesPerPix * ((54 * rawSamples) / pixScale));
       importFits.SetDataPrefixBytes(bytesPerPix * (144 / pixScale));
@@ -153,11 +153,11 @@ namespace Isis {
     // Add product id which is just the filename base
     FileName from(ui.GetFileName("FROM"));
     QString prodid = from.baseName();
-    archiveGrp.addKeyword(PvlKeyword("SourceProductId", prodid), archiveGrp.begin());
+    archiveGrp.addKeyword(PvlKeyword("SourceProductId", prodid.toStdString()), archiveGrp.begin());
 
     // Create YearDoy keyword in Archive group
-    iTime stime(instGrp["StartTime"][0]);
-    PvlKeyword yeardoy("YearDoy", toString(stime.Year()*1000 + stime.DayOfYear()));
+    iTime stime(QString::fromStdString(instGrp["StartTime"][0]));
+    PvlKeyword yeardoy("YearDoy", std::to_string(stime.Year()*1000 + stime.DayOfYear()));
     archiveGrp.addKeyword(yeardoy);
 
     output->putGroup(archiveGrp);
@@ -166,10 +166,10 @@ namespace Isis {
     //  something so the camera will always work
     if (instGrp.findKeyword("TargetName").isNull() || (!target.isEmpty())) {
       if (!target.isEmpty()) {
-        instGrp["TargetName"] = QString(target);
+        instGrp["TargetName"] = target.toStdString();
       }
       else {
-        instGrp["TargetName"] = QString("Sky");
+        instGrp["TargetName"] = "Sky";
       }
     }
 
@@ -181,7 +181,7 @@ namespace Isis {
     if ( "NFT" == instId ) b = -273.43;
 
     double camHeadTempC = a * ((double)rawcamT) + b;
-    instGrp.addKeyword(PvlKeyword("CameraHeadTemperature", toString(camHeadTempC), "celsius"));
+    instGrp.addKeyword(PvlKeyword("CameraHeadTemperature", std::to_string(camHeadTempC), "celsius"));
     output->putGroup(instGrp);
 
     // Create a Band Bin group

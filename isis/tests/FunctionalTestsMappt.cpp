@@ -24,8 +24,8 @@ TEST_F(DefaultCube, FunctionalTestMapptImageTest) {
   mappt(projTestCube, options, &appLog);
   PvlGroup mapPoint = appLog.findGroup("Results");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
   EXPECT_EQ( (double) mapPoint.findKeyword("Band"), 1);
   EXPECT_DOUBLE_EQ( (double) mapPoint.findKeyword("PlanetographicLatitude"), 9.3870849567571);
   EXPECT_DOUBLE_EQ( (double) mapPoint.findKeyword("PlanetocentricLatitude"), 9.2788326719634);
@@ -45,8 +45,8 @@ TEST_F(DefaultCube, FunctionalTestMapptGroundTest) {
 
   PvlGroup mapPoint = appLog.findGroup("Results");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
   EXPECT_EQ( (double) mapPoint.findKeyword("Band"), 1);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Sample"), 1, 1e-8);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Line"), 1, 1e-8);
@@ -68,8 +68,8 @@ TEST_F(DefaultCube, FunctionalTestMapptProjectionTest) {
 
   PvlGroup mapPoint = appLog.findGroup("Results");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
   EXPECT_EQ( (double) mapPoint.findKeyword("Band"), 1);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Sample"), 1, 1e-8);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Line"), 1, 1e-8);
@@ -99,8 +99,8 @@ TEST_F(DefaultCube, FunctionalTestMapptCoordsysTest) {
 
   PvlGroup mapPoint = appLog.findGroup("Results");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
   EXPECT_EQ( (double) mapPoint.findKeyword("Band"), 1);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Sample"), 1, 1e-8);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Line"), 1, 1e-8);
@@ -149,12 +149,12 @@ TEST_F(DefaultCube, FunctionalTestMapptFlatFileTest) {
         EXPECT_PRED_FORMAT2(AssertQStringsEqual, fields.value(13), "PositiveWest180Longitude");
       }
       else if(lineNumber == 1) {
-        EXPECT_PRED_FORMAT2(AssertQStringsEqual, fields.value(0), mapPoint.findKeyword("FileName"));
+        EXPECT_PRED_FORMAT2(AssertStringsEqual, fields.value(0).toStdString(), mapPoint.findKeyword("FileName"));
         EXPECT_DOUBLE_EQ(fields.value(1).toDouble(), mapPoint.findKeyword("Sample"));
         EXPECT_DOUBLE_EQ(fields.value(2).toDouble(), mapPoint.findKeyword("Line"));
         EXPECT_DOUBLE_EQ(fields.value(3).toDouble(), mapPoint.findKeyword("Band"));
-        EXPECT_PRED_FORMAT2(AssertQStringsEqual, fields.value(4), mapPoint.findKeyword("FilterName"));
-        EXPECT_PRED_FORMAT2(AssertQStringsEqual, fields.value(5), mapPoint.findKeyword("PixelValue"));
+        EXPECT_PRED_FORMAT2(AssertStringsEqual, fields.value(4).toStdString(), mapPoint.findKeyword("FilterName"));
+        EXPECT_PRED_FORMAT2(AssertStringsEqual, fields.value(5).toStdString(), mapPoint.findKeyword("PixelValue"));
         EXPECT_DOUBLE_EQ(fields.value(6).toDouble(), mapPoint.findKeyword("X"));
         EXPECT_DOUBLE_EQ(fields.value(7).toDouble(), mapPoint.findKeyword("Y"));
         EXPECT_DOUBLE_EQ(fields.value(8).toDouble(), mapPoint.findKeyword("PlanetocentricLatitude"));
@@ -187,7 +187,7 @@ TEST_F(DefaultCube, FunctionalTestMapptAllowOutside) {
 
   PvlGroup mapPoint = appLog.findGroup("Results");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("OutsideOfImage"), "Requested point falls outside of image boundaries");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("OutsideOfImage"), "Requested point falls outside of image boundaries");
 }
 
 TEST_F(DefaultCube, FunctionalTestMapptBandTest) {
@@ -197,7 +197,7 @@ TEST_F(DefaultCube, FunctionalTestMapptBandTest) {
   mappt(options, &appLog);
   PvlGroup mapPoint = appLog.findGroup("Results");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FilterName"), "NIR");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FilterName"), "NIR");
   EXPECT_EQ( (double) mapPoint.findKeyword("Band"), 2);
 }
 
@@ -219,8 +219,8 @@ TEST_F(DefaultCube, FunctionalTestMapptImageCoordList) {
 
   PvlGroup mapPoint = appLog.group(0);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
   EXPECT_EQ( (double) mapPoint.findKeyword("Band"), 1);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Sample"), 1, 1e-8);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Line"), 1, 1e-8);
@@ -235,8 +235,8 @@ TEST_F(DefaultCube, FunctionalTestMapptImageCoordList) {
 
   mapPoint = appLog.group(1);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
   EXPECT_EQ( (double) mapPoint.findKeyword("Band"), 1);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Sample"), 2, 1e-8);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Line"), 2, 1e-8);
@@ -251,8 +251,8 @@ TEST_F(DefaultCube, FunctionalTestMapptImageCoordList) {
 
   mapPoint = appLog.group(2);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FileName"), projTestCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapPoint.findKeyword("FilterName"), "CLEAR");
   EXPECT_EQ( (double) mapPoint.findKeyword("Band"), 1);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Sample"), 3, 1e-8);
   EXPECT_NEAR( (double) mapPoint.findKeyword("Line"), 3, 1e-8);
@@ -312,12 +312,12 @@ TEST_F(DefaultCube, FunctionalTestMapptCoordListFlatFile) {
       else {
         mapPoint = appLog.group(lineNumber-1);
 
-        EXPECT_PRED_FORMAT2(AssertQStringsEqual, fields.value(0), mapPoint.findKeyword("FileName"));
+        EXPECT_PRED_FORMAT2(AssertStringsEqual, fields.value(0).toStdString(), mapPoint.findKeyword("FileName"));
         EXPECT_DOUBLE_EQ(fields.value(1).toDouble(), mapPoint.findKeyword("Sample"));
         EXPECT_DOUBLE_EQ(fields.value(2).toDouble(), mapPoint.findKeyword("Line"));
         EXPECT_DOUBLE_EQ(fields.value(3).toDouble(), mapPoint.findKeyword("Band"));
-        EXPECT_PRED_FORMAT2(AssertQStringsEqual, fields.value(4), mapPoint.findKeyword("FilterName"));
-        EXPECT_PRED_FORMAT2(AssertQStringsEqual, fields.value(5), mapPoint.findKeyword("PixelValue"));
+        EXPECT_PRED_FORMAT2(AssertStringsEqual, fields.value(4).toStdString(), mapPoint.findKeyword("FilterName"));
+        EXPECT_PRED_FORMAT2(AssertStringsEqual, fields.value(5).toStdString(), mapPoint.findKeyword("PixelValue"));
         EXPECT_DOUBLE_EQ(fields.value(6).toDouble(), mapPoint.findKeyword("X"));
         EXPECT_DOUBLE_EQ(fields.value(7).toDouble(), mapPoint.findKeyword("Y"));
         EXPECT_DOUBLE_EQ(fields.value(8).toDouble(), mapPoint.findKeyword("PlanetocentricLatitude"));

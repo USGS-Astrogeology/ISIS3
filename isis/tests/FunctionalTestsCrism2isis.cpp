@@ -46,27 +46,27 @@ TEST(Crism2isis, Crism2IsisTestDdr) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  ASSERT_EQ(inst["SpacecraftName"][0].toStdString(), "MARS RECONNAISSANCE ORBITER");
-  ASSERT_EQ(inst["InstrumentId"][0].toStdString(), "CRISM" );
-  ASSERT_EQ(inst["TargetName"][0].toStdString(), "Mars" );
-  ASSERT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "2/853135167:38571" );
-  ASSERT_EQ(inst["SpacecraftClockStopCount"][0].toStdString(), "2/853135171:21163" );
-  ASSERT_EQ(inst["StartTime"][0].toStdString(), "2007-01-13T05:59:08.707" );
-  ASSERT_EQ(inst["StopTime"][0].toStdString(), "2007-01-13T05:59:12.442" );
-  ASSERT_EQ(inst["SensorId"][0].toStdString(), "L" );
-  ASSERT_EQ(inst["ShutterModeId"][0].toStdString(), "UNKNOWN" );
+  ASSERT_EQ(inst["SpacecraftName"][0], "MARS RECONNAISSANCE ORBITER");
+  ASSERT_EQ(inst["InstrumentId"][0], "CRISM" );
+  ASSERT_EQ(inst["TargetName"][0], "Mars" );
+  ASSERT_EQ(inst["SpacecraftClockStartCount"][0], "2/853135167:38571" );
+  ASSERT_EQ(inst["SpacecraftClockStopCount"][0], "2/853135171:21163" );
+  ASSERT_EQ(inst["StartTime"][0], "2007-01-13T05:59:08.707" );
+  ASSERT_EQ(inst["StopTime"][0], "2007-01-13T05:59:12.442" );
+  ASSERT_EQ(inst["SensorId"][0], "L" );
+  ASSERT_EQ(inst["ShutterModeId"][0], "UNKNOWN" );
   ASSERT_DOUBLE_EQ(inst["FrameRate"], 3.75);
-  ASSERT_EQ(inst["ExposureParameter"][0].toStdString(), "Null" );
+  ASSERT_EQ(inst["ExposureParameter"][0], "Null" );
   ASSERT_EQ(int(inst["PixelAveragingWidth"]), 10);
-  ASSERT_EQ(inst["ScanModeId"][0].toStdString(), "LONG" );
-  ASSERT_EQ(inst["SamplingModeId"][0].toStdString(), "UNKNOWN" );
+  ASSERT_EQ(inst["ScanModeId"][0], "LONG" );
+  ASSERT_EQ(inst["SamplingModeId"][0], "UNKNOWN" );
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  ASSERT_EQ(archive["DataSetId"][0].toStdString(), "MRO-M-CRISM-6-DDR-V1.0" );
-  ASSERT_EQ(archive["ProductId"][0].toStdString(), "FRT00003E25_01_DE156L_DDR1" );
-  ASSERT_EQ(archive["ProductType"][0].toStdString(), "DDR" );
-  ASSERT_EQ(archive["ProductCreationTime"][0].toStdString(), "2007-04-04T22:49:30" );
+  ASSERT_EQ(archive["DataSetId"][0], "MRO-M-CRISM-6-DDR-V1.0" );
+  ASSERT_EQ(archive["ProductId"][0], "FRT00003E25_01_DE156L_DDR1" );
+  ASSERT_EQ(archive["ProductType"][0], "DDR" );
+  ASSERT_EQ(archive["ProductCreationTime"][0], "2007-04-04T22:49:30" );
   ASSERT_EQ(int(archive["ProductVersionId"]), 1);
 
   // BandBin Group
@@ -109,21 +109,21 @@ TEST(Crism2isis, Crism2IsisTestMrdr) {
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  ASSERT_EQ(archive["DataSetId"][0].toStdString(), "MRO-M-CRISM-5-RDR-MULTISPECTRAL-V1.0" );
-  ASSERT_EQ(archive["ProductId"][0].toStdString(), "T1865_MRRDE_70N185_0256_1" );
-  ASSERT_EQ(archive["ProductType"][0].toStdString(), "MAP_PROJECTED_MULTISPECTRAL_RDR" );
-  ASSERT_EQ(archive["ProductCreationTime"][0].toStdString(), "2007-12-22T16:50:47.432000" );
+  ASSERT_EQ(archive["DataSetId"][0], "MRO-M-CRISM-5-RDR-MULTISPECTRAL-V1.0" );
+  ASSERT_EQ(archive["ProductId"][0], "T1865_MRRDE_70N185_0256_1" );
+  ASSERT_EQ(archive["ProductType"][0], "MAP_PROJECTED_MULTISPECTRAL_RDR" );
+  ASSERT_EQ(archive["ProductCreationTime"][0], "2007-12-22T16:50:47.432000" );
   ASSERT_EQ(int(archive["ProductVersionId"]), 1);
 
   // Mapping Group
   PvlGroup &mapping = isisLabel->findGroup("Mapping", Pvl::Traverse);
-  ASSERT_EQ(mapping["ProjectionName"][0].toStdString(), "Equirectangular");
+  ASSERT_EQ(mapping["ProjectionName"][0], "Equirectangular");
   ASSERT_DOUBLE_EQ(double(mapping["CenterLongitude"]), -175.0);
-  ASSERT_EQ(mapping["TargetName"][0].toStdString(), "Mars");
+  ASSERT_EQ(mapping["TargetName"][0], "Mars");
   ASSERT_DOUBLE_EQ(double(mapping["EquatorialRadius"]), 3396000.0);
   ASSERT_DOUBLE_EQ(double(mapping["PolarRadius"]), 3396000.0);
-  ASSERT_EQ(mapping["LatitudeType"][0].toStdString(), "Planetocentric");
-  ASSERT_EQ(mapping["LongitudeDirection"][0].toStdString(), "PositiveEast");
+  ASSERT_EQ(mapping["LatitudeType"][0], "Planetocentric");
+  ASSERT_EQ(mapping["LongitudeDirection"][0], "PositiveEast");
   ASSERT_EQ(int(mapping["LongitudeDomain"]), 180);
   ASSERT_DOUBLE_EQ(double(mapping["MinimumLatitude"]), 67.5000001);
   ASSERT_DOUBLE_EQ(double(mapping["MaximumLatitude"]), 72.5);
@@ -168,17 +168,17 @@ TEST(Crism2isis, Crism2IsisTestTrdr) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  ASSERT_EQ(inst["SensorId"][0].toStdString(), "S" );
-  ASSERT_EQ(inst["ShutterModeId"][0].toStdString(), "OPEN" );
-  ASSERT_EQ(inst["ScanModeId"][0].toStdString(), "SHORT" );
-  ASSERT_EQ(inst["SamplingModeId"][0].toStdString(), "HYPERSPEC" );
+  ASSERT_EQ(inst["SensorId"][0], "S" );
+  ASSERT_EQ(inst["ShutterModeId"][0], "OPEN" );
+  ASSERT_EQ(inst["ScanModeId"][0], "SHORT" );
+  ASSERT_EQ(inst["SamplingModeId"][0], "HYPERSPEC" );
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  ASSERT_EQ(archive["DataSetId"][0].toStdString(), "MRO-M-CRISM-3-RDR-TARGETED-V1.0" );
-  ASSERT_EQ(archive["ProductId"][0].toStdString(), "FRT0001E5C3_07_IF124S_TRR3");
-  ASSERT_EQ(archive["ProductType"][0].toStdString(), "TARGETED_RDR" );
-  ASSERT_EQ(archive["ProductCreationTime"][0].toStdString(), "2011-06-08T10:52:30" );
+  ASSERT_EQ(archive["DataSetId"][0], "MRO-M-CRISM-3-RDR-TARGETED-V1.0" );
+  ASSERT_EQ(archive["ProductId"][0], "FRT0001E5C3_07_IF124S_TRR3");
+  ASSERT_EQ(archive["ProductType"][0], "TARGETED_RDR" );
+  ASSERT_EQ(archive["ProductCreationTime"][0], "2011-06-08T10:52:30" );
   ASSERT_EQ(int(archive["ProductVersionId"]), 3);
 }
 
@@ -207,10 +207,10 @@ TEST(Crism2isis, Crism2IsisTestMrral) {
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  ASSERT_EQ(archive["DataSetId"][0].toStdString(), "MRO-M-CRISM-5-RDR-MULTISPECTRAL-V1.0" );
-  ASSERT_EQ(archive["ProductId"][0].toStdString(), "T0897_MRRAL_05S113_0256_1");
-  ASSERT_EQ(archive["ProductType"][0].toStdString(), "MAP_PROJECTED_MULTISPECTRAL_RDR" );
-  ASSERT_EQ(archive["ProductCreationTime"][0].toStdString(), "2008-03-25T23:01:30.319000" );
+  ASSERT_EQ(archive["DataSetId"][0], "MRO-M-CRISM-5-RDR-MULTISPECTRAL-V1.0" );
+  ASSERT_EQ(archive["ProductId"][0], "T0897_MRRAL_05S113_0256_1");
+  ASSERT_EQ(archive["ProductType"][0], "MAP_PROJECTED_MULTISPECTRAL_RDR" );
+  ASSERT_EQ(archive["ProductCreationTime"][0], "2008-03-25T23:01:30.319000" );
   ASSERT_EQ(int(archive["ProductVersionId"]), 1);
 
   // BandBin Group

@@ -25,19 +25,19 @@ TEST_F(DefaultCube, FunctionalTestNoprojDefault) {
   Cube oCube(cubeFileName);
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("TargetName"), "MARS");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("TargetName"), "MARS");
   EXPECT_EQ((int) instGroup.findKeyword("SampleDetectors"), 1250);
   EXPECT_EQ((int) instGroup.findKeyword("LineDetectors"), 1150);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentType"), "FRAMING");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentType"), "FRAMING");
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("EphemerisTime"), -709401200.26114);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("StartTime"), "1977-07-09T20:05:51");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("StartTime"), "1977-07-09T20:05:51");
   EXPECT_EQ((int) instGroup.findKeyword("FocalPlaneXDependency"), 1);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), 1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), 1.0);
 
-  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
   FileName defaultCubeName(testCube->fileName());
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
@@ -62,19 +62,19 @@ TEST_F(DefaultCube, DISABLED_FunctionalTestNoprojExpand) {
   Cube oCube(cubeFileName);
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("TargetName"), "MARS");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("TargetName"), "MARS");
   EXPECT_EQ((int) instGroup.findKeyword("SampleDetectors"), 1375);
   EXPECT_EQ((int) instGroup.findKeyword("LineDetectors"), 1208);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentType"), "FRAMING");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentType"), "FRAMING");
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("EphemerisTime"), -709401200.26114);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("StartTime"), "1977-07-09T20:05:51");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("StartTime"), "1977-07-09T20:05:51");
   EXPECT_EQ((int) instGroup.findKeyword("FocalPlaneXDependency"), 1);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), 1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), 1.0);
 
-  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
   FileName defaultCubeName(testCube->fileName());
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
@@ -102,19 +102,19 @@ TEST_F(DefaultCube, FunctionalTestNoprojFromInput) {
   Cube oCube(cubeFileName);
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("TargetName"), "MARS");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("TargetName"), "MARS");
   EXPECT_EQ((int) instGroup.findKeyword("SampleDetectors"), 1250);
   EXPECT_EQ((int) instGroup.findKeyword("LineDetectors"), 1150);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentType"), "FRAMING");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentType"), "FRAMING");
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("EphemerisTime"), -709401200.26114);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("StartTime"), "1977-07-09T20:05:51");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("StartTime"), "1977-07-09T20:05:51");
   EXPECT_EQ((int) instGroup.findKeyword("FocalPlaneXDependency"), 1);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), 1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), 1.0);
 
-  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
   FileName defaultCubeName(testCube->fileName());
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
@@ -139,19 +139,19 @@ TEST_F(DefaultCube, FunctionalTestNoprojFromUser) {
   Cube oCube(cubeFileName);
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("TargetName"), "MARS");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("TargetName"), "MARS");
   EXPECT_EQ((int) instGroup.findKeyword("SampleDetectors"), 625);
   EXPECT_EQ((int) instGroup.findKeyword("LineDetectors"), 1150);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentType"), "FRAMING");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentType"), "FRAMING");
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("EphemerisTime"), -709401200.26114);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("StartTime"), "1977-07-09T20:05:51");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("StartTime"), "1977-07-09T20:05:51");
   EXPECT_EQ((int) instGroup.findKeyword("FocalPlaneXDependency"), 1);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), 1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), 1.0);
 
-  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
   FileName defaultCubeName(testCube->fileName());
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
@@ -324,19 +324,19 @@ TEST_F(DefaultCube, FunctionalTestNoprojSpecs) {
   Cube oCube(cubeFileName);
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("TargetName"), "MARS");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("TargetName"), "MARS");
   EXPECT_EQ((int) instGroup.findKeyword("SampleDetectors"), 2000);
   EXPECT_EQ((int) instGroup.findKeyword("LineDetectors"), 1000);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentType"), "FRAMING");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentType"), "FRAMING");
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("EphemerisTime"), -709401200.26114);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("StartTime"), "1977-07-09T20:05:51");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("StartTime"), "1977-07-09T20:05:51");
   EXPECT_EQ((int) instGroup.findKeyword("FocalPlaneXDependency"), 1);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), 1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), 1.0);
 
-  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
   FileName defaultCubeName(testCube->fileName());
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
@@ -376,19 +376,19 @@ TEST_F(LineScannerCube, FunctionalTestNoprojLineScanner) {
   Cube oCube(cubeFileName);
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("TargetName"), "MOON");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentId"), "IdealCamera");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("TargetName"), "MOON");
   EXPECT_EQ((int) instGroup.findKeyword("SampleDetectors"), 2000);
   EXPECT_EQ((int) instGroup.findKeyword("LineDetectors"), 1);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("InstrumentType"), "LINESCAN");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("InstrumentType"), "LINESCAN");
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("EphemerisTime"), 266722396.06431001);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, instGroup.findKeyword("StartTime"), "2008-06-14T13:32:10.933207");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("StartTime"), "2008-06-14T13:32:10.933207");
   EXPECT_EQ((int) instGroup.findKeyword("FocalPlaneXDependency"), 1);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), -1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), -1.0);
 
-  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
   FileName defaultCubeName(testCube->fileName());
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 

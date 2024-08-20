@@ -84,7 +84,7 @@ void IsisMain() {
   }
 
   // Image time
-  iTime time(inst["StartTime"][0]);
+  iTime time(QString::fromStdString(inst["StartTime"][0]));
   // Day 64, hour 1
   iTime min("1979-03-05T01:00:00.000");
   // Day 64, hour 17
@@ -155,10 +155,10 @@ void IsisMain() {
   plasmaC = detb3/deta;
 
   // Create data to go in Radiometry group
-  PvlKeyword top = PvlKeyword("TopCorrectiveDN", toString(y1));
+  PvlKeyword top = PvlKeyword("TopCorrectiveDN", std::to_string(y1));
   top.addComment("Voyramp plasma torus corrective DN values:");
-  PvlKeyword mid = PvlKeyword("MiddleCorrectiveDN", toString(y2));
-  PvlKeyword bot = PvlKeyword("BottomCorrectiveDN", toString(y3));
+  PvlKeyword mid = PvlKeyword("MiddleCorrectiveDN", std::to_string(y2));
+  PvlKeyword bot = PvlKeyword("BottomCorrectiveDN", std::to_string(y3));
 
   // Add it
   radio += top;

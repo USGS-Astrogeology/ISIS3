@@ -133,7 +133,7 @@ void IsisMain() {
 
   PvlGroup &inputInstrumentGrp = evenCube->group("Instrument");
   PvlKeyword &spatialSumming = inputInstrumentGrp["SpatialSumming"];
-  frameletSize = 192 / toInt(spatialSumming[0]);
+  frameletSize = 192 / std::stoi(spatialSumming[0]);
   overlapSize = FrameletOverlapSize();
 
   if(overlapSize == 0) {

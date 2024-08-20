@@ -28,7 +28,7 @@ void IsisMain() {
 
   QString transDir = "$ISISROOT/appdata/translations/";
 
-  Pvl inputLabel(labelFile);
+  Pvl inputLabel(labelFile.toStdString());
   Pvl outputLabel;
   PvlToPvlTranslationManager *translator;
 
@@ -51,13 +51,13 @@ void IsisMain() {
   translator = new PvlToPvlTranslationManager(inputLabel, transFile.expanded());
   translator->Auto(outputLabel);
   outputLabel.findGroup("BandBin").findKeyword("OriginalBand").setUnits(
-    translator->Translate("BandBinUnit"));
+    translator->Translate("BandBinUnit").toStdString());
   outputLabel.findGroup("BandBin").findKeyword("Center").setUnits(translator->
-      Translate("BandBinUnit"));
+      Translate("BandBinUnit").toStdString());
   outputLabel.findGroup("BandBin").findKeyword("Width").setUnits(translator->
-      Translate("BandBinUnit"));
+      Translate("BandBinUnit").toStdString());
   outputLabel.findGroup("BandBin").findKeyword("Exposure").setUnits(translator->
-      Translate("ExposureUnit"));
+      Translate("ExposureUnit").toStdString());
   delete translator;
   translator = NULL;
 

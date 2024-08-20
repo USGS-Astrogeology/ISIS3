@@ -60,10 +60,10 @@ void IsisMain() {
     }
   }
   if(ui.GetBoolean("INGESTION")) {
-    Pvl labels(ui.GetFileName("FROM"));
+    Pvl labels(ui.GetFileName("FROM").toStdString());
 
-    if((QString)labels["DETECTOR_ID"][0] == "VIS") {
-      if(((QString)labels["DATA_SET_ID"]).contains("RDR")) {
+    if(QString::fromStdString(labels["DETECTOR_ID"][0]) == "VIS") {
+      if((QString::fromStdString(labels["DATA_SET_ID"])).contains("RDR")) {
         ProcessVis(true);
       }
       else {

@@ -181,7 +181,7 @@ namespace Isis {
     Pvl &frameCubeLabel = *frameCube.label();
     for(int i = 0; i < firstFrameletLabel.objects(); i++) {
       if(firstFrameletLabel.object(i).isNamed("Table")) {
-        Isis::Blob table((QString)firstFrameletLabel.object(i)["Name"], firstFrameletLabel.object(i).name());
+        Isis::Blob table(QString::fromStdString(firstFrameletLabel.object(i)["Name"]), firstFrameletLabel.object(i).name());
         firstFrameletCube.read(table);
         frameCube.write(table);
       }
@@ -204,7 +204,7 @@ namespace Isis {
       // Eventually summing can be handled, but right now we don't know enough, so error
       PvlGroup frameletInst = frameletCube->group("Instrument");
       if ((int)frameletInst["SummingMode"] != 0) {
-        QString msg = "Summing mode [" + (QString)frameletInst["SummingMode"]
+        QString msg = "Summing mode [" + QString::fromStdString(frameletInst["SummingMode"])
                       + "] for framelet [" + frameletFile.expanded()
                       + "] is not supported.";
         throw IException(IException::User, msg, _FILEINFO_);
@@ -220,14 +220,14 @@ namespace Isis {
       stitchGroup["FilterIkCodes"]   += frameletBandBin["NaifIkCode"];
 
       PvlGroup archiveGroup = frameletCube->group("Archive");
-      archiveGroup.setName("Archive" + QString(frameletBandBin["FilterName"]));
+      archiveGroup.setName("Archive" + (std::string)frameletBandBin["FilterName"]);
       frameCube.putGroup(archiveGroup);
 
       AlphaCube frameletAlphaCube(*frameletCube);
-      stitchGroup["FilterStartSamples"] += toString(frameletAlphaCube.AlphaSample(0.0));
-      stitchGroup["FilterSamples"]      += toString(frameletAlphaCube.BetaSamples());
-      stitchGroup["FilterStartLines"]   += toString(frameletAlphaCube.AlphaLine(0.0));
-      stitchGroup["FilterLines"]        += toString(frameletAlphaCube.BetaLines());
+      stitchGroup["FilterStartSamples"] += std::to_string(frameletAlphaCube.AlphaSample(0.0));
+      stitchGroup["FilterSamples"]      += std::to_string(frameletAlphaCube.BetaSamples());
+      stitchGroup["FilterStartLines"]   += std::to_string(frameletAlphaCube.AlphaLine(0.0));
+      stitchGroup["FilterLines"]        += std::to_string(frameletAlphaCube.BetaLines());
 
       PvlGroup frameletArchGroup = frameletCube->group("Archive");
       stitchGroup["FilterFileNames"]  += frameletArchGroup["FileName"];
@@ -236,7 +236,7 @@ namespace Isis {
       Pvl &frameletLabel = *frameletCube->label();
       for(int i = 0; i < frameletLabel.objects(); i++) {
         if( frameletLabel.object(i).isNamed("History") ) {
-          Blob historyBlob((QString) frameletLabel.object(i)["Name"], "History" );
+          Blob historyBlob(QString::fromStdString(frameletLabel.object(i)["Name"]), "History" );
           frameletCube->read(historyBlob);
           frameCube.write(historyBlob);
         }

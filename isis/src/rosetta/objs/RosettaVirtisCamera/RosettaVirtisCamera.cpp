@@ -55,7 +55,7 @@ namespace Isis {
 //    PvlGroup &archive = lab.findGroup("Archive", Isis::Pvl::Traverse);
     PvlGroup &inst = lab.findGroup("Instrument", Isis::Pvl::Traverse);
 
-    QString instrumentId = inst["InstrumentId"];
+    QString instrumentId = QString::fromStdString(inst["InstrumentId"]);
     if ( "virtis" != instrumentId.toLower()) {
       QString mess = "This data is apparently not from the VIRTIS instrument but "
                       + instrumentId;
@@ -67,9 +67,9 @@ namespace Isis {
     m_is1BCalibrated = (procLevel > 2) ? true : false;
 
     // Get the start time from labels
-    QString channelId = inst["ChannelId"];
+    QString channelId = QString::fromStdString(inst["ChannelId"]);
 
-    QString instMode = inst["InstrumentModeId"];
+    QString instMode = QString::fromStdString(inst["InstrumentModeId"]);
     m_slitMode = instMode[14].toLatin1();   // "F" for full slit, Q for quarter slit
 
 
@@ -104,18 +104,18 @@ namespace Isis {
 
     // convert milliseconds to seconds
 
-    m_exposureTime = toDouble(frameParam[0]) * 0.001;
-    m_summing  = toDouble(frameParam[1]);
-    m_scanRate = toDouble(frameParam[2]);
+    m_exposureTime = std::stod(frameParam[0]) * 0.001;
+    m_summing  = std::stod(frameParam[1]);
+    m_scanRate = std::stod(frameParam[2]);
 
     // Setup detector map
     //  Get the line scan rates/times
 
     if (!m_is1BCalibrated) {
-      readHouseKeeping(lab.fileName(), m_scanRate);
+      readHouseKeeping(QString::fromStdString(lab.fileName()), m_scanRate);
     }
     else {
-      readSCET(lab.fileName());
+      readSCET(QString::fromStdString(lab.fileName()));
     }
 
     new VariableLineScanCameraDetectorMap(this, m_lineRates);
@@ -527,20 +527,20 @@ namespace Isis {
     }
 
     // Add some necessary keywords
-    quats.Label() += PvlKeyword("CkTableStartTime", toString(startTime()));
-    quats.Label() += PvlKeyword("CkTableEndTime", toString(endTime()));
-    quats.Label() += PvlKeyword("CkTableOriginalSize", toString(quats.Records()));
+    quats.Label() += PvlKeyword("CkTableStartTime", std::to_string(startTime()));
+    quats.Label() += PvlKeyword("CkTableEndTime", std::to_string(endTime()));
+    quats.Label() += PvlKeyword("CkTableOriginalSize", std::to_string(quats.Records()));
 
     // Create the time dependant frames keyword
     int virZeroId = getInteger("FRAME_" + virZero);
-    PvlKeyword tdf("TimeDependentFrames", toString(virZeroId)); // ROS_VIRTIS_M_{ID}_ZERO
+    PvlKeyword tdf("TimeDependentFrames", std::to_string(virZeroId)); // ROS_VIRTIS_M_{ID}_ZERO
     tdf.addValue("-226200");  //  ROS_VIRTIS
     tdf.addValue("-226000");  //  ROSETTA_SPACECRAFT
     tdf.addValue("1");        // J2000
     quats.Label() += tdf;
 
     //  Create constant rotation frames
-    PvlKeyword cf("ConstantFrames", toString(virZeroId));
+    PvlKeyword cf("ConstantFrames", std::to_string(virZeroId));
     cf.addValue(std::to_string(virZeroId));
     quats.Label() += cf;
 

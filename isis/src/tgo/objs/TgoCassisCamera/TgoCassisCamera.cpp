@@ -60,8 +60,8 @@ namespace Isis {
     // Get the Start time from the labels
     // TODO: This is currently using UTC time. Once the timestamp is figured out,
     //       this will change to use SCLK. JAM 2017-02-06
-    QString stime = inst["SpacecraftClockStartCount"];
-    QString startT = inst["StartTime"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
+    QString startT = QString::fromStdString(inst["StartTime"]);
     iTime et(startT);
 
     // Get summing mode
@@ -69,7 +69,7 @@ namespace Isis {
     //   0 = 1x1 (No summing)
     //   1 = 2x2
     //   2 = 4x4
-    int sumMode = toInt(inst["SummingMode"][0]);
+    int sumMode = std::stoi(inst["SummingMode"][0]);
     int summing = sumMode * 2;
 
     //  Setup camera detector map
@@ -103,7 +103,7 @@ namespace Isis {
 
     // Set start time to center of exposure time to ensure
     // the proper SPICE data is cached.
-    double p_exposureDur = toDouble(inst["ExposureDuration"]);
+    double p_exposureDur = std::stod(inst["ExposureDuration"]);
     iTime p_etStart = et + ( p_exposureDur / 2.0);
 
     setTime(p_etStart);

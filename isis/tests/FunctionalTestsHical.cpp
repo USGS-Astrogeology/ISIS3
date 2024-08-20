@@ -40,7 +40,7 @@ TEST(HicalTest, Default) {
 
   PvlGroup calibration = outCube.group("RadiometricCalibration");
   ASSERT_TRUE(calibration.hasKeyword("Program"));
-  EXPECT_EQ(calibration.findKeyword("Program")[0].toStdString(), "hical");
+  EXPECT_EQ(calibration.findKeyword("Program")[0], "hical");
 
   std::unique_ptr<Statistics> stats (outCube.statistics());
   EXPECT_NEAR(stats->Average(), 0.066949089371337, .00001);

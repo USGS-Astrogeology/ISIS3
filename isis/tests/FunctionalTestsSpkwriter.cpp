@@ -47,7 +47,7 @@ TEST_F(DefaultCube, FunctionalTestSpkwriterDefault) {
   kernels.addKeyword(instrumentPointing, PvlContainer::InsertMode::Replace);
 
   PvlKeyword instrumentPosition("InstrumentPosition");
-  instrumentPosition += options.GetFileName("TO");
+  instrumentPosition += options.GetFileName("TO").toStdString();
   kernels.addKeyword(instrumentPosition, PvlContainer::InsertMode::Replace);
 
   newKernelCube.reopen("rw");
@@ -104,7 +104,7 @@ TEST_F(DefaultCube, FunctionalTestSpkwriterFromlist) {
   kernels.addKeyword(instrumentPointing, PvlContainer::InsertMode::Replace);
 
   PvlKeyword instrumentPosition("InstrumentPosition");
-  instrumentPosition += options.GetFileName("TO");
+  instrumentPosition += options.GetFileName("TO").toStdString();
   kernels.addKeyword(instrumentPosition, PvlContainer::InsertMode::Replace);
 
   newKernelCube.reopen("rw");

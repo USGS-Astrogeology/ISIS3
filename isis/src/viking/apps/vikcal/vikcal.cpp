@@ -80,9 +80,9 @@ namespace Isis {
     calgrp += PvlKeyword("offc", std::to_string(calParam->Offset()));
     calgrp += PvlKeyword("exp", std::to_string(calParam->Exposure()));
     calgrp += PvlKeyword("gain", std::to_string(calParam->Gain()));
-    calgrp += PvlKeyword("DR", in);
-    calgrp += PvlKeyword("DC", calParam->OffsetFile());
-    calgrp += PvlKeyword("G", calParam->GainFile());
+    calgrp += PvlKeyword("DR", in.toStdString());
+    calgrp += PvlKeyword("DC", calParam->OffsetFile().toStdString());
+    calgrp += PvlKeyword("G", calParam->GainFile().toStdString());
   
     calgrp += PvlKeyword("w0", std::to_string(calParam->Omega0()));
     calgrp += PvlKeyword("w1", std::to_string(calParam->Omega1()));

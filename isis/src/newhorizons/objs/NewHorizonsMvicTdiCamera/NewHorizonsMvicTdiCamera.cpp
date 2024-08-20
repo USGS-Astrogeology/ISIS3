@@ -43,7 +43,7 @@ namespace Isis {
 
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString stime = inst["SpacecraftClockStartCount"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
 
     m_etStart = getClockTime(stime).Et();
     m_lineRate = 1.0 / (double)inst["TdiRate"];

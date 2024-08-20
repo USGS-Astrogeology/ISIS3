@@ -51,8 +51,8 @@ namespace Isis {
     // raster orientation, cone, crosscone, and camera
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString spacecraft = inst["SPACECRAFTNAME"];
-    QString instId = inst["INSTRUMENTID"];
+    QString spacecraft = QString::fromStdString(inst["SPACECRAFTNAME"]);
+    QString instId = QString::fromStdString(inst["INSTRUMENTID"]);
     QString cam;
     int spn;
     double raster, cone, crosscone;
@@ -146,7 +146,7 @@ namespace Isis {
      *****************************************************************************/
 
     // Get clock count and convert it to a time
-    QString spacecraftClock = inst["SpacecraftClockCount"];
+    QString spacecraftClock = QString::fromStdString(inst["SpacecraftClockCount"]);
     double etClock = getClockTime(spacecraftClock, altinstcode).Et();
 
     // exposure duration keyword value is measured in seconds

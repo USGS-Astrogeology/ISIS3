@@ -37,20 +37,20 @@ TEST(hi2isisTest, FunctionalTestHi2isisDefault) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "MARS RECONNAISSANCE ORBITER");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "HIRISE");
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "Mars");
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2006-11-17T03:27:53.118");
-  EXPECT_EQ(inst["StopTime"][0].toStdString(), "2006-11-17T03:27:54.792");
-  EXPECT_EQ(inst["ObservationStartCount"][0].toStdString(), "848201291:54379");
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "848201291:62546");
-  EXPECT_EQ(inst["SpacecraftClockStopCount"][0].toStdString(), "848201293:41165");
-  EXPECT_EQ(inst["ReadoutStartCount"][0].toStdString(), "848201300:53057");
-  EXPECT_EQ(inst["CalibrationStartTime"][0].toStdString(), "2006-11-17T03:27:53.104");
-  EXPECT_EQ(inst["CalibrationStartCount"][0].toStdString(), "848201291:61647");
-  EXPECT_EQ(inst["AnalogPowerStartTime"][0].toStdString(), "-9999");
-  EXPECT_EQ(inst["AnalogPowerStartCount"][0].toStdString(), "-9999");
-  EXPECT_EQ(inst["MissionPhaseName"][0].toStdString(), "PRIMARY SCIENCE PHASE");
+  EXPECT_EQ(inst["SpacecraftName"][0], "MARS RECONNAISSANCE ORBITER");
+  EXPECT_EQ(inst["InstrumentId"][0], "HIRISE");
+  EXPECT_EQ(inst["TargetName"][0], "Mars");
+  EXPECT_EQ(inst["StartTime"][0], "2006-11-17T03:27:53.118");
+  EXPECT_EQ(inst["StopTime"][0], "2006-11-17T03:27:54.792");
+  EXPECT_EQ(inst["ObservationStartCount"][0], "848201291:54379");
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "848201291:62546");
+  EXPECT_EQ(inst["SpacecraftClockStopCount"][0], "848201293:41165");
+  EXPECT_EQ(inst["ReadoutStartCount"][0], "848201300:53057");
+  EXPECT_EQ(inst["CalibrationStartTime"][0], "2006-11-17T03:27:53.104");
+  EXPECT_EQ(inst["CalibrationStartCount"][0], "848201291:61647");
+  EXPECT_EQ(inst["AnalogPowerStartTime"][0], "-9999");
+  EXPECT_EQ(inst["AnalogPowerStartCount"][0], "-9999");
+  EXPECT_EQ(inst["MissionPhaseName"][0], "PRIMARY SCIENCE PHASE");
   EXPECT_DOUBLE_EQ(inst["LineExposureDuration"], 334.7500);
   EXPECT_DOUBLE_EQ(inst["ScanExposureDuration"], 83.6875);
   EXPECT_DOUBLE_EQ(inst["DeltaLineTimerCount"], 155);
@@ -58,9 +58,9 @@ TEST(hi2isisTest, FunctionalTestHi2isisDefault) {
   EXPECT_DOUBLE_EQ(inst["Tdi"], 64);
   EXPECT_DOUBLE_EQ(inst["FocusPositionCount"], 2020);
   EXPECT_DOUBLE_EQ(inst["CpmmNumber"], 4);
-  EXPECT_EQ(inst["CcdId"][0].toStdString(), "BG12");
+  EXPECT_EQ(inst["CcdId"][0], "BG12");
   EXPECT_DOUBLE_EQ(inst["ChannelNumber"], 0);
-  EXPECT_EQ(inst["LookupTableType"][0].toStdString(), "Stored");
+  EXPECT_EQ(inst["LookupTableType"][0], "Stored");
   EXPECT_DOUBLE_EQ(inst["LookupTableMinimum"], -9998);
   EXPECT_DOUBLE_EQ(inst["LookupTableMaximum"], -9998);
   EXPECT_DOUBLE_EQ(inst["LookupTableMedian"], -9998);
@@ -101,26 +101,26 @@ TEST(hi2isisTest, FunctionalTestHi2isisDefault) {
   EXPECT_DOUBLE_EQ(inst["CpmmPwsBoardTemperature"], 18.078);
   EXPECT_DOUBLE_EQ(inst["MechTlmBoardTemperature"], 35.0546);
   EXPECT_DOUBLE_EQ(inst["InstContBoardTemperature"], 34.6875);
-  EXPECT_EQ(inst["DllLockedFlag"][0].toStdString(), "YES");
-  EXPECT_EQ(inst["DllLockedFlag"][1].toStdString(), "YES");
+  EXPECT_EQ(inst["DllLockedFlag"][0], "YES");
+  EXPECT_EQ(inst["DllLockedFlag"][1], "YES");
   EXPECT_DOUBLE_EQ(inst["DllResetCount"], 0);
-  EXPECT_EQ(inst["DllLockedOnceFlag"][0].toStdString(), "YES");
-  EXPECT_EQ(inst["DllLockedOnceFlag"][1].toStdString(), "YES");
+  EXPECT_EQ(inst["DllLockedOnceFlag"][0], "YES");
+  EXPECT_EQ(inst["DllLockedOnceFlag"][1], "YES");
   EXPECT_DOUBLE_EQ(inst["DllFrequenceCorrectCount"], 4);
-  EXPECT_EQ(inst["ADCTimingSetting"][0].toStdString(), "5");
-  EXPECT_EQ(inst["ADCTimingSetting"][1].toStdString(), "4");
-  EXPECT_EQ(inst["Unlutted"][0].toStdString(), "TRUE");
+  EXPECT_EQ(inst["ADCTimingSetting"][0], "5");
+  EXPECT_EQ(inst["ADCTimingSetting"][1], "4");
+  EXPECT_EQ(inst["Unlutted"][0], "TRUE");
 
   // Archive Group
   PvlGroup &arch = isisLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(arch["DataSetId"][0].toStdString(), "MRO-M-HIRISE-2-EDR-V1.0");
-  EXPECT_EQ(arch["ProducerId"][0].toStdString(), "UA");
-  EXPECT_EQ(arch["ObservationId"][0].toStdString(), "PSP_001446_1790");
-  EXPECT_EQ(arch["ProductId"][0].toStdString(), "PSP_001446_1790_BG12_0");
+  EXPECT_EQ(arch["DataSetId"][0], "MRO-M-HIRISE-2-EDR-V1.0");
+  EXPECT_EQ(arch["ProducerId"][0], "UA");
+  EXPECT_EQ(arch["ObservationId"][0], "PSP_001446_1790");
+  EXPECT_EQ(arch["ProductId"][0], "PSP_001446_1790_BG12_0");
 
   // BandBin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
-  EXPECT_EQ(bandbin["Name"][0].toStdString(), "BlueGreen");
+  EXPECT_EQ(bandbin["Name"][0], "BlueGreen");
   EXPECT_DOUBLE_EQ(bandbin["Center"], 500);
   EXPECT_EQ(bandbin["Center"].unit(), "NANOMETERS");
   EXPECT_DOUBLE_EQ(bandbin["Width"], 200);
@@ -162,23 +162,23 @@ TEST(hi2isisTest, FunctionalTestHi2isisDefaultWorstCase) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "MARS RECONNAISSANCE ORBITER");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "HIRISE");
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "Mars");
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2006-11-08T04:49:14.187");
-  EXPECT_EQ(inst["StopTime"][0].toStdString(), "2006-11-08T04:49:17.990");
-  EXPECT_EQ(inst["ObservationStartCount"][0].toStdString(), "847428572:42722");
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "847428573:01190");
-  EXPECT_EQ(inst["SpacecraftClockStopCount"][0].toStdString(), "847428576:53783");
-  EXPECT_EQ(inst["ReadoutStartCount"][0].toStdString(), "847428724:55340");
-  EXPECT_EQ(inst["CalibrationStartTime"][0].toStdString(), "2006-11-08T04:49:14.175");
-  EXPECT_EQ(inst["CalibrationStartCount"][0].toStdString(), "847428573:00368");
+  EXPECT_EQ(inst["SpacecraftName"][0], "MARS RECONNAISSANCE ORBITER");
+  EXPECT_EQ(inst["InstrumentId"][0], "HIRISE");
+  EXPECT_EQ(inst["TargetName"][0], "Mars");
+  EXPECT_EQ(inst["StartTime"][0], "2006-11-08T04:49:14.187");
+  EXPECT_EQ(inst["StopTime"][0], "2006-11-08T04:49:17.990");
+  EXPECT_EQ(inst["ObservationStartCount"][0], "847428572:42722");
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "847428573:01190");
+  EXPECT_EQ(inst["SpacecraftClockStopCount"][0], "847428576:53783");
+  EXPECT_EQ(inst["ReadoutStartCount"][0], "847428724:55340");
+  EXPECT_EQ(inst["CalibrationStartTime"][0], "2006-11-08T04:49:14.175");
+  EXPECT_EQ(inst["CalibrationStartCount"][0], "847428573:00368");
   EXPECT_DOUBLE_EQ(inst["LineExposureDuration"], 380.25);
   EXPECT_DOUBLE_EQ(inst["ScanExposureDuration"], 95.0625);
   EXPECT_DOUBLE_EQ(inst["DeltaLineTimerCount"], 337);
   EXPECT_DOUBLE_EQ(inst["Tdi"], 32);
   EXPECT_DOUBLE_EQ(inst["CpmmNumber"], 6);
-  EXPECT_EQ(inst["CcdId"][0].toStdString(), "IR10");
+  EXPECT_EQ(inst["CcdId"][0], "IR10");
   EXPECT_DOUBLE_EQ(inst["ChannelNumber"], 1);
   EXPECT_DOUBLE_EQ(inst["LookupTableNumber"], 17);
   EXPECT_DOUBLE_EQ(inst["OptBnchFlexureTemperature"], 19.5881);
@@ -219,7 +219,7 @@ TEST(hi2isisTest, FunctionalTestHi2isisDefaultWorstCase) {
 
   // BandBin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
-  EXPECT_EQ(bandbin["Name"][0].toStdString(), "NearInfrared");
+  EXPECT_EQ(bandbin["Name"][0], "NearInfrared");
   EXPECT_DOUBLE_EQ(bandbin["Center"], 900);
   EXPECT_DOUBLE_EQ(bandbin["Width"], 200);
 

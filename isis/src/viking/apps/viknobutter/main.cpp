@@ -23,10 +23,10 @@ void IsisMain() {
   pipeline.KeepTemporaryFiles(!rmv);
 
   // Figure out which masking cube to use
-  Pvl p(ui.GetCubeName("FROM"));
+  Pvl p(ui.GetCubeName("FROM").toStdString());
   PvlGroup &inst = p.findGroup("Instrument", Pvl::Traverse);
   int spn;
-  QString scn = (QString)inst["SpacecraftName"];
+  QString scn = QString::fromStdString(inst["SpacecraftName"]);
   if(scn == "VIKING_ORBITER_1") spn = 1;
   else if(scn == "VIKING_ORBITER_2") spn = 2;
   else {
@@ -36,7 +36,7 @@ void IsisMain() {
   // determine if # of cols is even or odd
   bool even = true;
   PvlGroup &arch = p.findGroup("Archive", Pvl::Traverse);
-  QString id = (QString)arch["ProductId"];
+  QString id = QString::fromStdString(arch["ProductId"]);
   int num = toInt(id.mid(5, 1));
   if(num == 1 || num == 3 || num == 5 || num == 7 || num == 9) even = false;
 

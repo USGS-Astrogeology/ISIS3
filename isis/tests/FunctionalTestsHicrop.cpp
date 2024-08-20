@@ -40,20 +40,20 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByCk) {
   EXPECT_EQ((int)results.findKeyword("OututStartingLine"), 55);
   EXPECT_EQ((int)results.findKeyword("OututEndingLine"), 1056);
   EXPECT_EQ((int)results.findKeyword("OututLineCount"), 1002);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7300819");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopTime"), "2008-05-17T09:37:31.0666673");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartClock"), "4/0895484265.14186");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopClock"), "4/0895484271.36245");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7300819");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopTime"), "2008-05-17T09:37:31.0666673");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484265.14186");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484271.36245");
 
   Cube oCube(outCubeFileName);
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 1002);
   EXPECT_EQ(oCube.sampleCount(), 1204);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
 }
 
 
@@ -80,20 +80,20 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByLine) {
   EXPECT_EQ((int)results.findKeyword("OututStartingLine"), 55);
   EXPECT_EQ((int)results.findKeyword("OututEndingLine"), 1056);
   EXPECT_EQ((int)results.findKeyword("OututLineCount"), 1002);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7892562");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8845088");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartClock"), "4/0895484264.57678");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopClock"), "4/0895484264.63921");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7892562");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8845088");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.57678");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63921");
 
   Cube oCube(outCubeFileName);
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 1002);
   EXPECT_EQ(oCube.sampleCount(), 1204);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
 }
 
 
@@ -121,20 +121,20 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByTimes) {
   EXPECT_EQ((int)results.findKeyword("OututStartingLine"), 1);
   EXPECT_EQ((int)results.findKeyword("OututEndingLine"), 953);
   EXPECT_EQ((int)results.findKeyword("OututLineCount"), 953);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7841228");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8747174");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartClock"), "4/0895484264.57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopClock"), "4/0895484264.63279");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7841228");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8747174");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63279");
 
   Cube oCube(outCubeFileName);
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 953);
   EXPECT_EQ(oCube.sampleCount(), 1204);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
 }
 
 
@@ -162,20 +162,20 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByJitterDefault) {
   EXPECT_EQ((int)results.findKeyword("OututStartingLine"), 1);
   EXPECT_EQ((int)results.findKeyword("OututEndingLine"), 953);
   EXPECT_EQ((int)results.findKeyword("OututLineCount"), 953);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7841228");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8747174");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartClock"), "4/0895484264.57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopClock"), "4/0895484264.63279");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7841228");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8747174");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63279");
 
   Cube oCube(outCubeFileName);
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 953);
   EXPECT_EQ(oCube.sampleCount(), 1204);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
 }
 
 
@@ -224,20 +224,20 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByJitterZero) {
   EXPECT_EQ((int)results.findKeyword("OututStartingLine"), 114);
   EXPECT_EQ((int)results.findKeyword("OututEndingLine"), 953);
   EXPECT_EQ((int)results.findKeyword("OututLineCount"), 840);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7948649");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8747174");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartClock"), "4/0895484264.58046");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopClock"), "4/0895484264.63279");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7948649");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8747174");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.58046");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63279");
 
   Cube oCube(outCubeFileName);
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 840);
   EXPECT_EQ(oCube.sampleCount(), 1204);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
 }
 
 
@@ -286,20 +286,20 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByJitterZeroSample) {
   EXPECT_EQ((int)results.findKeyword("OututStartingLine"), 1);
   EXPECT_EQ((int)results.findKeyword("OututEndingLine"), 953);
   EXPECT_EQ((int)results.findKeyword("OututLineCount"), 953);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7841228");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8747174");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartClock"), "4/0895484264.57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopClock"), "4/0895484264.63279");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7841228");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8747174");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63279");
 
   Cube oCube(outCubeFileName);
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 953);
   EXPECT_EQ(oCube.sampleCount(), 1204);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
 }
 
 
@@ -348,20 +348,20 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByJitterZeroLine) {
   EXPECT_EQ((int)results.findKeyword("OututStartingLine"), 1);
   EXPECT_EQ((int)results.findKeyword("OututEndingLine"), 953);
   EXPECT_EQ((int)results.findKeyword("OututLineCount"), 953);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7841228");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8747174");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStartClock"), "4/0895484264.57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)results.findKeyword("OututStopClock"), "4/0895484264.63279");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartTime"), "2008-05-17T09:37:24.7841228");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopTime"), "2008-05-17T09:37:24.8747174");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63279");
 
   Cube oCube(outCubeFileName);
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 953);
   EXPECT_EQ(oCube.sampleCount(), 1204);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StartTime"), "2008-05-17T09:37:24.7300819");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("StopTime"), "2008-05-17T09:37:31.0666673");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStartCount"), "895484264:57342");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, oCubeInstrument.findKeyword("SpacecraftClockStopCount"), "895484272:12777");
 }
 
 

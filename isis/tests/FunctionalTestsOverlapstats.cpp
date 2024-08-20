@@ -197,5 +197,5 @@ TEST_F(ThreeImageNetwork, FunctionalTestOverlapstatsNoOverlap) {
   overlapstats(options, &appLog);
 
   PvlGroup group = appLog.findGroup("Results");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, group.findKeyword("NoOverlap"), tempDir.path() + "/cube3.cub");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, group.findKeyword("NoOverlap"), tempDir.path().toStdString() + "/cube3.cub");
 }

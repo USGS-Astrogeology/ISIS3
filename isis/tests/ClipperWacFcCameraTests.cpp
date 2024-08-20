@@ -74,7 +74,7 @@ TEST_F(ClipperWacFcCube, ClipperWacFcCameraUnitTest) {
 
   // Simple test for ClipperWacFcCamera::ShutterOpenCloseTimes
   PvlGroup &inst = wacFcCube->label()->findObject("IsisCube").findGroup("Instrument", Pvl::Traverse);
-  QString startTime = inst["StartTime"];
+  QString startTime = QString::fromStdString(inst["StartTime"]);
   iTime etStart(startTime);
 
   std::pair<iTime, iTime> startStop;

@@ -47,10 +47,10 @@ inline void validateUnit(PvlKeyword &key, const QString &kunit) {
   for (int i = 0; i < temp.size(); i++) {
     try {
       //  If this works, check unit, otherwise an exception is thrown
-      toDouble(temp[i]);
-      QString unit = temp.unit(i);
+      std::stod(temp[i]);
+      QString unit = QString::fromStdString(temp.unit(i));
       if (unit.isEmpty()) unit = kunit;
-      key.addValue(temp[i], unit);
+      key.addValue(temp[i], unit.toStdString());
     }
     catch (...) {
       key.addValue(temp[i]);
@@ -60,8 +60,8 @@ inline void validateUnit(PvlKeyword &key, const QString &kunit) {
 }
 
 inline void fixUnit(PvlObject &obj, const QString &key, const QString &unit) {
-  if (obj.hasKeyword(key, PvlObject::Traverse)) {
-    validateUnit(obj.findKeyword(key, PvlObject::Traverse), unit);
+  if (obj.hasKeyword(key.toStdString(), PvlObject::Traverse)) {
+    validateUnit(obj.findKeyword(key.toStdString(), PvlObject::Traverse), unit);
   }
   return;
 }
@@ -70,7 +70,7 @@ inline void fixQuotes(PvlContainer &kcont, const QString &value="N/A") {
   PvlContainer::PvlKeywordIterator kiter;
   for (kiter = kcont.begin(); kiter != kcont.end(); ++kiter) {
     for (int nv = 0; nv < kiter->size(); nv++) {
-      if ((*kiter)[nv] == value)(*kiter)[nv] = quote((*kiter)[nv]);
+      if (QString::fromStdString((*kiter)[nv]) == value)(*kiter)[nv] = quote(QString::fromStdString((*kiter)[nv])).toStdString();
     }
   }
 }
@@ -230,12 +230,12 @@ void IsisMain() {
   p.CheckStatus();
 
   // Creates keywords from the input's hist above
-  PvlKeyword minDn("MINIMUM", toString(setRound(hist->Minimum(), 16)));
-  PvlKeyword maxDn("MAXIMUM", toString(setRound(hist->Maximum(), 16)));
-  PvlKeyword meanDn("MEAN", toString(setRound(hist->Average(), 16)));
-  PvlKeyword stddev("STANDARD_DEVIATION", toString(setRound(hist->StandardDeviation(), 16)));
+  PvlKeyword minDn("MINIMUM", std::to_string(setRound(hist->Minimum(), 16)));
+  PvlKeyword maxDn("MAXIMUM", std::to_string(setRound(hist->Maximum(), 16)));
+  PvlKeyword meanDn("MEAN", std::to_string(setRound(hist->Average(), 16)));
+  PvlKeyword stddev("STANDARD_DEVIATION", std::to_string(setRound(hist->StandardDeviation(), 16)));
 
-  PvlKeyword saturated("SATURATED_PIXEL_COUNT", toString(hist->HisPixels()));
+  PvlKeyword saturated("SATURATED_PIXEL_COUNT", std::to_string(hist->HisPixels()));
 
   PvlObject &imageObj = pdsLabel.findObject("IMAGE");
 
@@ -252,7 +252,7 @@ void IsisMain() {
   PvlKeyword &darkStripMean = imageObj.findKeyword("DARK_STRIP_MEAN");
 
   try {
-    darkStripMean[0] = toString(setRound(toDouble(darkStripMean[0]), 16));
+    darkStripMean[0] = std::to_string(setRound(std::stod(darkStripMean[0]), 16));
   }
   catch (IException &) {
     // If we fail to convert this keyword to a number, then preserve
@@ -266,32 +266,32 @@ void IsisMain() {
   // data set id
   PvlKeyword &dataSetIdKeyword = pdsLabel.findKeyword("DATA_SET_ID",
                                                       Pvl::Traverse);
-  dataSetIdKeyword.setValue(dataSetID);
+  dataSetIdKeyword.setValue(dataSetID.toStdString());
 
   // product id
   PvlKeyword &productIdKeyword = pdsLabel.findKeyword("PRODUCT_ID",
                                                       Pvl::Traverse);
   if (productIdKeyword[0] == "N/A") {
-    productIdKeyword.setValue(output.baseName());
+    productIdKeyword.setValue(output.baseName().toStdString());
   }
 
   // product creation time
   PvlKeyword &productCreationTimeKeyword = pdsLabel.findKeyword("PRODUCT_CREATION_TIME",
                                                                 Pvl::Traverse);
-  productCreationTimeKeyword.setValue(mdis2pdsRuntime);
+  productCreationTimeKeyword.setValue(mdis2pdsRuntime.toStdString());
 
   // software name
   PvlKeyword &softwareNameKeyword = pdsLabel.findKeyword("SOFTWARE_NAME",
                                                          Pvl::Traverse);
   if (softwareNameKeyword[0] == "N/A") {
-    softwareNameKeyword.setValue(mdis2pdsProgram);
+    softwareNameKeyword.setValue(mdis2pdsProgram.toStdString());
   }
 
   // software version id
   PvlKeyword &softwareVersionIdKeyword = pdsLabel.findKeyword("SOFTWARE_VERSION_ID",
                                                               Pvl::Traverse);
   if (softwareVersionIdKeyword[0] == "N/A") {
-    softwareVersionIdKeyword.setValue(quote(mdis2pdsVersion));
+    softwareVersionIdKeyword.setValue(quote(mdis2pdsVersion).toStdString());
   }
   else {
     softwareVersionIdKeyword.setValue(softwareVersionIdKeyword[0]);
@@ -301,7 +301,7 @@ void IsisMain() {
   PvlKeyword &filterNumberKeyword = pdsLabel.findKeyword("FILTER_NUMBER",
                                                          Pvl::Traverse);
   if ((filterNumberKeyword.size() > 0)) {
-    filterNumberKeyword.setValue(quote(filterNumberKeyword[0]));
+    filterNumberKeyword.setValue(quote(QString::fromStdString(filterNumberKeyword[0])).toStdString());
   }
 
 
@@ -309,33 +309,33 @@ void IsisMain() {
   // data quality id
   PvlKeyword &dataQualityIdKeyword = pdsLabel.findKeyword("DATA_QUALITY_ID",
                                                           Pvl::Traverse);
-  dataQualityIdKeyword.setValue(quote(dataQualityIdKeyword));
+  dataQualityIdKeyword.setValue(quote(QString::fromStdString(dataQualityIdKeyword)).toStdString());
 
   // sequence name
   PvlKeyword &sequenceNameKeyword = pdsLabel.findKeyword("SEQUENCE_NAME",
                                                          Pvl::Traverse);
-  sequenceNameKeyword.setValue(quote(sequenceNameKeyword));
+  sequenceNameKeyword.setValue(quote(QString::fromStdString(sequenceNameKeyword)).toStdString());
 
   // spacecraft clock start count
   PvlKeyword &startCountKeyword = pdsLabel.findKeyword("SPACECRAFT_CLOCK_START_COUNT",
                                                        Pvl::Traverse);
-  startCountKeyword.setValue(quote(startCountKeyword));
+  startCountKeyword.setValue(quote(QString::fromStdString(startCountKeyword)).toStdString());
 
   // spacecraft clock stop count
   PvlKeyword &stopCountKeyword = pdsLabel.findKeyword("SPACECRAFT_CLOCK_STOP_COUNT",
                                                       Pvl::Traverse);
-  stopCountKeyword.setValue(quote(stopCountKeyword));
+  stopCountKeyword.setValue(quote(QString::fromStdString(stopCountKeyword)).toStdString());
 
   // site id
   PvlKeyword &siteIdKeyword = pdsLabel.findKeyword("SITE_ID",
                                                    Pvl::Traverse);
-  siteIdKeyword.setValue(quote(siteIdKeyword));
+  siteIdKeyword.setValue(quote(QString::fromStdString(siteIdKeyword)).toStdString());
 
   // source product id
   PvlKeyword &sourceProductIdKeyword = pdsLabel.findKeyword("SOURCE_PRODUCT_ID",
                                                             Pvl::Traverse);
   for (int i = 0; i < sourceProductIdKeyword.size(); i++) {
-    sourceProductIdKeyword[i] = quote(sourceProductIdKeyword[i]);
+    sourceProductIdKeyword[i] = quote(QString::fromStdString(sourceProductIdKeyword[i])).toStdString();
   }
   //  Enforce parentheses for scalars
   if (sourceProductIdKeyword.size() == 1) {
@@ -360,8 +360,8 @@ void IsisMain() {
   for (int i = 1; i <= 5; i++) {
     QString n(toString(i));
     QString group = "SUBFRAME" + n + "_PARAMETERS";
-    if (pdsLabel.hasGroup(group)) {
-      PvlGroup &grp = pdsLabel.findGroup(group);
+    if (pdsLabel.hasGroup(group.toStdString())) {
+      PvlGroup &grp = pdsLabel.findGroup(group.toStdString());
       validateUnit(grp.findKeyword("RETICLE_POINT_LATITUDE"), "DEG");
       validateUnit(grp.findKeyword("RETICLE_POINT_LONGITUDE"), "DEG");
     }

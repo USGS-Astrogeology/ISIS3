@@ -221,7 +221,7 @@ class CompareNetsReportFirstDiff : public TempTestingFiles {
       PvlGroup toleranceGroup("Tolerances");
       toleranceGroup.addKeyword(PvlKeyword("SampleResidual", "1.5"));
       diffs.addGroup(toleranceGroup);
-      diffs.write(diffsFile);
+      diffs.write(diffsFile.toStdString());
     }
 };
 
@@ -560,7 +560,7 @@ class CompareNetsReportFull : public TempTestingFiles {
       toleranceGroup.addKeyword(PvlKeyword("AdjustedX", "3"));
       toleranceGroup.addKeyword(PvlKeyword("AdjustedY", "3"));
       diffs.addGroup(toleranceGroup);
-      diffs.write(diffsFile);
+      diffs.write(diffsFile.toStdString());
     }
 };
 
@@ -595,14 +595,14 @@ TEST_F(CompareNetsReportFirstDiff, FunctionalTestCnetdiffReportFirst) {
     // read back CompareSame1 output file
   Pvl comparePvlSame1;
   try {
-    comparePvlSame1.read(tempDir.path()+ "/compareSame1.txt");
+    comparePvlSame1.read(tempDir.path().toStdString() + "/compareSame1.txt");
   }
   catch (IException &e) {
     FAIL() << "Unable to open error log pvl file: " << e.what() << std::endl;
   }
 
   PvlGroup &results = comparePvlSame1.findGroup("Results", Pvl::Traverse);
-  EXPECT_EQ(results["Compare"][0].toStdString(), "Identical");
+  EXPECT_EQ(results["Compare"][0], "Identical");
 
   // cnet2 vs cnet2
   args = {"from=" + cnetFile2,
@@ -622,14 +622,14 @@ TEST_F(CompareNetsReportFirstDiff, FunctionalTestCnetdiffReportFirst) {
   // read back CompareSame2 output file
   Pvl comparePvlSame2;
   try {
-    comparePvlSame2.read(tempDir.path()+ "/compareSame2.txt");
+    comparePvlSame2.read(tempDir.path().toStdString() + "/compareSame2.txt");
   }
   catch (IException &e) {
     FAIL() << "Unable to open error log pvl file: " << e.what() << std::endl;
   }
 
   results = comparePvlSame2.findGroup("Results", Pvl::Traverse);
-  EXPECT_EQ(results["Compare"][0].toStdString(), "Identical");
+  EXPECT_EQ(results["Compare"][0], "Identical");
 
     // cnet1 vs cnet2
   args = {"from=" + cnetFile1,
@@ -649,15 +649,15 @@ TEST_F(CompareNetsReportFirstDiff, FunctionalTestCnetdiffReportFirst) {
   // read back CompareDifferent output file
   Pvl comparePvlDifferent;
   try {
-    comparePvlDifferent.read(tempDir.path()+ "/compareDifferent.txt");
+    comparePvlDifferent.read(tempDir.path().toStdString() + "/compareDifferent.txt");
   }
   catch (IException &e) {
     FAIL() << "Unable to open error log pvl file: " << e.what() << std::endl;
   }
 
   results = comparePvlDifferent.findGroup("Results", Pvl::Traverse);
-  EXPECT_EQ(results["Compare"][0].toStdString(), "Different");
-  EXPECT_EQ(results["Reason"][0].toStdString(),
+  EXPECT_EQ(results["Compare"][0], "Different");
+  EXPECT_EQ(results["Reason"][0],
                     "Control Point [T0000] Control Measure for Cube [id1] "
                     "Value [SampleResidual] difference is 2.0 (values are "
                     "[-3.0] and [-1.0], tolerance is [0.0])");
@@ -681,15 +681,15 @@ TEST_F(CompareNetsReportFirstDiff, FunctionalTestCnetdiffReportFirst) {
   // read back CompareDifferent2 output file
   Pvl comparePvlDifferent2;
   try {
-    comparePvlDifferent2.read(tempDir.path()+ "/compareDifferent2.txt");
+    comparePvlDifferent2.read(tempDir.path().toStdString() + "/compareDifferent2.txt");
   }
   catch (IException &e) {
     FAIL() << "Unable to open error log pvl file: " << e.what() << std::endl;
   }
 
   results = comparePvlDifferent2.findGroup("Results", Pvl::Traverse);
-  EXPECT_EQ(results["Compare"][0].toStdString(), "Different");
-  EXPECT_EQ(results["Reason"][0].toStdString(),
+  EXPECT_EQ(results["Compare"][0], "Different");
+  EXPECT_EQ(results["Reason"][0],
                     "Control Point [T0000] Control Measure for Cube [id1] "
                     "Value [SampleResidual] difference is 2.0 (values are "
                     "[-3.0] and [-1.0], tolerance is [1.5])");
@@ -745,7 +745,7 @@ TEST_F(CompareNetsReportFull, FunctionalTestCnetdiffReportFull) {
   // read back compareSame1 output file
   Pvl compareSame1;
   try {
-    compareSame1.read(tempDir.path()+ "/compareSame1.txt");
+    compareSame1.read(tempDir.path().toStdString() + "/compareSame1.txt");
   }
   catch (IException &e) {
     FAIL() << "Unable to open error log pvl file: " << e.what() << std::endl;
@@ -777,7 +777,7 @@ TEST_F(CompareNetsReportFull, FunctionalTestCnetdiffReportFull) {
   // read back compareSame2 output file
   Pvl compareSame2;
   try {
-    compareSame2.read(tempDir.path()+ "/compareSame2.txt");
+    compareSame2.read(tempDir.path().toStdString() + "/compareSame2.txt");
   }
   catch (IException &e) {
     FAIL() << "Unable to open error log pvl file: " << e.what() << std::endl;
@@ -809,7 +809,7 @@ TEST_F(CompareNetsReportFull, FunctionalTestCnetdiffReportFull) {
   // read back compareDifferent1 output file
   Pvl compareDifferent1;
   try {
-    compareDifferent1.read(tempDir.path() + "/compareDifferent1.txt");
+    compareDifferent1.read(tempDir.path().toStdString() + "/compareDifferent1.txt");
   }
   catch (IException &e) {
     FAIL() << "Unable to open error log pvl file: " << e.what() << std::endl;
@@ -818,112 +818,112 @@ TEST_F(CompareNetsReportFull, FunctionalTestCnetdiffReportFull) {
   PvlObject &DifferencesObject1 = compareDifferent1.findObject("Differences");
   EXPECT_EQ(DifferencesObject1.keywords(), 4);
   EXPECT_EQ(DifferencesObject1.objects(), 5);
-  EXPECT_EQ(DifferencesObject1["Filename"][0].toStdString(), "cnet1.net");
-  EXPECT_EQ(DifferencesObject1["Filename"][1].toStdString(), "cnet2.net");  
-  EXPECT_EQ(DifferencesObject1["Points"][0].toStdString(), "4");
-  EXPECT_EQ(DifferencesObject1["Points"][1].toStdString(), "3");
-  EXPECT_EQ(DifferencesObject1["NetworkId"][0].toStdString(), "Test");
-  EXPECT_EQ(DifferencesObject1["NetworkId"][1].toStdString(), "Test2");
-  EXPECT_EQ(DifferencesObject1["TargetName"][0].toStdString(), "Mars");
-  EXPECT_EQ(DifferencesObject1["TargetName"][1].toStdString(), "Moon");
+  EXPECT_EQ(DifferencesObject1["Filename"][0], "cnet1.net");
+  EXPECT_EQ(DifferencesObject1["Filename"][1], "cnet2.net");  
+  EXPECT_EQ(DifferencesObject1["Points"][0], "4");
+  EXPECT_EQ(DifferencesObject1["Points"][1], "3");
+  EXPECT_EQ(DifferencesObject1["NetworkId"][0], "Test");
+  EXPECT_EQ(DifferencesObject1["NetworkId"][1], "Test2");
+  EXPECT_EQ(DifferencesObject1["TargetName"][0], "Mars");
+  EXPECT_EQ(DifferencesObject1["TargetName"][1], "Moon");
 
   PvlObject &comp1P1 = DifferencesObject1.findObject("Point");
   EXPECT_EQ(comp1P1.keywords(), 2);
   EXPECT_EQ(comp1P1.groups(), 2);
-  EXPECT_EQ(comp1P1["PointId"][0].toStdString(), "T0000");
-  EXPECT_EQ(comp1P1["EditLock"][0].toStdString(), "True");
-  EXPECT_EQ(comp1P1["EditLock"][1].toStdString(), "N/A");
+  EXPECT_EQ(comp1P1["PointId"][0], "T0000");
+  EXPECT_EQ(comp1P1["EditLock"][0], "True");
+  EXPECT_EQ(comp1P1["EditLock"][1], "N/A");
   
   PvlGroup &comp1P1M1 = comp1P1.findGroup("Measure");
   EXPECT_EQ(comp1P1M1.keywords(), 3);
-  EXPECT_EQ(comp1P1M1["SerialNumber"][0].toStdString(), "id0");
-  EXPECT_EQ(comp1P1M1["Line"][0].toStdString(), "3.0");
-  EXPECT_EQ(comp1P1M1["Line"][1].toStdString(), "2.0");
-  EXPECT_EQ(comp1P1M1["Sample"][0].toStdString(), "2.0");
-  EXPECT_EQ(comp1P1M1["Sample"][1].toStdString(), "1.0");
+  EXPECT_EQ(comp1P1M1["SerialNumber"][0], "id0");
+  EXPECT_EQ(comp1P1M1["Line"][0], "3.0");
+  EXPECT_EQ(comp1P1M1["Line"][1], "2.0");
+  EXPECT_EQ(comp1P1M1["Sample"][0], "2.0");
+  EXPECT_EQ(comp1P1M1["Sample"][1], "1.0");
   comp1P1.deleteGroup("Measure");
 
   PvlGroup &comp1P1M2 = comp1P1.findGroup("Measure");
   EXPECT_EQ(comp1P1M2.keywords(), 2);
-  EXPECT_EQ(comp1P1M2["SerialNumber"][0].toStdString(), "id1");
-  EXPECT_EQ(comp1P1M2["SampleResidual"][0].toStdString(), "-3.0");
-  EXPECT_EQ(comp1P1M2["SampleResidual"][1].toStdString(), "-1.0");
+  EXPECT_EQ(comp1P1M2["SerialNumber"][0], "id1");
+  EXPECT_EQ(comp1P1M2["SampleResidual"][0], "-3.0");
+  EXPECT_EQ(comp1P1M2["SampleResidual"][1], "-1.0");
   DifferencesObject1.deleteObject("Point");
 
   PvlObject &comp1P2 = DifferencesObject1.findObject("Point");
   EXPECT_EQ(comp1P2.keywords(), 1);
-  EXPECT_EQ(comp1P2["PointId"][0].toStdString(), "T0001");
-  EXPECT_EQ(comp1P2["PointId"][1].toStdString(), "N/A");
+  EXPECT_EQ(comp1P2["PointId"][0], "T0001");
+  EXPECT_EQ(comp1P2["PointId"][1], "N/A");
   DifferencesObject1.deleteObject("Point");
 
   PvlObject &comp1P3 = DifferencesObject1.findObject("Point");
   EXPECT_EQ(comp1P3.keywords(), 1);
-  EXPECT_EQ(comp1P3["PointId"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp1P3["PointId"][1].toStdString(), "T0002");
+  EXPECT_EQ(comp1P3["PointId"][0], "N/A");
+  EXPECT_EQ(comp1P3["PointId"][1], "T0002");
   DifferencesObject1.deleteObject("Point");
 
   PvlObject &comp1P4 = DifferencesObject1.findObject("Point");
   EXPECT_EQ(comp1P4.keywords(), 1);
-  EXPECT_EQ(comp1P4["PointId"][0].toStdString(), "T0003");
-  EXPECT_EQ(comp1P4["PointId"][1].toStdString(), "N/A");
+  EXPECT_EQ(comp1P4["PointId"][0], "T0003");
+  EXPECT_EQ(comp1P4["PointId"][1], "N/A");
   DifferencesObject1.deleteObject("Point");
 
   PvlObject &comp1P5 = DifferencesObject1.findObject("Point");
   EXPECT_EQ(comp1P5.keywords(), 8);
   EXPECT_EQ(comp1P5.groups(), 4);
-  EXPECT_EQ(comp1P5["PointId"][0].toStdString(), "T0004");
-  EXPECT_EQ(comp1P5["Measures"][0].toStdString(), "2");
-  EXPECT_EQ(comp1P5["Measures"][1].toStdString(), "3");
-  EXPECT_EQ(comp1P5["AdjustedX"][0].toStdString(), "-424.024048");
-  EXPECT_EQ(comp1P5["AdjustedX"][1].toStdString(), "-423.024048");
-  EXPECT_EQ(comp1P5["AdjustedY"][0].toStdString(), "734.4311949");
-  EXPECT_EQ(comp1P5["AdjustedY"][1].toStdString(), "754.4311949");
-  EXPECT_EQ(comp1P5["AdjustedZ"][0].toStdString(), "529.919264");
-  EXPECT_EQ(comp1P5["AdjustedZ"][1].toStdString(), "523.919264");
-  EXPECT_EQ(comp1P5["AprioriXYZSource"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp1P5["AprioriXYZSource"][1].toStdString(), "Basemap");
-  EXPECT_EQ(comp1P5["AprioriXYZSourceFile"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp1P5["AprioriXYZSourceFile"][1].toStdString(), "/work1/tsucharski/basemap.cub");
-  EXPECT_EQ(comp1P5["EditLock"][0].toStdString(), "True");
-  EXPECT_EQ(comp1P5["EditLock"][1].toStdString(), "N/A");
+  EXPECT_EQ(comp1P5["PointId"][0], "T0004");
+  EXPECT_EQ(comp1P5["Measures"][0], "2");
+  EXPECT_EQ(comp1P5["Measures"][1], "3");
+  EXPECT_EQ(comp1P5["AdjustedX"][0], "-424.024048");
+  EXPECT_EQ(comp1P5["AdjustedX"][1], "-423.024048");
+  EXPECT_EQ(comp1P5["AdjustedY"][0], "734.4311949");
+  EXPECT_EQ(comp1P5["AdjustedY"][1], "754.4311949");
+  EXPECT_EQ(comp1P5["AdjustedZ"][0], "529.919264");
+  EXPECT_EQ(comp1P5["AdjustedZ"][1], "523.919264");
+  EXPECT_EQ(comp1P5["AprioriXYZSource"][0], "N/A");
+  EXPECT_EQ(comp1P5["AprioriXYZSource"][1], "Basemap");
+  EXPECT_EQ(comp1P5["AprioriXYZSourceFile"][0], "N/A");
+  EXPECT_EQ(comp1P5["AprioriXYZSourceFile"][1], "/work1/tsucharski/basemap.cub");
+  EXPECT_EQ(comp1P5["EditLock"][0], "True");
+  EXPECT_EQ(comp1P5["EditLock"][1], "N/A");
 
   PvlGroup &comp1P5M1 = comp1P5.findGroup("Measure");
   EXPECT_EQ(comp1P5M1.keywords(), 9);
-  EXPECT_EQ(comp1P5M1["SerialNumber"][0].toStdString(), "id0");
-  EXPECT_EQ(comp1P5M1["AprioriLine"][0].toStdString(), "20.0");
-  EXPECT_EQ(comp1P5M1["AprioriLine"][1].toStdString(), "N/A");
-  EXPECT_EQ(comp1P5M1["AprioriSample"][0].toStdString(), "10.0");
-  EXPECT_EQ(comp1P5M1["AprioriSample"][1].toStdString(), "N/A");
-  EXPECT_EQ(comp1P5M1["Line"][0].toStdString(), "3.0");
-  EXPECT_EQ(comp1P5M1["Line"][1].toStdString(), "2.0");
-  EXPECT_EQ(comp1P5M1["LineResidual"][0].toStdString(), "-4.0");
-  EXPECT_EQ(comp1P5M1["LineResidual"][1].toStdString(), "4.0");
-  EXPECT_EQ(comp1P5M1["LineSigma"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp1P5M1["LineSigma"][1].toStdString(), "0.21");       
-  EXPECT_EQ(comp1P5M1["Sample"][0].toStdString(), "4.0");
-  EXPECT_EQ(comp1P5M1["Sample"][1].toStdString(), "1.0");
-  EXPECT_EQ(comp1P5M1["SampleResidual"][0].toStdString(), "1.0");
-  EXPECT_EQ(comp1P5M1["SampleResidual"][1].toStdString(), "-10.0");
-  EXPECT_EQ(comp1P5M1["SampleSigma"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp1P5M1["SampleSigma"][1].toStdString(), "0.01");
+  EXPECT_EQ(comp1P5M1["SerialNumber"][0], "id0");
+  EXPECT_EQ(comp1P5M1["AprioriLine"][0], "20.0");
+  EXPECT_EQ(comp1P5M1["AprioriLine"][1], "N/A");
+  EXPECT_EQ(comp1P5M1["AprioriSample"][0], "10.0");
+  EXPECT_EQ(comp1P5M1["AprioriSample"][1], "N/A");
+  EXPECT_EQ(comp1P5M1["Line"][0], "3.0");
+  EXPECT_EQ(comp1P5M1["Line"][1], "2.0");
+  EXPECT_EQ(comp1P5M1["LineResidual"][0], "-4.0");
+  EXPECT_EQ(comp1P5M1["LineResidual"][1], "4.0");
+  EXPECT_EQ(comp1P5M1["LineSigma"][0], "N/A");
+  EXPECT_EQ(comp1P5M1["LineSigma"][1], "0.21");       
+  EXPECT_EQ(comp1P5M1["Sample"][0], "4.0");
+  EXPECT_EQ(comp1P5M1["Sample"][1], "1.0");
+  EXPECT_EQ(comp1P5M1["SampleResidual"][0], "1.0");
+  EXPECT_EQ(comp1P5M1["SampleResidual"][1], "-10.0");
+  EXPECT_EQ(comp1P5M1["SampleSigma"][0], "N/A");
+  EXPECT_EQ(comp1P5M1["SampleSigma"][1], "0.01");
   comp1P5.deleteGroup("Measure");
 
   PvlGroup &comp1P5M2 = comp1P5.findGroup("Measure");
   EXPECT_EQ(comp1P5M2.keywords(), 1);
-  EXPECT_EQ(comp1P5M2["SerialNumber"][0].toStdString(), "id1");
-  EXPECT_EQ(comp1P5M2["SerialNumber"][1].toStdString(), "N/A");
+  EXPECT_EQ(comp1P5M2["SerialNumber"][0], "id1");
+  EXPECT_EQ(comp1P5M2["SerialNumber"][1], "N/A");
   comp1P5.deleteGroup("Measure");
 
   PvlGroup &comp1P5M3 = comp1P5.findGroup("Measure");
   EXPECT_EQ(comp1P5M3.keywords(), 1);
-  EXPECT_EQ(comp1P5M3["SerialNumber"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp1P5M3["SerialNumber"][1].toStdString(), "id2");
+  EXPECT_EQ(comp1P5M3["SerialNumber"][0], "N/A");
+  EXPECT_EQ(comp1P5M3["SerialNumber"][1], "id2");
   comp1P5.deleteGroup("Measure");
 
   PvlGroup &comp1P5M4 = comp1P5.findGroup("Measure");
   EXPECT_EQ(comp1P5M4.keywords(), 1);
-  EXPECT_EQ(comp1P5M4["SerialNumber"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp1P5M4["SerialNumber"][1].toStdString(), "id3");
+  EXPECT_EQ(comp1P5M4["SerialNumber"][0], "N/A");
+  EXPECT_EQ(comp1P5M4["SerialNumber"][1], "id3");
 
   // cnet3 vs cnet4 with diffsFile
   args = {"from=" + cnetFile1,
@@ -945,7 +945,7 @@ TEST_F(CompareNetsReportFull, FunctionalTestCnetdiffReportFull) {
   // read back compareDifferent2 output file
   Pvl compareDifferent2;
   try {
-    compareDifferent2.read(tempDir.path() + "/compareDifferent2.txt");
+    compareDifferent2.read(tempDir.path().toStdString() + "/compareDifferent2.txt");
   }
   catch (IException &e) {
     FAIL() << "Unable to open error log pvl file: " << e.what() << std::endl;
@@ -954,70 +954,70 @@ TEST_F(CompareNetsReportFull, FunctionalTestCnetdiffReportFull) {
   PvlObject &DifferencesObject2 = compareDifferent2.findObject("Differences");
   EXPECT_EQ(DifferencesObject2.keywords(), 3);
   EXPECT_EQ(DifferencesObject2.objects(), 4);
-  EXPECT_EQ(DifferencesObject2["Filename"][0].toStdString(), "cnet1.net");
-  EXPECT_EQ(DifferencesObject2["Filename"][1].toStdString(), "cnet2.net");
-  EXPECT_EQ(DifferencesObject2["Points"][0].toStdString(), "4");
-  EXPECT_EQ(DifferencesObject2["Points"][1].toStdString(), "3");
-  EXPECT_EQ(DifferencesObject2["TargetName"][0].toStdString(), "Mars");
-  EXPECT_EQ(DifferencesObject2["TargetName"][1].toStdString(), "Moon");
+  EXPECT_EQ(DifferencesObject2["Filename"][0], "cnet1.net");
+  EXPECT_EQ(DifferencesObject2["Filename"][1], "cnet2.net");
+  EXPECT_EQ(DifferencesObject2["Points"][0], "4");
+  EXPECT_EQ(DifferencesObject2["Points"][1], "3");
+  EXPECT_EQ(DifferencesObject2["TargetName"][0], "Mars");
+  EXPECT_EQ(DifferencesObject2["TargetName"][1], "Moon");
 
   PvlObject &comp2P1 = DifferencesObject2.findObject("Point");
   EXPECT_EQ(comp2P1.keywords(), 1);
-  EXPECT_EQ(comp2P1["PointId"][0].toStdString(), "T0001");
-  EXPECT_EQ(comp2P1["PointId"][1].toStdString(), "N/A");
+  EXPECT_EQ(comp2P1["PointId"][0], "T0001");
+  EXPECT_EQ(comp2P1["PointId"][1], "N/A");
   DifferencesObject2.deleteObject("Point");
 
   PvlObject &comp2P2 = DifferencesObject2.findObject("Point");
   EXPECT_EQ(comp2P2.keywords(), 1);
-  EXPECT_EQ(comp2P2["PointId"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp2P2["PointId"][1].toStdString(), "T0002");
+  EXPECT_EQ(comp2P2["PointId"][0], "N/A");
+  EXPECT_EQ(comp2P2["PointId"][1], "T0002");
   DifferencesObject2.deleteObject("Point");
 
   PvlObject &comp2P3 = DifferencesObject2.findObject("Point");
   EXPECT_EQ(comp2P3.keywords(), 1);
-  EXPECT_EQ(comp2P3["PointId"][0].toStdString(), "T0003");
-  EXPECT_EQ(comp2P3["PointId"][1].toStdString(), "N/A");
+  EXPECT_EQ(comp2P3["PointId"][0], "T0003");
+  EXPECT_EQ(comp2P3["PointId"][1], "N/A");
   DifferencesObject2.deleteObject("Point");
 
   PvlObject &comp2P4 = DifferencesObject2.findObject("Point");
   EXPECT_EQ(comp2P4.keywords(), 4);
   EXPECT_EQ(comp2P4.groups(), 4);
-  EXPECT_EQ(comp2P4["PointId"][0].toStdString(), "T0004");
-  EXPECT_EQ(comp2P4["Measures"][0].toStdString(), "2");
-  EXPECT_EQ(comp2P4["Measures"][1].toStdString(), "3");
-  EXPECT_EQ(comp2P4["AdjustedY"][0].toStdString(), "734.4311949");
-  EXPECT_EQ(comp2P4["AdjustedY"][1].toStdString(), "754.4311949");
-  EXPECT_EQ(comp2P4["AdjustedY"][2].toStdString(), "3.0");
-  EXPECT_EQ(comp2P4["AprioriXYZSourceFile"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp2P4["AprioriXYZSourceFile"][1].toStdString(), "/work1/tsucharski/basemap.cub");
+  EXPECT_EQ(comp2P4["PointId"][0], "T0004");
+  EXPECT_EQ(comp2P4["Measures"][0], "2");
+  EXPECT_EQ(comp2P4["Measures"][1], "3");
+  EXPECT_EQ(comp2P4["AdjustedY"][0], "734.4311949");
+  EXPECT_EQ(comp2P4["AdjustedY"][1], "754.4311949");
+  EXPECT_EQ(comp2P4["AdjustedY"][2], "3.0");
+  EXPECT_EQ(comp2P4["AprioriXYZSourceFile"][0], "N/A");
+  EXPECT_EQ(comp2P4["AprioriXYZSourceFile"][1], "/work1/tsucharski/basemap.cub");
 
   PvlGroup &comp2P4M1 = comp2P4.findGroup("Measure");
   EXPECT_EQ(comp2P4M1.keywords(), 4);
-  EXPECT_EQ(comp2P4M1["SerialNumber"][0].toStdString(), "id0");
-  EXPECT_EQ(comp2P4M1["LineResidual"][0].toStdString(), "-4.0");
-  EXPECT_EQ(comp2P4M1["LineResidual"][1].toStdString(), "4.0");
-  EXPECT_EQ(comp2P4M1["Sample"][0].toStdString(), "4.0");
-  EXPECT_EQ(comp2P4M1["Sample"][1].toStdString(), "1.0");
-  EXPECT_EQ(comp2P4M1["Sample"][2].toStdString(), "1.0");
-  EXPECT_EQ(comp2P4M1["SampleResidual"][0].toStdString(), "1.0");
-  EXPECT_EQ(comp2P4M1["SampleResidual"][1].toStdString(), "-10.0");
-  EXPECT_EQ(comp2P4M1["SampleResidual"][2].toStdString(), "5.0");
+  EXPECT_EQ(comp2P4M1["SerialNumber"][0], "id0");
+  EXPECT_EQ(comp2P4M1["LineResidual"][0], "-4.0");
+  EXPECT_EQ(comp2P4M1["LineResidual"][1], "4.0");
+  EXPECT_EQ(comp2P4M1["Sample"][0], "4.0");
+  EXPECT_EQ(comp2P4M1["Sample"][1], "1.0");
+  EXPECT_EQ(comp2P4M1["Sample"][2], "1.0");
+  EXPECT_EQ(comp2P4M1["SampleResidual"][0], "1.0");
+  EXPECT_EQ(comp2P4M1["SampleResidual"][1], "-10.0");
+  EXPECT_EQ(comp2P4M1["SampleResidual"][2], "5.0");
   comp2P4.deleteGroup("Measure");
 
   PvlGroup &comp2P4M2 = comp2P4.findGroup("Measure");
   EXPECT_EQ(comp2P4M2.keywords(), 1);
-  EXPECT_EQ(comp2P4M2["SerialNumber"][0].toStdString(), "id1");
-  EXPECT_EQ(comp2P4M2["SerialNumber"][1].toStdString(), "N/A");
+  EXPECT_EQ(comp2P4M2["SerialNumber"][0], "id1");
+  EXPECT_EQ(comp2P4M2["SerialNumber"][1], "N/A");
   comp2P4.deleteGroup("Measure");
 
   PvlGroup &comp2P4M3 = comp2P4.findGroup("Measure");
   EXPECT_EQ(comp2P4M3.keywords(), 1);
-  EXPECT_EQ(comp2P4M3["SerialNumber"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp2P4M3["SerialNumber"][1].toStdString(), "id2");
+  EXPECT_EQ(comp2P4M3["SerialNumber"][0], "N/A");
+  EXPECT_EQ(comp2P4M3["SerialNumber"][1], "id2");
   comp2P4.deleteGroup("Measure");
 
   PvlGroup &comp2P4M4 = comp2P4.findGroup("Measure");
   EXPECT_EQ(comp2P4M4.keywords(), 1);
-  EXPECT_EQ(comp2P4M4["SerialNumber"][0].toStdString(), "N/A");
-  EXPECT_EQ(comp2P4M4["SerialNumber"][1].toStdString(), "id3");
+  EXPECT_EQ(comp2P4M4["SerialNumber"][0], "N/A");
+  EXPECT_EQ(comp2P4M4["SerialNumber"][1], "id3");
 }

@@ -34,18 +34,18 @@ TEST(Sumspice, FunctionalTestSumspiceTimeUpdate) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "1/2395694869:238");
-  EXPECT_EQ(inst["SpacecraftClockStopCount"][0].toStdString(), "1/2395694872:183");
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2005-09-21T10:44:07.352");
-  EXPECT_EQ(inst["StopTime"][0].toStdString(), "2005-09-21T10:44:07.439");
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "1/2395694869:238");
+  EXPECT_EQ(inst["SpacecraftClockStopCount"][0], "1/2395694872:183");
+  EXPECT_EQ(inst["StartTime"][0], "2005-09-21T10:44:07.352");
+  EXPECT_EQ(inst["StopTime"][0], "2005-09-21T10:44:07.439");
 
   // SumTimeHistory Group
   PvlGroup &sumTime = isisLabel->findGroup("SumTimeHistory", Pvl::Traverse);
-  EXPECT_EQ(sumTime["SUMFILE"][0].toStdString(), "N2395699394");
-  EXPECT_EQ(sumTime["SpacecraftClockStartCount"][0].toDouble(), 2395694888);
-  EXPECT_EQ(sumTime["SpacecraftClockStopCount"][0].toDouble(), 2395695365);
-  EXPECT_EQ(sumTime["StartTime"][0].toStdString(), "2005-09-21T10:44:07");
-  EXPECT_EQ(sumTime["StopTime"][0].toStdString(), "2005-09-21T10:44:07");
+  EXPECT_EQ(sumTime["SUMFILE"][0], "N2395699394");
+  EXPECT_EQ(std::stod(sumTime["SpacecraftClockStartCount"][0]), 2395694888);
+  EXPECT_EQ(std::stod(sumTime["SpacecraftClockStopCount"][0]), 2395695365);
+  EXPECT_EQ(sumTime["StartTime"][0], "2005-09-21T10:44:07");
+  EXPECT_EQ(sumTime["StopTime"][0], "2005-09-21T10:44:07");
 
   std::unique_ptr<Histogram> hist (cube.histogram());
 

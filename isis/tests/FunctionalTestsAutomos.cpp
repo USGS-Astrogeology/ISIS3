@@ -32,8 +32,8 @@ TEST_F(DefaultCube, FunctionalTestAutomosDefault) {
 
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("ProjectionName"), "Sinusoidal");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("TargetName"), "MARS");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("ProjectionName"), "Sinusoidal");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("TargetName"), "MARS");
   EXPECT_EQ((double)mapping.findKeyword("UpperLeftCornerX"), 0);
   EXPECT_EQ((double)mapping.findKeyword("UpperLeftCornerY"), 600000);
   EXPECT_EQ((double)mapping.findKeyword("PixelResolution"), 100000);
@@ -118,8 +118,8 @@ TEST_F(DefaultCube, FunctionalTestAutomosPriority) {
 
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("ProjectionName"), "Sinusoidal");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("TargetName"), "MARS");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("ProjectionName"), "Sinusoidal");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("TargetName"), "MARS");
   EXPECT_EQ((double)mapping.findKeyword("UpperLeftCornerX"), 0);
   EXPECT_EQ((double)mapping.findKeyword("UpperLeftCornerY"), 600000);
   EXPECT_EQ((double)mapping.findKeyword("PixelResolution"), 100000);
@@ -166,8 +166,8 @@ TEST_F(DefaultCube, FunctionalTestAutomosTracking) {
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");
   PvlGroup tMapping = trackingLabel.findObject("IsisCube").findGroup("Mapping");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("ProjectionName"), (QString)tMapping.findKeyword("ProjectionName"));
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("TargetName"), (QString)tMapping.findKeyword("TargetName"));
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("ProjectionName"), tMapping.findKeyword("ProjectionName"));
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("TargetName"), tMapping.findKeyword("TargetName"));
   EXPECT_EQ((double)mapping.findKeyword("UpperLeftCornerX"), (double)mapping.findKeyword("UpperLeftCornerX"));
   EXPECT_EQ((double)mapping.findKeyword("UpperLeftCornerY"), (double)tMapping.findKeyword("UpperLeftCornerY"));
   EXPECT_EQ((double)mapping.findKeyword("PixelResolution"), (double)tMapping.findKeyword("PixelResolution"));
@@ -203,8 +203,8 @@ TEST_F(DefaultCube, FunctionalTestAutomosBandSelect) {
   Pvl label = *mos.label();
 
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("ProjectionName"), "Sinusoidal");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, (QString)mapping.findKeyword("TargetName"), "MARS");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("ProjectionName"), "Sinusoidal");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, mapping.findKeyword("TargetName"), "MARS");
   EXPECT_EQ((double)mapping.findKeyword("UpperLeftCornerX"), 0);
   EXPECT_EQ((double)mapping.findKeyword("UpperLeftCornerY"), 600000);
   EXPECT_EQ((double)mapping.findKeyword("PixelResolution"), 100000);

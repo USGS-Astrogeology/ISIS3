@@ -38,7 +38,7 @@ namespace Isis {
       PvlGroup &instrument = pvl.findGroup("INSTRUMENT", Pvl::Traverse);
 
       // Make sure it is a viking mission
-      QString spacecraft = (QString)instrument["SPACECRAFTNAME"];
+      QString spacecraft = QString::fromStdString(instrument["SPACECRAFTNAME"]);
       QString mission = spacecraft.split("_").first();
       spacecraft = spacecraft.split("_").last();
       if(mission != "VIKING") {
@@ -55,7 +55,7 @@ namespace Isis {
         throw IException(IException::User, msg, _FILEINFO_);
       }
       double clock = instrument["SPACECRAFTCLOCKCOUNT"];
-      QString instId = (QString)instrument["INSTRUMENTID"];
+      QString instId = QString::fromStdString(instrument["INSTRUMENTID"]);
       int cam;
       // Camera State 4 is used to indicate an extended mission. This is
       // necessary because the dust spot changed position during the extended
@@ -78,24 +78,24 @@ namespace Isis {
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
-      QString startTime = instrument["STARTTIME"];
+      QString startTime = QString::fromStdString(instrument["STARTTIME"]);
       p_dist1 = CalcSunDist(startTime, icube);
       p_labexp = (double)instrument["EXPOSUREDURATION"] * 1000.0;  // convert to msec
       QString target = " ";
       PvlKeyword cs1 = instrument["FLOODMODEID"];
-      if((QString)cs1 == "ON") cs1 = "1";
-      else if((QString)cs1 == "OFF") cs1 = "0";
+      if(QString::fromStdString(cs1) == "ON") cs1 = "1";
+      else if(QString::fromStdString(cs1) == "OFF") cs1 = "0";
       PvlKeyword cs2 = instrument["GAINMODEID"];
-      if((QString)cs2 == "LOW") cs2 = "0";
-      else if((QString)cs2 == "HIGH") cs2 = "1";
+      if(QString::fromStdString(cs2) == "LOW") cs2 = "0";
+      else if(QString::fromStdString(cs2) == "HIGH") cs2 = "1";
       PvlKeyword cs3 = instrument["OFFSETMODEID"];
-      if((QString)cs3 == "ON") cs3 = "1";
-      else if((QString)cs3 == "OFF") cs3 = "0";
+      if(QString::fromStdString(cs3) == "ON") cs3 = "1";
+      else if(QString::fromStdString(cs3) == "OFF") cs3 = "0";
       PvlKeyword wav = pvl.findGroup("BANDBIN", Pvl::Traverse)["FILTERID"];
 
       // Set up calibration, linearity, and offset variables for the input file
-      vikcalSetup(mission, spn, target, cam, wav, (int)cs1, (int)cs2, (int)cs3, (int)cs4);
-      viklinSetup(mission, spn, target, cam, wav, (int)cs1, (int)cs2, (int)cs3, (int)cs4);
+      vikcalSetup(mission, spn, target, cam, QString::fromStdString(wav), (int)cs1, (int)cs2, (int)cs3, (int)cs4);
+      viklinSetup(mission, spn, target, cam, QString::fromStdString(wav), (int)cs1, (int)cs2, (int)cs3, (int)cs4);
       vikoffSetup(mission, spn, target, cam, clock, (int)cs3);
     }
     catch(IException &e) {

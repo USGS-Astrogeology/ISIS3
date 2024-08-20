@@ -728,20 +728,20 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
 
   // Instrument Group
   PvlGroup &inst = panLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "TRACE GAS ORBITER");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "CaSSIS");
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "Mars" );
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2016-11-26T22:58:02.583");
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "2f0154373db1aa13");
-  EXPECT_EQ(inst["ExposureDuration"][0].toStdString(), "1.920e-003");
+  EXPECT_EQ(inst["SpacecraftName"][0], "TRACE GAS ORBITER");
+  EXPECT_EQ(inst["InstrumentId"][0], "CaSSIS");
+  EXPECT_EQ(inst["TargetName"][0], "Mars" );
+  EXPECT_EQ(inst["StartTime"][0], "2016-11-26T22:58:02.583");
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "2f0154373db1aa13");
+  EXPECT_EQ(inst["ExposureDuration"][0], "1.920e-003");
   EXPECT_EQ(int(inst["SummingMode"]), 0);
-  EXPECT_EQ(inst["Filter"][0].toStdString(), "PAN");
+  EXPECT_EQ(inst["Filter"][0], "PAN");
 
   // Archive Group
   PvlGroup &archive = panLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["DataSetId"][0].toStdString(), "TBD");
-  EXPECT_EQ(archive["ProductVersionId"][0].toStdString(), "UNK");
-  EXPECT_EQ(archive["ProductCreationTime"][0].toStdString(), "2017-10-03T10:50:26");
+  EXPECT_EQ(archive["DataSetId"][0], "TBD");
+  EXPECT_EQ(archive["ProductVersionId"][0], "UNK");
+  EXPECT_EQ(archive["ProductCreationTime"][0], "2017-10-03T10:50:26");
   EXPECT_DOUBLE_EQ(double(archive["ScalingFactor"]), 1.0);
   EXPECT_DOUBLE_EQ(double(archive["Offset"]), 0.0);
   EXPECT_DOUBLE_EQ(double(archive["PredictMaximumExposureTime"]), 3.4317);
@@ -758,7 +758,7 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
   EXPECT_EQ(int(archive["ImageFrequency"]), 1200000);
   EXPECT_EQ(int(archive["NumberOfWindows"]), 6);
   EXPECT_EQ(int(archive["UniqueIdentifier"]), 100799468);
-  EXPECT_EQ(archive["ExposureTimestamp"][0].toStdString(), "2f0154373db1aa13");
+  EXPECT_EQ(archive["ExposureTimestamp"][0], "2f0154373db1aa13");
   EXPECT_DOUBLE_EQ(double(archive["ExposureTimePEHK"]), 0.00192);
   EXPECT_DOUBLE_EQ(double(archive["PixelsPossiblySaturated"]), 0.00);
   EXPECT_EQ(int(archive["WindowCount"]), 0);
@@ -793,14 +793,14 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
   EXPECT_EQ(int(archive["Window6StartLine"]), 1850);
   EXPECT_EQ(int(archive["Window6EndLine"]), 1858);
   EXPECT_EQ(int(archive["YearDoy"]), 2016331);
-  EXPECT_EQ(archive["ObservationId"][0].toStdString(), "CRUS_049218_251_0");
+  EXPECT_EQ(archive["ObservationId"][0], "CRUS_049218_251_0");
 
   // BandBin Group
   PvlGroup &bandbin = panLabel->findGroup("BandBin", Pvl::Traverse);
-  EXPECT_EQ(bandbin["FilterName"][0].toStdString(), "PAN");
+  EXPECT_EQ(bandbin["FilterName"][0], "PAN");
   EXPECT_DOUBLE_EQ(double(bandbin["Center"]), 678.2);
   EXPECT_DOUBLE_EQ(double(bandbin["Width"]), 231.9);
-  EXPECT_EQ(bandbin["NaifIkCode"][0].toStdString(), "-143421");
+  EXPECT_EQ(bandbin["NaifIkCode"][0], "-143421");
 
   // Kernels Group
   PvlGroup &kernels = panLabel->findGroup("Kernels", Pvl::Traverse);
@@ -819,20 +819,20 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
 
   // Instrument Group
   inst = nirLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "TRACE GAS ORBITER");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "CaSSIS");
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "Mars" );
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2016-11-26T22:58:02.583");
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "2f0154373db1aa13");
-  EXPECT_EQ(inst["ExposureDuration"][0].toStdString(), "1.920e-003");
+  EXPECT_EQ(inst["SpacecraftName"][0], "TRACE GAS ORBITER");
+  EXPECT_EQ(inst["InstrumentId"][0], "CaSSIS");
+  EXPECT_EQ(inst["TargetName"][0], "Mars" );
+  EXPECT_EQ(inst["StartTime"][0], "2016-11-26T22:58:02.583");
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "2f0154373db1aa13");
+  EXPECT_EQ(inst["ExposureDuration"][0], "1.920e-003");
   EXPECT_EQ(int(inst["SummingMode"]), 0);
-  EXPECT_EQ(inst["Filter"][0].toStdString(), "NIR");
+  EXPECT_EQ(inst["Filter"][0], "NIR");
 
   // Archive Group
   archive = nirLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["DataSetId"][0].toStdString(), "TBD");
-  EXPECT_EQ(archive["ProductVersionId"][0].toStdString(), "UNK");
-  EXPECT_EQ(archive["ProductCreationTime"][0].toStdString(), "2017-10-03T10:50:26");
+  EXPECT_EQ(archive["DataSetId"][0], "TBD");
+  EXPECT_EQ(archive["ProductVersionId"][0], "UNK");
+  EXPECT_EQ(archive["ProductCreationTime"][0], "2017-10-03T10:50:26");
   EXPECT_DOUBLE_EQ(double(archive["ScalingFactor"]), 1.0);
   EXPECT_DOUBLE_EQ(double(archive["Offset"]), 0.0);
   EXPECT_DOUBLE_EQ(double(archive["PredictMaximumExposureTime"]), 3.4317);
@@ -849,7 +849,7 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
   EXPECT_EQ(int(archive["ImageFrequency"]), 1200000);
   EXPECT_EQ(int(archive["NumberOfWindows"]), 6);
   EXPECT_EQ(int(archive["UniqueIdentifier"]), 100799468);
-  EXPECT_EQ(archive["ExposureTimestamp"][0].toStdString(), "2f0154373db1aa13");
+  EXPECT_EQ(archive["ExposureTimestamp"][0], "2f0154373db1aa13");
   EXPECT_DOUBLE_EQ(double(archive["ExposureTimePEHK"]), 0.00192);
   EXPECT_DOUBLE_EQ(double(archive["PixelsPossiblySaturated"]), 0.00);
   EXPECT_EQ(int(archive["WindowCount"]), 2);
@@ -884,14 +884,14 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
   EXPECT_EQ(int(archive["Window6StartLine"]), 1850);
   EXPECT_EQ(int(archive["Window6EndLine"]), 1858);
   EXPECT_EQ(int(archive["YearDoy"]), 2016331);
-  EXPECT_EQ(archive["ObservationId"][0].toStdString(), "CRUS_049218_251_0");
+  EXPECT_EQ(archive["ObservationId"][0], "CRUS_049218_251_0");
 
   // BandBin Group
   bandbin = nirLabel->findGroup("BandBin", Pvl::Traverse);
-  EXPECT_EQ(bandbin["FilterName"][0].toStdString(), "NIR");
+  EXPECT_EQ(bandbin["FilterName"][0], "NIR");
   EXPECT_DOUBLE_EQ(double(bandbin["Center"]), 939.3);
   EXPECT_DOUBLE_EQ(double(bandbin["Width"]), 121.8);
-  EXPECT_EQ(bandbin["NaifIkCode"][0].toStdString(), "-143423");
+  EXPECT_EQ(bandbin["NaifIkCode"][0], "-143423");
 
   // Kernels Group
   kernels = nirLabel->findGroup("Kernels", Pvl::Traverse);
@@ -910,20 +910,20 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
 
   // Instrument Group
   inst = redLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "TRACE GAS ORBITER");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "CaSSIS");
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "Mars" );
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2016-11-26T22:58:02.583");
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "2f0154373db1aa13");
-  EXPECT_EQ(inst["ExposureDuration"][0].toStdString(), "1.920e-003");
+  EXPECT_EQ(inst["SpacecraftName"][0], "TRACE GAS ORBITER");
+  EXPECT_EQ(inst["InstrumentId"][0], "CaSSIS");
+  EXPECT_EQ(inst["TargetName"][0], "Mars" );
+  EXPECT_EQ(inst["StartTime"][0], "2016-11-26T22:58:02.583");
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "2f0154373db1aa13");
+  EXPECT_EQ(inst["ExposureDuration"][0], "1.920e-003");
   EXPECT_EQ(int(inst["SummingMode"]), 0);
-  EXPECT_EQ(inst["Filter"][0].toStdString(), "RED");
+  EXPECT_EQ(inst["Filter"][0], "RED");
 
   // Archive Group
   archive = redLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["DataSetId"][0].toStdString(), "TBD");
-  EXPECT_EQ(archive["ProductVersionId"][0].toStdString(), "UNK");
-  EXPECT_EQ(archive["ProductCreationTime"][0].toStdString(), "2017-10-03T10:50:26");
+  EXPECT_EQ(archive["DataSetId"][0], "TBD");
+  EXPECT_EQ(archive["ProductVersionId"][0], "UNK");
+  EXPECT_EQ(archive["ProductCreationTime"][0], "2017-10-03T10:50:26");
   EXPECT_DOUBLE_EQ(double(archive["ScalingFactor"]), 1.0);
   EXPECT_DOUBLE_EQ(double(archive["Offset"]), 0.0);
   EXPECT_DOUBLE_EQ(double(archive["PredictMaximumExposureTime"]), 3.4317);
@@ -940,7 +940,7 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
   EXPECT_EQ(int(archive["ImageFrequency"]), 1200000);
   EXPECT_EQ(int(archive["NumberOfWindows"]), 6);
   EXPECT_EQ(int(archive["UniqueIdentifier"]), 100799468);
-  EXPECT_EQ(archive["ExposureTimestamp"][0].toStdString(), "2f0154373db1aa13");
+  EXPECT_EQ(archive["ExposureTimestamp"][0], "2f0154373db1aa13");
   EXPECT_DOUBLE_EQ(double(archive["ExposureTimePEHK"]), 0.00192);
   EXPECT_DOUBLE_EQ(double(archive["PixelsPossiblySaturated"]), 0.00);
   EXPECT_EQ(int(archive["WindowCount"]), 1);
@@ -975,14 +975,14 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
   EXPECT_EQ(int(archive["Window6StartLine"]), 1850);
   EXPECT_EQ(int(archive["Window6EndLine"]), 1858);
   EXPECT_EQ(int(archive["YearDoy"]), 2016331);
-  EXPECT_EQ(archive["ObservationId"][0].toStdString(), "CRUS_049218_251_0");
+  EXPECT_EQ(archive["ObservationId"][0], "CRUS_049218_251_0");
 
   // BandBin Group
   bandbin = redLabel->findGroup("BandBin", Pvl::Traverse);
-  EXPECT_EQ(bandbin["FilterName"][0].toStdString(), "RED");
+  EXPECT_EQ(bandbin["FilterName"][0], "RED");
   EXPECT_DOUBLE_EQ(double(bandbin["Center"]), 836);
   EXPECT_DOUBLE_EQ(double(bandbin["Width"]), 98.5);
-  EXPECT_EQ(bandbin["NaifIkCode"][0].toStdString(), "-143422");
+  EXPECT_EQ(bandbin["NaifIkCode"][0], "-143422");
 
   // Kernels Group
   kernels = redLabel->findGroup("Kernels", Pvl::Traverse);
@@ -1002,20 +1002,20 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
 
   // Instrument Group
   inst = bluLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "TRACE GAS ORBITER");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "CaSSIS");
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "Mars" );
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2016-11-26T22:58:02.583");
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "2f0154373db1aa13");
-  EXPECT_EQ(inst["ExposureDuration"][0].toStdString(), "1.920e-003");
+  EXPECT_EQ(inst["SpacecraftName"][0], "TRACE GAS ORBITER");
+  EXPECT_EQ(inst["InstrumentId"][0], "CaSSIS");
+  EXPECT_EQ(inst["TargetName"][0], "Mars" );
+  EXPECT_EQ(inst["StartTime"][0], "2016-11-26T22:58:02.583");
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "2f0154373db1aa13");
+  EXPECT_EQ(inst["ExposureDuration"][0], "1.920e-003");
   EXPECT_EQ(int(inst["SummingMode"]), 0);
-  EXPECT_EQ(inst["Filter"][0].toStdString(), "BLU");
+  EXPECT_EQ(inst["Filter"][0], "BLU");
 
   // Archive Group
   archive = bluLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["DataSetId"][0].toStdString(), "TBD");
-  EXPECT_EQ(archive["ProductVersionId"][0].toStdString(), "UNK");
-  EXPECT_EQ(archive["ProductCreationTime"][0].toStdString(), "2017-10-03T10:50:26");
+  EXPECT_EQ(archive["DataSetId"][0], "TBD");
+  EXPECT_EQ(archive["ProductVersionId"][0], "UNK");
+  EXPECT_EQ(archive["ProductCreationTime"][0], "2017-10-03T10:50:26");
   EXPECT_DOUBLE_EQ(double(archive["ScalingFactor"]), 1.0);
   EXPECT_DOUBLE_EQ(double(archive["Offset"]), 0.0);
   EXPECT_DOUBLE_EQ(double(archive["PredictMaximumExposureTime"]), 3.4317);
@@ -1032,7 +1032,7 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
   EXPECT_EQ(int(archive["ImageFrequency"]), 1200000);
   EXPECT_EQ(int(archive["NumberOfWindows"]), 6);
   EXPECT_EQ(int(archive["UniqueIdentifier"]), 100799468);
-  EXPECT_EQ(archive["ExposureTimestamp"][0].toStdString(), "2f0154373db1aa13");
+  EXPECT_EQ(archive["ExposureTimestamp"][0], "2f0154373db1aa13");
   EXPECT_DOUBLE_EQ(double(archive["ExposureTimePEHK"]), 0.00192);
   EXPECT_DOUBLE_EQ(double(archive["PixelsPossiblySaturated"]), 0.00);
   EXPECT_EQ(int(archive["WindowCount"]), 3);
@@ -1067,14 +1067,14 @@ TEST_F(TgoCassisModuleKernels, TgoCassisSingleFrameletProjection) {
   EXPECT_EQ(int(archive["Window6StartLine"]), 1850);
   EXPECT_EQ(int(archive["Window6EndLine"]), 1858);
   EXPECT_EQ(int(archive["YearDoy"]), 2016331);
-  EXPECT_EQ(archive["ObservationId"][0].toStdString(), "CRUS_049218_251_0");
+  EXPECT_EQ(archive["ObservationId"][0], "CRUS_049218_251_0");
 
   // BandBin Group
   bandbin = bluLabel->findGroup("BandBin", Pvl::Traverse);
-  EXPECT_EQ(bandbin["FilterName"][0].toStdString(), "BLU");
+  EXPECT_EQ(bandbin["FilterName"][0], "BLU");
   EXPECT_DOUBLE_EQ(double(bandbin["Center"]), 494.8);
   EXPECT_DOUBLE_EQ(double(bandbin["Width"]), 133.6);
-  EXPECT_EQ(bandbin["NaifIkCode"][0].toStdString(), "-143424");
+  EXPECT_EQ(bandbin["NaifIkCode"][0], "-143424");
 
   // Kernels Group
   kernels = bluLabel->findGroup("Kernels", Pvl::Traverse);
@@ -1134,27 +1134,27 @@ TEST(TgoCassisModuleTests, TgoCassisIngestReingest) {
 
   // Instrument Group
   PvlGroup &inst = redLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "TRACE GAS ORBITER");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "CaSSIS");
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "Mars" );
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2016-11-26T22:58:02.583");
-  EXPECT_EQ(inst["ExposureDuration"][0].toStdString(), "1.920e-003");
+  EXPECT_EQ(inst["SpacecraftName"][0], "TRACE GAS ORBITER");
+  EXPECT_EQ(inst["InstrumentId"][0], "CaSSIS");
+  EXPECT_EQ(inst["TargetName"][0], "Mars" );
+  EXPECT_EQ(inst["StartTime"][0], "2016-11-26T22:58:02.583");
+  EXPECT_EQ(inst["ExposureDuration"][0], "1.920e-003");
   EXPECT_EQ(int(inst["SummingMode"]), 0);
-  EXPECT_EQ(inst["Filter"][0].toStdString(), "RED");
+  EXPECT_EQ(inst["Filter"][0], "RED");
 
   // Archive Group
   PvlGroup &archive = redLabel->findGroup("Archive", Pvl::Traverse);
   EXPECT_DOUBLE_EQ(double(archive["ProductVersionId"]), 1.0);
   EXPECT_DOUBLE_EQ(double(archive["ScalingFactor"]), 1.0);
   EXPECT_EQ(int(archive["YearDoy"]), 2016331);
-  EXPECT_EQ(archive["ObservationId"][0].toStdString(), "CRUS_049218_251_0");
+  EXPECT_EQ(archive["ObservationId"][0], "CRUS_049218_251_0");
 
   // BandBin Group
   PvlGroup &bandbin = redLabel->findGroup("BandBin", Pvl::Traverse);
-  EXPECT_EQ(bandbin["FilterName"][0].toStdString(), "RED");
+  EXPECT_EQ(bandbin["FilterName"][0], "RED");
   EXPECT_DOUBLE_EQ(double(bandbin["Center"]), 836);
   EXPECT_DOUBLE_EQ(double(bandbin["Width"]), 98.5);
-  EXPECT_EQ(bandbin["NaifIkCode"][0].toStdString(), "-143422");
+  EXPECT_EQ(bandbin["NaifIkCode"][0], "-143422");
 
   // Kernels Group
   PvlGroup &kernels = redLabel->findGroup("Kernels", Pvl::Traverse);

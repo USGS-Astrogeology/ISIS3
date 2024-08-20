@@ -43,7 +43,7 @@ TEST_F(SmallCube, FunctionalTestIsisexportMainLabel) {
   renderedStream.open(renderedFile.toStdString());
   std::string line;
   std::getline(renderedStream, line);
-  EXPECT_EQ(testKey[0].toStdString(), line);
+  EXPECT_EQ(testKey[0], line);
 }
 
 TEST_F(SmallCube, FunctionalTestIsisexportOriginalLabel) {
@@ -68,7 +68,7 @@ TEST_F(SmallCube, FunctionalTestIsisexportOriginalLabel) {
   renderedStream.open(renderedFile.toStdString());
   std::string line;
   std::getline(renderedStream, line);
-  EXPECT_EQ(testKey[0].toStdString(), line);
+  EXPECT_EQ(testKey[0], line);
 }
 
 TEST_F(SmallCube, FunctionalTestIsisexportNoOriginalLabel) {
@@ -117,7 +117,7 @@ TEST_F(SmallCube, FunctionalTestIsisexportExtraPvl) {
   Pvl testPvl;
   PvlKeyword testKey("TestValue", "a");
   testPvl += testKey;
-  testPvl.write(pvlFile);
+  testPvl.write(pvlFile.toStdString());
 
   QString templateFile = tempDir.path()+"/test_result.tpl";
   QString renderedFile = tempDir.path()+"/test_result.txt";
@@ -136,7 +136,7 @@ TEST_F(SmallCube, FunctionalTestIsisexportExtraPvl) {
   renderedStream.open(renderedFile.toStdString());
   std::string line;
   std::getline(renderedStream, line);
-  EXPECT_EQ(testKey[0].toStdString(), line);
+  EXPECT_EQ(testKey[0], line);
 }
 
 TEST_F(SmallCube, FunctionalTestIsisexportMultipleExtraPvl) {
@@ -146,7 +146,7 @@ TEST_F(SmallCube, FunctionalTestIsisexportMultipleExtraPvl) {
   PvlKeyword safeKey("SafeValue", "true");
   testPvl1 += testKey1;
   testPvl1 += safeKey;
-  testPvl1.write(pvlFile1);
+  testPvl1.write(pvlFile1.toStdString());
 
   QString pvlfile2 = tempDir.path()+"/extra2.pvl";
   Pvl testPvl2;
@@ -154,7 +154,7 @@ TEST_F(SmallCube, FunctionalTestIsisexportMultipleExtraPvl) {
   PvlKeyword testKey2("AnotherValue", "10");
   testPvl2 += duplicateKey;
   testPvl2 += testKey2;
-  testPvl2.write(pvlfile2);
+  testPvl2.write(pvlfile2.toStdString());
 
   QString templateFile = tempDir.path()+"/test_result.tpl";
   QString renderedFile = tempDir.path()+"/test_result.txt";
@@ -176,11 +176,11 @@ TEST_F(SmallCube, FunctionalTestIsisexportMultipleExtraPvl) {
   renderedStream.open(renderedFile.toStdString());
   std::string line;
   std::getline(renderedStream, line);
-  EXPECT_EQ(duplicateKey[0].toStdString(), line);
+  EXPECT_EQ(duplicateKey[0], line);
   std::getline(renderedStream, line);
-  EXPECT_EQ(testKey2[0].toStdString(), line);
+  EXPECT_EQ(testKey2[0], line);
   std::getline(renderedStream, line);
-  EXPECT_EQ(safeKey[0].toStdString(), line);
+  EXPECT_EQ(safeKey[0], line);
 
   // The duplicate key should generate a warning
   EXPECT_TRUE(log.hasGroup("Warning"));

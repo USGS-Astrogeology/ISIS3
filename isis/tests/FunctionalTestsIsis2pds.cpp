@@ -28,29 +28,29 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Pvl outputLabel(options.GetFileName("TO"));
+  Pvl outputLabel(options.GetFileName("TO").toStdString());
   PvlObject imageObject = outputLabel.findObject("IMAGE");
 
-  EXPECT_EQ(QString(outputLabel["PDS_VERSION_ID"]), "PDS3");
-  EXPECT_EQ(QString(outputLabel["RECORD_TYPE"]), "UNDEFINED");
+  EXPECT_EQ((std::string)outputLabel["PDS_VERSION_ID"], "PDS3");
+  EXPECT_EQ((std::string)outputLabel["RECORD_TYPE"], "UNDEFINED");
   EXPECT_EQ(int(outputLabel["LABEL_RECORDS"]), 809);
   EXPECT_EQ(int(outputLabel["^IMAGE"]), 810);
-  EXPECT_EQ(QString(outputLabel["CHECKSUM"]), "5656e616c61d8fa7ed568ff88632f044");
+  EXPECT_EQ((std::string)outputLabel["CHECKSUM"], "5656e616c61d8fa7ed568ff88632f044");
 
   EXPECT_EQ(int(imageObject["LINES"]), 1056);
   EXPECT_EQ(int(imageObject["LINE_SAMPLES"]), 1204);
   EXPECT_EQ(int(imageObject["BANDS"]), 1);
-  EXPECT_EQ(QString(imageObject["BAND_STORAGE_TYPE"]), "BAND_SEQUENTIAL");
+  EXPECT_EQ((std::string)imageObject["BAND_STORAGE_TYPE"], "BAND_SEQUENTIAL");
   EXPECT_DOUBLE_EQ(double(imageObject["OFFSET"]), 0.0);
   EXPECT_DOUBLE_EQ(double(imageObject["SCALING_FACTOR"]), 1.0);
   EXPECT_EQ(int(imageObject["SAMPLE_BITS"]), 32);
-  EXPECT_EQ(QString(imageObject["SAMPLE_BIT_MASK"]), "2#11111111111111111111111111111111#");
-  EXPECT_EQ(QString(imageObject["SAMPLE_TYPE"]), "PC_REAL");
-  EXPECT_EQ(QString(imageObject["CORE_NULL"]), "16#FF7FFFFB#");
-  EXPECT_EQ(QString(imageObject["CORE_LOW_REPR_SATURATION"]), "16#FF7FFFFC#");
-  EXPECT_EQ(QString(imageObject["CORE_LOW_INSTR_SATURATION"]), "16#FF7FFFFD#");
-  EXPECT_EQ(QString(imageObject["CORE_HIGH_REPR_SATURATION"]), "16#FF7FFFFF#");
-  EXPECT_EQ(QString(imageObject["CORE_HIGH_INSTR_SATURATION"]), "16#FF7FFFFE#");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_BIT_MASK"], "2#11111111111111111111111111111111#");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_TYPE"], "PC_REAL");
+  EXPECT_EQ((std::string)imageObject["CORE_NULL"], "16#FF7FFFFB#");
+  EXPECT_EQ((std::string)imageObject["CORE_LOW_REPR_SATURATION"], "16#FF7FFFFC#");
+  EXPECT_EQ((std::string)imageObject["CORE_LOW_INSTR_SATURATION"], "16#FF7FFFFD#");
+  EXPECT_EQ((std::string)imageObject["CORE_HIGH_REPR_SATURATION"], "16#FF7FFFFF#");
+  EXPECT_EQ((std::string)imageObject["CORE_HIGH_INSTR_SATURATION"], "16#FF7FFFFE#");
 
 }
 
@@ -71,15 +71,15 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsDefaultMSB) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Pvl outputLabel(options.GetFileName("TO"));
+  Pvl outputLabel(options.GetFileName("TO").toStdString());
   PvlObject imageObject = outputLabel.findObject("IMAGE");
 
   EXPECT_EQ(int(outputLabel["LABEL_RECORDS"]), 695);
   EXPECT_EQ(int(outputLabel["^IMAGE"]), 696);
 
   EXPECT_EQ(int(imageObject["SAMPLE_BITS"]), 8);
-  EXPECT_EQ(QString(imageObject["SAMPLE_BIT_MASK"]), "2#11111111#");
-  EXPECT_EQ(QString(imageObject["SAMPLE_TYPE"]), "MSB_UNSIGNED_INTEGER");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_BIT_MASK"], "2#11111111#");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_TYPE"], "MSB_UNSIGNED_INTEGER");
   EXPECT_EQ(int(imageObject["CORE_NULL"]), 0);
   EXPECT_EQ(int(imageObject["CORE_LOW_REPR_SATURATION"]), 1);
   EXPECT_EQ(int(imageObject["CORE_LOW_INSTR_SATURATION"]), 1);
@@ -111,7 +111,7 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsLinear8bit) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Pvl outputLabel(options.GetFileName("TO"));
+  Pvl outputLabel(options.GetFileName("TO").toStdString());
   PvlObject imageObject = outputLabel.findObject("IMAGE");
 
   EXPECT_EQ(int(outputLabel["LABEL_RECORDS"]), 700);
@@ -150,7 +150,7 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsLinears16bit) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Pvl outputLabel(options.GetFileName("TO"));
+  Pvl outputLabel(options.GetFileName("TO").toStdString());
   PvlObject imageObject = outputLabel.findObject("IMAGE");
 
   EXPECT_EQ(int(outputLabel["LABEL_RECORDS"]), 745);
@@ -159,8 +159,8 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsLinears16bit) {
   EXPECT_DOUBLE_EQ(double(imageObject["OFFSET"]), 127.49923699068999);
   EXPECT_DOUBLE_EQ(double(imageObject["SCALING_FACTOR"]), 0.00038150465435678302);
   EXPECT_EQ(int(imageObject["SAMPLE_BITS"]), 16);
-  EXPECT_EQ(QString(imageObject["SAMPLE_BIT_MASK"]), "2#1111111111111111#");
-  EXPECT_EQ(QString(imageObject["SAMPLE_TYPE"]), "LSB_INTEGER");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_BIT_MASK"], "2#1111111111111111#");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_TYPE"], "LSB_INTEGER");
   EXPECT_EQ(int(imageObject["CORE_LOW_REPR_SATURATION"]), -32767);
   EXPECT_EQ(int(imageObject["CORE_LOW_INSTR_SATURATION"]), -32766);
   EXPECT_EQ(int(imageObject["CORE_HIGH_REPR_SATURATION"]), -32764);
@@ -191,7 +191,7 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsLinearu16bit) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Pvl outputLabel(options.GetFileName("TO"));
+  Pvl outputLabel(options.GetFileName("TO").toStdString());
   PvlObject imageObject = outputLabel.findObject("IMAGE");
 
   EXPECT_EQ(int(outputLabel["LABEL_RECORDS"]), 735);
@@ -199,7 +199,7 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsLinearu16bit) {
 
   EXPECT_DOUBLE_EQ(double(imageObject["OFFSET"]), 2.9886006409278001);
   EXPECT_DOUBLE_EQ(double(imageObject["SCALING_FACTOR"]), 0.0037997863573935998);
-  EXPECT_EQ(QString(imageObject["SAMPLE_TYPE"]), "LSB_UNSIGNED_INTEGER");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_TYPE"], "LSB_UNSIGNED_INTEGER");
   EXPECT_EQ(int(imageObject["CORE_LOW_REPR_SATURATION"]), 1);
   EXPECT_EQ(int(imageObject["CORE_LOW_INSTR_SATURATION"]), 2);
   EXPECT_EQ(int(imageObject["CORE_HIGH_REPR_SATURATION"]), 65535);
@@ -226,7 +226,7 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsManual8bit) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Pvl outputLabel(options.GetFileName("TO"));
+  Pvl outputLabel(options.GetFileName("TO").toStdString());
   PvlObject imageObject = outputLabel.findObject("IMAGE");
 
   EXPECT_EQ(int(outputLabel["LABEL_RECORDS"]), 718);
@@ -265,7 +265,7 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsManuals16bit) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Pvl outputLabel(options.GetFileName("TO"));
+  Pvl outputLabel(options.GetFileName("TO").toStdString());
   PvlObject imageObject = outputLabel.findObject("IMAGE");
 
   EXPECT_EQ(int(outputLabel["LABEL_RECORDS"]), 741);
@@ -274,8 +274,8 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsManuals16bit) {
   EXPECT_DOUBLE_EQ(double(imageObject["OFFSET"]), -2.5001526018641);
   EXPECT_DOUBLE_EQ(double(imageObject["SCALING_FACTOR"]), 1.0000763009309);
   EXPECT_EQ(int(imageObject["SAMPLE_BITS"]), 16);
-  EXPECT_EQ(QString(imageObject["SAMPLE_BIT_MASK"]), "2#1111111111111111#");
-  EXPECT_EQ(QString(imageObject["SAMPLE_TYPE"]), "LSB_INTEGER");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_BIT_MASK"], "2#1111111111111111#");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_TYPE"], "LSB_INTEGER");
   EXPECT_EQ(int(imageObject["CORE_NULL"]), -32768);
   EXPECT_EQ(int(imageObject["CORE_LOW_REPR_SATURATION"]), -32767);
   EXPECT_EQ(int(imageObject["CORE_LOW_INSTR_SATURATION"]), -32766);
@@ -307,7 +307,7 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsManualu16bit) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Pvl outputLabel(options.GetFileName("TO"));
+  Pvl outputLabel(options.GetFileName("TO").toStdString());
   PvlObject imageObject = outputLabel.findObject("IMAGE");
 
   EXPECT_EQ(int(outputLabel["LABEL_RECORDS"]), 733);
@@ -315,7 +315,7 @@ TEST_F(DefaultCube, FunctionalTestIsis2pdsManualu16bit) {
 
   EXPECT_DOUBLE_EQ(double(imageObject["OFFSET"]), -3.0002289027926);
   EXPECT_DOUBLE_EQ(double(imageObject["SCALING_FACTOR"]), 1.0000763009309);
-  EXPECT_EQ(QString(imageObject["SAMPLE_TYPE"]), "LSB_UNSIGNED_INTEGER");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_TYPE"], "LSB_UNSIGNED_INTEGER");
   EXPECT_EQ(int(imageObject["CORE_NULL"]), 0);
   EXPECT_EQ(int(imageObject["CORE_LOW_REPR_SATURATION"]), 1);
   EXPECT_EQ(int(imageObject["CORE_LOW_INSTR_SATURATION"]), 2);
@@ -340,43 +340,43 @@ TEST(isis2pdsTest, FunctionalTestIsis2pdsOffset) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Pvl outputLabel(options.GetFileName("TO"));
+  Pvl outputLabel(options.GetFileName("TO").toStdString());
   PvlObject imageObject = outputLabel.findObject("IMAGE");
 
-  EXPECT_EQ(QString(outputLabel["PDS_VERSION_ID"]), "PDS3");
-  EXPECT_EQ(QString(outputLabel["RECORD_TYPE"]), "UNDEFINED");
+  EXPECT_EQ((std::string)outputLabel["PDS_VERSION_ID"], "PDS3");
+  EXPECT_EQ((std::string)outputLabel["RECORD_TYPE"], "UNDEFINED");
   EXPECT_EQ(int(outputLabel["LABEL_RECORDS"]), 2032);
   EXPECT_EQ(int(outputLabel["^IMAGE"]), 2033);
-  EXPECT_EQ(QString(outputLabel["CHECKSUM"]), "315348326c41130fdefd0615c24a1ac9");
-  EXPECT_EQ(QString(outputLabel["TARGET_NAME"]), "MOON");
+  EXPECT_EQ((std::string)outputLabel["CHECKSUM"], "315348326c41130fdefd0615c24a1ac9");
+  EXPECT_EQ((std::string)outputLabel["TARGET_NAME"], "MOON");
 
   EXPECT_EQ(int(imageObject["LINES"]), 240);
   EXPECT_EQ(int(imageObject["LINE_SAMPLES"]), 480);
   EXPECT_EQ(int(imageObject["BANDS"]), 1);
-  EXPECT_EQ(QString(imageObject["BAND_STORAGE_TYPE"]), "BAND_SEQUENTIAL");
+  EXPECT_EQ((std::string)imageObject["BAND_STORAGE_TYPE"], "BAND_SEQUENTIAL");
   EXPECT_DOUBLE_EQ(double(imageObject["OFFSET"]), 0.0);
   EXPECT_DOUBLE_EQ(double(imageObject["SCALING_FACTOR"]), 1.0);
   EXPECT_EQ(int(imageObject["SAMPLE_BITS"]), 32);
-  EXPECT_EQ(QString(imageObject["SAMPLE_BIT_MASK"]), "2#11111111111111111111111111111111#");
-  EXPECT_EQ(QString(imageObject["SAMPLE_TYPE"]), "PC_REAL");
-  EXPECT_EQ(QString(imageObject["CORE_NULL"]), "16#FF7FFFFB#");
-  EXPECT_EQ(QString(imageObject["CORE_LOW_REPR_SATURATION"]), "16#FF7FFFFC#");
-  EXPECT_EQ(QString(imageObject["CORE_LOW_INSTR_SATURATION"]), "16#FF7FFFFD#");
-  EXPECT_EQ(QString(imageObject["CORE_HIGH_REPR_SATURATION"]), "16#FF7FFFFF#");
-  EXPECT_EQ(QString(imageObject["CORE_HIGH_INSTR_SATURATION"]), "16#FF7FFFFE#");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_BIT_MASK"], "2#11111111111111111111111111111111#");
+  EXPECT_EQ((std::string)imageObject["SAMPLE_TYPE"], "PC_REAL");
+  EXPECT_EQ((std::string)imageObject["CORE_NULL"], "16#FF7FFFFB#");
+  EXPECT_EQ((std::string)imageObject["CORE_LOW_REPR_SATURATION"], "16#FF7FFFFC#");
+  EXPECT_EQ((std::string)imageObject["CORE_LOW_INSTR_SATURATION"], "16#FF7FFFFD#");
+  EXPECT_EQ((std::string)imageObject["CORE_HIGH_REPR_SATURATION"], "16#FF7FFFFF#");
+  EXPECT_EQ((std::string)imageObject["CORE_HIGH_INSTR_SATURATION"], "16#FF7FFFFE#");
 
   PvlObject projectionObject = outputLabel.findObject("IMAGE_MAP_PROJECTION");
 
-  EXPECT_EQ(QString(projectionObject["MAP_PROJECTION_TYPE"]), "SIMPLE CYLINDRICAL");
-  EXPECT_EQ(QString(projectionObject["PROJECTION_LATITUDE_TYPE"]), "PLANETOCENTRIC");
+  EXPECT_EQ((std::string)projectionObject["MAP_PROJECTION_TYPE"], "SIMPLE CYLINDRICAL");
+  EXPECT_EQ((std::string)projectionObject["PROJECTION_LATITUDE_TYPE"], "PLANETOCENTRIC");
   EXPECT_DOUBLE_EQ(double(projectionObject["A_AXIS_RADIUS"]), 1737.4);
   EXPECT_DOUBLE_EQ(double(projectionObject["B_AXIS_RADIUS"]), 1737.4);
   EXPECT_DOUBLE_EQ(double(projectionObject["C_AXIS_RADIUS"]), 1737.4);
-  EXPECT_EQ(QString(projectionObject["FIRST_STANDARD_PARALLEL"]), "N/A");
-  EXPECT_EQ(QString(projectionObject["SECOND_STANDARD_PARALLEL"]), "N/A");
-  EXPECT_EQ(QString(projectionObject["COORDINATE_SYSTEM_NAME"]), "PLANETOCENTRIC");
-  EXPECT_EQ(QString(projectionObject["POSITIVE_LONGITUDE_DIRECTION"]), "EAST");
-  EXPECT_EQ(QString(projectionObject["KEYWORD_LATITUDE_TYPE"]), "PLANETOCENTRIC");
+  EXPECT_EQ((std::string)projectionObject["FIRST_STANDARD_PARALLEL"], "N/A");
+  EXPECT_EQ((std::string)projectionObject["SECOND_STANDARD_PARALLEL"], "N/A");
+  EXPECT_EQ((std::string)projectionObject["COORDINATE_SYSTEM_NAME"], "PLANETOCENTRIC");
+  EXPECT_EQ((std::string)projectionObject["POSITIVE_LONGITUDE_DIRECTION"], "EAST");
+  EXPECT_EQ((std::string)projectionObject["KEYWORD_LATITUDE_TYPE"], "PLANETOCENTRIC");
   EXPECT_DOUBLE_EQ(double(projectionObject["CENTER_LATITUDE"]), 0.0);
   EXPECT_DOUBLE_EQ(double(projectionObject["CENTER_LONGITUDE"]), 180.0);
   EXPECT_EQ(int(projectionObject["LINE_FIRST_PIXEL"]), 1);

@@ -142,8 +142,8 @@ TEST_F(DefaultCube, FunctionalTestFootprintinitPrecision) {
   ASSERT_TRUE(testCube->label()->hasObject("Polygon"));
 
   ASSERT_TRUE(log.hasGroup("Results"));
-  ASSERT_EQ(100, log.findGroup("Results").findKeyword("LINC")[0].toInt());
-  ASSERT_EQ(100, log.findGroup("Results").findKeyword("SINC")[0].toInt());
+  ASSERT_EQ(100, std::stoi(log.findGroup("Results").findKeyword("LINC")[0]));
+  ASSERT_EQ(100, std::stoi(log.findGroup("Results").findKeyword("SINC")[0]));
 
   ImagePolygon poly = testCube->readFootprint();
 

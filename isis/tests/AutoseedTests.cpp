@@ -51,7 +51,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedDefault) {
 
   Pvl autoseedDef;
   autoseedDef.addObject(autoseedObject);
-  autoseedDef.write(defFile);
+  autoseedDef.write(defFile.toStdString());
 
   QVector<QString> autoseedArgs = {"fromlist="+cubeListFile,
                                     "onet="+outnet,
@@ -85,7 +85,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedCnetInput) {
 
   Pvl autoseedDef;
   autoseedDef.addObject(autoseedObject);
-  autoseedDef.write(defFile);
+  autoseedDef.write(defFile.toStdString());
 
   cubeList->removeLast();
   cubeList->write(cubeListFile);
@@ -144,7 +144,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedDeffiles) {
 
   Pvl autoseedDef;
   autoseedDef.addObject(autoseedObject);
-  autoseedDef.write(defFile);
+  autoseedDef.write(defFile.toStdString());
 
   autoseed(autoseedUi, log);
   ControlNet onet(outnet);
@@ -156,7 +156,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedDeffiles) {
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").deleteKeyword("MaxDN");
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").addKeyword(PvlKeyword("MinEmission", "18.0"));
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").addKeyword(PvlKeyword("MaxEmission", "75.0"));
-  autoseedDef.write(defFile);
+  autoseedDef.write(defFile.toStdString());
 
   autoseed(autoseedUi, log);
   onet = ControlNet(outnet);
@@ -167,7 +167,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedDeffiles) {
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").deleteKeyword("MinEmission");
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").deleteKeyword("MaxEmission");
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").addKeyword(PvlKeyword("PixelsFromEdge", "20.0"));
-  autoseedDef.write(defFile);
+  autoseedDef.write(defFile.toStdString());
 
   autoseed(autoseedUi, log);
   onet = ControlNet(outnet);
@@ -178,7 +178,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedDeffiles) {
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").deleteKeyword("PixelsFromEdge");
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").addKeyword(PvlKeyword("MinIncidence", "35.0"));
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").addKeyword(PvlKeyword("MaxIncidence", "65.0"));
-  autoseedDef.write(defFile);
+  autoseedDef.write(defFile.toStdString());
 
   autoseed(autoseedUi, log);
   onet = ControlNet(outnet);
@@ -190,7 +190,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedDeffiles) {
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").deleteKeyword("MaxIncidence");
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").addKeyword(PvlKeyword("MinResolution", "255.0"));
   autoseedDef.findObject("AutoSeed").findGroup("PolygonSeederAlgorithm").addKeyword(PvlKeyword("MaxResolution", "259.0"));
-  autoseedDef.write(defFile);
+  autoseedDef.write(defFile.toStdString());
 
   autoseed(autoseedUi, log);
   onet = ControlNet(outnet);

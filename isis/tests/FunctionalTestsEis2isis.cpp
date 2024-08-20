@@ -49,16 +49,16 @@ TEST(Eis2Isis, Eis2IsisTestNacDefault) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  ASSERT_EQ(inst["SpacecraftName"][0].toStdString(), "Clipper");
-  ASSERT_EQ(inst["InstrumentId"][0].toStdString(), "EIS-NAC-RS" );
-  ASSERT_EQ(inst["TargetName"][0].toStdString(), "Europa" );
-  ASSERT_EQ(inst["StartTime"][0].toStdString(), "2025-01-01T00:00:00.000" );
-  ASSERT_EQ(inst["JitterLineCoefficients"][0].toStdString(), "0.0");
-  ASSERT_EQ(inst["JitterLineCoefficients"][1].toStdString(), "0.0");
-  ASSERT_EQ(inst["JitterLineCoefficients"][2].toStdString(), "0.0");
-  ASSERT_EQ(inst["JitterSampleCoefficients"][0].toStdString(), "0.0");
-  ASSERT_EQ(inst["JitterSampleCoefficients"][1].toStdString(), "0.0");
-  ASSERT_EQ(inst["JitterSampleCoefficients"][2].toStdString(), "0.0");
+  ASSERT_EQ(inst["SpacecraftName"][0], "Clipper");
+  ASSERT_EQ(inst["InstrumentId"][0], "EIS-NAC-RS" );
+  ASSERT_EQ(inst["TargetName"][0], "Europa" );
+  ASSERT_EQ(inst["StartTime"][0], "2025-01-01T00:00:00.000" );
+  ASSERT_EQ(inst["JitterLineCoefficients"][0], "0.0");
+  ASSERT_EQ(inst["JitterLineCoefficients"][1], "0.0");
+  ASSERT_EQ(inst["JitterLineCoefficients"][2], "0.0");
+  ASSERT_EQ(inst["JitterSampleCoefficients"][0], "0.0");
+  ASSERT_EQ(inst["JitterSampleCoefficients"][1], "0.0");
+  ASSERT_EQ(inst["JitterSampleCoefficients"][2], "0.0");
 
   // Kernels Group
   PvlGroup &kernels = isisLabel->findGroup("Kernels", Pvl::Traverse);
@@ -114,16 +114,16 @@ TEST(Eis2Isis, Eis2IsisTestNacCheckline)
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  ASSERT_EQ(inst["SpacecraftName"][0].toStdString(), "Clipper");
-  ASSERT_EQ(inst["InstrumentId"][0].toStdString(), "EIS-NAC-RS" );
-  ASSERT_EQ(inst["TargetName"][0].toStdString(), "Europa" );
-  ASSERT_EQ(inst["StartTime"][0].toStdString(), "2025-01-01T00:00:00.000" );
-  ASSERT_EQ(inst["JitterLineCoefficients"][0].toStdString(), "0.0");
-  ASSERT_EQ(inst["JitterLineCoefficients"][1].toStdString(), "0.0");
-  ASSERT_EQ(inst["JitterLineCoefficients"][2].toStdString(), "0.0");
-  ASSERT_EQ(inst["JitterSampleCoefficients"][0].toStdString(), "0.0");
-  ASSERT_EQ(inst["JitterSampleCoefficients"][1].toStdString(), "0.0");
-  ASSERT_EQ(inst["JitterSampleCoefficients"][2].toStdString(), "0.0");
+  ASSERT_EQ(inst["SpacecraftName"][0], "Clipper");
+  ASSERT_EQ(inst["InstrumentId"][0], "EIS-NAC-RS" );
+  ASSERT_EQ(inst["TargetName"][0], "Europa" );
+  ASSERT_EQ(inst["StartTime"][0], "2025-01-01T00:00:00.000" );
+  ASSERT_EQ(inst["JitterLineCoefficients"][0], "0.0");
+  ASSERT_EQ(inst["JitterLineCoefficients"][1], "0.0");
+  ASSERT_EQ(inst["JitterLineCoefficients"][2], "0.0");
+  ASSERT_EQ(inst["JitterSampleCoefficients"][0], "0.0");
+  ASSERT_EQ(inst["JitterSampleCoefficients"][1], "0.0");
+  ASSERT_EQ(inst["JitterSampleCoefficients"][2], "0.0");
 
 
   // Kernels Group

@@ -429,9 +429,9 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportCassiniIssCustomMax) {
 
   QString inputLabel = "data/ciss2isis/W1472855646_5.cropped.lbl";
   QString updatedPvlLabel = tempDir.path() + "/W1472855646_5.cropped.lbl";
-  Pvl inputPvl(inputLabel);
+  Pvl inputPvl(inputLabel.toStdString());
   inputPvl["VALID_MAXIMUM"][1] = "70";
-  inputPvl.write(updatedPvlLabel);
+  inputPvl.write(updatedPvlLabel.toStdString());
   QFile::copy("data/ciss2isis/W1472855646_5.cropped.img", tempDir.path() + "/W1472855646_5.cropped.img");
 
   QVector<QString> args = { "from=" + updatedPvlLabel,

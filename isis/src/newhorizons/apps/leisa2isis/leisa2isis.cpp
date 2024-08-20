@@ -48,8 +48,8 @@ namespace Isis {
     else if (mainLabel["MISSION"][0] != "New Horizons" || mainLabel["INSTRU"][0] != "lei") {
       QString msg = QObject::tr("Input file [%1] does not appear to be a New Horizons LEISA FITS "
                                 "file. Input file label value for MISSION is [%2], INSTRU is [%3]").
-                    arg(ui.GetFileName("FROM")).arg(mainLabel["MISSION"][0]).
-                    arg(mainLabel["INSTRU"][0]);
+                    arg(ui.GetFileName("FROM")).arg(QString::fromStdString(mainLabel["MISSION"][0])).
+                    arg(QString::fromStdString(mainLabel["INSTRU"][0]));
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -188,10 +188,10 @@ namespace Isis {
     PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
 
     //Add StartTime & EndTime
-    QString midTimeStr = archive["MidObservationTime"];
+    QString midTimeStr = QString::fromStdString(archive["MidObservationTime"]);
     iTime midTime(midTimeStr.toDouble());
 
-    QString obsDuration = archive["ObservationDuration"];
+    QString obsDuration = QString::fromStdString(archive["ObservationDuration"]);
     double obsSeconds = obsDuration.toDouble();
     iTime startTime = midTime - obsSeconds/2.0;
     iTime endTime = midTime + obsSeconds/2.0;
@@ -199,12 +199,12 @@ namespace Isis {
   //  inst.addKeyword(PvlKeyword("StopTime", endTime.EtString()), PvlGroup::Replace);
 
     //Need to make sure these times are correct. UTC != ET
-    inst.addKeyword(PvlKeyword("StartTime", startTime.UTC()), PvlGroup::Replace);
-    inst.addKeyword(PvlKeyword("StopTime", endTime.UTC()), PvlGroup::Replace);
+    inst.addKeyword(PvlKeyword("StartTime", startTime.UTC().toStdString()), PvlGroup::Replace);
+    inst.addKeyword(PvlKeyword("StopTime", endTime.UTC().toStdString()), PvlGroup::Replace);
 
-    QString exposureTime = inst["ExposureDuration"];
+    QString exposureTime = QString::fromStdString(inst["ExposureDuration"]);
     double frameRate = 1.0/exposureTime.toDouble();
-    inst.addKeyword(PvlKeyword("FrameRate", QString::number(frameRate)), PvlGroup::Replace);
+    inst.addKeyword(PvlKeyword("FrameRate", std::to_string(frameRate)), PvlGroup::Replace);
     inst.findKeyword("FrameRate").setUnits("Hz");
 
     // Save the input FITS label in the Cube original labels

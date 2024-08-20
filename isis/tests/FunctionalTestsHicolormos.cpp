@@ -43,17 +43,17 @@ TEST_F(MroHiriseCube, FunctionalTestHicolormosDefault) {
 
   PvlKeyword kw = group.findKeyword("cpmmTdiFlag");
   for (int i = 0; i < cppmmTdiFlag.size(); i++) {
-    EXPECT_PRED_FORMAT2(AssertQStringsEqual, cppmmTdiFlag[i], kw[i]);
+    EXPECT_PRED_FORMAT2(AssertStringsEqual, cppmmTdiFlag[i].toStdString(), kw[i]);
   }
 
   kw = group.findKeyword("cpmmSummingFlag");
   for (int i = 0; i < cppmmTdiFlag.size(); i++) {
-    EXPECT_PRED_FORMAT2(AssertQStringsEqual, cpmmSummingFlag[i], kw[i]);
+    EXPECT_PRED_FORMAT2(AssertStringsEqual, cpmmSummingFlag[i].toStdString(), kw[i]);
   }
 
   kw = group.findKeyword("SpecialProcessingFlag");
   for (int i = 0; i < cppmmTdiFlag.size(); i++) {
-    EXPECT_PRED_FORMAT2(AssertQStringsEqual, specialProcessingFlag[i], kw[i]);
+    EXPECT_PRED_FORMAT2(AssertStringsEqual, specialProcessingFlag[i].toStdString(), kw[i]);
   }
 
   Histogram *oCubeStats = oCube.histogram();

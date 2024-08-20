@@ -101,7 +101,7 @@ namespace Isis {
     // The observation start time and clock count for LORRI are based on the center of the exposure.
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString clockCount = inst["SpacecraftClockStartCount"];
+    QString clockCount = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     double et = getClockTime(clockCount).Et();
     double exposureDuration = (double)inst["ExposureDuration"] / 1000.0;
 

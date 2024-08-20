@@ -80,7 +80,7 @@ namespace Isis {
     // because of the ease of editing pvl vs xml.
     PvlKeyword productId("ProductId");
     if ( ui.WasEntered("PRODUCTID") ) {
-      productId.setValue( ui.GetString("PRODUCTID") );
+      productId.setValue( ui.GetString("PRODUCTID").toStdString());
     }
     else {
       // Get the observationId from the Archive Group, or the Mosaic group, if the input is a mosaic
@@ -88,40 +88,40 @@ namespace Isis {
 
       if (label->findObject("IsisCube").hasGroup("Mosaic")) {
         PvlGroup mosaicGroup = label->findObject("IsisCube").findGroup("Mosaic");
-        observationId = mosaicGroup.findKeyword("ObservationId")[0];
+        observationId = QString::fromStdString(mosaicGroup.findKeyword("ObservationId")[0]);
       }
       else if(label->findObject("IsisCube").hasGroup("Archive")){
         PvlGroup archiveGroup = label->findObject("IsisCube").findGroup("Archive");
-        observationId = archiveGroup.findKeyword("ObservationId")[0];
+        observationId = QString::fromStdString(archiveGroup.findKeyword("ObservationId")[0]);
       }
-      productId.setValue(observationId);
+      productId.setValue(observationId.toStdString());
     }
 
     targetGroup.addKeyword(productId);
-    logicalId += productId[0];
+    logicalId += QString::fromStdString(productId[0]);
     process.setLogicalId(logicalId);
 
     // For a mosaic, calculate stitched browse LID (lidvid)
     // This is as follows:
     // StartTime of the first framelet, rounded down to the nearest second
     if (label->findObject("IsisCube").hasGroup("Mosaic")) {
-      QString startTime = label->findObject("IsisCube").findGroup("Mosaic").findKeyword("StartTime");
+      QString startTime = QString::fromStdString(label->findObject("IsisCube").findGroup("Mosaic").findKeyword("StartTime"));
       startTime = iTime(startTime).UTC(0).toLower().remove("-").remove(":");
 
       // StopTime of the last framelet, rounded down to the nearest second + 4 seconds
-      QString stopTime = label->findObject("IsisCube").findGroup("Mosaic").findKeyword("StopTime");
+      QString stopTime = QString::fromStdString(label->findObject("IsisCube").findGroup("Mosaic").findKeyword("StopTime"));
       stopTime = (iTime(iTime(stopTime).UTC(0)) + 4).UTC().toLower().remove("-").remove(":");
 
       // UID
-      QString UID = label->findObject("IsisCube").findGroup("Archive").findKeyword("UID");
+      QString UID = QString::fromStdString(label->findObject("IsisCube").findGroup("Archive").findKeyword("UID"));
       // FilterName
-      QString filterName = QString(label->findObject("IsisCube").findGroup("BandBin").
-                                  findKeyword("FilterName")).toLower();
+      QString filterName = QString::fromStdString((label->findObject("IsisCube").findGroup("BandBin").
+                                  findKeyword("FilterName"))).toLower();
 
       QString lid = QString("urn:esa:psa:em16_tgo_cas:data_calibrated:cas_cal_sc_%1-%2-%3-%4-sti").arg(startTime)
                             .arg(stopTime).arg(filterName).arg(UID);
 
-      label->findObject("IsisCube").findGroup("Archive").addKeyword(PvlKeyword("LID", lid));
+      label->findObject("IsisCube").findGroup("Archive").addKeyword(PvlKeyword("LID", lid.toStdString()));
     }
 
     // Set Title
@@ -246,7 +246,7 @@ namespace Isis {
         QDomElement browseNode = pdsLabel.createElement("Browse");
 
         for (int i = 0; i < browseKeyword.size(); i++) {
-          QString browseFile = browseKeyword[i];
+          QString browseFile = QString::fromStdString(browseKeyword[i]);
           QStringList browseComponentList = browseFile.split(QLatin1Char('_'));
 
           QDomElement browseItem = pdsLabel.createElement("browse_record");

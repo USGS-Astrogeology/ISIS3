@@ -41,6 +41,12 @@ namespace Isis {
         QString string1,
         QString string2);
 
+  ::testing::AssertionResult AssertStringsEqual(
+        const char* string1_expr,
+        const char* string2_expr,
+        std::string string1,
+        std::string string2);
+
   ::testing::AssertionResult AssertPvlGroupEqual(
       const char* group1_expr,
       const char* group2_expr,

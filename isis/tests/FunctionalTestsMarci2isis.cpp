@@ -44,8 +44,8 @@ TEST(Marci2Isis, Marci2isisTestDefault) {
   PvlGroup &evenPixels = evenLabel->findGroup("Pixels", Pvl::Traverse);
   PvlGroup &oddPixels = oddLabel->findGroup("Pixels", Pvl::Traverse);
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, evenPixels["Type"][0], oddPixels["Type"][0]);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, evenPixels["ByteOrder"][0], oddPixels["ByteOrder"][0]);
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, evenPixels["Type"][0], oddPixels["Type"][0]);
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, evenPixels["ByteOrder"][0], oddPixels["ByteOrder"][0]);
   ASSERT_EQ((double)evenPixels["Base"], (double)oddPixels["Base"]);
   ASSERT_EQ((double)evenPixels["Multiplier"], (double)oddPixels["Multiplier"]);
 
@@ -53,16 +53,16 @@ TEST(Marci2Isis, Marci2isisTestDefault) {
   PvlGroup &evenInst = evenLabel->findGroup("Instrument", Pvl::Traverse);
   PvlGroup &oddInst = oddLabel->findGroup("Instrument", Pvl::Traverse);
 
-  ASSERT_EQ(evenInst["Framelets"][0].toStdString(), "Even");
-  ASSERT_EQ(oddInst["Framelets"][0].toStdString(), "Odd");
+  ASSERT_EQ(evenInst["Framelets"][0], "Even");
+  ASSERT_EQ(oddInst["Framelets"][0], "Odd");
 
-  ASSERT_EQ(evenInst["SpacecraftName"][0].toStdString(), "MARS RECONNAISSANCE ORBITER");
-  ASSERT_EQ(evenInst["InstrumentId"][0].toStdString(), "Marci" );
-  ASSERT_EQ(evenInst["TargetName"][0].toStdString(), "MARS" );
+  ASSERT_EQ(evenInst["SpacecraftName"][0], "MARS RECONNAISSANCE ORBITER");
+  ASSERT_EQ(evenInst["InstrumentId"][0], "Marci" );
+  ASSERT_EQ(evenInst["TargetName"][0], "MARS" );
   ASSERT_EQ((int)evenInst["SummingMode"], 8);
-  ASSERT_EQ(evenInst["StartTime"][0].toStdString(), "2006-03-24T04:25:53.096000" );
-  ASSERT_EQ(evenInst["StopTime"][0].toStdString(), "2006-03-24T04:55:48.296000" );
-  ASSERT_EQ(evenInst["SpacecraftClockCount"][0].toStdString(), "827641567:30" );
+  ASSERT_EQ(evenInst["StartTime"][0], "2006-03-24T04:25:53.096000" );
+  ASSERT_EQ(evenInst["StopTime"][0], "2006-03-24T04:55:48.296000" );
+  ASSERT_EQ(evenInst["SpacecraftClockCount"][0], "827641567:30" );
   ASSERT_EQ((int)evenInst["DataFlipped"], 1 );
   ASSERT_EQ((int)evenInst["ColorOffset"], 2 );
   ASSERT_DOUBLE_EQ(double(evenInst["InterframeDelay"]), 3.2);
@@ -70,19 +70,19 @@ TEST(Marci2Isis, Marci2isisTestDefault) {
   ASSERT_EQ((int)evenInst["FrameNumber"], 0);
   ASSERT_DOUBLE_EQ(double(evenInst["VariableExposureDuration"]), 3112.24);
 
-  ASSERT_EQ(evenInst["SpacecraftName"][0].toStdString(), oddInst["SpacecraftName"][0].toStdString());
-  ASSERT_EQ(evenInst["InstrumentId"][0].toStdString(), oddInst["InstrumentId"][0].toStdString());
-  ASSERT_EQ(evenInst["TargetName"][0].toStdString(), oddInst["TargetName"][0].toStdString());
+  ASSERT_EQ(evenInst["SpacecraftName"][0], oddInst["SpacecraftName"][0]);
+  ASSERT_EQ(evenInst["InstrumentId"][0], oddInst["InstrumentId"][0]);
+  ASSERT_EQ(evenInst["TargetName"][0], oddInst["TargetName"][0]);
   ASSERT_EQ((int)evenInst["SummingMode"], (int)oddInst["SummingMode"]);
-  ASSERT_EQ(evenInst["StartTime"][0].toStdString(), oddInst["StartTime"][0].toStdString());
-  ASSERT_EQ(evenInst["StopTime"][0].toStdString(), oddInst["StopTime"][0].toStdString());
-  ASSERT_EQ(evenInst["SpacecraftClockCount"][0].toStdString(), oddInst["SpacecraftClockCount"][0].toStdString());
+  ASSERT_EQ(evenInst["StartTime"][0], oddInst["StartTime"][0]);
+  ASSERT_EQ(evenInst["StopTime"][0], oddInst["StopTime"][0]);
+  ASSERT_EQ(evenInst["SpacecraftClockCount"][0], oddInst["SpacecraftClockCount"][0]);
   ASSERT_EQ((int)evenInst["DataFlipped"], (int)oddInst["DataFlipped"]);
   ASSERT_EQ((int)evenInst["ColorOffset"], (int)oddInst["ColorOffset"]);
   ASSERT_DOUBLE_EQ(double(evenInst["InterframeDelay"]), double(oddInst["InterframeDelay"]));
   ASSERT_DOUBLE_EQ(double(evenInst["ExposureDuration"]), double(oddInst["ExposureDuration"]));
-  ASSERT_EQ(evenInst["StartTime"][0].toStdString(), oddInst["StartTime"][0].toStdString());
-  ASSERT_EQ(evenInst["StopTime"][0].toStdString(), oddInst["StopTime"][0].toStdString());
+  ASSERT_EQ(evenInst["StartTime"][0], oddInst["StartTime"][0]);
+  ASSERT_EQ(evenInst["StopTime"][0], oddInst["StopTime"][0]);
   ASSERT_EQ((int)evenInst["DataFlipped"], (int)oddInst["DataFlipped"]);
 
   // Archive Group
@@ -90,32 +90,32 @@ TEST(Marci2Isis, Marci2isisTestDefault) {
   PvlGroup &oddArchive = oddLabel->findGroup("Archive", Pvl::Traverse);
   QString ratDesc = "Post-MOI image of Argyre and Mare Erythraeum region";
 
-  ASSERT_EQ(evenArchive["ProductId"][0].toStdString(), "MOI_000009_0294_MU_00N044W" );
-  ASSERT_EQ(evenArchive["OriginalProductId"][0].toStdString(), "4A_05_0001000200" );
+  ASSERT_EQ(evenArchive["ProductId"][0], "MOI_000009_0294_MU_00N044W" );
+  ASSERT_EQ(evenArchive["OriginalProductId"][0], "4A_05_0001000200" );
   ASSERT_EQ((int)evenArchive["OrbitNumber"], 9);
-  ASSERT_EQ(evenArchive["SampleBitModeId"][0].toStdString(), "SQROOT" );
+  ASSERT_EQ(evenArchive["SampleBitModeId"][0], "SQROOT" );
   ASSERT_DOUBLE_EQ(double(evenArchive["FocalPlaneTemperature"]), 240.9 );
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, evenArchive["RationaleDesc"][0], ratDesc);
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, evenArchive["RationaleDesc"][0], ratDesc.toStdString());
 
-  ASSERT_EQ(evenArchive["ProductId"][0].toStdString(), oddArchive["ProductId"][0].toStdString());
-  ASSERT_EQ(evenArchive["OriginalProductId"][0].toStdString(), oddArchive["OriginalProductId"][0].toStdString());
+  ASSERT_EQ(evenArchive["ProductId"][0], oddArchive["ProductId"][0]);
+  ASSERT_EQ(evenArchive["OriginalProductId"][0], oddArchive["OriginalProductId"][0]);
   ASSERT_EQ((int)evenArchive["OrbitNumber"], (int)oddArchive["OrbitNumber"]);
-  ASSERT_EQ(evenArchive["SampleBitModeId"][0].toStdString(), oddArchive["SampleBitModeId"][0].toStdString());
+  ASSERT_EQ(evenArchive["SampleBitModeId"][0], oddArchive["SampleBitModeId"][0]);
   ASSERT_DOUBLE_EQ(double(evenArchive["FocalPlaneTemperature"]), double(oddArchive["FocalPlaneTemperature"]));
-  ASSERT_EQ(evenArchive["RationaleDesc"][0].toStdString(), oddArchive["RationaleDesc"][0].toStdString());
+  ASSERT_EQ(evenArchive["RationaleDesc"][0], oddArchive["RationaleDesc"][0]);
 
 
   // BandBin Group
   PvlGroup &evenBandBin = evenLabel->findGroup("BandBin", Pvl::Traverse);
   PvlGroup &oddBandBin = oddLabel->findGroup("BandBin", Pvl::Traverse);
 
-  ASSERT_EQ(evenBandBin["FilterName"][0].toStdString(), "SHORT_UV");
-  ASSERT_EQ(evenBandBin["FilterName"][1].toStdString(), "LONG_UV");
-  ASSERT_EQ(evenBandBin["OriginalBand"][0].toStdString(), "1");
-  ASSERT_EQ(evenBandBin["OriginalBand"][1].toStdString(), "2");
+  ASSERT_EQ(evenBandBin["FilterName"][0], "SHORT_UV");
+  ASSERT_EQ(evenBandBin["FilterName"][1], "LONG_UV");
+  ASSERT_EQ(evenBandBin["OriginalBand"][0], "1");
+  ASSERT_EQ(evenBandBin["OriginalBand"][1], "2");
 
-  ASSERT_EQ(evenBandBin["FilterName"][0].toStdString(), oddBandBin["FilterName"][0].toStdString());
-  ASSERT_EQ(evenBandBin["FilterName"][1].toStdString(), oddBandBin["FilterName"][1].toStdString());
+  ASSERT_EQ(evenBandBin["FilterName"][0], oddBandBin["FilterName"][0]);
+  ASSERT_EQ(evenBandBin["FilterName"][1], oddBandBin["FilterName"][1]);
   ASSERT_EQ(evenBandBin["OriginalBand"][0], oddBandBin["OriginalBand"][0]);
   ASSERT_EQ(evenBandBin["OriginalBand"][1], oddBandBin["OriginalBand"][1]);
 
@@ -137,9 +137,9 @@ TEST(Marci2Isis, Marci2isisTestDefault) {
   PvlObject evenOgLbl = evenLabel->findObject("OriginalLabel");
   PvlObject oddOgLbl = oddLabel->findObject("OriginalLabel");
 
-  ASSERT_EQ(evenOgLbl["Name"][0].toStdString(), "IsisCube");
+  ASSERT_EQ(evenOgLbl["Name"][0], "IsisCube");
   ASSERT_EQ((int)evenOgLbl["StartByte"], 141313);
-  ASSERT_EQ(evenOgLbl["Name"][0].toStdString(), oddOgLbl["Name"][0].toStdString());
+  ASSERT_EQ(evenOgLbl["Name"][0], oddOgLbl["Name"][0]);
   ASSERT_EQ((int)evenOgLbl["StartByte"], (int)oddOgLbl["StartByte"]);
 }
 
@@ -215,18 +215,18 @@ TEST(Marci2Isis, Marci2isisTestVarExp) {
 
   // check and compare output
   ASSERT_EQ((int)instFlipped["DataFlipped"], 1);
-  ASSERT_EQ(instFlipped["FrameNumber"][0].toStdString(), "400");
-  ASSERT_EQ(instFlipped["FrameNumber"][1].toStdString(), "64");
-  ASSERT_EQ(instFlipped["FrameNumber"][2].toStdString(), "0");
-  ASSERT_EQ(instFlipped["VariableExposureDuration"][0].toStdString(), "17.5");
-  ASSERT_EQ(instFlipped["VariableExposureDuration"][1].toStdString(), "15");
-  ASSERT_EQ(instFlipped["VariableExposureDuration"][2].toStdString(), "17.5");
+  ASSERT_EQ(instFlipped["FrameNumber"][0], "400");
+  ASSERT_EQ(instFlipped["FrameNumber"][1], "64");
+  ASSERT_EQ(instFlipped["FrameNumber"][2], "0");
+  ASSERT_EQ(instFlipped["VariableExposureDuration"][0], "17.5");
+  ASSERT_EQ(instFlipped["VariableExposureDuration"][1], "15");
+  ASSERT_EQ(instFlipped["VariableExposureDuration"][2], "17.5");
 
   ASSERT_EQ((int)instUnflipped["DataFlipped"], 0);
-  ASSERT_EQ(instUnflipped["FrameNumber"][0].toStdString(), "0");
-  ASSERT_EQ(instUnflipped["FrameNumber"][1].toStdString(), "64");
-  ASSERT_EQ(instUnflipped["FrameNumber"][2].toStdString(), "400");
-  ASSERT_EQ(instUnflipped["VariableExposureDuration"][0].toStdString(), "17.5");
-  ASSERT_EQ(instUnflipped["VariableExposureDuration"][1].toStdString(), "15");
-  ASSERT_EQ(instUnflipped["VariableExposureDuration"][2].toStdString(), "17.5");
+  ASSERT_EQ(instUnflipped["FrameNumber"][0], "0");
+  ASSERT_EQ(instUnflipped["FrameNumber"][1], "64");
+  ASSERT_EQ(instUnflipped["FrameNumber"][2], "400");
+  ASSERT_EQ(instUnflipped["VariableExposureDuration"][0], "17.5");
+  ASSERT_EQ(instUnflipped["VariableExposureDuration"][1], "15");
+  ASSERT_EQ(instUnflipped["VariableExposureDuration"][2], "17.5");
 }

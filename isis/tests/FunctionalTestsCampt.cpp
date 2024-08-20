@@ -78,7 +78,7 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
 
   EXPECT_DOUBLE_EQ( (double) groundPoint.findKeyword("Sample"), 602.0);
   EXPECT_DOUBLE_EQ( (double) groundPoint.findKeyword("Line"), 528.0);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, groundPoint.findKeyword("PixelValue"), "Null");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, groundPoint.findKeyword("PixelValue"), "Null");
   EXPECT_NEAR( (double) groundPoint.findKeyword("RightAscension"), 310.2070335306, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("Declination"), -46.327246785573, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("PlanetocentricLatitude"), 10.181441241544, 1e-8);
@@ -88,9 +88,9 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
   EXPECT_NEAR( (double) groundPoint.findKeyword("PositiveWest360Longitude"), 104.10707141824, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("PositiveWest180Longitude"), 104.10707141824, 1e-8);
 
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("BodyFixedCoordinate")[0]), -818.59644749774, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("BodyFixedCoordinate")[1]), -3257.2675597135, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("BodyFixedCoordinate")[2]),  603.17640797124, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("BodyFixedCoordinate")[0]), -818.59644749774, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("BodyFixedCoordinate")[1]), -3257.2675597135, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("BodyFixedCoordinate")[2]),  603.17640797124, 1e-8);
 
   EXPECT_NEAR( (double) groundPoint.findKeyword("LocalRadius"), 3412288.6569795, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SampleResolution"), 18.904248467739, 1e-8);
@@ -100,9 +100,9 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
   EXPECT_NEAR( (double) groundPoint.findKeyword("ObliqueLineResolution"), 19.589652452595999, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("ObliqueSampleResolution"), 19.589652452595999, 1e-8);
 
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("SpacecraftPosition")[0]), -1152.8979327717, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("SpacecraftPosition")[1]), -3930.9421518203, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("SpacecraftPosition")[2]),  728.14118380775, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SpacecraftPosition")[0]), -1152.8979327717, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SpacecraftPosition")[1]), -3930.9421518203, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SpacecraftPosition")[2]),  728.14118380775, 1e-8);
 
   EXPECT_NEAR( (double) groundPoint.findKeyword("SpacecraftAzimuth"), 240.08514246657, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SlantDistance"), 762.37204454685, 1e-8);
@@ -113,9 +113,9 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
   EXPECT_NEAR( (double) groundPoint.findKeyword("OffNadirAngle"), 9.9273765143684, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SubSpacecraftGroundAzimuth"), 267.5318718687, 1e-8);
 
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("SunPosition")[0]),  147591102.63158, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("SunPosition")[1]), -127854342.1274, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("SunPosition")[2]), -81844199.02275, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SunPosition")[0]),  147591102.63158, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SunPosition")[1]), -127854342.1274, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SunPosition")[2]), -81844199.02275, 1e-8);
 
   EXPECT_NEAR( (double) groundPoint.findKeyword("SubSolarAzimuth"), 92.033828156965, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SolarDistance"), 1.4153000672557, 1e-8);
@@ -129,21 +129,21 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
   EXPECT_NEAR( (double) groundPoint.findKeyword("NorthAzimuth"), 332.65918493997, 2e-8);
 
   EXPECT_NEAR( (double) groundPoint.findKeyword("EphemerisTime"), -709401200.26114, 1e-8);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, groundPoint.findKeyword("UTC"), "1977-07-09T20:05:51.5549999");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, groundPoint.findKeyword("UTC"), "1977-07-09T20:05:51.5549999");
   EXPECT_NEAR( (double) groundPoint.findKeyword("LocalSolarTime"), 7.7862975330952, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SolarLongitude"), 294.73518830594998, 1e-8);
 
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("LookDirectionBodyFixed")[0]),  0.43850176257802, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("LookDirectionBodyFixed")[1]),  0.88365594846443, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("LookDirectionBodyFixed")[2]), -0.16391573737569, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionBodyFixed")[0]),  0.43850176257802, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionBodyFixed")[1]),  0.88365594846443, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionBodyFixed")[2]), -0.16391573737569, 1e-8);
 
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("LookDirectionJ2000")[0]),  0.44577814515745, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("LookDirectionJ2000")[1]), -0.52737586689974, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("LookDirectionJ2000")[2]), -0.72329561059897, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionJ2000")[0]),  0.44577814515745, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionJ2000")[1]), -0.52737586689974, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionJ2000")[2]), -0.72329561059897, 1e-8);
 
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("LookDirectionCamera")[0]), -1.27447324380581e-04, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("LookDirectionCamera")[1]),  2.5816511718707e-05, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("LookDirectionCamera")[2]),  0.99999999154535, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionCamera")[0]), -1.27447324380581e-04, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionCamera")[1]),  2.5816511718707e-05, 1e-8);
+  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionCamera")[2]),  0.99999999154535, 1e-8);
 }
 
 TEST_F(DefaultCube, FunctionalTestCamptSetSL) {
@@ -240,18 +240,18 @@ TEST_F(DefaultCube, FunctionalTestCamptCoordList) {
 
   EXPECT_DOUBLE_EQ( (double) groundPoint.findKeyword("Sample"), 1.0);
   EXPECT_DOUBLE_EQ( (double) groundPoint.findKeyword("Line"), 10.0);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, groundPoint.findKeyword("Error"), "NULL");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, groundPoint.findKeyword("Error"), "NULL");
 
   groundPoint = appLog.group(1);
   EXPECT_DOUBLE_EQ( (double) groundPoint.findKeyword("Sample"), 10.0);
   EXPECT_DOUBLE_EQ( (double) groundPoint.findKeyword("Line"), 100.0);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, groundPoint.findKeyword("Error"), "NULL");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, groundPoint.findKeyword("Error"), "NULL");
 
   groundPoint = appLog.group(2);
   EXPECT_DOUBLE_EQ( (double) groundPoint.findKeyword("Sample"), 100.0);
   EXPECT_DOUBLE_EQ( (double) groundPoint.findKeyword("Line"), 10000.0);
   QString ErrorMsg = "Requested position does not project in camera model; no surface intersection";
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, groundPoint.findKeyword("Error"), ErrorMsg);
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, groundPoint.findKeyword("Error"), ErrorMsg.toStdString());
 }
 
 
@@ -274,7 +274,7 @@ TEST_F(DefaultCube, FunctionalTestCamptAllowError) {
   campt(testCube, options, &appLog);
   PvlGroup groundPoint = appLog.findGroup("GroundPoint");
   QString ErrorMsg = "Requested position does not project in camera model; no surface intersection";
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, groundPoint.findKeyword("Error"), ErrorMsg);
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, groundPoint.findKeyword("Error"), ErrorMsg.toStdString());
 }
 
 TEST_F(CSMCubeFixture, FunctionalTestCamptCSMCamera) {

@@ -39,7 +39,7 @@ void IsisMain() {
   // object.  If this fails then the file must be compressed, so
   // decompress the file using vdcomp.
   try {
-    Pvl compressionTest(in.expanded());
+    Pvl compressionTest(in.expanded().toStdString());
 
     if(compressionTest.groups() == 0 && compressionTest.objects() == 0 &&
         compressionTest.keywords() < 2) {
@@ -112,36 +112,36 @@ void IsisMain() {
 void TranslateVikingLabels(Pvl &pdsLabel, Cube *ocube) {
   // Setup the archive group
   PvlGroup arch("Archive");
-  arch += PvlKeyword("DataSetId", (QString)pdsLabel["DATA_SET_ID"]);
-  arch += PvlKeyword("ProductId", (QString)pdsLabel["IMAGE_ID"]);
-  arch += PvlKeyword("MissonPhaseName", (QString)pdsLabel["MISSION_PHASE_NAME"]);
-  arch += PvlKeyword("ImageNumber", (QString)pdsLabel["IMAGE_NUMBER"]);
-  arch += PvlKeyword("OrbitNumber", (QString)pdsLabel["ORBIT_NUMBER"]);
+  arch += PvlKeyword("DataSetId", pdsLabel["DATA_SET_ID"]);
+  arch += PvlKeyword("ProductId", pdsLabel["IMAGE_ID"]);
+  arch += PvlKeyword("MissonPhaseName", pdsLabel["MISSION_PHASE_NAME"]);
+  arch += PvlKeyword("ImageNumber", pdsLabel["IMAGE_NUMBER"]);
+  arch += PvlKeyword("OrbitNumber", pdsLabel["ORBIT_NUMBER"]);
   ocube->putGroup(arch);
 
   // Setup the instrument group
   // Note SpacecraftClockCount used to be FDS_COUNT
   PvlGroup inst("Instrument");
-  inst += PvlKeyword("SpacecraftName", (QString)pdsLabel["SPACECRAFT_NAME"]);
-  inst += PvlKeyword("InstrumentId", (QString)pdsLabel["INSTRUMENT_NAME"]);
-  inst += PvlKeyword("TargetName", (QString)pdsLabel["TARGET_NAME"]);
+  inst += PvlKeyword("SpacecraftName", pdsLabel["SPACECRAFT_NAME"]);
+  inst += PvlKeyword("InstrumentId", pdsLabel["INSTRUMENT_NAME"]);
+  inst += PvlKeyword("TargetName", pdsLabel["TARGET_NAME"]);
 
-  QString stime = (QString) pdsLabel["IMAGE_TIME"];
+  QString stime = QString::fromStdString(pdsLabel["IMAGE_TIME"]);
   stime.remove(QRegExp("Z$"));
-  inst += PvlKeyword("StartTime", stime);
+  inst += PvlKeyword("StartTime", stime.toStdString());
 
   inst += PvlKeyword("ExposureDuration",
-                     (QString)pdsLabel["EXPOSURE_DURATION"], "seconds");
-  inst += PvlKeyword("SpacecraftClockCount", (QString)pdsLabel["IMAGE_NUMBER"]);
-  inst += PvlKeyword("FloodModeId", (QString)pdsLabel["FLOOD_MODE_ID"]);
-  inst += PvlKeyword("GainModeId", (QString)pdsLabel["GAIN_MODE_ID"]);
-  inst += PvlKeyword("OffsetModeId", (QString)pdsLabel["OFFSET_MODE_ID"]);
+                     pdsLabel["EXPOSURE_DURATION"], "seconds");
+  inst += PvlKeyword("SpacecraftClockCount", pdsLabel["IMAGE_NUMBER"]);
+  inst += PvlKeyword("FloodModeId", pdsLabel["FLOOD_MODE_ID"]);
+  inst += PvlKeyword("GainModeId", pdsLabel["GAIN_MODE_ID"]);
+  inst += PvlKeyword("OffsetModeId", pdsLabel["OFFSET_MODE_ID"]);
   ocube->putGroup(inst);
 
   // Setup the band bin group
   PvlGroup bandBin("BandBin");
-  QString filterName = pdsLabel["FILTER_NAME"];
-  bandBin += PvlKeyword("FilterName", filterName);
+  QString filterName = QString::fromStdString(pdsLabel["FILTER_NAME"]);
+  bandBin += PvlKeyword("FilterName", filterName.toStdString());
 
   int filterId;
   double filterCenter = 0.0;
@@ -184,8 +184,8 @@ void TranslateVikingLabels(Pvl &pdsLabel, Cube *ocube) {
   // Setup the kernel group
   PvlGroup kern("Kernels");
   int spn;
-  if((QString) pdsLabel["SPACECRAFT_NAME"] == "VIKING_ORBITER_1") {
-    if((QString) pdsLabel["INSTRUMENT_NAME"] ==
+  if(QString::fromStdString(pdsLabel["SPACECRAFT_NAME"]) == "VIKING_ORBITER_1") {
+    if(QString::fromStdString(pdsLabel["INSTRUMENT_NAME"]) ==
         "VISUAL_IMAGING_SUBSYSTEM_CAMERA_A") {
       kern += PvlKeyword("NaifFrameCode", "-27001");
     }
@@ -195,7 +195,7 @@ void TranslateVikingLabels(Pvl &pdsLabel, Cube *ocube) {
     spn = 1;
   }
   else {
-    if((QString) pdsLabel["INSTRUMENT_NAME"] ==
+    if(QString::fromStdString(pdsLabel["INSTRUMENT_NAME"]) ==
         "VISUAL_IMAGING_SUBSYSTEM_CAMERA_A") {
       kern += PvlKeyword("NaifFrameCode", "-30001");
     }
@@ -215,8 +215,8 @@ void TranslateVikingLabels(Pvl &pdsLabel, Cube *ocube) {
   type = PvlKeyword("Type");
   valid = PvlKeyword("Valid");
   QString prefix;
-  if((QString) pdsLabel["SPACECRAFT_NAME"] == "VIKING_ORBITER_1") {
-    if((QString) pdsLabel["INSTRUMENT_NAME"] ==
+  if(QString::fromStdString(pdsLabel["SPACECRAFT_NAME"]) == "VIKING_ORBITER_1") {
+    if(QString::fromStdString(pdsLabel["INSTRUMENT_NAME"]) ==
         "VISUAL_IMAGING_SUBSYSTEM_CAMERA_A") {
       prefix = "VO1_VISA_";
     }
@@ -225,7 +225,7 @@ void TranslateVikingLabels(Pvl &pdsLabel, Cube *ocube) {
     }
   }
   else {
-    if((QString) pdsLabel["INSTRUMENT_NAME"] ==
+    if(QString::fromStdString(pdsLabel["INSTRUMENT_NAME"]) ==
         "VISUAL_IMAGING_SUBSYSTEM_CAMERA_A") {
       prefix = "VO2_VISA_";
     }
@@ -233,13 +233,13 @@ void TranslateVikingLabels(Pvl &pdsLabel, Cube *ocube) {
       prefix = "VO2_VISB_";
     }
   }
-  PvlKeyword key = nomRes.findKeyword(prefix + "RESEAUS");
-  int numRes = nomRes[prefix + "NUMBER_RESEAUS"];
+  PvlKeyword key = nomRes.findKeyword(prefix.toStdString() + "RESEAUS");
+  int numRes = nomRes[prefix.toStdString() + "NUMBER_RESEAUS"];
   for(int i = 0; i < numRes * 3; i += 3) {
     lines += key[i];
     samps += key[i+1];
     type += key[i+2];
-    valid += QString::number(0);
+    valid += 0;
   }
   res += lines;
   res += samps;

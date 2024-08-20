@@ -248,7 +248,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportKaguyaTC) {
 
   isisimport(options);
 
-  Pvl output = Pvl(tempDir.path() + "/kaguyatc.cub");
+  Pvl output = Pvl(tempDir.path().toStdString() + "/kaguyatc.cub");
   Pvl truth;
   PvlInput >> truth;
 

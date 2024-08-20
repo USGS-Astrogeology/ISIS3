@@ -71,24 +71,24 @@ void IsisMain() {
   calgrp.addComment("DI(l,s) = (1.0/(exp*w1))*G(l,s)*(gain*DR(l,s)+DC(l,s)+offt+offc)");
   calgrp.addComment("with  w1 = w0*((dist0*dist0) / (dist1*dist1))");
   calgrp.addComment("and  offt(l,s) = A*l + B*l*l + C*s + D*l*s + E");
-  calgrp += PvlKeyword("offc", toString(calParam->Offset()));
-  calgrp += PvlKeyword("exp", toString(calParam->Exposure()));
-  calgrp += PvlKeyword("gain", toString(calParam->Gain()));
-  calgrp += PvlKeyword("DR", in);
-  calgrp += PvlKeyword("DC", calParam->OffsetFile());
-  calgrp += PvlKeyword("G", calParam->GainFile());
+  calgrp += PvlKeyword("offc", std::to_string(calParam->Offset()));
+  calgrp += PvlKeyword("exp", std::to_string(calParam->Exposure()));
+  calgrp += PvlKeyword("gain", std::to_string(calParam->Gain()));
+  calgrp += PvlKeyword("DR", in.toStdString());
+  calgrp += PvlKeyword("DC", calParam->OffsetFile().toStdString());
+  calgrp += PvlKeyword("G", calParam->GainFile().toStdString());
 
-  calgrp += PvlKeyword("w0", toString(calParam->Omega0()));
-  calgrp += PvlKeyword("w1", toString(calParam->Omega1()));
-  calgrp += PvlKeyword("dist0", toString(calParam->Distance()));
-  calgrp += PvlKeyword("dist1", toString(calParam->Dist1()));
-  calgrp += PvlKeyword("1.0/exp*w1", toString(1.0 / (calParam->Exposure() * calParam->Omega1())));
+  calgrp += PvlKeyword("w0", std::to_string(calParam->Omega0()));
+  calgrp += PvlKeyword("w1", std::to_string(calParam->Omega1()));
+  calgrp += PvlKeyword("dist0", std::to_string(calParam->Distance()));
+  calgrp += PvlKeyword("dist1", std::to_string(calParam->Dist1()));
+  calgrp += PvlKeyword("1.0/exp*w1", std::to_string(1.0 / (calParam->Exposure() * calParam->Omega1())));
 
-  calgrp += PvlKeyword("Acoeff", toString(calParam->Acoeff()));
-  calgrp += PvlKeyword("Bcoeff", toString(calParam->Bcoeff()));
-  calgrp += PvlKeyword("Ccoeff", toString(calParam->Ccoeff()));
-  calgrp += PvlKeyword("Dcoeff", toString(calParam->Dcoeff()));
-  calgrp += PvlKeyword("Ecoeff", toString(calParam->Ecoeff()));
+  calgrp += PvlKeyword("Acoeff", std::to_string(calParam->Acoeff()));
+  calgrp += PvlKeyword("Bcoeff", std::to_string(calParam->Bcoeff()));
+  calgrp += PvlKeyword("Ccoeff", std::to_string(calParam->Ccoeff()));
+  calgrp += PvlKeyword("Dcoeff", std::to_string(calParam->Dcoeff()));
+  calgrp += PvlKeyword("Ecoeff", std::to_string(calParam->Ecoeff()));
 
   ocube->putGroup(calgrp);
 

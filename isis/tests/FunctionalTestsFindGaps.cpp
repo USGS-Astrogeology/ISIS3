@@ -60,7 +60,7 @@ TEST_F( SmallCube, FindGapsDefault )
   EXPECT_EQ( outHist->ValidPixels(), 60 );
 
   // test that Gap group has been written to the logfile
-  Pvl logFile = Pvl(logFileName);
+  Pvl logFile = Pvl(logFileName.toStdString());
   EXPECT_TRUE(logFile.hasGroup("Gap"));
 }
 
@@ -111,7 +111,7 @@ TEST_F( SmallCube, FindGapsEndOfBand )
   EXPECT_EQ( outHist->ValidPixels(), 50 );
 
   // test that Gap group has been written to the logfile
-  Pvl logFile = Pvl(logFileName);
+  Pvl logFile = Pvl(logFileName.toStdString());
   EXPECT_TRUE(logFile.hasGroup("Gap"));
 }
 
@@ -174,7 +174,7 @@ TEST_F( SmallCube, FindGapsCorTol )
   EXPECT_EQ( outHist->ValidPixels(), 50 );
 
   // test that Gap group has been written to the logfile
-  Pvl logFile = Pvl(logFileName);
+  Pvl logFile = Pvl(logFileName.toStdString());
   ASSERT_TRUE(logFile.hasGroup("Gap"));
 
   // test that the gap correlation is >0 and < our correlation tolerence: 0.9

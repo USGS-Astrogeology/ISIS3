@@ -215,7 +215,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerIgnoreOrRemove) {
   // read back compareIgnored_IgnoredRemoved log file
   Pvl compareIgnored_IgnoredRemoved;
   try {
-    compareIgnored_IgnoredRemoved.read(tempDir.path()+ "/compareIgnored_IgnoredRemoved.txt");
+    compareIgnored_IgnoredRemoved.read(tempDir.path().toStdString() + "/compareIgnored_IgnoredRemoved.txt");
   }
   catch (IException &e) {
     FAIL() << "Unable to open error log pvl file: " << e.what() << std::endl;
@@ -225,8 +225,8 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerIgnoreOrRemove) {
   // in the difference object confirming cnets are identical 
   ASSERT_TRUE(compareIgnored_IgnoredRemoved.hasObject("Differences"));
   PvlObject differences = compareIgnored_IgnoredRemoved.findObject("Differences");
-  EXPECT_EQ(differences["Filename"][0].toStdString(), "ignored_removed.net");
-  EXPECT_EQ(differences["Filename"][1].toStdString(), "removed.net");  
+  EXPECT_EQ(differences["Filename"][0], "ignored_removed.net");
+  EXPECT_EQ(differences["Filename"][1], "removed.net");  
   EXPECT_EQ(differences.groups(), 0);
   EXPECT_EQ(differences.objects(), 0);
 }

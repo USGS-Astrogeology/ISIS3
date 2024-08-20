@@ -40,8 +40,8 @@ TEST(Fits2Isis, Fits2IsisTestDefault) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  ASSERT_EQ(inst["InstrumentId"][0].toStdString(), "WFPC2" );
-  ASSERT_EQ(inst["StartTime"][0].toStdString(), "1999-02-20" );
+  ASSERT_EQ(inst["InstrumentId"][0], "WFPC2" );
+  ASSERT_EQ(inst["StartTime"][0], "1999-02-20" );
 
   std::unique_ptr<Histogram> hist (cube.histogram());
 
@@ -83,7 +83,7 @@ TEST(Fits2Isis, Fits2IsisOrganizationBsq) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  ASSERT_EQ(inst["Target"][0].toStdString(), "JUPITER" );
+  ASSERT_EQ(inst["Target"][0], "JUPITER" );
 
   std::unique_ptr<Histogram> hist (cube.histogram());
 
@@ -126,7 +126,7 @@ TEST(Fits2Isis, Fits2IsisOrganizationBil) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  ASSERT_EQ(inst["Target"][0].toStdString(), "JUPITER" );
+  ASSERT_EQ(inst["Target"][0], "JUPITER" );
 
   std::unique_ptr<Histogram> hist (cube.histogram());
 

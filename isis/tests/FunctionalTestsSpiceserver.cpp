@@ -131,18 +131,18 @@ TEST_F(TestPayload, FunctionalTestSpiceserverDefaultParameters) {
   PvlGroup naifKeywords = kernelsLabel.group(0);
 
   EXPECT_EQ((int)naifKeywords.findKeyword("NaifFrameCode"), -27002);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, naifKeywords.findKeyword("TargetPosition")[0], "Table");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, naifKeywords.findKeyword("InstrumentPointing")[0], "Table");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, naifKeywords.findKeyword("InstrumentPosition")[0], "Table");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, naifKeywords.findKeyword("TargetPosition")[0], "Table");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, naifKeywords.findKeyword("InstrumentPointing")[0], "Table");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, naifKeywords.findKeyword("InstrumentPosition")[0], "Table");
 
   PvlObject table = instrumentPositionTable.findObject("Table");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, QString(table.findKeyword("Name")), "InstrumentPosition");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, QString(table.group(0).findKeyword("Name")), "J2000X");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, QString(table.group(1).findKeyword("Name")), "J2000Y");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, QString(table.group(2).findKeyword("Name")), "J2000Z");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, QString(table.group(3).findKeyword("Name")), "J2000XV");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, QString(table.group(4).findKeyword("Name")), "J2000YV");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, QString(table.group(5).findKeyword("Name")), "J2000ZV");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, (table.findKeyword("Name")), "InstrumentPosition");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, (table.group(0).findKeyword("Name")), "J2000X");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, (table.group(1).findKeyword("Name")), "J2000Y");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, (table.group(2).findKeyword("Name")), "J2000Z");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, (table.group(3).findKeyword("Name")), "J2000XV");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, (table.group(4).findKeyword("Name")), "J2000YV");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, (table.group(5).findKeyword("Name")), "J2000ZV");
 }
 
 

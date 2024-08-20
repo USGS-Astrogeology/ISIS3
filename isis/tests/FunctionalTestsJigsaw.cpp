@@ -872,7 +872,7 @@ TEST_F(ObservationPair, FunctionalTestJigsawErrorTBParamsNoSolve) {
   QString tbsolvepath = prefix.path() + "/tbsolve.pvl";
   Pvl tbsolve;
   iss >> tbsolve;
-  tbsolve.write(tbsolvepath);
+  tbsolve.write(tbsolvepath.toStdString());
 
   // just use isdPath for a valid PVL file without the wanted groups
   QVector<QString> args = {"fromlist="+cubeListFile, "cnet="+cnetPath, "onet="+outCnetFileName, "SOLVETARGETBODY=TRUE", "tbparameters="+tbsolvepath};
@@ -942,7 +942,7 @@ End)");
 
   Pvl tbParams;
   tbPvlStr >> tbParams;
-  tbParams.write(tbParamsPath);
+  tbParams.write(tbParamsPath.toStdString());
 
   QString outCnetFileName = prefix.path() + "/outTemp.net";
 
@@ -1102,7 +1102,7 @@ End)");
 
   Pvl tbParams;
   tbPvlStr >> tbParams;
-  tbParams.write(tbParamsPath);
+  tbParams.write(tbParamsPath.toStdString());
 
   QString outCnetFileName = prefix.path() + "/outTemp.net";
 

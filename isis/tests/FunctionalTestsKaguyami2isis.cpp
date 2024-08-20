@@ -45,15 +45,15 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisVis) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["MissionName"][0].toStdString(), "SELENE");
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "KAGUYA");
-  EXPECT_EQ(inst["InstrumentName"][0].toStdString(), "Multiband Imager Visible");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "MI-VIS");
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "MOON");
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2008-09-16T20:11:04.162607");
-  EXPECT_EQ(inst["StopTime"][0].toStdString(), "2008-09-16T20:11:16.629582");
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "905631054.826");
-  EXPECT_EQ(inst["SpacecraftClockStopCount"][0].toStdString(), "905631067.294");
+  EXPECT_EQ(inst["MissionName"][0], "SELENE");
+  EXPECT_EQ(inst["SpacecraftName"][0], "KAGUYA");
+  EXPECT_EQ(inst["InstrumentName"][0], "Multiband Imager Visible");
+  EXPECT_EQ(inst["InstrumentId"][0], "MI-VIS");
+  EXPECT_EQ(inst["TargetName"][0], "MOON");
+  EXPECT_EQ(inst["StartTime"][0], "2008-09-16T20:11:04.162607");
+  EXPECT_EQ(inst["StopTime"][0], "2008-09-16T20:11:16.629582");
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "905631054.826");
+  EXPECT_EQ(inst["SpacecraftClockStopCount"][0], "905631067.294");
   EXPECT_DOUBLE_EQ(inst["LineExposureDuration"], 2.6623);
   EXPECT_EQ(inst["LineExposureDuration"].unit(), "msec");
   EXPECT_DOUBLE_EQ(inst["LineSamplingInterval"], 13);
@@ -64,8 +64,8 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisVis) {
   // Archive Group
   PvlGroup &arch = isisLabel->findGroup("Archive", Pvl::Traverse);
 
-  EXPECT_EQ(arch["DataSetId"][0].toStdString(), "MI-VIS_Level2B");
-  EXPECT_EQ(arch["ProductSetId"][0].toStdString(), "MI-VIS_Level2B2");
+  EXPECT_EQ(arch["DataSetId"][0], "MI-VIS_Level2B");
+  EXPECT_EQ(arch["ProductSetId"][0], "MI-VIS_Level2B2");
 
   // Bandbin Group
   PvlGroup &bandBin = isisLabel->findGroup("BandBin", Pvl::Traverse);
@@ -123,15 +123,15 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisNir) {
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["MissionName"][0].toStdString(), "SELENE");
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "KAGUYA");
-  EXPECT_EQ(inst["InstrumentName"][0].toStdString(), "Multiband Imager Near Infrared");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "MI-NIR");
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "MOON");
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2008-09-16T20:10:30.480257");
-  EXPECT_EQ(inst["StopTime"][0].toStdString(), "2008-09-16T20:10:42.921232");
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "905631021.132");
-  EXPECT_EQ(inst["SpacecraftClockStopCount"][0].toStdString(), "905631033.574");
+  EXPECT_EQ(inst["MissionName"][0], "SELENE");
+  EXPECT_EQ(inst["SpacecraftName"][0], "KAGUYA");
+  EXPECT_EQ(inst["InstrumentName"][0], "Multiband Imager Near Infrared");
+  EXPECT_EQ(inst["InstrumentId"][0], "MI-NIR");
+  EXPECT_EQ(inst["TargetName"][0], "MOON");
+  EXPECT_EQ(inst["StartTime"][0], "2008-09-16T20:10:30.480257");
+  EXPECT_EQ(inst["StopTime"][0], "2008-09-16T20:10:42.921232");
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "905631021.132");
+  EXPECT_EQ(inst["SpacecraftClockStopCount"][0], "905631033.574");
   EXPECT_DOUBLE_EQ(inst["LineExposureDuration"], 13.2148);
   EXPECT_EQ(inst["LineExposureDuration"].unit(), "msec");
   EXPECT_DOUBLE_EQ(inst["LineSamplingInterval"], 39);
@@ -142,8 +142,8 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisNir) {
   // Archive Group
   PvlGroup &arch = isisLabel->findGroup("Archive", Pvl::Traverse);
 
-  EXPECT_EQ(arch["DataSetId"][0].toStdString(), "MI-NIR_Level2B");
-  EXPECT_EQ(arch["ProductSetId"][0].toStdString(), "MI-NIR_Level2B2");
+  EXPECT_EQ(arch["DataSetId"][0], "MI-NIR_Level2B");
+  EXPECT_EQ(arch["ProductSetId"][0], "MI-NIR_Level2B2");
 
   // Bandbin Group
   PvlGroup &bandBin = isisLabel->findGroup("BandBin", Pvl::Traverse);

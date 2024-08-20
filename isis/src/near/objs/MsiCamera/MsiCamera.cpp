@@ -58,7 +58,7 @@ namespace Isis {
     // version of the msi2isis ensure updates by sumspice work
     // properly - ie., SpacecraftClockStartCount must be valid.
     // KJB/UA 2019-08-25
-    QString stime = inst["SpacecraftClockStartCount"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     stime.remove('.');  //  Backward compatability!!
 
     iTime etStart = getClockTime(stime);

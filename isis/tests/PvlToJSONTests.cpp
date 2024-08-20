@@ -20,9 +20,9 @@ TEST(PvlToJSONTest, KeywordConversion) {
   json testJson1 = pvlKeywordToJSON(testKey1);
   json testJson2 = pvlKeywordToJSON(testKey2);
 
-  EXPECT_EQ(testJson1["Value"], testKey1[0].toStdString());
-  EXPECT_EQ(testJson2["Value"][0], testKey2[0].toStdString());
-  EXPECT_EQ(testJson2["Value"][1], testKey2[1].toStdString());
+  EXPECT_EQ(testJson1["Value"], testKey1[0]);
+  EXPECT_EQ(testJson2["Value"][0], testKey2[0]);
+  EXPECT_EQ(testJson2["Value"][1], testKey2[1]);
 }
 
 
@@ -38,9 +38,9 @@ TEST(PvlToJSONTest, KeywordCommentConversion) {
   json testJson2 = pvlKeywordToJSON(testKey2);
   json testJson3 = pvlKeywordToJSON(testKey3);
 
-  EXPECT_EQ(testJson1["Comment"], testKey1.comment(0).toStdString());
-  EXPECT_EQ(testJson2["Comment"][0], testKey2.comment(0).toStdString());
-  EXPECT_EQ(testJson2["Comment"][1], testKey2.comment(1).toStdString());
+  EXPECT_EQ(testJson1["Comment"], testKey1.comment(0));
+  EXPECT_EQ(testJson2["Comment"][0], testKey2.comment(0));
+  EXPECT_EQ(testJson2["Comment"][1], testKey2.comment(1));
   EXPECT_FALSE(testJson3.contains("Comment"));
 }
 
@@ -58,10 +58,10 @@ TEST(PvlToJSONTest, KeywordUnitConversion) {
   json testJson2 = pvlKeywordToJSON(testKey2);
   json testJson3 = pvlKeywordToJSON(testKey3);
 
-  EXPECT_EQ(testJson1["Units"], testKey1.unit(0).toStdString());
-  EXPECT_EQ(testJson2["Units"][0], testKey2.unit(0).toStdString());
-  EXPECT_EQ(testJson2["Units"][1], testKey2.unit(1).toStdString());
-  EXPECT_EQ(testJson2["Units"][2], testKey2.unit(2).toStdString());
+  EXPECT_EQ(testJson1["Units"], testKey1.unit(0));
+  EXPECT_EQ(testJson2["Units"][0], testKey2.unit(0));
+  EXPECT_EQ(testJson2["Units"][1], testKey2.unit(1));
+  EXPECT_EQ(testJson2["Units"][2], testKey2.unit(2));
   EXPECT_FALSE(testJson3.contains("Units"));
 }
 
@@ -75,8 +75,8 @@ TEST(PvlToJSONTest, GroupConversion) {
 
   json testJson = pvlGroupToJSON(testGroup);
 
-  EXPECT_TRUE(testJson.contains(testKey1.name().toStdString()));
-  EXPECT_TRUE(testJson.contains(testKey2.name().toStdString()));
+  EXPECT_TRUE(testJson.contains(testKey1.name()));
+  EXPECT_TRUE(testJson.contains(testKey2.name()));
 }
 
 
@@ -89,10 +89,10 @@ TEST(PvlToJSONTest, GroupRepeatedKeysConversion) {
 
   json testJson = pvlGroupToJSON(testGroup);
 
-  EXPECT_TRUE(testJson.contains(testKey2.name().toStdString()));
-  EXPECT_EQ(testJson[testKey1.name().toStdString()].size(), 2);
-  EXPECT_EQ(testJson[testKey1.name().toStdString()][0]["Value"], testKey1[0].toStdString());
-  EXPECT_EQ(testJson[testKey2.name().toStdString()][1]["Value"], testKey2[0].toStdString());
+  EXPECT_TRUE(testJson.contains(testKey2.name()));
+  EXPECT_EQ(testJson[testKey1.name()].size(), 2);
+  EXPECT_EQ(testJson[testKey1.name()][0]["Value"], testKey1[0]);
+  EXPECT_EQ(testJson[testKey2.name()][1]["Value"], testKey2[0]);
 }
 
 
@@ -108,9 +108,9 @@ TEST(PvlToJSONTest, GroupCommentConversion) {
   json testJson2 = pvlGroupToJSON(testGroup2);
   json testJson3 = pvlGroupToJSON(testGroup3);
 
-  EXPECT_EQ(testJson1["Comment"], testGroup1.comment(0).toStdString());
-  EXPECT_EQ(testJson2["Comment"][0], testGroup2.comment(0).toStdString());
-  EXPECT_EQ(testJson2["Comment"][1], testGroup2.comment(1).toStdString());
+  EXPECT_EQ(testJson1["Comment"], testGroup1.comment(0));
+  EXPECT_EQ(testJson2["Comment"][0], testGroup2.comment(0));
+  EXPECT_EQ(testJson2["Comment"][1], testGroup2.comment(1));
   EXPECT_FALSE(testJson3.contains("Comment"));
 }
 
@@ -128,8 +128,8 @@ TEST(PvlToJSONTest, ObjectConversion) {
 
   json testJson = pvlObjectToJSON(testObject);
 
-  EXPECT_TRUE(testJson.contains(testGroup.name().toStdString()));
-  EXPECT_TRUE(testJson.contains(testKey3.name().toStdString()));
+  EXPECT_TRUE(testJson.contains(testGroup.name()));
+  EXPECT_TRUE(testJson.contains(testKey3.name()));
 }
 
 
@@ -146,10 +146,10 @@ TEST(PvlToJSONTest, ObjectNestedConversion) {
 
   json testJson = pvlObjectToJSON(testObject2);
 
-  EXPECT_TRUE(testJson.contains(testKey3.name().toStdString()));
-  EXPECT_TRUE(testJson.contains(testObject1.name().toStdString()));
-  EXPECT_TRUE(testJson[testObject1.name().toStdString()].contains(testKey1.name().toStdString()));
-  EXPECT_TRUE(testJson[testObject1.name().toStdString()].contains(testKey2.name().toStdString()));
+  EXPECT_TRUE(testJson.contains(testKey3.name()));
+  EXPECT_TRUE(testJson.contains(testObject1.name()));
+  EXPECT_TRUE(testJson[testObject1.name()].contains(testKey1.name()));
+  EXPECT_TRUE(testJson[testObject1.name()].contains(testKey2.name()));
 }
 
 
@@ -165,11 +165,11 @@ TEST(PvlToJSONTest, ObjectRepeatedConversion) {
 
   json testJson = pvlObjectToJSON(testObject);
 
-  EXPECT_TRUE(testJson.contains(testKey1.name().toStdString()));
-  EXPECT_TRUE(testJson.contains(testKey2.name().toStdString()));
-  EXPECT_EQ(testJson[testKey1.name().toStdString()].size(), 2);
-  EXPECT_TRUE(testJson[testKey1.name().toStdString()][0].contains("Value"));
-  EXPECT_TRUE(testJson[testKey1.name().toStdString()][1].contains(testKey2.name().toStdString()));
+  EXPECT_TRUE(testJson.contains(testKey1.name()));
+  EXPECT_TRUE(testJson.contains(testKey2.name()));
+  EXPECT_EQ(testJson[testKey1.name()].size(), 2);
+  EXPECT_TRUE(testJson[testKey1.name()][0].contains("Value"));
+  EXPECT_TRUE(testJson[testKey1.name()][1].contains(testKey2.name()));
 }
 
 
@@ -185,9 +185,9 @@ TEST(PvlToJSONTest, ObjectCommentConversion) {
   json testJson2 = pvlObjectToJSON(testObject2);
   json testJson3 = pvlObjectToJSON(testObject3);
 
-  EXPECT_EQ(testJson1["Comment"], testObject1.comment(0).toStdString());
-  EXPECT_EQ(testJson2["Comment"][0], testObject2.comment(0).toStdString());
-  EXPECT_EQ(testJson2["Comment"][1], testObject2.comment(1).toStdString());
+  EXPECT_EQ(testJson1["Comment"], testObject1.comment(0));
+  EXPECT_EQ(testJson2["Comment"][0], testObject2.comment(0));
+  EXPECT_EQ(testJson2["Comment"][1], testObject2.comment(1));
   EXPECT_FALSE(testJson3.contains("Comment"));
 }
 
@@ -209,7 +209,7 @@ TEST(PvlToJSONTest, PvlConversion) {
 
   json testJson = pvlToJSON(testPvl);
 
-  EXPECT_TRUE(testJson.contains(testGroup.name().toStdString()));
-  EXPECT_TRUE(testJson.contains(testObject.name().toStdString()));
-  EXPECT_TRUE(testJson.contains(testKey4.name().toStdString()));
+  EXPECT_TRUE(testJson.contains(testGroup.name()));
+  EXPECT_TRUE(testJson.contains(testObject.name()));
+  EXPECT_TRUE(testJson.contains(testKey4.name()));
 }

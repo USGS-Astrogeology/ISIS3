@@ -49,7 +49,7 @@ void IsisMain ()
 
   Pvl pdsLabel;
   try {
-    pdsLabel.read(inFile.expanded());
+    pdsLabel.read(inFile.expanded().toStdString());
   }
   catch (IException &e) {
     // Try to fix the PVL before reading it in
@@ -89,9 +89,9 @@ void IsisMain ()
 
   try {
     // ROSETTA:CHANNEL_ID will be IR or VIS
-    instid = (QString) pdsLabel.findKeyword("INSTRUMENT_ID");
-    missid = (QString) pdsLabel.findKeyword("MISSION_ID");
-    channelid = (QString) pdsLabel.findKeyword("ROSETTA:CHANNEL_ID");
+    instid = QString::fromStdString(pdsLabel.findKeyword("INSTRUMENT_ID"));
+    missid = QString::fromStdString(pdsLabel.findKeyword("MISSION_ID"));
+    channelid = QString::fromStdString(pdsLabel.findKeyword("ROSETTA:CHANNEL_ID"));
   }
   catch (IException &e) {
     QString msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
@@ -420,7 +420,7 @@ void IsisMain ()
     scs2e_c( (SpiceInt) -226, stopScet.toLatin1().data(), &etEnd);
 
     PvlKeyword &frameParam = inst["FrameParameter"];
-    double exposureTime = toDouble(frameParam[0]);
+    double exposureTime = std::stod(frameParam[0]);
 
     QString startTime = iTime(etStart-exposureTime).UTC();
     QString stopTime = iTime(etEnd-exposureTime).UTC();
@@ -430,8 +430,8 @@ void IsisMain ()
     sce2s_c( (SpiceInt) -226, etStart-exposureTime, (SpiceInt) 50, startSclkString);
     sce2s_c( (SpiceInt) -226, etEnd-exposureTime, (SpiceInt) 50, endSclkString);
 
-    inst.findKeyword("StartTime").setValue(startTime);
-    inst.findKeyword("StopTime").setValue(stopTime);
+    inst.findKeyword("StartTime").setValue(startTime.toStdString());
+    inst.findKeyword("StopTime").setValue(stopTime.toStdString());
 
     inst.findKeyword("SpacecraftClockStartCount").setValue(startSclkString);
     inst.findKeyword("SpacecraftClockStopCount").setValue(endSclkString);
@@ -471,7 +471,7 @@ void IsisMain ()
     const PvlKeyword &frameKey = outcube->group("Instrument").findKeyword("FrameParameter");
     // The third frame key is always the number of scans in between dark current scans.
     // So, we need to add one to that in order to get the number of lines to next dark current.
-    int darkRate = toInt(frameKey[3]) + 1;
+    int darkRate = std::stoi(frameKey[3]) + 1;
     LineManager darkLineManager(*outcube);
 
     for (int band = 1; band <= outcube->bandCount(); band++) {

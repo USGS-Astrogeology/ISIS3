@@ -32,9 +32,9 @@ TEST_F(DefaultCube, FunctionalTestGetsnAllTrue) {
   getsn( testCube, options, &appLog );
   PvlGroup results = appLog.findGroup("Results");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, results.findKeyword("Filename"), testCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, results.findKeyword("SerialNumber"), expectedSN);
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, results.findKeyword("ObservationNumber"), expectedON);
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("Filename"), testCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("SerialNumber"), expectedSN.toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("ObservationNumber"), expectedON.toStdString());
 }
 
 
@@ -70,7 +70,7 @@ TEST_F(DefaultCube, FunctionalTestGetsnDefaultTrue) {
   getsn( testCube, options, &appLog );
   PvlGroup results = appLog.findGroup("Results");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, fileName , results.findKeyword("SerialNumber"));
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, fileName.toStdString() , results.findKeyword("SerialNumber"));
 }
 
 
@@ -88,7 +88,7 @@ TEST_F(DefaultCube, FunctionalTestGetsnDefaultFalse) {
   getsn( testCube, options, &appLog );
   PvlGroup results = appLog.findGroup("Results");
 
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, fileName , results.findKeyword("SerialNumber"));
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, fileName.toStdString() , results.findKeyword("SerialNumber"));
 }
 
 

@@ -45,19 +45,19 @@ TEST(Hyb2onc2isis, Hyb2onc2isisTestDefault) {
 
     // Instrument Group
     PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-    ASSERT_EQ(inst["SpacecraftName"][0].toStdString(), "HAYABUSA-2");
-    ASSERT_EQ(inst["InstrumentId"][0].toStdString(), "ONC-W2" );
-    ASSERT_EQ(inst["StartTime"][0].toStdString(), "2015-12-03T00:00:06.637" );
-    ASSERT_EQ(inst["StopTime"][0].toStdString(), "2015-12-03T00:00:06.641" );
-    ASSERT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "1/1009473117" );
-    ASSERT_EQ(inst["TargetName"][0].toStdString(), "Earth" );
+    ASSERT_EQ(inst["SpacecraftName"][0], "HAYABUSA-2");
+    ASSERT_EQ(inst["InstrumentId"][0], "ONC-W2" );
+    ASSERT_EQ(inst["StartTime"][0], "2015-12-03T00:00:06.637" );
+    ASSERT_EQ(inst["StopTime"][0], "2015-12-03T00:00:06.641" );
+    ASSERT_EQ(inst["SpacecraftClockStartCount"][0], "1/1009473117" );
+    ASSERT_EQ(inst["TargetName"][0], "Earth" );
 
     // Archive Group
     PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-    ASSERT_EQ(archive["ProducerId"][0].toStdString(), "ISAS/JAXA" );
-    ASSERT_EQ(archive["FormatType"][0].toStdString(), "HAYABUSA2 IMAGE ONC L2a" );
-    ASSERT_EQ(archive["Contenttype"][0].toStdString(), "ONC-W2 NON SMEARCORRECTED");
-    ASSERT_EQ(archive["SourceProductId"][0].toStdString(), "hyb2_onc_20151203_000006_w2f_l2a" );
+    ASSERT_EQ(archive["ProducerId"][0], "ISAS/JAXA" );
+    ASSERT_EQ(archive["FormatType"][0], "HAYABUSA2 IMAGE ONC L2a" );
+    ASSERT_EQ(archive["Contenttype"][0], "ONC-W2 NON SMEARCORRECTED");
+    ASSERT_EQ(archive["SourceProductId"][0], "hyb2_onc_20151203_000006_w2f_l2a" );
 
     // Kernels Group
     PvlGroup &kernel = isisLabel->findGroup("Kernels", Pvl::Traverse);
@@ -73,5 +73,5 @@ TEST(Hyb2onc2isis, Hyb2onc2isisTestDefault) {
     // check original label exists
     Pvl ogLabel = cube.readOriginalLabel().ReturnLabels();
     PvlGroup &fitsLabel = ogLabel.findGroup("FitsLabels", Pvl::Traverse);
-    ASSERT_EQ(fitsLabel["SPCECRFT"][0].toStdString(), "HAYABUSA2" );
+    ASSERT_EQ(fitsLabel["SPCECRFT"][0], "HAYABUSA2" );
 }

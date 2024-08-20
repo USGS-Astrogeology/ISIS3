@@ -72,12 +72,12 @@ TEST_F(TempTestingFiles, DISABLED_FunctionalTestJitterfitDefault){
   Pvl *isisLabel = cube.label();
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
 
-  EXPECT_DOUBLE_EQ(inst["JitterSampleCoefficients"][0].toDouble(), -6.3185740156776303e-09);
-  EXPECT_DOUBLE_EQ(inst["JitterSampleCoefficients"][1].toDouble(), 2.44034713747508e-06);
-  EXPECT_DOUBLE_EQ(inst["JitterSampleCoefficients"][2].toDouble(), 0.0032581267520383002);
-  EXPECT_DOUBLE_EQ(inst["JitterLineCoefficients"][0].toDouble(), -2.7623177125388001e-09);
-  EXPECT_DOUBLE_EQ(inst["JitterLineCoefficients"][1].toDouble(), 3.3727910440682698e-06);
-  EXPECT_DOUBLE_EQ(inst["JitterLineCoefficients"][2].toDouble(), 0.0013484324974775001);
+  EXPECT_DOUBLE_EQ(std::stod(inst["JitterSampleCoefficients"][0]), -6.3185740156776303e-09);
+  EXPECT_DOUBLE_EQ(std::stod(inst["JitterSampleCoefficients"][1]), 2.44034713747508e-06);
+  EXPECT_DOUBLE_EQ(std::stod(inst["JitterSampleCoefficients"][2]), 0.0032581267520383002);
+  EXPECT_DOUBLE_EQ(std::stod(inst["JitterLineCoefficients"][0]), -2.7623177125388001e-09);
+  EXPECT_DOUBLE_EQ(std::stod(inst["JitterLineCoefficients"][1]), 3.3727910440682698e-06);
+  EXPECT_DOUBLE_EQ(std::stod(inst["JitterLineCoefficients"][2]), 0.0013484324974775001);
 
   // Test residuals
   CSVReader::CSVAxis residLine;
@@ -159,7 +159,7 @@ TEST_F(TempTestingFiles, DISABLED_FunctionalTestJitterfitDefault){
 
 
   // Test statistics of registration
-  Pvl stats = Pvl(outputRegistrationStats);
+  Pvl stats = Pvl(outputRegistrationStats.toStdString());
   PvlGroup &autoRegStats = stats.findGroup("AutoRegStatistics");
   EXPECT_EQ((double) autoRegStats.findKeyword("Total"), 60);
   EXPECT_EQ((double) autoRegStats.findKeyword("Successful"), 42);

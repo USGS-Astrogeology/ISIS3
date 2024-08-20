@@ -74,15 +74,15 @@ TEST_F(SmallCube, FunctionalTestCubeattVirtualBands) {
   // in this context:
   Pvl *label = outputCube.label();
   PvlGroup bandBin = label->findObject("IsisCube").findGroup("BandBin");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][0]), "3");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][1]), "2");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][2]), "4");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][3]), "2");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][4]), "1");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][5]), "5");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][6]), "7");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][7]), "6");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][8]), "4");
+  EXPECT_EQ((bandBin["OriginalBand"][0]), "3");
+  EXPECT_EQ((bandBin["OriginalBand"][1]), "2");
+  EXPECT_EQ((bandBin["OriginalBand"][2]), "4");
+  EXPECT_EQ((bandBin["OriginalBand"][3]), "2");
+  EXPECT_EQ((bandBin["OriginalBand"][4]), "1");
+  EXPECT_EQ((bandBin["OriginalBand"][5]), "5");
+  EXPECT_EQ((bandBin["OriginalBand"][6]), "7");
+  EXPECT_EQ((bandBin["OriginalBand"][7]), "6");
+  EXPECT_EQ((bandBin["OriginalBand"][8]), "4");
 
 
   // Test that DNs for each band have moved appropriately
@@ -155,9 +155,9 @@ TEST_F(SmallCube, FunctionalTestCubeattInputAndOutputAttributes) {
 
   Pvl *label = outputCube.label();
   PvlGroup bandBin = label->findObject("IsisCube").findGroup("BandBin");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][0]), "3");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][1]), "2");
-  EXPECT_EQ(QString(bandBin["OriginalBand"][2]), "4");
+  EXPECT_EQ(bandBin["OriginalBand"][0], "3");
+  EXPECT_EQ(bandBin["OriginalBand"][1], "2");
+  EXPECT_EQ(bandBin["OriginalBand"][2], "4");
 
   // Test that DNs for each band have moved appropriately
   EXPECT_DOUBLE_EQ(outputCube.statistics(1)->Average(), testCube->statistics(3)->Average());

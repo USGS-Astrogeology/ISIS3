@@ -50,9 +50,9 @@ namespace Isis {
 
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString expDuration = inst["ExposureDuration"];
+    QString expDuration = QString::fromStdString(inst["ExposureDuration"]);
 
-    QString stime = inst["SpacecraftClockStartCount"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     double m_etStart = getClockTime(stime).Et();
 
     // The line rate is set to the time between each frame since we are treating LEASA as a linescan
@@ -91,7 +91,7 @@ namespace Isis {
     PvlGroup &bandBin = lab.findGroup("BandBin", Pvl::Traverse);
     PvlKeyword &orgBand = bandBin["OriginalBand"];
     for (int i = 0; i < orgBand.size(); i++) {
-      m_originalBand.append(toInt(orgBand[i]));
+      m_originalBand.append(std::stoi(orgBand[i]));
     }
 
     // Use the defualt no correction distortion map.

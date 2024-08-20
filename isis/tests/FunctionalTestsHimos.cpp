@@ -53,25 +53,25 @@ TEST_F(MroHiriseCube, FunctionalTestHimosDefault) {
   EXPECT_PRED_FORMAT2(AssertPvlGroupEqual, inputMappingGroup, outputMappingGroup);
 
   PvlGroup mos = outputCubeLabel.findGroup("Mosaic");
-  EXPECT_EQ(mos["ProductId"][0].toStdString(), "TRA_000823_1720_BLUEGREEN");
-  EXPECT_EQ(mos["SourceProductId"][0].toStdString(), "TRA_000823_1720_RED4_0");
-  EXPECT_EQ(mos["SourceProductId"][1].toStdString(), "TRA_000823_1720_RED4_1");
-  EXPECT_EQ(mos["StartTime"][0].toStdString(), "2006-09-29T15:16:33.385");
-  EXPECT_EQ(mos["SpacecraftClockStartCount"][0].toStdString(), "844010212:12516");
-  EXPECT_EQ(mos["StopTime"][0].toStdString(), "2006-09-29T15:16:35.036");
-  EXPECT_EQ(mos["SpacecraftClockStopCount"][0].toStdString(), "844010213:55196");
+  EXPECT_EQ(mos["ProductId"][0], "TRA_000823_1720_BLUEGREEN");
+  EXPECT_EQ(mos["SourceProductId"][0], "TRA_000823_1720_RED4_0");
+  EXPECT_EQ(mos["SourceProductId"][1], "TRA_000823_1720_RED4_1");
+  EXPECT_EQ(mos["StartTime"][0], "2006-09-29T15:16:33.385");
+  EXPECT_EQ(mos["SpacecraftClockStartCount"][0], "844010212:12516");
+  EXPECT_EQ(mos["StopTime"][0], "2006-09-29T15:16:35.036");
+  EXPECT_EQ(mos["SpacecraftClockStopCount"][0], "844010213:55196");
 
-  EXPECT_NEAR(mos["IncidenceAngle"][0].toDouble(), 59.687930340662, 1e-6);
-  EXPECT_NEAR(mos["EmissionAngle"][0].toDouble(), 0.091672512439956, 1e-6);
-  EXPECT_NEAR(mos["PhaseAngle"][0].toDouble(), 59.597812369363, 1e-6);
-  EXPECT_NEAR(mos["LocalTime"][0].toDouble(), 15.486088288555, 1e-6);
-  EXPECT_NEAR(mos["SolarLongitude"][0].toDouble(), 113.54746578654, 1e-6);
-  EXPECT_NEAR(mos["SubSolarAzimuth"][0].toDouble(), 212.41484032558 , 1e-6);
-  EXPECT_NEAR(mos["NorthAzimuth"][0].toDouble(), 270.00024569628, 1e-6);
+  EXPECT_NEAR(std::stod(mos["IncidenceAngle"][0]), 59.687930340662, 1e-6);
+  EXPECT_NEAR(std::stod(mos["EmissionAngle"][0]), 0.091672512439956, 1e-6);
+  EXPECT_NEAR(std::stod(mos["PhaseAngle"][0]), 59.597812369363, 1e-6);
+  EXPECT_NEAR(std::stod(mos["LocalTime"][0]), 15.486088288555, 1e-6);
+  EXPECT_NEAR(std::stod(mos["SolarLongitude"][0]), 113.54746578654, 1e-6);
+  EXPECT_NEAR(std::stod(mos["SubSolarAzimuth"][0]), 212.41484032558 , 1e-6);
+  EXPECT_NEAR(std::stod(mos["NorthAzimuth"][0]), 270.00024569628, 1e-6);
 
-  EXPECT_EQ(mos["cpmmTdiFlag"][5].toStdString(), "128");
-  EXPECT_EQ(mos["cpmmSummingFlag"][5].toStdString(), "1");
-  EXPECT_EQ(mos["SpecialProcessingFlag"][5].toStdString(), "NOMINAL");
+  EXPECT_EQ(mos["cpmmTdiFlag"][5], "128");
+  EXPECT_EQ(mos["cpmmSummingFlag"][5], "1");
+  EXPECT_EQ(mos["SpecialProcessingFlag"][5], "NOMINAL");
 }
 
 TEST_F(MroHiriseCube, FunctionalTestHimosError) {

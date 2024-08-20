@@ -37,9 +37,9 @@ void IsisMain() {
   QString missionId;
 
   try {
-    Pvl lab(inFile.expanded());
-    instId = (QString) lab.findKeyword("INSTRUMENT_ID");
-    missionId = (QString) lab.findKeyword("MISSION_ID");
+    Pvl lab(inFile.expanded().toStdString());
+    instId = QString::fromStdString(lab.findKeyword("INSTRUMENT_ID"));
+    missionId = QString::fromStdString(lab.findKeyword("MISSION_ID"));
   }
   catch (IException &e) {
     QString msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
@@ -65,7 +65,7 @@ void IsisMain() {
   p.SetOutputCube(tmpFile.expanded(), outatt);
   p.SaveFileHeader();
 
-  Pvl labelPvl(inFile.expanded());
+  Pvl labelPvl(inFile.expanded().toStdString());
 
   p.StartProcess();
   p.EndProcess();
@@ -107,9 +107,9 @@ void IsisMain() {
   // must be looked up and stored for both.
   PvlGroup &bbGrp(outLabel.findGroup("BandBin", Pvl::Traverse));
   PvlGroup groupWithFilterInfo=pdsLabel.findGroup("SR_MECHANISM_STATUS");
-  QString combFilterName = groupWithFilterInfo["FILTER_NAME"];
-  bbGrp.addKeyword(PvlKeyword("CombinedFilterName", combFilterName));
-  bbGrp.addKeyword(PvlKeyword("FilterId", (QString)groupWithFilterInfo["FILTER_NUMBER"]));
+  QString combFilterName = QString::fromStdString(groupWithFilterInfo["FILTER_NAME"]);
+  bbGrp.addKeyword(PvlKeyword("CombinedFilterName", combFilterName.toStdString()));
+  bbGrp.addKeyword(PvlKeyword("FilterId", groupWithFilterInfo["FILTER_NUMBER"]));
   QStringList filterNames = combFilterName.split("_");
   vector<int> filterIds(2,0);
   vector<double> filterWidths(2,0.0);
@@ -139,10 +139,10 @@ void IsisMain() {
     }
   }
   // bandBin += PvlKeyword("FilterId", std::to_string(filterId));
-  bbGrp.addKeyword(PvlKeyword("FilterOneName", filterNames[0]));
+  bbGrp.addKeyword(PvlKeyword("FilterOneName", filterNames[0].toStdString()));
   bbGrp.addKeyword(PvlKeyword("FilterOneCenter", std::to_string(filterCenters[0]), "nanometers"));
   bbGrp.addKeyword(PvlKeyword("FilterOneWidth", std::to_string(filterWidths[0]), "nanometers"));
-  bbGrp.addKeyword(PvlKeyword("FilterTwoName", filterNames[1]));
+  bbGrp.addKeyword(PvlKeyword("FilterTwoName", filterNames[1].toStdString()));
   bbGrp.addKeyword(PvlKeyword("FilterTwoCenter", std::to_string(filterCenters[1]), "nanometers"));
   bbGrp.addKeyword(PvlKeyword("FilterTwoWidth", std::to_string(filterWidths[1]), "nanometers"));
   outcube->putGroup(bbGrp);

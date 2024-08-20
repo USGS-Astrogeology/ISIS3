@@ -101,7 +101,7 @@ TEST_F(stats_MockHist, TestStats) {
   ASSERT_EQ(statsPvl.groups(), 2);
 
   PvlGroup band1Stats = statsPvl.group(0);
-  EXPECT_EQ("TestCube.cub", (QString) (band1Stats.findKeyword("From")));
+  EXPECT_EQ("TestCube.cub", (std::string)(band1Stats.findKeyword("From")));
   EXPECT_EQ(1, (int) (band1Stats.findKeyword("Band")));
   EXPECT_EQ(22, (int) (band1Stats.findKeyword("ValidPixels")));
   EXPECT_EQ(22, (int) (band1Stats.findKeyword("TotalPixels")));
@@ -123,7 +123,7 @@ TEST_F(stats_MockHist, TestStats) {
   EXPECT_EQ(0.0, (double) (band1Stats.findKeyword("Sum")));
 
   PvlGroup band2Stats = statsPvl.group(1);
-  EXPECT_EQ("TestCube.cub", (QString) (band2Stats.findKeyword("From")));
+  EXPECT_EQ("TestCube.cub", (std::string)(band2Stats.findKeyword("From")));
   EXPECT_EQ(2, (int) (band2Stats.findKeyword("Band")));
   EXPECT_EQ(0, (int) (band2Stats.findKeyword("ValidPixels")));
   EXPECT_EQ(5, (int) (band2Stats.findKeyword("TotalPixels")));
@@ -134,15 +134,15 @@ TEST_F(stats_MockHist, TestStats) {
   EXPECT_EQ(1, (int) (band2Stats.findKeyword("LrsPixels")));
   EXPECT_EQ(1, (int) (band2Stats.findKeyword("HisPixels")));
   EXPECT_EQ(1, (int) (band2Stats.findKeyword("HrsPixels")));
-  EXPECT_TRUE("N/A" == (band2Stats.findKeyword("Average")));
-  EXPECT_TRUE("N/A" == (band2Stats.findKeyword("StandardDeviation")));
-  EXPECT_TRUE("N/A" == (band2Stats.findKeyword("Variance")));
-  EXPECT_TRUE("N/A" == (band2Stats.findKeyword("Median")));
-  EXPECT_TRUE("N/A" == (band2Stats.findKeyword("Mode")));
-  EXPECT_TRUE("N/A" == (band2Stats.findKeyword("Skew")));
-  EXPECT_TRUE("N/A" == (band2Stats.findKeyword("Minimum")));
-  EXPECT_TRUE("N/A" == (band2Stats.findKeyword("Maximum")));
-  EXPECT_TRUE("N/A" == (band2Stats.findKeyword("Sum")));
+  EXPECT_EQ("N/A", (std::string)band2Stats.findKeyword("Average"));
+  EXPECT_EQ("N/A", (std::string)band2Stats.findKeyword("StandardDeviation"));
+  EXPECT_EQ("N/A", (std::string)band2Stats.findKeyword("Variance"));
+  EXPECT_EQ("N/A", (std::string)band2Stats.findKeyword("Median"));
+  EXPECT_EQ("N/A", (std::string)band2Stats.findKeyword("Mode"));
+  EXPECT_EQ("N/A", (std::string)band2Stats.findKeyword("Skew"));
+  EXPECT_EQ("N/A", (std::string)band2Stats.findKeyword("Minimum"));
+  EXPECT_EQ("N/A", (std::string)band2Stats.findKeyword("Maximum"));
+  EXPECT_EQ("N/A", (std::string)band2Stats.findKeyword("Sum"));
 }
 
 TEST(stats, ValidMinimum) {

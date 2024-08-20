@@ -39,7 +39,7 @@ TEST(Lrowaccal, FunctionalTestLrowaccalRadianceUnitsLabelExists) {
 
   ASSERT_TRUE(radiometry.hasKeyword("RadiometricType"));
   PvlKeyword &radiometricType = radiometry["RadiometricType"];
-  ASSERT_EQ(radiometricType.unit().toStdString(), "W/m2/sr/um");
+  ASSERT_EQ(radiometricType.unit(), "W/m2/sr/um");
 }
 
 TEST(Lrowaccal, FunctionalTestLrowaccalRadianceUnitsLabelNotForIOF) {
@@ -69,5 +69,5 @@ TEST(Lrowaccal, FunctionalTestLrowaccalRadianceUnitsLabelNotForIOF) {
 
   ASSERT_TRUE(radiometry.hasKeyword("RadiometricType"));
   PvlKeyword &radiometricType = radiometry["RadiometricType"];
-  ASSERT_NE(radiometricType.unit().toStdString(), "W/m2/sr/um");
+  ASSERT_NE(radiometricType.unit(), "W/m2/sr/um");
 }

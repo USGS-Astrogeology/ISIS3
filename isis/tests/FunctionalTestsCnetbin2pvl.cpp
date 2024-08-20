@@ -23,7 +23,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetbin2pvlDefault) {
 
   Pvl pvl;
   try {
-    pvl.read(pvlOut);
+    pvl.read(pvlOut.toStdString());
   }
   catch (IException &e) {
     FAIL() << "Unable to read PVL file" << std::endl;

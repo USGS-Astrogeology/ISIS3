@@ -36,30 +36,30 @@ TEST(Lorri2Isis, Lorri2IsisTestDefault) {
 
   // Pixels Group
   PvlGroup &pixels = isisLabel->findGroup("Pixels", Pvl::Traverse);
-  EXPECT_EQ(pixels["Type"][0].toStdString(), "Real");
-  EXPECT_EQ(pixels["ByteOrder"][0].toStdString(), "Lsb");
+  EXPECT_EQ(pixels["Type"][0], "Real");
+  EXPECT_EQ(pixels["ByteOrder"][0], "Lsb");
   EXPECT_EQ(double(pixels["Base"]), 0.0);
   EXPECT_EQ(double(pixels["Multiplier"]), 1.0);
 
   // Instrument Group
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-  EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "NEW HORIZONS");
-  EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "LORRI" );
-  EXPECT_EQ(inst["TargetName"][0].toStdString(), "IO" );
-  EXPECT_EQ(inst["StartTime"][0].toStdString(), "2007-02-28T13:14:22.331");
-  EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "1/0034974379:47125");
+  EXPECT_EQ(inst["SpacecraftName"][0], "NEW HORIZONS");
+  EXPECT_EQ(inst["InstrumentId"][0], "LORRI" );
+  EXPECT_EQ(inst["TargetName"][0], "IO" );
+  EXPECT_EQ(inst["StartTime"][0], "2007-02-28T13:14:22.331");
+  EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "1/0034974379:47125");
   EXPECT_DOUBLE_EQ(double(inst["ExposureDuration"]), 0.075);
 
   // Archive Group
   PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-  EXPECT_EQ(archive["HighSpeedCompressionMode"][0].toStdString(), "LOSSLESS");
-  EXPECT_EQ(archive["ObservationCompletionStatus"][0].toStdString(), "COMPLETE");
-  EXPECT_EQ(archive["SequenceDescription"][0].toStdString(), "Jupiter shine");
+  EXPECT_EQ(archive["HighSpeedCompressionMode"][0], "LOSSLESS");
+  EXPECT_EQ(archive["ObservationCompletionStatus"][0], "COMPLETE");
+  EXPECT_EQ(archive["SequenceDescription"][0], "Jupiter shine");
 
   // BandBin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
-  EXPECT_DOUBLE_EQ(bandbin["Center"][0].toDouble(), 600);
-  EXPECT_DOUBLE_EQ(bandbin["Width"][0].toDouble(), 500);
+  EXPECT_DOUBLE_EQ(std::stod(bandbin["Center"][0]), 600);
+  EXPECT_DOUBLE_EQ(std::stod(bandbin["Width"][0]), 500);
 
   // Kernels Group
   PvlGroup &kernel = isisLabel->findGroup("Kernels", Pvl::Traverse);
@@ -101,30 +101,30 @@ TEST(Lorri2Isis, Lorri2IsisTestRaw) {
 
    // Pixels Group
    PvlGroup &pixels = isisLabel->findGroup("Pixels", Pvl::Traverse);
-   EXPECT_EQ(pixels["Type"][0].toStdString(), "SignedWord");
-   EXPECT_EQ(pixels["ByteOrder"][0].toStdString(), "Lsb");
+   EXPECT_EQ(pixels["Type"][0], "SignedWord");
+   EXPECT_EQ(pixels["ByteOrder"][0], "Lsb");
    EXPECT_EQ(double(pixels["Base"]), 0.0);
    EXPECT_EQ(double(pixels["Multiplier"]), 1.0);
 
    // Instrument Group
    PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
-   EXPECT_EQ(inst["SpacecraftName"][0].toStdString(), "NEW HORIZONS");
-   EXPECT_EQ(inst["InstrumentId"][0].toStdString(), "LORRI" );
-   EXPECT_EQ(inst["TargetName"][0].toStdString(), "IO" );
-   EXPECT_EQ(inst["StartTime"][0].toStdString(), "2007-03-02T11:18:01.329" );
-   EXPECT_EQ(inst["SpacecraftClockStartCount"][0].toStdString(), "1/0035140198:47025" );
+   EXPECT_EQ(inst["SpacecraftName"][0], "NEW HORIZONS");
+   EXPECT_EQ(inst["InstrumentId"][0], "LORRI" );
+   EXPECT_EQ(inst["TargetName"][0], "IO" );
+   EXPECT_EQ(inst["StartTime"][0], "2007-03-02T11:18:01.329" );
+   EXPECT_EQ(inst["SpacecraftClockStartCount"][0], "1/0035140198:47025" );
    EXPECT_DOUBLE_EQ(double(inst["ExposureDuration"]), 0.079);
 
    // Archive Group
    PvlGroup &archive = isisLabel->findGroup("Archive", Pvl::Traverse);
-   EXPECT_EQ(archive["HighSpeedCompressionMode"][0].toStdString(), "LOSSLESS");
-   EXPECT_EQ(archive["ObservationCompletionStatus"][0].toStdString(), "COMPLETE" );
-   EXPECT_EQ(archive["SequenceDescription"][0].toStdString(), "High phase monitoring" );
+   EXPECT_EQ(archive["HighSpeedCompressionMode"][0], "LOSSLESS");
+   EXPECT_EQ(archive["ObservationCompletionStatus"][0], "COMPLETE" );
+   EXPECT_EQ(archive["SequenceDescription"][0], "High phase monitoring" );
 
    // BandBin Group
    PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
-   EXPECT_DOUBLE_EQ(bandbin["Center"][0].toDouble(), 600);
-   EXPECT_DOUBLE_EQ(bandbin["Width"][0].toDouble(), 500);
+   EXPECT_DOUBLE_EQ(std::stod(bandbin["Center"][0]), 600);
+   EXPECT_DOUBLE_EQ(std::stod(bandbin["Width"][0]), 500);
 
    // Kernels Group
    PvlGroup &kernel = isisLabel->findGroup("Kernels", Pvl::Traverse);
@@ -162,8 +162,8 @@ TEST(Lorri2Isis, Lorri2IsisTestRaw) {
 
    // Quality File Pixels Group
    PvlGroup &qualPixels = isisQualityLabel->findGroup("Pixels", Pvl::Traverse);
-   EXPECT_EQ(qualPixels["Type"][0].toStdString(), "SignedWord");
-   EXPECT_EQ(qualPixels["ByteOrder"][0].toStdString(), "Lsb");
+   EXPECT_EQ(qualPixels["Type"][0], "SignedWord");
+   EXPECT_EQ(qualPixels["ByteOrder"][0], "Lsb");
    EXPECT_EQ(double(qualPixels["Base"]), 32768.0);
    EXPECT_EQ(double(qualPixels["Multiplier"]), 1.0);
 
@@ -175,8 +175,8 @@ TEST(Lorri2Isis, Lorri2IsisTestRaw) {
 
    // Error File Pixels Group
    PvlGroup &errPixels = isisErrLabel->findGroup("Pixels", Pvl::Traverse);
-   EXPECT_EQ(errPixels["Type"][0].toStdString(), "Real");
-   EXPECT_EQ(errPixels["ByteOrder"][0].toStdString(), "Lsb");
+   EXPECT_EQ(errPixels["Type"][0], "Real");
+   EXPECT_EQ(errPixels["ByteOrder"][0], "Lsb");
    EXPECT_EQ(double(errPixels["Base"]), 0.0);
    EXPECT_EQ(double(errPixels["Multiplier"]), 1.0);
 

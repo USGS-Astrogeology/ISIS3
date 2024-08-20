@@ -53,7 +53,7 @@ namespace Isis {
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
     m_exposure = inst["ExposureDuration"];
-    QString stime = inst["SpacecraftClockStartCount"];
+    QString stime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     // **  TODO  **  Need an offset time added to labels at ingestion??  The 0.125 value is
     //     the value in DELTAT00.
     double offset = 0.125;
@@ -70,8 +70,8 @@ namespace Isis {
     PvlKeyword &origBand = bandBin["OriginalBand"];
     PvlKeyword &utcTime = bandBin["UtcTime"];
     for(int i = 0; i < origBand.size(); i++) {
-      m_originalBand.push_back(toInt(origBand[i]));
-      m_utcTime.push_back(utcTime[i]);
+      m_originalBand.push_back(std::stoi(origBand[i]));
+      m_utcTime.push_back(QString::fromStdString(utcTime[i]));
     }
 
     CameraDetectorMap *detectorMap = new CameraDetectorMap(this);
