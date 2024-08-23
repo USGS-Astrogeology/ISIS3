@@ -52,9 +52,6 @@ Testing toString
 	double(1e100):      1.0e+100
 	double(-1e100):     -1.0e+100
 
-Testing cerr with QString and with QStringRef
-	QString
-	QStringRef
 
 ----------------------------------
 -- Now testing deprecated class --
@@ -151,7 +148,6 @@ Before Upcase >xxxXXX0<
 After Upcase  >XXXXXX0<
 Before DownCase >XXXXXX0<
 After DownCase  >xxxxxx0<
-Testing QT conversion: 1
 255.0
 0.333
 -255.0
@@ -175,21 +171,3 @@ Element 2: a
 Element 3: test
 Element 4: string
 <
-
-Qt QStringList values:
-String1
-String2
-String3
-String4
-
-Converted to std::vector<std::string>...
-String1
-String2
-String3
-String4
-Are they equivalent?
-Counts? Yes
-string(String1) == QString(String1)? Yes
-string(String2) == QString(String2)? Yes
-string(String3) == QString(String3)? Yes
-string(String4) == QString(String4)? Yes

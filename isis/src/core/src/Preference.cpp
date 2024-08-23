@@ -62,11 +62,11 @@ namespace Isis {
     if (hasGroup("Performance")) {
       PvlGroup &performance = findGroup("Performance");
       if (performance.hasKeyword("GlobalThreads")) {
-        IString threadsPreference = performance["GlobalThreads"][0];
+        std::string threadsPreference = IString::DownCase(performance["GlobalThreads"][0]);
 
-        if (threadsPreference.DownCase() != "optimized") {
+        if (threadsPreference != "optimized") {
           // We need a no-iException conversion here
-          int threads = threadsPreference.ToQt().toInt();
+          int threads = std::stoi(threadsPreference);
 
           if (threads > 0) {
             QThreadPool::globalInstance()->setMaxThreadCount(threads);
@@ -92,7 +92,7 @@ namespace Isis {
       Isis::FileName setup("$HOME/.Isis");
       if(!setup.fileExists()) {
         QDir dir;
-        QString dirName(IString(setup.expanded()).ToQt());
+        QString dirName(setup.expanded());
         dir.mkdir(dirName);
       }
 

@@ -35,46 +35,65 @@ namespace Isis {
    * @param string QString to be converted to a boolean.
    * @return The boolean equivalent to the string
    */
-  bool toBool(const QString &string) {
-    QStringList trues;
-    trues.append("true");
-    trues.append("t");
-    trues.append("yes");
-    trues.append("y");
-    trues.append("on");
-    trues.append("1");
+  bool toBool(const std::string &string) {
+    std::vector<std::string> trues;
+    trues.push_back("true");
+    trues.push_back("t");
+    trues.push_back("yes");
+    trues.push_back("y");
+    trues.push_back("on");
+    trues.push_back("1");
 
-    QStringList falses;
-    falses.append("false");
-    falses.append("f");
-    falses.append("no");
-    falses.append("n");
-    falses.append("off");
-    falses.append("0");
+    std::vector<std::string> falses;
+    falses.push_back("false");
+    falses.push_back("f");
+    falses.push_back("no");
+    falses.push_back("n");
+    falses.push_back("off");
+    falses.push_back("0");
 
     bool result = true;
     bool foundMatch = false;
+    std::string lowerString = IString::DownCase(string);
 
-    QListIterator<QString> truesIterator(trues);
-    while (!foundMatch && truesIterator.hasNext()) {
-      foundMatch = (string.compare(truesIterator.next(), Qt::CaseInsensitive) == 0);
+    for (auto it = trues.cbegin(); it != trues.cend(); ++it) {
+      foundMatch = (lowerString == *it);
+      if (foundMatch) {
+        break;
+      }
     }
 
     if (!foundMatch) {
       result = false;
 
-      QListIterator<QString> falsesIterator(falses);
-      while (!foundMatch && falsesIterator.hasNext()) {
-        foundMatch = (string.compare(falsesIterator.next(), Qt::CaseInsensitive) == 0);
+      for (auto it = falses.cbegin(); it != falses.cend(); ++it) {
+        foundMatch = (lowerString == *it);
+        if (foundMatch) {
+          break;
+        }
       }
     }
 
     if (!foundMatch) {
-      trues.sort();
-      falses.sort();
-      QString message = QObject::tr("Failed to convert string [%1] to a boolean. "
-          "Please specify one of [%2] for true, or one of [%3] for false.")
-            .arg(string).arg(trues.join(", ")).arg(falses.join(", "));
+      std::sort(trues.begin(), trues.end());
+      std::sort(falses.begin(), falses.end());
+
+      std::string message = "Failed to convert string [";
+      message += string;
+      message += "] to a boolean. Please specify one of [";
+      for (auto it = trues.cbegin(); it != trues.cend() - 1; ++it) {
+        message += (*it);
+        message += ", ";
+      }
+      message += (trues[trues.size() - 1]);
+      message += "] for true, or one of [";
+      for (auto it = falses.cbegin(); it != falses.cend() - 1; ++it) {
+        message += (*it);
+        message += ", ";
+      }
+      message += (falses[falses.size() - 1]);
+      message += "] for false.";
+
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
 
@@ -90,17 +109,24 @@ namespace Isis {
    * @param string QString to be converted to an integer.
    * @return The integer equivalent to the string
    */
-  int toInt(const QString &string) {
-    bool ok = true;
+  int toInt(const std::string &string) {
 
-    int result = string.toInt(&ok);
-
-    if (!ok) {
-      QString message = QObject::tr("Failed to convert string [%1] to an integer").arg(string);
+    try {
+      for(auto character : string) {
+        if(character == '.') {
+          throw std::invalid_argument("");
+        }
+      }
+      int result = std::stoi(string);
+      return result;
+    }
+    catch(...) {
+      std::string message = "Failed to convert string ["; 
+      message += string;
+      message += "] to an integer";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
 
-    return result;
   }
 
 
@@ -112,14 +138,14 @@ namespace Isis {
    * @param string QString to be converted to a big integer.
    * @return The BigInt equivalent to the string
    */
-  BigInt toBigInt(const QString &string) {
+  BigInt toBigInt(const std::string &string) {
     BigInt result;
 
     try {
       std::stringstream s;
-      s << string.toStdString();            // Put the string into a stream
+      s << string;                   // Put the string into a stream
       s.seekg(0, std::ios::beg);     // Move the input pointer to the beginning
-      s >> result;               // read/get "type T" out of the stream
+      s >> result;                   // read/get "type T" out of the stream
       std::ios::iostate state = s.rdstate();
       if((state & std::ios::failbit) || (state & std::ios::badbit) ||
           (!(state & std::ios::eofbit))) {  // Make sure the stream is empty
@@ -127,7 +153,9 @@ namespace Isis {
       }
     }
     catch(...) {
-      QString message = QObject::tr("Failed to convert string [%1] to a big integer").arg(string);
+      std::string message = "Failed to convert string [";
+      message += string;
+      message += "] to a big integer";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
 
@@ -146,13 +174,13 @@ namespace Isis {
    *               hexadecimal string.
    * @return The double equivalent to the string
    */
-  double toDouble(const QString &string) {
+  double toDouble(const std::string &string) {
     double result = 0.0;
 
-    if (string.startsWith("16#") && string.endsWith("#")) {
+    if ((string.substr(0, 3).compare("16#") == 0) && (string[string.size() - 1] == '#')) {
       try {
         stringstream s;
-        s << string.mid(3, string.size() - 3);
+        s << string.substr(3, string.size() - 3);
         s.seekg(0, ios::beg);
 
         union {
@@ -170,30 +198,33 @@ namespace Isis {
         result = raw.floatData;
       }
       catch(...) {
-        QString message = QObject::tr("Failed to convert HEX string [%1] to a "
-                            "double").arg(string);
+        std::string message = "Failed to convert HEX string ";
+        message += string;
+        message += " to a double";
         throw IException(IException::Unknown, message, _FILEINFO_);
       }
     }
     else {
-      static QMap<QString, double> knownStrings;
+      static QMap<std::string, double> knownStrings;
       if (knownStrings.isEmpty()) {
         // Special case: user called toDouble(toString(DBL_MAX))
         knownStrings["1.79769313486232e+308"]  = DBL_MAX;
         knownStrings["-1.79769313486232e+308"] = -DBL_MAX;
       }
 
-      bool ok = true;
       if (!knownStrings.contains(string)) {
-        result = string.toDouble(&ok);
+        try {
+          result = std::stod(string);
+        }
+        catch (...) {
+          std::string message = "Failed to convert string [";
+          message += string;
+          message += "] to a double";
+          throw IException(IException::Unknown, message, _FILEINFO_);
+        }
       }
       else {
         result = knownStrings[string];
-      }
-
-      if (!ok) {
-        QString message = QObject::tr("Failed to convert string [%1] to a double").arg(string);
-        throw IException(IException::Unknown, message, _FILEINFO_);
       }
     }
 
@@ -208,7 +239,7 @@ namespace Isis {
    * @param boolToConvert Boolean value to be converted to a QString.
    * @return string Converted QString (Yes or No).
    */
-  QString toString(bool boolToConvert) {
+  std::string toString(bool boolToConvert) {
     return boolToConvert? "Yes" : "No";
   }
 
@@ -221,9 +252,9 @@ namespace Isis {
    * @param charToConvert Character value to be converted to a QString.
    * @return string Converted QString.
    */
-  QString toString(char charToConvert) {
-    QString result;
-    result += QChar(charToConvert);
+  std::string toString(char charToConvert) {
+    std::string result;
+    result += charToConvert;
     return result;
   }
 
@@ -234,8 +265,8 @@ namespace Isis {
    * @param intToConvert Integer value to be converted to a QString.
    * @return string Converted QString.
    */
-  QString toString(const int &intToConvert) {
-    return QString::number(intToConvert);
+  std::string toString(const int &intToConvert) {
+    return std::to_string(intToConvert);
   }
 
 
@@ -245,8 +276,8 @@ namespace Isis {
    * @param intToConvert Unsigned integer value to be converted to a QString.
    * @return string Converted QString.
    */
-  QString toString(const unsigned int &intToConvert) {
-    return QString::number(intToConvert);
+  std::string toString(const unsigned int &intToConvert) {
+    return std::to_string(intToConvert);
   }
 
 
@@ -256,8 +287,8 @@ namespace Isis {
    * @param intToConvert Big integer value to be converted to a QString.
    * @return string Converted QString.
    */
-  QString toString(const BigInt &intToConvert) {
-    return QString::number(intToConvert);
+  std::string toString(const BigInt &intToConvert) {
+    return std::to_string(intToConvert);
   }
 
 
@@ -274,10 +305,10 @@ namespace Isis {
    * @param precision Number of significant figures to convert.
    * @return string Converted QString.
    */
-  QString toString(double doubleToConvert, int precision) {
+  std::string toString(double doubleToConvert, int precision) {
     // If number is zero, then it is not valid to do a log10 on it. To avoid this,
     // check for zero ahead of time and handle it.
-    QString result;
+    std::string result;
 
     if(doubleToConvert == 0.0) {
       result = "0.0";
@@ -388,7 +419,7 @@ namespace Isis {
         }
       }
 
-      result = QString(doubleString);
+      result = std::string(doubleString);
     }
 
     return result;
@@ -492,17 +523,7 @@ namespace Isis {
    * @param num The input value to be stored
    */
   void IString::SetDouble(const double &num, const int piPrecision) {
-    *this = toString(num, piPrecision).toStdString();
-  }
-
-  /**
-   * Constructs a IString object with initial value set to the input QString
-   *
-   * @deprecated
-   * @param str
-   */
-  IString::IString(const QString &str) : string() {
-    assign(str.toStdString());
+    *this = toString(num, piPrecision);
   }
 
   /**
@@ -859,26 +880,6 @@ namespace Isis {
     }
 
     return(v_out);
-  }
-
-  /**
-   * Retuns the object string as a QString
-   *
-   * @deprecated
-   */
-  QString IString::ToQt() const {
-    return QString::fromStdString(*this);
-  }
-
-  /**
-   * Returns the input string as a QString
-   *
-   * @deprecated
-   *
-   * @param s [in] The standard string to be converted to a Qt string
-   */
-  QString IString::ToQt(const std::string &s) {
-    return(QString::fromStdString(s));
   }
 
   /**
@@ -1319,54 +1320,6 @@ namespace Isis {
     str << value;
     assign(str.str());
     return *this;
-  }
-
-  /**
-   * Converts a Qt string into a std::string
-   *
-   * @deprecated
-   *
-   * @param str [in] The Qt string to be converted to a std::string
-   *
-   * @return The std::string representation of the Qt string
-   */
-  std::string IString::ToStd(const QString &str) {
-    return(str.toStdString());
-  }
-
-  /**
-   * Converts a vector of strings into a QStringList
-   *
-   * @deprecated
-   *
-   * @param sl STL vector of strings
-   *
-   * @return QStringList
-   */
-  QStringList IString::ToQt(const std::vector<std::string> &sl) {
-    QStringList Qsl;
-    for(unsigned int i = 0 ; i < sl.size() ; i++) {
-      Qsl << ToQt(sl[i]);
-    }
-    return Qsl;
-  }
-
-  /**
-   * Converts a QStringList into a vector of strings
-   *
-   * @deprecated
-   *
-   * @param sl
-   *
-   * @return vector<string>
-   */
-  std::vector<std::string> IString::ToStd(const QStringList &sl) {
-    std::vector<std::string> Stdsl;
-    for(int i = 0 ; i < sl.size() ; i++) {
-      Stdsl.push_back(ToStd(sl.at(i)));
-    }
-
-    return(Stdsl);
   }
 
 

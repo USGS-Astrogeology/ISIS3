@@ -46,7 +46,7 @@ namespace Isis {
       static std::string toString(TableRecord record, std::string fieldDelimiter = ",", bool fieldNames = false, bool endLine = true);
         
       void operator+=(Isis::TableField &field);
-      TableField&operator [](const int field);
+      TableField &operator[](const int field);
       TableField &operator[](const std::string field);
 
       int Fields() const;

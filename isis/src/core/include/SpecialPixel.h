@@ -413,7 +413,7 @@ namespace Isis {
     }
     if(matches == 0) {
       try {
-        return toDouble(s);
+        return toDouble(s.toStdString());
       }
       catch(IException &e) {
         QString msg = "Input [" + str + "] does not appear to be a legal special pixel abbreviation or double value.";

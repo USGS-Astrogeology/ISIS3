@@ -9,7 +9,6 @@ find files of those names at the top level of this repository. **/
 #include <string>
 #include <vector>
 
-#include <QString>
 #include <QStringList>
 
 #include "Constants.h"
@@ -17,17 +16,17 @@ find files of those names at the top level of this repository. **/
 namespace Isis {
   class IString;
 
-  bool toBool(const QString &);
-  int toInt(const QString &);
-  BigInt toBigInt(const QString &);
-  double toDouble(const QString &);
+  bool toBool(const std::string &);
+  int toInt(const std::string &);
+  BigInt toBigInt(const std::string &);
+  double toDouble(const std::string &);
 
-  QString toString(bool);
-  QString toString(char);
-  QString toString(const int &);
-  QString toString(const unsigned int &);
-  QString toString(const BigInt &);
-  QString toString(double, int precision = 14);
+  std::string toString(bool);
+  std::string toString(char);
+  std::string toString(const int &);
+  std::string toString(const unsigned int &);
+  std::string toString(const BigInt &);
+  std::string toString(double, int precision = 14);
 
   /**
    * @brief Adds specific functionality to C++ strings
@@ -200,9 +199,6 @@ namespace Isis {
       double ToDouble() const;
       static double ToDouble(const std::string &str);
 
-      QString ToQt() const;
-      static QString ToQt(const std::string &str);
-
       IString Token(const IString &separator);
       static int Split(const char separator, const std::string &instr,
                        std::vector<std::string> &tokens,
@@ -290,11 +286,6 @@ namespace Isis {
 
       bool Equal(const std::string &str) const;
       static bool Equal(const std::string &str1, const std::string &str2);
-
-      static std::string ToStd(const QString &str);
-
-      static QStringList ToQt(const std::vector<std::string> &sl);
-      static std::vector<std::string> ToStd(const QStringList &sl);
 
     private:
       void SetDouble(const double &value, const int piPrecision = 14);

@@ -590,7 +590,7 @@ namespace Isis {
         if(includeFileInfo && exception.m_fileName) {
           result += " in " + *exception.m_fileName;
           if (exception.m_lineNumber != -1)
-            result += " at " + Isis::toString(exception.m_lineNumber);
+            result += " at " + QString(Isis::toString(exception.m_lineNumber).c_str());
           needsPeriod = true;
         }
 

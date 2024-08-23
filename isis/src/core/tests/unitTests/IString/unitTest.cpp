@@ -122,9 +122,6 @@ int main(int argc, char *argv[]) {
   cerr << "\tdouble(-1e100):     " << toString(-1e100) << endl;
 
   cerr << endl;
-  cerr << "Testing cerr with QString and with QStringRef" << endl;
-  cerr << QString("\tQString\n");
-  cerr << QString("\tQStringRef - FAIL!\n").leftRef(11) << endl;
 
   cerr << endl;
   cerr << "----------------------------------" << endl;
@@ -315,8 +312,6 @@ int main(int argc, char *argv[]) {
     cerr << "After DownCase  >" << str20.DownCase() << "<" << endl;
 
     IString str21 = "Test String";
-    QString qstr1 = "Test String";
-    cerr << "Testing QT conversion: " << (str21.ToQt() == qstr1) << endl;
 
     IString str22(255.0);
     IString str23(0.333);
@@ -373,32 +368,6 @@ int main(int argc, char *argv[]) {
       cerr << endl << "Element " << i << ": " << strVec[i];
     }
     cerr << endl << "<" << endl;
-
-    QStringList qlist;
-    qlist << "String1"
-          << "String2"
-          << "String3"
-          << "String4";
-
-    cerr << "\nQt QStringList values:\n";
-    for(int i = 0 ; i < qlist.size() ; i++) {
-      cerr << qlist.at(i).toLocal8Bit().constData() << endl;
-    }
-
-    cerr << "\nConverted to std::vector<std::string>...\n";
-    vector<string> slist = IString::ToStd(qlist);
-    copy(slist.begin(), slist.end(), ostream_iterator<string>(cerr, "\n"));
-
-    cerr << "Are they equivalent?\n";
-    cerr << "Counts? " << yesOrNo((int) slist.size() == qlist.size()) << endl;
-    for(int j = 0 ; j < qlist.size() ; j++) {
-      QString qs = qlist.at(j);
-      string  ss = slist.at(j);
-      cerr << "string(" << ss << ") == QString("
-           << qs.toLocal8Bit().constData() << ")? "
-           << yesOrNo(ss == qs.toStdString()) << endl;
-    }
-
   }
   catch(IException &error) {
     error.print();
