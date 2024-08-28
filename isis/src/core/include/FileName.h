@@ -7,11 +7,8 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include <QSharedData>
-
-class QDate;
-class QDir;
-class QString;
+#include <string>
+#include <filesystem>
 
 namespace Isis {
   /**
@@ -99,8 +96,8 @@ namespace Isis {
     public:
       // Constructors
       FileName();
-      FileName(const char *fileName);
-      FileName(const QString &fileName);
+      FileName(const char *file);
+      FileName(const std::string &file);
 
       // Copy Constructor, creates a copy of a FileName object.
       FileName(const FileName &other);
@@ -109,46 +106,44 @@ namespace Isis {
       ~FileName();
 
       // Methods
-      QString originalPath() const;
-      QString path() const;
-      QString attributes() const;
-      QString baseName() const;
-      QString name() const;
-      QString extension() const;
-
+      std::string originalPath() const;
+      std::string path() const;
+      std::string attributes() const;
+      std::string baseName() const;
+      std::string name() const;
+      std::string extension() const;
 
       /**
-       * Returns a QString of the full file name including the file path, excluding the attributes.
+       * Returns a std::string of the full file name including the file path, excluding the attributes.
        * Any Isis Preferences or environment variables indicated by $, are changed to what they
        * represent.
        *
-       * @returns QString
+       * @returns std::string
        * <pre>
        *   for a full file specification of:
-       *    QString(ISISROOT) + "/tmp/Peaks.cub+Bsq"
+       *    std::string(ISISROOT) + "/tmp/Peaks.cub+Bsq"
        *   expanded() gives:
        *    "/usgs/pkgs/isis3/isis/tmp/Peaks.cub"
        * </pre>
        */
-      QString expanded() const;
-
+      std::string expanded() const;
 
       /**
        * Returns the full file name including the file path
        *
-       * @returns QString containing every character in the file name and the path
+       * @returns std::string containing every character in the file name and the path
        * <pre>
        *   for a full file specification of:
-       *    QString(ISISROOT) + "/tmp/Peaks.cub+Bsq"
+       *    std::string(ISISROOT) + "/tmp/Peaks.cub+Bsq"
        *   original() gives:
-       *    QString(ISISROOT) + "/tmp/Peaks.cub+Bsq"
+       *    std::string(ISISROOT) + "/tmp/Peaks.cub+Bsq"
        * </pre>
        */
-      QString original() const;
+      std::string original() const;
 
-      FileName addExtension(const QString &extension) const;
+      FileName addExtension(const std::string &extension) const;
       FileName removeExtension() const;
-      FileName setExtension(const QString &extension) const;
+      FileName setExtension(const std::string &extension) const;
 
       bool isVersioned() const;
       bool isNumericallyVersioned() const;
@@ -158,38 +153,37 @@ namespace Isis {
       FileName newVersion() const;
 
       bool fileExists() const;
-      QDir dir() const;
+      std::filesystem::path dir() const;
       static FileName createTempFile(FileName templateFileName = "$TEMPORARY/temp");
 
-
       /**
-       * Returns a QString of the full file name including the file path, excluding the attributes
+       * Returns a std::string of the full file name including the file path, excluding the attributes
        * with any Isis Preferences or environment variables indicated by $, changed to what they
        * represent.
        *
-       * @returns QString
+       * @returns std::string
        * <pre>
        *   for a full file specification of:
-       *    QString(ISISROOT) + "/tmp/Peaks.cub+Bsq"
+       *    std::string(ISISROOT) + "/tmp/Peaks.cub+Bsq"
        *   toString() gives:
        *    "/usgs/pkgs/isis3/isis/tmp/Peaks.cub"
        * </pre>
        */
-      QString toString() const;
+      std::string toString() const;
       FileName &operator=(const FileName &rhs);
       bool operator==(const FileName &rhs);
       bool operator!=(const FileName &rhs);
 
-
     private:
       FileName version(long versionNumber) const;
-      FileName version(QDate versionDate) const;
-      QDate highestVersionDate() const;
+      FileName version(const std::tm &versionDate) const;
+      std::tm highestVersionDate() const;
       long highestVersionNum() const;
       void validateVersioningState() const;
-      QString fileNameQDatePattern() const;
-      std::pair<QString, QString> splitNameAroundVersionNum() const;
-
+      std::string fileNameDatePattern() const;
+      std::pair<std::string, std::string> splitNameAroundVersionNum() const;     
+      bool isValidDate(std::tm &tm) const;
+      std::vector<std::string> getFilesMatchingFilters(std::filesystem::path &directory, std::string &pattern) const; 
     private:
       /**
        * This is the reference-counted data for FileName
@@ -198,34 +192,32 @@ namespace Isis {
        *
        * @internal
        */
-      class Data : public QSharedData {
+      class FileData {
         public:
 
           // Constructors
-          Data();
+          FileData();
 
           // Copy Constructor, creates a copy of a Data object.
-          Data(const Data &other);
+          FileData(const FileData &other);
 
           // Destroys the Data Object
-          ~Data();
+          ~FileData();
 
           // Methods
-          QString original(bool includeAttributes) const;
-          void setOriginal(const QString &originalStr);
-          QString expanded(bool includeAttributes) const;
+          std::string original(bool includeAttributes) const;
+          void setOriginal(const std::string &originalStr);
+          std::string expanded(bool includeAttributes) const;
 
         private:
           // Holds the original file name.
-          QString *m_originalFileNameString;
+          std::string *m_originalFileNameString;
 
 
           // Holds the expanded file name.
-          QString *m_expandedFileNameString;
+          std::string *m_expandedFileNameString;
       };
-
-      // @see QSharedDataPointer
-      QSharedDataPointer<Data> m_d;
+      std::shared_ptr<FileData> m_d;  
   };
 };
 

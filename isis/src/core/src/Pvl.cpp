@@ -88,14 +88,14 @@ namespace Isis {
    */
   void Pvl::read(const std::string &file) {
     // Expand the filename
-    Isis::FileName temp(QString::fromStdString(file));
-    m_filename = temp.expanded().toStdString();
+    Isis::FileName temp(file);
+    m_filename = temp.expanded();
 
     // Open the file
     ifstream istm;
     istm.open(m_filename, std::ios::in);
     if(!istm) {
-      QString message = Message::FileOpen(temp.expanded());
+      std::string message = Message::FileOpen(temp.expanded());
       throw IException(IException::Io, message, _FILEINFO_);
     }
 
@@ -105,12 +105,12 @@ namespace Isis {
     }
     catch(IException &e) {
       istm.close();
-      QString message = "Unable to read PVL file [" + temp.expanded() + "]";
+      std::string message = "Unable to read PVL file [" + temp.expanded() + "]";
       throw IException(e, IException::Unknown, message, _FILEINFO_);
     }
     catch(...) {
       istm.close();
-      QString message = "Unable to read PVL file [" + temp.expanded() + "]";
+      std::string message = "Unable to read PVL file [" + temp.expanded() + "]";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
     istm.close();
@@ -128,7 +128,7 @@ namespace Isis {
    */
   void Pvl::write(const std::string &file) {
     // Expand the filename
-    Isis::FileName temp(QString::fromStdString(file));
+    Isis::FileName temp(file);
 
     // Set up a Formatter
     bool removeFormatter = false;
@@ -139,11 +139,11 @@ namespace Isis {
 
     // Open the file
     ofstream ostm;
-    QString tempName(temp.expanded());
-    ostm.open(tempName.toLatin1().data(), std::ios::out);
+    std::string tempName(temp.expanded());
+    ostm.open(tempName.c_str(), std::ios::out);
     ostm.seekp(0, std::ios::beg);
     if(!ostm) {
-      QString message = Isis::Message::FileCreate(temp.expanded());
+      std::string message = Isis::Message::FileCreate(temp.expanded());
       throw IException(IException::Io, message, _FILEINFO_);
     }
 
@@ -154,12 +154,12 @@ namespace Isis {
     }
     catch(IException &e) {
       ostm.close();
-      QString message = "Unable to write PVL to file [" + temp.expanded() + "]";
+      std::string message = "Unable to write PVL to file [" + temp.expanded() + "]";
       throw IException(e, IException::Io, message, _FILEINFO_);
     }
     catch(...) {
       ostm.close();
-      QString message = "Unable to write PVL to file [" + temp.expanded() + "]";
+      std::string message = "Unable to write PVL to file [" + temp.expanded() + "]";
       throw IException(IException::Io, message, _FILEINFO_);
     }
 
@@ -182,7 +182,7 @@ namespace Isis {
    */
   void Pvl::append(const std::string &file) {
     // Set up for opening and writing
-    Isis::FileName temp(QString::fromStdString(file));
+    Isis::FileName temp(file);
 
     // Set up a Formatter
     bool removeFormatter = false;
@@ -193,11 +193,11 @@ namespace Isis {
 
     // Open the file
     ofstream ostm;
-    QString tempName(temp.expanded());
-    ostm.open(tempName.toLatin1().data(), std::ios::app);
+    std::string tempName(temp.expanded());
+    ostm.open(tempName.c_str(), std::ios::app);
     ostm.seekp(0, std::ios::end);
     if(!ostm) {
-      QString message = Message::FileOpen(temp.expanded());
+      std::string message = Message::FileOpen(temp.expanded());
       throw IException(IException::Io, message, _FILEINFO_);
     }
 
@@ -208,7 +208,7 @@ namespace Isis {
     }
     catch(...) {
       ostm.close();
-      QString message = "Unable to append PVL infomation to file [" +
+      std::string message = "Unable to append PVL infomation to file [" +
                        temp.expanded() + "]";
       throw IException(IException::Io, message, _FILEINFO_);
     }
@@ -263,12 +263,12 @@ namespace Isis {
     for(int i = 0; i < outTemplate.keywords(); i++) {
       if(outTemplate[i].isNamed("Isis:PvlTemplate:File")) {
         std::string filename = outTemplate[i];
-        Isis::FileName file(QString::fromStdString(filename));
+        Isis::FileName file(filename);
         if(!file.fileExists()) {
           std::string message = "Could not open the template file [" + filename + "]";
           throw IException(IException::Io, message, _FILEINFO_);
         }
-        Isis::Pvl include(file.expanded().toStdString());
+        Isis::Pvl include(file.expanded());
 
         for(int j = 0; j < include.keywords(); j++) {
           if(!newTemp.hasKeyword(include[j].name()))

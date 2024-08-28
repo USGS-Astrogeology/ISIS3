@@ -29,7 +29,7 @@ namespace Isis {
     // Read the input PVL preference file
     Isis::Pvl pvl;
 
-    if(Isis::FileName(QString::fromStdString(file)).fileExists()) {
+    if(Isis::FileName(file).fileExists()) {
       pvl.read(file);
     }
     else {

@@ -537,14 +537,14 @@ namespace Isis {
     for(int i = 0; i < outTemplate.keywords(); i++) {
       if(outTemplate[i].isNamed("Isis:PvlTemplate:File")) {
         std::string filename = outTemplate[i];
-        Isis::FileName file(QString::fromStdString(filename));
+        Isis::FileName file(filename);
         if(!file.fileExists()) {
           std::string message = "Could not open the following PVL template file: ";
           message += filename;
           throw IException(IException::Io, message, _FILEINFO_);
         }
 
-        Isis::Pvl include(file.expanded().toStdString());
+        Isis::Pvl include(file.expanded());
 
         for(int j = 0; j < include.keywords(); j++) {
           if(!newTemp.hasKeyword(include[j].name()))

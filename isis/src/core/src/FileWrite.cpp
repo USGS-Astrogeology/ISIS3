@@ -8,6 +8,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::FileWrite(const QString &filename) {
+std::string Isis::Message::FileWrite(const std::string &filename) {
   return "Unable to write [" + filename + "]";
 }

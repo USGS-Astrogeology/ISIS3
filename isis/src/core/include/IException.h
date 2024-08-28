@@ -21,7 +21,7 @@ class QString;
  * Macro for the filename and line number. This is typically used for the last
  *   arguments to constructing an IException.
  */
-#define _FILEINFO_ Isis::FileName(__FILE__).name().toStdString().c_str(),__LINE__
+#define _FILEINFO_ Isis::FileName(__FILE__).name().c_str(),__LINE__
 
 namespace Isis {
   class Pvl;

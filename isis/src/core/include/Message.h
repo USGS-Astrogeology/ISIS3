@@ -5,8 +5,6 @@
 The authors of ISIS do not claim copyright on the contents of this file.
 For more details about the LICENSE terms and the AUTHORS, you will
 find files of those names at the top level of this repository. **/
-
-#include <QString>
 #include <vector>
 
 namespace Isis {
@@ -158,7 +156,7 @@ namespace Isis {
      * @param key - The keyword name which has a bad value
      * @param value - The value of the keyword
      * @param range - The minimum and maximum allowed values for the keyword
-     *                formatted and inserted into a QString
+     *                formatted and inserted into a std::string
      *
      * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
@@ -185,7 +183,7 @@ namespace Isis {
      *
      * @param delimiter - The delimiter that is missing
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
     std::string MissingDelimiter(const char delimiter);
@@ -196,7 +194,7 @@ namespace Isis {
      * @param delimiter - The delimiter that is missing
      * @param near - The value the missing delimiter is near
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
     std::string MissingDelimiter(const char delimiter, const std::string near);
@@ -206,40 +204,40 @@ namespace Isis {
      *
      * @param filename - The name of the file
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString FileOpen(const QString &filename);
+    std::string FileOpen(const std::string &filename);
 
     /**
      * This error should be used when a file could not be created.
      *
      * @param filename - The name of the file
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString FileCreate(const QString &filename);
+    std::string FileCreate(const std::string &filename);
 
     /**
      * This error should be used when an error accrues during a read of a file.
      *
      * @param filename - The name of the file
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString FileRead(const QString &filename);
+    std::string FileRead(const std::string &filename);
 
     /**
      * This error should be used when an error accrues during a write to a file.
      *
      * @param filename - The name of the file
      *
-     * @return QString - A standardized Isis error message with the parameter
+     * @return std::string - A standardized Isis error message with the parameter
      *                  inserted
      */
-    QString FileWrite(const QString &filename);
+    std::string FileWrite(const std::string &filename);
 
     /**
      * This error should be used when an error accrues during a memory

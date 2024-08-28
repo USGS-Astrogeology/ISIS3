@@ -10,8 +10,6 @@ find files of those names at the top level of this repository. **/
 #include <fstream>
 #include <sstream>
 
-#include <QDebug>
-
 #include "FileName.h"
 #include "IException.h"
 #include "Message.h"
@@ -52,9 +50,9 @@ namespace Isis {
     p_buffer = NULL;
     p_nbytes = 0;
     p_type = type;
-    p_labelFile = FileName(file).expanded();
+    p_labelFile = QString::fromStdString(FileName(file.toStdString()).expanded());
 
-    Read(file);
+    Read(file.toStdString());
   }
 
   /**
@@ -230,11 +228,11 @@ namespace Isis {
       p_nbytes = p_blobPvl["Bytes"];
       p_detached = "";
       if (p_blobPvl.hasKeyword("^" + p_type)) {
-        QString path = "";
+        std::string path = "";
         if (p_labelFile != "") {
-          path = FileName(p_labelFile).path() + "/";
+          path = FileName(p_labelFile.toStdString()).path() + "/";
         }
-        p_detached = path + QString::fromStdString((std::string) p_blobPvl["^"+p_type]);
+        p_detached = QString::fromStdString(path + (std::string)p_blobPvl["^"+p_type]);
         p_blobPvl.deleteKeyword("^" + p_type);
       }
     }
@@ -252,9 +250,9 @@ namespace Isis {
    * @throws iException::Io - Unable to open file
    * @throws iException::Pvl - Invalid label format
    */
-  void Blob::Read(const QString &file, const std::vector<PvlKeyword> keywords) {
+  void Blob::Read(const std::string &file, const std::vector<PvlKeyword> keywords) {
     // Expand the filename
-    std::string temp(FileName(file).expanded().toStdString());
+    std::string temp(FileName(file).expanded());
 
     // Get the pvl
     Pvl pvl;
@@ -276,15 +274,15 @@ namespace Isis {
    *
    * @throws iException::Io - Unable to open file
    */
-  void Blob::Read(const QString &file, const Pvl &pvlLabels, const std::vector<PvlKeyword> keywords) {
+  void Blob::Read(const std::string &file, const Pvl &pvlLabels, const std::vector<PvlKeyword> keywords) {
     // Expand the filename
-    QString temp(FileName(file).expanded());
+    std::string temp(FileName(file).expanded());
 
     // Open the file
     fstream istm;
-    istm.open(temp.toLatin1().data(), std::ios::in);
+    istm.open(temp.c_str(), std::ios::in);
     if (!istm) {
-      QString message = Message::FileOpen(temp);
+      std::string message = Message::FileOpen(temp);
       throw IException(IException::Io, message, _FILEINFO_);
     }
 
@@ -295,7 +293,7 @@ namespace Isis {
     catch (IException &e) {
       istm.close();
       std::string msg = "Unable to open " + p_type + " [" + p_blobName.toStdString() +
-                   "] in file [" + temp.toStdString() + "]";
+                   "] in file [" + temp + "]";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -318,7 +316,7 @@ namespace Isis {
         fstream dstm;
         dstm.open(p_detached.toLatin1().data(), std::ios::in);
         if (!dstm) {
-          QString message = Message::FileOpen(p_detached);
+          std::string message = Message::FileOpen(p_detached.toStdString());
           throw IException(IException::Io, message, _FILEINFO_);
         }
         ReadData(dstm);

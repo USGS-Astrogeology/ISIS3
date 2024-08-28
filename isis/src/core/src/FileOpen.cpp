@@ -8,6 +8,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::FileOpen(const QString &filename) {
+std::string Isis::Message::FileOpen(const std::string &filename) {
   return "Unable to open [" + filename + "]";
 }

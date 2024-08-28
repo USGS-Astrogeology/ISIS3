@@ -9,6 +9,6 @@ find files of those names at the top level of this repository. **/
 
 using namespace std;
 
-QString Isis::Message::FileRead(const QString &filename) {
+std::string Isis::Message::FileRead(const std::string &filename) {
   return "Unable to read [" + filename + "]";
 }

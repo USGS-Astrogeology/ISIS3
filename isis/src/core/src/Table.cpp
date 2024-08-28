@@ -108,7 +108,7 @@ namespace Isis {
    */
   Table::Table(const std::string &tableName, const QString &file, const Pvl &fileHeader) {
     Blob blob(QString::fromStdString(tableName), "Table");
-    blob.Read(file, fileHeader);
+    blob.Read(file.toStdString(), fileHeader);
     initFromBlob(blob);
   }
 

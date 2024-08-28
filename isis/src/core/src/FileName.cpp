@@ -10,26 +10,26 @@ find files of those names at the top level of this repository. **/
 #include <cmath>
 
 #include <QDate>
-#include <QDebug>
 #include <QDir>
 #include <QLocale>
-#include <QString>
-#include <QTemporaryFile>
-
 #include "Preference.h"
 #include "PvlGroup.h"
 #include "IException.h"
 #include "IString.h"
+#include <regex>
+#include <memory>
+#include <sstream>
 
 using namespace std;
+namespace fs = std::filesystem;
 
 namespace Isis {
 
   /**
    * Constructs an empty FileName object.
    */
-  FileName::FileName() {
-    m_d = new Data;
+  FileName::FileName() : m_d(std::make_shared<FileData>()) {
+    
   }
 
   /**
@@ -37,21 +37,19 @@ namespace Isis {
    *
    * @param file char pointer representing new filename
    */
-  FileName::FileName(const char *file) {
-    m_d = new Data;
+    FileName::FileName(const char *file) : m_d(std::make_shared<FileData>()) {
     m_d->setOriginal(file);
   }
 
   /**
-   * Constructs a FileName object using a QString as a file name.
+   * Constructs a FileName object using a std::string as a file name.
    *
    * @param file Qstring representing new filename
    */
-  FileName::FileName(const QString &file) {
-    m_d = new Data;
+  FileName::FileName(const std::string &file) : m_d(std::make_shared<FileData>()) {
     m_d->setOriginal(file);
   }
-
+  
   /**
    * Constructs a copy of a FileName object using another FileName object.
    *
@@ -79,10 +77,14 @@ namespace Isis {
    *    "/home/me/img"
    * </pre>
    *
-   * @return QString of the path portion of the original filename.
+   * @return std::string of the path portion of the original filename.
    */
-  QString FileName::originalPath() const {
-    return QFileInfo(m_d->original(false)).path();
+  std::string FileName::originalPath() const {
+    std::string ogPath = fs::path(m_d->original(false)).parent_path().string();
+    if (ogPath.empty()) {
+      return ".";
+    }
+    return ogPath;
   }
 
   /**
@@ -98,16 +100,20 @@ namespace Isis {
    *    "/home/me/img"
    * </pre>
    *
-   * @return QString of the path portion of the filename.
+   * @return std::string of the path portion of the filename.
    */
-  QString FileName::path() const {
-    return QFileInfo(expanded()).path();
+  std::string FileName::path() const {
+    std::string path = fs::path(expanded()).parent_path().string();
+    if (path.empty()) {
+      return ".";
+    }
+    return path;
   }
 
   /**
-   * Returns a QString of the attributes in a filename, attributes are expected to be of type
+   * Returns a std::string of the attributes in a filename, attributes are expected to be of type
    * CubeAttributeInput or CubeAttributeOutput. Filenames without any attributes return an
-   * empty QString.
+   * empty std::string.
    *
    * <pre>
    *   for a full file specification of:
@@ -116,16 +122,16 @@ namespace Isis {
    *    "Bsq"
    * </pre>
    *
-   * @return QString of the attributes specified in the filename.
+   * @return std::string of the attributes specified in the filename.
    */
-  QString FileName::attributes() const {
-    QString result;
-    QString fileNameWithAttribs = QFileInfo(m_d->original(true)).fileName();
+  std::string FileName::attributes() const {
+    std::string result;
+    std::string fileNameWithAttribs = fs::path(m_d->original(true)).filename();
 
-    int attribStartPos = fileNameWithAttribs.indexOf("+");
+    size_t attribStartPos = fileNameWithAttribs.find("+");
 
-    if (attribStartPos != -1)
-      result = fileNameWithAttribs.mid(attribStartPos + 1);
+    if (attribStartPos != std::string::npos)
+      result = fileNameWithAttribs.substr(attribStartPos + 1);
 
     return result;
   }
@@ -140,10 +146,14 @@ namespace Isis {
    *    "Peaks"
    * </pre>
    *
-   * @return QString containing every character excluding the path and all extensions.
+   * @return std::string containing every character excluding the path and all extensions.
    */
-  QString FileName::baseName() const {
-    return QFileInfo(m_d->original(false)).completeBaseName();
+  std::string FileName::baseName() const {
+    std::string stem = fs::path(m_d->original(false)).filename().stem().string();
+    if (stem.erase(0, 1) == extension()){
+      return "";
+    }
+    return fs::path(m_d->original(false)).filename().stem().string();
   }
 
   /**
@@ -156,11 +166,11 @@ namespace Isis {
    *    "Peaks.cub"
    * </pre>
    *
-   * @return QString containing every character in the file name exluding the path and attributes
+   * @return std::string containing every character in the file name exluding the path and attributes
    * of the file.
    */
-  QString FileName::name() const {
-    return QFileInfo(m_d->original(false)).fileName();
+  std::string FileName::name() const {
+    return fs::path(m_d->original(false)).filename();
   }
 
   /**
@@ -173,14 +183,18 @@ namespace Isis {
    *    "gz"
    * </pre>
    *
-   * @return QString containing every character in the file name after the last "." character.
+   * @return std::string containing every character in the file name after the last "." character.
    */
-  QString FileName::extension() const {
-    return QFileInfo(m_d->original(false)).suffix();
+  std::string FileName::extension() const {
+    std::string ext = fs::path(m_d->original(false)).extension().string();
+    if (ext.empty() && m_d->original(false)[0] == '.') {
+      return fs::path(m_d->original(false)).filename().string().erase(0, 1);
+    }
+    return ext.erase(0, 1);
   }
 
   /**
-   * Returns a QString of the full file name including the file path, excluding the attributes.
+   * Returns a std::string of the full file name including the file path, excluding the attributes.
    * Any Isis Preferences or environment variables indicated by $, are changed to what they
    * represent.
    *
@@ -191,9 +205,9 @@ namespace Isis {
    *    "/usgs/pkgs/isis3/isis/tmp/Peaks.cub"
    * </pre>
    *
-   * @return QString
+   * @return std::string
    */
-  QString FileName::expanded() const {
+  std::string FileName::expanded() const {
     return m_d->expanded(false);
   }
 
@@ -207,9 +221,9 @@ namespace Isis {
    *    "$ISISROOT/tmp/Peaks.cub+Bsq"
    * </pre>
    *
-   * @return QString containing every character in the file name and the path
+   * @return std::string containing every character in the file name and the path
    */
-  QString FileName::original() const {
+  std::string FileName::original() const {
     return m_d->original(true);
   }
 
@@ -222,11 +236,11 @@ namespace Isis {
    *
    * @return FileName object with added extension
    */
-  FileName FileName::addExtension(const QString &newExtension) const {
+  FileName FileName::addExtension(const std::string &newExtension) const {
     FileName result = *this;
 
     if (result.extension() != newExtension) {
-      QString attributesStr = result.attributes();
+      std::string attributesStr = result.attributes();
 
       if (attributesStr == "")
         result = FileName(result.originalPath() + "/" + result.name() + "." + newExtension);
@@ -244,7 +258,7 @@ namespace Isis {
    * @return FileName object with all extensions removed
    */
   FileName FileName::removeExtension() const {
-    QString attributesStr = attributes();
+    std::string attributesStr = attributes();
 
     FileName result;
     if (attributesStr == "")
@@ -262,7 +276,7 @@ namespace Isis {
    *
    * @return FileName object with all existing extensions replaced by the new extension
    */
-  FileName FileName::setExtension(const QString &newExtension) const {
+  FileName FileName::setExtension(const std::string &newExtension) const {
     FileName result = *this;
 
     if (extension() != newExtension) {
@@ -291,7 +305,7 @@ namespace Isis {
    * @return Boolean
    */
   bool FileName::isNumericallyVersioned() const {
-    return FileName(expanded()).name().contains("?");
+    return (FileName(expanded()).name().find("?") != std::string::npos);
   }
 
   /**
@@ -301,7 +315,8 @@ namespace Isis {
    * @return Boolean
    */
   bool FileName::isDateVersioned() const {
-    return FileName(expanded()).name().contains(QRegExp("\\{.*\\}"));
+    std::regex datePattern("\\{.*\\}");
+    return (std::regex_search(FileName(expanded()).name(), datePattern));
   }
 
   /**
@@ -316,11 +331,9 @@ namespace Isis {
     FileName result = *this;
 
     if (!isVersioned()) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Asked for highest version of file named [%1] in [%2] but there "
-                                   "are no version sequences in the name")
-                         .arg(name()).arg(originalPath()),
-                       _FILEINFO_);
+      std::string msg = "Asked for highest version of file named [" + name() + 
+                              "] in [" + originalPath() + "] but there are no version sequences in the name";
+      throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
     // Look for dates
@@ -351,18 +364,18 @@ namespace Isis {
     FileName result = *this;
 
     if (!isVersioned()) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Asked for new version of file named [%1] in [%2] but there "
-                                   "are no version sequences in the name")
-                         .arg(name()).arg(originalPath()),
-                       _FILEINFO_);
+      std::string msg = "Asked for new version of file named [" + name() + "] in [" + originalPath() + "] but there are no version sequences in the name";
+      throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
     // Look for date
     if (isDateVersioned()) {
-      result = result.version(QDate::currentDate());
-    }
+      auto now = std::chrono::system_clock::now();
+      std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+      std::tm now_tm = *std::localtime(&now_c);
 
+      result = result.version(now_tm);
+    }
     // Look for #'s
     if (isNumericallyVersioned()) {
       try {
@@ -374,12 +387,8 @@ namespace Isis {
     }
 
     if (result.fileExists()) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Could not generate unique new version of file named [%1] in "
-                                   "[%2] because the file [%3] exists")
-                         .arg(name()).arg(originalPath()).arg(result.name()),
-                       _FILEINFO_);
-
+      std::string msg = "Could not generate unique new version of file named [" + name() + "] in [" + originalPath() + "] because the file [" + result.name() + "] exists";
+      throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
     return result;
@@ -396,31 +405,28 @@ namespace Isis {
    * @throws Isis::IException::Unknown
    */
   FileName FileName::version(long versionNumber) const {
-    QString file = FileName(expanded()).name();
+    std::string file = FileName(expanded()).name();
 
-    int width = file.count("?");
+    int width = std::count(file.begin(), file.end(), '?');
 
     if (versionNumber < 0) {
-      throw IException(IException::Unknown,
-          QObject::tr("FileName does not support negative version numbers in the file name, "
-                      "tried to get version [%1] in file named [%2]")
-            .arg(versionNumber).arg(originalPath() + "/" + file),
-          _FILEINFO_);
+      std::string msg = "FileName does not support negative version numbers in the file name, tried to get version [" + std::to_string(versionNumber) + "] in file named " + originalPath() + "/" + file;
+      throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
     if (versionNumber >= pow(10.0, width)) {
-      throw IException(IException::Unknown,
-          QObject::tr("FileName does not support version numbers greater than what would fit in "
-                      "the file name, tried to get version [%1] in file named [%2]")
-            .arg(versionNumber).arg(originalPath() + "/" + file),
-          _FILEINFO_);
+      std::string msg = "FileName does not support version numbers greater than what would fit in the file name, tried to get version [" + std::to_string(versionNumber) + "] in file named [" + originalPath() + "/" + file + "]";
+      throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
-    std::pair<QString, QString> splitName = splitNameAroundVersionNum();
-    QString &before = splitName.first;
-    QString &after = splitName.second;
+    std::pair<std::string, std::string> splitName = splitNameAroundVersionNum();
+    std::string &before = splitName.first;
+    std::string &after = splitName.second;
 
-    file = before + QString("%1").arg(QString::number(versionNumber), width, '0') + after;
+    std::ostringstream formattedVersion;
+    formattedVersion << std::setw(width) << std::setfill('0') << versionNumber;
+
+    file = before + formattedVersion.str() + after;
 
     return FileName(originalPath() + "/" + file);
   }
@@ -429,13 +435,17 @@ namespace Isis {
    * Returns a FileName object of the same file name but versioned by the
    * date passed in as a parameter.
    *
-   * @param versionDate QDate to version the new FileName object
+   * @param versionDate std::tm to version the new FileName object
    *
    * @return FileName object with the new version file name.
    *
    */
-  FileName FileName::version(QDate versionDate) const {
-    QString newName = versionDate.toString(fileNameQDatePattern());
+  FileName FileName::version(const std::tm& versionDate) const {
+      std::ostringstream oss;
+      oss << std::put_time(&versionDate, fileNameDatePattern().c_str());
+
+      std::string newName = oss.str();
+      newName.erase(std::remove(newName.begin(), newName.end(), ' '), newName.end());
 
     return FileName(originalPath() + "/" + newName);
   }
@@ -447,11 +457,11 @@ namespace Isis {
    * @return Boolean
    */
   bool FileName::fileExists() const {
-    return QFileInfo(expanded()).exists();
+    return fs::exists(expanded());
   }
 
   /**
-   * Returns the path of the file's parent directory as a QDir object
+   * Returns the path of the file's parent directory as a std::filesystem::path
    *
    * <pre>
    *   for a full file specification of:
@@ -460,10 +470,14 @@ namespace Isis {
    *    "/tmp/"
    * </pre>
    *
-   * @return QDir
+   * @return fs::path
    */
-  QDir FileName::dir() const {
-    return QFileInfo(expanded()).dir();
+  std::filesystem::path FileName::dir() const {
+    fs::path dir = fs::path(expanded()).parent_path();
+    if (dir.empty()){
+      return ".";
+    }
+    return dir;
   }
 
   /**
@@ -476,30 +490,29 @@ namespace Isis {
    * @throws Isis::IException::Io
    */
   FileName FileName::createTempFile(FileName templateFileName) {
-    QString preppedFileName = QString("%1/%2XXXXXX.%3").arg(templateFileName.path())
-        .arg(templateFileName.baseName()).arg(templateFileName.extension());
-    QTemporaryFile tempFile(preppedFileName);
-    tempFile.setAutoRemove(false);
-
-    if (!tempFile.open()) {
+    fs::path tempPath = templateFileName.path();
+    std::string baseName = templateFileName.baseName();
+    std::string extension = templateFileName.extension();
+    
+    std::string uniqueFileName = baseName + "XXXXXX." + extension;
+    fs::path tempFilePath = tempPath / uniqueFileName;
+    
+    std::ofstream tempFile(tempFilePath.string());
+    if (!tempFile) {
       throw IException(IException::Io,
-          QObject::tr("Could not create a unique temporary file name based on [%1]")
-            .arg(templateFileName.original()),
+            "Could not create a unique temporary file name based on [" + templateFileName.original() + "]",
           _FILEINFO_);
     }
 
-    // We want to set the 'original' path as correctly as possible. So let's use the input original
-    //   path with the output temp file's file name in our result.
     FileName result;
-    QString newTempFileNameStr = templateFileName.originalPath() + "/" +
-        QFileInfo(tempFile.fileName()).fileName();
+    std::string newTempFileNameStr = templateFileName.originalPath() + "/" + uniqueFileName;
     result = FileName(newTempFileNameStr);
 
     return result;
   }
 
   /**
-   * Returns a QString of the full file name including the file path, excluding the attributes
+   * Returns a std::string of the full file name including the file path, excluding the attributes
    * with any Isis Preferences or environment variables indicated by $, changed to what they
    * represent.
    *
@@ -510,9 +523,9 @@ namespace Isis {
    *    "/usgs/pkgs/isis3/isis/tmp/Peaks.cub"
    * </pre>
    *
-   * @return QString
+   * @return std::string
    */
-  QString FileName::toString() const {
+  std::string FileName::toString() const {
     return expanded();
   }
 
@@ -538,20 +551,17 @@ namespace Isis {
    * @return Boolean
    */
   bool FileName::operator==(const FileName &rhs) {
-    QString expandedOfThis = expanded();
-    QString canonicalOfThis = QFileInfo(expandedOfThis).canonicalFilePath();
+      std::filesystem::path expandedOfThis = expanded();
+      std::filesystem::path expandedOfRhs = rhs.expanded();
 
-    QString expandedOfRhs = rhs.expanded();
-    QString canonicalOfRhs = QFileInfo(expandedOfRhs).canonicalFilePath();
+      std::filesystem::path canonicalOfThis = std::filesystem::absolute(expandedOfThis);
+      std::filesystem::path canonicalOfRhs = std::filesystem::absolute(expandedOfRhs);
 
-    // Cononical file paths return empty strings if the file does not exist. Either both canonicals
-    //   are valid and the same (equal is initialized to true), or neither canonical is valid but
-    //   the expandeds are the same (equal is set to true when it isn't initialized to true).
-    bool equal = (!canonicalOfThis.isEmpty() && canonicalOfThis == canonicalOfRhs);
+      bool equal = !canonicalOfThis.empty() && canonicalOfThis == canonicalOfRhs;
 
     if (!equal) {
-      equal = (canonicalOfThis.isEmpty() && canonicalOfRhs.isEmpty() &&
-               expandedOfThis == expandedOfRhs);
+          equal = canonicalOfThis.empty() && canonicalOfRhs.empty() &&
+                  expandedOfThis == expandedOfRhs;
     }
 
     return equal;
@@ -570,62 +580,138 @@ namespace Isis {
   }
 
   /**
+   * This function iterates over all the files in the specified directory and returns a vector of filenames
+   * that match the pattern formed by the `before` and `after` strings. The pattern is constructed as:
+   * `before + ".*" + after`, where `.*` matches any sequence of characters.
+   *
+   * @param directory The directory in which to search for files.
+   * @param pattern The pattern string.
+   * @return std::vector<std::string> A vector containing the filenames that match the specified pattern.
+   */
+  std::vector<std::string> FileName::getFilesMatchingFilters(fs::path &directory, std::string &pattern) const {
+    std::vector<std::string> files;
+    std::regex regex(pattern);
+
+    for (const auto& entry : fs::directory_iterator(directory)) {
+        if (fs::is_regular_file(entry.path())) {
+            std::string filename = entry.path().filename().string();
+            if (std::regex_match(filename, regex)) {
+                files.push_back(filename);
+            }
+        }
+    }
+
+    return files;
+  }
+  /**
+   * This function verifies that the individual fields of a `std::tm` structure
+   * are within their respective valid ranges. Specifically, it checks the following:
+   * - `tm_year` should be non-negative (i.e., year >= 1900).
+   * - `tm_mon` should be in the range [0, 11], representing months January through December.
+   * - `tm_mday` should be in the range [1, 31], representing days of the month.
+   *
+   * @param tm The `std::tm` structure representing the date to be validated.
+   * @return `true` if the date is valid, `false` otherwise.
+   */
+  bool FileName::isValidDate(std::tm &tm) const {
+    if (tm.tm_year < 0 || tm.tm_mon < 0 || tm.tm_mon > 11 || tm.tm_mday < 1 || tm.tm_mday > 31) {
+        return false;
+    }
+    return true;
+}
+
+  /**
    * This looks through the directory of the file and checks for the highest version date of
    * the file that is versioned date.
    *
-   * @return QDate
+   * @return std::tm
    */
-  QDate FileName::highestVersionDate() const {
-    QString fileQDatePattern = fileNameQDatePattern();
+  std::tm FileName::highestVersionDate() const {
+    std::string fileDatePattern = fileNameDatePattern();
 
     std::pair<int, int> truncateRange(-1, -1);
-    if (fileQDatePattern.contains("?")) {
-      QString trueLengthName = name().replace(QRegExp("[{}]"), "");
-      truncateRange.first = trueLengthName.indexOf("?");
-      truncateRange.second = trueLengthName.lastIndexOf("?");
-      fileQDatePattern = fileQDatePattern.replace("?", "");
+    if (fileDatePattern.find('?') != std::string::npos) {
+      std::string trueLengthName = name();
+      trueLengthName.erase(std::remove(trueLengthName.begin(), trueLengthName.end(), '{'), trueLengthName.end());
+      trueLengthName.erase(std::remove(trueLengthName.begin(), trueLengthName.end(), '}'), trueLengthName.end());
+      truncateRange.first = trueLengthName.find('?');
+      truncateRange.second = trueLengthName.rfind('?');
+      fileDatePattern.erase(std::remove(fileDatePattern.begin(), fileDatePattern.end(), '?'), fileDatePattern.end());
     }
 
-    QString file = name();
+    std::string file = name();
 
-    QDate result;
-    QDate sputnikLaunch(1957, 10, 4);
+    std::tm result = {};
+    std::tm sputnikLaunch = {};
+    sputnikLaunch.tm_year = 1957 - 1900;
+    sputnikLaunch.tm_mon = 10 - 1;
+    sputnikLaunch.tm_mday = 4;
 
-    QString before = file.mid(0, file.indexOf("{"));
-    QString after = file.mid(file.lastIndexOf("}") + 1);
+    std::string after = file.substr(file.rfind("}") + 1);
 
-    QStringList nameFilters;
+    std::string regexPattern = fileDatePattern;
+    std::regex pattern("%d");
+    regexPattern = std::regex_replace(regexPattern, pattern, R"(\d{2})");
 
-    nameFilters.append(before + "*" + after);
-    QStringList files = dir().entryList(nameFilters);
+    pattern = "%e";
+    regexPattern = std::regex_replace(regexPattern, pattern, R"(\d{1})");
+    
+    pattern = "%b";
+    regexPattern = std::regex_replace(regexPattern, pattern, R"([a-zA-Z]{3})");
+
+    pattern = "%B";
+    regexPattern = std::regex_replace(regexPattern, pattern, R"([a-zA-Z]{4,})");
+
+    pattern = "%Y";
+    regexPattern = std::regex_replace(regexPattern, pattern, R"(\d{4})");
+
+    pattern = "%y";
+    regexPattern = std::regex_replace(regexPattern, pattern, R"(\d{2})");
+
+    pattern = "\'";
+    regexPattern = std::regex_replace(regexPattern, pattern, "^");
+
+    pattern = "_v";
+    regexPattern = std::regex_replace(regexPattern, pattern, R"(_v\d+)");
+
+    std::size_t pos = regexPattern.rfind('.');
+    if (pos != std::string::npos) {
+        regexPattern.insert(pos, 1, '\\');
+    }
+
+    fs::path directory = dir();
+    std::vector<std::string> files = getFilesMatchingFilters(directory, regexPattern);
 
     // We can't sort the files to get our answer, so we need to go through every possible file.
-    foreach (QString foundFile, files) {
-      // Toss any numerical versioning sequence
-      if (truncateRange.first >= 0 && truncateRange.second > truncateRange.first) {
-        foundFile = foundFile.mid(0, truncateRange.first) +
-                    foundFile.mid(truncateRange.second + 1);
+    for (std::string foundFile : files) {
+        // Toss any numerical versioning sequence
+        if (truncateRange.first >= 0 && truncateRange.second > truncateRange.first) {
+          foundFile = foundFile.substr(0, truncateRange.first) +
+                      foundFile.substr(truncateRange.second + 1);
 
-      }
-      QDate fileDate = QLocale(QLocale::English, QLocale::UnitedStates).toDate(foundFile, fileQDatePattern);
+        }
+        std::istringstream ss(foundFile);
+        std::tm fileDate = {};
+        ss >> std::get_time(&fileDate, fileDatePattern.c_str());
 
-      if (fileDate.isValid()) {
+      if (isValidDate(fileDate)) {
         // No missions before Sputnik 1, so we must be in the new millenium
-        if (fileDate < sputnikLaunch)
-          fileDate = fileDate.addYears(100);
-
-        if (!result.isValid() || fileDate > result) {
+        std::time_t fileDateTime = std::mktime(const_cast<std::tm*>(&fileDate));
+        std::time_t sputnikLaunchTime = std::mktime(const_cast<std::tm*>(&sputnikLaunch));
+        std::time_t resultTime = std::mktime(const_cast<std::tm*>(&result));
+        if (fileDateTime < sputnikLaunchTime) {
+          fileDate.tm_year += 100;
+          fileDateTime = std::mktime(&fileDate);
+        }
+        if (!isValidDate(result) || fileDateTime > resultTime) {
           result = fileDate;
         }
       }
     }
 
-    if (!result.isValid()) {
-      throw IException(IException::Unknown,
-                       QObject::tr("No existing files found with a date version matching [%1] in "
-                                   "[%2]")
-                         .arg(FileName(expanded()).name()).arg(path()),
-                       _FILEINFO_);
+    if (!isValidDate(result)) {
+      std::string msg = "No existing files found with a date version matching [" + FileName(expanded()).name() + "] in [" + path() + "]";
+      throw IException(IException::Unknown,msg, _FILEINFO_);
     }
 
     return result;
@@ -638,35 +724,45 @@ namespace Isis {
    * @return long
    */
   long FileName::highestVersionNum() const {
-    QString file = FileName(expanded()).name();
+    std::string file = FileName(expanded()).name();
     int result = 0;
 
-    int width = file.count("?");
+    int width = std::count(file.begin(), file.end(), '?');
 
-    std::pair<QString, QString> splitName = splitNameAroundVersionNum();
-    QString &before = splitName.first;
-    QString &after = splitName.second;
+    std::pair<std::string, std::string> splitName = splitNameAroundVersionNum();
+    std::string &before = splitName.first;
+    std::string &after = splitName.second;
 
-    QStringList nameFilters;
-    nameFilters.append(before + QString("%1").arg("", width, '?') + after);
-    QStringList files = dir().entryList(nameFilters, QDir::NoFilter, QDir::Name);
+    std::ostringstream oss;
+    oss << "^" << before << "\\d{" << width << "}" << after << "$";
+    std::string pattern = oss.str();
+
+    fs::path directory = dir();
+    std::vector<std::string> files = getFilesMatchingFilters(directory, pattern);
 
     long foundValue = -1;
+    long highestValue = 0;
     bool success = false;
 
-    for (int i = files.count() - 1; !success && i >= 0; i--) {
-      foundValue = files[i].mid(before.count(), width).toLong(&success);
+    for (std::string foundFile : files) {
+      try {
+        foundValue = std::stoi(foundFile.substr(before.length(), width));
+        success = true;
+      }
+      catch (...) {
+        success = false;
+      }
+      if (foundValue > highestValue) {
+        highestValue = foundValue;
+      }
     }
 
     if (success) {
-      result = foundValue;
+      result = highestValue;
     }
     else {
-      throw IException(IException::Unknown,
-                       QObject::tr("No existing files found with a numerical version matching [%1] "
-                                   "in [%2]")
-                         .arg(FileName(expanded()).name()).arg(path()),
-                       _FILEINFO_);
+      std::string msg = "No existing files found with a numerical version matching [" + FileName(expanded()).name() + "] in [" + path() + "]";
+      throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
     return result;
@@ -677,43 +773,38 @@ namespace Isis {
    * state to find file version numbers.
    */
   void FileName::validateVersioningState() const {
-    QString file = QFileInfo(expanded()).fileName();
+    std::string file = fs::path(expanded()).filename();
 
-    if (file.contains(QRegExp("\\?\\?*[^?][^?]*\\?"))) {
-      throw IException(IException::Unknown,
-          QObject::tr("Only one numerical version sequence is allowed in a filename; "
-                      "there are multiple in [%1]").arg(file),
-          _FILEINFO_);
+    std::regex regex("\\?\\?*[^?][^?]*\\?+");
+    if(std::regex_match(file, regex)) {
+      std::string msg = "Only one numerical version sequence is allowed in a filename; "
+                      "there are multiple in [" + file + "]";
+      throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
     if (isDateVersioned()) {
-      QString fileDatePattern = FileName(expanded()).name();
+      std::string fileDatePattern = fileNameDatePattern();
+      const std::time_t t_c = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+      std::tm buf;
+      localtime_r(&t_c, &buf);
 
-      // {} needs to be removed from the fileDatePattern (i.e. an empty date version sequence).
-      // This prevents the replacement of {} with '' in the pattern, since
-      // Qt5's QDate.toString(pattern) handles these two adjacent single quotes in the pattern
-      // differently than Qt4 did.
-      fileDatePattern.replace(QRegExp("\\{\\}"), "");
+      std::stringstream ss;
+      ss << std::put_time(&buf, fileDatePattern.c_str());
 
-      fileDatePattern = "'" + fileDatePattern.replace(QRegExp("[{}]"), "'") + "'";
+      std::string dated = ss.str();
 
-      QString dated = QDate::currentDate().toString(fileDatePattern);
-      if (file.contains("'")) {
-        throw IException(IException::Unknown,
-            QObject::tr("Date version sequenced file names cannot have single quotes in them; "
-                        "the file named [%1] is not usable").arg(file),
-            _FILEINFO_);
+      if (file.find("'") != std::string::npos) {
+        std::string msg = "Date version sequenced file names cannot have single quotes in them; "
+                        "the file named [" + file + "] is not usable";
+        throw IException(IException::Unknown, msg, _FILEINFO_);
       }
-      else if (dated == "") {
-        throw IException(IException::Unknown,
-            QObject::tr("The date version sequence is not usable in the file named [%1]").arg(file),
-            _FILEINFO_);
+      else if (dated.empty()) {
+        std::string msg = "The date version sequence is not usable in the file named [" + file + "]"; 
+        throw IException(IException::Unknown, msg, _FILEINFO_);
       }
-      else if (dated == fileDatePattern.replace(QRegExp("'"), "")) {
-        throw IException(IException::Unknown,
-            QObject::tr("The date version sequences are not recognized in the file named [%1]")
-              .arg(file),
-            _FILEINFO_);
+      else if (fileDatePattern.find('{') != std::string::npos && fileDatePattern.find('}') != std::string::npos) {
+        std::string msg = "The date version sequences are not recognized in the file named [" + file + "]";
+        throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
   }
@@ -722,29 +813,33 @@ namespace Isis {
    * This changes the files format. Specifically quotes everything not in {} with single quotes
    * and removes the {} from the file name.
    *
-   * @return QString
+   * @return std::string
    */
-  QString FileName::fileNameQDatePattern() const {
+  std::string FileName::fileNameDatePattern() const {
     // We need to quote everything not in {} with single quotes.
-    QString file = FileName(expanded()).name();
+    std::string file = FileName(expanded()).name();
 
-    // Current Text: {VAR}XXX{VAR}XXX{VAR} or XXX{VAR}XXX{VAR} or XXX{VAR}XXX or {VAR}XXX
-    file = file.replace(QRegExp("[{}]"), "'");
+    std::regex regex("\\{MMM\\}");
+    file = std::regex_replace(file, regex, "%b");
 
-    // Current Text: 'VAR'XXX'VAR'XXX'VAR' or XXX'VAR'XXX'VAR' or XXX'VAR'XXX or 'VAR'XXX
-    if (file.startsWith("'"))
-      file = file.mid(1);
-    else
-      file = "'" + file;
+    regex = "\\{MMMM\\}";
+    file = std::regex_replace(file, regex, "%B");
 
-    // Current Text: VAR'XXX'VAR'XXX'VAR' or 'XXX'VAR'XXX'VAR' or 'XXX'VAR'XXX or VAR'XXX
-    if (file.endsWith("'"))
-      file = file.mid(0, file.length() - 1);
-    else
-      file = file + "'";
+    regex = "\\{dd\\}";
+    file = std::regex_replace(file, regex, "%d");
 
-    // Current Text: VAR'XXX'VAR'XXX'VAR or 'XXX'VAR'XXX'VAR or 'XXX'VAR'XXX'  or VAR'XXX' -- VAR's
-    //   are the only text not quoted; this is success.
+    regex = "\\{d\\}";
+    file = std::regex_replace(file, regex, "%e");
+
+    regex = "\\{yy\\}";
+    file = std::regex_replace(file, regex, "%y");
+
+    regex = "\\{yyyy\\}";
+    file = std::regex_replace(file, regex, "%Y");
+
+    regex = "\\{ddMMMyyyy\\}";
+    file = std::regex_replace(file, regex, "%d%b%Y");
+
     return file;
   }
 
@@ -754,50 +849,50 @@ namespace Isis {
    *
    * @return std::pair
    */
-  std::pair<QString, QString> FileName::splitNameAroundVersionNum() const {
-    QString file = FileName(expanded()).name();
-    QString before;
-    QString after;
+  std::pair<std::string, std::string> FileName::splitNameAroundVersionNum() const {
+    std::string file = FileName(expanded()).name();
+    std::string before;
+    std::string after;
 
     if (!isNumericallyVersioned()) {
       before = file;
     }
     else {
-      before = file.mid(0, file.indexOf("?"));
-      after = file.mid(file.lastIndexOf("?") + 1);
+      before = file.substr(0, file.find("?"));
+      after = file.substr(file.find_last_of("?") + 1);
     }
 
-    return std::pair<QString, QString>(before, after);
+    return std::pair<std::string, std::string>(before, after);
   }
 
    /**
     * Data constructor, creates a new Data object.
     */
-  FileName::Data::Data() {
+  FileName::FileData::FileData() {
     m_originalFileNameString = NULL;
     m_expandedFileNameString = NULL;
 
-    m_originalFileNameString = new QString;
-    m_expandedFileNameString = new QString;
+    m_originalFileNameString = new std::string;
+    m_expandedFileNameString = new std::string;
   }
 
   /**
-   * Data copy constructor, creates a copy of a Data object.
+   * FileData copy constructor, creates a copy of a FileData object.
    *
-   * @param &other Data object to copy
+   * @param &other FileData object to copy
    */
-  FileName::Data::Data(const Data &other) : QSharedData(other) {
+  FileName::FileData::FileData(const FileData &other) {
     m_originalFileNameString = NULL;
     m_expandedFileNameString = NULL;
 
-    m_originalFileNameString = new QString(*other.m_originalFileNameString);
-    m_expandedFileNameString = new QString(*other.m_expandedFileNameString);
+    m_originalFileNameString = new std::string(*other.m_originalFileNameString);
+    m_expandedFileNameString = new std::string(*other.m_expandedFileNameString);
   }
 
   /**
-   * Destroys the Data object.
+   * Destroys the FileData object.
    */
-  FileName::Data::~Data() {
+  FileName::FileData::~FileData() {
     delete m_originalFileNameString;
     m_originalFileNameString = NULL;
 
@@ -814,40 +909,45 @@ namespace Isis {
    *
    * @return Qstring
    */
-  QString FileName::Data::original(bool includeAttributes) const {
-    QString result = *m_originalFileNameString;
-
+  std::string FileName::FileData::original(bool includeAttributes) const {
+    std::string result = *m_originalFileNameString;
 
     if (!includeAttributes) {
-      int attributesPos = result.indexOf("+");
+      size_t attributesPos = result.find("+");
 
-      if (attributesPos != -1)
-        result = result.left(attributesPos);
+      if (attributesPos != string::npos)
+        result = result.substr(0, attributesPos);
     }
 
     return result;
   }
 
   /**
-   * Sets the original file name, stored in m_originalFileNameString. QString parameter
+   * Sets the original file name, stored in m_originalFileNameString. std::string parameter
    * is the new file name to store in m_originalFileNameString. The expanded verison is also
    * set and stored in m_expandedFileNameString when this method is called.
    *
    * @param originalStr the new file name
    */
-  void FileName::Data::setOriginal(const QString &originalStr) {
+  void FileName::FileData::setOriginal(const std::string &originalStr) {
     *m_originalFileNameString = originalStr;
 
     // Expand the file name and store that too.
-    QString expandedStr = original(true);
+    std::string expandedStr = original(true);
 
     int varSearchStartPos = 0;
     int varStartPos = -1;
     
     // Loop while there are any "$" at the current position or after
     // Some "$" might be skipped if no translation can be found
-    while((varStartPos = expandedStr.indexOf("$", varSearchStartPos)) != -1) {
-      int varEndPos = expandedStr.indexOf(QRegExp("[^a-zA-Z{}0-9_]"), varStartPos + 1);
+    while((varStartPos = expandedStr.find("$", varSearchStartPos)) != -1) {
+      std::regex pattern("[^a-zA-Z{}0-9_]");
+      std::smatch match;
+
+      auto search_start = expandedStr.begin() + varStartPos + 1;
+      auto it = std::sregex_iterator(search_start, expandedStr.end(), pattern);
+
+      int varEndPos = (it != std::sregex_iterator()) ? std::distance(expandedStr.begin(), it->position() + search_start) : -1;
       if (varEndPos == -1)
         varEndPos = expandedStr.length();
 
@@ -855,33 +955,33 @@ namespace Isis {
       int varNameLength = varEndPos - varStartPos;
 
       if (varNameLength > 0) {
-        QString varName = expandedStr.mid(varStartPos + 1, varEndPos - varStartPos - 1);
+        std::string varName = expandedStr.substr(varStartPos + 1, varEndPos - varStartPos - 1);
 
         if (varName.length()) {
           if (varName[0] =='{' && varName[varName.length() - 1] == '}')
-            varName = varName.mid(1, varName.length() - 2);
+            varName = varName.substr(1, varName.length() - 2);
 
-          QString varValue;
+          std::string varValue;
 
           // Find the corresponding Isis Preference if one exists
           if(Preference::Preferences().hasGroup("DataDirectory")) {
             PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-            if(dataDir.hasKeyword(varName.toStdString())) {
-              varValue = QString::fromStdString(dataDir[varName.toStdString()][0]);
+            if(dataDir.hasKeyword(varName)) {
+              varValue = dataDir[varName][0];
             }
           }
 
           // Find the corresponding environment variable if one exists
-          if (varValue.isEmpty()) {
+          if (varValue.empty()) {
             char *val;
-            val = getenv(varName.toStdString().c_str());
+            val = getenv(varName.c_str());
             if(val != NULL) varValue = val;
           }
 
           // Replace the $xxxx with the pref/env, but don't move
           // the pointer. We may have replaced one $ for another.
           // Note: May need to put a test for circular replaces in here
-          if (!varValue.isEmpty()) {
+          if (!varValue.empty()) {
             expandedStr = expandedStr.replace(varStartPos, varNameLength, varValue);
             variableValid = true;
           }
@@ -910,14 +1010,14 @@ namespace Isis {
    *
    * @return Qstring
    */
-  QString FileName::Data::expanded(bool includeAttributes) const {
-    QString result = *m_expandedFileNameString;
+  std::string FileName::FileData::expanded(bool includeAttributes) const {
+    std::string result = *m_expandedFileNameString;
 
     if (!includeAttributes) {
-      int attributesPos = result.indexOf("+");
+      int attributesPos = result.find("+");
 
       if (attributesPos != -1)
-        result = result.left(attributesPos);
+        result = result.substr(0, attributesPos);
     }
 
     return result;

@@ -12,7 +12,7 @@ set(PACKAGE            "CORE")
 set(PACKAGE_NAME       "USGS ISIS PVL CORE")
 
 # specify the C++ standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(Pvl_source_files ${PROJECT_SOURCE_DIR}/src/ArraySubscriptNotInRange.cpp

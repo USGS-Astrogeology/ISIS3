@@ -66,9 +66,9 @@ namespace Isis {
       int Size() const;
       PvlObject &Label();
 
-      void Read(const QString &file, const std::vector<PvlKeyword>
+      void Read(const std::string &file, const std::vector<PvlKeyword>
                 keywords=std::vector<PvlKeyword>());
-      void Read(const QString &file, const Pvl &pvlLabels,
+      void Read(const std::string &file, const Pvl &pvlLabels,
                 const std::vector<PvlKeyword> keywords = std::vector<PvlKeyword>());
       virtual void Read(const Pvl &pvl, std::istream &is,
                         const std::vector<PvlKeyword> keywords = std::vector<PvlKeyword>());

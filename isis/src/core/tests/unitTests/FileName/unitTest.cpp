@@ -6,12 +6,8 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <iostream>
 #include <fstream>
-
-#include <QCoreApplication>
-#include <QDate>
-#include <QDir>
-#include <QThreadPool>
-#include <QtConcurrentMap>
+#include <thread>
+#include <vector>
 
 #include "FileName.h"
 #include "IException.h"
@@ -20,26 +16,30 @@ find files of those names at the top level of this repository. **/
 using namespace std;
 using namespace Isis;
 
-void TestVersioning(QString prefix, QString name, bool containsDate = false);
-void TestExpanded(QString prefix, QString name);
-void TestExtensionChanges(QString prefix, QString name, bool showExpandedValues);
-void TestGenericAccessors(QString prefix, QString name, bool showExpandedValues);
+void TestVersioning(std::string prefix, std::string name, bool containsDate = false);
+void TestExpanded(std::string prefix, std::string name);
+void TestExtensionChanges(std::string prefix, std::string name, bool showExpandedValues);
+void TestGenericAccessors(std::string prefix, std::string name, bool showExpandedValues);
 
 int main(int argc, char *argv[]) {
   Preference::Preferences(true);
 
-  QCoreApplication app(argc, argv);
+  std::vector<std::string> filesToFullTest;
+  filesToFullTest.push_back("/path/base.ext+attr");
+  filesToFullTest.push_back("/path1/.path2/base.ext+attr");
+  filesToFullTest.push_back("/path1/pat.h2/base+attr");
+  filesToFullTest.push_back("/.path1/path2/base");
+  filesToFullTest.push_back("/.path1/path2/base.+attr");
+  filesToFullTest.push_back("/another/path/base.ex1.exten2.ext3");
+  filesToFullTest.push_back("/$BADENV/base.ext+attr");
+  filesToFullTest.push_back("/.path1/base+attr1+attr2");
+  filesToFullTest.push_back("unitTest.cpp");
+  filesToFullTest.push_back("./unitTest.cpp");
+  filesToFullTest.push_back(".cub");
+  filesToFullTest.push_back("/$TEMPORARY/unitTest.cpp");
 
-  QStringList filesToFullTest;
-  filesToFullTest << "/path/base.ext+attr" << "/path1/.path2/base.ext+attr"
-                  << "/path1/pat.h2/base+attr" << "/.path1/path2/base"
-                  << "/.path1/path2/base.+attr" << "/another/path/base.ex1.exten2.ext3"
-                  << "/$BADENV/base.ext+attr" << "/.path1/base+attr1+attr2"
-                  << "unitTest.cpp" << "./unitTest.cpp" << ".cub"
-                  << "/$TEMPORARY/unitTest.cpp";
-
-  foreach (QString fileToTest, filesToFullTest) {
-    cout << "Running Full Test on [" << qPrintable(fileToTest) << "]" << endl;
+  foreach (std::string fileToTest, filesToFullTest) {
+    cout << "Running Full Test on [" << fileToTest << "]" << endl;
     TestGenericAccessors("\t", fileToTest, true);
     TestExtensionChanges("\t", fileToTest, true);
     TestExpanded("\t", fileToTest);
@@ -47,50 +47,58 @@ int main(int argc, char *argv[]) {
 
   // Test temp files thoroughly
   cout << "Testing temporary file name placement" << endl;
-  QString tempFileNameTestStr = "$TEMPORARY/tttt.tmp";
+  std::string tempFileNameTestStr = "$TEMPORARY/tttt.tmp";
+
   FileName n = FileName::createTempFile(tempFileNameTestStr);
+  std::string prefix = n.name().substr(0, 4);
+  std::string suffix = n.name().substr(n.name().size() - 4);
+  std::string middle(n.name().size() - 8, '?');
   cout << "\tInput name and extension : " << tempFileNameTestStr << endl;
   cout << "\tExtension:               : " << n.extension() << endl;
   cout << "\tOriginal Path:           : " << n.originalPath() << endl;
   cout << "\tExists:                  : " << n.fileExists() << endl;
-  cout << "\tName (cleaned):          : " <<
-      QString(n.name().mid(0, 4) +
-              QString("%1").arg("", n.name().size() - 8, '?') +
-              n.name().mid(n.name().size() - 4)) << endl;
+  cout << "\tName (cleaned):          : " << prefix + middle + suffix << endl;
   cout << endl;
 
-  if (!QFile(n.toString()).remove()) {
-    cout << "\t**Failed to delete temporary file [" << n.toString() << "]**" << endl;
-  }
+  // if (!std::remove(n.toString())) {
+  //   cout << "\t**Failed to delete temporary file [" << n.toString() << "]**" << endl;
+  // }
 
   {
     cout << "Testing parallel temporary file name creation for atomicity" << endl;
-    int numToTest = QThreadPool::globalInstance()->maxThreadCount() * 20;
+    int numToTest = std::thread::hardware_concurrency() * 20;
 
-    QStringList templateFileNames;
+    std::vector<std::string> templateFileNames;
     for (int i = 0; i < numToTest; i++)
-      templateFileNames.append(QString("tttt.tmp"));
+      templateFileNames.push_back("tttt.tmp");
 
-    QList<FileName> results = QtConcurrent::blockingMapped(templateFileNames,
-                                                           &FileName::createTempFile);
+    std::vector<FileName> results;
+    results.reserve(templateFileNames.size());
+    std::transform(templateFileNames.begin(), templateFileNames.end(), std::back_inserter(results),
+               [](const FileName& fileName) {
+                   return FileName::createTempFile(fileName);
+               });
     bool success = true;
 
-    while (results.count()) {
-      FileName result = results.first();
-      int count = results.removeAll(result);
+    while (!results.empty()) {
+      FileName result = results.front();
+      results.erase(std::remove(results.begin(), results.end(), result), results.end());
 
-      if (count != 1) {
+      int count = std::count(results.begin(), results.end(), result);
+
+      if (count != 0) {
         cout << "File name: " << result.toString() << " encountered "
              << count << " times" << endl;
         success = false;
       }
 
-      if (!result.fileExists()) {
+      if (!std::filesystem::exists(result.toString())) {
         cout << "File name: " << result.toString() << " encountered does not exists";
         success = false;
       }
 
-      QFile(result.toString()).remove();
+      // std::remove(result.toString());
+      std::filesystem::remove(result.toString());
     }
 
     if (success) {
@@ -106,18 +114,35 @@ int main(int argc, char *argv[]) {
 
   // Test versioning thoroughly
   {
-    QStringList tempFiles;
-    tempFiles << "tttt000001" << "tttt000001.tmp" << "tttt000005.tmp"  << "tttt000006.tmp"
-              << "tttt000008.tmp" << "1tttt000008.tmp" << "2tttt000008.tmp"
-              << "tttt_0.tmp" << "junk06.tmp" << "junk09.tmp" << "tttt05Sep2002.tmp"
-              << "tttt20Jan2010.tmp" << "tttt14Apr2010.tmp" << "ttAPRtt22yy99.tmp"
-              << "ttMARtt11yy00.tmp" << "ttFEBtt04yy01.tmp" << "ttMARtt072003.tmp"
-              << "tt14ttNovember.tmp" << "tt2ttDecember.tmp" << "tttt.tmp" << "APR-22-99_v001.tmp"
-              << "APR-22-99_v004.tmp" << "APR-21-99_v009.tmp";
+    std::vector<std::string> tempFiles;
+    tempFiles.push_back("tttt000001");
+    tempFiles.push_back("tttt000001.tmp");
+    tempFiles.push_back("tttt000005.tmp");
+    tempFiles.push_back("tttt000006.tmp");
+    tempFiles.push_back("tttt000008.tmp");
+    tempFiles.push_back("1tttt000008.tmp");
+    tempFiles.push_back("2tttt000008.tmp");
+    tempFiles.push_back("tttt_0.tmp");
+    tempFiles.push_back("junk06.tmp");
+    tempFiles.push_back("junk09.tmp");
+    tempFiles.push_back("tttt05Sep2002.tmp");
+    tempFiles.push_back("tttt20Jan2010.tmp");
+    tempFiles.push_back("tttt14Apr2010.tmp");
+    tempFiles.push_back("ttAprtt22yy99.tmp");
+    tempFiles.push_back("ttMartt11yy00.tmp");
+    tempFiles.push_back("ttFebtt04yy01.tmp");
+    tempFiles.push_back("ttMartt072003.tmp");
+    tempFiles.push_back("tt14ttNovember.tmp");
+    tempFiles.push_back("tt2ttDecember.tmp");
+    tempFiles.push_back("tttt.tmp");
+    tempFiles.push_back("Apr-22-99_v001.tmp");
+    tempFiles.push_back("Apr-22-99_v004.tmp");
+    tempFiles.push_back("Apr-21-99_v009.tmp");
 
-    foreach (QString fileName, tempFiles) {
-      if (!QFile(fileName).open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        cout << "Failed to create temporary file for test: " << qPrintable(fileName) << endl;
+    foreach (std::string fileName, tempFiles) {
+      std::ofstream file(fileName, std::ios::out | std::ios::trunc);
+      if (!file.is_open()) {
+        cout << "Failed to create temporary file for test: " << fileName << endl;
       }
     }
 
@@ -156,14 +181,22 @@ int main(int argc, char *argv[]) {
     cout << "Verifying NewVersion for file " << todayFileName.name() << " is today" << endl;
     bool success = false;
     try {
-      todayFileName = todayFileName.newVersion();
-      QDate today = QDate::currentDate();
-      QString expected = today.toString("'tttt'dd'tt'yyyy'tt'MMM'.tmp'");
-      success = todayFileName.name() == expected;
-      cout << "\tMade today's filename successfully? " << success << endl;
+        todayFileName = todayFileName.newVersion();
+        std::time_t now_c = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        std::tm *now_tm = std::localtime(&now_c);
+        std::ostringstream oss;
+        oss << "tttt" 
+        << std::put_time(now_tm, "%d") << "tt" 
+        << std::put_time(now_tm, "%Y") << "tt" 
+        << std::put_time(now_tm, "%b") 
+        << ".tmp";
+
+        std::string expected = oss.str();
+        success = todayFileName.name() == expected;
+        cout << "\tMade today's filename successfully? " << success << endl;
 
       if (!success)
-        cout << "\t\tMade: " << todayFileName.name() << "; expected: " << expected.toStdString()
+        cout << "\t\tMade: " << todayFileName.name() << "; expected: " << expected
              << endl;
     }
     catch(IException &error) {
@@ -171,11 +204,18 @@ int main(int argc, char *argv[]) {
     }
     cout << endl;
 
-    foreach (QString fileName, tempFiles) {
-      if (!QFile(fileName).remove()) {
-        cout << "Failed to delete temporary file for test: " << qPrintable(fileName) << endl;
-        cout << "Was it specified twice?" << endl;
-      }
+    for (const auto& fileName : tempFiles) {
+        std::filesystem::path filePath(fileName);
+
+        try {
+            if (std::filesystem::exists(filePath) && std::filesystem::is_regular_file(filePath)) {
+                if (!std::filesystem::remove(filePath)) {
+                  std::cout << "Failed to delete temporary file for test: " << fileName << std::endl;
+                }
+            }
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::cerr << "Error deleting file: " << e.what() << std::endl;
+        }
     }
   }
 
@@ -183,7 +223,7 @@ int main(int argc, char *argv[]) {
 }
 
 
-void TestVersioning(QString prefix, QString name, bool containsDate) {
+void TestVersioning(std::string prefix, std::string name, bool containsDate) {
   cout << prefix << "Testing Versioning Methods [" << name << "]" << endl;
 
   try {
@@ -227,7 +267,7 @@ void TestVersioning(QString prefix, QString name, bool containsDate) {
 }
 
 
-void TestGenericAccessors(QString prefix, QString name, bool showExpandedValues) {
+void TestGenericAccessors(std::string prefix, std::string name, bool showExpandedValues) {
   FileName a(name);
 
   // Test our assignment & copy construct every time
@@ -262,7 +302,7 @@ void TestGenericAccessors(QString prefix, QString name, bool showExpandedValues)
 }
 
 
-void TestExtensionChanges(QString prefix, QString name, bool showExpandedValues) {
+void TestExtensionChanges(std::string prefix, std::string name, bool showExpandedValues) {
   FileName a(name);
 
   // Test our assignment & copy construct every time
@@ -272,7 +312,7 @@ void TestExtensionChanges(QString prefix, QString name, bool showExpandedValues)
   FileName test;
   test = c;
 
-  QString (FileName::*toStringMethod)() const = &FileName::toString;
+  std::string (FileName::*toStringMethod)() const = &FileName::toString;
 
   FileName beforeLastChange = test;
 
@@ -323,7 +363,7 @@ void TestExtensionChanges(QString prefix, QString name, bool showExpandedValues)
 }
 
 
-void TestExpanded(QString prefix, QString name) {
+void TestExpanded(std::string prefix, std::string name) {
   FileName a(name);
 
   // Test our assignment & copy construct every time
