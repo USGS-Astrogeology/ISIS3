@@ -11,6 +11,7 @@ find files of those names at the top level of this repository. **/
 #include <bitset>
 #include <cstdio>
 #include <QString>
+#include <QDir>
 
 #include "ProcessImportPds.h"
 
@@ -32,12 +33,20 @@ void IsisMain() {
   // Detached labels use format keyword = "dataFile" value <unit>
   int keywordIndex = 1;
 
-  if (FileName(inFile).baseName() == FileName(dataFile).baseName()){
-    // data files usually do not include path information.  If input basename matches datafile basename, include path information
-    // this allows users to specify data that is not in the current directory.
+  // Determine label for inFile is attached label or detached label
+  if (FileName(inFile).name() == FileName(dataFile).name()){
+    // If input filename matches datafile filename without path information,
+    // one assumes label file for inFile is attached label, otherwise
+    // detached label.
     dataFile = inFile;
     // Attached labels use format keyword = value <units>
     keywordIndex = 0;
+  } else {
+     // data files specification in label usually do not include path
+     // information. If label is detached label, data file is located at
+     // the same directory as label file. 
+     // this allows users to specify data that is not in the current directory.
+     dataFile = FileName(inFile).dir().path() + "/" + dataFile;
   }
 
   ofstream os;
