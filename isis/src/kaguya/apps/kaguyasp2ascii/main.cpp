@@ -11,6 +11,7 @@ find files of those names at the top level of this repository. **/
 #include <bitset>
 #include <cstdio>
 #include <QString>
+#include <QDir>
 
 #include "ProcessImportPds.h"
 
@@ -25,8 +26,28 @@ void IsisMain() {
   ProcessImportPds p;
   UserInterface &ui = Application::GetUserInterface();
 
-  FileName inFile = ui.GetFileName("FROM");
-  Pvl lab(inFile.expanded());
+  QString inFile = ui.GetFileName("FROM");
+  Pvl lab(inFile);
+  QString dataFile = lab.findKeyword("FILE_NAME")[0];
+
+  // Detached labels use format keyword = "dataFile" value <unit>
+  int keywordIndex = 1;
+
+  // Determine label for inFile is attached label or detached label
+  if (FileName(inFile).name() == FileName(dataFile).name()){
+    // If input filename matches datafile filename without path information,
+    // one assumes label file for inFile is attached label, otherwise
+    // detached label.
+    dataFile = inFile;
+    // Attached labels use format keyword = value <units>
+    keywordIndex = 0;
+  } else {
+     // data files specification in label usually do not include path
+     // information. If label is detached label, data file is located at
+     // the same directory as label file. 
+     // this allows users to specify data that is not in the current directory.
+     dataFile = FileName(inFile).dir().path() + "/" + dataFile;
+  }
 
   ofstream os;
   QString outFile = FileName(ui.GetFileName("TO")).expanded();
