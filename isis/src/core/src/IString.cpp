@@ -1323,20 +1323,20 @@ namespace Isis {
   }
 
 
-  /**
-   * Print an ASCII representation of the given QString to a stl stream (most commonly cout, cerr).
-   *
-   * This is provided for convenience. No extra formatting is done; please see qDebug for a better
-   *   way of printing out debug statements.
-   *
-   * @param outputStream The stream to write the string to
-   * @param string The string to put into the stream
-   *
-   * @return The modified output stream
-   */
-  std::ostream &operator<<(std::ostream &outputStream, const QString &string) {
-    return (outputStream << string.toLatin1().data());
-  }
+  // /**
+  //  * Print an ASCII representation of the given QString to a stl stream (most commonly cout, cerr).
+  //  *
+  //  * This is provided for convenience. No extra formatting is done; please see qDebug for a better
+  //  *   way of printing out debug statements.
+  //  *
+  //  * @param outputStream The stream to write the string to
+  //  * @param string The string to put into the stream
+  //  *
+  //  * @return The modified output stream
+  //  */
+  // std::ostream &operator<<(std::ostream &outputStream, const QString &string) {
+  //   return (outputStream << string.toLatin1().data());
+  // }
 
 
   /**

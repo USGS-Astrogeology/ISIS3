@@ -171,7 +171,6 @@ namespace Isis {
       IString(const int &num);
       IString(const double &num, const int piPrecision = 14);
       IString(const BigInt &num);
-      IString(const QString &str);
 
       ~IString();
 
@@ -291,8 +290,8 @@ namespace Isis {
       void SetDouble(const double &value, const int piPrecision = 14);
   };
 
-  std::ostream &operator<<(std::ostream &os, const QString &string);
-  std::ostream &operator<<(std::ostream &os, const QStringRef &string);
+  // std::ostream &operator<<(std::ostream &os, const QString &string);
+  // std::ostream &operator<<(std::ostream &os, const QStringRef &string);
 }
 
 #endif
