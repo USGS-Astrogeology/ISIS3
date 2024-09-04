@@ -63,9 +63,9 @@ namespace Isis {
         std::string msg = "Three fields are required:  sample, line, and ephemeris time.";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
-      p_samples.push_back(toDouble(fields[0]));
-      p_lines.push_back(toDouble(fields[1]));
-      p_times.push_back(toDouble(fields[2]));
+      p_samples.push_back(toDouble(fields[0].toStdString()));
+      p_lines.push_back(toDouble(fields[1].toStdString()));
+      p_times.push_back(toDouble(fields[2].toStdString()));
     }
 
     // Compute scalers

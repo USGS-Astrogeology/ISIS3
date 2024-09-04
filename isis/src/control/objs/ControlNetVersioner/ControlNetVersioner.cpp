@@ -344,14 +344,14 @@ namespace Isis {
                && aprioriSurfacePoint.GetLonSigmaDistance().meters() != Isis::Null
                && aprioriSurfacePoint.GetLocalRadiusSigma().meters() != Isis::Null ) {
 
-            QString sigmas = "AprioriLatitudeSigma = "
+            std::string sigmas = "AprioriLatitudeSigma = "
               + toString(aprioriSurfacePoint.GetLatSigmaDistance().meters())
               + " <meters>  AprioriLongitudeSigma = "
               + toString(aprioriSurfacePoint.GetLonSigmaDistance().meters())
               + " <meters>  AprioriRadiusSigma = "
               + toString(aprioriSurfacePoint.GetLocalRadiusSigma().meters())
               + " <meters>";
-            matrix.addComment(sigmas.toStdString());
+            matrix.addComment(sigmas);
           }
 
           // If the covariance matrix has a value, add it to the PVL point.
@@ -422,7 +422,7 @@ namespace Isis {
                && adjustedSurfacePoint.GetLonSigmaDistance().meters() != Isis::Null
                && adjustedSurfacePoint.GetLocalRadiusSigma().meters() != Isis::Null ) {
 
-            QString sigmas = "AdjustedLatitudeSigma = "
+            std::string sigmas = "AdjustedLatitudeSigma = "
               + toString(adjustedSurfacePoint.GetLatSigmaDistance().meters())
               + " <meters>  AdjustedLongitudeSigma = "
               + toString(adjustedSurfacePoint.GetLonSigmaDistance().meters())
@@ -430,7 +430,7 @@ namespace Isis {
               + toString(adjustedSurfacePoint.GetLocalRadiusSigma().meters())
               + " <meters>";
 
-            matrix.addComment(sigmas.toStdString());
+            matrix.addComment(sigmas);
           }
           // If the covariance matrix has a value, add it to the PVL point.
           if ( adjustedCovarianceMatrix(0, 0) != 0.0
@@ -553,7 +553,7 @@ namespace Isis {
   void ControlNetVersioner::read(const FileName netFile, Progress *progress) {
     try {
 
-      const Pvl &network(netFile.expanded().toStdString());
+      const Pvl &network(netFile.expanded());
 
       if ( network.hasObject("ProtoBuffer") ) {
         readProtobuf(network, netFile, progress);
@@ -567,7 +567,7 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      std::string msg = "Reading the control network [" + netFile.name().toStdString()
+      std::string msg = "Reading the control network [" + netFile.name()
                     + "] failed";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
@@ -920,9 +920,9 @@ namespace Isis {
     BigInt coreStartPos = protoBufferCore["StartByte"];
     BigInt coreLength = protoBufferCore["Bytes"];
 
-    fstream input(netFile.expanded().toLatin1().data(), ios::in | ios::binary);
+    fstream input(netFile.expanded(), ios::in | ios::binary);
     if ( !input.is_open() ) {
-      std::string msg = "Failed to open protobuf file [" + netFile.name().toStdString() + "].";
+      std::string msg = "Failed to open protobuf file [" + netFile.name() + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -937,7 +937,7 @@ namespace Isis {
     ControlNetFileProtoV0001 protoNet;
     try {
       if ( !protoNet.ParseFromCodedStream(&codedInStream) ) {
-        std::string msg = "Failed to read input PB file [" + netFile.name().toStdString() + "].";
+        std::string msg = "Failed to read input PB file [" + netFile.name() + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -966,7 +966,7 @@ namespace Isis {
     ControlNetLogDataProtoV0001 protoLogData;
     try {
       if ( !protoLogData.ParseFromCodedStream(&codedLogInStream) ) {
-        std::string msg = "Failed to read log data in protobuf file [" + netFile.name().toStdString() + "].";
+        std::string msg = "Failed to read log data in protobuf file [" + netFile.name() + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -1046,7 +1046,7 @@ namespace Isis {
 
     fstream input(netFile.expanded().toLatin1().data(), ios::in | ios::binary);
     if ( !input.is_open() ) {
-      std::string msg = "Failed to open control network file" + netFile.name().toStdString();
+      std::string msg = "Failed to open control network file" + netFile.name();
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1062,7 +1062,7 @@ namespace Isis {
       CodedInputStream::Limit oldLimit = headerCodedInStream.PushLimit(headerLength);
       if ( !protoHeader.ParseFromCodedStream(&headerCodedInStream) ) {
         std::string msg = "Failed to parse protobuf header from input control net file ["
-                      + netFile.name().toStdString() + "]";
+                      + netFile.name() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       headerCodedInStream.PopLimit(oldLimit);
@@ -1097,7 +1097,7 @@ namespace Isis {
     // read each protobuf control point and then initialize it
     // For some reason, reading the header causes the input stream to fail so reopen the file
     input.close();
-    input.open(netFile.expanded().toLatin1().data(), ios::in | ios::binary);
+    input.open(netFile.expanded(), ios::in | ios::binary);
     input.seekg(filePos, ios::beg);
     IstreamInputStream pointInStream(&input);
     int numPoints = protoHeader.pointmessagesizes_size();
@@ -1163,9 +1163,9 @@ namespace Isis {
     BigInt headerLength = protoBufferCore["HeaderBytes"];
     BigInt pointsLength = protoBufferCore["PointsBytes"];
 
-    fstream input(netFile.expanded().toLatin1().data(), ios::in | ios::binary);
+    fstream input(netFile.expanded(), ios::in | ios::binary);
     if ( !input.is_open() ) {
-      std::string msg = "Failed to open control network file" + netFile.name().toStdString();
+      std::string msg = "Failed to open control network file" + netFile.name();
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1186,7 +1186,7 @@ namespace Isis {
 
       if ( !protoHeader.ParseFromCodedStream(&headerCodedInStream) ) {
         std::string msg = "Failed to parse protobuf header from input control net file ["
-                      + netFile.name().toStdString()+ "]";
+                      + netFile.name()+ "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -1222,7 +1222,7 @@ namespace Isis {
     // read each protobuf control point and then initialize it
     // For some reason, reading the header causes the input stream to fail so reopen the file
     input.close();
-    input.open(netFile.expanded().toLatin1().data(), ios::in | ios::binary);
+    input.open(netFile.expanded(), ios::in | ios::binary);
     input.seekg(filePos, ios::beg);
 
     IstreamInputStream pointInStream(&input);
@@ -1658,7 +1658,7 @@ namespace Isis {
     try {
 
       const int labelBytes = 65536;
-      fstream output(netFile.expanded().toLatin1().data(), ios::out | ios::trunc | ios::binary);
+      fstream output(netFile.expanded(), ios::out | ios::trunc | ios::binary);
       char *blankLabel = new char[labelBytes];
       memset(blankLabel, 0, labelBytes);
       output.write(blankLabel, labelBytes);

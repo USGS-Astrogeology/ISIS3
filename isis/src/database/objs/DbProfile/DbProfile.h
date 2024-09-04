@@ -113,7 +113,7 @@ namespace Isis {
        * @return bool True if it exists, false if it doesn't
        */
       bool exists(const QString &key) const {
-        return (_keys.exists(key));
+        return (_keys.exists(key.toStdString()));
       }
 
       //  Convenience methods for adding keys
@@ -139,7 +139,7 @@ namespace Isis {
        * @throws Out-of-range exception if the nth keyword does not exist
        */
       QString key(int nth) const {
-        return (_keys.key(nth).ToQt());
+        return (QString::fromStdString(_keys.key(nth)));
       }
       QString value(const QString &key, int nth = 0) const;
       QString operator()(const QString &key, int nth = 0) const;

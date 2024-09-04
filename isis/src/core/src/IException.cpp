@@ -74,8 +74,8 @@ namespace Isis {
     m_previousExceptions = NULL;
 
     m_errorType = type;
-    m_message = new QString(QString(message).trimmed());
-    m_fileName = new QString(fileName);
+    m_message = new std::string(message.trimmed().toStdString());
+    m_fileName = new std::string(fileName);
     m_lineNumber = lineNumber;
 
     deleteEmptyMemberStrings();
@@ -112,8 +112,8 @@ namespace Isis {
     m_previousExceptions = NULL;
 
     m_errorType = type;
-    m_message = new QString(QString(message).trimmed());
-    m_fileName = new QString(fileName);
+    m_message = new std::string(IString(message).Trim("\t\n\v\f\r "));
+    m_fileName = new std::string(fileName);
     m_lineNumber = lineNumber;
 
     deleteEmptyMemberStrings();
@@ -150,8 +150,8 @@ namespace Isis {
     m_previousExceptions = NULL;
 
     m_errorType = type;
-    m_message = new QString(QString(message.c_str()).trimmed());
-    m_fileName = new QString(fileName);
+    m_message = new std::string(IString(message).Trim("\t\n\v\f\r "));
+    m_fileName = new std::string(fileName);
     m_lineNumber = lineNumber;
 
     deleteEmptyMemberStrings();
@@ -199,8 +199,8 @@ namespace Isis {
     m_previousExceptions = NULL;
 
     m_errorType = type;
-    m_message = new QString(QString(message).trimmed());
-    m_fileName = new QString(fileName);
+    m_message = new std::string(IString(message).Trim("\t\n\v\f\r "));
+    m_fileName = new std::string(fileName);
     m_lineNumber = lineNumber;
 
     deleteEmptyMemberStrings();
@@ -247,8 +247,8 @@ namespace Isis {
     m_previousExceptions = NULL;
 
     m_errorType = type;
-    m_message = new QString(QString(message.c_str()).trimmed());
-    m_fileName = new QString(fileName);
+    m_message = new std::string(IString(message).Trim("\t\n\v\f\r "));
+    m_fileName = new std::string(fileName);
     m_lineNumber = lineNumber;
 
     deleteEmptyMemberStrings();
@@ -294,8 +294,8 @@ namespace Isis {
     m_previousExceptions = NULL;
 
     m_errorType = type;
-    m_message = new QString(message.trimmed());
-    m_fileName = new QString(fileName);
+    m_message = new std::string(message.trimmed().toStdString());
+    m_fileName = new std::string(fileName);
     m_lineNumber = lineNumber;
 
     deleteEmptyMemberStrings();
@@ -326,11 +326,11 @@ namespace Isis {
     }
 
     if (other.m_message) {
-      m_message = new QString(*other.m_message);
+      m_message = new std::string(*other.m_message);
     }
 
     if (other.m_fileName) {
-      m_fileName = new QString(*other.m_fileName);
+      m_fileName = new std::string(*other.m_fileName);
     }
 
     if (other.m_previousExceptions) {
@@ -440,9 +440,9 @@ namespace Isis {
    * exceptions thrown by your class.
    */
   void IException::print() const {
-    QString errorString = toString();
+    std::string errorString = toString();
     if (errorString != "")
-      cerr << errorString.toLatin1().data() << endl;
+      cerr << errorString << endl;
   }
 
 
@@ -456,9 +456,9 @@ namespace Isis {
    *          user's preferences file regarding file info.
    */
   void IException::print(bool printFileInfo) const {
-    QString errorString = toString(printFileInfo);
+    std::string errorString = toString(printFileInfo);
     if (errorString != "")
-      cerr << errorString.toLatin1().data() << endl;
+      cerr << errorString << endl;
   }
 
 
@@ -489,7 +489,7 @@ namespace Isis {
 
       if (exception.m_errorType != Unknown) {
         errGroup += PvlKeyword("Class",
-                               errorTypeToString(exception.m_errorType).toStdString());
+                               errorTypeToString(exception.m_errorType));
         exceptionIsBlank = false;
       }
 
@@ -497,16 +497,16 @@ namespace Isis {
 
       if (exception.m_message) {
         exceptionIsBlank = false;
-        QString message(*exception.m_message);
+        std::string message(*exception.m_message);
 
         if (message.size() && message[message.size() - 1] == '.')
-          message = message.mid(0, message.size() - 1);
-        errGroup += PvlKeyword("Message", message.toStdString());
+          message = message.substr(0, message.size() - 1);
+        errGroup += PvlKeyword("Message", message);
       }
 
       if (exception.m_fileName) {
         exceptionIsBlank = false;
-        errGroup += PvlKeyword("File", exception.m_fileName->toStdString());
+        errGroup += PvlKeyword("File", *exception.m_fileName);
 
         if (exception.m_lineNumber != -1)
           errGroup += PvlKeyword("Line", std::to_string(exception.m_lineNumber));
@@ -529,7 +529,7 @@ namespace Isis {
    *
    * @return a string representation of this exception
    */
-  QString IException::toString() const {
+  std::string IException::toString() const {
     return toString(Preference::Preferences().reportFileLine());
   }
 
@@ -545,8 +545,8 @@ namespace Isis {
    *          the user's preferences file regarding file info.
    * @return a string representation of this exception
    */
-  QString IException::toString(bool includeFileInfo) const {
-    QString result;
+  std::string IException::toString(bool includeFileInfo) const {
+    std::string result;
 
     if (Preference::Preferences().outputErrorAsPvl()) {
       Pvl errors = toPvl();
@@ -554,7 +554,7 @@ namespace Isis {
       if (errors.groups() != 0) {
         stringstream stringStream;
         stringStream << errors;
-        result = stringStream.str().c_str();
+        result = stringStream.str();
       }
     }
     else {
@@ -577,10 +577,10 @@ namespace Isis {
 
         bool needsPeriod = false;
         if (exception.m_message) {
-          QString message(*exception.m_message);
+          std::string message(*exception.m_message);
 
           if (message.size() && message[message.size() - 1] == '.')
-            message = message.mid(0, message.size() - 1);
+            message = message.substr(0, message.size() - 1);
           // There is always a **TYPE** already in the string, so prefix the
           //   message with a space.
           result += " " + message;
@@ -590,7 +590,7 @@ namespace Isis {
         if(includeFileInfo && exception.m_fileName) {
           result += " in " + *exception.m_fileName;
           if (exception.m_lineNumber != -1)
-            result += " at " + QString(Isis::toString(exception.m_lineNumber).c_str());
+            result += " at " + Isis::toString(exception.m_lineNumber);
           needsPeriod = true;
         }
 
@@ -602,7 +602,7 @@ namespace Isis {
       }
     }
 
-    return result.trimmed();
+    return IString(result).Trim("\t\n\v\f\r ");
   }
 
 
@@ -644,8 +644,8 @@ namespace Isis {
    * @return a string representation of the error type. For example,
    *     "USER ERROR" if the error type is User
    */
-  QString IException::errorTypeToString(ErrorType type) {
-    QString result;
+  std::string IException::errorTypeToString(ErrorType type) {
+    std::string result;
 
     switch(type) {
       case User:
@@ -697,10 +697,10 @@ namespace Isis {
    * @return a C string representation of this exception
    */
   char *IException::buildWhat() const {
-    QString whatStr = toString();
+    std::string whatStr = toString();
 
     char *result = new char[whatStr.size() + 1];
-    strncpy(result, whatStr.toLatin1().data(), whatStr.size());
+    strncpy(result, whatStr.c_str(), whatStr.size());
     result[whatStr.size()] = '\0';
 
     return result;

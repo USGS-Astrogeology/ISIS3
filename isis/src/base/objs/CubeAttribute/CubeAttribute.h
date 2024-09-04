@@ -260,7 +260,7 @@ namespace Isis {
        *                 FileName("out.cub+Bsq")
        */
       void setAttributes(const FileName &fileName) {
-        QStringList attributes = fileName.attributes().split("+", Qt::SkipEmptyParts);
+        QStringList attributes = QString::fromStdString(fileName.attributes()).split("+", Qt::SkipEmptyParts);
 
         m_attributes.clear();
         foreach (QString attribute, attributes)

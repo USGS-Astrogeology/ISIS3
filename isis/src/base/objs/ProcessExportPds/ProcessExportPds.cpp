@@ -218,8 +218,8 @@ namespace Isis {
       else {
         sImageFile += ".img";
       }
-      FileName outFile(sImageFile);
-      mainPvl += PvlKeyword("^IMAGE", outFile.name().toStdString());
+      FileName outFile(sImageFile.toStdString());
+      mainPvl += PvlKeyword("^IMAGE", outFile.name());
     }
     else {
       mainPvl += PvlKeyword("^IMAGE", "???????", "BYTES");
@@ -254,15 +254,15 @@ namespace Isis {
       QString msg = "Labels must be detached for JP2 files.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
-    FileName outFile(sImageFile);
+    FileName outFile(sImageFile.toStdString());
     PvlObject cmpObj("COMPRESSED_FILE");
-    cmpObj += PvlKeyword("FILE_NAME", outFile.name().toStdString());
+    cmpObj += PvlKeyword("FILE_NAME", outFile.name());
     cmpObj += PvlKeyword("RECORD_TYPE", "UNDEFINED");
     cmpObj += PvlKeyword("ENCODING_TYPE", "JP2");
     cmpObj += PvlKeyword("ENCODING_TYPE_VERSION_NAME", "ISO/IEC15444-1:2004");
     cmpObj += PvlKeyword("INTERCHANGE_FORMAT", "BINARY");
-    FileName infilename(InputCubes[0]->fileName());
-    cmpObj += PvlKeyword("UNCOMPRESSED_FILE_NAME", infilename.name().toStdString());
+    FileName infilename(InputCubes[0]->fileName().toStdString());
+    cmpObj += PvlKeyword("UNCOMPRESSED_FILE_NAME", infilename.name());
     int storagebytes = InputCubes[0]->sampleCount() * InputCubes[0]->lineCount();
     if(p_pixelType == Isis::Real) {
       QString msg = "JPEG2000 does not support floating point data.";
@@ -274,7 +274,7 @@ namespace Isis {
     cmpObj += PvlKeyword("REQUIRED_STORAGE_BYTES", std::to_string(storagebytes));
     mainPvl.addObject(cmpObj);
     PvlObject ucmpObj("UNCOMPRESSED_FILE");
-    ucmpObj += PvlKeyword("FILE_NAME", infilename.name().toStdString());
+    ucmpObj += PvlKeyword("FILE_NAME", infilename.name());
     ucmpObj += PvlKeyword("RECORD_TYPE", "FIXED_LENGTH");
     int recordbytes = InputCubes[0]->sampleCount();
     if(p_pixelType == Isis::UnsignedWord || p_pixelType == Isis::SignedWord) {
@@ -282,7 +282,7 @@ namespace Isis {
     }
     ucmpObj += PvlKeyword("RECORD_BYTES", std::to_string(recordbytes));
     ucmpObj += PvlKeyword("FILE_RECORDS", std::to_string(InputCubes[0]->lineCount()));
-    ucmpObj += PvlKeyword("^IMAGE", infilename.name().toStdString());
+    ucmpObj += PvlKeyword("^IMAGE", infilename.name());
     mainPvl.addObject(ucmpObj);
   }
 
@@ -310,8 +310,8 @@ namespace Isis {
       else {
         sImageFile += ".img";
       }
-      FileName outFile(sImageFile);
-      mainPvl += PvlKeyword("^IMAGE", outFile.name().toStdString());
+      FileName outFile(sImageFile.toStdString());
+      mainPvl += PvlKeyword("^IMAGE", outFile.name());
     }
     else {
       mainPvl += PvlKeyword("^IMAGE", "???");
@@ -345,15 +345,15 @@ namespace Isis {
       QString msg = "Labels must be detached for JP2 files.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
-    FileName outFile(sImageFile);
+    FileName outFile(sImageFile.toStdString());
     PvlObject cmpObj("COMPRESSED_FILE");
-    cmpObj += PvlKeyword("FILE_NAME", outFile.name().toStdString());
+    cmpObj += PvlKeyword("FILE_NAME", outFile.name());
     cmpObj += PvlKeyword("RECORD_TYPE", "UNDEFINED");
     cmpObj += PvlKeyword("ENCODING_TYPE", "JP2");
     cmpObj += PvlKeyword("ENCODING_TYPE_VERSION_NAME", "ISO/IEC15444-1:2004");
     cmpObj += PvlKeyword("INTERCHANGE_FORMAT", "BINARY");
-    FileName infilename(InputCubes[0]->fileName());
-    cmpObj += PvlKeyword("UNCOMPRESSED_FILE_NAME", infilename.name().toStdString());
+    FileName infilename(InputCubes[0]->fileName().toStdString());
+    cmpObj += PvlKeyword("UNCOMPRESSED_FILE_NAME", infilename.name());
     int storagebytes = InputCubes[0]->sampleCount() * InputCubes[0]->lineCount();
     if(p_pixelType == Isis::Real) {
       QString msg = "JPEG2000 does not support floating point data.";
@@ -365,7 +365,7 @@ namespace Isis {
     cmpObj += PvlKeyword("REQUIRED_STORAGE_BYTES", std::to_string(storagebytes));
     mainPvl.addObject(cmpObj);
     PvlObject ucmpObj("UNCOMPRESSED_FILE");
-    ucmpObj += PvlKeyword("FILE_NAME", infilename.name().toStdString());
+    ucmpObj += PvlKeyword("FILE_NAME", infilename.name());
     ucmpObj += PvlKeyword("RECORD_TYPE", "FIXED_LENGTH");
     int recordbytes = InputCubes[0]->sampleCount();
     if(p_pixelType == Isis::UnsignedWord || p_pixelType == Isis::SignedWord) {
@@ -373,7 +373,7 @@ namespace Isis {
     }
     ucmpObj += PvlKeyword("RECORD_BYTES", std::to_string(recordbytes));
     ucmpObj += PvlKeyword("FILE_RECORDS", std::to_string(InputCubes[0]->lineCount()));
-    ucmpObj += PvlKeyword("^IMAGE", infilename.name().toStdString());
+    ucmpObj += PvlKeyword("^IMAGE", infilename.name());
     mainPvl.addObject(ucmpObj);
   }
 
@@ -394,7 +394,7 @@ namespace Isis {
     Pvl *inputLabel = InputCubes[0]->label();
     FileName transfile;
     transfile = "$ISISROOT/appdata/translations/pdsExportImageImage.trn";
-    PvlToPvlTranslationManager Xlator(*inputLabel, transfile.expanded());
+    PvlToPvlTranslationManager Xlator(*inputLabel, QString::fromStdString(transfile.expanded()));
     Xlator.Auto(mainPvl);
 
     // Calculate the core base/mult for this cube
@@ -538,7 +538,7 @@ namespace Isis {
     Pvl *inputLabel = InputCubes[0]->label();
     FileName transfile;
     transfile = "$ISISROOT/appdata/translations/pdsExportImageJP2.trn";
-    PvlToPvlTranslationManager Xlator(*inputLabel, transfile.expanded());
+    PvlToPvlTranslationManager Xlator(*inputLabel, QString::fromStdString(transfile.expanded()));
     Xlator.Auto(mainPvl);
 
     // Calculate the core base/mult for this cube
@@ -1038,7 +1038,7 @@ namespace Isis {
     }
     else {
       mainPvl += PvlKeyword("^" + pdsTableName.toStdString(), detachedPdsTableFileName.toStdString());
-      FileName labelFile(m_detachedPdsLabelFile);
+      FileName labelFile(m_detachedPdsLabelFile.toStdString());
       QString tableFileWithPath = labelFile.path() + "/"
                                   + detachedPdsTableFileName;
       ofstream os(tableFileWithPath.toLatin1().data());

@@ -170,7 +170,7 @@ namespace Isis {
 
       //! API to display location in the form "Sample,Line"
       QString LocationString(double pdSample, double pdLine) const {
-        return toString((int)pdSample) + "," + toString((int)pdLine);
+        return QString::fromStdString(toString((int)pdSample) + "," + toString((int)pdLine));
       };
 
       //! Test for a point to be user defined number of pixels from the edge

@@ -37,7 +37,7 @@ namespace Isis {
    */
   OriginalLabel::OriginalLabel(const QString &file){
     Blob blob = Blob("IsisCube", "OriginalLabel");
-    blob.Read(file);
+    blob.Read(file.toStdString());
     fromBlob(blob);
   }
 

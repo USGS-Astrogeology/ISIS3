@@ -24,7 +24,7 @@ namespace Isis {
   QtImporter::QtImporter(FileName inputName) : ImageImporter(inputName) {
     m_qimage = NULL;
 
-    m_qimage = new QImage(inputName.expanded());
+    m_qimage = new QImage(QString::fromStdString(inputName.expanded()));
     if (m_qimage->isNull()) {
       throw IException(IException::User,
           "The file [" + inputName.expanded() +

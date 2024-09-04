@@ -63,7 +63,7 @@ namespace Isis {
     m_project = project;
     m_bundleSettings = bundleSettings;
     m_selectedControl = selectedControl;
-    m_selectedControlName = FileName(selectedControl->fileName()).name();
+    m_selectedControlName = FileName(selectedControl->fileName().toStdString()).name();
     m_outputControlName = outputControlFileName;
     m_bundleThread = NULL;
     init();
@@ -195,7 +195,7 @@ namespace Isis {
 
          // Grab the control name that was used in that bundle adjustment.
          m_selectedControlName
-             = FileName(bundleSolutionInfo.last()->inputControlNetFileName()).name();
+             = FileName(bundleSolutionInfo.last()->inputControlNetFileName().toStdString()).name();
       }
 
       // Clear the dialog displays.
@@ -296,13 +296,13 @@ namespace Isis {
     FileName outputControlName;
     if (!m_outputControlName.isEmpty()) {
       outputControlName
-          = FileName(m_project->bundleSolutionInfoRoot() + "/" + runTime + "/" +
+          = FileName(m_project->bundleSolutionInfoRoot().toStdString() + "/" + runTime + "/" +
                      m_outputControlName);
     }
     else {
       outputControlName
-          = FileName(m_project->bundleSolutionInfoRoot() + "/" + runTime + "/Out-" + runTime + "-" +
-                     FileName(m_bundleSolutionInfo->inputControlNetFileName()).name());
+          = FileName(m_project->bundleSolutionInfoRoot().toStdString() + "/" + runTime + "/Out-" + runTime + "-" +
+                     FileName(m_bundleSolutionInfo->inputControlNetFileName().toStdString()).name());
     }
 
     // Write output control net with correct path to results folder + runtime
@@ -321,7 +321,7 @@ namespace Isis {
         // Now, we iterate through each image in the current image list ("import"), and we determine
         // the location of the image and where to copy it to (as an ecub).
         foreach (Image *image, *imageList) {
-          FileName original(image->fileName());
+          FileName original(image->fileName().toStdString());
           // Update our list of tracked file names for the images we are going to copy.
           imagesToCopy.append(original.expanded());
         }
@@ -439,13 +439,13 @@ namespace Isis {
       if (importCube.externalCubeFileName().path() == ".") {
 
         QDir relative(m_destinationFolder.absolutePath());
-        dnCubeFileName = FileName(QDir(image.path()).canonicalPath() + "/" + importCube.externalCubeFileName().name());
+        dnCubeFileName = FileName(QDir(image.path()).canonicalPath().toStdString() + "/" + importCube.externalCubeFileName().name());
         QString s = relative.relativeFilePath(dnCubeFileName.toString());
         // Locate the DnFile cube by using the input image's (ecub) path and the DnFile name (cub)
         //dnCubeFileName = FileName(image.path() + "/" + importCube.externalCubeFileName().name());
         // WHY DO WE NEED TO USE QDIR canonical path? why is the image.path relative and not abs?
         //dnCubeFileName = FileName(s);
-        dnCubeFileName = FileName(QDir(image.path()).canonicalPath() + "/" +
+        dnCubeFileName = FileName(QDir(image.path()).canonicalPath().toStdString() + "/" +
                                   importCube.externalCubeFileName().name());
         Cube dnCube(dnCubeFileName, "r");
 

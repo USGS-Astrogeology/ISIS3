@@ -117,7 +117,7 @@ namespace Isis {
     */
   void Albedo::SetNormPharef(const double pharef) {
     if(pharef < 0.0 || pharef >= 180.0) {
-      QString msg = "Invalid value of normalization pharef [" +
+      std::string msg = "Invalid value of normalization pharef [" +
                         toString(pharef) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -135,7 +135,7 @@ namespace Isis {
     */
   void Albedo::SetNormIncref(const double incref) {
     if(incref < 0.0 || incref >= 90.0) {
-      QString msg = "Invalid value of normalization incref [" +
+      std::string msg = "Invalid value of normalization incref [" +
                         toString(incref) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -153,7 +153,7 @@ namespace Isis {
     */
   void Albedo::SetNormEmaref(const double emaref) {
     if(emaref < 0.0 || emaref >= 90.0) {
-      QString msg = "Invalid value of normalization emaref [" +
+      std::string msg = "Invalid value of normalization emaref [" +
                         toString(emaref) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -168,7 +168,7 @@ namespace Isis {
    */
   void Albedo::SetNormIncmat(const double incmat) {
     if(incmat < 0.0 || incmat >= 90.0) {
-      QString msg = "Invalid value of normalization incmat [" +
+      std::string msg = "Invalid value of normalization incmat [" +
                         toString(incmat) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }

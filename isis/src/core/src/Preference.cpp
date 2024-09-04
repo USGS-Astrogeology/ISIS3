@@ -9,7 +9,6 @@ find files of those names at the top level of this repository. **/
 #include <iostream>
 #include <iomanip>
 
-#include <QDir>
 #include <QThreadPool>
 
 #include "Preference.h"
@@ -91,9 +90,8 @@ namespace Isis {
       // Make sure the user has a .Isis directory
       Isis::FileName setup("$HOME/.Isis");
       if(!setup.fileExists()) {
-        QDir dir;
-        QString dirName(setup.expanded());
-        dir.mkdir(dirName);
+        std::string dirName(setup.expanded());
+        std::filesystem::create_directories(dirName);
       }
 
       // If its a unitTest then load with the unitTest preference file

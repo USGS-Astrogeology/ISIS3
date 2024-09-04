@@ -31,10 +31,10 @@ int main() {
     // Create a temp file for the keyword to type map
     {
       FileName fname = FileName::createTempFile("tempPvlFormatPDSunitTest_.tmp");
-      QString pdsFile = fname.expanded();
+      std::string pdsFile = fname.expanded();
 
       ofstream out;
-      out.open(pdsFile.toLatin1().data(), std::ios::out);
+      out.open(pdsFile, std::ios::out);
 
       {
         PvlKeyword key("skey", "string");
@@ -110,8 +110,8 @@ int main() {
 
       out.close();
 
-      pdsFormatter = new PvlFormatPds(pdsFile.toStdString());
-      QFile::remove(pdsFile);
+      pdsFormatter = new PvlFormatPds(pdsFile);
+      std::remove(pdsFile);
     }
 
     // Test Keywords

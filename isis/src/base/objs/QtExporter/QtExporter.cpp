@@ -205,10 +205,10 @@ namespace Isis {
 
     // The return status is wrong for JPEG images, so the code will always
     // continue
-    if (!m_qimage->save(outputName.expanded(), m_format.toLatin1().data(),
+    if (!m_qimage->save(QString::fromStdString(outputName.expanded()), m_format.toLatin1().data(),
           quality)) {
 
-      QString err = "Unable to save [" + outputName.expanded() +
+      std::string err = "Unable to save [" + outputName.expanded() +
         "] to the disk";
       throw IException(IException::Programmer, err, _FILEINFO_);
     }
@@ -229,8 +229,8 @@ namespace Isis {
 
     BigInt size = samples * lines * bands;
     if (size >= maxSize) {
-      QString gigaBytes = toString(size / (1024.0 * 1024.0 * 1024.0));
-      QString msg = "Cube exceeds max size of 2GB. Qimage cannot support ";
+      std::string gigaBytes = toString(size / (1024.0 * 1024.0 * 1024.0));
+      std::string msg = "Cube exceeds max size of 2GB. Qimage cannot support ";
       msg += "that much raw data. Your cube is " + gigaBytes + " GB.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

@@ -297,7 +297,7 @@ namespace Isis {
       catch (IException &e) {
         QMessageBox::warning(this, tr("Failed to Load Map File"),
                              tr("Failed to load projection from the given file.\n") +
-                             e.toString());
+                             QString::fromStdString(e.toString()));
       }
 
 

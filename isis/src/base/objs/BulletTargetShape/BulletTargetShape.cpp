@@ -82,9 +82,9 @@ namespace Isis {
    * @return @b BulletTargetShape A target shape containing the DEM
    */
   BulletTargetShape *BulletTargetShape::load(const QString &dem, const Pvl *conf) {
-    FileName v_file(dem);
+    FileName v_file(dem.toStdString());
     
-    QString ext = v_file.extension().toLower();
+    std::string ext = IString::DownCase(v_file.extension());
 
     if ( "bds" == ext) return ( loadDSK(dem) );
     if ( "cub" == ext) return ( loadCube(dem) );

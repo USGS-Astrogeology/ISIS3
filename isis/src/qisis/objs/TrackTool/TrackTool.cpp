@@ -263,19 +263,19 @@ namespace Isis {
       ViewportBuffer *redBuf = cvp->redBuffer();
       QString pixelString = updateColorLabel(p, redBuf, p_redLabel);
       QString rLab = "R ";
-      rLab += IString(pixelString).ToQt();
+      rLab += pixelString;
       p_redLabel->setText(rLab);
 
       ViewportBuffer *greenBuf = cvp->greenBuffer();
       pixelString = updateColorLabel(p, greenBuf, p_grnLabel);
       QString gLab = "G ";
-      gLab += IString(pixelString).ToQt();
+      gLab += pixelString;
       p_grnLabel->setText(gLab);
 
       ViewportBuffer *blueBuf = cvp->blueBuffer();
       pixelString = updateColorLabel(p, blueBuf, p_bluLabel);
       QString bLab = "B ";
-      bLab += IString(pixelString).ToQt();
+      bLab += pixelString;
       p_bluLabel->setText(bLab);
     }
   }

@@ -247,9 +247,7 @@ namespace Isis {
           return (defval);
         }
         QString iValue(conf.value(keyname, index));
-        IString tmp(iValue);
-        QString value = tmp.ToQt();  // This makes it work with a string?
-        return (value);
+        return iValue;
       };
 
       /**
@@ -278,7 +276,7 @@ namespace Isis {
           return (defval);
         }
         QString iValue(conf.value(keyname, index));
-        IString tmp(iValue);
+        IString tmp(iValue.toStdString());
         T value = tmp;  // This makes it work with a string?
         return (value);
       };

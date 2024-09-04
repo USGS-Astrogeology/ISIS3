@@ -284,7 +284,7 @@ namespace Isis {
       /** Generate a matrix from the Gruen alpha vector */
       void clone(const GVector &alpha) {
         if ( alpha.dim1() != 8 ) {
-          QString mess = "Alpha array for AffineRadio must have 8 elements "
+          std::string mess = "Alpha array for AffineRadio must have 8 elements "
                              " but has " + toString(alpha.dim1());
           throw IException(IException::Programmer, mess, _FILEINFO_);
         }

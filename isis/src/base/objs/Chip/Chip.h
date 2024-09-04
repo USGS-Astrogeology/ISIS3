@@ -328,7 +328,7 @@ namespace Isis {
           return;
         }
         // Interpolator::None is not valid type
-        QString msg = "Invalid Interpolator type. Cannot use [";
+        std::string msg = "Invalid Interpolator type. Cannot use [";
         msg += toString(type) + "] to read cube into chip.";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }

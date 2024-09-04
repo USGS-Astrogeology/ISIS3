@@ -268,7 +268,7 @@ namespace Isis {
    */
   void ControlNet::ReadControl(const QString &filename, Progress *progress) {
 
-    FileName cnetFileName(filename);
+    FileName cnetFileName(filename.toStdString());
     ControlNetVersioner versionedReader(cnetFileName, progress);
     SetTarget( versionedReader.targetName() );
     p_networkId   = versionedReader.netId();
@@ -329,7 +329,7 @@ namespace Isis {
     }
     else {
       try {
-        versionedWriter.write(FileName(ptfile));
+        versionedWriter.write(QString::fromStdString((FileName(ptfile).toString())));
       }
       catch (IException &e) {
         QString msg = "Failed writing control network to file [" + ptfile + "]";
@@ -544,7 +544,7 @@ namespace Isis {
                                                               m_controlGraph);
         QString edgeStrength = "UNKNOWN";
         if (result.second) {
-          edgeStrength = toString(m_controlGraph[result.first].strength);
+          edgeStrength = QString::fromStdString(toString(m_controlGraph[result.first].strength));
         }
 
         graphString.append(imageSerial);
@@ -894,7 +894,7 @@ namespace Isis {
    */
   int ControlNet::DeletePoint(QString pointId) {
     if (!points->contains(pointId)) {
-      IString msg = "point Id [" + pointId + "] does not exist in the network";
+      std::string msg = "point Id [" + pointId.toStdString() + "] does not exist in the network";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -1060,7 +1060,7 @@ namespace Isis {
    */
   QList< ControlMeasure * > ControlNet::GetMeasuresInCube(QString serialNumber) {
     if( !ValidateSerialNumber(serialNumber) ) {
-      IString msg = "Cube Serial Number [" + serialNumber + "] not found in "
+      std::string msg = "Cube Serial Number [" + serialNumber.toStdString() + "] not found in "
           "the network";
       throw IException(IException::Programmer, msg, _FILEINFO_);
 
@@ -1822,8 +1822,8 @@ namespace Isis {
 
   const ControlPoint *ControlNet::GetPoint(QString id) const {
     if (!points->contains(id)) {
-      IString msg = "The control network has no control points with an ID "
-          "equal to [" + id + "]";
+      std::string msg = "The control network has no control points with an ID "
+          "equal to [" + id.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1833,8 +1833,8 @@ namespace Isis {
 
   ControlPoint *ControlNet::GetPoint(QString id) {
     if (!points->contains(id)) {
-      IString msg = "The control network has no control points with an ID "
-          "equal to [" + id + "]";
+      std::string msg = "The control network has no control points with an ID "
+          "equal to [" + id.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

@@ -253,7 +253,7 @@ namespace Isis {
 
     m_outputSamples = outCube->sampleCount();
 
-    IString eq = equation;
+    IString eq = equation.toStdString();
     while (eq != "") {
       IString token = eq.Token(" ");
 
@@ -273,7 +273,7 @@ namespace Isis {
         IString tok(token.substr(1));
         int file = tok.ToInteger() - 1;
         if (file < 0 || file >= (int)inCubes.size()) {
-          QString msg = "Invalid file number [" + tok.ToQt() + "]";
+          QString msg = "Invalid file number [" + QString::fromStdString(tok) + "]";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 

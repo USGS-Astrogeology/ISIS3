@@ -342,7 +342,7 @@ namespace Isis {
    * @param psfile - current file
    */
   void GuiEditFile::windowTitle(QString & psfile) {
-    m_editWin->setWindowTitle(FileName(psfile).name());
+    m_editWin->setWindowTitle(QString::fromStdString(FileName(psfile.toStdString()).name()));
   }
 
 }

@@ -187,12 +187,12 @@ namespace Isis {
       void append(const IException &exceptionSource);
 
       ErrorType errorType() const;
-      static QString errorTypeToString(ErrorType t);
+      static std::string errorTypeToString(ErrorType t);
       void print() const;
       void print(bool printFileInfo) const;
       Pvl toPvl() const;
-      QString toString() const;
-      QString toString(bool printFileInfo) const;
+      std::string toString() const;
+      std::string toString(bool printFileInfo) const;
 
       void swap(IException &other);
       IException &operator=(const IException &rhs);
@@ -222,12 +222,12 @@ namespace Isis {
        * The message associated with this exception. This will be NULL if the
        *   message is empty (or only contained whitespace).
        */
-      QString * m_message;
+      std::string * m_message;
 
       /**
        * The source code file that threw this exception.
        */
-      QString * m_fileName;
+      std::string * m_fileName;
 
       /**
        * The line in the source code file that threw this exception.
