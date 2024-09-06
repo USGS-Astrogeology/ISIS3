@@ -119,7 +119,7 @@ namespace Isis {
   
     //  Now open the filename
     ofstream os;
-    QString ofFile = FileName(fname).expanded();
+    QString ofFile = QString::fromStdString(FileName(fname.toStdString()).expanded());
     QByteArray qofFile = ofFile.toLatin1();
     if ( "append" == m_mode ) {
       os.open(qofFile.data(), ios::out | ios::app);
@@ -129,7 +129,7 @@ namespace Isis {
     }
   
     if ( !os.is_open() ) {
-      QString mess = "PdsTableCreator::Cannot open/create output file (" + 
+      std::string mess = "PdsTableCreator::Cannot open/create output file (" + 
                      fname + ")";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }

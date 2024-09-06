@@ -38,7 +38,7 @@ namespace Isis {
   void NthOrderPolynomial::Expand(const std::vector<double> &vars) {
 
     if((int) vars.size() != Variables()) {
-      QString mess = "Number of variables given (" + QString::number(vars.size())
+      std::string mess = "Number of variables given (" + QString::number(vars.size())
           + ") does not match expected (" + Variables() + ")!";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }

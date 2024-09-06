@@ -55,7 +55,7 @@ namespace Isis {
       m_instrumentNameShort = "PolyCam";
     }
     else {
-      QString msg = "Unable to construct OSIRIS-REx camera model. "
+      std::string msg = "Unable to construct OSIRIS-REx camera model. "
                     "Unrecognized NaifFrameCode [" + toString(frameCode) + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }

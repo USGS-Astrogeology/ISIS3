@@ -54,12 +54,12 @@ namespace Isis {
 
 
   void GuiComboBoxParameter::Set(QString newValue) {
-    IString value = newValue;
+    IString value = newValue.toStdString();
     value.UpCase();
 
     int foundAtButton = -1;
     for(int i = 0; i < p_ui->ParamListSize(p_group, p_param); i++) {
-      IString option = p_ui->ParamListValue(p_group, p_param, i);
+      IString option = p_ui->ParamListValue(p_group, p_param, i).toStdString();
       option.UpCase();
       //if(option.compare(0, value.size(), value) == 0) foundAtButton = i;
       if(option == value) foundAtButton = i;

@@ -140,9 +140,9 @@ namespace Isis {
     //  Vet the table filename.  Many PDS files record the filename in
     //  uppercase and in practice, the filename is in lowercase.  Do this
     //  check here.
-    FileName tableFile(tempTblFile);
+    FileName tableFile(tempTblFile.toStdString());
     try {
-      int tableStartRecord = toInt(tableFile.baseName());
+      int tableStartRecord = std::stoi(tableFile.baseName());
       tempTblFile = pdsLabFile;
       m_pdsTableStart = tableStartRecord;
     }
@@ -151,8 +151,10 @@ namespace Isis {
       // file name, not a location in the label file.
       if (!tableFile.fileExists()) {
         // if the table file name doesn't exist, try lowercased version...
+        std::string tableFileLower = tableFile.name();
+        std::transform(tableFileLower.begin(), tableFileLower.end(), tableFileLower.begin(), ::tolower);
         FileName tableFileLowercase(tableFile.path() + "/"
-                                    + tableFile.name().toLower());
+                                    + tableFileLower);
         if (!tableFileLowercase.fileExists()) {
           IString msg = "Unable to import PDS table.  Neither of the following "
                         "possible table files were found: ["
@@ -161,7 +163,7 @@ namespace Isis {
           throw IException(e, IException::Unknown, msg, _FILEINFO_);
         }
         tableFile = tableFileLowercase.expanded();
-        tempTblFile = tableFile.expanded();
+        tempTblFile = QString::fromStdString(tableFile.expanded());
       }
       m_pdsTableStart = 1;
     }
@@ -211,11 +213,11 @@ namespace Isis {
   QString ImportPdsTable::getColumnName(const unsigned int &index,
                                         const bool &formatted) const {
     if ((int) index >= columns() - 1) {
-      QString msg = "Unable to import the binary PDS table [" + m_tableName
+      std::string msg = "Unable to import the binary PDS table [" + m_tableName.toStdString()
                     + "] into Isis. The requested column index ["
-                    + toString((int) index) + "] exceeds the last column index ["
-                    + toString(columns() - 1) + "]";
-      throw IException(IException::Programmer, msg.toStdString(), _FILEINFO_);
+                    + std::to_string((int) index) + "] exceeds the last column index ["
+                    + std::to_string(columns() - 1) + "]";
+      throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     QString name = m_coldesc[index].m_name;
     if (formatted) name = getFormattedName(name);
@@ -323,9 +325,9 @@ namespace Isis {
       return (table);
     }
     catch (IException &e) {
-      QString msg = "Unable to import the PDS table [" + m_tableName
-                    + "] from the PDS file [" + m_pdsTableFile + "] into Isis.";
-      throw IException(e, IException::Unknown, msg.toStdString(), _FILEINFO_);
+      std::string msg = "Unable to import the PDS table [" + m_tableName.toStdString()
+                    + "] from the PDS file [" + m_pdsTableFile.toStdString() + "] into Isis.";
+      throw IException(e, IException::Unknown, msg, _FILEINFO_);
 
     }
   }
@@ -376,11 +378,11 @@ namespace Isis {
     for (int i = 0 ; i < colnames.size() ; i++) {
       const ColumnDescr *descr = findColumn(colnames[i]);
       if (!descr) {
-        QString msg = "Unable to import the PDS table [" + m_tableName
+        std::string msg = "Unable to import the PDS table [" + m_tableName.toStdString()
                       + "] into Isis. The requested column name ["
-                      + colnames[i] + "] does not "
+                      + colnames[i].toStdString() + "] does not "
                       "exist in table.";
-        throw IException(IException::Programmer, msg.toStdString(), _FILEINFO_);
+        throw IException(IException::Programmer, msg, _FILEINFO_);
       }
       ctypes.push_back(*descr);
     }
@@ -443,10 +445,10 @@ namespace Isis {
 
     QString tableName = ( tblname.isEmpty() ) ? m_tableName : tblname;
     if (!label.hasObject(tableName.toStdString())) {
-      QString msg = "The PDS file " + pdsLabFile +
+      std::string msg = "The PDS file " + pdsLabFile.toStdString() +
                     " does not have the required TABLE object, ["
-                    + tableName +"]. The PDS label file is probably invalid";
-      throw IException(IException::Unknown, msg.toStdString(), _FILEINFO_);
+                    + tableName.toStdString() +"]. The PDS label file is probably invalid";
+      throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     //  Get some pertinent information from the label
     PvlObject &tabObj = label.findObject(tableName.toStdString());
@@ -470,25 +472,25 @@ namespace Isis {
     PvlObject *tableDetails = &tabObj;
     if (label.hasKeyword(("^" + tableName).toStdString())) {
       trueTableName = tableName;
-      pdsTableFile = FileName(pdsLabFile).path() + "/"
-                     + QString::fromStdString(label[("^" + tableName).toStdString()][0]);
+      pdsTableFile = QString::fromStdString(FileName(pdsLabFile.toStdString()).path() + "/"
+                     + label[("^" + tableName.toStdString())][0]);
     }
     else if (tabObj.objects() == 1) {
       trueTableName = QString::fromStdString(tabObj.object(0).name());
       tableDetails = &tabObj.object(0);
-      pdsTableFile = FileName(pdsLabFile).path() + "/"
-                     + QString::fromStdString(tabObj[("^" + trueTableName).toStdString()][0]);
+      pdsTableFile = QString::fromStdString(FileName(pdsLabFile.toStdString()).path() + "/"
+                     + tabObj[("^" + trueTableName.toStdString())][0]);
     }
     m_trows = (int) tableDetails->findKeyword("ROWS");
     int ncols =  (int) tableDetails->findKeyword("COLUMNS");
     m_pdsTableType = QString::fromStdString(tableDetails->findKeyword("INTERCHANGE_FORMAT"));
     if (m_pdsTableType != "ASCII" && m_pdsTableType.toUpper() != "BINARY") {
-      QString msg = "Unable to import the PDS table [" + tableName
+      std::string msg = "Unable to import the PDS table [" + tableName.toStdString()
                     + "] from the PDS file ["
-                    + pdsTableFile + "] into Isis. "
-                    "The PDS INTERCHANGE_FORMAT [" + m_pdsTableType
+                    + pdsTableFile.toStdString() + "] into Isis. "
+                    "The PDS INTERCHANGE_FORMAT [" + m_pdsTableType.toStdString()
                     + "] is not supported. Valid values are ASCII or BINARY.";
-      throw IException(IException::User, msg.toStdString(), _FILEINFO_);
+      throw IException(IException::User, msg, _FILEINFO_);
     }
     m_rowBytes = tableDetails->findKeyword("ROW_BYTES");
 
@@ -615,8 +617,8 @@ namespace Isis {
 
     // Ensure the nrequested column is valid
     if ( (nth >= columns()) || ( nth < 0) ) {
-      QString mess = "Index (" + QString::number(nth) +
-      ") into Columns invalid (max: " + QString::number(columns()) + ")";
+      std::string mess = "Index (" + std::to_string(nth) +
+      ") into Columns invalid (max: " + std::to_string(columns()) + ")";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 
@@ -884,7 +886,7 @@ namespace Isis {
                                       TableField &tfield) const {
     int ith = cdesc.m_colnum;
     try {
-      IString data(cols[ith]);
+      IString data(cols[ith].toStdString());
       if (tfield.isInteger()) {
         data.Trim(" \t\r\n");
         tfield = data.ToInteger();
@@ -895,12 +897,12 @@ namespace Isis {
       }
       else {  // Its a text field
         QString str(tfield.size(), ' ');
-        str.insert(0, data.Trim(" \t\r\n").ToQt());
+        str.insert(0, QString::fromStdString(data.Trim(" \t\r\n")));
         tfield = str.toStdString();
       }
     }
     catch (IException &e) {
-      QString msg = "Conversion failure of column " + cdesc.m_name;
+      std::string msg = "Conversion failure of column " + cdesc.m_name.toStdString();
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -956,7 +958,7 @@ namespace Isis {
           table += extract(m_rows[i], cols, record);
         }
         catch (IException &e) {
-          QString msg = "Failed to convert data in row [" + toString((int) i) + "]";
+          std::string msg = "Failed to convert data in row [" + std::to_string((int) i) + "]";
           throw IException(e, IException::Programmer, msg, _FILEINFO_);
         }
       }
@@ -968,7 +970,7 @@ namespace Isis {
 
       if (!pdsFileStream) {
         IString msg = "Unable to open file containing PDS table ["
-                      + tempTblFile + "].";
+                      + tempTblFile.toStdString() + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
 
@@ -1106,10 +1108,10 @@ namespace Isis {
     if (dataType == "MSB_INTEGER" || dataType == "INTEGER"
         || dataType == "SUN_INTEGER" || dataType == "MAC_INTEGER") {
       if (cdesc.m_numBytes != 4) {
-        QString msg = "Only 4 byte integer values are supported in Isis. "
-                      "PDS Column [" + cdesc.m_name
+        std::string msg = "Only 4 byte integer values are supported in Isis. "
+                      "PDS Column [" + cdesc.m_name.toStdString()
                       + "] has an integer DATA_TYPE with [BYTES = "
-                      + toString(cdesc.m_numBytes) + "].";
+                      + std::to_string(cdesc.m_numBytes) + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       setPdsByteOrder("MSB");
@@ -1118,10 +1120,10 @@ namespace Isis {
     else if (dataType == "LSB_INTEGER" || dataType == "VAX_INTEGER"
              || dataType == "PC_INTEGER" ) {
       if (cdesc.m_numBytes != 4) {
-        QString msg = "Only 4 byte integer values are supported in Isis. "
-                      "PDS Column [" + cdesc.m_name
+        std::string msg = "Only 4 byte integer values are supported in Isis. "
+                      "PDS Column [" + cdesc.m_name.toStdString()
                       + "] has an integer DATA_TYPE with [BYTES = "
-                      + toString(cdesc.m_numBytes) + "].";
+                      + std::to_string(cdesc.m_numBytes) + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       setPdsByteOrder("LSB");
@@ -1141,9 +1143,9 @@ namespace Isis {
       }
       else {
         IString msg = "Only 4 byte or 8 byte real values are supported in Isis. "
-                      "PDS Column [" + cdesc.m_name
+                      "PDS Column [" + cdesc.m_name.toStdString()
                       + "] has a real DATA_TYPE with [BYTES = "
-                      + toString(cdesc.m_numBytes) + "].";
+                      + std::to_string(cdesc.m_numBytes) + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -1156,10 +1158,10 @@ namespace Isis {
         return TableField(name.toStdString(), TableField::Real);
       }
       else {
-        QString msg = "Only 4 byte or 8 byte real values are supported in Isis. "
-                      "PDS Column [" + cdesc.m_name
+        std::string msg = "Only 4 byte or 8 byte real values are supported in Isis. "
+                      "PDS Column [" + cdesc.m_name.toStdString()
                       + "] has a real DATA_TYPE with [BYTES = "
-                      + toString(cdesc.m_numBytes) + "].";
+                      + std::to_string(cdesc.m_numBytes) + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -1170,9 +1172,9 @@ namespace Isis {
     }
     // Isis tables currently don't support any of the following PDS DATA_TYPE:
     // BIT_STRING, COMPLEX, N/A, BOOLEAN, UNSIGNED_INTEGER, IBM types, some VAX types
-    IString msg = "PDS Column [" + cdesc.m_name
+    IString msg = "PDS Column [" + cdesc.m_name.toStdString()
                   + "] has an unsupported DATA_TYPE ["
-                  + dataType + "].";
+                  + dataType.toStdString() + "].";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
 
@@ -1190,10 +1192,10 @@ namespace Isis {
    */
   void ImportPdsTable::setPdsByteOrder(QString byteOrder) {
     if (!m_byteOrder.isEmpty() && m_byteOrder != byteOrder) {
-      QString msg = "Unable to import the binary PDS table [" + m_tableName
+      std::string msg = "Unable to import the binary PDS table [" + m_tableName.toStdString()
                     + "]. The column DATA_TYPE values indicate differing byte "
                       "orders. ";
-      throw IException(IException::Unknown, msg.toStdString(), _FILEINFO_);
+      throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     m_byteOrder = byteOrder;
   }

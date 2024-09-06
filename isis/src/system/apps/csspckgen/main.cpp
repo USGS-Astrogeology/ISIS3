@@ -31,7 +31,7 @@ void IsisMain() {
   }
 
   // Read PCK DB file into a PVL and search the PVL for the main object
-  Pvl db(inputName.expanded().toStdString());
+  Pvl db(inputName.expanded());
   PvlObject &main = db.findObject("TargetAttitudeShape");
 
   // Add a timestamp for when this file was created
@@ -106,5 +106,5 @@ void IsisMain() {
   // Write the updated PVL as the new PCK DB file
   Pvl latestDb;
   latestDb.addObject(latestMain);
-  latestDb.write(outputName.expanded().toStdString());
+  latestDb.write(outputName.expanded());
 }

@@ -133,13 +133,13 @@ namespace Isis {
 
     QString correlationFileName = *(xmlReader->attributes().value("correlationFileName").string());
     if (!correlationFileName.isEmpty()) {
-      FileName correlationFile(correlationFileName);
+      FileName correlationFile(correlationFileName.toStdString());
       m_correlationMatrix->setCorrelationFileName(correlationFile);
     }
 
     QString covarianceFileName = *(xmlReader->attributes().value("covarianceFileName").string());
     if (!covarianceFileName.isEmpty()) {
-      FileName covarianceFile(covarianceFileName);
+      FileName covarianceFile(covarianceFileName.toStdString());
       m_correlationMatrix->setCovarianceFileName(covarianceFile);
     }
     while (xmlReader->readNextStartElement()) {
@@ -1254,7 +1254,7 @@ namespace Isis {
       m_sigma0 = dvtpv;
     }
     else {
-      QString msg = "Computed degrees of freedom [" + toString(m_degreesOfFreedom)
+      std::string msg = "Computed degrees of freedom [" + toString(m_degreesOfFreedom)
                     + "] is invalid.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -2056,9 +2056,9 @@ namespace Isis {
     stream.writeStartElement("bundleResults");
     stream.writeStartElement("correlationMatrix");
     stream.writeAttribute("correlationFileName",
-                          correlationMatrix().correlationFileName().expanded());
+                          QString::fromStdString(correlationMatrix().correlationFileName().expanded()));
     stream.writeAttribute("covarianceFileName",
-                          correlationMatrix().covarianceFileName().expanded());
+                          QString::fromStdString(correlationMatrix().covarianceFileName().expanded()));
     stream.writeStartElement("imagesAndParameters");
     QMapIterator<QString, QStringList> imgParamIt(*correlationMatrix().imagesAndParameters());
     while (imgParamIt.hasNext()) {

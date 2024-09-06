@@ -57,7 +57,7 @@ namespace Isis {
 
     QString instrumentId = QString::fromStdString(inst["InstrumentId"]);
     if ( "virtis" != instrumentId.toLower()) {
-      QString mess = "This data is apparently not from the VIRTIS instrument but "
+      std::string mess = "This data is apparently not from the VIRTIS instrument but "
                       + instrumentId;
       throw IException(IException::User, mess, _FILEINFO_);
     }

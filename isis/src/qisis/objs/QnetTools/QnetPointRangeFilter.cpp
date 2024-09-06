@@ -105,13 +105,13 @@ namespace Isis {
 
       // Make sure the lat values are in order
       if (minlat > maxlat) {
-        QString msg = "The minimum latitude value must be less than the maximum latitude value";
+        std::string msg = "The minimum latitude value must be less than the maximum latitude value";
         QMessageBox::information((QWidget *)parent(), "Error", msg);
         return;
       }
       // Make sure the lon values are in order
       else if (minlon > maxlon) {
-        QString msg = "The minimum longitude value must be less than the maximum longitude value";
+        std::string msg = "The minimum longitude value must be less than the maximum longitude value";
         QMessageBox::information((QWidget *)parent(), "Error", msg);
         return;
       }

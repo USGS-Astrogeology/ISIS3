@@ -146,19 +146,19 @@ void CreatePsf(Pipeline &p) {
     QString instrument = QString::fromStdString(instGrp["InstrumentId"]);
 
     if(instrument != "HIRISE") {
-      QString message = "This program is meant to be run on HiRISE images only, found "
+      std::string message = "This program is meant to be run on HiRISE images only, found "
                         "[InstrumentId] to be [" + instrument + "] and was expecting [HIRISE]";
       throw IException(IException::User, message, _FILEINFO_);
     }
   }
   catch(IException &e) {
-    QString message = "The [FROM] file is not a valid HIRISE cube. "
+    std::string message = "The [FROM] file is not a valid HIRISE cube. "
                       "Please make sure it was imported using hi2isis.";
     throw IException(IException::User, message, _FILEINFO_);
   }
 
   if(fromCube.lineCount() != fromCube.sampleCount()) {
-    QString message = "This program only works on square cubes, the number of samples [" +
+    std::string message = "This program only works on square cubes, the number of samples [" +
                       QString::number(fromCube.sampleCount()) + "] must match the number of lines [" +
                       QString::number(fromCube.lineCount()) + "]";
     throw IException(IException::User, message, _FILEINFO_);
@@ -178,7 +178,7 @@ void CreatePsf(Pipeline &p) {
     psfFile += "IR";
   }
   else {
-    QString message = "The filter [" + filter + "] does not have a default point spread function. Please provide one using the [PSF] parameter.";
+    std::string message = "The filter [" + filter + "] does not have a default point spread function. Please provide one using the [PSF] parameter.";
     throw IException(IException::Programmer, message, _FILEINFO_);
   }
 
@@ -188,13 +188,13 @@ void CreatePsf(Pipeline &p) {
   psfCube.open(psfFile);
 
   if(psfCube.lineCount() > fromCube.lineCount()) {
-    QString message = "The input cube dimensions must be at least [" + QString::number(psfCube.lineCount());
+    std::string message = "The input cube dimensions must be at least [" + QString::number(psfCube.lineCount());
     message += "] pixels in the line and sample dimensions";
     throw IException(IException::User, message, _FILEINFO_);
   }
 
   if(!IsPowerOf2(fromCube.lineCount())) {
-    QString message = "The input cube dimensions must be a power of 2 (found [" +
+    std::string message = "The input cube dimensions must be a power of 2 (found [" +
                       QString::number(fromCube.lineCount()) + "])";
     throw IException(IException::User, message, _FILEINFO_);
   }

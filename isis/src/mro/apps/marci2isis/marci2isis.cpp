@@ -58,9 +58,9 @@ namespace Isis{
     FileName inFile = ui.GetFileName("FROM");
 
     //Checks if in file is rdr
-    Pvl lab(inFile.expanded().toStdString());
+    Pvl lab(inFile.expanded());
     if(lab.hasObject("IMAGE_MAP_PROJECTION")) {
-      QString msg = "[" + inFile.name() + "] appears to be an rdr file.";
+      std::string msg = "[" + inFile.name() + "] appears to be an rdr file.";
       msg += " Use pds2isis.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -199,7 +199,7 @@ namespace Isis{
         // Now, compare product ids from the input image and from the calibration table.
         if(fileProdId == prodId ) {
           if((row.dim1() - 1) != 2) {
-            QString msg = "This appears to be a malformed calibration file.";
+            std::string msg = "This appears to be a malformed calibration file.";
                     msg += " There are not enough columns in the CSV";
                     msg += " file to perform the exposure time correction.";
             throw IException(IException::User, msg, _FILEINFO_);

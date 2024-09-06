@@ -66,7 +66,7 @@ void hicolormos(Cube *from1, Cube* from2, UserInterface &ui) {
     // Test the observation ID between from1 and from2
     if(QString::fromStdString(from1lab.findGroup("Archive", Pvl::Traverse)["ObservationId"]) !=
         QString::fromStdString(from2lab.findGroup("Archive", Pvl::Traverse)["ObservationId"])) {
-      QString msg = "Images not from the same observation";
+      std::string msg = "Images not from the same observation";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -207,7 +207,7 @@ void hicolormos(Cube *from1, Cube* from2, UserInterface &ui) {
   if(runXY) {
     QString tmp(tempFile.expanded());
     remove(tmp.toLatin1().data());
-    QString msg = "Camera did not intersect images to gather stats";
+    std::string msg = "Camera did not intersect images to gather stats";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

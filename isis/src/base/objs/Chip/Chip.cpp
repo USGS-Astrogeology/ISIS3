@@ -133,7 +133,7 @@ namespace Isis {
    */
   void Chip::SetSize(const int samples, const int lines) {
     if ( samples <= 0.0 || lines <= 0.0 ) {
-      QString msg;
+      std::string msg;
       msg += "Unable to set chip size to [";
       msg += toString(samples) + ", ";
       msg += toString(lines) + "]. Samples and lines must be greater than zero.";
@@ -310,8 +310,8 @@ namespace Isis {
         matchProj = (TProjection *) matchChipCube.projection();
       }
       catch (IException &error2) {
-        QString msg = "Can not geom chip. ";
-        msg += "Match chip cube [" + matchChipCube.fileName();
+        std::string msg = "Can not geom chip. ";
+        msg += "Match chip cube [" + matchChipCube.fileName().toStdString();
         msg += "] is not a camera or map projection";
 
         IException fullError(IException::User, msg, _FILEINFO_);
@@ -333,8 +333,8 @@ namespace Isis {
         proj = cube.projection();
       }
       catch (IException &error2) {
-        QString msg = "Can not geom chip. ";
-        msg += "Chip cube [" + cube.fileName();
+        std::string msg = "Can not geom chip. ";
+        msg += "Chip cube [" + cube.fileName().toStdString();
         msg += "] is not a camera or map projection";
 
         IException fullError(IException::User, msg, _FILEINFO_);
@@ -494,9 +494,9 @@ namespace Isis {
     }
 
     if (xp.size() < 3) {
-      QString msg = "Cannot find enough points to perform Affine transformation. ";
-      msg += "Unable to load chip from [" + cube.fileName();
-      msg += "] to match chip from [" + matchChipCube.fileName() + "].";
+      std::string msg = "Cannot find enough points to perform Affine transformation. ";
+      msg += "Unable to load chip from [" + cube.fileName().toStdString();
+      msg += "] to match chip from [" + matchChipCube.fileName().toStdString() + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -680,7 +680,7 @@ namespace Isis {
    */
   void Chip::SetValidRange(const double minimum, const double maximum) {
     if (minimum >= maximum) {
-      QString msg = "Unable to set valid chip range to [" + toString(minimum);
+      std::string msg = "Unable to set valid chip range to [" + toString(minimum);
       msg += ", " + toString(maximum) + "]. First parameter must be smaller than the second.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -726,7 +726,7 @@ namespace Isis {
    */
   Chip Chip::Extract(int samples, int lines, int samp, int line) {
     if ( samples > Samples() || lines > Lines() ) {
-      QString msg = "Cannot extract sub-chip of size [" + toString(samples);
+      std::string msg = "Cannot extract sub-chip of size [" + toString(samples);
       msg += ", " + toString(lines) + "] from chip of size [" + toString(Samples());
       msg += ", " + toString(Lines()) + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);

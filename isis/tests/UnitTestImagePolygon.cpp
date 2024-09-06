@@ -21,7 +21,7 @@ TEST_F(DefaultCube, UnitTestImagePolygonDefaultParams) {
     poly.Create(*testCube);
   }
   catch(IException &e) {
-    QString msg = "Cannot create polygon for [" + testCube->fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + testCube->fileName() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   ASSERT_EQ(4517, poly.numVertices());
@@ -48,7 +48,7 @@ TEST_F(DefaultCube, UnitTestImagePolygonSubPoly) {
     poly.Create(*testCube, 100, 100, 384, 640, 385);
   }
   catch(IException &e) {
-    QString msg = "Cannot create polygon for [" + testCube->fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + testCube->fileName() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   ASSERT_EQ(19, poly.numVertices());
@@ -81,7 +81,7 @@ TEST_F(TempTestingFiles, UnitTestImagePolygonCross) {
     poly.Create(crossCube, 100, 100);
   }
   catch(IException &e) {
-    QString msg = "Cannot create polygon for [" + crossCube.fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + crossCube.fileName() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   ASSERT_EQ(40, poly.numVertices());
@@ -137,7 +137,7 @@ TEST_F(DefaultCube, UnitTestImagePolygonBoundary) {
     poly.Create(footprintCube, 3000, 3000);
   }
   catch(IException &e) {
-    QString msg = "Cannot create polygon for [" + footprintCube.fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + footprintCube.fileName() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   footprintCube.close();
@@ -184,7 +184,7 @@ TEST_F(TempTestingFiles, UnitTestImagePolygonMosaic) {
     poly.Create(footprintCube);
   }
   catch(IException &e) {
-    QString msg = "Cannot create polygon for [" + footprintCube.fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + footprintCube.fileName() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   footprintCube.close();
@@ -246,7 +246,7 @@ TEST_F(DefaultCube, UnitTestImagePolygonOutlier) {
     poly.Create(footprintCube, 10, 10);
   }
   catch(IException &e) {
-    QString msg = "Cannot create polygon for [" + footprintCube.fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + footprintCube.fileName() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   footprintCube.close();

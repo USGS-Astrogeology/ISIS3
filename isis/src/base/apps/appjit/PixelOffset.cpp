@@ -124,7 +124,7 @@ namespace Isis {
       loc0 = p_lines[index];
     }
     else  {
-      QString msg;
+      std::string msg;
       msg = "Error in extrapolation code";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -164,7 +164,7 @@ namespace Isis {
 
     // Make sure angles aren't already loaded TBD
     /*    if () {
-          QString msg = "An angle cache has already been created";
+          std::string msg = "An angle cache has already been created";
           throw Isis::iException::Message(Isis::iException::Programmer,msg,_FILEINFO_);
         } */
 
@@ -236,7 +236,7 @@ namespace Isis {
     }
 
     if(fitAng1->Knowns() == 0) {
-      QString msg;
+      std::string msg;
       msg = "Cube time range is not covered by jitter file";
       throw IException(IException::User, msg, _FILEINFO_);
     }

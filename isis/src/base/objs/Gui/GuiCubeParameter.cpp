@@ -89,21 +89,21 @@ namespace Isis {
    */
   void GuiCubeParameter::SelectAttribute() {
     if(p_ui->ParamFileMode(p_group, p_param) == "input") {
-      Isis::CubeAttributeInput att(p_lineEdit->text());
+      Isis::CubeAttributeInput att(FileName(p_lineEdit->text().toStdString()));
       QString curAtt = att.toString();
       QString newAtt;
       int status = GuiInputAttribute::GetAttributes(curAtt, newAtt,
                    p_ui->ParamName(p_group, p_param),
                    p_fileButton);
       if((status == 1) && (curAtt != newAtt)) {
-        Isis::FileName f(p_lineEdit->text());
-        p_lineEdit->setText(f.expanded() + newAtt);
+        Isis::FileName f(p_lineEdit->text().toStdString());
+        p_lineEdit->setText(QString::fromStdString(f.expanded()) + newAtt);
       }
     }
     else {
-      Isis::CubeAttributeOutput att("+" + p_ui->PixelType(p_group, p_param));
+      Isis::CubeAttributeOutput att("+" + p_ui->PixelType(p_group, p_param).toStdString());
       bool allowProp = att.propagatePixelType();
-      att.addAttributes(FileName(p_lineEdit->text()));
+      att.addAttributes(FileName(p_lineEdit->text().toStdString()));
 
       QString curAtt = att.toString();
       QString newAtt;
@@ -112,8 +112,8 @@ namespace Isis {
                    allowProp,
                    p_fileButton);
       if((status == 1) && (curAtt != newAtt)) {
-        Isis::FileName f(p_lineEdit->text());
-        p_lineEdit->setText(f.expanded() + newAtt);
+        Isis::FileName f(p_lineEdit->text().toStdString());
+        p_lineEdit->setText(QString::fromStdString(f.expanded()) + newAtt);
       }
     }
 
@@ -141,7 +141,7 @@ namespace Isis {
       }
       // Throw an error if no cube name was entered
       else {
-        QString msg = "You must enter a cube name to open";
+        std::string msg = "You must enter a cube name to open";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -173,7 +173,7 @@ namespace Isis {
 
       }
       else {
-        QString msg = "You must enter a cube name to open";
+        std::string msg = "You must enter a cube name to open";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }

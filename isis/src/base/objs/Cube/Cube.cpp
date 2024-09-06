@@ -61,7 +61,7 @@ namespace Isis {
    */
   Cube::Cube(const FileName &fileName, QString access) {
     construct();
-    open(fileName.toString(), access);
+    open(QString::fromStdString(fileName.toString()), access);
   }
 
   /**
@@ -75,7 +75,7 @@ namespace Isis {
    */
   void Cube::fromLabel(const FileName &fileName, Pvl &label, QString access) {
     initCoreFromLabel(label);
-    create(fileName.expanded());
+    create(QString::fromStdString(fileName.expanded()));
 
     PvlObject cubeLabel = label.findObject("IsisCube");
     for (auto grpIt = cubeLabel.beginGroup(); grpIt!= cubeLabel.endGroup(); grpIt++) {
@@ -83,7 +83,7 @@ namespace Isis {
     }
 
     close();
-    open(fileName.toString(), access);
+    open(QString::fromStdString(fileName.toString()), access);
   }
 
   /**
@@ -107,7 +107,7 @@ namespace Isis {
     attachSpiceFromIsd(isd);
 
     close();
-    open(fileName.toString(), access);
+    open(QString::fromStdString(fileName.toString()), access);
   }
 
   /**
@@ -121,19 +121,19 @@ namespace Isis {
    *     "r" or read-write "rw".
    */
   void Cube::fromIsd(const FileName &fileName, FileName &labelFile, FileName &isdFile, QString access) {
-    std::ifstream isdStream(isdFile.expanded().toStdString());
-    std::ifstream labelStream(labelFile.expanded().toStdString());
+    std::ifstream isdStream(isdFile.expanded());
+    std::ifstream labelStream(labelFile.expanded());
 
     if (isdStream.fail()) {
-      QString msg = QString("failed to open isd stream: %1").arg(isdFile.expanded());
+      std::string msg = "failed to open isd stream: " + isdFile.expanded();
       throw IException(IException::Io, msg,
-                 isdFile.baseName().toStdString().c_str(), 153);
+                 isdFile.baseName().c_str(), 153);
     }
 
     if (labelStream.fail()) {
-      QString msg = "failed to open file stream";
+      std::string msg = "failed to open file stream";
       throw IException(IException::Io, msg,
-                 fileName.baseName().toStdString().c_str(), 153);
+                 fileName.baseName().c_str(), 153);
     }
 
     Pvl label;
@@ -143,9 +143,9 @@ namespace Isis {
       labelStream >> label;
     }
     catch (std::exception &ex) {
-      QString msg = QString("Failed to open label file, %1, %2").arg(labelFile.expanded()).arg(ex.what());
+      std::string msg = "Failed to open label file, " + labelFile.expanded() + ", " + ex.what();
       throw IException(IException::Io, msg,
-                 fileName.baseName().toStdString().c_str(), 153);
+                 fileName.baseName().c_str(), 153);
     }
 
 
@@ -153,9 +153,9 @@ namespace Isis {
       isdStream >> isd;
     }
     catch (std::exception &ex) {
-      QString msg = QString("Failed to open ISD file, %1, %2").arg(isdFile.expanded()).arg(ex.what());
+      std::string msg = "Failed to open ISD file, " + isdFile.expanded() + ", " + ex.what();
       throw IException(IException::Io, msg,
-                 fileName.baseName().toStdString().c_str(), 145);
+                 fileName.baseName().c_str(), 145);
     }
 
     fromIsd(fileName, label, isd, access);
@@ -216,7 +216,7 @@ namespace Isis {
     bool readOnly = false;
 
     if (!isOpen()) {
-      QString msg = "No cube opened";
+      std::string msg = "No cube opened";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -277,8 +277,7 @@ namespace Isis {
    */
   Cube *Cube::copy(FileName newFile, const CubeAttributeOutput &newFileAttributes) {
     if (!isOpen()) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Cube::copy requires the originating cube to be open"),
+      throw IException(IException::Unknown,"Cube::copy requires the originating cube to be open",
                        _FILEINFO_);
     }
 
@@ -309,9 +308,7 @@ namespace Isis {
           result->setBaseMultiplier(base(), multiplier());
         }
         else {
-          QString msg =
-              QObject::tr("Cannot reduce the output PixelType for [%1] from [%2] without output "
-                          "pixel range").arg(newFile.original()).arg(fileName());
+          std::string msg = "Cannot reduce the output PixelType for " + newFile.original() + " from " + fileName().toStdString() + " without output pixel range";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -328,11 +325,11 @@ namespace Isis {
         m_ioHandler->clearCache(true);
       }
 
-      result->setExternalDnData(fileName());
+      result->setExternalDnData(fileName().toStdString());
     }
 
     // Allocate the cube
-    result->create(newFile.expanded());
+    result->create(QString::fromStdString(newFile.expanded()));
 
     PvlObject &isisCube = label()->findObject("IsisCube");
     PvlObject &outIsisCube = result->label()->findObject("IsisCube");
@@ -349,7 +346,7 @@ namespace Isis {
       PvlObject &obj = m_label->object(i);
       if (obj.isNamed("Table") || obj.isNamed("Polygon") || obj.isNamed("OriginalLabel") ||
           obj.isNamed("History")) {
-        Isis::Blob t(QString::fromStdString(obj["Name"]), obj.name());
+        Isis::Blob t(obj["Name"], obj.name());
         read(t);
         result->write(t);
       }
@@ -421,16 +418,14 @@ namespace Isis {
     }
 
     if (m_samples < 1 || m_lines < 1 || m_bands < 1) {
-      QString msg = "Number of samples [" + toString(m_samples) +
-          "], lines [" + toString(m_lines) + "], or bands [" + toString(m_bands) +
+      std::string msg = "Number of samples [" + std::to_string(m_samples) +
+          "], lines [" + std::to_string(m_lines) + "], or bands [" + std::to_string(m_bands) +
           "] cannot be less than 1";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if (m_pixelType == None) {
-      throw IException(IException::Unknown,
-          QString("Cannot create the cube [%1] with a pixel type set to None")
-            .arg(cubeFileName),
+      throw IException(IException::Unknown,"Cannot create the cube ["+ cubeFileName.toStdString() +"] with a pixel type set to None",
           _FILEINFO_);
     }
 
@@ -449,13 +444,13 @@ namespace Isis {
           Preference::Preferences().findGroup("CubeCustomization")["MaximumSize"];
 
       if (size > maxSizePreference) {
-        QString msg;
-        msg += "The cube you are attempting to create [" + cubeFileName + "] is ["
-               + toString(size) + "GB]. This is larger than the current allowed "
-               "size of [" + toString(maxSizePreference) + "GB]. The cube "
-               "dimensions were (S,L,B) [" + toString(m_samples) + ", " +
-               toString(m_lines) + ", " + toString(m_bands) + "] with [" +
-               toString(SizeOf(m_pixelType)) + "] bytes per pixel. If you still "
+        std::string msg;
+        msg += "The cube you are attempting to create [" + cubeFileName.toStdString() + "] is ["
+               + std::to_string(size) + "GB]. This is larger than the current allowed "
+               "size of [" + std::to_string(maxSizePreference) + "GB]. The cube "
+               "dimensions were (S,L,B) [" + std::to_string(m_samples) + ", " +
+               std::to_string(m_lines) + ", " + std::to_string(m_bands) + "] with [" +
+               std::to_string(SizeOf(m_pixelType)) + "] bytes per pixel. If you still "
                "wish to create this cube, the maximum value can be changed in your personal "
                "preference file located in [~/.Isis/IsisPreferences] within the group "
                "CubeCustomization, keyword MaximumSize. If you do not have an ISISPreference file, "
@@ -465,7 +460,7 @@ namespace Isis {
     }
 
     // Expand output name
-    FileName cubFile(cubeFileName);
+    FileName cubFile(cubeFileName.toStdString());
     PvlObject isiscube("IsisCube");
     PvlObject core("Core");
 
@@ -478,18 +473,18 @@ namespace Isis {
         core += PvlKeyword("StartByte", std::to_string(m_labelBytes + 1));
         m_labelFileName = new FileName(cubFile);
         m_dataFileName = new FileName(cubFile);
-        m_labelFile = new QFile(m_labelFileName->expanded());
+        m_labelFile = new QFile(QString::fromStdString(m_labelFileName->expanded()));
       }
       else {
         core += PvlKeyword("StartByte", std::to_string(1));
-        core += PvlKeyword("^Core", cubFile.name().toStdString());
+        core += PvlKeyword("^Core", cubFile.name());
         m_dataFileName = new FileName(cubFile);
-        m_dataFile = new QFile(realDataFileName().expanded());
+        m_dataFile = new QFile(QString::fromStdString(realDataFileName().expanded()));
 
         FileName labelFileName(cubFile);
         labelFileName = labelFileName.setExtension("lbl");
         m_labelFileName = new FileName(labelFileName);
-        m_labelFile = new QFile(m_labelFileName->expanded());
+        m_labelFile = new QFile(QString::fromStdString(m_labelFileName->expanded()));
       }
 
       // Create the size of the core
@@ -504,7 +499,7 @@ namespace Isis {
       ptype += PvlKeyword("Type", PixelTypeName(m_pixelType).toStdString());
 
       // And the byte ordering
-      ptype += PvlKeyword("ByteOrder", ByteOrderName(m_byteOrder).toStdString());
+      ptype += PvlKeyword("ByteOrder", ByteOrderName(m_byteOrder));
       ptype += PvlKeyword("Base", std::to_string(m_base));
       ptype += PvlKeyword("Multiplier", std::to_string(m_multiplier));
       core.addGroup(ptype);
@@ -512,12 +507,12 @@ namespace Isis {
     else {
       cubFile = cubFile.addExtension("ecub");
 
-      core += PvlKeyword("^DnFile", m_dataFileName->original().toStdString());
+      core += PvlKeyword("^DnFile", m_dataFileName->original());
 //       m_dataFileName = new FileName(cubFile);
-      m_dataFile = new QFile(realDataFileName().expanded());
+      m_dataFile = new QFile(QString::fromStdString(realDataFileName().expanded()));
 
       m_labelFileName = new FileName(cubFile);
-      m_labelFile = new QFile(cubFile.expanded());
+      m_labelFile = new QFile(QString::fromStdString(cubFile.expanded()));
     }
 
     isiscube.addObject(core);
@@ -534,13 +529,13 @@ namespace Isis {
         Preference::Preferences().findGroup("CubeCustomization");
     bool overwrite = QString::fromStdString(pref["Overwrite"][0]).toUpper() == "ALLOW";
     if (!overwrite && m_labelFile->exists() && m_labelFile->size()) {
-      QString msg = "Cube file [" + m_labelFileName->original() + "] exists, " +
+      std::string msg = "Cube file [" + m_labelFileName->original() + "] exists, " +
                    "user preference does not allow overwrite";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if (!m_labelFile->open(QIODevice::Truncate | QIODevice::ReadWrite)) {
-      QString msg = "Failed to create [" + m_labelFile->fileName() + "]. ";
+      std::string msg = "Failed to create [" + m_labelFile->fileName().toStdString() + "]. ";
       msg += "Verify the output path exists and you have permission to write to the path.";
       cleanUp(false);
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -548,13 +543,13 @@ namespace Isis {
 
     if (m_dataFile) {
       if (m_storesDnData && !m_dataFile->open(QIODevice::Truncate | QIODevice::ReadWrite)) {
-        QString msg = "Failed to create [" + m_dataFile->fileName() + "]. ";
+        std::string msg = "Failed to create [" + m_dataFile->fileName().toStdString() + "]. ";
         msg += "Verify the output path exists and you have permission to write to the path.";
         cleanUp(false);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       else if (!m_storesDnData && !m_dataFile->open(QIODevice::ReadOnly)) {
-        QString msg = "Failed to open [" + m_dataFile->fileName() + "] for reading. ";
+        std::string msg = "Failed to open [" + m_dataFile->fileName().toStdString() + "] for reading. ";
         msg += "Verify the output path exists and you have permission to read from the path.";
         cleanUp(false);
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -634,10 +629,10 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    initLabelFromFile(cubeFileName, (access == "rw"));
+    initLabelFromFile(FileName(cubeFileName.toStdString()), (access == "rw"));
 
     try {
-      Isis::CubeAttributeInput att(cubeFileName);
+      Isis::CubeAttributeInput att(cubeFileName.toStdString());
       if(att.bands().size() != 0) {
         vector<QString> bands = att.bands();
         setVirtualBands(bands);
@@ -652,9 +647,9 @@ namespace Isis {
       PvlObject &core = m_label->findObject("IsisCube").findObject("Core");
       // Detached labels
       if (core.hasKeyword("^Core")) {
-        FileName temp(QString::fromStdString(core["^Core"][0]));
+        FileName temp(core["^Core"][0]);
 
-        if (!temp.originalPath().startsWith("/")) {
+        if (!QString::fromStdString(temp.originalPath()).startsWith("/")) {
           m_dataFileName = new FileName(m_labelFileName->path() + "/" + temp.original());
         }
         else {
@@ -664,11 +659,11 @@ namespace Isis {
         m_attached = false;
         m_storesDnData = true;
 
-        m_dataFile = new QFile(realDataFileName().expanded());
+        m_dataFile = new QFile(QString::fromStdString(realDataFileName().expanded()));
       }
       // External cube files (ecub), ecub contains all labels and SPICE blobs, history
       else if (core.hasKeyword("^DnFile")) {
-        FileName dataFileName(QString::fromStdString(core["^DnFile"][0]));
+        FileName dataFileName(core["^DnFile"][0]);
 
         if (dataFileName.originalPath() == ".") {
           m_dataFileName = new FileName(m_labelFileName->path() + "/" + dataFileName.name());
@@ -680,7 +675,7 @@ namespace Isis {
         m_attached = true;
         m_storesDnData = false;
         *m_dataFileName = FileName(realDataFileName().expanded());
-        m_dataFile = new QFile(realDataFileName().expanded());
+        m_dataFile = new QFile(QString::fromStdString(realDataFileName().expanded()));
       }
       // Typical cube containing labels, SPICE, history and dn data
       else {
@@ -696,7 +691,7 @@ namespace Isis {
 
     if (access == "r") {
       if (!m_labelFile->open(QIODevice::ReadOnly)) {
-        QString msg = "Failed to open [" + m_labelFile->fileName() + "] with "
+        std::string msg = "Failed to open [" + m_labelFile->fileName().toStdString() + "] with "
             "read only access";
         cleanUp(false);
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -704,7 +699,7 @@ namespace Isis {
 
       if (m_dataFile) {
         if (!m_dataFile->open(QIODevice::ReadOnly)) {
-          QString msg = "Failed to open [" + m_dataFile->fileName() + "] with "
+          std::string msg = "Failed to open [" + m_dataFile->fileName().toStdString() + "] with "
               "read only access";
           cleanUp(false);
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -714,7 +709,7 @@ namespace Isis {
 
     else if (access == "rw") {
       if (!m_labelFile->open(QIODevice::ReadWrite)) {
-        QString msg = "Failed to open [" + m_labelFile->fileName() + "] with "
+        std::string msg = "Failed to open [" + m_labelFile->fileName().toStdString() + "] with "
             "read/write access";
         cleanUp(false);
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -722,13 +717,13 @@ namespace Isis {
 
       if (m_dataFile) {
         if (m_storesDnData && !m_dataFile->open(QIODevice::ReadWrite)) {
-          QString msg = "Failed to open [" + m_dataFile->fileName() + "] with "
+          std::string msg = "Failed to open [" + m_dataFile->fileName().toStdString() + "] with "
               "read/write access";
           cleanUp(false);
           throw IException(IException::Io, msg, _FILEINFO_);
         }
         else if (!m_storesDnData && !m_dataFile->open(QIODevice::ReadOnly)) {
-          QString msg = "Failed to open [" + m_dataFile->fileName() + "] with "
+          std::string msg = "Failed to open [" + m_dataFile->fileName().toStdString() + "] with "
               "read access";
           cleanUp(false);
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -736,7 +731,7 @@ namespace Isis {
       }
     }
     else {
-      QString msg = "Unknown value for access [" + access + "]. Expected 'r' "
+      std::string msg = "Unknown value for access [" + access.toStdString() + "]. Expected 'r' "
                     " or 'rw'";
       cleanUp(false);
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -754,7 +749,7 @@ namespace Isis {
 
     QPair<bool, Pvl *> dataLabel = qMakePair(false, m_label);
     if (!m_storesDnData) {
-      dataLabel = qMakePair(true, new Pvl(m_dataFileName->expanded().toStdString()));
+      dataLabel = qMakePair(true, new Pvl(m_dataFileName->expanded()));
     }
 
     // Now examine the format to see which type of handler to create
@@ -786,7 +781,7 @@ namespace Isis {
    */
   void Cube::reopen(QString access) {
     if (!m_labelFile) {
-      QString msg = "Cube has not been opened yet. The filename to re-open is "
+      std::string msg = "Cube has not been opened yet. The filename to re-open is "
           "unknown";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -799,7 +794,7 @@ namespace Isis {
       virtualBandList = *m_virtualBandList;
 
     close();
-    open(filename.expanded(), access);
+    open(QString::fromStdString(filename.expanded()), access);
 
     if (virtualBandList.size()) {
       if (m_virtualBandList)
@@ -858,7 +853,7 @@ namespace Isis {
    *             standardized.
    */
   History Cube::readHistory(const QString &name) const {
-    Blob historyBlob(name, "History");
+    Blob historyBlob(name.toStdString(), "History");
     try {
       // read history from cube, if it exists.
       read(historyBlob);
@@ -883,8 +878,8 @@ namespace Isis {
       read(footprintBlob);
     }
     catch (IException &e) {
-      QString msg = "Footprintinit must be run prior to reading the footprint";
-      msg += " with POLYGON=TRUE for cube [" + fileName() + "]";
+      std::string msg = "Footprintinit must be run prior to reading the footprint";
+      msg += " with POLYGON=TRUE for cube [" + fileName().toStdString() + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
     ImagePolygon footprint(footprintBlob);
@@ -900,12 +895,12 @@ namespace Isis {
    * @return @b OriginalLabel The original PDS3 label as a PVL document
    */
   OriginalLabel Cube::readOriginalLabel(const QString &name) const {
-    Blob origLabelBlob(name, "OriginalLabel");
+    Blob origLabelBlob(name.toStdString(), "OriginalLabel");
     try {
       read(origLabelBlob);
     }
     catch (IException &e){
-      QString msg = "Unable to locate OriginalLabel in " + fileName();
+      std::string msg = "Unable to locate OriginalLabel in " + fileName().toStdString();
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
     OriginalLabel origLabel(origLabelBlob);
@@ -923,12 +918,12 @@ namespace Isis {
    * @return @b CubeStretch
    */
   CubeStretch Cube::readCubeStretch(QString name, const std::vector<PvlKeyword> keywords) const {
-    Blob stretchBlob(name, "Stretch");
+    Blob stretchBlob(name.toStdString(), "Stretch");
     try {
       read(stretchBlob, keywords);
     }
     catch (IException &e){
-      QString msg = "Unable to locate Stretch information in " + fileName();
+      std::string msg = "Unable to locate Stretch information in " + fileName().toStdString();
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
     CubeStretch cubeStretch(stretchBlob);
@@ -947,7 +942,7 @@ namespace Isis {
       read(origXmlLabelBlob);
     }
     catch (IException &e){
-      QString msg = "Unable to locate OriginalXmlLabel in " + fileName();
+      std::string msg = "Unable to locate OriginalXmlLabel in " + fileName().toStdString();
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
     OriginalXmlLabel origXmlLabel(origXmlLabelBlob);
@@ -963,12 +958,12 @@ namespace Isis {
    * @return @b Table
    */
   Table Cube::readTable(const QString &name) {
-    Blob tableBlob(name, "Table");
+    Blob tableBlob(name.toStdString(), "Table");
     try {
       read(tableBlob);
     }
     catch (IException &e) {
-      QString msg = "Failed to read table [" + name + "] from cube [" + fileName() + "].";
+      std::string msg = "Failed to read table [" + name.toStdString() + "] from cube [" + fileName().toStdString() + "].";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
     return Table(tableBlob);
@@ -999,7 +994,7 @@ namespace Isis {
 
       // Compute the number of bytes in the cube + label bytes and if the
       // endpos of the file // is not greater than this then seek to that position.
-      fstream stream(m_labelFileName->expanded().toLatin1().data(),
+      fstream stream(m_labelFileName->expanded().c_str(),
                      ios::in | ios::out | ios::binary);
       stream.seekp(0, ios::end);
 
@@ -1023,17 +1018,16 @@ namespace Isis {
 
     // Write a detached blob
     else {
-      FileName blobFileName = fileName();
+      FileName blobFileName = fileName().toStdString();
       blobFileName = blobFileName.removeExtension();
-      blobFileName = blobFileName.addExtension(QString::fromStdString(blob.Type()));
+      blobFileName = blobFileName.addExtension(blob.Type());
       blobFileName = blobFileName.addExtension(blob.Name());
-      QString blobFile(blobFileName.expanded());
+      std::string blobFile(blobFileName.expanded());
       ios::openmode flags = ios::in | ios::binary | ios::out | ios::trunc;
       fstream detachedStream;
-      detachedStream.open(blobFile.toLatin1().data(), flags);
+      detachedStream.open(blobFile.c_str(), flags);
       if (!detachedStream) {
-        QString message = "Unable to open data file [" +
-                          blobFileName.expanded() + "]";
+        std::string message = "Unable to open data file [" + blobFileName.expanded() + "]";
         throw IException(IException::Io, message, _FILEINFO_);
       }
 
@@ -1135,13 +1129,13 @@ namespace Isis {
     }
 
     if (isReadOnly()) {
-      QString msg = "Cannot write to the cube [" + (QString)QFileInfo(fileName()).fileName() +
+      std::string msg = "Cannot write to the cube [" + QFileInfo(fileName()).fileName().toStdString() +
           "] because it is opened read-only";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if (!m_storesDnData) {
-      QString msg = "The cube [" + QFileInfo(fileName()).fileName() +
+      std::string msg = "The cube [" + QFileInfo(fileName()).fileName().toStdString() +
           "] does not support storing DN data because it is using an external file for DNs";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -1341,7 +1335,7 @@ namespace Isis {
     if (vbands.size() > 0) {
       QListIterator<QString> it(vbands);
       while (it.hasNext()) {
-        m_virtualBandList->append(toInt(it.next()));
+        m_virtualBandList->append(it.next().toInt());
       }
     }
     else {
@@ -1378,24 +1372,20 @@ namespace Isis {
    */
   void Cube::relocateDnData(FileName dnDataFile) {
     if (!isOpen()) {
-      throw IException(IException::Unknown,
-                       QString("Cannot relocate the DN data to [%1] for an external cube label "
-                               "file which is not open.")
-                         .arg(dnDataFile.original()),
-                       _FILEINFO_);
+      throw IException(IException::Unknown, "Cannot relocate the DN data to " + dnDataFile.original() + " for an external cube label "
+                               "file which is not open.", _FILEINFO_);
     }
 
 
     if (m_storesDnData) {
       throw IException(IException::Unknown,
-                       QString("The cube [%1] stores DN data. It cannot be relocated to [%2] - "
-                               "this is only supported for external cube label files.")
-                         .arg(m_labelFileName->original()).arg(dnDataFile.original()),
+                       "The cube " +  m_labelFileName->original() + " stores DN data. It cannot be relocated to " + dnDataFile.original() + " - "
+                               "this is only supported for external cube label files.",
                        _FILEINFO_);
     }
 
     m_label->findObject("IsisCube").findObject("Core").findKeyword("^DnFile")[0] =
-        dnDataFile.original().toStdString();
+        dnDataFile.original();
     reopen(m_labelFile->isWritable()? "rw" : "r");
   }
 
@@ -1583,7 +1573,7 @@ namespace Isis {
 
    PvlObject &core = m_label->findObject("IsisCube").findObject("Core");
 
-    return QString::fromStdString(core["^DnFile"][0]);
+    return core["^DnFile"][0];
   }
 
 
@@ -1595,7 +1585,7 @@ namespace Isis {
    */
   QString Cube::fileName() const {
     if (isOpen())
-      return m_labelFileName->expanded();
+      return QString::fromStdString(m_labelFileName->expanded());
     else
       return "";
   }
@@ -1629,7 +1619,7 @@ namespace Isis {
    * @throws IsisProgrammerError Band was less than zero or more than the number
    * of bands in the cube.
    */
-  Histogram *Cube::histogram(const int &band, QString msg) {
+  Histogram *Cube::histogram(const int &band, std::string msg) {
     return histogram(band, ValidMinimum, ValidMaximum, msg);
   }
 
@@ -1660,16 +1650,16 @@ namespace Isis {
    * of bands in the cube.
    */
   Histogram *Cube::histogram(const int &band, const double &validMin,
-                                const double &validMax, QString msg) {
+                                const double &validMax, std::string msg) {
     // Make sure cube is open
     if ( !isOpen() ) {
-      QString msg = "Cannot create histogram object for an unopened cube";
+      std::string msg = "Cannot create histogram object for an unopened cube";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     // Make sure band is valid
     if ((band < 0) || (band > bandCount())) {
-      QString msg = "Invalid band in [CubeInfo::Histogram]";
+      std::string msg = "Invalid band in [CubeInfo::Histogram]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1705,7 +1695,7 @@ namespace Isis {
     hist->SetValidRange(binMin,binMax);
 
     // Loop and get the histogram
-    progress.SetText(msg);
+    progress.SetText(QString::fromStdString(msg));
     progress.SetMaximumSteps(maxSteps);
     progress.CheckStatus();
 
@@ -1860,7 +1850,7 @@ namespace Isis {
    *          such as the minimum and maximum pixel values for the input cube on the
    *          band specified, or all bands as the case may be.
    */
-  Statistics *Cube::statistics(const int &band, QString msg) {
+  Statistics *Cube::statistics(const int &band, std::string msg) {
     return statistics(band, ValidMinimum, ValidMaximum, msg);
   }
 
@@ -1882,10 +1872,10 @@ namespace Isis {
    * @return Statistics*
    */
   Statistics *Cube::statistics(const int &band, const double &validMin,
-                                     const double &validMax, QString msg) {
+                                     const double &validMax, std::string msg) {
     // Make sure cube is open
     if ( !isOpen() ) {
-      QString msg = "Cannot create statistics object for an unopened cube";
+      std::string msg = "Cannot create statistics object for an unopened cube";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1911,7 +1901,7 @@ namespace Isis {
     }
 
     Progress progress;
-    progress.SetText(msg);
+    progress.SetText(QString::fromStdString(msg));
     progress.SetMaximumSteps(maxSteps);
     progress.CheckStatus();
 
@@ -1958,7 +1948,7 @@ namespace Isis {
       m_ioHandler->addCachingAlgorithm(algorithm);
     }
     else if (!isOpen()) {
-      QString msg = "Cannot add a caching algorithm until the cube is open";
+      std::string msg = "Cannot add a caching algorithm until the cube is open";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -2088,7 +2078,7 @@ namespace Isis {
    */
   void Cube::putGroup(const PvlGroup &group) {
     if (isReadOnly()) {
-      QString msg = "Cannot add a group to the label of cube [" + (QString)QFileInfo(fileName()).fileName() +
+      std::string msg = "Cannot add a group to the label of cube [" + QFileInfo(fileName()).fileName().toStdString() +
           "] because it is opened read-only";
       throw IException(IException::Programmer, msg, _FILEINFO_);
       return;
@@ -2144,7 +2134,7 @@ namespace Isis {
 
     // Always remove a temporary file
     if (m_tempCube) {
-      QFile::remove(m_tempCube->expanded());
+      QFile::remove(QString::fromStdString(m_tempCube->expanded()));
       removeIt = false; // dont remove originals
 
       delete m_tempCube;
@@ -2152,10 +2142,10 @@ namespace Isis {
     }
 
     if (removeIt) {
-      QFile::remove(m_labelFileName->expanded());
+      QFile::remove(QString::fromStdString(m_labelFileName->expanded()));
 
       if (*m_labelFileName != *m_dataFileName)
-        QFile::remove(m_dataFileName->expanded());
+        QFile::remove(QString::fromStdString(m_dataFileName->expanded()));
     }
 
     delete m_labelFile;
@@ -2244,31 +2234,31 @@ namespace Isis {
     // External cube - go look at our external file
     else if (!m_storesDnData) {
       FileName guess = *m_dataFileName;
-      QDir dir(guess.toString());
+      QDir dir(QString::fromStdString(guess.toString()));
 
       // If path is relative and there is a labelFileName, start in directory of the ecub, then
       // cd to the directory containing the DnFile, since it is relative to the location of the ecub.
       // We need to turn the relative path into an absolute path.
       if (dir.isRelative() && m_labelFileName) {
-        QDir dir2(m_labelFileName->originalPath());
-        dir2.cd(guess.path());
-        guess = dir2.absolutePath() + "/" + guess.name();
+        QDir dir2(QString::fromStdString(m_labelFileName->originalPath()));
+        dir2.cd(QString::fromStdString(guess.path()));
+        guess = dir2.absolutePath().toStdString() + "/" + guess.name();
       }
       do {
-        Pvl guessLabel(guess.expanded().toStdString());
+        Pvl guessLabel(guess.expanded());
 
         PvlObject &core = guessLabel.findObject("IsisCube").findObject("Core");
 
         if (core.hasKeyword("^DnFile")) {
           FileName currentGuess = guess;
-          guess = QString::fromStdString(core["^DnFile"][0]);
+          guess = core["^DnFile"][0];
 
-          if (!guess.path().startsWith("/")) {
+          if (!QString::fromStdString(guess.path()).startsWith("/")) {
             guess = currentGuess.path() + "/" + guess.original();
           }
         }
         else if (core.hasKeyword("^Core")) {
-          result = QString::fromStdString(core["^Core"][0]);
+          result = core["^Core"][0];
         }
         else {
           result = guess;
@@ -2329,7 +2319,7 @@ namespace Isis {
 
       // Stored pixel information
       const PvlGroup &pixelsGroup = core.findGroup("Pixels");
-      m_byteOrder = ByteOrderEnumeration(QString::fromStdString(pixelsGroup["ByteOrder"]));
+      m_byteOrder = ByteOrderEnumeration(pixelsGroup["ByteOrder"]);
       m_base = pixelsGroup["Base"];
       m_multiplier = pixelsGroup["Multiplier"];
       m_pixelType = PixelTypeEnumeration(QString::fromStdString(pixelsGroup["Type"]));
@@ -2343,12 +2333,12 @@ namespace Isis {
       }
     }
     else {
-      FileName temp(QString::fromStdString(core["^DnFile"][0]));
-      if (!temp.expanded().startsWith("/")) {
+      FileName temp(core["^DnFile"][0]);
+      if (!QString::fromStdString(temp.expanded()).startsWith("/")) {
         temp = FileName(m_labelFileName->path() + "/" + temp.original());
       }
 
-      initCoreFromLabel(Pvl(temp.toString().toStdString()));
+      initCoreFromLabel(Pvl(temp.toString()));
     }
   }
 
@@ -2365,7 +2355,7 @@ namespace Isis {
 
     try {
       if (labelFileName.fileExists()) {
-        m_label = new Pvl(labelFileName.expanded().toStdString());
+        m_label = new Pvl(labelFileName.expanded());
         if (!m_label->objects()) {
           throw IException();
         }
@@ -2383,7 +2373,7 @@ namespace Isis {
         FileName tmp(labelFileName);
         tmp = tmp.addExtension("cub");
         if (tmp.fileExists()) {
-          m_label = new Pvl(tmp.expanded().toStdString());
+          m_label = new Pvl(tmp.expanded());
           if (!m_label->objects()) {
             throw IException();
           }
@@ -2403,7 +2393,7 @@ namespace Isis {
         FileName tmp(labelFileName);
         tmp = tmp.setExtension("lbl");
         if (tmp.fileExists()) {
-          m_label = new Pvl(tmp.expanded().toStdString());
+          m_label = new Pvl(tmp.expanded());
           if (!m_label->objects()) {
             throw IException();
           }
@@ -2423,7 +2413,7 @@ namespace Isis {
         FileName tmp(labelFileName);
         tmp = tmp.addExtension("ecub");
         if (tmp.fileExists()) {
-          m_label = new Pvl(tmp.expanded().toStdString());
+          m_label = new Pvl(tmp.expanded());
           if (!m_label->objects()) {
             throw IException();
           }
@@ -2439,7 +2429,7 @@ namespace Isis {
     }
 
     if (!m_label) {
-      QString msg = Message::FileOpen(labelFileName.original());
+      std::string msg = Message::FileOpen(labelFileName.original());
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
@@ -2449,17 +2439,17 @@ namespace Isis {
     // need to internalize a new label
     if (m_label->hasKeyword("CCSD3ZF0000100000001NJPL3IF0PDS200000001")) {
       if (!readWrite) {
-        reformatOldIsisLabel(m_labelFileName->expanded());
+        reformatOldIsisLabel(QString::fromStdString(m_labelFileName->expanded()));
       }
       else {
-        QString msg = "Can not open [" + m_labelFileName->original() + "]"
+        std::string msg = "Can not open [" + m_labelFileName->original() + "]"
                       " because it is an ISIS2 cube.";
         cleanUp(false);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
     }
     else {
-      m_labelFile = new QFile(m_labelFileName->expanded());
+      m_labelFile = new QFile(QString::fromStdString(m_labelFileName->expanded()));
     }
   }
 
@@ -2489,12 +2479,12 @@ namespace Isis {
 
       if (core->hasKeyword("^DnFile")) {
 
-        FileName temp(QString::fromStdString((*core)["^DnFile"][0]));
-        if (!temp.expanded().startsWith("/")) {
+        FileName temp((*core)["^DnFile"][0]);
+        if (!QString::fromStdString(temp.expanded()).startsWith("/")) {
           temp = realDataFileName();
         }
 
-        label = Pvl(temp.toString().toStdString());
+        label = Pvl(temp.toString());
         core = NULL;
       }
     }
@@ -2512,9 +2502,9 @@ namespace Isis {
    */
   void Cube::reformatOldIsisLabel(const QString &oldCube) {
     QString parameters = "from=" + oldCube;
-    FileName oldName(oldCube);
+    FileName oldName(oldCube.toStdString());
     FileName tempCube = FileName::createTempFile("Temporary_" + oldName.name() + ".cub");
-    parameters += " to=" + tempCube.expanded();
+    parameters += " to=" + QString::fromStdString(tempCube.expanded());
 
     if (iApp == NULL) {
       QString command = "$ISISROOT/bin/pds2isis " + parameters;
@@ -2526,8 +2516,8 @@ namespace Isis {
     }
 
     m_tempCube = new FileName(tempCube);
-    *m_label = Pvl(m_tempCube->toString().toStdString());
-    m_labelFile = new QFile(m_tempCube->expanded());
+    *m_label = Pvl(m_tempCube->toString());
+    m_labelFile = new QFile(QString::fromStdString(m_tempCube->expanded()));
   }
 
 
@@ -2558,7 +2548,7 @@ namespace Isis {
        proj = (TProjection *) projection();
      }
      catch(IException &e) {
-       QString msg = "Cannot calculate lat/lon range without a camera or projection";
+       std::string msg = "Cannot calculate lat/lon range without a camera or projection";
        throw IException(e, IException::User, msg, _FILEINFO_);
      }
     }
@@ -2567,7 +2557,7 @@ namespace Isis {
         cam = camera();
       }
       catch(IException &e) {
-        QString msg = "Unable to create camera when calculating a lat/lon range.";
+        std::string msg = "Unable to create camera when calculating a lat/lon range.";
         throw IException(e, IException::User, msg, _FILEINFO_);
       }
     }
@@ -2618,7 +2608,7 @@ namespace Isis {
     }
     if ( (minLatitude == 99999) || (minLongitude == 99999) || (maxLatitude == -99999) ||
     (maxLongitude == -99999) ) {
-      QString msg = "Unable to calculate a minimum or maximum latitutde or longitude.";
+      std::string msg = "Unable to calculate a minimum or maximum latitutde or longitude.";
         throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -2634,7 +2624,7 @@ namespace Isis {
     }
 
     // Set the pvl's format template
-    m_label->setFormatTemplate(m_formatTemplateFile->original().toStdString());
+    m_label->setFormatTemplate(m_formatTemplateFile->original());
 
     // Write them with attached data
     if (m_attached) {
@@ -2654,8 +2644,8 @@ namespace Isis {
       }
       else {
         locker2.unlock();
-        QString msg = "Label space is full in [" +
-            (QString)FileName(*m_labelFileName).name() +
+        std::string msg = "Label space is full in [" +
+            FileName(*m_labelFileName).name() +
                      "] unable to write labels";
         cleanUp(false);
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -2664,7 +2654,7 @@ namespace Isis {
 
     // or detached label
     else {
-      m_label->write(m_labelFileName->expanded().toStdString());
+      m_label->write(m_labelFileName->expanded());
     }
   }
 }

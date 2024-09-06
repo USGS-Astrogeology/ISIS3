@@ -221,7 +221,7 @@ namespace Isis {
         item->deleteSource();
       }
       catch (IException &e) {
-        QString message = e.what();
+        std::string message = e.what();
 
         if (!ignoreAll) {
           if (item == itemsToDelete.last()) {
@@ -304,7 +304,7 @@ namespace Isis {
   void CnetEditorWidget::createActions() {
 
     QAction *freezeTablesAct = new QAction(QIcon(
-        FileName("$ISISROOT/appdata/images/icons/ice.png").expanded()),
+        QString::fromStdString((FileName("$ISISROOT/appdata/images/icons/ice.png").expanded()))),
         tr("&Freeze Tables"), this);
     freezeTablesAct->setCheckable(true);
     freezeTablesAct->setToolTip(tr("Freeze tables (filters will not take "
@@ -320,8 +320,8 @@ namespace Isis {
     freezeTablesLocation.append(tr("&Tables"));
     m_menuActions->insert(freezeTablesAct, freezeTablesLocation);
 
-    QAction *configureSortAct = new QAction(QIcon(
-        FileName("$ISISROOT/appdata/images/icons/sort.png").expanded()),
+    QAction *configureSortAct = new QAction((QIcon(
+        QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/sort.png").expanded()))),
         tr("&Sorting Options..."), this);
     QString configureSortToolTipText = tr("Configure table sorting options");
     configureSortAct->setToolTip(configureSortToolTipText);
@@ -334,7 +334,7 @@ namespace Isis {
     configureSortLocation.append(tr("&Tables"));
     m_menuActions->insert(configureSortAct, configureSortLocation);
 
-    QAction *xyzDisplayAct = new QAction(QIcon(FileName("$ISISROOT/appdata/images/icons/xyz.png").expanded()),
+    QAction *xyzDisplayAct = new QAction(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/xyz.png").expanded())),
         tr("&X,Y,Z"), this);
     xyzDisplayAct->setCheckable(true);
     xyzDisplayAct->setChecked(false);    
@@ -352,7 +352,7 @@ namespace Isis {
     m_menuActions->insert(xyzDisplayAct, xyzDisplayLocation);
 
     QAction *latLonRadiusDisplayAct
-        = new QAction(QIcon(FileName("$ISISROOT/appdata/images/icons/latlonrad.png").expanded()),
+        = new QAction(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/latlonrad.png").expanded())),
           tr("&Lat,Lon,Radius"), this);
     latLonRadiusDisplayAct->setCheckable(true);
     latLonRadiusDisplayAct->setChecked(true);

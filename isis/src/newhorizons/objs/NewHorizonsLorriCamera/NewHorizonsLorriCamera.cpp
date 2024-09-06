@@ -52,7 +52,7 @@ namespace Isis {
     QString unitsKey = "INS" + toString(naifIkCode()) + "_FOCAL_LENGTH_UNITS";
     QString focalLengthUnits = Spice::getString(unitsKey);
     if (focalLengthUnits != "mm") {
-      QString msg = QObject::tr("SPICE keyword [%1] is expected to be mm. [%2] was found instead").
+      std::string msg = QObject::tr("SPICE keyword [%1] is expected to be mm. [%2] was found instead").
                     arg(unitsKey).arg(focalLengthUnits);
        throw IException(IException::User, msg, _FILEINFO_);
     }

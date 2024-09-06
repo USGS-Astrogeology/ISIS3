@@ -82,7 +82,7 @@ void IsisMain() {
 
     // Make sure they requested a value inside the range of the list
     if(key.size() < i) {
-      QString msg = "The value entered for [KEYINDEX] is out of the array ";
+      std::string msg = "The value entered for [KEYINDEX] is out of the array ";
       msg += "bounds for the keyword [" + ui.GetString("KEYWORD") + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }

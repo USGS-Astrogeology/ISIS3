@@ -39,7 +39,7 @@ void IsisMain() {
   // object.  If this fails then the file must be compressed, so
   // decompress the file using vdcomp.
   try {
-    Pvl compressionTest(in.expanded().toStdString());
+    Pvl compressionTest(in.expanded());
 
     if(compressionTest.groups() == 0 && compressionTest.objects() == 0 &&
         compressionTest.keywords() < 2) {
@@ -52,7 +52,7 @@ void IsisMain() {
                      temp.expanded() + " > /dev/null 2>&1";
     int returnValue = system(command.toLatin1().data()) >> 8;
     if(returnValue) {
-      QString msg = "Error running vdcomp";
+      std::string msg = "Error running vdcomp";
       IException::ErrorType msgTarget = IException::Programmer;
       switch(returnValue) {
         case 1:
@@ -95,7 +95,7 @@ void IsisMain() {
     p.SetPdsFile(in.expanded(), "", pdsLabel);
   }
   catch(IException &e) {
-    QString msg = "Input file [" + in.expanded() +
+    std::string msg = "Input file [" + in.expanded() +
                  "] does not appear to be a Viking PDS product";
     throw IException(e, IException::User, msg, _FILEINFO_);
   }

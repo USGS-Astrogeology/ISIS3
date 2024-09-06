@@ -40,18 +40,18 @@ void IsisMain() {
   // Make sure it is a Clementine EDR
   bool projected;
   try {
-    Pvl lab(in.expanded().toStdString());
+    Pvl lab(in.expanded());
     projected = lab.hasObject("IMAGE_MAP_PROJECTION");
     QString id;
     id = QString::fromStdString(lab["DATA_SET_ID"]);
     id = id.simplified().trimmed();
     if (!id.contains("CLEM")) {
-      QString msg = "Invalid DATA_SET_ID [" + id + "]";
+      std::string msg = "Invalid DATA_SET_ID [" + id + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }
   catch(IException &e) {
-    QString msg = "Input file [" + in.expanded() +
+    std::string msg = "Input file [" + in.expanded() +
                   "] does not appear to be " +
                   "in Clementine EDR format";
     throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -59,7 +59,7 @@ void IsisMain() {
 
   //Checks if in file is rdr
   if (projected) {
-    QString msg = "[" + in.name() + "] appears to be an rdr file.";
+    std::string msg = "[" + in.name() + "] appears to be an rdr file.";
     msg += " Use pds2isis.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -110,7 +110,7 @@ void translateLabels(FileName in, Cube *ocube) {
   QString transDir = "$ISISROOT/appdata/translations/";
   FileName transFile(transDir + "Clementine.trn");
 
-  Pvl pdsLab(in.expanded().toStdString());
+  Pvl pdsLab(in.expanded());
   PvlToPvlTranslationManager labelXlater(pdsLab, transFile.expanded());
 
   // Pvl outputLabels;

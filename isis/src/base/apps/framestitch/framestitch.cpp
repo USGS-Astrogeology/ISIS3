@@ -59,12 +59,12 @@ namespace Isis {
     }
 
     if (frameHeights.TotalPixels() == 0) {
-      QString msg = "Failed to find any NULL frames in cube [" + cube->fileName() + "]."
+      std::string msg = "Failed to find any NULL frames in cube [" + cube->fileName() + "]."
                     "Please manually enter the frame height.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     if (frameHeights.Minimum() != frameHeights.Maximum()) {
-      QString msg = "Found different frame heights between [" + toString((int)frameHeights.Minimum())
+      std::string msg = "Found different frame heights between [" + toString((int)frameHeights.Minimum())
                   + "] and [" + toString((int)frameHeights.Maximum()) + "] lines in cube ["
                   + cube->fileName() + "]. Please manually enter the frame height.";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -88,10 +88,10 @@ namespace Isis {
     // we'll use frameNumber % 2 to index the input cube vector
     QString oddCubeFile = ui.GetCubeName("ODD");
     Cube* oddCube = process.SetInputCube(oddCubeFile,
-                                         CubeAttributeInput(oddCubeFile));
+                                         CubeAttributeInput(oddCubeFile.toStdString()));
     QString evenCubeFile = ui.GetCubeName("EVEN");
     Cube* evenCube = process.SetInputCube(evenCubeFile,
-                                          CubeAttributeInput(evenCubeFile));
+                                          CubeAttributeInput(evenCubeFile.toStdString()));
 
 
     // Check that all the inputs are valid
@@ -133,7 +133,7 @@ namespace Isis {
       int oddFrameHeight = computeFrameHeight(oddCube);
 
       if (evenFrameHeight != oddFrameHeight) {
-        QString msg = "Computed frame heights for even cube [" + toString(evenFrameHeight)
+        std::string msg = "Computed frame heights for even cube [" + toString(evenFrameHeight)
                     + "] and odd cube [" + toString(oddFrameHeight) + "] do not match.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -147,7 +147,7 @@ namespace Isis {
       numLinesOverlap = ui.GetInteger("NUM_LINES_OVERLAP");
 
     if (numLinesOverlap % 2 != 0 || numLinesOverlap < 0) {
-      QString msg = "Expecting a non-negative and even value for NUM_LINES_OVERLAP.";
+      std::string msg = "Expecting a non-negative and even value for NUM_LINES_OVERLAP.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -155,7 +155,7 @@ namespace Isis {
 
     QString outCubeFile = ui.GetCubeName("TO");
     Cube *outCube = process.SetOutputCube(
-          outCubeFile, CubeAttributeOutput(outCubeFile),
+          outCubeFile, CubeAttributeOutput(outCubeFile.toStdString()),
           evenCube->sampleCount(), numFrames * reducedFrameHeight, evenCube->bandCount());
 
     // If there's an even number of frames and the inputs are flipped, we have to

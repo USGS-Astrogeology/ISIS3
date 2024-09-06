@@ -60,7 +60,7 @@ namespace Isis {
       if (m_cols->at(i)->getTitle() == title)
         return (*m_cols)[i];
 
-    QString msg = "There is no column with a title of [";
+    std::string msg = "There is no column with a title of [";
     msg += title;
     msg += "] inside this column list";
     throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -69,7 +69,7 @@ namespace Isis {
 
   void TableColumnList::append(TableColumn *newCol) {
     if (!newCol) {
-      QString msg = "Attempted to add NULL column to the columnlist";
+      std::string msg = "Attempted to add NULL column to the columnlist";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -266,7 +266,7 @@ namespace Isis {
   void TableColumnList::checkIndexRange(int index) {
 
     if (index < 0 || index >= m_cols->size()) {
-      QString msg = "index [";
+      std::string msg = "index [";
       msg += index;
       msg += "] is out of range.  Size of list is: ";
       msg += m_cols->size();

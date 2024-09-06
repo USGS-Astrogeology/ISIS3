@@ -107,7 +107,7 @@ namespace Isis {
    * @return IString A space-delimited string with data between every pair of spaces
    */
   QString InfixToPostfix::cleanSpaces(QString equation) {
-    IString equationIStr = equation;
+    IString equationIStr = equation.toStdString();
     IString clean = "";
     while(!equationIStr.empty()) {
       IString data = equationIStr.Token(" ");
@@ -123,7 +123,7 @@ namespace Isis {
       }
     }
 
-    return clean.ToQt();
+    return QString::fromStdString(clean);
   }
 
   /**
@@ -138,7 +138,7 @@ namespace Isis {
    */
   QString InfixToPostfix::convert(const QString &infix) {
     // Prep our equation for the conversion
-    IString equation = tokenizeEquation(infix);
+    IString equation = tokenizeEquation(infix).toStdString();
     IString postfix = "";
 
     // The algorithm uses a stack
@@ -159,20 +159,20 @@ namespace Isis {
 
       // There will be no empty tokens, so don't worry about checking for it.
       //   TokenizeEquation cleans excess spaces in it's return value.
-      QString data = equation.Token(" ").ToQt();
+      QString data = QString::fromStdString(equation.Token(" "));
 
       if(data.compare("(") == 0) {
         theStack.push(*findOperator(data));
       }
       else if(data.compare(")") == 0) {
-        QString postfixQStr = postfix.ToQt();
+        QString postfixQStr = QString::fromStdString(postfix);
         closeParenthesis(postfixQStr, theStack);
-        postfix = postfixQStr;
+        postfix = postfixQStr.toStdString();
       }
       else if(isKnownSymbol(data)) {
-        QString postfixQStr = postfix.ToQt();
+        QString postfixQStr = QString::fromStdString(postfix);
         addOperator(postfixQStr, *findOperator(data), theStack);
-        postfix = postfixQStr;
+        postfix = postfixQStr.toStdString();
 
         if(isFunction(data)) {
           // For a general check, zero single argument functions the
@@ -196,11 +196,11 @@ namespace Isis {
       else {
         try {
           // Make sure this is truly an operand and not an operator by casting it
-          toDouble(data);
+          data.toDouble();
         }
         catch(IException &) {
           throw IException(IException::User,
-                           "The operator '" + data + "' is not recognized.",
+                           "The operator '" + data.toStdString() + "' is not recognized.",
                            _FILEINFO_);
         }
 
@@ -208,20 +208,20 @@ namespace Isis {
         numConsecutiveOperators = 0;
         numConsecutiveOperands ++;
 
-        postfix += IString(' ' + data + ' ');
+        postfix += IString(' ' + data.toStdString() + ' ');
       }
 
       // If we found consecutive operators or operands, tell the user
       if(numConsecutiveOperators > 1) {
-        throw IException(IException::User, "Missing an operand near the operator '" + data + "'.", _FILEINFO_);
+        throw IException(IException::User, "Missing an operand near the operator '" + data.toStdString() + "'.", _FILEINFO_);
       }
       else if(numConsecutiveOperands > 1) {
-        throw IException(IException::User, "Missing an operator before " + data + ".", _FILEINFO_);
+        throw IException(IException::User, "Missing an operator before " + data.toStdString() + ".", _FILEINFO_);
       }
     }
 
     while(!theStack.empty()) {
-      IString op = theStack.top().outputString();
+      IString op = theStack.top().outputString().toStdString();
 
       // Any opening parentheses here are invalid at this point
       if(op == "(") {
@@ -239,7 +239,7 @@ namespace Isis {
     postfix = postfix.Remove(",");
 
     // Clean spaces just to double check and return our postfix answer
-    return cleanSpaces(postfix.ToQt());
+    return cleanSpaces(QString::fromStdString(postfix));
   }
 
   /**
@@ -352,7 +352,7 @@ namespace Isis {
     }
 
     // Nothing found
-    throw IException(IException::User, "The operator '" + representation + "' is not recognized.", _FILEINFO_);
+    throw IException(IException::User, "The operator '" + representation.toStdString() + "' is not recognized.", _FILEINFO_);
   }
 
   /**
@@ -460,7 +460,7 @@ namespace Isis {
       }
     }
 
-    QString cleanedEquation = cleanSpaces(formatFunctionCalls(output.DownCase().ToQt()));
+    QString cleanedEquation = cleanSpaces(formatFunctionCalls(QString::fromStdString(output.DownCase())));
 
     return cleanedEquation;
   }
@@ -484,10 +484,10 @@ namespace Isis {
     // We'll use tokens to get through the entire equation, which is space-delimited.
     //   So continue processing until we're out of tokens and the string is empty.
     while(!equation.isEmpty()) {
-      IString tmp = equation;
+      IString tmp = equation.toStdString();
 
-      QString element = tmp.Token(" ").ToQt();
-      equation = tmp.ToQt();
+      QString element = QString::fromStdString(tmp.Token(" "));
+      equation = QString::fromStdString(tmp);
 
       // Did we find a function? Figure out what it is!
       if(isFunction(element)) {
@@ -501,9 +501,9 @@ namespace Isis {
 
         // Deal with 0-argument functions
         if(func->argumentCount() == 0) {
-          IString tmp = equation;
-          QString next = tmp.Token(" ").ToQt();
-          equation = tmp.ToQt();
+          IString tmp = equation.toStdString();
+          QString next = QString::fromStdString(tmp.Token(" "));
+          equation = QString::fromStdString(tmp);
 
           // If they didn't add parentheses around the zero-argument
           //   function, we still know what they mean. Close the arguments
@@ -515,15 +515,15 @@ namespace Isis {
             equation = next + " " + equation;
           }
           else {
-            IString tmp = equation;
+            IString tmp = equation.toStdString();
             // We see a zero-arg function, and we grabbed an open parenthesis from it.
             //   Make sure the next thing is a close or we have a problem.
             if(tmp.Token(" ") != ")") {
               throw IException(IException::User,
-                               "The function " + func->inputString() + " should not have any arguments.",
+                               "The function " + func->inputString().toStdString() + " should not have any arguments.",
                                _FILEINFO_);
             }
-            equation = tmp.ToQt();
+            equation = QString::fromStdString(tmp);
 
             // Close the arguments and the wrapping parentheses. They wrote their call correct :)
             output += " ) ) ";
@@ -532,23 +532,23 @@ namespace Isis {
         else {
           // Deal with 1+ argument functions by parsing out the arguments
 
-          IString tmp = equation;
+          IString tmp = equation.toStdString();
 
           // Make sure the user put parentheses around these, otherwise we're left in the dark.
           if (func->argumentCount() > 1 && tmp.Token(" ") != "(") {
             throw IException(IException::User,
-                             "Missing parenthesis after " + func->inputString(),
+                             "Missing parenthesis after " + func->inputString().toStdString(),
                              _FILEINFO_);
           }
 
-          equation = tmp.ToQt();
+          equation = QString::fromStdString(tmp);
 
           // Single argument missing parenthesis?
           if(func->argumentCount() == 1) {
 
-            IString tmp = equation;
-            QString argument = tmp.Token(" ").ToQt();
-            equation = tmp.ToQt();
+            IString tmp = equation.toStdString();
+            QString argument = QString::fromStdString(tmp.Token(" "));
+            equation = QString::fromStdString(tmp);
 
             if(argument != "(") {
               // We might have a problem. They're calling a function without adding parentheses....
@@ -556,7 +556,7 @@ namespace Isis {
               //   my job to figure out what they mean!
               if(func->inputString() != "--") {
                 throw IException(IException::User,
-                                 "Missing parenthesis after " + func->inputString(),
+                                 "Missing parenthesis after " + func->inputString().toStdString(),
                                  _FILEINFO_);
               }
 
@@ -571,9 +571,9 @@ namespace Isis {
                 //   the function and resursively call, then append the negation.
                 QString functionName = argument;
 
-                IString tmp = equation;
-                QString openParen = tmp.Token(" ").ToQt();
-                equation = tmp.ToQt();
+                IString tmp = equation.toStdString();;
+                QString openParen = QString::fromStdString(tmp.Token(" "));
+                equation = QString::fromStdString(tmp);
 
                 // No open parens? Call ourself again with this supposed function
                 if(openParen != "(") {
@@ -589,13 +589,13 @@ namespace Isis {
                 //   and append the negation.
                 int numParens = 0;
                 while(numParens > -1) {
-                  IString tmp = equation;
-                  QString newElem = tmp.Token(" ").ToQt();
-                  equation = tmp.ToQt();
+                  IString tmp = equation.toStdString();;
+                  QString newElem = QString::fromStdString(tmp.Token(" "));
+                  equation = QString::fromStdString(tmp);
 
                   if(newElem == "") {
                     throw IException(IException::User,
-                                     "Missing closing parentheses after '" + argument + "'.",
+                                     "Missing closing parentheses after '" + argument.toStdString() + "'.",
                                      _FILEINFO_);
                   }
 
@@ -624,14 +624,14 @@ namespace Isis {
           int numParens = 0;
           int argNum = 0;
           while(argNum < func->argumentCount()) {
-            IString tmp = equation;
-            QString elem = tmp.Token(" ").ToQt();
-            equation = tmp.ToQt();
+            IString tmp = equation.toStdString();;
+            QString elem = QString::fromStdString(tmp.Token(" "));
+            equation = QString::fromStdString(tmp);
 
             // Ran out of data, the function call is not complete.
             if(elem == "") {
               throw IException(IException::User,
-                               "The definition of '" + func->inputString() + "' is not complete.",
+                               "The definition of '" + func->inputString().toStdString() + "' is not complete.",
                                _FILEINFO_);
             }
 
@@ -657,7 +657,7 @@ namespace Isis {
               // Too many arguments? We don't expect a comma delimiter on the last argument.
               if(argNum == func->argumentCount()) {
                 throw IException(IException::User,
-                                 "There were too many arguments supplied to the function '" + func->inputString() + "'.",
+                                 "There were too many arguments supplied to the function '" + func->inputString().toStdString() + "'.",
                                  _FILEINFO_);
               }
             }
@@ -676,7 +676,7 @@ namespace Isis {
             // Closed the function early?
             else if(numParens == -1) {
               throw IException(IException::User,
-                               "There were not enough arguments supplied to the function '" + func->inputString() + "'.",
+                               "There were not enough arguments supplied to the function '" + func->inputString().toStdString() + "'.",
                                _FILEINFO_);
             }
           }
@@ -696,7 +696,7 @@ namespace Isis {
 
     if(argument == "") {
       throw IException(IException::User,
-                       "Argument " + toString(argNum + 1) + " in function " + funcName + " must not be empty.",
+                       "Argument " + std::to_string(argNum + 1) + " in function " + funcName.toStdString() + " must not be empty.",
                        _FILEINFO_);
     }
   }

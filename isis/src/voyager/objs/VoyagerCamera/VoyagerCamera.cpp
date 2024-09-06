@@ -84,7 +84,7 @@ namespace Isis {
         m_instrumentNameShort = "WAC";
       }
       else {
-        QString msg = "File does not appear to be a Voyager image. InstrumentId ["
+        std::string msg = "File does not appear to be a Voyager image. InstrumentId ["
             + instId + "] is invalid Voyager value.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -108,13 +108,13 @@ namespace Isis {
         m_instrumentNameShort = "WAC";
       }
       else {
-        QString msg = "File does not appear to be a Voyager image. InstrumentId ["
+        std::string msg = "File does not appear to be a Voyager image. InstrumentId ["
             + instId + "] is invalid Voyager value.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     else {
-      QString msg = "File does not appear to be a Voyager image. SpacecraftName ["
+      std::string msg = "File does not appear to be a Voyager image. SpacecraftName ["
           + spacecraft + "] is invalid Voyager value.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

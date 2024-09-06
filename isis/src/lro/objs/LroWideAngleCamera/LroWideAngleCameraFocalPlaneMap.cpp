@@ -85,7 +85,7 @@ namespace Isis {
  */
   void LroWideAngleCameraFocalPlaneMap::setBand(int vband) {
     if ( (vband <= 0) || (vband > m_transparms.size()) ) {
-      QString mess = "Invalid band (" + QString::number(vband) + " requested " +
+      std::string mess = "Invalid band (" + QString::number(vband) + " requested " +
                      " Must be <= " + QString::number(m_transparms.size());
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }

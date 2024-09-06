@@ -113,7 +113,7 @@ namespace Isis {
     // List of IDs mapping to points to be edited
     ControlPointList *cpList = nullptr;
     if (ui.WasEntered("POINTLIST") && cnet.GetNumPoints() > 0) {
-        cpList = new ControlPointList(ui.GetFileName("POINTLIST"));
+        cpList = new ControlPointList(ui.GetFileName("POINTLIST").toStdString());
     }
 
     // Serial number list of cubes to be edited
@@ -128,7 +128,7 @@ namespace Isis {
 
         QFile file(ui.GetFileName("MEASURELIST"));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QString msg = "Unable to open MEASURELIST [" +
+            std::string msg = "Unable to open MEASURELIST [" +
                           file.fileName() + "]";
             throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -141,7 +141,7 @@ namespace Isis {
             QString line = in.readLine();
             QStringList results = line.split(",");
             if (results.size() < 2) {
-                QString msg = "Line " + QString::number(lineNumber) + " in the MEASURELIST does "
+                std::string msg = "Line " + QString::number(lineNumber) + " in the MEASURELIST does "
                                                                       "not contain a Point ID and a cube filename separated by a comma";
                 throw IException(IException::User, msg, _FILEINFO_);
             }
@@ -149,8 +149,8 @@ namespace Isis {
             if (!editMeasuresList->contains(results[0]))
                 editMeasuresList->insert(results[0], new QSet<QString>);
 
-            FileName cubeName(results[1]);
-            QString sn = SerialNumber::Compose(cubeName.expanded());
+            FileName cubeName(results[1].toStdString());
+            QString sn = SerialNumber::Compose(QString::fromStdString(cubeName.expanded()));
             (*editMeasuresList)[results[0]]->insert(sn);
 
             lineNumber++;
@@ -950,7 +950,7 @@ namespace Isis {
       Camera *camera = NULL;
       if (cneteditValidator->IsCubeRequired()) {
         if (!serialNumbers->hasSerialNumber(serialNumber)) {
-          QString msg = "Serial Number [" + serialNumber + "] contains no ";
+          std::string msg = "Serial Number [" + serialNumber + "] contains no ";
           msg += "matching cube in FROMLIST";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -963,7 +963,7 @@ namespace Isis {
             camera = cube->camera();
           }
           catch (IException &e) {
-            QString msg = "Cannot Create Camera for Image:" + cube->fileName();
+            std::string msg = "Cannot Create Camera for Image:" + cube->fileName();
             throw IException(e, IException::User, msg, _FILEINFO_);
           }
         }

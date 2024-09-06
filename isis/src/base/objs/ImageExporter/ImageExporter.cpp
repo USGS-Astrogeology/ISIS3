@@ -113,7 +113,7 @@ namespace Isis {
     }
     p.ProcessCubes(*this);
 
-    outputName = outputName.addExtension(m_extension);
+    outputName = outputName.addExtension(m_extension.toStdString());
 
     createWorldFile(outputName);
   }
@@ -265,7 +265,7 @@ namespace Isis {
         break;
       default:
         throw IException(IException::Programmer,
-            "Cannot export an image with [" + QString(m_exportDescription->channelCount()) +
+            "Cannot export an image with [" + std::to_string(m_exportDescription->channelCount()) +
             "] channels",
             _FILEINFO_);
     }
@@ -356,7 +356,7 @@ namespace Isis {
     ProcessExport &p = process();
 
     const ExportDescription::ChannelDescription &channel = m_exportDescription->channel(i);
-    Cube *cube = p.SetInputCube(channel.filename().expanded(), channel.attributes(), Isis::OneBand);
+    Cube *cube = p.SetInputCube(QString::fromStdString(channel.filename().expanded()), channel.attributes(), Isis::OneBand);
 
     if (channel.hasCustomRange())
       p.SetInputRange(channel.inputMinimum(), channel.inputMaximum(), i);
@@ -372,10 +372,10 @@ namespace Isis {
    */
   void ImageExporter::createWorldFile(FileName outputName) {
     outputName = outputName.removeExtension();
-    outputName = outputName.addExtension(m_worldExtension);
+    outputName = outputName.addExtension(m_worldExtension.toStdString());
 
     ProcessExport &p = process();
-    p.CreateWorldFile(outputName.expanded());
+    p.CreateWorldFile(QString::fromStdString(outputName.expanded()));
     p.EndProcess();
   }
 
@@ -411,7 +411,7 @@ namespace Isis {
     }
     else {
       throw IException(IException::Programmer,
-          "Cannot export image as format [" + format + "]",
+          "Cannot export image as format [" + format.toStdString() + "]",
           _FILEINFO_);
     }
 

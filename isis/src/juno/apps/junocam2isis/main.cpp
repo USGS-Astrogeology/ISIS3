@@ -67,7 +67,7 @@ void IsisMain() {
       ccdLayout.addKernel("$juno/kernels/ik/juno_junocam_v??.ti");
     }
     catch (IException &e) {
-      QString msg = "Failed to load the JunoCam Instrument Kernel required for "
+      std::string msg = "Failed to load the JunoCam Instrument Kernel required for "
                     "full ccd output.";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
@@ -75,7 +75,7 @@ void IsisMain() {
       ccdLayout.addKernel("$juno/kernels/iak/junoAddendum???.ti");
     }
     catch (IException &e) {
-      QString msg = "Failed to load the JunoCam Instrument Addendum Kernel "
+      std::string msg = "Failed to load the JunoCam Instrument Addendum Kernel "
                     "required for full ccd output.";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
@@ -115,7 +115,7 @@ void IsisMain() {
     // Now this will be a list of output Fullframes 1-N.cub
     QFile allCubesListFile(outputBaseName + ".lis");
     if (!allCubesListFile.open(QFile::WriteOnly | QFile::Text)) {
-      QString msg = "Unable to write file [" + allCubesListFile.fileName() + "]";
+      std::string msg = "Unable to write file [" + allCubesListFile.fileName() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     QTextStream allCubesListWriter(&allCubesListFile);
@@ -190,7 +190,7 @@ void IsisMain() {
 
     QFile allCubesListFile(outputBaseName + ".lis");
     if (!allCubesListFile.open(QFile::WriteOnly | QFile::Text)) {
-      QString msg = "Unable to write file [" + allCubesListFile.fileName() + "]";
+      std::string msg = "Unable to write file [" + allCubesListFile.fileName() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     QTextStream allCubesListWriter(&allCubesListFile);
@@ -220,7 +220,7 @@ void IsisMain() {
       QFile filterListFile(outputBaseName + "_" + g_filterList[filterIndex] + ".lis");
       if ( (frameletNumber == 1 && !filterListFile.open(QFile::WriteOnly | QFile::Text))
            || (frameletNumber > 1 && !filterListFile.open(QFile::Append | QFile::Text)) ) {
-        QString msg = "Unable to write to file [" + filterListFile.fileName() + "]";
+        std::string msg = "Unable to write to file [" + filterListFile.fileName() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       QTextStream filterListWriter(&filterListFile);
@@ -315,7 +315,7 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
   if (spcName.compare("JUNO", Qt::CaseInsensitive) != 0
       || instId.compare("JNC", Qt::CaseInsensitive) != 0) {
 
-    QString msg = "Unrecognized Spacecraft name ["
+    std::string msg = "Unrecognized Spacecraft name ["
                   + spcName
                   + "] and instrument ID ["
                   + instId
@@ -334,7 +334,7 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
   QString summingKey = QString::fromStdString(outputLabel.findKeyword("SummingMode", PvlObject::Traverse)[0]);
   if (summingKey.compare("1") != 0 &&
       summingKey.compare("2") != 0) {
-    QString msg = "Invalid summing mode [" + summingKey + "], expected [1] or [2].";
+    std::string msg = "Invalid summing mode [" + summingKey + "], expected [1] or [2].";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
   int summingMode = summingKey.toInt();

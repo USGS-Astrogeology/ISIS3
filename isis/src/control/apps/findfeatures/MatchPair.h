@@ -227,7 +227,7 @@ class MatchPair {
       return ( m_data->m_errors.at(index) );
     }
 
-    QString errors(const QString &separator = "\n") {
+    std::string errors(const QString &separator = "\n") {
       return ( m_data->m_errors.join(separator));
     }
 

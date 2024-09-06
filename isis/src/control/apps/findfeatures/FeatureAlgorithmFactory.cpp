@@ -386,7 +386,7 @@ RobustMatcherList FeatureAlgorithmFactory::create(const QString &specs,
   QStringList algorithms = specs.split("|", Qt::SkipEmptyParts);
   if ( algorithms.size() == 0 ) {
     if ( errorIfEmpty ) {
-      QString mess = "No feature matcher algorithms provided!";
+      std::string mess = "No feature matcher algorithms provided!";
       throw IException(IException::User, mess, _FILEINFO_);
     }
     return (algoList);
@@ -396,7 +396,7 @@ RobustMatcherList FeatureAlgorithmFactory::create(const QString &specs,
   BOOST_FOREACH ( QString matcherSpec, algorithms ) {
     SharedRobustMatcher algo( make(matcherSpec) );
     if ( algo.isNull() ) {
-      QString mess = "Failed to create feature matcher from spec " + matcherSpec + ".";
+      std::string mess = "Failed to create feature matcher from spec " + matcherSpec + ".";
       throw IException(IException::User, mess, _FILEINFO_);
     }
     algoList.append(algo);
@@ -469,7 +469,7 @@ SharedRobustMatcher FeatureAlgorithmFactory::make(const QString &definition) con
     }
   }
   catch (IException &e) {
-    QString mess = "Failed to create algorithms for config:\n" + definition;
+    std::string mess = "Failed to create algorithms for config:\n" + definition;
     throw IException(e, IException::User, mess, _FILEINFO_);
   }
 
@@ -489,7 +489,7 @@ SharedRobustMatcher FeatureAlgorithmFactory::make(const QString &definition) con
    falgo->validate(true);
   }
   catch (IException &ie) {
-    QString mess = "MatcherAlgorithms were not created successfully!";
+    std::string mess = "MatcherAlgorithms were not created successfully!";
     ie.append(IException(IException::User, mess, _FILEINFO_));
     throw ie;
   }
@@ -544,7 +544,7 @@ QStringList FeatureAlgorithmFactory::formatSpecifications(QString specification)
       // std::cout << "Setting feature2d: " << part << "\n";
       // If we have a detector and extractor, this is an error
       if ( !detectorSpec.isEmpty() && !extractorSpec.isEmpty() ) {
-        QString mess = "Too many Feature2Ds specified at " + part + " in specification " +
+        std::string mess = "Too many Feature2Ds specified at " + part + " in specification " +
                        specification;
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -564,7 +564,7 @@ QStringList FeatureAlgorithmFactory::formatSpecifications(QString specification)
     else if ( part.contains(QRegularExpression("^detector\\.*", QRegularExpression::CaseInsensitiveOption)) ) {
       // std::cout << "Setting detector: " << part << "\n";
       if ( !detectorSpec.isEmpty() ) {
-        QString mess = "Multiple Detector specs found - have \"" + detectorSpec + "\", but found \"" +
+        std::string mess = "Multiple Detector specs found - have \"" + detectorSpec + "\", but found \"" +
                         part + "\" in specification: " + specification;
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -574,7 +574,7 @@ QStringList FeatureAlgorithmFactory::formatSpecifications(QString specification)
     else if ( part.contains(QRegularExpression("^extractor\\.*", QRegularExpression::CaseInsensitiveOption)) ) {
       // std::cout << "Setting extractor: " << part << "\n";
       if ( !extractorSpec.isEmpty() ) {
-        QString mess = "Multiple Extractor specs found - have \"" + extractorSpec + "\", but found \"" +
+        std::string mess = "Multiple Extractor specs found - have \"" + extractorSpec + "\", but found \"" +
                         part + "\" in specification: " + specification;
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -584,7 +584,7 @@ QStringList FeatureAlgorithmFactory::formatSpecifications(QString specification)
     else if ( part.contains(QRegularExpression("^matcher\\.*", QRegularExpression::CaseInsensitiveOption)) ) {
       // std::cout << "Setting matcher: " << part << "\n";
       if ( !matcherSpec.isEmpty() ) {
-        QString mess = "Multiple Matcher specs found - have \"" + matcherSpec + "\", but found  \"" +
+        std::string mess = "Multiple Matcher specs found - have \"" + matcherSpec + "\", but found  \"" +
                         part + "\" in specification: " + specification;
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -593,7 +593,7 @@ QStringList FeatureAlgorithmFactory::formatSpecifications(QString specification)
     else if ( part.contains(QRegularExpression("^parameters*", QRegularExpression::CaseInsensitiveOption)) ) {
       // std::cout << "Setting paramters: " << part << "\n";
       if ( !parametersSpec.isEmpty() ) {
-        QString mess = "Multiple Parameter specs found - have \"" + parametersSpec + "\", but found \"" +
+        std::string mess = "Multiple Parameter specs found - have \"" + parametersSpec + "\", but found \"" +
                         part + "\" in specification: " + specification;
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -614,7 +614,7 @@ QStringList FeatureAlgorithmFactory::formatSpecifications(QString specification)
       else {
         // Should have had parameter already so there are too many parts of
         // the specification and its invalid.
-        QString mess = "Invalid algorithm/part at or near \"" + part +
+        std::string mess = "Invalid algorithm/part at or near \"" + part +
                        "\" - too many or invalid algorithm specs detected in specification: "
                        + specification;
         throw IException(IException::User, mess, _FILEINFO_);
@@ -626,7 +626,7 @@ QStringList FeatureAlgorithmFactory::formatSpecifications(QString specification)
   if ( !parametersSpec.isEmpty() ) {
     if ( parametersSpec.split("@", Qt::SkipEmptyParts).takeFirst().toLower() !=
          "parameters" ) {
-      QString mess = "Invalid specification:\n" +
+      std::string mess = "Invalid specification:\n" +
                      specification + "\n" +
                      "Invalid parameters specification:\n" +
                      parametersSpec;

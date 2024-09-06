@@ -160,7 +160,7 @@ namespace Isis {
 
       QString destination =
           QFileDialog::getSaveFileName(NULL, QString("Export Control Network"),
-          "./" + FileName(control->fileName()).name());
+          "./" + QString::fromStdString(FileName(control->fileName().toStdString()).name()));
 
       if (destination.isEmpty()) {
         success = false;

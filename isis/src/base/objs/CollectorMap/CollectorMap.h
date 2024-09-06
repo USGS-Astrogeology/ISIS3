@@ -567,7 +567,7 @@ namespace Isis {
       T &get(const K &key) {
         CollectorIter cItr = _list.find(key);
         if(cItr == _list.end()) {
-          QString mess = "Requested value does not exist!";
+          std::string mess = "Requested value does not exist!";
           throw IException(IException::Programmer, mess, _FILEINFO_);
         }
         return (cItr->second);
@@ -583,7 +583,7 @@ namespace Isis {
       const T &get(const K &key) const {
         CollectorConstIter cItr = _list.find(key);
         if(cItr == _list.end()) {
-          QString mess = "Requested value does not exist!";
+          std::string mess = "Requested value does not exist!";
           throw IException(IException::Programmer, mess, _FILEINFO_);
         }
         return (cItr->second);

@@ -866,7 +866,7 @@ namespace Isis {
    // Find types and return requested types
     QStringList tlist = ktypes.split(",");
     for (int k = 0 ; k < tlist.size() ; k++) {
-      tlist[k] = IString(tlist[k]).Trim(" \r\n\t\v\b\f").UpCase().ToQt();
+      tlist[k] = QString::fromStdString(IString(tlist[k].toStdString()).Trim(" \r\n\t\v\b\f").UpCase());
     }
     return (tlist);
   }
@@ -1044,11 +1044,11 @@ namespace Isis {
   Kernels::KernelFile Kernels::examine(const QString &kfile,
                                        const bool &manage) const {
 
-    FileName kernfile(kfile);
+    FileName kernfile(kfile.toStdString());
     KernelFile kf;
     kf.pathname = kfile;
-    kf.name = kernfile.name();
-    kf.fullpath = kernfile.expanded();
+    kf.name = QString::fromStdString(kernfile.name());
+    kf.fullpath = QString::fromStdString(kernfile.expanded());
     kf.exists = kernfile.fileExists();
     kf.ktype = "UNKNOWN";
     kf.loaded = false;     // Assumes its not loaded
@@ -1073,7 +1073,7 @@ namespace Isis {
         if (found == SPICETRUE) {
           kf.loaded = true;
           kf.managed = false;
-          kf.ktype = IString(ktype).UpCase().ToQt();
+          kf.ktype = QString::fromStdString(IString(ktype).UpCase());
         }
       }
     }
@@ -1106,8 +1106,8 @@ namespace Isis {
    *         "UNKNOWN" is returned.
    */
   QString Kernels::resolveType(const QString &kfile) const {
-    FileName kernFile(kfile);
-    QString kpath = kernFile.expanded();
+    FileName kernFile(kfile.toStdString());
+    QString kpath = QString::fromStdString(kernFile.expanded());
     ifstream ifile(kpath.toLatin1().data(), ios::in | ios::binary);
     QString ktype("UNKNOWN");
     if (ifile) {
@@ -1119,7 +1119,7 @@ namespace Isis {
 
       // See if the file is a known NAIF type.  Assume it has been
       // extracted from a NAIF compliant kernel
-      QString istr = IString(ibuf).Trim(" \n\r\f\t\v\b").ToQt();
+      QString istr = QString::fromStdString(IString(ibuf).Trim(" \n\r\f\t\v\b"));
       if (istr.contains("/")) {
         ktype = istr.split("/").last();
       }
@@ -1184,7 +1184,7 @@ namespace Isis {
     QString ktype(iktype);  // Set default condition
 
     //  Deciminate file parts
-    FileName kf(kfile);
+    FileName kf(kfile.toStdString());
     string ext = IString(kf.extension()).DownCase();
 
     //  Check extensions for types

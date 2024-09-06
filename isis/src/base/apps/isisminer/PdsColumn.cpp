@@ -410,7 +410,7 @@ namespace Isis {
   PdsColumn *PdsColumn::promote(SharedResource &resource) {
     PdsColumn *column = dynamic_cast<PdsColumn *> (resource.data());
     if ( 0 == column ) {
-      QString mess = "Could not cast Resource [" + resource->name() +
+      std::string mess = "Could not cast Resource [" + resource->name() +
                      "] to a PdsColumn pointer.";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }

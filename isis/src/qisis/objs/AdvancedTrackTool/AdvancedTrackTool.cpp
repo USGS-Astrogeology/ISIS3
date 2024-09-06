@@ -320,9 +320,9 @@ namespace Isis {
     }
 
     // Write out the path, filename, and serial number
-    FileName fname = FileName(cvp->cube()->fileName()).expanded();
-    QString fnamePath = fname.path();
-    QString fnameName = fname.name();
+    FileName fname = FileName(cvp->cube()->fileName().toStdString()).expanded();
+    QString fnamePath = QString::fromStdString(fname.path());
+    QString fnameName = QString::fromStdString(fname.name());
     p_tableWin->table()->item(row, getIndex("Path"))->setText(fnamePath);
     p_tableWin->table()->item(row, getIndex("FileName"))->setText(fnameName);
     if (!cvp->cube()->hasGroup("Tracking") && !cvp->cube()->hasTable("InputImages")){
@@ -700,7 +700,7 @@ namespace Isis {
             TrackingTable trackingTable(table);
 
             FileName trackingFileName = trackingTable.pixelToFileName(currentPixel);
-            psSrcFileName = trackingFileName.name();
+            psSrcFileName = QString::fromStdString(trackingFileName.name());
             psSrcSerialNum = trackingTable.pixelToSN(currentPixel);
             piOrigin = trackingTable.fileNameToIndex(trackingFileName, psSrcSerialNum);
           }
@@ -924,9 +924,9 @@ namespace Isis {
           "state and geometry can not be saved and restored", _FILEINFO_);
     }
 
-    FileName config(FileName("$HOME/.Isis/" + QApplication::applicationName() + "/").path() + "/" +
+    FileName config(FileName("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/").path() + "/" +
                     "advancedTrackTool.config");
 
-    return config.expanded();
+    return QString::fromStdString(config.expanded());
   }
 }

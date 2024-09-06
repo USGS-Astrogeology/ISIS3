@@ -15,7 +15,7 @@ namespace Isis {
     FileList list;
 
     // Get the list of cubes to mosaic
-    list.read(FileName(ui.GetFileName("FROMLIST")));
+    list.read(FileName(ui.GetFileName("FROMLIST").toStdString()));
 
     fstream os;
     bool olistFlag = false;
@@ -76,9 +76,9 @@ namespace Isis {
 
     bool mosaicCreated = false;
     for (int i = 0; i < list.size(); i++) {
-      if (!m.StartProcess(list[i].toString())) {
+      if (!m.StartProcess(QString::fromStdString(list[i].toString()))) {
         PvlGroup outsiders("Outside");
-        outsiders += PvlKeyword("File", (list[i].toString().toStdString()));
+        outsiders += PvlKeyword("File", (list[i].toString()));
         Application::AppendAndLog(outsiders, log);
       }
       else {

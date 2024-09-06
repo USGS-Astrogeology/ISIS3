@@ -361,7 +361,7 @@ namespace Isis {
 
   void BandGeometry::generateGeometryKeys(PvlObject &pband) {
     if(size() <= 0) {
-      QString mess = "No Band geometry available!";
+      std::string mess = "No Band geometry available!";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 
@@ -626,7 +626,7 @@ namespace Isis {
 
   void BandGeometry::generatePolygonKeys(PvlObject &pband) {
     if(size() <= 0) {
-      QString mess = "No Band geometry available!";
+      std::string mess = "No Band geometry available!";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 

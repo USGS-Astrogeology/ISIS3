@@ -301,7 +301,7 @@ void LoadMapRes() {
     ui.PutDouble("SCALE", userGrp["Scale"]);
   }
   else {
-    QString msg = "Mapfile [" + ui.GetFileName("MAP") +
+    std::string msg = "Mapfile [" + ui.GetFileName("MAP") +
                  "] does not have [SCALE] keyword to load";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -359,7 +359,7 @@ void LoadMapRange() {
   ui.PutAsString("DEFAULTRANGE", "MAP");
 
   if(count < 4) {
-    QString msg = "One or more of the values for the sky range was not found";
+    std::string msg = "One or more of the values for the sky range was not found";
     msg += " in [" + ui.GetFileName("MAP") + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }

@@ -37,15 +37,15 @@ namespace Isis {
     QFile file(xmlFile);
 
     if (!file.open(QIODevice::ReadOnly)) {
-      QString message = QString("Failed to open file for XML Input: [%1]").arg(xmlFile);
+      std::string message = QString("Failed to open file for XML Input: [%1]").arg(xmlFile);
       throw IException(IException::Io, message, _FILEINFO_);
     }
 
-    QString errMsg;
+    std::string errMsg;
     int errLine, errCol;
     if (!doc.setContent(&file, &errMsg, &errLine, &errCol)) {
       file.close();
-      QString message = QString("Failed to use file for XML Input: [%1]. %2 at line %3, column %4").arg(xmlFile).arg(errMsg).arg(errLine).arg(errCol);
+      std::string message = QString("Failed to use file for XML Input: [%1]. %2 at line %3, column %4").arg(xmlFile).arg(errMsg).arg(errLine).arg(errCol);
       throw IException(IException::Io, message, _FILEINFO_);
     }
 

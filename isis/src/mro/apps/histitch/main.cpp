@@ -148,7 +148,7 @@ void IsisMain() {
   fromData[0].add = HiVector(icube1->lineCount(), 0.0);
 
   if(seamSize + skipSize > icube1->sampleCount()) {
-    QString msg = "SEAMSIZE [" + toString(seamSize) + "] + SKIP [" + toString(skipSize) + "] must ";
+    std::string msg = "SEAMSIZE [" + toString(seamSize) + "] + SKIP [" + toString(skipSize) + "] must ";
     msg += " be less than the number of samples [" + toString(icube1->sampleCount()) + "] in ";
     msg += "[" + ui.GetAsString("FROM1") + "]";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -181,7 +181,7 @@ void IsisMain() {
     fromData[1].add = HiVector(icube2->lineCount(), 0.0);
 
     if(seamSize + skipSize > icube2->sampleCount()) {
-      QString msg = "SEAMSIZE [" + toString(seamSize) + "] + SKIP [" + toString(skipSize) + "] must ";
+      std::string msg = "SEAMSIZE [" + toString(seamSize) + "] + SKIP [" + toString(skipSize) + "] must ";
       msg += " be less than the number of samples [" + toString(icube2->sampleCount()) + " in ";
       msg += "[" + ui.GetAsString("FROM2") + "]";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -194,7 +194,7 @@ void IsisMain() {
     QString from1ObsId = QString::fromStdString(from1Archive["ObservationId"]);
     QString from2ObsId = QString::fromStdString(from2Archive["ObservationId"]);
     if(from1ObsId != from2ObsId) {
-      QString msg = "The input files Observation Id's are not compatable";
+      std::string msg = "The input files Observation Id's are not compatable";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     stitchedProductIds = "(" + stitchedProductIds + ", " +

@@ -153,7 +153,7 @@ namespace Isis {
   *                                 to set algorithm parameters."
   */
   int StarAlgorithm::setAlgorithmVariables(const PvlFlatMap &variables) {
-    QString msg = "StarAlgorithm does not have the ability to set algorithm parameters.";
+    std::string msg = "StarAlgorithm does not have the ability to set algorithm parameters.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
 
     return (-1);

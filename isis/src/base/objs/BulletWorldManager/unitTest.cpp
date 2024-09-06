@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "";
     BulletTargetShape *itokawaShape = BulletTargetShape::load(dskfile);
     if (!itokawaShape) {
-      QString msg = "Failed loading shapefile.";
+      std::string msg = "Failed loading shapefile.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     namedWorld.addTarget(itokawaShape);
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
       qDebug() << "Target name: " << namedTarget->name();
     }
     else {
-      QString msg = "Failed accessing the first target shape.";
+      std::string msg = "Failed accessing the first target shape.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     qDebug() << "";
@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   catch (IException &e) {
     qDebug() << "";
     qDebug() << "";
-    QString msg = "**************** UNIT TEST FAILED! **************** ";
+    std::string msg = "**************** UNIT TEST FAILED! **************** ";
     IException(e, IException::Unknown, msg, _FILEINFO_).print();
   }
 }

@@ -8,6 +8,7 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 
 #include <QString>
+#include <QStringList>
 #include <vector>
 #include <fstream>
 #include <tnt/tnt_array1d.h>
@@ -533,7 +534,7 @@ namespace Isis {
     TNT::Array1D<T> out(data.dim());
     for(int i = 0 ; i < data.dim() ; i++) {
       Parser::TokenType s = data[i];
-      out[i] = toDouble(s);
+      out[i] = s.toDouble();
     }
     return (out);
   }

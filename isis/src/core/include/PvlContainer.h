@@ -155,10 +155,10 @@ namespace Isis {
 
       bool hasKeyword(const std::string &name) const;
       //! The keyword iterator.
-      typedef QList<PvlKeyword>::iterator PvlKeywordIterator;
+      typedef std::vector<PvlKeyword>::iterator PvlKeywordIterator;
 
       //! The const keyword iterator
-      typedef QList<PvlKeyword>::const_iterator ConstPvlKeywordIterator;
+      typedef std::vector<PvlKeyword>::const_iterator ConstPvlKeywordIterator;
 
 
       PvlKeywordIterator findKeyword(const std::string &name,
@@ -288,7 +288,7 @@ namespace Isis {
                                                     initialized using a filename
                                                     the string is empty.*/
       PvlKeyword m_name;                   //!< This is the name keyword
-      QList<PvlKeyword> m_keywords; /**<This is the vector of
+      std::vector<PvlKeyword> m_keywords; /**<This is the vector of
                                                     PvlKeywords the container is
                                                     holding. */
 

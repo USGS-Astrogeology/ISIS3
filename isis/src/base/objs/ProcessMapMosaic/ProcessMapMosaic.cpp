@@ -51,17 +51,17 @@ namespace Isis {
    */
   bool ProcessMapMosaic::StartProcess(QString inputFile) {
     if (InputCubes.size() != 0) {
-      QString msg = "Input cubes already exist; do not call SetInputCube when using ";
+      std::string msg = "Input cubes already exist; do not call SetInputCube when using ";
       msg += "ProcessMosaic::StartProcess(QString)";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if (OutputCubes.size() == 0) {
-      QString msg = "An output cube must be set before calling StartProcess";
+      std::string msg = "An output cube must be set before calling StartProcess";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    CubeAttributeInput inAtt(inputFile);
+    CubeAttributeInput inAtt(inputFile.toStdString());
     Cube *inCube = ProcessMosaic::SetInputCube(inputFile, inAtt);
     inCube->addCachingAlgorithm(new UniqueIOCachingAlgorithm(2));
 
@@ -72,7 +72,7 @@ namespace Isis {
     int nlMosaic = mosaicCube->lineCount();
 
     if (*iproj != *oproj) {
-      QString msg = "Mapping groups do not match between cube [" + inputFile + "] and mosaic";
+      std::string msg = "Mapping groups do not match between cube [" + inputFile + "] and mosaic";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -151,7 +151,7 @@ namespace Isis {
     }
     else {
       // Place the input in the mosaic
-      Progress()->SetText("Mosaicking " + FileName(inputFile).name());
+      Progress()->SetText("Mosaicking " + QString::fromStdString(FileName(inputFile.toStdString()).name()));
 
       try {
         do {
@@ -171,7 +171,7 @@ namespace Isis {
         while (wrapPossible && outSample < nsMosaic);
       }
       catch (IException &e) {
-        QString msg = "Unable to mosaic cube [" + FileName(inputFile).name() + "]";
+        std::string msg = "Unable to mosaic cube [" + FileName(inputFile.toStdString()).name() + "]";
         throw IException(e, IException::User, msg, _FILEINFO_);
       }
     }
@@ -215,7 +215,7 @@ namespace Isis {
     for (int i = 0; i < propagationCubes.size(); i++) {
       // Open the cube and get the maximum number of band in all cubes
       Cube cube;
-      cube.open(propagationCubes[i].toString());
+      cube.open(QString::fromStdString(propagationCubes[i].toString()));
       bands = max(bands, cube.bandCount());
 
       // See if the cube has a projection and make sure it matches
@@ -223,7 +223,7 @@ namespace Isis {
       TProjection *projNew =
         (TProjection *) Isis::ProjectionFactory::CreateFromCube(*(cube.label()));
       if ((proj != NULL) && (*proj != *projNew)) {
-        QString msg = "Mapping groups do not match between cubes [" +
+        std::string msg = "Mapping groups do not match between cubes [" +
                      propagationCubes[0].toString() + "] and [" + propagationCubes[i].toString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -261,7 +261,7 @@ namespace Isis {
 
     if (proj) delete proj;
 
-    return SetOutputCube(propagationCubes[0].toString(), xmin, xmax, ymin, ymax,
+    return SetOutputCube(QString::fromStdString(propagationCubes[0].toString()), xmin, xmax, ymin, ymax,
                          slat, elat, slon, elon, bands, oAtt, mosaicFile, latlonflag);
   }
 
@@ -293,7 +293,7 @@ namespace Isis {
     for (int i = 0; i < propagationCubes.size(); i++) {
       // Open the cube and get the maximum number of band in all cubes
       Cube cube;
-      cube.open(propagationCubes[i].toString());
+      cube.open(QString::fromStdString(propagationCubes[i].toString()));
       bands = max(bands, cube.bandCount());
 
       // See if the cube has a projection and make sure it matches
@@ -301,7 +301,7 @@ namespace Isis {
       RingPlaneProjection *projNew =
         (RingPlaneProjection *) Isis::ProjectionFactory::CreateFromCube(*(cube.label()));
       if ((proj != NULL) && (*proj != *projNew)) {
-        QString msg = "Mapping groups do not match between cubes [" +
+        std::string msg = "Mapping groups do not match between cubes [" +
                      propagationCubes[0].toString() + "] and [" + propagationCubes[i].toString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -334,7 +334,7 @@ namespace Isis {
 
     if (proj) delete proj;
 
-    return RingsSetOutputCube(propagationCubes[0].toString(), xmin, xmax, ymin, ymax,
+    return RingsSetOutputCube(QString::fromStdString(propagationCubes[0].toString()), xmin, xmax, ymin, ymax,
                          srad, erad, saz, eaz, bands, oAtt, mosaicFile);
   }
 
@@ -354,7 +354,7 @@ namespace Isis {
 
     int samples, lines, bands = 0;
     Pvl label;
-    label.read(propagationCubes[0].toString().toStdString());
+    label.read(propagationCubes[0].toString());
     PvlGroup mGroup = label.findGroup("Mapping", Pvl::Traverse);
 
     // All mosaicking programs use only the upper left x and y to determine where to
@@ -392,7 +392,7 @@ namespace Isis {
 
     for (int i = 0; i < propagationCubes.size(); i++) {
       Cube cube;
-      cube.open(propagationCubes[i].toString());
+      cube.open(QString::fromStdString(propagationCubes[i].toString()));
       bands = max(cube.bandCount(), bands);
 
       // See if the cube has a projection and make sure it matches
@@ -403,8 +403,8 @@ namespace Isis {
       if (proj == NULL) {
       }
       else if (*proj != *projNew) {
-        std::string msg = "Mapping groups do not match between cube [" + propagationCubes[i].toString().toStdString() +
-                     "] and [" + propagationCubes[0].toString().toStdString() + "]";
+        std::string msg = "Mapping groups do not match between cube [" + propagationCubes[i].toString() +
+                     "] and [" + propagationCubes[0].toString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -414,7 +414,7 @@ namespace Isis {
 
     if (proj) delete proj;
 
-    return SetOutputCube(propagationCubes[0].toString(), xmin, xmax, ymin, ymax,
+    return SetOutputCube(QString::fromStdString(propagationCubes[0].toString()), xmin, xmax, ymin, ymax,
                          slat, elat, slon, elon, bands, oAtt, mosaicFile);
   }
 
@@ -443,7 +443,7 @@ namespace Isis {
 
     int samples, lines, bands = 0;
     Pvl label;
-    label.read(propagationCubes[0].toString().toStdString());
+    label.read(propagationCubes[0].toString());
     PvlGroup mGroup = label.findGroup("Mapping", Pvl::Traverse);
     mGroup.addKeyword(PvlKeyword("MinimumRingRadius", std::to_string(srad)), Pvl::Replace);
     mGroup.addKeyword(PvlKeyword("MaximumRingRadius", std::to_string(erad)), Pvl::Replace);
@@ -471,7 +471,7 @@ namespace Isis {
 
     for (int i = 0; i < propagationCubes.size(); i++) {
       Cube cube;
-      cube.open(propagationCubes[i].toString());
+      cube.open(QString::fromStdString(propagationCubes[i].toString()));
       bands = max(cube.bandCount(), bands);
 
       // See if the cube has a projection and make sure it matches
@@ -481,8 +481,8 @@ namespace Isis {
       if (proj == NULL) {
       }
       else if (*proj != *projNew) {
-        std::string msg = "Mapping groups do not match between cube [" + propagationCubes[i].toString().toStdString() +
-                     "] and [" + propagationCubes[0].toString().toStdString() + "]";
+        std::string msg = "Mapping groups do not match between cube [" + propagationCubes[i].toString() +
+                     "] and [" + propagationCubes[0].toString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -492,7 +492,7 @@ namespace Isis {
 
     if (proj) delete proj;
 
-    return RingsSetOutputCube(propagationCubes[0].toString(), xmin, xmax, ymin, ymax,
+    return RingsSetOutputCube(QString::fromStdString(propagationCubes[0].toString()), xmin, xmax, ymin, ymax,
                          srad, erad, saz, eaz, bands, oAtt, mosaicFile);
   }
 
@@ -691,7 +691,7 @@ namespace Isis {
 
       // Initialize the mosaic
       ProcessByLine p;
-      CubeAttributeInput inAtt(inputFile);
+      CubeAttributeInput inAtt(inputFile.toStdString());
       Cube *propCube = p.SetInputCube(inputFile, inAtt);
       bands = propCube->bandCount();
 
@@ -731,7 +731,7 @@ namespace Isis {
   Isis::Cube *ProcessMapMosaic::RingsSetOutputCube(const QString &inputFile, PvlGroup mapping,
       CubeAttributeOutput &oAtt, const QString &mosaicFile) {
     if (OutputCubes.size() != 0) {
-      QString msg = "You can only specify one output cube and projection";
+      std::string msg = "You can only specify one output cube and projection";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -749,7 +749,7 @@ namespace Isis {
 
       // Initialize the mosaic
       ProcessByLine p;
-      CubeAttributeInput inAtt(inputFile);
+      CubeAttributeInput inAtt(inputFile.toStdString());
       Cube *propCube = p.SetInputCube(inputFile, inAtt);
       bands = propCube->bandCount();
 

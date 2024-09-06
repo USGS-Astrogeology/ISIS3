@@ -78,7 +78,7 @@ namespace Isis {
     int lines = std::stoi(inputLabelPvl.findObject("IMAGE")["LINES"][0]);
     int samples = std::stoi(inputLabelPvl.findObject("IMAGE")["LINE_SAMPLES"][0]);
     if ( (  (lines != 244) && (lines != 412) ) || samples != 537) {
-      QString msg = "The given file [" + from.expanded() + "] does not contain "
+      std::string msg = "The given file [" + from.expanded() + "] does not contain "
                     "a full MSI image. Full NEAR Shoemaker MSI images have "
                     "dimension 537 samples x 244 (or 412) lines. The given image is ["
                     + QString(toString(samples)) + "] samples by ["
@@ -86,7 +86,7 @@ namespace Isis {
       throw IException(IException::Io, msg, _FILEINFO_);
     }
     if (inputLabelPvl["SAMPLE_DISPLAY_DIRECTION"][0] != "RIGHT") {
-      QString msg = "The input label [" + from.expanded() + "] has an invalid "
+      std::string msg = "The input label [" + from.expanded() + "] has an invalid "
                     "value for SAMPLE_DISPLAY_DIRECTION = ["
                     + QString::fromStdString(inputLabelPvl["SAMPLE_DISPLAY_DIRECTION"][0])
                     + "]. The msi2isis program requires "
@@ -94,7 +94,7 @@ namespace Isis {
       throw IException(IException::Io, msg, _FILEINFO_);
     }
     if (inputLabelPvl["LINE_DISPLAY_DIRECTION"][0] != "UP") {
-      QString msg = "The input label [" + from.expanded() + "] has an invalid "
+      std::string msg = "The input label [" + from.expanded() + "] has an invalid "
                     "value for LINE_DISPLAY_DIRECTION = ["
                     + QString::fromStdString(inputLabelPvl["LINE_DISPLAY_DIRECTION"][0])
                     + "]. The msi2isis program requires "
@@ -103,7 +103,7 @@ namespace Isis {
     }
     // Don't import projected image
     if(inputLabelPvl.hasObject("IMAGE_MAP_PROJECTION")) {
-      QString msg = "Unable to import the NEAR Shoemaker MSI image from ["
+      std::string msg = "Unable to import the NEAR Shoemaker MSI image from ["
                     + from.expanded() + "] using msi2isis.This program only "
                     "imports images that have not been projected. Use pds2isis. ";
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -191,7 +191,7 @@ namespace Isis {
     catch ( IException &e) {
       remove(importProcessOutCube.expanded().toLatin1());
       remove(enlargeProcessOutCube.expanded().toLatin1());
-      QString msg = "Unable to translate the labels from [" + from.expanded()
+      std::string msg = "Unable to translate the labels from [" + from.expanded()
                     + "] to ISIS format using msi2isis.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }

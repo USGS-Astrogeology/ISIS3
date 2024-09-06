@@ -112,7 +112,7 @@ void IsisMain() {
 
   // Ensure only single bands
   if (lhImage.bandCount() != 1 || rhImage.bandCount() != 1) {
-    QString msg = "Input Cubes must have only one band!";
+    std::string msg = "Input Cubes must have only one band!";
     throw IException(IException::User,msg,_FILEINFO_);
   }
 
@@ -126,7 +126,7 @@ void IsisMain() {
     rhCamera = rhImage.camera();
   }
   catch (IException &ie) {
-    QString msg = "Both input images must have a camera";
+    std::string msg = "Both input images must have a camera";
     throw IException(ie, IException::User, msg, _FILEINFO_);
   }
 
@@ -144,7 +144,7 @@ void IsisMain() {
     QString sLeft = FileName(lhImage.fileName()).name();
     QString sRight = FileName(rhImage.fileName()).name();
     if (sLeft == sRight) {
-      QString msg = "Cube Serial Numbers must be unique - FROM=" + serialLeft +
+      std::string msg = "Cube Serial Numbers must be unique - FROM=" + serialLeft +
                    ", MATCH=" + serialRight;
       throw IException(IException::User,msg,_FILEINFO_);
     }
@@ -292,7 +292,7 @@ void IsisMain() {
   // some.
   ///////////////////////////////////////////////////////////////////////
   if (gstack.size() <= 0) {
-    QString msg = "No seed points found - may need to check Gruen parameters.";
+    std::string msg = "No seed points found - may need to check Gruen parameters.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

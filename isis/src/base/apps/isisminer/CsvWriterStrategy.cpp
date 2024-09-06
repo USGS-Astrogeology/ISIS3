@@ -136,7 +136,7 @@ namespace Isis {
   
     //  Now open the filename
     ofstream os;
-    QString ofFile = FileName(fname).expanded();
+    QString ofFile = QString::fromStdString(FileName(fname.toStdString()).expanded());
     QByteArray qofFile = ofFile.toLatin1();
     if ( "append" == m_mode ) {
       os.open(qofFile.data(), ios::out | ios::app);
@@ -146,7 +146,7 @@ namespace Isis {
     }
   
     if ( !os.is_open() ) {
-      QString mess = "CsvWriter::Cannot open/create output file [" + fname +
+      std::string mess = "CsvWriter::Cannot open/create output file [" + fname +
                       "].";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
@@ -248,7 +248,7 @@ namespace Isis {
             value = gis->wkb(geos, GisTopology::PreserveGeometry);
           }
           else {
-            QString mess = "Unsupported geometry type: " + gisType;
+            std::string mess = "Unsupported geometry type: " + gisType;
             throw IException(IException::User, mess, _FILEINFO_);
           }
         }

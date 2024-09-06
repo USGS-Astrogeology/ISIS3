@@ -212,7 +212,7 @@ namespace Isis {
   double CameraDetectorMap::exposureDuration(const double sample,
                                              const double line,
                                              const int band) const {
-    QString msg = "Exposure duration is only available for LineScan, VariableLineScan, "
+    std::string msg = "Exposure duration is only available for LineScan, VariableLineScan, "
                   "and PushFrame Cameras."; 
     throw IException(IException::Programmer, msg, _FILEINFO_);
 

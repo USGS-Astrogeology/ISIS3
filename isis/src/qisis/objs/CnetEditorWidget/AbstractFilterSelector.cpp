@@ -77,7 +77,7 @@ namespace Isis {
 
   void AbstractFilterSelector::createSelector() {
     m_closeButton = new QPushButton;
-    m_closeButton->setIcon(QIcon(FileName("$ISISROOT/appdata/images/icons/editdelete.png").expanded()));
+    m_closeButton->setIcon(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/editdelete.png").expanded())));
     connect(m_closeButton, SIGNAL(clicked()), this, SLOT(sendClose()));
 
     m_selector = new QComboBox;

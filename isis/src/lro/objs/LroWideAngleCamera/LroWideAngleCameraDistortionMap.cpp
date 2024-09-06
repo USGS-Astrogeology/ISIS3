@@ -82,7 +82,7 @@ namespace Isis {
  */
   void LroWideAngleCameraDistortionMap::setBand(int vband) {
     if ( (vband <= 0) || (vband > m_odkFilters.size()) ) {
-      QString mess = "Invalid band (" + QString::number(vband) + " requested " +
+      std::string mess = "Invalid band (" + QString::number(vband) + " requested " +
                      " Must be <= " + QString::number(m_odkFilters.size());
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }

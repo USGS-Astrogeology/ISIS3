@@ -97,8 +97,7 @@ namespace Isis {
       m_geom = fromCube(cube);
     }
     else {
-      throw IException(IException::Programmer,
-                       QString("Unknown GIS type given [%1]").arg(typeToString(t)),
+      throw IException(IException::Programmer,"Unknown GIS type given ["+ typeToString(t).toStdString() +"]",
                        _FILEINFO_);
     }
 

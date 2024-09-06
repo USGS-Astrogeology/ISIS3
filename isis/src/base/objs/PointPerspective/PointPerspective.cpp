@@ -80,7 +80,7 @@ namespace Isis {
       m_P = 1.0 + (m_distance / m_equatorialRadius);
     }
     catch(IException &e) {
-      QString message = "Invalid label group [Mapping]";
+      std::string message = "Invalid label group [Mapping]";
       throw IException(e, IException::Io, message, _FILEINFO_);
     }
   }

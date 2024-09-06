@@ -153,7 +153,7 @@ namespace Isis {
         return (Column)i;
     }
 
-    QString msg = "Column title [" + columnTitle + "] does not match any of "
+    std::string msg = "Column title [" + columnTitle + "] does not match any of "
         "the defined column types";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
@@ -495,7 +495,7 @@ namespace Isis {
           }
           break;
         case AdjustedSPCoord1Sigma: {
-          QString msg;
+          std::string msg;
           if (latLonRadiusCoordDisplay) {
             msg = "Cannot set adjusted surface point latitude sigma";
           }
@@ -506,7 +506,7 @@ namespace Isis {
           break;
         }
         case AdjustedSPCoord2Sigma: {
-          QString msg;
+          std::string msg;
           if (latLonRadiusCoordDisplay) {
             msg = "Cannot set adjusted surface point longitude sigma";
           }
@@ -517,7 +517,7 @@ namespace Isis {
           break;
         }
         case AdjustedSPCoord3Sigma: {
-          QString msg;
+          std::string msg;
           if (latLonRadiusCoordDisplay) {
             msg = "Cannot set adjusted surface point radius sigma";
           }
@@ -717,12 +717,12 @@ namespace Isis {
   void AbstractPointItem::deleteSource() {
     if (m_point) {
       if (m_point->IsEditLocked()) {
-        QString msg = "Point [" + getFormattedData() + "] is edit locked and "
+        std::string msg = "Point [" + getFormattedData() + "] is edit locked and "
             "cannot be deleted";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       else if (m_point->GetNumLockedMeasures() > 0) {
-        QString msg = "Point [" + getFormattedData() + "] has at least one "
+        std::string msg = "Point [" + getFormattedData() + "] has at least one "
             "edit locked measure and cannot be deleted";
         throw IException(IException::User, msg, _FILEINFO_);
       }

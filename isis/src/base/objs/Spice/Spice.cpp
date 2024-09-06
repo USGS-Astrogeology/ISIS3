@@ -356,7 +356,7 @@ namespace Isis {
           QString naifTarget = "IAU_" + m_target->name().toUpper();
           namfrm_c(naifTarget.toLatin1().data(), &frameCode);
           if (frameCode == 0) {
-            QString msg = "Can not find NAIF BODY_FRAME_CODE for target ["
+            std::string msg = "Can not find NAIF BODY_FRAME_CODE for target ["
                          + m_target->name() + "]";
             throw IException(IException::Io, msg, _FILEINFO_);
           }
@@ -492,12 +492,12 @@ namespace Isis {
       if (QString::fromStdString(key[i]).toUpper() == "NADIR") break;
       if (QString::fromStdString(key[i]).toUpper() == "TABLE" && !noTables) break;
       if (QString::fromStdString(key[i]).toUpper() == "TABLE" && noTables) continue;
-      FileName file(QString::fromStdString(key[i]));
+      FileName file(key[i]);
       if (!file.fileExists()) {
-        QString msg = "Spice file does not exist [" + file.expanded() + "]";
+        std::string msg = "Spice file does not exist [" + file.expanded() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
-      QString fileName = file.expanded();
+      QString fileName = QString::fromStdString(file.expanded());
       furnsh_c(fileName.toLatin1().data());
       m_kernels->push_back(QString::fromStdString(key[i]));
     }
@@ -603,8 +603,8 @@ namespace Isis {
 
     // Unload the kernels (TODO: Can this be done faster)
     for (int i = 0; m_kernels && i < m_kernels->size(); i++) {
-      FileName file(m_kernels->at(i));
-      QString fileName = file.expanded();
+      FileName file(m_kernels->at(i).toStdString());
+      QString fileName = QString::fromStdString(file.expanded());
       unload_c(fileName.toLatin1().data());
     }
 
@@ -729,8 +729,8 @@ namespace Isis {
 
     // Unload the kernels (TODO: Can this be done faster)
     for (int i = 0; i < m_kernels->size(); i++) {
-      FileName file(m_kernels->at(i));
-      QString fileName = file.expanded();
+      FileName file(m_kernels->at(i).toStdString());
+      QString fileName = QString::fromStdString(file.expanded());
       unload_c(fileName.toLatin1().data());
     }
 
@@ -1136,11 +1136,11 @@ namespace Isis {
       }
 
       if (!found) {
-        QString msg = "Can not find [" + key + "] in text kernels";
+        std::string msg = "Can not find [" + key + "] in text kernels";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       else if (numValuesRead == 0){
-        QString msg = "Found " + key + "] in text kernels, but no values were identified and read.";
+        std::string msg = "Found " + key + "] in text kernels, but no values were identified and read.";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -1152,7 +1152,7 @@ namespace Isis {
       result = readStoredValue(key, type, index);
 
       if (result.isNull()) {
-        QString msg = "The camera is requesting spice data [" + key + "] that "
+        std::string msg = "The camera is requesting spice data [" + key + "] that "
                       "was not attached, please re-run spiceinit";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
@@ -1223,7 +1223,7 @@ namespace Isis {
       storedKey[index] = std::to_string(value.toInt());
     }
     else {
-      QString msg = "Unable to store variant in labels for key [" + key + "]";
+      std::string msg = "Unable to store variant in labels for key [" + key + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }

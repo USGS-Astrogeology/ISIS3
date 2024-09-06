@@ -233,7 +233,7 @@ namespace Isis {
     // Make sure measure is unique
     foreach(ControlMeasure * m, measures->values()) {
       if (m->GetCubeSerialNumber() == measure->GetCubeSerialNumber()) {
-        QString msg = "The SerialNumber is not unique. A measure with "
+        std::string msg = "The SerialNumber is not unique. A measure with "
             "serial number [" + measure->GetCubeSerialNumber() + "] already "
             "exists for ControlPoint [" + GetId() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -273,7 +273,7 @@ namespace Isis {
    */
   void ControlPoint::ValidateMeasure(QString serialNumber) const {
     if (!measures->contains(serialNumber)) {
-      QString msg = "No measure with serial number [" + serialNumber +
+      std::string msg = "No measure with serial number [" + serialNumber +
           "] is owned by this point";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -362,7 +362,7 @@ namespace Isis {
    */
   int ControlPoint::Delete(int index) {
     if (index < 0 || index >= cubeSerials->size()) {
-      QString msg = "index [" + QString(index) + "] out of bounds";
+      std::string msg = "index [" + QString(index) + "] out of bounds";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -418,7 +418,7 @@ namespace Isis {
 
   const ControlMeasure *ControlPoint::GetMeasure(int index) const {
     if (index < 0 || index >= cubeSerials->size()) {
-      QString msg = "Index [" + toString(index) + "] out of range";
+      std::string msg = "Index [" + toString(index) + "] out of range";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -428,7 +428,7 @@ namespace Isis {
 
   ControlMeasure *ControlPoint::GetMeasure(int index) {
     if (index < 0 || index >= cubeSerials->size()) {
-      QString msg = "Index [" + toString(index) + "] out of range";
+      std::string msg = "Index [" + toString(index) + "] out of range";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -453,7 +453,7 @@ namespace Isis {
    */
   const ControlMeasure *ControlPoint::GetRefMeasure() const {
     if (!HasRefMeasure()) {
-      QString msg = "Control point [" + GetId() + "] has no reference measure!";
+      std::string msg = "Control point [" + GetId() + "] has no reference measure!";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -466,7 +466,7 @@ namespace Isis {
    */
   ControlMeasure *ControlPoint::GetRefMeasure() {
     if (!HasRefMeasure()) {
-      QString msg = "Control point [" + GetId() + "] has no reference measure!";
+      std::string msg = "Control point [" + GetId() + "] has no reference measure!";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -585,7 +585,7 @@ namespace Isis {
     }
 
     if (index < 0 || index >= cubeSerials->size()) {
-      QString msg = "Index [";
+      std::string msg = "Index [";
       msg += toString(index) + "] out of range";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -606,7 +606,7 @@ namespace Isis {
     }
 
     if (!cubeSerials->contains(sn)) {
-      QString msg = "Point [" + id + "] has no measure with serial number [" +
+      std::string msg = "Point [" + id + "] has no measure with serial number [" +
           sn + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -704,7 +704,7 @@ namespace Isis {
    */
   ControlPoint::Status ControlPoint::SetType(PointType newType) {
     if (type != Fixed && type != Free && type != Constrained) {
-      QString msg = "Invalid Point Enumeration, [" + QString(type) + "], for "
+      std::string msg = "Invalid Point Enumeration, [" + QString(type) + "], for "
           "Control Point [" + GetId() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -898,7 +898,7 @@ namespace Isis {
 
     // if point is fixed or constrained, ensure valid a priori point coordinates exist
     if ( (IsFixed() || IsConstrained()) &&  !aprioriSurfacePoint.Valid() ) {
-      QString msg = "In method ControlPoint::ComputeApriori(). ControlPoint [" + GetId() + "] is ";
+      std::string msg = "In method ControlPoint::ComputeApriori(). ControlPoint [" + GetId() + "] is ";
       msg += "fixed or constrained and requires a priori coordinates";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -923,7 +923,7 @@ namespace Isis {
       Camera *cam = m->Camera();
       if (cam == NULL) {
         QString cubeSN = m->GetCubeSerialNumber();
-        QString msg = "in method ControlPoint::ComputeApriori(). Camera has not been set in ";
+        std::string msg = "in method ControlPoint::ComputeApriori(). Camera has not been set in ";
         msg += "measure for cube serial number [" + cubeSN + "], Control Point id ";
         msg += "[" + GetId() + "]. Camera must be set prior to calculating a priori coordinates";
         throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -965,7 +965,7 @@ namespace Isis {
     // if no good measures, we're done
     // TODO: is the message true/meaningful?
     if (goodMeasures == 0) {
-      QString msg = "in method ControlPoint::ComputeApriori(). ControlPoint [" + GetId() + "] has ";
+      std::string msg = "in method ControlPoint::ComputeApriori(). ControlPoint [" + GetId() + "] has ";
       msg += "no measures which project to the body";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -1122,7 +1122,7 @@ namespace Isis {
         // FocalPlaneMap which takes x/y to detector s/l.  We will bypass the
         // distortion map and have residuals in undistorted pixels.
         if (!fpmap->SetFocalPlane(m->GetFocalPlaneComputedX(), m->GetFocalPlaneComputedY())) {
-          QString msg = "Sanity check #1 for ControlPoint [" + GetId() +
+          std::string msg = "Sanity check #1 for ControlPoint [" + GetId() +
               "], ControlMeasure [" + m->GetCubeSerialNumber() + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
           // This error shouldn't happen but check anyways
@@ -1147,7 +1147,7 @@ namespace Isis {
         // For other sensors conver to undistorted pixels
         // Again we will bypass the distortion map and have residuals in undistorted pixels.
         if (!fpmap->SetFocalPlane(m->GetFocalPlaneMeasuredX(), m->GetFocalPlaneMeasuredY())) {
-          QString msg = "Sanity check #2 for ControlPoint [" + GetId() +
+          std::string msg = "Sanity check #2 for ControlPoint [" + GetId() +
               "], ControlMeasure [" + m->GetCubeSerialNumber() + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
           // This error shouldn't happen but check anyways
@@ -1240,7 +1240,7 @@ namespace Isis {
       return chooserName;
     }
     else {
-      return FileName(Application::Name()).name();
+      return QString::fromStdString(FileName(Application::Name().toStdString()).name());
     }
   }
 
@@ -1358,7 +1358,7 @@ namespace Isis {
     //  On failure assume Free
     ControlPoint::PointType type = ControlPoint::Free;
 
-    QString errMsg  = "There is no PointType that has a string representation"
+    std::string errMsg  = "There is no PointType that has a string representation"
                       " of \"";
             errMsg += pointTypeString;
             errMsg += "\".";
@@ -1758,7 +1758,7 @@ namespace Isis {
    */
   QString ControlPoint::GetReferenceSN() const {
     if (!HasRefMeasure()) {
-      QString msg = "There is no reference measure set in the ControlPoint [" +
+      std::string msg = "There is no reference measure set in the ControlPoint [" +
           GetId() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1792,7 +1792,7 @@ namespace Isis {
     int index = cubeSerials->indexOf(sn);
 
     if (throws && index == -1) {
-      QString msg = "ControlMeasure [" + sn + "] does not exist in point [" +
+      std::string msg = "ControlMeasure [" + sn + "] does not exist in point [" +
           id + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1811,7 +1811,7 @@ namespace Isis {
    */
   int ControlPoint::IndexOfRefMeasure() const {
     if (!HasRefMeasure()) {
-      QString msg = "There is no reference measure for point [" + id + "]."
+      std::string msg = "There is no reference measure for point [" + id + "]."
           "  This also means of course that the point is empty!";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

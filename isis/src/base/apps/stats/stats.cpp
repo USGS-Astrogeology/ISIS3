@@ -59,7 +59,7 @@ namespace Isis {
     inputCube = nullptr;
 
     if ( ui.WasEntered("TO") ) {
-      QString outFile = FileName(ui.GetFileName("TO")).expanded();
+      QString outFile = QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded());
       bool append = ui.GetBoolean("APPEND");
       //write the results in the requested format.
       if ( ui.GetString("FORMAT") == "PVL" ) {
@@ -71,7 +71,7 @@ namespace Isis {
         }
       }
       else {
-        bool exists = FileName(outFile).fileExists();
+        bool exists = FileName(outFile.toStdString()).fileExists();
         bool writeHeader = false;
         ofstream *os = new ofstream;
         if (append) {

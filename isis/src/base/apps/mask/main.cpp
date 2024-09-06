@@ -40,7 +40,7 @@ void IsisMain() {
       p.SetInputCube("MASK", OneBand);
     }
     catch (IException &e) {
-      QString msg = "The MASK input must be a single band.";
+      std::string msg = "The MASK input must be a single band.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
   }

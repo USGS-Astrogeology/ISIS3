@@ -610,7 +610,7 @@ namespace Isis {
             (m_showApprovedOnly && feature.status() == FeatureNomenclature::Approved) ) {
 
           QString displayName = feature.cleanName() +
-              " (" + FileName(vp->cube()->fileName()).name() + ")";
+              " (" + QString::fromStdString(FileName(vp->cube()->fileName().toStdString()).name()) + ")";
 
           QString targetName = feature.target().toUpper();
 
@@ -990,7 +990,7 @@ namespace Isis {
   void FeatureNomenclatureTool::readSettings() {
     FileName config("$HOME/.Isis/qview/nomenclature.config");
     QSettings settings(
-        config.expanded(), QSettings::NativeFormat);
+        QString::fromStdString(config.expanded()), QSettings::NativeFormat);
 
     m_fontSize = settings.value("fontSize", m_fontSize).toInt();
     *m_fontColor = settings.value("fontColor", *m_fontColor).value<QColor>();
@@ -1012,7 +1012,7 @@ namespace Isis {
   void FeatureNomenclatureTool::writeSettings() {
     FileName config("$HOME/.Isis/qview/nomenclature.config");
     QSettings settings(
-        config.expanded(), QSettings::NativeFormat);
+        QString::fromStdString(config.expanded()), QSettings::NativeFormat);
     settings.setValue("fontSize", m_fontSize);
     settings.setValue("fontColor", QVariant::fromValue(*m_fontColor));
     settings.setValue("defaultEnabled", m_defaultEnabled);

@@ -27,18 +27,16 @@ namespace Isis {
     m_spectelList = NULL;
 
     try {
-      CSVReader csv(smileDefFilename.toString());
+      CSVReader csv(QString::fromStdString(smileDefFilename.toString()));
 
       if (csv.columns() != 2) {
-        QString msg = QObject::tr("Input calibration file [%1] must have 2 columns with "
-                                  "the format: wavelength centers, wavelength widths").
-                          arg(smileDefFilename.toString());
+        std::string msg = "Input calibration file [" + smileDefFilename.toString() + "] must have 2 columns with "
+                                  "the format: wavelength centers, wavelength widths";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       if (csv.rows() < 2) {
-        QString msg = QObject::tr("Input calibration file [%1] must have at least 2 lines.").
-                          arg(smileDefFilename.toString());
+        std::string msg = "Input calibration file [" +  smileDefFilename.toString() + "] must have at least 2 lines.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -86,8 +84,7 @@ namespace Isis {
       if (m_spectelList != NULL) {
         delete m_spectelList;
       }
-      QString msg = QObject::tr("Unable to open input file [%1]. Is it a valid CSV?").
-                        arg(smileDefFilename.toString());
+      std::string msg = "Unable to open input file [" + smileDefFilename.toString() + "]. Is it a valid CSV?";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -230,7 +227,7 @@ namespace Isis {
     double bestBand = -DBL_MAX;
 
     if (sectionNumber >= m_numSections) {
-      QString msg = QObject::tr("Input section number is greater than total number of sections.");
+      std::string msg = QObject::tr("Input section number is greater than total number of sections.");
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

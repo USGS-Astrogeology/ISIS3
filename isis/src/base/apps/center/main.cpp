@@ -70,7 +70,7 @@ void IsisMain() {
 
   if (ui.WasEntered("TO")) {
     if (sumall.ValidPixels() == 0) {
-      QString mess = "No valid pixels so cannot compute center in " + icube->fileName();
+      std::string mess = "No valid pixels so cannot compute center in " + icube->fileName();
       throw IException(IException::User, mess, _FILEINFO_);
     }
     double sTrans = sMiddle - csamp;

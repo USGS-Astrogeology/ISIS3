@@ -55,7 +55,7 @@ namespace Isis {
 
     // Open the input cube
     QString from = ui.GetAsString("FROM");
-    CubeAttributeInput inAtt(from);
+    CubeAttributeInput inAtt(from.toStdString());
     cube = new Cube();
     cube->setVirtualBands(inAtt.bands());
     from = ui.GetCubeName("FROM");
@@ -93,14 +93,14 @@ namespace Isis {
     // Make sure the number of elements do not fall outside the cube
     if (es > cube->sampleCount()) {
       cube->close();
-      QString msg = "[SAMPLE+NSAMPLES-1] exceeds number of ";
+      std::string msg = "[SAMPLE+NSAMPLES-1] exceeds number of ";
       msg += "samples in the [FROM] cube";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if (el > cube->lineCount()) {
       cube->close();
-      QString msg = "[LINE+NLINES-1] exceeds number of ";
+      std::string msg = "[LINE+NLINES-1] exceeds number of ";
       msg += "lines in the [FROM] cube";
       throw IException(IException::User, msg, _FILEINFO_);
     }

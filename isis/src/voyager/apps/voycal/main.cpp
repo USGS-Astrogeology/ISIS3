@@ -66,7 +66,7 @@ void IsisMain() {
 
   // Check for projection
   if (incube->isProjected()) {
-    QString msg = "The cube [" + ui.GetCubeName("FROM") + "] has a projection" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] has a projection" +
                   " and cannot be radiometrically calibrated";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -79,7 +79,7 @@ void IsisMain() {
 
   // Verify not radiometrically corrected
   if (isiscube.hasGroup("Radiometry")) {
-    QString msg = "Cube [" + ui.GetCubeName("FROM") + "] has already been" +
+    std::string msg = "Cube [" + ui.GetCubeName("FROM") + "] has already been" +
                   " radiometrically corrected";
     throw IException(IException::User,msg,_FILEINFO_);
   }
@@ -87,7 +87,7 @@ void IsisMain() {
   // Verify Voyager spacecraft and get number, 1 or 2
   QString scNumber = QString::fromStdString(instrument["SpacecraftName"][0]);
   if (scNumber != "VOYAGER_1" && scNumber != "VOYAGER_2") {
-    QString msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
                   " to be a Voyager image";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -95,7 +95,7 @@ void IsisMain() {
 
   // Open calibration file to find constants and files
   Pvl calibra(FileName("$voyager" + scNumber +
-                           "/calibration/voycal.pvl").expanded().toStdString());
+                           "/calibration/voycal.pvl").expanded());
   PvlObject calib;
   QList<QString> hierarchy;
   try {
@@ -141,7 +141,7 @@ void IsisMain() {
   linear = ui.GetBoolean("LINEAR");
   if (linear) {
     Pvl linearity(FileName("$voyager" + scNumber +
-                     "/calibration/voylin.pvl").expanded().toStdString());
+                     "/calibration/voylin.pvl").expanded());
 
     PvlObject lin;
     try {

@@ -800,7 +800,7 @@ namespace Isis {
   void FeatureNomenclature::requestFinished(QNetworkReply *reply) {
     if (reply->error() == QNetworkReply::NoError) {
 
-      QString errorMsg;
+      std::string errorMsg;
       int errorLine;
       int errorCol;
 

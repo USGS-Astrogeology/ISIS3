@@ -26,7 +26,7 @@ void IsisMain() {
 
   // Check for cases of too many bands
   if(bands > maxBands) {
-    QString msg = "Parameter bands [" + toString(bands) + "] exceeds maximum allowable size "
+    std::string msg = "Parameter bands [" + toString(bands) + "] exceeds maximum allowable size "
                   + "of [" + toString(maxBands) + "] for cube [" + icube->fileName() + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }

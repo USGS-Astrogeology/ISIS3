@@ -177,7 +177,7 @@ namespace Isis {
         }
       }
       catch (std::exception &e) {
-        QString msg = "The input value [" + value +
+        std::string msg = "The input value [" + value +
                       "] is not valid for AKAZE's [DescriptorType] variable";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -226,7 +226,7 @@ namespace Isis {
         }
       }
       catch (std::exception &e) {
-        QString msg = "The input value [" + value +
+        std::string msg = "The input value [" + value +
                       "] is not valid for AKAZE's [Diffusivity] variable";
         throw IException(IException::User, msg, _FILEINFO_);
       }

@@ -62,12 +62,12 @@ namespace Isis {
     p_sampPercent = sampPercent;
 
     // Extract filenames and band number from cubes
-    p_xFile = x.fileName();
-    p_yFile = y.fileName();
+    p_xFile = x.fileName().toStdString();
+    p_yFile = y.fileName().toStdString();
 
     // Make sure number of bands match
     if (x.bandCount() != y.bandCount()) {
-      QString msg = "Number of bands do not match between cubes [" +
+      std::string msg = "Number of bands do not match between cubes [" +
                    p_xFile.name() + "] and [" + p_yFile.name() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -80,7 +80,7 @@ namespace Isis {
 
     // Test to make sure projection parameters match
     if (*projX != *projY) {
-      QString msg = "Mapping groups do not match between cubes [" +
+      std::string msg = "Mapping groups do not match between cubes [" +
                    p_xFile.name() + "] and [" + p_yFile.name() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -198,8 +198,8 @@ namespace Isis {
 
       // Add keywords for OverlapStatistics data
       PvlObject o(name.toStdString());
-      o += PvlKeyword("File1", FileNameX().name().toStdString());
-      o += PvlKeyword("File2", FileNameY().name().toStdString());
+      o += PvlKeyword("File1", FileNameX().name());
+      o += PvlKeyword("File2", FileNameY().name());
       o += PvlKeyword("Width", std::to_string(Samples()));
       o += PvlKeyword("Height", std::to_string(Lines()));
       o += PvlKeyword("Bands", std::to_string(Bands()));
@@ -280,7 +280,7 @@ namespace Isis {
     }
 
     catch (IException &e) {
-      QString msg = "Trivial overlap between [" + FileNameX().name();
+      std::string msg = "Trivial overlap between [" + FileNameX().name();
       msg += "] and [" + FileNameY().name() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -297,8 +297,8 @@ namespace Isis {
 
     const PvlGroup &fileX = inStats.findGroup("File1");
     const PvlGroup &fileY = inStats.findGroup("File2");
-    p_xFile = QString::fromStdString(inStats["File1"][0]);
-    p_yFile = QString::fromStdString(inStats["File2"][0]);
+    p_xFile = inStats["File1"][0];
+    p_yFile = inStats["File2"][0];
     p_sampRange = inStats["Width"];
     p_lineRange = inStats["Height"];
     p_bands = inStats["Bands"];

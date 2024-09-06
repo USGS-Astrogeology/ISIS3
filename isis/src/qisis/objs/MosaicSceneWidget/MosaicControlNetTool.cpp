@@ -580,15 +580,15 @@ namespace Isis {
       // for each mosaic item
       //---------------------------------------------------------------
       if (!netFile.isEmpty()) {
-        FileName controlNetFile(netFile);
-        m_controlNetFile = controlNetFile.expanded();
+        FileName controlNetFile(netFile.toStdString());
+        m_controlNetFile = QString::fromStdString(controlNetFile.expanded());
       }
     }
     else {
       //  If ipce application, there must be an active control net and active image list.
       if (!getWidget()->directory()->project()->activeControl()) {
         // Error and return to Select Tool
-        QString message = "No active control network chosen.  Choose an active image list then an"
+        std::string message = "No active control network chosen.  Choose an active image list then an"
                           "active control network on the project tree.\n";
         QMessageBox::critical(getWidget(), "Error", message);
         return;
@@ -637,7 +637,7 @@ namespace Isis {
 
       }
       catch(IException &e) {
-        QString message = "Invalid control network.\n";
+        std::string message = "Invalid control network.\n";
         message += e.toString();
         QMessageBox::information(getWidget(), "Error", message);
         return;
@@ -697,7 +697,7 @@ namespace Isis {
       cp = m_controlNetGraphics->findClosestControlPoint(point);
       if (!cp) {
       // TODO Figure out how to get this error message in the right place
-        QString message = "No points exist for deleting. Create points "
+        std::string message = "No points exist for deleting. Create points "
                           "using the right mouse button.";
         QMessageBox::warning(getWidget(), "Warning", message);
         return;

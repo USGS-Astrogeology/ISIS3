@@ -1005,7 +1005,7 @@ namespace Isis {
     // The programmer is required to ensure a valid geometry provides the
     // source of the intersection operation.
     if ( !geom.isValid() ) {
-      QString mess = type() + ":" + name() + 
+      std::string mess = type() + ":" + name() + 
                      "Cannot apply RTree search to bad geometry."; 
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
@@ -1040,7 +1040,7 @@ namespace Isis {
       }
       GEOSSTRtree *rtree = GEOSSTRtree_create(v_active.size());
       if ( !rtree ) {
-        QString mess = "GEOS RTree allocation failed for " +
+        std::string mess = "GEOS RTree allocation failed for " +
                         toString(v_active.size()) + " geometries.";
           throw IException(IException::Programmer, mess, _FILEINFO_);
         }

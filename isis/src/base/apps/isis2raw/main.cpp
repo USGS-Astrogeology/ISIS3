@@ -123,7 +123,7 @@ void checkRange(UserInterface &ui, double &min, double &max) {
 
   if(ui.WasEntered("OMIN")) {
     if(ui.GetDouble("OMIN") < min) {
-      QString message = "OMIN [" + toString(min) + "] is too small for the provided BITTYPE [";
+      std::string message = "OMIN [" + toString(min) + "] is too small for the provided BITTYPE [";
       message += ui.GetString("BITTYPE") + "]";
       throw IException(IException::User, message, _FILEINFO_);
     }
@@ -142,7 +142,7 @@ void checkRange(UserInterface &ui, double &min, double &max) {
 
   if(ui.WasEntered("OMAX")) {
     if(ui.GetDouble("OMAX") > max) {
-      QString message = "OMAX [" + toString(max) + "] is too large for the provided BITTYPE [";
+      std::string message = "OMAX [" + toString(max) + "] is too large for the provided BITTYPE [";
       message += ui.GetString("BITTYPE") + "]";
       throw IException(IException::User, message, _FILEINFO_);
     }

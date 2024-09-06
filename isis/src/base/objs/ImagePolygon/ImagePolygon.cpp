@@ -136,8 +136,8 @@ namespace Isis {
         p_isProjected = true;
       }
       catch(IException &projError) {
-        QString msg = "Can not create polygon, ";
-        msg += "cube [" + cube.fileName();
+        std::string msg = "Can not create polygon, ";
+        msg += "cube [" + cube.fileName().toStdString();
         msg += "] is not a camera or map projection";
 
         IException polyError(IException::User, msg, _FILEINFO_);
@@ -250,8 +250,8 @@ namespace Isis {
         }
         else {
           e.print(); // This should be a NAIF error
-          QString msg = "Cannot find polygon for image "
-              "[" + cube.fileName() + "]: ";
+          std::string msg = "Cannot find polygon for image "
+              "[" + cube.fileName().toStdString() + "]: ";
           msg += increasePrecision ? "Cannot increase precision any further" :
               "The increment/step size might be too large";
           throw IException(IException::User, msg, _FILEINFO_);

@@ -151,7 +151,7 @@ namespace Isis {
       if (filename.isVersioned())
         filename = filename.highestVersion();
       if (!filename.fileExists()) {
-        QString msg = fileString + " does not exist.";
+        std::string msg = fileString + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       cube.open(filename.expanded());
@@ -232,7 +232,7 @@ namespace Isis {
 
       // we require at least 2 different dark files to interpolate/extrapolate
       if (darkFiles.size() < 2) {
-        QString msg = "Not enough Dark files exist for these image options [" + basename + "]. Need at least 2 files with different temperatures\n";
+        std::string msg = "Not enough Dark files exist for these image options [" + basename + "]. Need at least 2 files with different temperatures\n";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -319,7 +319,7 @@ namespace Isis {
       }
 
       if (bestTemp == DBL_MAX) {
-        QString msg = "No files exist for these mask options [" + basename + "]";
+        std::string msg = "No files exist for these mask options [" + basename + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -541,19 +541,19 @@ namespace Isis {
     QString instId = QString::fromStdString(inst["InstrumentId"]);
     instId = instId.toUpper();
     if (instId != "WAC-VIS" && instId != "WAC-UV") {
-      QString msg = "This program is intended for use on LROC WAC images only. [";
+      std::string msg = "This program is intended for use on LROC WAC images only. [";
       msg += icube->fileName() + "] does not appear to be a WAC image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     // And check if it has already run through calibration
     if (icube->label()->findObject("IsisCube").hasGroup("Radiometry")) {
-      QString msg = "This image has already been calibrated";
+      std::string msg = "This image has already been calibrated";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if (icube->label()->findObject("IsisCube").hasGroup("AlphaCube")) {
-      QString msg = "This application can not be run on any image that has been geometrically transformed (i.e. scaled, rotated, sheared, or reflected) or cropped.";
+      std::string msg = "This application can not be run on any image that has been geometrically transformed (i.e. scaled, rotated, sheared, or reflected) or cropped.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -643,11 +643,11 @@ namespace Isis {
       if (radFileName.isVersioned())
         radFileName = radFileName.highestVersion();
       if (!radFileName.fileExists()) {
-        QString msg = radFile + " does not exist.";
+        std::string msg = radFile + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
-      Pvl radPvl(radFileName.expanded().toStdString());
+      Pvl radPvl(radFileName.expanded());
 
       if (g_iof) {
         responsivity = radPvl["IOF"];
@@ -696,7 +696,7 @@ namespace Isis {
             unload_c(pckKernel3.toLatin1().data());
           }
           catch (IException &e) {
-            QString msg = "Can not find necessary SPICE kernels for converting to IOF";
+            std::string msg = "Can not find necessary SPICE kernels for converting to IOF";
             throw IException(e, IException::User, msg, _FILEINFO_);
           }
         }
@@ -730,13 +730,13 @@ namespace Isis {
       if (tempFileName.isVersioned())
         tempFileName = tempFileName.highestVersion();
       if (!tempFileName.fileExists()) {
-        QString msg = tempFile + " does not exist.";
+        std::string msg = tempFile + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       Isis::PvlKeyword &bands = icube->label()->findGroup("BandBin", Pvl::Traverse).findKeyword("FilterNumber");
-      Pvl tempPvl(tempFileName.expanded().toStdString());
-      temperaturePvl.addValue(tempFileName.expanded().toStdString());
+      Pvl tempPvl(tempFileName.expanded());
+      temperaturePvl.addValue(tempFileName.expanded());
       for (int b = 0; b < bands.size(); b++){
         g_TempratureConstants[g_bands[b]][0]=std::stod(tempPvl[bands[b]][0]);
         g_TempratureConstants[g_bands[b]][1]=std::stod(tempPvl[bands[b]][1]);

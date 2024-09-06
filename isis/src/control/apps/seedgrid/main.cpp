@@ -54,7 +54,7 @@ void IsisMain() {
     ui.PutAsString("TARGET", target);
   }
   else {
-    QString msg = "A target must be specified either by the [TARGET] "
+    std::string msg = "A target must be specified either by the [TARGET] "
         "parameter or included as a value for keyword [TargetName] in the "
         "projection file [MAP].";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -74,7 +74,7 @@ void IsisMain() {
       mapGroup += PvlKeyword("PolarRadius", pvlRadii["PolarRadius"], "Meters");
     }
     catch (IException &e) {
-      QString msg = "Unable to get target radii values from the given target [" + target + "]. "
+      std::string msg = "Unable to get target radii values from the given target [" + target + "]. "
                     "User must add EquatorialRadius and PolarRadius values to the input MAP file.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
@@ -132,7 +132,7 @@ void IsisMain() {
     double minX, minY, maxX, maxY;
     bool foundRange = proj->XYRange(minX, maxX, minY, maxY);
     if (!foundRange) {
-      QString msg = "Cannot convert Lat/Long range to an X/Y range";
+      std::string msg = "Cannot convert Lat/Long range to an X/Y range";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -238,18 +238,18 @@ void IsisMain() {
 
 void checkLatitude(double minLat, double maxLat) {
   if (minLat > maxLat) {
-    QString msg = "MINLAT [" + toString(minLat) +
+    std::string msg = "MINLAT [" + toString(minLat) +
       "] is greater than MAXLAT [" + toString(maxLat) + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   if (minLat < -90) {
-    QString msg = "MINLAT [" + toString(minLat) + "] is less than -90";
+    std::string msg = "MINLAT [" + toString(minLat) + "] is less than -90";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   if (maxLat > 90) {
-    QString msg = "MAXLAT [" + toString(maxLat) + "] is greater than 90";
+    std::string msg = "MAXLAT [" + toString(maxLat) + "] is greater than 90";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 }
@@ -258,7 +258,7 @@ void checkLatitude(double minLat, double maxLat) {
 void checkLongitude(double minLon, double maxLon, int lonDomain) {
   if (minLon > maxLon) {
     double suggestedMaxLon = maxLon + lonDomain + (lonDomain - 360);
-    QString msg = "MINLON [" + toString(minLon) +
+    std::string msg = "MINLON [" + toString(minLon) +
       "] is greater than MAXLON [" + toString(maxLon) + "].  " +
       "If you meant to wrap around the [" + toString(lonDomain) +
       "] longitude " + "boundary, use a MAXLON of [" +
@@ -267,7 +267,7 @@ void checkLongitude(double minLon, double maxLon, int lonDomain) {
   }
 
   if (minLon < lonDomain - 360) {
-    QString msg = "MINLON [" + toString(minLon) +
+    std::string msg = "MINLON [" + toString(minLon) +
       "] is less than [" + toString(lonDomain) + "] domain minimum [" +
       toString(lonDomain - 360) + "]";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -276,7 +276,7 @@ void checkLongitude(double minLon, double maxLon, int lonDomain) {
   if (maxLon - minLon > 360) {
     int range = (int) (maxLon - minLon - 1);
     int loops = range / 360 + 1;
-    QString msg = "The specified longitude range [" + toString(minLon) +
+    std::string msg = "The specified longitude range [" + toString(minLon) +
       "] to [" + toString(maxLon) + "] seeds that same area of the target [" +
       toString(loops) + "] times";
     throw IException(IException::User, msg, _FILEINFO_);

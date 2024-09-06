@@ -259,14 +259,14 @@ namespace Isis {
 
   void PanTool::writeSettings() {
     FileName config("$HOME/.Isis/qview/Pan Tool.config");
-    QSettings settings(config.expanded(),
+    QSettings settings(QString::fromStdString(config.expanded()),
                        QSettings::NativeFormat);
     settings.setValue("rate", p_lineEdit->text());
   }
 
   void PanTool::readSettings() {
     FileName config("$HOME/.Isis/qview/Pan Tool.config");
-    QSettings settings(config.expanded(),
+    QSettings settings(QString::fromStdString(config.expanded()),
                        QSettings::NativeFormat);
     QString rate = settings.value("rate", "75").toString();
 

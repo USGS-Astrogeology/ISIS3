@@ -57,8 +57,8 @@ namespace Isis {
 
     // Read and apply default visibilities from config, if different than defaults
     QSettings settings(
-        FileName(QString("$HOME/.Isis/%1/fileList.config").arg(QApplication::applicationName()))
-          .expanded(),
+        QString::fromStdString(FileName("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/fileList.config")
+          .expanded()),
         QSettings::NativeFormat);
     settings.beginGroup("ColumnsVisible");
 
@@ -275,9 +275,8 @@ namespace Isis {
    */  
   void ImageTreeWidget::setDefaultFileListCols() {
     QSettings settings(
-        FileName(
-          QString("$HOME/.Isis/%1/fileList.config").arg(QApplication::applicationName()))
-          .expanded(),
+        QString::fromStdString(FileName("$HOME/.Isis/" +  QApplication::applicationName().toStdString() + "/fileList.config")
+          .expanded()),
         QSettings::NativeFormat);
     settings.beginGroup("ColumnsVisible");
 

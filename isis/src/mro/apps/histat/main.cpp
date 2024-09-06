@@ -65,7 +65,7 @@ void IsisMain() {
 
   //Check to make sure we got the cube properly
   if(!inputCube.isOpen()) {
-    QString msg = "Could not open FROM cube " + fromFile.expanded();
+    std::string msg = "Could not open FROM cube " + fromFile.expanded();
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

@@ -108,7 +108,7 @@ void IsisMain() {
 
 //  Ensure only one band
   if ((trans.bandCount() != 1) || (match.bandCount() != 1)) {
-    QString msg = "Input Cubes must have only one band!";
+    std::string msg = "Input Cubes must have only one band!";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -117,7 +117,7 @@ void IsisMain() {
 
 //  Determine intersection
   if (!trans.intersects(match)) {
-    QString msg = "Input Cubes do not overlap!";
+    std::string msg = "Input Cubes do not overlap!";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -144,7 +144,7 @@ void IsisMain() {
   // of the grid points.
   Pvl regdef;
   FileName regFile(ui.GetFileName("REGDEF"));
-  regdef.read(regFile.expanded().toStdString());
+  regdef.read(regFile.expanded());
   AutoReg *ar = AutoRegFactory::Create(regdef);
 
 

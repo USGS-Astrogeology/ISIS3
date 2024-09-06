@@ -20,7 +20,7 @@ TEST(ID, ConstructorSetBaseNum) {
 
 
 TEST(ID, ConstructorNoReplacement) {
-  QString message = "No replacement set in string";
+  std::string message = "No replacement set in string";
   try {
     Isis::ID pid("ABC");
       FAIL() << "Expected an IException";
@@ -35,7 +35,7 @@ TEST(ID, ConstructorNoReplacement) {
 
 
 TEST(ID, ConstructorMultipleReplacements) {
-  QString message = "contains more than one replacement set";
+  std::string message = "contains more than one replacement set";
   try {
     Isis::ID pid("A?B?C");
     FAIL() << "Expected an IException";
@@ -65,7 +65,7 @@ TEST(ID, Next) {
 }
 
 TEST(ID, NextMaximumReached) {
-  QString message = "Maximum number reached for string";
+  std::string message = "Maximum number reached for string";
   try {
     Isis::ID pid("ABC?");
     for (int i = 0; i < 11; i++) {

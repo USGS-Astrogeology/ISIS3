@@ -423,7 +423,7 @@ namespace Isis {
         int status = system(command.toLatin1().data());
 
         if (status != 0) {
-          QString msg = "Executing command [" + command +
+          std::string msg = "Executing command [" + command +
                         "] failed with return status [" + toString(status) + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }

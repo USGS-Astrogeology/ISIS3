@@ -166,7 +166,7 @@ namespace Isis {
     // read lidar point data file
     try {
       m_lidarDataSet = LidarDataQsp( new LidarData());
-      m_lidarDataSet->read(lidarDataFile);
+      m_lidarDataSet->read(lidarDataFile.toStdString());
     }
     catch (IException &e) {
       throw;
@@ -476,7 +476,7 @@ namespace Isis {
 
         // If any camera is initialized via CSMInit, but no csm solve options are specified, fail early.
         if (camera->GetCameraType() == Camera::Csm && m_bundleSettings->observationSolveSettings(observationNumber).csmSolveOption() == 0){
-          QString msg = fileName + " camera was initialized using CSMInit, so jigsaw must use CSM parameters." +
+          std::string msg = fileName + " camera was initialized using CSMInit, so jigsaw must use CSM parameters." +
                                    " Please refer to documentation for more information." + "\n";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -486,7 +486,7 @@ namespace Isis {
         BundleImageQsp image = BundleImageQsp(new BundleImage(camera, serialNumber, fileName));
 
         if (!image) {
-          QString msg = "In BundleAdjust::init(): image " + fileName + "is null." + "\n";
+          std::string msg = "In BundleAdjust::init(): image " + fileName + "is null." + "\n";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
 
@@ -494,7 +494,7 @@ namespace Isis {
             m_bundleObservations.addNew(image, observationNumber, instrumentId, m_bundleSettings);
 
         if (!observation) {
-          QString msg = "In BundleAdjust::init(): observation "
+          std::string msg = "In BundleAdjust::init(): observation "
                         + observationNumber + "is null." + "\n";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
@@ -679,7 +679,7 @@ namespace Isis {
     outputBundleStatus("\nValidating network...");
 
     int imagesWithInsufficientMeasures = 0;
-    QString msg = "Images with one or less measures:\n";
+    std::string msg = "Images with one or less measures:\n";
     int numObservations = m_bundleObservations.size();
     for (int i = 0; i < numObservations; i++) {
       int numImages = m_bundleObservations.at(i)->size();
@@ -846,7 +846,7 @@ namespace Isis {
   //      int numImages = images();
   //      for (int i = 0; i < numImages; i++) {
   //        if (m_controlNet->Camera(i)->GetCameraType() == 0) {
-  //          QString msg = "At least one sensor is a frame camera. "
+  //          std::string msg = "At least one sensor is a frame camera. "
   //                        "Spacecraft Option OVERHERMITE is not valid for frame cameras\n";
   //          throw IException(IException::User, msg, _FILEINFO_);
   //        }
@@ -1130,7 +1130,7 @@ namespace Isis {
       emit statusUpdate("\n aborting...");
       emit statusBarUpdate("Failed to Converge");
       emit finished();
-      QString msg = "Could not solve bundle adjust.";
+      std::string msg = "Could not solve bundle adjust.";
       throw IException(e, e.errorType(), msg, _FILEINFO_);
     }
 
@@ -1170,8 +1170,8 @@ namespace Isis {
    */
   BundleSolutionInfo *BundleAdjust::bundleSolveInformation() {
     BundleSolutionInfo *bundleSolutionInfo = new BundleSolutionInfo(m_bundleSettings,
-                                                                    FileName(m_cnetFileName),
-                                                                    FileName(m_lidarFileName),
+                                                                    FileName(m_cnetFileName.toStdString()),
+                                                                    FileName(m_lidarFileName.toStdString()),
                                                                     m_bundleResults,
                                                                     imageLists());
     bundleSolutionInfo->setRunTime("");
@@ -2071,7 +2071,7 @@ namespace Isis {
       double computedX, computedY;
       if (!(measureCamera->GroundMap()->GetXY(point.adjustedSurfacePoint(),
                                               &computedX, &computedY, false))) {
-        QString msg = "Unable to map apriori surface point for measure ";
+        std::string msg = "Unable to map apriori surface point for measure ";
         msg += measure.cubeSerialNumber() + " on point " + point.id() + " into focal plane";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -2565,11 +2565,11 @@ namespace Isis {
     SparseBlockColumnMatrix inverseMatrix;
 
     // Create unique file name
-    FileName matrixFile(m_bundleSettings->outputFilePrefix() + "inverseMatrix.dat");
+    FileName matrixFile(m_bundleSettings->outputFilePrefix().toStdString() + "inverseMatrix.dat");
     //???FileName matrixFile = FileName::createTempFile(m_bundleSettings.outputFilePrefix()
     //???                                               + "inverseMatrix.dat");
     // Create file handle
-    QFile matrixOutput(matrixFile.expanded());
+    QFile matrixOutput(QString::fromStdString(matrixFile.expanded()));
 
     // Check to see if creating the inverse correlation matrix is turned on
     if (m_bundleSettings->createInverseMatrix()) {

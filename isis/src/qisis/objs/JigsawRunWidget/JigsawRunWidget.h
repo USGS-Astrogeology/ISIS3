@@ -123,7 +123,7 @@ namespace Isis {
 
   public slots:
     void outputBundleStatus(QString status);
-    void errorString(QString error);
+    void errorString(std::string error);
     void reportException(QString exception);
     void updateIteration(int iteration);
     void updatePoint(int point);

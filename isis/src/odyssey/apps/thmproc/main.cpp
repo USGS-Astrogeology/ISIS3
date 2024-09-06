@@ -18,14 +18,14 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
 
   if(!ui.GetBoolean("INGESTION") && !ui.GetBoolean("MAPPING")) {
-    QString msg = "You must pick one of [INGESTION,MAPPING]";
+    std::string msg = "You must pick one of [INGESTION,MAPPING]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   if(ui.WasEntered("PCK")) {
     FileName pckPreference = ui.GetFileName("PCK");
     if(!pckPreference.fileExists()){
-      QString msg = "Please provide a valid PCK preference file.";
+      std::string msg = "Please provide a valid PCK preference file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -33,7 +33,7 @@ void IsisMain() {
   if(ui.WasEntered("CK")) {
     FileName ckPreference = ui.GetFileName("CK");
     if(!ckPreference.fileExists()){
-      QString msg = "Please provide a valid CK preference file.";
+      std::string msg = "Please provide a valid CK preference file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -41,21 +41,21 @@ void IsisMain() {
   if(ui.WasEntered("SPK")) {
     FileName spkPreference = ui.GetFileName("SPK");
     if(!spkPreference.fileExists()){
-      QString msg = "Please provide a valid SPK preference file.";
+      std::string msg = "Please provide a valid SPK preference file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
   if(ui.WasEntered("MAP")) {
     FileName mapPreference = ui.GetFileName("MAP");
     if(!mapPreference.fileExists()){
-      QString msg = "Please provide a valid MAP preference file.";
+      std::string msg = "Please provide a valid MAP preference file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
   if(ui.WasEntered("MODEL")) {
     FileName modelPreference = ui.GetCubeName("MODEL");
     if(!modelPreference.fileExists()){
-      QString msg = "Please provide a valid MODEL preference file.";
+      std::string msg = "Please provide a valid MODEL preference file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

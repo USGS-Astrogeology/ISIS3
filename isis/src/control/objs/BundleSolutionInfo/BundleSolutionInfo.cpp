@@ -149,7 +149,7 @@ namespace Isis {
             m_runTime = xmlReader->readElementText();
           }
           else if (xmlReader->qualifiedName() == "inputFileName") {
-            m_inputControlNetFileName = new FileName(projectRoot + xmlReader->readElementText());
+            m_inputControlNetFileName = new FileName(projectRoot.toStdString() + xmlReader->readElementText().toStdString());
           }
           else if (xmlReader->qualifiedName() == "bundleOutTXT") {
             m_txtBundleOutputFilename = projectRoot + xmlReader->readElementText();
@@ -299,19 +299,19 @@ namespace Isis {
     //TODO do we need to close anything here?
 
     FileName oldInputFileName(*m_inputControlNetFileName);
-    FileName newInputFileName(project->cnetRoot() + "/" +
-                     oldInputFileName.dir().dirName() + "/" + oldInputFileName.name());
+    FileName newInputFileName(project->cnetRoot().toStdString() + "/" +
+                     oldInputFileName.dir().filename().string() + "/" + oldInputFileName.name());
     *m_inputControlNetFileName = newInputFileName.expanded();
 
-    FileName oldOutputFileName(m_outputControl->fileName());
-    FileName newOutputFileName(project->cnetRoot() + "/" +
-                     oldOutputFileName.dir().dirName() + "/" + oldOutputFileName.name());
+    FileName oldOutputFileName(m_outputControl->fileName().toStdString());
+    FileName newOutputFileName(project->cnetRoot().toStdString() + "/" +
+                     oldOutputFileName.dir().filename().string() + "/" + oldOutputFileName.name());
 
     if (m_outputControl) {
       delete m_outputControl;
     }
-    m_outputControl = new Control(newOutputFileName.expanded());
-    m_outputControlName = newOutputFileName.expanded();
+    m_outputControl = new Control(QString::fromStdString(newOutputFileName.expanded()));
+    m_outputControlName = QString::fromStdString(newOutputFileName.expanded());
   }
 
 
@@ -374,7 +374,7 @@ namespace Isis {
    * @return @b QString The name of the input control network.
    */
   QString BundleSolutionInfo::inputControlNetFileName() const {
-    return m_inputControlNetFileName->expanded();
+    return QString::fromStdString(m_inputControlNetFileName->expanded());
   }
 
 
@@ -398,7 +398,7 @@ namespace Isis {
    * @return QString Name of input lidar data file.
    */
   QString BundleSolutionInfo::inputLidarDataFileName() const {
-    return m_inputLidarDataFileName->expanded();
+    return QString::fromStdString(m_inputLidarDataFileName->expanded());
   }
 
 
@@ -621,11 +621,11 @@ namespace Isis {
                   Isis::iTime::CurrentLocalTime().toLatin1().data());
     fpOut << buf;
     snprintf(buf, sizeof(buf), "\n                       Network Filename: %s",
-                  m_inputControlNetFileName->expanded().toLatin1().data());
+                  m_inputControlNetFileName->expanded().c_str());
     fpOut << buf;
 
     snprintf(buf, sizeof(buf),"\n                       Cube List: %s",
-                m_settings->cubeList().toStdString().c_str() );
+                m_settings->cubeList().toStdString().c_str());
 
     fpOut << buf;
 
@@ -644,7 +644,7 @@ namespace Isis {
     fpOut << buf;
     if (m_inputLidarDataFileName) {
       snprintf(buf, sizeof(buf), "\n            Lidar Data Filename: %s",
-                    m_inputLidarDataFileName->expanded().toLatin1().data());
+                    m_inputLidarDataFileName->expanded().c_str());
       fpOut << buf;
     }
     snprintf(buf, sizeof(buf), "\n                       Target: %s",
@@ -1083,7 +1083,7 @@ namespace Isis {
         }
       }
       catch (IException &e) {
-        QString msg = "Failed to output residual percentiles for bundleout";
+        std::string msg = "Failed to output residual percentiles for bundleout";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
       try {
@@ -1106,7 +1106,7 @@ namespace Isis {
         fpOut << buf;
       }
       catch (IException &e) {
-        QString msg = "Failed to output residual box plot for bundleout";
+        std::string msg = "Failed to output residual box plot for bundleout";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -1981,50 +1981,48 @@ namespace Isis {
     FileName bundleSolutionInfoRoot;
 
     if (project) {
-      bundleSolutionInfoRoot = FileName(Project::bundleSolutionInfoRoot(newProjectRoot.expanded()) +
-                                      "/" + runTime());
+      bundleSolutionInfoRoot = FileName(Project::bundleSolutionInfoRoot(QString::fromStdString(newProjectRoot.expanded())).toStdString() +
+                                      "/" + runTime().toStdString());
       QString oldPath = project->bundleSolutionInfoRoot(project->projectRoot()) + "/" + runTime();
-      QString newPath = project->bundleSolutionInfoRoot(newProjectRoot.toString()) + "/" + runTime();
+      QString newPath = project->bundleSolutionInfoRoot(QString::fromStdString(newProjectRoot.toString())) + "/" + runTime();
       //  If project is being saved to new area, create directory and copy files
       if (oldPath != newPath) {
         //  Create project folder for BundleSolutionInfo
         QDir bundleDir(newPath);
         if (!bundleDir.mkpath(bundleDir.path())) {
-          throw IException(IException::Io,
-                           QString("Failed to create directory [%1]")
-                             .arg(bundleSolutionInfoRoot.path()),
+          throw IException(IException::Io,"Failed to create directory [" + bundleSolutionInfoRoot.path() + "]",
                            _FILEINFO_);
         }
-        QString oldFile = oldPath + "/" + FileName(m_outputControl->fileName()).name();
-        QString newFile = newPath + "/" + FileName(m_outputControl->fileName()).name();
+        QString oldFile = oldPath + "/" + QString::fromStdString(FileName(m_outputControl->fileName().toStdString()).name());
+        QString newFile = newPath + "/" + QString::fromStdString(FileName(m_outputControl->fileName().toStdString()).name());
         if (!QFile::copy(oldFile, newFile)) {
           throw IException(IException::Io,
                            QString("Failed to copy file [%1] to new file [%2]")
                              .arg(m_outputControl->fileName()).arg(newFile),
                            _FILEINFO_);
         }
-        newFile = newPath + "/" + FileName(m_txtBundleOutputFilename).name();
+        newFile = newPath + "/" + QString::fromStdString(FileName(m_txtBundleOutputFilename.toStdString()).name());
         if (!QFile::copy(m_txtBundleOutputFilename, newFile)) {
           throw IException(IException::Io,
                            QString("Failed to copy file [%1] to new file [%2]")
                              .arg(m_txtBundleOutputFilename).arg(newFile),
                            _FILEINFO_);
         }
-        newFile = newPath + "/" + FileName(m_csvSavedImagesFilename).name();
+        newFile = newPath + "/" + QString::fromStdString(FileName(m_csvSavedImagesFilename.toStdString()).name());
         if (!QFile::copy(m_csvSavedImagesFilename, newFile)) {
           throw IException(IException::Io,
                            QString("Failed to copy file [%1] to new file [%2]")
                              .arg(m_csvSavedImagesFilename).arg(newFile),
                            _FILEINFO_);
         }
-        newFile = newPath + "/" + FileName(m_csvSavedPointsFilename).name();
+        newFile = newPath + "/" + QString::fromStdString(FileName(m_csvSavedPointsFilename.toStdString()).name());
         if (!QFile::copy(m_csvSavedPointsFilename, newFile)) {
           throw IException(IException::Io,
                            QString("Failed to copy file [%1] to new file [%2]")
                              .arg(m_csvSavedPointsFilename).arg(newFile),
                            _FILEINFO_);
         }
-        newFile = newPath + "/" + FileName(m_csvSavedResidualsFilename).name();
+        newFile = newPath + "/" + QString::fromStdString(FileName(m_csvSavedResidualsFilename.toStdString()).name());
         if (!QFile::copy(m_csvSavedResidualsFilename, newFile)) {
           throw IException(IException::Io,
                            QString("Failed to copy file [%1] to new file [%2]")
@@ -2034,7 +2032,7 @@ namespace Isis {
       }
 
       // Create relativePath
-      relativePath = m_inputControlNetFileName->expanded().remove(project->newProjectRoot());
+      relativePath = QString::fromStdString(m_inputControlNetFileName->expanded()).remove(project->newProjectRoot());
       // Get rid of any preceding "/" , but add on ending "/"
       if (relativePath.startsWith("/")) {
         relativePath.remove(0,1);
@@ -2059,13 +2057,13 @@ namespace Isis {
     stream.writeTextElement("inputFileName",
                             relativePath);
     stream.writeTextElement("bundleOutTXT",
-                            relativeBundlePath + FileName(m_txtBundleOutputFilename).name());
+                            relativeBundlePath + QString::fromStdString(FileName(m_txtBundleOutputFilename.toStdString()).name()));
     stream.writeTextElement("imagesCSV",
-                            relativeBundlePath + FileName(m_csvSavedImagesFilename).name());
+                            relativeBundlePath + QString::fromStdString(FileName(m_csvSavedImagesFilename.toStdString()).name()));
     stream.writeTextElement("pointsCSV",
-                            relativeBundlePath + FileName(m_csvSavedPointsFilename).name());
+                            relativeBundlePath + QString::fromStdString(FileName(m_csvSavedPointsFilename.toStdString()).name()));
     stream.writeTextElement("residualsCSV",
-                            relativeBundlePath + FileName(m_csvSavedResidualsFilename).name());
+                            relativeBundlePath + QString::fromStdString(FileName(m_csvSavedResidualsFilename.toStdString()).name()));
     stream.writeEndElement(); // end general attributes
 
     // save settings to stream
@@ -2086,7 +2084,7 @@ namespace Isis {
 
       // save output control
       stream.writeStartElement("outputControl");
-      m_outputControl->save(stream, project, relativeBundlePath);
+      m_outputControl->save(stream, project, relativeBundlePath.toStdString());
       stream.writeEndElement();
     }
 

@@ -79,7 +79,7 @@ namespace Isis {
 
 
     if (numIfovs < 1) {
-      QString msg = "The number of instantaneous field of views must be a positive integer.";
+      std::string msg = "The number of instantaneous field of views must be a positive integer.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

@@ -54,7 +54,7 @@ namespace Isis {
    */
   void Column::SetName(QString name) {
     if (p_width != 0 && name.length() > (int)p_width) {
-      QString message = "Name [" + name + "] is wider than width";
+      std::string message = "Name [" + name.toStdString() + "] is wider than width";
       throw IException(IException::User, message, _FILEINFO_);
     }
     p_name = name;
@@ -67,8 +67,8 @@ namespace Isis {
    */
   void Column::SetWidth(unsigned int width) {
     if (p_name.size() > 0 && p_name.size() > (int)width) {
-      QString message = "Width is insufficient to contain name[";
-      message += p_name + "]";
+      std::string message = "Width is insufficient to contain name[";
+      message += p_name.toStdString() + "]";
       throw IException(IException::User, message, _FILEINFO_);
     }
     p_width = width;
@@ -82,7 +82,7 @@ namespace Isis {
   void Column::SetType(Column::Type type) {
     if (p_align == Column::Decimal &&
         (type == Column::Integer || type == Column::String)) {
-      QString message = "Integer or string type is not sensible if ";
+      std::string message = "Integer or string type is not sensible if ";
       message += "alignment is Decimal.";
       throw IException(IException::User, message, _FILEINFO_);
     }
@@ -101,7 +101,7 @@ namespace Isis {
   void Column::SetAlignment(Column::Align alignment) {
     if (alignment == Column::Decimal &&
         (p_type == Column::Integer || p_type == Column::String)) {
-      QString message = "Decimal alignment does not make sense for ";
+      std::string message = "Decimal alignment does not make sense for ";
       message += "integer or string values.";
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
@@ -119,7 +119,7 @@ namespace Isis {
   void Column::SetPrecision(unsigned int precision) {
     if (DataType() != Column::Real &&
         DataType() != Column::Pixel) {
-      QString message = "Setting precision only makes sense for Decimal Alignment";
+      std::string message = "Setting precision only makes sense for Decimal Alignment";
       throw IException(IException::User, message, _FILEINFO_);
     }
     p_precision = precision;

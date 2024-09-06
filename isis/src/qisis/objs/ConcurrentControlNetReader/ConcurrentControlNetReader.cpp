@@ -130,7 +130,7 @@ namespace Isis {
         progress->DisableAutomaticDisplay();
         m_progress.append(progress);
 
-        functorInput.append(qMakePair(FileName(backlogFileName), progress));
+        functorInput.append(qMakePair(FileName(backlogFileName.toStdString()), progress));
       }
 
       QFuture<Control *> networks = QtConcurrent::mapped(functorInput,
@@ -238,7 +238,7 @@ namespace Isis {
   Control * ConcurrentControlNetReader::FileNameToControlFunctor::operator()(
       const QPair<FileName, Progress *> &fileNameAndProgress) const {
 
-    QString fileNameString = fileNameAndProgress.first.expanded();
+    QString fileNameString = QString::fromStdString(fileNameAndProgress.first.expanded());
     Progress *progress = fileNameAndProgress.second;
 
     ControlNet *newCnet = new ControlNet(fileNameString, progress);

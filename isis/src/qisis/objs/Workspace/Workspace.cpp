@@ -369,7 +369,7 @@ namespace Isis {
 
     catch (IException &e) {
 
-      QString message("Error opening cube [" + cubename + "]...\n");
+      std::string message("Error opening cube [" + cubename + "]...\n");
       message += "Attempting to open [" + cubename + "] as a cube list...\n";
 
       try {
@@ -436,7 +436,7 @@ namespace Isis {
         }
       }
       catch (IException &e) {
-	       QString message("Error attempting to open [" + cubename + "] from list [" + cubelist + "]...\n");
+	       std::string message("Error attempting to open [" + cubename + "] from list [" + cubelist + "]...\n");
 
 	       throw IException(e, IException::User, message, _FILEINFO_);
       }

@@ -81,7 +81,7 @@ namespace Isis {
    */
   QString cnetcheck(UserInterface &ui, Pvl *log) {
    ControlNet innet(ui.GetFileName("CNET"));
-   FileList inlist(ui.GetFileName("FROMLIST"));
+   FileList inlist(ui.GetFileName("FROMLIST").toStdString());
 
    return cnetcheck(innet, inlist, ui, log);
   }
@@ -127,8 +127,8 @@ namespace Isis {
     }
 
     for (int index = 0; index < inlist.size(); index++) {
-      num2cube.add(inlist[index].toString());
-      QString st = num2cube.serialNumber(inlist[index].toString());
+      num2cube.add(QString::fromStdString(inlist[index].toString()));
+      QString st = num2cube.serialNumber(QString::fromStdString(inlist[index].toString()));
       inListNums.insert(st);
       listedSerialNumbers.push_back(st);   // Used with nonListedSerialNumbers
       progress.CheckStatus();
@@ -232,7 +232,7 @@ namespace Isis {
     //  Islands that have no cubes listed in the input list will
     //  not be shown.
     for (int i = 0; i < (int)islands.size(); i++) {
-      QString name(FileName(prefix + "Island." + toString(i + 1)).expanded());
+      QString name(QString::fromStdString(FileName(prefix.toStdString() + "Island." + std::to_string(i + 1)).expanded()));
       ofstream out_stream;
       out_stream.open(name.toLatin1().data(), std::ios::out);
       out_stream.seekp(0, std::ios::beg);   //Start writing from beginning of file
@@ -258,7 +258,7 @@ namespace Isis {
 
     PvlGroup results("Results");
 
-    QString networkName = ui.WasEntered("CNET") ? FileName(ui.GetFileName("CNET")).name() : innet.GetNetworkId();
+    QString networkName = ui.WasEntered("CNET") ? QString::fromStdString(FileName(ui.GetFileName("CNET").toStdString()).name()) : innet.GetNetworkId();
 
     stringstream ss(stringstream::in | stringstream::out);
 
@@ -281,8 +281,8 @@ namespace Isis {
       results.addKeyword(
         PvlKeyword("SingleMeasure", std::to_string((BigInt)singleMeasureSerialNumbers.size())));
 
-      QString name(FileName(prefix + "SinglePointCubes.txt").expanded());
-      writeOutput(num2cube, name,
+      std::string name(FileName(prefix.toStdString() + "SinglePointCubes.txt").expanded());
+      writeOutput(num2cube, QString::fromStdString(name),
                   singleMeasureSerialNumbers, singleMeasureControlPoints);
 
       int serials = singleMeasureSerialNumbers.size();
@@ -299,8 +299,8 @@ namespace Isis {
       results.addKeyword(
         PvlKeyword("NoLatLonCubes", std::to_string((BigInt)noLatLonSerialNumbers.size())));
 
-      QString name(FileName(prefix + "NoLatLon.txt").expanded());
-      writeOutput(num2cube, name,
+      std::string name(FileName(prefix.toStdString() + "NoLatLon.txt").expanded());
+      writeOutput(num2cube, QString::fromStdString(name),
                   noLatLonSerialNumbers, noLatLonControlPoints);
 
       ss << "----------------------------------------" \
@@ -319,9 +319,9 @@ namespace Isis {
       QList< QString > netSerials = innet.GetCubeSerials();
 
       if (netSerials.size() > 0) {
-        QString name(FileName(prefix + coverageOp + ".txt").expanded());
+        std::string name(FileName(prefix.toStdString() + coverageOp.toStdString() + ".txt").expanded());
         ofstream out_stream;
-        out_stream.open(name.toLatin1().data(), std::ios::out);
+        out_stream.open(name.c_str(), std::ios::out);
         out_stream.seekp(0, std::ios::beg); // Start writing from file beginning
 
         double tolerance = ui.GetDouble("TOLERANCE");
@@ -361,7 +361,7 @@ namespace Isis {
     if (ui.GetBoolean("NOCONTROL") && !inListNums.empty()) {
       results.addKeyword(PvlKeyword("NoControl", std::to_string((BigInt)inListNums.size())));
 
-      QString name(FileName(prefix + "NoControl.txt").expanded());
+      QString name(QString::fromStdString(FileName(prefix.toStdString() + "NoControl.txt").expanded()));
       ofstream out_stream;
       out_stream.open(name.toLatin1().data(), std::ios::out);
       out_stream.seekp(0, std::ios::beg);   //Start writing from beginning of file
@@ -376,10 +376,10 @@ namespace Isis {
       ss << "----------------------------------------" \
          "----------------------------------------" << endl;
       ss << "There are " << inListNums.size();
-      ss << " cubes in the input list [" << FileName(ui.GetFileName("FROMLIST")).name();
+      ss << " cubes in the input list [" << FileName(ui.GetFileName("FROMLIST").toStdString()).name();
       ss << "] which do not exist or are ignored in the Control Network [";
       ss << networkName << "]" << endl;
-      ss << "These cubes are listed in [" + FileName(name).name() + "]" << endl;
+      ss << "These cubes are listed in [" + FileName(name.toStdString()).name() + "]" << endl;
     }
 
     // In addition, nonListedSerialNumbers should be the SerialNumbers of
@@ -389,7 +389,7 @@ namespace Isis {
       results.addKeyword(
         PvlKeyword("NoCube", std::to_string((BigInt)nonListedSerialNumbers.size())));
 
-      QString name(FileName(prefix + "NoCube.txt").expanded());
+      QString name(QString::fromStdString(FileName(prefix.toStdString() + "NoCube.txt").expanded()));
       ofstream out_stream;
       out_stream.open(name.toLatin1().data(), std::ios::out);
       out_stream.seekp(0, std::ios::beg);   //Start writing from beginning of file
@@ -409,9 +409,9 @@ namespace Isis {
       ss << " serial numbers in the Control Net [";
       ss << networkName;
       ss << "] \nwhich do not exist in the  input list [";
-      ss << FileName(ui.GetFileName("FROMLIST")).name() << "]" << endl;
+      ss << FileName(ui.GetFileName("FROMLIST").toStdString()).name() << "]" << endl;
       ss << "These serial numbers are listed in [";
-      ss << FileName(name).name() + "]" << endl;
+      ss << FileName(name.toStdString()).name() + "]" << endl;
     }
 
     // At this point cubeMeasureCount should be equal to the number of
@@ -430,9 +430,9 @@ namespace Isis {
         results.addKeyword(
           PvlKeyword("SingleCube", std::to_string((BigInt)singleMeasureCubes.size())));
 
-        QString name(FileName(prefix + "SingleCube.txt").expanded());
+        std::string name(FileName(prefix.toStdString() + "SingleCube.txt").expanded());
         ofstream out_stream;
-        out_stream.open(name.toLatin1().data(), std::ios::out);
+        out_stream.open(name.c_str(), std::ios::out);
         out_stream.seekp(0, std::ios::beg);   //Start writing from beginning of file
 
         for (set<QString>::iterator sn = singleMeasureCubes.begin();
@@ -661,7 +661,7 @@ namespace Isis {
 
   QString buildRow(SerialNumberList &serials, QString sn) {
     QString cubeName = serials.hasSerialNumber(sn) ?
-        FileName(serials.fileName(sn)).expanded() : "UnknownFilename";
+        QString::fromStdString(FileName(serials.fileName(sn).toStdString()).expanded()) : "UnknownFilename";
     return cubeName + g_delimiter + sn;
   }
 

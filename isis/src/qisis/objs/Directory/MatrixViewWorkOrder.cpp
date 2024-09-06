@@ -175,7 +175,7 @@ namespace Isis {
       matrixViewToUse->drawElements(corrMat);
       matrixViewToUse->drawGrid(corrMat);
       if (matrixViewToUse == NULL) {
-        QString msg = "The Correlation Matrix for this bundle could not be displayed";
+        std::string msg = "The Correlation Matrix for this bundle could not be displayed";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
       project()->setClean(false);

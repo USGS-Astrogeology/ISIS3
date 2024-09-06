@@ -368,7 +368,7 @@ namespace Isis {
       int nRecentProjects = m_recentProjects.size();
 
       for (int i = 0; i < nRecentProjects; i++) {
-        FileName projectFileName = m_recentProjects.at(i);
+        FileName projectFileName = m_recentProjects.at(i).toStdString();
 
         if (!projectFileName.fileExists() )
           continue;
@@ -411,16 +411,16 @@ namespace Isis {
     //fileMenu->addAction(m_importImagesWorkOrder->clone());
 
     QAction *openProjectAction = m_openProjectWorkOrder->clone();
-    openProjectAction->setIcon(QIcon(FileName(
-                "$ISISROOT/appdata/images/icons/archive-insert-directory.png").expanded()));
+    openProjectAction->setIcon(QIcon(QString::fromStdString(FileName(
+                "$ISISROOT/appdata/images/icons/archive-insert-directory.png").expanded())));
     fileMenu->addAction(openProjectAction);
     m_permToolBarActions.append(openProjectAction);
 
 
     QAction *saveAction = m_saveProjectWorkOrder->clone();
     saveAction->setShortcut(Qt::Key_S | Qt::CTRL);
-    saveAction->setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/document-save.png")
-                                        .expanded()));
+    saveAction->setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/document-save.png")
+                                        .expanded())));
     saveAction->setDisabled(true);
     connect( project()->undoStack(), SIGNAL( cleanChanged(bool) ),
              saveAction, SLOT( setDisabled(bool) ) );
@@ -428,8 +428,8 @@ namespace Isis {
     m_permToolBarActions.append(saveAction);
 
     QAction *saveAsAction = m_saveProjectAsWorkOrder->clone();
-    saveAsAction->setIcon(QIcon(FileName("$ISISROOT/appdata/images/icons/document-save-as.png")
-                                         .expanded()));
+    saveAsAction->setIcon(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/document-save-as.png")
+                                         .expanded())));
     fileMenu->addAction(saveAsAction);
     m_permToolBarActions.append(saveAsAction);
 
@@ -609,10 +609,10 @@ namespace Isis {
     m_bundleObservationViews.append(result);
 
     QString str = fileItem->fileName();
-    FileName fileName = fileItem->fileName();
+    FileName fileName = fileItem->fileName().toStdString();
 
     // strip out bundle results name from fileName
-    QString path = fileName.originalPath();
+    QString path = QString::fromStdString(fileName.originalPath());
     int pos = path.lastIndexOf("/");
     QString bundleResultsName = "";
     if (pos != -1) {
@@ -654,7 +654,7 @@ namespace Isis {
   CnetEditorView *Directory::addCnetEditorView(Control *control, QString objectName) {
 
     QString title = tr("Cnet Editor View %1").arg( control->displayProperties()->displayName() );
-    FileName configFile("$HOME/.Isis/" + QApplication::applicationName() + "/" + title + ".config");
+    FileName configFile("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/" + title.toStdString() + ".config");
 
     CnetEditorView *result = new CnetEditorView(this, control, configFile);
 
@@ -815,7 +815,7 @@ namespace Isis {
 
       Control *activeControl = project()->activeControl();
       if (activeControl == NULL) {
-        QString message = "No active control network chosen.  Choose active control network on "
+        std::string message = "No active control network chosen.  Choose active control network on "
                           "project tree.\n";
         QMessageBox::critical(qobject_cast<QWidget *>(parent()), "Error", message);
         return NULL;
@@ -843,7 +843,7 @@ namespace Isis {
       Control *activeControl = project()->activeControl();
       if (activeControl == NULL) {
         // Error and return to Select Tool
-        QString message = "No active control network chosen.  Choose active control network on "
+        std::string message = "No active control network chosen.  Choose active control network on "
                           "project tree.\n";
         QMessageBox::critical(qobject_cast<QWidget *>(parent()), "Error", message);
         return NULL;
@@ -851,7 +851,7 @@ namespace Isis {
       result->controlPointEditWidget()->setControl(activeControl);
 
       if (!project()->activeImageList() || !project()->activeImageList()->serialNumberList()) {
-        QString message = "No active image list chosen.  Choose an active image list on the project "
+        std::string message = "No active image list chosen.  Choose an active image list on the project "
                           "tree.\n";
         QMessageBox::critical(qobject_cast<QWidget *>(parent()), "Error", message);
         return NULL;
@@ -969,7 +969,7 @@ namespace Isis {
 
     m_templateEditorWidgets.append(result);
 
-    result->setWindowTitle( tr("%1").arg( FileName(currentTemplate->fileName()).name() ) );
+    result->setWindowTitle( tr("%1").arg( QString::fromStdString(FileName(currentTemplate->fileName().toStdString()).name()) ) );
     result->setObjectName( result->windowTitle() );
 
     emit newWidgetAvailable(result);

@@ -81,7 +81,7 @@ namespace Isis {
       poly.Create(*cube, sinc, linc, 1, 1, 0, 0, 1, precision);
     }
     catch (IException &e) {
-      QString msg = "Cannot generate polygon for [" + cube->fileName() + "]";
+      std::string msg = "Cannot generate polygon for [" + cube->fileName() + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -126,7 +126,7 @@ namespace Isis {
             delete proj;
             delete xyPoly;
             e.print(); // This should be a NAIF error
-            QString msg = "Cannot calculate XY for [";
+            std::string msg = "Cannot calculate XY for [";
             msg += cube->fileName() + "]";
             throw IException(e, IException::User, msg, _FILEINFO_);
           }

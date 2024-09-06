@@ -13,7 +13,7 @@ using namespace Isis;
 namespace Isis {
   
   void camrange(UserInterface &ui, Pvl *log) {
-    Cube *cube = new Cube( ui.GetCubeName("FROM"), "r");
+    Cube *cube = new Cube(ui.GetCubeName("FROM").toStdString(), "r");
     camrange(cube, ui, log);
   }
 

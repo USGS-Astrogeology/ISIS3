@@ -151,7 +151,7 @@ namespace Isis {
    */
   bool DatabaseFactory::addAccessProfile(const QString &profileFile) {
     try {
-      FileName dbconf(profileFile);
+      FileName dbconf(profileFile.toStdString());
       if(dbconf.fileExists()) {
         DbAccess acp(profileFile);
 
@@ -361,7 +361,7 @@ namespace Isis {
 
     // Check driver availability
     if(!isDriverAvailable(driver)) {
-      QString mess = "Driver [" + driver + "] for database [" + dbname
+      std::string mess = "Driver [" + driver + "] for database [" + dbname
                      + "] does not exist";
       throw IException(IException::Unknown, mess, _FILEINFO_);
     }
@@ -390,7 +390,7 @@ namespace Isis {
     }
 
     // One doesn't exist, throw an error
-    QString mess = "Database [" + dbname + "] does not exist";
+    std::string mess = "Database [" + dbname + "] does not exist";
     throw IException(IException::Unknown, mess, _FILEINFO_);
   }
 

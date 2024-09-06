@@ -11,6 +11,7 @@ find files of those names at the top level of this repository. **/
 #include <QList>
 #include <QPointF>
 #include <QString>
+#include <QVariant>
 
 #include "Cube.h"
 #include "Interpolator.h"

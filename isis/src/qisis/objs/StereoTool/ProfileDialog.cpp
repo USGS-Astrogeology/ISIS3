@@ -49,7 +49,7 @@ void ProfileDialog::createEndSelected() {
 
 
 void ProfileDialog::help() {
-  QString message = "You must create and refine the end points of the profile "
+  std::string message = "You must create and refine the end points of the profile "
     "line before the elevation profile can be calculated.\n\n  A line  is "
     "computed between the end points on both the left and right cubes, then "
     "sub-pixel registration is computed along these two lines to find the "

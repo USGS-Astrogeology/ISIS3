@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
             exit(0);
           }
           else {
-            QString msg = "Unable to write to socket";
+            std::string msg = "Unable to write to socket";
             std::cout << msg << std::endl;
             remove(p_socketFile.toLatin1().data());
           }
@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
         }
       }
       else {
-        QString msg = "Unable to create socket";
+        std::string msg = "Unable to create socket";
         std::cout << msg << std::endl;
         remove(p_socketFile.toLatin1().data());
       }

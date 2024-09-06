@@ -273,7 +273,7 @@ namespace Isis {
         IString tok(token.substr(1));
         int file = tok.ToInteger() - 1;
         if (file < 0 || file >= (int)inCubes.size()) {
-          QString msg = "Invalid file number [" + QString::fromStdString(tok) + "]";
+          std::string msg = "Invalid file number [" + tok + "]";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 
@@ -1183,8 +1183,8 @@ namespace Isis {
             }
           }
           else {
-            QString msg = "Unable to compute illumination angles at image center for operator ["
-                          + tokenName + "].";
+            std::string msg = "Unable to compute illumination angles at image center for operator ["
+                          + tokenName.toStdString() + "].";
             throw IException(IException::Unknown, msg, _FILEINFO_);
           }
       }

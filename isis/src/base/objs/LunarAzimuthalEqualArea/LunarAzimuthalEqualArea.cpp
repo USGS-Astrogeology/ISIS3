@@ -38,7 +38,7 @@ namespace Isis {
       m_maxLibration *= PI / 180.0;
     }
     catch(IException &e) {
-      QString message = "Invalid label group [Mapping]";
+      std::string message = "Invalid label group [Mapping]";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
   }

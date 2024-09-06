@@ -118,7 +118,7 @@ namespace Isis {
    */
   void NewHorizonsLeisaCamera::SetBand(const int vband) {
     if ( (vband < 1) || (vband > m_originalBand.size())) {
-     QString msg = QObject::tr("Band number out of array bounds in NewHorizonsLeisaCamera::SetBand "
+     std::string msg = QObject::tr("Band number out of array bounds in NewHorizonsLeisaCamera::SetBand "
                                "legal bands are [1-%1], input was [%2]").
                                arg(m_originalBand.size()).arg(vband);
       throw IException(IException::Programmer, msg, _FILEINFO_);

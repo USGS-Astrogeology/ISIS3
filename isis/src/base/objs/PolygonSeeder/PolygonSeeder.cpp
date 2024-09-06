@@ -84,7 +84,7 @@ namespace Isis {
    **/
   void PolygonSeeder::Parse(Pvl &pvl) {
 
-    QString errorSpot;
+    std::string errorSpot;
 
     try {
       // Get info from Algorithm group

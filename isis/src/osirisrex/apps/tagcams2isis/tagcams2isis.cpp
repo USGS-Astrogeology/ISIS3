@@ -71,7 +71,7 @@ namespace Isis {
       instId  = QString::fromStdString((flabel.findKeyword("INSTRUME", Pvl::Traverse))).simplified();
     }
     catch (IException &ie) {
-      QString msg = QObject::tr("Unable to retrieve expected TAGCAMS keywords."
+      std::string msg = QObject::tr("Unable to retrieve expected TAGCAMS keywords."
                                 "The file provided in FROM is likely not a TAGCAMS image.");
       throw IException(ie, IException::User, msg, _FILEINFO_);
     }

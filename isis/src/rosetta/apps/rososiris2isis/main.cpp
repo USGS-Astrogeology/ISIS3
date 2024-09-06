@@ -37,12 +37,12 @@ void IsisMain() {
   QString missionId;
 
   try {
-    Pvl lab(inFile.expanded().toStdString());
+    Pvl lab(inFile.expanded());
     instId = QString::fromStdString(lab.findKeyword("INSTRUMENT_ID"));
     missionId = QString::fromStdString(lab.findKeyword("MISSION_ID"));
   }
   catch (IException &e) {
-    QString msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
+    std::string msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
                  inFile.expanded() + "]";
     throw IException(e, IException::Io, msg, _FILEINFO_);
   }
@@ -52,7 +52,7 @@ void IsisMain() {
   if (missionId.compare("ROSETTA", Qt::CaseInsensitive) != 0
      && instId.compare("OSINAC", Qt::CaseInsensitive) != 0
      && instId.compare("OSIWAC", Qt::CaseInsensitive) != 0) {
-    QString msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
+    std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
                   "a Rosetta OSIRIS Wide Angle Camera (WAC) or Narrow Angle Camera (NAC) file.";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
@@ -65,7 +65,7 @@ void IsisMain() {
   p.SetOutputCube(tmpFile.expanded(), outatt);
   p.SaveFileHeader();
 
-  Pvl labelPvl(inFile.expanded().toStdString());
+  Pvl labelPvl(inFile.expanded());
 
   p.StartProcess();
   p.EndProcess();
@@ -127,7 +127,7 @@ void IsisMain() {
                                                        filterNames[i]));
     }
     catch (IException &e) {
-      QString msg = "Input file [" + inFile.expanded()
+      std::string msg = "Input file [" + inFile.expanded()
                     + "] appears invalid. "
                     + "FilterName ["
                     + filterNames[i]
@@ -155,7 +155,7 @@ void IsisMain() {
     kerns += PvlKeyword("NaifFrameCode", std::to_string(-226112));  //should I add [-filtno] directly after the number?  That's what Dawn did
   }
   else {
-    QString msg = "Input file [" + inFile.expanded() + "] has an invalid " +
+    std::string msg = "Input file [" + inFile.expanded() + "] has an invalid " +
                  "InstrumentId.";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }

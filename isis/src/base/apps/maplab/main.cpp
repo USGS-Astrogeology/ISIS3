@@ -60,7 +60,7 @@ void IsisMain() {
     y = proj->YCoord();
   }
   else {
-    QString message = "Invalid option [" + option + "] for parameter COORDINATES";
+    std::string message = "Invalid option [" + option + "] for parameter COORDINATES";
     throw IException(IException::User, message, _FILEINFO_);
   }
 

@@ -135,7 +135,7 @@ namespace Isis {
         project()->directory()->addTargetInfoView(targetBody());
 
     if (!targetInfoWidget) {
-      QString msg = "error displaying target info";
+      std::string msg = "error displaying target info";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }

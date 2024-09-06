@@ -60,7 +60,7 @@ namespace Isis {
   void QtExporter::initialize(ExportDescription &desc) {
     // the Qt exporter only exports unsigned byte
     if (desc.pixelType() != UnsignedByte) {
-      QString msg = "Invalid pixel type. The Qt exporter for file type [";
+      std::string msg = "Invalid pixel type. The Qt exporter for file type [";
       msg += m_format;
       msg += "] requires an unsigned byte (i.e. 8BIT) output.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -201,7 +201,7 @@ namespace Isis {
                          QString compression, UserInterface *ui) {
     ImageExporter::write(outputName, quality, compression, ui);
 
-    outputName = outputName.addExtension(extension());
+    outputName = outputName.addExtension(extension().toStdString());
 
     // The return status is wrong for JPEG images, so the code will always
     // continue

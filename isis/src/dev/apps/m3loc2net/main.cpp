@@ -55,7 +55,7 @@ void IsisMain() {
     cnet.SetTarget(targetName);
   }
   else {
-    QString msg = "Input cube does not have target.";
+    std::string msg = "Input cube does not have target.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

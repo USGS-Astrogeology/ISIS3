@@ -48,7 +48,7 @@ void IsisMain() {
   if (ui.WasEntered("TO")) {
     if (ui.GetString("TRANSFORM") == "WARP") {
       if (!ui.WasEntered("ONET")) {
-        QString msg = "A Control Net file must be entered if the TO parameter is ";
+        std::string msg = "A Control Net file must be entered if the TO parameter is ";
         msg += "entered";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -68,12 +68,12 @@ void IsisMain() {
   // one band
   if ((trans.lineCount() != match.lineCount()) ||
       (trans.sampleCount() != match.sampleCount())) {
-    QString msg = "Input Cube Lines and Samples must be equal!";
+    std::string msg = "Input Cube Lines and Samples must be equal!";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   if (trans.bandCount() != 1 || match.bandCount() != 1) {
-    QString msg = "Input Cubes must have only one band!";
+    std::string msg = "Input Cubes must have only one band!";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -86,7 +86,7 @@ void IsisMain() {
     QString sTrans = FileName(trans.fileName()).name();
     QString sMatch = FileName(match.fileName()).name();
     if (sTrans == sMatch) {
-      QString msg = "Cube Serial Numbers must be unique - FROM=" + serialTrans +
+      std::string msg = "Cube Serial Numbers must be unique - FROM=" + serialTrans +
                    ", MATCH=" + serialMatch;
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -223,7 +223,7 @@ void IsisMain() {
 
   // If none of the points registered, throw an error
   if (sStats.TotalPixels() < 1) {
-    QString msg = "Coreg was unable to register any points. Check your algorithm definition.";
+    std::string msg = "Coreg was unable to register any points. Check your algorithm definition.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

@@ -818,7 +818,7 @@ namespace Isis {
       m_kernelDbFiles.append(kernelDb.highestVersion());
     }
     else { // else, read in the appropriate database files from the config file
-      PvlObject inst = Pvl(configFile.expanded().toStdString()).findObject("Instrument");
+      PvlObject inst = Pvl(configFile.expanded()).findObject("Instrument");
       bool foundMatch = false;
       // loop through each group until we find a match
       for (int groupIndex = 0; groupIndex < inst.groups(); groupIndex++) {
@@ -866,10 +866,10 @@ namespace Isis {
     // read each of the database files appended to the list into m_kernelData
     foreach (FileName kernelDbFile, m_kernelDbFiles) {
       try {
-        m_kernelData.read(kernelDbFile.expanded().toStdString());
+        m_kernelData.read(kernelDbFile.expanded());
       }
       catch (IException &e) {
-        QString msg = "Unable to read kernel database file ["
+        std::string msg = "Unable to read kernel database file ["
                       + kernelDbFile.expanded() + "].";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }

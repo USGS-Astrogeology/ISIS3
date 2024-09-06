@@ -46,7 +46,7 @@ namespace Isis {
     QGridLayout *resultLayout = new QGridLayout;
     centralWidget->setLayout(resultLayout);
 
-    m_cnetEditorWidget = new CnetEditorWidget(control, configFile.expanded());
+    m_cnetEditorWidget = new CnetEditorWidget(control, QString::fromStdString(configFile.expanded()));
     m_control = control;
 
     resultLayout->addWidget(m_cnetEditorWidget, 0, 0, 1, 2);

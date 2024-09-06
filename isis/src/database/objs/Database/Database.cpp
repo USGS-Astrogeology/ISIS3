@@ -54,7 +54,7 @@ namespace Isis {
     _name = _actualConnectionName;
     if((dbConn == Connect) && isValid()) {
       if(!open()) {
-        QString mess = "Failed to open database default database [" + _name;
+        std::string mess = "Failed to open database default database [" + _name;
         tossDbError(mess, _FILEINFO_);
       }
     }
@@ -77,7 +77,7 @@ namespace Isis {
     _name = _actualConnectionName;
     if((dbConn == Connect) && isValid()) {
       if(!open()) {
-        QString mess = "Failed to open database specified as " + _name;
+        std::string mess = "Failed to open database specified as " + _name;
         tossDbError(mess, _FILEINFO_);
       }
     }
@@ -127,7 +127,7 @@ namespace Isis {
     _name = _actualConnectionName;
     if((dbConn == Connect) && isValid()) {
       if(!open()) {
-        QString mess = "Failed to open database with profile " + _name;
+        std::string mess = "Failed to open database with profile " + _name;
         tossDbError(mess, _FILEINFO_);
       }
     }
@@ -422,7 +422,7 @@ namespace Isis {
       //  Go ahead and connect if requested
       if(dbConn == Connect) {
         if(!db.open()) {
-          QString mess = "Failed to connect to database using profile " +
+          std::string mess = "Failed to connect to database using profile " +
                         profile("Name");
           tossDbError(mess, _FILEINFO_);
         }
@@ -430,11 +430,11 @@ namespace Isis {
       return (db);
     }
     catch(IException &ie) {
-      QString mess = "Unable to create database from " + profile.Name();
+      std::string mess = "Unable to create database from " + profile.Name();
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }
     catch(...) {
-      QString mess = "Unknown exception while creating database from profile "
+      std::string mess = "Unknown exception while creating database from profile "
                     + profile.Name();
       throw IException(IException::User, mess, _FILEINFO_);
     }

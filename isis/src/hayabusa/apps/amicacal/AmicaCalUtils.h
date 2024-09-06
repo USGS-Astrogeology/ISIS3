@@ -137,7 +137,7 @@ static bool sunDistanceAU(Cube *iCube,
       sunDist = sunkm / KM_PER_AU;
     }
     catch (IException &e) {
-      QString message = "Failed to calculate the sun-target distance.";
+      std::string message = "Failed to calculate the sun-target distance.";
       throw IException(e, IException::User, message, _FILEINFO_);
     }
   }

@@ -92,8 +92,8 @@ namespace Isis {
    * @see FileName::Expanded()
    */
   QString EmbreeTargetManager::fullFilePath(const QString &filePath) const {
-    FileName fileName(filePath);
-    return fileName.expanded();
+    FileName fileName(filePath.toStdString());
+    return QString::fromStdString(fileName.expanded());
   }
 
 
@@ -141,7 +141,7 @@ namespace Isis {
 
     // First check how many already exist
     if ( m_targeCache.size() >= maxCacheSize() ) {
-      QString msg = "Failed creating EmbreeTargetShape for [" + shapeFile
+      std::string msg = "Failed creating EmbreeTargetShape for [" + shapeFile.toStdString()
                     + "] Too many EmbreeTargetShapes are already open.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -176,8 +176,8 @@ namespace Isis {
 
     // Sanity check
     if ( !inCache(fullPath) ) {
-      QString msg = "Cannot free EmbreeTargetShape for file ["
-                    + fullPath + "] because it is not stored in the cache.";
+      std::string msg = "Cannot free EmbreeTargetShape for file ["
+                    + fullPath.toStdString() + "] because it is not stored in the cache.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -213,8 +213,8 @@ namespace Isis {
 
     // Sanity check
     if ( !inCache(fullPath) ) {
-      QString msg = "Cannot free EmbreeTargetShape for file ["
-                    + fullPath + "] because it is not stored in the cache.";
+      std::string msg = "Cannot free EmbreeTargetShape for file ["
+                    + fullPath.toStdString() + "] because it is not stored in the cache.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

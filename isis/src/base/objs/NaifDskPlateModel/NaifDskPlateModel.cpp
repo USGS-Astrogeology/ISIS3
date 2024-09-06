@@ -49,7 +49,7 @@ namespace Isis {
   NaifDskPlateModel::NaifDskPlateModel(const QString &dskfile) : m_dsk(0) {
     m_dsk = SharedNaifDskDescriptor(openDSK(dskfile));
     if ( !isValid() ) {
-      QString mess = "Could not open DSK file " + dskfile;
+      std::string mess = "Could not open DSK file " + dskfile.toStdString();
       throw IException(IException::User, mess, _FILEINFO_);
     }
   }
@@ -147,7 +147,7 @@ namespace Isis {
   
   #if 0
     if ( !isPlateIdValid(plateId) ) {
-      QString mess = "Plateid = " + QString::number(plateId) + " is invalid";
+      std::string mess = "Plateid = " + QString::number(plateId) + " is invalid";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
   #endif
@@ -294,7 +294,7 @@ namespace Isis {
   
     // Sanity check on plateid
     if ( !isPlateIdValid(plateid) ) {
-      QString mess = "Plateid = " + QString::number(plateid) + " is invalid";
+      std::string mess = "Plateid = " + std::to_string(plateid) + " is invalid";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
   
@@ -345,9 +345,9 @@ namespace Isis {
   NaifDskPlateModel::NaifDskDescriptor *NaifDskPlateModel::openDSK(const QString &dskfile) {
   
     // Sanity check
-    FileName dskFile(dskfile);
+    FileName dskFile(dskfile.toStdString());
     if ( !dskFile.fileExists() ) {
-      QString mess = "NAIF DSK file [" + dskfile + "] does not exist.";
+      std::string mess = "NAIF DSK file [" + dskfile.toStdString() + "] does not exist.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
   
@@ -355,7 +355,7 @@ namespace Isis {
     QScopedPointer<NaifDskDescriptor> dsk(new NaifDskDescriptor());
     dsk->m_dskfile = dskfile;
     NaifStatus::CheckErrors();
-    dasopr_c( dskFile.expanded().toLatin1().data(), &dsk->m_handle );
+    dasopr_c( dskFile.expanded().c_str(), &dsk->m_handle );
     NaifStatus::CheckErrors();
   
     // Search to the first DLA segment
@@ -363,7 +363,7 @@ namespace Isis {
     dlabfs_c( dsk->m_handle, &dsk->m_dladsc, &found );
     NaifStatus::CheckErrors();
     if ( !found ) {
-      QString mess = "No segments found in DSK file " + dskfile ; 
+      std::string mess = "No segments found in DSK file " + dskfile.toStdString(); 
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
@@ -386,7 +386,7 @@ namespace Isis {
                                  const NaifDskPlateModel::ErrAction &action) 
                                  const {
     if ( ( Throw == action ) && ( !test ) ) {
-      throw IException(IException::Programmer, errmsg, _FILEINFO_);
+      throw IException(IException::Programmer, errmsg.toStdString(), _FILEINFO_);
     }
   
     // Looks good

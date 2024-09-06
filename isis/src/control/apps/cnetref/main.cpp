@@ -60,7 +60,7 @@ void IsisMain() {
       Application::Log(pvlDefFile->group(0));
 
       if (pvlDefFile->group(0).hasKeyword("PixelsFromEdge") && pvlDefFile->group(0).hasKeyword("MetersFromEdge")) {
-        QString message = "DefFile Error : Cannot have both \"PixelsFromEdge\" && \"MetersFromEdge\"" ;
+        std::string message = "DefFile Error : Cannot have both \"PixelsFromEdge\" && \"MetersFromEdge\"" ;
         throw IException(IException::User, message, _FILEINFO_);
       }
 
@@ -124,7 +124,7 @@ void IsisMain() {
       if (sType == "NEAREST") {
         dResValue = ui.GetDouble("RESVALUE");
         if (dResValue < 0) {
-          QString message = "Invalid Nearest Resolution Value";
+          std::string message = "Invalid Nearest Resolution Value";
           throw IException(IException::User, message, _FILEINFO_);
         }
       }
@@ -132,7 +132,7 @@ void IsisMain() {
         dMinRes = ui.GetDouble("MINRES");
         dMaxRes = ui.GetDouble("MAXRES");
         if (dMinRes < 0 || dMaxRes < 0 || dMinRes > dMaxRes) {
-          QString message = "Invalid Resolution Range";
+          std::string message = "Invalid Resolution Range";
           throw IException(IException::User, message, _FILEINFO_);
         }
       }
@@ -143,7 +143,7 @@ void IsisMain() {
     // Process Reference by Interest
     else if (sCriteria == "INTEREST") {
       if (!bDefFile) {
-        QString msg = "Interest Option must have a DefFile";
+        std::string msg = "Interest Option must have a DefFile";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       QString sOverlapListFile = "";
@@ -196,16 +196,16 @@ void IsisMain() {
     throw;
   }
   catch (geos::util::GEOSException *exc) {
-    QString message = "GEOS Exception: " + (QString)exc->what();
+    std::string message = "GEOS Exception: " + (QString)exc->what();
     delete exc;
     throw IException(IException::User, message, _FILEINFO_);
   }
   catch (std::exception const &se) {
-    QString message = "std::exception: " + (QString)se.what();
+    std::string message = "std::exception: " + (QString)se.what();
     throw IException(IException::User, message, _FILEINFO_);
   }
   catch (...) {
-    QString message = "Other Error";
+    std::string message = "Other Error";
     throw IException(IException::User, message, _FILEINFO_);
   }
 }

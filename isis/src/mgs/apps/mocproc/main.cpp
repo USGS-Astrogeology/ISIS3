@@ -65,7 +65,7 @@ void IsisMain() {
     p.Application("mocevenodd").SetInputParameter("FROM", true);
     p.Application("mocevenodd").SetOutputParameter("TO", "evenodd");
 
-    Pvl inputPvl(FileName(ui.GetFileName("FROM")).expanded().toStdString());
+    Pvl inputPvl(FileName(ui.GetFileName("FROM")).expanded());
 
     int summingMode = 0;
     bool isNarrowAngle = false;
@@ -101,7 +101,7 @@ void IsisMain() {
       p.Application("cam2map").AddConstParameter("PIXRES", "MPP");
     }
     else if(ui.WasEntered("MAP")) {
-      Pvl mapPvl(FileName(ui.GetFileName("MAP")).expanded().toStdString());
+      Pvl mapPvl(FileName(ui.GetFileName("MAP")).expanded());
       if(mapPvl.findGroup("Mapping", Pvl::Traverse).hasKeyword("PixelResolution")) {
         p.Application("cam2map").AddConstParameter("PIXRES", "MAP");
       }

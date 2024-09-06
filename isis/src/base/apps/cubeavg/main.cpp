@@ -49,12 +49,12 @@ void IsisMain() {
         compute(centers, widths, ocube);
       }
       else {
-        QString message = "The BandBin in your input cube does not have a Center value.";
+        std::string message = "The BandBin in your input cube does not have a Center value.";
         throw IException(IException::User, message, _FILEINFO_);
       }
     }
     else {
-      QString message = "There is not a BandBin Group in the input cube.";
+      std::string message = "There is not a BandBin Group in the input cube.";
       throw IException(IException::User, message, _FILEINFO_);
     }
   }

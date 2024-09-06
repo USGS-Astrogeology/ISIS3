@@ -27,10 +27,10 @@ namespace Isis {
     // first just get the pairs from where ever and worry about
     // whether they are dn values or %'s later
     if(ui.GetBoolean("READFILE")) {
-      FileName pairsFileName = ui.GetFileName("INPUTFILE");
+      FileName pairsFileName = ui.GetFileName("INPUTFILE").toStdString();
       TextFile pairsFile;
       pairsFile.SetComment("#");
-      pairsFile.Open(pairsFileName.expanded());
+      pairsFile.Open(QString::fromStdString(pairsFileName.expanded()));
 
       // concat all non-comment lines into one string (pairs)
       QString line = "";

@@ -239,7 +239,7 @@ namespace Isis {
     foreach(TemplateList *templateList, regTemplates) {
       foreach(Template *templateFile, *templateList){
         m_templateComboBox->addItem(templateFile->importName()
-                                    + "/" + FileName(templateFile->fileName()).name());
+                                    + "/" + QString::fromStdString(FileName(templateFile->fileName().toStdString()).name()));
       }
     }
     QFormLayout *templateFileLayout = new QFormLayout();
@@ -507,7 +507,7 @@ namespace Isis {
    */
   void ControlPointEditWidget::createActions() {
 
-    m_closePointEditor = new QAction(QIcon(FileName("base/icons/fileclose.png").expanded()),
+    m_closePointEditor = new QAction(QIcon(QString::fromStdString(FileName("base/icons/fileclose.png").expanded())),
                                    "&Close", this);
     m_closePointEditor->setToolTip("Close this window");
     m_closePointEditor->setStatusTip("Close this window");
@@ -517,7 +517,7 @@ namespace Isis {
     m_closePointEditor->setWhatsThis(whatsThis);
     connect(m_closePointEditor, SIGNAL(triggered()), this, SLOT(close()));
 
-    m_showHideTemplateEditor = new QAction(QIcon(FileName("base/icons/view_text.png").expanded()),
+    m_showHideTemplateEditor = new QAction(QIcon(QString::fromStdString(FileName("base/icons/view_text.png").expanded())),
                                            "&View/edit registration template", this);
     m_showHideTemplateEditor->setCheckable(true);
     m_showHideTemplateEditor->setToolTip("View and/or edit the registration template");
@@ -528,7 +528,7 @@ namespace Isis {
     connect(m_showHideTemplateEditor, SIGNAL(triggered()), this,
         SLOT(showHideTemplateEditor()));
 
-    m_saveChips = new QAction(QIcon(FileName("base/icons/window_new.png").expanded()),
+    m_saveChips = new QAction(QIcon(QString::fromStdString(FileName("base/icons/window_new.png").expanded())),
                               "Save registration chips", this);
     m_saveChips->setToolTip("Save registration chips");
     m_saveChips->setStatusTip("Save registration chips");
@@ -537,7 +537,7 @@ namespace Isis {
     m_saveChips->setWhatsThis(whatsThis);
     connect(m_saveChips, SIGNAL(triggered()), this, SLOT(saveChips()));
 
-    m_openTemplateFile = new QAction(QIcon(FileName("base/icons/fileopen.png").expanded()),
+    m_openTemplateFile = new QAction(QIcon(QString::fromStdString(FileName("base/icons/fileopen.png").expanded())),
                                      "&Open registration template", this);
     m_openTemplateFile->setToolTip("Set registration template");
     m_openTemplateFile->setStatusTip("Set registration template");
@@ -546,7 +546,7 @@ namespace Isis {
     m_openTemplateFile->setWhatsThis(whatsThis);
     connect(m_openTemplateFile, SIGNAL(triggered()), this, SLOT(openTemplateFile()));
 
-    m_saveTemplateFile = new QAction(QIcon(FileName("base/icons/mActionFileSave.png").expanded()),
+    m_saveTemplateFile = new QAction(QIcon(QString::fromStdString(FileName("base/icons/mActionFileSave.png").expanded())),
                                      "&Save template file", this);
     m_saveTemplateFile->setToolTip("Save the template file");
     m_saveTemplateFile->setStatusTip("Save the template file");
@@ -554,7 +554,7 @@ namespace Isis {
     connect(m_saveTemplateFile, SIGNAL(triggered()), this,
         SLOT(saveTemplateFile()));
 
-    m_saveTemplateFileAs = new QAction(QIcon(FileName("base/icons/mActionFileSaveAs.png").expanded()),
+    m_saveTemplateFileAs = new QAction(QIcon(QString::fromStdString(FileName("base/icons/mActionFileSaveAs.png").expanded())),
                                        "&Save template as...", this);
     m_saveTemplateFileAs->setToolTip("Save the template file as");
     m_saveTemplateFileAs->setStatusTip("Save the template file as");
@@ -725,7 +725,7 @@ namespace Isis {
 
       // Add to measure combo boxes
       QString groundFile = m_serialNumberList->fileName(groundMeasure->GetCubeSerialNumber());
-      QString tempFileName = FileName(groundFile).name();
+      QString tempFileName = QString::fromStdString(FileName(groundFile.toStdString()).name());
 
       m_pointFiles<<groundFile;
       m_leftCombo->addItem(tempFileName);
@@ -780,7 +780,7 @@ namespace Isis {
 
     //  Try to locate point position on current ground source,
     if (!m_groundGmap->SetUniversalGround(lat,lon)) {
-      QString message = "This point does not exist on the ground source.\n";
+      std::string message = "This point does not exist on the ground source.\n";
       message += "Latitude = " + QString::number(lat);
       message += "  Longitude = " + QString::number(lon);
       message += "\n A ground measure will not be created.";
@@ -823,13 +823,13 @@ namespace Isis {
       //  Chosen ground source is an imported shape in project
       if (m_groundSourceCombo->currentText().contains(".ecub")) {
         Shape *shape = m_nameToShapeMap[m_groundSourceCombo->currentText()];
-        groundFile = FileName(shape->fileName());
+        groundFile = FileName(shape->fileName().toStdString());
         //groundSourceType = shape->surfacePointSource();
         success = true;
       }
       //  Not imported shape, must be from m_editPoints AprioriXYZSource in the cnet
       else if (m_editPoint->HasAprioriSurfacePointSourceFile()) {
-        groundFile = FileName(m_groundSourceCombo->currentText());
+        groundFile = FileName(m_groundSourceCombo->currentText().toStdString());
         //  Apriori ground source does not exist and user chose not to give new location so simply
         //  return unsuccessful
         if (!groundFile.fileExists()) {
@@ -845,9 +845,9 @@ namespace Isis {
     // If a new ground file was found set ground source information for later use, first clearing
     // out the old ground source information.  If new ground same as old ground, we will not change
     // anything, simply return successful.
-    if (success && (groundFile.expanded() != m_groundFilename)) {
+    if (success && (QString::fromStdString(groundFile.expanded()) != m_groundFilename)) {
       clearGroundSource();
-      m_groundFilename = groundFile.expanded();
+      m_groundFilename = QString::fromStdString(groundFile.expanded());
 
       // Get cube, then universal groundmap
       QScopedPointer<Cube> groundCube(new Cube(groundFile, "r"));
@@ -856,7 +856,7 @@ namespace Isis {
       m_groundGmap.reset(newGroundGmap.take());
 
       //  Create new serial number for ground source and add to serial number list
-      m_groundSN = SerialNumber::Compose(groundFile.expanded(), true);
+      m_groundSN = SerialNumber::Compose(QString::fromStdString(groundFile.expanded()), true);
       m_serialNumberList->add(m_groundFilename, true);
 
       m_groundSourceType = groundSourceType;
@@ -891,10 +891,10 @@ namespace Isis {
       // fix this ground source to new location
       // If all groundLocations are to be changed...
       if (m_changeAllGroundLocation) {
-        QFileInfo oldFile(groundFile.expanded());
+        QFileInfo oldFile(QString::fromStdString(groundFile.expanded()));
         QFileInfo newFile(m_newGroundDir, oldFile.fileName());
 
-        newGroundFile = FileName(newFile.absoluteFilePath());
+        newGroundFile = FileName(newFile.absoluteFilePath().toStdString());
       }
 
       //  If can't find ground, re-prompt user for new location. Maybe it's a new ground source.
@@ -902,10 +902,10 @@ namespace Isis {
         //  Give options for finding ground source file location. A new location
         //  for new location or new source, either a Shape in the project, or import a new shape,
         //  or simplay choose file?
-        QString message = "Ground Source file " + groundFile.expanded();
+        std::string message = "Ground Source file " + groundFile.expanded();
         message += " doesn't exist.  Has the file moved?  Would you like to enter a new location for"
                    " this ground source?";
-        int ret = QMessageBox::question(this, "Ground Source not found", message);
+        int ret = QMessageBox::question(this, "Ground Source not found", QString::fromStdString(message));
         if (ret == QMessageBox::Yes) {
           QString dir = m_directory->project()->shapeDataRoot();
           NewGroundSourceLocationDialog *dialog = new NewGroundSourceLocationDialog(
@@ -919,10 +919,10 @@ namespace Isis {
               changeGroundLocationsInNet();
             }
             //  Change location of apriori for current edit point so combo boxes updated properly
-            QFileInfo oldFile(groundFile.expanded());
+            QFileInfo oldFile(QString::fromStdString(groundFile.expanded()));
             QFileInfo newFile(m_newGroundDir, oldFile.fileName());
-            newGroundFile = newFile.absoluteFilePath();
-            m_editPoint->SetAprioriSurfacePointSourceFile(newGroundFile.toString());
+            newGroundFile = newFile.absoluteFilePath().toStdString();
+            m_editPoint->SetAprioriSurfacePointSourceFile(QString::fromStdString(newGroundFile.toString()));
           }
           else {
             //  Either user does not want to change location of ground source or the new location
@@ -951,11 +951,11 @@ namespace Isis {
     for (int i = 0; i < m_controlNet->GetNumPoints(); i++ ) {
       ControlPoint *cp = m_controlNet->GetPoint(i);
       if (cp->HasAprioriSurfacePointSourceFile()) {
-        FileName groundFile(cp->GetAprioriSurfacePointSourceFile());
-        QFileInfo oldFile(groundFile.expanded());
+        FileName groundFile(cp->GetAprioriSurfacePointSourceFile().toStdString());
+        QFileInfo oldFile(QString::fromStdString(groundFile.expanded()));
         QFileInfo newFile(m_newGroundDir, oldFile.fileName());
-        groundFile = newFile.absoluteFilePath();
-        cp->SetAprioriSurfacePointSourceFile(groundFile.expanded());
+        groundFile = newFile.absoluteFilePath().toStdString();
+        cp->SetAprioriSurfacePointSourceFile(QString::fromStdString(groundFile.expanded()));
       }
     }
     emit cnetModified();
@@ -973,7 +973,7 @@ namespace Isis {
     //Get the reference image's shape model
     QString referenceSN = m_editPoint->GetReferenceSN();
     QString referenceFileName = m_serialNumberList->fileName(referenceSN);
-    QScopedPointer<Cube> referenceCube(new Cube(referenceFileName, "r"));
+    QScopedPointer<Cube> referenceCube(new Cube(referenceFileName.toStdString(), "r"));
     PvlGroup kernels = referenceCube->group("Kernels");
     QString shapeFile = QString::fromStdString(kernels["ShapeModel"]);
 
@@ -1028,9 +1028,9 @@ namespace Isis {
 
       QApplication::setOverrideCursor(Qt::WaitCursor);
       try {
-        QScopedPointer<Cube> newDemCube(new Cube(demFile, "r"));
+        QScopedPointer<Cube> newDemCube(new Cube(demFile.toStdString(), "r"));
 
-        m_demFile = FileName(newDemCube->fileName()).name();
+        m_demFile = QString::fromStdString(FileName(newDemCube->fileName().toStdString()).name());
         m_demCube.reset(newDemCube.take());
       }
       catch (IException &e) {
@@ -1042,7 +1042,7 @@ namespace Isis {
 
       //  Make sure this is a dem
       if (!m_demCube->hasTable("ShapeModelStatistics")) {
-        QString message = m_demFile + " is not a DEM.";
+        std::string message = m_demFile + " is not a DEM.";
         QMessageBox::critical(this, "Error", message);
         m_demCube.reset(NULL);
         m_demOpen = false;
@@ -1279,14 +1279,14 @@ namespace Isis {
 
     //  If available, add the CP AprioriSurfacePointSourceFile and AprioriRadiusSourceFile
     if (m_editPoint->HasAprioriSurfacePointSourceFile()) {
-      FileName aprioriSurfacePointFile = FileName(m_editPoint->GetAprioriSurfacePointSourceFile());
+      FileName aprioriSurfacePointFile = FileName(m_editPoint->GetAprioriSurfacePointSourceFile().toStdString());
       //  If file doesn't exist, prompt user for changing location before adding to combo
       if (!aprioriSurfacePointFile.fileExists()) {
         aprioriSurfacePointFile = checkGroundFileLocation(aprioriSurfacePointFile);
       }
-      if (!aprioriSurfacePointFile.toString().isEmpty()) {
-        m_groundSourceCombo->addItem(aprioriSurfacePointFile.toString());
-        m_groundSourceCombo->setCurrentText(aprioriSurfacePointFile.toString());
+      if (!aprioriSurfacePointFile.toString().empty()) {
+        m_groundSourceCombo->addItem(QString::fromStdString(aprioriSurfacePointFile.toString()));
+        m_groundSourceCombo->setCurrentText(QString::fromStdString(aprioriSurfacePointFile.toString()));
         m_groundSourceCombo->setItemData(m_groundSourceCombo->currentIndex(),
                                          QColor(Qt::darkGreen), Qt::ForegroundRole);
         m_groundSourceCombo->setItemData(m_groundSourceCombo->currentIndex(),
@@ -1360,7 +1360,7 @@ namespace Isis {
       ControlMeasure &m = *(*m_editPoint)[i];
       QString file = m_serialNumberList->fileName(m.GetCubeSerialNumber());
       m_pointFiles<<file;
-      QString tempFileName = FileName(file).name();
+      QString tempFileName = QString::fromStdString(FileName(file.toStdString()).name());
 
       // This actually fills the right combo box for selecting measures.  A model was used to enable
       // drag & drop for ordering measures which will also set the blink order.
@@ -1391,7 +1391,7 @@ namespace Isis {
 
     if (!serialNumber.isEmpty() && serialNumber != referenceSerialNumber) {
       QString file = m_serialNumberList->fileName(serialNumber);
-      rightIndex = m_rightCombo->findText(FileName(file).name());
+      rightIndex = m_rightCombo->findText(QString::fromStdString(FileName(file.toStdString()).name()));
       if (leftIndex == -1) {
         if (rightIndex == 0) {
           leftIndex = 1;
@@ -1504,7 +1504,7 @@ namespace Isis {
       // If this ControlPointId already exists, message box pops up and user is
       // asked to enter a new value.
       if (m_controlNet->ContainsPoint(newPoint->GetId())) {
-        QString message = "A ControlPoint with Point Id = [" + newPoint->GetId();
+        std::string message = "A ControlPoint with Point Id = [" + newPoint->GetId();
         message += "] already exists.  Re-enter Point Id for this ControlPoint.";
         QMessageBox::warning(this, "New Point Id", message);
         pointFiles.clear();
@@ -1548,7 +1548,7 @@ namespace Isis {
         else {
           newPoint->SetAprioriSurfacePointSource(ControlPoint::SurfacePointSource::None);
         }
-        newPoint->SetAprioriSurfacePointSourceFile(shape->cube()->externalCubeFileName().expanded());
+        newPoint->SetAprioriSurfacePointSourceFile(QString::fromStdString(shape->cube()->externalCubeFileName().expanded()));
       }
 
       setEditPoint(newPoint);
@@ -1595,7 +1595,7 @@ namespace Isis {
 
         //  If all measures being deleted, let user know and give them the option to quit operation
         if (!deletePointDialog->deleteAllCheckBox->isChecked()) {
-          QString message = "You have selected all measures in this point to be deleted.  This "
+          std::string message = "You have selected all measures in this point to be deleted.  This "
             "control point will be deleted.  Do you want to delete this control point?";
           int  response = QMessageBox::question(this,
                                     "Delete control point", message,
@@ -1633,7 +1633,7 @@ namespace Isis {
           if (m_editPoint->IsReferenceExplicit() &&
                 (m_editPoint->GetRefMeasure()->GetCubeSerialNumber() ==
                 (*m_editPoint)[i]->GetCubeSerialNumber())) {
-            QString message = "You are trying to delete the Reference measure."
+            std::string message = "You are trying to delete the Reference measure."
                 "  Do you really want to delete the Reference measure?";
             switch (QMessageBox::question(this,
                                           "Delete Reference measure?", message,
@@ -1758,7 +1758,7 @@ namespace Isis {
     }
 
     if (m_editPoint->IsIgnored()) {
-      QString message = "You are saving changes to a measure on an ignored ";
+      std::string message = "You are saving changes to a measure on an ignored ";
       message += "point.  Do you want to set Ignore = False on the point and ";
       message += "both measures?";
       switch (QMessageBox::question(this, "Save Measure", message, "&Yes", "&No", 0, 0)) {
@@ -1803,14 +1803,14 @@ namespace Isis {
          m_rightMeasure->GetCubeSerialNumber() == m_groundSN)) {
       // If point is locked and it is not a new point, print error
       if (m_editPoint->IsEditLocked() && m_controlNet->ContainsPoint(m_editPoint->GetId())) {
-        QString message = "This control point is edit locked.  The Apriori latitude, longitude and ";
+        std::string message = "This control point is edit locked.  The Apriori latitude, longitude and ";
         message += "radius cannot be updated.  You must first unlock the point by clicking the ";
         message += "check box above labeled \"Edit Lock Point\".";
         QMessageBox::warning(this, "Point Locked", message);
         return;
       }
       if (m_leftMeasure->IsIgnored()) {
-        QString message = "This is a Constrained or Fixed point and the reference measure is ";
+        std::string message = "This is a Constrained or Fixed point and the reference measure is ";
         message += "Ignored.  Unset the Ignore flag on the reference measure before saving.";
         QMessageBox::warning(this, "Point Locked", message);
         return;
@@ -1869,7 +1869,7 @@ namespace Isis {
     //  if this is a reference measure.  The check for moving a reference is
     //  done below.
     if (origMeasure->IsEditLocked() && m->IsEditLocked()) {
-      QString message = "The " + side + " measure is editLocked ";
+      std::string message = "The " + side + " measure is editLocked ";
       message += "for editing.  Do you want to set EditLock = False for this ";
       message += "measure?";
       int response = QMessageBox::question(this, "Save Measure",
@@ -1891,7 +1891,7 @@ namespace Isis {
     }
 
     if (origMeasure->IsIgnored() && m->IsIgnored()) {
-      QString message = "The " + side + "measure is ignored.  ";
+      std::string message = "The " + side + "measure is ignored.  ";
       message += "Do you want to set Ignore = False on the measure?";
       switch (QMessageBox::question(this, "Save Measure", message, "&Yes", "&No", 0, 0)) {
         // Yes:  set Ignore=false for the right measure and save point
@@ -1914,7 +1914,7 @@ namespace Isis {
     if (m_editPoint->IsReferenceExplicit()) {
       if (refMeasure->GetCubeSerialNumber() == m->GetCubeSerialNumber()) {
         if (m->GetSample() != origMeasure->GetSample() || m->GetLine() != origMeasure->GetLine()) {
-          QString message = "You are making a change to the reference measure.  You ";
+          std::string message = "You are making a change to the reference measure.  You ";
           message += "may need to move all of the other measures to match the new ";
           message += " coordinate of the reference measure.  Do you really want to ";
           message += " change the reference measure's location? ";
@@ -1935,7 +1935,7 @@ namespace Isis {
       }
       //  New reference measure
       else if (side == "left" && (refMeasure->GetCubeSerialNumber() != m->GetCubeSerialNumber())) {
-        QString message = "This point already contains a reference measure.  ";
+        std::string message = "This point already contains a reference measure.  ";
         message += "Would you like to replace it with the measure on the left?";
         int  response = QMessageBox::question(this,
                                   "Save Measure", message,
@@ -1946,7 +1946,7 @@ namespace Isis {
           //  Update measure file combo boxes:  old reference normal font,
           //    new reference bold font
           QString file = m_serialNumberList->fileName(m_leftMeasure->GetCubeSerialNumber());
-          QString fname = FileName(file).name();
+          QString fname = QString::fromStdString(FileName(file.toStdString()).name());
           int iref = m_leftCombo->findText(fname);
 
           //  Save normal font from new reference measure
@@ -1956,7 +1956,7 @@ namespace Isis {
           m_rightCombo->setItemData(iref,QFont("DejaVu Sans", 12, QFont::Bold), Qt::FontRole);
 
           file = m_serialNumberList->fileName(refMeasure->GetCubeSerialNumber());
-          fname = FileName(file).name();
+          fname = QString::fromStdString(FileName(file.toStdString()).name());
           iref = m_leftCombo->findText(fname);
           m_leftCombo->setItemData(iref,font,Qt::FontRole);
           iref = m_rightCombo->findText(fname);
@@ -1996,7 +1996,7 @@ namespace Isis {
     // measure as reference.
     ControlMeasure *refMeasure = m_editPoint->GetRefMeasure();
     if (refMeasure->GetCubeSerialNumber() != m_leftMeasure->GetCubeSerialNumber()) {
-      QString message = "This point already contains a reference measure.  ";
+      std::string message = "This point already contains a reference measure.  ";
       message += "Would you like to replace it with the measure on the left?";
       int  response = QMessageBox::question(this,
                                 "Match Tool Save Measure", message,
@@ -2007,7 +2007,7 @@ namespace Isis {
         //  Update measure file combo boxes:  old reference normal font,
         //    new reference bold font
         QString file = m_serialNumberList->fileName(m_leftMeasure->GetCubeSerialNumber());
-        QString fname = FileName(file).name();
+        QString fname = QString::fromStdString(FileName(file.toStdString()).name());
         int iref = m_leftCombo->findText(fname);
 
         //  Save normal font from new reference measure
@@ -2017,7 +2017,7 @@ namespace Isis {
         m_rightCombo->setItemData(iref,QFont("DejaVu Sans", 12, QFont::Bold), Qt::FontRole);
 
         file = m_serialNumberList->fileName(refMeasure->GetCubeSerialNumber());
-        fname = FileName(file).name();
+        fname = QString::fromStdString(FileName(file.toStdString()).name());
         iref = m_leftCombo->findText(fname);
         m_leftCombo->setItemData(iref,font,Qt::FontRole);
         iref = m_rightCombo->findText(fname);
@@ -2067,7 +2067,7 @@ namespace Isis {
     else {
       Shape *shape = m_nameToShapeMap[m_radiusSourceCombo->currentText()];
       if (shape) {
-        m_radiusFilename = shape->cube()->externalCubeFileName().toString();
+        m_radiusFilename = QString::fromStdString(shape->cube()->externalCubeFileName().toString());
         //m_radiusSourceType = shape->radiusSource();
       }
       // Radius source comes from what is already saved in the cnet as AprioriRadiusSourceFile
@@ -2089,7 +2089,7 @@ namespace Isis {
     if (m_demOpen) {
       radius = demRadius(lat,lon);
       if (radius == Null) {
-        QString msg = "Could not read radius from DEM, will default to "
+        std::string msg = "Could not read radius from DEM, will default to "
           "local radius of reference measure.";
         QMessageBox::warning(this, "Warning", msg);
         if (m_editPoint->GetRefMeasure()->Camera()->SetGround(Latitude(lat, Angle::Degrees),
@@ -2100,7 +2100,7 @@ namespace Isis {
           m_editPoint->SetAprioriRadiusSource(ControlPoint::RadiusSource::None);
         }
         else {
-          QString message = "Error trying to get radius at this pt.  "
+          std::string message = "Error trying to get radius at this pt.  "
               "Lat/Lon does not fall on the reference measure.  "
               "Cannot save this measure.";
           QMessageBox::critical(this,"Error",message);
@@ -2117,7 +2117,7 @@ namespace Isis {
         radius = m_editPoint->GetRefMeasure()->Camera()->LocalRadius().meters();
       }
       else {
-        QString message = "Error trying to get radius at this pt.  "
+        std::string message = "Error trying to get radius at this pt.  "
             "Lat/Lon does not fall on the reference measure.  "
             "Cannot save this measure.";
         QMessageBox::critical(this,"Error",message);
@@ -2148,7 +2148,7 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      QString message = "Unable to set Apriori Surface Point.\n";
+      std::string message = "Unable to set Apriori Surface Point.\n";
       message += "Latitude = " + QString::number(lat);
       message += "  Longitude = " + QString::number(lon);
       message += "  Radius = " + QString::number(radius) + "\n";
@@ -2161,7 +2161,7 @@ namespace Isis {
     QString fullGroundFilename;
     if (m_groundFilename.contains(".ecub")) {
       // Find shape to get external cube filename
-      fullGroundFilename = m_nameToShapeMap[m_groundFilename]->cube()->externalCubeFileName().expanded();
+      fullGroundFilename = QString::fromStdString(m_nameToShapeMap[m_groundFilename]->cube()->externalCubeFileName().expanded());
     }
     else {
       fullGroundFilename = m_groundFilename;
@@ -2255,7 +2255,7 @@ namespace Isis {
     // Error check ignored and locked status
     if (pointType != ControlPoint::Free && m_leftMeasure->IsIgnored()) {
       m_pointTypeCombo->setCurrentIndex((int) m_editPoint->GetType());
-      QString message = "The reference measure is Ignored.  Unset the Ignore flag on the ";
+      std::string message = "The reference measure is Ignored.  Unset the Ignore flag on the ";
       message += "reference measure before setting the point type to Constrained or Fixed.";
       QMessageBox::warning(m_parent, "Ignored Reference Measure", message);
       return;
@@ -2263,7 +2263,7 @@ namespace Isis {
     ControlPoint::Status status = m_editPoint->SetType((ControlPoint::PointType) pointType);
     if (status == ControlPoint::PointLocked) {
       m_pointTypeCombo->setCurrentIndex((int) m_editPoint->GetType());
-      QString message = "This control point is edit locked.  The point type cannot be changed.  You ";
+      std::string message = "This control point is edit locked.  The point type cannot be changed.  You ";
       message += "must first unlock the point by clicking the check box above labeled ";
       message += "\"Edit Lock Point\".";
       QMessageBox::warning(m_parent, "Point Locked", message);
@@ -2338,7 +2338,7 @@ namespace Isis {
     ControlPoint::Status status = m_editPoint->SetIgnored(ignore);
     if (status == ControlPoint::PointLocked) {
       m_ignorePoint->setChecked(m_editPoint->IsIgnored());
-      QString message = "Unable to change Ignored on point.  Set EditLock ";
+      std::string message = "Unable to change Ignored on point.  Set EditLock ";
       message += " to False.";
       QMessageBox::critical(this, "Error", message);
       return;
@@ -2548,14 +2548,14 @@ namespace Isis {
       serial = m_serialNumberList->serialNumber(file);
     }
     catch (IException &e) {
-      QString message = "Make sure the correct cube is opened.\n\n";
+      std::string message = "Make sure the correct cube is opened.\n\n";
       message += e.toString();
       QMessageBox::critical(this, "Error", message);
 
       //  Set index of combo back to what it was before user selected new.  Find the index
       //  of current left measure.
       QString file = m_serialNumberList->fileName(m_leftMeasure->GetCubeSerialNumber());
-      int i = m_leftCombo->findText(FileName(file).name());
+      int i = m_leftCombo->findText(QString::fromStdString(FileName(file.toStdString()).name()));
       if (i < 0) i = 0;
       m_leftCombo->setCurrentIndex(i);
       return;
@@ -2570,7 +2570,7 @@ namespace Isis {
     *m_leftMeasure = *((*m_editPoint)[serial]);
 
     //  If m_leftCube is not null, delete before creating new one
-    m_leftCube.reset(new Cube(file, "r"));
+    m_leftCube.reset(new Cube(file.toStdString(), "r"));
 
     //  Update left measure of pointEditor
     m_measureEditor->setLeftMeasure (m_leftMeasure, m_leftCube.data(), m_editPoint->GetId());
@@ -2597,14 +2597,14 @@ namespace Isis {
       serial = m_serialNumberList->serialNumber(file);
     }
     catch (IException &e) {
-      QString message = "Make sure the correct cube is opened.\n\n";
+      std::string message = "Make sure the correct cube is opened.\n\n";
       message += e.toString();
       QMessageBox::critical(this, "Error", message);
 
       //  Set index of combo back to what it was before user selected new.  Find the index
       //  of current left measure.
       QString file = m_serialNumberList->fileName(m_rightMeasure->GetCubeSerialNumber());
-      int i = m_rightCombo->findText(FileName(file).name());
+      int i = m_rightCombo->findText(QString::fromStdString(FileName(file.toStdString()).name()));
       if (i < 0) i = 0;
       m_rightCombo->setCurrentIndex(i);
       return;
@@ -2619,7 +2619,7 @@ namespace Isis {
     *m_rightMeasure = *((*m_editPoint)[serial]);
 
     //  If m_rightCube is not null, delete before creating new one
-    m_rightCube.reset(new Cube(file, "r"));
+    m_rightCube.reset(new Cube(file.toStdString(), "r"));
 
     //  Update left measure of pointEditor
     m_measureEditor->setRightMeasure (m_rightMeasure, m_rightCube.data(), m_editPoint->GetId());
@@ -2799,9 +2799,9 @@ namespace Isis {
    */
   void ControlPointEditWidget::loadTemplateFile(QString fn) {
 
-    QFile file(FileName((QString) fn).expanded());
+    QFile file(QString::fromStdString(FileName(fn.toStdString()).expanded()));
     if (!file.open(QIODevice::ReadOnly)) {
-      QString msg = "Failed to open template file \"" + fn + "\"";
+      std::string msg = "Failed to open template file \"" + fn + "\"";
       QMessageBox::warning(this, "IO Error", msg);
       return;
     }
@@ -2876,17 +2876,17 @@ namespace Isis {
       ss >> pvl;
     }
     catch(IException &e) {
-      QString message = e.toString();
+      std::string message = e.toString();
       QMessageBox::warning(this, "Error", message);
       return;
     }
 
-    QString expandedFileName(FileName((QString) fn).expanded());
+    QString expandedFileName(QString::fromStdString(FileName(fn.toStdString()).expanded()));
 
     QFile file(expandedFileName);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-      QString msg = "Failed to save template file to \"" + fn + "\"\nDo you "
+      std::string msg = "Failed to save template file to \"" + fn + "\"\nDo you "
           "have permission?";
       QMessageBox::warning(this, "IO Error", msg);
       return;
@@ -2930,7 +2930,7 @@ namespace Isis {
       registrationDialog.exec();
     }
     catch (IException &e) {
-      QString message = e.toString();
+      std::string message = e.toString();
       QMessageBox::information(this, "Error", message);
     }
   }
@@ -2969,7 +2969,7 @@ namespace Isis {
     if(templateList->type() == "registrations") {
       for(int i = 0; i < templateList->size(); i++) {
         m_templateComboBox->addItem(templateList->at(i)->importName()
-                                    + "/" + FileName(templateList->at(i)->fileName()).name());
+                                    + "/" + QString::fromStdString(FileName(templateList->at(i)->fileName().toStdString()).name()));
       }
     }
   }

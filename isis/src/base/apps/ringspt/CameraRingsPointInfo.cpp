@@ -121,7 +121,7 @@ namespace Isis {
     }
 
     bool noErrors = passed;
-    QString error = "";
+    std::string error = "";
     if (!camera()->HasSurfaceIntersection()) {
       error = "Requested position does not project in camera model; no surface intersection";
       noErrors = false;

@@ -159,7 +159,7 @@ namespace Isis {
 
     Table table = oldRotation->Cache("InstrumentPointing");
     if ( table.Records() > 1 ) {
-      QString message = "Expected/support only one InstrumentPointing record "
+      std::string message = "Expected/support only one InstrumentPointing record "
                      "(i.e., Framing camera) but got " +
                      toString(table.Records()) + " for file " + cube.fileName();
       throw IException(IException::User, message, _FILEINFO_);
@@ -167,7 +167,7 @@ namespace Isis {
 
     TableRecord &rec0 = table[0];
     if ( rec0.Fields() < 5 ) {
-      QString message = "Expected/support quaternion Table containing 5 or more fields "
+      std::string message = "Expected/support quaternion Table containing 5 or more fields "
                      "(i.e., Framing camera) but got " +
                      toString(rec0.Fields()) + " for file " + cube.fileName();
       throw IException(IException::User, message, _FILEINFO_);
@@ -178,7 +178,7 @@ namespace Isis {
     }
 
     // Put a comment in the record
-    QString message = "Updated pointing with SUMFILE " + name() + " on " + iTime::CurrentLocalTime();
+    std::string message = "Updated pointing with SUMFILE " + name() + " on " + iTime::CurrentLocalTime();
     PvlKeyword sumFileKeyword("SUMFILE", name().toStdString());
     sumFileKeyword.addComment(message.toStdString());
     table.Label().addKeyword(sumFileKeyword, PvlContainer::Replace);
@@ -222,7 +222,7 @@ namespace Isis {
     SpicePosition *oldPosition = mycam->instrumentPosition();
     Table table = oldPosition->Cache("InstrumentPosition");
     if ( table.Records() > 1 ) {
-      QString message = "Expected/support only one InstrumentPosition record "
+      std::string message = "Expected/support only one InstrumentPosition record "
                      "(i.e., Framing camera) but got " +
                      toString(table.Records()) + " for file " + cube.fileName();
       throw IException(IException::User, message, _FILEINFO_);
@@ -230,7 +230,7 @@ namespace Isis {
 
     TableRecord &rec0 = table[0];
     if ( rec0.Fields() < 4 ) {
-      QString message = "Expected/support vector Table containing 4 or more fields "
+      std::string message = "Expected/support vector Table containing 4 or more fields "
                      "(i.e., Framing camera) but got " +
                      toString(rec0.Fields()) + " for file " + cube.fileName();
       throw IException(IException::User, message, _FILEINFO_);
@@ -242,7 +242,7 @@ namespace Isis {
     }
 
     // Put a comment in the record
-    QString message = "Updated position with SUMFILE " + name() + " on " + iTime::CurrentLocalTime();
+    std::string message = "Updated position with SUMFILE " + name() + " on " + iTime::CurrentLocalTime();
     PvlKeyword sumFileKeyword("SUMFILE", name().toStdString());
     sumFileKeyword.addComment(message.toStdString());
     table.Label().addKeyword(sumFileKeyword, PvlContainer::Replace);
@@ -349,10 +349,10 @@ namespace Isis {
    * @param sumFile Name of a SPC SUMFILE
    */
   void SumFile::parseSumFile(const QString &sumFile) {
-    FileName sfile(sumFile);
-    QFile sumF(sfile.expanded());
+    FileName sfile(sumFile.toStdString());
+    QFile sumF(QString::fromStdString(sfile.expanded()));
     if ( !sumF.open(QIODevice::ReadOnly | QIODevice::Text) ) {
-      QString message = "Failed to open FROM file \"" + sfile.original() + "\"";
+      std::string message = "Failed to open FROM file \"" + sfile.original() + "\"";
       throw IException(IException::User, message, _FILEINFO_);
     }
 
@@ -478,7 +478,7 @@ namespace Isis {
 
     if ( nexpected > 0 ) {
       if ( values.size() != nexpected ) {
-        QString message = "Expected " + toString(nexpected) + " but got "
+        std::string message = "Expected " + toString(nexpected) + " but got "
                        + toString(values.size());
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -488,13 +488,13 @@ namespace Isis {
     if ( !tag.isEmpty() ) {
       if ( values.size() > 0 ) {
         if ( values.last().toLower() != tag.toLower() ) {
-          QString message = "Expected line tag given (" + tag +
+          std::string message = "Expected line tag given (" + tag +
                          ") does not match contents (" + values.last() + ")";
           throw IException(IException::User, message, _FILEINFO_);
         }
       }
       else {
-        QString message = "Line tag given (" + tag + ") but line has not values";
+        std::string message = "Line tag given (" + tag + ") but line has not values";
         throw IException(IException::User, message, _FILEINFO_);
       }
     }
@@ -540,7 +540,7 @@ namespace Isis {
 
     for (int f = 0; f < sumFiles.size(); f++) {
       progress.CheckStatus();
-      SharedSumFile sumF(new SumFile(sumFiles[f].original()));
+      SharedSumFile sumF(new SumFile(QString::fromStdString(sumFiles[f].original())));
       sum_list.append(sumF);
     }
 

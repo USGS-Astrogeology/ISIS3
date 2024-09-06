@@ -51,11 +51,11 @@ void IsisMain() {
   FileName in = ui.GetFileName("FROM");
   FileName outIr = ui.GetCubeName("IR");
   FileName outVis = ui.GetCubeName("VIS");
-  Pvl lab(in.expanded().toStdString());
+  Pvl lab(in.expanded());
 
   //Checks if in file is rdr
   if(lab.hasObject("IMAGE_MAP_PROJECTION")) {
-    QString msg = "[" + in.name() + "] appears to be an rdr file.";
+    std::string msg = "[" + in.name() + "] appears to be an rdr file.";
     msg += " Use pds2isis.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -67,19 +67,19 @@ void IsisMain() {
     id = QString::fromStdString(qube["INSTRUMENT_ID"]);
     id = id.simplified().trimmed();
     if(id != "VIMS") {
-      QString msg = "Invalid INSTRUMENT_ID [" + id + "]";
+      std::string msg = "Invalid INSTRUMENT_ID [" + id + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }
   catch(IException &e) {
-    QString msg = "Input file [" + in.expanded() +
+    std::string msg = "Input file [" + in.expanded() +
                  "] does not appear to be " +
                  "in VIMS EDR/RDR format";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
 
   FileName tempname(in.baseName() + ".bsq.cub");
-  Pvl pdsLab(in.expanded().toStdString());
+  Pvl pdsLab(in.expanded());
 
   // It's VIMS, let's figure out if it has the suffix data or not
   if(std::stoi(lab.findObject("QUBE")["SUFFIX_ITEMS"][0]) == 0) {
@@ -214,7 +214,7 @@ void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outF
     pixelType = Isis::UnsignedInteger;
   }
   else {
-    QString msg = "Invalid PixelType and BitsPerPixel combination [" + str +
+    std::string msg = "Invalid PixelType and BitsPerPixel combination [" + str +
                  ", " + toString(bitsPerPixel) + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
@@ -259,7 +259,7 @@ void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outF
   Isis::FileName inFile(inFileName);
   fin.open(inFileName.toLatin1().data(), ios::in | ios::binary);
   if(!fin.is_open()) {
-    QString msg = "Cannot open input file [" + inFileName + "]";
+    std::string msg = "Cannot open input file [" + inFileName + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
 
@@ -272,7 +272,7 @@ void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outF
 
   // Check the last io
   if(!fin.good()) {
-    QString msg = "Cannot read file [" + inFileName + "]. Position [" +
+    std::string msg = "Cannot read file [" + inFileName + "]. Position [" +
                  toString((int)pos) + "]. Byte count [" +
                  toString(fileHeaderBytes) + "]" ;
     throw IException(IException::Io, msg, _FILEINFO_);
@@ -301,7 +301,7 @@ void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outF
       fin.read(in, readBytes);
 
       if(!fin.good()) {
-        QString msg = "Cannot read file [" + inFileName + "]. Position [" +
+        std::string msg = "Cannot read file [" + inFileName + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(readBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -374,7 +374,7 @@ void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outF
 
         // Check the last io
         if(!fin.good()) {
-          QString msg = "Cannot read file [" + inFileName + "]. Position [" +
+          std::string msg = "Cannot read file [" + inFileName + "]. Position [" +
                        toString((int)pos) + "]. Byte count [" +
                        toString(4) + "]" ;
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -387,7 +387,7 @@ void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outF
 
     // Check the last io
     if(!fin.good()) {
-      QString msg = "Cannot read file [" + inFileName + "]. Position [" +
+      std::string msg = "Cannot read file [" + inFileName + "]. Position [" +
                    toString((int)pos) + "]. Byte count [" +
                    toString(4 * (4 * ns + 4)) + "]" ;
       throw IException(IException::Io, msg, _FILEINFO_);

@@ -17,7 +17,7 @@ namespace Isis{
 
     // Open the input camera cube that we will be matching and create
     // the camera object
-    FileName match = FileName(ui.GetCubeName("MATCH"));
+    FileName match = FileName(ui.GetCubeName("MATCH").toStdString());
 
     Process p;
     QString fname = ui.GetCubeName("MATCH");
@@ -50,8 +50,8 @@ namespace Isis{
                       transform->OutputSamples(),
                       transform->OutputLines(),
                       mcube->bandCount());
-    rub.PropagateLabels(match.expanded());
-    rub.PropagateTables(match.expanded());
+    rub.PropagateLabels(QString::fromStdString(match.expanded()));
+    rub.PropagateTables(QString::fromStdString(match.expanded()));
 
     // Set up the interpolator
     Interpolator *interp = NULL;

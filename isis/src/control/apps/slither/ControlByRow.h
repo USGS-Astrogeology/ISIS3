@@ -221,7 +221,7 @@ namespace Isis {
           return (computeStats(_rowList.getNth(i)));
         }
         catch(IException &oor) {
-          QString msg = "Requested value (" + toString(i) +  ") not found";
+          std::string msg = "Requested value (" + toString(i) +  ") not found";
           throw IException(oor, IException::User, msg, _FILEINFO_);
         }
       }

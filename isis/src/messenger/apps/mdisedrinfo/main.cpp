@@ -101,7 +101,7 @@ void IsisMain() {
     if(!keylist.isEmpty()) {
       FileName kmap(keylist);
       if(!kmap.fileExists()) {
-        QString mess = "EDR keyword map source file, " + kmap.expanded()
+        std::string mess = "EDR keyword map source file, " + kmap.expanded()
                        + ", does not exist!";
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -110,13 +110,13 @@ void IsisMain() {
       QString kmapName(kmap.expanded());
       ifstream ifile(kmapName.toLatin1().data(), ios::in);
       if(!ifile) {
-        QString mess = "Unable to open key map source file " + kmap.expanded();
+        std::string mess = "Unable to open key map source file " + kmap.expanded();
         throw IException(IException::User, mess, _FILEINFO_);
       }
 
       string keystring;
       if(!getline(ifile, keystring)) {
-        QString mess = "I/O error reading key map line from  " + kmap.expanded();
+        std::string mess = "I/O error reading key map line from  " + kmap.expanded();
         throw IException(IException::User, mess, _FILEINFO_);
       }
 
@@ -140,7 +140,7 @@ void IsisMain() {
         }
 
         if(!ofile) {
-          QString mess = "Could not open or create output TO file " +
+          std::string mess = "Could not open or create output TO file " +
                          tomapName;
           throw IException(IException::User, mess, _FILEINFO_);
         }

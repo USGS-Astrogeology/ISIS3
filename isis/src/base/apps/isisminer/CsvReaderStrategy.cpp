@@ -69,7 +69,7 @@ namespace Isis {
   
     //  Check for valid delimiter
     if ( m_delimiter.size() != 1 ) {
-      QString mess = "Delimiter value (" + m_delimiter + ") must be one and only"
+      std::string mess = "Delimiter value (" + m_delimiter + ") must be one and only"
                      " one value - try again";
       throw IException(IException::User, mess, _FILEINFO_);
     }
@@ -116,7 +116,7 @@ namespace Isis {
       csv.read(fname);
     } 
     catch (IException &ie) {
-      QString mess =  "Could not read CSV file \'" + fname + "\'";
+      std::string mess =  "Could not read CSV file \'" + fname + "\'";
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }
   
@@ -167,7 +167,7 @@ namespace Isis {
         importGeometry(rowsrc, getGlobals(rowsrc, globals));
       }
       catch (IException &ie) {
-        QString mess = "Geometry conversion failed horribly for Resource(" + 
+        std::string mess = "Geometry conversion failed horribly for Resource(" + 
                        identity + ")";
         throw IException(ie, IException::User, mess, _FILEINFO_);
       }
@@ -212,7 +212,7 @@ namespace Isis {
       if (keys.exists("Index") ) {
         QStringList indexes = keys.allValues("Index");
         if ( names.size() != indexes.size() ) {
-          QString mess = "Size of Header (" + QString::number(names.size()) +
+          std::string mess = "Size of Header (" + QString::number(names.size()) +
                          " does not match size of Index (" +
                           QString::number(indexes.size()) + ")";
           throw IException(IException::User, mess, _FILEINFO_);
@@ -221,7 +221,7 @@ namespace Isis {
         for ( int i = 0 ;  i < names.size() ; i++ ) {
           int index = toInt(indexes[i]);
           if ( (index < 0) || (index >= ncols) ) {
-            QString mess = "Column " + names[i] + " index (" + indexes[i] +
+            std::string mess = "Column " + names[i] + " index (" + indexes[i] +
                            ") exceeds input column size (" + 
                            QString::number(ncols) + ")";
             // throw IException(IException::User, mess, _FILEINFO_);
@@ -236,7 +236,7 @@ namespace Isis {
       }
       else {
         if ( names.size() > ncols ) {
-          QString mess = "Size of Header (" + QString::number(names.size()) +
+          std::string mess = "Size of Header (" + QString::number(names.size()) +
                           ") exceeds input column size (" + 
                            QString::number(ncols) + 
                           ") - must provide Index otherwise";

@@ -75,8 +75,8 @@ namespace Isis {
       Table(Blob &blob);
       Table(const std::string &tableName, TableRecord &rec);
       Table(const std::string &tableName);// Only use this constructor for reading in an existing table
-      Table(const std::string &tableName, const QString &file);
-      Table(const std::string &tableName, const QString &file,
+      Table(const std::string &tableName, const std::string &file);
+      Table(const std::string &tableName, const std::string &file,
             const Pvl &fileHeader);
       Table(const Table &other);
       Table(const QString &tableName, const std::string &tableString, const char &fieldDelimiter);
@@ -85,7 +85,7 @@ namespace Isis {
       ~Table();
 
 
-      void Write(const QString &file);
+      void Write(const std::string &file);
 
       std::string Name() const;
       PvlObject &Label();

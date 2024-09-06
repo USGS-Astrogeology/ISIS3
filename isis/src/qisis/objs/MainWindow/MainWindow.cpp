@@ -54,7 +54,7 @@ namespace Isis {
     }
 
     QDir programSettings =
-        QDir(FileName("$HOME/.Isis/" + QCoreApplication::applicationName() + "/").path());
+        QDir(QString::fromStdString(FileName("$HOME/.Isis/" + QCoreApplication::applicationName().toStdString() + "/").path()));
     QString windowSettings = programSettings.filePath(objectTitle + ".config");
 
     return windowSettings;
@@ -108,7 +108,7 @@ namespace Isis {
     }
 
     QDir programSettings =
-        QDir(FileName("$HOME/.Isis/" + QCoreApplication::applicationName() + "/").path());
+        QDir(QString::fromStdString(FileName("$HOME/.Isis/" + QCoreApplication::applicationName().toStdString() + "/").path()));
     QString windowSettings = programSettings.filePath(objectName() + ".config");
     //qDebug()<<"MainWindow::settingsFileName windowSettings = "<<windowSettings;
     return windowSettings;

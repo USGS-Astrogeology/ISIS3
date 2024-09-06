@@ -113,7 +113,7 @@ namespace Isis {
 
 
   QPixmap MosaicTool::getIcon(QString iconName) const {
-    QString path = FileName("$ISISROOT/appdata/images/icons").expanded();
+    QString path = QString::fromStdString(FileName("$ISISROOT/appdata/images/icons").expanded());
     QString fullPathToFile = QString(path + "/" + iconName);
     return QPixmap(fullPathToFile);
   }

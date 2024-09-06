@@ -14,7 +14,7 @@ namespace Isis {
   void cubeit(UserInterface &ui, Pvl *log) {
     // Get the list of cubes to stack
     Process p;
-    FileList cubeList(ui.GetFileName("FROMLIST"));
+    FileList cubeList(ui.GetFileName("FROMLIST").toStdString());
     FileList newcubeList; //cubes with at least 1 non-TRACKING band
     QList<vector<QString> > newVirtualBands; //non-TRACKING bands to propagate
 
@@ -31,7 +31,7 @@ namespace Isis {
         CubeAttributeInput inatt(cubeList[i].original());
         vector<QString> bands = inatt.bands();
         cube.setVirtualBands(bands);
-        cube.open(cubeList[i].toString());
+        cube.open(QString::fromStdString(cubeList[i].toString()));
 
         if( cube.hasTable("InputImages") ) {
           //search through band bin group of input cube for "TRACKING"
@@ -48,7 +48,7 @@ namespace Isis {
             filterName = bandbin.findKeyword("FilterNumber");
           }
           else {
-              QString msg = "The BandBin group of a cube with tracking information [" +
+              std::string msg = "The BandBin group of a cube with tracking information [" +
                           cubeList[i].toString() + "] does not have a FilterName or a FilterNumber.";
             throw IException(IException::Unknown, msg, _FILEINFO_);
           }
@@ -58,7 +58,7 @@ namespace Isis {
               newBands.push_back(QString::number(j+1));
             }
             else {
-              std::string msg = "TRACKING band not propagated from " + cubeList[i].toString().toStdString();
+              std::string msg = "TRACKING band not propagated from " + cubeList[i].toString();
               results += PvlKeyword("UnpropagatedBand", msg);
             }
           }
@@ -67,7 +67,7 @@ namespace Isis {
           if (newBands.size() > 0) {
             cube.close();
             cube.setVirtualBands(newBands);
-            cube.open(cubeList[i].toString());
+            cube.open(QString::fromStdString(cubeList[i].toString()));
           }
           //if the only provided bands are TRACKING, don't use this cube at all
           else {
@@ -85,7 +85,7 @@ namespace Isis {
         else {
           // Make sure they are all the same size
           if((nsamps != cube.sampleCount()) || (nlines != cube.lineCount())) {
-            QString msg = "Spatial dimensions of cube [" +
+            std::string msg = "Spatial dimensions of cube [" +
                           cubeList[i].toString() + "] does not match other cubes in list";
             throw IException(IException::User, msg, _FILEINFO_);
           }
@@ -112,7 +112,7 @@ namespace Isis {
         }
         cube.close();
         newVirtualBands.append(newBands);
-        newcubeList.append(cubeList[i]);
+        newcubeList.push_back(cubeList[i]);
       }
       //Only write out results group if we added something to it.
       if (results.hasKeyword("UnpropagatedBand")) {
@@ -120,13 +120,13 @@ namespace Isis {
       }
     }
     catch(IException &e) {
-      QString msg = "Invalid cube in list file [" + ui.GetFileName("FROMLIST") + "]";
+      std::string msg = "Invalid cube in list file [" + ui.GetFileName("FROMLIST") + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
     //if literally everything is a TRACKING band, throw an error, since we don't prop. TRACKING bands
     if (newcubeList.size() == 0) {
-      QString msg = "Only TRACKING bands supplied in [" + ui.GetFileName("FROMLIST") + "]";
+      std::string msg = "Only TRACKING bands supplied in [" + ui.GetFileName("FROMLIST") + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -139,20 +139,20 @@ namespace Isis {
       bool match = false;
       QString fname = ui.GetCubeName("PROPLAB");
       for(int i = 0; i < cubeList.size(); i++) {
-        if(fname == cubeList[i].toString()) {
+        if(fname == QString::fromStdString(cubeList[i].toString())) {
           index = i;
           match = true;
           break;
         }
       }
       if(!match) {
-        QString msg = "FileName [" + ui.GetCubeName("PROPLAB") +
+        std::string msg = "FileName [" + ui.GetCubeName("PROPLAB") +
                       "] to propagate labels from is not in the list file [" +
                       ui.GetFileName("FROMLIST") + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
-    p2.SetInputCube(newcubeList[index].toString(), inatt);
+    p2.SetInputCube(QString::fromStdString(newcubeList[index].toString()), inatt);
 
     // Create the output cube
     CubeAttributeOutput &att = ui.GetOutputAttribute("TO");
@@ -187,7 +187,7 @@ namespace Isis {
 
       Progress *prog = m.Progress();
       prog->SetText("Adding bands from Cube " + toString((int)i + 1) +
-                    " of " + toString(newcubeList.size()));
+                    " of " + newcubeList.size());
       m.SetOutputCube("TO", ui);
 
       //update attributes to the input cube
@@ -204,7 +204,7 @@ namespace Isis {
         }
       }
 
-      Cube *icube = m.SetInputCube(newcubeList[i].toString(), attrib, 1, 1, 1, -1, -1, -1);
+      Cube *icube = m.SetInputCube(QString::fromStdString(newcubeList[i].toString()), attrib, 1, 1, 1, -1, -1, -1);
 
       // Delete any tracking tables from the input cube if necessary
       icube->deleteBlob("InputImages", "Table");

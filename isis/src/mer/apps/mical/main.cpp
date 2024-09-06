@@ -62,7 +62,7 @@ void IsisMain() {
 
   //check if the image is calibrated
   if(pack->hasGroup("Radiometry")) {
-    QString msg = "The MI image [" + pack->fileName() + "] has already "
+    std::string msg = "The MI image [" + pack->fileName() + "] has already "
                  "been radiometrically calibrated";
     throw IException(IException::User, msg, _FILEINFO_);
   }

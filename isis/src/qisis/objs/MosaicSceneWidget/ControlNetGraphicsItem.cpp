@@ -141,7 +141,7 @@ namespace Isis {
 
           if (filename.size() > 0) {
             if ((*m_cubeToGroundMap)[filename] == NULL) {
-              Cube cube(FileName(filename).expanded(), "r");
+              Cube cube(FileName(filename.toStdString()).expanded(), "r");
               UniversalGroundMap *groundMap = new UniversalGroundMap(cube);
               (*m_cubeToGroundMap)[filename] = groundMap;
             }

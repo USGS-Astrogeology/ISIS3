@@ -26,7 +26,7 @@ namespace Isis {
   void MSERExtractor::detectRegions (cv::InputArray image,
                                      std::vector< std::vector< cv::Point > > &msers,
                                      std::vector< cv::Rect > &bboxes)  {
-    QString mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
+    std::string mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -40,7 +40,7 @@ namespace Isis {
    *                                 algorithm."
    */
   int MSERExtractor::getDelta () const {
-    QString mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
+    std::string mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -54,7 +54,7 @@ namespace Isis {
    *                                algorithm."
    */
   int MSERExtractor::getMaxArea () const {
-    QString mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
+    std::string mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -68,7 +68,7 @@ namespace Isis {
    *                                 algorithm."
    */
   int MSERExtractor::getMinArea () const {
-    QString mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
+    std::string mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -82,7 +82,7 @@ namespace Isis {
    *                                 algorithm."
    */
   bool MSERExtractor::getPass2Only () const {
-    QString mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
+    std::string mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -96,7 +96,7 @@ namespace Isis {
    *                                 algorithm."
    */
   void MSERExtractor::setDelta (int delta) {
-    QString mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
+    std::string mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -110,7 +110,7 @@ namespace Isis {
    *                                 algorithm."
    */
   void MSERExtractor::setMaxArea (int maxArea) {
-    QString mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
+    std::string mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -124,7 +124,7 @@ namespace Isis {
    *                                 algorithm."
    */
   void MSERExtractor::setMinArea (int minArea) {
-    QString mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
+    std::string mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -138,7 +138,7 @@ namespace Isis {
    *                                 algorithm."
    */
   void MSERExtractor::setPass2Only (bool f) {
-    QString mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
+    std::string mess = "ISIS does not support this method for the OpenCV MSER algorithm.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 };

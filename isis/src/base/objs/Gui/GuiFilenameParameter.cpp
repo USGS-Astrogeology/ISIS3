@@ -35,7 +35,7 @@ namespace Isis {
     grid->addWidget(p_fileButton, param, 3);
 
     QAction *action = new QAction(this);
-    QString file = FileName("$ISISROOT/appdata/images/icons/view_tree.png").expanded();
+    QString file = QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/view_tree.png").expanded());
     action->setIcon(QPixmap(file));
     connect(action, SIGNAL(triggered(bool)), this, SLOT(SelectFile()));
 
@@ -107,12 +107,12 @@ namespace Isis {
     QString dir;
     if((p_lineEdit->text().length() > 0) &&
         (p_lineEdit->text() != p_ui->ParamInternalDefault(p_group, p_param))) {
-      Isis::FileName fname(p_lineEdit->text());
-      dir = fname.expanded();
+      Isis::FileName fname(p_lineEdit->text().toStdString());
+      dir = QString::fromStdString(fname.expanded());
     }
     else if(p_ui->ParamPath(p_group, p_param).length() > 0) {
-      Isis::FileName fname(p_ui->ParamPath(p_group, p_param));
-      dir = fname.expanded();
+      Isis::FileName fname(p_ui->ParamPath(p_group, p_param).toStdString());
+      dir = QString::fromStdString(fname.expanded());
     }
 
     // Set up the filter
@@ -143,9 +143,9 @@ namespace Isis {
       fnameQString = QFileDialog::getSaveFileName(p_fileButton, "Select file", dir, filter, 0, options);
     }
     if(fnameQString != "") {
-      Isis::FileName fname(fnameQString);
-      if(fname.dir() == QDir::currentPath()) {
-        fnameQString = fname.name();
+      Isis::FileName fname(fnameQString.toStdString());
+      if(fname.dir() == std::filesystem::current_path()) {
+        fnameQString = QString::fromStdString(fname.name());
       }
       Set(fnameQString);
     }

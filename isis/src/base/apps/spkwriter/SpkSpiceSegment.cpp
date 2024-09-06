@@ -127,7 +127,7 @@ void SpkSpiceSegment::init(Cube &cube) {
     if ( _name.isEmpty() ) {
       _name = getKeyValue(*label, "ProductId");
       if (_name.isEmpty() ) {
-        _name = FileName(_fname).baseName();
+        _name = QString::fromStdString(FileName(_fname.toStdString()).baseName());
       }
     }
 

@@ -972,7 +972,7 @@ namespace Isis {
 
       m_showHideAllCurves->setText("Show All Curves");
       m_showHideAllCurves->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_showCurves.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_showCurves.png").expanded())));
 
     }
     else {
@@ -980,7 +980,7 @@ namespace Isis {
 
       m_showHideAllCurves->setText("Hide All Curves");
       m_showHideAllCurves->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_hideCurves.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_hideCurves.png").expanded())));
     }
 
     for (int i = 0; i < m_plot->itemList().size(); i ++) {
@@ -1014,13 +1014,13 @@ namespace Isis {
                                QLabel("  <b>To configure the curve properties</b>  Right click on the legend and select <I>Configure</I> from <br>  the menu"
                                       " or click on the configure icon in the tool bar.");
     QLabel *config = new QLabel();
-    config->setPixmap(QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_configure.png").expanded()));
+    config->setPixmap(QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_configure.png").expanded())));
 
     QLabel *tableLabel = new QLabel("<br><U>Table Options:</U>");
     QLabel *tableDirections = new
                               QLabel("  <b>To view the table</b> Click on the File menu and select <I>Show Table</I> or click on the table icon in the <br>   tool bar.");
     QLabel *table = new QLabel();
-    table->setPixmap(QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_table.png").expanded()));
+    table->setPixmap(QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_table.png").expanded())));
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(zoomLabel);
@@ -1083,7 +1083,7 @@ namespace Isis {
       QAction *table = new QAction(m_plot);
       table->setText("Show Table");
       table->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_table.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_table.png").expanded())));
       QString text =
           "<b>Function:</b>  Activates the table which displays the data of the "
                             "current plot";
@@ -1102,7 +1102,7 @@ namespace Isis {
       QAction *track = new QAction(m_plot);
       track->setText("Show Mouse &Tracking");
       track->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/goto.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/goto.png").expanded())));
       track->setCheckable(true);
       QString text =
           "<b>Function:</b>  Displays the x,y coordinates as the cursor moves "
@@ -1117,7 +1117,7 @@ namespace Isis {
       QAction *backgrdSwitch = new QAction(m_plot);
       backgrdSwitch->setText("White/Black &Background");
       backgrdSwitch->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_switchBackgrd.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_switchBackgrd.png").expanded())));
       QString text =
           "<b>Function:</b>  Switch the background color between black and "
                             "white.";
@@ -1132,7 +1132,7 @@ namespace Isis {
       m_showHideGrid = new QAction(m_plot);
       m_showHideGrid->setText("Show Grid");
       m_showHideGrid->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_grid.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_grid.png").expanded())));
       QString text =
           "<b>Function:</b>  Display grid lines on the plot.";
       m_showHideGrid->setWhatsThis(text);
@@ -1145,7 +1145,7 @@ namespace Isis {
       QAction *changeLabels = new QAction(m_plot);
       changeLabels->setText("Rename Plot &Labels");
       changeLabels->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_renameLabels.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_renameLabels.png").expanded())));
       QString text =
           "<b>Function:</b>  Edit the plot title, x and y axis labels.";
       changeLabels->setWhatsThis(text);
@@ -1160,7 +1160,7 @@ namespace Isis {
       QAction *changeScale = new QAction(m_plot);
       changeScale->setText("Set &Display Range");
       changeScale->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_setScale.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_setScale.png").expanded())));
       QString text =
           "<b>Function:</b>  Adjust the scale for the x and y axis on the "
           "plot.";
@@ -1175,7 +1175,7 @@ namespace Isis {
       m_showHideAllCurves = new QAction(m_plot);
       m_showHideAllCurves->setText("Hide All Curves");
       m_showHideAllCurves->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_showCurves.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_showCurves.png").expanded())));
       QString text =
           "<b>Function:</b>  Displays or hides all the curves currently "
                             "displayed on the plot.";
@@ -1191,7 +1191,7 @@ namespace Isis {
       m_showHideAllMarkers = new QAction(m_plot);
       m_showHideAllMarkers->setText("Hide All Symbols");
       m_showHideAllMarkers->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_markers.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_markers.png").expanded())));
       QString text = "<b>Function:</b>  Displays or hides a symbol for each "
                      "data point plotted on a plot.";
       m_showHideAllMarkers->setWhatsThis(text);
@@ -1205,7 +1205,7 @@ namespace Isis {
       QAction *resetScaleButton = new QAction(m_plot);
       resetScaleButton->setText("Reset Scale");
       resetScaleButton->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_resetscale.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_resetscale.png").expanded())));
       QString text =
           "<b>Function:</b>  Reset the plot's scale.";
       resetScaleButton->setWhatsThis(text);
@@ -1217,7 +1217,7 @@ namespace Isis {
       QAction *clear = new QAction(m_plot);
       clear->setText("Clear Plot");
       clear->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/plot_clear.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_clear.png").expanded())));
       QString text =
           "<b>Function:</b>  Removes all the curves from the plot.";
       clear->setWhatsThis(text);
@@ -1229,7 +1229,7 @@ namespace Isis {
       QAction *lineFit = new QAction(m_plot);
       lineFit->setText("Create Best Fit Line");
       lineFit->setIcon(
-          QPixmap(FileName("$ISISROOT/appdata/images/icons/linefit.png").expanded()));
+          QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/linefit.png").expanded())));
       QString text = "<b>Function:</b>  Calculates a best fit line from an "
                      "existing curve.";
       lineFit->setWhatsThis(text);
@@ -1242,7 +1242,7 @@ namespace Isis {
       QAction *configurePlot = new QAction(m_plot);
       configurePlot->setText("Configure Plot");
       configurePlot->setIcon(
-          QPixmap( FileName("$ISISROOT/appdata/images/icons/plot_configure.png").expanded() ) );
+          QPixmap( QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/plot_configure.png").expanded() )) );
       QString text = "<b>Function:</b> Change the name, color, style, and vertex symbol of the "
                      "curves.";
       configurePlot->setWhatsThis(text);

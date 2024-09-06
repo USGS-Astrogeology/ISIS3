@@ -776,29 +776,24 @@ namespace Isis {
     // The newProjectRoot contains the full path and we want the dataRoot to be relative to the
     // projectRoot so that projects can be moved. 
     QString dataRoot =
-        Project::imageDataRoot(newProjectRoot.toString()).remove(project->newProjectRoot());
+        Project::imageDataRoot(QString::fromStdString(newProjectRoot.toString())).remove(project->newProjectRoot());
     // Get rid of any preceding "/"
     if (dataRoot.startsWith("/")) {
       dataRoot.remove(0,1);
     }
     stream.writeAttribute("dataRoot", dataRoot);
 
-    FileName settingsFileName(Project::imageDataRoot(newProjectRoot.toString()) +
-                              "/" + m_path + "/images.xml");
+    FileName settingsFileName(Project::imageDataRoot(QString::fromStdString(newProjectRoot.toString())).toStdString() +
+                              "/" + m_path.toStdString() + "/images.xml");
 
-    if (!settingsFileName.dir().mkpath(settingsFileName.path())) {
-      throw IException(IException::Io,
-                       QString("Failed to create directory [%1]")
-                         .arg(settingsFileName.path()),
+    if (!std::filesystem::create_directories(settingsFileName.dir())) {
+      throw IException(IException::Io, "Failed to create directory [" + settingsFileName.path() + "]",
                        _FILEINFO_);
     }
-    QFile imageListContentsFile(settingsFileName.toString());
+    QFile imageListContentsFile(QString::fromStdString(settingsFileName.toString()));
 
     if (!imageListContentsFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
-      throw IException(IException::Io,
-          QString("Unable to save image information for [%1] because [%2] could not be opened for "
-                  "writing")
-            .arg(m_name).arg(settingsFileName.original()),
+      throw IException(IException::Io, "Unable to save image information for [" +  m_name.toStdString() + "] because [" + settingsFileName.original() + "] could not be opened for writing",
           _FILEINFO_);
     }
 
@@ -836,7 +831,7 @@ namespace Isis {
           future.resultAt(i);
         }
         catch(std::exception &e) {
-          QString msg("Could not save ImageList: "+this->name() );
+          std::string msg("Could not save ImageList: "+this->name() );
           throw IException(IException::Io,msg,_FILEINFO_);
         }
       }

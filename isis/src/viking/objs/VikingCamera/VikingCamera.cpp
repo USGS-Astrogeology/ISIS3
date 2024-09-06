@@ -84,7 +84,7 @@ namespace Isis {
         m_instrumentNameShort = "VISB";
       }
       else {
-        QString msg = "File does not appear to be a Viking image. InstrumentId ["
+        std::string msg = "File does not appear to be a Viking image. InstrumentId ["
             + instId + "] is invalid Viking value.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -116,13 +116,13 @@ namespace Isis {
         m_instrumentNameShort = "VISB";
       }
       else {
-        QString msg = "File does not appear to be a Viking image. InstrumentId ["
+        std::string msg = "File does not appear to be a Viking image. InstrumentId ["
             + instId + "] is invalid Viking value.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     else {
-      QString msg = "File does not appear to be a Viking image. SpacecraftName ["
+      std::string msg = "File does not appear to be a Viking image. SpacecraftName ["
           + spacecraft + "] is invalid Viking value.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

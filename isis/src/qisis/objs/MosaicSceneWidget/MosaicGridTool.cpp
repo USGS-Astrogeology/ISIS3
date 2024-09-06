@@ -715,8 +715,7 @@ namespace Isis {
   void MosaicGridTool::autoGrid(bool draw) {
 
     QSettings settings(
-        FileName(QString("$HOME/.Isis/%1/mosaicSceneGridTool.config")
-            .arg(QApplication::applicationName())).expanded(),
+        QString::fromStdString(FileName("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/mosaicSceneGridTool.config").expanded()),
         QSettings::NativeFormat);
     settings.setValue("autoGrid", draw);
 
@@ -849,7 +848,7 @@ namespace Isis {
     m_drawGridCheckBox->blockSignals(false);
     
     if (!getWidget()->getProjection()) {
-      QString msg = "Please set the mosaic scene's projection before trying to "
+      std::string msg = "Please set the mosaic scene's projection before trying to "
                     "draw a grid. This means either open a cube (a projection "
                     "will be calculated) or set the projection explicitly";
       QMessageBox::warning(NULL, tr("Grid Tool Requires Projection"), msg);
@@ -920,8 +919,7 @@ namespace Isis {
   void MosaicGridTool::onToolOpen(bool check) {
     if (check && m_shouldCheckBoxes) {
       QSettings settings(
-          FileName(QString("$HOME/.Isis/%1/mosaicSceneGridTool.config")
-              .arg(QApplication::applicationName())).expanded(),
+          QString::fromStdString(FileName("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/mosaicSceneGridTool.config").expanded()),
           QSettings::NativeFormat);
 
       bool drawAuto = settings.value("autoGrid", true).toBool();

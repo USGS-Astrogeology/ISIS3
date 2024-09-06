@@ -144,7 +144,7 @@ namespace Isis {
 
       iterations++;
       if (iterations > maxIterations) {
-        QString message = "Max Iterations reached.";
+        std::string message = "Max Iterations reached.";
         throw IException(IException::Unknown, message, _FILEINFO_);
       }
 

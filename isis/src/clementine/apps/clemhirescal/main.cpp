@@ -35,7 +35,7 @@ void IsisMain() {
   Pvl *label = input->label();
   QString wave = QString::fromStdString(label->findGroup("BandBin", Pvl::Traverse)["FilterName"]);
   if((wave != "A") && (wave != "B") && (wave != "C") && (wave != "D")) {
-    QString message = "Invalid FilterName [" + wave + "], can only handle A-D filters";
+    std::string message = "Invalid FilterName [" + wave + "], can only handle A-D filters";
     throw IException(IException::Unknown, message, _FILEINFO_);
   }
   // Determine and load calibration flat field file
@@ -48,7 +48,7 @@ void IsisMain() {
   // Check the offset mode for validity
   int index = label->findGroup("Instrument", Pvl::Traverse)["OffsetModeID"];
   if(index < 0 || index > 5) {
-    QString message = "Invalid OffsetModeID, can only handle offests 0-5";
+    std::string message = "Invalid OffsetModeID, can only handle offests 0-5";
     throw IException(IException::Unknown, message, _FILEINFO_);
   }
 
@@ -76,7 +76,7 @@ void IsisMain() {
     }
     // Other filters not supported for calculated K value
     else {
-      QString message = "Image is of filter [" + wave + "], not supported type A or D, enter your own K value";
+      std::string message = "Image is of filter [" + wave + "], not supported type A or D, enter your own K value";
       throw IException(IException::User, message, _FILEINFO_);
     }
   }

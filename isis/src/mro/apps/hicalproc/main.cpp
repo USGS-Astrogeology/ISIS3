@@ -400,12 +400,12 @@ void IsisMain() {
   }
   catch(std::exception const &se) {
     CleanUp(sTempFiles, inFile);
-    QString message = "std::exception: " + (QString)se.what();
+    std::string message = "std::exception: " + (QString)se.what();
     throw IException(IException::User, message, _FILEINFO_);
   }
   catch(...) {
     CleanUp(sTempFiles, inFile);
-    QString message = "Other Error";
+    std::string message = "Other Error";
     throw IException(IException::User, message, _FILEINFO_);
   }
 }

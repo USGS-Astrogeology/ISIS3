@@ -171,7 +171,7 @@ ImageTransform *FastGeom::compute(MatchImage &query, MatchImage &train,
   // Compute homography if enough point ater in common FOVs of both images,
   // otherwise we report failure
   if ( n_total_points < m_fastpts ) {
-    QString mess = "Failed to get FOV geometry mapping for " + train.name() +
+    std::string mess = "Failed to get FOV geometry mapping for " + train.name() +
                     " to " + query.name() + " needing " + QString::number(m_fastpts) +
                     " but got " + QString::number(n_total_points) +" in train FOV.";
     logit << ">>> ERROR - " << mess << "\n";
@@ -653,14 +653,14 @@ cv::Mat FastGeom::getTransformMatrix(const std::vector<FastGeom::FGPoint> &query
 
     // Check for invalid/empty matrix which indicates OpenCV error
     if ( mapper.empty() ) {
-      QString msg = "Error computing homography matrix";
+      std::string msg = "Error computing homography matrix";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
   }
   catch ( std::exception &e ) {
     // This will also catch any ISIS error
-    QString msg = "Matrix transform error: " + QString(e.what());
+    std::string msg = "Matrix transform error: " + QString(e.what());
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
@@ -714,10 +714,10 @@ void FastGeom::dump_point_mapping(MatchImage &query, MatchImage &train,
 
     logit << "\n--> Dumping " << method << " points <---\n";
 
-    FileName q_file( query.name() );
-    FileName t_file( train.name() );
+    FileName q_file( query.name().toStdString() );
+    FileName t_file( train.name().toStdString() );
 
-    QString csvout = q_file.baseName() + "_" + t_file.baseName() + "." +
+    QString csvout = QString::fromStdString(q_file.baseName()) + "_" + QString::fromStdString(t_file.baseName()) + "." +
                      method + ".fastgeom.csv";
     logit <<   "  PointDumpFile:     " << csvout << "\n";
 
@@ -764,7 +764,7 @@ void FastGeom::validate( const QString &geomtype ) const {
   QStringList options;
   options << "camera" << "crop" << "map";
   if ( !options.contains(geomtype, Qt::CaseInsensitive)  ) {
-    QString mess = "FastGeom - invalid GEOMTYPE (" + geomtype + ")!"
+    std::string mess = "FastGeom - invalid GEOMTYPE (" + geomtype + ")!"
                    " Must be CAMERA, CROP or MAP.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }

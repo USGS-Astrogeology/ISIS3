@@ -78,7 +78,7 @@ namespace Isis {
     */
   void MinnaertEmpirical::SetPhotoPhaseList(QString phasestrlist) {
     double phaseangle;
-    IString strlist(phasestrlist);
+    IString strlist(phasestrlist.toStdString());
     p_photoPhaseList.clear();
 
     while (strlist.length()) {
@@ -116,7 +116,7 @@ namespace Isis {
       phaseAngle = std::stod(phaseList[i]);
 
       if (phaseAngle < 0.0 || phaseAngle > 180.0) {
-        QString msg = "Invalid value of empirical Minnaert phase angle list value [" +
+        std::string msg = "Invalid value of empirical Minnaert phase angle list value [" +
                           toString(phaseAngle) + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -135,7 +135,7 @@ namespace Isis {
     */
   void MinnaertEmpirical::SetPhotoKList(QString kstrlist) {
     double kvalue;
-    IString strlist(kstrlist);
+    IString strlist(kstrlist.toStdString());
     p_photoKList.clear();
 
     while (strlist.length()) {
@@ -181,7 +181,7 @@ namespace Isis {
     */
   void MinnaertEmpirical::SetPhotoPhaseCurveList(QString phasecurvestrlist) {
     double phasecurve;
-    IString strlist(phasecurvestrlist);
+    IString strlist(phasecurvestrlist.toStdString());
     p_photoPhaseCurveList.clear();
 
     while (strlist.length()) {

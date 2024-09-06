@@ -98,7 +98,7 @@ namespace Isis {
         stitchProgress.CheckStatus();
       }
       catch (IException &e) {
-        QString msg = "Failed stitch frame for observation ["
+        std::string msg = "Failed stitch frame for observation ["
                       + frameKey + "].";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
@@ -204,7 +204,7 @@ namespace Isis {
       // Eventually summing can be handled, but right now we don't know enough, so error
       PvlGroup frameletInst = frameletCube->group("Instrument");
       if ((int)frameletInst["SummingMode"] != 0) {
-        QString msg = "Summing mode [" + QString::fromStdString(frameletInst["SummingMode"])
+        std::string msg = "Summing mode [" + QString::fromStdString(frameletInst["SummingMode"])
                       + "] for framelet [" + frameletFile.expanded()
                       + "] is not supported.";
         throw IException(IException::User, msg, _FILEINFO_);

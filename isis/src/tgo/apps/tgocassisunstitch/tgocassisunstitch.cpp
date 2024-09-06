@@ -129,7 +129,7 @@ namespace Isis {
     // Create and output a list of
     QFile allCubesListFile(outputBaseName + ".lis");
     if (!allCubesListFile.open(QFile::WriteOnly | QFile::Text)) {
-      QString msg = "Unable to write file [" + allCubesListFile.fileName() + "]";
+      std::string msg = "Unable to write file [" + allCubesListFile.fileName() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

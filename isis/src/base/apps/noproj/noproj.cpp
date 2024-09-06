@@ -48,7 +48,7 @@ namespace Isis {
 
     Cube *mcube = NULL;
     if((ui.WasEntered("MATCH"))) {
-      mcube = new Cube(ui.GetCubeName("MATCH"));
+      mcube = new Cube(ui.GetCubeName("MATCH").toStdString());
     }
     
     noproj(&icube, mcube, ui);
@@ -94,12 +94,12 @@ namespace Isis {
     // Get Ideal camera specifications
     FileName specs;
     if((ui.WasEntered("SPECS"))) {
-      specs = ui.GetFileName("SPECS");
+      specs = ui.GetFileName("SPECS").toStdString();
     }
     else {
       specs = "$ISISROOT/appdata/templates/noproj/noprojInstruments.pvl";
     }
-    Pvl idealSpecs(specs.expanded().toStdString());
+    Pvl idealSpecs(specs.expanded());
     PvlObject obSpecs = idealSpecs.findObject("IdealInstrumentsSpecifications");
 
     PvlGroup idealGp = obSpecs.findGroup(groupName.toStdString());
@@ -193,12 +193,12 @@ namespace Isis {
     // Can we do a regular label? Didn't work on 12-15-2006
     cao.setLabelAttachment(Isis::DetachedLabel);
     FileName matchCubeFile = FileName::createTempFile("$Temporary/match.cub");
-    QString matchCubeFileNoExt = matchCubeFile.path() + "/" + matchCubeFile.baseName();
+    QString matchCubeFileNoExt = QString::fromStdString(matchCubeFile.path() + "/" + matchCubeFile.baseName());
 
     // Determine the output image size from
     //   1) the idealInstrument pvl if there or
     //   2) the input size expanded by user specified percentage
-    Cube *ocube = p.SetOutputCube(matchCubeFile.expanded(), cao, 1, 1, 1);
+    Cube *ocube = p.SetOutputCube(QString::fromStdString(matchCubeFile.expanded()), cao, 1, 1, 1);
     
     // Extract the times and the target from the instrument group
     QString startTime = QString::fromStdString(inst["StartTime"]);
@@ -374,9 +374,9 @@ namespace Isis {
 
     // And run cam2cam to apply the transformation
     QVector<QString> args = {"to=" + ui.GetCubeName("TO"), "INTERP=" + ui.GetString("INTERP")};
-    UserInterface cam2camUI(FileName("$ISISROOT/bin/xml/cam2cam.xml").expanded(), args);
+    UserInterface cam2camUI(QString::fromStdString(FileName("$ISISROOT/bin/xml/cam2cam.xml").expanded()), args);
     Cube matchCube;
-    matchCube.open(matchCubeFile.expanded(), "rw");
+    matchCube.open(QString::fromStdString(matchCubeFile.expanded()), "rw");
     cam2cam(icube, &matchCube, cam2camUI);
     matchCube.close();
     

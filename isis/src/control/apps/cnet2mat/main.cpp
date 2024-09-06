@@ -51,7 +51,7 @@ void IsisMain() {
       fsc = QString::fromStdString(qube.findKeyword("IMAGE_ID")[0]);
     }
     else {
-      QString msg = "Unable to find keyword [\"IMAGE_NUMBER\" or \"IMAGE_ID\"] in file [";
+      std::string msg = "Unable to find keyword [\"IMAGE_NUMBER\" or \"IMAGE_ID\"] in file [";
       msg += fsc + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }

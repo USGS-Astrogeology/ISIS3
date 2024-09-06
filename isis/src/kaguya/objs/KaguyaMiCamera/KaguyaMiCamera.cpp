@@ -50,7 +50,7 @@ namespace Isis {
       m_instrumentNameShort = "MI-NIR";
     }
     else {
-      QString msg = QString::number(ikCode);
+      std::string msg = QString::number(ikCode);
       msg += " is not a supported instrument kernel code for Kaguya.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

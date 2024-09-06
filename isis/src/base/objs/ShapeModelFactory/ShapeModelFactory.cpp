@@ -156,8 +156,8 @@ namespace Isis {
       //-------------- Check for bullet engine first -------------------------------//
       if ( "bullet" == preferred ) {
         // Check to see of ISIS cube DEMs get a pass
-        FileName v_shapefile(shapeModelFilenames);
-        QString ext = v_shapefile.extension().toLower();
+        FileName v_shapefile(shapeModelFilenames.toStdString());
+        QString ext = QString::fromStdString(v_shapefile.extension()).toLower();
         // Cubes are not supported at this time.
 
         try {
@@ -166,7 +166,7 @@ namespace Isis {
 
             // Bullet failed to load the kernel...test failure conditions
             if ("cub" == ext) {
-              QString mess = "Bullet could not initialize ISIS Cube DEM";
+              std::string mess = "Bullet could not initialize ISIS Cube DEM";
               throw IException(IException::Unknown, mess, _FILEINFO_);
             }
 
@@ -191,7 +191,7 @@ namespace Isis {
         } 
         catch (IException &ie) {
           fileError.append(ie);
-          QString mess = "Unable to create preferred BulletShapeModel";
+          std::string mess = "Unable to create preferred BulletShapeModel";
           fileError.append(IException(IException::Unknown, mess, _FILEINFO_));
           if ("fail" == onerror) {
             throw fileError;
@@ -205,8 +205,8 @@ namespace Isis {
       if ( "embree" == preferred ) {
 
         // Check to see of ISIS cube DEMs get a pass
-        FileName v_shapefile(shapeModelFilenames);
-        QString ext = v_shapefile.extension().toLower();
+        FileName v_shapefile(shapeModelFilenames.toStdString());
+        QString ext = QString::fromStdString(v_shapefile.extension()).toLower();
         // Cubes are not supported at this time
 
         try {
@@ -227,7 +227,7 @@ namespace Isis {
 
         } catch (IException &ie) {
           fileError.append(ie);
-          QString mess = "Unable to create preferred EmbreeShapeModel";
+          std::string mess = "Unable to create preferred EmbreeShapeModel";
           fileError.append(IException(IException::Unknown, mess, _FILEINFO_));
           if ("fail" == onerror) {
             throw fileError;
@@ -263,7 +263,7 @@ namespace Isis {
         Isis::Cube* shapeModelCube = new Isis::Cube;
         try {
           // first, try to open the shape model file as an Isis cube
-          shapeModelCube->open(FileName(shapeModelFilenames).expanded(), "r" );
+          shapeModelCube->open(QString::fromStdString(FileName(shapeModelFilenames.toStdString()).expanded()), "r" );
         }
         catch (IException &e) {
           // The file is neither a valid DSK nor an ISIS cube. Append a message and throw the error.

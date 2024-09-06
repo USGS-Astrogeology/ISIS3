@@ -173,13 +173,13 @@ namespace Isis {
                                                        const {
     QStringList parts = qualifiers(op);
     if ( parts.isEmpty() || (parts.size() > 2)) {
-      QString mess = "ResourceManager::Operator [" + op + "] is ill-formed.";
+      std::string mess = "ResourceManager::Operator [" + op + "] is ill-formed.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
     QString opName = parts[0].toLower();
     if ( !m_opFunctions.contains(opName) ) {
-      QString mess = "ResourceManager::Operator [" + op + "] not recognized.";
+      std::string mess = "ResourceManager::Operator [" + op + "] not recognized.";
       mess += "  Valid are ResetDiscard, ToggleDiscard, DeleteDiscard"
               " and DeleteAsset::AssetName.";
       throw IException(IException::User, mess, _FILEINFO_);
@@ -285,7 +285,7 @@ namespace Isis {
                                              ResourceList &resources)  {
     QStringList parts = qualifiers(op);
     if ( parts.size() != 2) {
-      QString mess = "ResourceManager " + parts[0] + " requires an asset name. "
+      std::string mess = "ResourceManager " + parts[0] + " requires an asset name. "
                      " Operation [" + op + "] is ill-formed.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
@@ -324,7 +324,7 @@ namespace Isis {
                                              ResourceList &resources)  {
     QStringList parts = qualifiers(op);
     if ( parts.size() != 2) {
-      QString mess = "ResourceManager " + parts[0] + " requires an asset name. "
+      std::string mess = "ResourceManager " + parts[0] + " requires an asset name. "
                      " Operation [" + op + "] is ill-formed.";
       throw IException(IException::User, mess, _FILEINFO_);
     }

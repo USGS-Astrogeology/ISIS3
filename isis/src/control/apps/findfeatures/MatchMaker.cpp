@@ -86,7 +86,7 @@ MatchImage &MatchMaker::train(const int &index) {
 
 void MatchMaker::setGeometrySourceFlag(const MatchMaker::GeometrySourceFlag &source) {
   if ( (Train == source) && ( size() > 1) )  {
-    QString mess = "Cannot choose Train image as geometry source when matching "
+    std::string mess = "Cannot choose Train image as geometry source when matching "
                    "more than one train image to match";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
@@ -99,7 +99,7 @@ MatchMaker::GeometrySourceFlag MatchMaker::getGeometrySourceFlag() const {
 
 MatchImage MatchMaker::getGeometrySource() const {
   if ( ( Train == m_geomFlag ) && ( size() > 1) )  {
-    QString mess = "Cannot choose Train image as geometry source when matching "
+    std::string mess = "Cannot choose Train image as geometry source when matching "
                    "more than one train image to match";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }

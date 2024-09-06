@@ -65,26 +65,26 @@ namespace Isis {
     //  Get the list of input cubes to be processed
     FileList cubeNameList;
     if ( ui.WasEntered("FROM") ) {
-      cubeNameList.append(ui.GetCubeName("FROM"));
+      cubeNameList.append(ui.GetCubeName("FROM").toStdString());
     }
     else if ( ui.WasEntered("FROMLIST") ) {
-      cubeNameList.read(ui.GetFileName("FROMLIST"));
+      cubeNameList.read(ui.GetFileName("FROMLIST").toStdString());
     }
     else {
-      QString message = "User must provide either an input cube file or an input cube file list.";
+      std::string message = "User must provide either an input cube file or an input cube file list.";
       throw IException(IException::User, message, _FILEINFO_);
     }
 
     // get the list of possible sum files to be applied
     FileList sumFileNameList;
     if ( ui.WasEntered("SUMFILE") )  {
-      sumFileNameList.append(ui.GetFileName("SUMFILE"));
+      sumFileNameList.append(ui.GetFileName("SUMFILE").toStdString());
     }
     else if ( ui.WasEntered("SUMFILELIST") )  {
-      sumFileNameList.read(ui.GetFileName("SUMFILELIST"));
+      sumFileNameList.read(ui.GetFileName("SUMFILELIST").toStdString());
     }
     else {
-      QString message = "User must provide either a sum file or a sum file list.";
+      std::string message = "User must provide either a sum file or a sum file list.";
       throw IException(IException::User, message, _FILEINFO_);
     }
 
@@ -156,12 +156,12 @@ namespace Isis {
     for (int cubeIndex = 0; cubeIndex < cubeNameList.size(); cubeIndex++) {
 
       // Find the proper SUMFILE for the cube
-      QString filename(cubeNameList[cubeIndex].expanded());
+      QString filename(QString::fromStdString(cubeNameList[cubeIndex].expanded()));
       SharedFinder cubesum( new SumFinder(filename, sumFiles, tolerance, tstamp) );
 
       // Format a warning and save it off for later
       if ( !cubesum->isFound() ) {
-        QString mess = "No SUMFILE found for " + cubesum->name() +
+        std::string mess = "No SUMFILE found for " + cubesum->name() +
                         " - closest time: " +
                         Isis::toString(cubesum->closest(), 10) +
                         " <seconds>";
@@ -169,7 +169,7 @@ namespace Isis {
       }
       else {
         if ( !cubesum->update(options) ) {
-          QString msg = "Failed to apply SUMFILE updates on cube " + filename;
+          std::string msg = "Failed to apply SUMFILE updates on cube " + filename;
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -179,7 +179,7 @@ namespace Isis {
       cubesum->resetCube();
       resultSet.append(cubesum);
 
-      Isis::CubeAttributeInput att(filename);
+      Isis::CubeAttributeInput att(filename.toStdString());
       Cube *cube = process.SetInputCube(filename, att, Isis::ReadWrite);
       process.WriteHistory(*cube);
 
@@ -189,7 +189,7 @@ namespace Isis {
 
     if (warnings.size() > 0) {
       PvlKeyword message("Unmatched");
-      BOOST_FOREACH ( QString mess, warnings ) {
+      BOOST_FOREACH ( std::string mess, warnings ) {
         message.addValue(mess.toStdString());
       }
       PvlGroup loggrp("Warnings");
@@ -200,12 +200,12 @@ namespace Isis {
 
     // Log the results of processing
     if ( ui.WasEntered("TOLOG") ) {
-      FileName filename( ui.GetFileName("TOLOG") );
+      FileName filename( ui.GetFileName("TOLOG").toStdString() );
       bool exists = filename.fileExists();
-      QFile logfile(filename.expanded());
+      QFile logfile(QString::fromStdString(filename.expanded()));
       if ( !logfile.open(QIODevice::WriteOnly | QIODevice::Append |
                          QIODevice::Text | QIODevice::Unbuffered) ) {
-        QString mess = "Unable to open/create log file " + filename.name();
+        std::string mess = "Unable to open/create log file " + filename.name();
         throw IException(IException::User, mess, _FILEINFO_);
       }
 

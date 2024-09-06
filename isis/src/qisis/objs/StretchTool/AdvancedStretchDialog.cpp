@@ -178,7 +178,7 @@ namespace Isis {
       p_grayStretch->restoreSavedStretch(stretch); 
     }
     else {
-      QString msg = "Gray mode not enabled, cannot restore gray stretch";
+      std::string msg = "Gray mode not enabled, cannot restore gray stretch";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -206,7 +206,7 @@ namespace Isis {
       }
     }
     else {
-      QString msg = "RGB mode not enabled, cannot restore RGB stretch";
+      std::string msg = "RGB mode not enabled, cannot restore RGB stretch";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -352,7 +352,7 @@ namespace Isis {
       return p_grayStretch->getStretch();
     }
     else {
-      QString msg = "Gray mode not enabled, cannot get gray stretch";
+      std::string msg = "Gray mode not enabled, cannot get gray stretch";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -368,7 +368,7 @@ namespace Isis {
       return p_redStretch->getStretch();
     }
     else {
-      QString msg = "RGB mode not enabled, cannot get red stretch";
+      std::string msg = "RGB mode not enabled, cannot get red stretch";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -384,7 +384,7 @@ namespace Isis {
       return p_grnStretch->getStretch();
     }
     else {
-      QString msg = "RGB mode not enabled, cannot get green stretch";
+      std::string msg = "RGB mode not enabled, cannot get green stretch";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -400,7 +400,7 @@ namespace Isis {
       return p_bluStretch->getStretch();
     }
     else {
-      QString msg = "RGB mode not enabled, cannot get blue stretch";
+      std::string msg = "RGB mode not enabled, cannot get blue stretch";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }

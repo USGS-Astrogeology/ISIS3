@@ -477,13 +477,13 @@ namespace Isis {
     Isis::PvlGroup &dataDir = Isis::Preference::Preferences().findGroup("DataDirectory");
     QString baseDir = QString::fromStdString(dataDir["Base"]);
     baseDir += "/kernels/lsk/";
-    FileName leapSecond(baseDir + "naif????.tls");
+    FileName leapSecond(baseDir.toStdString() + "naif????.tls");
     QString leapSecondName;
     try {
-      leapSecondName = QString(leapSecond.highestVersion().expanded());
+      leapSecondName = QString::fromStdString(leapSecond.highestVersion().expanded());
     }
     catch (IException &e) {
-      QString msg = "Unable to load leadsecond file. Either the data area is not set or there are no naif####.tls files present";
+      std::string msg = "Unable to load leadsecond file. Either the data area is not set or there are no naif####.tls files present";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 

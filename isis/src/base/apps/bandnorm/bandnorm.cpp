@@ -31,7 +31,7 @@ namespace Isis {
                 const QString &delimiters = " ");
   
   void bandnorm(UserInterface &ui) {
-    Cube icube(ui.GetCubeName("FROM"), "r");
+    Cube icube(ui.GetCubeName("FROM").toStdString(), "r");
     bandnorm(&icube, ui);
   }
   
@@ -64,7 +64,7 @@ namespace Isis {
       pencil.Open(ui.GetFileName("SPECTRUM"));
       std::cout << pencil.LineCount() << " " << icube->bandCount() << std::endl;
       if(pencil.LineCount() - 1 < icube->bandCount()) {
-        QString msg = "The spectral pencil file [" + ui.GetAsString("SPECTRUM") +
+        std::string msg = "The spectral pencil file [" + ui.GetAsString("SPECTRUM") +
                       "] does not contain enough data for all bands.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -85,7 +85,7 @@ namespace Isis {
         }
       }
       if(column < 0  || (unsigned)column > tokens.size()) {
-        QString msg = "The column specified in file [" + ui.GetFileName("SPECTRUM")
+        std::string msg = "The column specified in file [" + ui.GetFileName("SPECTRUM")
                       + "] was not found.";
         throw IException(IException::User, msg, _FILEINFO_);
       }

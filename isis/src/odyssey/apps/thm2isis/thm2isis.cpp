@@ -34,18 +34,18 @@ namespace Isis {
     // Make sure it is a Themis EDR/RDR
     bool projected;
     try {
-      Pvl lab(in.expanded().toStdString());
+      Pvl lab(in.expanded());
       projected = lab.hasObject("IMAGE_MAP_PROJECTION");
       QString id;
       id = QString::fromStdString(lab["DATA_SET_ID"]);
       id = id.simplified().trimmed();
       if(!id.startsWith("ODY-M-THM")) {
-        QString msg = "Invalid DATA_SET_ID [" + id + "]";
+        std::string msg = "Invalid DATA_SET_ID [" + id + "]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
     catch(IException &e) {
-      QString msg = "Input file [" + in.expanded() +
+      std::string msg = "Input file [" + in.expanded() +
                     "] does not appear to be " +
                     "in Themis EDR/RDR format";
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -53,7 +53,7 @@ namespace Isis {
 
     //Checks if in file is rdr
     if(projected) {
-      QString msg = "[" + in.name() + "] appears to be an rdr file.";
+      std::string msg = "[" + in.name() + "] appears to be an rdr file.";
       msg += " Use pds2isis.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

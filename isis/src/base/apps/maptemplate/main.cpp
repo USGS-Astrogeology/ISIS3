@@ -579,7 +579,7 @@ void calcRange(double &minLat, double &maxLat,
         // this ensures that we look for the target radii of the TARGET specified by the user
         radii += PvlKeyword("TargetName", targetName.toStdString());
         // this group will contain TargetName, EquatorialRadius, and PolarRadius
-        Pvl cubeLab(flist[0].expanded().toStdString());
+        Pvl cubeLab(flist[0].expanded());
         radii = Target::radiiGroup(cubeLab, radii);
       }
       catch (IException &e) {

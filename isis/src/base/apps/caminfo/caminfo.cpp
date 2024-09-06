@@ -88,7 +88,7 @@ namespace Isis{
           params.addObject(p);
         }
         else {
-          QString msg = "Could not find OriginalLabel "
+          std::string msg = "Could not find OriginalLabel "
                         "in input file [" + incube->fileName() + "].";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -147,7 +147,7 @@ namespace Isis{
       // Output the result
       fstream outFile;
       QString sOutFile = ui.GetAsString("TO");
-      bool appending = ui.GetBoolean("APPEND") && FileName(sOutFile).fileExists();
+      bool appending = ui.GetBoolean("APPEND") && FileName(sOutFile.toStdString()).fileExists();
       if(appending)
         outFile.open(sOutFile.toLatin1().data(), std::ios::out | std::ios::app);
       else
@@ -237,7 +237,7 @@ namespace Isis{
         }
 
         if (incube->hasGroup("Mapping")) {
-          QString msg = "Caminfo expects a level 1 input cube. For more information, see:\n"
+          std::string msg = "Caminfo expects a level 1 input cube. For more information, see:\n"
           "https://isis.astrogeology.usgs.gov/documents/Glossary/Glossary.html#Level1";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
@@ -248,7 +248,7 @@ namespace Isis{
         general->append(MakePair("IsisVersion", Application::Version()));
         general->append(MakePair("RunDate",     iTime::CurrentGMT()));
         general->append(MakePair("IsisId",      SerialNumber::Compose(*incube)));
-        general->append(MakePair("From",        FileName(incube->fileName()).baseName() + ".cub"));
+        general->append(MakePair("From",        QString::fromStdString(FileName(incube->fileName().toStdString()).baseName() + ".cub")));
         general->append(MakePair("Lines",       toString(incube->lineCount())));
         general->append(MakePair("Samples",     toString(incube->sampleCount())));
         general->append(MakePair("Bands",       toString(incube->bandCount())));
@@ -421,7 +421,7 @@ namespace Isis{
             }
           }
           else {
-            QString msg = "Invalid INCTYPE option[" + incType + "]";
+            std::string msg = "Invalid INCTYPE option[" + incType + "]";
             throw IException(IException::Programmer, msg, _FILEINFO_);
           }
 
@@ -489,7 +489,7 @@ namespace Isis{
 
           // Check if the user requires valid image center geometry
           if(ui.GetBoolean("VCAMERA") && (!bandGeom->hasCenterGeometry())) {
-            QString msg = "Image center does not project in camera model";
+            std::string msg = "Image center does not project in camera model";
             throw IException(IException::Unknown, msg, _FILEINFO_);
           }
         }

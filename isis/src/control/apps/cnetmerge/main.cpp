@@ -109,7 +109,7 @@ void IsisMain() {
     // Check after taking into account an explicit base network if we have at
     // least two networks to merge
     if (filelist.size() < 2) {
-      QString msg = "CLIST [" + ui.GetFileName("CLIST") + "] and BASE [" +
+      std::string msg = "CLIST [" + ui.GetFileName("CLIST") + "] and BASE [" +
         (ui.WasEntered("BASE") ? ui.GetFileName("BASE") : "Automatic") +
         "] must total to at least two distinct filenames: "
         "a base network and a new network";
@@ -193,7 +193,7 @@ ControlNet * mergeNetworks(FileList &filelist, PvlObject &conflictLog,
           }
           else {
             // User has disallowed merging points, so throw an error
-            QString msg = "Add network [" + cnetName.name() + "] contains "
+            std::string msg = "Add network [" + cnetName.name() + "] contains "
               "Control Point with ID [" + point->GetId() + "] already "
               "contained within source network [" +
               pointSources[point->GetId()] + "].  "
@@ -212,7 +212,7 @@ ControlNet * mergeNetworks(FileList &filelist, PvlObject &conflictLog,
       outPvl.addObject(errors);
       outPvl.write(logName.toStdString());
 
-      QString msg = "Networks contained duplicate points.  See log file [" +
+      std::string msg = "Networks contained duplicate points.  See log file [" +
         FileName(logName).name() + "] for details.  "
         "Set DUPLICATEPOINTS=MERGE to merge conflicting Control Points";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -242,7 +242,7 @@ ControlNet * mergeNetworks(FileList &filelist, PvlObject &conflictLog,
 
     // Networks can only be merged if the targets are the same
     if (baseNet->GetTarget().toLower() != newNet.GetTarget().toLower()) {
-      QString msg = "Input [" + newNet.GetNetworkId() + "] does not target the "
+      std::string msg = "Input [" + newNet.GetNetworkId() + "] does not target the "
           "same target as other Control Network(s)";
       throw IException(IException::User, msg, _FILEINFO_);
     }

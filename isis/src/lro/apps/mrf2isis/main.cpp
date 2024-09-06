@@ -27,13 +27,13 @@ void IsisMain() {
   QString labelFile = ui.GetFileName("FROM");
   FileName inFile = ui.GetFileName("FROM");
   QString id;
-  Pvl lab(inFile.expanded().toStdString());
+  Pvl lab(inFile.expanded());
 
   try {
     id = QString::fromStdString(lab.findKeyword("DATA_SET_ID"));
   }
   catch(IException &e) {
-    QString msg = "Unable to read [DATA_SET_ID] from input file [" +
+    std::string msg = "Unable to read [DATA_SET_ID] from input file [" +
                  inFile.expanded() + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
@@ -44,7 +44,7 @@ void IsisMain() {
       id != "CH1-ORB-L-MRFFR-5-CDR-MOSAIC-V1.0" &&
       id != "LRO-L-MRFLRO-3-CDR-V1.0" && id != "LRO-L-MRFLRO-5-CDR-MAP-V1.0" &&
       id != "LRO-L-MRFLRO-4-CDR-V1.0" && id != "LRO-L-MRFLRO-5-CDR-MOSAIC-V1.0") {
-    QString msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
+    std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
                  "in CHANDRAYAAN-1 MINI-RF FORERUNNER level 1 or level 2 format " +
                  "or in LUNAR RECONNAISSANCE ORBITER MINI-RF LRO level 1 or " +
                  "level 2 format. " +
@@ -68,7 +68,7 @@ void IsisMain() {
     p.SetOrganization(Isis::ProcessImport::BIL);
   }
   else {
-    QString msg = "Input file [" + inFile.expanded() + "] has an invalid " +
+    std::string msg = "Input file [" + inFile.expanded() + "] has an invalid " +
                  "band storage type. BAND_STORAGE_TYPE is [" + bandorder + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
@@ -129,7 +129,7 @@ void IsisMain() {
       double pheight = instGrp["ScaledPixelHeight"];
       double pwidth = instGrp["ScaledPixelWidth"];
       if(pheight != pwidth) {
-        QString msg = "Input file [" + inFile.expanded() + "] does not have valid " +
+        std::string msg = "Input file [" + inFile.expanded() + "] does not have valid " +
                      "ScaledPixelHeight and ScaledPixelWidth values. These values " +
                      "must be equivalent or the image is considered to be invalid.";
         throw IException(IException::Io, msg, _FILEINFO_);

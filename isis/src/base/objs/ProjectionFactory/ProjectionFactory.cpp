@@ -57,11 +57,11 @@ namespace Isis {
     if (m_projPlugin.fileName() == "") {
       FileName localFile("Projection.plugin");
       if (localFile.fileExists())
-        m_projPlugin.read(localFile.expanded().toStdString());
+        m_projPlugin.read(localFile.expanded());
 
       FileName systemFile("$ISISROOT/lib/Projection.plugin");
       if (systemFile.fileExists())
-        m_projPlugin.read(systemFile.expanded().toStdString());
+        m_projPlugin.read(systemFile.expanded());
     }
 
     try {
@@ -75,7 +75,7 @@ namespace Isis {
         ptr = m_projPlugin.GetPlugin(proj);
       }
       catch(IException &e) {
-        QString msg = "Unsupported projection, unable to find plugin for [" +
+        std::string msg = "Unsupported projection, unable to find plugin for [" +
                      proj + "]";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
@@ -88,7 +88,7 @@ namespace Isis {
       return (Isis::Projection *) (*plugin)(label, allowDefaults);
     }
     catch(IException &e) {
-      QString message = "Unable to initialize Projection information ";
+      std::string message = "Unable to initialize Projection information ";
       message += "from group [Mapping]";
       throw IException(e, IException::Io, message, _FILEINFO_);
     }
@@ -125,11 +125,11 @@ namespace Isis {
     if (m_projPlugin.fileName() == "") {
       FileName localFile("Projection.plugin");
       if (localFile.fileExists())
-        m_projPlugin.read(localFile.expanded().toStdString());
+        m_projPlugin.read(localFile.expanded());
 
       FileName systemFile("$ISISROOT/lib/Projection.plugin");
       if (systemFile.fileExists())
-        m_projPlugin.read(systemFile.expanded().toStdString());
+        m_projPlugin.read(systemFile.expanded());
     }
 
     try {
@@ -143,7 +143,7 @@ namespace Isis {
         ptr = m_projPlugin.GetPlugin(proj);
       }
       catch(IException &e) {
-        QString msg = "Unsupported projection, unable to find plugin for [" +
+        std::string msg = "Unsupported projection, unable to find plugin for [" +
                       proj + "]";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
@@ -155,7 +155,7 @@ namespace Isis {
       return (Projection *) (*plugin)(label, allowDefaults);
     }
     catch(IException &e) {
-      QString message = "Unable to initialize Projection information ";
+      std::string message = "Unable to initialize Projection information ";
       message += "from group [Mapping]";
       throw IException(e, IException::Io, message, _FILEINFO_);
     }
@@ -247,7 +247,7 @@ namespace Isis {
 
         double minX, maxX, minY, maxY;
         if (!proj->XYRange(minX, maxX, minY, maxY)) {
-          QString msg = "Invalid ground range [MinimumLatitude,MaximumLatitude,";
+          std::string msg = "Invalid ground range [MinimumLatitude,MaximumLatitude,";
           msg += "MinimumLongitude,MaximumLongitude] cause invalid computation ";
           msg += "of image size";
           throw IException(IException::Unknown, msg, _FILEINFO_);

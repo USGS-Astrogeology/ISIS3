@@ -106,7 +106,7 @@ namespace Isis {
         m_pointingInterpolationType = SpiceRotation::PolyFunction;
       }
       else {
-        QString msg = "The OVEREXISTING parameter must be set to TRUE or FALSE; YES or NO";
+        std::string msg = "The OVEREXISTING parameter must be set to TRUE or FALSE; YES or NO";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -156,7 +156,7 @@ namespace Isis {
         m_solveTwist = false;
       }
       else {
-        QString msg = "The TWIST parameter must be set to TRUE or FALSE; YES or NO";
+        std::string msg = "The TWIST parameter must be set to TRUE or FALSE; YES or NO";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -173,7 +173,7 @@ namespace Isis {
        m_positionInterpolationType = SpicePosition::PolyFunction;
      }
      else {
-       QString msg = "The OVERHERMITE parameter must be set to TRUE or FALSE; YES or NO";
+       std::string msg = "The OVERHERMITE parameter must be set to TRUE or FALSE; YES or NO";
        throw IException(IException::User, msg, _FILEINFO_);
      }
     }

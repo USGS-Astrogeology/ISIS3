@@ -62,7 +62,7 @@ void IsisMain() {
     QString pivotString("$messenger/kernels/ck/pivot_kernels.????.db");
     pivotFileName = FileName(pivotString).highestVersion();
   }
-  Pvl pivot(pivotFileName.expanded().toStdString());
+  Pvl pivot(pivotFileName.expanded());
 
   // Fetch the atthist file
   FileName atthistFileName;
@@ -74,7 +74,7 @@ void IsisMain() {
     QString atthistString("$messenger/kernels/ck/atthist_kernels.????.db");
     atthistFileName = FileName(atthistString).highestVersion();
   }
-  Pvl atthist(atthistFileName.expanded().toStdString());
+  Pvl atthist(atthistFileName.expanded());
 
   // Open the input file from the GUI or find the latest version of the DB file
   FileName dbFileName;
@@ -85,7 +85,7 @@ void IsisMain() {
     QString dbString("$messenger/kernels/ck/kernels.????.db");
     dbFileName = FileName(dbString).highestVersion();
   }
-  Pvl kernelDb(dbFileName.expanded().toStdString());
+  Pvl kernelDb(dbFileName.expanded());
 
   PvlObject &pointing = kernelDb.findObject("SpacecraftPointing");
   PvlObject &pivotPointing = pivot.findObject("SpacecraftPointing");
@@ -183,7 +183,7 @@ void IsisMain() {
               // Check that the current day's BC file exists
               QString bcExpanded = FileName(bcFileName).expanded();
               if (!QFile(bcExpanded).exists()) {
-                QString msg = "The BC file [" + bcExpanded + "] does not exist";
+                std::string msg = "The BC file [" + bcExpanded + "] does not exist";
                 throw IException(IException::User, msg, _FILEINFO_);
               }
 
@@ -252,7 +252,7 @@ void IsisMain() {
   }
 
   // Write the updated PVL as the new CK DB file
-  kernelDb.write(outDBfile.expanded().toStdString());
+  kernelDb.write(outDBfile.expanded());
 }
 
 

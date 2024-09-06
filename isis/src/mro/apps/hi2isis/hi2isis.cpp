@@ -78,26 +78,26 @@ namespace Isis {
     QString id;
     bool projected;
     try {
-      Pvl lab(inFile.expanded().toStdString());
+      Pvl lab(inFile.expanded());
       id = QString::fromStdString(lab.findKeyword("DATA_SET_ID"));
       projected = lab.hasObject("IMAGE_MAP_PROJECTION");
     }
     catch(IException &e) {
-      QString msg = "Unable to read [DATA_SET_ID] from input file [" +
+      std::string msg = "Unable to read [DATA_SET_ID] from input file [" +
                    inFile.expanded() + "]";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
     //Checks if in file is rdr
     if(projected) {
-      QString msg = "[" + inFile.name() + "] appears to be an rdr file.";
+      std::string msg = "[" + inFile.name() + "] appears to be an rdr file.";
       msg += " Use pds2isis.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     id = id.simplified().trimmed();
     if(id != "MRO-M-HIRISE-2-EDR-V1.0") {
-      QString msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
+      std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
                    "in HiRISE EDR format. DATA_SET_ID is [" + id + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -185,7 +185,7 @@ namespace Isis {
 
     // Log the results of the image conversion
     PvlGroup results("Results");
-    results += PvlKeyword("From", inFile.expanded().toStdString());
+    results += PvlKeyword("From", inFile.expanded());
 
     results += PvlKeyword("CalibrationBufferGaps", std::to_string(gapCount[0]));
     results += PvlKeyword("CalibrationBufferLIS", std::to_string(lisCount[0]));
@@ -460,7 +460,7 @@ namespace Isis {
     QString transDir = "$ISISROOT/appdata/translations/";
 
     // Get a filename for the HiRISE EDR label
-    Pvl labelPvl(labelFile.expanded().toStdString());
+    Pvl labelPvl(labelFile.expanded());
 
     // Translate the Instrument group
     FileName transFile(transDir + "MroHiriseInstrument.trn");

@@ -108,7 +108,7 @@ namespace Isis {
                                      Distance::Meters);
       }
       catch (IException &e) {
-        QString msg = "Unable to create Latitude object from given mapping group.";
+        std::string msg = "Unable to create Latitude object from given mapping group.";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -168,7 +168,7 @@ namespace Isis {
                                      Distance::Meters);
       }
       catch (IException &e) {
-        QString msg = "Unable to create Latitude object from given mapping group.";
+        std::string msg = "Unable to create Latitude object from given mapping group.";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -226,7 +226,7 @@ namespace Isis {
       setPlanetographic(latitude, latitudeUnits);
     }
     else {
-      QString msg = "Enumeration value [" + toString(latType) + "] is not a valid CoordinateType";
+      std::string msg = "Enumeration value [" + std::to_string(latType) + "] is not a valid CoordinateType";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -315,7 +315,7 @@ namespace Isis {
   double Latitude::planetographic(Angle::Units units) const {
     
     if (m_equatorialRadius == NULL || m_polarRadius == NULL) {
-      QString msg = "Latitude [" + toString(true) + "] cannot "
+      std::string msg = "Latitude [" + std::to_string(true) + "] cannot "
           "be converted to Planetographic without the planetary radii, please "
           "use the other Latitude constructor.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -323,13 +323,13 @@ namespace Isis {
 
     if (*this > Angle(90.0, Angle::Degrees) ||
         *this < Angle(-90.0, Angle::Degrees)) {
-      QString msg = "Latitudes outside of the -90/90 range cannot be converted "
+      std::string msg = "Latitudes outside of the -90/90 range cannot be converted "
           "between Planetographic and Planetocentric";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if (!isValid()) {
-      QString msg = "Invalid planetographic latitudes are not currently "
+      std::string msg = "Invalid planetographic latitudes are not currently "
           "supported";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -360,7 +360,7 @@ namespace Isis {
   void Latitude::setPlanetographic(double latitude, Angle::Units units) {
     
     if (m_equatorialRadius == NULL || m_polarRadius == NULL) {
-      QString msg = "Latitude [" + Isis::toString(latitude) + " degrees] cannot be "
+      std::string msg = "Latitude [" + Isis::toString(latitude) + " degrees] cannot be "
           "converted to Planetocentic without the planetary radii, please use "
           "the other Latitude constructor.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -370,7 +370,7 @@ namespace Isis {
 
     if (inputAngle > Angle(90.0, Angle::Degrees) ||
         inputAngle < Angle(-90.0, Angle::Degrees)) {
-      QString msg = "Latitudes outside of the -90/90 range cannot be converted "
+      std::string msg = "Latitudes outside of the -90/90 range cannot be converted "
           "between Planetographic and Planetocentric";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -379,7 +379,7 @@ namespace Isis {
     // when passing in a special pixel.
     // Left this here just in case the functionality in Angle changes.
     if (IsSpecial(latitude)) {  
-      QString msg = "Invalid planetographic latitudes are not currently "
+      std::string msg = "Invalid planetographic latitudes are not currently "
           "supported";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -440,9 +440,9 @@ namespace Isis {
     
     // Validity check on the range
     if (min > max) {
-      QString msg = "Minimum latitude [" + min.toString(true) + 
+      std::string msg = "Minimum latitude [" + min.toString(true).toStdString() + 
                     "] is greater than maximum latitude [" + 
-                    max.toString(true) + "]";
+                    max.toString(true).toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -521,7 +521,7 @@ namespace Isis {
                                Distance::Meters);
       }
       catch (IException &e) {
-        QString msg = "Unable to add angle to Latitude object from given mapping group.";
+        std::string msg = "Unable to add angle to Latitude object from given mapping group.";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -588,7 +588,7 @@ namespace Isis {
       Angle tmpAngle(angle, units);
       if (tmpAngle > Angle(90, Angle::Degrees) ||
           tmpAngle < Angle(-90, Angle::Degrees)) {
-        QString msg = "Latitudes past 90 degrees are not valid. The latitude [" 
+        std::string msg = "Latitudes past 90 degrees are not valid. The latitude [" 
                       + Isis::toString(tmpAngle.degrees(), 8) + "] is not allowed";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }

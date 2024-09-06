@@ -26,9 +26,9 @@ namespace Isis{
     FileName in = ui.GetCubeName("FROM");
 
     //Checks if in file is rdr
-    label = in.expanded().toStdString();
+    label = in.expanded();
     if(label.hasObject("IMAGE_MAP_PROJECTION")) {
-      QString msg = "[" + in.name() + "] appears to be an rdr file.";
+      std::string msg = "[" + in.name() + "] appears to be an rdr file.";
       msg += " Use pds2isis.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -48,7 +48,7 @@ namespace Isis{
 
     // Transfer the instrument group to the output cube
     QString transDir = "$ISISROOT/appdata/translations/";
-    Pvl inputLabel(labelFile.expanded().toStdString());
+    Pvl inputLabel(labelFile.expanded());
     FileName transFile;
     FileName bandBinTransFile;
 
@@ -66,12 +66,12 @@ namespace Isis{
           bandBinTransFile = transDir + "LoPdsBoresightImport.trn";
         }
         else {
-          QString msg = "[" + labelFile.name() + "] does not contain boresight or fiducial information";
+          std::string msg = "[" + labelFile.name() + "] does not contain boresight or fiducial information";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
       else {
-        QString msg = "[" + labelFile.name() + "] contains unknown PDS version [" +
+        std::string msg = "[" + labelFile.name() + "] contains unknown PDS version [" +
                      pdsVersion + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -86,7 +86,7 @@ namespace Isis{
         bandBinTransFile = transDir + "LoIsis2BoresightImport.trn";
       }
       else {
-        QString msg = "[" + labelFile.name() + "] does not contain boresight or fiducial information";
+        std::string msg = "[" + labelFile.name() + "] does not contain boresight or fiducial information";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }

@@ -39,9 +39,9 @@ namespace Isis {
   QFunctionPointer Plugin::GetPlugin(const QString &group) {
     // Get the library and plugin to load
     PvlGroup &g = findGroup(group.toStdString());
-    QString library = QString::fromStdString(g["Library"]);
+    std::string library = g["Library"];
 
-    QString path = "./";
+    std::string path = "./";
     Isis::FileName libraryFile(path + library);
 
     QString pluginName = QString::fromStdString(g["Routine"]);
@@ -49,7 +49,7 @@ namespace Isis {
     // Open the library, resolve the routine name, and return the function
     // address. The function will stay in memory until the application exists
     // so the scope of lib does not matter.
-    QLibrary lib(libraryFile.expanded());
+    QLibrary lib(QString::fromStdString(libraryFile.expanded()));
     bool loadedOk = lib.load();
 
     if(!loadedOk) {
@@ -57,11 +57,11 @@ namespace Isis {
       libraryFile = path + library;
     }
 
-    lib.setFileName(libraryFile.expanded());
+    lib.setFileName(QString::fromStdString(libraryFile.expanded()));
 
     QFunctionPointer plugin = lib.resolve(pluginName.toLatin1().data());
     if (plugin == 0) {
-      QString msg = "Unable to find plugin [" + pluginName +
+      std::string msg = "Unable to find plugin [" + pluginName +
                     "] in shared library [" + lib.fileName() + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }

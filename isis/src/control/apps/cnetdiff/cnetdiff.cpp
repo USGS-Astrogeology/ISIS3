@@ -116,8 +116,8 @@ namespace Isis {
       return log;
     }
     else { // do full report
-      FileName fileName1(ui.GetFileName("FROM"));
-      FileName fileName2(ui.GetFileName("FROM2"));
+      FileName fileName1(ui.GetFileName("FROM").toStdString());
+      FileName fileName2(ui.GetFileName("FROM2").toStdString());
 
       ControlNetDiff differencer;
       if (diffFile != nullptr) {
@@ -213,7 +213,7 @@ namespace Isis {
   void Compare(const PvlObject &point1Pvl, const PvlObject &point2Pvl) {
     // both names must be at least equal, should be named ControlPoint
     if (point1Pvl.name() != point2Pvl.name()) {
-      QString msg = "The control points' CreatePvlOject method returned an "
+      std::string msg = "The control points' CreatePvlOject method returned an "
                     "unexpected result.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -296,7 +296,7 @@ namespace Isis {
    */
   void CompareKeywords(const PvlKeyword &pvl1, const PvlKeyword &pvl2) {
     if (pvl1.name().compare(pvl2.name()) != 0) {
-      QString msg = "CompareKeywords should always be called with keywords that "
+      std::string msg = "CompareKeywords should always be called with keywords that "
                     "have the same name.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -310,7 +310,7 @@ namespace Isis {
     if (tolerances.hasKeyword(pvl1.name()) &&
         tolerances[pvl1.name()].size() > 1 &&
         pvl1.size() != tolerances[pvl1.name()].size()) {
-      QString msg = "Size of value '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
+      std::string msg = "Size of value '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
       msg += "its number of tolerances in the DIFF file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -318,7 +318,7 @@ namespace Isis {
     if (ignorekeys.hasKeyword(pvl1.name()) &&
         ignorekeys[pvl1.name()].size() > 1 &&
         pvl1.size() != ignorekeys[pvl1.name()].size()) {
-      QString msg = "Size of value '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
+      std::string msg = "Size of value '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
       msg += "its number of ignore keys in the DIFF file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

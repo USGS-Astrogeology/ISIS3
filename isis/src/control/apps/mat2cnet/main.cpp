@@ -52,7 +52,7 @@ void IsisMain() {
   progress.CheckStatus();
 
   if (list2.size() != snl.size()) {
-    QString msg = "Invalid input file number of lines. The ISIS2 file list [";
+    std::string msg = "Invalid input file number of lines. The ISIS2 file list [";
     msg += ui.GetAsString("LIST2") + "] must contain the same number of lines ";
     msg += "as the ISIS file list [" + ui.GetAsString("LIST3") + "]";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -166,7 +166,7 @@ void IsisMain() {
       progress.CheckStatus();
     }
     catch (IException &e) {
-      QString msg = "\"Matchpoint total\" keyword at the top of the match point "
+      std::string msg = "\"Matchpoint total\" keyword at the top of the match point "
                    "file [";
       msg += ui.GetAsString("MATCH") + "] equals [" + toString(inTotalMeas);
       msg += "] and is likely incorrect. Number of measures in match point file"
@@ -200,7 +200,7 @@ void IsisMain() {
       diam = toDouble(tokens.takeFirst());     // Diameter, in case of a crater
     }
     catch (IException &e) {
-      QString msg = "Invalid value(s) in match point file [";
+      std::string msg = "Invalid value(s) in match point file [";
       msg += ui.GetAsString("MATCH") + "] at line [" + toString(line);
       msg += "]. Verify line, sample, diameter values are doubles.";
       throw IException(e, IException::User, msg, _FILEINFO_);
@@ -211,7 +211,7 @@ void IsisMain() {
     cmeasure->SetCubeSerialNumber(snMap[toInt(fsc)]);
 
     if (snMap[toInt(fsc)].isEmpty()) {
-      QString msg = "None of the images specified in the ISIS2 file list [";
+      std::string msg = "None of the images specified in the ISIS2 file list [";
       msg += ui.GetAsString("LIST2");
       msg += "] have an IMAGE_NUMBER or IMAGE_ID that matches the FSC [" + fsc;
       msg += "], from the match point file [" + ui.GetAsString("MATCH");
@@ -242,7 +242,7 @@ void IsisMain() {
       cmeasure->SetType(ControlMeasure::Candidate);
     }
     else {
-      QString msg = "Unknown measurment type [" + matClass + "] ";
+      std::string msg = "Unknown measurment type [" + matClass + "] ";
       msg += "in match point file [" + ui.GetAsString("MATCH") + "] ";
       msg += "at line [" + toString(line) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -281,7 +281,7 @@ void IsisMain() {
       }
     }
     catch (IException &e) {
-      QString msg = "Invalid match point file [" + ui.GetAsString("MATCH") +"]";
+      std::string msg = "Invalid match point file [" + ui.GetAsString("MATCH") +"]";
       msg += ".  Repeated PointID/FSC combination [" + pid + ", " + fsc;
       msg += "] in match point file at line [" + toString(line) + "].";
       throw IException(e, IException::User, msg, _FILEINFO_);
@@ -293,7 +293,7 @@ void IsisMain() {
     progress.CheckStatus();
   }
   catch (IException &e) {
-    QString msg = "\"Matchpoint total\" keyword at the top of the match point "
+    std::string msg = "\"Matchpoint total\" keyword at the top of the match point "
                  "file [";
     msg += ui.GetAsString("MATCH") + "] equals [" + toString(inTotalMeas);
     msg += "] and is likely incorrect. Number of measures in match point file "
@@ -326,7 +326,7 @@ void IsisMain() {
         progress.CheckStatus();
       }
       catch (IException &e) {
-        QString msg = "RAND PPP file may not be valid. Line count calculated [";
+        std::string msg = "RAND PPP file may not be valid. Line count calculated [";
         msg += toString(inTotalLine) + "] for RAND PPP file [";
         msg += ui.GetAsString("PPP") + "] appears invalid at line [";
         msg += toString(line) + "].";
@@ -362,7 +362,7 @@ void IsisMain() {
         lat = toDouble(col1);
       }
       catch (IException &e) {
-        QString msg = "Invalid value(s) in RAND PPP file [";
+        std::string msg = "Invalid value(s) in RAND PPP file [";
         msg += ui.GetAsString("PPP") + "] at line [" + toString(line);
         msg += "]. Verify latitude value is a double.";
         throw IException(e, IException::User, msg, _FILEINFO_);
@@ -378,7 +378,7 @@ void IsisMain() {
         lon = toDouble(col2);
       }
       catch (IException &e) {
-        QString msg = "Invalid value(s) in RAND PPP file [";
+        std::string msg = "Invalid value(s) in RAND PPP file [";
         msg += ui.GetAsString("PPP") + "] at line [" + toString(line);
         msg += "]. Verify longitude value is a double.";
         throw IException(e, IException::User, msg, _FILEINFO_);
@@ -395,7 +395,7 @@ void IsisMain() {
         rad = rad * 1000;
       }
       catch (IException &e) {
-        QString msg = "Invalid value(s) in RAND PPP file [";
+        std::string msg = "Invalid value(s) in RAND PPP file [";
         msg += ui.GetAsString("PPP") + "] at line [" + toString(line);
         msg += "]. Verify radius value is a double.";
         throw IException(e, IException::User, msg, _FILEINFO_);
@@ -406,7 +406,7 @@ void IsisMain() {
       // remove any white space from beginning of string
       pid = pid.remove(QRegExp("^ *"));
       if (pid.length() > 7) {
-        QString msg = "Invalid value(s) in RAND PPP file [";
+        std::string msg = "Invalid value(s) in RAND PPP file [";
         msg += ui.GetAsString("PPP") + "] at line [" + toString(line);
         msg += "]. Point ID [" + pid + "] has more than 7 characters.";
         throw IException(IException::User, msg, _FILEINFO_);
@@ -445,7 +445,7 @@ void IsisMain() {
           cpoint->SetEditLock(ui.GetBoolean("POINTLOCK"));
         }
         catch (IException &e) {
-          QString msg = "Unable to set universal ground point to control "
+          std::string msg = "Unable to set universal ground point to control "
                         "network from line [";
           msg += toString(line) + "] of RAND PPP file [";
           msg += ui.GetAsString("PPP") + "]";
@@ -459,7 +459,7 @@ void IsisMain() {
       progress.CheckStatus();
     }
     catch (IException &e) {
-      QString msg = "RAND PPP file may not be valid.  Line count calculated [";
+      std::string msg = "RAND PPP file may not be valid.  Line count calculated [";
       msg += toString(inTotalLine) + "] for RAND PPP file [";
       msg += ui.GetAsString("PPP");
       msg += "] appears invalid at line [" + toString(line) + "].";

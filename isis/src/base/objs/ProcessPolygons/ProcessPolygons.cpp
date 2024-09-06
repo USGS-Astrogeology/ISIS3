@@ -228,7 +228,7 @@ namespace Isis {
     } /*end try*/
 
     catch(geos::util::IllegalArgumentException *ill) {
-      QString msg = "ERROR! geos exception 1 [";
+      std::string msg = "ERROR! geos exception 1 [";
       msg += (QString)ill->what() + "]";
       delete ill;
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -274,10 +274,10 @@ namespace Isis {
   Isis::Cube *ProcessPolygons::AppendOutputCube(const QString &avgFileName,
       const QString &countFileName) {
 
-    FileName *file = new FileName(avgFileName);
-    QString path = file->path();
-    QString filename = file->baseName();
-    QString extension = file->extension();
+    FileName *file = new FileName(avgFileName.toStdString());
+    QString path = QString::fromStdString(file->path());
+    QString filename = QString::fromStdString(file->baseName());
+    QString extension = QString::fromStdString(file->extension());
 
     /*Open the average file with read/write permission*/
     Cube *averageCube = new Cube();
@@ -361,9 +361,9 @@ namespace Isis {
     Isis::CubeAttributeOutput atts =
       Application::GetUserInterface().GetOutputAttribute(parameter);
 
-    FileName *file = new FileName(avgString);
-    QString path = file->path();
-    QString filename = file->baseName();
+    FileName *file = new FileName(avgString.toStdString());
+    QString path = QString::fromStdString(file->path());
+    QString filename = QString::fromStdString(file->baseName());
     QString countString = path + "/" + filename + "-count";
     SetStatCubes(avgString, countString, atts, nsamps, nlines, nbands);
 

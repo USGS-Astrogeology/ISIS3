@@ -57,7 +57,7 @@ namespace Isis {
       m_instrumentNameShort = "StowCam";
     }
     else {
-      QString msg = "Unable to construct OSIRIS-REx Navigation camera model. "
+      std::string msg = "Unable to construct OSIRIS-REx Navigation camera model. "
                     "Unrecognized NaifIkCode [" + toString(frameCode) + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }

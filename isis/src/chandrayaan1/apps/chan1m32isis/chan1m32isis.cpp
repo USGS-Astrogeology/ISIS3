@@ -85,7 +85,7 @@ namespace Isis {
 
     FileName in = ui.GetFileName("FROM");
 
-    Pvl pdsLabel(in.expanded().toStdString());
+    Pvl pdsLabel(in.expanded());
     if (fileType == (ProcessImportPds::L0 | ProcessImportPds::Rdn)) {
       //  Is this a L0 or L1B product?
       if ((std::string) pdsLabel["PRODUCT_TYPE"] == "RAW_IMAGE") {
@@ -101,7 +101,7 @@ namespace Isis {
       importPds.SetPdsFile(in.expanded(), "", pdsLabel, fileType);
     }
     catch(IException &e) {
-      QString msg = "Input file [" + in.expanded() +
+      std::string msg = "Input file [" + in.expanded() +
                    "] does not appear to be a Chandrayaan 1 M3 detached PDS label";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
@@ -178,7 +178,7 @@ namespace Isis {
                                  (firstEt - g_expectedLineRate / 2.0)) / g_expectedLineRate;
         }
         else {
-          QString msg = "Input file [" + in.expanded() +
+          std::string msg = "Input file [" + in.expanded() +
                        "] does not appear to have any records in the UTC_FILE table";
           throw IException(IException::User, msg, _FILEINFO_);
         }

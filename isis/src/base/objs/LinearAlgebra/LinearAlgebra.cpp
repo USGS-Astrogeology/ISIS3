@@ -383,7 +383,7 @@ namespace Isis {
    */
   LinearAlgebra::Matrix LinearAlgebra::identity(int size) {
     if (size < 1) {
-      QString msg = "Can not create identity matrix of negative size ["
+      std::string msg = "Can not create identity matrix of negative size ["
                     + toString((int) size) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -439,7 +439,7 @@ namespace Isis {
    */
   double LinearAlgebra::determinant(const Matrix &matrix) {
     if ( (matrix.size1() != matrix.size2()) || (matrix.size1() != 2 &&  matrix.size1() != 3) ) {
-      QString msg = "Unable to calculate the determinant for the given matrix. "
+      std::string msg = "Unable to calculate the determinant for the given matrix. "
                     "This method only calculates the determinant for 2x2 or 3x3 matrices."
                     "The given matrix is [" + toString((int) matrix.size1()) + "x"
                     + toString((int) matrix.size2()) + "].";
@@ -549,7 +549,7 @@ namespace Isis {
   LinearAlgebra::Matrix LinearAlgebra::multiply(const Matrix &matrix1, const Matrix &matrix2) {
     // Check to make sure we can multiply
     if (matrix1.size2() != matrix2.size1()) {
-      QString msg = "Unable to multiply matrices with mismatched dimensions. "
+      std::string msg = "Unable to multiply matrices with mismatched dimensions. "
                     "The left matrix has [" + toString((int) matrix1.size2())
                     + "] columns and the right matrix has [" + toString((int) matrix2.size1())
                     + "] rows.";
@@ -580,7 +580,7 @@ namespace Isis {
   LinearAlgebra::Vector LinearAlgebra::multiply(const Matrix &matrix, const Vector &vector) {
     // Check to make sure we can multiply
     if (matrix.size2() != vector.size()) {
-      QString msg = "Unable to multiply matrix and vector with mismatched dimensions."
+      std::string msg = "Unable to multiply matrix and vector with mismatched dimensions."
                     "The given vector has [" + toString((int) vector.size())
                     + "] components and the given matrix has ["
                     + toString((int) matrix.size2()) + "] columns.";
@@ -634,7 +634,7 @@ namespace Isis {
   LinearAlgebra::Vector LinearAlgebra::add(const Vector &vector1, const Vector &vector2) {
     // Vectors best be the same size
     if (vector1.size() != vector2.size()) {
-      QString msg = "Unable to add vectors with mismatched sizes."
+      std::string msg = "Unable to add vectors with mismatched sizes."
                     "Vector1 has [" + toString((int) vector1.size())
                     + "] components and vector2 has ["
                     + toString((int) vector2.size()) + "] components.";
@@ -660,7 +660,7 @@ namespace Isis {
   LinearAlgebra::Vector LinearAlgebra::subtract(const Vector &vector1, const Vector &vector2) {
     // Vectors best be the same size
     if (vector1.size() != vector2.size()) {
-      QString msg = "Unable to subtract vectors with mismatched sizes."
+      std::string msg = "Unable to subtract vectors with mismatched sizes."
                     "Vector1 has [" + toString((int) vector1.size())
                     + "] components and vector2 has ["
                     + toString((int) vector2.size()) + "] components.";
@@ -687,7 +687,7 @@ namespace Isis {
    */
   LinearAlgebra::Vector LinearAlgebra::crossProduct(const Vector &vector1, const Vector &vector2) {
     if ((vector1.size() != 3) || (vector2.size() != 3)) {
-      QString msg = "Unable to calculate the cross product on vectors that are not size 3. "
+      std::string msg = "Unable to calculate the cross product on vectors that are not size 3. "
                     "Vector1 has [" + toString((int) vector1.size())
                     + "] components and vector2 has ["
                     + toString((int) vector2.size()) + "] components.";
@@ -756,7 +756,7 @@ namespace Isis {
    */
   LinearAlgebra::Matrix LinearAlgebra::outerProduct(const Vector &vector1, const Vector &vector2) {
     if (vector1.size() != vector2.size()) {
-      QString msg = "Unable to compute the outer product for vectors with mismatched sizes."
+      std::string msg = "Unable to compute the outer product for vectors with mismatched sizes."
                     "Vector1 has [" + toString((int) vector1.size())
                     + "] components and vector2 has ["
                     + toString((int) vector2.size()) + "] components.";
@@ -800,7 +800,7 @@ namespace Isis {
    */
   double LinearAlgebra::innerProduct(const Vector &vector1, const Vector &vector2) {
     if (vector1.size() != vector2.size()) {
-      QString msg = "Unable to compute the dot product for vectors with mismatched sizes."
+      std::string msg = "Unable to compute the dot product for vectors with mismatched sizes."
                     "Vector1 has [" + toString((int) vector1.size())
                     + "] components and vector2 has ["
                     + toString((int) vector2.size()) + "] components.";
@@ -832,7 +832,7 @@ namespace Isis {
   // derived from naif's vproj routine
   LinearAlgebra::Vector LinearAlgebra::project(const Vector &vector1, const Vector &vector2) {
     if (vector1.size() != vector2.size()) {
-      QString msg = "Unable to project vector1 onto vector2 with mismatched sizes."
+      std::string msg = "Unable to project vector1 onto vector2 with mismatched sizes."
                     "Vector1 has [" + toString((int) vector1.size())
                     + "] components and vector2 has ["
                     + toString((int) vector2.size()) + "] components.";
@@ -872,7 +872,7 @@ namespace Isis {
   LinearAlgebra::Vector LinearAlgebra::rotate(const Vector &vector, const Vector &axis,
                                               Angle angle) {
     if ((vector.size() != 3) || (axis.size() != 3)) {
-      QString msg = "Unable to rotate vector about the given axis and angle. "
+      std::string msg = "Unable to rotate vector about the given axis and angle. "
                     "Vectors must be of size 3 to perform rotation. "
                     "The given vector has [" + toString((int) vector.size())
                     + "] components and the given axis has ["
@@ -973,7 +973,7 @@ namespace Isis {
   LinearAlgebra::AxisAngle LinearAlgebra::toAxisAngle(const Matrix &rotationMatrix) {
 
     if ((rotationMatrix.size1() != 3) || (rotationMatrix.size2() != 3)) {
-      QString msg = "Unable to convert the given matrix to an axis of rotation "
+      std::string msg = "Unable to convert the given matrix to an axis of rotation "
                     "and a rotation angle. A 3x3 matrix is required. The given matrix is ["
                     + toString((int) rotationMatrix.size1()) + "x"
                     + toString((int) rotationMatrix.size2()) + "].";
@@ -1053,7 +1053,7 @@ namespace Isis {
 
     // check there are 3 axes in the set {1,2,3} with center axis not equal to first or last
     if (axes.size() != 3) {
-      QString msg = "Unable to convert the given matrix to Euler angles. "
+      std::string msg = "Unable to convert the given matrix to Euler angles. "
                     "Exactly 3 axis codes are required. The given list has ["
                     + toString((int) axes.size()) + "] axes.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1064,14 +1064,14 @@ namespace Isis {
     if (!validAxes.contains(axes[0])
         || !validAxes.contains(axes[1])
         || !validAxes.contains(axes[2])) {
-      QString msg = "Unable to convert the given matrix to Euler angles using the given axis codes "
+      std::string msg = "Unable to convert the given matrix to Euler angles using the given axis codes "
                     "[" + toString(axes[0]) + ", " + toString(axes[1]) + ", " + toString(axes[2])
                     + "]. Axis codes must be 1, 2, or 3.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if (axes[0] == axes[1] || axes[1] == axes[2]) {
-      QString msg = "Unable to convert the given matrix to Euler angles using the given axis codes "
+      std::string msg = "Unable to convert the given matrix to Euler angles using the given axis codes "
                     "[" + toString(axes[0]) + ", " + toString(axes[1]) + ", " + toString(axes[2])
                     + "]. The middle axis code must differ from its neighbors.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1079,7 +1079,7 @@ namespace Isis {
 
     // check the matrix is 3x3 rotation
     if ((rotationMatrix.size1() != 3) || (rotationMatrix.size2() != 3)) {
-      QString msg = "Unable to convert the given matrix to Euler angles. A 3x3 matrix is required. "
+      std::string msg = "Unable to convert the given matrix to Euler angles. A 3x3 matrix is required. "
                     "The given matrix is ["
                     + toString((int) rotationMatrix.size1()) + "x"
                     + toString((int) rotationMatrix.size2()) + "].";
@@ -1211,7 +1211,7 @@ namespace Isis {
   LinearAlgebra::Vector LinearAlgebra::toQuaternion(const Matrix &rotationMatrix) {
 
     if ((rotationMatrix.size1() != 3) || (rotationMatrix.size2() != 3)) {
-      QString msg = "Unable to convert the given matrix to a quaternion. "
+      std::string msg = "Unable to convert the given matrix to a quaternion. "
                     "A 3x3 matrix is required. The given matrix is ["
                     + toString((int) rotationMatrix.size1()) + "x"
                     + toString((int) rotationMatrix.size2()) + "].";
@@ -1220,7 +1220,7 @@ namespace Isis {
 
     // if given matrix is not a rotation matrix, we can't proceed.
     if ( !isRotationMatrix(rotationMatrix) ) {
-      QString msg = "Unable to convert the given matrix to an axis of rotation "
+      std::string msg = "Unable to convert the given matrix to an axis of rotation "
                     "and a rotation angle. The given matrix is not a rotation matrix.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1404,7 +1404,7 @@ namespace Isis {
   // Derived from NAIF's axisar routine
   LinearAlgebra::Matrix LinearAlgebra::toMatrix(const Vector &axis, Angle angle) {
     if (axis.size() != 3) {
-      QString msg = "Unable to convert the given vector and angle to a rotation matrix. "
+      std::string msg = "Unable to convert the given vector and angle to a rotation matrix. "
                     "The given vector with size [" + toString((int) axis.size())
                     + "] is not a 3D axis vector.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1467,7 +1467,7 @@ namespace Isis {
     if (!validAxes.contains(angle3.second)
         || !validAxes.contains(angle2.second)
         || !validAxes.contains(angle1.second)) {
-      QString msg = "Unable to convert the given Euler angles to a matrix using the given axis "
+      std::string msg = "Unable to convert the given Euler angles to a matrix using the given axis "
                     "codes [" + toString(angle3.second) + ", " + toString(angle2.second) + ", "
                     + toString(angle1.second) + "]. Axis codes must be 1, 2, or 3.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1545,7 +1545,7 @@ namespace Isis {
   LinearAlgebra::Matrix LinearAlgebra::toMatrix(const QList<EulerAngle> &eulerAngles) {
 
     if (eulerAngles.size() != 3) {
-      QString msg = "Unable to convert the given Euler angles to a matrix. "
+      std::string msg = "Unable to convert the given Euler angles to a matrix. "
                     "Exactly 3 Euler angles are required. The given list has ["
                     + toString((int) eulerAngles.size()) + "] angles.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1571,7 +1571,7 @@ namespace Isis {
   // Derived from NAIF's q2m routine
   LinearAlgebra::Matrix LinearAlgebra::toMatrix(const Vector &quaternion) {
     if (quaternion.size() != 4) {
-      QString msg = "Unable to convert the given vector to a rotation matrix. "
+      std::string msg = "Unable to convert the given vector to a rotation matrix. "
                     "The given vector with [" + toString((int) quaternion.size())
                     + "] components is not a quaternion.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1625,7 +1625,7 @@ namespace Isis {
    */
   void LinearAlgebra::setRow(Matrix &matrix, const Vector &vector, int rowIndex) {
     if ( (rowIndex+1 > (int) matrix.size1()) ) {
-      QString msg = "Unable to set the matrix row to the given vector. Row index "
+      std::string msg = "Unable to set the matrix row to the given vector. Row index "
                     + toString(rowIndex) + " is out of bounds. The given matrix only has "
                     + toString((int) matrix.size1()) + " rows." ;
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1646,7 +1646,7 @@ namespace Isis {
    */
   void LinearAlgebra::setColumn(Matrix &matrix, const Vector &vector, int columnIndex) {
     if ( (columnIndex+1 > (int) matrix.size2()) ) {
-      QString msg = "Unable to set the matrix column to the given vector. Column index "
+      std::string msg = "Unable to set the matrix column to the given vector. Column index "
                     + toString(columnIndex) + " is out of bounds. The given matrix only has "
                     + toString((int) matrix.size1()) + " columns." ;
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1669,7 +1669,7 @@ namespace Isis {
    */
   LinearAlgebra::Vector LinearAlgebra::row(const Matrix &matrix, int rowIndex) {
     if ( (rowIndex+1 > (int) matrix.size1()) ) {
-      QString msg = "Unable to get the matrix row to the given vector. Row index "
+      std::string msg = "Unable to get the matrix row to the given vector. Row index "
                     + toString(rowIndex) + " is out of bounds. The given matrix only has "
                     + toString((int) matrix.size1()) + " rows." ;
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1692,7 +1692,7 @@ namespace Isis {
    */
   LinearAlgebra::Vector LinearAlgebra::column(const Matrix &matrix, int columnIndex) {
     if ( (columnIndex+1 > (int) matrix.size2()) ) {
-      QString msg = "Unable to get the matrix column to the given vector. Column index "
+      std::string msg = "Unable to get the matrix column to the given vector. Column index "
                     + toString(columnIndex) + " is out of bounds. The given matrix only has "
                     + toString((int) matrix.size1()) + " columns." ;
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1830,7 +1830,7 @@ namespace Isis {
     for (unsigned int i = 0; i < matrix.size1(); i++) {
       dbg.noquote() << "    ";
       for (unsigned int j = 0; j < matrix.size2(); j++) {
-        dbg.noquote() << toString(matrix(i, j), 15) << "     ";
+        dbg.noquote() << QString::fromStdString(toString(matrix(i, j), 15)) << "     ";
       }
      dbg.noquote() << Qt::endl;
     }
@@ -1852,7 +1852,7 @@ namespace Isis {
   QString toString(const LinearAlgebra::Vector &vector, int precision) {
     QString result = "( ";
     for (unsigned int i = 0; i < vector.size(); i++) {
-      result += toString(vector(i), precision);
+      result += QString::fromStdString(toString(vector(i), precision));
       if (i != vector.size() - 1) result += ", ";
     }
     result += " )";

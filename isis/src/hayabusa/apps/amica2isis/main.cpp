@@ -48,7 +48,7 @@ void IsisMain ()
     missid = QString::fromStdString(label.findKeyword ("INSTRUMENT_HOST_NAME", PvlObject::Traverse));
   }
   catch (IException &e) {
-    QString msg = "Unable to read [INSTRUMENT_ID] or [INSTRUMENT_HOST_NAME] "
+    std::string msg = "Unable to read [INSTRUMENT_ID] or [INSTRUMENT_HOST_NAME] "
                   "from input file [" + inFile.expanded() + "]";
     throw IException(e, IException::Io,msg, _FILEINFO_);
   }
@@ -56,7 +56,7 @@ void IsisMain ()
   instid = instid.simplified().trimmed();
   missid = missid.simplified().trimmed();
   if (missid != "HAYABUSA" && instid != "AMICA") {
-    QString msg = "Input file [" + inFile.expanded() +
+    std::string msg = "Input file [" + inFile.expanded() +
                   "] does not appear to be a " +
                   "Hayabusa/AMICA PDS label file.";
     throw IException(IException::Unknown, msg, _FILEINFO_);

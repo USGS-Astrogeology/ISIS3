@@ -230,7 +230,7 @@ void IsisMain() {
 
   asmModel = AtmosModelFactory::Create(asmPvl, *photoModel);
   if (asmModel == NULL) {
-    QString errMsg = "Unable create an Atmospheric Model\n";
+    std::string errMsg = "Unable create an Atmospheric Model\n";
     throw IException(IException::User, errMsg, _FILEINFO_);
   }
 
@@ -258,7 +258,7 @@ void IsisMain() {
   }
 
   if (inFile.getRow(0).dim() <= 1) {
-    QString msg = "File [" + sInFileName.expanded() + "] either has only one line item or is not delimited by a ',' or ' '.";
+    std::string msg = "File [" + sInFileName.expanded() + "] either has only one line item or is not delimited by a ',' or ' '.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -277,7 +277,7 @@ void IsisMain() {
         angles.push_back(toDouble(row[j]));
       }
       catch (IException &e) {
-        QString msg = "Unable to convert (" + toString(i) + ", " + toString(j) + 
+        std::string msg = "Unable to convert (" + toString(i) + ", " + toString(j) + 
         ") element [" + row[j] + "] to double. You may want to check for excess delimiters." + 
         "Current delimiter is set to '" + inFile.getDelimiter() + "'";
         throw IException(IException::User, msg, _FILEINFO_);

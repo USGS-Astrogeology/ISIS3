@@ -663,7 +663,7 @@ namespace Isis {
 
     // Ensure that we are not using a NULL pointer
     if (!project) {
-      QString msg = "Cannot write settings with a NULL Project pointer.";
+      std::string msg = "Cannot write settings with a NULL Project pointer.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     QSettings projectSettings(FileName(project->newProjectRoot() + "/ipce.config").expanded(),
@@ -702,7 +702,7 @@ namespace Isis {
   void IpceMainWindow::readSettings(Project *project) {
     // Ensure that the Project pointer is not NULL
     if (!project) {
-      QString msg = "Cannot read settings with a NULL Project pointer.";
+      std::string msg = "Cannot read settings with a NULL Project pointer.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

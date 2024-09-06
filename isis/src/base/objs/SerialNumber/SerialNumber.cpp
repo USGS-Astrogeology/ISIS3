@@ -48,7 +48,7 @@ namespace Isis {
         //  "Unknown" as a last resort.
         QString snTemp = QString::fromStdString(label.fileName());
         if(!snTemp.isEmpty()) {
-          sn = FileName(snTemp).name();
+          sn = QString::fromStdString(FileName(snTemp.toStdString()).name());
         }
         else {
           sn = "Unknown";
@@ -135,11 +135,11 @@ namespace Isis {
       if(translationIterator == missionTranslators.end()) {
         // Get the file
 
-        FileName snFile((QString) "$ISISROOT/appdata/translations/" + mission + instrument + "SerialNumber.trn");
+        FileName snFile("$ISISROOT/appdata/translations/" + mission.toStdString() + instrument.toStdString() + "SerialNumber.trn");
 
         // use the translation file to generate keywords
         missionTranslators.insert(
-          std::pair<QString, PvlToPvlTranslationManager>(key, PvlToPvlTranslationManager(snFile.expanded()))
+          std::pair<QString, PvlToPvlTranslationManager>(key, PvlToPvlTranslationManager(QString::fromStdString(snFile.expanded())))
         );
 
         translationIterator = missionTranslators.find(key);

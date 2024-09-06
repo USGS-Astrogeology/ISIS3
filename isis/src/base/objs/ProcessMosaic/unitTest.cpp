@@ -543,7 +543,7 @@ void IsisMain() {
     m.EndProcess();
   }
   catch (IException &e) {
-    QString message = e.toString();
+    std::string message = e.toString();
     qDebug().noquote() << message.replace(QRegExp("cube.*base/unitTestData"), "cube [base/unitTestData");
     p.EndProcess();
     qDebug() << "";

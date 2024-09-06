@@ -58,12 +58,12 @@ namespace Isis {
     csm::Model *model = nullptr;
 
     if (ui.WasEntered("ISD") && ui.WasEntered("STATE")) {
-      QString message = "Cannot enter both [ISD] and [STATE]. Please enter either [ISD] or [STATE].";
+      std::string message = "Cannot enter both [ISD] and [STATE]. Please enter either [ISD] or [STATE].";
       throw IException(IException::User, message, _FILEINFO_);
     }
 
     else if (!ui.WasEntered("ISD") && !ui.WasEntered("STATE")) {
-      QString message = "Either an ISD or a State string must be entered.";
+      std::string message = "Either an ISD or a State string must be entered.";
       throw IException(IException::User, message, _FILEINFO_);
     }
 
@@ -106,7 +106,7 @@ namespace Isis {
       }
 
       if (possibleModels.size() > 1) {
-        QString message = "Multiple models can be created from the ISD [" + isdFilePath + "]. "
+        std::string message = "Multiple models can be created from the ISD [" + isdFilePath + "]. "
                           "Re-run with the PLUGINNAME and MODELNAME parameters. "
                           "Possible plugin & model names:\n";
         for (const QStringList &modelSpec : possibleModels) {
@@ -132,7 +132,7 @@ namespace Isis {
       QStringList modelSpec = possibleModels.front();
 
       if (modelSpec.size() != 3) {
-        QString message = "Model specification [" + modelSpec.join(" ") + "] has [" + modelSpec.size() + "] elements "
+        std::string message = "Model specification [" + modelSpec.join(" ") + "] has [" + modelSpec.size() + "] elements "
           "when it should have 3 elements.";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
@@ -143,7 +143,7 @@ namespace Isis {
 
       const csm::Plugin *plugin = csm::Plugin::findPlugin(pluginName.toStdString());
       if (plugin == NULL) {
-        QString message = "Cannot find requested Plugin: [" + pluginName + "].";
+        std::string message = "Cannot find requested Plugin: [" + pluginName + "].";
         throw IException(IException::User, message, _FILEINFO_);
       }
 
@@ -156,21 +156,21 @@ namespace Isis {
         model = plugin->constructModelFromISD(nitf21Isd, modelName.toStdString());
       }
       else {
-        QString message = "Invalid ISD format specifications [" + isdFormat + "].";
+        std::string message = "Invalid ISD format specifications [" + isdFormat + "].";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
     } // end of ISD if statement
 
     else if (ui.WasEntered("STATE")) {
-      FileName stateFilePath = ui.GetFileName("STATE");
+      FileName stateFilePath = ui.GetFileName("STATE").toStdString();
 
-      std::ifstream file(stateFilePath.expanded().toStdString());
+      std::ifstream file(stateFilePath.expanded());
       std::stringstream buffer;
       buffer << file.rdbuf();
       QString stateString = QString::fromStdString(buffer.str());
 
       if (!ui.WasEntered("PLUGINNAME") && !ui.WasEntered("MODELNAME")) {
-        QString message = "When using a State string, PLUGINNAME and MODELNAME must be specified";
+        std::string message = "When using a State string, PLUGINNAME and MODELNAME must be specified";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
       pluginName = ui.GetString("PLUGINNAME");
@@ -178,7 +178,7 @@ namespace Isis {
 
       const csm::Plugin *plugin = csm::Plugin::findPlugin(pluginName.toStdString());
       if (plugin == NULL) {
-        QString message = "Cannot find requested Plugin: [" + pluginName + "].";
+        std::string message = "Cannot find requested Plugin: [" + pluginName + "].";
         throw IException(IException::User, message, _FILEINFO_);
       }
 
@@ -187,7 +187,7 @@ namespace Isis {
         model = plugin->constructModelFromState(stateString.toStdString());
       }
       else {
-        QString message = "Could not construct sensor model using STATE string and MODELNAME: [" + modelName + "]";
+        std::string message = "Could not construct sensor model using STATE string and MODELNAME: [" + modelName + "]";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
     } // end of State else statement
@@ -488,7 +488,7 @@ namespace Isis {
         cube->write(originalFootprint);
       }
 
-      QString message = "Failed to create a CSMCamera.";
+      std::string message = "Failed to create a CSMCamera.";
       throw IException(e, IException::Unknown, message, _FILEINFO_);
     }
   }

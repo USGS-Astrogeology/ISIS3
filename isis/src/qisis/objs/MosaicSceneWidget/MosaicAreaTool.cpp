@@ -199,7 +199,7 @@ namespace Isis {
             }
           }
           else {
-          QString message = "Lat/Lon not within this view.";
+          std::string message = "Lat/Lon not within this view.";
           QMessageBox::information(getWidget(), "Cannot Calculate Box",
                                   message, QMessageBox::Ok);
           }

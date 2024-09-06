@@ -147,7 +147,7 @@ namespace Isis {
       loadInteger(tbl);
     }
     else {
-      QString msg = "Field type for " + getFieldName() +
+      std::string msg = "Field type for " + getFieldName().toStdString() +
                    " is not double or integer";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

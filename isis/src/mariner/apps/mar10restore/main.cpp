@@ -28,7 +28,7 @@ void IsisMain() {
   // Check that it is a Mariner10 cube.
   Pvl * labels = cube.label();
   if ("Mariner_10" !=  QString::fromStdString(labels->findKeyword("SpacecraftName", Pvl::Traverse))) {
-    QString msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
       " to be a Mariner10 cube";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -41,7 +41,7 @@ void IsisMain() {
   stats = cp.Statistics();
   // Maximum possible number of good pixels in a 5x5
   if(stats->ValidPixels() > 8) {
-    QString msg = "The cube [" + ui.GetCubeName("FROM") + "] does not need" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] does not need" +
       " reconstruction, try mar10clean instead";
     throw IException(IException::User, msg, _FILEINFO_);
   }

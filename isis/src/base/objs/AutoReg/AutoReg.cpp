@@ -280,7 +280,7 @@ namespace Isis {
     else {
       throw IException(IException::User,
                        "Invalid Gradient type.  Cannot use ["
-                       + gradientFilterType + "] to filter chip",
+                       + gradientFilterType.toStdString() + "] to filter chip",
                        _FILEINFO_);
     }
   }
@@ -452,7 +452,7 @@ namespace Isis {
     else {
       throw IException(IException::User,
                        "Invalid Interpolator type.  Cannot use ["
-                       + interpolator + "] to load chip",
+                       + interpolator.toStdString() + "] to load chip",
                        _FILEINFO_);
     }
 

@@ -71,13 +71,13 @@ void IsisMain() {
 
       // Does it exist?
       if(!mapFile.fileExists()) {
-        QString msg = "Filename [" + ui.GetFileName("MAP") + "] does not exist";
+        std::string msg = "Filename [" + ui.GetFileName("MAP") + "] does not exist";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       // Load it up into a new projection
       Pvl mapPvl;
-      mapPvl.read(mapFile.expanded().toStdString());
+      mapPvl.read(mapFile.expanded());
       RingPlaneProjection *altmap = (RingPlaneProjection *) ProjectionFactory::CreateFromCube(mapPvl);
 
       // Set lat and lon in its system
@@ -130,7 +130,7 @@ void IsisMain() {
   if(proj->IsGood()) {
     PvlGroup results("Results");
     results += PvlKeyword("Filename",
-                          FileName(ui.GetCubeName("FROM")).expanded().toStdString());
+                          FileName(ui.GetCubeName("FROM")).expanded());
     results += PvlKeyword("Sample", std::to_string(proj->WorldX()));
     results += PvlKeyword("Line", std::to_string(proj->WorldY()));
     results += PvlKeyword("PixelValue", PixelToString(b[0]).toStdString());
@@ -243,12 +243,12 @@ void IsisMain() {
       }
     }
     else if(ui.GetString("FORMAT") == "FLAT") {
-      QString msg = "Flat file must have a name.";
+      std::string msg = "Flat file must have a name.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
   else {
-    QString msg = "Could not project requested position";
+    std::string msg = "Could not project requested position";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
 }

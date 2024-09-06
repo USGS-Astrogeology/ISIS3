@@ -61,7 +61,7 @@ namespace Isis {
       // Open the JP2 source
       JP2_Source = new jp2_source();
       if(!JP2_Source->open(JP2_Stream)) {
-        QString msg = "Unable to open the decoder because the source file ";
+        std::string msg = "Unable to open the decoder because the source file ";
         msg += "does not have valid JP2 format content [" + p_jp2File + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -86,7 +86,7 @@ namespace Isis {
       p_pixelBytes = (p_pixelBits >> 3) + ((p_pixelBits % 8) ? 1 : 0);
       if(p_pixelBytes == 3) p_pixelBytes = 4;
       if(p_pixelBits > 16 || p_pixelBytes > 2) {
-        QString msg = "The source file has unsupported pixel type ";
+        std::string msg = "The source file has unsupported pixel type ";
         msg += "[" + p_jp2File + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }

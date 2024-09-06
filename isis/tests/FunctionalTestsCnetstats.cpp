@@ -218,7 +218,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetstatsInvalidDefFile) {
   Pvl log;
   QString serialNumList = tempDir.path() + "/cubes.lis";
 
-  QString message = "Invalid Deffile";
+  std::string message = "Invalid Deffile";
   try {
     cnetstats(*network, serialNumList, options, &log);
     FAIL() << "Expected an exception to be thrown";

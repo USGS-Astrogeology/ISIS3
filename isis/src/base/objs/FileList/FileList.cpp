@@ -52,9 +52,9 @@ namespace Isis {
   void FileList::read(FileName listFile) {
     // Open the file
     ifstream istm;
-    istm.open(listFile.toString().toLatin1().data(), std::ios::in);
+    istm.open(listFile.toString().c_str(), std::ios::in);
     if(!istm) {
-      QString message = Isis::Message::FileOpen(listFile.toString());
+      std::string message = Isis::Message::FileOpen(listFile.toString());
       throw IException(IException::Io, message, _FILEINFO_);
     }
 
@@ -67,7 +67,7 @@ namespace Isis {
     }
     catch (IException &e) {
       istm.close();
-      QString msg = "File [" + listFile.toString() + "] contains no data";
+      std::string msg = "File [" + listFile.toString() + "] contains no data";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -136,7 +136,7 @@ namespace Isis {
           s = s.Token(" \n\r\t\v,");
         }
 
-        this->push_back(s.ToQt());
+        this->push_back(s);
       }
 
     } while(!in.eof());
@@ -158,9 +158,9 @@ namespace Isis {
   void FileList::write(FileName outputFileList) {
     // Open the file
     ofstream ostm;
-    ostm.open(outputFileList.toString().toLatin1().data(), std::ios::out);
+    ostm.open(outputFileList.toString().c_str(), std::ios::out);
     if (!ostm) {
-      QString message = Message::FileOpen(outputFileList.toString());
+      std::string message = Message::FileOpen(outputFileList.toString());
       throw IException(IException::Io, message, _FILEINFO_);
     }
 

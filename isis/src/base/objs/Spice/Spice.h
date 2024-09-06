@@ -9,6 +9,7 @@ find files of those names at the top level of this repository. **/
 
 #include <string>
 #include <vector>
+#include <QVariant>
 
 #include <SpiceUsr.h>
 #include <SpiceZfc.h>

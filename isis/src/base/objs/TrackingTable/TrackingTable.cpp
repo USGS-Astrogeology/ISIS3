@@ -40,13 +40,13 @@ namespace Isis {
     for (int i=0; i < table.Records(); i++) {
       TableRecord record = table[i];
       QString nameField = QString::fromStdString(record["FileName"]).split("/").last();
-      QString extension(FileName(nameField).extension());
+      QString extension(QString::fromStdString(FileName(nameField.toStdString()).extension()));
       int found = nameField.lastIndexOf(extension);
       if (found != -1) {
         // clear the packing characters - get only the file name
         nameField.remove(found + 3);
       }
-      FileName fileName(nameField);
+      FileName fileName(nameField.toStdString());
       std::string serialNumber = record["SerialNumber"];
       m_fileList.append(QPair<FileName, QString>(fileName, QString::fromStdString(serialNumber)));
     }
@@ -94,7 +94,7 @@ namespace Isis {
     // Loop through m_fileList and add records to the table with the proper information.
     for (int i=0; i < m_fileList.size(); i++) {
 
-      fileNameField = m_fileList[i].first.name().toStdString();
+      fileNameField = m_fileList[i].first.name();
       serialNumberField = m_fileList[i].second.toStdString();
       indexField = (int) (i + VALID_MINUI4);
 
@@ -119,7 +119,7 @@ namespace Isis {
   */
   FileName TrackingTable::pixelToFileName(unsigned int pixel) {
     if (pixel < VALID_MINUI4) {
-      QString msg = "Cannot convert pixel [" + toString(pixel)
+      std::string msg = "Cannot convert pixel [" + toString(pixel)
                   + "] to a filename, pixel is below valid minimum ["
                   + toString(VALID_MINUI4) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -127,7 +127,7 @@ namespace Isis {
 
     unsigned int index = pixel - VALID_MINUI4;
     if (index >= (unsigned int)m_fileList.size()) {
-      QString msg = "Cannot convert pixel [" + toString(pixel)
+      std::string msg = "Cannot convert pixel [" + toString(pixel)
                   + "] to a filename, pixel is above valid maximum ["
                   + toString(VALID_MINUI4 + m_fileList.size()) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -149,7 +149,7 @@ namespace Isis {
   */
   unsigned int TrackingTable::fileNameToPixel(FileName file, QString serialNumber) {
     for (int i = 0; i < m_fileList.size(); i++) {
-      if (QString::compare(m_fileList[i].first.toString(), file.name()) == 0) {
+      if (QString::compare(QString::fromStdString(m_fileList[i].first.toString()), QString::fromStdString(file.name())) == 0) {
         return i + VALID_MINUI4;
       }
     }
@@ -169,7 +169,7 @@ namespace Isis {
   */
   QString TrackingTable::pixelToSN(unsigned int pixel) {
     if (pixel < VALID_MINUI4) {
-      QString msg = "Cannot convert pixel [" + toString(pixel)
+      std::string msg = "Cannot convert pixel [" + toString(pixel)
                   + "] to a serial number, pixel is below valid minimum ["
                   + toString(VALID_MINUI4) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -177,7 +177,7 @@ namespace Isis {
 
     unsigned int index = pixel - VALID_MINUI4;
     if (index >= (unsigned int)m_fileList.size()) {
-      QString msg = "Cannot convert pixel [" + toString(pixel)
+      std::string msg = "Cannot convert pixel [" + toString(pixel)
                   + "] to a serial number, pixel is above valid maximum ["
                   + toString(VALID_MINUI4 + m_fileList.size()) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);

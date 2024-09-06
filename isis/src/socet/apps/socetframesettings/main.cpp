@@ -60,7 +60,7 @@ void IsisMain() {
   cube.open(from);
 
   if (cube.isProjected()) {
-    QString msg = QString("You can only create a SOCET Set Framing Camera or FrameOffAxis settings "
+    std::string msg = QString("You can only create a SOCET Set Framing Camera or FrameOffAxis settings "
                           "file for level 1 images. The input image [%1] is a map projected, level "
                           "2, cube.").arg(from);
     throw IException(IException::User, msg, _FILEINFO_);
@@ -76,7 +76,7 @@ void IsisMain() {
   PvlGroup test = cube.label()->findGroup("Kernels", Pvl::Traverse);
   QString instrumentPointing = QString::fromStdString(test["InstrumentPointing"]);
   if (instrumentPointing != "Table") {
-    QString msg = QString("Input image [%1] does not contain needed SPICE blobs.  Please run "
+    std::string msg = QString("Input image [%1] does not contain needed SPICE blobs.  Please run "
                           "spiceinit on the image with attach=yes.").arg(from);
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -202,7 +202,7 @@ void IsisMain() {
       socetCamFile += "OCAMS_PolyCam.cam";
     }
     else {
-      QString msg = QString("The ISIS to SOCET Set translation of input image "
+      std::string msg = QString("The ISIS to SOCET Set translation of input image "
                             "[%1] is currently not supported for OSIRIS-REX "
                             "instrument [%2].").arg(from).arg(instrumentId);
       throw IException(IException::User, msg, _FILEINFO_);
@@ -210,7 +210,7 @@ void IsisMain() {
   }
   // Throw exception for unsupported camera
   else {
-    QString msg = QString("The ISIS to SOCET Set translation of input image [%1] is currently "
+    std::string msg = QString("The ISIS to SOCET Set translation of input image [%1] is currently "
                           "not supported for instrument [%2].").arg(from).arg(instrumentId);
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -225,7 +225,7 @@ void IsisMain() {
   //      summation = (int) detectorMap->SampleScaleFactor();
   //    }
   //    catch (IException &e) {
-  //      QString msg = "Error reading SpatialSumming from Instrument label";
+  //      std::string msg = "Error reading SpatialSumming from Instrument label";
   //      throw IException(IException::User, msg, _FILEINFO_);
   //    }
   //  }
@@ -235,7 +235,7 @@ void IsisMain() {
       summation = (int) detectorMap->SampleScaleFactor();
     }
     catch (IException &e) {
-      QString msg = "Error reading Summing from Instrument label";
+      std::string msg = "Error reading Summing from Instrument label";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -245,7 +245,7 @@ void IsisMain() {
       summation = (int) detectorMap->SampleScaleFactor();
     }
     catch (IException &e) {
-      QString msg = "Error reading Summing from Instrument label";
+      std::string msg = "Error reading Summing from Instrument label";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -282,7 +282,7 @@ void IsisMain() {
 
   toStrm.open (to.toLatin1().data(), ios::trunc);
   if (toStrm.bad()) {
-    QString msg = "Unable to open output settings file";
+    std::string msg = "Unable to open output settings file";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -871,7 +871,7 @@ void getCamPosOPK(Spice &spice, QString spacecraftName, SpiceDouble et, Camera *
 
   // Confirm that matrix is now a rotation matrix
   else {
-    QString msg = QString("The ISIS to SOCET Set translation of input image is currently "
+    std::string msg = QString("The ISIS to SOCET Set translation of input image is currently "
                           "not supported for instrument [%1].").arg(spacecraftName);
     throw IException(IException::User, msg, _FILEINFO_);
   }

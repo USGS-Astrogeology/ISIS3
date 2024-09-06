@@ -27,9 +27,9 @@ void IsisMain() {
   FileName input = FileName(ui.GetFileName("FROM"));
 
   //Checks if in file is rdr
-  Pvl lab(input.expanded().toStdString());
+  Pvl lab(input.expanded());
   if(lab.hasObject("IMAGE_MAP_PROJECTION")) {
-    QString msg = "[" + input.name() + "] has already been projected.";
+    std::string msg = "[" + input.name() + "] has already been projected.";
     msg += " Use pds2isis.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -64,7 +64,7 @@ void TranslateMerEdrLabels(FileName &labelFile, Cube *ocube) {
   QString transDir = "$ISISROOT/appdata/translations/";
 
   // Get a filename for the MESSENGER EDR label
-  Pvl labelPvl(labelFile.expanded().toStdString());
+  Pvl labelPvl(labelFile.expanded());
   FileName transFile;
 
   // Translate the Archive group

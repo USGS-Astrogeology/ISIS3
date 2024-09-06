@@ -89,7 +89,7 @@ namespace Isis {
     QStringList parts = parse(config, "@");
 
     if ( parts.isEmpty() ) {
-      QString mess = "No config string provided in FeatureInventory::getFeature";
+      std::string mess = "No config string provided in FeatureInventory::getFeature";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 
@@ -101,7 +101,7 @@ namespace Isis {
       return ( creator( variables, config) );
     }
     else {
-      QString mess = name + "Feature2D not found or invalid";
+      std::string mess = name + "Feature2D not found or invalid";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 
@@ -114,7 +114,7 @@ namespace Isis {
   FeatureAlgorithmPtr FeatureInventory::getDetector(const QString &config) const {
     FeatureAlgorithmPtr algo = getFeature(config);
     if ( !algo->hasDetector() ) {
-      QString mess = "Specification does not define a detector:\n" + config;
+      std::string mess = "Specification does not define a detector:\n" + config;
       throw IException(IException::User, mess, _FILEINFO_);
     }
     return ( algo );
@@ -124,7 +124,7 @@ namespace Isis {
   FeatureAlgorithmPtr FeatureInventory::getExtractor(const QString &config) const {
     FeatureAlgorithmPtr algo = getFeature(config);
     if ( !algo->hasExtractor() ) {
-      QString mess = "Specification does not define an extractor:\n" + config;
+      std::string mess = "Specification does not define an extractor:\n" + config;
       throw IException(IException::User, mess, _FILEINFO_);
     }
     return ( algo );
@@ -135,7 +135,7 @@ namespace Isis {
     QStringList parts = parse(config, "@");
 
     if ( parts.isEmpty() ) {
-      QString mess = "No config string provided in FeatureInventory::getMatcher";
+      std::string mess = "No config string provided in FeatureInventory::getMatcher";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 
@@ -148,7 +148,7 @@ namespace Isis {
       return ( matcher(variables, config));
     }
     else {
-      QString mess = c_name + " Matcher not found or invalid";
+      std::string mess = c_name + " Matcher not found or invalid";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 
@@ -187,7 +187,7 @@ namespace Isis {
         algorithmObject = getMatcher(lowerName)->info();
       }
       else {
-        QString mess = "Algorithm [" + algorithmName +
+        std::string mess = "Algorithm [" + algorithmName +
                       "] is not a supported OpenCV3 algorithm.";
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -222,7 +222,7 @@ namespace Isis {
       }
     }
     else {
-      QString mess = "Algorithm [" + algorithmName +
+      std::string mess = "Algorithm [" + algorithmName +
                      "] is not a supported OpenCV3 algorithm.";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }

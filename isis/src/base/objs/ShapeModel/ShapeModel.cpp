@@ -415,7 +415,7 @@ namespace Isis {
       return m_normal;
     }
     else {
-      QString message = "The normal has not been computed.";
+      std::string message = "The normal has not been computed.";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
   }
@@ -434,7 +434,7 @@ namespace Isis {
       return m_localNormal;
     }
     else {
-      QString message = "The local normal has not been computed.";
+      std::string message = "The local normal has not been computed.";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
   }
@@ -497,7 +497,7 @@ namespace Isis {
       return m_target->radii();
     }
     else {
-      QString message = "Unable to find target radii for ShapeModel. Target is NULL. ";
+      std::string message = "Unable to find target radii for ShapeModel. Target is NULL. ";
       throw IException(IException::Programmer, message, _FILEINFO_);
      }
   }
@@ -520,7 +520,7 @@ namespace Isis {
       m_hasNormal = true;
     }
     else {
-      QString message = "No intersection point is known.  A normal cannot be set.";
+      std::string message = "No intersection point is known.  A normal cannot be set.";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
   }
@@ -542,7 +542,7 @@ namespace Isis {
       m_hasLocalNormal = true;
     }
     else {
-      QString message = "No intersection point is known.  A local normal cannot be set.";
+      std::string message = "No intersection point is known.  A local normal cannot be set.";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
   }
@@ -569,7 +569,7 @@ namespace Isis {
       m_hasNormal = true;
     }
     else {
-      QString message = "No intersection point is known.  A normal cannot be set.";
+      std::string message = "No intersection point is known.  A normal cannot be set.";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
   }
@@ -595,7 +595,7 @@ namespace Isis {
       m_hasLocalNormal = true;
     }
     else {
-      QString message = "No intersection point is known.  A local normal cannot be set.";
+      std::string message = "No intersection point is known.  A local normal cannot be set.";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
   }
@@ -683,7 +683,7 @@ namespace Isis {
       return m_target->spice()->resolution();
     }
     else {
-      QString message = "No valid intersection point for computing resolution.";
+      std::string message = "No valid intersection point for computing resolution.";
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
   }

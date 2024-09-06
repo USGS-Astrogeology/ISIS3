@@ -88,7 +88,7 @@ void IsisMain() {
     // Write the results
 
     if(!ui.WasEntered("TO")) {
-      QString msg = "The [TO] parameter must be entered";
+      std::string msg = "The [TO] parameter must be entered";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     QString outfile = ui.GetFileName("TO");
@@ -104,7 +104,7 @@ void IsisMain() {
       hist = new Histogram(net, &ControlMeasure::GetResidualMagnitude, ui.GetDouble("BIN_WIDTH"));
     }
     catch (IException &e) {
-      QString msg = "The following error was thrown while building a histogram from netfile [" +
+      std::string msg = "The following error was thrown while building a histogram from netfile [" +
                     fList[i].expanded() + "]: " +e.toString() + "\n";
       if (ui.IsInteractive())  //if in gui mode print the error message to the terminal
         Application::GuiLog(msg);

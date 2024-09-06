@@ -284,7 +284,7 @@ geos::geom::Geometry* ProcessGroundPolygons::Vectorize(std::vector<double> &lat,
       const QString &avgFileName,
       const QString &countFileName) {
     /*We need a ground map for converting lat/long to line/sample  see Convert()*/
-    Cube cube(cubeStr, "r");
+    Cube cube(cubeStr.toStdString(), "r");
     p_groundMap = new UniversalGroundMap(cube);
     ProcessPolygons::AppendOutputCube(avgFileName, countFileName);
 
@@ -305,7 +305,7 @@ geos::geom::Geometry* ProcessGroundPolygons::Vectorize(std::vector<double> &lat,
       Isis::CubeAttributeOutput &outAtts,
       QString &cubeStr) {
     /*We need a ground map for converting lat/long to line/sample  see Convert()*/
-    Cube cube(cubeStr);
+    Cube cube(cubeStr.toStdString());
     p_groundMap = new UniversalGroundMap(cube);
 
     /*setup input cube to transfer projection or camera labels*/
@@ -343,9 +343,9 @@ geos::geom::Geometry* ProcessGroundPolygons::Vectorize(std::vector<double> &lat,
     CubeAttributeOutput atts =
       Application::GetUserInterface().GetOutputAttribute(parameter);
 
-    FileName file(avgString);
-    QString path = file.path();
-    QString filename = file.baseName();
+    FileName file(avgString.toStdString());
+    QString path = QString::fromStdString(file.path());
+    QString filename = QString::fromStdString(file.baseName());
     QString countString = path + "/" + filename + "-count-";
 
     SetStatCubes(avgString, countString, atts, cube);
@@ -368,9 +368,9 @@ geos::geom::Geometry* ProcessGroundPolygons::Vectorize(std::vector<double> &lat,
     CubeAttributeOutput atts =
       Application::GetUserInterface().GetOutputAttribute(parameter);
 
-    FileName file(avgString);
-    QString path = file.path();
-    QString filename = file.baseName();
+    FileName file(avgString.toStdString());
+    QString path = QString::fromStdString(file.path());
+    QString filename = QString::fromStdString(file.baseName());
     QString countString = path + "/" + filename + "-count-";
 
     SetStatCubes(avgString, countString, atts, map, bands);

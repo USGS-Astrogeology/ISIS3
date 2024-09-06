@@ -160,7 +160,7 @@ int main(int argc, char *argv[]) {
     ControlNetVersioner invalidVersionerV1(badCnetName);
   }
   catch (IException &e) {
-    QString message = e.toString();
+    std::string message = e.toString();
     cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData");
     cout << endl;
   }
@@ -169,7 +169,7 @@ int main(int argc, char *argv[]) {
     ControlNetVersioner invalidVersionerV2(badCnetName);
   }
   catch (IException &e) {
-    QString message = e.toString();
+    std::string message = e.toString();
     cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData");
     cout << endl;
   }
@@ -178,7 +178,7 @@ int main(int argc, char *argv[]) {
     ControlNetVersioner invalidVersionerV3(badCnetName);
   }
   catch (IException &e) {
-    QString message = e.toString();
+    std::string message = e.toString();
     cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData");
     cout << endl;
   }
@@ -187,7 +187,7 @@ int main(int argc, char *argv[]) {
     ControlNetVersioner invalidVersionerV4(badCnetName);
   }
   catch (IException &e) {
-    QString message = e.toString();
+    std::string message = e.toString();
     cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData");
     cout << endl;
   }
@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
     ControlNetVersioner invalidVersionerV5(badCnetName);
   }
   catch (IException &e) {
-    QString message = e.toString();
+    std::string message = e.toString();
     cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData");
     cout << endl;
   }

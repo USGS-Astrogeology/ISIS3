@@ -54,7 +54,7 @@ namespace Isis {
       m_instrumentNameShort = "FC2";
     }
     else {
-      QString msg = "File does not appear to be a Dawn Framing Camera image. ";
+      std::string msg = "File does not appear to be a Dawn Framing Camera image. ";
       msg += "(" + QString::number(ikCode) + " is not a Dawn FC instrument code)";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

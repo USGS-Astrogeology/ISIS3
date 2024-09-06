@@ -90,7 +90,7 @@ namespace Isis {
 
         // Parse the XML with Qt's XML parser... kindof convoluted, I'm sorry
         QDomDocument document;
-        QString error;
+        std::string error;
         int errorLine, errorCol;
         if ( document.setContent(QString(xml), &error, &errorLine, &errorCol) ) {
           QDomElement rootElement = document.firstChild().toElement();
@@ -127,7 +127,7 @@ namespace Isis {
         }
       }
       else {
-        QString msg = "Unable to read input file";
+        std::string msg = "Unable to read input file";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -136,7 +136,7 @@ namespace Isis {
         QStringList remoteVersion = otherVersion.split(QRegExp("\\s+"))[0].split(QRegExp("\\."));
         if ( remoteVersion[0].toInt() <= 3 && remoteVersion[1].toInt() < 5) {
 
-         QString msg ="The SPICE server only supports Isis versions greater than or equal to 3.5.*.*.";
+         std::string msg ="The SPICE server only supports Isis versions greater than or equal to 3.5.*.*.";
                  msg += "Your version:   [" + otherVersion + "] is not compatible";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -272,10 +272,10 @@ namespace Isis {
          *
          * This program has read and write access on the spice server in /tmp/spice_web_service.
          */
-        inputLabels = FileName::createTempFile( ui.GetCubeName("TEMPFILE") );
-        label.write( inputLabels.expanded().toStdString() );
+        inputLabels = FileName::createTempFile(ui.GetCubeName("TEMPFILE").toStdString());
+        label.write(inputLabels.expanded());
         Cube cube;
-        cube.open(inputLabels.expanded(), "rw");
+        cube.open(QString::fromStdString(inputLabels.expanded()), "rw");
         kernelSuccess = tryKernels(cube, ui, log, label, p, lk, pck, targetSpk,
                                    realCkKernel, fk, ik, sclk, spk,
                                    iak, dem, exk);
@@ -287,7 +287,7 @@ namespace Isis {
       else {
         packageKernels( ui.GetFileName("TO") );
       }
-      remove( inputLabels.expanded().toLatin1() ); //clean up
+      remove(inputLabels.expanded().c_str()); //clean up
       p.EndProcess();
     }
     catch (...) {
@@ -516,7 +516,7 @@ namespace Isis {
 
     QFile tableFile(file);
     if ( !tableFile.open(QIODevice::ReadOnly) ) {
-      QString msg = "Unable to read temporary file [" + file + "]";
+      std::string msg = "Unable to read temporary file [" + file + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 

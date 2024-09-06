@@ -73,17 +73,17 @@ namespace Isis {
     m_visibleBlocks = NULL;
 
     if (storedMatrixData.name() != "CorrelationMatrixData") {
-      QString msg = "This Pvl Object does not have the correct correlation information. The Object "
+      std::string msg = "This Pvl Object does not have the correct correlation information. The Object "
                     "you are looking for is called CorrelationMatrixData.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     try {
       m_covarianceFileName =
-          new FileName(QString::fromStdString(storedMatrixData.findKeyword("CovarianceMatrixFileName")[0]));
+          new FileName(storedMatrixData.findKeyword("CovarianceMatrixFileName")[0]);
     }
     catch (IException &e) {
-      QString msg = "Could not find the Covariance Matrix .dat file name.";
+      std::string msg = "Could not find the Covariance Matrix .dat file name.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -93,11 +93,11 @@ namespace Isis {
         m_correlationFileName = new FileName;
       }
       else {
-        m_correlationFileName = new FileName(corrFileName);
+        m_correlationFileName = new FileName(corrFileName.toStdString());
       }
     }
     catch (IException &e) {
-      QString msg = "Could not find the Correlation Matrix .dat file name.";
+      std::string msg = "Could not find the Correlation Matrix .dat file name.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -111,7 +111,7 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      QString msg = "Could not get Images and Parameters from ImagesAndParameters group.";
+      std::string msg = "Could not get Images and Parameters from ImagesAndParameters group.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
   }
@@ -203,7 +203,7 @@ namespace Isis {
   void CorrelationMatrix::computeCorrelationMatrix() {
 
     if ( !isValid() ) {
-      QString msg = "Cannot compute correlation matrix without a specified file name. Use "
+      std::string msg = "Cannot compute correlation matrix without a specified file name. Use "
                     "setCorrelationFileName(FileName) before calling computeCorrelationMatrix().";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -212,8 +212,8 @@ namespace Isis {
     m_visibleBlocks = new QList<SparseBlockColumnMatrix>;
 
     // Create file handle
-    QFile matrixInput( m_covarianceFileName->expanded() );
-    QFile matrixOutput( m_correlationFileName->expanded() );
+    QFile matrixInput(QString::fromStdString(m_covarianceFileName->expanded()));
+    QFile matrixOutput(QString::fromStdString(m_correlationFileName->expanded()));
 
     // Open file to write to
     matrixInput.open(QIODevice::ReadOnly);
@@ -365,9 +365,8 @@ namespace Isis {
     }
     //Make the correlation matrix file name match the covariance matrix file name.
     if (!isValid()) {
-      QString fName = covarianceFileName.expanded().replace( QString("inverse"),
-                                                            QString("correlation") );
-      setCorrelationFileName( FileName(fName) );
+      QString fName = QString::fromStdString(covarianceFileName.expanded()).replace("inverse","correlation");
+      setCorrelationFileName(FileName(fName.toStdString()));
     }
   }
 
@@ -476,8 +475,8 @@ namespace Isis {
   PvlObject CorrelationMatrix::pvlObject() {
     PvlObject corrMatInfo("CorrelationMatrixData");
 
-    corrMatInfo += PvlKeyword( "CovarianceMatrixFileName", m_covarianceFileName->expanded().toStdString() );
-    corrMatInfo += PvlKeyword( "CorrelationMatrixFileName", m_correlationFileName->expanded().toStdString() );
+    corrMatInfo += PvlKeyword( "CovarianceMatrixFileName", m_covarianceFileName->expanded());
+    corrMatInfo += PvlKeyword( "CorrelationMatrixFileName", m_correlationFileName->expanded());
 
     PvlGroup imgsAndParams("ImagesAndParameters");
     QMapIterator<QString, QStringList> imgParamIt(*m_imagesAndParameters);

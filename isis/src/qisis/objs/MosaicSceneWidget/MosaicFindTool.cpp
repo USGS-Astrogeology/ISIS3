@@ -85,7 +85,7 @@ namespace Isis {
           getWidget()->getView()->centerOn(scenePos);
         }
         else {
-          QString message = "Lat/Lon not within this view.";
+          std::string message = "Lat/Lon not within this view.";
           QMessageBox::information(getWidget(), "Point Not Found",
                                    message, QMessageBox::Ok);
         }

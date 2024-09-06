@@ -470,7 +470,7 @@ namespace Isis {
     double ons = (int)(ins * dScale + 0.5);
     double onl = (int)(inl * dScale + 0.5);
 
-    CubeAttributeInput cai(icube->fileName());
+    CubeAttributeInput cai(icube->fileName().toStdString());
     std::vector<QString> bands = cai.bands();
     int inb = bands.size();
 
@@ -552,7 +552,7 @@ namespace Isis {
   void FileTool::copyCubeDetails(const QString & psOutFile, Cube *icube,
       Cube *ocube, int piNumSamples, int piNumLines, int piNumBands) {
     //Create the default output attribute with the output filename
-    CubeAttributeOutput outAtt(psOutFile);
+    CubeAttributeOutput outAtt(psOutFile.toStdString());
 
     //Propagate all labels, tables, blobs, etc from the input to output cube
     try {
@@ -583,12 +583,12 @@ namespace Isis {
                 (ocube->pixelType() != UnsignedWord) &&
                 (ocube->pixelType() != Isis::UnsignedInteger) &&
                 (ocube->pixelType() != Isis::SignedInteger)) {
-          QString msg = "Looks like your refactoring to add different pixel types";
+          std::string msg = "Looks like your refactoring to add different pixel types";
           msg += " you'll need to make changes here";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
         else {
-          QString msg = "You've chosen to reduce your output PixelType for [" +
+          std::string msg = "You've chosen to reduce your output PixelType for [" +
                             psOutFile + "] you must specify the output pixel range too";
           throw IException(IException::User, msg, _FILEINFO_);
         }

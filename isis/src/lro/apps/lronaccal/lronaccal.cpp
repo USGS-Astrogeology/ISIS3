@@ -130,18 +130,18 @@ namespace Isis {
     QString instId = QString::fromStdString(inst["InstrumentId"]);
     instId = instId.toUpper();
     if(instId != "NACL" && instId != "NACR") {
-      QString msg = "This is not a NAC image.  lrocnaccal requires a NAC image.";
+      std::string msg = "This is not a NAC image.  lrocnaccal requires a NAC image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     // And check if it has already run through calibration
     if(lab.findObject("IsisCube").hasGroup("Radiometry")) {
-      QString msg = "This image has already been calibrated";
+      std::string msg = "This image has already been calibrated";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if(lab.findObject("IsisCube").hasGroup("AlphaCube")) {
-      QString msg = "This application can not be run on any image that has been geometrically transformed (i.e. scaled, rotated, sheared, or reflected) or cropped.";
+      std::string msg = "This application can not be run on any image that has been geometrically transformed (i.e. scaled, rotated, sheared, or reflected) or cropped.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -176,10 +176,10 @@ namespace Isis {
       if(maskedFileName.isVersioned())
         maskedFileName = maskedFileName.highestVersion();
       if(!maskedFileName.fileExists()) {
-        QString msg = maskedFile + " does not exist.";
+        std::string msg = maskedFile + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
-      Pvl maskedPvl(maskedFileName.expanded().toStdString());
+      Pvl maskedPvl(maskedFileName.expanded());
       PvlKeyword maskedPixels;
       int cutoff;
       if(g_summed) {
@@ -213,7 +213,7 @@ namespace Isis {
         g_nearestDark = true;
       }
       else {
-        QString msg = "Error: Dark File Type selection failed.";
+        std::string msg = "Error: Dark File Type selection failed.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       //Options are NEAREST, PAIR, and CUSTOM
@@ -222,7 +222,7 @@ namespace Isis {
           CopyCubeIntoVector(darkFiles[0], g_avgDarkLineCube0);
         }
         else {
-          QString msg = "Custom dark file not provided. Please provide file or choose another option.";
+          std::string msg = "Custom dark file not provided. Please provide file or choose another option.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -299,11 +299,11 @@ namespace Isis {
       if(radFileName.isVersioned())
         radFileName = radFileName.highestVersion();
       if(!radFileName.fileExists()) {
-        QString msg = radFile + " does not exist.";
+        std::string msg = radFile + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
-      Pvl radPvl(radFileName.expanded().toStdString());
+      Pvl radPvl(radFileName.expanded());
 
       if(g_iof) {
         iTime startTime(QString::fromStdString(inst["StartTime"]));
@@ -342,7 +342,7 @@ namespace Isis {
             unload_c(pckKernel3.toLatin1().data());
           }
           catch(IException &e) {
-            QString msg = "Unable to find the necessary SPICE kernels for converting to IOF";
+            std::string msg = "Unable to find the necessary SPICE kernels for converting to IOF";
             throw IException(e, IException::User, msg, _FILEINFO_);
           }
         }
@@ -487,7 +487,7 @@ namespace Isis {
     if(filename.isVersioned())
       filename = filename.highestVersion();
     if(!filename.fileExists()) {
-      QString msg = fileString + " does not exist.";
+      std::string msg = fileString + " does not exist.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     TextFile file(filename.expanded());
@@ -510,7 +510,7 @@ namespace Isis {
     if(filename.isVersioned())
       filename = filename.highestVersion();
     if(!filename.fileExists()) {
-      QString msg = fileString + " does not exist.";
+      std::string msg = fileString + " does not exist.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     TextFile file(filename.expanded());
@@ -775,7 +775,7 @@ namespace Isis {
     vector<int> matchedDarkTimes;
     matchedDarkTimes.reserve(dir.count());
     if (dir.count() < 1){
-      QString msg = "Could not find any dark file of type " + filter + ".\n";
+      std::string msg = "Could not find any dark file of type " + filter + ".\n";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     // Loop through all files in the dir that match our basename and extract time
@@ -825,7 +825,7 @@ namespace Isis {
       
     //check time range between darks is within 45 day window
     if (timeDayDiff < 0  || timeDayDiff > 45) {
-        QString msg = "Could not find a pair of dark files within 45 day range that includes the image [" + basename + "]. Check to make sure your set of dark files is complete.\n";
+        std::string msg = "Could not find a pair of dark files within 45 day range that includes the image [" + basename + "]. Check to make sure your set of dark files is complete.\n";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       else {
@@ -864,7 +864,7 @@ namespace Isis {
     if(filename.isVersioned())
       filename = filename.highestVersion();
     if(!filename.fileExists()) {
-      QString msg = fileString + " does not exist.";
+      std::string msg = fileString + " does not exist.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     cube.open(filename.expanded());
@@ -878,7 +878,7 @@ namespace Isis {
     fileString = filename.original();
 
     if(data.empty()){
-      QString msg = "Copy from + " + fileString + " into vector failed.";
+      std::string msg = "Copy from + " + fileString + " into vector failed.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

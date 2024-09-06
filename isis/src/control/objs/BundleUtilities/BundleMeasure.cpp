@@ -237,7 +237,7 @@ namespace Isis {
    */
   const QSharedPointer<BundleObservationSolveSettings> BundleMeasure::observationSolveSettings() {
     if (!m_parentObservation) {
-      QString msg = "In BundleMeasure::observationSolveSettings: "
+      std::string msg = "In BundleMeasure::observationSolveSettings: "
                     "parent observation has not been set.\n";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -441,7 +441,7 @@ namespace Isis {
     m_sigma = sigmaMultiplier * m_controlMeasure->Camera()->PixelPitch();
 
     if (m_sigma <= 0.0) {
-      QString msg = "In BundleMeasure::setMeasureSigma(): m_measureSigma must be positive\n";
+      std::string msg = "In BundleMeasure::setMeasureSigma(): m_measureSigma must be positive\n";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -461,7 +461,7 @@ namespace Isis {
    */
   int BundleMeasure::observationIndex() const {
     if (!m_parentObservation) {
-      QString msg = "In BundleMeasure::observationIndex: "
+      std::string msg = "In BundleMeasure::observationIndex: "
                     "parent observation has not been set.\n";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

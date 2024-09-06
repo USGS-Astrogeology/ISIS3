@@ -24,7 +24,7 @@ void IsisMain() {
   iCube.open(ui.GetCubeName("FROM"));
   Pvl * labels = iCube.label();
   if ("Mariner_10" !=  QString::fromStdString(labels->findKeyword("SpacecraftName", Pvl::Traverse))) {
-    QString msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
         " to be a Mariner10 cube";
     throw IException(IException::User, msg, _FILEINFO_);
   }

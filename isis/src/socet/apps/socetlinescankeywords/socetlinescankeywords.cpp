@@ -75,7 +75,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   PvlGroup test = input->label()->findGroup("Kernels", Pvl::Traverse);
   QString InstrumentPointing = QString::fromStdString(test["InstrumentPointing"]);
   if (InstrumentPointing != "Table") {
-    QString msg = "Input image does not contain needed SPICE blobs...run spiceinit with attach=yes.";
+    std::string msg = "Input image does not contain needed SPICE blobs...run spiceinit with attach=yes.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -83,7 +83,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   ofstream toStrm;
   toStrm.open(to.toLatin1().data(), ios::trunc);
   if (toStrm.bad()) {
-    QString msg = "Unable to open output TO file";
+    std::string msg = "Unable to open output TO file";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -109,7 +109,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 //    else if (strcmp(filter.toLatin1().data(), "RED") == 0)
 //      isMocWARed = true;
 //    else if (strcmp(filter.toLatin1().data(), "BLUE") == 0) {
-//      QString msg = "MOC WA Blue filter images not supported for Socet Set mapping";
+//      std::string msg = "MOC WA Blue filter images not supported for Socet Set mapping";
 //      throw IException(IException::User, msg, _FILEINFO_);
 //    }
 //  }
@@ -122,7 +122,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
       isHiRise = true;
     }
     else {
-      QString msg = "Unsupported instrument: " + origInstrumentId;
+      std::string msg = "Unsupported instrument: " + origInstrumentId;
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -142,7 +142,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
     isHRSC = true;
   } 
   else {
-    QString msg = "Unsupported instrument: " + instrumentId;
+    std::string msg = "Unsupported instrument: " + instrumentId;
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -700,7 +700,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
       cam->radii(targetRadii);
     }
     catch (IException &e) {
-      QString msg = "Failed to get target body radii from cube.";
+      std::string msg = "Failed to get target body radii from cube.";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
   }

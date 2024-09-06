@@ -460,7 +460,7 @@ namespace Isis {
          v[2] = sinLat;
          break;
       default:
-        QString msg = "Invalid partial type for this method";
+        std::string msg = "Invalid partial type for this method";
         throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

@@ -615,14 +615,14 @@ namespace Isis {
   void StatCumProbDistDynCalc::validate() {
     // if quantiles have not been set
     if (m_numberQuantiles == 0) {
-      QString msg = "StatCumProbDistDynCalc will return no data until the quantiles have been set. "
+      std::string msg = "StatCumProbDistDynCalc will return no data until the quantiles have been set. "
                     "Number of cells = [" + toString(m_numberCells) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     } 
 
     //if there isn't even as much data as there are quantiles to track
     if (m_numberObservations < m_numberQuantiles) {
-      QString msg = "StatCumProbDistDynCalc will return no data until the number of observations "
+      std::string msg = "StatCumProbDistDynCalc will return no data until the number of observations "
                     "added [" + toString(m_numberObservations) + "] matches the number of "
                     "quantiles [" + toString(m_numberQuantiles)
                     + "] (i.e. number of nodes) selected.";

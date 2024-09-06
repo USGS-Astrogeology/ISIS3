@@ -31,10 +31,10 @@ namespace Isis {
 
     FileName inFile = ui.GetFileName("FROM");
     QString id;
-    Pvl lab(inFile.expanded().toStdString());
+    Pvl lab(inFile.expanded());
 
     if (lab.hasObject("IMAGE_MAP_PROJECTION")) {
-      QString msg = "Unsupported projected file [" + inFile.expanded() + "]";
+      std::string msg = "Unsupported projected file [" + inFile.expanded() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -42,7 +42,7 @@ namespace Isis {
       id = QString::fromStdString(lab.findKeyword("DATA_SET_ID"));
     }
     catch(IException &e) {
-      QString msg = "Unable to read [DATA_SET_ID] from input file [" +
+      std::string msg = "Unable to read [DATA_SET_ID] from input file [" +
                     inFile.expanded() + "]";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
@@ -74,7 +74,7 @@ namespace Isis {
 
     // Get the directory where the Kaguya MI translation tables are.
     QString transDir = "$ISISROOT/appdata/translations/";
-    Pvl inputLabel(inFile.expanded().toStdString());
+    Pvl inputLabel(inFile.expanded());
     Pvl *outputLabel = outcube->label();
     FileName transFile;
 
@@ -132,12 +132,12 @@ namespace Isis {
     //At the time of this writing there was no expectation that Kaguya ever did any binning
     //  so this is check to make sure an error is thrown if an image was binned
     if (lab.findKeyword("INSTRUMENT_ID")[0] == "MI-VIS" && outcube->sampleCount() != 962 ) {
-      QString msg = "Input file [" + inFile.expanded() + "]" + " appears to be binned.  Binning was "
+      std::string msg = "Input file [" + inFile.expanded() + "]" + " appears to be binned.  Binning was "
                     "unexpected, and is unsupported by the camera model";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     if (lab.findKeyword("INSTRUMENT_ID")[0] == "MI-NIR" && outcube->sampleCount() != 320 ) {
-      QString msg = "Input file [" + inFile.expanded() + "]" + " appears to be binned.  Binning was "
+      std::string msg = "Input file [" + inFile.expanded() + "]" + " appears to be binned.  Binning was "
                     "unexpected, and is unsupported by the camera model";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }

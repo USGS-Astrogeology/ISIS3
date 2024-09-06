@@ -275,7 +275,7 @@ namespace Isis {
    *   @history  2018-01-10 Adam Goins - Added the Activity History tab to the window.
    *                           This tab will keep track of edits made to control points/measures.
    *                           More history entries can be kept track of
-   *                           by emitting the activityUpdate(QString message) signal.
+   *                           by emitting the activityUpdate(std::string message) signal.
    */
   void QnetNavTool::createFilters() {
     // Set up the point filters
@@ -557,7 +557,7 @@ namespace Isis {
       //  Make sure edit point is selected and in view.
       updateEditPoint(m_editPointId);
 
-      QString msg = "Filter Count: " + QString::number(m_listBox->count()) +
+      std::string msg = "Filter Count: " + QString::number(m_listBox->count()) +
           " / " + QString::number(controlNet()->GetNumPoints());
       m_filterCountLabel->setText(msg);
     }
@@ -573,7 +573,7 @@ namespace Isis {
         QString tempFileName = filename.name();
         m_listBox->insertItem(i, tempFileName);
       }
-      QString msg = "Filter Count: " + QString::number(m_listBox->count()) +
+      std::string msg = "Filter Count: " + QString::number(m_listBox->count()) +
           " / " + QString::number(serialNumberList()->size());
       m_filterCountLabel->setText(msg);
 
@@ -689,7 +689,7 @@ namespace Isis {
         int images = (*controlNet())[m_filteredPoints[i]]->GetNumMeasures();
         m_listBox->item(i)->setToolTip(QString::number(images) + " image(s) in point");
       }
-      QString msg = "Filter Count: " + QString::number(m_listBox->count()) +
+      std::string msg = "Filter Count: " + QString::number(m_listBox->count()) +
           " / " + QString::number(controlNet()->GetNumPoints());
       m_filterCountLabel->setText(msg);
       updateEditPoint(m_editPointId);
@@ -705,7 +705,7 @@ namespace Isis {
         QString tempFileName = filename.name();
         m_listBox->insertItem(i, tempFileName);
       }
-      QString msg = "Filter Count: " + QString::number(m_listBox->count()) +
+      std::string msg = "Filter Count: " + QString::number(m_listBox->count()) +
           " / " + QString::number(serialNumberList()->size());
       m_filterCountLabel->setText(msg);
     }

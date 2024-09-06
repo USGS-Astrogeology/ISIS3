@@ -1421,14 +1421,14 @@ namespace Isis {
   //! Reads the focal length from the instrument kernel
   void Camera::SetFocalLength() {
     int code = naifIkCode();
-    QString key = "INS" + toString(code) + "_FOCAL_LENGTH";
+    QString key = "INS" + QString::number(code) + "_FOCAL_LENGTH";
     SetFocalLength(Spice::getDouble(key));
   }
 
   //! Reads the Pixel Pitch from the instrument kernel
   void Camera::SetPixelPitch() {
     int code = naifIkCode();
-    QString key = "INS" + toString(code) + "_PIXEL_PITCH";
+    QString key = "INS" + QString::number(code) + "_PIXEL_PITCH";
     SetPixelPitch(Spice::getDouble(key));
   }
 
@@ -1926,7 +1926,7 @@ namespace Isis {
    */
   double Camera::NorthAzimuth() {
     if (target()->shape()->name() == "Plane") {
-      QString msg = "North Azimuth is not available for plane target shapes.";
+      std::string msg = "North Azimuth is not available for plane target shapes.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     // Get the latitude of your current location using the shape model

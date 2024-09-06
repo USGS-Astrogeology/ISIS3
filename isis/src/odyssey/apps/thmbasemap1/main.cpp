@@ -43,7 +43,7 @@ void IsisMain(){
     cubes.read(ui.GetFileName("FROMLIST"));
   }
   else {
-    QString msg = "Error: FROMLIST file must be specified";
+    std::string msg = "Error: FROMLIST file must be specified";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -169,7 +169,7 @@ void IsisMain(){
       if (reportNoFile) {
         noFileListos << infile.baseName() << " not processed because is not a THEMIS image" << endl;
       }
-      QString msg = "Error: Not a Themis Image";
+      std::string msg = "Error: Not a Themis Image";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -179,7 +179,7 @@ void IsisMain(){
       if (reportNoFile) {
         noFileListos << infile.baseName() << " not processed because is not an IR THEMIS image" << endl;
       }
-      QString msg = "Error: Not an IR Themis Image";
+      std::string msg = "Error: Not an IR Themis Image";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -211,7 +211,7 @@ void IsisMain(){
       if (reportNoFile) {
         noFileListos << infile.baseName() << " not processed because is missing filter 12.57" << endl;
       }
-      QString msg = "Filter 12.57 not found in input file [" + inFileStr + "]";
+      std::string msg = "Filter 12.57 not found in input file [" + inFileStr + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -266,7 +266,7 @@ void IsisMain(){
         noFileListos << infile.baseName() << " not processed because average incidence angle >= 90 and DAY images requested" << endl;
         remove(output.toLatin1().data());
       }
-      QString msg = "The average incidence angle of [" + cubes[i].toString() + "] is over 90";
+      std::string msg = "The average incidence angle of [" + cubes[i].toString() + "] is over 90";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -286,7 +286,7 @@ void IsisMain(){
         noFileListos << infile.baseName() << " not processed because average incidence angle < 90 and NIGHT images requested" << endl;
         remove(output.toLatin1().data());
       }
-      QString msg = "The average incidence angle of [" + cubes[i].toString() + "] is over 90";
+      std::string msg = "The average incidence angle of [" + cubes[i].toString() + "] is over 90";
       throw IException(IException::User,msg,_FILEINFO_);
     }
 
@@ -382,7 +382,7 @@ void IsisMain(){
 
     double summing = 1;
     FileName tosum = FileName(outFile);
-    Pvl sumlab(tosum.expanded().toStdString());
+    Pvl sumlab(tosum.expanded());
     PvlGroup InstGrp = sumlab.findGroup("Instrument",Pvl::Traverse);
     if (InstGrp.hasKeyword("SpatialSumming")) {
       summing = InstGrp["SpatialSumming"];

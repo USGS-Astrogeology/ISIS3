@@ -44,7 +44,7 @@ namespace Isis {
     // The CameraFocalPlaneMap must be set in the Camera object 
     // prior to calling distortion model!!!
     if ( !parent->FocalPlaneMap() ) {
-        QString mess = "FocalPlaneMap must be set in the Camera object prior to"
+        std::string mess = "FocalPlaneMap must be set in the Camera object prior to"
                        " initiating this distortion model!";
         throw IException(IException::Programmer, mess, _FILEINFO_);
     }

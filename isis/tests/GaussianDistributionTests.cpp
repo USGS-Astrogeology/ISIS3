@@ -27,7 +27,7 @@ TEST(GaussianDistribution, Constructor) {
 
 TEST(GaussianDistribution, InvalidPercentage) {
   Isis::GaussianDistribution dist;
-  QString message = "Argument percent outside of the range 0 to 100";
+  std::string message = "Argument percent outside of the range 0 to 100";
   try {
     dist.InverseCumulativeDistribution(110);
   }

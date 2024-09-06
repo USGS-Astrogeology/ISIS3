@@ -31,7 +31,7 @@ void IsisMain() {
   list.read(ui.GetFileName("FROMLIST"));
 
   if(list.size() < 1) {
-    QString msg = "The input list file [" + ui.GetFileName("FROMLIST") + "is empty";
+    std::string msg = "The input list file [" + ui.GetFileName("FROMLIST") + "is empty";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -42,7 +42,7 @@ void IsisMain() {
   }
 
   if(ifile >= list.size()) {
-    QString msg = "The master file, [" + FileName(ui.GetCubeName("MASTER")).expanded() + " is not included in " +
+    std::string msg = "The master file, [" + FileName(ui.GetCubeName("MASTER")).expanded() + " is not included in " +
                  "the input list file " + ui.GetCubeName("FROMLIST") + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -65,7 +65,7 @@ void IsisMain() {
     // Get the camera
     Camera *cam = cube.camera();
     if(cam->DetectorMap()->LineRate() == 0.0) {
-      QString msg = "[" + ui.GetCubeName("MASTER") + "] is not a line scan camera image";
+      std::string msg = "[" + ui.GetCubeName("MASTER") + "] is not a line scan camera image";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -142,7 +142,7 @@ void IsisMain() {
         // Get the camera and make sure it is a line scan camera
         Camera *cam = cube.camera();
         if(cam->DetectorMap()->LineRate() == 0.0) {
-          QString msg = "[" + ui.GetCubeName("FROM") + "] is not a line scan camera";
+          std::string msg = "[" + ui.GetCubeName("FROM") + "] is not a line scan camera";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         // Write out the pointing cache as a table
@@ -166,7 +166,7 @@ void IsisMain() {
     Application::Log(gp);
   }
   catch(IException &e) {
-    QString msg;
+    std::string msg;
     if(!step2) {
       msg = "Unable to fit pointing for [" + ui.GetCubeName("MASTER") + "]";
     }

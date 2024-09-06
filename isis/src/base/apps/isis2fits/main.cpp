@@ -45,7 +45,7 @@ void IsisMain() {
   else if (ui.GetString("BITTYPE") == "16BIT") bitpix = "16";
   else if (ui.GetString("BITTYPE") == "32BIT") bitpix = "-32";
   else {
-    QString msg = "Pixel type of [" + ui.GetString("BITTYPE") + "] is unsupported";
+    std::string msg = "Pixel type of [" + ui.GetString("BITTYPE") + "] is unsupported";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -118,7 +118,7 @@ void IsisMain() {
   if (ui.GetString("INFO") == "SKY" || ui.GetString("INFO") == "ALL") {
 
     //tjw:  IString msg changed to QString
-    QString msg = "cube has not been skymapped";
+    std::string msg = "cube has not been skymapped";
     PvlGroup map;
 
     if (icube->hasGroup("mapping")) {

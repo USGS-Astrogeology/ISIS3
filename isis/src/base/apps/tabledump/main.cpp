@@ -147,7 +147,7 @@ void helperButtonGetTableList() {
 
   UserInterface &ui = Application::GetUserInterface();
   QString currentFile = ui.GetCubeName("FROM");
-  const Pvl label(FileName(currentFile).expanded().toStdString());
+  const Pvl label(FileName(currentFile).expanded());
 
   // Check to see if the "FILE" parameter has changed since last press
   if (currentFile != g_previousFile) {
@@ -162,7 +162,7 @@ void helperButtonGetTableList() {
     // If we've gone through all objects and found nothing, throw an exception
     if (cnt >= label.objects()) {
       g_pos = 0;
-      QString msg = "Parameter [FROM] has no tables.";
+      std::string msg = "Parameter [FROM] has no tables.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     // When the end of the objects is hit, display "NAME" parameter as blank

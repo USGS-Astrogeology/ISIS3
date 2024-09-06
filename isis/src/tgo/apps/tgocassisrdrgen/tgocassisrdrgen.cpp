@@ -32,7 +32,7 @@ namespace Isis {
     
     // Check if input file is indeed, a cube
     if (FileName(ui.GetCubeName("FROM")).expanded().right(3) != "cub") {
-      QString msg = "Input file [" + ui.GetCubeName("FROM") +
+      std::string msg = "Input file [" + ui.GetCubeName("FROM") +
                   "] does not appear to be a cube";
       throw  IException(IException::User, msg, _FILEINFO_);
     }
@@ -68,7 +68,7 @@ namespace Isis {
     // Check if the cube is able to be translated into a CaSSIS xml file
     // This could very well be unnecessary
     if (!targetGroup.findKeyword("InstrumentId").isEquivalent("CaSSIS")) {
-      QString msg = "Input file [" + ui.GetCubeName("FROM") +
+      std::string msg = "Input file [" + ui.GetCubeName("FROM") +
                   "] does not appear to be a CaSSIS RDR product. The image" +
                   "instrument is not the CaSSIS instrument";
       throw  IException(IException::User, msg, _FILEINFO_);

@@ -206,7 +206,7 @@ namespace Isis {
 
 
       Cube *measureCube = new Cube(m_serialNumberList->fileName(
-                                   m_controlPoint->GetRefMeasure()->GetCubeSerialNumber()));
+                                   m_controlPoint->GetRefMeasure()->GetCubeSerialNumber()).toStdString());
       Chip *chip = new Chip(VIEWSIZE, VIEWSIZE);
       ControlMeasure *measure = m_controlPoint->GetRefMeasure();
       chip->TackCube(measure->GetSample(), measure->GetLine());
@@ -234,7 +234,7 @@ namespace Isis {
         continue;
       }
 //    qDebug()<<"                                                                after Test for Skip Reference Measure i= "<<i;
-      Cube *measureCube = new Cube(m_serialNumberList->fileName(measure->GetCubeSerialNumber()));
+      Cube *measureCube = new Cube(m_serialNumberList->fileName(measure->GetCubeSerialNumber()).toStdString());
       Chip *chip = new Chip(VIEWSIZE, VIEWSIZE);
 //      measure = m_controlPoint->GetRefMeasure();
       chip->TackCube(measure->GetSample(), measure->GetLine());

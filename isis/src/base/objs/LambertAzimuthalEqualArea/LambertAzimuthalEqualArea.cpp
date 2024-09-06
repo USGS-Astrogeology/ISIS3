@@ -78,7 +78,7 @@ namespace Isis {
           mapGroup += PvlKeyword("CenterLongitude", std::to_string(centerLon), "Degrees");
         }
         else {
-          QString message = "Cannot project using Lambert Azimuthal equal-area";
+          std::string message = "Cannot project using Lambert Azimuthal equal-area";
           message += " without [CenterLongitude] value.  Keyword does not exist";
           message += " in labels and defaults are not allowed.";
           throw IException(IException::Unknown, message, _FILEINFO_);
@@ -93,7 +93,7 @@ namespace Isis {
           mapGroup += PvlKeyword("CenterLatitude", std::to_string(centerLat), "Degrees");
         }
         else {
-          QString message = "Cannot project using Lambert Azimuthal equal-area";
+          std::string message = "Cannot project using Lambert Azimuthal equal-area";
           message += " without [CenterLatitude] value.  Keyword does not exist";
           message += " in labels and defaults are not allowed.";
           throw IException(IException::Unknown, message, _FILEINFO_);

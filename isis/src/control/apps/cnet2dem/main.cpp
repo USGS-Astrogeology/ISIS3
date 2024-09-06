@@ -162,7 +162,7 @@ void IsisMain() {
 
   // Ok, if we end up with one net, it must have been entered in CNETBASE.
   if ( (cnetfiles.size() < 1) ) {
-    QString mess = "Must enter a control net inc CNET or a list in CNETLIST";
+    std::string mess = "Must enter a control net inc CNET or a list in CNETLIST";
     throw IException(IException::User, mess, _FILEINFO_);
   }
   // Create the point cloud container and load the control networks

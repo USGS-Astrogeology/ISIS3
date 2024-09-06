@@ -154,8 +154,8 @@ namespace Isis {
 
     QString instanceName = this->windowTitle();
     // FileName is a QFileDialog enum for DialogLabel
-    Isis::FileName config("$HOME/.Isis/" + p_appName + "/" + instanceName + ".config");
-    QSettings settings(config.expanded(), QSettings::NativeFormat);
+    Isis::FileName config("$HOME/.Isis/" + p_appName.toStdString() + "/" + instanceName.toStdString() + ".config");
+    QSettings settings(QString::fromStdString(config.expanded()), QSettings::NativeFormat);
     QPoint pos = settings.value("pos", QPoint(300, 100)).toPoint();
     QSize size = settings.value("size", QSize(355, 350)).toSize();
     resize(size);
@@ -179,8 +179,8 @@ namespace Isis {
 
     QString instanceName = this->windowTitle();
     // FileName is a QFileDialog enum for DialogLabel
-    Isis::FileName config("$HOME/.Isis/" + p_appName + "/" + instanceName + ".config");
-    QSettings settings(config.expanded(), QSettings::NativeFormat);
+    Isis::FileName config("$HOME/.Isis/" + p_appName.toStdString() + "/" + instanceName.toStdString() + ".config");
+    QSettings settings(QString::fromStdString(config.expanded()), QSettings::NativeFormat);
     settings.setValue("pos", pos());
     settings.setValue("size", size());
 

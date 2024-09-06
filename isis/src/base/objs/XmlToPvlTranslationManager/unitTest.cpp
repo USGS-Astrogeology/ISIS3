@@ -390,7 +390,7 @@ int main(void) {
       XmlToPvlTranslationManager pvlTransFileManager(pvlFile, simpleTrans);
     }
     catch(IException &e) {
-      QString message = e.toString();
+      std::string message = e.toString();
       cout << message.replace(QRegExp("in file.*/translations"), "in file [/translations");
       cout << endl;
       cout << endl;

@@ -127,7 +127,7 @@ namespace Isis {
     gdpool_c(key.toLatin1().data(), 1, 2, &number, transX, &found);
 
     if (!found) {
-      QString msg = "Cannot find [" + key + "] in text kernels";
+      std::string msg = "Cannot find [" + key + "] in text kernels";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
@@ -1731,7 +1731,7 @@ namespace Isis {
     if (p_source == PolyFunction) {
       // Nothing to do
       return;
-//      QString msg = "Rotation already fit to a polynomial -- spiceint first to refit";
+//      std::string msg = "Rotation already fit to a polynomial -- spiceint first to refit";
 //      throw IException(IException::User,msg,_FILEINFO_);
     }
 
@@ -2137,7 +2137,7 @@ namespace Isis {
       derivative = 1;
     }
     else {
-      QString msg = "Unable to evaluate the derivative of the SPICE rotation fit polynomial for "
+      std::string msg = "Unable to evaluate the derivative of the SPICE rotation fit polynomial for "
                     "the given coefficient index [" + toString(coeffIndex) + "]. "
                     "Index is negative or exceeds degree of polynomial ["
                     + toString(p_degree) + "]";
@@ -2189,7 +2189,7 @@ namespace Isis {
       derivative = pow(time, coeffIndex);
       break;
     default:
-      QString msg = "Unable to evaluate the derivative of the target body rotation fit polynomial "
+      std::string msg = "Unable to evaluate the derivative of the target body rotation fit polynomial "
                     "for the given coefficient index [" + toString(coeffIndex) + "]. "
                     "Index is negative or exceeds degree of polynomial ["
                     + toString(p_degree) + "]";
@@ -2441,7 +2441,7 @@ namespace Isis {
    */
   void SpiceRotation::SetAxes(int axis1, int axis2, int axis3) {
     if (axis1 < 1  ||  axis2 < 1  || axis3 < 1  || axis1 > 3  || axis2 > 3  || axis3 > 3) {
-      QString msg = "A rotation axis is outside the valid range of 1 to 3";
+      std::string msg = "A rotation axis is outside the valid range of 1 to 3";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     p_axis1 = axis1;
@@ -2610,7 +2610,7 @@ namespace Isis {
             // Check for a gap in the time coverage by making sure the time span of the observation
             //  does not cross a segment unless the next segment starts where the current one ends
             if (observationSpansToNextSegment && currentTime > segStartEt) {
-              QString msg = "Observation crosses segment boundary--unable to interpolate pointing";
+              std::string msg = "Observation crosses segment boundary--unable to interpolate pointing";
               throw IException(IException::Programmer, msg, _FILEINFO_);
             }
             if (observEnd > segStopEt) {
@@ -2765,7 +2765,7 @@ namespace Isis {
           break;
         }
 
-        QString msg = "The frame" + toString((int) frameCodes[frmidx]) + " is not supported by Naif";
+        std::string msg = "The frame" + toString((int) frameCodes[frmidx]) + " is not supported by Naif";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
@@ -2785,7 +2785,7 @@ namespace Isis {
             break;
           }
 
-          QString msg = "The ck rotation from frame " + toString(frameCodes[frmidx]) + " can not "
+          std::string msg = "The ck rotation from frame " + toString(frameCodes[frmidx]) + " can not "
                + "be found due to no pointing available at requested time or a problem with the "
                + "frame";
           throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -2794,7 +2794,7 @@ namespace Isis {
       else if (type == TK) {
         tkfram_((SpiceInt *) &typid, (double *) matrix, &nextFrame, (logical *) &found);
         if (!found) {
-          QString msg = "The tk rotation from frame " + toString(frameCodes[frmidx]) +
+          std::string msg = "The tk rotation from frame " + toString(frameCodes[frmidx]) +
                         " can not be found";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
@@ -2810,7 +2810,7 @@ namespace Isis {
       }
 
       else {
-        QString msg = "The frame " + toString(frameCodes[frmidx]) +
+        std::string msg = "The frame " + toString(frameCodes[frmidx]) +
             " has a type " + toString(type) + " not supported by your version of Naif Spicelib."
             + "You need to update.";
         throw IException(IException::Programmer, msg, _FILEINFO_);

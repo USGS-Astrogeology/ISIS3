@@ -72,8 +72,8 @@ class QDebugLogger {
       if ( filename.isEmpty() ) {  return ( toStdOut() );  }
 
       // Set up file access logging
-      FileName t_fname(filename);
-      QScopedPointer<QFile> t_dbugfile( QDebugLogger::open( t_fname.expanded(), omode) );
+      FileName t_fname(filename.toStdString());
+      QScopedPointer<QFile> t_dbugfile( QDebugLogger::open( QString::fromStdString(t_fname.expanded()), omode) );
       QScopedPointer<QDebugStreamType> t_dbuglog( new QDebugStreamType( t_dbugfile.data() ) );
       return ( QDebugStream( new QDebugLogger( t_dbugfile.take(), t_dbuglog.take() ) ) );
     }
@@ -164,10 +164,10 @@ class QDebugLogger {
     /** Method creates a QFile from a filename */
     static QFile *open(const QString &filename,
                        const QIODevice::OpenMode &omode) {
-      FileName t_fname(filename);
-      QScopedPointer<QFile> t_dbugfile(new QFile( t_fname.expanded() ) );
+      FileName t_fname(filename.toStdString());
+      QScopedPointer<QFile> t_dbugfile(new QFile( QString::fromStdString(t_fname.expanded()) ) );
       if ( !t_dbugfile->open(omode) ) {
-        QString mess = "Unable to open/create debug log stream for file: " +
+        std::string mess = "Unable to open/create debug log stream for file: " +
                        filename;
         throw IException(IException::User, mess, _FILEINFO_);
       }

@@ -195,7 +195,7 @@ namespace Isis {
       p_aberrationCorrection = abcorr;
     }
     else {
-      QString msg = "Invalid abberation correction [" + correction + "]";
+      std::string msg = "Invalid abberation correction [" + correction + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -734,7 +734,7 @@ namespace Isis {
 
     // Make sure source is a function
     if(p_source < HermiteCache) {
-      QString msg = "The SpicePosition has not yet been fit to a function";
+      std::string msg = "The SpicePosition has not yet been fit to a function";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1174,7 +1174,7 @@ namespace Isis {
     int coordIndex = partialVar;
 
 //  if(coeffIndex > 2) {
-//    QString msg = "SpicePosition only supports up to a 2nd order fit for the spacecraft position";
+//    std::string msg = "SpicePosition only supports up to a 2nd order fit for the spacecraft position";
 //    throw IException(IException::Programmer, msg, _FILEINFO_);
 //  }
 //
@@ -1252,7 +1252,7 @@ namespace Isis {
       derivative = 1;
     }
     else {
-      QString msg = "Unable to evaluate the derivative of the SPICE position fit polynomial for "
+      std::string msg = "Unable to evaluate the derivative of the SPICE position fit polynomial for "
                     "the given coefficient index [" + toString(coeffIndex) + "]. "
                     "Index is negative or exceeds degree of polynomial ["
                     + toString(p_degree) + "]";

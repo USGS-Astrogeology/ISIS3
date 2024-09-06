@@ -18,7 +18,7 @@ namespace Isis {
                       UserInterface &ui);
 
   void shadow(UserInterface &ui, Pvl *log) {
-    Cube *demCube = new Cube(ui.GetCubeName("FROM"));
+    Cube *demCube = new Cube(ui.GetCubeName("FROM").toStdString());
 
     shadow(demCube, ui, log);
   }
@@ -38,7 +38,7 @@ namespace Isis {
                                   "spkpos_c.html");
 
     if (ui.GetString("SUNPOSITIONSOURCE") == "MATCH") {
-      functor.setSunPosition(ui.GetCubeName("MATCH"));
+      functor.setSunPosition(ui.GetCubeName("MATCH").toStdString());
     }
     else {
       QStringList allKernelFiles;
@@ -50,7 +50,7 @@ namespace Isis {
 
       foreach (QString kernelFile, allKernelFiles) {
         kernelsUsed += kernelFile.toStdString();
-        furnsh_c(FileName(kernelFile).expanded().toLatin1().data());
+        furnsh_c(FileName(kernelFile.toStdString()).expanded().c_str());
       }
 
       // Find the NAIF target code for the DEM's target
@@ -81,7 +81,7 @@ namespace Isis {
       sunPosition[2] *= 1000;
 
       foreach (QString kernelFile, allKernelFiles) {
-        unload_c(FileName(kernelFile).expanded().toLatin1().data());
+        unload_c(FileName(kernelFile.toStdString()).expanded().c_str());
       }
 
       NaifStatus::CheckErrors();
@@ -173,7 +173,7 @@ namespace Isis {
       int allowed = Kernel::typeEnum("PREDICTED") |
                     Kernel::typeEnum("RECONSTRUCTED") |
                     Kernel::typeEnum("SMITHED");
-      KernelDb kernelDb(FileName(kernelDbFile).highestVersion().expanded(), allowed);
+      KernelDb kernelDb(QString::fromStdString(FileName(kernelDbFile.toStdString()).highestVersion().expanded()), allowed);
 
       Kernel detectedKernels = (kernelDb.*kernelDbAccessor)(labels);
 

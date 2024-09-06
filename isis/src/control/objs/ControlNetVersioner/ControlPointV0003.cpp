@@ -121,7 +121,7 @@ namespace Isis {
         m_pointData->set_apriorisurfpointsource(ControlPointFileEntryV0002::BundleSolution);
       }
       else {
-        QString msg = "Invalid AprioriXYZSource [" + source + "]";
+        std::string msg = "Invalid AprioriXYZSource [" + source + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -148,7 +148,7 @@ namespace Isis {
         m_pointData->set_aprioriradiussource(ControlPointFileEntryV0002::BundleSolution);
       }
       else {
-        QString msg = "Invalid AprioriRadiusSource, [" + source + "]";
+        std::string msg = "Invalid AprioriRadiusSource, [" + source + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -261,7 +261,7 @@ namespace Isis {
     }
 
     if (!m_pointData->IsInitialized()) {
-      QString msg = "There is missing required information in the control "
+      std::string msg = "There is missing required information in the control "
                     "points or measures";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -277,12 +277,12 @@ namespace Isis {
       : m_pointData(new ControlPointFileEntryV0002) {
     QSharedPointer<ControlNetFileProtoV0001_PBControlPoint> oldPointData = oldPoint.pointData();
     if (!oldPointData) {
-      QString msg = "Version 2 control point is missing point data.";
+      std::string msg = "Version 2 control point is missing point data.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     QSharedPointer<ControlNetLogDataProtoV0001_Point> oldLogData = oldPoint.logData();
     if (!oldLogData) {
-      QString msg = "Version 2 control point is missing measure log data.";
+      std::string msg = "Version 2 control point is missing measure log data.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -356,7 +356,7 @@ namespace Isis {
         m_pointData->set_type(ControlPointFileEntryV0002::Free);
       }
       else {
-        QString msg = "Invalid ControlPoint type.";
+        std::string msg = "Invalid ControlPoint type.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -383,7 +383,7 @@ namespace Isis {
         m_pointData->set_apriorisurfpointsource(ControlPointFileEntryV0002::BundleSolution);
       }
       else {
-        QString msg = "Invalid ControlPoint apriori surface point source.";
+        std::string msg = "Invalid ControlPoint apriori surface point source.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -410,7 +410,7 @@ namespace Isis {
         m_pointData->set_aprioriradiussource(ControlPointFileEntryV0002::BundleSolution);
       }
       else {
-        QString msg = "Invalid AprioriRadiusSource.";
+        std::string msg = "Invalid AprioriRadiusSource.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -513,7 +513,7 @@ namespace Isis {
           newMeasure->set_type(ControlPointFileEntryV0002_Measure_MeasureType_RegisteredSubPixel);
         }
         else {
-          QString msg = "Invalid measure type";
+          std::string msg = "Invalid measure type";
           throw IException(IException::User, msg, _FILEINFO_);
         }
 
@@ -534,7 +534,7 @@ namespace Isis {
 
         // Check that all the required fields in the measure are filled
         if ( !newMeasure->IsInitialized() ) {
-          QString msg = "Measure file entry at index [" + toString(i)
+          std::string msg = "Measure file entry at index [" + toString(i)
                         + "] is missing required fields.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -543,7 +543,7 @@ namespace Isis {
 
     // Check that all of the required fields in the point are filled
     if ( !m_pointData->IsInitialized() ) {
-      QString msg = "Control point file entry is missing required fields.";
+      std::string msg = "Control point file entry is missing required fields.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

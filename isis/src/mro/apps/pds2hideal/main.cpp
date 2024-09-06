@@ -36,7 +36,7 @@ void IsisMain() {
 
   QString instId = QString::fromStdString(pdsLabelPvl["INSTRUMENT_ID"][0]);
   if(instId != "HIRISE_IDEAL_CAMERA") {
-    QString msg = "Invalid PDS label [" + from.expanded() + "]. The PDS product"
+    std::string msg = "Invalid PDS label [" + from.expanded() + "]. The PDS product"
                   " must be from an Ideal camera model derived from a HiRISE"
                   " image. The INSTRUMENT_ID = [" + instId + "] is unsupported"
                   " by pds2hideal.";

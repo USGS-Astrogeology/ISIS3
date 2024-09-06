@@ -30,7 +30,7 @@ void IsisMain() {
   if(scn == "VIKING_ORBITER_1") spn = 1;
   else if(scn == "VIKING_ORBITER_2") spn = 2;
   else {
-    QString msg = "Invalid spacecraftname [" + scn + "]";
+    std::string msg = "Invalid spacecraftname [" + scn + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   // determine if # of cols is even or odd

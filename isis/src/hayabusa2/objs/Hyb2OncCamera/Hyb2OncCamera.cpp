@@ -52,7 +52,7 @@ namespace Isis {
       m_instrumentNameShort = "ONC-W2";
     }
     else {
-      QString msg = "File does not appear to be a Hayabusa2 image";
+      std::string msg = "File does not appear to be a Hayabusa2 image";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

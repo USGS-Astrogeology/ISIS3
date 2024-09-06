@@ -529,7 +529,7 @@ INSTANTIATE_TEST_SUITE_P(BundleObservationSolveSettings, PositionSolveOptionStri
             QString("AllPolynomialCoefficients"))));
 
 TEST(BundleObservationSolveSettings, GroupConstructorBadOverhermite) {
-  QString message = "The OVERHERMITE parameter must be set to TRUE or FALSE; YES or NO";
+  std::string message = "The OVERHERMITE parameter must be set to TRUE or FALSE; YES or NO";
 
   PvlGroup settingsGroup("VO1/VISA");
   PvlKeyword camsolve("CamSolve");
@@ -555,7 +555,7 @@ TEST(BundleObservationSolveSettings, GroupConstructorBadOverhermite) {
 }
 
 TEST(BundleObservationSolveSettings, GroupConstructorBadTwist) {
-  QString message = "The TWIST parameter must be set to TRUE or FALSE; YES or NO";
+  std::string message = "The TWIST parameter must be set to TRUE or FALSE; YES or NO";
 
   PvlGroup settingsGroup("VO1/VISA");
   PvlKeyword camsolve("CamSolve");
@@ -581,7 +581,7 @@ TEST(BundleObservationSolveSettings, GroupConstructorBadTwist) {
 }
 
 TEST(BundleObservationSolveSettings, GroupConstructorBadOverExisting) {
-  QString message = "The OVEREXISTING parameter must be set to TRUE or FALSE; YES or NO";
+  std::string message = "The OVEREXISTING parameter must be set to TRUE or FALSE; YES or NO";
 
   PvlGroup settingsGroup("VO1/VISA");
   PvlKeyword camsolve("CamSolve");
@@ -608,7 +608,7 @@ TEST(BundleObservationSolveSettings, GroupConstructorBadOverExisting) {
 
 TEST(BundleObservationSolveSettings, PositionStringToOptionBadValue)
 {
-  QString message = "Unknown bundle instrument position solve option foo.";
+  std::string message = "Unknown bundle instrument position solve option foo.";
 
   try {
     BundleObservationSolveSettings::stringToInstrumentPositionSolveOption(
@@ -625,7 +625,7 @@ TEST(BundleObservationSolveSettings, PositionStringToOptionBadValue)
 
 TEST(BundleObservationSolveSettings, PointingStringToOptionBadValue)
 {
-  QString message = "Unknown bundle instrument pointing solve option foo.";
+  std::string message = "Unknown bundle instrument pointing solve option foo.";
 
   try {
     BundleObservationSolveSettings::stringToInstrumentPointingSolveOption(

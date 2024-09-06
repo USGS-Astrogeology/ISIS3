@@ -117,7 +117,7 @@ namespace Isis {
 
     // Ensures number of images is within bound
     if (imageList.size() > 10) {
-      QString msg = "The input file [" + fromListName +
+      std::string msg = "The input file [" + fromListName +
         "] cannot contain more than 10 file names";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -140,14 +140,14 @@ namespace Isis {
         movedIndices.push_back(i);
       }
       catch (IException &e) {
-        QString msg = "The [" + imageList[i].toString() +
+        std::string msg = "The [" + imageList[i].toString() +
           "] file is not a valid HiRise image";
         throw IException(e, IException::User, msg, _FILEINFO_);
       }
       catch (...) {
         // If any part of the above didn't work, we can safely assume the
         // current file is not a valid HiRise image
-        QString msg = "The [" + imageList[i].toString() +
+        std::string msg = "The [" + imageList[i].toString() +
           "] file is not a valid HiRise image";
         throw IException(IException::User, msg, _FILEINFO_);
       }

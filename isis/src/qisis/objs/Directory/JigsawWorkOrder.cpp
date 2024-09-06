@@ -143,7 +143,7 @@ namespace Isis {
   void JigsawWorkOrder::execute() {
     JigsawRunWidget *runWidget = project()->directory()->addJigsawRunWidget();
     if (!runWidget) {
-      QString msg = "Unable to open Jigsaw Run Widget";
+      std::string msg = "Unable to open Jigsaw Run Widget";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }

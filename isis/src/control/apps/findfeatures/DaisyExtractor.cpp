@@ -24,7 +24,7 @@ namespace Isis {
  */
   void DaisyExtractor::compute( cv::InputArray image, std::vector<cv::KeyPoint>& keypoints,
                           cv::OutputArray descriptors ) {
-    QString mess = "Daisy is unable to run compute with these arguments.";
+    std::string mess = "Daisy is unable to run compute with these arguments.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -39,7 +39,7 @@ namespace Isis {
  * @throws IException::Programmer "Daisy is unable to run compute with these arguments."
  */
   void DaisyExtractor::compute( cv::InputArray image, cv::Rect roi, cv::OutputArray descriptors ){
-    QString mess = "Daisy is unable to run compute with these arguments.";
+    std::string mess = "Daisy is unable to run compute with these arguments.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -54,7 +54,7 @@ namespace Isis {
  * @throws IException::Programmer "Daisy is unable to run compute with these arguments."
  */
   void DaisyExtractor::compute( cv::InputArray image, cv::OutputArray descriptors ){
-    QString mess = "Daisy is unable to run compute with these arguments.";
+    std::string mess = "Daisy is unable to run compute with these arguments.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -71,7 +71,7 @@ namespace Isis {
  */
   void DaisyExtractor::GetDescriptor( double y, double x, int orientation,
                                         float* descriptor ) const {
-    QString mess = "Daisy cannot run GetDescriptor";
+    std::string mess = "Daisy cannot run GetDescriptor";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -92,7 +92,7 @@ namespace Isis {
  */
   bool DaisyExtractor::GetDescriptor( double y, double x, int orientation, float* descriptor,
                                       double* H ) const {
-    QString mess = "Daisy cannot run GetDescriptor.";
+    std::string mess = "Daisy cannot run GetDescriptor.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
     return false;
     }
@@ -111,7 +111,7 @@ namespace Isis {
 
   void DaisyExtractor::GetUnnormalizedDescriptor( double y, double x, int orientation,
                                             float* descriptor ) const {
-    QString mess = "Daisy cannot run GetUnnormalizedDescriptor.";
+    std::string mess = "Daisy cannot run GetUnnormalizedDescriptor.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -131,7 +131,7 @@ namespace Isis {
  */
   bool DaisyExtractor::GetUnnormalizedDescriptor( double y, double x, int orientation,
                                             float* descriptor , double *H ) const {
-    QString mess = "Daisy cannot run GetUnnormalizedDescriptor.";
+    std::string mess = "Daisy cannot run GetUnnormalizedDescriptor.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
     return false;
   }

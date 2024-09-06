@@ -68,7 +68,7 @@ namespace Isis {
       m_instrumentNameShort = "MDIS-WAC";
     }
     else {
-      QString msg = QString::number(naifIkCode());
+      std::string msg = QString::number(naifIkCode());
       msg += " is not a supported instrument kernel code for Messenger.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

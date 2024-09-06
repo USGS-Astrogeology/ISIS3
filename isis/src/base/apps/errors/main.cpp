@@ -13,9 +13,9 @@ void IsisMain() {
   Pvl output;
 
   // Check to see if output file exists
-  FileName outFile = ui.GetFileName("TO");
+  FileName outFile = ui.GetFileName("TO").toStdString();
   if(outFile.fileExists() && !append) {
-    QString msg = "Output file [" + outFile.expanded() + "] already exists.";
+    std::string msg = "Output file [" + outFile.expanded() + "] already exists.";
     msg += " Append option set to False.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -33,10 +33,10 @@ void IsisMain() {
   output.addKeyword(errors);
   // write output to file
   if(!append) {
-    output.write(outFile.expanded().toStdString());
+    output.write(outFile.expanded());
   }
   else {
-    output.append(outFile.expanded().toStdString());
+    output.append(outFile.expanded());
   }
   cout << errors << endl;
 }

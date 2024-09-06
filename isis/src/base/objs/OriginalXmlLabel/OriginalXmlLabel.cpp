@@ -31,7 +31,7 @@ namespace Isis {
    */
   OriginalXmlLabel::OriginalXmlLabel(const QString &file) {
     Blob blob = Blob("IsisCube", "OriginalXmlLabel");
-    blob.Read(file);
+    blob.Read(file.toStdString());
     fromBlob(blob);
   }
 
@@ -56,12 +56,12 @@ namespace Isis {
    * Load blob data into m_originalLabel
    */
   void OriginalXmlLabel::fromBlob(Isis::Blob blob) {
-    QString errorMessage;
+    std::string errorMessage;
     int errorLine = 0;
     int errorColumn = 0;
 
     if ( !m_originalLabel.setContent( QByteArray(blob.getBuffer(), blob.Size()) ) ) {
-      QString msg = "XML read/parse error when parsing original label. "
+      std::string msg = "XML read/parse error when parsing original label. "
                     "Error at line [" + toString(errorLine) +
                     "], column [" + toString(errorColumn) +
                     "]. Error message: " + errorMessage;
@@ -101,9 +101,9 @@ namespace Isis {
    * @throws IException::Unknown "XML read/parse error in file."
    */
   void OriginalXmlLabel::readFromXmlFile(const FileName &xmlFileName) {
-    QFile xmlFile(xmlFileName.expanded());
+    QFile xmlFile(QString::fromStdString(xmlFileName.expanded()));
      if ( !xmlFile.open(QIODevice::ReadOnly) ) {
-       QString msg = "Could not open label file [" + xmlFileName.expanded() +
+       std::string msg = "Could not open label file [" + xmlFileName.expanded() +
                      "].";
        throw IException(IException::Io, msg, _FILEINFO_);
      }
@@ -112,9 +112,9 @@ namespace Isis {
      int errline, errcol;
      if ( !m_originalLabel.setContent(&xmlFile, false, &errmsg, &errline, &errcol) ) {
        xmlFile.close();
-       QString msg = "XML read/parse error in file [" + xmlFileName.expanded()
-            + "] at line [" + toString(errline) + "], column [" + toString(errcol)
-            + "], message: " + errmsg;
+       std::string msg = "XML read/parse error in file [" + xmlFileName.expanded()
+            + "] at line [" + std::to_string(errline) + "], column [" + std::to_string(errcol)
+            + "], message: " + errmsg.toStdString();
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }
 

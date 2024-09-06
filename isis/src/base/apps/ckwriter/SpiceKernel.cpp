@@ -115,7 +115,7 @@ bool SpiceKernel::validate() const {
 
   //  Now check for problems
   if ( 0 < errors.size() ) {
-     QString mess = "Time overlap conflicts are present in segment (image) list. "
+     std::string mess = "Time overlap conflicts are present in segment (image) list. "
                     "This will likely create erroneous pointing in one or more "
                     "images.  You should create a seperate kernel for conflicting "
                     "images that overlap another.  Images with time overlap "

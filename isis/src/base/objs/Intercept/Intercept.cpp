@@ -205,7 +205,7 @@ namespace Isis {
   bool Intercept::verify(const bool &test, const QString &errmsg,
                          const Intercept::ErrAction &action) const {
     if ( ( Throw == action ) && ( !test ) ) {
-      throw IException(IException::Programmer, errmsg, _FILEINFO_);
+      throw IException(IException::Programmer, errmsg.toStdString(), _FILEINFO_);
     }
   
     // Looks good

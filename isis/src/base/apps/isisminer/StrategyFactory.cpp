@@ -270,7 +270,7 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
                                     const ResourceList &globals) const {
   Strategy *strategy = findStrategy(definition, globals);
   if ( !strategy ) {
-    std:string sname("UNKNOWN"), stype("UNKNOWN");
+    std::string sname("UNKNOWN"), stype("UNKNOWN");
     if ( definition.hasKeyword("Name") ) { 
       sname = definition["Name"][0]; 
     }
@@ -331,7 +331,7 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
       }
 
       if ( !missing.isEmpty() ) {
-        QString mess = "Users of this configuration must provide the "
+        std::string mess = "Users of this configuration must provide the "
                        "following parameter(s) but they were not found: " +
                         missing.join(", ");
         throw IException(IException::User, mess, _FILEINFO_);
@@ -369,7 +369,7 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
       if ( definition.hasKeyword("Name") ) { 
         sname = QString::fromStdString(definition["Name"][0]); 
       }
-      QString mess = "Strategy Type does not exist in configuration for " +
+      std::string mess = "Strategy Type does not exist in configuration for " +
                       sname + " strategy!";
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }
@@ -523,14 +523,14 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
      QString libname = pluginkeys.get("Library");
      BOOST_FOREACH ( QString dir, dirlist ) {
        QDir path(dir);
-       FileName library(path.filePath(libname));
-       plugin.setFileName(library.expanded());
+       FileName library(path.filePath(libname).toStdString());
+       plugin.setFileName(QString::fromStdString(library.expanded()));
        if ( plugin.load() ) { break; }  // library successfully loaded!
      }
 
      // Check for successful load
      if ( !plugin.isLoaded() ) {
-       QString mess = "Cannot find/load Strategy plugin library " + libname;
+       std::string mess = "Cannot find/load Strategy plugin library " + libname;
        throw IException(IException::User, mess, _FILEINFO_);
      }
 
@@ -539,7 +539,7 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
      QString routine = pluginkeys.get("Routine");
      StrategyCreator maker = (StrategyCreator) plugin.resolve(routine.toLatin1().data());
      if ( !maker ) {
-       QString mess = "Unable to resolve Routine name [" + routine +
+       std::string mess = "Unable to resolve Routine name [" + routine +
                       "] in Strategy plugin [" + plugin.fileName() + "]";
        throw IException(IException::User, mess, _FILEINFO_);
      }

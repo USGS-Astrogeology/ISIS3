@@ -207,10 +207,10 @@ namespace Isis {
 
     // Checks if there were overlaps to output results from
     if (overlapnum == 0) {
-      QString msg = "The overlap file [";
-      msg += FileName(ui.GetFileName("OVERLAPLIST")).name();
+      std::string msg = "The overlap file [";
+      msg += FileName(ui.GetFileName("OVERLAPLIST").toStdString()).name();
       msg += "] does not contain any overlaps across the provided cubes [";
-      msg += FileName(ui.GetFileName("FROMLIST")).name() + "]";
+      msg += FileName(ui.GetFileName("FROMLIST").toStdString()).name() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -249,7 +249,7 @@ namespace Isis {
 
     //Log the ERRORS file
     if (ui.WasEntered("ERRORS")) {
-      QString errorname = ui.GetFileName("ERRORS");
+      std::string errorname = ui.GetFileName("ERRORS");
       std::ofstream errorsfile;
       errorsfile.open(errorname.toLatin1().data());
       errorsfile << errors.str();

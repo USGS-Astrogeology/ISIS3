@@ -25,7 +25,7 @@ void IsisMain() {
   iCube.open(ui.GetCubeName("FROM"));
   Pvl * labels = iCube.label();
   if ("Mariner_10" !=  QString::fromStdString(labels->findKeyword("SpacecraftName", Pvl::Traverse))) {
-    QString msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
         " to be a Mariner10 cube";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -39,12 +39,12 @@ void IsisMain() {
   stats = cp.Statistics();
   cout << "Valid pixels: "<< stats->ValidPixels() << endl;
   if (stats->ValidPixels() == 7) {
-    QString msg = "The cube [" + ui.GetCubeName("FROM") + "] needs" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] needs" +
       " reconstruction, try mar10restore instead";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   else if (stats->ValidPixels() == 0) {
-    QString msg = "The cube [" + ui.GetCubeName("FROM") + "]" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "]" +
       " appears to have already been cleaned";
     throw IException(IException::User, msg, _FILEINFO_);
   }

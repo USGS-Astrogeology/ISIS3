@@ -216,7 +216,7 @@ namespace Isis {
   void *ExportImagesWorkOrder::ProjectImageExportFunctor::operator()(Image * const &imageToExport) {
     try {
       FileName outputFileName =
-          m_destination + "/" + FileName(imageToExport->fileName()).baseName();
+          m_destination.toStdString() + "/" + FileName(imageToExport->fileName().toStdString()).baseName();
 
       // Copy the image, free the copy from memory because we don't need it.
       delete imageToExport->cube()->copy(outputFileName, CubeAttributeOutput());

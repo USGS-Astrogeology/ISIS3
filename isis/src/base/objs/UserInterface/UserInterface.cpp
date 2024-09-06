@@ -44,13 +44,14 @@ namespace Isis {
 
     // Make sure the user has a .Isis and .Isis/history directory
     try {
-      FileName setup = "$HOME/.Isis/history";
-      // cannot completely test this if in unit test
-      if ( !setup.fileExists() ) {
-        setup.dir().mkpath(".");
+      std::filesystem::path homePath = std::getenv("HOME");
+      std::filesystem::path historyPath = homePath / ".Isis" / "history";
+      if (!std::filesystem::exists(historyPath)) {
+        std::filesystem::create_directories(historyPath);
       }
     }
-    catch (IException &) {
+    catch (const std::filesystem::filesystem_error& e) {
+      std::cerr << "Error: " << e.what() << '\n';
     }
 
     // Parse the user input
@@ -81,13 +82,14 @@ namespace Isis {
 
     // Make sure the user has a .Isis and .Isis/history directory
     try {
-      FileName setup = "$HOME/.Isis/history";
-      // cannot completely test this if in unit test
-      if ( !setup.fileExists() ) {
-        setup.dir().mkpath(".");
+      std::filesystem::path homePath = std::getenv("HOME");
+      std::filesystem::path historyPath = homePath / ".Isis" / "history";
+      if (!std::filesystem::exists(historyPath)) {
+        std::filesystem::create_directories(historyPath);
       }
     }
-    catch (IException &) {
+    catch (const std::filesystem::filesystem_error& e) {
+      std::cerr << "Error: " << e.what() << '\n';
     }
 
     // Parse the user input
@@ -235,12 +237,12 @@ namespace Isis {
   void UserInterface::SetErrorList(int i) {
     if (p_errList != "") {
       std::ofstream os;
-      QString fileName( FileName(p_errList).expanded() );
+      QString fileName(QString::fromStdString(FileName(p_errList.toStdString()).expanded()));
       os.open(fileName.toLatin1().data(), std::ios::app);
 
       // did not unit test since it is assumed ofstream will be instantiated correctly
       if ( !os.good() ) {
-        QString msg = "Unable to create error list [" + p_errList
+        std::string msg = "Unable to create error list [" + p_errList
                       + "] Disk may be full or directory permissions not writeable";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -268,11 +270,11 @@ namespace Isis {
       return;
 
     // Get the current history file
-    Isis::FileName histFile(QString::fromStdString(grp["HistoryPath"][0]) + "/" + ProgramName() + ".par");
+    Isis::FileName histFile(grp["HistoryPath"][0] + "/" + ProgramName().toStdString() + ".par");
 
     // If a save file is specified, override the default file path
     if (p_saveFile != "")
-      histFile = p_saveFile;
+      histFile = p_saveFile.toStdString();
 
     // Get the current command line
     Isis::Pvl cmdLine;
@@ -285,7 +287,7 @@ namespace Isis {
     // overwriten with the new entry.
     try {
       if ( histFile.fileExists() ) {
-        hist.read( histFile.expanded().toStdString() );
+        hist.read(histFile.expanded());
       }
     }
     catch (IException &) {
@@ -301,7 +303,7 @@ namespace Isis {
 
     // Write it
     try {
-      hist.write( histFile.expanded().toStdString() );
+      hist.write(histFile.expanded());
     }
     catch (IException &) {
     }
@@ -327,7 +329,7 @@ namespace Isis {
       temp.Open(file);
     }
     catch (IException &e) {
-      QString msg = "The batchlist file [" + file + "] could not be opened";
+      std::string msg = "The batchlist file [" + file + "] could not be opened";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -362,13 +364,13 @@ namespace Isis {
       if (i == 0)
         continue;
       if ( p_batchList[i - 1].size() != p_batchList[i].size() ) {
-        QString msg = "The number of columns must be constant in batchlist";
+        std::string msg = "The number of columns must be constant in batchlist";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     // The batchlist cannot be empty
     if (p_batchList.size() < 1) {
-      QString msg = "The list file [" + file + "] does not contain any data";
+      std::string msg = "The list file [" + file + "] does not contain any data";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -425,7 +427,7 @@ namespace Isis {
     // The program will be interactive if it has no arguments or
     // if it has the name unitTest
     p_progName = argv[0];
-    Isis::FileName file(p_progName);
+    Isis::FileName file(p_progName.toStdString());
     // cannot completely test in a unit test since unitTest will always evaluate to true
     if ( (argc == 1) && (file.name() != "unitTest") ) {
       p_interactive = true;
@@ -477,7 +479,7 @@ namespace Isis {
         // where if(paramname == -last ) to continue } was originally
 
         if (paramValue.size() > 1) {
-          QString msg = "Invalid value for reserve parameter ["
+          std::string msg = "Invalid value for reserve parameter ["
                        + paramName + "]";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -530,14 +532,14 @@ namespace Isis {
     // Can't use the batchlist with the gui, save, last or restore option
     if ( BatchListSize() != 0 && (p_interactive || usedDashLast || p_saveFile != ""
                                   || usedDashRestore) ) {
-      QString msg = "-BATCHLIST cannot be used with -GUI, -SAVE, -RESTORE, ";
+      std::string msg = "-BATCHLIST cannot be used with -GUI, -SAVE, -RESTORE, ";
       msg += "or -LAST";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     // Must use batchlist if using errorlist or onerror=continue
     if ( (BatchListSize() == 0) && (!p_abortOnError || p_errList != "") ) {
-      QString msg = "-ERRLIST and -ONERROR=continue cannot be used without ";
+      std::string msg = "-ERRLIST and -ONERROR=continue cannot be used without ";
       msg += " the -BATCHLIST option";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -569,10 +571,10 @@ namespace Isis {
    * @throws Isis::IException::User - Parameter history file does not exist
    */
   void UserInterface::loadHistory(const QString file) {
-    Isis::FileName hist(file);
+    Isis::FileName hist(file.toStdString());
     if ( hist.fileExists() ) {
       try {
-        Isis::Pvl lab( hist.expanded().toStdString() );
+        Isis::Pvl lab(hist.expanded());
 
         int g = lab.groups() - 1;
         if (g >= 0 && lab.group(g).isNamed("UserParameters") ) {
@@ -632,18 +634,18 @@ namespace Isis {
           }
         }
 
-        /*QString msg = "[" + hist.expanded() +
+        /*std::string msg = "[" + hist.expanded() +
          "] does not contain any parameters to restore";
          throw Isis::iException::Message( Isis::iException::User, msg, _FILEINFO_ );*/
       }
       catch (...) {
-        QString msg = "The history file [" + file + "] is for a different application or corrupt, "\
+        std::string msg = "The history file [" + file + "] is for a different application or corrupt, "\
                       "please fix or delete this file";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     else {
-      QString msg = "The history file [" + file + "] does not exist";
+      std::string msg = "The history file [" + file + "] does not exist";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -670,7 +672,7 @@ namespace Isis {
                                      const QString value) {
     // check to see if the program is a unitTest
     bool unitTest = false;
-      if (FileName(p_progName).name() == "unitTest") {
+      if (FileName(p_progName.toStdString()).name() == "unitTest") {
         unitTest = true;
       }
     Preference &p = Preference::Preferences();
@@ -688,11 +690,11 @@ namespace Isis {
       QString histFile;
       // need to handle for unit test since -LAST is preprocessed
       if (unitTest) {
-        histFile = "./" + FileName(p_progName).name() + ".par";
+        histFile = QString::fromStdString("./" + FileName(p_progName.toStdString()).name() + ".par");
       }
       else {
         PvlGroup &grp = p.findGroup("UserInterface", Isis::Pvl::Traverse);
-        histFile = QString::fromStdString(grp["HistoryPath"][0]) + "/" + FileName(p_progName).name() + ".par";
+        histFile = QString::fromStdString(grp["HistoryPath"][0] + "/" + FileName(p_progName.toStdString()).name() + ".par");
       }
 
       loadHistory(histFile);
@@ -704,7 +706,7 @@ namespace Isis {
       Isis::PvlGroup &pref = Isis::Preference::Preferences().findGroup("UserInterface");
       QString command = QString::fromStdString(pref["GuiHelpBrowser"]);
       command += " $ISISROOT/docs/Application/presentation/Tabbed/";
-      command += FileName(p_progName).name() + "/" + FileName(p_progName).name() + ".html";
+      command += QString::fromStdString(FileName(p_progName.toStdString()).name() + "/" + FileName(p_progName.toStdString()).name() + ".html");
       // cannot test else in unit test - don't want to open webhelp
       if (unitTest) {
         throw IException(IException::Programmer,
@@ -888,7 +890,7 @@ namespace Isis {
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
-      if ( FileName(p_errList).fileExists() ) {
+      if ( FileName(p_errList.toStdString()).fileExists() ) {
         QFile::remove(p_errList);
       }
     }
@@ -902,7 +904,7 @@ namespace Isis {
       }
 
       else {
-        QString msg = "[" + value
+        std::string msg = "[" + value
                       + "] is an invalid value for -ONERROR, options are ABORT or CONTINUE";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -1098,7 +1100,7 @@ namespace Isis {
     for (int strPos = 0; strPos < arrayString.size(); strPos++) {
       if (strPos == 0) {
         if (arrayString[strPos] != '(') {
-          QString msg = "Invalid array format [" + arrayString + "]";
+          std::string msg = "Invalid array format [" + arrayString + "]";
           throw IException(IException::User, msg, _FILEINFO_);
         }
 
@@ -1113,14 +1115,14 @@ namespace Isis {
       }
       // ends in a backslash??
       else if (arrayString[strPos] == '\\') {
-        QString msg = "Invalid array format [" + arrayString + "]";
+        std::string msg = "Invalid array format [" + arrayString + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       // not in quoted part of QString
       if (!inDoubleQuotes && !inSingleQuotes) {
         if (arrayClosed) {
-          QString msg = "Invalid array format [" + arrayString + "]";
+          std::string msg = "Invalid array format [" + arrayString + "]";
           throw IException(IException::User, msg, _FILEINFO_);
         }
 
@@ -1185,7 +1187,7 @@ namespace Isis {
     }
 
     if (!arrayClosed || currElement != "") {
-      QString msg = "Invalid array format [" + arrayString + "]";
+      std::string msg = "Invalid array format [" + arrayString + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -1221,7 +1223,7 @@ namespace Isis {
       // If our option starts with the parameter name so far, this is it
       if ( reservedParams[option].startsWith(unresolvedParam) ) {
         if (matchOption >= 0) {
-          QString msg = "Ambiguous Reserve Parameter ["
+          std::string msg = "Ambiguous Reserve Parameter ["
           + unresolvedParam + "]. Please clarify.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -1233,10 +1235,10 @@ namespace Isis {
     if (handleNoMatches) {
       // handle no matches
       if (matchOption < 0) {
-        QString msg = "Invalid Reserve Parameter Option ["
+        std::string msg = "Invalid Reserve Parameter Option ["
         + unresolvedParam + "]. Choices are ";
 
-        QString msgOptions;
+        std::string msgOptions;
         for (int option = 0; option < (int)reservedParams.size(); option++) {
           // Make sure not to show -PID as an option
           if (reservedParams[option].compare("-PID") == 0) {

@@ -38,12 +38,12 @@ namespace Isis {
     FileName xmlFileName = ui.GetFileName("FROM");
 
     if (!xmlFileName.removeExtension().addExtension("dat").fileExists() && !xmlFileName.removeExtension().addExtension("img").fileExists()) {
-        QString msg = "Cannot find image file for [" + xmlFileName.name() + "]. Confirm that the "
+        std::string msg = "Cannot find image file for [" + xmlFileName.name() + "]. Confirm that the "
         ".dat or .img file for this XML exists and is located in the same directory.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     if(xmlFileName.name().contains("cas_raw_sc")){
-        QString msg = "tgocassis2isis is unable to process cas_raw_sc data. Please use cas_cal_sc data instead.";
+        std::string msg = "tgocassis2isis is unable to process cas_raw_sc data. Please use cas_cal_sc data instead.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -58,7 +58,7 @@ namespace Isis {
         importer.SetInputFile(xmlFileName.removeExtension().addExtension("img").expanded());
       }
       else {
-        QString msg = "Cannot find image file for [" + xmlFileName.name() + "]. Confirm that the "
+        std::string msg = "Cannot find image file for [" + xmlFileName.name() + "]. Confirm that the "
           ".dat or .img file for this XML exists and is located in the same directory.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -125,7 +125,7 @@ namespace Isis {
     }
     catch (IException &e) {
 
-      QString msg = "Given file [" + xmlFileName.expanded() + "] does not appear to be a valid TGO CaSSIS label.";
+      std::string msg = "Given file [" + xmlFileName.expanded() + "] does not appear to be a valid TGO CaSSIS label.";
         throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -254,7 +254,7 @@ namespace Isis {
 
     QFile xmlFile(xmlFileName.expanded());
     if ( !xmlFile.open(QIODevice::ReadOnly) ) {
-      QString msg = "Could not open label file [" + xmlFileName.expanded() +
+      std::string msg = "Could not open label file [" + xmlFileName.expanded() +
                     "].";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -263,7 +263,7 @@ namespace Isis {
     int errline, errcol;
     if ( !xmlDoc.setContent(&xmlFile, false, &errmsg, &errline, &errcol) ) {
       xmlFile.close();
-      QString msg = "XML read/parse error in file [" + xmlFileName.expanded()
+      std::string msg = "XML read/parse error in file [" + xmlFileName.expanded()
           + "] at line [" + toString(errline) + "], column [" + toString(errcol)
           + "], message: " + errmsg;
       throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -459,7 +459,7 @@ namespace Isis {
         spacecraftCode = -143424;
       }
       else {
-        QString msg = "Unrecognized filter name ["
+        std::string msg = "Unrecognized filter name ["
           + filter
           + "].";
           throw IException(IException::User, msg, _FILEINFO_);
@@ -469,7 +469,7 @@ namespace Isis {
       bandBin.addKeyword(PvlKeyword("NaifIkCode", std::to_string(spacecraftCode)));
     }
     else {
-      QString msg = "Unrecognized Spacecraft name ["
+      std::string msg = "Unrecognized Spacecraft name ["
         + spcName
         + "] and instrument ID ["
         + instId

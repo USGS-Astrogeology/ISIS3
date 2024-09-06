@@ -80,7 +80,7 @@ namespace Isis {
       }
       else {
         // Make sure attributes don't get processed twice
-        cube->open(FileName(fname).expanded());
+        cube->open(QString::fromStdString(FileName(fname.toStdString()).expanded()));
       }
     }
     catch(IException &e) {
@@ -114,7 +114,7 @@ namespace Isis {
       AddInputCube(inCube, false);
     }
     else {
-      QString message = "Input cube does not exist";
+      std::string message = "Input cube does not exist";
       throw IException(IException::User, message, _FILEINFO_);
     }
   }
@@ -140,7 +140,7 @@ namespace Isis {
                                     const int requirements) {
     QString fname = Application::GetUserInterface().GetCubeName(parameter);
     Isis::CubeAttributeInput &att = Application::GetUserInterface().GetInputAttribute(parameter);
-    return SetInputCube(FileName(fname).expanded(), att, requirements);
+    return SetInputCube(QString::fromStdString(FileName(fname.toStdString()).expanded()), att, requirements);
   }
 
 
@@ -163,7 +163,7 @@ namespace Isis {
   Isis::Cube *Process::SetOutputCube(const QString &parameter) {
     // Make sure we have an input cube to get a default size from
     if(InputCubes.size() == 0) {
-      QString message = "No input images have been selected ... therefore";
+      std::string message = "No input images have been selected ... therefore";
       message += "the output image size can not be determined";
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
@@ -196,7 +196,7 @@ namespace Isis {
   Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, UserInterface *ui) {
     // Make sure we have an input cube to get a default size from
     if(InputCubes.size() == 0) {
-      QString message = "No input images have been selected ... therefore";
+      std::string message = "No input images have been selected ... therefore";
       message += "the output image size can not be determined";
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
@@ -336,7 +336,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
           cube->setPixelType(InputCubes[0]->pixelType());
         }
         else {
-          QString msg = "You told me to propagate PixelType from input to output";
+          std::string msg = "You told me to propagate PixelType from input to output";
           msg += " cube but there are no input cubes loaded";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
@@ -350,7 +350,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
           cube->setBaseMultiplier(0.0, 1.0);
         }
         else if(InputCubes.size() == 0) {
-          QString msg = "You told me to propagate base/multiplier from input to output";
+          std::string msg = "You told me to propagate base/multiplier from input to output";
           msg += " cube but there are no input cubes loaded";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
@@ -365,12 +365,12 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
                 (cube->pixelType() != Isis::SignedWord) &&
                 (cube->pixelType() != Isis::UnsignedInteger) &&
                 (cube->pixelType() != Isis::SignedInteger)) {
-          QString msg = "Looks like your refactoring to add different pixel types";
+          std::string msg = "Looks like your refactoring to add different pixel types";
           msg += " you'll need to make changes here";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
         else {
-          QString msg = "You've chosen to reduce your output PixelType for [" +
+          std::string msg = "You've chosen to reduce your output PixelType for [" +
                        fname + "] you must specify the output pixel range too";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -516,7 +516,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
       if(InputCubes.size() > 0) {
         if(cube->lineCount() != 1) {
           if(cube->lineCount() != InputCubes[0]->lineCount()) {
-            QString message = "The number of lines in the secondary input cubes must match";
+            std::string message = "The number of lines in the secondary input cubes must match";
             message += " the primary input cube or be exactly one";
             throw IException(IException::User, message, _FILEINFO_);
           }
@@ -524,14 +524,14 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
 
         if(cube->sampleCount() != 1) {
           if(cube->sampleCount() != InputCubes[0]->sampleCount()) {
-            QString message = "The number of samples in the secondary input cubes must match";
+            std::string message = "The number of samples in the secondary input cubes must match";
             message += " the primary input cube or be exactly one";
             throw IException(IException::User, message, _FILEINFO_);
           }
         }
         if(cube->bandCount() != 1) {
           if(cube->bandCount() != InputCubes[0]->bandCount()) {
-            QString message = "The number of bands in the secondary input cubes must match";
+            std::string message = "The number of bands in the secondary input cubes must match";
             message += " the primary input cube or be exactly one";
             throw IException(IException::User, message, _FILEINFO_);
           }
@@ -546,15 +546,15 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
     if(requirements & Isis::SizeMatch) {
       if(InputCubes.size() > 0) {
         if(cube->lineCount() != InputCubes[0]->lineCount()) {
-          QString message = "The number of lines in the input cubes must match";
+          std::string message = "The number of lines in the input cubes must match";
           throw IException(IException::User, message, _FILEINFO_);
         }
         if(cube->sampleCount() != InputCubes[0]->sampleCount()) {
-          QString message = "The number of samples in the input cubes must match";
+          std::string message = "The number of samples in the input cubes must match";
           throw IException(IException::User, message, _FILEINFO_);
         }
         if(cube->bandCount() != InputCubes[0]->bandCount()) {
-          QString message = "The number of bands in the input cubes must match";
+          std::string message = "The number of bands in the input cubes must match";
           throw IException(IException::User, message, _FILEINFO_);
         }
       }
@@ -564,11 +564,11 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
     if(requirements & Isis::SpatialMatch) {
       if(InputCubes.size() > 0) {
         if(cube->lineCount() != InputCubes[0]->lineCount()) {
-          QString message = "The number of lines in the input cubes must match";
+          std::string message = "The number of lines in the input cubes must match";
           throw IException(IException::User, message, _FILEINFO_);
         }
         if(cube->sampleCount() != InputCubes[0]->sampleCount()) {
-          QString message = "The number of samples in the input cubes must match";
+          std::string message = "The number of samples in the input cubes must match";
           throw IException(IException::User, message, _FILEINFO_);
         }
       }
@@ -577,7 +577,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
     // Test for one band
     if(requirements & Isis::OneBand) {
       if(cube->bandCount() != 1) {
-        QString message = "Input cube [" + cube->fileName() + "] must have one band";
+        std::string message = "Input cube [" + cube->fileName() + "] must have one band";
         throw IException(IException::User, message, _FILEINFO_);
       }
     }
@@ -587,7 +587,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
       if(cube->bandCount() != 1) {
         if(InputCubes.size() > 0) {
           if(cube->bandCount() != InputCubes[0]->bandCount()) {
-            QString message = "The number of bands in the secondary input cubes must match";
+            std::string message = "The number of bands in the secondary input cubes must match";
             message += " the primary input cube or be exactly one";
             throw IException(IException::User, message, _FILEINFO_);
           }
@@ -788,17 +788,17 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
   QString Process::MissionData(const QString &mission, const QString &file,
                               bool highestVersion) {
     Isis::PvlGroup &dataDir = Isis::Preference::Preferences().findGroup("DataDirectory");
-    QString dir = QString::fromStdString(dataDir[mission.toStdString()]);
+    std::string dir = dataDir[mission.toStdString()];
 
     // See if the data directory is installed
     Isis::FileName installed(dir);
     if(!installed.fileExists()) {
-      QString message = "Data directory for mission [" + mission + "] " +
+      std::string message = "Data directory for mission [" + mission + "] " +
                        "is not installed at your site";
       throw IException(IException::Io, message, _FILEINFO_);
     }
 
-    Isis::FileName expanded(dir + "/" + file);
+    Isis::FileName expanded(dir + "/" + file.toStdString());
     // Highest version checks if the file exists, if we
     // do not ask for the highest version, then we need to check
     // if the file exists
@@ -807,12 +807,12 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
     }
     else {
       if (!expanded.fileExists()) {
-        QString message = "The file [" + expanded.original() + "] " +
-                          "cannot be found under [" + mission + "]";
+        std::string message = "The file [" + expanded.original() + "] " +
+                          "cannot be found under [" + mission.toStdString() + "]";
         throw IException(IException::Io, message, _FILEINFO_);
       }
     }
-    return expanded.expanded();
+    return QString::fromStdString(expanded.expanded());
   }
 
 
@@ -869,7 +869,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
 
       QString cubeNumStr = toString(cubeNum + 1);
       QString totalCubes = toString((int)InputCubes.size());
-      QString msg = "Calculating statistics for cube " + cubeNumStr + " of " + totalCubes;
+      std::string msg = "Calculating statistics for cube " + cubeNumStr + " of " + totalCubes;
 
       Isis::Progress progress;
       progress.SetText(msg);

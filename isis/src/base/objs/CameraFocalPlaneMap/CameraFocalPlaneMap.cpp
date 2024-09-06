@@ -97,10 +97,10 @@ namespace Isis {
     p_camera = parent;
 
     if (naifIkCode != 0) {
-      QString xkey  = "INS" + toString(naifIkCode) + "_TRANSX";
-      QString ykey  = "INS" + toString(naifIkCode) + "_TRANSY";
-      QString ixkey = "INS" + toString(naifIkCode) + "_ITRANSS";
-      QString iykey = "INS" + toString(naifIkCode) + "_ITRANSL";
+      QString xkey  = "INS" + QString::number(naifIkCode) + "_TRANSX";
+      QString ykey  = "INS" + QString::number(naifIkCode) + "_TRANSY";
+      QString ixkey = "INS" + QString::number(naifIkCode) + "_ITRANSS";
+      QString iykey = "INS" + QString::number(naifIkCode) + "_ITRANSL";
       for (int i = 0; i < 3; ++i) {
         p_transx[i]  = parent->getDouble(xkey, i);
         p_transy[i]  = parent->getDouble(ykey, i);

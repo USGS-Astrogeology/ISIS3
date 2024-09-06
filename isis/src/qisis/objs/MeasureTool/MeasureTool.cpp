@@ -581,9 +581,9 @@ namespace Isis {
 
     // Write out col 8 (the file name)
     Isis::FileName fname = Isis::FileName(
-        cvp->cube()->fileName()).expanded();
-    m_path  = fname.path();
-    m_fname = fname.name();
+        cvp->cube()->fileName().toStdString()).expanded();
+    m_path  = QString::fromStdString(fname.path());
+    m_fname = QString::fromStdString(fname.name());
 
     m_pixDist = Null;
     m_mDist   = Null;

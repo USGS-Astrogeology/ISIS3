@@ -9,6 +9,7 @@ find files of those names at the top level of this repository. **/
 #include <iostream>
 #include <vector>
 #include <string>
+#include <QString>
 
 #include "FileName.h"
 #include "Pvl.h"

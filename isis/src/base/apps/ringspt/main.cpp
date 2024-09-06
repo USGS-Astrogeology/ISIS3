@@ -132,7 +132,7 @@ void IsisMain() {
   }
   else {
     if(ui.GetString("FORMAT") == "FLAT") {
-      QString msg = "Flat file must have a name.";
+      std::string msg = "Flat file must have a name.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

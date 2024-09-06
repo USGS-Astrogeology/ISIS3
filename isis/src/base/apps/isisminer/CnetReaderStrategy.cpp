@@ -116,7 +116,7 @@ namespace Isis {
 
     int nrows = pointNum;
 
-    FileName netfile(translateKeywordArgs("CnetFile", globals));
+    FileName netfile(translateKeywordArgs("CnetFile", globals).toStdString());
     ControlNetVersioner cnetReader(netfile);
     Pvl pvl(cnetReader.toPvl());
 

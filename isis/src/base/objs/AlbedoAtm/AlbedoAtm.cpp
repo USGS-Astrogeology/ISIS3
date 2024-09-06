@@ -141,7 +141,7 @@ namespace Isis {
       fourthterm = pow(q, 2.0) - 4.0 * thirdterm;
 
       if(fourthterm < 0.0) {
-        QString msg = "Square root of negative (math) encountered";
+        std::string msg = "Square root of negative (math) encountered";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       else {
@@ -153,7 +153,7 @@ namespace Isis {
 
     // Now use rho and reference geometry to calculate output dnout
     if((1.0 - rho * GetAtmosModel()->AtmosAb()*p_normSbar) <= 0.0) {
-      QString msg = "Divide by zero (math) encountered";
+      std::string msg = "Divide by zero (math) encountered";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     else {
@@ -175,8 +175,8 @@ namespace Isis {
     */
   void AlbedoAtm::SetNormPharef(const double pharef) {
     if(pharef < 0.0 || pharef >= 180.0) {
-      QString msg = "Invalid value of normalization pharef [" +
-                        toString(pharef) + "]";
+      std::string msg = "Invalid value of normalization pharef [" +
+                        std::to_string(pharef) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -194,8 +194,8 @@ namespace Isis {
     */
   void AlbedoAtm::SetNormIncref(const double incref) {
     if(incref < 0.0 || incref >= 90.0) {
-      QString msg = "Invalid value of normalization incref [" +
-                        toString(incref) + "]";
+      std::string msg = "Invalid value of normalization incref [" +
+                        std::to_string(incref) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -213,8 +213,8 @@ namespace Isis {
     */
   void AlbedoAtm::SetNormEmaref(const double emaref) {
     if(emaref < 0.0 || emaref >= 90.0) {
-      QString msg = "Invalid value of normalization emaref [" +
-                        toString(emaref) + "]";
+      std::string msg = "Invalid value of normalization emaref [" +
+                        std::to_string(emaref) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

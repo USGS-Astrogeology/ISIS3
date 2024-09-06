@@ -117,7 +117,7 @@ namespace Isis {
       ReadControl(ptfile, progress);
     }
     catch (IException &e) {
-      QString msg = "Invalid control network [" + ptfile + "]";
+      std::string msg = "Invalid control network [" + ptfile + "]";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
   }
@@ -315,7 +315,7 @@ namespace Isis {
         network = versionedWriter.toPvl();
       }
       catch (IException &e) {
-        QString msg = "Failed to convert control network to Pvl format.";
+        std::string msg = "Failed to convert control network to Pvl format.";
         throw IException(e, IException::Programmer, msg, _FILEINFO_);
       }
 
@@ -323,7 +323,7 @@ namespace Isis {
         network.write(ptfile.toStdString());
       }
       catch (IException &e) {
-        QString msg = "Failed writing control network to file [" + ptfile + "]";
+        std::string msg = "Failed writing control network to file [" + ptfile + "]";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -332,7 +332,7 @@ namespace Isis {
         versionedWriter.write(QString::fromStdString((FileName(ptfile).toString())));
       }
       catch (IException &e) {
-        QString msg = "Failed writing control network to file [" + ptfile + "]";
+        std::string msg = "Failed writing control network to file [" + ptfile + "]";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -387,7 +387,7 @@ namespace Isis {
     }
 
     if (!ContainsPoint(point->GetId())) {
-      QString msg = "ControlNet does not contain the point [";
+      std::string msg = "ControlNet does not contain the point [";
       msg += point->GetId() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -590,7 +590,7 @@ namespace Isis {
     }
 
     if (!ContainsPoint(point->GetId())) {
-      QString msg = "ControlNet does not contain the point [";
+      std::string msg = "ControlNet does not contain the point [";
       msg += point->GetId() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -646,7 +646,7 @@ namespace Isis {
       QString sourceSerial = sourceMeasure->GetCubeSerialNumber();
 
       if (!ValidateSerialNumber(sourceSerial)) {
-        QString msg = "Node does not exist for [";
+        std::string msg = "Node does not exist for [";
         msg += sourceSerial + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
@@ -656,7 +656,7 @@ namespace Isis {
         QString targetSerial = targetMeasure->GetCubeSerialNumber();
 
         if (!ValidateSerialNumber(targetSerial)) {
-          QString msg = "Node does not exist for [";
+          std::string msg = "Node does not exist for [";
           msg += targetSerial + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
@@ -693,7 +693,7 @@ namespace Isis {
     }
 
     if (!ContainsPoint(point->GetId())) {
-      QString msg = "ControlNet does not contain the point [";
+      std::string msg = "ControlNet does not contain the point [";
       msg += point->GetId() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -703,7 +703,7 @@ namespace Isis {
       ControlMeasure *adjacentMeasure = point->GetMeasure(i);
       QString sn = adjacentMeasure->GetCubeSerialNumber();
       if (!adjacentMeasure->IsIgnored() && !m_vertexMap.contains(sn)) {
-        QString msg = "Node does not exist for [";
+        std::string msg = "Node does not exist for [";
         msg += measure->GetCubeSerialNumber() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
@@ -786,7 +786,7 @@ namespace Isis {
       QString sourceSerial = sourceMeasure->GetCubeSerialNumber();
 
       if (!ValidateSerialNumber(sourceSerial)) {
-        QString msg = "Node does not exist for [";
+        std::string msg = "Node does not exist for [";
         msg += sourceSerial + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
@@ -796,7 +796,7 @@ namespace Isis {
         QString targetSerial = targetMeasure->GetCubeSerialNumber();
 
         if (!ValidateSerialNumber(targetSerial)) {
-          QString msg = "Node does not exist for [";
+          std::string msg = "Node does not exist for [";
           msg += targetSerial + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
@@ -830,7 +830,7 @@ namespace Isis {
 
     QString serial = measure->GetCubeSerialNumber();
     if (!ValidateSerialNumber(serial)) {
-      QString msg = "Node does not exist for [";
+      std::string msg = "Node does not exist for [";
       msg += serial + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1036,7 +1036,7 @@ namespace Isis {
    */
   QList< QString > ControlNet::getAdjacentImages(QString serialNumber) const {
     if (!ValidateSerialNumber(serialNumber)) {
-      QString msg = "Cube Serial Number [" + serialNumber + "] not found in "
+      std::string msg = "Cube Serial Number [" + serialNumber + "] not found in "
           "the network";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1280,7 +1280,7 @@ namespace Isis {
       double sample, double line) {
 
     if (!ValidateSerialNumber(serialNumber)) {
-      QString msg = "serialNumber [";
+      std::string msg = "serialNumber [";
       msg += serialNumber;
       msg += "] not found in ControlNet";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1607,7 +1607,7 @@ namespace Isis {
     for (int i = 0; i < list.size(); i++) {
       QString serialNumber = list.serialNumber(i);
       QString filename = list.fileName(i);
-      Cube cube(filename, "r");
+      Cube cube(filename.toStdString(), "r");
 
       try {
         Isis::Camera *cam = CameraFactory::Create(cube);
@@ -1617,7 +1617,7 @@ namespace Isis {
         p_cameraList.push_back(cam);
       }
       catch (IException &e) {
-        QString msg = "Unable to create camera for cube file ";
+        std::string msg = "Unable to create camera for cube file ";
         msg += filename;
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }

@@ -143,7 +143,7 @@ namespace Isis {
  *                                 to set algorithm parameters."
  */
   int FlannBasedMatcher::setAlgorithmVariables(const PvlFlatMap &variables) {
-    QString msg = "FlannBasedMatcher does not have the ability to set algorithm parameters.";
+    std::string msg = "FlannBasedMatcher does not have the ability to set algorithm parameters.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
 
     return (-1);

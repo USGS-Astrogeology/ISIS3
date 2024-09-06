@@ -93,7 +93,7 @@ namespace Isis {
     }
     else {
       if(psurf == 0.0) {
-        QString msg = "Albedo math divide by zero error";
+        std::string msg = "Albedo math divide by zero error";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       else {

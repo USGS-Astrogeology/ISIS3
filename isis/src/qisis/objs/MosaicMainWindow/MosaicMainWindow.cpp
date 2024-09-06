@@ -31,7 +31,7 @@
 namespace Isis {
   MosaicMainWindow::MosaicMainWindow(QString title, QWidget *parent) :
       MainWindow(title, parent),
-      m_settings(FileName("$HOME/.Isis/qmos/qmos.config").expanded(),
+      m_settings(QString::fromStdString(FileName("$HOME/.Isis/qmos/qmos.config").expanded()),
                  QSettings::NativeFormat) {
     m_filename = "";
     m_fileMenu = NULL;
@@ -249,7 +249,7 @@ namespace Isis {
     QAction *activateWhatsThisAct = new QAction("&What's This", this);
     activateWhatsThisAct->setShortcut(Qt::SHIFT | Qt::Key_F1);
     activateWhatsThisAct->setIcon(
-        QPixmap(FileName("$ISISROOT/appdata/images/icons/contexthelp.png").expanded()));
+        QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/contexthelp.png").expanded())));
     activateWhatsThisAct->setToolTip("Activate What's This and click on parts "
         "this program to see more information about them");
     connect(activateWhatsThisAct, SIGNAL(triggered()),

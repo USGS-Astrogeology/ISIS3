@@ -188,7 +188,7 @@ namespace Isis {
       QObject::connect( bundleAdjustment, SIGNAL( statusUpdate(QString) ),
                         bundleAdjustment, SLOT( outputBundleStatus(QString) ) );
       BundleSolutionInfo *bundleSolution = bundleAdjustment->solveCholeskyBR();
-      bundleSolution->setOutputControlName( FileName(ui.GetFileName("ONET")).expanded() );
+      bundleSolution->setOutputControlName( QString::fromStdString(FileName(ui.GetFileName("ONET").toStdString()).expanded()) );
       cout << "\nGenerating report files\n" << endl;
 
       // write output files
@@ -215,16 +215,15 @@ namespace Isis {
       // write updated control net
       bundleAdjustment->controlNet()->Write(ui.GetFileName("ONET"));
 
-      // write updated lidar data file
-      if (ui.WasEntered("LIDARDATA")) {
-        if (ui.GetString("OLIDARFORMAT") == "JSON") {
-          bundleAdjustment->lidarData()->write(ui.GetFileName("OLIDARDATA"),LidarData::Format::Json);
-        }
-        else {
-          bundleAdjustment->lidarData()->write(ui.GetFileName("OLIDARDATA"),LidarData::Format::Binary);
-        }
+    // write updated lidar data file
+    if (ui.WasEntered("LIDARDATA")) {
+      if (ui.GetString("OLIDARFORMAT") == "JSON") {
+        bundleAdjustment->lidarData()->write(ui.GetFileName("OLIDARDATA").toStdString(),LidarData::Format::Json);
       }
-
+      else {
+        bundleAdjustment->lidarData()->write(ui.GetFileName("OLIDARDATA").toStdString(),LidarData::Format::Binary);
+      }
+    }
       PvlGroup gp("JigsawResults");
       QString jigComment = "Jigged = " + Isis::iTime::CurrentLocalTime();
 
@@ -268,7 +267,7 @@ namespace Isis {
       if (ui.GetBoolean("UPDATE") ) {
         if ( !bundleAdjustment->isConverged() ) {
           gp += PvlKeyword("Status","Bundle did not converge, camera pointing NOT updated");
-          QString msg = "Bundle did not converge within MAXITS [" + toString(ui.GetInteger("MAXITS")) + "] iterations [" + cnetFile +  "]";
+          std::string msg = "Bundle did not converge within MAXITS [" + toString(ui.GetInteger("MAXITS")) + "] iterations [" + cnetFile +  "]";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
         else {
@@ -335,7 +334,7 @@ namespace Isis {
     }
     catch(IException &e) {
       bundleAdjustment->controlNet()->Write(ui.GetFileName("ONET"));
-      QString msg = "Unable to bundle adjust network [" + cnetFile + "]";
+      std::string msg = "Unable to bundle adjust network [" + cnetFile + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -433,9 +432,9 @@ namespace Isis {
     if (ui.GetBoolean("SOLVETARGETBODY") == true) {
       PvlObject obj;
       ui.GetFileName("TBPARAMETERS");
-      Pvl tbParPvl(FileName(ui.GetFileName("TBPARAMETERS")).expanded().toStdString());
+      Pvl tbParPvl(FileName(ui.GetFileName("TBPARAMETERS").toStdString()).expanded());
       if (!tbParPvl.hasObject("Target")) {
-        QString msg = "Input Target parameters file missing main Target object";
+        std::string msg = "Input Target parameters file missing main Target object";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -494,7 +493,7 @@ namespace Isis {
 
     // Inform the user which images are not in the second list
     if (!imagesNotFound.isEmpty()) {
-      QString msg = "The following images are not in the FROMLIST:";
+      std::string msg = "The following images are not in the FROMLIST:";
       msg += imagesNotFound + ".";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -510,10 +509,10 @@ namespace Isis {
 
     if (ui.WasEntered("SCCONFIG")) {
       PvlObject obj;
-      Pvl scConfig(FileName(ui.GetFileName("SCCONFIG")).expanded().toStdString());
+      Pvl scConfig(FileName(ui.GetFileName("SCCONFIG").toStdString()).expanded());
       // QMap<QString, BundleObservationSolveSettings*> instIDtoBOSS;
       if (!scConfig.hasObject("SensorParameters")) {
-        QString msg = "Input SCCONFIG file missing SensorParameters object";
+        std::string msg = "Input SCCONFIG file missing SensorParameters object";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -538,7 +537,7 @@ namespace Isis {
           }
         }
         if (!found){
-          QString msg = "No BundleObservationSolveSettings found for " + snInstId;
+          std::string msg = "No BundleObservationSolveSettings found for " + snInstId;
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -601,7 +600,7 @@ namespace Isis {
       if ((ui.WasEntered("CSMSOLVESET")  && ui.WasEntered("CSMSOLVETYPE")) ||
           (ui.WasEntered("CSMSOLVESET")  && ui.WasEntered("CSMSOLVELIST")) ||
           (ui.WasEntered("CSMSOLVETYPE") && ui.WasEntered("CSMSOLVELIST")) ) {
-        QString msg = "Only one of CSMSOLVESET, CSMSOLVETYPE, and CSMSOLVELIST "
+        std::string msg = "Only one of CSMSOLVESET, CSMSOLVETYPE, and CSMSOLVELIST "
                       "can be specified at a time.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -738,7 +737,7 @@ namespace Isis {
           pt->SetAprioriSurfacePoint(cam->GetSurfacePoint());
         }
         else {
-          QString msg = "Cannot compute surface point for control point [" + pt->GetId() +
+          std::string msg = "Cannot compute surface point for control point [" + pt->GetId() +
               "], measure [" + cm->GetCubeSerialNumber() + "].";
           throw IException(IException::User, msg, _FILEINFO_);
         }

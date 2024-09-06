@@ -36,7 +36,7 @@ namespace Isis {
    * @param keyListFile The name of the file containing PvlKeyword names.
    */  
   PvlConstraints::PvlConstraints(const QString &keyListFile) {
-    addKeyToList(FileName(keyListFile));
+    addKeyToList(FileName(keyListFile.toStdString()));
     return;
   }
   
@@ -328,7 +328,7 @@ namespace Isis {
 //       cout << "HI!" << endl;
 //       addKeyToList(pvl[k].name());
 //     }
-    TextFile keyList(keyListFile.expanded());
+    TextFile keyList(QString::fromStdString(keyListFile.expanded()));
     QString keywordName = "";
     while (keyList.GetLine(keywordName)) {
       addKeyToList(keywordName);
@@ -577,11 +577,11 @@ namespace Isis {
                           const int &index) const {
     QMap<QString, PvlKeyword>::const_iterator k = find(key.toLower());
     if (end() == k) {
-      QString mess = "Keyword " + key + " does not exist!";
+      std::string mess = "Keyword " + key + " does not exist!";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
     if (index >= k.value().size()) {
-      QString mess = "Index " + toString(index) + " does not exist for keyword " + key + "!";
+      std::string mess = "Index " + toString(index) + " does not exist for keyword " + key + "!";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
   
@@ -660,7 +660,7 @@ namespace Isis {
   PvlKeyword PvlFlatMap::keyword(const QString &key) const {
     QMap<QString, PvlKeyword>::const_iterator k = find(key.toLower());
     if (end() == k) {
-      QString mess = "Keyword " + key + " does not exist!";
+      std::string mess = "Keyword " + key + " does not exist!";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
     return (k.value());

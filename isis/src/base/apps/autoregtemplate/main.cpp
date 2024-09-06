@@ -77,18 +77,18 @@ void IsisMain() {
 
   // Make sure the pattern chip is not just one pixel
   if(psamp + pline < 3) {
-    QString msg = "The Pattern Chip must be larger than one pixel for the ";
+    std::string msg = "The Pattern Chip must be larger than one pixel for the ";
     msg += "autoregistration to work properly";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   // Make sure the pattern chip is smaller than the search chip
   if(ssamp < psamp || sline < pline) {
-    QString msg = "The Pattern Chip must be smaller than the Search Chip";
+    std::string msg = "The Pattern Chip must be smaller than the Search Chip";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   // Make sure the pattern chip spans at least a 3x3 window in the search chip
   if(psamp + 2 > ssamp || pline + 2 > sline) {
-    QString msg = "The Pattern Chip must span at least a 3x3 window in the ";
+    std::string msg = "The Pattern Chip must span at least a 3x3 window in the ";
     msg += "Search Chip";
     throw IException(IException::User, msg, _FILEINFO_);
   }

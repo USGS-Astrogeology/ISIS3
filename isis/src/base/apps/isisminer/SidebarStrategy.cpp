@@ -84,7 +84,7 @@ namespace Isis {
       m_strategies = factory->buildRun(getDefinition().findObject("IsisMiner"));
     }
     else {
-      QString mess = "No IsisMiner strategies found in " + name() + " Sidebar.";
+      std::string mess = "No IsisMiner strategies found in " + name() + " Sidebar.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
   

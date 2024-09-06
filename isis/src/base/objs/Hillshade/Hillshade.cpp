@@ -164,53 +164,37 @@ namespace Isis {
     if (input.SampleDimension() != 3 ||
         input.LineDimension() != 3 ||
         input.BandDimension() != 1) {
-      throw IException(IException::Programmer,
-                       QObject::tr("Hillshade requires a 3x3x1 portal of data, but a %1x%2x%3 "
-                          "portal of data was provided instead")
-                         .arg(input.SampleDimension()).arg(input.LineDimension())
-                         .arg(input.BandDimension()),
+      throw IException(IException::Programmer,"Hillshade requires a 3x3x1 portal of data, but a " + std::to_string(input.SampleDimension()) + "x" + std::to_string(input.LineDimension()) + "x" + std::to_string(input.BandDimension()) + " portal of data was provided instead",
                        _FILEINFO_);
     }
 
     if (!m_azimuth) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Hillshade requires a valid azimuth angle (sun direction) to "
-                                   "operate"),
+      throw IException(IException::Unknown,"Hillshade requires a valid azimuth angle (sun direction) to operate",
                        _FILEINFO_);
     }
 
     if (*m_azimuth < Angle(0, Angle::Degrees) || *m_azimuth > Angle::fullRotation()) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Hillshade azimuth angle [%1] must be between 0 and 360 degrees")
-                         .arg(m_azimuth->toString()),
+      throw IException(IException::Unknown,"Hillshade azimuth angle [" + m_azimuth->toString().toStdString() + "] must be between 0 and 360 degrees",
                        _FILEINFO_);
     }
 
     if (!m_zenith) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Hillshade requires a valid zenith angle (solar elevation) to "
-                                   "operate"),
+      throw IException(IException::Unknown,"Hillshade requires a valid zenith angle (solar elevation) to operate",
                        _FILEINFO_);
     }
 
     if (*m_zenith < Angle(0, Angle::Degrees) || *m_zenith > Angle(90, Angle::Degrees)) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Hillshade zenith angle [%1] must be between 0 and 90 degrees")
-                         .arg(m_zenith->toString()),
+      throw IException(IException::Unknown,"Hillshade zenith angle [" + m_zenith->toString().toStdString() + "] must be between 0 and 90 degrees",
                        _FILEINFO_);
     }
 
     if (IsSpecial(m_pixelResolution)) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Hillshade requires a pixel resolution (meters/pixel) to "
-                                   "operate"),
+      throw IException(IException::Unknown,"Hillshade requires a pixel resolution (meters/pixel) to operate",
                        _FILEINFO_);
     }
 
     if (qFuzzyCompare(0.0, m_pixelResolution)) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Hillshade requires a non-zero pixel resolution (meters/pixel) "
-                          "to operate"),
+      throw IException(IException::Unknown, "Hillshade requires a non-zero pixel resolution (meters/pixel) to operate",
                        _FILEINFO_);
     }
 
@@ -314,7 +298,7 @@ namespace Isis {
     QString resolution = "Null";
 
     if (!IsSpecial(hillshade.resolution()))
-      resolution = toString(hillshade.resolution());
+      resolution = QString::number(hillshade.resolution());
 
     debug << "Hillshade[ azimuth =" << hillshade.azimuth().toString().toLatin1().data()
           << "zenith =" << hillshade.zenith().toString().toLatin1().data()

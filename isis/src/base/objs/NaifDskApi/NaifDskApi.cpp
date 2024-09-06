@@ -73,7 +73,7 @@ namespace Isis {
     for (int i = 0; i < tntMatrix.dim1(); i++) {
       dbg.nospace() << "    ";
       for (int j = 0; j < tntMatrix.dim2(); j++) {
-        dbg.nospace() << toString(tntMatrix[i][j], 15) << "     ";
+        dbg.nospace() << QString::fromStdString(toString(tntMatrix[i][j], 15)) << "     ";
       }
        dbg.nospace() << Qt::endl;
     }
@@ -95,7 +95,7 @@ namespace Isis {
   QString toString(const TNT::Array1D<SpiceDouble> &naifArray, int precision) {
     QString result = "( ";
     for (int i = 0; i < naifArray.dim1(); i++) {
-      result += toString(naifArray[i], precision);
+      result += QString::fromStdString(toString(naifArray[i], precision));
       if (i != naifArray.dim1() - 1) result += ", ";
     }
     result += " )";

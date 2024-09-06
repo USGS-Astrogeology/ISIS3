@@ -104,7 +104,7 @@ namespace Isis {
 
     for(int i = 0; i < filtNames.size(); i++) {
       if(filterToDetectorOffset.find(QString::fromStdString(filtNames[i])) == filterToDetectorOffset.end()) {
-        QString msg = "Unrecognized filter name [" + QString::fromStdString(filtNames[i]) + "]";
+        std::string msg = "Unrecognized filter name [" + QString::fromStdString(filtNames[i]) + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 

@@ -25,7 +25,7 @@ using namespace Isis;
 namespace Isis{
 
   void skypt(UserInterface &ui, Pvl *log) {
-    Cube *cube = new Cube(ui.GetCubeName("FROM"));
+    Cube *cube = new Cube(ui.GetCubeName("FROM").toStdString());
     skypt(cube, ui, log);
   }
 
@@ -51,7 +51,7 @@ namespace Isis{
       double ra = ui.GetDouble("RA");
       double dec = ui.GetDouble("DEC");
       if (!cam->SetRightAscensionDeclination(ra, dec)) {
-        QString msg = "Invalid Ra/Dec coordinate";
+        std::string msg = "Invalid Ra/Dec coordinate";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       samp = cam->Sample();
@@ -75,7 +75,7 @@ namespace Isis{
     // Create group with sky position
     PvlGroup sp("SkyPoint");
      {
-        sp += PvlKeyword("Filename", FileName(channel).expanded().toStdString());
+        sp += PvlKeyword("Filename", FileName(channel.toStdString()).expanded());
         sp += PvlKeyword("Sample", std::to_string(cam->Sample()));
         sp += PvlKeyword("Line", std::to_string(cam->Line()));
         sp += PvlKeyword("RightAscension", std::to_string(cam->RightAscension()));
@@ -91,8 +91,8 @@ namespace Isis{
     // Write an output label file if necessary
     if (ui.WasEntered("TO")) {
       // Get user params from ui
-      QString outFile = FileName(ui.GetFileName("TO")).expanded();
-      bool exists = FileName(outFile).fileExists();
+      QString outFile = QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded());
+      bool exists = FileName(outFile.toStdString()).fileExists();
       bool append = ui.GetBoolean("APPEND");
 
       // Write the pvl group out to the file
@@ -144,7 +144,7 @@ namespace Isis{
       }
     }
     else if (ui.GetString("FORMAT") == "FLAT") {
-      QString msg = "Flat file must have a name.";
+      std::string msg = "Flat file must have a name.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

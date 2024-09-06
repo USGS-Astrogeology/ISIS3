@@ -13,8 +13,6 @@ find files of those names at the top level of this repository. **/
 #include "Message.h"
 #include "PvlFormat.h"
 
-#include <QList>
-
 #include <iostream>
 #include <sstream>
 

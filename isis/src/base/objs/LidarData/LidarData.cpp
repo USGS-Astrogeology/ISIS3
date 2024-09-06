@@ -60,7 +60,7 @@ namespace Isis {
   QSharedPointer<LidarControlPoint> LidarData::point(QString pointId) const{
     QSharedPointer<LidarControlPoint> point = m_points.value(pointId, 0);
     if (!point) {
-      QString msg = "Point " + pointId + " is not in the lidar data.";
+      std::string msg = "Point " + pointId.toStdString() + " is not in the lidar data.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return point;
@@ -175,8 +175,8 @@ namespace Isis {
         Isis::Camera *cam = p_cameraMap[serialNumber];
 
         if (cam == NULL) {
-          IString msg = "Lidar Control point [" + curPoint->GetId() +
-              "], measure [" + curMeasure->GetCubeSerialNumber() +
+          IString msg = "Lidar Control point [" + curPoint->GetId().toStdString() +
+              "], measure [" + curMeasure->GetCubeSerialNumber().toStdString() +
               "] does not have a cube in the ISIS control net with a matching serial number";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -222,7 +222,7 @@ namespace Isis {
     for (int i = 0; i < list.size(); i++) {
       QString serialNumber = list.serialNumber(i);
       QString filename = list.fileName(i);
-      Cube cube(filename, "r");
+      Cube cube(filename.toStdString(), "r");
 
       try {
         Isis::Camera *cam = CameraFactory::Create(cube);
@@ -232,8 +232,8 @@ namespace Isis {
         p_cameraList.push_back(cam);
       }
       catch (IException &e) {
-        QString msg = "Unable to create camera for cube file ";
-        msg += filename;
+        std::string msg = "Unable to create camera for cube file ";
+        msg += filename.toStdString();
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
 
@@ -259,8 +259,8 @@ namespace Isis {
           if (!curMeasure->IsIgnored()) p_cameraValidMeasuresMap[serialNumber]++;
         }
         else {
-          IString msg = "Control point [" + curPoint->GetId() +
-              "], measure [" + curMeasure->GetCubeSerialNumber() +
+          IString msg = "Control point [" + curPoint->GetId().toStdString() +
+              "], measure [" + curMeasure->GetCubeSerialNumber().toStdString() +
               "] does not have a cube with a matching serial number";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -280,10 +280,10 @@ namespace Isis {
    */
   void LidarData::read(FileName lidarDataFile) {
     // Set up the input file
-    QFile loadFile(lidarDataFile.expanded());
+    QFile loadFile(QString::fromStdString(lidarDataFile.expanded()));
     // Make sure we can open the file successfully
     if (!loadFile.open(QIODevice::ReadOnly)) {
-      QString msg("Could not open " + loadFile.fileName());
+      std::string msg("Could not open " + loadFile.fileName().toStdString());
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -499,10 +499,10 @@ namespace Isis {
     else {
       outputFile = outputFile.setExtension("dat");
     }
-    QFile saveFile(outputFile.expanded());
+    QFile saveFile(QString::fromStdString(outputFile.expanded()));
 
     if (!saveFile.open(QIODevice::WriteOnly)) {
-      QString msg("Could not open " + saveFile.fileName());
+      std::string msg("Could not open " + saveFile.fileName().toStdString());
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -681,7 +681,7 @@ namespace Isis {
    */
   QList< ControlMeasure * > LidarData::GetMeasuresInCube(QString serialNumber) {
     if( !ValidateSerialNumber(serialNumber) ) {
-      IString msg = "Cube Serial Number [" + serialNumber + "] not found in "
+      IString msg = "Cube Serial Number [" + serialNumber.toStdString() + "] not found in "
           "the network";
       throw IException(IException::Programmer, msg, _FILEINFO_);
 

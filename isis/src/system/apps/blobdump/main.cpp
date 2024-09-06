@@ -49,7 +49,7 @@ void helperButtonGetBlobList() {
 
   UserInterface &ui = Application::GetUserInterface();
   QString currentFile = ui.GetCubeName("FROM");
-  const Pvl label(FileName(currentFile).expanded().toStdString());
+  const Pvl label(FileName(currentFile).expanded());
 
   // Check to see if the "FILE" parameter has changed since last press
   if(currentFile != previousFile) {

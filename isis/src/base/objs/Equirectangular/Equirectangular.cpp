@@ -59,7 +59,7 @@ namespace Isis {
           mapGroup += PvlKeyword("CenterLongitude", std::to_string(lon));
         }
         else {
-          QString message = "Cannot project using Equirectangular Cylindrical";
+          std::string message = "Cannot project using Equirectangular Cylindrical";
           message += " without [CenterLongitude] value.  Keyword does not exist";
           message += " in labels and defaults are not allowed.";
           throw IException(IException::Unknown, message, _FILEINFO_);
@@ -72,7 +72,7 @@ namespace Isis {
           mapGroup += PvlKeyword("CenterLatitude", std::to_string(lat));
         }
         else {
-          QString message = "Cannot project using Equirectangular Cylindrical";
+          std::string message = "Cannot project using Equirectangular Cylindrical";
           message += " without [CenterLatitude] value.  Keyword does not exist";
           message += " in labels and defaults are not allowed.";
           throw IException(IException::Unknown, message, _FILEINFO_);
@@ -101,13 +101,13 @@ namespace Isis {
       // we will be dividing with it later on
       m_cosCenterLatitude = cos(m_centerLatitude);
       if (fabs(m_cosCenterLatitude) < DBL_EPSILON) {
-        QString message = "Keyword value for CenterLatitude is "
+        std::string message = "Keyword value for CenterLatitude is "
                          "too close to the pole";
         throw IException(IException::Io, message, _FILEINFO_);
       }
     }
     catch(IException &e) {
-      QString message = "Invalid label group [Mapping]";
+      std::string message = "Invalid label group [Mapping]";
       throw IException(e, IException::Io, message, _FILEINFO_);
     }
   }

@@ -248,8 +248,8 @@ namespace Isis {
       GuiHelperAction *action =
         new GuiHelperAction(lo, p_ui->HelperFunction(p_group, p_param, 0));
       if(p_ui->HelperIcon(p_group, p_param, 0) != "") {
-        QString file = FileName(
-                         p_ui->HelperIcon(p_group, p_param, 0)).expanded();
+        QString file = QString::fromStdString(FileName(
+                         p_ui->HelperIcon(p_group, p_param, 0).toStdString()).expanded());
         action->setIcon(QIcon(QPixmap(file)));
       }
       else {
@@ -268,8 +268,8 @@ namespace Isis {
 
       if(p_ui->HelperIcon(p_group, p_param, 0) != "") {
         helper->setText("");
-        QString file = FileName(
-                         p_ui->HelperIcon(p_group, p_param, 0)).expanded();
+        QString file = QString::fromStdString(FileName(
+                         p_ui->HelperIcon(p_group, p_param, 0).toStdString()).expanded());
         helper->setIconSize(QSize(22, 22));
         helper->setIcon(QIcon(QPixmap(file)));
       }
@@ -295,8 +295,8 @@ namespace Isis {
       GuiHelperAction *action =
         new GuiHelperAction(lo, p_ui->HelperFunction(p_group, p_param, 0));
       if(p_ui->HelperIcon(p_group, p_param, 0) != "") {
-        QString file = FileName(
-                         p_ui->HelperIcon(p_group, p_param, 0)).expanded();
+        QString file = QString::fromStdString(FileName(
+                         p_ui->HelperIcon(p_group, p_param, 0).toStdString()).expanded());
         action->setIcon(QIcon(QPixmap(file)));
       }
       else {
@@ -320,8 +320,8 @@ namespace Isis {
 
       if(p_ui->HelperIcon(p_group, p_param, 0) != "") {
         helper->setText("");
-        QString file = FileName(
-                         p_ui->HelperIcon(p_group, p_param, 0)).expanded();
+        QString file = QString::fromStdString(FileName(
+                         p_ui->HelperIcon(p_group, p_param, 0).toStdString()).expanded());
         helper->setIconSize(QSize(22, 22));
         helper->setIcon(QIcon(QPixmap(file)));
       }

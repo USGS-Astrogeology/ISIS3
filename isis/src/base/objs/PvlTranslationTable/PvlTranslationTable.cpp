@@ -24,7 +24,7 @@ namespace Isis {
    * @param transFile The translation file to be used.
    */
   PvlTranslationTable::PvlTranslationTable(FileName transFile) {
-    AddTable(transFile.expanded());
+    AddTable(QString::fromStdString(transFile.expanded()));
   }
 
 
@@ -82,7 +82,7 @@ namespace Isis {
    * @param transFile The name of the translation file to be added.
    */
   void PvlTranslationTable::AddTable(const QString &transFile) {
-    p_trnsTbl.read(FileName(transFile).expanded().toStdString());
+    p_trnsTbl.read(FileName(transFile.toStdString()).expanded());
   }
 
 
@@ -330,7 +330,7 @@ namespace Isis {
 
     /* Error if no containers were listed
     if (!foundLegalInputGroup) {
-      QString msg = "No input position found for translation [";
+      std::string msg = "No input position found for translation [";
       msg += translationGroupName;
       msg += "] in translation file [";
       msg += p_trnsTbl.FileName();

@@ -36,7 +36,7 @@ namespace Isis {
 
       //  make sure sparse nrows/ncols have been set
       if (sparseRows == 0  ||  sparseCols == 0) {
-        QString msg = "If solving using sparse matrices, you must enter the "
+        std::string msg = "If solving using sparse matrices, you must enter the "
                       "number of rows/columns";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
@@ -96,8 +96,8 @@ namespace Isis {
   void LeastSquares::AddKnown(const std::vector<double> &data, double result,
                               double weight) {
     if((int) data.size() != p_basis->Variables()) {
-      QString msg = "Number of elements in data does not match basis [" +
-                        p_basis->Name() + "] requirements";
+      std::string msg = "Number of elements in data does not match basis [" +
+                        p_basis->Name().toStdString() + "] requirements";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -157,7 +157,7 @@ namespace Isis {
    */
   std::vector<double> LeastSquares::GetInput(int row) const {
     if((row >= Rows()) || (row < 0)) {
-      QString msg = "Index out of bounds [Given = " + toString(row) + "]";
+      std::string msg = "Index out of bounds [Given = " + toString(row) + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return p_input[row];
@@ -172,7 +172,7 @@ namespace Isis {
    */
   double LeastSquares::GetExpected(int row) const {
     if((row >= Rows()) || (row < 0)) {
-      QString msg = "Index out of bounds [Given = " + toString(row) + "]";
+      std::string msg = "Index out of bounds [Given = " + toString(row) + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return p_expected[row];
@@ -207,7 +207,7 @@ namespace Isis {
     if((method == SPARSE  &&  p_sparseRows == 0)  ||
        (method != SPARSE  &&  Rows() == 0 )) {
       p_solved = false;
-      QString msg = "No solution available because no input data was provided";
+      std::string msg = "No solution available because no input data was provided";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -290,7 +290,7 @@ namespace Isis {
     // If the rank of the matrix is not large enough we don't
     // have enough coefficients for the solution
     if (coefs.dim1() < p_basis->Coefficients()) {
-      QString msg = "Unable to solve least-squares using SVD method. No "
+      std::string msg = "Unable to solve least-squares using SVD method. No "
                     "solution available. Not enough knowns or knowns are "
                     "co-linear ... [Unknowns = "
                     + toString(p_basis->Coefficients()) + "] [Knowns = "
@@ -365,7 +365,7 @@ namespace Isis {
     //    to be successful
     int full = qr.isFullRank();
     if(full == 0) {
-      QString msg = "Unable to solve-least squares using QR Decomposition. "
+      std::string msg = "Unable to solve-least squares using QR Decomposition. "
                     "The upper triangular R matrix is not full rank";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -456,7 +456,7 @@ namespace Isis {
     bool status = spsolve(p_xSparse, p_normals, p_ATb, "superlu");
 
     if (status == false) {
-      QString msg = "Could not solve sparse least squares problem.";
+      std::string msg = "Could not solve sparse least squares problem.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -552,7 +552,7 @@ namespace Isis {
    */
   double LeastSquares::Evaluate(const std::vector<double> &data) {
     if(!p_solved) {
-      QString msg = "Unable to evaluate until a solution has been computed";
+      std::string msg = "Unable to evaluate until a solution has been computed";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return p_basis->Evaluate(data);
@@ -569,7 +569,7 @@ namespace Isis {
    */
   std::vector<double> LeastSquares::Residuals() const {
     if(!p_solved) {
-      QString msg = "Unable to return residuals until a solution has been computed";
+      std::string msg = "Unable to return residuals until a solution has been computed";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return p_residuals;
@@ -589,7 +589,7 @@ namespace Isis {
    */
   double LeastSquares::Residual(int i) const {
     if(!p_solved) {
-      QString msg = "Unable to return residuals until a solution has been computed";
+      std::string msg = "Unable to return residuals until a solution has been computed";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return p_residuals[i];

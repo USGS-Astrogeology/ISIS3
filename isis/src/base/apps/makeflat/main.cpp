@@ -513,7 +513,7 @@ void IsisMain() {
       excludeFile.addObject(excludedDetails[i]);
     }
 
-    excludeFile.write(FileName(ui.GetFileName("EXCLUDE")).expanded().toStdString());
+    excludeFile.write(FileName(ui.GetFileName("EXCLUDE")).expanded());
   }
 
   remove(outTmpName.toLatin1().data());

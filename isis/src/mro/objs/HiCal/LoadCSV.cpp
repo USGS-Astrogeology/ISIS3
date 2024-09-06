@@ -70,7 +70,7 @@ namespace Isis {
     try {
       csv.read(csvfile);
     } catch (IException &ie) {
-      QString mess =  "Could not read CSV file \'" + csvfile + "\'";
+      std::string mess =  "Could not read CSV file \'" + csvfile + "\'";
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }
 
@@ -89,7 +89,7 @@ namespace Isis {
       CSVReader::CSVAxis chead = csv.getHeader();
       startColumn = getAxisIndex(colName, chead);
       if (startColumn < 0) {
-        QString mess = "Column name " + colName +
+        std::string mess = "Column name " + colName +
                       " not found in CSV file " + csvfile;
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -109,13 +109,13 @@ namespace Isis {
     if (!rowName.isEmpty()) {
       addHistory("RowName", rowName);
       if (!rowHeader) {
-        QString mess = "Row name given but config does not specify presence of row header!";
+        std::string mess = "Row name given but config does not specify presence of row header!";
         throw IException(IException::User, mess, _FILEINFO_);
       }
       CSVReader::CSVAxis rhead = csv.getColumn(0);
       startRow = getAxisIndex(rowName, rhead);
       if (startRow < 0) {
-        QString mess = "Row name " + rowName + " not found in CSV file " + csvfile;
+        std::string mess = "Row name " + rowName + " not found in CSV file " + csvfile;
         throw IException(IException::User, mess, _FILEINFO_);
       }
       endRow = startRow;

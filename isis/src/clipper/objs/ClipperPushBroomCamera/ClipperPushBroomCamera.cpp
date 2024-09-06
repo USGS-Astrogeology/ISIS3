@@ -137,7 +137,7 @@ namespace Isis {
      Table timesTable("LineScanTimes", filename);
 
      if(timesTable.Records() <= 0) {
-       QString msg = "Table [LineScanTimes] in [";
+       std::string msg = "Table [LineScanTimes] in [";
        msg += filename + "] must not be empty";
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }
@@ -149,7 +149,7 @@ namespace Isis {
      }
 
      if(p_lineRates.size() <= 0) {
-       QString msg = "There is a problem with the data within the Table ";
+       std::string msg = "There is a problem with the data within the Table ";
        msg += "[LineScanTimes] in [" + filename + "]";
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }

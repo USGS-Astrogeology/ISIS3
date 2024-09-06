@@ -183,7 +183,7 @@ void IsisMain() {
     dataSetID += "0";
   }
   else { // 16 < nbits < 32
-    QString msg = "[" + toString(nbits) + "] is not a supported bit length.";
+    std::string msg = "[" + toString(nbits) + "] is not a supported bit length.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   dataSetID += "-CDR-CALDATA-V1.0";

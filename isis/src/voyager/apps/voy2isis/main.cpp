@@ -102,7 +102,7 @@ void IsisMain() {
     p.SetPdsFile(*pdsLabel, in.expanded());
   }
   catch (IException &e) {
-    QString msg = "Unable to set PDS file. Decompressed input file ["
+    std::string msg = "Unable to set PDS file. Decompressed input file ["
                  + in.name() + "] does not appear to be a PDS product";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -243,7 +243,7 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
       instId = "isswa";
     }
     else {
-      QString msg = "Instrument ID [" + instId + "] does not match Narrow or " +
+      std::string msg = "Instrument ID [" + instId + "] does not match Narrow or " +
                     "Wide angle camera. The cube was created, but the labels were not translated. "
                     "To create a cube with translated labels, re-run this application with "
                     "INSTRUMENT set to NAC or WAC.";
@@ -263,7 +263,7 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
       instId = "isswa";
     }
     else {
-      QString msg = "Instrument ID [" + instId + "] does not match Narrow or " +
+      std::string msg = "Instrument ID [" + instId + "] does not match Narrow or " +
                     "Wide angle camera. The cube was created, but the labels were not translated. "
                     "To create a cube with translated labels, re-run this application with "
                     "INSTRUMENT set to NAC or WAC.";
@@ -271,7 +271,7 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
     }
   }
   else {
-    QString msg = "Spacecraft name [" + QString::fromStdString(inst.findKeyword("SpacecraftName")) +
+    std::string msg = "Spacecraft name [" + QString::fromStdString(inst.findKeyword("SpacecraftName")) +
                  "] does not match Voyager1 or Voyager2 spacecraft";
     throw IException(IException::User, msg, _FILEINFO_);
   }

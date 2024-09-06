@@ -378,7 +378,7 @@ namespace Isis {
     connect(this, SIGNAL(destroyed()), m_mapButton, SLOT(deleteLater()));
     m_mapButton->setText(tr("View/Edit/Load Map File"));
     m_mapButton->setToolTip(tr("View/Edit/Load Map File"));
-    m_mapButton->setIcon(QIcon(FileName("$ISISROOT/appdata/images/icons/ographic.png").expanded()));
+    m_mapButton->setIcon(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/ographic.png").expanded())));
     m_mapButton->setWhatsThis(tr("This is the projection used by the mosaic "
         "scene. Cubes can not be shown in the scene without a projection, so "
         "if one is not selected, a default of Equirectangular will be used. "
@@ -396,7 +396,7 @@ namespace Isis {
 
     m_quickMapAction = new QAction(tr("Quick Load Map"), this);
     m_quickMapAction->setToolTip(tr("Quick Load Map"));
-    m_quickMapAction->setIcon(QIcon(FileName("$ISISROOT/appdata/images/icons/quickopen.png").expanded()));
+    m_quickMapAction->setIcon(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/quickopen.png").expanded())));
     m_quickMapAction->setWhatsThis(tr("This is the projection used by the mosaic "
         "scene. Cubes can not be shown in the scene without a projection, so "
         "if one is not selected, a default of Equirectangular will be used."));
@@ -497,7 +497,7 @@ namespace Isis {
 
   MosaicSceneItem *MosaicSceneWidget::cubeToMosaic(Image *image) {
     if (image == NULL) {
-      QString msg = tr("Can not find a NULL image in the mosaic");
+      std::string msg = tr("Can not find a NULL image in the mosaic");
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -687,7 +687,7 @@ namespace Isis {
 
   MosaicSceneItem *MosaicSceneWidget::cubeToMosaic(DisplayProperties *props) {
     if (props == NULL) {
-      QString msg = tr("Can not find a NULL Display Properties in the mosaic");
+      std::string msg = tr("Can not find a NULL Display Properties in the mosaic");
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1092,7 +1092,7 @@ namespace Isis {
     QLabel *overviewMapIcon = new QLabel;
 
     overviewMapIcon->setPixmap(
-        QIcon(FileName("$ISISROOT/appdata/images/icons/ographic.png").expanded()).pixmap(32, 32));
+        QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/ographic.png").expanded())).pixmap(32, 32));
     mapHelpLayout->addWidget(overviewMapIcon);
 
     QLabel *defaultMapFile = new QLabel(tr(
@@ -1694,7 +1694,7 @@ namespace Isis {
         mosaicSceneItem->reproject();
       }
       catch (IException &e) {
-        QString msg = "The file [";
+        std::string msg = "The file [";
 
         if (mosaicSceneItem->image())
           msg += mosaicSceneItem->image()->displayProperties()->displayName();

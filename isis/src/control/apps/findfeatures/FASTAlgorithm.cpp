@@ -170,7 +170,7 @@ namespace Isis {
         }
       }
       catch (std::exception &e) {
-        QString msg = "The input value [" + value +
+        std::string msg = "The input value [" + value +
                       "] is not valid for FAST's [Type] variable";
         throw IException(IException::User, msg, _FILEINFO_);
       }

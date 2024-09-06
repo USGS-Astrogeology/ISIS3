@@ -531,7 +531,7 @@ namespace Isis {
    */
   double Statistics::Minimum() const {
     if (m_removedData) {
-      QString msg = "Minimum is invalid since you removed data";
+      std::string msg = "Minimum is invalid since you removed data";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -552,7 +552,7 @@ namespace Isis {
    */
   double Statistics::Maximum() const {
     if (m_removedData) {
-      QString msg = "Maximum is invalid since you removed data";
+      std::string msg = "Maximum is invalid since you removed data";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -721,7 +721,7 @@ namespace Isis {
    */
   double Statistics::ChebyshevMaximum(const double percent) const {
     if ((percent <= 0.0) || (percent >= 100.0)) {
-      QString msg = "Invalid value for percent";
+      std::string msg = "Invalid value for percent";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

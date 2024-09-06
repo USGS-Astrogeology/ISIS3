@@ -46,7 +46,7 @@ namespace Isis {
   CsmBundleObservation::CsmBundleObservation(BundleImageQsp image, QString observationNumber,
                                        QString instrumentId, BundleTargetBodyQsp bundleTargetBody) : BundleObservation(image, observationNumber, instrumentId, bundleTargetBody) {
     if (bundleTargetBody) {
-      QString msg = "Target body parameters cannot be solved for with CSM observations.";
+      std::string msg = "Target body parameters cannot be solved for with CSM observations.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -163,7 +163,7 @@ namespace Isis {
   bool CsmBundleObservation::applyParameterCorrections(LinearAlgebra::Vector corrections) {
     // Check that the correction vector is the correct size
     if (corrections.size() != m_paramIndices.size()) {
-      QString msg = "Invalid correction vector passed to observation.";
+      std::string msg = "Invalid correction vector passed to observation.";
       IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -328,7 +328,7 @@ namespace Isis {
    */
   bool CsmBundleObservation::computeTargetPartials(LinearAlgebra::Matrix &coeffTarget, BundleMeasure &measure, BundleSettingsQsp &bundleSettings, BundleTargetBodyQsp &bundleTargetBody) {
     if (bundleTargetBody) {
-      QString msg = "Target body parameters cannot be solved for with CSM observations.";
+      std::string msg = "Target body parameters cannot be solved for with CSM observations.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     return false;
@@ -447,7 +447,7 @@ namespace Isis {
 
     // Get ground-to-image computed coordinates for this point.
     if (!(measureCamera->SetGround(point->adjustedSurfacePoint()))) {
-      QString msg = "Unable to map apriori surface point for measure ";
+      std::string msg = "Unable to map apriori surface point for measure ";
       msg += measure.cubeSerialNumber() + " on point " + point->id() + " back into image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

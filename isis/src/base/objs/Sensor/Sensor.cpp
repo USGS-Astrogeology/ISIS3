@@ -82,7 +82,7 @@ namespace Isis {
    */
   QList<QPointF> Sensor::PixelIfovOffsets() {
 
-    QString message = "Pixel Ifov offsets not implemented for this camera.";
+    std::string message = "Pixel Ifov offsets not implemented for this camera.";
     throw IException(IException::Programmer, message, _FILEINFO_);
   }
 

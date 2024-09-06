@@ -43,7 +43,7 @@ namespace Isis {
 
   bool LineManager::SetLine(const int line, const int band) {
     if(line < 1) {
-      QString message = "LineManager is unable to set the line to [" 
+      std::string message = "LineManager is unable to set the line to [" 
                        + toString(line) + "]. Minimum line value is 1.";
       throw IException(IException::Programmer, message, _FILEINFO_);
     }

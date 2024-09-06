@@ -91,7 +91,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
        tolerances[pvl1.name()].size() > 1 &&
        pvl1.size() != tolerances[pvl1.name()].size() ) {
 
-    QString msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
+    std::string msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
     msg += "its number of tolerances in the DIFF file.";
     throw IException(IException::User, msg, _FILEINFO_);
 
@@ -101,7 +101,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
        ignoreKeys[pvl1.name()].size() > 1 &&
        pvl1.size() != ignoreKeys[pvl1.name()].size() ) {
 
-    QString msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
+    std::string msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
     msg += "its number of ignore keys in the DIFF file.";
     throw IException(IException::User, msg, _FILEINFO_);
 
@@ -111,7 +111,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
        ignoreFilePaths[pvl1.name()].size() > 1 &&
        pvl1.size() != ignoreFilePaths[pvl1.name()].size() ) {
 
-    QString msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
+    std::string msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
     msg += "its number of filepath ignores in the DIFF file.";
     throw IException(IException::User, msg, _FILEINFO_);
 

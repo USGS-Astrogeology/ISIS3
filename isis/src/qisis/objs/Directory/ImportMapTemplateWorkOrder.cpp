@@ -146,9 +146,10 @@ namespace Isis {
                               "maps", 
                               "maps/" + templateFolder.dirName() );
 
-    foreach (FileName filename, templateFileNames) {
-      QFile::copy(filename.expanded(), templateFolder.path() + "/" + filename.name());
-      m_list->append(new Template(templateFolder.path() + "/" + filename.name(), 
+    for (const QString &str : templateFileNames) {
+      FileName filename(str.toStdString());
+      QFile::copy(QString::fromStdString(filename.expanded()), templateFolder.path() + "/" + QString::fromStdString(filename.name()));
+      m_list->append(new Template(templateFolder.path() + "/" + QString::fromStdString(filename.name()), 
                                   "maps", 
                                   templateFolder.dirName()));
     }

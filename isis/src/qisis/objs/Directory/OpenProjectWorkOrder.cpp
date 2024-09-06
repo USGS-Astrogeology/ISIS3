@@ -103,7 +103,7 @@ namespace Isis {
   bool OpenProjectWorkOrder::isExecutable(QString projectFileName, bool recentProject) {
 
     m_recentProject = recentProject;
-    FileName fname = projectFileName;
+    FileName fname = projectFileName.toStdString();
     if (!fname.fileExists() )
       return false;
 

@@ -64,8 +64,8 @@ namespace Isis {
    * @param pbPvl
    */
   void ControlNetFilter::SetOutputFile(QString psPrintFile) {
-    Isis::FileName outFile(psPrintFile);
-    QString outName(outFile.expanded());
+    Isis::FileName outFile(psPrintFile.toStdString());
+    QString outName(QString::fromStdString(outFile.expanded()));
     mOstm.open(outName.toLatin1().data(), std::ios::out);
     mOstm.precision(dbl::digits10);
   }
@@ -684,7 +684,7 @@ namespace Isis {
 
         QString sn = cm->GetCubeSerialNumber();
         QString filename = mSerialNumList.fileName(sn);
-        Cube cube(filename, "r");
+        Cube cube(filename.toStdString(), "r");
 
         Camera *camera = CameraFactory::Create(cube);
         if (camera->SetImage(cm->GetSample(), cm->GetLine())) {
@@ -760,7 +760,7 @@ namespace Isis {
         if (!surfacePt1.Valid()) {
           QString sn1 = cp1RefMeasure->GetCubeSerialNumber();
           QString filename1 = mSerialNumList.fileName(sn1);
-          Cube cube1(filename1, "r");
+          Cube cube1(filename1.toStdString(), "r");
           cam1 = CameraFactory::Create(cube1);
           if (cam1->SetImage(cp1RefMeasure->GetSample(),
               cp1RefMeasure->GetLine())) {
@@ -800,7 +800,7 @@ namespace Isis {
           if (!surfacePt2.Valid()) {
             QString sn2 = cp2RefMeasure->GetCubeSerialNumber();
             QString filename2 = mSerialNumList.fileName(sn2);
-            Cube cube2(filename2, "r");
+            Cube cube2(filename2.toStdString(), "r");
             cam2 = CameraFactory::Create(cube2);
 
             if (cam2->SetImage(cp2RefMeasure->GetSample(),
@@ -1320,7 +1320,7 @@ namespace Isis {
     int iNumCubes = mSerialNumFilter.size();
     for (int sn = (iNumCubes - 1); sn >= 0; sn--) {
       QString sSerialNum = mSerialNumFilter.serialNumber(sn);
-      Cube cube(mSerialNumList.fileName(sSerialNum), "r");
+      Cube cube(mSerialNumList.fileName(sSerialNum).toStdString(), "r");
       Camera *cam = CameraFactory::Create(cube);
       double dDist = 0;
       bool bMatchDistance = false;

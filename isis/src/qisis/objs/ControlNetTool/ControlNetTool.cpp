@@ -151,7 +151,7 @@ namespace Isis {
     if (s == Qt::LeftButton) {
 
       if (isGroundSource) {
-        QString message = "Cannot select point for editing on ground source.  Select ";
+        std::string message = "Cannot select point for editing on ground source.  Select ";
         message += "point using un-projected images or the Cnet Editor View (choose \"View Network\" ";
         message += "from the context menu for control nets on the project tree).";
         QMessageBox::critical(m_ControlNetTool, "Error", message);
@@ -165,7 +165,7 @@ namespace Isis {
         emit modifyControlPoint(point, sn);
       }
       catch (IException &ie) {
-        QString message = "No points exist for editing. Create points using the right mouse";
+        std::string message = "No points exist for editing. Create points using the right mouse";
         message += " button.";
         QMessageBox::warning(m_ControlNetTool, "Warning", message);
         return;
@@ -175,14 +175,14 @@ namespace Isis {
     else if (s == Qt::MiddleButton) {
 
       if (!m_controlNet || m_controlNet->GetNumPoints() == 0) {
-        QString message = "No points exist for deleting.  Create points ";
+        std::string message = "No points exist for deleting.  Create points ";
         message += "using the right mouse button.";
         QMessageBox::warning(m_ControlNetTool, "Warning", message);
         return;
       }
 
       if (isGroundSource) {
-        QString message = "Cannot select point for deleting on ground source.  Select ";
+        std::string message = "Cannot select point for deleting on ground source.  Select ";
         message += "point using un-projected images or the Cnet Editor View (choose \"View Network\" ";
         message += "from the context menu for control nets on the project tree).";
         QMessageBox::critical(m_ControlNetTool, "Error", message);
@@ -195,14 +195,14 @@ namespace Isis {
         point = m_controlNet->FindClosest(sn, samp, line);
 
         if (point == NULL) {
-          QString message = "No points exist for deleting.  Create points ";
+          std::string message = "No points exist for deleting.  Create points ";
           message += "using the right mouse button.";
           QMessageBox::warning(m_ControlNetTool, "Warning", message);
           return;
         }
       }
       catch (IException &e) {
-        QString message = "Cannot find point on this image for deleting.";
+        std::string message = "Cannot find point on this image for deleting.";
         QMessageBox::critical(m_ControlNetTool, "Error", message);
         return;
       }
@@ -213,7 +213,7 @@ namespace Isis {
 
       UniversalGroundMap *gmap = cvp->universalGroundMap();
       if (!gmap->SetImage(samp,line)) {
-        QString message = "Invalid latitude or longitude at this point. ";
+        std::string message = "Invalid latitude or longitude at this point. ";
         QMessageBox::critical(NULL, "Error", message);
         return;
       }

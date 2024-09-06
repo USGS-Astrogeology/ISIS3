@@ -69,7 +69,7 @@ PvlObject SpiceDbGen::Direct(QString quality, QString location,
     // Throw an error if no files are being added to this database for
     // this filter/regex
     if (files.size() == 0) {
-      QString message = "Your filter [" + location + "/" + filter[i] + "]"
+      std::string message = "Your filter [" + location + "/" + filter[i] + "]"
                        + "has not detected any " + quality + " kernels";
       throw IException(IException::User, message, _FILEINFO_);
     }
@@ -137,7 +137,7 @@ PvlObject SpiceDbGen::Direct(QString quality, FileList fileList,
   // Throw an error if no files are being added to this database for
   // this filter/regex
   if (fileList.empty()) {
-    QString message = "Input filelist is empty!";
+    std::string message = "Input filelist is empty!";
     throw IException(IException::User, message, _FILEINFO_);
   }
 

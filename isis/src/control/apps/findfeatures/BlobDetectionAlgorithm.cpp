@@ -180,7 +180,7 @@ namespace Isis {
  *                                 to set algorithm parameters."
  */
   int BlobDetectionAlgorithm::setAlgorithmVariables(const PvlFlatMap &variables) {
-    QString msg = "BlobDetectionAlgorithm does not have the ability to set algorithm parameters.";
+    std::string msg = "BlobDetectionAlgorithm does not have the ability to set algorithm parameters.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
 
     return (-1);

@@ -11,6 +11,7 @@ find files of those names at the top level of this repository. **/
 #include <xercesc/util/XMLException.hpp>
 
 #include <sstream>
+#include <QString>
 
 #include "IException.h"
 

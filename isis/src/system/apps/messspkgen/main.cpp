@@ -39,7 +39,7 @@ void IsisMain() {
     QString dbString("$messenger/kernels/spk/kernels.????.db");
     dbFileName = FileName(dbString).highestVersion();
   }
-  Pvl kernelDb(dbFileName.expanded().toStdString());
+  Pvl kernelDb(dbFileName.expanded());
 
   // Get our main objects
   PvlObject &position = kernelDb.findObject("SpacecraftPosition");
@@ -80,7 +80,7 @@ void IsisMain() {
   }
 
   // Write the updated PVL as the new SPK DB file
-  kernelDb.write(outDBfile.expanded().toStdString());
+  kernelDb.write(outDBfile.expanded());
 }
 
 

@@ -42,7 +42,7 @@ namespace Isis {
   void BasisFunction::SetCoefficients(const std::vector<double> &coefs) {
     
     if ( (int)coefs.size() != p_numCoefs ) {
-      QString msg = "Unable to set coefficients vector. The size of the given vector [" 
+      std::string msg = "Unable to set coefficients vector. The size of the given vector [" 
                     + toString((int)coefs.size()) + "] does not match number of coefficients "
                     "in the basis equation [" + toString(p_numCoefs) + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -64,7 +64,7 @@ namespace Isis {
   double BasisFunction::Evaluate(const std::vector<double> &vars) {
     
     if ( (int)vars.size() != p_numVars ) {
-      QString msg = "Unable to evaluate function for the given vector of values. "
+      std::string msg = "Unable to evaluate function for the given vector of values. "
                     "The size of the given vector [" 
                     + toString((int)vars.size()) + "] does not match number of variables "
                     "in the basis equation [" + toString(p_numVars) + "]";
@@ -74,7 +74,7 @@ namespace Isis {
     Expand(vars);
     
     if ( (int)p_terms.size() != p_numCoefs ) {
-      QString msg = "Unable to evaluate function for the given vector of values. "
+      std::string msg = "Unable to evaluate function for the given vector of values. "
                     "The number of terms in the expansion [" 
                     + toString( (int)p_terms.size() ) + "] does not match number of coefficients "
                     "in the basis equation [" + toString(p_numCoefs) + "]";

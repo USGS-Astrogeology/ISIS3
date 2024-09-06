@@ -80,7 +80,7 @@ namespace Isis {
     // allows for using KeyListFileArgs
     QString keyfile = translateKeywordArgs("KeyListFile", globals);
     if ( !keyfile.isEmpty() ) { 
-      m_pvlparms.addKeyToList(FileName(keyfile));
+      m_pvlparms.addKeyToList(FileName(keyfile.toStdString()));
     }
   
   }
@@ -110,12 +110,12 @@ namespace Isis {
   int PvlReaderStrategy::apply(ResourceList &resources, const ResourceList &globals) { 
   
     m_pvlfile = translateKeywordArgs("FromList", globals);
-    FileName fromlistFile(m_pvlfile);
+    FileName fromlistFile(m_pvlfile.toStdString());
     FileList fromlist(fromlistFile);
   
     int npvls(0);
     BOOST_FOREACH ( FileName from, fromlist ) {
-      resources.push_back( pvlResource(from.expanded(), globals, npvls) );
+      resources.push_back( pvlResource(QString::fromStdString(from.expanded()), globals, npvls) );
       npvls++;
     }
   
@@ -185,7 +185,7 @@ namespace Isis {
       importGeometry(pvlsrc, globals);
     }
     catch (IException &ie) {
-      QString mess = "Geometry conversion failed horribly for Resource(" + 
+      std::string mess = "Geometry conversion failed horribly for Resource(" + 
                      identity + ")";
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }

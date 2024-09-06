@@ -115,7 +115,7 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
   list.read(ui.GetFileName("FROMLIST"));
   if(list.size() < 1) {
-    QString msg = "The list file[" + ui.GetFileName("FROMLIST") +
+    std::string msg = "The list file[" + ui.GetFileName("FROMLIST") +
                  " does not contain any filenames";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -124,7 +124,7 @@ void IsisMain() {
 //  Commented out as HiRISE Team is requesting a single file to be processed
 //  to simplify pipeline logic
   if(list.size() == 1) {
-    QString msg = "The list file[" + ui.GetFileName("FROMLIST") +
+    std::string msg = "The list file[" + ui.GetFileName("FROMLIST") +
                  " must contain at least two filenames";
     throw iException::Message(iException::User, msg, _FILEINFO_);
   }
@@ -141,7 +141,7 @@ void IsisMain() {
     interp = new Interpolator(Interpolator::CubicConvolutionType);
   }
   else {
-    QString msg = "Unknow value for INTERP [" +
+    std::string msg = "Unknow value for INTERP [" +
                  ui.GetString("INTERP") + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -172,7 +172,7 @@ void IsisMain() {
     }
     else {
       if(obsId != QString::fromStdString(arch["ObservationId"])) {
-        QString msg = "Input file " + list[i].toString()
+        std::string msg = "Input file " + list[i].toString()
                      + " has a different ObservationId";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -181,7 +181,7 @@ void IsisMain() {
     PvlGroup inst = cube->label()->findGroup("Instrument", Pvl::Traverse);
     int chan = inst["ChannelNumber"];
     if(chan != 2) {
-      QString msg = "Input file " + list[i].toString() + " contains a single channel";
+      std::string msg = "Input file " + list[i].toString() + " contains a single channel";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     int cpmm = inst["CpmmNumber"];
@@ -270,7 +270,7 @@ void IsisMain() {
 
   // Check for consistent filters
   if((gotRed && gotNir) || (gotRed && gotBg) || (gotNir && gotBg)) {
-    QString msg = "Cannot stitch together different filter images";
+    std::string msg = "Cannot stitch together different filter images";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -282,7 +282,7 @@ void IsisMain() {
   int prevCCD = CCDlist[0].ccdNumber;
   for(vec_sz i = 1; i < CCDlist.size(); ++i) {
     if(CCDlist[i].ccdNumber != prevCCD + 1) {
-      QString msg = "CCD numbers are not adjacent";
+      std::string msg = "CCD numbers are not adjacent";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     prevCCD = CCDlist[i].ccdNumber;
@@ -340,7 +340,7 @@ void IsisMain() {
 
 //  If we find any band count inconsistancies, gotta give up the ghost
   if(nBandErrs > 0) {
-    QString mess = "Band count inconsistancies exist in input cubes!";
+    std::string mess = "Band count inconsistancies exist in input cubes!";
     throw IException(IException::User, mess, _FILEINFO_);
   }
 

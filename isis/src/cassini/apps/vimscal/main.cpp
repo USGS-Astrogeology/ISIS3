@@ -147,7 +147,7 @@ void IsisMain() {
   }
   catch(IException &e) {
 
-    QString msg = "The label for the input cube [" + QString(ui.GetAsString("FROM")) +
+    std::string msg = "The label for the input cube [" + QString(ui.GetAsString("FROM")) +
         "] does not have a start time in the Instrument group.";
     throw IException(IException::User,msg,_FILEINFO_);
 
@@ -159,13 +159,13 @@ void IsisMain() {
 
 
   if(!isVims) {
-    QString msg = "The input cube [" + QString(ui.GetAsString("FROM")) +
+    std::string msg = "The input cube [" + QString(ui.GetAsString("FROM")) +
         "] is not a Cassini VIMS cube";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   if(icube->label()->findObject("IsisCube").hasGroup("AlphaCube")) {
-    QString msg = "The input cube [" + QString(ui.GetAsString("FROM"))
+    std::string msg = "The input cube [" + QString(ui.GetAsString("FROM"))
         + "] has had its dimensions modified and can not be calibrated";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -327,7 +327,7 @@ void calculateSolarRemove(Cube *icube, ProcessByLine *p) {
     cam = icube->camera();
   }
   catch(IException &e) {
-    QString msg = "Unable to create a camera model from [" +
+    std::string msg = "Unable to create a camera model from [" +
                   icube->fileName() + "]. Please run "
                   "spiceinit on this file";
     throw IException(e, IException::Unknown, msg, _FILEINFO_);
@@ -382,7 +382,7 @@ void calculateSolarRemove(Cube *icube, ProcessByLine *p) {
   if(solarRemoveCoefficient < 0) {
     solarRemoveCoefficient = 81.595089;
     /*
-    QString msg = "Unable to project image at four corners, center of edges or ";
+    std::string msg = "Unable to project image at four corners, center of edges or ";
     msg += "at center. The solar distance can not be calculated, try using";
     msg += " [UNITS=SPECENERGY] on [";
     msg += icube->FileName() + "]";
@@ -431,7 +431,7 @@ void loadCalibrationValues() {
   calibFile = calibFile.highestVersion();
 
   //Pvl configFile;
-  g_configFile.read(calibFile.expanded().toStdString());
+  g_configFile.read(calibFile.expanded());
   PvlGroup &multipliers = g_configFile.findGroup("CalibrationMultipliers");
 
   calVersion = QString::fromStdString(multipliers["version"]);
@@ -793,7 +793,7 @@ void calculateVisDarkCurrent(Cube *icube) {
 
         if(fread(&calData, sizeof(calData), 1, calFilePtr) != 1) {
           // error!
-          QString msg = "Error reading file [" + calFile + "]";
+          std::string msg = "Error reading file [" + calFile + "]";
           throw IException(IException::Io, msg, _FILEINFO_);
         }
 
@@ -1105,7 +1105,7 @@ void GetOffsets(const Pvl &lab, int &finalSampOffset, int &finalLineOffset) {
       finalLineOffset = (3 * (lineOffset + swathLength / 2)) - swathLength / 2;
     }
     else {
-      QString msg = "Unsupported sampling mode [" + samplingMode + "]";
+      std::string msg = "Unsupported sampling mode [" + samplingMode + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -1119,11 +1119,11 @@ void GetOffsets(const Pvl &lab, int &finalSampOffset, int &finalLineOffset) {
       finalLineOffset = lineOffset - 1;
     }
     else if(samplingMode == "NYQUIST") {
-      QString msg = "Cannot process NYQUIST (undersampled) mode ";
+      std::string msg = "Cannot process NYQUIST (undersampled) mode ";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     else {
-      QString msg = "Unsupported sampling mode [" + samplingMode + "]";
+      std::string msg = "Unsupported sampling mode [" + samplingMode + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }

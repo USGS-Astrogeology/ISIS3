@@ -588,24 +588,18 @@ namespace Isis {
     stream.writeAttribute("path", m_path);
 
     FileName settingsFileName(
-        Project::cnetRoot(newProjectRoot.toString()) + "/" + m_path +
-                                 "/controlNetworks.xml");
+        (Project::cnetRoot(QString::fromStdString(newProjectRoot.toString())) + "/" + m_path +
+                                 "/controlNetworks.xml").toStdString());
 
-    if (!settingsFileName.dir().mkpath(settingsFileName.path())) {
-      throw IException(IException::Io,
-                       QString("Failed to create directory [%1]")
-                         .arg(settingsFileName.path()),
-                       _FILEINFO_);
+    if (!std::filesystem::exists(settingsFileName.dir()) && !std::filesystem::create_directories(settingsFileName.path())) {
+      throw IException(IException::Io, "Failed to create directory [" + settingsFileName.path() + "]", _FILEINFO_);
     }
 
-    QFile controlListContentsFile(settingsFileName.toString());
+    QFile controlListContentsFile(QString::fromStdString(settingsFileName.toString()));
 
     if (!controlListContentsFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
-      throw IException(IException::Io,
-          QString("Unable to save control information for [%1] because [%2] could not be opened "
-                  "for writing")
-            .arg(m_name).arg(settingsFileName.original()),
-          _FILEINFO_);
+      throw IException(IException::Io, "Unable to save control information for [" + m_name.toStdString() + "] because [" +  settingsFileName.original() + "] could not be opened "
+                  "for writing", _FILEINFO_);
     }
 
     QXmlStreamWriter controlDetailsWriter(&controlListContentsFile);

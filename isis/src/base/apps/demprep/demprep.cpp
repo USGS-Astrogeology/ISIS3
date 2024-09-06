@@ -256,7 +256,7 @@ namespace Isis{
 
     // We need to create the output file
     ocube = new Cube();
-    ocube->open(FileName(ui.GetCubeName("TO")).expanded(), "rw");
+    ocube->open(QString::fromStdString(FileName(ui.GetCubeName("TO").toStdString()).expanded()), "rw");
 
     p.StartProcess(DoWrap);
 

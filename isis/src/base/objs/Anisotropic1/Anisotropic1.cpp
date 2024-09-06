@@ -106,7 +106,7 @@ namespace Isis {
     }
 
     if(p_atmosWha == 1.0) {
-      QString msg = "Anisotropic conservative case not implemented yet - WHA parameter cannot be set to 1.0";
+      std::string msg = "Anisotropic conservative case not implemented yet - WHA parameter cannot be set to 1.0";
       msg += "This will cause negative planetary curvature to occur.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

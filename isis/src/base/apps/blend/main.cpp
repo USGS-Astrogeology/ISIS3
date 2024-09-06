@@ -147,7 +147,7 @@ void IsisMain() {
 
     QFile::remove(output);
     if (!QFile::copy(input, output)) {
-      QString msg = "Cannot create output cube [" + output + "]";
+      std::string msg = "Cannot create output cube [" + output + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -236,7 +236,7 @@ void IsisMain() {
   if (ui.GetBoolean("ERROR")) {
     for (int i = 1; i < inputs.size(); i++) {
       if (!overlapped.contains(inputs[i].toString())) {
-        QString msg = "Input Cube [" + inputs[i].toString() +
+        std::string msg = "Input Cube [" + inputs[i].toString() +
             "] does not overlap another cube";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -395,7 +395,7 @@ void readOutputs(QString outName, const FileList &inputs, FileList &outputs) {
 
   // Make sure each file in the tolist matches a file in the fromlist
   if (outputs.size() != inputs.size()) {
-    QString msg = "There must be exactly one output image in the TOLIST for "
+    std::string msg = "There must be exactly one output image in the TOLIST for "
         "each input image in the FROMLIST";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -404,7 +404,7 @@ void readOutputs(QString outName, const FileList &inputs, FileList &outputs) {
   // corresponding input file
   for (int i = 0; i < outputs.size(); i++) {
     if (outputs[i].toString().compare(inputs[i].toString()) == 0) {
-      QString msg = "The to list file [" + outputs[i].toString() +
+      std::string msg = "The to list file [" + outputs[i].toString() +
           "] has the same name as its corresponding from list file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

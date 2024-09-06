@@ -129,7 +129,7 @@ namespace Isis {
         m_latitudeType = Planetocentric;
       }
       else {
-        QString msg = "Projection failed. Invalid value for keyword "
+        std::string msg = "Projection failed. Invalid value for keyword "
                       "[LatitudeType] must be "
                       "[Planetographic or Planetocentric]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -1769,7 +1769,7 @@ namespace Isis {
    */
   double TProjection::qCompute(const double sinPhi) const {
     if (m_eccentricity < DBL_EPSILON) {
-      QString msg = "Snyder's q variable should only be computed for "
+      std::string msg = "Snyder's q variable should only be computed for "
                     "ellipsoidal projections.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }

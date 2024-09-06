@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
     SerialNumberList("DNEFile", true, NULL);
   }
   catch (IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 
@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) {
     snl.add("$ISISTESTDATA/isis/src/lo/unitTestData/3133_h1.cub");
   }
   catch(IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 
@@ -139,7 +139,7 @@ int main(int argc, char *argv[]) {
     snl.add("$ISISTESTDATA/isis/src/mgs/unitTestData/ab102401.cub");
   }
   catch (IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 
@@ -150,7 +150,7 @@ int main(int argc, char *argv[]) {
     snl.add(filename, true);
   }
   catch(IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 
@@ -161,7 +161,7 @@ int main(int argc, char *argv[]) {
     snl.add(filename, false);
   }
   catch(IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 
@@ -176,7 +176,7 @@ int main(int argc, char *argv[]) {
     snl.add("sn3", "$ISISTESTDATA/isis/src/lo/unitTestData/3133_h1.cub");
   }
   catch(IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
   try {
@@ -186,7 +186,7 @@ int main(int argc, char *argv[]) {
     snl.add("sn1", filename);
   }
   catch(IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 
@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
     snlNoTarget.add(QString("Unknown"), QString("$ISISTESTDATA/isis/src/base/unitTestData/blobTruth.cub"));
   }
   catch (IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 
@@ -208,7 +208,7 @@ int main(int argc, char *argv[]) {
     snlNoTarget.add(sn, QString("$ISISTESTDATA/isis/src/base/unitTestData/blobTruth.cub"));
   }
   catch (IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 
@@ -219,7 +219,7 @@ int main(int argc, char *argv[]) {
     snlNoTarget.add("sn1", filename);
   }
   catch (IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 
@@ -229,7 +229,7 @@ int main(int argc, char *argv[]) {
     snlNoTarget.add("sn2", QString("$ISISTESTDATA/isis/src/base/unitTestData/isisTruthNoSpacecraftName.cub"));
   }
   catch (IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 
@@ -239,7 +239,7 @@ int main(int argc, char *argv[]) {
     snlNoTarget.add("sn3", QString("$ISISTESTDATA/isis/src/base/unitTestData/isisTruthNoInstrumentId.cub"));
   }
   catch (IException &e) {
-    QString error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
+    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
     cerr << error.toStdString() << endl;
   }
 

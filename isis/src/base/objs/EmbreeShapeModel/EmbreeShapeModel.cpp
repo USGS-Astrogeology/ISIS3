@@ -93,7 +93,7 @@ namespace Isis {
       m_targetShape = m_targetManager->create(m_shapeFile);
     }
     catch(IException &e) {
-      QString msg = "Cannot create a EmbreeShape from " + m_shapeFile;
+      std::string msg = "Cannot create a EmbreeShape from " + m_shapeFile.toStdString();
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
   }
@@ -131,7 +131,7 @@ namespace Isis {
       m_targetShape = m_targetManager->create(m_shapeFile);
     }
     catch(IException &e) {
-      QString msg = "Cannot create a EmbreeShape from " + m_shapeFile;
+      std::string msg = "Cannot create a EmbreeShape from " + m_shapeFile.toStdString();
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
   }
@@ -502,7 +502,7 @@ namespace Isis {
   void EmbreeShapeModel::calculateLocalNormal(QVector<double *> neighborPoints) {
     // Sanity check
     if ( !hasIntersection() ) { // hasIntersection()  <==>  hasNormall()
-      QString mess = "Intercept point does not exist - cannot provide normal vector";
+      std::string mess = "Intercept point does not exist - cannot provide normal vector";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 
@@ -548,17 +548,17 @@ namespace Isis {
 
     // Sanity check on state
     if ( !hasIntersection() ) {
-       QString msg = "An intersection must be defined before computing the surface normal.";
+       std::string msg = "An intersection must be defined before computing the surface normal.";
        throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if ( !surfaceIntersection()->Valid() ) {
-       QString msg = "The surface point intersection must be valid to compute the surface normal.";
+       std::string msg = "The surface point intersection must be valid to compute the surface normal.";
        throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if (!hasValidTarget()) {
-       QString msg = "A valid target must be defined before computing the surface normal.";
+       std::string msg = "A valid target must be defined before computing the surface normal.";
        throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

@@ -52,7 +52,7 @@ namespace Isis{
 
     //Checks if in file is rdr
     if(label.hasObject("IMAGE_MAP_PROJECTION")) {
-      QString msg = "[" + in.name() + "] appears to be an rdr file.";
+      std::string msg = "[" + in.name() + "] appears to be an rdr file.";
       msg += " Use pds2isis.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -99,7 +99,7 @@ namespace Isis{
       p.Progress()->SetText("Image was converted using 12-to-8 bit table. \nConverting prefix pixels back to 12 bit and saving line prefix data...");
     }
 
-    Pvl inputLabel(in.expanded().toStdString());
+    Pvl inputLabel(in.expanded());
     if (inputLabel.hasKeyword("VALID_MAXIMUM")) {
       PvlKeyword labelValidMax = inputLabel.findKeyword("VALID_MAXIMUM");
       if (labelValidMax[1] != "UNK") {
@@ -276,7 +276,7 @@ namespace Isis{
     FileName transFile(dir + "/CassiniIss.trn");
 
     // Get the translation manager ready
-    Pvl inputLabel(labelFile.expanded().toStdString());
+    Pvl inputLabel(labelFile.expanded());
     PvlToPvlTranslationManager labelXlater(inputLabel, transFile.expanded());
 
     // Pvl outputLabels;

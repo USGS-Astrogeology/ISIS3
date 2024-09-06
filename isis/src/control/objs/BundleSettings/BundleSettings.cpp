@@ -536,7 +536,7 @@ namespace Isis {
     if (n >= 0 && n < numberSolveSettings()) {
       return m_observationSolveSettings[n];
     }
-    QString msg = "Unable to find BundleObservationSolveSettings with index = ["
+    std::string msg = "Unable to find BundleObservationSolveSettings with index = ["
                   + toString(n) + "].";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }

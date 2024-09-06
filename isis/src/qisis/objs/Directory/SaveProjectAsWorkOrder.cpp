@@ -120,7 +120,7 @@ namespace Isis {
   void SaveProjectAsWorkOrder::execute() {
     QString destination = internalData().first();
     if (!destination.isEmpty()) {
-      project()->save(destination);
+      project()->save(destination.toStdString());
       project()->open(destination);
       project()->setClean(true);
     }

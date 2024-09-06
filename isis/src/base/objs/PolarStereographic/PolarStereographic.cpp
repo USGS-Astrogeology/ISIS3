@@ -74,7 +74,7 @@ namespace Isis {
       // radians.
       m_centerLatitude = mapGroup["CenterLatitude"];
       if (m_centerLatitude == 0) {
-        QString msg = "Invalid value for keyword [CenterLatitude] in map file.";
+        std::string msg = "Invalid value for keyword [CenterLatitude] in map file.";
         msg += "  CenterLatitude cannot equal 0.0";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -104,7 +104,7 @@ namespace Isis {
       }
     }
     catch(IException &e) {
-      QString message = "Invalid label group [Mapping]";
+      std::string message = "Invalid label group [Mapping]";
       throw IException(e, IException::Unknown, message, _FILEINFO_);
     }
   }
@@ -255,7 +255,7 @@ namespace Isis {
     m_latitude = m_signFactor * phi;
 
     if (fabs(m_latitude) > HALFPI) {
-      QString msg = "X,Y causes latitude to be outside [-90,90] "
+      std::string msg = "X,Y causes latitude to be outside [-90,90] "
                    "in PolarStereographic Class";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

@@ -49,7 +49,7 @@ namespace Isis {
       p = new GuiBooleanParameter(grid, ui, group, param);
     }
     else {
-      QString msg = "Invalid parameter type in XML [" + paramType + "]";
+      std::string msg = "Invalid parameter type in XML [" + paramType.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

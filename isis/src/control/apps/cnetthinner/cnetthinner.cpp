@@ -75,7 +75,7 @@ namespace Isis {
     QString suppressed = ui.GetString("SUPPRESSED").toLower();
 
     if (tolerance < 0.0 || tolerance > 1.0) {
-        QString msg = "TOLERANCE must be between 0.0 and 1.0";
+        std::string msg = "TOLERANCE must be between 0.0 and 1.0";
         throw IException(IException::User, msg, _FILEINFO_);
     }
 

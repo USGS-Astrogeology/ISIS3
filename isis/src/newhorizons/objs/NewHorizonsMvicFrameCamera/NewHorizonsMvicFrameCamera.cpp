@@ -117,7 +117,7 @@ namespace Isis {
   void NewHorizonsMvicFrameCamera::SetBand(const int vband) {
 
     if(vband > (int) m_originalBand.size()) {
-      QString msg = QObject::tr("Band number out of array bounds in NewHorizonsMvicFrameCamera::SetBand legal "
+      std::string msg = QObject::tr("Band number out of array bounds in NewHorizonsMvicFrameCamera::SetBand legal "
                                 "bands are [1-%1], input was [%2]").
                     arg(m_originalBand.size()).arg(vband);
       throw IException(IException::Programmer, msg, _FILEINFO_);

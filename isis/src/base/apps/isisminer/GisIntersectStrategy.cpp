@@ -77,7 +77,7 @@ namespace Isis {
 
     // Check for validity
     if ( !m_geom->isValid() ) {
-      QString mess = "User provided geometry for " + name()  +
+      std::string mess = "User provided geometry for " + name()  +
                      " is not valid!";
       throw IException(IException::User, mess, _FILEINFO_);
     }
@@ -137,7 +137,7 @@ namespace Isis {
       geom = new GisGeometry(gisgeom, gtype);
     }
     catch (IException &ie) {
-      QString mess = "Problems converting GIS Geometry in keyword " + key +
+      std::string mess = "Problems converting GIS Geometry in keyword " + key +
                      ", PVL source file: " + pfile;
       throw IException(IException::User, mess, _FILEINFO_);
     }

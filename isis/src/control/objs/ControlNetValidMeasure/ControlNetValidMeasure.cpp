@@ -187,7 +187,7 @@ namespace Isis {
         measureCamera = pCube->camera();
       }
       catch(IException &e) {
-        QString msg = "Cannot Create Camera for Image:" + pCube->fileName();
+        std::string msg = "Cannot Create Camera for Image:" + pCube->fileName();
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -443,12 +443,12 @@ namespace Isis {
     mStdOptionsGrp += Isis::PvlKeyword("MaxResolution", (mdMaxResolution   == DBL_MAX ? "NA" : std::to_string(mdMaxResolution)));
 
     if(mdMinResolution < 0 || mdMaxResolution < 0) {
-      QString msg = "Invalid Resolution value(s), Resolution must be greater than zero";
+      std::string msg = "Invalid Resolution value(s), Resolution must be greater than zero";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if(mdMaxResolution < mdMinResolution) {
-      QString msg = "MinResolution must be less than MaxResolution";
+      std::string msg = "MinResolution must be less than MaxResolution";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -481,7 +481,7 @@ namespace Isis {
     mStdOptionsGrp += Isis::PvlKeyword("MaxDN", (mdMaxDN == Isis::ValidMaximum ? "NA" : std::to_string(mdMaxDN)));
 
     if(mdMaxDN < mdMinDN) {
-      QString msg = "MinDN must be less than MaxDN";
+      std::string msg = "MinDN must be less than MaxDN";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -499,7 +499,7 @@ namespace Isis {
       mdMinEmissionAngle = mPvlOpGrp["MinEmission"];
       mbCameraRequired = true;
       if(mdMinEmissionAngle < 0 || mdMinEmissionAngle > 135) {
-        QString msg = "Invalid Min Emission Angle, Valid Range is [0-135]";
+        std::string msg = "Invalid Min Emission Angle, Valid Range is [0-135]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -509,14 +509,14 @@ namespace Isis {
       mdMaxEmissionAngle = mPvlOpGrp["MaxEmission"];
       mbCameraRequired = true;
       if(mdMaxEmissionAngle < 0 || mdMaxEmissionAngle > 135) {
-        QString msg = "Invalid Max Emission Angle, Valid Range is [0-135]";
+        std::string msg = "Invalid Max Emission Angle, Valid Range is [0-135]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     mStdOptionsGrp += Isis::PvlKeyword("MaxEmission", std::to_string(mdMaxEmissionAngle));
 
     if(mdMaxEmissionAngle < mdMinEmissionAngle) {
-      QString msg = "Min EmissionAngle must be less than Max EmissionAngle";
+      std::string msg = "Min EmissionAngle must be less than Max EmissionAngle";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -535,7 +535,7 @@ namespace Isis {
       mdMinIncidenceAngle = mPvlOpGrp["MinIncidence"];
       mbCameraRequired = true;
       if(mdMinIncidenceAngle < 0 || mdMinIncidenceAngle > 135) {
-        QString msg = "Invalid Min Incidence Angle, Valid Range is [0-135]";
+        std::string msg = "Invalid Min Incidence Angle, Valid Range is [0-135]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -545,14 +545,14 @@ namespace Isis {
       mdMaxIncidenceAngle = mPvlOpGrp["MaxIncidence"];
       mbCameraRequired = true;
       if(mdMaxIncidenceAngle < 0 || mdMaxIncidenceAngle > 135) {
-        QString msg = "Invalid Max Incidence Angle, Valid Range is [0-135]";
+        std::string msg = "Invalid Max Incidence Angle, Valid Range is [0-135]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     mStdOptionsGrp += Isis::PvlKeyword("MaxIncidence", std::to_string(mdMaxIncidenceAngle));
 
     if(mdMaxIncidenceAngle < mdMinIncidenceAngle) {
-      QString msg = "Min IncidenceAngle must be less than Max IncidenceAngle";
+      std::string msg = "Min IncidenceAngle must be less than Max IncidenceAngle";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -568,7 +568,7 @@ namespace Isis {
     if(mPvlOpGrp.hasKeyword("SampleResidual")) {
       mdSampleResTolerance = mPvlOpGrp["SampleResidual"];
       if(mdSampleResTolerance < 0) {
-        QString msg = "Invalid Sample Residual, must be greater than zero";
+        std::string msg = "Invalid Sample Residual, must be greater than zero";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       bRes = true;
@@ -578,7 +578,7 @@ namespace Isis {
     if(mPvlOpGrp.hasKeyword("LineResidual")) {
       mdLineResTolerance = mPvlOpGrp["LineResidual"];
       if(mdLineResTolerance < 0) {
-        QString msg = "Invalid Line Residual, must be greater than zero";
+        std::string msg = "Invalid Line Residual, must be greater than zero";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       bRes = true;
@@ -588,7 +588,7 @@ namespace Isis {
     if(mPvlOpGrp.hasKeyword("ResidualMagnitude")) {
       mdResidualTolerance = mPvlOpGrp["ResidualMagnitude"];
       if(mdResidualTolerance < 0) {
-        QString msg = "Invalid Residual Magnitude Tolerance, must be greater than zero";
+        std::string msg = "Invalid Residual Magnitude Tolerance, must be greater than zero";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       bResMag = true;
@@ -596,7 +596,7 @@ namespace Isis {
     mStdOptionsGrp += Isis::PvlKeyword("ResidualMagnitude", (mdResidualTolerance   == DBL_MAX ? "NA" : std::to_string(mdResidualTolerance)));
 
     if(bRes && bResMag) {
-      QString msg = "Cannot have both Sample/Line Residuals and Residual Magnitude.";
+      std::string msg = "Cannot have both Sample/Line Residuals and Residual Magnitude.";
       msg += "\nChoose either Sample/Line Residual or Residual Magnitude";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -612,7 +612,7 @@ namespace Isis {
     if (mPvlOpGrp.hasKeyword("SampleShift")) {
       m_sampleShiftTolerance = mPvlOpGrp["SampleShift"];
       if (m_sampleShiftTolerance < 0) {
-        QString msg = "Invalid Sample Shift tolerance:"
+        std::string msg = "Invalid Sample Shift tolerance:"
             " must be greater than or equal to zero";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -623,7 +623,7 @@ namespace Isis {
     if (mPvlOpGrp.hasKeyword("LineShift")) {
       m_lineShiftTolerance = mPvlOpGrp["LineShift"];
       if (m_lineShiftTolerance < 0) {
-        QString msg = "Invalid Line Shift tolerance:"
+        std::string msg = "Invalid Line Shift tolerance:"
             " must be greater than or equal to zero";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -635,7 +635,7 @@ namespace Isis {
     if (mPvlOpGrp.hasKeyword("PixelShift")) {
       m_pixelShiftTolerance = mPvlOpGrp["PixelShift"];
       if (m_pixelShiftTolerance < 0) {
-        QString msg = "Invalid Pixel Shift tolerance:"
+        std::string msg = "Invalid Pixel Shift tolerance:"
             " must be greater than or equal to zero";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -644,7 +644,7 @@ namespace Isis {
     mStdOptionsGrp += Isis::PvlKeyword("PixelShift", (m_pixelShiftTolerance == DBL_MAX ? "NA" : std::to_string(m_pixelShiftTolerance)));
 
     if (hasSampleLineShift && hasPixelShift) {
-      QString msg = "Cannot have both Sample/Line Shift and Pixel Shift";
+      std::string msg = "Cannot have both Sample/Line Shift and Pixel Shift";
       msg += " tolerances.\n";
       msg += "Choose either Sample/Line Shift or Pixel Shift to validate on";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -937,7 +937,7 @@ namespace Isis {
       return false;
     }
     catch(IException &e) {
-      QString msg = "Cannot Create Camera for Image [" +
+      std::string msg = "Cannot Create Camera for Image [" +
           pCube->fileName() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }

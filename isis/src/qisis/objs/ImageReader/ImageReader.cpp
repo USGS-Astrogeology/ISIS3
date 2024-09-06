@@ -200,9 +200,8 @@ namespace Isis {
 
 
   void ImageReader::readSettings() {
-    QSettings settings(
-        FileName("$HOME/.Isis/" + QApplication::applicationName() + "/Image Reader.config")
-          .expanded(),
+    QSettings settings(QString::fromStdString(FileName("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/Image Reader.config")
+          .expanded()),
         QSettings::NativeFormat);
 
     m_safeFileOpen = settings.value("safeFileOpen", m_safeFileOpen).toBool();
@@ -213,8 +212,8 @@ namespace Isis {
 
   void ImageReader::writeSettings() {
     QSettings settings(
-        FileName("$HOME/.Isis/" + QApplication::applicationName() + "/Image Reader.config")
-          .expanded(),
+        QString::fromStdString(FileName("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/Image Reader.config")
+          .expanded()),
         QSettings::NativeFormat);
 
     settings.setValue("safeFileOpen", m_safeFileOpen);
@@ -284,7 +283,7 @@ namespace Isis {
       if (imageData.canConvert<QString>()) {
         fileName = imageData.value<QString>();
 
-        result = new Image(FileName(fileName).expanded());
+        result = new Image(QString::fromStdString(FileName(fileName.toStdString()).expanded()));
         ImageDisplayProperties *prop = result->displayProperties();
         prop->setShowFill(m_openFilled);
 
@@ -296,7 +295,7 @@ namespace Isis {
       else if (imageData.canConvert<PvlObject>()) {
         PvlObject imageObj = imageData.value<PvlObject>();
         fileName = ((IString)imageObj["FileName"][0]).ToQt();
-        result = new Image(FileName(fileName).expanded());
+        result = new Image(QString::fromStdString(FileName(fileName.toStdString()).expanded()));
         result->fromPvl(imageObj);
       }
 

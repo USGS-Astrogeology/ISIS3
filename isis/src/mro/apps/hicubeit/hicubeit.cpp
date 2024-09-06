@@ -50,20 +50,20 @@ namespace Isis {
     // Error check to make sure the proper ccds are stacked
     if((int)redInst["CpmmNumber"] == 5) {
       if(((int)irInst["CpmmNumber"] != 6) || ((int)bgInst["CpmmNumber"] != 4)) {
-        QString msg = "You can only stack color images with RED4, IR10, and BG12 ";
+        std::string msg = "You can only stack color images with RED4, IR10, and BG12 ";
         msg += "or RED5, IR11, and BG13";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     else if((int)redInst["CpmmNumber"] == 8) {
       if(((int)irInst["CpmmNumber"] != 7) || ((int)bgInst["CpmmNumber"] != 9)) {
-        QString msg = "You can only stack color images with RED4, IR10, and BG12 ";
+        std::string msg = "You can only stack color images with RED4, IR10, and BG12 ";
         msg += "or RED5, IR11, and BG13";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     else {
-      QString msg = "You can only stack color images with RED4, IR10, and BG12 ";
+      std::string msg = "You can only stack color images with RED4, IR10, and BG12 ";
       msg += "or RED5, IR11, and BG13";
       throw IException(IException::User, msg, _FILEINFO_);
     }

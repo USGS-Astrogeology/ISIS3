@@ -31,12 +31,12 @@ namespace Isis {
     QString missid;
 
     try {
-      Pvl lab(inFile.expanded().toStdString());
+      Pvl lab(inFile.expanded());
       instid = QString::fromStdString(lab.findKeyword("INSTRUMENT_ID"));
       missid = QString::fromStdString(lab.findKeyword("MISSION_ID"));
     }
     catch(IException &e) {
-      QString msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
+      std::string msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
                    inFile.expanded() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -44,7 +44,7 @@ namespace Isis {
     instid = instid.simplified().trimmed();
     missid = missid.simplified().trimmed();
     if(missid != "DAWN" && instid != "FC1" && instid != "FC2") {
-      QString msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
+      std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
                    "a DAWN Framing Camera (FC) EDR or RDR file.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -63,7 +63,7 @@ namespace Isis {
     p.SetOutputCube(tmpFile.expanded(), outatt);
     p.SaveFileHeader();
 
-    Pvl labelPvl(inFile.expanded().toStdString());
+    Pvl labelPvl(inFile.expanded());
 
     p.StartProcess();
     p.EndProcess();
@@ -154,7 +154,7 @@ namespace Isis {
       filtname = "Blue_F8";
     }
     else {
-      QString msg = "Input file [" + inFile.expanded() + "] has an invalid " +
+      std::string msg = "Input file [" + inFile.expanded() + "] has an invalid " +
                    "FilterNumber. The FilterNumber must fall in the range 1 to 8.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -171,7 +171,7 @@ namespace Isis {
       kerns += PvlKeyword("NaifFrameCode", std::to_string(-203120-filtno));
     }
     else {
-      QString msg = "Input file [" + inFile.expanded() + "] has an invalid " +
+      std::string msg = "Input file [" + inFile.expanded() + "] has an invalid " +
                    "InstrumentId.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }

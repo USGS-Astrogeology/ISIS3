@@ -161,7 +161,7 @@ namespace Isis {
  *                                 to set algorithm parameters."
  */
   int MSDAlgorithm::setAlgorithmVariables(const PvlFlatMap &variables) {
-    QString msg = "MSDAlgorithm does not have the ability to set algorithm parameters.";
+    std::string msg = "MSDAlgorithm does not have the ability to set algorithm parameters.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
 
     return (-1);

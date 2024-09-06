@@ -142,7 +142,7 @@ namespace Isis {
       }
 
       if (!bundleObservation) {
-        QString message = "Unable to allocate new BundleObservation ";
+        std::string message = "Unable to allocate new BundleObservation ";
         message += "for " + bundleImage->fileName();
         throw IException(IException::Programmer, message, _FILEINFO_);
       }

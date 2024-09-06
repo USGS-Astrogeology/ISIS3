@@ -15,13 +15,13 @@ void IsisMain() {
 
   // Get user entered file name & mode
   UserInterface &ui = Application::GetUserInterface();
-  FileName fromfile(ui.GetCubeName("FROM"));
+  FileName fromfile(ui.GetCubeName("FROM").toStdString());
   QString mode = ui.GetString("MODE");
 
   FileName tofile;
   bool append = false;
   if (ui.WasEntered("TO")) {
-    tofile = FileName(ui.GetFileName("TO"));
+    tofile = FileName(ui.GetFileName("TO").toStdString());
     append = ui.GetBoolean("APPEND");
   }
 
@@ -37,10 +37,10 @@ void IsisMain() {
     }
     else if (ui.WasEntered("TO")) {
       if (append) {
-        pvl.append(tofile.expanded().toStdString());
+        pvl.append(tofile.expanded());
       }
       else {
-        pvl.write(tofile.expanded().toStdString());
+        pvl.write(tofile.expanded());
       }
     }
     else {

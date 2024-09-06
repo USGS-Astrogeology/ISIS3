@@ -164,7 +164,7 @@ namespace Isis {
                                                 int index) {
     try {
     if (index != 0) {
-      QString msg = "Cannot translate value at index [" + toString(index) +
+      std::string msg = "Cannot translate value at index [" + toString(index) +
                     "]. Xml files can only store a single value in each element.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -175,7 +175,7 @@ namespace Isis {
       transGroup = transTable.findGroup(translationGroupName.toStdString());
     }
     catch (IException &e){
-      QString msg = "Unable to retrieve translation group from translation table.";
+      std::string msg = "Unable to retrieve translation group from translation table.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -185,7 +185,7 @@ namespace Isis {
       inputPosition = transGroup["InputPosition"];
     }
     catch (IException &e){
-      QString msg = "Unable to retrieve [InputPosition] keyword from "
+      std::string msg = "Unable to retrieve [InputPosition] keyword from "
                     "translation group.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
@@ -197,7 +197,7 @@ namespace Isis {
       inputKey = QString::fromStdString(transGroup["InputKey"][0]);
     }
     catch (IException &e){
-      QString msg = "Unable to retrieve [InputKey] keyword from "
+      std::string msg = "Unable to retrieve [InputKey] keyword from "
                     "translation group.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
@@ -310,7 +310,7 @@ namespace Isis {
         return PvlTranslationTable::Translate( translationGroupName );
       }
       else {
-        QString msg = "Could not find an input or default value that fits the given input "
+        std::string msg = "Could not find an input or default value that fits the given input "
                       "keyword dependencies.";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
@@ -331,7 +331,7 @@ namespace Isis {
         return PvlTranslationTable::Translate( translationGroupName );
       }
       else {
-        QString msg = "Input element [" + inputKeyElement.tagName() +
+        std::string msg = "Input element [" + inputKeyElement.tagName() +
                       "] does not have an attribute named [" +
                       attributeName + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -343,7 +343,7 @@ namespace Isis {
     return PvlTranslationTable::Translate( translationGroupName, inputValue.trimmed() );
     }
     catch (IException &e){
-      QString msg = "Failed to translate output value for [" + translationGroupName + "].";
+      std::string msg = "Failed to translate output value for [" + translationGroupName + "].";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -427,7 +427,7 @@ namespace Isis {
       }
 
       else {
-        QString msg = "Parsing error, dependency type [" + specification[0] +
+        std::string msg = "Parsing error, dependency type [" + specification[0] +
                       "] is not [att] or [tag].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
@@ -462,9 +462,9 @@ namespace Isis {
    * @throws IException::Unknown "XML read/parse error in file."
    */
   void XmlToPvlTranslationManager::parseFile(const FileName &xmlFileName) {
-     QFile xmlFile(xmlFileName.expanded());
+     QFile xmlFile(QString::fromStdString(xmlFileName.expanded()));
      if ( !xmlFile.open(QIODevice::ReadOnly) ) {
-       QString msg = "Could not open label file [" + xmlFileName.expanded() +
+       std::string msg = "Could not open label file [" + xmlFileName.expanded() +
                      "].";
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }
@@ -473,9 +473,9 @@ namespace Isis {
      int errline, errcol;
      if ( !m_xmlLabel.setContent(&xmlFile, false, &errmsg, &errline, &errcol) ) {
        xmlFile.close();
-       QString msg = "XML read/parse error in file [" + xmlFileName.expanded()
-            + "] at line [" + toString(errline) + "], column [" + toString(errcol)
-            + "], message: " + errmsg;
+       std::string msg = "XML read/parse error in file [" + xmlFileName.expanded()
+            + "] at line [" + std::to_string(errline) + "], column [" + std::to_string(errcol)
+            + "], message: " + errmsg.toStdString();
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }
 

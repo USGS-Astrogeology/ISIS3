@@ -142,7 +142,7 @@ namespace Isis {
         project()->directory()->addTemplateEditorView(getTemplate());
 
     if (!templateEditorWidget) {
-      QString msg = "error displaying target info";
+      std::string msg = "error displaying target info";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }

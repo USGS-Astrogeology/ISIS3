@@ -186,7 +186,7 @@ namespace Isis {
 
       // check to see if the points bracket a root(s), if the signs are equal they don't
       if ( (fa > 0) - (fa < 0) == (fb > 0) - (fb < 0) ) {
-        QString msg = "The function evaluations of two bounding points passed to Brents Method "
+        std::string msg = "The function evaluations of two bounding points passed to Brents Method "
                       "have the same sign.  Therefore, they don't necessary bound a root.  No "
                       "root finding will be attempted.\n";
         throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -265,7 +265,7 @@ namespace Isis {
         try {
           fbnew = func(bnew + offset);
         } catch (IException &e) {
-          QString msg = "Function evaluation failed at:" + toString(bnew) + 
+          std::string msg = "Function evaluation failed at:" + toString(bnew) + 
                         ".  Function must be continuous and defined for the entire interval "
                         "inorder to gaurentee brentsRootFinder will work.";
           throw IException(e, IException::Programmer, msg, _FILEINFO_);

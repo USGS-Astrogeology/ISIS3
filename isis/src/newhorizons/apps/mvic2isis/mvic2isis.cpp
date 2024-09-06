@@ -60,7 +60,7 @@ namespace Isis {
 
     if (!mvic) {
       FileName in = ui.GetFileName("FROM");
-      QString msg = "Input file [" + in.expanded() + "] does not appear to be " +
+      std::string msg = "Input file [" + in.expanded() + "] does not appear to be " +
                     "in New Horizons/MVIC FITS format.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -73,7 +73,7 @@ namespace Isis {
           !QString::fromStdString(undistortedLabel["COMMENT"][0]).startsWith("This is the bias-subtracted, "
                                                      "flattened, distortion-removed image cube.")) {
 
-        QString msg = QObject::tr("Input file [%1] does not appear to contain an MVIC undistorted "
+        std::string msg = QObject::tr("Input file [%1] does not appear to contain an MVIC undistorted "
                                   "image in XTENSION [2]").arg(ui.GetFileName("FROM"));
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -86,7 +86,7 @@ namespace Isis {
       if (!errorLabel.hasKeyword("COMMENT") ||
           errorLabel["COMMENT"][0] != "1-sigma error per pixel for the image in extension 1.") {
 
-        QString msg = QObject::tr("Input file [%1] does not appear to contain an MVIC Error image "
+        std::string msg = QObject::tr("Input file [%1] does not appear to contain an MVIC Error image "
                                   "in the XTENSION [3]").arg(ui.GetFileName("FROM"));
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -99,7 +99,7 @@ namespace Isis {
       if (!qualityLabel.hasKeyword("COMMENT") ||
           qualityLabel["COMMENT"][0] != "Data quality flag for the image in extension 1.") {
 
-        QString msg = QObject::tr("Input file [%1] does not appear to contain an MVIC Quality image "
+        std::string msg = QObject::tr("Input file [%1] does not appear to contain an MVIC Quality image "
                                   "in extension [3]").arg(ui.GetFileName("FROM"));
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -253,7 +253,7 @@ namespace Isis {
       sclkCode = fitslabel.findKeyword("SPCSCID", Pvl::Traverse);
     }
     else {
-      QString msg = "Input file is missing the spacecraft Naif Id.";
+      std::string msg = "Input file is missing the spacecraft Naif Id.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

@@ -136,7 +136,7 @@ void importQubs(QString coreParamName, QString suffixParamName) {
     pvlStream >> *pdsLabel;
   }
   catch(IException &e) {
-    QString msg = "Input file [" + inFile.expanded() +
+    std::string msg = "Input file [" + inFile.expanded() +
                  "] is not a valid PVL file.";
     // not appending the caught exception to this message.
     // we were picking up non-utf8 characters in the message
@@ -161,12 +161,12 @@ void importQubs(QString coreParamName, QString suffixParamName) {
   try {
     if (!galileoRx.exactMatch(dataSetId) )
     {
-      QString msg = "Invalid DATA_SET_ID [" + dataSetId + "]";
+      std::string msg = "Invalid DATA_SET_ID [" + dataSetId + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }
   catch(IException &e) {
-    QString msg = "Unable to read [DATA_SET_ID] from input file [" +
+    std::string msg = "Unable to read [DATA_SET_ID] from input file [" +
                  inFile.expanded() + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
@@ -208,7 +208,7 @@ void importQubs(QString coreParamName, QString suffixParamName) {
       importPds.SetPdsFile(*pdsLabel,inFile.expanded(),fileType);
   }
   catch(IException &e) {
-    QString msg = "Input file [" + inFile.expanded() +
+    std::string msg = "Input file [" + inFile.expanded() +
                  "] does not appear to be a Galileo NIMS detached PDS label";
     throw IException(e, IException::User, msg, _FILEINFO_);
   }
@@ -410,7 +410,7 @@ PvlGroup originalMappingGroup = qube.findGroup("IMAGE_MAP_PROJECTION", Pvl::Trav
     mappingGroup["MaximumLongitude"].setUnits("degrees");
   }
   catch(IException &e) {
-    QString msg = "Unable to correct mapping group.";
+    std::string msg = "Unable to correct mapping group.";
     throw IException(e, IException::User, msg, _FILEINFO_);
   }
 

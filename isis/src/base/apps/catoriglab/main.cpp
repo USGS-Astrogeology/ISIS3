@@ -31,10 +31,10 @@ void IsisMain() {
     }
     else if (ui.WasEntered("TO")) {
       if (ui.GetBoolean("APPEND")) {
-        pvl.append(FileName(ui.GetFileName("TO")).expanded().toStdString());
+        pvl.append(FileName(ui.GetFileName("TO").toStdString()).expanded());
       }
       else {
-        pvl.write(FileName(ui.GetFileName("TO")).expanded().toStdString());
+        pvl.write(FileName(ui.GetFileName("TO").toStdString()).expanded());
       }
     } 
     else {
@@ -49,7 +49,7 @@ void IsisMain() {
     }
     else if (ui.WasEntered("TO")) {
       // Open the output file
-      QFile outFile( FileName( ui.GetFileName("TO") ).expanded() );
+      QFile outFile( FileName( ui.GetFileName("TO").toStdString() ).expanded() );
       QIODevice::OpenMode openMode;
       if (ui.GetBoolean("APPEND")) {
         openMode = QIODevice::WriteOnly | QIODevice::Append;
@@ -58,8 +58,8 @@ void IsisMain() {
         openMode = QIODevice::WriteOnly | QIODevice::Truncate;
       }
       if ( !outFile.open(openMode) ) {
-        QString msg = "Unable to open output file [" +
-                      FileName( ui.GetFileName("TO") ).expanded() +
+        std::string msg = "Unable to open output file [" +
+                      FileName( ui.GetFileName("TO").toStdString() ).expanded() +
                       "] with write permissions.";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
@@ -76,7 +76,7 @@ void IsisMain() {
     }
   }
   else {
-    QString msg = "Could not find OriginalLabel or OriginalXmlLabel "
+    std::string msg = "Could not find OriginalLabel or OriginalXmlLabel "
                   "in input file [" + file + "].";
     throw IException(IException::User, msg, _FILEINFO_);
   }

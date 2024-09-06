@@ -336,7 +336,7 @@ namespace Isis {
   }
 
     bool noErrors = passed;
-    QString error = "";
+    std::string error = "";
     if (!m_camera->HasSurfaceIntersection()) {
       error = "Requested position does not project in camera model; no surface intersection";
       noErrors = false;
@@ -414,7 +414,7 @@ namespace Isis {
       }
 
       // Set all keywords that still have valid information
-      gp->findKeyword("Error").setValue(error.toStdString());
+      gp->findKeyword("Error").setValue(error);
       gp->findKeyword("FileName").setValue(m_currentCube->fileName().toStdString());
       gp->findKeyword("Sample").setValue(std::to_string(m_camera->Sample()));
       gp->findKeyword("Line").setValue(std::to_string(m_camera->Line()));
@@ -444,7 +444,7 @@ namespace Isis {
         gp->findKeyword("FileName").setValue(m_currentCube->fileName().toStdString());
         gp->findKeyword("Sample").setValue(std::to_string(m_camera->Sample()));
         gp->findKeyword("Line").setValue(std::to_string(m_camera->Line()));
-        gp->findKeyword("PixelValue").setValue(PixelToString(b[0]).toStdString());
+        gp->findKeyword("PixelValue").setValue(PixelToString(b[0]));
         try {
           gp->findKeyword("RightAscension").setValue(std::to_string(
                           m_camera->RightAscension()), "DEGREE");

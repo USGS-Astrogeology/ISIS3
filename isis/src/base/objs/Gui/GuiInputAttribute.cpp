@@ -115,7 +115,7 @@ namespace Isis {
 
   // Set the attributes in the dialog
   void GuiInputAttribute::SetAttributes(const QString &value) {
-    Isis::CubeAttributeInput att(value);
+    Isis::CubeAttributeInput att(value.toStdString());
     std::vector<QString> bands = att.bands();
     if(bands.size() == 0) {
       p_buttonGroup->buttons()[0]->setChecked(true);

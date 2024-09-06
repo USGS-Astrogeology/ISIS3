@@ -322,8 +322,8 @@ namespace Isis {
       p_baseGM = new UniversalGroundMap(*p_baseCube);
     }
     catch (IException &e) {
-      QString message = "Cannot initialize universal ground map for basemap.\n";
-      QString errors = e.toString();
+      std::string message = "Cannot initialize universal ground map for basemap.\n";
+      std::string errors = e.toString();
       message += errors;
       QMessageBox::critical((QWidget *)parent(), "Error", message);
       return;
@@ -332,8 +332,8 @@ namespace Isis {
       p_matchGM = new UniversalGroundMap(*matchCube);
     }
     catch (IException &e) {
-      QString message = "Cannot initialize universal ground map for match cube.\n";
-      QString errors = e.toString();
+      std::string message = "Cannot initialize universal ground map for match cube.\n";
+      std::string errors = e.toString();
       message += errors;
       QMessageBox::critical((QWidget *)parent(), "Error", message);
       return;
@@ -396,7 +396,7 @@ namespace Isis {
     p_matchGM->SetGround(Latitude(lat, Angle::Degrees), Longitude(lon, Angle::Degrees));
     Distance radius = p_matchGM->Camera()->LocalRadius();
     if (!radius.isValid()) {
-      QString message = "Could not determine radius from DEM at lat/lon ["
+      std::string message = "Could not determine radius from DEM at lat/lon ["
           + QString::number(lat) + "," + QString::number(lon) + "]";
       QMessageBox::critical((QWidget *)parent(),"Error",message);
       return;
@@ -407,7 +407,7 @@ namespace Isis {
                 radius));
     }
     catch (IException &e) {
-      QString message = "Unable to set Apriori Surface Point.\n";
+      std::string message = "Unable to set Apriori Surface Point.\n";
       message += "Latitude = " + QString::number(lat);
       message += "  Longitude = " + QString::number(lon);
       message += "  Radius = " + QString::number(radius.meters()) + "\n";
@@ -439,12 +439,12 @@ namespace Isis {
     if (cvp  == NULL)
       return;
     if (cubeViewportList()->size() != 2) {
-      QString message = "You must have a basemap and a match cube open.";
+      std::string message = "You must have a basemap and a match cube open.";
       QMessageBox::critical((QWidget *)parent(), "Error", message);
       return;
     }
     if (cvp->cube() == p_baseCube) {
-      QString message = "Select points on match Cube only.";
+      std::string message = "Select points on match Cube only.";
       QMessageBox::information((QWidget *)parent(), "Warning", message);
       return;
     }
@@ -460,7 +460,7 @@ namespace Isis {
 
     if (s == Qt::LeftButton) {
       if (!p_controlNet || p_controlNet->GetNumMeasures() == 0) {
-        QString message = "No points exist for editing.  Create points ";
+        std::string message = "No points exist for editing.  Create points ";
         message += "using the right mouse button.";
         QMessageBox::information((QWidget *)parent(), "Warning", message);
         return;
@@ -471,7 +471,7 @@ namespace Isis {
         point = p_controlNet->FindClosest(sn, samp, line);
       }
       catch (IException &e) {
-        QString message = "No points found for editing.  Create points ";
+        std::string message = "No points found for editing.  Create points ";
         message += "using the right mouse button.";
         message += e.toString();
         QMessageBox::critical((QWidget *)parent(), "Error", message);
@@ -481,7 +481,7 @@ namespace Isis {
     }
     else if (s == Qt::MiddleButton) {
       if (!p_controlNet || p_controlNet->GetNumPoints() == 0) {
-        QString message = "No points exist for deleting.  Create points ";
+        std::string message = "No points exist for deleting.  Create points ";
         message += "using the right mouse button.";
         QMessageBox::warning((QWidget *)parent(), "Warning", message);
         return;
@@ -492,7 +492,7 @@ namespace Isis {
         p_controlNet->FindClosest(sn, samp, line);
       //  TODO:  test for errors and reality
       if (point == NULL) {
-        QString message = "No points exist for deleting.  Create points ";
+        std::string message = "No points exist for deleting.  Create points ";
         message += "using the right mouse button.";
         QMessageBox::information((QWidget *)parent(), "Warning", message);
         return;
@@ -543,7 +543,7 @@ namespace Isis {
       if (baseSamp < 1 || baseSamp > p_baseCube->sampleCount() ||
           baseLine < 1 || baseLine > p_baseCube->lineCount()) {
         // throw error? point not on base
-        QString message = "Point does not exist on base map.";
+        std::string message = "Point does not exist on base map.";
         QMessageBox::warning((QWidget *)parent(), "Warning", message);
         return;
       }
@@ -551,7 +551,7 @@ namespace Isis {
     else {
       //  throw error?  point not on base cube
       // throw error? point not on base
-      QString message = "Point does not exist on base map.";
+      std::string message = "Point does not exist on base map.";
       QMessageBox::warning((QWidget *)parent(), "Warning", message);
     }
 
@@ -576,14 +576,14 @@ namespace Isis {
       if (ok && id.isEmpty())
         // user clicked "Ok" but did not enter a point ID
       {
-        QString message = "You must enter a point Id.";
+        std::string message = "You must enter a point Id.";
         QMessageBox::warning((QWidget *)parent(), "Warning", message);
       }
       else {
         // Make sure Id doesn't already exist
         newPoint = new ControlPoint(id);
         if (p_controlNet->ContainsPoint(newPoint->GetId())) {
-          QString message = "A ControlPoint with Point Id = [" +
+          std::string message = "A ControlPoint with Point Id = [" +
                             newPoint->GetId() +
                             "] already exists.  Re-enter unique Point Id.";
           QMessageBox::warning((QWidget *)parent(), "Unique Point Id", message);
@@ -767,7 +767,7 @@ namespace Isis {
     //  Need at least 2 points to solve for twist
     if (p_twist) {
       if (p_controlNet->GetNumPoints() < 2) {
-        QString message = "Need at least 2 points to solve for twist. \n";
+        std::string message = "Need at least 2 points to solve for twist. \n";
         QMessageBox::critical((QWidget *)parent(), "Error", message);
         return;
       }
@@ -850,9 +850,9 @@ namespace Isis {
       double maxError = outNet.GetMaximumResidual();
       double avgError = outNet.AverageResidual();
 
-      QString message = "Maximum Error = " + QString::number(maxError);
+      std::string message = "Maximum Error = " + QString::number(maxError);
       message += "\nAverage Error = " + QString::number(avgError);
-      QString msgTitle = "Update camera pointing?";
+      std::string msgTitle = "Update camera pointing?";
 //      QDialog resultsDialog((QWidget *)parent(),"Bundle Adjust Summary",true);
 
       QMessageBox msgBox;
@@ -888,8 +888,8 @@ namespace Isis {
 
     }
     catch (IException &e) {
-      QString message = "Unable to bundle adjust. Solution failed.\n";
-      QString errors = e.toString();
+      std::string message = "Unable to bundle adjust. Solution failed.\n";
+      std::string errors = e.toString();
       message += errors;
 //      message += "\n\nMaximum Error = " + QString::number(outNet.MaximumResiudal());
 //      message += "\nAverage Error = " + QString::number(outNet.AverageResidual());
@@ -984,7 +984,7 @@ namespace Isis {
       registrationDialog.exec();
     }
     catch (IException &e) {
-      QString message = e.toString();
+      std::string message = e.toString();
       QMessageBox::warning((QWidget *)parent(), "Error", message);
     }
   }
@@ -1026,8 +1026,8 @@ namespace Isis {
         net.Write(fn);
       }
       catch (IException &e) {
-        QString message = "Error saving control network.  \n";
-        QString errors = e.toString();
+        std::string message = "Error saving control network.  \n";
+        std::string errors = e.toString();
         message += errors;
         QMessageBox::information((QWidget *)parent(), "Error", message);
         return;

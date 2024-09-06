@@ -287,8 +287,8 @@ namespace Isis {
                                         1);
 
           // The tracking cube file name convention is "output_cube_file_name" + "_tracking.cub"
-          QString trackingBase = FileName(OutputCubes[0]->fileName()).removeExtension().expanded().split("/").last();
-          m_trackingCube->create(FileName(OutputCubes[0]->fileName()).path()
+          QString trackingBase = QString::fromStdString(FileName(OutputCubes[0]->fileName().toStdString()).removeExtension().expanded()).split("/").last();
+          m_trackingCube->create(QString::fromStdString(FileName(OutputCubes[0]->fileName().toStdString()).path())
                                   + "/" + trackingBase + "_tracking.cub");
 
           // Add the tracking group to the mosaic cube label
@@ -321,7 +321,7 @@ namespace Isis {
         else {
           // Confirm tracking group exists in mosaic cube to address backwards compatibility
           if ( OutputCubes[0]->hasGroup("Tracking") ) {
-            QString trackingPath = FileName(OutputCubes[0]->fileName()).path();
+            QString trackingPath = QString::fromStdString(FileName(OutputCubes[0]->fileName().toStdString()).path());
             QString trackingFile = QString::fromStdString(OutputCubes[0]->group("Tracking").findKeyword("FileName")[0]);
             m_trackingCube->open(trackingPath + "/" + trackingFile, "rw");
 
@@ -332,7 +332,7 @@ namespace Isis {
               trackingTable = new TrackingTable(*table);
             }
             catch (IException &e) {
-              QString msg = "Unable to find Tracking Table in " + m_trackingCube->fileName() + ".";
+              std::string msg = "Unable to find Tracking Table in " + m_trackingCube->fileName() + ".";
               throw IException(IException::User, msg, _FILEINFO_);
             }
           }
@@ -347,7 +347,7 @@ namespace Isis {
         }
 
         // Add current file to the TrackingTable object
-        iIndex = trackingTable->fileNameToPixel(InputCubes[0]->fileName(),
+        iIndex = trackingTable->fileNameToPixel(InputCubes[0]->fileName().toStdString(),
                                        SerialNumber::Compose(*(InputCubes[0])));
 
         //  Write the tracking table to the tracking cube, overwriting if need-be
@@ -1121,7 +1121,7 @@ namespace Isis {
                            outKey[j] + ". Input cube value at index [" + std::to_string(k) + "] = "
                            + inKey[k] + ". **Note: use mapmos/automos MatchBandBin = false to "
                            "override this check**";
-            //QString msg = "Pvl Group [BandBin] in Key[" + outKey.name() + "] In value" + inKey[k] +
+            //std::string msg = "Pvl Group [BandBin] in Key[" + outKey.name() + "] In value" + inKey[k] +
                          //"and Out value=" + outKey[j] + " do not match";
             throw IException(IException::User, msg, _FILEINFO_);
           }
@@ -1494,7 +1494,7 @@ void ProcessMosaic::BandPriorityWithNoTracking(int iss, int isl, int isb, int in
         break;
 
       default:
-        QString msg = "ProcessMosaic::GetOriginDefaultByPixelType - Invalid Pixel Type";
+        std::string msg = "ProcessMosaic::GetOriginDefaultByPixelType - Invalid Pixel Type";
         throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

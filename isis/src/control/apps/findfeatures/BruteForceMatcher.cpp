@@ -64,7 +64,7 @@ namespace Isis {
       variables.add("NormType", m_normTypeMap.right.at(normType));
     }
     catch (std::exception &e){
-      QString msg = "The input value [" + toString(normType) +
+      std::string msg = "The input value [" + toString(normType) +
                     "] is not valid for BruteForceMatcher's [NormType] variable";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -136,7 +136,7 @@ namespace Isis {
       }
     }
     catch (std::exception &e) {
-        QString msg = "The input value [" + norm +
+        std::string msg = "The input value [" + norm +
                       "] is not valid for BruteForceMatcher's [NormType] variable";
         throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -198,7 +198,7 @@ namespace Isis {
  *                                 to set algorithm parameters."
  */
   int BruteForceMatcher::setAlgorithmVariables(const PvlFlatMap &variables) {
-    QString msg = "BruteForceMatcher does not have the ability to set algorithm parameters.";
+    std::string msg = "BruteForceMatcher does not have the ability to set algorithm parameters.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
 
     return (-1);

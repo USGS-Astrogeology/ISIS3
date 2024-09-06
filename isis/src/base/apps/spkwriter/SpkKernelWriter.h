@@ -83,7 +83,7 @@ class SpkKernelWriter : public KernelWriter<SpkKernel> {
      */
     void setType(const int spktype) {
       if ( (spktype != 9) && (spktype != 13) ) {
-        QString mess = "SPK kernel type " + QString(spktype) +
+        std::string mess = "SPK kernel type " + QString(spktype) +
                            " not valid/supported -  must 9 or 13";
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -93,15 +93,15 @@ class SpkKernelWriter : public KernelWriter<SpkKernel> {
 
   protected:
     int k_open(const QString &kfile, const int &comsize = 512) {
-      FileName kf(kfile);
+      FileName kf(kfile.toStdString());
       if ( kf.fileExists() ) {
-        QString full_kf = kf.expanded();
+        QString full_kf = QString::fromStdString(kf.expanded());
         std::remove(full_kf.toLatin1().data());
       }
       SpiceInt  myHandle;
 
       NaifStatus::CheckErrors();
-      spkopn_c(kf.expanded().toLatin1().data(), "USGS_SPK_FILE", comsize, &myHandle);
+      spkopn_c(kf.expanded().c_str(), "USGS_SPK_FILE", comsize, &myHandle);
       NaifStatus::CheckErrors();
       return (myHandle);
     }

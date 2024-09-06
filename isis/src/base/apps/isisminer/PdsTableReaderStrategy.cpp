@@ -130,7 +130,7 @@ namespace Isis {
     catch ( IException &ie ) {
       m_resources.clear();
       m_globals.clear();
-      QString mess = "Failed to read PDS label/table " + lblfile + "," + tblfile;
+      std::string mess = "Failed to read PDS label/table " + lblfile + "," + tblfile;
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }
  

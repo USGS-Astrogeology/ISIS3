@@ -75,7 +75,7 @@ namespace Isis {
     // See if an error occured
     if(!p_stream.good()) {
       line = "";
-      QString message = "TextFile:GetLine: -> Error reading text file: ["
+      std::string message = "TextFile:GetLine: -> Error reading text file: ["
                         + p_filename + "]";
       throw IException(IException::Io, message, _FILEINFO_);
     }

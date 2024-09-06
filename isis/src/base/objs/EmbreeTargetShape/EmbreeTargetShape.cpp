@@ -269,18 +269,18 @@ namespace Isis {
         m_scene(rtcNewScene(m_device)) {
     rtcSetSceneFlags(m_scene, RTC_SCENE_FLAG_ROBUST | RTC_SCENE_FLAG_CONTEXT_FILTER_FUNCTION);
     rtcSetSceneBuildQuality(m_scene, RTC_BUILD_QUALITY_HIGH);
-    FileName file(dem);
+    FileName file(dem.toStdString());
     pcl::PolygonMesh::Ptr mesh;
-    m_name = file.baseName();
+    m_name = QString::fromStdString(file.baseName());
 
     try {
       // DEMs (ISIS cubes) TODO implement this
       if (file.extension() == "cub") {
-        QString msg = "DEMs cannot be used to create an EmbreeTargetShape.";
+        std::string msg = "DEMs cannot be used to create an EmbreeTargetShape.";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       // DSKs
-      else if (file.extension().toLower() == "bds") {
+      else if (QString::fromStdString(file.extension()).toLower() == "bds") {
         mesh = readDSK(file);
       }
       // Let PCL try to handle other formats (obj, ply, etc.)
@@ -289,7 +289,7 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      QString msg = "Failed creating an EmbreeTargetShape from ["
+      std::string msg = "Failed creating an EmbreeTargetShape from ["
                     + file.expanded() + "].";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
@@ -320,12 +320,12 @@ namespace Isis {
 
     // Sanity check
     if ( !file.fileExists() ) {
-      QString mess = "NAIF DSK file [" + file.expanded() + "] does not exist.";
+      std::string mess = "NAIF DSK file [" + file.expanded() + "] does not exist.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
   
     // Open the NAIF Digital Shape Kernel (DSK)
-    dasopr_c( file.expanded().toLatin1().data(), &dskHandle );
+    dasopr_c( file.expanded().c_str(), &dskHandle );
     NaifStatus::CheckErrors();
   
     // Search to the first DLA segment
@@ -333,7 +333,7 @@ namespace Isis {
     dlabfs_c( dskHandle, &dlaDescriptor, &found );
     NaifStatus::CheckErrors();
     if ( !found ) {
-      QString mess = "No segments found in DSK file [" + file.expanded() + "]"; 
+      std::string mess = "No segments found in DSK file [" + file.expanded() + "]"; 
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
@@ -357,7 +357,7 @@ namespace Isis {
              &numRead, ( SpiceDouble(*)[3] )(verticesArray) );
     NaifStatus::CheckErrors();
     if ( numRead != numVertices ) {
-      QString msg = "Failed reading all vertices from the DSK file, ["
+      std::string msg = "Failed reading all vertices from the DSK file, ["
                     + toString(numRead) + "] out of ["
                     + toString(numVertices) + "] vertices read.";
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -369,7 +369,7 @@ namespace Isis {
              &numRead, ( SpiceInt(*)[3] )(polygonsArray) );
     NaifStatus::CheckErrors();
     if ( numRead != numPlates ) {
-      QString msg = "Failed reading all polygons from the DSK file, ["
+      std::string msg = "Failed reading all polygons from the DSK file, ["
                     + toString(numRead) + "] out of ["
                     + toString(numPlates) + "] polygons read.";
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -421,9 +421,9 @@ namespace Isis {
   pcl::PolygonMesh::Ptr EmbreeTargetShape::readPC(FileName file) {
     pcl::PolygonMesh::Ptr mesh( new pcl::PolygonMesh );
 
-    int loadStatus = pcl::io::load(file.expanded().toStdString(), *mesh);
+    int loadStatus = pcl::io::load(file.expanded(), *mesh);
     if (loadStatus == -1) {
-      QString msg = "Failed loading target shape file [" + file.expanded() + "]";
+      std::string msg = "Failed loading target shape file [" + file.expanded() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
     return mesh;
@@ -706,7 +706,7 @@ namespace Isis {
    */
   RayHitInformation EmbreeTargetShape::getHitInformation(RTCMultiHitRay &ray, int hitIndex) {
     if (hitIndex > ray.lastHit || hitIndex < 0) {
-      QString msg = "Hit index [" + toString(hitIndex) + "] is out of bounds.";
+      std::string msg = "Hit index [" + toString(hitIndex) + "] is out of bounds.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

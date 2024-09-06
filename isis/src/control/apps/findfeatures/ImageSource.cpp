@@ -121,19 +121,19 @@ void ImageSource::load(const QString &name, const double minPercent,
 void ImageSource::load(const double minPercent,const double maxPercent) {
 
   QString name = m_data->m_name;
-  FileName ifile(name);
+  FileName ifile(name.toStdString());
 
   // Handle ISIS cube specifically. If its not a cube, use OpenCV's image
   // reader
   if ( "cub" == ifile.extension() ) {
     Cube cube;
-    CubeAttributeInput attTrans(name);
+    CubeAttributeInput attTrans(name.toStdString());
     std::vector<QString> bandTrans = attTrans.bands();
     cube.setVirtualBands(bandTrans);
-    cube.open(ifile.expanded(), "r");
+    cube.open(QString::fromStdString(ifile.expanded()), "r");
 
     if( cube.bandCount() != 1 ) {
-      QString msg = "Input cube " + name + " must only have one band!";
+      std::string msg = "Input cube " + name + " must only have one band!";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -187,19 +187,19 @@ void ImageSource::load(const double minPercent,const double maxPercent) {
   else {
     // Assume OpenCV can read it
     try {
-      m_data->m_image = cv::imread(ifile.expanded().toStdString(),
+      m_data->m_image = cv::imread(ifile.expanded(),
                                    cv::IMREAD_GRAYSCALE);
       if ( m_data->m_image.empty() ) {
-        QString mess = "Failed to read image from " + name;
+        std::string mess = "Failed to read image from " + name;
         throw IException(IException::User, mess, _FILEINFO_);
       }
 
-      m_data->m_serialno = ifile.baseName();
+      m_data->m_serialno = QString::fromStdString(ifile.baseName());
 
       // Here we could check for world files and construct geometry!!
     }
     catch (cv::Exception &e) {
-      QString mess = "OpenCV cannot process file " + name + " " +
+      std::string mess = "OpenCV cannot process file " + name + " " +
                       QString::fromStdString(e.what());
       throw IException(IException::User, mess, _FILEINFO_);
     }
@@ -341,7 +341,7 @@ cv::Mat ImageSource::getGeometryMapping(ImageSource &match,
 
   // Compute homography if enough point
   if ( (int) source.size() < v_minpts ) {
-    QString mess = "Failed to get geometry mapping for " + match.name() +
+    std::string mess = "Failed to get geometry mapping for " + match.name() +
                    " to " + name() + " needing " + QString::number(v_minpts) +
                    " but only could get " + QString::number(source.size()) +".";
     throw IException(IException::Programmer, mess, _FILEINFO_);
@@ -384,15 +384,15 @@ Histogram *ImageSource::getHistogram(Cube &cube) const {
 
 
 bool ImageSource::initGeometry() {
-  FileName ifile(m_data->m_name);
+  FileName ifile(m_data->m_name.toStdString());
   Cube cube;
-  CubeAttributeInput attTrans(m_data->m_name);
+  CubeAttributeInput attTrans(m_data->m_name.toStdString());
   std::vector<QString> bandTrans = attTrans.bands();
   cube.setVirtualBands(bandTrans);
-  cube.open(ifile.expanded(), "r");
+  cube.open(QString::fromStdString(ifile.expanded()), "r");
 
   if( cube.bandCount() != 1 ) {
-    QString msg = "Input cube " + m_data->m_name +
+    std::string msg = "Input cube " + m_data->m_name +
                   " must only have one band!";
    throw IException(IException::User, msg, _FILEINFO_);
   }

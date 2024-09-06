@@ -96,13 +96,13 @@ void IsisMain() {
   // Make sure it is a Themis EDR/RDR
   try {
     if(evenCube->group("Instrument")["InstrumentID"][0] != "THEMIS_VIS") {
-      QString msg = "This program is intended for use on THEMIS VIS images only";
+      std::string msg = "This program is intended for use on THEMIS VIS images only";
       msg += " [" + ui.GetCubeName("INEVEN") + "] does not appear to be a ";
       msg += "THEMIS VIS image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     if (evenCube->group("Instrument")["Framelets"][0] != "Even") {
-      QString msg = "The image [" + ui.GetCubeName("INEVEN") + "] does not appear "
+      std::string msg = "The image [" + ui.GetCubeName("INEVEN") + "] does not appear "
           "to contain the EVEN framelets of a Themis VIS cube";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -114,13 +114,13 @@ void IsisMain() {
 
   try {
     if(oddCube->group("Instrument")["InstrumentID"][0] != "THEMIS_VIS") {
-      QString msg = "This program is intended for use on THEMIS VIS images only";
+      std::string msg = "This program is intended for use on THEMIS VIS images only";
       msg += " [" + ui.GetCubeName("INODD") + "] does not appear to be a ";
       msg += "THEMIS VIS image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     if (oddCube->group("Instrument")["Framelets"][0] != "Odd") {
-      QString msg = "The image [" + ui.GetCubeName("INODD") + "] does not appear "
+      std::string msg = "The image [" + ui.GetCubeName("INODD") + "] does not appear "
           "to contain the ODD framelets of a Themis VIS cube";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -329,7 +329,7 @@ int FrameletOverlapSize() {
   Camera *camOdd = oddCube->camera();
 
   if(camEven == NULL || camOdd == NULL) {
-    QString msg = "A camera is required to automatically calculate the overlap "
+    std::string msg = "A camera is required to automatically calculate the overlap "
                  "between framelets. Please run spiceinit on the input cube";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }

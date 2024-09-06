@@ -108,7 +108,7 @@ namespace Isis {
                                                wkb.size());
   #endif
     if (!geom) {
-      QString mess = "Unable convert the given WKB string [" + wkb + "] to a GEOSGeometry";
+      std::string mess = "Unable convert the given WKB string [" + wkb.toStdString() + "] to a GEOSGeometry";
       throw IException(IException::Programmer, mess, _FILEINFO_);
   
     }
@@ -130,7 +130,7 @@ namespace Isis {
     const char *footy = wkt_data.data();
     GEOSGeometry *geom = GEOSWKTReader_read(wktReader(), footy);
     if (!geom) {
-      QString mess = "Unable convert the given WKT string [" + wkt + "] to a GEOSGeometry";
+      std::string mess = "Unable convert the given WKT string [" + wkt.toStdString() + "] to a GEOSGeometry";
       throw IException(IException::Programmer, mess, _FILEINFO_);
   
     }

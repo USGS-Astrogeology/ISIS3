@@ -176,13 +176,13 @@ namespace Isis {
     }
     catch (IException &) {
       FileName inFileName = ui.GetCubeName("FROM");
-      QString msg = "This program is intended for use on MARCI images only. [";
+      std::string msg = "This program is intended for use on MARCI images only. [";
       msg += inFileName.expanded() + "] does not appear to be a MARCI image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if (icube.group("Archive")["SampleBitModeId"][0] != "SQROOT") {
-      QString msg = "Sample bit mode [" + QString::fromStdString(icube.group("Archive")["SampleBitModeId"][0]) + "] is not supported.";
+      std::string msg = "Sample bit mode [" + QString::fromStdString(icube.group("Archive")["SampleBitModeId"][0]) + "] is not supported.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -226,7 +226,7 @@ namespace Isis {
     stretchPairs.Close();
 
     // This file stores radiance/spectral distance coefficients
-    Pvl calibrationData(calFile.expanded().toStdString());
+    Pvl calibrationData(calFile.expanded());
 
     // This will store the radiance coefficient and solar spectral distance coefficients
     // for each band.
@@ -236,7 +236,7 @@ namespace Isis {
 
     // Check our coefficient file
     if (calibrationData.objects() != 7) {
-      QString msg = "Calibration file [" + calFile.expanded() + "] must contain data for 7 filters in ascending order;";
+      std::string msg = "Calibration file [" + calFile.expanded() + "] must contain data for 7 filters in ascending order;";
       msg += " only [" + QString::number(calibrationData.objects()) + "] objects were found";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -246,7 +246,7 @@ namespace Isis {
       PvlObject calObj = calibrationData.object(obj);
 
       if ((int)calObj["FilterNumber"] != obj + 1) {
-        QString msg = "Calibration file [" + calFile.expanded() + "] must have the filters in ascending order";
+        std::string msg = "Calibration file [" + calFile.expanded() + "] must have the filters in ascending order";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
@@ -324,7 +324,7 @@ namespace Isis {
         filter.push_back(filterNameToFilterNumber.find(QString::fromStdString(filtNames[i]))->second);
       }
       else {
-        QString msg = "Unrecognized filter name [" + QString::fromStdString(filtNames[i]) + "]";
+        std::string msg = "Unrecognized filter name [" + QString::fromStdString(filtNames[i]) + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -360,7 +360,7 @@ namespace Isis {
     PvlGroup inst = icube.group("Instrument");
 
     if (!inst.hasKeyword("VariableExposureDuration") || !inst.hasKeyword("FrameNumber")) {
-      QString msg = "The instrument keywords VariableExposureDuration and FrameNumber"
+      std::string msg = "The instrument keywords VariableExposureDuration and FrameNumber"
                     "must exist to calibrate this MARCI file. Prior to isis3.10.0 these"
                     "keywords were not added by marci2isis; you may need to rerun isis3.10+"
                     "marci2isis on your images.";

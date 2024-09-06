@@ -52,14 +52,14 @@ void IsisMain() {
   // Get the output gml file name
   QString outgml;
   if (ui.WasEntered("TO")) {
-    outgml = ui.GetFileName("TO");
-    FileName out = ui.GetFileName("TO");
+    outgml = ui.GetFileName("TO").toStdString();
+    FileName out = ui.GetFileName("TO").toStdString();
     if(out.extension() == "") {
       outgml += ".gml";
     }
   }
   else {
-    FileName inputFile = ui.GetCubeName("FROM");
+    FileName inputFile = ui.GetCubeName("FROM").toStdString();
     outgml = inputFile.removeExtension().addExtension("gml").expanded();
   }
 

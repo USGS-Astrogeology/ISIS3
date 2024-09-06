@@ -65,7 +65,7 @@ namespace Isis {
           mapGroup += PvlKeyword("CenterLongitude", std::to_string(centerLongitude), "Degrees");
         }
         else {
-          QString message = "Cannot project using upturned ellipsoid Transverse Azimuthal";
+          std::string message = "Cannot project using upturned ellipsoid Transverse Azimuthal";
           message += " without [CenterLongitude] value.  Keyword does not exist";
           message += " in labels and defaults are not allowed.";
           throw IException(IException::Unknown, message, _FILEINFO_);

@@ -33,7 +33,7 @@ namespace Isis {
 
   void nocam2map(UserInterface &ui, Pvl *log) {
     QString inputFileName = ui.GetCubeName("FROM");
-    Cube iCube(inputFileName);
+    Cube iCube(inputFileName.toStdString());
     nocam2map(&iCube, ui, log);
   }
 
@@ -129,8 +129,8 @@ namespace Isis {
       lineSol.Solve(LeastSquares::QRD);
     }
     catch (IException &e) {
-      FileName inFile = inCube->fileName();   
-      QString msg = "Unable to calculate transformation of projection for [" + inFile.expanded() + "].";
+      FileName inFile = inCube->fileName().toStdString();   
+      std::string msg = "Unable to calculate transformation of projection for [" + inFile.expanded() + "].";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   

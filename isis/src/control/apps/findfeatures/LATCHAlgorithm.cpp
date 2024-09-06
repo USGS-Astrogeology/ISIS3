@@ -147,7 +147,7 @@ namespace Isis {
  *                                 to set algorithm parameters."
  */
   int LATCHAlgorithm::setAlgorithmVariables(const PvlFlatMap &variables) {
-    QString msg = "LATCHAlgorithm does not have the ability to set algorithm parameters.";
+    std::string msg = "LATCHAlgorithm does not have the ability to set algorithm parameters.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
 
     return (-1);

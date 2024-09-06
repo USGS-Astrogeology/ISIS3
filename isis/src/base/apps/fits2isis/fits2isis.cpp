@@ -20,7 +20,7 @@ namespace Isis{
 
   void fits2isis(UserInterface &ui) {
     ProcessImportFits pfits;
-    pfits.setFitsFile(FileName(ui.GetFileName("FROM")));
+    pfits.setFitsFile(FileName(ui.GetFileName("FROM").toStdString()));
 
     if(ui.GetString("ORGANIZATION") == "BIL") {
       pfits.SetOrganization(ProcessImport::BIL);
@@ -32,7 +32,7 @@ namespace Isis{
       pfits.SetOrganization(ProcessImport::BIP);
     }
     else {
-      QString msg = "Unknow value for ORGANIZATION [" + ui.GetString("ORGANIZATION") + "]";
+      std::string msg = "Unknow value for ORGANIZATION [" + ui.GetString("ORGANIZATION") + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

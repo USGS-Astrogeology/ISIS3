@@ -67,10 +67,10 @@ namespace Isis {
 
         m_test = test;
         m_pointId = registered->Parent()->GetId();
-        m_heldId = FileName(
-            files->fileName(held->GetCubeSerialNumber())).baseName();
-        m_registeredId = FileName(
-            files->fileName(registered->GetCubeSerialNumber())).baseName();
+        m_heldId = QString::fromStdString(FileName(
+            files->fileName(held->GetCubeSerialNumber()).toStdString()).baseName());
+        m_registeredId = QString::fromStdString(FileName(
+            files->fileName(registered->GetCubeSerialNumber()).toStdString()).baseName());
 
         m_aprioriSample = registered->GetSample();
         m_aprioriLine = registered->GetLine();
@@ -240,7 +240,7 @@ namespace Isis {
     ControlNet outNet(ui.GetFileName("CNET"));
 
     if (outNet.GetNumPoints() <= 0) {
-      QString msg = "Control network [" + ui.GetFileName("CNET") + "] ";
+      std::string msg = "Control network [" + ui.GetFileName("CNET") + "] ";
       msg += "contains no points";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -259,7 +259,7 @@ namespace Isis {
     //  Get the maximum allowable number of open files
     struct rlimit limit;
     if (getrlimit(RLIMIT_NOFILE, &limit) != 0) {
-      QString msg = "Cannot read the maximum allowable open files from system resources.";
+      std::string msg = "Cannot read the maximum allowable open files from system resources.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     //  Allow for library files, etc
@@ -364,7 +364,7 @@ namespace Isis {
     // The flatfile is comma seperated and can be imported into an excel
     // spreadsheet
     if (ui.WasEntered("FLATFILE")) {
-      QString fFile = FileName(ui.GetFileName("FLATFILE")).expanded();
+      QString fFile = QString::fromStdString(FileName(ui.GetFileName("FLATFILE").toStdString()).expanded());
 
       ofstream os;
       os.open(fFile.toLatin1().data(), ios::out);
@@ -397,7 +397,7 @@ namespace Isis {
             QString pointId = outPoint->GetId();
 
             QString fullName = files->fileName(cmTrans->GetCubeSerialNumber());
-            QString filename = FileName(fullName).baseName();
+            QString filename = QString::fromStdString(FileName(fullName.toStdString()).baseName());
 
             QString measureType = cmTrans->MeasureTypeToString(
                 cmTrans->GetType());
@@ -454,7 +454,7 @@ namespace Isis {
     }
 
     if (logFalsePositives) {
-      QString filename = FileName(ui.GetFileName("FALSEPOSITIVES")).expanded();
+      QString filename = QString::fromStdString(FileName(ui.GetFileName("FALSEPOSITIVES").toStdString()).expanded());
       ofstream os;
       os.open(filename.toLatin1().data(), ios::out);
 

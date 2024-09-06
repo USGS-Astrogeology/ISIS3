@@ -44,7 +44,7 @@ namespace Isis {
       m_instrumentNameShort = "NACR";
     }
     else {
-      QString msg = "File does not appear to be a Lunar Reconnaissance Orbiter Image: ";
+      std::string msg = "File does not appear to be a Lunar Reconnaissance Orbiter Image: ";
       msg += QString::number(naifIkCode());
       msg += " is not a supported instrument kernel code for Lunar Reconnaissance Orbiter.";
       throw IException(IException::Programmer, msg, _FILEINFO_);

@@ -137,7 +137,7 @@ namespace Isis {
     // Now reset ISISDATA if requested by user
     if ( ui.WasEntered( "ISISDATA" ) ) {
       isisdata = ui.GetAsString("ISISDATA");
-      PvlKeyword iroot( "ISISDATA", isisdata.expanded().toStdString() );
+      PvlKeyword iroot( "ISISDATA", isisdata.expanded() );
       prefdir.addKeyword( iroot, PvlContainer::Replace );
       std::cout << "ISISDATA = " << isisdata.expanded() << std::endl;
       std::cout << "ISISDATA reset by user!" << std::endl;
@@ -180,7 +180,7 @@ namespace Isis {
     // Generate the result log
     std::cout << std::endl;
     PvlGroup results("Results");
-    results.addKeyword( PvlKeyword( "ISISDATA",            isisdata.expanded().toStdString() ) );
+    results.addKeyword( PvlKeyword( "ISISDATA",            isisdata.expanded() ) );
     results.addKeyword( PvlKeyword( "DATADIR",             datadir.toStdString() ) );
     results.addKeyword( PvlKeyword( "EmptyKernelDBs",      std::to_string( inventory_counts.m_empty ) ) );
     results.addKeyword( PvlKeyword( "MissingKernelDBs",    std::to_string( inventory_counts.m_missing ) ) );
@@ -203,7 +203,7 @@ namespace Isis {
         std::ofstream os;
         os.open( toissues.expanded().toLatin1().data(), std::ios::out );
         if (!os ) {
-          QString mess = "Unable to open/create " + toissues.expanded();
+          std::string mess = "Unable to open/create " + toissues.expanded();
           throw IException( IException::User, mess, _FILEINFO_ );
         }
 
@@ -253,7 +253,7 @@ namespace Isis {
         std::ofstream os;
         os.open( inventory_file.toLatin1().data(), std::ios::out );
         if (!os ) {
-          QString mess = "Unable to open/create " + inventory_file;
+          std::string mess = "Unable to open/create " + inventory_file;
           throw IException( IException::User, mess, _FILEINFO_ );
         }
 
@@ -375,7 +375,7 @@ namespace Isis {
             std::ofstream error_os;
             error_os.open( toerrors.expanded().toLatin1().data(), std::ios::out );
             if (!error_os ) {
-              QString mess = "Unable to open/create " + toerrors.expanded();
+              std::string mess = "Unable to open/create " + toerrors.expanded();
               throw IException( IException::User, mess, _FILEINFO_ );
             }
 

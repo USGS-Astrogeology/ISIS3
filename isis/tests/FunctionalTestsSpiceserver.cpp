@@ -92,7 +92,7 @@ TEST_F(TestPayload, FunctionalTestSpiceserverDefaultParameters) {
   QString xml( QByteArray::fromHex( QByteArray( hexCode.toLatin1() ) ).constData() );
 
   QDomDocument document;
-  QString error;
+  std::string error;
   Pvl kernelsLabel;
   Pvl instrumentPositionTable;
 

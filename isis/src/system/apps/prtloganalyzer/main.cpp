@@ -78,7 +78,7 @@ void IsisMain() {
     // Open the file
     ostm.open(file.toLatin1().data(), std::ios::out);
     if(!ostm) {
-      QString message = "Cannot open/create output file " + file;
+      std::string message = "Cannot open/create output file " + file;
       throw IException(IException::Io, message, _FILEINFO_);
     }
 

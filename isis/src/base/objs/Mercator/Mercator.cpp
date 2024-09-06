@@ -73,7 +73,7 @@ namespace Isis {
       m_scalefactor = cos_clat / sqrt(1.0 - m_eccsq * sin_clat * sin_clat);
     }
     catch (IException &e) {
-      QString message = "Invalid label group [Mapping]";
+      std::string message = "Invalid label group [Mapping]";
       throw IException(e, IException::Io, message, _FILEINFO_);
     }
   }

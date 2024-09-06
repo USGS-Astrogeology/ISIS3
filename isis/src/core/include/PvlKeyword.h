@@ -10,9 +10,6 @@ find files of those names at the top level of this repository. **/
 #include <map>
 #include <iostream>
 
-#include <QVariant>
-#include <QVarLengthArray>
-
 #include "Constants.h"
 #include "IString.h"
 
@@ -264,15 +261,7 @@ namespace Isis {
       //! The keyword's name... This is a c-string for memory efficiency
       char * m_name;
 
-      /**
-       * The values in the keyword. This is a QVarLengthArray purely for
-       *   optimization purposes. The amount of memory consumed by other data
-       *   types introduces very significant overhead relative to this type
-       *   which is meant to be as cost-effective and cheap as possible. Most
-       *   of the time we have one value per keyword so that is what we're
-       *   allocating by default with this variable.
-       */
-      QVarLengthArray<std::string, 1> m_values;
+      std::vector<std::string> m_values;
 
       //! The units for the values.
       std::vector<std::string> *m_units;

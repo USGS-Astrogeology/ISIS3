@@ -92,13 +92,13 @@ namespace Isis {
  void CkKernelWriter::open(const QString &kfile,
                            const QString &intCkName) {
    NaifStatus::CheckErrors();
-   FileName kf(kfile);
+   FileName kf(kfile.toStdString());
    if ( kf.fileExists() ) {
-     QString full_kf = kf.expanded();
+     QString full_kf = QString::fromStdString(kf.expanded());
      QFile::remove(full_kf);
    }
    SpiceInt  myHandle;
-   ckopn_c(kf.expanded().toLatin1().data(), intCkName.toLatin1().data(), _comSize, &myHandle);
+   ckopn_c(kf.expanded().c_str(), intCkName.toLatin1().data(), _comSize, &myHandle);
    _handle = myHandle;
 
    NaifStatus::CheckErrors();
@@ -201,7 +201,7 @@ namespace Isis {
   void CkKernelWriter::writeCk2(const CkSpiceSegment &segment) const {
 
     if ( !segment.hasAngularVelocities() ) {
-      QString mess = "Type 2 CK kernels require angular velocities";
+      std::string mess = "Type 2 CK kernels require angular velocities";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 

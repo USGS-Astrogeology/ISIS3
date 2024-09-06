@@ -415,7 +415,7 @@ namespace Isis {
       if (positionOption != BundleObservationSolveSettings::NoPositionFactors) {
 
         if (!m_instrumentPosition) {
-          QString msg = "Instrument position is NULL, but position solve option is ";
+          std::string msg = "Instrument position is NULL, but position solve option is ";
           msg.append(BundleObservationSolveSettings::instrumentPositionSolveOptionToString(
                      positionOption));
           throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -459,7 +459,7 @@ namespace Isis {
       if (pointingOption != BundleObservationSolveSettings::NoPointingFactors) {
 
         if (!m_instrumentRotation) {
-          QString msg = "Instrument rotation is NULL, but pointing solve option is ";
+          std::string msg = "Instrument rotation is NULL, but pointing solve option is ";
           msg.append(BundleObservationSolveSettings::instrumentPointingSolveOptionToString(
                      pointingOption));
           throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -505,7 +505,7 @@ namespace Isis {
 
     }
     catch (IException &e) {
-      QString msg = "Unable to apply parameter corrections to IsisBundleObservation.";
+      std::string msg = "Unable to apply parameter corrections to IsisBundleObservation.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
     return true;
@@ -1331,7 +1331,7 @@ QStringList IsisBundleObservation::parameterList() {
     double computedX, computedY;
     if (!(measureCamera->GroundMap()->GetXY(point->adjustedSurfacePoint(),
                                             &computedX, &computedY, false))) {
-      QString msg = "Unable to map apriori surface point for measure ";
+      std::string msg = "Unable to map apriori surface point for measure ";
       msg += measure.cubeSerialNumber() + " on point " + point->id() + " into focal plane";
       throw IException(IException::User, msg, _FILEINFO_);
     }

@@ -273,8 +273,8 @@ namespace Isis {
     m_ui->label->setFont(font);
     m_ui->label_6->setFont(font);
 
-    QString msg1="";
-    QString msg2="";
+    std::string msg1="";
+    std::string msg2="";
 
     m_ui->label->setFont(font);
     m_ui->label_6->setFont(font);

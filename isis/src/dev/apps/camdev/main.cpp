@@ -135,7 +135,7 @@ void IsisMain() {
       proj = (TProjection *) icube->projection();
     }
     catch(IException &e) {
-      QString msg = "Mosaic files must contain mapping labels";
+      std::string msg = "Mosaic files must contain mapping labels";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
   }
@@ -144,7 +144,7 @@ void IsisMain() {
       cam = icube->camera();
     }
     catch(IException &e) {
-      QString msg = "If " + FileName(ui.GetCubeName("FROM")).name() + " is a mosaic, make sure the SOURCE "
+      std::string msg = "If " + FileName(ui.GetCubeName("FROM")).name() + " is a mosaic, make sure the SOURCE "
       "option is set to PROJECTION";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
@@ -264,7 +264,7 @@ void IsisMain() {
   if((pixelResolution = ui.GetBoolean("PIXELRESOLUTION"))) nbands++;
 
   if(nbands < 1) {
-    QString message = "At least one parameter must be entered"
+    std::string message = "At least one parameter must be entered"
                      "[PHASE, EMISSION, INCIDENCE, LATITUDE, LONGITUDE...]";
     throw IException(IException::User, message, _FILEINFO_);
   }

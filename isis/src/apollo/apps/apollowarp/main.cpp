@@ -82,7 +82,7 @@ void IsisMain() {
     interp = new Interpolator(Interpolator::CubicConvolutionType);
   }
   else {
-    QString msg = "Unknow value for INTERP [" +
+    std::string msg = "Unknow value for INTERP [" +
                  ui.GetString("INTERP") + "]";
     throw IException(IException::Programmer, msg,_FILEINFO_);
   }

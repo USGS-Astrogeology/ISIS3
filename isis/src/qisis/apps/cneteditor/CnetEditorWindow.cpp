@@ -105,7 +105,7 @@ namespace Isis {
 
     // Can only load two file at a time
     if (args.size() > 2) {
-      QString msg = tr("Cannot open more than one .net file and one .lis file at a time.");
+      std::string msg = tr("Cannot open more than one .net file and one .lis file at a time.");
       std::cerr << msg << endl;
       QMessageBox::warning(this, tr("Unable to Open Files"), msg);
     }
@@ -115,7 +115,7 @@ namespace Isis {
         QString extension = QFileInfo(arg).suffix();
         if (extension.compare("net") != 0 && extension.compare("lis") != 0) {
           args.removeAll(arg);
-          QString msg = tr("Invalid file extension [%1]. "
+          std::string msg = tr("Invalid file extension [%1]. "
                            "Expected .net or .lis.").arg(arg);
           std::cerr << msg << endl;
           QMessageBox::warning(this, tr("Invalid File Extension"), msg);
@@ -123,7 +123,7 @@ namespace Isis {
       }
       // Prevent multiple files of the same type from loading
       if (args.size() == 2 && QFileInfo(args[0]).suffix() == QFileInfo(args[1]).suffix()) {
-        QString msg = tr("Cannot open two [%1] files.").arg(args[0]);
+        std::string msg = tr("Cannot open two [%1] files.").arg(args[0]);
         std::cerr << msg << endl;
         QMessageBox::warning(this, tr("Unable to Open Files"), msg);
       }
@@ -525,7 +525,7 @@ namespace Isis {
       setFileState(FileLoading, filename);
     }
     catch (IException &e) {
-      QString msg = tr("Failed to open the file [%1].").arg(filename);
+      std::string msg = tr("Failed to open the file [%1].").arg(filename);
       std::cerr << msg << endl;
       QMessageBox::critical(this, tr("cneteditor"), msg);
       setFileState(NoFile, "");
@@ -551,7 +551,7 @@ namespace Isis {
     *cubeListFile = filename;
     }
     catch (IException &e) {
-      QString msg = tr("Failed to open the file [%1].").arg(filename);
+      std::string msg = tr("Failed to open the file [%1].").arg(filename);
       std::cerr << msg << endl;
       QMessageBox::critical(this, tr("cneteditor"), msg);
       setFileState(NoFile, "");

@@ -170,7 +170,7 @@ namespace Isis {
                          ControlNetFileProtoV0001_PBControlPoint::BundleSolution);
       }
       else {
-        QString msg = "Invalid AprioriXYZSource [" + source + "]";
+        std::string msg = "Invalid AprioriXYZSource [" + source + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -200,7 +200,7 @@ namespace Isis {
                            ControlNetFileProtoV0001_PBControlPoint::BundleSolution);
       }
       else {
-        QString msg = "Invalid AprioriLatLonSource [" + source + "]";
+        std::string msg = "Invalid AprioriLatLonSource [" + source + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -229,7 +229,7 @@ namespace Isis {
                            ControlNetFileProtoV0001_PBControlPoint::BundleSolution);
       }
       else {
-        QString msg = "Invalid AprioriRadiusSource, [" + source + "]";
+        std::string msg = "Invalid AprioriRadiusSource, [" + source + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -523,7 +523,7 @@ namespace Isis {
           dataType = 8;
         }
         else {
-          QString msg = "Invalid control measure log data name [" + name + "]";
+          std::string msg = "Invalid control measure log data name [" + name + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
 

@@ -99,11 +99,11 @@ namespace Isis{
       algoFileName = algoFileName.highestVersion();
     
     if(!algoFileName.fileExists()) {
-      QString msg = algoFile + " does not exist.";
+      std::string msg = algoFile + " does not exist.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
-    Pvl params(algoFileName.expanded().toStdString());
+    Pvl params(algoFileName.expanded());
 
     algoName = PhotometricFunction::algorithmName(params);
     algoName = algoName.toUpper();
@@ -113,7 +113,7 @@ namespace Isis{
         g_phoFunction = new LROCEmpirical(params, *iCube, !useBackplane);
     }
     else {
-      QString msg = " Algorithm Name [" + algoName + "] not recognized. ";
+      std::string msg = " Algorithm Name [" + algoName + "] not recognized. ";
       msg += "Compatible Algorithms are:\n LROC_Empirical\n";
       throw IException(IException::User, msg, _FILEINFO_);
     }

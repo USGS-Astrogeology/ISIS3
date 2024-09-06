@@ -203,7 +203,7 @@ int main(int argc, char *argv[]) {
   catch (IException &e) {
     qDebug() << "";
     qDebug() << "";
-    QString msg = "**************** UNIT TEST FAILED! **************** ";
+    std::string msg = "**************** UNIT TEST FAILED! **************** ";
     IException(e, IException::Unknown, msg, _FILEINFO_).print();
   }
 

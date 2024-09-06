@@ -243,8 +243,8 @@ namespace Isis {
       atai = Cholsl(atai, p, b, x);
     }
     catch(IException &ie) {
-      QString mess = "Cholesky Failed:: " + ie.toString();
-      return (logError(CholeskyFailed, mess));
+      std::string mess = "Cholesky Failed:: " + ie.toString();
+      return (logError(CholeskyFailed, QString::fromStdString(mess)));
     }
 
     // Compute the affine update if result are requested by caller.
@@ -268,8 +268,8 @@ namespace Isis {
      affrad = AffineRadio(alpha);
     }
     catch(IException &ie) {
-      QString mess = "Affine failed: " + ie.toString();
-      return (logError(AffineNotInvertable, mess));
+      std::string mess = "Affine failed: " + ie.toString();
+      return (logError(AffineNotInvertable, QString::fromStdString(mess)));
     }
 
     return (0);
@@ -319,8 +319,8 @@ namespace Isis {
       }
     }
     catch(IException &ie) {
-      QString errmsg = "Eigen Solution Failed:: " + ie.toString();
-      results.m_status = logError(EigenSolutionFailed, errmsg);
+      std::string errmsg = "Eigen Solution Failed:: " + ie.toString();
+      results.m_status = logError(EigenSolutionFailed, QString::fromStdString(errmsg));
       return (results);
     }
 
@@ -784,8 +784,8 @@ namespace Isis {
         affine += alpha;
       }
       catch (IException &ie) {
-        QString mess = "Affine invalid/not invertable";
-        matchpt.setStatus(logError(AffineNotInvertable, mess));
+        std::string mess = "Affine invalid/not invertable";
+        matchpt.setStatus(logError(AffineNotInvertable, QString::fromStdString(mess)));
         return (Status(matchpt));  //  Another error condition to return
       }
     } while (!done);

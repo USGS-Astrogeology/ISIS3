@@ -92,7 +92,7 @@ namespace Isis {
       p_projection = pdsXlater.Translate("ProjectionName");
     }
     else {
-      QString message = "No projection name in labels";
+      std::string message = "No projection name in labels";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
 
@@ -100,7 +100,7 @@ namespace Isis {
       p_targetName = pdsXlater.Translate("TargetName");
     }
     else {
-      QString message = "No target name in labels";
+      std::string message = "No target name in labels";
       throw IException(IException::Unknown, message, _FILEINFO_);
     }
 
@@ -109,7 +109,7 @@ namespace Isis {
       p_equatorialRadius = toDouble(str) * 1000.0;
     }
     else {
-      QString message = "No equatorial radius name in labels";
+      std::string message = "No equatorial radius name in labels";
       throw IException(IException::User, message, _FILEINFO_);
     }
 
@@ -118,7 +118,7 @@ namespace Isis {
       p_polarRadius = toDouble(str) * 1000.0;
     }
     else {
-      QString message = "No polar radius in labels";
+      std::string message = "No polar radius in labels";
       throw IException(IException::User, message, _FILEINFO_);
     }
 
@@ -499,7 +499,7 @@ namespace Isis {
         units = QString::fromStdString(dataFilePointer.unit());
         // Successful? we have an offset, means current, p_labelFile
         // is the location of the data as well
-        dataFileName = FileName(p_labelFile).name();
+        dataFileName = QString::fromStdString(FileName(p_labelFile.toStdString()).name());
       }
       catch(IException &e) {
         // Failed to parse to an int, means we have a file name
@@ -518,14 +518,14 @@ namespace Isis {
     }
     // Error, no value
     else if (dataFilePointer.size() == 0) {
-      QString msg = "Data file pointer ^IMAGE or ^QUBE has no value, must"
+      std::string msg = "Data file pointer ^IMAGE or ^QUBE has no value, must"
                    "have either file name or offset or both, in [" +
                    p_labelFile + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     // Error, more than two values
     else {
-      QString msg = "Improperly formatted data file pointer keyword ^IMAGE or "
+      std::string msg = "Improperly formatted data file pointer keyword ^IMAGE or "
                    "^QUBE, in [" + p_labelFile + "], must contain filename "
                    " or offset or both";
       throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -534,30 +534,30 @@ namespace Isis {
     // Now, to handle the values we found
     // the filename first, only do so if calcOffsetOnly is false
     if (!calcOffsetOnly) {
-      Isis::FileName labelFile(p_labelFile);
+      Isis::FileName labelFile(p_labelFile.toStdString());
 
       // If dataFileName isn't empty, and does start at the root, use it
       Isis::FileName dataFile;
       if (dataFileName.size() != 0 && dataFileName.at(0) == '/')
-        dataFile = FileName(dataFileName);
+        dataFile = FileName(dataFileName.toStdString());
       // Otherwise, use the path to it and its name
       else
-        dataFile = FileName(labelFile.path() + "/" + dataFileName);
+        dataFile = FileName(labelFile.path() + "/" + dataFileName.toStdString());
 
       // If it exists, use it
       if (dataFile.fileExists()) {
-        SetInputFile(dataFile.expanded());
+        SetInputFile(QString::fromStdString(dataFile.expanded()));
       }
       // Retry with downcased name, if still no luck, fail
       else {
-        QString tmp = dataFile.expanded();
+        QString tmp = QString::fromStdString(dataFile.expanded());
         dataFileName = dataFileName.toLower();
-        dataFile = FileName(labelFile.path() + "/" + dataFileName);
+        dataFile = FileName(labelFile.path() + "/" + dataFileName.toStdString());
         if (dataFile.fileExists()) {
-          SetInputFile(dataFile.expanded());
+          SetInputFile(QString::fromStdString(dataFile.expanded()));
         }
         else {
-          QString msg = "Unable to find input file [" + tmp + "] or [" +
+          std::string msg = "Unable to find input file [" + tmp.toStdString() + "] or [" +
                        dataFile.expanded() + "]";
           throw IException(IException::Io, msg, _FILEINFO_);
         }
@@ -669,20 +669,20 @@ namespace Isis {
         p_encodingType = JP2;
         str = pdsXlater.Translate("PdsCompressedFile");
         if (pdsDataFile.isEmpty()) {
-          Isis::FileName lfile(p_labelFile);
-          Isis::FileName ifile(lfile.path() + "/" + str);
+          Isis::FileName lfile(p_labelFile.toStdString());
+          Isis::FileName ifile(lfile.path() + "/" + str.toStdString());
           if (ifile.fileExists()) {
-            p_jp2File = ifile.expanded();
+            p_jp2File = QString::fromStdString(ifile.expanded());
           }
           else {
-            QString tmp = ifile.expanded();
+            QString tmp = QString::fromStdString(ifile.expanded());
             str = str.toLower();
-            ifile = lfile.path() + "/" + str;
+            ifile = lfile.path() + "/" + str.toStdString();
             if (ifile.fileExists()) {
-              p_jp2File = ifile.expanded();
+              p_jp2File = QString::fromStdString(ifile.expanded());
             }
             else {
-              QString msg = "Unable to find input file [" + tmp + "] or [" +
+              std::string msg = "Unable to find input file [" + tmp.toStdString() + "] or [" +
                            ifile.expanded() + "]";
               throw IException(IException::Io, msg, _FILEINFO_);
             }
@@ -690,7 +690,7 @@ namespace Isis {
         }
       }
       else {
-        QString msg = "Unsupported encoding type in [" + p_labelFile + "]";
+        std::string msg = "Unsupported encoding type in [" + p_labelFile + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
     }
@@ -732,7 +732,7 @@ namespace Isis {
       ProcessPdsCombinedSpectrumLabel(pdsDataFile);
     }
     else {
-      QString msg = "Unknown label type in [" + p_labelFile + "]. It is possible the label file "
+      std::string msg = "Unknown label type in [" + p_labelFile + "]. It is possible the label file "
 +                    "does not describe an image product (IMAGE, CUBE, or SPECTRALCUBE).";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -758,8 +758,8 @@ namespace Isis {
    * @throws Isis::iException::Message
    */
   void ProcessImportPds::ProcessPdsCombinedSpectrumLabel(const QString &pdsDataFile) {
-    Isis::FileName transFile(p_transDir + "/translations/pdsCombinedSpectrum.trn");
-    Isis::PvlToPvlTranslationManager pdsXlater(p_pdsLabel, transFile.expanded());
+    Isis::FileName transFile(p_transDir.toStdString() + "/translations/pdsCombinedSpectrum.trn");
+    Isis::PvlToPvlTranslationManager pdsXlater(p_pdsLabel, QString::fromStdString(transFile.expanded()));
 
     QString str;
 
@@ -829,7 +829,7 @@ namespace Isis {
       SetOrganization(ProcessImport::BIL);
     }
     else {
-      QString msg = "Unsupported axis order [" + str + "]";
+      std::string msg = "Unsupported axis order [" + str + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -855,9 +855,9 @@ namespace Isis {
       const QString &transFile) {
 
 
-    Isis::FileName tFile(p_transDir + "/translations/" + transFile);
+    Isis::FileName tFile(p_transDir.toStdString() + "/translations/" + transFile.toStdString());
 
-    Isis::PvlToPvlTranslationManager pdsXlater(p_pdsLabel, tFile.expanded());
+    Isis::PvlToPvlTranslationManager pdsXlater(p_pdsLabel, QString::fromStdString(tFile.expanded()));
 
     QString str;
 
@@ -882,7 +882,7 @@ namespace Isis {
         bandPos = i;
       }
       else {
-        QString message = "Unknown file axis name [" + str + "]";
+        std::string message = "Unknown file axis name [" + str + "]";
         throw IException(IException::User, message, _FILEINFO_);
       }
     }
@@ -906,7 +906,7 @@ namespace Isis {
       stringstream pdsCoreOrgStream;
       pdsCoreOrgStream << pdsCoreOrg;
 
-      QString msg = "Unsupported axis order [" + QString(pdsCoreOrgStream.str().c_str()) + "]";
+      std::string msg = "Unsupported axis order [" + QString(pdsCoreOrgStream.str().c_str()) + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -952,7 +952,7 @@ namespace Isis {
     //if(str == "LSB" || str == "MSB")
     //    SetByteOrder(Isis::ByteOrderEnumeration(str));
     //else {
-    //    QString msg = "Unrecognized byte order ["+str+"]";
+    //    std::string msg = "Unrecognized byte order ["+str+"]";
     //    throw IException(IException::Programmer,msg,_FILEINFO_);
     //}
 
@@ -1031,8 +1031,8 @@ namespace Isis {
    * @throws Isis::iException::Message
    */
   void ProcessImportPds::ProcessPdsImageLabel(const QString &pdsDataFile) {
-    Isis::FileName transFile(p_transDir + "/translations/pdsImage.trn");
-    Isis::PvlToPvlTranslationManager pdsXlater(p_pdsLabel, transFile.expanded());
+    Isis::FileName transFile(p_transDir.toStdString() + "/translations/pdsImage.trn");
+    Isis::PvlToPvlTranslationManager pdsXlater(p_pdsLabel, QString::fromStdString(transFile.expanded()));
 
     QString str;
 
@@ -1106,7 +1106,7 @@ namespace Isis {
       SetOrganization(ProcessImport::BIL);
     }
     else {
-      QString msg = "Unsupported axis order [" + str + "]";
+      std::string msg = "Unsupported axis order [" + str + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -1173,22 +1173,22 @@ namespace Isis {
   void ProcessImportPds::ProcessPdsM3Label(const QString &pdsDataFile, PdsFileType fileType) {
     Isis::FileName transFile;
     if (fileType == L0) {
-      transFile = p_transDir + "/translations/pdsL0.trn";
+      transFile = p_transDir.toStdString() + "/translations/pdsL0.trn";
     }
     else if (fileType == Rdn) {
-      transFile = p_transDir + "/translations/pdsRdn.trn";
+      transFile = p_transDir.toStdString() + "/translations/pdsRdn.trn";
     }
     else if (fileType == Loc) {
-      transFile = p_transDir + "/translations/pdsLoc.trn";
+      transFile = p_transDir.toStdString() + "/translations/pdsLoc.trn";
     }
     else if (fileType == Obs) {
-      transFile = p_transDir + "/translations/pdsObs.trn";
+      transFile = p_transDir.toStdString() + "/translations/pdsObs.trn";
     }
     else {
       throw IException(IException::Programmer, "ProcessImportPds::ProcessPdsM3Label can only be "
                        "called with file type of L0, Rdn, Loc or Obs.", _FILEINFO_);
     }
-    Isis::PvlToPvlTranslationManager pdsXlater(p_pdsLabel, transFile.expanded());
+    Isis::PvlToPvlTranslationManager pdsXlater(p_pdsLabel, QString::fromStdString(transFile.expanded()));
 
     QString str;
 
@@ -1263,7 +1263,7 @@ namespace Isis {
       SetOrganization(ProcessImport::BIL);
     }
     else {
-      QString msg = "Unsupported axis order [" + str + "]";
+      std::string msg = "Unsupported axis order [" + str + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -1453,8 +1453,8 @@ namespace Isis {
     // Set up a translater for Isis2 labels
     QString transDir = "$ISISROOT/appdata";
 
-    Isis::FileName transFile(transDir + "/" + "translations/isis2bandbin.trn");
-    Isis::PvlToPvlTranslationManager isis2Xlater(p_pdsLabel, transFile.expanded());
+    Isis::FileName transFile(transDir.toStdString() + "/" + "translations/isis2bandbin.trn");
+    Isis::PvlToPvlTranslationManager isis2Xlater(p_pdsLabel, QString::fromStdString(transFile.expanded()));
 
     // Add all the Isis2 keywords that can be translated to the requested label
     isis2Xlater.Auto(lab);
@@ -1471,8 +1471,8 @@ namespace Isis {
     // Set up a translater for Isis2 labels
     QString transDir = "$ISISROOT/appdata";
 
-    Isis::FileName transFile(transDir + "/" + "translations/isis2instrument.trn");
-    Isis::PvlToPvlTranslationManager isis2Xlater(p_pdsLabel, transFile.expanded());
+    Isis::FileName transFile(transDir.toStdString() + "/" + "translations/isis2instrument.trn");
+    Isis::PvlToPvlTranslationManager isis2Xlater(p_pdsLabel, QString::fromStdString(transFile.expanded()));
 
     // Add all the Isis2 keywords that can be translated to the requested label
     isis2Xlater.Auto(lab);
@@ -1510,8 +1510,8 @@ namespace Isis {
    */
   void ProcessImportPds::TranslatePdsArchive(Isis::Pvl &lab) {
     // Set up a translater for PDS labels
-    Isis::FileName transFile(p_transDir + "/" + "translations/pdsImageArchive.trn");
-    Isis::PvlToPvlTranslationManager isis2Xlater(p_pdsLabel, transFile.expanded());
+    Isis::FileName transFile(p_transDir.toStdString() + "/" + "translations/pdsImageArchive.trn");
+    Isis::PvlToPvlTranslationManager isis2Xlater(p_pdsLabel, QString::fromStdString(transFile.expanded()));
 
     // Add all the Isis2 keywords that can be translated to the requested label
     isis2Xlater.Auto(lab);
@@ -1526,8 +1526,8 @@ namespace Isis {
    */
   void ProcessImportPds::TranslatePdsBandBin(Isis::Pvl &lab) {
     // Set up a translater for PDS labels
-    Isis::FileName transFile(p_transDir + "/" + "translations/pdsImageBandBin.trn");
-    Isis::PvlToPvlTranslationManager isis2Xlater(p_pdsLabel, transFile.expanded());
+    Isis::FileName transFile(p_transDir.toStdString() + "/" + "translations/pdsImageBandBin.trn");
+    Isis::PvlToPvlTranslationManager isis2Xlater(p_pdsLabel, QString::fromStdString(transFile.expanded()));
 
     // Add all the Isis2 keywords that can be translated to the requested label
     isis2Xlater.Auto(lab);
@@ -1585,19 +1585,19 @@ namespace Isis {
 
     Isis::FileName transFile;
     if (projType.InputHasKeyword("PdsProjectionTypeImage")) {
-      transFile = transDir + "/" + "translations/pdsImageProjection.trn";
+      transFile = transDir.toStdString() + "/" + "translations/pdsImageProjection.trn";
     }
     else if (projType.InputHasKeyword("PdsProjectionTypeQube")) {
-      transFile = transDir + "/" + "translations/pdsQubeProjection.trn";
+      transFile = transDir.toStdString() + "/" + "translations/pdsQubeProjection.trn";
     }
     else if (projType.InputHasKeyword("PdsProjectionTypeSpectralQube")) {
-      transFile = transDir + "/" + "translations/pdsSpectralQubeProjection.trn";
+      transFile = transDir.toStdString() + "/" + "translations/pdsSpectralQubeProjection.trn";
     }
     else {
       return;
     }
 
-    Isis::PvlToPvlTranslationManager pdsXlater(p_pdsLabel, transFile.expanded());
+    Isis::PvlToPvlTranslationManager pdsXlater(p_pdsLabel, QString::fromStdString(transFile.expanded()));
 
     ExtractPdsProjection(pdsXlater);
 

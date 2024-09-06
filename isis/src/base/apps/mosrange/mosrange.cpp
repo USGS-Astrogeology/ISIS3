@@ -63,7 +63,7 @@ namespace Isis {
 
     // Get the list of names of input cubes to stitch together
     FileList cubeFileList;
-    cubeFileList.read(ui.GetFileName("FROMLIST"));
+    cubeFileList.read(ui.GetFileName("FROMLIST").toStdString());
 
     return mosrange(cubeFileList, ui);
   }
@@ -81,7 +81,7 @@ namespace Isis {
    */
   Pvl mosrange(FileList &cubeFileList, UserInterface &ui) {
     if ( cubeFileList.size() < 1)  {
-      QString msg = "The list file[" + ui.GetFileName("FROMLIST") +
+      std::string msg = "The list file[" + ui.GetFileName("FROMLIST") +
                     " does not contain any filenames";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -131,18 +131,18 @@ namespace Isis {
     for(int i = 0 ; i < cubeFileList.size() ; i++) {
 
         PvlObject fmap("File");
-        fmap += PvlKeyword("Name", cubeFileList[i].toString().toStdString());
+        fmap += PvlKeyword("Name", cubeFileList[i].toString());
 
         try {
           // Set input image, get camera model, and a basic mapping group
           Cube cube;
-          cube.open(cubeFileList[i].toString());
+          cube.open(QString::fromStdString(cubeFileList[i].toString()));
 
           int lines = cube.lineCount();
           int samples = cube.sampleCount();
 
           PvlObject fmap("File");
-          fmap += PvlKeyword("Name", cubeFileList[i].toString().toStdString());
+          fmap += PvlKeyword("Name", cubeFileList[i].toString());
           fmap += PvlKeyword("Lines", std::to_string(lines));
           fmap += PvlKeyword("Samples", std::to_string(samples));
 
@@ -206,11 +206,11 @@ namespace Isis {
           latitudeStat.AddData(&maxlat, 1);
         }
         catch(IException &ie) {
-          std::string mess = cubeFileList[i].toString().toStdString() + " - " + ie.what();
+          std::string mess = cubeFileList[i].toString() + " - " + ie.what();
           fmap += PvlKeyword("Error", mess);
           errorset.addObject(fmap);
 
-          badfiles.append(qMakePair(cubeFileList[i].toString(), ie.what()));
+          badfiles.append(qMakePair(QString::fromStdString(cubeFileList[i].toString()), ie.what()));
         }
 
         p.ClearInputCubes();
@@ -227,11 +227,11 @@ namespace Isis {
         }
 
         if ( ui.WasEntered("ERRORLIST") ) {
-          FileName filename( ui.GetFileName("ERRORLIST") );
-          QFile logfile(filename.expanded());
+          FileName filename( ui.GetFileName("ERRORLIST").toStdString() );
+          QFile logfile(QString::fromStdString(filename.expanded()));
           if ( !logfile.open(QIODevice::WriteOnly | QIODevice::Truncate |
                              QIODevice::Text | QIODevice::Unbuffered) ) {
-            QString mess = "Unable to open/create error list file " + filename.name();
+            std::string mess = "Unable to open/create error list file " + filename.name();
             throw IException(IException::User, mess, _FILEINFO_);
           }
 
@@ -244,7 +244,7 @@ namespace Isis {
         // Now check onerror status
         if ( ("FAIL" == ui.GetString("ONERROR").toUpper()) ||
              (badfiles.size() == cubeFileList.size()) ) {
-          QString errors("--> Fatal Errors Encountered <___\n");
+          std::string errors("--> Fatal Errors Encountered <___\n");
           for (int i = 0 ; i < badfiles.size() ; i++) {
               errors += badfiles[i].first + " - " + badfiles[i].second + "\n";
           }

@@ -76,7 +76,7 @@ namespace Isis {
         // ERROR CHECK:  The user must specify at least the TO or STATS
         // parameters.
         if(!(ui.WasEntered("TO")) && !(ui.WasEntered("STATS"))) {
-            QString msg = "User must specify a TO and/or STATS file.";
+            std::string msg = "User must specify a TO and/or STATS file.";
             throw IException(IException::User, msg, _FILEINFO_);
         }
 
@@ -112,7 +112,7 @@ namespace Isis {
         // Check to make sure the first vector has as many elements as the last
         // vector, and that there is a vector element for each row/col
         if(!bNewVersion && band.size() != (unsigned int)(rowcol * totalBands)) {
-            QString message = "You have entered an invalid input file " +
+            std::string message = "You have entered an invalid input file " +
                             ui.GetFileName("FROMSTATS");
             throw IException(IException::Io, message, _FILEINFO_);
         }
@@ -162,7 +162,7 @@ namespace Isis {
             if(ui.GetString("MODE") == "MULTIPLY") {
             for(unsigned int i = 0; i < band.size(); i++) {
                 if(IsValidPixel(normalizer[i]) && normalizer[i] <= 0.0) {
-                QString msg = "Cube file can not be normalized with [MULTIPLY] ";
+                std::string msg = "Cube file can not be normalized with [MULTIPLY] ";
                 msg += "option, some column averages <= 0.0";
                 throw IException(IException::User, msg, _FILEINFO_);
                 }
@@ -333,7 +333,7 @@ namespace Isis {
     //*******************************************************
     void PVLIn(const Isis::FileName &filename) {
     Pvl pvlFileIn;
-    pvlFileIn.read(filename.expanded().toStdString());
+    pvlFileIn.read(filename.expanded());
     PvlGroup results = pvlFileIn.findGroup("Results");
     PvlObject::PvlKeywordIterator itr = results.begin();
 
@@ -367,7 +367,7 @@ namespace Isis {
 
 
     if(!in) {
-        QString message = "Error opening " + filename.expanded();
+        std::string message = "Error opening " + filename.expanded();
         throw IException(IException::Io, message, _FILEINFO_);
     }
 

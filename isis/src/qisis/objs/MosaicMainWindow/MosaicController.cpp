@@ -324,7 +324,7 @@ namespace Isis {
       image.deleteKeyword("Values");
 
       PvlObject displayProps("DisplayProperties");
-      displayProps += PvlKeyword("DisplayName", FileName(fileName).name().toStdString());
+      displayProps += PvlKeyword("DisplayName", FileName(fileName.toStdString()).name());
 
       // Convert display properties over
       enum OldDispProps {

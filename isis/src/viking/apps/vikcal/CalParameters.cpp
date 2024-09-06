@@ -42,7 +42,7 @@ namespace Isis {
       QString mission = spacecraft.split("_").first();
       spacecraft = spacecraft.split("_").last();
       if(mission != "VIKING") {
-        QString msg = "Invalid Keyword [SpacecraftName]. " +  spacecraft +
+        std::string msg = "Invalid Keyword [SpacecraftName]. " +  spacecraft +
                      "must start with 'VIKING'";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -50,7 +50,7 @@ namespace Isis {
       if((QChar)spacecraft[spacecraft.size() - 1] == '1') spn = 1;
       if((QChar)spacecraft[spacecraft.size() - 1] == '2') spn = 2;
       if(spn == 0) {
-        QString msg = "Invalid Keyword [SpacecraftName]. " + spacecraft +
+        std::string msg = "Invalid Keyword [SpacecraftName]. " + spacecraft +
                      "must terminate with '1' or '2'";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -73,7 +73,7 @@ namespace Isis {
         else cam = 6;
       }
       else {
-        QString msg = "Invalid Keyword [InstrumentID]. " + instId;
+        std::string msg = "Invalid Keyword [InstrumentID]. " + instId;
         msg += "must terminate with an 'A' or 'B'";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -99,7 +99,7 @@ namespace Isis {
       vikoffSetup(mission, spn, target, cam, clock, (int)cs3);
     }
     catch(IException &e) {
-      QString msg = "Input file [" + fname + "] does not appear to be a viking image";
+      std::string msg = "Input file [" + fname + "] does not appear to be a viking image";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

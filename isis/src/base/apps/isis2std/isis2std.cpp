@@ -60,7 +60,7 @@ namespace Isis  {
       }
     }
 
-    FileName outputName = ui.GetFileName("TO");
+    FileName outputName = ui.GetFileName("TO").toStdString();
     int quality = ui.GetInteger("QUALITY");
 
 
@@ -94,7 +94,7 @@ namespace Isis  {
 
     // Write out the results
     PvlGroup results("Results");
-    results += PvlKeyword("OutputFileName", outputName.expanded().toStdString());
+    results += PvlKeyword("OutputFileName", outputName.expanded());
 
     if (mode == "GRAYSCALE") {
       addResults(results, exporter, "", 0);
@@ -116,7 +116,7 @@ namespace Isis  {
 
 
   int addChannel(UserInterface &ui, ExportDescription &desc, QString param, QString mode) {
-    FileName name = ui.GetCubeName(param);
+    FileName name = ui.GetCubeName(param).toStdString();
     CubeAttributeInput &att = ui.GetInputAttribute(param);
 
     int index = -1;

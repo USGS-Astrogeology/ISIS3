@@ -121,7 +121,7 @@ void IsisMain() {
   }
   catch (IException &e) {
     throw IException(IException::User,
-                     "Unable to open the file [" + ui.GetCubeName("FROM") + "] as a cube.",
+                     "Unable to open the file [" + ui.GetCubeName("FROM").toStdString() + "] as a cube.",
                      _FILEINFO_);
   }
 
@@ -243,7 +243,7 @@ void IsisMain() {
     QString naifTarget = QString("IAU_MOOM");
     namfrm_c(naifTarget.toLatin1().data(), &frameCode);
     if(frameCode == 0) {
-      QString msg = "Can not find NAIF code for [" + naifTarget + "]";
+      std::string msg = "Can not find NAIF code for [" + naifTarget + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -630,7 +630,7 @@ void IsisMain() {
   //parameters for maximum correlation autoregestration
   // see:  file:///usgs/pkgs/isis3nightly2011-09-21/isis/doc/documents/patternSMatch/patternSMatch.html#DistanceTolerance
   FileName fiducialPvl("$ISISROOT/appdata/templates/apollo/PanFiducialFinder.def");
-  pvl.read(fiducialPvl.expanded().toStdString());  //read in the autoreg parameters
+  pvl.read(fiducialPvl.expanded());  //read in the autoreg parameters
   AutoReg *arS = AutoRegFactory::Create(pvl);
 
   *arS->PatternChip()   = patternS;  //patternS chip is constant
@@ -681,7 +681,7 @@ void IsisMain() {
     }
   }
   if(s>=averageLines+searchCellSize/2.0) {
-     QString msg = "Unable to locate a fiducial mark in the input cube [" + fileName +
+     std::string msg = "Unable to locate a fiducial mark in the input cube [" + fileName +
                   "].  Check FROM and MICRONS parameters.";
      throw IException(IException::Io, msg, _FILEINFO_);
      return;
@@ -804,7 +804,7 @@ void Load_Kernel(Isis::PvlKeyword &key) {
      if(QString::fromStdString(key[i]).toUpper() == "TABLE") continue;
      Isis::FileName file(QString::fromStdString(key[i]));
      if(!file.fileExists()) {
-       QString msg = "Spice file does not exist [" + file.expanded() + "]";
+       std::string msg = "Spice file does not exist [" + file.expanded() + "]";
        throw IException(IException::Io, msg, _FILEINFO_);
      }
      QString fileName(file.expanded());

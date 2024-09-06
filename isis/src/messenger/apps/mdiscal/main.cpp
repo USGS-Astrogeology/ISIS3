@@ -100,7 +100,7 @@ void IsisMain() {
   ProcessByLine p;
   FileName calibFile("$messenger/calibration/mdisCalibration????.trn");
   calibFile = calibFile.highestVersion();
-  g_configFile.read(calibFile.expanded().toStdString());
+  g_configFile.read(calibFile.expanded());
 
   // Initialize variables
   g_calibrationValues.clear();
@@ -174,7 +174,7 @@ void IsisMain() {
   }
 
   if (icube->sampleCount() < 3) {
-    QString msg = "Unable to obtain dark current data. Expected a sample dimension of at least 3";
+    std::string msg = "Unable to obtain dark current data. Expected a sample dimension of at least 3";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -191,7 +191,7 @@ void IsisMain() {
   if (g_nValidDark <= 0) {
     // Both cases require dark pixels, g_model does not
     if ((darkCurr == "STANDARD") || (darkCurr == "LINEAR")) {
-      QString mess = "Warning: There are no valid dark current pixels which are required"
+      std::string mess = "Warning: There are no valid dark current pixels which are required"
                      " for " + darkCurr + " calibration. Changing dark correction method to MODEL.";
       IException ie(IException::User, mess, _FILEINFO_);
       ie.print();
@@ -201,7 +201,7 @@ void IsisMain() {
     // Model cannot be used for exposure times > 1.0 <sec>
     if ((darkCurr == "MODEL") && (g_exposureDuration > 1.0)) {
       darkCurr = "NONE";
-      QString mess = "Warning: There are no valid dark current pixels and the dark model correction"
+      std::string mess = "Warning: There are no valid dark current pixels and the dark model correction"
                      " can not be used when the exposure duration exceeds 1000 milliseconds."
                      " Changing dark correction method to NONE.";
       IException ie(IException::User, mess, _FILEINFO_);
@@ -228,7 +228,7 @@ void IsisMain() {
       g_calibrationValues.resize(icube->lineCount());
       darkCurr = "STANDARD";
 
-      QString mess = "Warning: Dark model correction can not be used when the"
+      std::string mess = "Warning: Dark model correction can not be used when the"
                      " exposure duration exceeds 1000 milliseconds."
                      " Changing dark correction method to STANDARD.";
       IException ie(IException::User, mess, _FILEINFO_);

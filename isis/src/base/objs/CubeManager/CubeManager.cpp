@@ -47,7 +47,7 @@ namespace Isis {
     struct rlimit fileLimit;
 
     if (getrlimit(RLIMIT_NOFILE, &fileLimit) != 0) {
-      QString msg = "Cannot read the maximum allowable open files from system resources.";
+      std::string msg = "Cannot read the maximum allowable open files from system resources.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -93,9 +93,9 @@ namespace Isis {
    *         to and may delete at any time
    */
   Cube *CubeManager::OpenCube(const QString &cubeFileName) {
-    CubeAttributeInput attIn(cubeFileName);
-    IString attri = attIn.toString();
-    IString expName = FileName(cubeFileName).expanded();
+    CubeAttributeInput attIn(cubeFileName.toStdString());
+    IString attri = attIn.toString().toStdString();
+    IString expName = FileName(cubeFileName.toStdString()).expanded();
 
     // If there are attributes, we need a plus sign on the name
     if (attri.size() > 0) {
@@ -103,7 +103,7 @@ namespace Isis {
     }
 
     IString fullName = expName + attri;
-    QString fileName(fullName.ToQt());
+    QString fileName(QString::fromStdString(fullName));
     QMap<QString, Cube *>::iterator searchResult = p_cubes.find(fileName);
 
     if (searchResult == p_cubes.end()) {
@@ -145,7 +145,7 @@ namespace Isis {
    */
   void CubeManager::CleanCubes(const QString &cubeFileName) {
 
-    QString fileName(FileName(cubeFileName).expanded());
+    QString fileName(QString::fromStdString(FileName(cubeFileName.toStdString()).expanded()));
     QMap<QString, Cube *>::iterator searchResult = p_cubes.find(fileName);
 
     if (searchResult == p_cubes.end()) {

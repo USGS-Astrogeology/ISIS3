@@ -56,7 +56,7 @@ namespace Isis {
           return new CSMCamera(cube);
         }
         catch (IException &e) {
-          QString msg = "Unable to create CSM camera using CSMState Cube blob.";
+          std::string msg = "Unable to create CSM camera using CSMState Cube blob.";
           throw IException(e, IException::Unknown, msg, _FILEINFO_);
         }
       }
@@ -93,9 +93,9 @@ namespace Isis {
           ptr = m_cameraPlugin.GetPlugin(group);
         }
         catch(IException &e) {
-          QString msg = "Unsupported camera model, unable to find plugin for ";
-          msg += "SpacecraftName [" + spacecraft + "] with InstrumentId [";
-          msg += name + "]";
+          std::string msg = "Unsupported camera model, unable to find plugin for ";
+          msg += "SpacecraftName [" + spacecraft.toStdString() + "] with InstrumentId [";
+          msg += name.toStdString() + "]";
           throw IException(e, IException::Unknown, msg, _FILEINFO_);
         }
 
@@ -124,11 +124,11 @@ namespace Isis {
       if (m_cameraPlugin.fileName() == "") {
         FileName localFile("Camera.plugin");
         if (localFile.fileExists())
-          m_cameraPlugin.read(localFile.expanded().toStdString());
+          m_cameraPlugin.read(localFile.expanded());
 
         FileName systemFile("$ISISROOT/lib/Camera.plugin");
         if (systemFile.fileExists())
-          m_cameraPlugin.read(systemFile.expanded().toStdString());
+          m_cameraPlugin.read(systemFile.expanded());
       }
 
       // Find the CSM plugins by searching the directories identified in the Preferences.
@@ -137,9 +137,9 @@ namespace Isis {
       Preference &p = Preference::Preferences();
       PvlGroup &grp = p.findGroup("Plugins", Isis::Pvl::Traverse);
       for (int i = 0; i<grp["CSMDirectory"].size(); i++) {
-        FileName csmDir = QString::fromStdString(grp["CSMDirectory"][i]);
+        FileName csmDir = grp["CSMDirectory"][i];
 
-        QDirIterator csmLib(csmDir.expanded(), {"*.so", "*.dylib"}, QDir::Files);
+        QDirIterator csmLib(QString::fromStdString(csmDir.expanded()), {"*.so", "*.dylib"}, QDir::Files);
         while (csmLib.hasNext()) {
           QString csmLibName = csmLib.next();
           QLibrary csmDynamicLib(csmLibName);
@@ -197,19 +197,19 @@ namespace Isis {
           }
         }
         if (!found) {
-          QString msg = "Unable to find PVL group [" + group + "].";
+          std::string msg = "Unable to find PVL group [" + group.toStdString() + "].";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
       }
       catch(IException &e) {
-        QString msg = "Unsupported camera model, unable to find plugin for ";
-        msg += "SpacecraftName [" + spacecraft + "] with InstrumentId [";
-        msg += name + "]";
+        std::string msg = "Unsupported camera model, unable to find plugin for ";
+        msg += "SpacecraftName [" + spacecraft.toStdString() + "] with InstrumentId [";
+        msg += name.toStdString() + "]";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
 
       if (!plugin.hasKeyword("Version")) {
-        QString msg = "Camera model identified by [" + group + "] does not have a version number";
+        std::string msg = "Camera model identified by [" + group.toStdString() + "] does not have a version number";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 

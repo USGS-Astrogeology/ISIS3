@@ -202,8 +202,8 @@ namespace Isis {
       }
 
       else {
-        QString msg = QObject::tr("The FITS file does not contain a section header that appears "
-                                  "to describe an image [%1].").arg(m_name.toString());
+        std::string msg = "The FITS file does not contain a section header that appears "
+                                  "to describe an image [" + m_name.toString() + "].";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -223,21 +223,19 @@ namespace Isis {
    */
   PvlGroup ProcessImportFits::extraFitsLabel(int labelNumber) const {
     if (labelNumber >= m_extraFitsLabels->size()) {
-      QString msg = QObject::tr("The requested label number [%1], from file [%2] is "
+      std::string msg = "The requested label number [" + std::to_string(labelNumber) + "], from file [" + m_name.expanded() + "] is "
                                 "past the last extra group found in this FITS file. "
-                                "Extra label count is [%3]").arg(labelNumber).
-                                arg(m_name.expanded()).arg(m_extraFitsLabels->size()-1);
+                                "Extra label count is [" + std::to_string(m_extraFitsLabels->size()-1) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if (!m_extraFitsLabels) {
-      QString msg = QObject::tr("The FITS label has not been initialized, "
+      std::string msg = QObject::tr("The FITS label has not been initialized, "
                                 "call setFitsFile() first.");
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     else if (m_extraFitsLabels->size() < labelNumber) {
-      QString msg = QObject::tr("The requested FITS label number "
-                                "was not found in file [%1].").arg(m_name.toString());
+      std::string msg = "The requested FITS label number was not found in file [" + m_name.toString() + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -259,21 +257,19 @@ namespace Isis {
   PvlGroup ProcessImportFits::fitsImageLabel(int labelNumber) const {
 
     if (labelNumber >= m_fitsImageLabels->size()) {
-      QString msg = QObject::tr("The requested label number [%1], from file [%2] is "
+      std::string msg = "The requested label number [" + std::to_string(labelNumber) + "], from file [" + m_name.expanded() + "] is "
                                 "past the last image group found in this FITS file. "
-                                "Image label count is [%3]").arg(labelNumber).
-                                arg(m_name.expanded()).arg(m_fitsImageLabels->size()-1);
+                                "Image label count is [" + std::to_string(m_fitsImageLabels->size()-1) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if (!m_fitsImageLabels) {
-      QString msg = QObject::tr("The FITS label has not been initialized, "
+      std::string msg = QObject::tr("The FITS label has not been initialized, "
                                 "call setFitsFile first.");
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     else if (m_fitsImageLabels->size() < labelNumber) {
-      QString msg = QObject::tr("The requested FITS label number "
-                                "was not found in file [%1].").arg(m_name.toString());
+      std::string msg = "The requested FITS label number was not found in file [" +  m_name.toString() + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -324,13 +320,12 @@ namespace Isis {
   void ProcessImportFits::setFitsFile(FileName fitsFile) {
     m_name = fitsFile;
 
-    SetInputFile(fitsFile.toString()); // Make sure the file exists
+    SetInputFile(QString::fromStdString(fitsFile.toString())); // Make sure the file exists
 
-    m_file.open(fitsFile.expanded().toLocal8Bit().constData(), std::ios::in  | std::ios::binary);
+    m_file.open(fitsFile.expanded().c_str(), std::ios::in  | std::ios::binary);
 
     if (!m_file.is_open()) {
-      QString msg = QObject::tr("Unable to open FITS formatted file [%1].")
-                               .arg(fitsFile.toString());
+      std::string msg = "Unable to open FITS formatted file [" + fitsFile.toString() + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -340,9 +335,7 @@ namespace Isis {
     // Check to make sure it is a FITS file we can handle
     PvlGroup label = fitsImageLabel(0);
     if (label.hasKeyword("SIMPLE") && label["SIMPLE"][0] == "F") {
-      QString msg = QObject::tr("The file [%1] cannot be processed. "
-                                "It is an unsupported format.").
-          arg(fitsFile.toString());
+      std::string msg = "The file [" + fitsFile.toString() + "] cannot be processed. It is an unsupported format.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -363,7 +356,7 @@ namespace Isis {
   void ProcessImportFits::setProcessFileStructure(int labelNumber) {
 
     if (labelNumber >= m_fitsImageLabels->size()) {
-      QString msg = QObject::tr("The requested label number [%1], from file [%2] is "
+      std::string msg = QObject::tr("The requested label number [%1], from file [%2] is "
                                 "past the last image in this FITS file [%3].").arg(labelNumber).
                                 arg(InputFile()).arg(m_fitsImageLabels->size()-1);
       throw IException(IException::User, msg, _FILEINFO_);

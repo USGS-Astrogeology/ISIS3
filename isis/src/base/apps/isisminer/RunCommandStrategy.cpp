@@ -170,7 +170,7 @@ namespace Isis {
       int status = system(cmd.toLatin1().data());
       if ( 0 != status) {
         if ( !m_onPreCommandErrorContinue ) {
-          QString mess = command.m_name + " RunCommand::PreCommand failed - " + 
+          std::string mess = command.m_name + " RunCommand::PreCommand failed - " + 
                          cmd + " - you are terminated!";
           throw IException(IException::User, mess, _FILEINFO_);
         }
@@ -198,7 +198,7 @@ namespace Isis {
       int status = system(cmd.toLatin1().data());
       if ( 0 != status) {
         if ( !m_onPostCommandErrorContinue ) {
-          QString mess = command.m_name + " RunCommand::PostCommand failed - " + 
+          std::string mess = command.m_name + " RunCommand::PostCommand failed - " + 
                          cmd + " - you are terminated!";
           throw IException(IException::User, mess, _FILEINFO_);
         }

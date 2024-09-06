@@ -716,7 +716,7 @@ namespace Isis {
     Preference &p = Preference::Preferences();
 
     PvlGroup &grp = p.findGroup("UserInterface", Isis::Pvl::Traverse);
-    Isis::FileName progHist(grp["HistoryPath"][0] + "/" + ui.ProgramName() + ".par");
+    Isis::FileName progHist(grp["HistoryPath"][0] + "/" + ui.ProgramName().toStdString() + ".par");
 
     if(!progHist.fileExists()) {
       p_historyEntry = -1;
@@ -727,13 +727,13 @@ namespace Isis {
     Isis::Pvl hist;
 
     try {
-      hist.read(progHist.expanded().toStdString());
+      hist.read(progHist.expanded());
     }
     catch(...) {
       p_historyEntry =  -1;
-      QString msg = "A corrupt parameter history file [" + QString::fromStdString(progHist.expanded()) +
+      std::string msg = "A corrupt parameter history file [" + progHist.expanded() +
                         "] has been detected. Please fix or remove this file";
-      LoadMessage(msg);
+      LoadMessage(QString::fromStdString(msg));
       // When the warning is rejected (i.e. Abort), clean up from within qApp's exec event loop
       if (ShowWarning()) {
         qApp->quit();

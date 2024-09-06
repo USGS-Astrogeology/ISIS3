@@ -40,7 +40,7 @@ namespace Isis {
   // Main program
   void cnetextract(ControlNet outNet, UserInterface &ui, Pvl *log) {
     if(!ui.WasEntered("FROMLIST") && ui.WasEntered("TOLIST")) {
-      QString msg = "To create a [TOLIST] the [FROMLIST] parameter must be provided.";
+      std::string msg = "To create a [TOLIST] the [FROMLIST] parameter must be provided.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -60,7 +60,7 @@ namespace Isis {
 
     if(!(noIgnore || noMeasureless || noSingleMeasure || editLocked || reference || fixed ||
          noTolerancePoints || pointsEntered || cubePoints || constrained || latLon)) {
-      QString msg = "At least one filter must be selected [";
+      std::string msg = "At least one filter must be selected [";
       msg += "NOIGNORE,NOMEASURELESS,NOSINGLEMEASURE,REFERENCE,FIXED,CONSTRAINED,EDITLOCKED,TOLERANCE,";
       msg += "POINTLIST,CUBES,LATLON]";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -73,7 +73,7 @@ namespace Isis {
     FileList inList;
     if(ui.WasEntered("FROMLIST")) {
       //inList = ui.GetFileName("FROMLIST");
-      inList.read(ui.GetFileName("FROMLIST"));
+      inList.read(ui.GetFileName("FROMLIST").toStdString());
     }
 
     int inputPoints = outNet.GetNumPoints();
@@ -84,8 +84,8 @@ namespace Isis {
     // Set up the Serial Number to FileName mapping
     QMap<QString, QString> sn2filename;
     for(int cubeIndex = 0; cubeIndex < (int)inList.size(); cubeIndex ++) {
-      QString sn = SerialNumber::Compose(inList[cubeIndex].toString());
-      sn2filename[sn] = inList[cubeIndex].toString();
+      QString sn = SerialNumber::Compose(QString::fromStdString(inList[cubeIndex].toString()));
+      sn2filename[sn] = QString::fromStdString(inList[cubeIndex].toString());
     }
 
 
@@ -117,9 +117,9 @@ namespace Isis {
     // Set up comparison data
     QVector<QString> serialNumbers;
     if(cubePoints) {
-      FileList cubeList(ui.GetFileName("CUBELIST"));
+      FileList cubeList(ui.GetFileName("CUBELIST").toStdString());
       for(int cubeIndex = 0; cubeIndex < (int)cubeList.size(); cubeIndex ++) {
-        QString sn = SerialNumber::Compose(cubeList[cubeIndex].toString());
+        QString sn = SerialNumber::Compose(QString::fromStdString(cubeList[cubeIndex].toString()));
         serialNumbers.push_back(sn);
       }
     }
@@ -189,7 +189,7 @@ namespace Isis {
 
         if(noIgnore && newMeasure->IsIgnored()) {
           //New error with deleting Reference Measures
-          QString msg = newPoint->GetId() + "," + newMeasure->GetCubeSerialNumber();
+          std::string msg = newPoint->GetId() + "," + newMeasure->GetCubeSerialNumber();
           if(newPoint->GetRefMeasure() != newMeasure) {
             omit(newPoint, cm);
           }
@@ -215,7 +215,7 @@ namespace Isis {
           // doesn't have serial number if measure is not associated with cubelist
           // we need to omit appropriate measures
           if(!hasSerialNumber) {
-            QString msg = newPoint->GetId() + "," + newMeasure->GetCubeSerialNumber();
+            std::string msg = newPoint->GetId() + "," + newMeasure->GetCubeSerialNumber();
             // if this measure is not reference, omit it
             // if this measure is a reference, but retainReference is off, omit it
             if(newPoint->GetRefMeasure() != newMeasure ||
@@ -297,7 +297,7 @@ namespace Isis {
 
      // Use another pass to check for Ids
     if(pointsEntered) {
-      ExtractPointList(outNet, nonListedPoints, ui.GetFileName("POINTLIST"));
+      ExtractPointList(outNet, nonListedPoints, ui.GetFileName("POINTLIST").toStdString());
     }
 
 
@@ -330,7 +330,7 @@ namespace Isis {
     if (outputPoints != 0) {
       // Write the filenames associated with outNet
       if (ui.WasEntered("TOLIST") ) {
-        WriteCubeOutList(outNet, sn2filename, summary, ui.GetFileName("TOLIST"));
+        WriteCubeOutList(outNet, sn2filename, summary, ui.GetFileName("TOLIST").toStdString());
       }
 
       outProgress.SetText("Writing Control Network");
@@ -418,52 +418,52 @@ namespace Isis {
         QString prefix = ui.GetString("PREFIX");
 
         if(noIgnore) {
-          QString namecp = FileName(prefix + "IgnoredPoints.txt").expanded();
+          QString namecp = QString::fromStdString(FileName(prefix.toStdString() + "IgnoredPoints.txt").expanded());
           WriteResults(namecp, ignoredPoints, results);
-          QString namecm = FileName(prefix + "IgnoredMeasures.txt").expanded();
+          QString namecm = QString::fromStdString(FileName(prefix.toStdString() + "IgnoredMeasures.txt").expanded());
           WriteResults(namecm, ignoredMeasures, results);
         }
 
         resultsProgress.CheckStatus();
 
         if(noSingleMeasure) {
-          QString name = FileName(prefix + "SingleMeasurePoints.txt").expanded();
+          QString name = QString::fromStdString(FileName(prefix.toStdString() + "SingleMeasurePoints.txt").expanded());
           WriteResults(name, singleMeasurePoints, results);
         }
 
         resultsProgress.CheckStatus();
 
         if(noMeasureless) {
-          QString name = FileName(prefix + "MeasurelessPoints.txt").expanded();
+          QString name = QString::fromStdString(FileName(prefix.toStdString() + "MeasurelessPoints.txt").expanded());
           WriteResults(name, measurelessPoints, results);
         }
 
         resultsProgress.CheckStatus();
 
         if(noTolerancePoints) {
-          QString name = FileName(prefix + "TolerancePoints.txt").expanded();
+          QString name = QString::fromStdString(FileName(prefix.toStdString() + "TolerancePoints.txt").expanded());
           WriteResults(name, tolerancePoints, results);
         }
 
         resultsProgress.CheckStatus();
 
         if(reference) {
-          QString name = FileName(prefix + "NonReferenceMeasures.txt").expanded();
+          QString name = QString::fromStdString(FileName(prefix.toStdString() + "NonReferenceMeasures.txt").expanded());
           WriteResults(name, nonReferenceMeasures, results);
         }
 
         resultsProgress.CheckStatus();
 
         if(fixed) {
-          QString name = FileName(prefix + "NonFixedPoints.txt").expanded();
+          QString name = QString::fromStdString(FileName(prefix.toStdString() + "NonFixedPoints.txt").expanded());
           WriteResults(name, nonFixedPoints, results);
         }
 
         resultsProgress.CheckStatus();
 
         if(cubePoints) {
-          QString name = FileName(prefix + "NonCubePoints.txt").expanded();
-          WriteResults(name, nonCubePoints, results);
+          std::string name = FileName(prefix.toStdString() + "NonCubePoints.txt").expanded();
+          WriteResults(QString::fromStdString(name), nonCubePoints, results);
         }
 
         resultsProgress.CheckStatus();
@@ -480,24 +480,24 @@ namespace Isis {
         resultsProgress.CheckStatus();
 
         if(cubeMeasures) {
-          QString name = FileName(prefix + "NonCubeMeasures.txt").expanded();
-          WriteResults(name, noCubeMeasures, results);
+          std::string name = FileName(prefix.toStdString() + "NonCubeMeasures.txt").expanded();
+          WriteResults(QString::fromStdString(name), noCubeMeasures, results);
         }
 
         resultsProgress.CheckStatus();
 
         if(pointsEntered) {
-          QString name = FileName(prefix + "NonListedPoints.txt").expanded();
-          WriteResults(name, nonListedPoints, results);
+          std::string name = FileName(prefix.toStdString() + "NonListedPoints.txt").expanded();
+          WriteResults(QString::fromStdString(name), nonListedPoints, results);
         }
 
         resultsProgress.CheckStatus();
 
         if(latLon) {
-          QString namenon = FileName(prefix + "LatLonOutOfRange.txt").expanded();
-          WriteResults(namenon, nonLatLonPoints, results);
-          QString namegen = FileName(prefix + "NoLatLonPoints.txt").expanded();
-          WriteResults(namegen, cannotGenerateLatLonPoints, results);
+          std::string namenon = FileName(prefix.toStdString() + "LatLonOutOfRange.txt").expanded();
+          WriteResults(QString::fromStdString(namenon), nonLatLonPoints, results);
+          std::string namegen = FileName(prefix.toStdString() + "NoLatLonPoints.txt").expanded();
+          WriteResults(QString::fromStdString(namegen), cannotGenerateLatLonPoints, results);
         }
 
         results.addComment("Each keyword represents a filter parameter used. "
@@ -535,7 +535,7 @@ namespace Isis {
       // loop through line numbers of POINTLIST until we find a point ID in the
       // list that matches this control point's ID
       for(int i = 0; i < (int)listedPoints.size()  &&  !isInList; i++) {
-        QString pointId = listedPoints[i].toString();
+        QString pointId = QString::fromStdString(listedPoints[i].toString());
         // isInList is true if these strings are equal
         isInList = pointId.toLower() == controlpt->GetId().toLower();
       }
@@ -731,7 +731,7 @@ namespace Isis {
       outRange = !lat.inRange(minlat, maxlat) || !lon.inRange(minlon, maxlon);
     }
     catch (IException &e) {
-      QString msg = "Cannot complete lat/lon range test with given filters";
+      std::string msg = "Cannot complete lat/lon range test with given filters";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -760,7 +760,7 @@ namespace Isis {
       p.CheckStatus();
     }
     catch(IException &e) {
-      QString msg = "Unable to write the output cube list, [TOLIST].";
+      std::string msg = "Unable to write the output cube list, [TOLIST].";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -777,14 +777,14 @@ namespace Isis {
     // Don't create file if it will be empty
     if (outputsn.size() == 0) {
       summary.addComment("The output cube list file, ["
-                         + toList.toString().toStdString() + "], was not created. "
+                         + toList.toString() + "], was not created. "
                          "The provided filters have resulted in an empty"
                          "Control Network.");
       return;
     }
 
     std::ofstream out_stream;
-    out_stream.open(toList.toString().toLatin1().data(), std::ios::out);
+    out_stream.open(toList.toString().c_str(), std::ios::out);
     out_stream.seekp(0, std::ios::beg);   //Start writing from beginning of file
 
     for(std::set<QString>::iterator sn = outputsn.begin(); sn != outputsn.end(); sn ++) {

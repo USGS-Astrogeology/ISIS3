@@ -43,14 +43,14 @@ void IsisMain() {
 
   // Must be narrow angle
   if(moc.WideAngle()) {
-    QString msg = "The 50 sample noise pattern does not occur in ";
+    std::string msg = "The 50 sample noise pattern does not occur in ";
     msg += "MOC wide angle images";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   // Must have crosstrack summing of 1
   if(moc.CrosstrackSumming() != 1) {
-    QString msg = "The 50 sample noise pattern does not occur in ";
+    std::string msg = "The 50 sample noise pattern does not occur in ";
     msg += "MOC narrow angle images with crosstrack summing greater than one";
     throw IException(IException::User, msg, _FILEINFO_);
   }

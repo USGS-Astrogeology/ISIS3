@@ -51,7 +51,7 @@ namespace Isis {
 
       QString instId = QString::fromStdString(inst["InstrumentId"]);
       if(instId != "CTX") {
-          QString msg = "This is not a CTX image.  Ctxcal requires a CTX image.";
+          std::string msg = "This is not a CTX image.  Ctxcal requires a CTX image.";
           throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -70,7 +70,7 @@ namespace Isis {
               QStringRef month(&outputFileBase, 0, 3);
               flat = FileName("$mro/calibration/ctxFlatFiles/" + month + ".flat.cub");
               if (!flat.fileExists()) {
-                QString msg = "Could not find flat file [" + flat.expanded() + "]. "
+                std::string msg = "Could not find flat file [" + flat.expanded() + "]. "
                               "Either the data area is not set or a month is missing.";
                 throw IException(IException::Unknown, msg, _FILEINFO_);
               }
@@ -86,7 +86,7 @@ namespace Isis {
 
       // If it is already calibrated then complain
       if(icube->hasGroup("Radiometry")) {
-          QString msg = "The CTX image [" + icube->fileName() + "] has already "
+          std::string msg = "The CTX image [" + icube->fileName() + "] has already "
                       "been radiometrically calibrated";
           throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -194,7 +194,7 @@ namespace Isis {
         double w0 = 3660.5;
         double w1 = w0 * ((dist * dist) / (dist1 * dist1));
         if(exposure *w1 == 0.0) {
-          QString msg = icube->fileName() + ": exposure or w1 has value of 0.0 ";
+          std::string msg = icube->fileName() + ": exposure or w1 has value of 0.0 ";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         iof = 1.0 / (exposure * w1);

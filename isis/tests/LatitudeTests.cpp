@@ -99,7 +99,7 @@ TEST_F(Latitude_MappingGroupTest, DegreePlanetocentricConstructor) {
 
 
 TEST_F(Latitude_MappingGroupTest, AngleIncorrectLatitudeType) {
-  QString message = "is not recognized";
+  std::string message = "is not recognized";
   try {
     mappingGroup["LatitudeType"][0] = "InvalidValue";
     Isis::Angle angle(45.0, Isis::Angle::Degrees);
@@ -116,7 +116,7 @@ TEST_F(Latitude_MappingGroupTest, AngleIncorrectLatitudeType) {
 
 
 TEST_F(Latitude_MappingGroupTest, DegreeIncorrectLatitudeType) {
-  QString message = "is not recognized";
+  std::string message = "is not recognized";
   try {
     mappingGroup["LatitudeType"][0] = "InvalidValue";
     Isis::Latitude latitude(45.0, mappingGroup, Isis::Angle::Degrees);
@@ -132,7 +132,7 @@ TEST_F(Latitude_MappingGroupTest, DegreeIncorrectLatitudeType) {
 
 
 TEST_F(Latitude_MappingGroupTest, AngleMissingRadii) {
-  QString message = "Unable to create Latitude object from given mapping group";
+  std::string message = "Unable to create Latitude object from given mapping group";
   try {
     mappingGroup.deleteKeyword("EquatorialRadius");
     Isis::Angle angle(45.0, Isis::Angle::Degrees);
@@ -149,7 +149,7 @@ TEST_F(Latitude_MappingGroupTest, AngleMissingRadii) {
 
 
 TEST_F(Latitude_MappingGroupTest, DegreeMissingRadii) {
-  QString message = "Unable to create Latitude object from given mapping group";
+  std::string message = "Unable to create Latitude object from given mapping group";
   try {
     mappingGroup.deleteKeyword("EquatorialRadius");
     Isis::Latitude latitude(45.0, mappingGroup, Isis::Angle::Degrees);
@@ -247,7 +247,7 @@ TEST(Latitude, SetPlanetocentricPastPole) {
 
 
 TEST(Latitude, SetPlanetocentricOutOfRange) {
-  QString message = "Latitudes outside of the -90/90 range cannot be converted";
+  std::string message = "Latitudes outside of the -90/90 range cannot be converted";
   try {
       Isis::Latitude latitude(30.0,
                               Isis::Distance(1.0, Isis::Distance::Units::Meters),
@@ -278,7 +278,7 @@ TEST(Latitude, SetPlanetographic) {
 
 
 TEST(Latitude, SetPlanetographicRadiiNotSet) {
-  QString message = "cannot be converted to Planetocentic without the planetary radii";
+  std::string message = "cannot be converted to Planetocentic without the planetary radii";
   try {
     Isis::Latitude latitude(30.0, Isis::Angle::Degrees);
     latitude.setPlanetographic(45.0, Isis::Angle::Degrees);
@@ -294,7 +294,7 @@ TEST(Latitude, SetPlanetographicRadiiNotSet) {
 
 
 TEST(Latitude, SetPlanetographicOutOfRange) {
-  QString message = "Latitudes outside of the -90/90 range cannot be converted";
+  std::string message = "Latitudes outside of the -90/90 range cannot be converted";
   try {
       Isis::Latitude latitude(30.0,
                               Isis::Distance(1.0, Isis::Distance::Units::Meters),
@@ -339,7 +339,7 @@ TEST(Latitude, OutOfRange) {
 
 
 TEST(Latitude, MinGreaterThanMax) {
-  QString message = "is greater than maximum latitude";
+  std::string message = "is greater than maximum latitude";
   try{
     Isis::Latitude latitudeMin(3.0, Isis::Angle::Degrees);
     Isis::Latitude latitudeMax(1.0, Isis::Angle::Degrees);
@@ -383,7 +383,7 @@ TEST_F(Latitude_MappingGroupTest, AddPlanetographic) {
 
 
 TEST_F(Latitude_MappingGroupTest, AddIncorrectLatitudeType) {
-  QString message = "is not recognized";
+  std::string message = "is not recognized";
   try {
     mappingGroup["LatitudeType"][0] = "Planetographic";
     Isis::Angle angle(1.0, Isis::Angle::Degrees);

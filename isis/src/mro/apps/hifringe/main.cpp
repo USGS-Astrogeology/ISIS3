@@ -56,7 +56,7 @@ void IsisMain() {
 
   //Check to make sure we got the cube properly
   if(!inputCube.isOpen()) {
-    QString msg = "Could not open FROM cube" + fromFile.expanded();
+    std::string msg = "Could not open FROM cube" + fromFile.expanded();
     throw IException(IException::User, msg, _FILEINFO_);
   }
   Process p;
@@ -78,7 +78,7 @@ void IsisMain() {
 
   int numSections = ui.GetInteger("SECTIONS");
   if(numSections > 9) {
-    QString msg = "You may have no more than 9 sections per side";
+    std::string msg = "You may have no more than 9 sections per side";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -178,7 +178,7 @@ void IsisMain() {
   Pvl outputPvl;
   PvlGroup sourceInfo("SourceInfo");
 
-  sourceInfo += PvlKeyword("From", fromFile.expanded().toStdString());
+  sourceInfo += PvlKeyword("From", fromFile.expanded());
   sourceInfo += icube->group("Archive")["ProductId"];
   outputPvl.addGroup(sourceInfo);
   if(numSections > 0) {

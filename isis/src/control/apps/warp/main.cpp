@@ -35,7 +35,7 @@ void IsisMain() {
   for (int i = 0; i < cn.GetNumPoints(); i++) {
     const ControlPoint *cp = cn.GetPoint(i);
     if (cp->GetNumMeasures() != 2) {
-      QString msg = "Control points must have exactly 2 control measures";
+      std::string msg = "Control points must have exactly 2 control measures";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     if (!cp->IsIgnored()) {
@@ -49,7 +49,7 @@ void IsisMain() {
   // If there are no valid control points,
   //  throw an error
   if (inputLine.size() < 1) {
-    QString msg = "The specified Control Network is empty.";
+    std::string msg = "The specified Control Network is empty.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -104,7 +104,7 @@ void IsisMain() {
     interp = new Interpolator(Interpolator::CubicConvolutionType);
   }
   else {
-    QString msg = "Unknow value for INTERP [" +
+    std::string msg = "Unknow value for INTERP [" +
                   ui.GetString("INTERP") + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }

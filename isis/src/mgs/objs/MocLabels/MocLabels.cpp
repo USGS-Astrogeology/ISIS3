@@ -120,7 +120,7 @@ namespace Isis {
     }
 
     if(!p_mocNA && !p_mocRedWA && !p_mocBlueWA) {
-      QString msg = "InstrumentID [" + p_instrumentId + "] and/or FilterName ["
+      std::string msg = "InstrumentID [" + p_instrumentId + "] and/or FilterName ["
                     + p_filter + "] are inappropriate for the MOC camera";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -173,7 +173,7 @@ namespace Isis {
     if(NarrowAngle()) {
       p = p_gainMapNA.find(p_gainModeId);
       if(p == p_gainMapNA.end()) {
-        QString msg = "Invalid value for PVL keyword GainModeId [" +
+        std::string msg = "Invalid value for PVL keyword GainModeId [" +
                       p_gainModeId + "]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
@@ -181,7 +181,7 @@ namespace Isis {
     else {
       p = p_gainMapWA.find(p_gainModeId);
       if(p == p_gainMapWA.end()) {
-        QString msg = "Invalid value for PVL keyword GainModeId [" +
+        std::string msg = "Invalid value for PVL keyword GainModeId [" +
                       p_gainModeId + "]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
@@ -569,7 +569,7 @@ namespace Isis {
             unload_c(lskKern.toLatin1().data());
             unload_c(sclkKern.toLatin1().data());
 
-            QString msg = "Invalid GainModeId [" + gainId + "] in wago table";
+            std::string msg = "Invalid GainModeId [" + gainId + "] in wago table";
             throw IException(IException::Unknown, msg, _FILEINFO_);
           }
           double gain = p->second;

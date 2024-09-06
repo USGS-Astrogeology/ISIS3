@@ -144,7 +144,7 @@ namespace Isis {
       init();
     }
     catch(IException &e) {
-      QString message = "Invalid label group [Mapping]";
+      std::string message = "Invalid label group [Mapping]";
       throw IException(e, IException::Io, message, _FILEINFO_);
     }
   }

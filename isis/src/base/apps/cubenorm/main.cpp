@@ -104,7 +104,7 @@ void IsisMain() {
   // vector, and that there is a vector element for each row/col
   if((band.size() != (unsigned int)(rowcol * totalBands)) ||
       (st.size() != (unsigned int)(rowcol * totalBands))) {
-    QString message = "You have entered an invalid input file " +
+    std::string message = "You have entered an invalid input file " +
                       ui.GetFileName("FROMSTATS");
     throw IException(IException::Io, message, _FILEINFO_);
   }
@@ -342,7 +342,7 @@ void tableIn(const Isis::FileName &filename) {
 
 
   if(!in) {
-    QString message = "Error opening " + filename.expanded();
+    std::string message = "Error opening " + filename.expanded();
     throw IException(IException::Io, message, _FILEINFO_);
   }
 

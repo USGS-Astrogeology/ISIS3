@@ -25,7 +25,7 @@ find files of those names at the top level of this repository. **/
     // Set the Qt plugin directory
     QStringList pluginPaths;
 
-    Isis::IString root = Isis::Environment::getEnvironmentValue("ISISROOT", "");
+    Isis::IString root = Isis::Environment::getEnvironmentValue("ISISROOT", "").toStdString();
     QCoreApplication *core = QCoreApplication::instance();
     if ( !core ) {
       std::cout << "****  Qt Plugin Path is not set because no instance of QCoreApplication ****\n";

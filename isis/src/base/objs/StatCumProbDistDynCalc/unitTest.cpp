@@ -717,7 +717,7 @@ int main(int argc, char *argv[]) {
 
     bool deleted = qXmlFile.remove();
     if (!deleted) {
-      QString msg = "Unit Test failed. XML file [" + xmlPath + "not deleted.";
+      std::string msg = "Unit Test failed. XML file [" + xmlPath + "not deleted.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }

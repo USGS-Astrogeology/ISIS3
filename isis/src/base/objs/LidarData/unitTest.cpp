@@ -134,7 +134,7 @@ int main(int argc, char *argv[]) {
   cout << outputFile.extension() << endl;
   outputFile = outputFile.setExtension("dat");
   cout << outputFile.extension() << endl;
-  cout << outputFile.expanded().toStdString() << endl;
+  cout << outputFile.expanded() << endl;
   mockData.write(outputFile, LidarData::Binary);
 
   // Test read() binary format

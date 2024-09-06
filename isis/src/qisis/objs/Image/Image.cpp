@@ -61,7 +61,7 @@ namespace Isis {
     catch (IException &) {
     }
 
-    m_displayProperties = new ImageDisplayProperties(FileName(m_fileName).name(), this);
+    m_displayProperties = new ImageDisplayProperties(QString::fromStdString(FileName(m_fileName.toStdString()).name()), this);
 
     m_id = new QUuid(QUuid::createUuid());
   }
@@ -94,7 +94,7 @@ namespace Isis {
     catch (IException &e) {
     }
 
-    m_displayProperties = new ImageDisplayProperties(FileName(m_fileName).name(), this);
+    m_displayProperties = new ImageDisplayProperties(QString::fromStdString(FileName(m_fileName.toStdString()).name()), this);
 
     m_id = new QUuid(QUuid::createUuid());
   }
@@ -124,7 +124,7 @@ namespace Isis {
 
     m_footprint = footprint;
 
-    m_displayProperties = new ImageDisplayProperties(FileName(m_fileName).name(), this);
+    m_displayProperties = new ImageDisplayProperties(QString::fromStdString(FileName(m_fileName.toStdString()).name()), this);
 
     setId(id);
   }
@@ -262,7 +262,7 @@ namespace Isis {
   Cube *Image::cube() {
     if (!m_cube) {
       try {
-        m_cube = new Cube(m_fileName);
+        m_cube = new Cube(m_fileName.toStdString());
       }
       catch (IException &e) {
         throw IException(e, IException::Programmer, "Cube cannot be created", _FILEINFO_);
@@ -507,15 +507,15 @@ namespace Isis {
    * @param newProjectRoot  The root directory where the project is stored.
    */
   void Image::copyToNewProjectRoot(const Project *project, FileName newProjectRoot) {
-    if (FileName(newProjectRoot) != FileName(project->projectRoot())) {
-      Cube origImage(m_fileName);
+    if (FileName(newProjectRoot) != FileName(project->projectRoot().toStdString())) {
+      Cube origImage(m_fileName.toStdString());
 
       // The imageDataRoot will either be PROJECTROOT/images or PROJECTROOT/results/bundle/timestamp/images,
       // depending on how the newProjectRoot points to.
-      FileName newExternalLabelFileName(Project::imageDataRoot(newProjectRoot.toString()) + "/" +
-          FileName(m_fileName).dir().dirName() + "/" + FileName(m_fileName).name());
+      FileName newExternalLabelFileName(Project::imageDataRoot(QString::fromStdString(newProjectRoot.toString())).toStdString() + "/" +
+          FileName(m_fileName.toStdString()).dir().filename().string() + "/" + FileName(m_fileName.toStdString()).name());
 
-      if (m_fileName != newExternalLabelFileName.toString()) {
+      if (m_fileName != QString::fromStdString(newExternalLabelFileName.toString())) {
         // This cube copy creates a filename w/ecub extension in the new project root, but looks to
         // be a cube(internal vs external). It changes the DnFile pointer to the old ecub,
         // /tmp/tsucharski_ipce/tmpProject/images/import1/AS15-.ecub, but doing a less on file
@@ -528,7 +528,7 @@ namespace Isis {
         if (!origImage.storesDnData() ) {
           if (origImage.externalCubeFileName().path() == ".") {
             Cube dnFile(
-                FileName(m_fileName).path() + "/" + origImage.externalCubeFileName().name());
+                FileName(m_fileName.toStdString()).path() + "/" + origImage.externalCubeFileName().name());
             FileName newDnFileName = newExternalLabelFileName.setExtension("cub");
             QScopedPointer<Cube> newDnFile(dnFile.copy(newDnFileName, CubeAttributeOutput()));
             newDnFile->close();
@@ -538,10 +538,10 @@ namespace Isis {
           else {
             //  If the the ecub's external cube is pointing to the old project root, update to new
             //  project root.
-            if (origImage.externalCubeFileName().toString().contains(project->projectRoot())) {
-              QString newExternalCubeFileName = origImage.externalCubeFileName().toString();
+            if (QString::fromStdString(origImage.externalCubeFileName().toString()).contains(project->projectRoot())) {
+              QString newExternalCubeFileName = QString::fromStdString(origImage.externalCubeFileName().toString());
               newExternalCubeFileName.replace(project->projectRoot(), project->newProjectRoot());
-              newExternalLabel->relocateDnData(newExternalCubeFileName);
+              newExternalLabel->relocateDnData(newExternalCubeFileName.toStdString());
             }
             else {
               newExternalLabel->relocateDnData(origImage.externalCubeFileName());
@@ -569,8 +569,8 @@ namespace Isis {
     }
 
     if (deleteCubAlso) {
-      FileName cubFile = FileName(m_fileName).setExtension("cub");
-      if (!QFile::remove(cubFile.expanded() ) ) {
+      FileName cubFile = FileName(m_fileName.toStdString()).setExtension("cub");
+      if (!QFile::remove(QString::fromStdString(cubFile.expanded()) ) ) {
         throw IException(IException::Io,
                          tr("Could not remove file [%1]").arg(m_fileName),
                          _FILEINFO_);
@@ -579,7 +579,7 @@ namespace Isis {
 
     // If we're the last thing in the folder, remove the folder too.
     QDir dir;
-    dir.rmdir(FileName(m_fileName).path());
+    dir.rmdir(QString::fromStdString(FileName(m_fileName.toStdString()).path()));
   }
 
 
@@ -603,7 +603,7 @@ namespace Isis {
     stream.writeStartElement("image");
 
     stream.writeAttribute("id", m_id->toString());
-    stream.writeAttribute("fileName", FileName(m_fileName).name());
+    stream.writeAttribute("fileName", QString::fromStdString(FileName(m_fileName.toStdString()).name()));
     stream.writeAttribute("instrumentId", m_instrumentId);
     stream.writeAttribute("spacecraftName", m_spacecraftName);
 
@@ -666,10 +666,10 @@ namespace Isis {
   void Image::updateFileName(Project *project) {
     closeCube();
 
-    FileName original(m_fileName);
-    FileName newName(project->imageDataRoot() + "/" +
-                     original.dir().dirName() + "/" + original.name());
-    m_fileName = newName.expanded();
+    FileName original(m_fileName.toStdString());
+    FileName newName(project->imageDataRoot().toStdString() + "/" +
+                     original.dir().filename().string() + "/" + original.name());
+    m_fileName = QString::fromStdString(newName.expanded());
   }
 
 

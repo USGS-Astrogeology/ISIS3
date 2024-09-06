@@ -36,7 +36,7 @@ namespace Isis {
    */
   void ProgramLauncher::RunIsisProgram(QString programName,
                                        QString parameters) {
-    FileName program(programName);
+    FileName program(programName.toStdString());
     FileName isisExecutableFileName("$ISISROOT/bin/" + program.name());
     bool isIsisProgram = false;
 
@@ -52,7 +52,7 @@ namespace Isis {
         " -pid=" + toString(getpid());
 
     if(!isIsisProgram) {
-      QString msg = "Program [" + programName + "] does not appear to be a "
+      std::string msg = "Program [" + programName + "] does not appear to be a "
           "valid Isis program";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -82,7 +82,7 @@ namespace Isis {
     }
 
     if(!connected) {
-      QString msg = "Isis child process failed to communicate with parent";
+      std::string msg = "Isis child process failed to communicate with parent";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -95,7 +95,7 @@ namespace Isis {
       bool messageDone = false;
 
       QString code;
-      QString message;
+      std::string message;
       QByteArray lineData;
 
       if(childSocket->waitForReadyRead(1000)) {
@@ -135,7 +135,7 @@ namespace Isis {
     childProcess.waitForFinished();
 
     if(childProcess.exitCode() != 0) {
-      QString msg = "Running Isis program [" + programName + "] failed with "
+      std::string msg = "Running Isis program [" + programName + "] failed with "
                     "return status [" + toString(childProcess.exitCode()) + "]";
       throw IException(errors, IException::Unknown, msg, _FILEINFO_);
     }
@@ -153,7 +153,7 @@ namespace Isis {
    *            parameter.
    */
   IException
-      ProgramLauncher::ProcessIsisMessageFromChild(QString code, QString msg) {
+      ProgramLauncher::ProcessIsisMessageFromChild(QString code, std::string msg) {
     IException errors;
 
     if(code == "PROGRESSTEXT" && iApp) {
@@ -214,7 +214,7 @@ namespace Isis {
     int status = system(fullCommand.toLatin1().data());
 
     if(status != 0) {
-      QString msg = "Executing command [" + fullCommand +
+      std::string msg = "Executing command [" + fullCommand +
                     "] failed with return status [" + toString(status) + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

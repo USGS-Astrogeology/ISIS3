@@ -64,7 +64,7 @@ namespace Isis {
 
     // If it is already calibrated then complain
     if(icube->hasGroup("Radiometry")) {
-      QString msg = "The MOC image [" + icube->fileName() + "] has already "
+      std::string msg = "The MOC image [" + icube->fileName() + "] has already "
                   "been radiometrically calibrated";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -294,7 +294,7 @@ namespace Isis {
     // Make sure the file had the correct number of coefficients.  It should
     // match the number of detectors in the NA or WA camera
     if((int)gainCoef.size() != gbl::moc->Detectors()) {
-      QString msg = "Coefficient file [" + file + "] size is wrong ... should have [";
+      std::string msg = "Coefficient file [" + file + "] size is wrong ... should have [";
       msg += toString(gbl::moc->Detectors()) + "] gain/offset entries";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -309,7 +309,7 @@ namespace Isis {
       double osum = 0.0;
       for(n = 0; ss <= es; ss++, n++) {
         if(ss >= (int)gainCoef.size()) {
-          QString msg = "Array bounds exceeded for gainCoef/offsetCoef";
+          std::string msg = "Array bounds exceeded for gainCoef/offsetCoef";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
         gsum += gainCoef[ss];

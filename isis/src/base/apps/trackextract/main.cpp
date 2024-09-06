@@ -83,7 +83,7 @@ void IsisMain() {
   Cube inputCube = Cube(inputName);
   PixelType pixelType = inputCube.pixelType();
   if (pixelType != Real) {
-    QString msg = "The input mosaic [" + inputName + "] is of pixel type ["
+    std::string msg = "The input mosaic [" + inputName + "] is of pixel type ["
     + PixelTypeName(pixelType) + "]. This application only works for mosaics of pixel type Real.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -123,17 +123,17 @@ void findTrackBand(QString inputName, QVector<QString> &copyBands, int &trackBan
       }
     }
     catch (IException &e) {
-      QString msg = "The input cube [" + inputName + "] does not have any keywords";
+      std::string msg = "The input cube [" + inputName + "] does not have any keywords";
       msg += " in the BandBin group. Make sure TRACKING is a keyword in the BandBin group.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
   else {
-    QString msg = "The input cube [" + inputName + "] does not have a BandBin group.";
+    std::string msg = "The input cube [" + inputName + "] does not have a BandBin group.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   if (trackBand == -1) {
-    QString msg = "The input cube [" + inputName + "] does not have a tracking band.";
+    std::string msg = "The input cube [" + inputName + "] does not have a tracking band.";
     msg += " If you want to create a tracking cube, run a mosaic program.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
@@ -171,7 +171,7 @@ void createMosaicCube(QString inputName, QString outputName, QVector<QString> ba
   }
 
   if (!mosaicCube.deleteBlob("InputImages", "Table")) {
-    QString msg = "The input cube [" + inputName + "] does not have a tracking table.";
+    std::string msg = "The input cube [" + inputName + "] does not have a tracking table.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
@@ -235,7 +235,7 @@ void createTrackCube(QString inputName, QString ouputName, int trackBand) {
       break;
 
     default:
-      QString msg = "Invalid Pixel Type [" + QString(inputCube.pixelType()) + "]";
+      std::string msg = "Invalid Pixel Type [" + QString(inputCube.pixelType()) + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   CopyPixelsFunctor copyTrackPixels(offset, defaultVal);
@@ -263,7 +263,7 @@ void createTrackCube(QString inputName, QString ouputName, int trackBand) {
     trackCube.write(newTable);
   }
   else {
-    QString msg = "The tracking cube [" + trackingName + "] does not have a tracking table.";
+    std::string msg = "The tracking cube [" + trackingName + "] does not have a tracking table.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 }

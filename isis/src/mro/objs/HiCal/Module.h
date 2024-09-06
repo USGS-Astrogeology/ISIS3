@@ -133,7 +133,7 @@ namespace Isis {
         QString dumpcFile = dumpc.expanded();
         std::ofstream ofile(dumpcFile.toLatin1().data(), std::ios::out);
         if (!ofile) {
-          QString mess = "Unable to open/create module dump file " +
+          std::string mess = "Unable to open/create module dump file " +
                              dumpc.expanded();
           throw IException(IException::User, mess, _FILEINFO_);
         }

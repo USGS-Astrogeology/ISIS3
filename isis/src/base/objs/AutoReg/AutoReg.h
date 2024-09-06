@@ -12,6 +12,7 @@ find files of those names at the top level of this repository. **/
 
 #include "Chip.h"
 #include "Statistics.h"
+#include <QString>
 
 class QString;
 

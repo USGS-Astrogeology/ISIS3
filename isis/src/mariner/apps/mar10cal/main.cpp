@@ -55,7 +55,7 @@ void IsisMain() {
 
   // If it is already calibrated then complain
   if (icube->hasGroup("Radiometry")) {
-    QString msg = "This Mariner 10 image [" + icube->fileName() + "] has "
+    std::string msg = "This Mariner 10 image [" + icube->fileName() + "] has "
                   "already been radiometrically calibrated";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -84,7 +84,7 @@ void IsisMain() {
       exposureOffset = 3.060;
     }
     else {
-      QString msg = "Camera [" + camera + "] is not supported.";
+      std::string msg = "Camera [" + camera + "] is not supported.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -114,7 +114,7 @@ void IsisMain() {
   }
 
   if (filter == "FAB" || filter == "WAF") {
-    QString msg = "Filter type [" + filter + "] is not supported at this time.";
+    std::string msg = "Filter type [" + filter + "] is not supported at this time.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -139,7 +139,7 @@ void IsisMain() {
       absCoef = 750.0;
     }
     else {
-      QString msg = "Camera [" + camera + "] is not supported.";
+      std::string msg = "Camera [" + camera + "] is not supported.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

@@ -63,7 +63,7 @@ namespace Isis {
     m_project = project;
     m_bundleSettings = bundleSettings;
     m_selectedControl = selectedControl;
-    m_selectedControlName = FileName(selectedControl->fileName().toStdString()).name();
+    m_selectedControlName = QString::fromStdString(FileName(selectedControl->fileName().toStdString()).name());
     m_outputControlName = outputControlFileName;
     m_bundleThread = NULL;
     init();
@@ -195,7 +195,7 @@ namespace Isis {
 
          // Grab the control name that was used in that bundle adjustment.
          m_selectedControlName
-             = FileName(bundleSolutionInfo.last()->inputControlNetFileName().toStdString()).name();
+             = QString::fromStdString(FileName(bundleSolutionInfo.last()->inputControlNetFileName().toStdString()).name());
       }
 
       // Clear the dialog displays.
@@ -296,20 +296,20 @@ namespace Isis {
     FileName outputControlName;
     if (!m_outputControlName.isEmpty()) {
       outputControlName
-          = FileName(m_project->bundleSolutionInfoRoot().toStdString() + "/" + runTime + "/" +
-                     m_outputControlName);
+          = FileName(m_project->bundleSolutionInfoRoot().toStdString() + "/" + runTime.toStdString() + "/" +
+                     m_outputControlName.toStdString());
     }
     else {
       outputControlName
-          = FileName(m_project->bundleSolutionInfoRoot().toStdString() + "/" + runTime + "/Out-" + runTime + "-" +
+          = FileName(m_project->bundleSolutionInfoRoot().toStdString() + "/" + runTime.toStdString() + "/Out-" + runTime.toStdString() + "-" +
                      FileName(m_bundleSolutionInfo->inputControlNetFileName().toStdString()).name());
     }
 
     // Write output control net with correct path to results folder + runtime
-    m_bundleSolutionInfo->bundleResults().outputControlNet()->Write(outputControlName.toString());
+    m_bundleSolutionInfo->bundleResults().outputControlNet()->Write(QString::fromStdString(outputControlName.toString()));
 
     // create Control with output control net and add to m_bundleSolutionInfo
-    m_bundleSolutionInfo->setOutputControl(new Control(m_project, outputControlName.expanded()));
+    m_bundleSolutionInfo->setOutputControl(new Control(m_project, QString::fromStdString(outputControlName.expanded())));
 
     if (m_ui->detachedLabelsCheckBox->isChecked()) {
       // Iterate through all of the image lists (the "imports" in the project).
@@ -323,13 +323,20 @@ namespace Isis {
         foreach (Image *image, *imageList) {
           FileName original(image->fileName().toStdString());
           // Update our list of tracked file names for the images we are going to copy.
-          imagesToCopy.append(original.expanded());
+          imagesToCopy.append(QString::fromStdString(original.expanded()));
         }
+
+        std::vector<std::string> stdStringList;
+        stdStringList.reserve(imagesToCopy.size());
+        for (const QString &qstr : imagesToCopy) {
+          stdStringList.push_back(qstr.toStdString());
+        }
+
         // Concurrently copy the bundled images as ecub's to the bundle solution info results.
         CopyImageToResultsFunctor copyImage(m_project->bundleSolutionInfoRoot() + "/" +
                                             m_bundleSolutionInfo->runTime() + "/images/" +
                                             imageList->name());
-        QFuture<Cube *> copiedCubes = QtConcurrent::mapped(imagesToCopy, copyImage);
+        QFuture<Cube *> copiedCubes = QtConcurrent::mapped(stdStringList, copyImage);
 
         // Prepare for our adjusted images (ecubs)
         ImageList *adjustedImages = new ImageList(imageList->name(), imageList->path());
@@ -426,8 +433,8 @@ namespace Isis {
       Cube *result = NULL;
 
       // Get the destination folder and create that path.
-      FileName destination(QFileInfo(m_destinationFolder, image.name()).absoluteFilePath());
-      m_destinationFolder.mkpath(destination.path());
+      FileName destination(QFileInfo(m_destinationFolder, QString::fromStdString(image.name())).absoluteFilePath().toStdString());
+      m_destinationFolder.mkpath(QString::fromStdString(destination.path()));
 
       // The input FileName will be referencing an imported ecub file.
       // Need to get the .cub file (via Cube::externalCubeFileName) to copy.
@@ -439,19 +446,15 @@ namespace Isis {
       if (importCube.externalCubeFileName().path() == ".") {
 
         QDir relative(m_destinationFolder.absolutePath());
-        dnCubeFileName = FileName(QDir(image.path()).canonicalPath().toStdString() + "/" + importCube.externalCubeFileName().name());
-        QString s = relative.relativeFilePath(dnCubeFileName.toString());
-        // Locate the DnFile cube by using the input image's (ecub) path and the DnFile name (cub)
-        //dnCubeFileName = FileName(image.path() + "/" + importCube.externalCubeFileName().name());
-        // WHY DO WE NEED TO USE QDIR canonical path? why is the image.path relative and not abs?
-        //dnCubeFileName = FileName(s);
-        dnCubeFileName = FileName(QDir(image.path()).canonicalPath().toStdString() + "/" +
-                                  importCube.externalCubeFileName().name());
+        std::filesystem::path canonicalImagePath = std::filesystem::canonical(image.path());
+        std::filesystem::path fullPath = canonicalImagePath / importCube.externalCubeFileName().name();
+        dnCubeFileName = FileName(fullPath.string());
+        QString s = relative.relativeFilePath(QString::fromStdString(dnCubeFileName.toString()));
         Cube dnCube(dnCubeFileName, "r");
 
 
         result = dnCube.copy(destination, CubeAttributeOutput("+External"));
-        result->relocateDnData(s);
+        result->relocateDnData(s.toStdString());
       }
       // The .ecub's ^DnFile is an absolute path (.ecub potentially not located next to .cub)
       else {
@@ -523,8 +526,8 @@ namespace Isis {
    *
    * @param error Error status of bundle.
    */
-  void JigsawRunWidget::errorString(QString error) {
-    QString errorStr = "\n" + error;
+  void JigsawRunWidget::errorString(std::string error) {
+    std::string errorStr = "\n" + error;
     m_ui->statusUpdatesLabel->setText( m_ui->statusUpdatesLabel->text().append(errorStr) );
 
     updateScrollBar();

@@ -49,8 +49,8 @@ void mappt(Cube *icube, UserInterface &ui, Pvl *log, CubeAttributeInput* inAtt) 
   // Write an output label file if necessary
   if(ui.WasEntered("TO")) {
     // Get user params from ui
-    QString outFile = FileName(ui.GetFileName("TO")).expanded();
-    bool exists = FileName(outFile).fileExists();
+    QString outFile = QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded());
+    bool exists = FileName(outFile.toStdString()).fileExists();
     bool append = ui.GetBoolean("APPEND");
 
     // Write the pvl group out to the file
@@ -126,7 +126,7 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
 
     if (!outsideAllowed) {
       if (samp < .5 || line < .5 || samp > cubeSampleLimit || line > cubeLineLimit) {
-        QString error = "Requested line,sample is not on the image";
+        std::string error = "Requested line,sample is not on the image";
         throw IException(IException::Unknown, error, _FILEINFO_);
       }
     }
@@ -165,17 +165,17 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
 
     // Use the mapping group from a given file
     else if(coordsys == "MAP") {
-      FileName mapFile = ui.GetFileName("MAP");
+      FileName mapFile = ui.GetFileName("MAP").toStdString();
 
       // Does it exist?
       if(!mapFile.fileExists()) {
-        QString msg = "Filename [" + ui.GetFileName("MAP") + "] does not exist";
+        std::string msg = "Filename [" + ui.GetFileName("MAP") + "] does not exist";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       // Load it up into a new projection
       Pvl mapPvl;
-      mapPvl.read(mapFile.expanded().toStdString());
+      mapPvl.read(mapFile.expanded());
       TProjection *altmap = (TProjection *) ProjectionFactory::CreateFromCube(mapPvl);
 
       // Set lat and lon in its system
@@ -226,7 +226,7 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
   if (proj->WorldX() < .5 || proj->WorldY() < .5 || proj->WorldX() > cubeSampleLimit ||
       proj->WorldY() > cubeLineLimit) {
     if (!outsideAllowed) {
-      QString error = "Resulting line,sample is not on the image";
+      std::string error = "Resulting line,sample is not on the image";
       throw IException(IException::Unknown, error, _FILEINFO_);
     }
     else {
@@ -254,7 +254,7 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
   // Log the position
   if(proj->IsGood()) {
     results += PvlKeyword("Filename",
-                          FileName(icube->fileName()).expanded().toStdString());
+                          FileName(icube->fileName().toStdString()).expanded());
     results += PvlKeyword("Sample", std::to_string(proj->WorldX()));
     results += PvlKeyword("Line", std::to_string(proj->WorldY()));
     results += PvlKeyword("Band", std::to_string(icube->physicalBand(1)));
@@ -386,7 +386,7 @@ QList< QPair<double, double> > getMapPoints(const UserInterface &ui, bool usePoi
     if (usePointList) {
 
       CSVReader reader;
-      reader.read(FileName(ui.GetFileName("COORDLIST")).expanded());
+      reader.read(QString::fromStdString(FileName(ui.GetFileName("COORDLIST").toStdString()).expanded()));
 
       if (!reader.isTableValid(reader.getTable()) || reader.columns() != 2) {
         std::string msg = "Coordinate file formatted incorrectly.\n"

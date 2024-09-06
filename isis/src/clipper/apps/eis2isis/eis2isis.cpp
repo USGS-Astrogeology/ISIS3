@@ -54,7 +54,7 @@ namespace Isis {
         p.SetInputFile(xmlFileName.removeExtension().addExtension("dat").expanded());
       }
       else {
-        QString msg = "Cannot find image file for [" + xmlFileName.name() + "]. Confirm the "
+        std::string msg = "Cannot find image file for [" + xmlFileName.name() + "]. Confirm the "
           ".dat file for this XML exists and is located in the same directory.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -103,7 +103,7 @@ namespace Isis {
         kerns += PvlKeyword("NaifFrameCode", std::to_string(-159102));
       }
       else {
-        QString msg = "Input file [" + xmlFileName.expanded() + "] has an invalid " +
+        std::string msg = "Input file [" + xmlFileName.expanded() + "] has an invalid " +
                   "InstrumentId.";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
@@ -114,7 +114,7 @@ namespace Isis {
     }
     catch (IException &e) {
 
-      QString msg = "Given file [" + xmlFileName.expanded() + "] does not appear to be a valid "
+      std::string msg = "Given file [" + xmlFileName.expanded() + "] does not appear to be a valid "
                     "Clipper EIS label or associated line times files are not provided.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
@@ -257,7 +257,7 @@ namespace Isis {
     // the camera object to be able to handle when a table does not exist and
     // this will be able to be refactored to not require a line times file.
     else {
-      QString msg = "This image appears to be a Narrow Angle Rolling Shutter Camera. "
+      std::string msg = "This image appears to be a Narrow Angle Rolling Shutter Camera. "
                     "You must provide the line times file associated with [" + xmlFileName.name() +
                     "] as the [MAINREADOUT] parameter.";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -279,7 +279,7 @@ namespace Isis {
                                             .expanded());
         }
         else {
-          QString msg = "Cannot find image file for [" + checklineXmlFileName.name() + "]. Confirm the "
+          std::string msg = "Cannot find image file for [" + checklineXmlFileName.name() + "]. Confirm the "
           ".dat file for this XML exists and is located in the same directory.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -317,7 +317,7 @@ namespace Isis {
       // Since the checkline cube is not worth anything without the associated
       // times, require that the line times for the checkline cube be provided.
       else {
-        QString msg = "Must provide the line times file associated with [" + checklineXmlFileName.name() + "] as the [CHECKLINEREADOUT] parameter.";
+        std::string msg = "Must provide the line times file associated with [" + checklineXmlFileName.name() + "] as the [CHECKLINEREADOUT] parameter.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -340,7 +340,7 @@ namespace Isis {
 
     // Number of lines provided must match number of rows in csv file
     if (numLines != csv.rows()) {
-      QString msg = "Readout table [" + file.expanded() +
+      std::string msg = "Readout table [" + file.expanded() +
                     "] does not have the same number of lines as the image";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -400,7 +400,7 @@ namespace Isis {
 
     // Number of lines provided must match number of rows in csv file
     if (numLines != csv.rows()) {
-      QString msg = "Readout table [" + file.expanded() +
+      std::string msg = "Readout table [" + file.expanded() +
                     "] does not have the same number of lines as the image";
       throw IException(IException::User, msg, _FILEINFO_);
     }

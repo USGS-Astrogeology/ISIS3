@@ -180,7 +180,7 @@ namespace Isis {
       FileName outputName, CubeAttributeOutput &att) {
 
     m_outCube->setDimensions(samples(), lines(), bands());
-    m_outCube->create(outputName.expanded(), att);
+    m_outCube->create(QString::fromStdString(outputName.expanded()), att);
     return m_outCube;
   }
 
@@ -420,14 +420,14 @@ namespace Isis {
   ImageImporter * ImageImporter::fromFileName(FileName inputName) {
     ImageImporter *importer = NULL;
 
-    QString format = QImageReader::imageFormat(inputName.expanded());
+    QString format = QImageReader::imageFormat(QString::fromStdString(inputName.expanded()));
     if (format == "tiff") {
       importer = new TiffImporter(inputName);
     }
     else if (format != "" && format != "jp2") {
       importer = new QtImporter(inputName);
     }
-    else if (JP2Decoder::IsJP2(inputName.expanded().toLatin1().data())) {
+    else if (JP2Decoder::IsJP2(inputName.expanded().c_str())) {
       importer = new JP2Importer(inputName);
     }
     else {

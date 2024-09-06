@@ -40,7 +40,7 @@ void IsisMain() {
   // Determine whether input is a raw Mariner 10 image or an Isis 2 cube
   bool isRaw = false;
   FileName inputFile = ui.GetFileName("FROM");
-  Pvl label(inputFile.expanded().toStdString());
+  Pvl label(inputFile.expanded());
 
   // If the PVL created from the input labels is empty, then input is raw
   if(label.groups() + label.objects() + label.keywords() == 0) {
@@ -333,7 +333,7 @@ void UpdateLabels(Cube *cube, const QString &labels) {
 void TranslateIsis2Labels(FileName &labelFile, Cube *oCube) {
   // Transfer the instrument group to the output cube
   QString transDir = "$ISISROOT/appdata/translations/";
-  Pvl inputLabel(labelFile.expanded().toStdString());
+  Pvl inputLabel(labelFile.expanded());
   FileName transFile;
 
   transFile = transDir + "Mariner10isis2.trn";

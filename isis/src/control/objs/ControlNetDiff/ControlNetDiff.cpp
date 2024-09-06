@@ -91,7 +91,7 @@ namespace Isis {
     Pvl results;
     PvlObject report("Differences");
 
-    diff("Filename", net1Name.name(), net2Name.name(), report);
+    diff("Filename", QString::fromStdString(net1Name.name()), QString::fromStdString(net2Name.name()), report);
 
     ControlNetVersioner cnv1(net1Name);
     ControlNetVersioner cnv2(net2Name);

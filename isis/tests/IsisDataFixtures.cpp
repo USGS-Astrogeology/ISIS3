@@ -44,7 +44,7 @@ namespace Isis {
     QFileInfo qinfo( fname );
     json_t file_json;
     try {
-      std::ifstream inputstream ( v_fname.expanded().toStdString() );
+      std::ifstream inputstream ( v_fname.expanded() );
       file_json = json_t::parse ( inputstream );
     }
     catch ( ... ) {

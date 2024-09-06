@@ -150,7 +150,7 @@ namespace Isis {
     if (!(ui.WasEntered("PREDICTFILTER") || ui.WasEntered("PREDICTLIST")) &&
         !(ui.WasEntered("RECONFILTER")   || ui.WasEntered("RECONLIST")) &&
         !(ui.WasEntered("SMITHEDFILTER") || ui.WasEntered("SMITHEDLIST"))) {
-      QString message =
+      std::string message =
         "No kernel selection arguments were entered. A directory and filter or a "
         "list must be entered for at least one quality of kernel.";
       throw IException(IException::User, message, _FILEINFO_);
@@ -168,7 +168,7 @@ namespace Isis {
 
     Pvl writer;
     writer.addObject(selections);
-    writer.write(to.expanded().toStdString());
+    writer.write(to.expanded());
   }
 
 
@@ -213,7 +213,7 @@ namespace Isis {
 
         // Try to get kernel file names out of db, if a db was specified instead of an actual kernel
         if (kernelFileName.extension() == "db") {
-          Pvl kernelDbPvl(kernelFileName.expanded().toStdString());
+          Pvl kernelDbPvl(kernelFileName.expanded());
 
           if (kernelDbPvl.objects() == 1) {
             PvlObject &primaryObject = kernelDbPvl.object(0);

@@ -51,7 +51,7 @@ namespace Isis {
   void ObservationNumberList::init(SerialNumberList *snlist) {
 
     if (snlist->size() == 0) {
-      QString msg = "Serial number list is empty";
+      std::string msg = "Serial number list is empty";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -95,7 +95,7 @@ namespace Isis {
   void ObservationNumberList::remove(SerialNumberList *snlist) {
 
     if (snlist->size() == 0) {
-      QString msg = "Cannot remove, serial number list is empty";
+      std::string msg = "Cannot remove, serial number list is empty";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -207,7 +207,7 @@ namespace Isis {
       return m_indexMap.find(serialNumberIndex)->second;
     }
     else {
-      QString msg = "Serial Number Index [" + toString(serialNumberIndex) + "] is invalid";
+      std::string msg = "Serial Number Index [" + toString(serialNumberIndex) + "] is invalid";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -224,8 +224,8 @@ namespace Isis {
    *         the input filename
    */
   QString ObservationNumberList::observationNumber(const QString &filename) {
-    if (m_fileMap.find(FileName(filename).expanded()) == m_fileMap.end()) {
-      QString msg = "Requested filename [" + FileName(filename).expanded() + "] ";
+    if (m_fileMap.find(QString::fromStdString(FileName(filename.toStdString()).expanded())) == m_fileMap.end()) {
+      std::string msg = "Requested filename [" + FileName(filename.toStdString()).expanded() + "] ";
       msg += "does not exist in the list";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -248,7 +248,7 @@ namespace Isis {
       return m_pairs[index].observationNumber;
     }
     else {
-      QString msg = "Index [" + toString(index) + "] is invalid";
+      std::string msg = "Index [" + toString(index) + "] is invalid";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -275,7 +275,7 @@ namespace Isis {
       return filenames;
     }
     else {
-      QString msg = "Requested observation number [" + on + "] ";
+      std::string msg = "Requested observation number [" + on + "] ";
       msg += "does not exist in the list";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

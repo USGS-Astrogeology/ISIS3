@@ -31,7 +31,7 @@ namespace Isis {
     m_rangeObserved       = m_lidarControlPoint->range();
 
     if (m_rangeObserved <= 0) {
-      QString msg ="In BundleLidarRangeConstraint::BundleLidarRangeConstraint():"
+      std::string msg ="In BundleLidarRangeConstraint::BundleLidarRangeConstraint():"
                    "observed range for lidar point must be positive (Point Id: "
                    + measure->parentControlPoint()->id() + ")\n.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -40,7 +40,7 @@ namespace Isis {
     m_rangeObservedSigma = m_lidarControlPoint->sigmaRange() * 0.001; // converting from m to km
 
     if (m_rangeObservedSigma <= 0) {
-      QString msg ="In BundleLidarRangeConstraint::BundleLidarRangeConstraint():"
+      std::string msg ="In BundleLidarRangeConstraint::BundleLidarRangeConstraint():"
                    "observed range sigma for lidar point must be positive (Point Id: "
                    + measure->parentControlPoint()->id() + ")\n.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -52,7 +52,7 @@ namespace Isis {
 
     // Check that the simultaneous image has an ISIS camera
     if (m_simultaneousMeasure->camera()->GetCameraType() == Camera::Csm) {
-      QString msg = "Cannot apply a Lidar range constraint to a CSM camera model"
+      std::string msg = "Cannot apply a Lidar range constraint to a CSM camera model"
                     "(Point Id: "
                     + measure->parentControlPoint()->id() + ", Measure Serial:"
                     + measure->cubeSerialNumber() + ").\n";
@@ -159,7 +159,7 @@ namespace Isis {
     m_rangeComputed = sqrt(m_dX*m_dX+m_dY*m_dY+m_dZ*m_dZ);
 
     if (m_rangeComputed <= 0.0) {
-      QString msg = "In BundleLidarRangeConstraint::computeRange(): "
+      std::string msg = "In BundleLidarRangeConstraint::computeRange(): "
           "m_rangeComputed must be positive\n";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -207,7 +207,7 @@ namespace Isis {
     // resize coeff_range_image matrix if necessary
     IsisBundleObservationQsp isisObservation = m_bundleObservation.dynamicCast<IsisBundleObservation>();
     if (!isisObservation) {
-      QString msg = "Failed to cast BundleObservation to IsisBundleObservation when applying "
+      std::string msg = "Failed to cast BundleObservation to IsisBundleObservation when applying "
                     "lidar constraint (Point Id: "
                     + m_simultaneousMeasure->parentControlPoint()->id() + ", Measure Serial:"
                     + m_simultaneousMeasure->cubeSerialNumber() + ").\n";
@@ -420,8 +420,8 @@ namespace Isis {
 
     QString outstr;
 
-    FileName imageFileName = m_simultaneousMeasure->parentBundleObservation()->imageNames().at(0);
-    QString imageName = imageFileName.baseName();
+    FileName imageFileName = m_simultaneousMeasure->parentBundleObservation()->imageNames().at(0).toStdString();
+    QString imageName = QString::fromStdString(imageFileName.baseName());
 
     //                     measured   apriori   adjusted    adjusted
     //                      range      sigma     range       sigma     residual

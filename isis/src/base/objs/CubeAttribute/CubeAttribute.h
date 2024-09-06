@@ -54,7 +54,7 @@ namespace Isis {
     if(labelType == DetachedLabel) return "Detached";
     if(labelType == ExternalLabel) return "External";
 
-    QString msg = "Invalid label attachment type [" + QString::number(labelType) + "]";
+    std::string msg = "Invalid label attachment type [" + std::to_string(labelType) + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
@@ -73,7 +73,7 @@ namespace Isis {
     if(temp == "DETACHED") return DetachedLabel;
     if(temp == "External") return ExternalLabel;
 
-    QString msg = "Invalid label attachment type string [" + labelType + "]";
+    std::string msg = "Invalid label attachment type string [" + labelType.toStdString() + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
 
@@ -192,8 +192,7 @@ namespace Isis {
         foreach (tester, m_attributeTypeTesters) {
           if ( (static_cast<const ChildClass *>(this)->*tester)(upcaseAtt) ) {
             if (legal) {
-              throw IException(IException::Unknown,
-                               QObject::tr("Attribute [%1] is ambiguous").arg(attribute),
+              throw IException(IException::Unknown,"Attribute [" + attribute.toStdString() + "] is ambiguous",
                                _FILEINFO_);
             }
 
@@ -202,8 +201,7 @@ namespace Isis {
         }
 
         if (!legal) {
-          throw IException(IException::Unknown,
-                           QObject::tr("Attribute [%1] is not recognized").arg(attribute),
+          throw IException(IException::Unknown, "Attribute [" + attribute.toStdString() + "] is not recognized",
                            _FILEINFO_);
         }
 

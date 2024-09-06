@@ -57,12 +57,12 @@ void IsisMain ()
   QString missid;
 
   try {
-    Pvl lab(inFile.expanded().toStdString());
+    Pvl lab(inFile.expanded());
     instid = QString::fromStdString(lab.findKeyword ("CHANNEL_ID"));
     missid = QString::fromStdString(lab.findKeyword ("INSTRUMENT_HOST_ID"));
   }
   catch (IException &e) {
-    QString msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
+    std::string msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
                  inFile.expanded() + "]";
     throw IException(e, IException::Io,msg, _FILEINFO_);
   }
@@ -70,7 +70,7 @@ void IsisMain ()
   instid = instid.simplified().trimmed();
   missid = missid.simplified().trimmed();
   if (missid != "DAWN" && instid != "VIS" && instid != "IR") {
-    QString msg = "Input file [" + inFile.expanded() + "] does not appear to be a " +
+    std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be a " +
                  "DAWN Visual and InfraRed Mapping Spectrometer (VIR) EDR or RDR file.";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
@@ -87,7 +87,7 @@ void IsisMain ()
   Cube *outcube = p.SetOutputCube ("TO");
 //  p.SaveFileHeader();
 
-  Pvl labelPvl (inFile.expanded().toStdString());
+  Pvl labelPvl (inFile.expanded());
 
   p.StartProcess ();
 
@@ -130,7 +130,7 @@ void IsisMain ()
   } else if (instid == "IR") {
     kerns += PvlKeyword("NaifFrameCode","-203213");
   } else {
-    QString msg = "Input file [" + inFile.expanded() + "] has an invalid " +
+    std::string msg = "Input file [" + inFile.expanded() + "] has an invalid " +
                  "InstrumentId.";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
@@ -149,7 +149,7 @@ void IsisMain ()
    outcube->write(hktab);
  }
  catch (IException &e) {
-   QString mess = "Cannot read/open housekeeping data";
+   std::string mess = "Cannot read/open housekeeping data";
    throw IException(e, IException::User, mess, _FILEINFO_);
  }
 

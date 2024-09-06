@@ -48,7 +48,7 @@ namespace Isis {
     }
 
     m_displayProperties
-        = new ControlDisplayProperties(FileName(m_fileName).name(), this);
+        = new ControlDisplayProperties(QString::fromStdString(FileName(m_fileName.toStdString()).name()), this);
 
     m_id = new QUuid(QUuid::createUuid());
   }
@@ -70,7 +70,7 @@ namespace Isis {
     m_modified = false;
 
     m_displayProperties
-        = new ControlDisplayProperties(FileName(m_fileName).name(), this);
+        = new ControlDisplayProperties(QString::fromStdString(FileName(m_fileName.toStdString()).name()), this);
 
     m_id = new QUuid(QUuid::createUuid());
   }
@@ -94,7 +94,7 @@ namespace Isis {
     m_modified = false;
 
     m_displayProperties
-        = new ControlDisplayProperties(FileName(m_fileName).name(), this);
+        = new ControlDisplayProperties(QString::fromStdString(FileName(m_fileName.toStdString()).name()), this);
 
     m_id = new QUuid(QUuid::createUuid());
   }
@@ -273,10 +273,10 @@ namespace Isis {
    */
   void Control::copyToNewProjectRoot(const Project *project, FileName newProjectRoot) {
 
-    if (FileName(newProjectRoot).toString() != FileName(project->projectRoot()).toString()) {
+    if (FileName(newProjectRoot).toString() != FileName(project->projectRoot().toStdString()).toString()) {
 
-      QString newNetworkPath =  project->cnetRoot(newProjectRoot.toString()) + "/" +
-                  FileName(m_fileName).dir().dirName() + "/" + FileName(m_fileName).name();
+      QString newNetworkPath =  project->cnetRoot(QString::fromStdString(newProjectRoot.toString())) + "/" +
+                  QString::fromStdString(FileName(m_fileName.toStdString()).dir().filename().string()) + "/" + QString::fromStdString(FileName(m_fileName.toStdString()).name());
 
       // If there is active control & it has been modified, write to disk instead of copying
       //  Leave control net at old location in unmodified state
@@ -286,7 +286,7 @@ namespace Isis {
       }
       else {
         QString oldNetworkPath = project->cnetRoot(project->projectRoot()) + "/" +
-                    FileName(m_fileName).dir().dirName() + "/" + FileName(m_fileName).name();
+                    QString::fromStdString(FileName(m_fileName.toStdString()).dir().filename().string()) + "/" + QString::fromStdString(FileName(m_fileName.toStdString()).name());
         if (!QFile::copy(oldNetworkPath,newNetworkPath) ) {
           throw IException(IException::Io, "Error saving control net.", _FILEINFO_);
         }
@@ -321,7 +321,7 @@ namespace Isis {
 
     // If we're the last thing in the folder, remove the folder too.
     QDir dir;
-    dir.rmdir(FileName(m_fileName).path());
+    dir.rmdir(QString::fromStdString(FileName(m_fileName.toStdString()).path()));
     m_modified = false;
   }
 
@@ -335,10 +335,10 @@ namespace Isis {
   void Control::updateFileName(Project *project) {
     closeControlNet();
 
-    FileName original(m_fileName);
-    FileName newName(project->cnetRoot() + "/" +
-                     original.dir().dirName() + "/" + original.name());
-    m_fileName = newName.expanded();
+    FileName original(m_fileName.toStdString());
+    FileName newName(project->cnetRoot().toStdString() + "/" +
+                     original.dir().filename().string() + "/" + original.name());
+    m_fileName = QString::fromStdString(newName.expanded());
   }
 
 
@@ -355,7 +355,7 @@ namespace Isis {
     stream.writeStartElement("controlNet");
     stream.writeAttribute("id", m_id->toString());
     //  Change filename to new path
-    stream.writeAttribute("fileName", FileName(m_fileName).name());
+    stream.writeAttribute("fileName", QString::fromStdString(FileName(m_fileName.toStdString()).name()));
 
     m_displayProperties->save(stream, project, newProjectRoot);
 

@@ -151,7 +151,7 @@ void IsisMain() {
     g_texp = inst["ExposureDuration"] ;
   }
   catch(IException &e) {
-    QString msg = "Unable to read [ExposureDuration] keyword in the Instrument group "
+    std::string msg = "Unable to read [ExposureDuration] keyword in the Instrument group "
     "from input file [" + icube->fileName() + "]";
     throw IException(e, IException::Io,msg, _FILEINFO_);
   }
@@ -163,7 +163,7 @@ void IsisMain() {
     g_temp = inst[oncCCDTemperature.toStdString()];
   }
   catch(IException &e) {
-    QString msg = "Unable to read [" + oncCCDTemperature + "] keyword in the Instrument group "
+    std::string msg = "Unable to read [" + oncCCDTemperature + "] keyword in the Instrument group "
     "from input file [" + icube->fileName() + "]";
     throw IException(e, IException::Io,msg, _FILEINFO_);
 
@@ -360,7 +360,7 @@ QString loadCalibrationVariables(const QString &config)  {
   if ( config.contains("?") ) calibFile = calibFile.highestVersion();
 
   // Pvl configFile;
-  g_configFile.read(calibFile.expanded().toStdString());
+  g_configFile.read(calibFile.expanded());
 
   // Load the groups
   PvlGroup &Bias = g_configFile.findGroup("Bias");

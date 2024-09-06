@@ -175,7 +175,7 @@ namespace Isis {
  *                                 to set algorithm parameters."
  */
   int BRISKAlgorithm::setAlgorithmVariables(const PvlFlatMap &variables) {
-    QString msg = "BRISKAlgorithm does not have the ability to set algorithm parameters.";
+    std::string msg = "BRISKAlgorithm does not have the ability to set algorithm parameters.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
 
     return (-1);

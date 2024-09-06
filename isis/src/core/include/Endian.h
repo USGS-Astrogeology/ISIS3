@@ -7,7 +7,7 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include <QString>
+#include "IString.h"
 
 namespace Isis {
   /**
@@ -45,15 +45,15 @@ namespace Isis {
     Msb
   };
 
-  inline QString ByteOrderName(Isis::ByteOrder byteOrder) {
+  inline std::string ByteOrderName(Isis::ByteOrder byteOrder) {
     if(byteOrder == Isis::NoByteOrder) return "None";
     if(byteOrder == Isis::Lsb) return "Lsb";
     if(byteOrder == Isis::Msb) return "Msb";
     return "Error";
   }
 
-  inline Isis::ByteOrder ByteOrderEnumeration(const QString &order) {
-    QString temp = order.toUpper();
+  inline Isis::ByteOrder ByteOrderEnumeration(const std::string &order) {
+    std::string temp = IString::UpCase(order);
     if(temp == "LSB") return Isis::Lsb;
     if(temp == "MSB") return Isis::Msb;
     return Isis::NoByteOrder;

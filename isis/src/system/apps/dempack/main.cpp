@@ -42,7 +42,7 @@ void IsisMain() {
     dbFileName = FileName(demFile).highestVersion();
   }
 
-  Pvl dems(dbFileName.expanded().toStdString());
+  Pvl dems(dbFileName.expanded());
   PvlObject &demObject = dems.findObject("Dem");
 
   QMap< QString, QList<QString> > demMap;

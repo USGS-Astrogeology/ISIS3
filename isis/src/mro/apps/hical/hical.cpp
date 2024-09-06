@@ -192,7 +192,7 @@ namespace Isis {
         if ( !SkipModule(hiprof) ) {
           // Make sure we aren't applying ZeroDark and ZeroDarkRate
           if ( !SkipModule(hiconf.getMatrixProfile("ZeroDark")) ){
-            QString mess = "You have enabled both the ZeroDark and the ZeroDarkRate modules."
+            std::string mess = "You have enabled both the ZeroDark and the ZeroDarkRate modules."
                            "This means you are attempting to remove the dark current twice with "
                            "two different algorithms. This is not approved use of hical. "
                            "Please disable one or the other module using the Debug::SkipModule "
@@ -462,7 +462,7 @@ namespace Isis {
         QString hdumpFile = hdump.expanded();
         ofstream ofile(hdumpFile.toLatin1().data(), ios::out);
         if (!ofile) {
-          QString mess = "Unable to open/create history dump file " +
+          std::string mess = "Unable to open/create history dump file " +
                         hdump.expanded();
           IException(IException::User, mess, _FILEINFO_).print();
         }
@@ -543,7 +543,7 @@ namespace Isis {
     catch (IException &ie) {
       delete calVars;
       calVars = 0;
-      QString mess = "Failed in " + procStep;
+      std::string mess = "Failed in " + procStep;
       throw IException(ie, IException::User, mess.toLatin1().data(), _FILEINFO_);
     }
 

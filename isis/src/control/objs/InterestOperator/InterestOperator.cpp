@@ -166,7 +166,7 @@ namespace Isis {
     if (!pUnivGrndMap.HasCamera())
       // Level 3 images/mosaic or bad image
     {
-      QString msg = "Cannot run interest on images with no camera. Image " +
+      std::string msg = "Cannot run interest on images with no camera. Image " +
                         pCube.fileName() + " has no Camera";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -436,7 +436,7 @@ namespace Isis {
             bestCamera = bestCube->camera();
           }
           catch (IException &e) {
-            QString msg = "Cannot Create Camera for Image:" + mSerialNumbers.fileName(sn);
+            std::string msg = "Cannot Create Camera for Image:" + mSerialNumbers.fileName(sn);
             throw IException(IException::User, msg, _FILEINFO_);
           }
 
@@ -481,7 +481,7 @@ namespace Isis {
               measureCamera = measureCube->camera();
             }
             catch (IException &e) {
-              QString msg = "Cannot Create Camera for Image:" + mSerialNumbers.fileName(sn);
+              std::string msg = "Cannot Create Camera for Image:" + mSerialNumbers.fileName(sn);
               throw IException(e, IException::User, msg, _FILEINFO_);
             }
 
@@ -661,7 +661,7 @@ namespace Isis {
     if (mbOverlaps) {
       overlapPoly = FindOverlap(pCnetPoint);
       if (overlapPoly == NULL) {
-        QString msg = "Unable to find overlap polygon for point [" +
+        std::string msg = "Unable to find overlap polygon for point [" +
                       pCnetPoint.GetId() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -804,7 +804,7 @@ namespace Isis {
         camera = pCube.camera();
       }
       catch (IException &e) {
-        QString msg = "Cannot Create Camera for Image:" + mSerialNumbers.fileName(serialNum);
+        std::string msg = "Cannot Create Camera for Image:" + mSerialNumbers.fileName(serialNum);
         throw IException(IException::User, msg, _FILEINFO_);
       }
 

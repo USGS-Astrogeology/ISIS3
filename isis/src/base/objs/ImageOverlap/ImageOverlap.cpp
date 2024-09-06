@@ -6,6 +6,7 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <iostream>
 #include <sstream>
+#include <QStringList>
 
 #include "geos/io/WKBReader.h"
 #include "geos/io/WKBWriter.h"
@@ -140,7 +141,7 @@ namespace Isis {
 
     serialNums += "\n";
 
-    outputStream << serialNums;
+    outputStream << serialNums.toStdString();
 
     geosWriter.writeHEX(*p_polygon, outputStream);
   }
@@ -156,8 +157,8 @@ namespace Isis {
   void ImageOverlap::Add(QString &sn) {
     for(unsigned int s = 0; s < p_serialNumbers.size(); ++s) {
       if(sn == p_serialNumbers[s]) {
-        QString msg = "Duplicate SN added to [" +
-            QString::fromStdString(p_polygon->toString()) + "]";
+        std::string msg = "Duplicate SN added to [" +
+            p_polygon->toString() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }

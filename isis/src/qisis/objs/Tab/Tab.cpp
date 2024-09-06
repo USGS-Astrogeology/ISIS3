@@ -83,7 +83,7 @@ namespace Isis
   {
     if (associatedWidget == NULL)
     {
-      QString msg = "Tab::setSelected called but can't show or hide the "
+      std::string msg = "Tab::setSelected called but can't show or hide the "
           "associatedWidget because it is NULL!";
       throw IException(IException::Programmer, msg,
           _FILEINFO_);

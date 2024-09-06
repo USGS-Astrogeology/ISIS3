@@ -54,44 +54,6 @@ namespace Isis {
    *
    * @code
    *   throw IException(IException::Unknown,
-   *                    tr("While doing an important process, we could not do ... "
-   *                       "because the data [%1] is invalid").arg(...),
-   *                    _FILEINFO_);
-   * @endcode
-   *
-   * @param type the source of the error that this exception represents
-   * @param message the string message containing details about the error, which
-   *          may be displayed to the user
-   * @param fileName the filename of the file that this exception was thrown in
-   * @param lineNumber the line in the source code file that threw this
-   *          exception
-   */
-  IException::IException(ErrorType type, const QString &message,
-                         const char *fileName, int lineNumber) {
-    m_what = NULL;
-    m_message = NULL;
-    m_fileName = NULL;
-    m_previousExceptions = NULL;
-
-    m_errorType = type;
-    m_message = new std::string(message.trimmed().toStdString());
-    m_fileName = new std::string(fileName);
-    m_lineNumber = lineNumber;
-
-    deleteEmptyMemberStrings();
-
-    m_what = buildWhat();
-  }
-
-
-  /**
-   * This version of the constructor creates an IException instance with the
-   * given error type, message, and file info. The IException instance will not
-   * have any previous exceptions associated with it initially (i.e. no
-   * exception caused this one to be thrown).
-   *
-   * @code
-   *   throw IException(IException::Unknown,
    *                    "While doing an important process, we could not do ... "
    *                    "because the data [" ... "] is invalid",
    *                    _FILEINFO_);
@@ -126,8 +88,7 @@ namespace Isis {
    * This version of the constructor creates an IException instance with the
    * given error type, message, and file info. The IException instance will not
    * have any previous exceptions associated with it initially (i.e. no
-   * exception caused this one to be thrown). The QString version of
-   * this constructor is preferred over this one.
+   * exception caused this one to be thrown). 
    *
    * @code
    *   std::string message = "While doing an important process, we could not do .. "
@@ -215,8 +176,7 @@ namespace Isis {
    * the given exception to its list of previous exceptions (as well as any
    * previous exceptions associated with the caught exception). Use this
    * constructor when you want to rethrow a new exception after catching an
-   * exception and preserve the previous message(s). The QString version of
-   * this constructor is preferred over this one.
+   * exception and preserve the previous message(s).
    *
    * @code
    *   try {
@@ -248,53 +208,6 @@ namespace Isis {
 
     m_errorType = type;
     m_message = new std::string(IString(message).Trim("\t\n\v\f\r "));
-    m_fileName = new std::string(fileName);
-    m_lineNumber = lineNumber;
-
-    deleteEmptyMemberStrings();
-
-    append(caughtException);
-  }
-
-
-  /**
-   * This version of the constructor creates an IException instance with the
-   * given error type, message, file info. The IException instance will append
-   * the given exception to its list of previous exceptions (as well as any
-   * previous exceptions associated with the caught exception). Use this
-   * constructor when you want to rethrow a new exception after catching an
-   * exception and preserve the previous message(s).
-   *
-   * @code
-   *   try {
-   *     ...
-   *   }
-   *   catch (IException &e) {
-   *     QString message = "While doing an important process, we could not do "
-   *                       "... ";
-   *     throw IException(e, IException::Unknown, message, _FILEINFO_);
-   *   }
-   * @endcode
-   *
-   * @param caughtException the previous exception that caused this exception to
-   *          be thrown
-   * @param type the source of the error that this exception represents
-   * @param message the string message containing details about the error, which
-   *          may be displayed to the user
-   * @param fileName the filename of the file that this exception was thrown in
-   * @param lineNumber the line in the source code file that threw this
-   *          exception
-   */
-  IException::IException(const IException &caughtException,
-      ErrorType type, const QString &message,
-      const char *fileName, int lineNumber) {
-    m_what = NULL;
-    m_message = NULL;
-    m_fileName = NULL;
-    m_previousExceptions = NULL;
-
-    m_errorType = type;
-    m_message = new std::string(message.trimmed().toStdString());
     m_fileName = new std::string(fileName);
     m_lineNumber = lineNumber;
 
@@ -674,7 +587,7 @@ namespace Isis {
    *     if the string reads "USER ERROR", will return type User.
    */
   IException::ErrorType IException::stringToErrorType(
-      const QString &string) {
+      const std::string &string) {
     ErrorType result = Unknown;
 
     if(string == "USER ERROR")

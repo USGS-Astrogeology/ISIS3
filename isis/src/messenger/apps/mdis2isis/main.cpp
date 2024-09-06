@@ -78,7 +78,7 @@ void IsisMain() {
   FileName inFile = ui.GetFileName("FROM");
   IString id;
   bool projected;
-  Pvl lab(inFile.expanded().toStdString());
+  Pvl lab(inFile.expanded());
 
   try {
     needsUnlut = (int) lab.findKeyword("MESS:COMP12_8");
@@ -88,14 +88,14 @@ void IsisMain() {
     projected = lab.hasObject("IMAGE_MAP_PROJECTION");
   }
   catch(IException &e) {
-    QString msg = "Unable to read [MISSION] from input file [" +
+    std::string msg = "Unable to read [MISSION] from input file [" +
                   inFile.expanded() + "]";
     throw IException(e, IException::Io, msg, _FILEINFO_);
   }
 
   //Checks if in file is rdr
   if(projected) {
-    QString msg = "[" + inFile.name() + "] appears to be an rdr file.";
+    std::string msg = "[" + inFile.name() + "] appears to be an rdr file.";
     msg += " Use pds2isis.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -104,7 +104,7 @@ void IsisMain() {
   id.Compress();
   id.Trim(" ");
   if(id != "MESSENGER") {
-    QString msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
+    std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
                  "in MESSENGER EDR format. MISSION_NAME is [" + id.ToQt() + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
@@ -176,7 +176,7 @@ void IsisMain() {
 
     p.StartProcess(UnlutData);
 
-    OriginalLabel ol(Pvl(inFile.expanded().toStdString()));
+    OriginalLabel ol(Pvl(inFile.expanded()));
     outCube->write(ol);
     outCube->close();
     delete outCube;
@@ -193,7 +193,7 @@ Pvl TranslateMdisEdrLabels(FileName &labelFile, const QString &target) {
   QString transDir = "$ISISROOT/appdata/translations/";
 
   // Get a filename for the MESSENGER EDR label
-  Pvl labelPvl(labelFile.expanded().toStdString());
+  Pvl labelPvl(labelFile.expanded());
 
   // Translate the Instrument group
   FileName transFile(transDir + "MessengerMdisInstrument.trn");
@@ -297,7 +297,7 @@ int CreateFilterSpecs(const QString &instId, int filter_code,
     //  Set up WAC calibration file
     FileName calibFile("$messenger/calibration/mdisCalibration????.trn");
     calibFile = calibFile.highestVersion();
-    Pvl config(calibFile.expanded().toStdString());
+    Pvl config(calibFile.expanded());
 
     PvlGroup &confgrp = config.findGroup("FilterWheel");
     int tolerance = confgrp["EncoderTolerance"];
@@ -318,7 +318,7 @@ int CreateFilterSpecs(const QString &instId, int filter_code,
   }
   else {
     //  Not the expected instrument
-    QString msg = "Unknown InstrumentId [" + instId + "], image does not " +
+    std::string msg = "Unknown InstrumentId [" + instId + "], image does not " +
                  "appear to be from the MESSENGER/MDIS Camera";
     throw IException(IException::Io, msg, _FILEINFO_);
   }

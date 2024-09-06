@@ -222,14 +222,14 @@ namespace Isis {
       }
     }
 
-    Isis::CubeAttributeOutput catt(att);
+    Isis::CubeAttributeOutput catt(att.toStdString());
     QString s = catt.toString();
     return s;
   }
 
   // Set the attributes in the dialog
   void GuiOutputAttribute::SetAttributes(const QString &value) {
-    Isis::CubeAttributeOutput att(value);
+    Isis::CubeAttributeOutput att(value.toStdString());
     if(att.fileFormat() == Cube::Tile) {
       p_tiled->setChecked(true);
     }

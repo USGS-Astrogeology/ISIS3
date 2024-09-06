@@ -41,7 +41,7 @@ namespace Isis {
     double GoodnessOfFit = 1.0;
 
     void apollofindrx(UserInterface &ui) {
-        Cube *cube = new Cube(ui.GetCubeName("FROM"), "rw");
+        Cube *cube = new Cube(ui.GetCubeName("FROM").toStdString(), "rw");
         apollofindrx(cube, ui);
     }
 

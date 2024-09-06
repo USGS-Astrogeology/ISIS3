@@ -153,7 +153,7 @@ namespace Isis {
           m_surfacePointSource = ControlPoint::SurfacePointSource::None;
           m_radiusSource = ControlPoint::RadiusSource::None;
           m_shapeType = Unknown;
-          QString message = "Cannot create either Camera or Projections "
+          std::string message = "Cannot create either Camera or Projections "
             "for the ground source file [" + displayProperties()->displayName() + "].  "
             "Check the validity of the  cube labels.  The cube must either be projected or "
             " run through spiceinit.";
@@ -174,7 +174,7 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      QString message = "Cannot initialize the camera, map or dem statistics for this shape file [" +
+      std::string message = "Cannot initialize the camera, map or dem statistics for this shape file [" +
           displayProperties()->displayName() + "]. Check the validity of the  cube labels.  The "
           "cube must either be projected or run through spiceinit. \n";
       message += e.toString();

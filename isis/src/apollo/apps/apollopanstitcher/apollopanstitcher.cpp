@@ -167,7 +167,7 @@ namespace Isis {
     //parameters for maximum correlation autoregestration
     // see: ///usgs/pkgs/isis3nightly2011-09-21/isis/doc/documents/patternSMatch/patternSMatch.html#DistanceTolerance
     FileName fiducialPvl("$ISISROOT/appdata/templates/apollo/PanFiducialFinder.def");
-    pvl.read(fiducialPvl.expanded().toStdString());  //read in the autoreg parameters
+    pvl.read(fiducialPvl.expanded());  //read in the autoreg parameters
     AutoReg *arS = AutoRegFactory::Create(pvl);
 
     *arS->PatternChip() = patternS;  //patternS chip is constant
@@ -232,7 +232,7 @@ namespace Isis {
         }
       }
       if (s >= averageLines + searchCellSize / 2.0) {
-         QString msg = "Unable to locate a fiducial mark in the input cube [" + panC[i]->fileName()
+         std::string msg = "Unable to locate a fiducial mark in the input cube [" + panC[i]->fileName()
                         + "].  Check FROM and MICRONS parameters.";
          throw IException(IException::Io, msg, _FILEINFO_);
          return;

@@ -165,14 +165,14 @@ namespace Isis {
     SpiceInt                   handle;   //!< The DAS file handle of the DSK file.
 
     // Sanity check
-    FileName dskFile(dskfile);
+    FileName dskFile(dskfile.toStdString());
     if ( !dskFile.fileExists() ) {
-      QString mess = "NAIF DSK file [" + dskfile + "] does not exist.";
+      std::string mess = "NAIF DSK file [" + dskfile.toStdString() + "] does not exist.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
     // Open the NAIF Digital Shape Kernel (DSK)
-    dasopr_c( dskFile.expanded().toLatin1().data(), &handle );
+    dasopr_c( dskFile.expanded().c_str(), &handle );
     NaifStatus::CheckErrors();
 
     // Search to the first DLA segment
@@ -181,7 +181,7 @@ namespace Isis {
     dlabfs_c( handle, &segment, &found );
     NaifStatus::CheckErrors();
     if ( !found ) {
-      QString mess = "No segments found in DSK file " + dskfile ;
+      std::string mess = "No segments found in DSK file " + dskfile.toStdString() ;
       throw IException(IException::User, mess, _FILEINFO_);
     }
 

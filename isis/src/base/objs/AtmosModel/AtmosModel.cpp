@@ -554,7 +554,7 @@ namespace Isis {
       p_atmosMunot = cos((PI / 180.0) * p_atmosInc);
       p_atmosSini = sin((PI / 180.0) * p_atmosInc);
 
-      IString phtName = p_atmosPM->AlgorithmName();
+      IString phtName = p_atmosPM->AlgorithmName().toStdString();
       phtName.UpCase();
       if(p_atmosInc == 90.0) {
         p_atmosAhTable[inccnt] = 0.0;
@@ -967,7 +967,7 @@ namespace Isis {
    */
   void AtmosModel::SetAtmosHnorm(const double hnorm) {
     if(hnorm < 0.0) {
-      QString msg = "Invalid value of Atmospheric hnorm [" + toString(hnorm) + "]";
+      std::string msg = "Invalid value of Atmospheric hnorm [" + toString(hnorm) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     p_atmosHnorm = hnorm;

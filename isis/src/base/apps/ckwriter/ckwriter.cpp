@@ -17,10 +17,10 @@ namespace Isis {
 
     // Get the list of names of input CCD cubes to stitch together
     FileList flist;
-    if (ui.WasEntered("FROM")) flist.push_back(FileName(ui.GetCubeName("FROM")));
-    if (ui.WasEntered("FROMLIST")) flist.read(FileName(ui.GetFileName("FROMLIST")));
+    if (ui.WasEntered("FROM")) flist.push_back(FileName(ui.GetCubeName("FROM").toStdString()));
+    if (ui.WasEntered("FROMLIST")) flist.read(FileName(ui.GetFileName("FROMLIST").toStdString()));
     if (flist.size() < 1) {
-      QString msg = "Files must be specified in FROM and/or FROMLIST - none found!";
+      std::string msg = "Files must be specified in FROM and/or FROMLIST - none found!";
       throw IException(IException::User,msg,_FILEINFO_);
     }
 
@@ -33,7 +33,7 @@ namespace Isis {
 
     for (int i = 0 ; i < flist.size() ; i++) {
       // Add and process each image
-      kernel.add(flist[i].toString());
+      kernel.add(QString::fromStdString(flist[i].toString()));
       prog.CheckStatus();
     }
 
@@ -68,11 +68,11 @@ namespace Isis {
 
     // Write a summary of the documentation
     if (ui.WasEntered("SUMMARY")) {
-      QString fFile = FileName(ui.GetFileName("SUMMARY")).expanded();
+      QString fFile = QString::fromStdString(FileName(ui.GetFileName("SUMMARY").toStdString()).expanded());
       ofstream os;
       os.open(fFile.toLatin1().data(),ios::out);
       if (!os) {
-        QString mess = "Cannot create SUMMARY output file " + fFile;
+        std::string mess = "Cannot create SUMMARY output file " + fFile;
         throw IException(IException::User, mess, _FILEINFO_);
       }
       os << kernel.getSummary(comfile);

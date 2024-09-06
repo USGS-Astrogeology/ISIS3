@@ -580,7 +580,7 @@ namespace Isis {
   void BundleTargetBody::applyParameterCorrections(
       LinearAlgebra::Vector corrections) {
     if (corrections.size() != m_parameterSolveCodes.size()) {
-      QString msg = "In BundleTargetBody::applyParameterCorrections: "
+      std::string msg = "In BundleTargetBody::applyParameterCorrections: "
                     "correction and m_targetParameter vectors sizes don't match.\n";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -663,7 +663,7 @@ namespace Isis {
     } // end try
 
     catch (IException &e) {
-      QString msg = "Unable to apply parameter corrections to BundleTargetBody.";
+      std::string msg = "Unable to apply parameter corrections to BundleTargetBody.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -905,7 +905,7 @@ namespace Isis {
    */
   std::vector<Distance> BundleTargetBody::radii() {
     if (!solveTriaxialRadii()) {
-      QString msg = "The triaxial radii can only be accessed when solving for triaxial radii.";
+      std::string msg = "The triaxial radii can only be accessed when solving for triaxial radii.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return m_radii;
@@ -922,7 +922,7 @@ namespace Isis {
    */
   Distance BundleTargetBody::meanRadius() {
     if (!solveMeanRadius()) {
-      QString msg = "The mean radius can only be accessed when solving for mean radius.";
+      std::string msg = "The mean radius can only be accessed when solving for mean radius.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     return m_meanRadius;
@@ -1196,7 +1196,7 @@ namespace Isis {
           str = QString::fromStdString(g->findKeyword("Ra")[0]);
         }
         catch (IException &e) {
-          QString msg = "Ra must be given as none, position, velocity, or acceleration";
+          std::string msg = "Ra must be given as none, position, velocity, or acceleration";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (str == "position") {
@@ -1218,7 +1218,7 @@ namespace Isis {
           str = QString::fromStdString(g->findKeyword("Dec")[0]);
         }
         catch (IException &e) {
-          QString msg = "Dec must be given as none, position, velocity, or acceleration";
+          std::string msg = "Dec must be given as none, position, velocity, or acceleration";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (str == "position") {
@@ -1240,7 +1240,7 @@ namespace Isis {
           str = QString::fromStdString(g->findKeyword("Pm")[0]);
         }
         catch (IException &e) {
-          QString msg = "Pm must be given as none, position, velocity, or acceleration";
+          std::string msg = "Pm must be given as none, position, velocity, or acceleration";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (str == "position") {
@@ -1262,7 +1262,7 @@ namespace Isis {
           str = QString::fromStdString(g->findKeyword("RadiiSolveOption")[0]);
         }
         catch (IException &e) {
-          QString msg = "RadiiSolveOption must be given as none, triaxial, or mean";
+          std::string msg = "RadiiSolveOption must be given as none, triaxial, or mean";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (str == "triaxial") {
@@ -1315,7 +1315,7 @@ namespace Isis {
           d = (double)(g->findKeyword("RaValue"));
         }
         catch (IException &e) {
-          QString msg = "RaValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         aprioriPoleRA = Angle(d, Angle::Degrees);
@@ -1326,7 +1326,7 @@ namespace Isis {
           d = (double)(g->findKeyword("RaSigma"));
         }
         catch (IException &e) {
-          QString msg = "RaSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         poleRASigma = Angle(d, Angle::Degrees);
@@ -1337,7 +1337,7 @@ namespace Isis {
           d = (double)(g->findKeyword("RaVelocityValue"));
         }
         catch (IException &e) {
-          QString msg = "RaVelocityValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaVelocityValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         aprioriVelocityPoleRA = Angle(d, Angle::Degrees);
@@ -1348,7 +1348,7 @@ namespace Isis {
           d = (double)(g->findKeyword("RaVelocitySigma"));
         }
         catch (IException &e) {
-          QString msg = "RaVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         poleRAVelocitySigma = Angle(d, Angle::Degrees);
@@ -1359,7 +1359,7 @@ namespace Isis {
           d = (double)(g->findKeyword("RaAccelerationValue"));
         }
         catch (IException &e) {
-          QString msg = "RaAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         aprioriAccelerationPoleRA = Angle(d, Angle::Degrees);
@@ -1370,7 +1370,7 @@ namespace Isis {
           d = (double)(g->findKeyword("RaAccelerationSigma"));
         }
         catch (IException &e) {
-          QString msg = "RaAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         poleRAAccelerationSigma = Angle(d, Angle::Degrees);
@@ -1381,7 +1381,7 @@ namespace Isis {
           d = (double)(g->findKeyword("DecValue"));
         }
         catch (IException &e) {
-          QString msg = "DecValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         aprioriPoleDec = Angle(d, Angle::Degrees);
@@ -1392,7 +1392,7 @@ namespace Isis {
           d = (double)(g->findKeyword("DecSigma"));
         }
         catch (IException &e) {
-          QString msg = "DecSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         poleDecSigma = Angle(d, Angle::Degrees);
@@ -1403,7 +1403,7 @@ namespace Isis {
           d = (double)(g->findKeyword("DecVelocityValue"));
         }
         catch (IException &e) {
-          QString msg = "DecVelocityValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecVelocityValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         aprioriVelocityPoleDec = Angle(d, Angle::Degrees);
@@ -1414,7 +1414,7 @@ namespace Isis {
           d = (double)(g->findKeyword("DecVelocitySigma"));
         }
         catch (IException &e) {
-          QString msg = "DecVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         sigmaVelocityPoleDec = Angle(d, Angle::Degrees);
@@ -1425,7 +1425,7 @@ namespace Isis {
           d = (double)(g->findKeyword("DecAccelerationValue"));
         }
         catch (IException &e) {
-          QString msg = "DecAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         aprioriAccelerationPoleDec = Angle(d, Angle::Degrees);
@@ -1436,7 +1436,7 @@ namespace Isis {
           d = (double)(g->findKeyword("DecAccelerationSigma"));
         }
         catch (IException &e) {
-          QString msg = "DecAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         sigmaAccelerationPoleDec = Angle(d, Angle::Degrees);
@@ -1447,7 +1447,7 @@ namespace Isis {
           d = (double)(g->findKeyword("PmValue"));
         }
         catch (IException &e) {
-          QString msg = "PmValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         aprioriPM = Angle(d, Angle::Degrees);
@@ -1458,7 +1458,7 @@ namespace Isis {
           d = (double)(g->findKeyword("PmSigma"));
         }
         catch (IException &e) {
-          QString msg = "PmSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         sigmaPM = Angle(d, Angle::Degrees);
@@ -1470,7 +1470,7 @@ namespace Isis {
           d = (double)(g->findKeyword("PmVelocityValue"));
         }
         catch (IException &e) {
-          QString msg = "PmVelocityValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmVelocityValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         aprioriVelocityPM = Angle(d, Angle::Degrees);
@@ -1481,7 +1481,7 @@ namespace Isis {
           d = (double)(g->findKeyword("PmVelocitySigma"));
         }
         catch (IException &e) {
-          QString msg = "PmVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         sigmaVelocityPM = Angle(d, Angle::Degrees);
@@ -1492,7 +1492,7 @@ namespace Isis {
           d = (double)(g->findKeyword("PmAccelerationValue"));
         }
         catch (IException &e) {
-          QString msg = "PmAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         aprioriAccelerationPM = Angle(d, Angle::Degrees);
@@ -1503,7 +1503,7 @@ namespace Isis {
           d = (double)(g->findKeyword("PmAccelerationSigma"));
         }
         catch (IException &e) {
-          QString msg = "PmAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         pmAccelerationSigma = Angle(d, Angle::Degrees);
@@ -1514,14 +1514,14 @@ namespace Isis {
           d = (double)(g->findKeyword("RadiusAValue"));
         }
         catch (IException &e) {
-          QString msg = "RadiusAValue must be a valid double (blank defaults to 0).";
+          std::string msg = "RadiusAValue must be a valid double (blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         try {
           aprioriRadiusA = Distance(d, Distance::Meters);
         }
         catch (IException &e) {
-          QString msg = "RadiusAValue must be >= 0.";
+          std::string msg = "RadiusAValue must be >= 0.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -1531,14 +1531,14 @@ namespace Isis {
           d = (double)(g->findKeyword("RadiusASigma"));
         }
         catch (IException &e) {
-          QString msg = "RadiusASigma must be a valid double (blank defaults to 0).";
+          std::string msg = "RadiusASigma must be a valid double (blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         try {
           sigmaRadiusA = Distance(d, Distance::Meters);
         }
         catch (IException &e) {
-          QString msg = "RadiusASigma must be >= 0.";
+          std::string msg = "RadiusASigma must be >= 0.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -1548,14 +1548,14 @@ namespace Isis {
           d = (double)(g->findKeyword("RadiusBValue"));
         }
         catch (IException &e) {
-          QString msg = "RadiusBValue must be a valid double (blank defaults to 0).";
+          std::string msg = "RadiusBValue must be a valid double (blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         try {
           aprioriRadiusB = Distance(d, Distance::Meters);
         }
         catch (IException &e) {
-          QString msg = "RadiusBValue must be >= 0.";
+          std::string msg = "RadiusBValue must be >= 0.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -1565,14 +1565,14 @@ namespace Isis {
           d = (double)(g->findKeyword("RadiusBSigma"));
         }
         catch (IException &e) {
-          QString msg = "RadiusBSigma must be a valid double (blank defaults to 0).";
+          std::string msg = "RadiusBSigma must be a valid double (blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         try {
           sigmaRadiusB = Distance(d, Distance::Meters);
         }
         catch (IException &e) {
-          QString msg = "RadiusBSigma must be >= 0.";
+          std::string msg = "RadiusBSigma must be >= 0.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -1582,14 +1582,14 @@ namespace Isis {
           d = (double)(g->findKeyword("RadiusCValue"));
         }
         catch (IException &e) {
-          QString msg = "RadiusCValue must be a valid double (blank defaults to 0).";
+          std::string msg = "RadiusCValue must be a valid double (blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         try {
           aprioriRadiusC = Distance(d, Distance::Meters);
         }
         catch (IException &e) {
-          QString msg = "RadiusCValue must be >= 0.";
+          std::string msg = "RadiusCValue must be >= 0.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -1599,14 +1599,14 @@ namespace Isis {
           d = (double)(g->findKeyword("RadiusCSigma"));
         }
         catch (IException &e) {
-          QString msg = "RadiusCSigma must be a valid double (blank defaults to 0).";
+          std::string msg = "RadiusCSigma must be a valid double (blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         try {
           sigmaRadiusC = Distance(d, Distance::Meters);
         }
         catch (IException &e) {
-          QString msg = "RadiusCSigma must be >= 0.";
+          std::string msg = "RadiusCSigma must be >= 0.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -1616,14 +1616,14 @@ namespace Isis {
           d = (double)(g->findKeyword("MeanRadiusValue"));
         }
         catch (IException &e) {
-          QString msg = "MeanRadiusValue must be a valid double (blank defaults to 0).";
+          std::string msg = "MeanRadiusValue must be a valid double (blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         try {
           aprioriMeanRadius = Distance(d, Distance::Meters);
         }
         catch (IException &e) {
-          QString msg = "MeanRadiusValue must be >= 0.";
+          std::string msg = "MeanRadiusValue must be >= 0.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -1633,14 +1633,14 @@ namespace Isis {
           d = (double)(g->findKeyword("MeanRadiusSigma"));
         }
         catch (IException &e) {
-          QString msg = "MeanRadiusSigma must be a valid double (blank defaults to 0).";
+          std::string msg = "MeanRadiusSigma must be a valid double (blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         try {
           sigmaMeanRadius = Distance(d, Distance::Meters);
         }
         catch (IException &e) {
-          QString msg = "MeanRadiusSigma must be >= 0.";
+          std::string msg = "MeanRadiusSigma must be >= 0.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -1653,7 +1653,7 @@ namespace Isis {
 
       }
     catch (IException &e) {
-      QString msg = "Unable to set target body solve options from the given PVL.";
+      std::string msg = "Unable to set target body solve options from the given PVL.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 */
@@ -1690,7 +1690,7 @@ namespace Isis {
   Distance BundleTargetBody::localRadius(const Latitude &lat, const Longitude &lon) {
 
     if (!solveTriaxialRadii()) {
-      QString msg = "Local radius can only be found if triaxial radii were solved for.";
+      std::string msg = "Local radius can only be found if triaxial radii were solved for.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1731,7 +1731,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("Ra")[0]);
         }
         catch (IException &e) {
-          QString msg = "Ra must be a valid boolean (yes/no; true/false).";
+          std::string msg = "Ra must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b)
@@ -1743,7 +1743,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("RaValue"));
         }
         catch (IException &e) {
-          QString msg = "RaValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         m_raPole[0] = Angle(d, Angle::Degrees);
@@ -1754,7 +1754,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("RaSigma"));
         }
         catch (IException &e) {
-          QString msg = "RaSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -1765,7 +1765,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("RaVelocity")[0]);
         }
         catch (IException &e) {
-          QString msg = "RaVelocity must be a valid boolean (yes/no; true/false).";
+          std::string msg = "RaVelocity must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b)
@@ -1777,7 +1777,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("RaVelocityValue"));
         }
         catch (IException &e) {
-          QString msg = "RaVelocityValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaVelocityValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         m_raPole[1] = Angle(d, Angle::Degrees);
@@ -1788,7 +1788,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("RaVelocitySigma"));
         }
         catch (IException &e) {
-          QString msg = "RaVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -1799,7 +1799,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("RaAcceleration")[0]);
         }
         catch (IException &e) {
-          QString msg = "RaAcceleration must be a valid boolean (yes/no; true/false).";
+          std::string msg = "RaAcceleration must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b)
@@ -1811,7 +1811,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("RaAccelerationValue"));
         }
         catch (IException &e) {
-          QString msg = "RaAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         m_raPole[2] = Angle(d, Angle::Degrees);
@@ -1822,7 +1822,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("RaAccelerationSigma"));
         }
         catch (IException &e) {
-          QString msg = "RaAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "RaAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -1834,7 +1834,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("Dec")[0]);
         }
         catch (IException &e) {
-          QString msg = "Dec parameter must be a valid boolean (yes/no; true/false).";
+          std::string msg = "Dec parameter must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b)
@@ -1846,7 +1846,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("DecValue"));
         }
         catch (IException &e) {
-          QString msg = "DecValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         m_decPole[0] = Angle(d, Angle::Degrees);
@@ -1857,7 +1857,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("DecSigma"));
         }
         catch (IException &e) {
-          QString msg = "DecSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -1868,7 +1868,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("DecVelocity")[0]);
         }
         catch (IException &e) {
-          QString msg = "DecVelocity must be a valid boolean (yes/no; true/false).";
+          std::string msg = "DecVelocity must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b)
@@ -1880,7 +1880,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("DecVelocityValue"));
         }
         catch (IException &e) {
-          QString msg = "DecVelocityValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecVelocityValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         m_decPole[1] = Angle(d, Angle::Degrees);
@@ -1891,7 +1891,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("DecVelocitySigma"));
         }
         catch (IException &e) {
-          QString msg = "DecVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -1902,7 +1902,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("DecAcceleration")[0]);
         }
         catch (IException &e) {
-          QString msg = "DecAcceleration must be a valid boolean (yes/no; true/false).";
+          std::string msg = "DecAcceleration must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b)
@@ -1914,7 +1914,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("DecAccelerationValue"));
         }
         catch (IException &e) {
-          QString msg = "DecAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         m_decPole[2] = Angle(d, Angle::Degrees);
@@ -1925,7 +1925,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("DecAccelerationSigma"));
         }
         catch (IException &e) {
-          QString msg = "DecAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "DecAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -1937,7 +1937,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("Pm")[0]);
         }
         catch (IException &e) {
-          QString msg = "Pm parameter must be a valid boolean (yes/no; true/false).";
+          std::string msg = "Pm parameter must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b)
@@ -1949,7 +1949,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("PmValue"));
         }
         catch (IException &e) {
-          QString msg = "PmValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         m_pm[0] = Angle(d, Angle::Degrees);
@@ -1960,7 +1960,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("PmSigma"));
         }
         catch (IException &e) {
-          QString msg = "PmSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -1971,7 +1971,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("PmVelocity")[0]);
         }
         catch (IException &e) {
-          QString msg = "PmVelocity must be a valid boolean (yes/no; true/false).";
+          std::string msg = "PmVelocity must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b)
@@ -1983,7 +1983,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("PmVelocityValue"));
         }
         catch (IException &e) {
-          QString msg = "PmVelocityValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmVelocityValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         m_pm[1] = Angle(d, Angle::Degrees);
@@ -1994,7 +1994,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("PmVelocitySigma"));
         }
         catch (IException &e) {
-          QString msg = "PmVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmVelocitySigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -2005,7 +2005,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("PmAcceleration")[0]);
         }
         catch (IException &e) {
-          QString msg = "PmAcceleration must be a valid boolean (yes/no; true/false).";
+          std::string msg = "PmAcceleration must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b)
@@ -2017,7 +2017,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("PmAccelerationValue"));
         }
         catch (IException &e) {
-          QString msg = "PmAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmAccelerationValue must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         m_decPole[2] = Angle(d, Angle::Degrees);
@@ -2028,7 +2028,7 @@ namespace Isis {
           d = (double)(tbParameterGroup.findKeyword("PmAccelerationSigma"));
         }
         catch (IException &e) {
-          QString msg = "PmAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
+          std::string msg = "PmAccelerationSigma must be a valid double (>= 0; blank defaults to 0).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -2040,7 +2040,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("AllRadii")[0]);
         }
         catch (IException &e) {
-          QString msg = "AllRadii parameter must be a valid boolean (yes/no; true/false).";
+          std::string msg = "AllRadii parameter must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b) {
@@ -2053,7 +2053,7 @@ namespace Isis {
               d = (double)(tbParameterGroup.findKeyword("RadiusAValue"));
             }
             catch (IException &e) {
-              QString msg = "RadiusAValue must be a valid double (>= 0; blank defaults to 0).";
+              std::string msg = "RadiusAValue must be a valid double (>= 0; blank defaults to 0).";
               throw IException(IException::User, msg, _FILEINFO_);
             }
             m_radii[0].setKilometers(d);
@@ -2064,7 +2064,7 @@ namespace Isis {
               d = (double)(tbParameterGroup.findKeyword("RadiusASigma"));
             }
             catch (IException &e) {
-              QString msg = "RadiusASigma must be a valid double (>= 0; blank defaults to 0).";
+              std::string msg = "RadiusASigma must be a valid double (>= 0; blank defaults to 0).";
               throw IException(IException::User, msg, _FILEINFO_);
             }
             //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -2075,7 +2075,7 @@ namespace Isis {
               d = (double)(tbParameterGroup.findKeyword("RadiusBValue"));
             }
             catch (IException &e) {
-              QString msg = "RadiusBValue must be a valid double (>= 0; blank defaults to 0).";
+              std::string msg = "RadiusBValue must be a valid double (>= 0; blank defaults to 0).";
               throw IException(IException::User, msg, _FILEINFO_);
             }
             m_radii[1].setKilometers(d);
@@ -2086,7 +2086,7 @@ namespace Isis {
               d = (double)(tbParameterGroup.findKeyword("RadiusBSigma"));
             }
             catch (IException &e) {
-              QString msg = "RadiusBSigma must be a valid double (>= 0; blank defaults to 0).";
+              std::string msg = "RadiusBSigma must be a valid double (>= 0; blank defaults to 0).";
               throw IException(IException::User, msg, _FILEINFO_);
             }
             //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -2097,7 +2097,7 @@ namespace Isis {
               d = (double)(tbParameterGroup.findKeyword("RadiusCValue"));
             }
             catch (IException &e) {
-              QString msg = "RadiusCValue must be a valid double (>= 0; blank defaults to 0).";
+              std::string msg = "RadiusCValue must be a valid double (>= 0; blank defaults to 0).";
               throw IException(IException::User, msg, _FILEINFO_);
             }
             m_radii[2].setKilometers(d);
@@ -2108,7 +2108,7 @@ namespace Isis {
               d = (double)(tbParameterGroup.findKeyword("RadiusCSigma"));
             }
             catch (IException &e) {
-              QString msg = "RadiusCSigma must be a valid double (>= 0; blank defaults to 0).";
+              std::string msg = "RadiusCSigma must be a valid double (>= 0; blank defaults to 0).";
               throw IException(IException::User, msg, _FILEINFO_);
             }
             //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -2120,7 +2120,7 @@ namespace Isis {
           b = toBool(tbParameterGroup.findKeyword("MeanRadius")[0]);
         }
         catch (IException &e) {
-          QString msg = "MeanRadius parameter must be a valid boolean (yes/no; true/false).";
+          std::string msg = "MeanRadius parameter must be a valid boolean (yes/no; true/false).";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (b) {
@@ -2131,7 +2131,7 @@ namespace Isis {
               d = (double)(tbParameterGroup.findKeyword("MeanRadiusValue"));
             }
             catch (IException &e) {
-              QString msg = "MeanRadiusValue must be a valid double (>= 0; blank defaults to 0).";
+              std::string msg = "MeanRadiusValue must be a valid double (>= 0; blank defaults to 0).";
               throw IException(IException::User, msg, _FILEINFO_);
             }
             m_radii[2].setKilometers(d);
@@ -2142,7 +2142,7 @@ namespace Isis {
               d = (double)(tbParameterGroup.findKeyword("MeanRadiusSigma"));
             }
             catch (IException &e) {
-              QString msg = "MeanRadiusSigma must be a valid double (>= 0; blank defaults to 0).";
+              std::string msg = "MeanRadiusSigma must be a valid double (>= 0; blank defaults to 0).";
               throw IException(IException::User, msg, _FILEINFO_);
             }
             //m_raPole[1] = Angle(d, Angle::Degrees);
@@ -2152,7 +2152,7 @@ namespace Isis {
     }
 
     catch (IException &e) {
-      QString msg = "Unable to set target body solve options from the given PVL.";
+      std::string msg = "Unable to set target body solve options from the given PVL.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 

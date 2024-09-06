@@ -199,7 +199,7 @@ namespace Isis {
     map<QString, UniversalGroundMap *> gMaps;
     for (int sn = 0; sn < serialNumbers.size(); ++sn) {
       // Create the UGM for the cube associated with this SN
-      Cube cube(serialNumbers.fileName(sn), "r");
+      Cube cube(serialNumbers.fileName(sn).toStdString(), "r");
       gMaps.insert(std::pair<QString, UniversalGroundMap *>
                    (serialNumbers.serialNumber(sn), new UniversalGroundMap(cube)));
     }
@@ -223,7 +223,7 @@ namespace Isis {
         ControlPoint *cp = precnet->GetPoint(i);
         ControlMeasure *cm = cp->GetRefMeasure();
         QString c = serialNumbers.fileName(cm->GetCubeSerialNumber());
-        Cube cube(c);
+        Cube cube(c.toStdString());
         Camera *cam = CameraFactory::Create(cube);
         cam->SetImage(cm->GetSample(), cm->GetLine());
 
@@ -361,7 +361,7 @@ namespace Isis {
           UniversalGroundMap *gmap = gMaps[(*overlaps[ov])[sn]];
 
           if (!gmap) {
-            QString msg = "Unable to create a Universal Ground for Serial Number [";
+            std::string msg = "Unable to create a Universal Ground for Serial Number [";
             msg += (*overlaps[ov])[sn] + "] The associated image is more than ";
             msg += "likely missing from your FROMLIST.";
             throw IException(IException::User, msg, _FILEINFO_);
@@ -455,7 +455,7 @@ namespace Isis {
 
     //Log the ERRORS file
     if (ui.WasEntered("ERRORS") && errorNum > 0) {
-      QString errorname = ui.GetFileName("ERRORS");
+      std::string errorname = ui.GetFileName("ERRORS");
       std::ofstream errorsfile;
       errorsfile.open(errorname.toLatin1().data());
       errorsfile << errors.str();
@@ -464,7 +464,7 @@ namespace Isis {
 
     // Make sure the control network is not empty
     if (cnet.GetNumPoints() == 0) {
-      QString msg = "The ouput control network is empty. This is likely due";
+      std::string msg = "The ouput control network is empty. This is likely due";
       msg += " to the input cubes failing to overlap.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

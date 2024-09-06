@@ -121,7 +121,7 @@ namespace Isis {
 
   // Check stream open status
     if ( !input.is_open() ) {
-      QString msg = "Cannot open input file [" + fitsfile + "]";
+      std::string msg = "Cannot open input file [" + fitsfile + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 

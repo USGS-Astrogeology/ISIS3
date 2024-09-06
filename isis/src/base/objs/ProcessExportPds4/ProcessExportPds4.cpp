@@ -107,7 +107,7 @@ namespace Isis {
    */
   void ProcessExportPds4::CreateImageLabel() {
     if (InputCubes.size() == 0) {
-      QString msg("Must set an input cube before creating a PDS4 label.");
+      std::string msg("Must set an input cube before creating a PDS4 label.");
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     if (m_domDoc->documentElement().isNull()) {
@@ -125,7 +125,7 @@ namespace Isis {
       identificationArea();
     }
     catch (IException &e) {
-      QString msg = "Unable to translate and export identification information.";
+      std::string msg = "Unable to translate and export identification information.";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
     try {
@@ -134,7 +134,7 @@ namespace Isis {
       standardInstrument();
     }
     catch (IException &e) {
-      QString msg = "Unable to translate and export instrument information.";
+      std::string msg = "Unable to translate and export instrument information.";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
     try {
@@ -145,7 +145,7 @@ namespace Isis {
       displaySettings();
     }
     catch (IException &e) {
-      QString msg = "Unable to translate and export display settings.";
+      std::string msg = "Unable to translate and export display settings.";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -157,7 +157,7 @@ namespace Isis {
       standardBandBin();
     }
     catch (IException &e) {
-      QString msg = "Unable to translate and export spectral information.";
+      std::string msg = "Unable to translate and export spectral information.";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -169,7 +169,7 @@ namespace Isis {
       StandardAllMapping();
     }
     catch (IException &e) {
-      QString msg = "Unable to translate and export mapping group.";
+      std::string msg = "Unable to translate and export mapping group.";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
     try {
@@ -178,7 +178,7 @@ namespace Isis {
       fileAreaObservational();
     }
     catch (IException &e) {
-      QString msg = "Unable to translate and export standard image information.";
+      std::string msg = "Unable to translate and export standard image information.";
       throw IException(e, IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -196,7 +196,7 @@ namespace Isis {
 
       // Translate the Instrument group
       translationFileName = "$ISISROOT/appdata/translations/pds4ExportInstrument.trn";
-      PvlToXmlTranslationManager instXlator(*inputLabel, translationFileName.expanded());
+      PvlToXmlTranslationManager instXlator(*inputLabel, QString::fromStdString(translationFileName.expanded()));
       instXlator.Auto(*m_domDoc);
 
       // If instrument and spacecraft values were translated, create the combined name
@@ -258,7 +258,8 @@ namespace Isis {
 
       // Translate the Target name
       translationFileName = "$ISISROOT/appdata/translations/pds4ExportTargetFromInstrument.trn";
-      PvlToXmlTranslationManager targXlator(*inputLabel, translationFileName.expanded());
+      PvlToXmlTranslationManager targXlator(*inputLabel, QString::fromStdString(translationFileName.expanded())
+);
       targXlator.Auto(*m_domDoc);
 
       // Move target to just below Observing_System.
@@ -268,7 +269,8 @@ namespace Isis {
     else if (inputLabel->findObject("IsisCube").hasGroup("Mapping")) {
 
       translationFileName = "$ISISROOT/appdata/translations/pds4ExportTargetFromMapping.trn";
-      PvlToXmlTranslationManager targXlator(*inputLabel, translationFileName.expanded());
+      PvlToXmlTranslationManager targXlator(*inputLabel, QString::fromStdString(translationFileName.expanded())
+);
       targXlator.Auto(*m_domDoc);
     }
     else {
@@ -463,7 +465,8 @@ namespace Isis {
     Pvl *inputLabel = InputCubes[0]->label();
     FileName translationFileName;
     translationFileName = "$ISISROOT/appdata/translations/pds4ExportIdentificationArea.trn";
-    PvlToXmlTranslationManager xlator(*inputLabel, translationFileName.expanded());
+    PvlToXmlTranslationManager xlator(*inputLabel, QString::fromStdString(translationFileName.expanded())
+);
     xlator.Auto(*m_domDoc);
 
     if (m_lid.isEmpty()) {
@@ -481,7 +484,7 @@ namespace Isis {
       }
     }
     catch(IException &e) {
-      QString msg = "Could not find Identification_Area element "
+      std::string msg = "Could not find Identification_Area element "
                     "to add modification history under.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -504,7 +507,7 @@ namespace Isis {
     // the Application::Version() return value.
     QRegularExpression versionRegex(" \\| \\d{4}\\-\\d{2}\\-\\d{2}");
     QString historyDescription = "Created PDS4 output product from ISIS cube with the "
-                                 + FileName(Application::Name()).baseName()
+                                 + QString::fromStdString(FileName(Application::Name().toStdString()).baseName())
                                  + " application from ISIS version "
                                  + Application::Version().remove(versionRegex) + ".";
     // This regular expression matches the time from the Application::DateTime return value.
@@ -528,7 +531,8 @@ namespace Isis {
     Pvl *inputLabel = InputCubes[0]->label();
     FileName translationFileName;
     translationFileName = "$ISISROOT/appdata/translations/pds4ExportDisplaySettings.trn";
-    PvlToXmlTranslationManager xlator(*inputLabel, translationFileName.expanded());
+    PvlToXmlTranslationManager xlator(*inputLabel, QString::fromStdString(translationFileName.expanded())
+);
     xlator.Auto(*m_domDoc);
   }
 
@@ -572,8 +576,9 @@ namespace Isis {
   void ProcessExportPds4::translateBandBinImage(Pvl &inputLabel) {
     QString translationFile = "$ISISROOT/appdata/translations/";
     translationFile += "pds4ExportBandBinImage.trn";
-    FileName translationFileName(translationFile);
-    PvlToXmlTranslationManager xlator(inputLabel, translationFileName.expanded());
+    FileName translationFileName(translationFile.toStdString());
+    PvlToXmlTranslationManager xlator(inputLabel, QString::fromStdString(translationFileName.expanded())
+);
     xlator.Auto(*m_domDoc);
   }
 
@@ -584,8 +589,9 @@ namespace Isis {
   void ProcessExportPds4::translateBandBinSpectrumUniform(Pvl &inputLabel) {
     QString translationFile = "$ISISROOT/appdata/translations/";
     translationFile += "pds4ExportBandBinSpectrumUniform.trn";
-    FileName translationFileName(translationFile);
-    PvlToXmlTranslationManager xlator(inputLabel, translationFileName.expanded());
+    FileName translationFileName(translationFile.toStdString());
+    PvlToXmlTranslationManager xlator(inputLabel, QString::fromStdString(translationFileName.expanded())
+);
     xlator.Auto(*m_domDoc);
 
     PvlGroup bandBinGroup = inputLabel.findObject("IsisCube").findGroup("BandBin");
@@ -610,7 +616,7 @@ namespace Isis {
       center = bandBinGroup["FilterCenter"];
     }
     else {
-      QString msg = "Unable to translate BandBin info for BinSetSpectrum. "
+      std::string msg = "Unable to translate BandBin info for BinSetSpectrum. "
                     "Translation for PDS4 required value [center_value] not found.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -622,7 +628,7 @@ namespace Isis {
       width = bandBinGroup["FilterWidth"];
     }
     else {
-      QString msg = "Unable to translate BandBin info for BinSetSpectrum. "
+      std::string msg = "Unable to translate BandBin info for BinSetSpectrum. "
                     "Translation for PDS4 required value [bin_width] not found.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -634,7 +640,7 @@ namespace Isis {
         units = QString::fromStdString(width.unit());
       }
       if (units.compare(QString::fromStdString(width.unit()), Qt::CaseInsensitive) != 0) {
-        QString msg = "Unable to translate BandBin info for BinSetSpectrum. "
+        std::string msg = "Unable to translate BandBin info for BinSetSpectrum. "
                       "Unknown or unmatching units for [center_value] and [bin_width].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
@@ -726,8 +732,9 @@ namespace Isis {
   void ProcessExportPds4::translateBandBinSpectrumBinSet(Pvl &inputLabel) {
     QString translationFile = "$ISISROOT/appdata/translations/";
     translationFile += "pds4ExportBandBinSpectrumBinSet.trn";
-    FileName translationFileName(translationFile);
-    PvlToXmlTranslationManager xlator(inputLabel, translationFileName.expanded());
+    FileName translationFileName(translationFile.toStdString());
+    PvlToXmlTranslationManager xlator(inputLabel, QString::fromStdString(translationFileName.expanded())
+);
     xlator.Auto(*m_domDoc);
 
     PvlGroup bandBinGroup = inputLabel.findObject("IsisCube").findGroup("BandBin");
@@ -766,7 +773,7 @@ namespace Isis {
       center = bandBinGroup["Center"];
     }
     else {
-      QString msg = "Unable to translate BandBin info for UniformlySpacedSpectrum. "
+      std::string msg = "Unable to translate BandBin info for UniformlySpacedSpectrum. "
                     "Translation for PDS4 required value [last_center_value] not found.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -828,9 +835,10 @@ namespace Isis {
       }
     }
     translationFile += ".trn";
-    FileName translationFileName(translationFile);
+    FileName translationFileName(translationFile.toStdString());
 
-    PvlToXmlTranslationManager xlator(*inputLabel, translationFileName.expanded());
+    PvlToXmlTranslationManager xlator(*inputLabel, QString::fromStdString(translationFileName.expanded())
+);
     xlator.Auto(*m_domDoc);
 
     QDomElement rootElement = m_domDoc->documentElement();
@@ -1109,19 +1117,19 @@ namespace Isis {
    */
   void ProcessExportPds4::WritePds4(QString outFile) {
 
-    FileName outputFile(outFile);
+    FileName outputFile(outFile.toStdString());
 
     // Name for output label
-    QString path(outputFile.originalPath());
-    QString name(outputFile.baseName());
+    QString path(QString::fromStdString(outputFile.originalPath()));
+    QString name(QString::fromStdString(outputFile.baseName()));
     QString labelName = path + "/" + name + ".xml";
 
     // Name for output image
-    QString imageName = outputFile.expanded();
+    QString imageName = QString::fromStdString(outputFile.expanded());
 
     // If input file ends in .xml, the user entered a label name for the output file, not an
     // image name with a unique file extension.
-    if (QString::compare(outputFile.extension(), "xml", Qt::CaseInsensitive) == 0) {
+    if (QString::compare(QString::fromStdString(outputFile.extension()), "xml", Qt::CaseInsensitive) == 0) {
       imageName = path + "/" + name + ".img";
     }
 
@@ -1134,7 +1142,7 @@ namespace Isis {
                                               fileAreaObservationalElement.firstChildElement());
 
     QDomElement fileNameElement = m_domDoc->createElement("file_name");
-    PvlToXmlTranslationManager::setElementValue(fileNameElement, outputFile.name());
+    PvlToXmlTranslationManager::setElementValue(fileNameElement, QString::fromStdString(outputFile.name()));
     fileElement.appendChild(fileNameElement);
 
 //    QDomElement creationElement = m_domDoc->createElement("creation_date_time");
@@ -1183,7 +1191,7 @@ namespace Isis {
       xlatorSpecProj.Auto(*m_domDoc);
     }
     catch (IException &e) {
-      QString msg = "Unable to export projection [" + projName + "] to PDS4 product. " +
+      std::string msg = "Unable to export projection [" + projName + "] to PDS4 product. " +
                      "This projection is not supported in ISIS3.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
@@ -1330,12 +1338,12 @@ namespace Isis {
       baseElement = m_domDoc->documentElement();
     }
     if (baseElement.isNull()) {
-      QString msg = "Unable to get element from empty XML document.";
+      std::string msg = "Unable to get element from empty XML document.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     QString parentName = xmlPath[0];
     if (parentName != baseElement.tagName()) {
-      QString msg = "The tag name of the parent element passed in "
+      std::string msg = "The tag name of the parent element passed in "
                     "must be the first value in the given XML path.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1380,7 +1388,7 @@ namespace Isis {
       pds4Type = "IEEE754LSBSingle";
     }
     else {
-      QString msg = "Unsupported PDS pixel type or sample size";
+      std::string msg = "Unsupported PDS pixel type or sample size";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     return pds4Type;
@@ -1409,7 +1417,7 @@ namespace Isis {
       }
     }
     catch(IException &e) {
-      QString msg = "Could not find Identification_Area element "
+      std::string msg = "Could not find Identification_Area element "
                     "to add modification history under.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1467,7 +1475,7 @@ namespace Isis {
       configPvl.read(transMapFile.toStdString());
     }
     catch(IException &e) {
-      QString msg = "Failed to read unit translation config file [" + transMapFile + "].";
+      std::string msg = "Failed to read unit translation config file [" + transMapFile + "].";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -1476,7 +1484,7 @@ namespace Isis {
       transMap = createUnitMap(configPvl);
     }
     catch(IException &e) {
-      QString msg = "Failed to load unit translation config file [" + transMapFile + "].";
+      std::string msg = "Failed to load unit translation config file [" + transMapFile + "].";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -1486,7 +1494,7 @@ namespace Isis {
       translateChildUnits( label.documentElement(), transMap );
     }
     catch(IException &e) {
-      QString msg = "Failed to translate units with config file [" + transMapFile + "].";
+      std::string msg = "Failed to translate units with config file [" + transMapFile + "].";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -1552,7 +1560,7 @@ namespace Isis {
           childElement.setAttribute("unit", transMap.value( originalUnit.toLower() ) );
         }
         else {
-          QString msg = "Could not translate unit [" + originalUnit + "] to PDS4 format.";
+          std::string msg = "Could not translate unit [" + originalUnit + "] to PDS4 format.";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
       }

@@ -82,8 +82,8 @@ namespace Isis {
 
   static void writeInfo(const QString &toname, Pvl &data, UserInterface &ui, Pvl *log) {
       if ( !toname.isEmpty() ) {
-        FileName toinfo(toname);
-        QString fname = toinfo.expanded();
+        FileName toinfo(toname.toStdString());
+        QString fname = QString::fromStdString(toinfo.expanded());
         data.write(fname.toStdString());
       }
       else {
@@ -350,15 +350,15 @@ namespace Isis {
       if ( ui.WasEntered("FROM") ) {
         QString tname = ui.GetAsString("FROM");
         if ( !load_train_with_geom(matcher, tname, logger, fastgeom.data()) ) {
-          badgeom.append(tname);
+          badgeom.append(tname.toStdString());
         }
       }
 
       // If there is a list provided, get that too
       if ( ui.WasEntered("FROMLIST") ) {
-        FileList trainers(ui.GetFileName("FROMLIST"));
+        FileList trainers(ui.GetFileName("FROMLIST").toStdString());
         BOOST_FOREACH ( FileName tfile, trainers ) {
-          if ( !load_train_with_geom(matcher, tfile.original(), logger,
+          if ( !load_train_with_geom(matcher, QString::fromStdString(tfile.original()), logger,
                                      fastgeom.data()) ) {
             badgeom.append(tfile.original());
           }
@@ -373,12 +373,12 @@ namespace Isis {
       if ( badgeom.size() > 0 ) {
         logger->dbugout() << "\nTotal failed image loads/FastGeoms excluded: " << badgeom.size() << "\n";
         for ( int f = 0 ; f < badgeom.size() ; f++ ) {
-          logger->dbugout() << badgeom[f].toString() << "\n";
+          logger->dbugout() <<QString::fromStdString( badgeom[f].toString()) << "\n";
         }
 
         if ( ui.WasEntered("TONOGEOM") ) {
           QString tonogeom(ui.GetAsString("TONOGEOM"));
-          badgeom.write(tonogeom);
+          badgeom.write(tonogeom.toStdString());
           logger->dbugout() << "\nSee also " << tonogeom << "\n\n";
         }
       }
@@ -387,7 +387,7 @@ namespace Isis {
       logger->flush();
     }
     catch (IException &ie) {
-      QString msg = "Fatal load errors encountered";
+      std::string msg = "Fatal load errors encountered";
       logger->dbugout() << "\n\n### " << msg << " - aborting..." << "\n";
       throw IException(ie, IException::Programmer, msg, _FILEINFO_);
     }
@@ -396,7 +396,7 @@ namespace Isis {
     if ( matcher.size() <= 0 ) {
       logger->dbugout() << "\n\n###   No valid files loaded - aborting...\n";
       logger->dbugout() <<     "Time: " << Application::DateTime() << "\n";
-      QString msg = "Input cubes (" + QString::number(badgeom.size()) + ") failed to load. " +
+      std::string msg = "Input cubes (" + QString::number(badgeom.size()) + ") failed to load. " +
                     "Must provide valid FROM/FROMLIST and MATCH cube or image filenames";
       throw IException(IException::User, msg,  _FILEINFO_);
     }
@@ -429,7 +429,7 @@ namespace Isis {
     // If all failed, we're done
     if ( !best ) {
       logger->dbugout() << "Bummer! No matches were found!\n";
-      QString mess = "NO MATCHES WERE FOUND!!!";
+      std::string mess = "NO MATCHES WERE FOUND!!!";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
@@ -437,7 +437,7 @@ namespace Isis {
     if ( best->size() <= 0 ) {
       logger->dbugout() << "Shucks! Insufficient matches were found ("
                         << best->size() << ")\n";
-      QString mess = "Shucks! Insufficient matches were found (" +
+      std::string mess = "Shucks! Insufficient matches were found (" +
                       QString::number(best->size()) + ")";
       throw IException(IException::User, mess, _FILEINFO_);
     }
@@ -473,7 +473,7 @@ namespace Isis {
       PvlGroup cnetinfo = matcher.network(cnet, *best, pointId);
 
       if ( cnet.GetNumPoints() <= 0 ) {
-        QString mess = "No control points found!!";
+        std::string mess = "No control points found!!";
         logger->dbugout() << mess << "\n";
 
         // Get total elapded time

@@ -195,7 +195,7 @@ void IsisMain() {
     g_exposureTime = inst["ExposureDuration"] ;
   }
   catch(IException &e) {
-    QString msg = "Unable to read [ExposureDuration] keyword in the Instrument group "
+    std::string msg = "Unable to read [ExposureDuration] keyword in the Instrument group "
                   "from input file [" + inputCube->fileName() + "]";
     throw IException(e, IException::Io, msg, _FILEINFO_);
   }
@@ -205,7 +205,7 @@ void IsisMain() {
     g_temperature = inst["CcdTemperature"] ;
   }
   catch(IException &e) {
-    QString msg = "Unable to read [CcdTemperature] keyword in the Instrument group "
+    std::string msg = "Unable to read [CcdTemperature] keyword in the Instrument group "
                   "from input file [" + inputCube->fileName() + "]";
     throw IException(e, IException::Io, msg, _FILEINFO_);
 
@@ -609,7 +609,7 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
   if ( config.contains("?") ) calibFile = calibFile.highestVersion();
 
   // Pvl configFile;
-  g_configFile.read(calibFile.expanded().toStdString());
+  g_configFile.read(calibFile.expanded());
 
   // Load the groups
   PvlGroup &biasGroup = g_configFile.findGroup("Bias");
@@ -675,7 +675,7 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
       scs2e_c(g_hayabusaNaifCode, g_startTime.toLatin1().data(), &obsStartTime);
     }
     catch (IException &e) {
-        QString message = "IOF option does not work with non-spiceinited cubes.";
+        std::string message = "IOF option does not work with non-spiceinited cubes.";
         throw IException(e, IException::User, message, _FILEINFO_);
     }
   }

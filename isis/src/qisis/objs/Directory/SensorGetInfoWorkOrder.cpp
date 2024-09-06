@@ -140,7 +140,7 @@ namespace Isis {
 
 
     if (!sensorInfoWidget) {
-      QString msg = "error displaying sensor info";
+      std::string msg = "error displaying sensor info";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }

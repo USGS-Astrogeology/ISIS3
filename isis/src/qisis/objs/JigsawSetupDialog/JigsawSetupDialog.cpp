@@ -86,8 +86,8 @@ namespace Isis {
     }
 
     // initialize default output control network filename
-    FileName fname = m_ui->inputControlNetCombo->currentText();
-    m_ui->outputControlNetLineEdit->setText(fname.baseName() + "-out.net");
+    FileName fname = m_ui->inputControlNetCombo->currentText().toStdString();
+    m_ui->outputControlNetLineEdit->setText(QString::fromStdString(fname.baseName()) + "-out.net");
 
     // initializations for observation solve settings tab
     createObservationSolveSettingsTreeView();
@@ -201,20 +201,20 @@ namespace Isis {
       QString name = target->displayProperties()->displayName();
 
       if (name == "MOON")
-        m_ui->targetBodyComboBox->addItem(QIcon(FileName(
-                  "$ISISROOT/appdata/images/icons/weather-clear-night.png").expanded()), name, v);
+        m_ui->targetBodyComboBox->addItem(QIcon(QString::fromStdString(FileName(
+                  "$ISISROOT/appdata/images/icons/weather-clear-night.png").expanded())), name, v);
       else if (name == "Enceladus")
-        m_ui->targetBodyComboBox->addItem(QIcon(FileName(
-                  "$ISISROOT/appdata/images/icons/nasa_enceladus.png").expanded()), name, v);
+        m_ui->targetBodyComboBox->addItem(QIcon(QString::fromStdString(FileName(
+                  "$ISISROOT/appdata/images/icons/nasa_enceladus.png").expanded())), name, v);
       else if (name == "Mars")
-        m_ui->targetBodyComboBox->addItem(QIcon(FileName(
-                  "$ISISROOT/appdata/images/icons/nasa_mars.png").expanded()), name, v);
+        m_ui->targetBodyComboBox->addItem(QIcon(QString::fromStdString(FileName(
+                  "$ISISROOT/appdata/images/icons/nasa_mars.png").expanded())), name, v);
       else if (name == "Titan")
-        m_ui->targetBodyComboBox->addItem(QIcon(FileName(
-                  "$ISISROOT/appdata/images/icons/nasa_titan.png").expanded()), name, v);
+        m_ui->targetBodyComboBox->addItem(QIcon(QString::fromStdString(FileName(
+                  "$ISISROOT/appdata/images/icons/nasa_titan.png").expanded())), name, v);
       else
-        m_ui->targetBodyComboBox->addItem(QIcon(FileName(
-                  "$ISISROOT/appdata/images/icons/weather-clear-night.png").expanded()), name, v);
+        m_ui->targetBodyComboBox->addItem(QIcon(QString::fromStdString(FileName(
+                  "$ISISROOT/appdata/images/icons/weather-clear-night.png").expanded())), name, v);
     }
 
     m_ui->radiiButtonGroup->setId(m_ui->noneRadiiRadioButton,0);
@@ -704,7 +704,7 @@ namespace Isis {
    */
   void JigsawSetupDialog::selectControl(const QString &controlName) {
     QComboBox &cnetBox = *(m_ui->inputControlNetCombo);
-    int foundControlIndex = cnetBox.findText(FileName(controlName).name());
+    int foundControlIndex = cnetBox.findText(QString::fromStdString(FileName(controlName.toStdString()).name()));
     // We did not find it, so we need to see if the combo box is empty or not.
     if (foundControlIndex == -1) {
       if (cnetBox.count() == 0) {
@@ -1160,7 +1160,7 @@ namespace Isis {
       }
       else {
         // Formulate message indicating why target parameters are disabled
-        QString msg;
+        std::string msg;
         if (target->displayProperties()->displayName() == "MOON") {
           msg = "Target body parameter cannot be solved for the Moon.";
         }
@@ -1398,8 +1398,8 @@ namespace Isis {
   }
 
   void Isis::JigsawSetupDialog::on_inputControlNetCombo_currentTextChanged(const QString &arg1) {
-    FileName fname = arg1;
-    m_ui->outputControlNetLineEdit->setText(fname.baseName() + "-out.net");
+    FileName fname = arg1.toStdString();
+    m_ui->outputControlNetLineEdit->setText(QString::fromStdString(fname.baseName()) + "-out.net");
   }
 
 

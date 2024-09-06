@@ -274,7 +274,7 @@ namespace Isis {
         if ( latLonGrid->GetMappingGroup()->findKeyword("LongitudeDomain")[0] == "360" &&
             (latLonGrid->minLongitude().degrees() < 0.0 ||
               latLonGrid->maxLongitude().degrees() > 360.0) ) {
-          QString msg = "**WARNING** minimum longitude ["
+          std::string msg = "**WARNING** minimum longitude ["
                         + toString( latLonGrid->minLongitude().degrees() )
                         + "] and maximum longitude ["
                         + toString( latLonGrid->maxLongitude().degrees() )
@@ -286,7 +286,7 @@ namespace Isis {
         else if ( latLonGrid->GetMappingGroup()->findKeyword("LongitudeDomain")[0] == "180" &&
                   (latLonGrid->minLongitude().degrees() < -180.0 ||
                   latLonGrid->maxLongitude().degrees() > 180.0) ) {
-          QString msg = "**WARNING** minimum longitude ["
+          std::string msg = "**WARNING** minimum longitude ["
                         + toString( latLonGrid->minLongitude().degrees() )
                         + "] and maximum longitude ["
                         + toString( latLonGrid->maxLongitude().degrees() )
@@ -467,7 +467,7 @@ namespace Isis {
       if ( latLonGrid->GetMappingGroup()->findKeyword("LongitudeDomain")[0] == "360" &&
           (latLonGrid->minLongitude().degrees() < 0.0 ||
             latLonGrid->maxLongitude().degrees() > 360.0) ) {
-        QString msg = "**WARNING** minimum longitude ["
+        std::string msg = "**WARNING** minimum longitude ["
                       + toString( latLonGrid->minLongitude().degrees() )
                       + "] and maximum longitude ["
                       + toString( latLonGrid->maxLongitude().degrees() )
@@ -480,7 +480,7 @@ namespace Isis {
       else if ( latLonGrid->GetMappingGroup()->findKeyword("LongitudeDomain")[0] == "180" &&
                 (latLonGrid->minLongitude().degrees() < -180.0 ||
                 latLonGrid->maxLongitude().degrees() > 180.0) ) {
-        QString msg = "**WARNING** minimum longitude ["
+        std::string msg = "**WARNING** minimum longitude ["
                       + toString( latLonGrid->minLongitude().degrees() )
                       + "] and maximum longitude ["
                       + toString( latLonGrid->maxLongitude().degrees() )

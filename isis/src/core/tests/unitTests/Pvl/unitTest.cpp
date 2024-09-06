@@ -63,7 +63,7 @@ int main() {
     cout.flush();
 
     // make this error work regardless of directory...
-    QString errors = e.toString();
+    std::string errors = e.toString();
 
     while(errors.indexOf("/") != -1) {
       int pos = errors.indexOf("/");
@@ -91,7 +91,7 @@ int main() {
     cout.flush();
 
     // make this error work regardless of directory...
-    QString errors = e.toString();
+    std::string errors = e.toString();
 
     while(errors.indexOf("/") != -1) {
       int pos = errors.indexOf("/");
@@ -120,7 +120,7 @@ int main() {
     cout.flush();
 
     // make this error work regardless of directory...
-    QString errors = e.toString();
+    std::string errors = e.toString();
 
     while(errors.indexOf("/") != -1) {
       int pos = errors.indexOf("/");

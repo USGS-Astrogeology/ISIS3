@@ -158,7 +158,7 @@ TEST(Mosrange, MosrangeOnErrorFail) {
   ASSERT_EQ(errorFileFullPath.fileName(), "EN0108828337M_noSPICE.cub");
 
   // confirm bad cube needs to be re-spiceinited
-  QString errorType = QString::fromStdString(errorFile.findKeyword("Error"));
+  std::string errorType = QString::fromStdString(errorFile.findKeyword("Error"));
   ASSERT_TRUE(errorType.contains("re-run spiceinit"));
 
   // try to read back errorList output file

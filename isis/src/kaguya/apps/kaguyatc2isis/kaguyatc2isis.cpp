@@ -38,7 +38,7 @@ namespace Isis {
       id = QString::fromStdString(label.findKeyword("DATA_SET_ID"));
     }
     catch(IException &e) {
-      QString msg = "Unable to read [DATA_SET_ID] from label file ["
+      std::string msg = "Unable to read [DATA_SET_ID] from label file ["
                     + labelFile + "]";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
@@ -52,7 +52,7 @@ namespace Isis {
         && id != "SLN-L-TC-3-W-LEVEL2B0-V1.0"
         && id != "SLN-L-TC-3-SP-SUPPORT-LEVEL2B0-V1.0"
         && id != "SLN-L-TC-5-MORNING-MAP-V4.0") {
-      QString msg = "Input file [" + labelFile + "] does not appear to be " +
+      std::string msg = "Input file [" + labelFile + "] does not appear to be " +
                     "a supported Kaguya Terrain Camera format. " +
                     "DATA_SET_ID is [" + id + "]" +
                     "Valid formats include [TC_MAP, TCO_MAP, TC1_Level2B, " +

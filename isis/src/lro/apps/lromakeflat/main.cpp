@@ -290,7 +290,7 @@ void IsisMain() {
     for(unsigned int i = 0; i < g_excludedDetails.size(); i++) {
       excludeFile.addObject(g_excludedDetails[i]);
     }
-    excludeFile.write(FileName(ui.GetFileName("EXCLUDE")).expanded().toStdString());
+    excludeFile.write(FileName(ui.GetFileName("EXCLUDE")).expanded());
   }
 } // end of main
 

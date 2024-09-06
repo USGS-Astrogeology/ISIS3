@@ -33,7 +33,7 @@ namespace Isis{
 
     Pvl outLabel;
 
-    Pvl labelPvl(inFile.expanded().toStdString());
+    Pvl labelPvl(inFile.expanded());
 
     QString prodType;
 
@@ -41,7 +41,7 @@ namespace Isis{
       prodType = QString::fromStdString(labelPvl.findKeyword("PRODUCT_TYPE"));
     }
     else {
-      QString msg = "Unsupported CRISM file type, supported types are: DDR, MRDR, and TRDR";
+      std::string msg = "Unsupported CRISM file type, supported types are: DDR, MRDR, and TRDR";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -52,7 +52,7 @@ namespace Isis{
         prodId = prodId.mid(prodId.indexOf("_") + 1, prodId.indexOf("_"));
       }
       else {
-        QString msg = "Could not find label PRODUCT_ID, invalid MRDR";
+        std::string msg = "Could not find label PRODUCT_ID, invalid MRDR";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
 
@@ -73,7 +73,7 @@ namespace Isis{
             TextFile *fin = new TextFile(tableFile.expanded());
             // Open table file
             if (!fin->OpenChk()) {
-              QString msg = "Cannot open wavelength table [" + tableFile.expanded() + "]";
+              std::string msg = "Cannot open wavelength table [" + tableFile.expanded() + "]";
               throw IException(IException::Io, msg, _FILEINFO_);
             }
 
@@ -97,7 +97,7 @@ namespace Isis{
           }
           //Otherwise throw an error
           else {
-            QString msg = "Cannot find wavelength table [" + tableFile.expanded() + "]";
+            std::string msg = "Cannot find wavelength table [" + tableFile.expanded() + "]";
             throw IException(IException::Io, msg, _FILEINFO_);
           }
         }
@@ -147,7 +147,7 @@ namespace Isis{
       ocube->putGroup(bandBin);
     }
     else {
-      QString msg = "Unsupported CRISM file type, supported types are: DDR, MRDR, and TRDR";
+      std::string msg = "Unsupported CRISM file type, supported types are: DDR, MRDR, and TRDR";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

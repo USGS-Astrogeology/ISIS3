@@ -112,7 +112,7 @@ namespace Isis {
       m_merge = None;
     }
     else {
-      QString mess = "OverlapMerge = " + parms.get("OverlapMerge") + 
+      std::string mess = "OverlapMerge = " + parms.get("OverlapMerge") + 
                      " is not a recognized/valid option";
       throw IException(IException::User, mess, _FILEINFO_);
     }
@@ -208,7 +208,7 @@ namespace Isis {
     GEOSSTRtree *rtree = GEOSSTRtree_create(ngeoms);
     if ( !rtree ) {
       cout << "Address: " << rtree << "\n";
-      QString mess = "GEOS RTree allocation failed for " +
+      std::string mess = "GEOS RTree allocation failed for " +
                       toString(goodones.size()) + " geometries.";
         throw IException(IException::Programmer, mess, _FILEINFO_);
     }

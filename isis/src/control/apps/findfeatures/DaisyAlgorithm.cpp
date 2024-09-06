@@ -66,7 +66,7 @@ namespace Isis {
       QStringList elts = Hparm.split( "," );
 
       if (elts.size() != 9 ) {
-        QString mess = "Homography matrix, H, was not input as a string of the form \"d,d,d,d,d,d,d,"
+        std::string mess = "Homography matrix, H, was not input as a string of the form \"d,d,d,d,d,d,d,"
                        "d,d\" where d is a double or integer numerical value.";
           throw IException(IException::Programmer, mess, _FILEINFO_);
       }
@@ -185,7 +185,7 @@ namespace Isis {
  * @return int Number of variables actually set
  */
   int DaisyAlgorithm::setAlgorithmVariables(const PvlFlatMap &variables) {
-    QString message = "DAISY does not have the ability to set algorithm parameters.";
+    std::string message = "DAISY does not have the ability to set algorithm parameters.";
     throw IException(IException::Programmer, message, _FILEINFO_);
 
     return (-1);

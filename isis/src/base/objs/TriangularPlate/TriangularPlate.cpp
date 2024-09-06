@@ -306,7 +306,7 @@ namespace Isis {
   NaifVertex TriangularPlate::vertex(int v) const {
     NaifVertex vec(3);
     if ( (v < 0) || (v > 2) ) {
-      QString msg = "Unable to get TriangularPlate vertex for index ["
+      std::string msg = "Unable to get TriangularPlate vertex for index ["
                     + toString(v) + "]. Valid index range is 0-2.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

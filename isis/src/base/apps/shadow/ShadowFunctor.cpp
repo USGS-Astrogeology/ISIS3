@@ -463,15 +463,13 @@ namespace Isis {
   void ShadowFunctor::setSunPosition(FileName cubeFileNameWithCamToMatch) {
     try {
       Cube matchCube;
-      matchCube.open(cubeFileNameWithCamToMatch.original(), "r");
+      matchCube.open(QString::fromStdString(cubeFileNameWithCamToMatch.original()), "r");
 
       setSunPosition(&matchCube);
     }
     catch (IException &e) {
       throw IException(e,
-          IException::User,
-          QObject::tr("Could not find the sun position from the match file [%1]")
-            .arg(cubeFileNameWithCamToMatch.original()),
+          IException::User,"Could not find the sun position from the match file [" + cubeFileNameWithCamToMatch.original() + "]",
           _FILEINFO_);
     }
   }

@@ -212,7 +212,7 @@ namespace Isis {
       if(IString(key[i]).UpCase() == "TABLE") continue;
       Isis::FileName file(QString::fromStdString(key[i]));
       if(!file.fileExists()) {
-        QString msg = "Spice file does not exist [" + file.expanded() + "]";
+        std::string msg = "Spice file does not exist [" + file.expanded() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       QString fileName(file.expanded());

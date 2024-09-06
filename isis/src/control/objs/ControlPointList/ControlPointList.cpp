@@ -27,7 +27,7 @@ namespace Isis {
       FileList list(psListFile);
       int size = list.size();
       for(int i = 0; i < size; i++) {
-        qList.insert(i, list[i].toString());
+        qList.insert(i, QString::fromStdString(list[i].toString()));
         mbFound.push_back(false);
       }
       mqCpList = QStringList(qList);
@@ -36,7 +36,7 @@ namespace Isis {
       mqCpList.sort();
     }
     catch(IException &e) {
-      QString msg = "Can't open or invalid file list [" +
+      std::string msg = "Can't open or invalid file list [" +
           psListFile.expanded() + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
@@ -92,7 +92,7 @@ namespace Isis {
     }
     else {
       QString num = toString(piIndex);
-      QString msg = "Index [" + num + "] is invalid";
+      std::string msg = "Index [" + num + "] is invalid";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -109,7 +109,7 @@ namespace Isis {
       return mqCpList.indexOf(QString(psCpId));
     }
     else {
-      QString msg = "Requested control point id [" + psCpId + "] ";
+      std::string msg = "Requested control point id [" + psCpId + "] ";
       msg += "does not exist in the list";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

@@ -421,7 +421,7 @@ namespace Isis {
     * @param b0standard  Hapke opposition surge initialization, default is true
     */
   void Hapke::SetPhoto0B0Standard(const QString &b0standard) {
-    IString temp(b0standard);
+    IString temp(b0standard.toStdString());
     temp = temp.UpCase();
 
     if(temp != "NO" && temp != "YES" && temp != "FALSE" && temp != "TRUE") {

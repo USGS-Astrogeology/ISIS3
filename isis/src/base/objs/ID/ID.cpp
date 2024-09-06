@@ -23,7 +23,7 @@ namespace Isis {
     p_current = basenum;
     p_namebase = name;
     if(!p_namebase.contains("?")) {
-      QString msg = "No replacement set in string [" + p_namebase + "]";
+      std::string msg = "No replacement set in string [" + p_namebase.toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     p_numStart = ((int) p_namebase.indexOf("?", 0));
@@ -32,7 +32,7 @@ namespace Isis {
     QString sub = p_namebase.mid(p_numStart, p_numLength);
     for(int i = 0; i < (int)sub.length(); i++) {
       if(sub[i] != '?') {
-        QString msg = "IString [" + p_namebase + "] contains more than one replacement set";
+        std::string msg = "IString [" + p_namebase.toStdString() + "] contains more than one replacement set";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -59,7 +59,7 @@ namespace Isis {
       }
       QString original = p_namebase;
       original.insert(p_numStart, replacement);
-      QString msg = "Maximum number reached for string [" + original + "]";
+      std::string msg = "Maximum number reached for string [" + original.toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     while((int)num.size() < p_numLength) {

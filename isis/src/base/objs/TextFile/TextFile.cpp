@@ -224,7 +224,7 @@ namespace Isis {
 
     // Don't open if it already is
     if(p_stream.is_open()) {
-      QString message = "TextFile:Open:-> Already opened with this object: ["
+      std::string message = "TextFile:Open:-> Already opened with this object: ["
                         + QString(openmode) + "]:[" + p_filename + "]";
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
@@ -233,9 +233,9 @@ namespace Isis {
 
     // Save the filename for error messages
 
-    Isis::FileName filenameTmp(filename);
+    Isis::FileName filenameTmp(filename.toStdString());
     filenameTmp.addExtension(extension);
-    p_filename = filenameTmp.expanded();
+    p_filename = QString::fromStdString(filenameTmp.expanded());
 
 
     //  input, output, overwrite, append
@@ -254,7 +254,7 @@ namespace Isis {
       p_openmode = 4;
     }
     else {
-      QString message = "TextFile::-> Unknown openmode: (input, output, overwrite, append):["
+      std::string message = "TextFile::-> Unknown openmode: (input, output, overwrite, append):["
                        + QString(openmode) + "]:[" + p_filename + "]";
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
@@ -266,8 +266,8 @@ namespace Isis {
     // Output
     else if(p_openmode == 2) {
       // first check if file already exists
-      if(filenameTmp.fileExists() && QFileInfo(filenameTmp.toString()).size() > 0) {
-        QString message = "TextFile:Open: -> Output file already exists ["
+      if(filenameTmp.fileExists() && QFileInfo(QString::fromStdString(filenameTmp.toString())).size() > 0) {
+        std::string message = "TextFile:Open: -> Output file already exists ["
                           + QString(openmode) + "]:[" + p_filename + "]";
         throw IException(IException::Io, message, _FILEINFO_);
       }
@@ -291,7 +291,7 @@ namespace Isis {
     }
 
     if(!p_stream.is_open()) {
-      QString message = "TextFile:Open:-> Unable to open: ["
+      std::string message = "TextFile:Open:-> Unable to open: ["
                        + QString(openmode) + "]:[" + p_filename + "]";
       throw IException(IException::Io, message, _FILEINFO_);
     }
@@ -303,7 +303,7 @@ namespace Isis {
     }
     else {
       if(bailIfNotOpen) {
-        QString message = "TextFile::-> File not open: [" + p_filename + "]";
+        std::string message = "TextFile::-> File not open: [" + p_filename + "]";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
       else {
@@ -477,7 +477,7 @@ namespace Isis {
     // See if an error occured
     if(!p_stream.good()) {
       line = "";
-      QString message = "TextFile:GetLine: -> Error reading text file: ["
+      std::string message = "TextFile:GetLine: -> Error reading text file: ["
                        + p_filename + "]";
       throw IException(IException::Io, message, _FILEINFO_);
     }
@@ -526,12 +526,12 @@ namespace Isis {
     // See if an error occured
     if(!p_stream.good()) {
       if(p_openmode != 1) {
-        QString message = "TextFile:PutLine: -> Error writing text file: ["
+        std::string message = "TextFile:PutLine: -> Error writing text file: ["
                          + p_filename + "]";
         throw IException(IException::Io, message, _FILEINFO_);
       }
       else {
-        QString message =
+        std::string message =
           "TextFile:PutLine: -> Attempt to write to INPUT - Read Only text file: ["
           + p_filename + "]";
         throw IException(IException::Programmer, message, _FILEINFO_);

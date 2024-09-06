@@ -268,7 +268,7 @@ namespace Isis {
    * @see operator+=
    */
   void PvlKeyword::addValue(std::string value, std::string unit) {
-    m_values.append(value);
+    m_values.push_back(value);
 
     if (unit != "") {
       if (!m_units) {
@@ -310,7 +310,9 @@ namespace Isis {
     }
     else if (jsonobj.is_number())
     {
-      value = jsonobj.get<double>(), 'g', 16;
+      std::ostringstream stream;
+      stream << std::setprecision(16) << std::fixed << jsonobj.get<double>();
+      value = stream.str();
     }
     else if (jsonobj.is_boolean())
     {

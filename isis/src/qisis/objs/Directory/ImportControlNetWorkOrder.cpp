@@ -154,7 +154,8 @@ namespace Isis {
     QStringList cnetFileNames = internalData();
 
     QList< QPair<FileName, Progress *> > cnetFileNamesAndProgress;
-    foreach (FileName fileName, cnetFileNames) {
+    for (const QString &str : cnetFileNames) {
+      FileName fileName(str.toStdString());
       Progress *readProgress = new Progress;
       cnetFileNamesAndProgress.append(qMakePair(fileName, readProgress));
       readProgress->DisableAutomaticDisplay();
@@ -257,12 +258,12 @@ namespace Isis {
 
     Control *control = NULL;
     try {
-      QString cnetFileName = cnetFileNameAndProgress.first.original();
+      QString cnetFileName = QString::fromStdString(cnetFileNameAndProgress.first.original());
       ControlNet *cnet = new ControlNet();
       cnet->SetMutex(m_project->mutex());
       cnet->ReadControl(cnetFileName, cnetFileNameAndProgress.second);
 
-      QString baseFilename = FileName(cnetFileName).name();
+      QString baseFilename = QString::fromStdString(FileName(cnetFileName.toStdString()).name());
       QString destination = m_destinationFolder.canonicalPath() + "/" + baseFilename;
 
       cnet->Write(destination);

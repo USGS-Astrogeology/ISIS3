@@ -355,7 +355,7 @@ namespace Isis {
   
     FileName weightFile(file);
     weightFile = weightFile.highestVersion();
-    Pvl weightTables(weightFile.expanded().toStdString());
+    Pvl weightTables(weightFile.expanded());
     QString group = QString("FrameMode") + icube->group("Instrument")["FrameModeId"][0].at(0);
     PvlGroup &frameGrp = weightTables.findGroup(group.toStdString());
     QString keyword = QString("GainState") + ((getGainModeID(icube) < 3) ? QString("12") : QString("34"));
@@ -414,7 +414,7 @@ namespace Isis {
    * if output units are in radiance.
    */
   void calculateScaleFactor0(Cube *icube, Cube *gaincube) {
-    Pvl conversionFactors(GetScaleFactorFile().expanded().toStdString());
+    Pvl conversionFactors(GetScaleFactorFile().expanded());
     PvlKeyword fltToRef, fltToRad;
   
     for(int grp = 0; grp < conversionFactors.groups(); grp++) {
@@ -450,7 +450,7 @@ namespace Isis {
       throw IException(IException::Unknown,
                        "Unable to find matching reflectance and radiance values for target [" +
                        icube->group("Instrument")["TargetName"][0] + "] in [" +
-                       GetScaleFactorFile().expanded().toStdString() + "]",
+                       GetScaleFactorFile().expanded() + "]",
                        _FILEINFO_);
     }
   
@@ -497,7 +497,7 @@ namespace Isis {
           rsun = sunkm / 1.49597870691E8 / 5.2;
         } 
         catch (IException &e) {
-          QString message = "IOF option does not work with non-spiceinited cubes.";
+          std::string message = "IOF option does not work with non-spiceinited cubes.";
           throw IException(e, IException::User, message, _FILEINFO_);
         }
       }

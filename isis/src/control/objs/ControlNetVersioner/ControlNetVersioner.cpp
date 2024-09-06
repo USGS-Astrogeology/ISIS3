@@ -920,7 +920,7 @@ namespace Isis {
     BigInt coreStartPos = protoBufferCore["StartByte"];
     BigInt coreLength = protoBufferCore["Bytes"];
 
-    fstream input(netFile.expanded(), ios::in | ios::binary);
+    fstream input(netFile.expanded().c_str(), ios::in | ios::binary);
     if ( !input.is_open() ) {
       std::string msg = "Failed to open protobuf file [" + netFile.name() + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1044,7 +1044,7 @@ namespace Isis {
     BigInt headerStartPos = protoBufferCore["HeaderStartByte"];
     BigInt headerLength = protoBufferCore["HeaderBytes"];
 
-    fstream input(netFile.expanded().toLatin1().data(), ios::in | ios::binary);
+    fstream input(netFile.expanded().c_str(), ios::in | ios::binary);
     if ( !input.is_open() ) {
       std::string msg = "Failed to open control network file" + netFile.name();
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1097,7 +1097,7 @@ namespace Isis {
     // read each protobuf control point and then initialize it
     // For some reason, reading the header causes the input stream to fail so reopen the file
     input.close();
-    input.open(netFile.expanded(), ios::in | ios::binary);
+    input.open(netFile.expanded().c_str(), ios::in | ios::binary);
     input.seekg(filePos, ios::beg);
     IstreamInputStream pointInStream(&input);
     int numPoints = protoHeader.pointmessagesizes_size();
@@ -1163,7 +1163,7 @@ namespace Isis {
     BigInt headerLength = protoBufferCore["HeaderBytes"];
     BigInt pointsLength = protoBufferCore["PointsBytes"];
 
-    fstream input(netFile.expanded(), ios::in | ios::binary);
+    fstream input(netFile.expanded().c_str(), ios::in | ios::binary);
     if ( !input.is_open() ) {
       std::string msg = "Failed to open control network file" + netFile.name();
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -1186,7 +1186,7 @@ namespace Isis {
 
       if ( !protoHeader.ParseFromCodedStream(&headerCodedInStream) ) {
         std::string msg = "Failed to parse protobuf header from input control net file ["
-                      + netFile.name()+ "]";
+                      + netFile.name() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -1222,7 +1222,7 @@ namespace Isis {
     // read each protobuf control point and then initialize it
     // For some reason, reading the header causes the input stream to fail so reopen the file
     input.close();
-    input.open(netFile.expanded(), ios::in | ios::binary);
+    input.open(netFile.expanded().c_str(), ios::in | ios::binary);
     input.seekg(filePos, ios::beg);
 
     IstreamInputStream pointInStream(&input);
@@ -1658,7 +1658,7 @@ namespace Isis {
     try {
 
       const int labelBytes = 65536;
-      fstream output(netFile.expanded(), ios::out | ios::trunc | ios::binary);
+      fstream output(netFile.expanded().c_str(), ios::out | ios::trunc | ios::binary);
       char *blankLabel = new char[labelBytes];
       memset(blankLabel, 0, labelBytes);
       output.write(blankLabel, labelBytes);

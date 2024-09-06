@@ -29,7 +29,7 @@ namespace Isis{
   void writePoints(const UserInterface &ui, QList<PvlGroup*> camPoints, Pvl *log);
 
   void campt(UserInterface &ui, Pvl *log) {
-    Cube *cube = new Cube(ui.GetCubeName("FROM"), "r");
+    Cube *cube = new Cube(ui.GetCubeName("FROM").toStdString(), "r");
     campt(cube, ui, log);
   }
 
@@ -74,7 +74,7 @@ namespace Isis{
     if (usePointList) {
 
       CSVReader reader;
-      reader.read(FileName(ui.GetFileName("COORDLIST")).expanded());
+      reader.read(QString::fromStdString(FileName(ui.GetFileName("COORDLIST").toStdString()).expanded()));
 
       if (!reader.isTableValid(reader.getTable()) || reader.columns() != 2) {
         std::string msg = "Coordinate file formatted incorrectly.\n"
@@ -176,14 +176,14 @@ namespace Isis{
     QString outFile;
     // Get user params from ui
     if (ui.WasEntered("TO")) {
-      outFile = FileName(ui.GetFileName("TO")).expanded();
+      outFile = QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded());
     }
     bool append = ui.GetBoolean("APPEND");
     QString fileFormat = ui.GetString("FORMAT");
     PvlGroup *point = NULL;
 
     for (int p = 0; p < camPoints.size(); p++) {
-        bool fileExists = FileName(outFile).fileExists();
+        bool fileExists = FileName(outFile.toStdString()).fileExists();
 
       prog.CheckStatus();
       point = camPoints[p];

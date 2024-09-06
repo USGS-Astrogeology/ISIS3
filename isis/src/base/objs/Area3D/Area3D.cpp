@@ -615,23 +615,20 @@ namespace Isis {
     }
     else {
       if(startXValid && endXValid && startX > endX) {
-        QString msg = QObject::tr("Cannot have a 3D area with inverted X coordinates of "
-                                  "[%1 meters] to [%2 meters]")
-                        .arg(startX.meters()).arg(endX.meters());
+        std::string msg = "Cannot have a 3D area with inverted X coordinates of "
+                                  "[" + std::to_string(startX.meters()) + " meters] to [" + std::to_string(endX.meters()) + " meters]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
       if(startYValid && endYValid && startY > endY) {
-        QString msg = QObject::tr("Cannot have a 3D area with inverted Y coordinates of "
-                                  "[%1 meters] to [%2 meters]")
-                        .arg(startY.meters()).arg(endY.meters());
+        std::string msg = "Cannot have a 3D area with inverted Y coordinates of "
+                                  "[" + std::to_string(startY.meters()) + " meters] to [" + std::to_string(endY.meters()) + " meters]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
       if(startZValid && endZValid && startZ > endZ) {
-        QString msg = QObject::tr("Cannot have a 3D area with inverted Z coordinates of "
-                                  "[%1 meters] to [%2 meters]")
-                        .arg(startZ.meters()).arg(endZ.meters());
+        std::string msg = "Cannot have a 3D area with inverted Z coordinates of "
+                                  "[" + std::to_string(startZ.meters()) + " meters] to [" + std::to_string(endZ.meters()) + " meters]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 

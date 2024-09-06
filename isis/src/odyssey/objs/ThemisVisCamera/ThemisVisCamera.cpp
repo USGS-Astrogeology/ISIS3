@@ -55,7 +55,7 @@ namespace Isis {
 
     // make sure it is a themis vis image
     if(inst["InstrumentId"][0] != "THEMIS_VIS") {
-      QString msg = "Unable to create Themis VIS camera model from an image with InstrumentId ["
+      std::string msg = "Unable to create Themis VIS camera model from an image with InstrumentId ["
                    +  QString::fromStdString(inst["InstrumentId"][0]) + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }

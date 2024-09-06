@@ -731,7 +731,7 @@ namespace Isis {
                 m_editPoint->GetMeasure(m_rightMeasure->GetCubeSerialNumber());
 
     if (m_editPoint->IsIgnored()) {
-      QString message = "You are saving changes to a measure on an ignored ";
+      std::string message = "You are saving changes to a measure on an ignored ";
       message += "point.  Do you want to set Ignore = False on the point and ";
       message += "both measures?";
       switch (QMessageBox::question(m_qnetTool, "Qnet Tool Save Measure",
@@ -755,7 +755,7 @@ namespace Isis {
       }
     }
     if (origRightMeasure->IsIgnored() && m_rightMeasure->IsIgnored()) {
-      QString message = "You are saving changes to an ignored measure.  ";
+      std::string message = "You are saving changes to an ignored measure.  ";
       message += "Do you want to set Ignore = False on the right measure?";
       switch(QMessageBox::question(m_qnetTool, "Qnet Tool Save Measure",
                                    message, "&Yes", "&No", 0, 0)){
@@ -773,7 +773,7 @@ namespace Isis {
     //  there has not been a reference set, set the measure on the left as the reference.
     if (m_editPoint->IsReferenceExplicit()) {
       if (m_editPoint->IsEditLocked()) {
-        QString message = "This control point is edit locked.  The Apriori latitude, longitude and ";
+        std::string message = "This control point is edit locked.  The Apriori latitude, longitude and ";
         message += "radius cannot be updated.  You must first unlock the point by clicking the ";
         message += "check box above labeled \"Edit Lock Point\".";
         QMessageBox::warning(m_qnetTool, "Point Locked", message);
@@ -797,14 +797,14 @@ namespace Isis {
     if (m_editPoint->GetType() != ControlPoint::Free && (m_groundOpen &&
         m_rightMeasure->GetCubeSerialNumber() == m_groundSN)) {
       if (m_editPoint->IsEditLocked() && m_controlNet->ContainsPoint(m_editPoint->GetId())) {
-        QString message = "This control point is edit locked.  The Apriori latitude, longitude and ";
+        std::string message = "This control point is edit locked.  The Apriori latitude, longitude and ";
         message += "radius cannot be updated.  You must first unlock the point by clicking the ";
         message += "check box above labeled \"Edit Lock Point\".";
         QMessageBox::warning(m_qnetTool, "Point Locked", message);
         return;
       }
       if (m_leftMeasure->IsIgnored()) {
-        QString message = "This is a Constrained or Fixed point and the reference measure is ";
+        std::string message = "This is a Constrained or Fixed point and the reference measure is ";
         message += "Ignored.  Unset the Ignore flag on the reference measure before saving.";
         QMessageBox::warning(m_qnetTool, "Point Locked", message);
         return;
@@ -870,7 +870,7 @@ namespace Isis {
     ControlMeasure *refMeasure = m_editPoint->GetRefMeasure();
     if ( (m_leftMeasure->GetCubeSerialNumber() != m_groundSN) &&
          (refMeasure->GetCubeSerialNumber() != m_leftMeasure->GetCubeSerialNumber()) ) {
-      QString message = "This point already contains a reference measure.  ";
+      std::string message = "This point already contains a reference measure.  ";
       message += "Would you like to replace it with the measure on the left?";
       int  response = QMessageBox::question(m_qnetTool,
                                 "Qnet Tool Save Measure", message,
@@ -907,7 +907,7 @@ namespace Isis {
     // If the right measure is the reference, make sure they really want
     // to move the reference.
     if (refMeasure->GetCubeSerialNumber() == m_rightMeasure->GetCubeSerialNumber()) {
-      QString message = "You are making a change to the reference measure.  You ";
+      std::string message = "You are making a change to the reference measure.  You ";
       message += "may need to move all of the other measures to match the new ";
       message += " coordinate of the reference measure.  Do you really want to ";
       message += " change the reference measure? ";
@@ -963,7 +963,7 @@ namespace Isis {
     if (m_demOpen) {
       radius = demRadius(lat,lon);
       if (radius == Null) {
-        QString msg = "Could not read radius from DEM, will default to "
+        std::string msg = "Could not read radius from DEM, will default to "
           "local radius of reference measure.";
         QMessageBox::warning(m_qnetTool, "Warning", msg);
         if (m_editPoint->GetRefMeasure()->Camera()->SetGround(
@@ -975,7 +975,7 @@ namespace Isis {
             //m_editPoint->SetAprioriRadiusSourceFile(m_radiusSourceFile);
         }
         else {
-          QString message = "Error trying to get radius at this pt.  "
+          std::string message = "Error trying to get radius at this pt.  "
               "Lat/Lon does not fall on the reference measure.  "
               "Cannot save this measure.";
           QMessageBox::critical(m_qnetTool,"Error",message);
@@ -997,7 +997,7 @@ namespace Isis {
         //radius = m_groundGmap->Projection()->LocalRadius();
       }
       else {
-        QString message = "Error trying to get radius at this pt.  "
+        std::string message = "Error trying to get radius at this pt.  "
             "Lat/Lon does not fall on the reference measure.  "
             "Cannot save this measure.";
         QMessageBox::critical(m_qnetTool,"Error",message);
@@ -1028,7 +1028,7 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      QString message = "Unable to set Apriori Surface Point.\n";
+      std::string message = "Unable to set Apriori Surface Point.\n";
       message += "Latitude = " + QString::number(lat);
       message += "  Longitude = " + QString::number(lon);
       message += "  Radius = " + QString::number(radius) + "\n";
@@ -1125,7 +1125,7 @@ namespace Isis {
 
     if (pointType != ControlPoint::Free && m_leftMeasure->IsIgnored()) {
       m_pointType->setCurrentIndex((int) m_editPoint->GetType());
-      QString message = "The reference measure is Ignored.  Unset the Ignore flag on the ";
+      std::string message = "The reference measure is Ignored.  Unset the Ignore flag on the ";
       message += "reference measure before setting the point type to Constrained or Fixed.";
       QMessageBox::warning(m_qnetTool, "Ignored Reference Measure", message);
       return;
@@ -1141,7 +1141,7 @@ namespace Isis {
     ControlPoint::Status status = m_editPoint->SetType((ControlPoint::PointType) pointType);
     if (status == ControlPoint::PointLocked) {
       m_pointType->setCurrentIndex((int) m_editPoint->GetType());
-      QString message = "This control point is edit locked.  The point type cannot be changed.  You ";
+      std::string message = "This control point is edit locked.  The point type cannot be changed.  You ";
       message += "must first unlock the point by clicking the check box above labeled ";
       message += "\"Edit Lock Point\".";
       QMessageBox::warning(m_qnetTool, "Point Locked", message);
@@ -1243,7 +1243,7 @@ namespace Isis {
     ControlPoint::Status status = m_editPoint->SetIgnored(ignore);
     if (status == ControlPoint::PointLocked) {
       m_ignorePoint->setChecked(m_editPoint->IsIgnored());
-      QString message = "This control point is edit locked.  The Ignored status cannot be ";
+      std::string message = "This control point is edit locked.  The Ignored status cannot be ";
       message += "changed.  You must first unlock the point by clicking the check box above ";
       message += "labeled \"Edit Lock Point\".";
       QMessageBox::warning(m_qnetTool, "Point Locked", message);
@@ -1404,7 +1404,7 @@ namespace Isis {
    */
   void QnetTool::saveNet() {
     if (m_cnetFileName.isEmpty()) {
-      QString message = "This is a new network, you must select "
+      std::string message = "This is a new network, you must select "
                         "\"Save As\" under the File Menu.";
       QMessageBox::critical(m_qnetTool, "Error", message);
       return;
@@ -1527,7 +1527,7 @@ namespace Isis {
       sn = m_serialNumberList->serialNumber(file);
     }
     catch (IException &e) {
-      QString message = "Cannot get serial number for " + file + ".  Is file contained in the ";
+      std::string message = "Cannot get serial number for " + file + ".  Is file contained in the ";
       message += "cube list?\n";
       message += e.toString();
       QMessageBox::critical(m_qnetTool, "Error", message);
@@ -1541,14 +1541,14 @@ namespace Isis {
 
     if (s == Qt::LeftButton) {
       if (!m_controlNet || m_controlNet->GetNumPoints() == 0) {
-        QString message = "No points exist for editing.  Create points ";
+        std::string message = "No points exist for editing.  Create points ";
         message += "using the right mouse button.";
         QMessageBox::warning(m_qnetTool, "Warning", message);
         return;
       }
 
       if (sn == m_groundSN) {
-        QString message = "Cannot select point for editing on ground source.  Select ";
+        std::string message = "Cannot select point for editing on ground source.  Select ";
         message += "point using un-projected images or the Navigator Window.";
         QMessageBox::critical(m_qnetTool, "Error", message);
         return;
@@ -1563,7 +1563,7 @@ namespace Isis {
         modifyPoint(point);
       }
       catch (IException &ie) {
-        QString message = "No points exist for editing. Create points using the right mouse";
+        std::string message = "No points exist for editing. Create points using the right mouse";
         message += " button.";
         QMessageBox::warning(m_qnetTool, "Warning", message);
         return;
@@ -1572,14 +1572,14 @@ namespace Isis {
 
     else if (s == Qt::MiddleButton) {
       if (!m_controlNet || m_controlNet->GetNumPoints() == 0) {
-        QString message = "No points exist for deleting.  Create points ";
+        std::string message = "No points exist for deleting.  Create points ";
         message += "using the right mouse button.";
         QMessageBox::warning(m_qnetTool, "Warning", message);
         return;
       }
 
       if (m_groundOpen && file == m_groundCube->fileName()) {
-        QString message = "Cannot select point for deleting on ground source.  Select ";
+        std::string message = "Cannot select point for deleting on ground source.  Select ";
         message += "point using un-projected images or the Navigator Window.";
         QMessageBox::critical(m_qnetTool, "Error", message);
         return;
@@ -1590,14 +1590,14 @@ namespace Isis {
         point = m_controlNet->FindClosest(sn, samp, line);
 
         if (point == NULL) {
-          QString message = "No points exist for deleting.  Create points ";
+          std::string message = "No points exist for deleting.  Create points ";
           message += "using the right mouse button.";
           QMessageBox::warning(m_qnetTool, "Warning", message);
           return;
         }
       }
       catch (IException &e) {
-        QString message = "Cannot find point on this image for deleting.";
+        std::string message = "Cannot find point on this image for deleting.";
         QMessageBox::critical(m_qnetTool, "Error", message);
         return;
       }
@@ -1608,7 +1608,7 @@ namespace Isis {
       m_leftFile = file;
       UniversalGroundMap *gmap = cvp->universalGroundMap();
       if (!gmap->SetImage(samp,line)) {
-        QString message = "Invalid latitude or longitude at this point. ";
+        std::string message = "Invalid latitude or longitude at this point. ";
         QMessageBox::critical(m_qnetTool,"Error", message);
         return;
       }
@@ -1703,7 +1703,7 @@ namespace Isis {
       // If this ControlPointId already exists, message box pops up and user is
       // asked to enter a new value.
       if (m_controlNet->ContainsPoint(newPoint->GetId())) {
-        QString message = "A ControlPoint with Point Id = [" + newPoint->GetId();
+        std::string message = "A ControlPoint with Point Id = [" + newPoint->GetId();
         message += "] already exists.  Re-enter Point Id for this ControlPoint.";
         QMessageBox::warning(m_qnetTool, "New Point Id", message);
         pointFiles.clear();
@@ -1808,7 +1808,7 @@ namespace Isis {
     }
 
     if (pointFiles.count() == 0) {
-      QString message = "Point does not intersect any images.";
+      std::string message = "Point does not intersect any images.";
       QMessageBox::critical(m_qnetTool, "No intersection", message);
       return;
     }
@@ -1829,7 +1829,7 @@ namespace Isis {
       // If this ControlPointId already exists, message box pops up and user is
       // asked to enter a new value.
       if (m_controlNet->ContainsPoint(fixedPoint->GetId())) {
-        QString message = "A ControlPoint with Point Id = [" + fixedPoint->GetId();
+        std::string message = "A ControlPoint with Point Id = [" + fixedPoint->GetId();
         message += "] already exists.  Re-enter Point Id for this ControlPoint.";
         QMessageBox::warning(m_qnetTool, "New Point Id", message);
         pointFiles.clear();
@@ -1869,7 +1869,7 @@ namespace Isis {
       if (m_demOpen) {
         radius = demRadius(lat,lon);
         if (radius == Null) {
-          QString msg = "Could not read radius from DEM, will default to the "
+          std::string msg = "Could not read radius from DEM, will default to the "
             "local radius of the first measure in the control point.  This "
             "will be updated to the local radius of the chosen reference "
             "measure.";
@@ -1879,7 +1879,7 @@ namespace Isis {
             radius = (*fixedPoint)[0]->Camera()->LocalRadius().meters();
           }
           else {
-            QString msg = "Error trying to get radius at this pt.  "
+            std::string msg = "Error trying to get radius at this pt.  "
                 "Lat/Lon does not fall on the reference measure.  "
                 "Cannot create this point.";
             QMessageBox::critical(m_qnetTool, "Error", msg);
@@ -1897,7 +1897,7 @@ namespace Isis {
           radius = (*fixedPoint)[0]->Camera()->LocalRadius().meters();
         }
         else {
-          QString msg = "Error trying to get radius at this pt.  "
+          std::string msg = "Error trying to get radius at this pt.  "
               "Lat/Lon does not fall on the reference measure.  "
               "Cannot create this point.";
           QMessageBox::critical(m_qnetTool, "Error", msg);
@@ -1996,7 +1996,7 @@ namespace Isis {
 
         //  If all measures being deleted, let user know and give them the option to quit operation
         if (!deletePointDialog->deleteAllCheckBox->isChecked()) {
-          QString message = "You have selected all measures in this point to be deleted.  This "
+          std::string message = "You have selected all measures in this point to be deleted.  This "
             "control point will be deleted.  Do you want to delete this control point?";
           int  response = QMessageBox::question(m_qnetTool,
                                     "Delete control point", message,
@@ -2040,7 +2040,7 @@ namespace Isis {
           if (m_editPoint->IsReferenceExplicit() &&
                 (m_editPoint->GetRefMeasure()->GetCubeSerialNumber() ==
                 (*m_editPoint)[i]->GetCubeSerialNumber())) {
-            QString message = "You are trying to delete the Reference measure."
+            std::string message = "You are trying to delete the Reference measure."
                 "  Do you really want to delete the Reference measure?";
             switch (QMessageBox::question(m_qnetTool,
                                           "Delete Reference measure?", message,
@@ -2111,7 +2111,7 @@ namespace Isis {
 
     //  If no measures, print info and return
     if (point->GetNumMeasures() == 0) {
-      QString message = "This point has no measures.";
+      std::string message = "This point has no measures.";
       QMessageBox::warning(m_qnetTool, "Warning", message);
       // update nav list to re-highlight old point
       if (m_editPoint != NULL) {
@@ -2185,7 +2185,7 @@ namespace Isis {
       //  TODO ???if doesn't exist,???
       if (!m_groundGmap->SetUniversalGround(lat,lon)) {
         located = false;
-        QString message = "This point does not exist on the ground source.\n";
+        std::string message = "This point does not exist on the ground source.\n";
         message += "Latitude = " + QString::number(lat);
         message += "  Longitude = " + QString::number(lon);
         message += "\n A ground measure will not be created.";
@@ -3350,7 +3350,7 @@ namespace Isis {
 
     QFile file(FileName(fn).expanded());
     if (!file.open(QIODevice::ReadOnly)) {
-      QString msg = "Failed to open template file \"" + fn + "\"";
+      std::string msg = "Failed to open template file \"" + fn + "\"";
       QMessageBox::warning(m_qnetTool, "IO Error", msg);
       return;
     }
@@ -3418,7 +3418,7 @@ namespace Isis {
       ss >> pvl;
     }
     catch(IException &e) {
-      QString message = e.toString();
+      std::string message = e.toString();
       QMessageBox::warning(m_qnetTool, "Error", message);
       return;
     }
@@ -3428,7 +3428,7 @@ namespace Isis {
     QFile file(expandedFileName);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-      QString msg = "Failed to save template file to \"" + fn + "\"\nDo you "
+      std::string msg = "Failed to save template file to \"" + fn + "\"\nDo you "
           "have permission?";
       QMessageBox::warning(m_qnetTool, "IO Error", msg);
       return;
@@ -3473,7 +3473,7 @@ namespace Isis {
       registrationDialog.exec();
     }
     catch (IException &e) {
-      QString message = e.toString();
+      std::string message = e.toString();
       QMessageBox::information(m_qnetTool, "Error", message);
     }
   }
@@ -3681,7 +3681,7 @@ namespace Isis {
     if (newGroundSN != m_groundSN && m_serialNumberList->hasSerialNumber(newGroundSN)) {
       //  TODO  If it already exists, are the files different?  Now what?
       //     For now, do not allow.
-      QString message = "A cube in the cube list has the same serial number as this ground file.  ";
+      std::string message = "A cube in the cube list has the same serial number as this ground file.  ";
       message += "If this ground source is a level 1, un-projected cube, it is probably included ";
       message += "in the cube list.  If the ground source is a projected version of a cube in ";
       message += "the list and has the Instrument Group in the labels, the un-projected and ";
@@ -3797,7 +3797,7 @@ namespace Isis {
             }
           }
           catch (IException &) {
-            QString message = "Cannot create either Camera or Projections ";
+            std::string message = "Cannot create either Camera or Projections ";
             message += "for the ground source file.  Check the validity of the ";
             message += " cube labels.  The cube must either be projected or ";
             message += " run through spiceinit.";
@@ -3831,7 +3831,7 @@ namespace Isis {
   void QnetTool::openDem() {
 
       if (m_groundFile.isEmpty()) {
-        QString message = "You must enter a ground source before opening a Dem.";
+        std::string message = "You must enter a ground source before opening a Dem.";
         QMessageBox::critical(m_qnetTool, "Error", message);
         return;
       }
@@ -3929,7 +3929,7 @@ namespace Isis {
 
       //  Make sure this is a dem
       if (!m_demCube->hasTable("ShapeModelStatistics")) {
-        QString message = m_demFile + " is not a DEM.";
+        std::string message = m_demFile + " is not a DEM.";
         QMessageBox::critical(m_qnetTool, "Error", message);
         m_demCube.reset(NULL);
         m_demOpen = false;

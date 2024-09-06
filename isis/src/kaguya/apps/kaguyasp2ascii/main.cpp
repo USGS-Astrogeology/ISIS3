@@ -105,7 +105,7 @@ void IsisMain() {
 
   FILE *spcptr;
   if ((spcptr = fopen(dataFile.toLatin1().data(),"rb")) == 0) {
-    QString msg = "Error opening input Kaguya SP file [" + dataFile + "]";
+    std::string msg = "Error opening input Kaguya SP file [" + dataFile + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -122,7 +122,7 @@ void IsisMain() {
   if (!lab.hasObject("SP_SPECTRUM_WAV") || !lab.hasObject("SP_SPECTRUM_QA") ||
       !lab.hasObject("SP_SPECTRUM_RAD") || !(lab.hasObject("SP_SPECTRUM_REF") ||
       (lab.hasObject("SP_SPECTRUM_REF1") && lab.hasObject("SP_SPECTRUM_REF2")))) {
-    QString msg = "Input file [" + inFile + "] is not a valid ";
+    std::string msg = "Input file [" + inFile + "] is not a valid ";
     msg += "Kaguya Spectral Profiler file";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -134,7 +134,7 @@ void IsisMain() {
   int wavbits = std::stoi(wavobj.findKeyword("SAMPLE_BITS")[0]);
   if (wavlines != 1 || wavsamps != 296 || wavtype != "MSB_UNSIGNED_INTEGER" ||
       wavbits != 16) {
-    QString msg = "Wavelength data in input file does not meet the following ";
+    std::string msg = "Wavelength data in input file does not meet the following ";
     msg += "requirements: Size=1 row x 296 columns, DataType=MSB_UNSIGNED_INTEGER, ";
     msg += "BitType: 16";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -157,7 +157,7 @@ void IsisMain() {
     for (int j=0; j<wavsamps; j++) {
       size_t results = fread((void *)ibuf.ichar,2,1,spcptr);
       if (results != 1) {
-        QString msg = "Error reading wavelength data from input file";
+        std::string msg = "Error reading wavelength data from input file";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       obuf.ichar[0] = ibuf.ichar[1];
@@ -173,7 +173,7 @@ void IsisMain() {
   int rawbits = std::stoi(rawobj.findKeyword("SAMPLE_BITS")[0]);
   if (rawsamps != 296 || rawtype != "MSB_UNSIGNED_INTEGER" ||
       rawbits != 16) {
-    QString msg = "Raw data in input file does not meet the following ";
+    std::string msg = "Raw data in input file does not meet the following ";
     msg += "requirements: Size=296 columns, DataType=MSB_UNSIGNED_INTEGER, ";
     msg += "BitType: 16";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -195,7 +195,7 @@ void IsisMain() {
     for (int j=0; j<rawsamps; j++) {
       size_t results = fread((void *)ibuf.ichar,2,1,spcptr);
       if (results != 1) {
-        QString msg = "Error reading raw data from input file";
+        std::string msg = "Error reading raw data from input file";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       obuf.ichar[0] = ibuf.ichar[1];
@@ -211,7 +211,7 @@ void IsisMain() {
   int qabits = std::stoi(qaobj.findKeyword("SAMPLE_BITS")[0]);
   if (qalines != rawlines || qasamps != 296 || qatype != "MSB_UNSIGNED_INTEGER" ||
       qabits != 16) {
-    QString msg = "Quality Assessment data in input file does not meet the ";
+    std::string msg = "Quality Assessment data in input file does not meet the ";
     msg += "following requirements: Size=296 columns, DataType=MSB_UNSIGNED_INTEGER, ";
     msg += "BitType=16";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -233,7 +233,7 @@ void IsisMain() {
     for (int j=0; j<qasamps; j++) {
       size_t results = fread((void *)ibuf.ichar,2,1,spcptr);
       if (results != 1) {
-        QString msg = "Error reading quality assessment data from input file";
+        std::string msg = "Error reading quality assessment data from input file";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       obuf.ichar[0] = ibuf.ichar[1];
@@ -249,7 +249,7 @@ void IsisMain() {
   int radbits = std::stoi(radobj.findKeyword("SAMPLE_BITS")[0]);
   if (radlines != qalines || radsamps != 296 || radtype != "MSB_UNSIGNED_INTEGER" ||
       radbits != 16) {
-    QString msg = "Radiance data in input file does not meet the following ";
+    std::string msg = "Radiance data in input file does not meet the following ";
     msg += "requirements: Size=296 columns, DataType=MSB_UNSIGNED_INTEGER, ";
     msg += "BitType=16";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -271,7 +271,7 @@ void IsisMain() {
     for (int j=0; j<radsamps; j++) {
       size_t results = fread((void *)ibuf.ichar,2,1,spcptr);
       if (results != 1) {
-        QString msg = "Error reading radiance data from input file";
+        std::string msg = "Error reading radiance data from input file";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       obuf.ichar[0] = ibuf.ichar[1];
@@ -297,7 +297,7 @@ void IsisMain() {
   int refbits = std::stoi(refobj.findKeyword("SAMPLE_BITS")[0]);
   if (reflines != radlines || refsamps != 296 || reftype != "MSB_UNSIGNED_INTEGER" ||
       refbits != 16) {
-    QString msg = "Reflectance data in input file does not meet the following ";
+    std::string msg = "Reflectance data in input file does not meet the following ";
     msg += "requirements: Size=296 columns, DataType=MSB_UNSIGNED_INTEGER, ";
     msg += "BitType=16";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -320,7 +320,7 @@ void IsisMain() {
     for (int j=0; j<refsamps; j++) {
       size_t results = fread((void *)ibuf.ichar,2,1,spcptr);
       if (results != 1) {
-        QString msg = "Error reading reflectance data from input file";
+        std::string msg = "Error reading reflectance data from input file";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       obuf.ichar[0] = ibuf.ichar[1];
@@ -338,7 +338,7 @@ void IsisMain() {
     int refbits2 = std::stoi(refobj2.findKeyword("SAMPLE_BITS")[0]);
     if (reflines2 != radlines || refsamps2 != 296 || reftype2 != "MSB_UNSIGNED_INTEGER" ||
      refbits2 != 16) {
-     QString msg = "Reflectance #2 data in input file does not meet the following ";
+     std::string msg = "Reflectance #2 data in input file does not meet the following ";
      msg += "requirements: Size=296 columns, DataType=MSB_UNSIGNED_INTEGER, ";
      msg += "BitType=16";
      throw IException(IException::User, msg, _FILEINFO_);
@@ -361,7 +361,7 @@ void IsisMain() {
       for (int j=0; j<refsamps2; j++) {
         size_t results = fread((void *)ibuf.ichar,2,1,spcptr);
         if (results != 1) {
-          QString msg = "Error reading reflectance (Ref2) data from input file";
+          std::string msg = "Error reading reflectance (Ref2) data from input file";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         obuf.ichar[0] = ibuf.ichar[1];
@@ -373,7 +373,7 @@ void IsisMain() {
 
   if (wavsamps != rawsamps || wavsamps != radsamps || wavsamps != refsamps ||
       wavsamps != qasamps || wavsamps != 296) {
-    QString msg = "Number of columns in input file must be 296";
+    std::string msg = "Number of columns in input file must be 296";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

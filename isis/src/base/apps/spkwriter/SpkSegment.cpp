@@ -115,7 +115,7 @@ void SpkSegment::import(Cube &cube) {
       spkCache = camera->instrumentPosition()->LoadHermiteCache("SpkSegment");
     }
     else {
-      QString mess = "Unsupported SPK kernel type (" +
+      std::string mess = "Unsupported SPK kernel type (" +
                      QString::number(m_spkType) + ") - must be 9 or 13.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
@@ -326,7 +326,7 @@ QString SpkSegment::getComment() const {
 
   comment <<
 "\n-----------------------------------------------------------------------\n" <<
-"  File:        " << FileName(Source()).name() << endl <<
+"  File:        " << FileName(Source().toStdString()).name() << endl <<
 "  Segment ID:  " << Id() << " (ProductId)" << endl <<
 "  StartTime:   " << utcStartTime() << endl <<
 "  EndTime:     " << utcEndTime() << endl <<
@@ -462,7 +462,7 @@ SpkSegment::SMatrix SpkSegment::load(Table &table) {
 
 void SpkSegment::validateType(const int spktype) const {
   if ( !(( 9 == spktype ) || ( 13 == spktype )) ) {
-    QString mess = "Unsupported SPK kernel type (" +
+    std::string mess = "Unsupported SPK kernel type (" +
                    QString::number(spktype) + ") - must be 9 or 13.";
     throw IException(IException::User, mess, _FILEINFO_);
   }

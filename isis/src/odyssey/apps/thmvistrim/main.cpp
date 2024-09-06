@@ -38,7 +38,7 @@ void IsisMain() {
   try {
     if(icube->group("Instrument")["InstrumentID"][0] != "THEMIS_VIS") {
       FileName inFileName = ui.GetCubeName("FROM");
-      QString msg = "This program is intended for use on THEMIS VIS images only. [";
+      std::string msg = "This program is intended for use on THEMIS VIS images only. [";
       msg += inFileName.expanded() + "] does not appear to be a THEMIS VIS image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

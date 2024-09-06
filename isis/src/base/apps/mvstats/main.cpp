@@ -24,7 +24,7 @@ void IsisMain() {
   //Check to see if an output file was specified
   UserInterface &ui = Application::GetUserInterface();
   if(!ui.WasEntered("CUBE") && !ui.WasEntered("FLATFILE")) {
-    QString message = "At least one output file must be entered";
+    std::string message = "At least one output file must be entered";
     throw IException(IException::User, message, _FILEINFO_);
   }
 
@@ -37,7 +37,7 @@ void IsisMain() {
 
   //Check to see if the input cube has enough bands
   if(bands < 2) {
-    QString message = "Input band must have at least two bands!";
+    std::string message = "Input band must have at least two bands!";
     throw IException(IException::User, message, _FILEINFO_);
   }
 

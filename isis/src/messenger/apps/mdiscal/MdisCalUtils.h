@@ -133,7 +133,7 @@ namespace Isis {
         sunDist = sunkm / 1.49597870691E8;
       } 
       catch (IException &e) {
-        QString message = "Unable to determine the sun-target distance.";
+        std::string message = "Unable to determine the sun-target distance.";
         throw IException(e, IException::Unknown, message, _FILEINFO_);
       }
     }
@@ -153,7 +153,7 @@ namespace Isis {
       CSVReader::CSVAxis row = csv.getRow(i);
       if (toInteger(row[0]) == filter) {
         if ((row.dim1() - 1) < nvalues) {
-          QString mess = "Number values (" + QString(row.dim1() - 1) +
+          std::string mess = "Number values (" + QString(row.dim1() - 1) +
                              ") in file " + fname +
                              " less than number requested (" +
                              QString(nvalues) + ")!";
@@ -186,7 +186,7 @@ namespace Isis {
     CSVReader csv(csvfile.expanded(), header, skip);
     CSVReader::CSVAxis row = csv.getRow(0);
     if (row.dim1() < nvalues) {
-      QString mess = "Number values (" + QString(row.dim1()) +
+      std::string mess = "Number values (" + QString(row.dim1()) +
                          ") in file " + fname + " less than number requested (" +
                          QString(nvalues) + ")!";
       throw IException(IException::User, mess, _FILEINFO_);
@@ -388,7 +388,7 @@ namespace Isis {
     const int nvalues = 13;     // Expected columns in table
     CSVReader csv(csvfile.expanded(), header, skip);
     if (csv.columns() < nvalues) {  // All rows should have same # columns
-      QString mess = "Number values (" + QString(csv.columns()) +
+      std::string mess = "Number values (" + QString(csv.columns()) +
                          ") in file " + ename + " less than number requested (" +
                          QString(nvalues) + ")!";
       throw IException(IException::User, mess, _FILEINFO_);
@@ -411,7 +411,7 @@ namespace Isis {
 
       } 
       catch (IException &e) {
-        QString message = "Could not convert spacecraft clock start count to ET.";
+        std::string message = "Could not convert spacecraft clock start count to ET.";
         throw IException(e, IException::Unknown, message, _FILEINFO_);
       }
     }

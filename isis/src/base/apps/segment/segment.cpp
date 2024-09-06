@@ -17,7 +17,7 @@ namespace Isis {
   void segment(Cube *cube, UserInterface &ui) {
 
     //Get user parameters
-    FileName inFile = ui.GetCubeName("FROM");
+    FileName inFile = ui.GetCubeName("FROM").toStdString();
     int numberOfLines = ui.GetInteger("NL");
     int lineOverlap   = ui.GetInteger("OVERLAP");
 
@@ -32,8 +32,8 @@ namespace Isis {
     bool hasReachedEndOfCube = false;
     while(startLine <= cube->lineCount()  &&  not hasReachedEndOfCube) {
       //! Sets up the proper paramaters for running the crop program
-      QString parameters = "FROM=" + inFile.expanded() +
-                           " TO=" + inFile.path() + "/" + inFile.baseName() + ".segment" + toString(cropNum) + ".cub"
+      QString parameters = "FROM=" + QString::fromStdString(inFile.expanded()) +
+                           " TO=" + QString::fromStdString(inFile.path()) + "/" + QString::fromStdString(inFile.baseName()) + ".segment" + toString(cropNum) + ".cub"
                            + " LINE=" + toString(startLine) + " NLINES=";
 
       if(startLine + numberOfLines > cube->lineCount()) {

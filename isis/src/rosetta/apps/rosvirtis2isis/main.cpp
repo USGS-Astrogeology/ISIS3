@@ -49,7 +49,7 @@ void IsisMain ()
 
   Pvl pdsLabel;
   try {
-    pdsLabel.read(inFile.expanded().toStdString());
+    pdsLabel.read(inFile.expanded());
   }
   catch (IException &e) {
     // Try to fix the PVL before reading it in
@@ -61,7 +61,7 @@ void IsisMain ()
       pvlStream >> pdsLabel;
     }
     catch(IException &e) {
-      QString msg = "Input file [" + inFile.expanded() +
+      std::string msg = "Input file [" + inFile.expanded() +
                  "] is not a valid PVL file.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
@@ -94,7 +94,7 @@ void IsisMain ()
     channelid = QString::fromStdString(pdsLabel.findKeyword("ROSETTA:CHANNEL_ID"));
   }
   catch (IException &e) {
-    QString msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
+    std::string msg = "Unable to read [INSTRUMENT_ID] or [MISSION_ID] from input file [" +
                  inFile.expanded() + "]";
     throw IException(e, IException::Io,msg, _FILEINFO_);
   }
@@ -104,7 +104,7 @@ void IsisMain ()
   channelid = channelid.simplified().trimmed();
 
   if (missid != "ROSETTA" && instid != "VIRTIS") {
-    QString msg = "Input file [" + inFile.expanded() + "] does not appear to be a " +
+    std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be a " +
                  "DAWN Visual and InfraRed Mapping Spectrometer (VIR) EDR or RDR file.";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
@@ -136,7 +136,7 @@ void IsisMain ()
     QFile hkFile(hkTranslationFile.toString());
 
     if(!hkFile.open(QIODevice::ReadOnly)) {
-      QString msg = "Unable to open Virtis Housekeeping information file [" +
+      std::string msg = "Unable to open Virtis Housekeeping information file [" +
                    hkFile.fileName() + "]";
       throw IException(IException::Io,msg, _FILEINFO_);
     }
@@ -460,7 +460,7 @@ void IsisMain ()
     kerns += PvlKeyword("NaifFrameCode", std::to_string(-226220));
   }
   else {
-    QString msg = "Input file [" + inFile.expanded() + "] has an invalid " +
+    std::string msg = "Input file [" + inFile.expanded() + "] has an invalid " +
                  "InstrumentId.";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }

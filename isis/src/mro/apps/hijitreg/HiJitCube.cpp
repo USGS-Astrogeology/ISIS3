@@ -186,7 +186,7 @@ namespace Isis {
           scs2e_c(-74999, scStartTimeString.toLatin1().data(), &jdata.obsStartTime);
           NaifStatus::CheckErrors();
         } catch (IException &e) {
-            QString message = "Start time of the image can not be determined.";
+            std::string message = "Start time of the image can not be determined.";
             throw IException(e, IException::User, message, _FILEINFO_);
         }
       }

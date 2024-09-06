@@ -97,7 +97,7 @@ void IsisMain() {
       results += PvlKeyword("Lat1", std::to_string(lat1.degrees()), "degrees");
       results += PvlKeyword("Lon1", std::to_string(lon1.degrees()), "degrees");
       if ( !v_cam->SetUniversalGround(lat1.degrees(), lon1.degrees()) ) {
-        QString mess = "Geometry coordinate does not map into image at location (" +
+        std::string mess = "Geometry coordinate does not map into image at location (" +
                        QString::number(lat1.degrees()) + "," + QString::number(lon1.degrees()) + ")";
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -117,7 +117,7 @@ void IsisMain() {
         // Ignore the SetImage() error as long as the coordinate is a valid
         // image coordinate.
         if (!v_cam->InCube() ) {
-          QString mess = "Image coordinate is outside image coordinates at point (" +
+          std::string mess = "Image coordinate is outside image coordinates at point (" +
                          QString::number(samp1) + "," + QString::number(line1) + ")";
           throw IException(IException::User, mess, _FILEINFO_);
         }
@@ -178,7 +178,7 @@ void IsisMain() {
         // We only know how to handle a cache with just four records. Anything
         // else and we have to abort...
         if ( o_cmat.Records() != 4 ) {
-          QString mess = "Expect only 4 records for polynomial cache but got "
+          std::string mess = "Expect only 4 records for polynomial cache but got "
                          + QString::number(o_cmat.Records()) + " instead!";
           throw IException(IException::User, mess, _FILEINFO_);
         }
@@ -314,7 +314,7 @@ void IsisMain() {
     Application::Log(results);
   }
   catch (IException &e) {
-    QString msg = "Unable to update camera pointing for [" + filename + "]";
+    std::string msg = "Unable to update camera pointing for [" + filename + "]";
     throw IException(e, IException::Unknown, msg, _FILEINFO_);
   }
 
@@ -493,7 +493,7 @@ void ApplyRotation(const double R[3][3], Table &table) {
 
   // Sanity check...
   if ( table[0].Fields() < 4 ) {
-    QString mess = "Expect at least 4 fields for quaternion cache but got "
+    std::string mess = "Expect at least 4 fields for quaternion cache but got "
                    + QString::number(table.Records()) + " instead!";
     throw IException(IException::User, mess, _FILEINFO_);
   }

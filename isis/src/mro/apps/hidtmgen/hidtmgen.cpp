@@ -491,7 +491,7 @@ namespace Isis{
       pdsLabel.setFormatTemplate("$ISISROOT/appdata/translations/MroHirisePdsDTMPolar.pft");
     }
     else {
-      QString msg = "The projection type [" +
+      std::string msg = "The projection type [" +
                     projectionType
                     + "] is not supported";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -644,7 +644,7 @@ namespace Isis{
     }
     // It was negative, or something else crazy?
     else {
-      QString msg = "Version number [" + toString(version) + "] is invalid";
+      std::string msg = "Version number [" + toString(version) + "] is invalid";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     return vers;
@@ -654,7 +654,7 @@ namespace Isis{
   QString producingInstitution(const Pvl &paramsPvl, const UserInterface &ui) {
     QString producing = QString::fromStdString(paramsPvl["PRODUCING_INSTITUTION"][0]);
     if (producing.size() > 1) {
-      QString msg = "PRODUCING_INSTITUTION value [" + producing + "] in the PARAMSPVL file must be a "
+      std::string msg = "PRODUCING_INSTITUTION value [" + producing + "] in the PARAMSPVL file must be a "
                     "single character. See hidtmgen documentation for these character codes.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -672,7 +672,7 @@ namespace Isis{
       colorCode = "IRB";
     }
     else {
-      QString msg = "The file [" + orthoFileName.expanded() + "] found in the ORTHOFROMLIST "
+      std::string msg = "The file [" + orthoFileName.expanded() + "] found in the ORTHOFROMLIST "
                     "is not a valid orthorectified image. Band count must be 1 (RED) or 3 (color).";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -721,7 +721,7 @@ namespace Isis{
   void verifyDTM(Cube *inCube, const FileName &inputCubeFile) {
     if (inCube->bandCount() > 1 ||
         inCube->label()->hasObject("Instrument")) {
-      QString msg = "Input cube [" + inputCubeFile.expanded() + "] does not appear "
+      std::string msg = "Input cube [" + inputCubeFile.expanded() + "] does not appear "
                   + "to be a DTM";
       throw IException(IException::User, msg, _FILEINFO_);
     }

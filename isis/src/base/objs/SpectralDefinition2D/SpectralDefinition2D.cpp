@@ -28,14 +28,13 @@ namespace Isis {
     CubeAttributeInput cai;
     m_spectelList = NULL;
     m_sectionList = NULL;
-    Cube *smileCube = importCube.SetInputCube(smileDefFilename.expanded(), cai);
+    Cube *smileCube = importCube.SetInputCube(QString::fromStdString(smileDefFilename.expanded()), cai);
 
     try {
       // Check to see if input definition has the correct format
       if (smileCube->lineCount() != 2) {
-        QString msg = QObject::tr("Input calibration file [%1] must have 2 lines: "
-                                  "one containing wavelength centers and one containing widths").
-                      arg(smileDefFilename.toString());
+        std::string msg = "Input calibration file [" + smileDefFilename.toString() + "] must have 2 lines: "
+                                  "one containing wavelength centers and one containing widths";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -62,8 +61,7 @@ namespace Isis {
       if (m_sectionList != NULL) {
         delete m_sectionList;
       }
-      QString msg = QObject::tr("Unable to open input cube [%1] and read it into a spectral "
-                                "definition.").arg(smileDefFilename.toString());
+      std::string msg = "Unable to open input cube [" + smileDefFilename.toString() + "] and read it into a spectral definition.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }

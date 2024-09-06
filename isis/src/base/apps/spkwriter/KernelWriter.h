@@ -144,7 +144,7 @@ class KernelWriter {
     virtual bool WriteComment(SpiceInt handle, const QString &comment)
                               const {
       if ( handle == 0 ) {
-        QString mess = "Comments cannot be written as the file is not open";
+        std::string mess = "Comments cannot be written as the file is not open";
         throw IException(IException::Programmer, mess, _FILEINFO_);
       }
 

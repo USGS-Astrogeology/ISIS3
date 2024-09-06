@@ -63,14 +63,14 @@ namespace Isis{
       isSrcFile = false;
     }
     else {
-      QString msg = "File [" + ui.GetFileName("FROM");
+      std::string msg = "File [" + ui.GetFileName("FROM");
       msg += "] does not appear to be a Mars Express stereo or SRC file. Label keyword [DETECTOR_ID = ";
       msg +=  QString::fromStdString(label["DETECTOR_ID"][0]) + "] is not recognized.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if ((int)label["PROCESSING_LEVEL_ID"] >= 4) {
-      QString msg = "File [" + ui.GetFileName("FROM");
+      std::string msg = "File [" + ui.GetFileName("FROM");
       msg += "] has keyword [PROCESSING_LEVEL_ID = " +  QString::fromStdString(label["PROCESSING_LEVEL_ID"][0]) + "]";
       msg += " and can not be read by this program.";
       throw IException(IException::User, msg, _FILEINFO_);

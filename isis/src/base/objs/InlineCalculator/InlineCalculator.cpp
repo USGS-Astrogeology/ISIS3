@@ -110,7 +110,7 @@ namespace Isis {
     tokenOps = tokenOps.simplified();
 
     int nerrors = 0;
-    QString error =  "Errors parsing inline equation[" + equation + "].";
+    std::string error =  "Errors parsing inline equation[" + equation.toStdString() + "].";
     IException errList(IException::User, error, _FILEINFO_);
  
     Clear();  // Clear the stack
@@ -146,7 +146,7 @@ namespace Isis {
             //  in the current state of the resource pool.
           try {
             if ( !orphanTokenHandler(token) ) {
-              error = "Equation element (" + token + ") invalid - token not recognized.";
+              error = "Equation element (" + token.toStdString() + ") invalid - token not recognized.";
               errList.append(IException(IException::User, error, _FILEINFO_));
               nerrors++;
             }
@@ -222,7 +222,7 @@ namespace Isis {
     }
  
     if (StackSize() != 1) {
-      QString msg = "Too many operands in the equation [" + m_equation + "].";
+      std::string msg = "Too many operands in the equation [" + m_equation.toStdString() + "].";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
  
@@ -255,7 +255,7 @@ namespace Isis {
   bool InlineCalculator::isScalar(const QString &scalar) {
     if (scalar.isEmpty())  return (false);
     try {
-      toDouble(scalar);
+      scalar.toDouble();
       return (true);
     }
     catch (IException &e) {
@@ -292,7 +292,7 @@ namespace Isis {
    *  
    */  
   void InlineCalculator::scalar(const QVariant &scalar) {
-    Push(toDouble(scalar.toString()));
+    Push((scalar.toString()).toDouble());
   }
  
 
@@ -316,7 +316,7 @@ namespace Isis {
     }
  
     // Error!
-    QString error = "Could not find variable [" + key + "] in variable pool.";
+    std::string error = "Could not find variable [" + key.toStdString() + "] in variable pool.";
     throw IException(IException::User, error, _FILEINFO_);
   }
  
@@ -395,7 +395,7 @@ namespace Isis {
     QVector<double> inputB = Pop();
     QVector<double> results;
     if ( inputA.size() != inputB.size() ) {
-      QString msg = "Failed performing logical or operation, "
+      std::string msg = "Failed performing logical or operation, "
                     "input vectors are of differnet lengths.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -419,7 +419,7 @@ namespace Isis {
     QVector<double> inputB = Pop();
     QVector<double> results;
     if ( inputA.size() != inputB.size() ) {
-      QString msg = "Failed performing logical and operation, "
+      std::string msg = "Failed performing logical and operation, "
                     "input vectors are of differnet lengths.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -481,7 +481,7 @@ namespace Isis {
       m_fxPool.insert(function->name(), function);
     }
     else {
-      QString msg = "Function operator [" + function->name() +
+      std::string msg = "Function operator [" + function->name().toStdString() +
                     "] exists!  Cannot replace existing functions in the pool :-(";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -690,8 +690,8 @@ namespace Isis {
    */
   QVector<double> CalculatorVariablePool::value(const QString &variable,
                                                 const int &index) const {
-    QString mess = "No implementation in Calculator variable pool to provide "
-                   " value for variable [" + variable + "].";
+    std::string mess = "No implementation in Calculator variable pool to provide "
+                   " value for variable [" + variable.toStdString() + "].";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
  
@@ -709,8 +709,8 @@ namespace Isis {
    *                                value for variable."
    */
   void CalculatorVariablePool::add(const QString &key, QVector<double> &values) {
-    QString mess = "No implementation in Calculator variable pool to add "
-                   " value for variable [" + key + "].";
+    std::string mess = "No implementation in Calculator variable pool to add "
+                   " value for variable [" + key.toStdString() + "].";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 

@@ -233,7 +233,7 @@ int main() {
   }
   catch (IException &e) {
     cout << endl << endl;
-    QString msg = "**************** UNIT TEST FAILED! **************** ";
+    std::string msg = "**************** UNIT TEST FAILED! **************** ";
     IException(e, IException::Unknown, msg, _FILEINFO_).print();
   }
 }

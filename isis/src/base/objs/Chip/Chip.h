@@ -15,6 +15,7 @@ find files of those names at the top level of this repository. **/
 #include "SpecialPixel.h"
 
 #include <vector>
+#include <QString>
 
 #include <geos/geom/MultiPolygon.h>
 

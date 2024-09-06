@@ -143,9 +143,9 @@ namespace Isis {
                                      geos::geom::MultiPolygon *lonLatPolygon);
 
       bool SetPolygon(geos::geom::Geometry *poly, int position, ImageOverlap *sncopy = NULL, bool insert = false);
-      void HandleError(IException &e, SerialNumberList *snlist, QString msg = "", int overlap1 = -1, int overlap2 = -1);
-      void HandleError(geos::util::GEOSException *exc, SerialNumberList *snlist, QString msg = "", int overlap1 = -1, int overlap2 = -1);
-      void HandleError(SerialNumberList *snlist, QString msg, int overlap1 = -1, int overlap2 = -1);
+      void HandleError(IException &e, SerialNumberList *snlist, std::string msg = "", int overlap1 = -1, int overlap2 = -1);
+      void HandleError(geos::util::GEOSException *exc, SerialNumberList *snlist, std::string msg = "", int overlap1 = -1, int overlap2 = -1);
+      void HandleError(SerialNumberList *snlist, std::string msg, int overlap1 = -1, int overlap2 = -1);
 
       bool p_continueAfterError; //!< If false iExceptions will be thrown from FindImageOverlaps(...)
       bool p_threadedCalculate; //!< True if we want to do calculations in a threaded way

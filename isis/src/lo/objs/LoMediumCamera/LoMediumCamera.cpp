@@ -59,7 +59,7 @@ namespace Isis {
       m_spacecraftNameShort = "LO5";
     }
     else {
-      QString msg = "File does not appear to be a Lunar Orbiter image: ";
+      std::string msg = "File does not appear to be a Lunar Orbiter image: ";
       msg += QString::number(naifIkCode());
       msg += " is not a supported instrument kernel code for Lunar Orbiter.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -131,7 +131,7 @@ namespace Isis {
       m_ckFrameId = -535000;
     }
     else {
-      QString msg = "File does not appear to be an LunarOrbiter 3,4,5 image";
+      std::string msg = "File does not appear to be an LunarOrbiter 3,4,5 image";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

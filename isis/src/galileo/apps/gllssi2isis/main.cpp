@@ -47,11 +47,11 @@ void IsisMain() {
   fixPvl(inFile.toString());
 
   // Make sure it is a Galileo SSI image
-  Pvl lab(inFile.expanded().toStdString());
+  Pvl lab(inFile.expanded());
 
   //Checks if in file is rdr
   if(lab.hasObject("IMAGE_MAP_PROJECTION")) {
-    QString msg = "[" + inFile.name() + "] appears to be an rdr file.";
+    std::string msg = "[" + inFile.name() + "] appears to be an rdr file.";
     msg += " Use pds2isis.";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
@@ -63,7 +63,7 @@ void IsisMain() {
 
   if(!dataSetId.contains("SSI-2-REDR-V1.0") && !dataSetId.contains("SSI-2-REDR-V1.1")
       && !dataSetId.contains("SSI-4-REDR-V1.0") && !dataSetId.contains("SSI-4-REDR-V1.1") ) {
-    QString msg = "Invalid DATA_SET_ID [" + dataSetId + "]" + 
+    std::string msg = "Invalid DATA_SET_ID [" + dataSetId + "]" + 
     " from input file [" + inFile.expanded() + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
@@ -117,7 +117,7 @@ void IsisMain() {
     p.StartProcess(translateData);
     translateLabels(pdsLabel, summedOutput);
 
-    OriginalLabel ol(Pvl(inFile.expanded().toStdString()));
+    OriginalLabel ol(Pvl(inFile.expanded()));
     summedOutput->write(ol);
     summedOutput->close();
     delete summedOutput;

@@ -208,7 +208,7 @@ void IsisMain() {
       testProcess.StandardPds4Label();
     }
     catch(Isis::IException &e) {
-      QString message = e.toString();
+      std::string message = e.toString();
       cout << message.replace(QRegExp("file.*/translations"), "file [translations");
       cout << endl;
       cout << endl;

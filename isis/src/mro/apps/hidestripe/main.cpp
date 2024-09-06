@@ -62,7 +62,7 @@ void IsisMain() {
 
   //Check to make sure we got the cube properly
   if(!inputCube.isOpen()) {
-    QString msg = "Could not open FROM cube" + fromFile.expanded();
+    std::string msg = "Could not open FROM cube" + fromFile.expanded();
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -102,7 +102,7 @@ void IsisMain() {
     if(totalSamples != phases[3]) {
       QString required_samples(QString::number(phases[3]));
       QString bin_QString(QString::number(binning_mode));
-      QString msg = "image must have exactly ";
+      std::string msg = "image must have exactly ";
       msg += required_samples;
       msg += " samples per line for binning mode ";
       msg += bin_QString;

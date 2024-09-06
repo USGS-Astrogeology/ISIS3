@@ -36,20 +36,20 @@ void IsisMain() {
   bool compressed = false;
   bool projected;
   try {
-    Pvl lab(in.expanded().toStdString());
+    Pvl lab(in.expanded());
     id = QString::fromStdString(lab["DATA_SET_ID"]);
     if(lab.findObject("IMAGE").hasKeyword("ENCODING_TYPE")) compressed = true;
     projected = lab.hasObject("IMAGE_MAP_PROJECTION");
   }
   catch(IException &e) {
-    QString msg = "Unable to read [DATA_SET_ID] from input file [" +
+    std::string msg = "Unable to read [DATA_SET_ID] from input file [" +
                  in.expanded() + "]";
     throw IException(e, IException::Io, msg, _FILEINFO_);
   }
 
   //Checks if in file is rdr
   if(projected) {
-    QString msg = "[" + in.name() + "] appears to be an rdr file.";
+    std::string msg = "[" + in.name() + "] appears to be an rdr file.";
     msg += " Use pds2isis.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -57,7 +57,7 @@ void IsisMain() {
   id = id.simplified().trimmed();
   if((id != "MGS-M-MOC-NA/WA-2-DSDP-L0-V1.0") &&
       (id != "MGS-M-MOC-NA/WA-2-SDP-L0-V1.0")) {
-    QString msg = "Input file [" + in.expanded() + "] does not appear to be " +
+    std::string msg = "Input file [" + in.expanded() + "] does not appear to be " +
                  "in MOC EDR format. DATA_SET_ID [" + id + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
@@ -75,7 +75,7 @@ void IsisMain() {
     QString command = "mocuncompress " + in.expanded() + " " +
                       uncompressed.expanded();
     if(system(command.toLatin1().data()) == 1) {
-      QString msg = "Unable to execute [mocuncompress]";
+      std::string msg = "Unable to execute [mocuncompress]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     p.SetPdsFile(uncompressed.expanded(), "", pdsLabel);
@@ -107,7 +107,7 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
   FileName transFile(transDir + "MgsMocInstrument.trn");
 
   // Get the translation manager ready
-  Pvl labelPvl(labelFile.expanded().toStdString());
+  Pvl labelPvl(labelFile.expanded());
   PvlToPvlTranslationManager instrumentXlater(labelPvl, transFile.expanded());
 
   PvlGroup inst("Instrument");
@@ -301,7 +301,7 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
       frameCode = "-94032";
     }
     else {
-      QString msg = "Invalid value for filter name [" + str + "]";
+      std::string msg = "Invalid value for filter name [" + str + "]";
     }
   }
   else {

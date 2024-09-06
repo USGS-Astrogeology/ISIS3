@@ -8,6 +8,7 @@ find files of those names at the top level of this repository. **/
 
 #include <nlohmann/json.hpp>
 #include <QString>
+#include <QList>
 
 #include "IException.h"
 #include "IString.h"
@@ -162,8 +163,8 @@ namespace Isis {
       }
 
       else {
-        QString msg = QObject::tr("The FITS file does not contain a section header that appears "
-                                  "to describe an image.");
+        std::string msg = "The FITS file does not contain a section header that appears "
+                                  "to describe an image.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -181,11 +182,10 @@ namespace Isis {
   json fitsToJson(FileName fitsFile) {
     std::ifstream fileStream;
     try {
-      fileStream.open(fitsFile.expanded().toLocal8Bit().constData(), std::ios::in  | std::ios::binary);
+      fileStream.open(fitsFile.expanded().c_str(), std::ios::in  | std::ios::binary);
     }
     catch (IException &e) {
-      QString msg = QString("Unable to open FITS formatted file [%1].")
-                               .arg(fitsFile.toString());
+      std::string msg = "Unable to open FITS formatted file " + fitsFile.toString() + ".";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 

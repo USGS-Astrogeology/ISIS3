@@ -267,7 +267,7 @@ namespace Isis {
     int nvals = definition->count(keynam);
     if ( !((maxcols == nvals) || (mincols == nvals)) ) {
       if ( throwOnError ) {
-        QString mess = "The keyword count [" + QString::number(nvals) + "] for the given " + keynam
+        std::string mess = "The keyword count [" + QString::number(nvals) + "] for the given " + keynam
                        + " Resource definition is invalid. Must equal maxcols [" 
                        + QString::number(maxcols) + "or mincols [" 
                        + QString::number(mincols) + "]."; 

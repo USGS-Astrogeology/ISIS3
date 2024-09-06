@@ -79,7 +79,7 @@ namespace Isis {
     sumlist.append(sumfile);
     seek(sumlist, DBL_MAX);  // Should unconditionally succeed
     if ( !isFound() ) {  // Gut check
-      QString mess = "Failed to unconditionally accept associated SUMFILE!";
+      std::string mess = "Failed to unconditionally accept associated SUMFILE!";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
   }
@@ -190,7 +190,7 @@ namespace Isis {
     resetCube();
 
     m_cubename =  name;
-    m_cube.reset( new Cube(name, "rw") );
+    m_cube.reset( new Cube(name.toStdString(), "rw") );
 
     // Ensure kernels are loaded for time conversions (mainly)
     m_kernels.reset( new Kernels(*m_cube) );
@@ -487,7 +487,7 @@ namespace Isis {
     // Now check to ensure we have at least one valid time that will be
     // modified and assume that is enough to get it done properly
     if ( 0 == nvalid ) {
-      QString mess = "No expected timing keywords found on labels - "
+      std::string mess = "No expected timing keywords found on labels - "
                      "assuming non-standard, time update failed";
       throw IException(IException::User, mess, _FILEINFO_);
     }

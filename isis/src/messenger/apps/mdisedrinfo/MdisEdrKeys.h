@@ -226,7 +226,7 @@ namespace Isis {
           }
           catch(IException &ie) {
             nbad++;
-            QString mess = "Keyword \"" + keyname + "\" does not exist!";
+            std::string mess = "Keyword \"" + keyname + "\" does not exist!";
             errors.append(
                 IException(IException::User, mess, _FILEINFO_));
           }
@@ -234,7 +234,7 @@ namespace Isis {
 
         // Check to see if all keywords are found
         if(nbad > 0) {
-          QString mess = "One or more keywords in list do not exist!";
+          std::string mess = "One or more keywords in list do not exist!";
           throw IException(errors, IException::User, mess, _FILEINFO_);
         }
 

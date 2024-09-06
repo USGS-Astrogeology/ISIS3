@@ -148,7 +148,7 @@ namespace Isis {
           int status = system( ("rm -rf '" +
                                 existingProjectFileName.expanded() + "' &").toLatin1().data() );
           if (status != 0) {
-            QString msg = "Executing command [rm -rf" + existingProjectFileName.expanded() +
+            std::string msg = "Executing command [rm -rf" + existingProjectFileName.expanded() +
                           "' &] failed with return status [" + toString(status) + "]";
             throw IException(IException::Programmer, msg, _FILEINFO_);
           }
@@ -390,52 +390,52 @@ namespace Isis {
 
     try {
       if ( !dir.mkdir( cnetRoot() ) ) {
-        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
+        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( cnetRoot() );
         warn(msg);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
       if ( !dir.mkdir( imageDataRoot() ) ) {
-        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
+        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( imageDataRoot() );
         warn(msg);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
       if ( !dir.mkdir( shapeDataRoot() ) ) {
-        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
+        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( shapeDataRoot() );
         warn(msg);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
       if ( !dir.mkdir( resultsRoot() ) ) {
-        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
+        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( resultsRoot() );
         warn(msg);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       if ( !dir.mkdir( bundleSolutionInfoRoot() ) ) {
-        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
+        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( bundleSolutionInfoRoot() );
         warn(msg);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       if ( !dir.mkdir( templateRoot() ) ) {
-        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
+        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( templateRoot() );
         warn(msg);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       if ( !dir.mkdir( templateRoot() + "/maps" ) ) {
-        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
+        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( templateRoot() + "/maps" );
         warn(msg);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       if ( !dir.mkdir( templateRoot() + "/registrations" ) ) {
-        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
+        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( templateRoot() + "/registrations" );
         warn(msg);
         throw IException(IException::Io, msg, _FILEINFO_);

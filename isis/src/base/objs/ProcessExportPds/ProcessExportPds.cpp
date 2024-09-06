@@ -105,7 +105,7 @@ namespace Isis {
       CreateImageLabel();
     }
     else {
-      QString msg = "Unsupported PDS output type";
+      std::string msg = "Unsupported PDS output type";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -137,7 +137,7 @@ namespace Isis {
       }
     }
     else {
-      QString msg = "Invalid PDS export type.";
+      std::string msg = "Invalid PDS export type.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -251,7 +251,7 @@ namespace Isis {
       }
     }
     else {
-      QString msg = "Labels must be detached for JP2 files.";
+      std::string msg = "Labels must be detached for JP2 files.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     FileName outFile(sImageFile.toStdString());
@@ -265,7 +265,7 @@ namespace Isis {
     cmpObj += PvlKeyword("UNCOMPRESSED_FILE_NAME", infilename.name());
     int storagebytes = InputCubes[0]->sampleCount() * InputCubes[0]->lineCount();
     if(p_pixelType == Isis::Real) {
-      QString msg = "JPEG2000 does not support floating point data.";
+      std::string msg = "JPEG2000 does not support floating point data.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     if(p_pixelType == Isis::UnsignedWord || p_pixelType == Isis::SignedWord) {
@@ -342,7 +342,7 @@ namespace Isis {
       }
     }
     else {
-      QString msg = "Labels must be detached for JP2 files.";
+      std::string msg = "Labels must be detached for JP2 files.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     FileName outFile(sImageFile.toStdString());
@@ -356,7 +356,7 @@ namespace Isis {
     cmpObj += PvlKeyword("UNCOMPRESSED_FILE_NAME", infilename.name());
     int storagebytes = InputCubes[0]->sampleCount() * InputCubes[0]->lineCount();
     if(p_pixelType == Isis::Real) {
-      QString msg = "JPEG2000 does not support floating point data.";
+      std::string msg = "JPEG2000 does not support floating point data.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     if(p_pixelType == Isis::UnsignedWord || p_pixelType == Isis::SignedWord) {
@@ -513,7 +513,7 @@ namespace Isis {
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel32.typ");
     }
     else {
-      QString msg = "Unsupported PDS pixel type or sample size";
+      std::string msg = "Unsupported PDS pixel type or sample size";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -657,7 +657,7 @@ namespace Isis {
       mainPvl.format()->add("$ISISROOT/appdata/translations/pdsExportImageImagePixel32.typ");
     }
     else {
-      QString msg = "Unsupported PDS pixel type or sample size";
+      std::string msg = "Unsupported PDS pixel type or sample size";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -865,7 +865,7 @@ namespace Isis {
    */
   void ProcessExportPds::OutputDetachedLabel() {
     if(!m_detachedLabel) {
-      QString msg = "Unable to output detached label. Use "
+      std::string msg = "Unable to output detached label. Use "
                     "ProcessExportPds::SetDetached() to set the "
                     "output PDS label file name.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -996,7 +996,7 @@ namespace Isis {
   void ProcessExportPds::ExportTable(Table isisTable, QString detachedPdsTableFileName) {
 
     if(Attached() && detachedPdsTableFileName != "") {
-      QString msg = "The output PDS file has been set to attached and a "
+      std::string msg = "The output PDS file has been set to attached and a "
                     "detached PDS table file name has been given. If detached "
                     "is preferred, set the process to detached SetDetached() "
                     "and call StandardPdsLabel() before calling ExportTable().";
@@ -1004,7 +1004,7 @@ namespace Isis {
     }
 
     if(Detached() && detachedPdsTableFileName == "") {
-      QString msg = "The output PDS file has been set to detached. A file name "
+      std::string msg = "The output PDS file has been set to detached. A file name "
                     "for the detached ouput PDS table file is required. "
                     "If an attached output file is prefered, use the method "
                     "ProcessExportPds::SetAttached() before calling ExportTable().";
@@ -1039,7 +1039,7 @@ namespace Isis {
     else {
       mainPvl += PvlKeyword("^" + pdsTableName.toStdString(), detachedPdsTableFileName.toStdString());
       FileName labelFile(m_detachedPdsLabelFile.toStdString());
-      QString tableFileWithPath = labelFile.path() + "/"
+      QString tableFileWithPath = QString::fromStdString(labelFile.path()) + "/"
                                   + detachedPdsTableFileName;
       ofstream os(tableFileWithPath.toLatin1().data());
       os.write(tableBuffer, isisTable.Records() * fileRecordBytes);
@@ -1322,7 +1322,7 @@ namespace Isis {
     if (!m_detachedLabel) {
       for (unsigned int i = 0; i < m_tableBuffers.size(); i++) {
         if (m_tableBuffers[i] == NULL) {
-          QString msg = "Unable to add tables to PDS output file.";
+          std::string msg = "Unable to add tables to PDS output file.";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
         // write each table buffer to fout.

@@ -62,7 +62,7 @@ void IsisMain() {
 
   // Make sure that we aren't passed in a scaled or cropped cub
   if(lab.findObject("IsisCube").hasGroup("AlphaCube")) {
-    QString msg = "This application can not be run on any image that has been geometrically transformed (i.e. scaled, rotated, sheared, or reflected) or cropped.";
+    std::string msg = "This application can not be run on any image that has been geometrically transformed (i.e. scaled, rotated, sheared, or reflected) or cropped.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

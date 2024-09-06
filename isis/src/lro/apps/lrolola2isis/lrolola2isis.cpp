@@ -20,7 +20,7 @@ namespace Isis {
     if (ui.WasEntered("FROMLIST")) filelist.read(FileName(ui.GetFileName("FROMLIST")));
     
     if (filelist.size() < 1) {
-      QString msg =
+      std::string msg =
         "Input CSV files must be specified in FROM and/or FROMLIST - no files were found.";
       throw IException(IException::User,msg,_FILEINFO_);
     }
@@ -127,12 +127,12 @@ namespace Isis {
               }
             }
             else {
-              QString msg = "Unable to create a camera from " + images[j].name.expanded();
+              std::string msg = "Unable to create a camera from " + images[j].name.expanded();
               throw IException(IException::Unknown, msg, _FILEINFO_);
             }
           }
           else {
-            QString msg = "Unable to open a cube from " + images[j].name.expanded();
+            std::string msg = "Unable to open a cube from " + images[j].name.expanded();
             throw IException(IException::Unknown, msg, _FILEINFO_);
           }        
         }

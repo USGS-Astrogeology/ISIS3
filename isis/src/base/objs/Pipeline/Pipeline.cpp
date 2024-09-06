@@ -96,7 +96,7 @@ namespace Isis {
         if (p_apps[i] == NULL) continue;
         if (mustElimBands && p_apps[i]->SupportsVirtualBands()) {
           if (i != 0 && p_virtualBands.size() != 1) {
-            QString message = "If multiple original inputs were set in the pipeline, the first application must support virtual bands.";
+            std::string message = "If multiple original inputs were set in the pipeline, the first application must support virtual bands.";
             throw IException(IException::Programmer, message, _FILEINFO_);
           }
 
@@ -140,7 +140,7 @@ namespace Isis {
           foundFirst = true;
 
           if (p_apps[i]->InputBranches().size() != OriginalBranches().size()) {
-            QString msg = "The program [" + p_apps[i]->Name() + "] can not be the first in the pipeline";
+            std::string msg = "The program [" + p_apps[i]->Name() + "] can not be the first in the pipeline";
             msg += " because it must be run multiple times with unspecified varying inputs";
             throw IException(IException::Programmer, msg, _FILEINFO_);
           }
@@ -157,7 +157,7 @@ namespace Isis {
       for (int i = 0; successfulPrepare && i < (int)tmpFiles.size(); i++) {
         for (int j = i + 1; j < (int)tmpFiles.size(); j++) {
           if (tmpFiles[i] == tmpFiles[j]) {
-            QString msg = "There is a conflict with the temporary file naming. The temporary file [";
+            std::string msg = "There is a conflict with the temporary file naming. The temporary file [";
             msg += tmpFiles[i] + "] is created twice.";
             throw IException(IException::Programmer, msg, _FILEINFO_);
           }
@@ -239,10 +239,10 @@ namespace Isis {
             FileList listFile;
 
             while (!listData.isEmpty()) {
-              listFile.push_back(listData.takeFirst());
+              listFile.push_back(listData.takeFirst().toStdString());
             }
 
-            listFile.write(listFileName);
+            listFile.write(listFileName.toStdString());
           }
           else {
             // Nothing special is happening, just execute the program
@@ -322,8 +322,8 @@ namespace Isis {
    *                                       to p_inputBranches
    */
   void Pipeline::SetInputFile(const FileName &inputFile) {
-    p_originalInput.push_back(inputFile.original());
-    p_inputBranches.push_back(inputFile.original());
+    p_originalInput.push_back(QString::fromStdString(inputFile.original()));
+    p_inputBranches.push_back(QString::fromStdString(inputFile.original()));
     p_virtualBands.push_back("");
   }
 
@@ -353,7 +353,7 @@ namespace Isis {
    */
   void Pipeline::SetInputListFile(const QString &inputParam) {
     UserInterface &ui = Application::GetUserInterface();
-    FileName inputFileName = FileName(ui.GetFileName(inputParam));
+    FileName inputFileName = FileName(ui.GetFileName(inputParam).toStdString());
 
     SetInputListFile(inputFileName);
   }
@@ -372,12 +372,13 @@ namespace Isis {
     FileName filename;
     int branch = 1;
 
-    while (!filelist.isEmpty()) {
-      filename = filelist.takeFirst();
-      p_originalInput.push_back(filename.expanded());
-      p_inputBranches.push_back(inputFileName.name() + toString(branch));
+    while (!filelist.empty()) {
+      filename = filelist.front();
+      filelist.erase(filelist.begin());
+      p_originalInput.push_back(QString::fromStdString(filename.expanded()));
+      p_inputBranches.push_back(QString::fromStdString(inputFileName.name()) + toString(branch));
       p_virtualBands.push_back("");
-      p_finalOutput.push_back(filename.name());
+      p_finalOutput.push_back(QString::fromStdString(filename.name()));
 
       branch ++;
     }
@@ -472,7 +473,7 @@ namespace Isis {
    */
   void Pipeline::SetOutputFile(const FileName &outputFile) {
     p_finalOutput.clear();
-    p_finalOutput.push_back(outputFile.expanded());
+    p_finalOutput.push_back(QString::fromStdString(outputFile.expanded()));
   }
 
 
@@ -501,14 +502,14 @@ namespace Isis {
     UserInterface &ui = Application::GetUserInterface();
 
     if (ui.WasEntered(outputFileNameParam)) {
-      SetOutputListFile(FileName(ui.GetFileName(outputFileNameParam)));
+      SetOutputListFile(FileName(ui.GetFileName(outputFileNameParam).toStdString()));
     }
     else {
       p_finalOutput.clear();
 
       // Calculate output files
       for (unsigned int i = 0; i < p_originalInput.size(); i++) {
-        p_finalOutput.push_back(FileName(p_originalInput[i]).name());
+        p_finalOutput.push_back(QString::fromStdString(FileName(p_originalInput[i].toStdString()).name()));
       }
 
       p_outputListNeedsModifiers = true;
@@ -528,8 +529,9 @@ namespace Isis {
     FileList filelist(outputFileNameList.expanded());
     QString filename;
 
-    while (!filelist.isEmpty()) {
-      filename = filelist.takeFirst().expanded();
+    while (!filelist.empty()) {
+      filename = QString::fromStdString(filelist.front().expanded());
+      filelist.erase(filelist.begin());
       p_finalOutput.push_back(filename);
     }
 
@@ -582,7 +584,7 @@ namespace Isis {
     // Check uniqueness first
     for (unsigned int appIdentifier = 0; appIdentifier < p_appIdentifiers.size(); appIdentifier++) {
       if (p_appIdentifiers[appIdentifier] == identifier) {
-        QString message = "The application identifier [" + identifier + "] is not unique. " +
+        std::string message = "The application identifier [" + identifier + "] is not unique. " +
                           "Please providing a unique identifier";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
@@ -640,7 +642,7 @@ namespace Isis {
     // Check uniqueness first
     for (unsigned int appIdentifier = 0; appIdentifier < p_appIdentifiers.size(); appIdentifier++) {
       if (p_appIdentifiers[appIdentifier] == appname) {
-        QString message = "The application identifier [" + appname + "] is not unique. Please use " +
+        std::string message = "The application identifier [" + appname + "] is not unique. Please use " +
                           "the other AddToPipeline method providing a unique identifier";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
@@ -703,7 +705,7 @@ namespace Isis {
     }
 
     if (!found) {
-      QString msg = "Application identified by [" + identifier + "] has not been added to the pipeline";
+      std::string msg = "Application identified by [" + identifier + "] has not been added to the pipeline";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -721,7 +723,7 @@ namespace Isis {
    */
   PipelineApplication &Pipeline::Application(const int &index) {
     if (index > Size()) {
-      QString msg = "Index [" + QString(index) + "] out of bounds";
+      std::string msg = "Index [" + QString(index) + "] out of bounds";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -753,7 +755,7 @@ namespace Isis {
     // }
 
     if (appIndex >= (int)p_apps.size()) {
-      QString msg = "Pipeline could not find application [" + appname + "]";
+      std::string msg = "Pipeline could not find application [" + appname + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -779,7 +781,7 @@ namespace Isis {
     }
 
     if (appIndex < 0) {
-      QString msg = "Pipeline could not find application [" + appname + "]";
+      std::string msg = "Pipeline could not find application [" + appname + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -805,7 +807,7 @@ namespace Isis {
 
     if (p_finalOutput.size() > 1) {
       if ((unsigned int)branch >= p_finalOutput.size()) {
-        QString msg = "Output not set for branch [" + QString(branch) + "]";
+        std::string msg = "Output not set for branch [" + QString(branch) + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
@@ -824,10 +826,10 @@ namespace Isis {
 
     if (output == "" || p_finalOutput.size() > 1) {
       if (output == "") {
-        output = "./" + FileName(p_originalInput[0]).baseName();
+        output = "./" + QString::fromStdString(FileName(p_originalInput[0].toStdString()).baseName());
       }
       else {
-        output = "./" + FileName(p_originalInput[branch]).baseName();
+        output = "./" + QString::fromStdString(FileName(p_originalInput[branch].toStdString()).baseName());
       }
 
       // Base filename off of first input file
@@ -854,9 +856,9 @@ namespace Isis {
       PipelineApplication *last = p_apps[p_apps.size()-1];
       if (!last->Enabled()) last = last->Previous();
 
-      output = FileName(p_finalOutput[0]).path() + "/" +
-               FileName(p_finalOutput[0]).baseName() + "." +
-               last->OutputBranches()[branch] + ".";
+      output = QString::fromStdString(FileName(p_finalOutput[0].toStdString()).path() + "/" +
+               FileName(p_finalOutput[0].toStdString()).baseName() + "." +
+               last->OutputBranches()[branch].toStdString() + ".");
 
       if (p_finalOutput.size() > 1) {
         output += last->OutputNameModifier() + ".";

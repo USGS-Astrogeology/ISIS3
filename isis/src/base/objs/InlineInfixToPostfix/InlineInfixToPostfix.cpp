@@ -92,7 +92,7 @@ namespace Isis {
         return (findOperator(token)); 
       }
       else {
-        QString msg = "The token '" + token 
+        std::string msg = "The token '" + token.toStdString() 
                       + "' is not recognized as an operator, function or variable.";
         throw IException(e, IException::User, msg, _FILEINFO_);
       }
@@ -155,7 +155,7 @@ namespace Isis {
     // if (InfixToPostfix::isKnownSymbol(token)) return (false);
 
     try {
-      Isis::toDouble(token);
+      token.toDouble();
       return (true);
     }
     catch (IException &) {

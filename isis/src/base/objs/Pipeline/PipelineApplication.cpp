@@ -385,7 +385,7 @@ namespace Isis {
             listName = Name();
           }
 
-          QString input = p_pipeline->TemporaryFolder() + "/" + FileName(listName).baseName() + ".lis";
+          QString input = p_pipeline->TemporaryFolder() + "/" + QString::fromStdString(FileName(listName.toStdString()).baseName()) + ".lis";
           params = ">>LIST " + input + " ";
 
           PipelineApplication * prev = Previous();
@@ -446,7 +446,7 @@ namespace Isis {
                 params += " " + p_output[outParam].Name() + "=\"" + p_outputs[outBranch] + "\"";
 
                 if(outputSet) {
-                  QString message = "Application [" + Name() + "] in the pipeline branches with an ";
+                  std::string message = "Application [" + Name() + "] in the pipeline branches with an ";
                   message += "output parameter for each branch, but branch [" + p_outBranches[outBranch];
                   message += "] has multiple output files specified.";
                   throw IException(IException::Programmer, message, _FILEINFO_);
@@ -457,7 +457,7 @@ namespace Isis {
             }
 
             if(!outputSet) {
-              QString message = "Application [" + Name() + "] in the pipeline branches with an ";
+              std::string message = "Application [" + Name() + "] in the pipeline branches with an ";
               message += "output parameter for each branch, but branch [" + p_outBranches[outBranch];
               message += "] has no output files specified.";
               throw IException(IException::Programmer, message, _FILEINFO_);
@@ -495,7 +495,7 @@ namespace Isis {
       }
 
       if(inputFile.isEmpty()) {
-        QString message = "There was a problem with calculating the inputs for program [" + Name();
+        std::string message = "There was a problem with calculating the inputs for program [" + Name();
         message += "]. Please verify your program is not setting outputs for branches that ";
         message += "don't have input.";
         throw IException(IException::Programmer, message, _FILEINFO_);
@@ -624,22 +624,22 @@ namespace Isis {
     if(!LastApplicationWithOutput()) {
       QString lastOutput = p_pipeline->FinalOutput(branch, false);
       outputFile = outFolder + "/" +
-                   FileName(lastOutput).baseName() + "." + p_outputMod + "." + p_outputExtension;
+                   QString::fromStdString(FileName(lastOutput.toStdString()).baseName()) + "." + p_outputMod + "." + p_outputExtension;
 
       if(p_outputMod.isEmpty()) {
         outputFile = outFolder + "/" +
-                     FileName(lastOutput).baseName() + "." + p_outputExtension;
+                     QString::fromStdString(FileName(lastOutput.toStdString()).baseName()) + "." + p_outputExtension;
       }
     }
     else {
       outputFile = p_pipeline->FinalOutput(branch, numUsedBranches > 1);
-      outFolder = FileName(outputFile).path();
+      outFolder = QString::fromStdString(FileName(outputFile.toStdString()).path());
     }
 
     if(!LastApplicationWithOutput() && numUsedBranches != 1 && !p_outputMod.isEmpty()) {
-      FileName outfile(outputFile);
+      FileName outfile(outputFile.toStdString());
 
-      QString realOut(outFolder + "/" + outfile.baseName() + "." + p_outBranches[branch] + "." + p_outputExtension);
+      QString realOut(outFolder + "/" + QString::fromStdString(outfile.baseName()) + "." + p_outBranches[branch] + "." + p_outputExtension);
 
       if(usedBranch) {
 
@@ -738,11 +738,11 @@ namespace Isis {
     }
 
     if(p_inBranches[0] != "") {
-      QString msg = "Application [" + Name() + "] in the pipeline does not have an input for branch [" + p_inBranches[branch] + "]";
+      std::string msg = "Application [" + Name() + "] in the pipeline does not have an input for branch [" + p_inBranches[branch] + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     else {
-      QString msg = "Application [" + Name() + "] in the pipeline does not have an input";
+      std::string msg = "Application [" + Name() + "] in the pipeline does not have an input";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -782,7 +782,7 @@ namespace Isis {
     }
 
     if(!found) {
-      QString msg = "Branch [" + name + "] does not exist in the pipeline application [" + Name() + "]";
+      std::string msg = "Branch [" + name + "] does not exist in the pipeline application [" + Name() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

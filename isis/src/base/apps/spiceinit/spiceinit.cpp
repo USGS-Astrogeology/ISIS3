@@ -70,12 +70,12 @@ namespace Isis {
     // Make sure at least one CK & SPK quality was selected
     if (!ui.GetBoolean("CKPREDICTED") && !ui.GetBoolean("CKRECON") &&
        !ui.GetBoolean("CKSMITHED") && !ui.GetBoolean("CKNADIR")) {
-      QString msg = "At least one CK quality must be selected";
+      std::string msg = "At least one CK quality must be selected";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     if (!ui.GetBoolean("SPKPREDICTED") && !ui.GetBoolean("SPKRECON") &&
        !ui.GetBoolean("SPKSMITHED")) {
-      QString msg = "At least one SPK quality must be selected";
+      std::string msg = "At least one SPK quality must be selected";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -89,7 +89,7 @@ namespace Isis {
     }
 
     if (proj != NULL) {
-      QString msg = "Can not initialize SPICE for a map projected cube";
+      std::string msg = "Can not initialize SPICE for a map projected cube";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -611,12 +611,12 @@ namespace Isis {
         QString::fromStdString(labels.findGroup("Instrument", Pvl::Traverse)["InstrumentId"][0]);
 
     if (instrumentId == "HRSC"){
-      QString msg = "Spice Server does not support MEX HRSC images. Please rerun spiceinit with local MEX data.";
+      std::string msg = "Spice Server does not support MEX HRSC images. Please rerun spiceinit with local MEX data.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if (ui.GetString("URL") == "https://services.isis.astrogeology.usgs.gov/cgi-bin/spiceinit.cgi"){
-      QString msg = "USER WARNING: The URL you entered has been deprecated and no longer recommended for use.";
+      std::string msg = "USER WARNING: The URL you entered has been deprecated and no longer recommended for use.";
       std::cerr << msg << std::endl;
     }
 

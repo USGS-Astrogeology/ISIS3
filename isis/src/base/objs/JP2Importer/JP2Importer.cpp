@@ -26,7 +26,7 @@ namespace Isis {
 
     try {
       // Determine if input file is a JPEG2000 file
-      m_decoder = new JP2Decoder(inputName.expanded());
+      m_decoder = new JP2Decoder(QString::fromStdString(inputName.expanded()));
       m_decoder->OpenFile();
       setSamples(m_decoder->GetSampleDimension());
       setLines(m_decoder->GetLineDimension());

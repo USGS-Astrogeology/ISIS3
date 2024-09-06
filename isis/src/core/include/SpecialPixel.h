@@ -9,11 +9,9 @@ find files of those names at the top level of this repository. **/
 #include <vector>
 #include <cmath>
 #include <cfloat>
-#include <QString>
-#include <QStringList>
-
 #include "IException.h"
 #include "IString.h"
+#include <sstream>
 
 namespace Isis {
 
@@ -368,7 +366,7 @@ namespace Isis {
    *
    * @return string The name of the pixel type
    */
-  inline QString PixelToString(double d, double precision=8) {
+  inline std::string PixelToString(double d, double precision=8) {
     if(Isis::IsSpecial(d)) {
       if(Isis::IsNullPixel(d)) return "Null";
       if(Isis::IsLrsPixel(d)) return "Lrs";
@@ -378,8 +376,9 @@ namespace Isis {
       return "Invalid";
     }
 
-    QString result;
-    return result.setNum(d, 'g', precision);
+    std::ostringstream result;
+    result << std::setprecision(precision) << std::scientific << d;
+    return result.str();
   }
 
 
@@ -391,11 +390,11 @@ namespace Isis {
    *
    * @return double Pixel value
    */
-  inline double StringToPixel(const QString &str) {
+  inline double StringToPixel(const std::string &str) {
 
-    QString s = str.toUpper();
+    std::string s = IString::UpCase(str);
 
-    QStringList legal;
+    std::vector<std::string> legal;
     legal.push_back("NULL");
     legal.push_back("HRS");
     legal.push_back("LRS");
@@ -403,27 +402,27 @@ namespace Isis {
     legal.push_back("LIS");
     int matches = 0;
     for(int i = 0; i < (int) legal.size(); i++) {
-      if(legal[i].mid(0, s.size()) == s) {
+      if(legal[i].substr(0, s.size()) == s) {
         matches++;
       }
     }
     if(matches > 1) {
-      QString msg = "Input [" + str + "] is not a unique abbreviation. Use " + s + "I or " + s + "R.";
+      std::string msg = "Input [" + str + "] is not a unique abbreviation. Use " + s + "I or " + s + "R.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     if(matches == 0) {
       try {
-        return toDouble(s.toStdString());
+        return toDouble(s);
       }
       catch(IException &e) {
-        QString msg = "Input [" + str + "] does not appear to be a legal special pixel abbreviation or double value.";
+        std::string msg = "Input [" + str + "] does not appear to be a legal special pixel abbreviation or double value.";
         throw IException(e, IException::User, msg, _FILEINFO_);
       }
     }
     if(s[0] == 'N') return Null;
-    if(s.mid(0, 2) == "HR") return Hrs;
-    if(s.mid(0, 2) == "LR") return Lrs;
-    if(s.mid(0, 2) == "HI") return His;
+    if(s.substr(0, 2) == "HR") return Hrs;
+    if(s.substr(0, 2) == "LR") return Lrs;
+    if(s.substr(0, 2) == "HI") return His;
     else  return Lis;//(s.substr(0,2) == "LI")
 
   }

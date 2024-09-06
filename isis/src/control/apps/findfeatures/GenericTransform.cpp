@@ -146,14 +146,14 @@ cv::Mat GenericTransform::computeInverse(const cv::Mat &matrix,
     double result = cv::invert(matrix, inverse);
     if ( verify ) {
       if ( 0.0 == result ) {
-        QString msg = "Transformation matrix is not invertable";
+        std::string msg = "Transformation matrix is not invertable";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
   }
  catch ( std::exception &e ) {
     // This will also catch any ISIS error
-    QString msg = "Matrix inversion error: " + QString(e.what());
+    std::string msg = "Matrix inversion error: " + QString(e.what());
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 

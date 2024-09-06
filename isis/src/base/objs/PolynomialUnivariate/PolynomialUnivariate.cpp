@@ -98,7 +98,7 @@ namespace Isis {
       derivative = 1;
     }
     else {
-      QString msg = "Unable to evaluate the derivative of the univariate polynomial for the given "
+      std::string msg = "Unable to evaluate the derivative of the univariate polynomial for the given "
                     "coefficient index [" + toString(coefIndex) + "]. "
                     "Index is negative or exceeds degree of polynomial ["
                     + toString(Coefficients()) + "]";

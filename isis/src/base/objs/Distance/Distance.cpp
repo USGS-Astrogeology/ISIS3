@@ -178,7 +178,7 @@ namespace Isis {
     QString string;
 
     if (isValid())
-      string = Isis::toString(meters()) + " meters";
+      string = QString::number(meters()) + " meters";
 
     return string;
   }

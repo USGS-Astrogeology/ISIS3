@@ -11,8 +11,6 @@ find files of those names at the top level of this repository. **/
 #include "PvlContainer.h"
 #include "PvlGroup.h"
 
-#include <QMetaType>
-
 #include <nlohmann/json.hpp>
 
 
@@ -80,8 +78,8 @@ namespace Isis {
       const PvlGroup &group(const int index) const;
 
       //! The counter for groups.
-      typedef QList<Isis::PvlGroup>::iterator PvlGroupIterator;
-      typedef QList<Isis::PvlGroup>::const_iterator ConstPvlGroupIterator;
+      typedef std::vector<Isis::PvlGroup>::iterator PvlGroupIterator;
+      typedef std::vector<Isis::PvlGroup>::const_iterator ConstPvlGroupIterator;
 
 
       /**
@@ -224,8 +222,8 @@ namespace Isis {
       const PvlObject &object(const int index) const;
 
       //! The counter for objects.
-      typedef QList<PvlObject>::iterator PvlObjectIterator;
-      typedef QList<PvlObject>::const_iterator ConstPvlObjectIterator;
+      typedef std::vector<PvlObject>::iterator PvlObjectIterator;
+      typedef std::vector<PvlObject>::const_iterator ConstPvlObjectIterator;
 
 
       /**
@@ -350,13 +348,11 @@ namespace Isis {
       void validateObject(PvlObject & pPvlObj);
 
     private:
-      QList<PvlObject> m_objects;    /**<A vector of PvlObjects contained
+      std::vector<PvlObject> m_objects;    /**<A vector of PvlObjects contained
                                                 in the current PvlObject. */
-      QList<PvlGroup> m_groups;/**<A vector of PvlGroups contained
+      std::vector<PvlGroup> m_groups;/**<A vector of PvlGroups contained
                                                 in the current PvlObject. */
   };
 }
-
-Q_DECLARE_METATYPE(Isis::PvlObject);
 
 #endif

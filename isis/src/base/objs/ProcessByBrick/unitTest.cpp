@@ -311,7 +311,7 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString msg = ex.toString();
+        std::string msg = ex.toString();
         cout << msg.toStdString() << endl;
 
     }

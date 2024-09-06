@@ -404,7 +404,7 @@ void IsisMain(){
       QString hdumpFile = hdump.expanded();
       ofstream ofile(hdumpFile.toLatin1().data(), ios::out);
       if (!ofile) {
-        QString mess = "Unable to open/create history dump file " +
+        std::string mess = "Unable to open/create history dump file " +
                       hdump.expanded();
         IException(IException::User, mess, _FILEINFO_).print();
       }
@@ -482,7 +482,7 @@ void IsisMain(){
   catch (IException &ie) {
     delete calVars;
     calVars = 0;
-    QString mess = "Failed in " + procStep;
+    std::string mess = "Failed in " + procStep;
     throw IException(ie, IException::User, mess, _FILEINFO_);
   }
 

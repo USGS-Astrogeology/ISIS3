@@ -66,7 +66,7 @@ void IsisMain() {
     newRadiiSource = Apriori;
   }
   else {
-    QString msg = "The value for parameter GETLATLON [";
+    std::string msg = "The value for parameter GETLATLON [";
     msg += ui.GetAsString("GETLATLON") + "] must be provided.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -145,12 +145,12 @@ void IsisMain() {
 
   if (numSuccesses == 0) {
     if (numConstrainedFixed == 0) {
-      QString msg = "There were no Fixed or Constrained points in this network."
+      std::string msg = "There were no Fixed or Constrained points in this network."
           "  No radii were replaced.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     else {
-      QString msg = "No valid radii can be calculated. Verify that the DEM [" +
+      std::string msg = "No valid radii can be calculated. Verify that the DEM [" +
                        ui.GetAsString("MODEL") + "] is valid.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -201,7 +201,7 @@ void IsisMain() {
       failGroup.addKeyword(PvlKeyword("PointIDs", failedIDs.toStdString()));
       results.addGroup(failGroup);
     }
-    results.write(errorlogFile.expanded().toStdString());
+    results.write(errorlogFile.expanded());
   }
   // Write summary to application log
   Application::Log(summaryGroup);

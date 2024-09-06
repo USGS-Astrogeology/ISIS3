@@ -12,7 +12,7 @@ using namespace Isis;
 namespace Isis {
 
   void mapmos(UserInterface &ui, Pvl *log) {
-    Cube *inCube = new Cube( ui.GetCubeName("FROM"), "r");
+    Cube *inCube = new Cube( ui.GetCubeName("FROM").toStdString(), "r");
     mapmos(inCube, ui, log);
   }
 
@@ -80,7 +80,7 @@ namespace Isis {
       //check to make sure they're all there. If not, throw error, need to enter all.
       if (!mapGroup.hasKeyword("MinimumLongitude") || !mapGroup.hasKeyword("MaximumLongitude") ||
           !mapGroup.hasKeyword("MinimumLatitude") || !mapGroup.hasKeyword("MaximumLatitude") ) {
-        QString msg = "One of the extents is missing. Please input all extents.";
+        std::string msg = "One of the extents is missing. Please input all extents.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       

@@ -2374,8 +2374,8 @@ namespace Isis {
   void CubeViewport::setTrackingCube() {
     PvlGroup trackingGroup = p_cube->group("Tracking");
     //Because the tracking group does not have a path, get the path from the main cube
-    FileName cubeName(p_cube->fileName());
-    QString trackingCubeName = QString::fromStdString(trackingGroup.findKeyword("Filename")[0]);
+    FileName cubeName(p_cube->fileName().toStdString());
+    std::string trackingCubeName = trackingGroup.findKeyword("Filename")[0];
     FileName trackingCubeFileName(cubeName.path() + "/" + trackingCubeName);
     Cube *trackingCube = new Cube(trackingCubeFileName);
     p_trackingCube = trackingCube;

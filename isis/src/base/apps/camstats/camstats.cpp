@@ -57,8 +57,8 @@ namespace Isis {
     }
 
     if(ui.WasEntered("TO")) {
-      QString outfile = FileName(ui.GetFileName("TO")).expanded();
-      bool exists = FileName(outfile).fileExists();
+      QString outfile = QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded());
+      bool exists = FileName(outfile.toStdString()).fileExists();
       bool append = ui.GetBoolean("APPEND");
 
       // If the user chose a format of PVL, then write to the output file ("TO")
@@ -146,7 +146,7 @@ namespace Isis {
 
 
         }
-        os << FileName(from).expanded() << ",";
+        os << FileName(from.toStdString()).expanded() << ",";
         //call the function to write out the values for each group
         writeFlat(os, camStats.getLatStat());
         writeFlat(os, camStats.getLonStat());

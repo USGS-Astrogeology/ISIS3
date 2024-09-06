@@ -53,7 +53,7 @@ namespace Isis {
       m_spacecraftNameShort = "Chan1";
     }
     else {
-      QString msg = "Cube does not appear to be a mini RF image";
+      std::string msg = "Cube does not appear to be a mini RF image";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

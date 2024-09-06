@@ -57,7 +57,7 @@ namespace Isis {
    */
   void CameraDistortionMap::SetDistortion(int naifIkCode) {
     p_odk.clear();
-    QString odkkey = "INS" + toString(naifIkCode) + "_OD_K";
+    QString odkkey = "INS" + QString::number(naifIkCode) + "_OD_K";
     for (int i = 0; i < 3; ++i) {
       p_odk.push_back(p_camera->Spice::getDouble(odkkey, i));
     }

@@ -23,7 +23,7 @@ namespace Isis {
 
   void getsn( UserInterface &ui, Pvl *log ) {
     // Open the input cube
-    Cube *cube = new Cube( ui.GetCubeName("FROM"), "r");
+    Cube *cube = new Cube( ui.GetCubeName("FROM").toStdString(), "r");
     
     getsn( cube, ui, log );
 

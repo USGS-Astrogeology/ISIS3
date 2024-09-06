@@ -89,15 +89,15 @@ namespace Isis {
       // Is this token a range of bands
       if (commaTok.contains('-')) {
         QString dashTok;
-        int start = toInt(commaTok.mid(0, commaTok.indexOf("-")));
-        int end =  toInt(commaTok.mid(commaTok.indexOf("-") + 1));
+        int start = commaTok.mid(0, commaTok.indexOf("-")).toInt();
+        int end =  commaTok.mid(commaTok.indexOf("-") + 1).toInt();
         int direction;
         direction = (start <= end) ? 1 : -1;
         // Save the entire range of bands
         for (int band = start; band != end; band += direction) {
-          result.push_back(Isis::toString(band));
+          result.push_back(QString::number(band));
         }
-        result.push_back(Isis::toString(end));
+        result.push_back(QString::number(end));
       }
       // This token is a single band specification
       else {
@@ -115,7 +115,7 @@ namespace Isis {
 
 
   void CubeAttributeInput::setBands(const vector<QString> &bands) {
-    setAttributes("+" + toString(bands));
+    setAttributes("+" + toString(bands).toStdString());
   }
 
 
@@ -299,7 +299,7 @@ namespace Isis {
 
       QStringList rangeList = range.split(":");
       if (rangeList.count() == 2 && rangeList.first() != "")
-        result = toDouble(rangeList.first());
+        result = rangeList.first().toDouble();
     }
 
     return result;
@@ -314,7 +314,7 @@ namespace Isis {
 
       QStringList rangeList = range.split(":");
       if (rangeList.count() == 2 && rangeList.last() != "")
-        result = toDouble(rangeList.last());
+        result = rangeList.last().toDouble();
     }
 
     return result;
@@ -323,15 +323,15 @@ namespace Isis {
 
   void CubeAttributeOutput::setMinimum(double min) {
     if (!IsSpecial(min)) {
-      QString newRange = Isis::toString(min) + ":";
+      QString newRange = QString::number(min) + ":";
 
       if (!IsSpecial(maximum()))
-        newRange += Isis::toString(maximum());
+        newRange += QString::number(maximum());
 
       setAttribute(newRange, &CubeAttributeOutput::isRange);
     }
     else if (!IsSpecial(maximum())) {
-      setAttribute(":" + Isis::toString(maximum()), &CubeAttributeOutput::isRange);
+      setAttribute(":" + QString::number(maximum()), &CubeAttributeOutput::isRange);
     }
     else {
       setAttribute("", &CubeAttributeOutput::isRange);
@@ -341,15 +341,15 @@ namespace Isis {
 
   void CubeAttributeOutput::setMaximum(double max) {
     if (!IsSpecial(max)) {
-      QString newRange = ":" + Isis::toString(max);
+      QString newRange = ":" + QString::number(max);
 
       if (!IsSpecial(minimum()))
-        newRange = Isis::toString(minimum()) + newRange;
+        newRange = QString::number(minimum()) + newRange;
 
       setAttribute(newRange, &CubeAttributeOutput::isRange);
     }
     else if (!IsSpecial(minimum())) {
-      setAttribute(Isis::toString(minimum()) + ":", &CubeAttributeOutput::isRange);
+      setAttribute(QString::number(minimum()) + ":", &CubeAttributeOutput::isRange);
     }
     else {
       setAttribute("", &CubeAttributeOutput::isRange);
@@ -467,7 +467,7 @@ namespace Isis {
 
 
   QString CubeAttributeOutput::byteOrderString() const {
-    return ByteOrderName(byteOrder());
+    return QString::fromStdString(ByteOrderName(byteOrder()));
   }
 
 

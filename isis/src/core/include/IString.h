@@ -9,8 +9,6 @@ find files of those names at the top level of this repository. **/
 #include <string>
 #include <vector>
 
-#include <QStringList>
-
 #include "Constants.h"
 
 namespace Isis {
@@ -291,7 +289,7 @@ namespace Isis {
   };
 
   // std::ostream &operator<<(std::ostream &os, const QString &string);
-  // std::ostream &operator<<(std::ostream &os, const QStringRef &string);
+  std::ostream &operator<<(std::ostream &os, const std::string &string);
 }
 
 #endif

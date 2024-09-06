@@ -78,7 +78,7 @@ namespace Isis {
       list.read(ui.GetFileName("FROMLIST"));
 
       if (list.size() < 1) {
-          QString msg = "The list file [" + ui.GetFileName("FROMLIST") + "does not contain any data";
+          std::string msg = "The list file [" + ui.GetFileName("FROMLIST") + "does not contain any data";
           throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -97,7 +97,7 @@ namespace Isis {
               productId = prodId;
 
           if (productId != prodId) {
-              QString msg = "This program is intended for use on a single LROC WAC images only.";
+              std::string msg = "This program is intended for use on a single LROC WAC images only.";
               msg += "The ProductIds do not match.";
               throw IException(IException::User, msg, _FILEINFO_);
           }
@@ -108,7 +108,7 @@ namespace Isis {
           QString numFrames = QString::fromStdString(inst["NumFramelets"]);
 
           if (instId != "WAC-VIS" && instId != "WAC-UV") {
-              QString msg = "This program is intended for use on LROC WAC images only. [";
+              std::string msg = "This program is intended for use on LROC WAC images only. [";
               msg += list[i].toString() + "] does not appear to be a WAC image.";
               throw IException(IException::User, msg, _FILEINFO_);
           }

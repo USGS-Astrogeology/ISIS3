@@ -211,7 +211,7 @@ namespace Isis {
 
       if ( !dbfilestatus.file().toString().isEmpty() ) {
         js_dbfile["filespec"] = dbfilestatus.name().toStdString();
-        js_dbfile["filepath"] = dbfilestatus.expanded().toStdString();
+        js_dbfile["filepath"] = dbfilestatus.expanded();
         js_dbfile["exists"]   = json_bool( dbfilestatus.exists() ).toStdString();
       }
       else {
@@ -273,14 +273,14 @@ namespace Isis {
       // File exists, lets open it and compute the hash
       QFile v_file( expanded() );
       if ( !v_file.open( QIODevice::ReadOnly ) ) {
-        QString mess = "Could not open file " + expanded() +  " to compute hash";
+        std::string mess = "Could not open file " + expanded() +  " to compute hash";
         throw IException( IException::User, mess, _FILEINFO_ );
       }
 
       // Compute the hash!
       QCryptographicHash q_hash( hashAlgorithm );
       if ( !q_hash.addData( &v_file ) ) {
-        QString mess = "Could not compute hash for  " + expanded();
+        std::string mess = "Could not compute hash for  " + expanded();
         throw IException( IException::User, mess, _FILEINFO_ );
       }
 
@@ -468,7 +468,7 @@ namespace Isis {
 
       isisdata_json js_dbselection;
       if ( addSource ) {
-        js_dbselection["source"] = dbselection.source().expanded().toStdString();
+        js_dbselection["source"] = dbselection.source().expanded();
       }
 
       js_dbselection["time"]   = dbselection.time().to_json();
@@ -515,7 +515,7 @@ namespace Isis {
       }
 
       // Got a kerneldb file
-      Pvl db( dbfile.expanded().toStdString() );
+      Pvl db( dbfile.expanded() );
 
       // Check if there are any specs in the file
       if ( db.objects() < 1 ) {
@@ -728,19 +728,19 @@ namespace Isis {
 
       // Check for validity of datadir and isisdata
       if ( !hasIsisData() ) {
-        QString mess = "ISISDATA (" + isisdata().original() + ") does not not exist/invalid!";
+        std::string mess = "ISISDATA (" + isisdata().original() + ") does not not exist/invalid!";
         throw IException( IException::User, mess, _FILEINFO_ );
       }
 
       // Check for validity of datadir and isisdata
       if ( !hasDataRoot() ) {
-        QString mess = "DATAROOT (" + dataroot().original() + ") does not not exist/invalid!";
+        std::string mess = "DATAROOT (" + dataroot().original() + ") does not not exist/invalid!";
         throw IException( IException::User, mess, _FILEINFO_ );
       }
 
       // Check for validity of datadir and isisdata
       if ( !dataroot().isDirectory() ) {
-        QString mess = "DATAROOT (" + dataroot().original() + ") is not a directory!";
+        std::string mess = "DATAROOT (" + dataroot().original() + ") is not a directory!";
         throw IException( IException::User, mess, _FILEINFO_ );
       }
 

@@ -61,7 +61,7 @@ inline int InValidCount(const HiVector &v) {
 inline int CpmmToCcd(int cpmm) {
   const int cpmm2ccd[] = {0,1,2,3,12,4,10,11,5,13,6,7,8,9};
   if ( (cpmm < 0) || (cpmm >= (int)(sizeof(cpmm2ccd)/sizeof(int))) ) {
-    QString mess = "CpmmToCdd: Bad CpmmNumber (" + toString(cpmm) + ")";
+    std::string mess = "CpmmToCdd: Bad CpmmNumber (" + toString(cpmm) + ")";
     throw IException(IException::User, mess, _FILEINFO_);
   }
   return (cpmm2ccd[cpmm]);
@@ -75,7 +75,7 @@ inline int CpmmToCcd(int cpmm) {
  */
 inline QString CcdToFilter(int ccd) {
   if ( (ccd < 0) || (ccd > 13) ) {
-    QString mess = "CcdToFilter: Bad Ccd Number (" + toString(ccd) + ")";
+    std::string mess = "CcdToFilter: Bad Ccd Number (" + toString(ccd) + ")";
     throw IException(IException::User, mess, _FILEINFO_);
   }
 

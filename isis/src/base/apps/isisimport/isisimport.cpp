@@ -29,26 +29,26 @@ namespace Isis {
     FileName fileTemplate = ("$ISISROOT/appdata/import/fileTemplate.tpl");
     json jsonData;
     bool isPDS4 = false;
-    FileName inputFileName = ui.GetCubeName("FROM");
+    FileName inputFileName = ui.GetCubeName("FROM").toStdString();
 
-    if (inputFileName.extension().toUpper() == "IMQ"){
-      QString msg = "Input image may be compressed. Please run image through vdcomp to uncompress"
+    if (QString::fromStdString(inputFileName.extension()).toUpper() == "IMQ"){
+      std::string msg = "Input image may be compressed. Please run image through vdcomp to uncompress"
                     "or verify image has correct file extension.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     try {
       // try to convert xml file to json
-      jsonData = xmlToJson(inputFileName.toString());
+      jsonData = xmlToJson(QString::fromStdString(inputFileName.toString()));
       isPDS4 = true;
     }
     catch(...) {
       try {
         // try to convert pvl to json
-        jsonData = pvlToJSON(inputFileName.toString());
+        jsonData = pvlToJSON(QString::fromStdString(inputFileName.toString()));
       }
       catch(...) {
-        QString msg = "Unable to process import image. Please confirm image is in PDS3 or PDS4 format";
+        std::string msg = "Unable to process import image. Please confirm image is in PDS3 or PDS4 format";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -57,7 +57,7 @@ namespace Isis {
     // Dump the JSON to the debugging file if requested
     // This needs to be above all uses of the JSON by the template engine
     if (ui.WasEntered("DATA")) {
-      std::ofstream jsonDataFile(FileName(ui.GetFileName("DATA")).expanded().toStdString());
+      std::ofstream jsonDataFile(FileName(ui.GetFileName("DATA").toStdString()).expanded());
       jsonDataFile << jsonData.dump(4);
       jsonDataFile.close();
     }
@@ -65,17 +65,17 @@ namespace Isis {
     // Find associated template
     FileName inputTemplate;
     if (ui.WasEntered("TEMPLATE")) {
-      inputTemplate = ui.GetFileName("TEMPLATE");
+      inputTemplate = ui.GetFileName("TEMPLATE").toStdString();
     }
     else {
         std::string templateFile;
       try {
-        templateFile = env.render_file(fileTemplate.expanded().toStdString(), jsonData);
-        inputTemplate = FileName(QString::fromStdString(templateFile));
+        templateFile = env.render_file(fileTemplate.expanded(), jsonData);
+        inputTemplate = FileName(templateFile);
       }
       catch(const std::exception& e) {
-        QString msg = "Cannot locate a template named [" + QString::fromStdString(templateFile) + "] for input label [";
-        msg += FileName(ui.GetCubeName("FROM")).expanded();
+        std::string msg = "Cannot locate a template named [" + templateFile + "] for input label [";
+        msg += FileName(ui.GetCubeName("FROM").toStdString()).expanded();
         msg += "]. You can explicitly provide a template file using the [TEMPLATE] parameter. ";
         msg += e.what();
         throw IException(IException::User, msg, _FILEINFO_);
@@ -150,8 +150,8 @@ namespace Isis {
     env.add_callback("CassiniIssStretchPairs", 0, [](Arguments& args) {
       PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
       QString missionDir =  QString::fromStdString(dataDir["Cassini"]);
-      FileName *lutFile = new FileName(missionDir + "/calibration/lut/lut.tab");
-      TextFile *stretchPairs = new TextFile(lutFile->expanded());
+      FileName *lutFile = new FileName(missionDir.toStdString() + "/calibration/lut/lut.tab");
+      TextFile *stretchPairs = new TextFile(QString::fromStdString(lutFile->expanded()));
 
       vector<double> vectorStretchPairs = {};
 
@@ -346,25 +346,25 @@ namespace Isis {
 
     ProcessImport importer;
     if (inputFileName.removeExtension().addExtension("dat").fileExists()){
-      importer.SetInputFile(inputFileName.removeExtension().addExtension("dat").expanded());
+      importer.SetInputFile(QString::fromStdString(inputFileName.removeExtension().addExtension("dat").expanded()));
     }
     else if (inputFileName.removeExtension().addExtension("img").fileExists()) {
-      importer.SetInputFile(inputFileName.removeExtension().addExtension("img").expanded());
+      importer.SetInputFile(QString::fromStdString(inputFileName.removeExtension().addExtension("img").expanded()));
     }
     else if (inputFileName.removeExtension().addExtension("QUB").fileExists()) {
-      importer.SetInputFile(inputFileName.removeExtension().addExtension("QUB").expanded());
+      importer.SetInputFile(QString::fromStdString(inputFileName.removeExtension().addExtension("QUB").expanded()));
     }
     else {
-      importer.SetInputFile(inputFileName.expanded());
+      importer.SetInputFile(QString::fromStdString(inputFileName.expanded()));
     }
 
     // Use inja to get number of lines, samples, and bands from the input label
     std::string result;
     try {
-      result = env.render_file(inputTemplate.expanded().toStdString(), jsonData);
+      result = env.render_file(inputTemplate.expanded(), jsonData);
     }
     catch(const std::exception& e) {
-      QString msg = "Unable to create a cube label from [";
+      std::string msg = "Unable to create a cube label from [";
       msg += inputTemplate.expanded() + "]. ";
       msg += e.what();
       if (ui.WasEntered("TEMPLATE")) {
@@ -432,7 +432,7 @@ namespace Isis {
         units = QString::fromStdString(dataFilePointer.unit(1));
       }
       else {
-        QString msg = "Improperly formatted data file pointer keyword ^IMAGE or "
+        std::string msg = "Improperly formatted data file pointer keyword ^IMAGE or "
                      "^QUBE, in [" + inputFileName.toString() + "], must contain filename "
                      " or offset or both";
         throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -459,11 +459,11 @@ namespace Isis {
     // Checks that are unique to mgsmoc
     if (translation.hasKeyword("compressed") && translation.hasKeyword("projected")) {
       if (toBool(QString::fromStdString(translation["compressed"]))) {
-        QString msg = "[" + inputFileName.name() + "] may be compressed. Please run image through mocuncompress to uncompress.";
+        std::string msg = "[" + inputFileName.name() + "] may be compressed. Please run image through mocuncompress to uncompress.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       if (toBool(QString::fromStdString(translation["projected"]))) {
-        QString msg = "[" + inputFileName.name() + "] appears to be an rdr file.";
+        std::string msg = "[" + inputFileName.name() + "] appears to be an rdr file.";
         msg += " Use pds2isis.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -549,7 +549,7 @@ namespace Isis {
     if (translation.hasKeyword("CubeAtts")) {
       cubeAtts = QString::fromStdString(translation["CubeAtts"]);
     }
-    CubeAttributeOutput outputAtts = CubeAttributeOutput(cubeAtts);
+    CubeAttributeOutput outputAtts = CubeAttributeOutput(cubeAtts.toStdString());
     Cube *outputCube = importer.SetOutputCube(ui.GetCubeName("TO"), outputAtts);
 
     if (isPDS4) {
@@ -559,7 +559,7 @@ namespace Isis {
     }
     // Assume PDS3
     else {
-      Pvl pdsLab(inputFileName.expanded().toStdString());
+      Pvl pdsLab(inputFileName.expanded());
       OriginalLabel pds3Label(pdsLab);
       outputCube->write(pds3Label);
     }

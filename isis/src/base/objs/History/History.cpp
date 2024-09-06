@@ -89,7 +89,7 @@ namespace Isis {
     const char *ptr = histStr.c_str();
     memcpy(&blobBuffer[p_bufferSize], (void *)ptr, bytes);
 
-    Blob newBlob(name, "History");
+    Blob newBlob(name.toStdString(), "History");
     newBlob.takeData(blobBuffer, blobBufferSize);
     return newBlob;
   }

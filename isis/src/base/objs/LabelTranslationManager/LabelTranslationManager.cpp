@@ -16,6 +16,9 @@ find files of those names at the top level of this repository. **/
 #include "PvlKeyword.h"
 #include "PvlObject.h"
 
+#include <QString>
+#include <QStringList>
+
 using namespace std;
 namespace Isis {
 
@@ -181,7 +184,7 @@ QStringList LabelTranslationManager::parseSpecification(QString specification) c
       if (typeSplit[0].toLower() != "att" &&
           typeSplit[0].toLower() != "tag" &&
           typeSplit[0].toLower() != "new") {
-        QString msg = "Dependency type specification [" + typeSplit[0] +
+        std::string msg = "Dependency type specification [" + typeSplit[0].toStdString() +
                       "] is invalid. Valid types are [att], [tag] and [new]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
@@ -195,7 +198,7 @@ QStringList LabelTranslationManager::parseSpecification(QString specification) c
         parsedSpecification.append(nameValueSplit);
       }
       else { //nameValueSplit is an unexpected value
-        QString msg = "Malformed dependency specification [" + specification + "].";
+        std::string msg = "Malformed dependency specification [" + specification.toStdString() + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -206,13 +209,13 @@ QStringList LabelTranslationManager::parseSpecification(QString specification) c
       parsedSpecification = barSplit;
     }
     else { //nameValueSplit is an unexpected value
-      QString msg = " [" + specification + "] has unexpected number of '@' or '|' delimiters";
+      std::string msg = " [" + specification.toStdString() + "] has unexpected number of '@' or '|' delimiters";
       throw IException(IException::Programmer,msg, _FILEINFO_);
     }
   }
 
   catch (IException &e) {
-    QString msg = "Malformed dependency specification [" + specification + "].";
+    std::string msg = "Malformed dependency specification [" + specification.toStdString() + "].";
     throw IException(e, IException::Programmer, msg, _FILEINFO_);
   }
 

@@ -60,8 +60,8 @@ namespace Isis {
     double seconds = angle.section(' ', 2, 2, flag).toDouble(&secondsSucceeded);
 
     if (!(degreesSucceeded && minutesSucceeded && secondsSucceeded) ) {
-      QString msg = QObject::tr("[%1] is not a vaid input to Angle. It needs to be of the form: "
-                    "\"dd mm ss.ss\"").arg(angle);
+      std::string msg = "[" + angle.toStdString() + "] is not a vaid input to Angle. It needs to be of the form: "
+                    "\"dd mm ss.ss\"";
       throw IException(IException::Programmer, msg, _FILEINFO_); 
     }
 
@@ -244,7 +244,7 @@ namespace Isis {
     QString textResult = "";
 
     if (isValid()) {
-      textResult = Isis::toString(degrees());
+      textResult = toString(degrees());
 
       if (includeUnits)
         textResult += " degrees";

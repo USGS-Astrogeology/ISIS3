@@ -83,7 +83,7 @@ namespace Isis{
         ProgramLauncher::RunIsisProgram("crop", cropParams);
       }
       catch(IException &e) {
-        QString msg = "Could not execute crop with params: [" + cropParams + "]";
+        std::string msg = "Could not execute crop with params: [" + cropParams + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
       if(mode == "BOTH") {

@@ -54,11 +54,11 @@ namespace Isis {
    * @return @b bool If the kernel was successfully loaded.
    */
   bool PushFrameCameraCcdLayout::addKernel(const QString &kernel) {
-    FileName kern(kernel);
+    FileName kern(kernel.toStdString());
     if ( kern.isVersioned()) {
       kern = kern.highestVersion();
     }
-    m_kernels.Add(kern.expanded());
+    m_kernels.Add(QString::fromStdString(kern.expanded()));
     int nloaded = m_kernels.Load();
     return (nloaded > 0);
   }
@@ -110,7 +110,7 @@ namespace Isis {
       finfo.m_startLine = getSpiceInt(base + "_FILTER_OFFSET");
     }
     catch (IException &e) {
-      QString msg = "Could not find layout information for framelet ["
+      std::string msg = "Could not find layout information for framelet ["
                     + toString(frameId) + "].";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
@@ -149,7 +149,7 @@ namespace Isis {
     // Gotta throw an error here if not found
     if (!found) {
       NaifStatus::CheckErrors();
-      QString msg = "Can not find [" + var + "] in text kernels";
+      std::string msg = "Can not find [" + var + "] in text kernels";
       throw IException(IException::Io, msg, _FILEINFO_);
      }
 
@@ -178,7 +178,7 @@ namespace Isis {
     // Gotta throw an error here if not found
     if (!found) {
       NaifStatus::CheckErrors();
-      QString msg = "Can not find [" + var + "] in text kernels";
+      std::string msg = "Can not find [" + var + "] in text kernels";
       throw IException(IException::Io, msg, _FILEINFO_);
      }
 
@@ -207,7 +207,7 @@ namespace Isis {
     // Gotta throw an error here if not found
     if (!found) {
       NaifStatus::CheckErrors();
-      QString msg = "Can not find [" + var + "] in text kernels";
+      std::string msg = "Can not find [" + var + "] in text kernels";
       throw IException(IException::Io, msg, _FILEINFO_);
      }
 

@@ -149,7 +149,7 @@ namespace Isis {
 
     m_newSelectorButton = new QPushButton;
     m_newSelectorButton->setIcon(QIcon(
-        FileName("$ISISROOT/appdata/images/icons/add.png").expanded()));
+        QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/add.png").expanded())));
     QString newSelectorTooltip = "Add new filter";
     m_newSelectorButton->setToolTip(newSelectorTooltip);
     m_newSelectorButton->setStatusTip(newSelectorTooltip);

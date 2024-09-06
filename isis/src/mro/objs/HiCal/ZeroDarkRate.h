@@ -99,12 +99,12 @@ namespace Isis {
         // 2.483618177203812394e+00,2.255885064806690821e-01,5.617339162650616345e+03
         _coeffMat = LoadCSV("DarkRate", conf, prof).getMatrix();
         if (_coeffMat.dim2() != 3) {
-          QString msg = "Zero Dark Rate coefficient CSV has [" + toString(_coeffMat.dim2()) +
+          std::string msg = "Zero Dark Rate coefficient CSV has [" + toString(_coeffMat.dim2()) +
                         "] columns, expected 3.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         if (_coeffMat.dim1() != samples) {
-          QString msg = "Zero Dark Rate coefficient CSV has [" + toString(_coeffMat.dim1()) +
+          std::string msg = "Zero Dark Rate coefficient CSV has [" + toString(_coeffMat.dim1()) +
                         "] rows, expected " + toString(samples) + ".";
           throw IException(IException::User, msg, _FILEINFO_);
         }

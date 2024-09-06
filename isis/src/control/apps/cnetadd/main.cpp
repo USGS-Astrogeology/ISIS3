@@ -110,7 +110,7 @@ void IsisMain() {
       // Check for duplicate SNs within the addlist
       for (int j = i + 1; j < addSerials.size(); j++) {
         if (addSerials.serialNumber(i) == addSerials.serialNumber(j)) {
-          QString msg = "Add list files [" + addSerials.fileName(i) + "] and [";
+          std::string msg = "Add list files [" + addSerials.fileName(i) + "] and [";
           msg += addSerials.fileName(j) + "] share the same serial number.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -127,7 +127,7 @@ void IsisMain() {
       SurfacePoint surfacePoint = point->GetBestSurfacePoint();
 
       if (!surfacePoint.Valid()) {
-        QString msg = "Unable to retreive lat/lon from Control Point [";
+        std::string msg = "Unable to retreive lat/lon from Control Point [";
         msg += point->GetId() + "]. RETREIVAL=POINT cannot be used unless ";
         msg += "all Control Points have Latitude/Longitude keywords.";
         throw IException(IException::User, msg, _FILEINFO_);
@@ -278,7 +278,7 @@ void IsisMain() {
       results.addKeyword(duplicates);
     }
 
-    results.write(logFile.expanded().toStdString());
+    results.write(logFile.expanded());
   }
 
   // List the modified points
@@ -383,7 +383,7 @@ void setControlPointLatLon(SerialNumberList &snl, ControlNet &cnet) {
       g_surfacePoints[point->GetId()] = cube->camera()->GetSurfacePoint();
     }
     catch (IException &e) {
-      QString msg = "Unable to create camera for cube file [";
+      std::string msg = "Unable to create camera for cube file [";
       msg += snl.fileName(cm->GetCubeSerialNumber()) + "]";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }

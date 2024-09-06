@@ -167,7 +167,7 @@ namespace Isis {
         title = ui.GetString("TITLE");
       }
       else {
-        title = "Histogram Plot for " + FileName(ui.GetAsString("FROM")).name();
+        title = "Histogram Plot for " + QString::fromStdString(FileName(ui.GetAsString("FROM").toStdString()).name());
       }
 
       // Create the QHistogram, set the title & load the Isis::Histogram into it

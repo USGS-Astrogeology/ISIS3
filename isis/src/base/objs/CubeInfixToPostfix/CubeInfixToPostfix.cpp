@@ -104,7 +104,7 @@ namespace Isis {
     }
 
     throw IException(IException::User,
-                     "The operator '" + representation + "' is not recognized.",
+                     "The operator '" + representation.toStdString() + "' is not recognized.",
                      _FILEINFO_);
   }
 

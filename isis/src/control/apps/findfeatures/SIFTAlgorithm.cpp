@@ -153,7 +153,7 @@ namespace Isis {
  * @return @b int -1 Cannot set the Algorithm Variables
  */
   int SIFTAlgorithm::setAlgorithmVariables(const PvlFlatMap &variables) {
-    QString message = "SIFT does not have the ability to set algorithm parameters.";
+    std::string message = "SIFT does not have the ability to set algorithm parameters.";
     throw IException(IException::Programmer, message, _FILEINFO_);
 
     return (-1);

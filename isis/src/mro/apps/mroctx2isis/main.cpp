@@ -45,10 +45,10 @@ void IsisMain() {
   bool projected;
 
   {
-    QString msg;
+    std::string msg;
     try {
       msg = "File could not be opened.";
-      Pvl lab(inFile.expanded().toStdString());
+      Pvl lab(inFile.expanded());
 
       msg = "PVL Keyword [DATA_SET_ID] not found in label.";
       id = QString::fromStdString(lab.findKeyword("DATA_SET_ID"));
@@ -85,7 +85,7 @@ void IsisMain() {
 
   //Checks if in file is rdr
   if(projected) {
-    QString msg = "[" + inFile.name() + "] appears to be an rdr file.";
+    std::string msg = "[" + inFile.name() + "] appears to be an rdr file.";
     msg += " Use pds2isis.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -94,7 +94,7 @@ void IsisMain() {
   id.Compress();
   id.Trim(" ");
   if(id != "MRO-M-CTX-2-EDR-L0-V1.0") {
-    QString msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
+    std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
                   "in MRO-CTX EDR format. DATA_SET_ID is [" + id.ToQt() + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
@@ -229,7 +229,7 @@ void TranslateMroCtxLabels(FileName &labelFile, Cube *ocube) {
   //Pvl to store the labels
   Pvl outLabel;
   QString transDir = "$ISISROOT/appdata/translations/";
-  Pvl labelPvl(labelFile.expanded().toStdString());
+  Pvl labelPvl(labelFile.expanded());
 
   //Translate the Instrument group
   FileName transFile(transDir + "MroCtxInstrument.trn");
@@ -251,7 +251,7 @@ void TranslateMroCtxLabels(FileName &labelFile, Cube *ocube) {
   PvlGroup kern("Kernels");
   kern += PvlKeyword("NaifFrameCode", std::to_string(-74021));
 
-  Pvl lab(labelFile.expanded().toStdString());
+  Pvl lab(labelFile.expanded());
   int sumMode, startSamp;
   if(lab.hasKeyword("SPATIAL_SUMMING")) {
     sumMode = (int)lab.findKeyword("SPATIAL_SUMMING");

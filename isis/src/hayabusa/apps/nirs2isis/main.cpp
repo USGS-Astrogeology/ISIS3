@@ -54,7 +54,7 @@ void IsisMain() {
     axis2Length = QString::fromStdString(label.findKeyword ("NAXIS2", PvlObject::Traverse));
   }
   catch (IException &e) {
-    QString msg = "Unable to read [NAXIS], [NAXIS1] or [NAXIS2] "
+    std::string msg = "Unable to read [NAXIS], [NAXIS1] or [NAXIS2] "
                   "from FITS label in input [" + fitsImage + "].";
     throw IException(e, IException::Io, msg, _FILEINFO_);
   }
@@ -64,7 +64,7 @@ void IsisMain() {
   if ( !( axisCount   == "2"  &&
           axis1Length == "64" &&
           axis2Length == "2"     ) ) {
-    QString msg = "Input file [" + fitsImage +
+    std::string msg = "Input file [" + fitsImage +
                   "] does not have the correct dimensions " +
                   "for a Hayabusa NIRS FITS image.\n" +
                   "Expected dimensions are [2] axes, [64 x 2]. " +
@@ -87,7 +87,7 @@ void IsisMain() {
   if ( (tempCube->sampleCount() != 64) ||
        (tempCube->lineCount()   != 2 ) ||
        (tempCube->bandCount()   != 1 )    ) {
-    QString msg = "Invalid temp cube dimensions. Dimensions "
+    std::string msg = "Invalid temp cube dimensions. Dimensions "
                   "must be 64 samples, by 2 lines, by 1 band.\n"
                   "Temp cube dimensions are [" +
                   toString( tempCube->sampleCount() ) +

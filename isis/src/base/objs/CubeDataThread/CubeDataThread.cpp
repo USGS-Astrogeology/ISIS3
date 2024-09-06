@@ -126,11 +126,11 @@ namespace Isis {
     Cube *newCube = new Cube();
 
     try {
-      newCube->open(fileName.expanded(), "rw");
+      newCube->open(QString::fromStdString(fileName.expanded()), "rw");
     }
     catch (IException &e) {
       if (!mustOpenReadWrite) {
-        newCube->open(fileName.expanded(), "r");
+        newCube->open(QString::fromStdString(fileName.expanded()), "r");
       }
       else {
         throw;
@@ -196,16 +196,16 @@ namespace Isis {
 
     if (i == p_managedCubes->end()) {
       p_threadSafeMutex->unlock();
-      QString msg = "CubeDataThread::RemoveCube failed because cube ID [";
-      msg += QString::number(cubeId);
+      std::string msg = "CubeDataThread::RemoveCube failed because cube ID [";
+      msg += std::to_string(cubeId);
       msg += "] not found";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if (p_managedDataSources->contains(cubeId)) {
       p_threadSafeMutex->unlock();
-      QString msg = "CubeDataThread::RemoveCube failed cube ID [";
-      msg += QString::number(cubeId);
+      std::string msg = "CubeDataThread::RemoveCube failed cube ID [";
+      msg += std::to_string(cubeId);
       msg += "] has requested Bricks";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

@@ -145,7 +145,7 @@ namespace Isis {
       }
     }
     catch ( IException &ie ) {
-      QString mess = "Query failed after " + QString::number(nrows+1) + 
+      std::string mess = "Query failed after " + QString::number(nrows+1) + 
                      " rows: " + ie.what();
       if ( isDebug() ) {
         cout << "Db::Error - " << mess << "\n";
@@ -311,7 +311,7 @@ namespace Isis {
       importGeometry(rowrec, globals);
     }
     catch (IException &ie) {
-      QString mess = "Geometry conversion failed horribly for Resource [" + 
+      std::string mess = "Geometry conversion failed horribly for Resource [" + 
                      rowId + "].";
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }

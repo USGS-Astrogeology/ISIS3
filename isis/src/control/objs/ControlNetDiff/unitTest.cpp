@@ -42,7 +42,7 @@ int main() {
   cout << results << endl;
 
   cout << "\n\nTesting differences with tolerances...\n\n";
-  Pvl diffFile(FileName("cnet.diff").expanded().toStdString());
+  Pvl diffFile(FileName("cnet.diff").expanded());
   diff.addTolerances(diffFile);
   results = diff.compare(f1, f2);
   cout << results << endl;

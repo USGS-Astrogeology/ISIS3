@@ -47,7 +47,7 @@ namespace Isis {
             fitsLabel.addGroup(importFits.extraFitsLabel(0));
         }
         catch (IException &e) {
-            QString msg = "Input file [" + FileName(ui.GetFileName("FROM")).expanded() +
+            std::string msg = "Input file [" + FileName(ui.GetFileName("FROM")).expanded() +
                         "] does not appear to be a Hayabusa2/ONC label file.";
             throw IException(e, IException::Unknown, msg, _FILEINFO_);
         }
@@ -59,20 +59,20 @@ namespace Isis {
             missid = QString::fromStdString(fitsLabel.findGroup("FitsLabels").findKeyword ("SPCECRFT")[0]);
         }
         catch (IException &e) {
-            QString msg = "Unable to read instrument ID, [INSTRUME], or spacecraft ID, [SPCECRFT], "
+            std::string msg = "Unable to read instrument ID, [INSTRUME], or spacecraft ID, [SPCECRFT], "
                         "from input file [" + FileName(ui.GetFileName("FROM")).expanded() + "]";
             throw IException(e, IException::Io,msg, _FILEINFO_);
         }
 
         missid = missid.simplified().trimmed();
         if ((QString::compare(missid, "HAYABUSA2", Qt::CaseInsensitive) != 0) && (QString::compare(missid, "HAYABUSA-2", Qt::CaseInsensitive) != 0)) {
-            QString msg = "Input file [" + FileName(ui.GetFileName("FROM")).expanded() +
+            std::string msg = "Input file [" + FileName(ui.GetFileName("FROM")).expanded() +
                         "] does not appear to be a Hayabusa2 label file.";
             throw IException(IException::Unknown, msg, _FILEINFO_);
         }
         instid = instid.simplified().trimmed();
         if (QString::compare(instid, "Optical Navigation Camera", Qt::CaseInsensitive) != 0) {
-            QString msg = "Input file [" + FileName(ui.GetFileName("FROM")).expanded() +
+            std::string msg = "Input file [" + FileName(ui.GetFileName("FROM")).expanded() +
                         "] does not appear to be a Hayabusa2/ONC label file.";
             throw IException(IException::Unknown, msg, _FILEINFO_);
         }

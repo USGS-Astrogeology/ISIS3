@@ -221,7 +221,7 @@ namespace Isis {
         if (iNumMeasuresLocked > 0 && !bRefLocked) {
           pvlPointObj += Isis::PvlKeyword("Error", "Point has a Measure with EditLock set to true "
                                           "but the Reference is not Locked");
-          //QString message = "Invalid Nearest Resolution Value";
+          //std::string message = "Invalid Nearest Resolution Value";
           //throw Isis::iException::Message(Isis::iException::User, message, _FILEINFO_);
           bError = true;
         }

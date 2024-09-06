@@ -108,16 +108,16 @@ namespace Isis{
 
     int nList(0);
     if ( ui.WasEntered("CNETLIST") ) {
-      FileList list_o_nets(ui.GetFileName("CNETLIST"));
+      FileList list_o_nets(ui.GetFileName("CNETLIST").toStdString());
       if (list_o_nets.size() < 1) {
-        QString mess = "The file provided for CNETLIST, [";
+        std::string mess = "The file provided for CNETLIST, [";
         mess += ui.GetAsString("CNETLIST");
         mess += "] is empty.";
         throw IException(IException::User, mess, _FILEINFO_);
       }
 
       BOOST_FOREACH ( FileName cfile, list_o_nets ) {
-        cnetfiles.append( cfile.original() );
+        cnetfiles.append(QString::fromStdString(cfile.original()));
         nList++;
       }
     }
@@ -125,7 +125,7 @@ namespace Isis{
     // Check for any files at all
     int totalNetFiles = nBase + nFrom + nList;
     if ( totalNetFiles <= 0 ) {
-      QString mess = "No input networks files provided!";
+      std::string mess = "No input networks files provided!";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
@@ -205,11 +205,11 @@ namespace Isis{
     // Now write out the list of SNs if requested
     if ( ui.WasEntered("TOSN") ) {
 
-      FileName filename( ui.GetFileName("TOSN") );
-      QFile logfile(filename.expanded());
+      FileName filename(ui.GetFileName("TOSN").toStdString());
+      QFile logfile(QString::fromStdString(filename.expanded()));
       if ( !logfile.open(QIODevice::WriteOnly | QIODevice::Truncate |
                          QIODevice::Text | QIODevice::Unbuffered) ) {
-        QString mess = "Unable to open/create serial number file " + filename.name();
+        std::string mess = "Unable to open/create serial number file " + filename.name();
         throw IException(IException::User, mess, _FILEINFO_);
       }
 
@@ -465,11 +465,11 @@ namespace Isis{
 
     // Write out the merge log
     if (logMerges) {
-      FileName mergeLogFileName( ui.GetFileName("LOGFILE") );
-      QFile mergeLogfile(mergeLogFileName.expanded());
+      FileName mergeLogFileName(ui.GetFileName("LOGFILE").toStdString());
+      QFile mergeLogfile(QString::fromStdString(mergeLogFileName.expanded()));
       if ( !mergeLogfile.open(QIODevice::WriteOnly | QIODevice::Truncate |
                          QIODevice::Text | QIODevice::Unbuffered) ) {
-        QString mess = "Unable to open/create merge log file " + mergeLogFileName.name();
+        std::string mess = "Unable to open/create merge log file " + mergeLogFileName.name();
         throw IException(IException::User, mess, _FILEINFO_);
       }
 

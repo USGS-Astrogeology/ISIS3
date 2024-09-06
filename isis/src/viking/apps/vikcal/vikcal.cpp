@@ -52,7 +52,7 @@ namespace Isis {
   
     // If the file has already been calibrated, throw an error
     if(icube->hasGroup("Radiometry")) {
-      QString msg = "The Viking image [" + icube->fileName() + "] has already "
+      std::string msg = "The Viking image [" + icube->fileName() + "] has already "
           "been radiometrically calibrated";
       throw IException(IException::User, msg, _FILEINFO_);
     }

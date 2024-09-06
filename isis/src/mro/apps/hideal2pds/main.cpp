@@ -58,7 +58,7 @@ void IsisMain() {
   QString origInstrument = QString::fromStdString(isisCubeLab->findObject("IsisCube")
                            .findGroup("OriginalInstrument")["InstrumentId"][0]);
   if (origInstrument != "HIRISE") {
-    QString msg = "Input cube must from a HiRISE image. The original "
+    std::string msg = "Input cube must from a HiRISE image. The original "
                   "InstrumentId = [" + origInstrument
                   + "] is unsupported by hideal2pds.";
     throw IException(IException::Io, msg, _FILEINFO_);
@@ -66,14 +66,14 @@ void IsisMain() {
   QString instrumentId = QString::fromStdString(isisCubeLab->findObject("IsisCube")
                                     .findGroup("Instrument")["InstrumentId"][0]);
   if (instrumentId != "IdealCamera") {
-    QString msg = "Input cube must be IdealCamera. InstrumentId = ["
+    std::string msg = "Input cube must be IdealCamera. InstrumentId = ["
                   + instrumentId + "] is unsupported by hideal2pds.";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
   QString target = QString::fromStdString(isisCubeLab->findObject("IsisCube")
                               .findGroup("Instrument")["TargetName"][0]);
   if (target.toUpper() != "MARS") {
-    QString msg = "Input cube must from a HiRise image. The target = ["
+    std::string msg = "Input cube must from a HiRise image. The target = ["
                   + target + "] is unsupported by hideal2pds.";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
@@ -409,7 +409,7 @@ void updatePdsLabelImageObject(PvlObject *isisCubeLab, Pvl &pdsLabel) {
       // The given input cube is not supported for export to PDS. The AlphaCube
       // group values indicate that this cube has been not only cropped, but
       // also scaled (reduced or enlarged)
-      QString msg = "The AlphaCube group values of the input Isis cube indicate "
+      std::string msg = "The AlphaCube group values of the input Isis cube indicate "
                     "that this cube has been scaled. Unable to export scaled "
                     "cubes to PDS using hideal2pds.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -495,7 +495,7 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
   }
   else if ( !pdsLabel.hasKeyword("RATIONALE_DESC")
             || QString::fromStdString(pdsLabel["RATIONALE_DESC"]) == "NULL" ){
-    QString msg = "Unable to export HiRise product to PDS without "
+    std::string msg = "Unable to export HiRise product to PDS without "
                   "RationaleDescription value. The input cube value for this "
                   "keyword is Null, the user is required to enter a value.";
     throw IException(IException::Unknown, msg, _FILEINFO_);

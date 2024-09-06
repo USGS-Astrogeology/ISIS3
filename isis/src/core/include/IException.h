@@ -15,8 +15,6 @@ find files of those names at the top level of this repository. **/
 
 template <typename T> class QList;
 
-class QString;
-
 /**
  * Macro for the filename and line number. This is typically used for the last
  *   arguments to constructing an IException.
@@ -163,19 +161,12 @@ namespace Isis {
       IException(ErrorType type, const std::string &message,
                  const char *fileName, int lineNumber);
 
-      IException(ErrorType type, const QString &message,
-                 const char *fileName, int lineNumber);
-
       IException(const IException &caughtException,
                  ErrorType newExceptionType, const char *message,
                  const char *fileName, int lineNumber);
 
       IException(const IException &caughtException,
                  ErrorType newExceptionType, const std::string &message,
-                 const char *fileName, int lineNumber);
-
-      IException(const IException &caughtException,
-                 ErrorType newExceptionType, const QString &message,
                  const char *fileName, int lineNumber);
 
       IException(const IException &other);
@@ -199,7 +190,7 @@ namespace Isis {
 
     private:
       static IException createStackTrace();
-      static ErrorType stringToErrorType(const QString &s);
+      static ErrorType stringToErrorType(const std::string &s);
       char *buildWhat() const;
       void deleteEmptyMemberStrings();
 

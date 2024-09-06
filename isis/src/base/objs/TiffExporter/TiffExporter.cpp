@@ -74,10 +74,10 @@ namespace Isis {
   void TiffExporter::write(FileName outputName, int quality,
                            QString compression, UserInterface *ui) {
 
-    outputName = outputName.addExtension(extension());
+    outputName = outputName.addExtension(extension().toStdString());
 
     // Open the output image
-    m_image = TIFFOpen(outputName.expanded().toLatin1().data(), "w");
+    m_image = TIFFOpen(outputName.expanded().c_str(), "w");
 
     if (m_image == NULL) {
       throw IException(IException::Programmer,
@@ -100,7 +100,7 @@ namespace Isis {
       TIFFSetField(m_image, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
     }
     else {
-      QString msg = "Invalid TIFF compression algorithm: " + compression;
+      std::string msg = "Invalid TIFF compression algorithm: " + compression;
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     TIFFSetField(m_image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);

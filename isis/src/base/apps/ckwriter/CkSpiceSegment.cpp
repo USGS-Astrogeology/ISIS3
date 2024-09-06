@@ -200,7 +200,7 @@ void CkSpiceSegment::import(Cube &cube, const QString &tblname) {
     if ( _name.isEmpty() ) {
       _name = getKeyValue(*label, "ProductId");
       if (_name.isEmpty() ) {
-        _name = FileName(_fname).baseName();
+        _name = QString::fromStdString(FileName(_fname.toStdString()).baseName());
       }
     }
 
@@ -603,13 +603,13 @@ void CkSpiceSegment::getRotationMatrices(Cube &cube, Camera &camera, Table &tabl
 #if 0
   int LtoId, LfromId;
   if ( !getTimeDependentFrameIds(table, LtoId, LfromId) ) {
-    QString mess = "Cannot determine time dependent frames! - perhaps a spiceinit is in order.";
+    std::string mess = "Cannot determine time dependent frames! - perhaps a spiceinit is in order.";
     throw IException(IException::User, mess, _FILEINFO_);
   }
 #else
   QVector<int> leftFrames, rightFrames;
   if ( !getFrameChains(table, leftId, rightId, leftFrames, rightFrames) ) {
-    QString mess = "Cannot determine left/right frame chains! - perhaps a spiceinit is in order.";
+    std::string mess = "Cannot determine left/right frame chains! - perhaps a spiceinit is in order.";
     throw IException(IException::User, mess, _FILEINFO_);
   }
 #endif
@@ -714,7 +714,7 @@ void CkSpiceSegment::convert(const CkSpiceSegment::SMatrix &quats,
 QString CkSpiceSegment::getComment() const {
   ostringstream comment;
 
-  FileName fname(_fname);
+  FileName fname(_fname.toStdString());
 
   comment <<
 "\n-----------------------------------------------------------------------\n" <<

@@ -43,7 +43,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestOverlapstatsBadCubeList) {
     FAIL() << "Expected Exception for invalid overlap list";
   }
   catch(IException &e) {
-    QString errorMsg = "in overlap list that was not in the provided cube list";
+    std::string errorMsg = "in overlap list that was not in the provided cube list";
     EXPECT_TRUE(e.toString().toLatin1().contains(errorMsg.toLatin1()))
                                               << e.toString().toStdString();
   }

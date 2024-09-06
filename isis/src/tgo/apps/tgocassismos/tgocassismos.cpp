@@ -39,7 +39,7 @@ namespace Isis {
     vector<Cube *> cubeList;
     try {
       if (fromList.size() < 1) {
-        QString msg = "the list file [" + ui.GetFileName("FROMLIST") +
+        std::string msg = "the list file [" + ui.GetFileName("FROMLIST") +
                       "does not contain any data";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -164,7 +164,7 @@ namespace Isis {
         }
       }
       if (runXY) {
-        QString msg = "Camera did not intersect images to gather stats";
+        std::string msg = "Camera did not intersect images to gather stats";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -272,7 +272,7 @@ namespace Isis {
         cubeList[i]->close();
         delete cubeList[i];
       }
-      QString msg = "The mosaic [" + ui.GetCubeName("TO") + "] was NOT created";
+      std::string msg = "The mosaic [" + ui.GetCubeName("TO") + "] was NOT created";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   } // end of isis main
@@ -290,7 +290,7 @@ namespace Isis {
      QString compareObsId = QString::fromStdString(compareArchive["ObservationId"]);
 
      if (matchObsId != compareObsId) {
-       QString msg = "Images not from the same observation";
+       std::string msg = "Images not from the same observation";
        throw IException(IException::User, msg, _FILEINFO_);
      }
 
@@ -301,7 +301,7 @@ namespace Isis {
     QString compareFilter = QString::fromStdString(compareBandBin["FilterName"]);
 
     if (matchFilter != compareFilter) {
-      QString msg = "Images not the same filter";
+      std::string msg = "Images not the same filter";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

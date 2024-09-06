@@ -94,7 +94,7 @@ namespace Isis {
       m_instrumentNameShort = "VIDICON B";
     }
     else {
-      QString msg = "File does not appear to be a Mariner10 image. InstrumentId ["
+      std::string msg = "File does not appear to be a Mariner10 image. InstrumentId ["
           + instId + "] is invalid Mariner 10 value.";
       throw IException(IException::User, msg, _FILEINFO_);
     }

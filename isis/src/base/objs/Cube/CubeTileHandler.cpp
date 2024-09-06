@@ -90,10 +90,10 @@ namespace Isis {
     }
 
     if(!success) {
-      IString msg = "Reading from the file [" + dataFile->fileName() + "] "
+      IString msg = "Reading from the file [" + dataFile->fileName().toStdString() + "] "
           "failed with reading [" +
-          QString::number(chunkToFill.getByteCount()) +
-          "] bytes at position [" + QString::number(startByte) + "]";
+          std::to_string(chunkToFill.getByteCount()) +
+          "] bytes at position [" + std::to_string(startByte) + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -113,10 +113,10 @@ namespace Isis {
     }
 
     if(!success) {
-      IString msg = "Writing to the file [" + dataFile->fileName() + "] "
+      IString msg = "Writing to the file [" + dataFile->fileName().toStdString() + "] "
           "failed with writing [" +
-          QString::number(chunkToWrite.getByteCount()) +
-          "] bytes at position [" + QString::number(startByte) + "]";
+          std::to_string(chunkToWrite.getByteCount()) +
+          "] bytes at position [" + std::to_string(startByte) + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }

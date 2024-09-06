@@ -82,7 +82,7 @@ void calcRange(double &minRingRad, double &maxRingRad, double &minRingLon, doubl
       firstProj = proj;
     }
     else if(*proj != *firstProj) {
-      QString msg = "Mapping groups do not match between cubes [" + list[0].toString() +
+      std::string msg = "Mapping groups do not match between cubes [" + list[0].toString() +
                     "] and [" + list[i].toString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }

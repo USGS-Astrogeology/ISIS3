@@ -341,7 +341,7 @@ namespace Isis {
 
         if (snList->hasSerialNumber(serialNum)) {
           toolTip +=
-              FileName(snList->fileName(serialNum)).name();
+              QString::fromStdString(FileName(snList->fileName(serialNum).toStdString()).name());
           toolTip += " (" + serialNum + ")";
         }
         else {

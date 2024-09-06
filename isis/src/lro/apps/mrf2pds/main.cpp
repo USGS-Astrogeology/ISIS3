@@ -184,7 +184,7 @@ void GetUserLabel(QString psUserLbl, Pvl &pcPdsLbl, bool pbLevel2) {
        cUsrPvl.hasKeyword("START_TIME") ||
        cUsrPvl.hasKeyword("STOP_TIME"))) {
 
-       QString msg = "Unsupported User defined keywords for Level2";
+       std::string msg = "Unsupported User defined keywords for Level2";
        throw Isis::iException::Message(Isis::iException::User,msg,_FILEINFO_);
   }*/
 

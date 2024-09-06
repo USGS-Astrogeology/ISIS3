@@ -318,17 +318,17 @@ namespace Isis {
   void ControlNetStatistics::PrintImageStats(const QString &psImageFile) {
     // Check if the image list has been provided
     if (!mSerialNumList.size()) {
-      QString msg = "Serial Number of Images has not been provided to get Image Stats";
+      std::string msg = "Serial Number of Images has not been provided to get Image Stats";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
-    FileName outFile(psImageFile);
+    FileName outFile(psImageFile.toStdString());
     ofstream ostm;
-    QString outName(outFile.expanded());
+    QString outName(QString::fromStdString(outFile.expanded()));
     ostm.open(outName.toLatin1().data(), std::ios::out);
 
     if ( ostm.fail() ) {
-      QString msg = QObject::tr("Cannot open file [%1]").arg(psImageFile);
+      std::string msg = QObject::tr("Cannot open file [%1]").arg(psImageFile);
       throw IException(IException::Io, msg, _FILEINFO_);
      }
 
@@ -355,7 +355,7 @@ namespace Isis {
     }
 
     if (!ostm) {
-      QString msg = QObject::tr("Error writing to file: [%1]").arg(psImageFile);
+      std::string msg = QObject::tr("Error writing to file: [%1]").arg(psImageFile);
       throw IException(IException::Io, msg, _FILEINFO_);
     }
     ostm.close();
@@ -386,14 +386,14 @@ namespace Isis {
    * @param psPointFile - Output Point Statisitics File
    */
   void ControlNetStatistics::GeneratePointStats(const QString &psPointFile) {
-    Isis::FileName outFile(psPointFile);
+    Isis::FileName outFile(psPointFile.toStdString());
 
     ofstream ostm;
-    QString outName(outFile.expanded());
+    QString outName(QString::fromStdString(outFile.expanded()));
     ostm.open(outName.toLatin1().data(), std::ios::out);
 
     if ( ostm.fail() ) {
-      QString msg = QObject::tr("Cannot open file [%1]").arg(psPointFile);
+      std::string msg = QObject::tr("Cannot open file [%1]").arg(psPointFile);
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
@@ -425,7 +425,7 @@ namespace Isis {
     }
 
     if (!ostm) {
-      QString msg = QObject::tr("Error writing to file: [%1]").arg(psPointFile);
+      std::string msg = QObject::tr("Error writing to file: [%1]").arg(psPointFile);
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 

@@ -8,8 +8,6 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 
 #include <string>
-#include <QList>
-#include <QPair>
 
 #include "PvlObject.h"
 
@@ -52,9 +50,9 @@ namespace Isis {
    */
   class Blob {
     public:
-      Blob(const QString &name, const std::string &type);
-      Blob(const QString &name, const std::string &type,
-           const QString &file);
+      Blob(const std::string &name, const std::string &type);
+      Blob(const std::string &name, const std::string &type,
+           const std::string &file);
       Blob(const Blob &other);
       Blob() = default;
       Blob &operator=(const Blob &other);
@@ -62,7 +60,7 @@ namespace Isis {
       virtual ~Blob();
 
       std::string Type() const;
-      QString Name() const;
+      std::string Name() const;
       int Size() const;
       PvlObject &Label();
 
@@ -73,9 +71,9 @@ namespace Isis {
       virtual void Read(const Pvl &pvl, std::istream &is,
                         const std::vector<PvlKeyword> keywords = std::vector<PvlKeyword>());
 
-      void Write(const QString &file);
+      void Write(const std::string &file);
       void Write(Pvl &pvl, std::fstream &stm,
-                 const QString &detachedFileName = "", bool overwrite=true);
+                 const std::string &detachedFileName = "", bool overwrite=true);
 
 
       char *getBuffer();
@@ -90,14 +88,14 @@ namespace Isis {
       virtual void WriteData(std::fstream &os);
 
       PvlObject p_blobPvl;     //!< Pvl Blob object
-      QString p_blobName;  //!< Name of the Blob object
+      std::string p_blobName;  //!< Name of the Blob object
 
       char *p_buffer;          //!< Buffer blob data is stored in
       BigInt p_startByte;      //!< Byte blob data starts at in buffer
       int p_nbytes;            //!< Size of blob data (in bytes)
       std::string p_type;      //!< Type of data stored in the buffer
-      QString p_detached;  //!< Used for reading detached blobs
-      QString p_labelFile; //!< The file containing the labels
+      std::string p_detached;  //!< Used for reading detached blobs
+      std::string p_labelFile; //!< The file containing the labels
   };
 };
 

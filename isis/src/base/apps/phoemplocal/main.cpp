@@ -164,7 +164,7 @@ void IsisMain() {
     os << "CH = " << ui.GetDouble("CH") << endl;
   }
   else {
-    QString errMsg = "Undefined Hapke Model\n";
+    std::string errMsg = "Undefined Hapke Model\n";
     throw IException(IException::User, errMsg, _FILEINFO_);
   }
 
@@ -214,7 +214,7 @@ void IsisMain() {
       os << "# SECOND ORDER HAPKE ATMOSPHERIC SCATTERING MODEL" << endl;
     }
     else {
-      QString errMsg = "Undefined Atmospheric Scattering Model\n";
+      std::string errMsg = "Undefined Atmospheric Scattering Model\n";
       throw IException(IException::User, errMsg, _FILEINFO_);
     }
 
@@ -482,7 +482,7 @@ double LinearFitPhotometricToHapke(double pPar, void* pParams){
  */
 void GetHapkeImgLocation(PhotoModel *pHapke, AtmosModel *pAsmModel, HapkeArrs & pHapkeArrs, Datum & pDatum) {
   if (NS != (NL * 2 - 1)) {
-    QString errMsg = "Bad Buffer Dimensions\n";
+    std::string errMsg = "Bad Buffer Dimensions\n";
     throw IException(IException::User, errMsg, _FILEINFO_);
   }
 

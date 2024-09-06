@@ -366,7 +366,7 @@ namespace Isis {
       pvl.read(pvlFile.toStdString());
     }
     catch (IException &e){
-      QString msg = QString("Failed to open file for PVL Input: [%1]").arg(pvlFile);
+      std::string msg = QString("Failed to open file for PVL Input: [%1]").arg(pvlFile);
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 

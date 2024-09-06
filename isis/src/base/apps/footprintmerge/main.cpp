@@ -22,7 +22,7 @@ void IsisMain() {
   FileList imageList;
   imageList.read(ui.GetFileName("FROMLIST"));
   if(imageList.size() < 1) {
-    QString msg = "The list file [" + ui.GetFileName("FROMLIST") +
+    std::string msg = "The list file [" + ui.GetFileName("FROMLIST") +
                       "] does not contain any data";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -47,7 +47,7 @@ void IsisMain() {
       cube.camera();
     }
     catch(IException &e) {
-      QString msg = "Spiceinit must be run prior to running footprintmerge";
+      std::string msg = "Spiceinit must be run prior to running footprintmerge";
       msg += " for cube [" + imageList[img].toString() + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }

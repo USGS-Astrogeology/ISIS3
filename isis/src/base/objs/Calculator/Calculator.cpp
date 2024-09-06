@@ -1001,7 +1001,7 @@ namespace Isis {
     // Because this method is only used as a cout in our tests, we do not 
     // care about the difference between nan and -nan; they are the same in this case.
     temp.replace(QRegExp("-nan"), "nan");
-    std::cout<<temp<<std::endl;
+    std::cout<<temp.toStdString()<<std::endl;
   }
 
 

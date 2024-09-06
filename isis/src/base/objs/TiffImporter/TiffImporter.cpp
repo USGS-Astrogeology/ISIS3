@@ -34,9 +34,9 @@ namespace Isis {
 
     // Open the TIFF image
     m_image = NULL;
-    if ((m_image = XTIFFOpen(inputName.expanded().toLatin1().data(), "r")) == NULL) {
+    if ((m_image = XTIFFOpen(inputName.expanded().c_str(), "r")) == NULL) {
       throw IException(IException::Programmer,
-          QString("Could not open TIFF image [") + inputName.expanded().toLatin1().data() + "]", _FILEINFO_);
+          QString("Could not open TIFF image [") + inputName.expanded().c_str() + "]", _FILEINFO_);
     }
 
     // Get its constant dimensions.  Note, height seems to get reset to 0 if
@@ -128,12 +128,12 @@ namespace Isis {
         if (GTIFKeyGet(m_geotiff, ProjectedCSTypeGeoKey, &coordSysType, 0, 1) == 1) {
 
           // Get the mapping group data for this code: proj name, clat, clon, ...
-          FileName transFile((QString) "$ISISROOT/appdata/translations/" +
-                                 toString(coordSysType) + ".trn");
+          FileName transFile("$ISISROOT/appdata/translations/" +
+                                 std::to_string(coordSysType) + ".trn");
           if (transFile.fileExists()) {
             Pvl tmp;
             tmp += PvlKeyword("Code", std::to_string(coordSysType));
-            PvlToPvlTranslationManager geoTiffCodeTranslater(tmp, transFile.expanded());
+            PvlToPvlTranslationManager geoTiffCodeTranslater(tmp, QString::fromStdString(transFile.expanded()));
             geoTiffCodeTranslater.Auto(outPvl);
           }
         }
@@ -455,7 +455,7 @@ namespace Isis {
         map += PvlKeyword("UpperLeftCornerY", std::to_string(y), "meters");
       }
       else {
-        QString msg = "The upper left X and Y can not be calculated. Unsupported tiepoint "
+        std::string msg = "The upper left X and Y can not be calculated. Unsupported tiepoint "
                       "type in Tiff file (i.e., not ( 0.0, 0.0))";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -488,7 +488,7 @@ namespace Isis {
         map += PvlKeyword("PixelResolution", std::to_string(scales[0]), "meters");
       }
       else {
-        QString msg = "The pixel resolution could not be retrieved from the TIFF file. Unsupported "
+        std::string msg = "The pixel resolution could not be retrieved from the TIFF file. Unsupported "
                       "PixelScale tag values.";
         throw IException(IException::User, msg, _FILEINFO_);
       }

@@ -67,7 +67,7 @@ TEST_F(SmallCube, FunctionalTestEnlargeSmallDimensions) {
   UserInterface options(APP_XML, args);
   Pvl appLog;
 
-  QString message = "Number of output samples/lines must be greater than or equal";
+  std::string message = "Number of output samples/lines must be greater than or equal";
   try {
     enlarge(testCube, options, &appLog);
     FAIL() << "Expected an exception to be thrown";

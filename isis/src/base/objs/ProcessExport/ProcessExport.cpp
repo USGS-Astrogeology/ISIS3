@@ -696,12 +696,12 @@ namespace Isis {
     QString checksum;
 
     if (!m_canGenerateChecksum) {
-      QString msg = "Cannot generate a checksum. Call setGenerateChecksum(true) before startProcess";
+      std::string msg = "Cannot generate a checksum. Call setGenerateChecksum(true) before startProcess";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     else {
       if (m_cryptographicHash == NULL) {
-        QString msg = "Unable to generate a checksum. Did you call startProcess?";
+        std::string msg = "Unable to generate a checksum. Did you call startProcess?";
         throw IException(IException::Programmer, msg, _FILEINFO_);
         return checksum;
       }

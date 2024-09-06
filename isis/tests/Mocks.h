@@ -40,7 +40,7 @@ class MockCube : public Cube {
     MOCK_METHOD4(histogram, Histogram*(
           const int &band, const double &validMin,
           const double &validMax,
-          QString msg));
+          std::string msg));
 };
 
 class MockCamera : public Camera {

@@ -131,15 +131,15 @@ MatchPair RobustMatcher::match(MatchImage &query, MatchImage &train) const {
    if ( toBool(m_parameters.get("SaveRenderedImages")) ) {
      QString savepath = m_parameters.get("SavePath");
 
-     FileName qfile(v_query.source().name());
-     QString qfout = savepath + "/" + qfile.baseName() + "_query.png";
-     FileName oqfile(qfout);
-     imwrite( oqfile.expanded().toStdString(), i_query);
+     FileName qfile(v_query.source().name().toStdString());
+     QString qfout = savepath + "/" + QString::fromStdString(qfile.baseName()) + "_query.png";
+     FileName oqfile(qfout.toStdString());
+     imwrite( oqfile.expanded(), i_query);
 
-     FileName tfile(v_train.source().name());
-     QString tfout = savepath + "/" + tfile.baseName() + "_train.png";
-     FileName otfile(tfout);
-     imwrite( otfile.expanded().toStdString(), i_train);
+     FileName tfile(v_train.source().name().toStdString());
+     QString tfout = savepath + "/" + QString::fromStdString(tfile.baseName()) + "_train.png";
+     FileName otfile(tfout.toStdString());
+     imwrite( otfile.expanded(), i_train);
    }
 
    if ( isDebug() ) {
@@ -237,7 +237,7 @@ MatchPair RobustMatcher::match(MatchImage &query, MatchImage &train) const {
      v_pair.addTime(mtime);
    }
    catch ( cv::Exception &c ) {
-     QString mess = "Outlier removal process failed on image pair: "
+     std::string mess = "Outlier removal process failed on image pair: "
                     " Query: " + v_query.name() +
                     ", Train: " + v_train.name() +
                     ".  CV::Error - " + c.what();
@@ -250,7 +250,7 @@ MatchPair RobustMatcher::match(MatchImage &query, MatchImage &train) const {
      }
    }
    catch ( IException &ie) {
-     QString mess = "Outlier removal process failed on Query/Train image pair "
+     std::string mess = "Outlier removal process failed on Query/Train image pair "
                     " Query: "  + v_query.name() +
                     ", Train: " + v_train.name();
      // throw IException(ie, IException::Programmer, mess, _FILEINFO_);
@@ -287,7 +287,7 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
   }
 
   if (trainers.size() == 0 ) {
-    QString mess = "No trainer images provided!!";
+    std::string mess = "No trainer images provided!!";
     if (isDebug() ) logger() << "  " << mess << "\n";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
@@ -308,10 +308,10 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
 
    if ( true == saveRendered ) {
      // Save the query image first
-     FileName qfile(v_query.source().name());
-     QString qfout = savepath + "/" + qfile.baseName() + "_query.png";
-     FileName oqfile(qfout);
-     imwrite( oqfile.expanded().toStdString(), i_query);
+     FileName qfile(v_query.source().name().toStdString());
+     QString qfout = savepath + "/" + QString::fromStdString(qfile.baseName()) + "_query.png";
+     FileName oqfile(qfout.toStdString());
+     imwrite( oqfile.expanded(), i_query);
    }
 
    // Now process the rest of the trainer images
@@ -319,10 +319,10 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
      i_trainers.push_back(v_trainers[i].image());
 
      if ( true == saveRendered ) {
-       FileName tfile(v_trainers[i].source().name());
-       QString tfout = savepath + "/" + tfile.baseName() + "_train.png";
-       FileName ofile(tfout);
-       imwrite( ofile.expanded().toStdString(), i_trainers[i]);
+       FileName tfile(v_trainers[i].source().name().toStdString());
+       QString tfout = savepath + "/" + QString::fromStdString(tfile.baseName()) + "_train.png";
+       FileName ofile(tfout.toStdString());
+       imwrite( ofile.expanded(), i_trainers[i]);
      }
    }
 
@@ -467,7 +467,7 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
        pairs.push_back( v_pair );
      }
      catch ( cv::Exception &c ) {
-       QString mess = "Outlier removal process failed on Query/Train image pair "
+       std::string mess = "Outlier removal process failed on Query/Train image pair "
                       " Query=" + v_query.name() +
                       ", Train[" + QString::number(i) + "]: " + v_train.name() +
                       ".  cv::Error - " + c.what();
@@ -481,7 +481,7 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
        }
      }
      catch ( IException &ie) {
-       QString mess = "Outlier removal process failed on Query/Train image pair "
+       std::string mess = "Outlier removal process failed on Query/Train image pair "
                       " Query=" + v_query.name() +
                       ", Train[" + QString::number(i) + "]: " + v_train.name();
        // throw IException(ie, IException::Programmer, mess, _FILEINFO_);
@@ -558,7 +558,7 @@ bool RobustMatcher::removeOutliers(const cv::Mat &queryDescriptors,
                                    2); // return 2 nearest neighbours
               }
   catch (cv::Exception &e) {
-    QString mess = "RobustMatcher::MatcherFailed: "+ QString(e.what()) +
+    std::string mess = "RobustMatcher::MatcherFailed: "+ QString(e.what()) +
                    " - if its an assertion failure, you may be enabling "
                    "crosschecking with a BFMatcher. Must use a FlannBased "
                    "matcher if you want inherent ratio testing. "
@@ -836,7 +836,7 @@ cv::Mat RobustMatcher::ransacTest(const std::vector<cv::DMatch>& matches,
                                          inliers);     // match status (inlier or outlier))
   }
   catch ( cv::Exception &e ) {
-    QString mess = "1st fundamental (epipolar) test failed!"
+    std::string mess = "1st fundamental (epipolar) test failed!"
                    " QueryPoints=" + QString::number(points1.size()) +
                    ", TrainPoints=" + QString::number(points2.size()) +
                    ".  cv::Error - " + e.what();
@@ -901,7 +901,7 @@ cv::Mat RobustMatcher::ransacTest(const std::vector<cv::DMatch>& matches,
       }
       catch ( cv::Exception &e ) {
         outMatches.clear();
-        QString mess = "2st fundamental (epipolar) test failed!"
+        std::string mess = "2st fundamental (epipolar) test failed!"
                        " QueryPoints=" + QString::number(points1.size()) +
                        ", TrainPoints=" + QString::number(points2.size()) +
                        ".  CV::Error - " + e.what();
@@ -1074,7 +1074,7 @@ cv::Mat RobustMatcher::computeHomography(const std::vector<cv::KeyPoint>& query,
     }
   }
   catch ( cv::Exception &e ) {
-    QString mess = "RobustMatcher::HomographyFailed: with cv::Error - "+
+    std::string mess = "RobustMatcher::HomographyFailed: with cv::Error - "+
                    QString(e.what());
     if ( onErrorThrow ) throw IException(IException::Programmer, mess , _FILEINFO_);
     else if ( isDebug()  ) {

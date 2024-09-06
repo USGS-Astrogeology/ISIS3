@@ -100,8 +100,8 @@ namespace Isis{
 
       p.StandardPdsLabel(ProcessExportPds::Image);
 
-      FileName outFile(ui.GetFileName("TO", "img"));
-      QString outFileName(outFile.expanded());
+      FileName outFile(ui.GetFileName("TO", "img").toStdString());
+      QString outFileName(QString::fromStdString(outFile.expanded()));
       ofstream oCube(outFileName.toLatin1().data());
       p.OutputLabel(oCube);
       p.StartProcess(oCube);
@@ -130,13 +130,13 @@ namespace Isis{
 
       PvlObject *label= icube->label();
       if (!label->hasObject("IsisCube")) {
-        QString msg = "Input file [" + ui.GetCubeName("FROM") +
+        std::string msg = "Input file [" + ui.GetCubeName("FROM") +
                       "] does not appear to be an ISIS cube.";
         throw  IException(IException::User, msg, _FILEINFO_);
       }
 
-      FileName outFile(ui.GetFileName("TO", "img"));
-      QString outFileName(outFile.expanded());
+      FileName outFile(ui.GetFileName("TO", "img").toStdString());
+      QString outFileName(QString::fromStdString(outFile.expanded()));
 
       if (ui.GetString("STRETCH") == "LINEAR") {
         if (ui.GetString("BITTYPE") != "32BIT") {

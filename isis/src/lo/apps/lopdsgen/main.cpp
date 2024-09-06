@@ -156,7 +156,7 @@ void IsisMain() {
     }
     else {
       FileName inputFile(ui.GetCubeName("FROM"));
-      QString msg = "[" + inputFile.expanded() + "] does not appear to be an LO file.  ";
+      std::string msg = "[" + inputFile.expanded() + "] does not appear to be an LO file.  ";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -204,7 +204,7 @@ void IsisMain() {
   }
   else {
     FileName inputFile(ui.GetCubeName("FROM"));
-    QString msg = "[" + inputFile.expanded() + "] does not contain boresight or fiducial information.  ";
+    std::string msg = "[" + inputFile.expanded() + "] does not contain boresight or fiducial information.  ";
     msg += "Try ingesting your data with lo2isis first.";
     throw IException(IException::User, msg, _FILEINFO_);
   }

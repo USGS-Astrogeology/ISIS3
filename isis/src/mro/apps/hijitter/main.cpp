@@ -246,7 +246,7 @@ void IsisMain() {
       ProgramLauncher::RunIsisProgram("ckwriter", params);
     }
     catch(IException &e) {
-      QString msg = "Creation of the output ck, " +
+      std::string msg = "Creation of the output ck, " +
         ui.GetFileName("JITTERCK") + " failed.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -327,11 +327,11 @@ void IsisMain() {
  */
 FileName masterCcdFileName(FileList &inList, int masterCcdNumber) {
   if (g_ccdFiles.empty()) {
-    QString msg = "Global variables are not initialized.";
+    std::string msg = "Global variables are not initialized.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   if (!g_ccdFiles.empty() && g_ccdFiles[masterCcdNumber].isEmpty()) {
-    QString msg = "File containing master CCD [" + toString(masterCcdNumber) + "] is not in the input file list.";
+    std::string msg = "File containing master CCD [" + toString(masterCcdNumber) + "] is not in the input file list.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   return g_ccdFiles[masterCcdNumber];
@@ -347,7 +347,7 @@ FileName masterCcdFileName(FileList &inList, int masterCcdNumber) {
 void init(FileList &inList) {
 
   if (!g_ccdFiles.empty()) {
-    QString msg = "Global variable have already been initialized.";
+    std::string msg = "Global variable have already been initialized.";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
@@ -358,7 +358,7 @@ void init(FileList &inList) {
   for (int i = 0; i < inList.size(); i++) {
     try {
       FileName currentFileName(inList[i]);
-      Pvl labels(currentFileName.expanded().toStdString());
+      Pvl labels(currentFileName.expanded());
       PvlGroup &inst = labels.findGroup("Instrument", Pvl::Traverse);
 
       QString ccdKeywordValue = QString::fromStdString(inst["CcdId"]);
@@ -373,14 +373,14 @@ void init(FileList &inList) {
         ccdNumber = (int) toInt((QString)ccdKeywordValue.mid(2));
       }
       else {
-        QString msg = "CcdId value of [" + ccdKeywordValue + "] found in ["
+        std::string msg = "CcdId value of [" + ccdKeywordValue + "] found in ["
                       + inList[i].toString() + "] not supported. Valid values "
                       "include RED0-RED9, IR10-IR11, BG12-BG13";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
       if (ccdNumber < 0 || ccdNumber > 13) {
-        QString msg = "CcdId value of [" + ccdKeywordValue + "] found in ["
+        std::string msg = "CcdId value of [" + ccdKeywordValue + "] found in ["
                       + inList[i].toString() + "] not supported. Valid values "
                       "include RED0-RED9, IR10-IR11, BG12-BG13";
         throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -396,7 +396,7 @@ void init(FileList &inList) {
         g_numFiles++;
       }
       else { // last CCD number was larger than this CCD number
-        QString msg = "The input file list must be in ascending order from RED0 to BG13";
+        std::string msg = "The input file list must be in ascending order from RED0 to BG13";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -404,7 +404,7 @@ void init(FileList &inList) {
       g_ccdNumbers.push_back(ccdNumber);
     }
     catch(IException &e) {
-      QString msg = "File [" + inList[i].toString() + "] is not a valid MRO cube";
+      std::string msg = "File [" + inList[i].toString() + "] is not a valid MRO cube";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -425,7 +425,7 @@ void init(FileList &inList) {
 //      lastRedCcdFound = toString(i-1);
 //    }
 //    else if (foundFirstRedCcd && foundLastRedCcd && !g_ccdFiles[i].empty()) {
-//      QString msg = "Invalid file list. All red CCDs listed must be consecutive. "
+//      std::string msg = "Invalid file list. All red CCDs listed must be consecutive. "
 //                    "Input list has files containing [RED" + lastRedCcdFound
 //                    + "] and [RED" + toString((int)i) + "], but the CCDs between "
 //                    "are not represented in the given file list.";
@@ -433,7 +433,7 @@ void init(FileList &inList) {
 //    }
 //  }
 //  if ( foundFirstRedCcd && !foundLastRedCcd ) {
-//    QString msg = "Invalid file list. Adjacent CCD not in the input file list "
+//    std::string msg = "Invalid file list. Adjacent CCD not in the input file list "
 //                  "for [RED" + g_firstFilter + "].";
 //    throw IException(IException::User, msg, _FILEINFO_);
 //  }
@@ -474,7 +474,7 @@ void init(FileList &inList) {
           overlappingCcds = "CCDs [RED" + toString((int) (i-1))
                          + "] and [RED" + toString((int) (i+1)) + "] are";
         }
-        QString msg = "Invalid file list. A file containing the CCD [" + color
+        std::string msg = "Invalid file list. A file containing the CCD [" + color
                       + toString((int) i) + "] is in the input file list, "
                       "but adjacent " + overlappingCcds + " not in the list.";
         throw IException(IException::User, msg, _FILEINFO_);
@@ -597,7 +597,7 @@ void processNoprojFiles(Pipeline &p) {
         }
       }
       catch(IException &e) {
-        //QString msg = "Unable to find average sample/line offsets in hijitreg results for CCDs [" + toString(i) + "-" + toString(i+1) + "]";
+        //std::string msg = "Unable to find average sample/line offsets in hijitreg results for CCDs [" + toString(i) + "-" + toString(i+1) + "]";
         //throw iException::Message(e, iException::Programmer, msg, _FILEINFO_);
         // numOffsets--;
         continue; // to next file in for loop
@@ -608,7 +608,7 @@ void processNoprojFiles(Pipeline &p) {
   }
 
   if (offsetIndices.size() == 0) {
-    QString msg = "Unable to calculate average sample/line offsets from hijitreg results";
+    std::string msg = "Unable to calculate average sample/line offsets from hijitreg results";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 

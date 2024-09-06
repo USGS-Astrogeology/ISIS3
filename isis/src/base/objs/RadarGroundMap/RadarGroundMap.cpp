@@ -395,7 +395,7 @@ namespace Isis {
     *cudy = p_groundDopplerFreq / p_dopplerSigma;   // htx to focal plane coord
 
     if (test == true) {
-      QString msg = "Back of planet test is not enabled for Radar images";
+      std::string msg = "Back of planet test is not enabled for Radar images";
        throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

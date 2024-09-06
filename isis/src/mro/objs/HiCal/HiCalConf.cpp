@@ -330,7 +330,7 @@ bool HiCalConf::_naifLoaded = false;
         NaifStatus::CheckErrors();
       }
       catch(IException &e) {
-        QString msg = "Unable to determine the distance from the target to the sun";
+        std::string msg = "Unable to determine the distance from the target to the sun";
         throw IException(e, IException::User, msg, _FILEINFO_);
       }
     }
