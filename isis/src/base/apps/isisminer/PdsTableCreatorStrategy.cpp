@@ -106,7 +106,7 @@ namespace Isis {
   
     QString fmtfile = translateKeywordArgs("PdsFormatFile", getGlobals(m_parameters, globals));
     if ( isDebug() ) { 
-      cout << "PdsTableCreator::PdsFormatFile = " << fmtfile << "\n"; 
+      cout << "PdsTableCreator::PdsFormatFile = " << fmtfile.toStdString() << "\n"; 
     }
     Pvl fmtpvl(fmtfile.toStdString());
     readColumns(fmtpvl);
@@ -114,7 +114,7 @@ namespace Isis {
       //  Check for argument replacement
     QString fname = translateKeywordArgs("PdsTableFile", getGlobals(m_parameters, globals));
     if ( isDebug() ) { 
-      cout << "PdsTableCreator::PdsTableFile = " << fname << "\n"; 
+      cout << "PdsTableCreator::PdsTableFile = " << fname.toStdString() << "\n"; 
     }
   
     //  Now open the filename
@@ -130,7 +130,7 @@ namespace Isis {
   
     if ( !os.is_open() ) {
       std::string mess = "PdsTableCreator::Cannot open/create output file (" + 
-                     fname + ")";
+                     fname.toStdString() + ")";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
   
@@ -152,7 +152,7 @@ namespace Isis {
           row += separator + col->formattedValue(resource, m_null);
           separator = m_delimiter;
         }
-        os << row << "\n";
+        os << row.toStdString() << "\n";
         nrows++;
       }
     }

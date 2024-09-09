@@ -83,8 +83,8 @@ namespace Isis{
       }
 
       for (int row = 0; row < reader.rows(); row++) {
-        point1 = toDouble(reader.getRow(row)[0]);
-        point2 = toDouble(reader.getRow(row)[1]);
+        point1 = reader.getRow(row)[0].toDouble();
+        point2 = reader.getRow(row)[1].toDouble();
         points.append(QPair<double, double>(point1, point2));
       }
 

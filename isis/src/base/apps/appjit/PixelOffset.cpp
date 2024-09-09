@@ -5,6 +5,7 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>
+#include <QStringList>
 
 #include "PixelOffset.h"
 #include "TextFile.h"

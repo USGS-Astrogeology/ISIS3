@@ -127,7 +127,7 @@ namespace Isis {
     resetProcessed();
     BOOST_FOREACH ( QString op , m_operators ) {
       OperatorFn func = findOperationFn(op);
-      if ( isDebug() ) {  cout << "  Running " << op << ":"; }
+      if ( isDebug() ) {  cout << "  Running " << op.toStdString() << ":"; }
 
       int nops = CALL_MEMBER_FN(*this, func)(op, resources);
       
@@ -173,13 +173,13 @@ namespace Isis {
                                                        const {
     QStringList parts = qualifiers(op);
     if ( parts.isEmpty() || (parts.size() > 2)) {
-      std::string mess = "ResourceManager::Operator [" + op + "] is ill-formed.";
+      std::string mess = "ResourceManager::Operator [" + op.toStdString() + "] is ill-formed.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
     QString opName = parts[0].toLower();
     if ( !m_opFunctions.contains(opName) ) {
-      std::string mess = "ResourceManager::Operator [" + op + "] not recognized.";
+      std::string mess = "ResourceManager::Operator [" + op.toStdString() + "] not recognized.";
       mess += "  Valid are ResetDiscard, ToggleDiscard, DeleteDiscard"
               " and DeleteAsset::AssetName.";
       throw IException(IException::User, mess, _FILEINFO_);
@@ -285,8 +285,8 @@ namespace Isis {
                                              ResourceList &resources)  {
     QStringList parts = qualifiers(op);
     if ( parts.size() != 2) {
-      std::string mess = "ResourceManager " + parts[0] + " requires an asset name. "
-                     " Operation [" + op + "] is ill-formed.";
+      std::string mess = "ResourceManager " + parts[0].toStdString() + " requires an asset name. "
+                     " Operation [" + op.toStdString() + "] is ill-formed.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
@@ -324,8 +324,8 @@ namespace Isis {
                                              ResourceList &resources)  {
     QStringList parts = qualifiers(op);
     if ( parts.size() != 2) {
-      std::string mess = "ResourceManager " + parts[0] + " requires an asset name. "
-                     " Operation [" + op + "] is ill-formed.";
+      std::string mess = "ResourceManager " + parts[0].toStdString() + " requires an asset name. "
+                     " Operation [" + op.toStdString() + "] is ill-formed.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 

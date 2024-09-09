@@ -55,8 +55,8 @@ namespace Isis {
     comment << "\
  ****************************************************************************\n\
    USGS ISIS (spkwriter) Generated SPK Kernel\n\
-   Created By:   " << Application::UserName() << "\n\
-   Date Created: " << Application::DateTime() << "\n\
+   Created By:   " << Application::UserName().toStdString() << "\n\
+   Date Created: " << Application::DateTime().toStdString() << "\n\
  ****************************************************************************\n\
  \n\
  \n\
@@ -132,7 +132,7 @@ User Comments\n\
      TextFile txt(comfile);
      QString cline;
      while ( txt.GetLineNoFilter(cline )) {
-       comment << cline << "\n";
+       comment << cline.toStdString() << "\n";
      }
    }
    else {

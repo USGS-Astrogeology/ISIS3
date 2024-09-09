@@ -53,7 +53,7 @@ namespace Isis {
 
     // Make sure it is not the sky
     if (incam->target()->isSky()) {
-      std::string msg = "The image [" + ui.GetCubeName("FROM") +
+      std::string msg = "The image [" + ui.GetCubeName("FROM").toStdString() +
                     "] is targeting the sky, use skymap instead.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -219,7 +219,7 @@ namespace Isis {
           }
 
           else if (ui.GetString("LONSEAM") == "ERROR") {
-            std::string msg = "The image [" + ui.GetCubeName("FROM") + "] crosses the " +
+            std::string msg = "The image [" + ui.GetCubeName("FROM").toStdString() + "] crosses the " +
                           "longitude seam";
             throw IException(IException::User, msg, _FILEINFO_);
           }

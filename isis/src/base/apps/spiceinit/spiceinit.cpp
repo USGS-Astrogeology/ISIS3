@@ -192,7 +192,7 @@ namespace Isis {
       if ((ck.size() == 0 || ck.at(0).size() == 0) && !ui.WasEntered("CK")) {
         // no ck was found in system and user did not enter ck, throw error
         throw IException(IException::Unknown,
-                         "No Camera Kernels found for the image [" + ui.GetCubeName("FROM")
+                         "No Camera Kernels found for the image [" + ui.GetCubeName("FROM").toStdString()
                          + "]",
                          _FILEINFO_);
       }

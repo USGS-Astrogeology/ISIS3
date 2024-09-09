@@ -347,7 +347,7 @@ namespace Isis {
         mess << "Band " << i + 1 << " with wavelength Center = " << center[i]
              << " does not have PhotometricModel Algorithm group/profile";
         IException e(IException::User, mess.str(), _FILEINFO_);
-        errs += e.toString().toStdString() + "\n";
+        errs += e.toString() + "\n";
       }
     }
 

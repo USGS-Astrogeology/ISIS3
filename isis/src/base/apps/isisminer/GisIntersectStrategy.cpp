@@ -70,14 +70,14 @@ namespace Isis {
     }
 
     //  See if user wants a bounding box from the source
-    if ( toBool(parms.get("BoundingBox", "false")) ) {
+    if ( toBool(parms.get("BoundingBox", "false").toStdString()) ) {
       GEOSGeometry *geom = GEOSEnvelope(m_geom->geometry());
       m_geom->setGeometry(geom);
     }
 
     // Check for validity
     if ( !m_geom->isValid() ) {
-      std::string mess = "User provided geometry for " + name()  +
+      std::string mess = "User provided geometry for " + name().toStdString()  +
                      " is not valid!";
       throw IException(IException::User, mess, _FILEINFO_);
     }
@@ -86,10 +86,10 @@ namespace Isis {
        // Echo back WKT geometry
        GisTopology *gis = GisTopology::instance();
        QString wkt = gis->wkt(m_geom->geometry());
-       cout << "GisGeometry = " << wkt  << "\n";
+       cout << "GisGeometry = " << wkt.toStdString()  << "\n";
     }
 
-     m_computeOverlap = toBool(parms.get("ComputeRatio", "false"));
+     m_computeOverlap = toBool(parms.get("ComputeRatio", "false").toStdString());
      m_ratioKey       = parms.get("RatioRef", ""); 
 
      return; 
@@ -137,8 +137,8 @@ namespace Isis {
       geom = new GisGeometry(gisgeom, gtype);
     }
     catch (IException &ie) {
-      std::string mess = "Problems converting GIS Geometry in keyword " + key +
-                     ", PVL source file: " + pfile;
+      std::string mess = "Problems converting GIS Geometry in keyword " + key.toStdString() +
+                     ", PVL source file: " + pfile.toStdString();
       throw IException(IException::User, mess, _FILEINFO_);
     }
   
@@ -188,7 +188,7 @@ namespace Isis {
     else {
       if ( m_computeOverlap ) {
         double ratio = resource->geometry()->intersectRatio(*m_geom);
-        resource->add(m_ratioKey, toString(ratio));
+        resource->add(m_ratioKey, QString::number(ratio));
       }
     }
     return (1);

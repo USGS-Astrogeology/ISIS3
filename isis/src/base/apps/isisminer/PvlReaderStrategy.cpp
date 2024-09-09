@@ -174,8 +174,8 @@ namespace Isis {
     pvlsrc->setName(identity);
     
     if ( isDebug() ) { 
-      cout << "  PvlReader::Resource::" << rowId 
-           << "::Identity = " << identity << "\n"; 
+      cout << "  PvlReader::Resource::" << rowId.toStdString() 
+           << "::Identity = " << identity.toStdString() << "\n"; 
     }
   
     // Import geometry w/exception handling
@@ -186,7 +186,7 @@ namespace Isis {
     }
     catch (IException &ie) {
       std::string mess = "Geometry conversion failed horribly for Resource(" + 
-                     identity + ")";
+                     identity.toStdString() + ")";
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }
   

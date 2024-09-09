@@ -24,7 +24,7 @@ namespace Isis {
     vector< pair<QString, QString> > sortedList;
 
     if (images.size() == 1) {
-      throw IException(IException::User, "The list [" + ui.GetFileName("FROMLIST") +
+      throw IException(IException::User, "The list [" + ui.GetFileName("FROMLIST").toStdString() +
                        "] only contains one image.", _FILEINFO_);
     }
 

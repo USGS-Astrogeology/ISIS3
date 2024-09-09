@@ -32,13 +32,13 @@ namespace Isis {
 
     //  Now check for problems
     if ( 0 < errors.size() ) {
-       std::string mess = "Time/body overlap conflicts are present in segment (image) list. "
+       QString mess = "Time/body overlap conflicts are present in segment (image) list. "
                       "This will likely create erroneous positions in one or more "
                       "images.  You should create a seperate kernel for conflicting "
                       "images that overlap another.  Images with time/body overlap "
                       "conflicts are:   \n"
                       + errors.join("; ");
-       throw IException(IException::User, mess, _FILEINFO_);
+       throw IException(IException::User, mess.toStdString(), _FILEINFO_);
     }
     return;
   }
@@ -114,10 +114,10 @@ namespace Isis {
       ofstream os;
       os.open(fFile.toLatin1().data(),ios::out);
       if (!os) {
-        std::string mess = "Cannot create SPK SUMMARY output file " + fFile;
+        std::string mess = "Cannot create SPK SUMMARY output file " + fFile.toStdString();
         throw IException(IException::User, mess, _FILEINFO_);
       }
-      os << kwriter.getComment(kernel, comfile) << endl;
+      os << kwriter.getComment(kernel, comfile).toStdString() << endl;
       os.close();
     }
     p.EndProcess();

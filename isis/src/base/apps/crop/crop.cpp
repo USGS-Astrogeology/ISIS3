@@ -140,7 +140,7 @@ namespace Isis {
       }
 
       // Read the table into a table object
-      Table table(obj["Name"], from);
+      Table table(obj["Name"], from.toStdString());
 
       // We are not going to bother with line/sample associations; they apply
       //   only to the alpha cube at this time. I'm leaving this code here for the

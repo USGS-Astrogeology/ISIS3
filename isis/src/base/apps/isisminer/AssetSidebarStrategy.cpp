@@ -74,7 +74,7 @@ namespace Isis {
     PvlFlatMap parms(getDefinitionMap());
     m_asset         = parms.get("Asset");
     m_create        = ("create" == parms.get("Operation", "process").toLower());
-    m_removeEmpties = toBool(parms.get("ClearOnEmpty", "true"));
+    m_removeEmpties = toBool(parms.get("ClearOnEmpty", "true").toStdString());
 
     QString source = parms.get("CreateSource", "copy").toLower();
     if ( "clone" == source ) { m_source = FromClone; }

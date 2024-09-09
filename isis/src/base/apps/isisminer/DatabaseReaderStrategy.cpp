@@ -125,12 +125,12 @@ namespace Isis {
       else {  //  ("asset" == target) 
         QString assetName = keys.get("Asset");
         if ( isDebug() ) { 
-          cout << "Db:LoadingAssets(" << assetName << ") \n"; 
+          cout << "Db:LoadingAssets(" << assetName.toStdString() << ") \n"; 
         }
     
         BOOST_FOREACH ( SharedResource resource, resources ) {
          if ( isDebug() ) { 
-           cout << "  Db:AssetsResource(" << resource->name() << ") \n"; 
+           cout << "  Db:AssetsResource(" << resource->name().toStdString() << ") \n"; 
          }
           ResourceList assetList;
           nrows += executeQuery(assetList, getGlobals(resource, globals));
@@ -145,7 +145,7 @@ namespace Isis {
       }
     }
     catch ( IException &ie ) {
-      std::string mess = "Query failed after " + QString::number(nrows+1) + 
+      std::string mess = "Query failed after " + toString(nrows+1) + 
                      " rows: " + ie.what();
       if ( isDebug() ) {
         cout << "Db::Error - " << mess << "\n";
@@ -238,7 +238,7 @@ namespace Isis {
   
     QString query = configureQuery(globals);
     if ( isDebug()  ) {  
-      cout << "Running Query = " << query << "\n"; 
+      cout << "Running Query = " << query.toStdString() << "\n"; 
     }
     SqlQuery finder(*m_db);
     finder.setThrowOnFailure();
@@ -266,7 +266,7 @@ namespace Isis {
       }
       newsrc->setName(identity);
       if ( isDebug() ) { 
-        cout << "  Db::Resource::" << rowId << "::Identity = " << identity << "\n";
+        cout << "  Db::Resource::" << rowId.toStdString() << "::Identity = " << identity.toStdString() << "\n";
       }
   
       // Propagated keys and store Query if requested
@@ -312,7 +312,7 @@ namespace Isis {
     }
     catch (IException &ie) {
       std::string mess = "Geometry conversion failed horribly for Resource [" + 
-                     rowId + "].";
+                     rowId.toStdString() + "].";
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }
 

@@ -92,7 +92,7 @@ namespace Isis {
    * @return string Converted value
    */
   template <typename T> QString ToString(const T &value) {
-    return (toString(value).trimmed());
+    return (QString::number(value).trimmed());
   }
 
 

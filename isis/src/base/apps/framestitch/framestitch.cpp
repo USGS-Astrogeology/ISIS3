@@ -59,14 +59,14 @@ namespace Isis {
     }
 
     if (frameHeights.TotalPixels() == 0) {
-      std::string msg = "Failed to find any NULL frames in cube [" + cube->fileName() + "]."
+      std::string msg = "Failed to find any NULL frames in cube [" + cube->fileName().toStdString() + "]."
                     "Please manually enter the frame height.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     if (frameHeights.Minimum() != frameHeights.Maximum()) {
       std::string msg = "Found different frame heights between [" + toString((int)frameHeights.Minimum())
                   + "] and [" + toString((int)frameHeights.Maximum()) + "] lines in cube ["
-                  + cube->fileName() + "]. Please manually enter the frame height.";
+                  + cube->fileName().toStdString() + "]. Please manually enter the frame height.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -114,12 +114,12 @@ namespace Isis {
       }
 
       if (evenInst.hasKeyword("DataFlipped") && oddInst.hasKeyword("DataFlipped")) {
-        if (toBool(QString::fromStdString(evenInst["DataFlipped"])) != toBool(QString::fromStdString(oddInst["DataFlipped"]))) {
+        if (toBool(evenInst["DataFlipped"]) != toBool(oddInst["DataFlipped"])) {
           std::string msg = "Both input cubes must be flipped or not flipped. Cannot combine "
                         "a flipped and unflipped cube.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
-        inputFlipped = toBool(QString::fromStdString(evenInst["DataFlipped"]));
+        inputFlipped = toBool(evenInst["DataFlipped"]);
       }
     }
 

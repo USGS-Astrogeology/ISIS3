@@ -36,17 +36,17 @@ namespace Isis {
       void operator() (Buffer &in) const {
           for(int i = 0; i < in.size(); i++) {
             if(IsSpecial(in[i])) {
-              if(IsNullPixel(in[i])) fout << null;
-              if(IsHrsPixel(in[i])) fout << hrs;
-              if(IsHisPixel(in[i])) fout << his;
-              if(IsLrsPixel(in[i])) fout << lrs;
-              if(IsLisPixel(in[i])) fout << lis;
+              if(IsNullPixel(in[i])) fout << null.toStdString();
+              if(IsHrsPixel(in[i])) fout << hrs.toStdString();
+              if(IsHisPixel(in[i])) fout << his.toStdString();
+              if(IsLrsPixel(in[i])) fout << lrs.toStdString();
+              if(IsLisPixel(in[i])) fout << lis.toStdString();
             }
             else {
               fout << in[i];
             }
             if (i != in.size() - 1) {
-              fout << delimiter;
+              fout << delimiter.toStdString();
             }
           }
           fout << endl;
@@ -91,10 +91,10 @@ namespace Isis {
 
     // Print header if needed
     if(ui.GetBoolean("HEADER")) {
-      fout << "Input_Cube" << delimiter << icube->fileName() << endl;
-      fout << "Samples" << delimiter << icube->sampleCount() << endl;
-      fout << "Lines" << delimiter << icube->lineCount() << endl;
-      fout << "Bands" << delimiter << icube->bandCount() << endl;
+      fout << "Input_Cube" << delimiter.toStdString() << icube->fileName().toStdString() << endl;
+      fout << "Samples" << delimiter.toStdString() << icube->sampleCount() << endl;
+      fout << "Lines" << delimiter.toStdString() << icube->lineCount() << endl;
+      fout << "Bands" << delimiter.toStdString() << icube->bandCount() << endl;
     }
 
     //Determine special pixel values

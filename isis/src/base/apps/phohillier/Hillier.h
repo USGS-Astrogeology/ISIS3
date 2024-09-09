@@ -26,6 +26,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <QString>
 
 #include "Camera.h"
 #include "DbProfile.h"
@@ -128,16 +129,37 @@ namespace Isis {
       template <typename T>
       T ConfKey(const DbProfile &conf, const QString &keyname,
                 const T &defval, int index = 0) const {
-        if(!conf.exists(keyname)) {
-          return (defval);
+        if (!conf.exists(keyname)) {
+            return defval;
         }
-        if(conf.count(keyname) < index) {
-          return (defval);
+        if (conf.count(keyname) <= index) {
+            return defval;
         }
-        QString iValue(conf.value(keyname, index));
-        T value = iValue;  // This makes it work with a string?
-        return (value);
-      }
+
+        QString qValue = conf.value(keyname, index);
+        std::string iValue = qValue.toStdString();
+
+        // Handle different types of T
+        if constexpr (std::is_same_v<T, std::string>) {
+            return iValue;
+        } else if constexpr (std::is_same_v<T, QString>) {
+            return qValue;
+        } else if constexpr (std::is_same_v<T, int>) {
+            try {
+                return std::stoi(iValue);
+            } catch (...) {
+                return defval;
+            }
+        } else if constexpr (std::is_same_v<T, double>) {
+            try {
+                return std::stod(iValue);
+            } catch (...) {
+                return defval;
+            }
+        } else {
+            static_assert(std::is_same_v<T, void>, "Unsupported type for ConfKey");
+        }
+    }
   };
 
 };

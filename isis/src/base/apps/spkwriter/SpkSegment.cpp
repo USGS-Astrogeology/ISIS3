@@ -116,7 +116,7 @@ void SpkSegment::import(Cube &cube) {
     }
     else {
       std::string mess = "Unsupported SPK kernel type (" +
-                     QString::number(m_spkType) + ") - must be 9 or 13.";
+                     toString(m_spkType) + ") - must be 9 or 13.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
@@ -209,7 +209,7 @@ void SpkSegment::import(Cube &cube) {
 
   } catch ( IException &ie  ) {
     ostringstream mess;
-    mess << "Failed to construct SPK content from ISIS file " << Source();
+    mess << "Failed to construct SPK content from ISIS file " << Source().toStdString();
     throw IException(ie, IException::User, mess.str(), _FILEINFO_);
   }
 
@@ -327,13 +327,13 @@ QString SpkSegment::getComment() const {
   comment <<
 "\n-----------------------------------------------------------------------\n" <<
 "  File:        " << FileName(Source().toStdString()).name() << endl <<
-"  Segment ID:  " << Id() << " (ProductId)" << endl <<
-"  StartTime:   " << utcStartTime() << endl <<
-"  EndTime:     " << utcEndTime() << endl <<
-"  Instrument:  " << m_instId << endl <<
-"  Target Body: " << "Body " << m_body << ", " << m_bodyFrame << endl <<
-"  Center Body: " << "Body " << m_center << ", " << m_centerFrame << endl <<
-"  RefFrame:    " << m_refFrame << endl <<
+"  Segment ID:  " << Id().toStdString() << " (ProductId)" << endl <<
+"  StartTime:   " << utcStartTime().toStdString() << endl <<
+"  EndTime:     " << utcEndTime().toStdString() << endl <<
+"  Instrument:  " << m_instId.toStdString() << endl <<
+"  Target Body: " << "Body " << m_body << ", " << m_bodyFrame.toStdString() << endl <<
+"  Center Body: " << "Body " << m_center << ", " << m_centerFrame.toStdString() << endl <<
+"  RefFrame:    " << m_refFrame.toStdString() << endl <<
 "  Records:     " << size() << endl;
 
   if (m_startOffset != 0) {
@@ -360,7 +360,7 @@ QString SpkSegment::getComment() const {
 "  Kernels:     \n";
     for ( int i = 0 ; i < klist.size() ; i++  ) {
       comment <<
-"    " << klist[i] << endl;
+"    " << klist[i].toStdString() << endl;
     }
   }
 
@@ -463,7 +463,7 @@ SpkSegment::SMatrix SpkSegment::load(Table &table) {
 void SpkSegment::validateType(const int spktype) const {
   if ( !(( 9 == spktype ) || ( 13 == spktype )) ) {
     std::string mess = "Unsupported SPK kernel type (" +
-                   QString::number(spktype) + ") - must be 9 or 13.";
+                   toString(spktype) + ") - must be 9 or 13.";
     throw IException(IException::User, mess, _FILEINFO_);
   }
   return;

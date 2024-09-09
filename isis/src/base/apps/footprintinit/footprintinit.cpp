@@ -58,7 +58,7 @@ namespace Isis {
 
     int sinc = 1;
     int linc = 1;
-    IString incType = ui.GetString("INCTYPE");
+    IString incType = ui.GetString("INCTYPE").toStdString();
     if (incType.UpCase() == "VERTICES") {
       poly.initCube(*cube);
       sinc = linc = (int)(0.5 + (((poly.validSampleDim() * 2) +
@@ -81,7 +81,7 @@ namespace Isis {
       poly.Create(*cube, sinc, linc, 1, 1, 0, 0, 1, precision);
     }
     catch (IException &e) {
-      std::string msg = "Cannot generate polygon for [" + cube->fileName() + "]";
+      std::string msg = "Cannot generate polygon for [" + cube->fileName().toStdString() + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -127,7 +127,7 @@ namespace Isis {
             delete xyPoly;
             e.print(); // This should be a NAIF error
             std::string msg = "Cannot calculate XY for [";
-            msg += cube->fileName() + "]";
+            msg += cube->fileName().toStdString() + "]";
             throw IException(e, IException::User, msg, _FILEINFO_);
           }
         }

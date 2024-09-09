@@ -148,7 +148,7 @@ namespace Isis {
         }
       }
       // Set all keywords that still have valid information
-      gp->findKeyword("Error").setValue(error.toStdString());
+      gp->findKeyword("Error").setValue(error);
       gp->findKeyword("FileName").setValue(cube()->fileName().toStdString());
       gp->findKeyword("Sample").setValue(std::to_string(camera()->Sample()));
       gp->findKeyword("Line").setValue(std::to_string(camera()->Line()));
@@ -179,7 +179,7 @@ namespace Isis {
         gp->findKeyword("FileName").setValue(cube()->fileName().toStdString());
         gp->findKeyword("Sample").setValue(std::to_string(camera()->Sample()));
         gp->findKeyword("Line").setValue(std::to_string(camera()->Line()));
-        gp->findKeyword("PixelValue").setValue(PixelToString(b[0]).toStdString());
+        gp->findKeyword("PixelValue").setValue(PixelToString(b[0]));
         gp->findKeyword("RightAscension").setValue(std::to_string(camera()->RightAscension()));
         gp->findKeyword("Declination").setValue(std::to_string(camera()->Declination()));
         // gp->findKeyword("PlanetocentricLatitude").setValue(std::to_string(

@@ -138,8 +138,8 @@ namespace Isis {
 
         QStringList tokens = line.simplified().split(" ");
         if(tokens.count() > 2 && tokens.first() == filter) {
-          center = toDouble(tokens[1]);
-          width = toDouble(tokens[2]);
+          center = tokens[1].toDouble();
+          width = tokens[2].toDouble();
           break;
         }
       }
@@ -183,7 +183,7 @@ namespace Isis {
 
         for (QString value: line.split(QRegExp("[\\s,]"), Qt::SkipEmptyParts)) {
           vectorStretchPairs.push_back(temp1);
-          vectorStretchPairs.push_back(toDouble(value));
+          vectorStretchPairs.push_back(value.toDouble());
           temp1++;
         }
       }
@@ -381,7 +381,7 @@ namespace Isis {
 
     PvlObject translation = newLabel.findObject("Translation");
     if (translation.hasKeyword("Failure")) {
-      throw IException(IException::Io, QString::fromStdString(translation.findKeyword("Failure")), _FILEINFO_);
+      throw IException(IException::Io, translation.findKeyword("Failure"), _FILEINFO_);
     }
 
     // Set everything needed by ProcessImport
@@ -397,7 +397,7 @@ namespace Isis {
     double base = pixels["Base"];
     double multiplier = pixels["Multiplier"];
     importer.SetPixelType(PixelTypeEnumeration(pixelType));
-    importer.SetByteOrder(ByteOrderEnumeration(byteOrder));
+    importer.SetByteOrder(ByteOrderEnumeration(byteOrder.toStdString()));
     importer.SetBase(base);
     importer.SetMultiplier(multiplier);
 
@@ -458,11 +458,11 @@ namespace Isis {
 
     // Checks that are unique to mgsmoc
     if (translation.hasKeyword("compressed") && translation.hasKeyword("projected")) {
-      if (toBool(QString::fromStdString(translation["compressed"]))) {
+      if (toBool(translation["compressed"])) {
         std::string msg = "[" + inputFileName.name() + "] may be compressed. Please run image through mocuncompress to uncompress.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
-      if (toBool(QString::fromStdString(translation["projected"]))) {
+      if (toBool(translation["projected"])) {
         std::string msg = "[" + inputFileName.name() + "] appears to be an rdr file.";
         msg += " Use pds2isis.";
         throw IException(IException::User, msg, _FILEINFO_);
@@ -496,7 +496,7 @@ namespace Isis {
       }
       else {
         stringstream pdsOrgStream;
-        pdsOrgStream << originalAxisOrder;
+        pdsOrgStream << originalAxisOrder.toStdString();
 
         std::string msg = "Unsupported axis order [" + originalAxisOrder.toStdString() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -508,7 +508,7 @@ namespace Isis {
     if (translation.hasKeyword("CoreNull")) {
       str = QString::fromStdString(translation["CoreNull"]);
       if(str != "NULL") {
-        pdsNull = toDouble(str);
+        pdsNull = str.toDouble();
       }
     }
 
@@ -516,7 +516,7 @@ namespace Isis {
     if (translation.hasKeyword("CoreLRS")) {
       str = QString::fromStdString(translation["CoreLRS"]);
       if(str != "NULL") {
-        pdsLrs = toDouble(str);
+        pdsLrs = str.toDouble();
       }
     }
 
@@ -524,7 +524,7 @@ namespace Isis {
     if (translation.hasKeyword("CoreLIS")) {
       str = QString::fromStdString(translation["CoreLIS"]);
       if(str != "NULL") {
-        pdsLis = toDouble(str);
+        pdsLis = str.toDouble();
       }
     }
 
@@ -532,7 +532,7 @@ namespace Isis {
     if (translation.hasKeyword("CoreHRS")) {
       str = QString::fromStdString(translation["CoreHRS"]);
       if(str != "NULL") {
-        pdsHrs = toDouble(str);
+        pdsHrs = str.toDouble();
       }
     }
 
@@ -540,7 +540,7 @@ namespace Isis {
     if (translation.hasKeyword("CoreHIS")) {
       str = QString::fromStdString(translation["CoreHIS"]);
       if(str != "NULL") {
-        pdsHis = toDouble(str);
+        pdsHis = str.toDouble();
       }
     }
     importer.SetSpecialValues(pdsNull, pdsLrs, pdsLis, pdsHrs, pdsHis);

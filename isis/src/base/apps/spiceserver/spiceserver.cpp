@@ -90,7 +90,7 @@ namespace Isis {
 
         // Parse the XML with Qt's XML parser... kindof convoluted, I'm sorry
         QDomDocument document;
-        std::string error;
+        QString error;
         int errorLine, errorCol;
         if ( document.setContent(QString(xml), &error, &errorLine, &errorCol) ) {
           QDomElement rootElement = document.firstChild().toElement();
@@ -113,7 +113,7 @@ namespace Isis {
               // Get the cube label
               QString encoded = element.firstChild().toText().data();
               stringstream labStream;
-              labStream << QString( QByteArray::fromHex( encoded.toLatin1() ).constData() );
+              labStream << std::string( QByteArray::fromHex( encoded.toLatin1() ).constData() );
               labStream >> label;
             }
           }
@@ -137,7 +137,7 @@ namespace Isis {
         if ( remoteVersion[0].toInt() <= 3 && remoteVersion[1].toInt() < 5) {
 
          std::string msg ="The SPICE server only supports Isis versions greater than or equal to 3.5.*.*.";
-                 msg += "Your version:   [" + otherVersion + "] is not compatible";
+                 msg += "Your version:   [" + otherVersion.toStdString() + "] is not compatible";
           throw IException(IException::User, msg, _FILEINFO_);
         }
 
@@ -211,7 +211,7 @@ namespace Isis {
       }
       else if (g_shapeKernelStr != "ellipsoid") {
         stringstream demPvlKeyStream;
-        demPvlKeyStream << "ShapeModel = " + g_shapeKernelStr;
+        demPvlKeyStream << "ShapeModel = " + g_shapeKernelStr.toStdString();
         PvlKeyword key;
         demPvlKeyStream >> key;
 
@@ -225,7 +225,7 @@ namespace Isis {
       if (ck.size() == 0 || ck.at(0).size() == 0) {
         throw IException(IException::Unknown,
                          "No Camera Kernel found for the image [" +
-                          ui.GetFileName("FROM") + "]",
+                          ui.GetFileName("FROM").toStdString() + "]",
                          _FILEINFO_);
       }
 
@@ -449,7 +449,7 @@ namespace Isis {
       for (int i = 0; i < ckKeyword.size(); i++)
         ckTable.Label()["Kernels"].addValue(ckKeyword[i]);
 
-      ckTable.toBlob().Write(ui.GetFileName("TO") + ".pointing");
+      ckTable.toBlob().Write(ui.GetFileName("TO").toStdString() + ".pointing");
 
       Table spkTable = cam->instrumentPosition()->Cache("InstrumentPosition");
       spkTable.Label() += PvlKeyword("Description", "Created by spiceinit");
@@ -457,7 +457,7 @@ namespace Isis {
       for (int i = 0; i < spkKeyword.size(); i++)
         spkTable.Label()["Kernels"].addValue(spkKeyword[i]);
 
-      spkTable.toBlob().Write(ui.GetFileName("TO") + ".position");
+      spkTable.toBlob().Write(ui.GetFileName("TO").toStdString() + ".position");
 
       Table bodyTable = cam->bodyRotation()->Cache("BodyRotation");
       bodyTable.Label() += PvlKeyword("Description", "Created by spiceinit");
@@ -469,7 +469,7 @@ namespace Isis {
         bodyTable.Label()["Kernels"].addValue(pckKeyword[i]);
 
       bodyTable.Label() += PvlKeyword( "SolarLongitude", std::to_string( cam->solarLongitude().degrees() ) );
-      bodyTable.toBlob().Write(ui.GetFileName("TO") + ".bodyrot");
+      bodyTable.toBlob().Write(ui.GetFileName("TO").toStdString() + ".bodyrot");
 
       Table sunTable = cam->sunPosition()->Cache("SunPosition");
       sunTable.Label() += PvlKeyword("Description", "Created by spiceinit");
@@ -477,7 +477,7 @@ namespace Isis {
       for (int i = 0; i < targetSpkKeyword.size(); i++)
         sunTable.Label()["Kernels"].addValue(targetSpkKeyword[i]);
 
-      sunTable.toBlob().Write(ui.GetFileName("TO") + ".sun");
+      sunTable.toBlob().Write(ui.GetFileName("TO").toStdString() + ".sun");
 
       //  Save original kernels in keyword before changing to Table
       PvlKeyword origCk = currentKernels["InstrumentPointing"];
@@ -516,7 +516,7 @@ namespace Isis {
 
     QFile tableFile(file);
     if ( !tableFile.open(QIODevice::ReadOnly) ) {
-      std::string msg = "Unable to read temporary file [" + file + "]";
+      std::string msg = "Unable to read temporary file [" + file.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 

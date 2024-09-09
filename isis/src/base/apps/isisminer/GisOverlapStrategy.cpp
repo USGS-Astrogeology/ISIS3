@@ -87,8 +87,8 @@ namespace Isis {
   
     PvlFlatMap parms( getDefinitionMap() );
 
-    m_overlapMin = toDouble(parms.get("OverlapMinimum", "0.0"));
-    m_overlapMax = toDouble(parms.get("OverlapMaximum", "1.0"));
+    m_overlapMin = parms.get("OverlapMinimum", "0.0").toDouble();
+    m_overlapMax = parms.get("OverlapMaximum", "1.0").toDouble();
     m_ratioKey   = parms.get("OverlapRatioKey", "OverlapRatio"); 
     m_assetName   = parms.get("Asset", "GisOverlap");
      
@@ -112,7 +112,7 @@ namespace Isis {
       m_merge = None;
     }
     else {
-      std::string mess = "OverlapMerge = " + parms.get("OverlapMerge") + 
+      std::string mess = "OverlapMerge = " + parms.get("OverlapMerge").toStdString() + 
                      " is not a recognized/valid option";
       throw IException(IException::User, mess, _FILEINFO_);
     }
@@ -235,7 +235,7 @@ namespace Isis {
     ResourceList noPairs;
     BOOST_FOREACH ( SharedResource resource, v_active ) {
       if ( isDebug() ) {
-        cout << "\n===> Running Overlap query for " << resource->name() << "\n";
+        cout << "\n===> Running Overlap query for " << resource->name().toStdString() << "\n";
       }
 
       // Check for valid geometry
@@ -380,8 +380,8 @@ namespace Isis {
         double EPSILON = 1e-9;
 
         if ( isDebug() ) {
-          cout << "\nSource " << resource->name() << " overlaps "
-               << candidate->name() << " with ratio of " << ratioA << ", " 
+          cout << "\nSource " << resource->name().toStdString() << " overlaps "
+               << candidate->name().toStdString() << " with ratio of " << ratioA << ", " 
                << ratioB << "\n";
         }
 
@@ -441,13 +441,13 @@ namespace Isis {
 
     // Get the geom
     SharedResource rmerged = composite(resourceA, resourceB);
-    rmerged->add(m_ratioKey+m_suffixA, toString(ovrRatioA));
-    rmerged->add(m_ratioKey+m_suffixB, toString(ovrRatioB));
-    rmerged->add(m_ratioKey, toString(ovrRatioA));
+    rmerged->add(m_ratioKey+m_suffixA, QString::number(ovrRatioA));
+    rmerged->add(m_ratioKey+m_suffixB, QString::number(ovrRatioB));
+    rmerged->add(m_ratioKey, QString::number(ovrRatioA));
 
     if ( isDebug() ) {
-      cout << "Merging " << resourceA->name() << " and "
-           << resourceB->name() << " creates " << rmerged->keys().size() << " keys.\n";
+      cout << "Merging " << resourceA->name().toStdString() << " and "
+           << resourceB->name().toStdString() << " creates " << rmerged->keys().size() << " keys.\n";
     }
 
     // Determine geometry disposition
@@ -456,8 +456,8 @@ namespace Isis {
       rmerged->add(geom);
       double x, y;
       if ( geom->centroid(x, y) ) {
-        rmerged->add( "GisOverlapCentroidX", toString(x));
-        rmerged->add( "GisOverlapCentroidY", toString(y));
+        rmerged->add( "GisOverlapCentroidX", QString::number(x));
+        rmerged->add( "GisOverlapCentroidY", QString::number(y));
       }
     }
     else if ( Union == m_merge ) {
@@ -465,8 +465,8 @@ namespace Isis {
       rmerged->add(geom);
       double x, y;
       if ( geom->centroid(x, y) ) {
-        rmerged->add( "GisOverlapCentroidX", toString(x));
-        rmerged->add( "GisOverlapCentroidY", toString(y));
+        rmerged->add( "GisOverlapCentroidX", QString::number(x));
+        rmerged->add( "GisOverlapCentroidY", QString::number(y));
       }
     }
     else if ( Centroid == m_merge ) {
@@ -474,8 +474,8 @@ namespace Isis {
       double x, y;
       // Only works if the centroid value is defined
       if ( geom->centroid(x, y) ) {
-        rmerged->add( "GisOverlapCentroidX", toString(x));
-        rmerged->add( "GisOverlapCentroidY", toString(y));
+        rmerged->add( "GisOverlapCentroidX", QString::number(x));
+        rmerged->add( "GisOverlapCentroidY", QString::number(y));
         SharedGisGeometry centroid(geom->centroid());
         rmerged->add(centroid);
       }
@@ -484,8 +484,8 @@ namespace Isis {
       SharedGisGeometry geom(resourceA->geometry());
       double x, y;
       if ( geom->centroid(x, y) ) {
-        rmerged->add( "GisOverlapCentroidX", toString(x));
-        rmerged->add( "GisOverlapCentroidY", toString(y));
+        rmerged->add( "GisOverlapCentroidX", QString::number(x));
+        rmerged->add( "GisOverlapCentroidY", QString::number(y));
       }
       rmerged->add(geom);
     }
@@ -493,16 +493,16 @@ namespace Isis {
       SharedGisGeometry geom(resourceB->geometry());
       double x, y;
       if ( geom->centroid(x, y) ) {
-        rmerged->add( "GisOverlapCentroidX", toString(x));
-        rmerged->add( "GisOverlapCentroidY", toString(y));
+        rmerged->add( "GisOverlapCentroidX", QString::number(x));
+        rmerged->add( "GisOverlapCentroidY", QString::number(y));
       }
       rmerged->add(geom);
     }
 
     if ( isDebug() ) {
       if ( rmerged->exists("GisOverlapCentroidX") ) {
-        cout << "GisOverlapCentroidX = " << rmerged->value("GisOverlapCentroidX") << "\n";
-        cout << "GisOverlapCentroidY = " << rmerged->value("GisOverlapCentroidY") << "\n";
+        cout << "GisOverlapCentroidX = " << rmerged->value("GisOverlapCentroidX").toStdString() << "\n";
+        cout << "GisOverlapCentroidY = " << rmerged->value("GisOverlapCentroidY").toStdString() << "\n";
       }
     }
     return (rmerged);

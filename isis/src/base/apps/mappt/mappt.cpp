@@ -146,7 +146,7 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
-    IString coordsys = ui.GetString("COORDSYS");
+    IString coordsys = ui.GetString("COORDSYS").toStdString();
     coordsys.UpCase();
 
     // All of these ifs will finish by setting the ground in the projection,
@@ -169,7 +169,7 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
 
       // Does it exist?
       if(!mapFile.fileExists()) {
-        std::string msg = "Filename [" + ui.GetFileName("MAP") + "] does not exist";
+        std::string msg = "Filename [" + ui.GetFileName("MAP").toStdString() + "] does not exist";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -259,7 +259,7 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
     results += PvlKeyword("Line", std::to_string(proj->WorldY()));
     results += PvlKeyword("Band", std::to_string(icube->physicalBand(1)));
     results += PvlKeyword("FilterName", filterName.toStdString());
-    results += PvlKeyword("PixelValue", PixelToString(b[0]).toStdString());
+    results += PvlKeyword("PixelValue", PixelToString(b[0]));
     results += PvlKeyword("X", std::to_string(proj->XCoord()));
     results += PvlKeyword("Y", std::to_string(proj->YCoord()));
 
@@ -394,8 +394,8 @@ QList< QPair<double, double> > getMapPoints(const UserInterface &ui, bool usePoi
         throw IException(IException::User, msg, _FILEINFO_);
       }
       for (int row = 0; row < reader.rows(); row++) {
-        point1 = toDouble(reader.getRow(row)[0]);
-        point2 = toDouble(reader.getRow(row)[1]);
+        point1 = reader.getRow(row)[0].toDouble();
+        point2 = reader.getRow(row)[1].toDouble();
         points.append(QPair<double, double>(point1, point2));
       }
     }

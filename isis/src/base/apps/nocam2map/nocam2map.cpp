@@ -157,17 +157,17 @@ namespace Isis {
       for (int i = 0; i < sampSol.Rows(); i++) {
         vector<double> data = sampSol.GetInput(i);
         QString tmp = "";
-        tmp += toString(sampSol.GetExpected(i));
+        tmp += QString::number(sampSol.GetExpected(i));
         tmp += ",\t";
-        tmp += toString(lineSol.GetExpected(i));
+        tmp += QString::number(lineSol.GetExpected(i));
         tmp += ",\t";
-        tmp += toString(data[0]);
+        tmp += QString::number(data[0]);
         tmp += ",\t";
-        tmp += toString(data[1]);
+        tmp += QString::number(data[1]);
         tmp += ",\t";
-        tmp += toString(sampResiduals[i]);
+        tmp += QString::number(sampResiduals[i]);
         tmp += ",\t";
-        tmp += toString(lineResiduals[i]);
+        tmp += QString::number(lineResiduals[i]);
         oFile.PutLine(tmp + "\n");
       }
     }

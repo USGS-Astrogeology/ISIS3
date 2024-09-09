@@ -53,8 +53,8 @@ namespace Isis {
                                      m_ratioKey(""), m_union(0) {
   
      PvlFlatMap parms( getDefinitionMap() );
-     m_overlapMin = toDouble(parms.get("OverlapMinimum", "0.0"));
-     m_overlapMax = toDouble(parms.get("OverlapMaximum", "1.0"));
+     m_overlapMin = parms.get("OverlapMinimum", "0.0").toDouble();
+     m_overlapMax = parms.get("OverlapMaximum", "1.0").toDouble();
      m_ratioKey   = parms.get("RatioRef", "UnionOverlapRatio"); 
   }
   
@@ -80,7 +80,7 @@ namespace Isis {
       if ( !m_union.isNull() ) {
         // Union geometry is present and good
         double ratio = geom->intersectRatio(*m_union);
-        resource->add(m_ratioKey, toString(ratio));
+        resource->add(m_ratioKey, QString::number(ratio));
         if ( (ratio >= m_overlapMin) && (ratio <= m_overlapMax) ) {
            m_union = SharedGisGeometry(m_union->g_union(*geom));
         }

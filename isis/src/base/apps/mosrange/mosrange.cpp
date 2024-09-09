@@ -81,7 +81,7 @@ namespace Isis {
    */
   Pvl mosrange(FileList &cubeFileList, UserInterface &ui) {
     if ( cubeFileList.size() < 1)  {
-      std::string msg = "The list file[" + ui.GetFileName("FROMLIST") +
+      std::string msg = "The list file[" + ui.GetFileName("FROMLIST").toStdString() +
                     " does not contain any filenames";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -246,7 +246,7 @@ namespace Isis {
              (badfiles.size() == cubeFileList.size()) ) {
           std::string errors("--> Fatal Errors Encountered <___\n");
           for (int i = 0 ; i < badfiles.size() ; i++) {
-              errors += badfiles[i].first + " - " + badfiles[i].second + "\n";
+              errors += badfiles[i].first.toStdString() + " - " + badfiles[i].second.toStdString() + "\n";
           }
           throw IException(IException::User, errors, _FILEINFO_);
         }

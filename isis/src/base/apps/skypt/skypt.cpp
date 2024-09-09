@@ -81,7 +81,7 @@ namespace Isis{
         sp += PvlKeyword("RightAscension", std::to_string(cam->RightAscension()));
         sp += PvlKeyword("Declination", std::to_string(cam->Declination()));
         sp += PvlKeyword("EphemerisTime", std::to_string(cam->time().Et()));
-        sp += PvlKeyword("PixelValue", PixelToString(b[0]).toStdString());
+        sp += PvlKeyword("PixelValue", PixelToString(b[0]));
         sp += PvlKeyword("CelestialNorthClockAngle", std::to_string(rot), "degrees");
      }
 

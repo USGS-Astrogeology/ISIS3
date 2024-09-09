@@ -98,7 +98,7 @@ namespace Isis {
       }
       else {
         try {
-          toDouble(resource->value(key));
+          resource->value(key).toDouble();
         }
         catch (IException &ie) {
           badkeys.push_back(key);

@@ -88,7 +88,7 @@ namespace Isis {
     if ( (0 == n) || (resource->isDiscarded()) ) return (0);
 
     if ( isDebug() ) {
-      cout << "Limit::Resource " << resource->name() << " result = " << result() << "\n";
+      cout << "Limit::Resource " << resource->name().toStdString() << " result = " << result() << "\n";
     }
 
     if (!(result() != 0.0)) {

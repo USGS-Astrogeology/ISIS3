@@ -136,7 +136,7 @@ namespace Isis {
    *              column.
    */  
   void PdsColumn::setBytes(const int &bytes) {
-    add("BYTES", toString(bytes));
+    add("BYTES", QString::number(bytes));
     return;
   }
   
@@ -150,7 +150,7 @@ namespace Isis {
    *         column.
    */  
   int PdsColumn::bytes() const {
-    return ( toInt(value("BYTES", "0")));
+    return value("BYTES", "0").toInt();
   }
   
   
@@ -220,7 +220,7 @@ namespace Isis {
    *              PDS column resource.
    */  
   void PdsColumn::setStartByte(const int &bytes) {
-    add("START_BYTE", toString(bytes));
+    add("START_BYTE", QString::number(bytes));
     return;
   }
   
@@ -234,7 +234,7 @@ namespace Isis {
    *         for this PDS column.
    */  
   int  PdsColumn::startByte() const {
-    return ( toInt( value("START_BYTE", "0") ) );
+    return value("START_BYTE", "0").toInt();
   }
   
   
@@ -392,7 +392,7 @@ namespace Isis {
     if ( pos < 0 ) { 
       return (0); 
     }
-    return (toInt(rx.cap(2)));
+    return rx.cap(2).toInt();
   }
   
   /**
@@ -410,7 +410,7 @@ namespace Isis {
   PdsColumn *PdsColumn::promote(SharedResource &resource) {
     PdsColumn *column = dynamic_cast<PdsColumn *> (resource.data());
     if ( 0 == column ) {
-      std::string mess = "Could not cast Resource [" + resource->name() +
+      std::string mess = "Could not cast Resource [" + resource->name().toStdString() +
                      "] to a PdsColumn pointer.";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }

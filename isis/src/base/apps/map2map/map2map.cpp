@@ -362,7 +362,7 @@ namespace Isis {
       interp = new Interpolator(Interpolator::CubicConvolutionType);
     }
     else {
-      std::string msg = "Unknow value for INTERP [" + ui.GetString("INTERP") + "]";
+      std::string msg = "Unknow value for INTERP [" + ui.GetString("INTERP").toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

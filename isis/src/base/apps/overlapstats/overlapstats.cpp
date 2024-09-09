@@ -45,7 +45,7 @@ namespace Isis {
       for (int j = 0; j < currOverlap->Size(); j++) {
         QString currSerialNum = (*currOverlap)[j];
         if (!serialNumbers.hasSerialNumber(currSerialNum)) {
-          IString msg = "Found serial number [" + currSerialNum + "] in overlap "
+          IString msg = "Found serial number [" + currSerialNum.toStdString() + "] in overlap "
               "list that was not in the provided cube list. Please ensure that "
               "the cube list is the same one used to generate your overlap list "
               "file.";
@@ -144,32 +144,32 @@ namespace Isis {
           if (full) {
             if (firstFullOutput) {
               output << "Overlap ID";
-              output << delim << "Thickness";
-              output << delim << pretty << "Area";
-              output << delim << pretty << pretty << "Image Count";
-              output << delim << "Serial Numbers in Overlap";
-              output << delim << "Image Files in Overlap";
+              output << delim.toStdString() << "Thickness";
+              output << delim.toStdString() << pretty.toStdString() << "Area";
+              output << delim.toStdString() << pretty.toStdString() << pretty.toStdString() << "Image Count";
+              output << delim.toStdString() << "Serial Numbers in Overlap";
+              output << delim.toStdString() << "Image Files in Overlap";
               output << endl;
               firstFullOutput = false;
             }
-            output << index << pretty;
-            output << delim << thicknessValue;
+            output << index << pretty.toStdString();
+            output << delim.toStdString() << thicknessValue;
             if (tab) {
-              output << delim << FormatString(areaValue, 18, 4);
+              output << delim.toStdString() << FormatString(areaValue, 18, 4).toStdString();
             }
             else {
-              output << delim << areaValue;
+              output << delim.toStdString() << areaValue;
             }
-            output << delim << overlaps[index]->Size() << pretty;
-            output << delim << (*overlaps[index])[0];
-            output << delim << serialNumbers.fileName((*overlaps[index])[0]);
+            output << delim.toStdString() << overlaps[index]->Size() << pretty.toStdString();
+            output << delim.toStdString() << (*overlaps[index])[0].toStdString();
+            output << delim.toStdString() << serialNumbers.fileName((*overlaps[index])[0]).toStdString();
             for (int sn = 1; sn < overlaps[index]->Size(); sn ++) {
               if (!singleLine) {
-                output << endl << pretty << delim << pretty << delim << pretty << delim;
-                output << pretty << pretty;
+                output << endl << pretty.toStdString() << delim.toStdString() << pretty.toStdString() << delim.toStdString() << pretty.toStdString() << delim.toStdString();
+                output << pretty.toStdString() << pretty.toStdString();
               }
-              output << delim << pretty << (*overlaps[index])[sn];
-              output << delim << serialNumbers.fileName((*overlaps[index])[sn]);
+              output << delim.toStdString() << pretty.toStdString() << (*overlaps[index])[sn].toStdString();
+              output << delim.toStdString() << serialNumbers.fileName((*overlaps[index])[sn]).toStdString();
             }
             output << endl;
           }
@@ -191,7 +191,7 @@ namespace Isis {
               else {
                 errors << ", ";
               }
-              errors << (*overlaps[index])[serNum];
+              errors << (*overlaps[index])[serNum].toStdString();
             }
 
             errors << endl;
@@ -249,7 +249,7 @@ namespace Isis {
 
     //Log the ERRORS file
     if (ui.WasEntered("ERRORS")) {
-      std::string errorname = ui.GetFileName("ERRORS");
+      QString errorname = ui.GetFileName("ERRORS");
       std::ofstream errorsfile;
       errorsfile.open(errorname.toLatin1().data());
       errorsfile << errors.str();
@@ -272,7 +272,7 @@ namespace Isis {
       outfile << output.str();
       outfile.close();
       if (outfile.fail()) {
-        IString msg = "Unable to write the statistics to [" + ui.GetFileName("TO") + "]";
+        IString msg = "Unable to write the statistics to [" + ui.GetFileName("TO").toStdString() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
     }
@@ -295,7 +295,7 @@ namespace Isis {
    */
   QString FormatString(double input, int head, int tail) {
 
-    QString result(toString(input));
+    QString result(QString::number(input));
 
     int point = result.indexOf(".");
     QString resultHead(result.mid(0, point));

@@ -87,7 +87,7 @@ namespace Isis {
                                          m_myDebug(false) {
   
     PvlFlatMap parms( getDefinition(), PvlConstraints::withExcludes(QStringList("IsisMiner")) );
-    m_pixelPrecisionMatch = toDouble(parms.get("PixelPrecisionMatch", "2.0"));
+    m_pixelPrecisionMatch = parms.get("PixelPrecisionMatch", "2.0").toDouble();
     if ( isDebug() ) {
       cout << "PixelPrecisionMatch = " << m_pixelPrecisionMatch << "\n";
     }
@@ -106,7 +106,7 @@ namespace Isis {
     }
   
     // Determine what to use for VerticalPrecision
-    m_useStereoAngle = toBool( parms.get("UseStereoAngle", "True") );
+    m_useStereoAngle = toBool( parms.get("UseStereoAngle", "True").toStdString() );
 
     // Initialize the calculator strategy for ranking purposes
     m_calculator.reset(new CalculatorStrategy(definition, globals));
@@ -140,7 +140,7 @@ namespace Isis {
       if ( resource->isActive() ) {
         // Check for first level constraints and deactive ones that don't pass
         if ( isDebug() ) {
-          cout << "\n===> StereoPair::apply processing to source " << resource->name() << "\n";
+          cout << "\n===> StereoPair::apply processing to source " << resource->name().toStdString() << "\n";
         }
         if (!passConstraints(resource, m_imageStrength)) {
           resource->discard();
@@ -229,20 +229,20 @@ namespace Isis {
       // empty resource returned.
       if ( !computeStereo(resourceA, resourceB, stpair, globals) ) {
         if ( isDebug() ) {
-          cout << "StereoPair " << resourceA->name() << "/" << resourceB->name() 
+          cout << "StereoPair " << resourceA->name().toStdString() << "/" << resourceB->name().toStdString()
                << " failed!\n";
         }
         return (SharedResource()); 
       }
 
       if ( isDebug() ) {
-        cout << "StereoPair " << resourceA->name() << "/" << resourceB->name()
+        cout << "StereoPair " << resourceA->name().toStdString() << "/" << resourceB->name().toStdString()
              << " is a match!\n";
       }
     }
     catch (IException &ie) {
       if ( isDebug() ) {
-        cout << "StereoPair " << resourceA->name() << "/" << resourceB->name()
+        cout << "StereoPair " << resourceA->name().toStdString() << "/" << resourceB->name().toStdString()
              << " incurred an exception! Error = " << ie.what() << "!\n";
       }
       stpair.clear();
@@ -301,46 +301,46 @@ namespace Isis {
     (void) rankConstraints(resourceA, m_imageStrength, rankA, stereo, "Rank"+suffixA());
     (void) rankConstraints(resourceB, m_imageStrength, rankB, stereo, "Rank"+suffixB());
 
-    stereo->add("ImageStrengthRank"+suffixA(), toString(rankA));
-    stereo->add("ImageStrengthRank"+suffixB(), toString(rankB));
+    stereo->add("ImageStrengthRank"+suffixA(), QString::number(rankA));
+    stereo->add("ImageStrengthRank"+suffixB(), QString::number(rankB));
   
     //  Level1 constraints rank is the average of the two level1 constraints
     double rank = (rankA + rankB) / 2.0;
-    stereo->add("ImageStrengthRank", toString(rank));
+    stereo->add("ImageStrengthRank", QString::number(rank));
   
     // Now compute parallax height ratio
     QString plx = m_keywordMap.get("ParallaxX", "ParallaxX");
     QString ply = m_keywordMap.get("ParallaxY", "ParallaxY");
-    double px1 = toDouble(resourceA->value(plx));
-    double py1 = toDouble(resourceA->value(ply));
-    double px2 = toDouble(resourceB->value(plx));
-    double py2 = toDouble(resourceB->value(ply));
+    double px1 = resourceA->value(plx).toDouble();
+    double py1 = resourceA->value(ply).toDouble();
+    double px2 = resourceB->value(plx).toDouble();
+    double py2 = resourceB->value(ply).toDouble();
     double pxdiff = px1 - px2;
     double pydiff = py1 - py2;
     double dp = sqrt( pxdiff*pxdiff + pydiff*pydiff );
-    stereo->add("ParallaxHeightRatio", toString(dp));
+    stereo->add("ParallaxHeightRatio", QString::number(dp));
   
   
     // Now compute shadow tip distance 
     QString shx = m_keywordMap.get("ShadowX", "ShadowX");
     QString shy = m_keywordMap.get("ShadowY", "ShadowY");
-    double shx1 = toDouble(resourceA->value(shx));
-    double shy1 = toDouble(resourceA->value(shy));
-    double shx2 = toDouble(resourceB->value(shx));
-    double shy2 = toDouble(resourceB->value(shy));
+    double shx1 = resourceA->value(shx).toDouble();
+    double shy1 = resourceA->value(shy).toDouble();
+    double shx2 = resourceB->value(shx).toDouble();
+    double shy2 = resourceB->value(shy).toDouble();
     double shxdiff = shx1 - shx2;
     double shydiff = shy1 - shy2;
     double dsh = sqrt( shxdiff*shxdiff + shydiff*shydiff );
-    stereo->add("ShadowTipDistance", toString(dsh));
+    stereo->add("ShadowTipDistance", QString::number(dsh));
   
   
     // Now compute Resolution 
     QString reskey = m_keywordMap.get("Resolution", "Resolution");
-    double pxlresA = toDouble(resourceA->value(reskey));
-    double pxlresB = toDouble(resourceB->value(reskey));
+    double pxlresA = resourceA->value(reskey).toDouble();
+    double pxlresB = resourceB->value(reskey).toDouble();
     double resratio = pxlresA / pxlresB;
     if ( resratio < 1.0 ) { resratio = 1.0 / resratio; }
-    stereo->add("ResolutionRatio", toString(resratio));
+    stereo->add("ResolutionRatio", QString::number(resratio));
   
     // Now compute DeltaSunAzimuth
     (void) computeDelta(resourceA, resourceB, "DeltaSolarAzimuth", 
@@ -355,7 +355,7 @@ namespace Isis {
     double stAngle(dp);  // ParallelHeightRatio is the default
     if ( computeStereoAngle(resourceA, resourceB, stereo, globals) ) {
       if ( m_useStereoAngle ) {
-        stAngle = tan(toDouble(stereo->value("StereoAngle")) * rpd_c()); 
+        stAngle = tan(stereo->value("StereoAngle").toDouble() * rpd_c()); 
       }
     }
 
@@ -366,7 +366,7 @@ namespace Isis {
     // Ensure we have a valid stereo angle
     if ( qFuzzyCompare(stAngle+1.0, 1.0) ) { stAngle = 0.1E-6; }
     double evp = rho * gsd / stAngle; 
-    stereo->add("VerticalPrecision", toString(evp));
+    stereo->add("VerticalPrecision", QString::number(evp));
   
     //  Now compute the stereo rank
     // m_myDebug = true;
@@ -380,7 +380,7 @@ namespace Isis {
     // Good, compute rank values
     double rankS;
     (void) rankConstraints(stereo, m_stereoStrength, rankS, stereo);
-    stereo->add("StereoStrengthRank", toString(rankS));
+    stereo->add("StereoStrengthRank", QString::number(rankS));
 
 
     // Evaluate the rank
@@ -497,11 +497,11 @@ namespace Isis {
     for ( ; constraint != constraints.constEnd() ; ++constraint ) {
       QString key = m_keywordMap.get(constraint.key(), constraint.key()); 
       if ( resource->exists(key) ) {
-        double value = toDouble(resource->value(key)); 
+        double value = resource->value(key).toDouble(); 
         QVector<double> thresholds = constraint.value();
         double myrank = computeRank(value, thresholds);
         if ( !out.isNull() ) { 
-          out->add(constraint.key()+suffix, toString(myrank)); 
+          out->add(constraint.key()+suffix, QString::number(myrank)); 
         }
         rank += myrank;
       }
@@ -526,18 +526,18 @@ namespace Isis {
 
   // Count missing keywords and passing is required that all exist
     int nbad(0);
-    if ( isDebug()  ) { cout << "Running passConstraints on " << resource->name() << "...\n";}
+    if ( isDebug()  ) { cout << "Running passConstraints on " << resource->name().toStdString() << "...\n";}
     ConstraintList::const_iterator constraint = constraints.constBegin(); 
     for ( ; constraint != constraints.constEnd() ; ++constraint) {
       QString key = m_keywordMap.get(constraint.key(), constraint.key()); 
       if ( resource->exists(key) ) {
-        double value = toDouble(resource->value(key)); 
+        double value = resource->value(key).toDouble(); 
         QVector<double> thresholds = constraint.value();
         Q_ASSERT( thresholds.size() >= 3 );
         if ( (value < thresholds[0]) || (value > thresholds[1]) ) {
           nbad++;
           if ( isDebug() ) { 
-            cout << constraint.key() << "::(" << key << ") = " << value 
+            cout << constraint.key().toStdString() << "::(" << key.toStdString() << ") = " << value 
                  << " is out of constraints boundaries!\n"; 
           }
         }
@@ -545,8 +545,8 @@ namespace Isis {
       else {
         nbad++;
         if ( isDebug()  ) {
-          cout << constraint.key() << "::(" << key 
-               << ") does not exist in resource " << resource->name() << "\n";
+          cout << constraint.key().toStdString() << "::(" << key.toStdString() 
+               << ") does not exist in resource " << resource->name().toStdString() << "\n";
         }
       }
     }
@@ -590,10 +590,10 @@ bool StereoPairStrategy::computeDelta(const SharedResource &resourceA,
   // Now compute requested delta
   QString dsckey = m_keywordMap.get(keysrc, keysrc); 
   if ( resourceA->exists(dsckey) && resourceB->exists(dsckey) ) {
-    double dsc1 = toDouble(resourceA->value(dsckey)); 
-    double dsc2 = toDouble(resourceB->value(dsckey));
+    double dsc1 = resourceA->value(dsckey).toDouble(); 
+    double dsc2 = resourceB->value(dsckey).toDouble();
     double dscaz = acos( cos((dsc2 - dsc1) * rpd_c()) ) * dpr_c();
-    composite->add(parameter, toString(dscaz));
+    composite->add(parameter, QString::number(dscaz));
     return (true);
   }
 
@@ -644,28 +644,28 @@ bool StereoPairStrategy::computeStereoAngle(const SharedResource &resourceA,
 
 
     keyword = "CenterRadius";
-    double radiusA = toDouble(getStereoValue(keyword, globalA)); 
-    double radiusB = toDouble(getStereoValue(keyword, globalB)); 
+    double radiusA = (getStereoValue(keyword, globalA).toDouble()); 
+    double radiusB = (getStereoValue(keyword, globalB).toDouble()); 
 
     keyword = "CenterLatitude";
-    double latA = toDouble(getStereoValue(keyword, globalA)); 
-    double latB = toDouble(getStereoValue(keyword, globalB)); 
+    double latA = (getStereoValue(keyword, globalA).toDouble()); 
+    double latB = (getStereoValue(keyword, globalB).toDouble()); 
 
     keyword = "CenterLongitude";
-    double lonA = toDouble(getStereoValue(keyword, globalA)); 
-    double lonB = toDouble(getStereoValue(keyword, globalB)); 
+    double lonA = (getStereoValue(keyword, globalA).toDouble()); 
+    double lonB = (getStereoValue(keyword, globalB).toDouble()); 
 
     keyword = "TargetCenterDistance";
-    double tcentA = toDouble(getStereoValue(keyword, globalA));
-    double tcentB = toDouble(getStereoValue(keyword, globalB));
+    double tcentA = (getStereoValue(keyword, globalA).toDouble());
+    double tcentB = (getStereoValue(keyword, globalB).toDouble());
 
     keyword = "SubspacecraftLatitude";
-    double sclatA = toDouble(getStereoValue(keyword, globalA)); 
-    double sclatB = toDouble(getStereoValue(keyword, globalB));
+    double sclatA = (getStereoValue(keyword, globalA).toDouble()); 
+    double sclatB = (getStereoValue(keyword, globalB).toDouble());
 
     keyword = "SubspacecraftLongitude";
-    double sclonA = toDouble(getStereoValue(keyword, globalA)); 
-    double sclonB = toDouble(getStereoValue(keyword, globalB)); 
+    double sclonA = (getStereoValue(keyword, globalA).toDouble()); 
+    double sclonB = (getStereoValue(keyword, globalB).toDouble()); 
 
     keyword = "AllDone...";
 
@@ -701,14 +701,14 @@ bool StereoPairStrategy::computeStereoAngle(const SharedResource &resourceA,
 
     // Convert to degrees
     convang = acos ( convang ) * dpr_c();
-    stereo->add("StereoAngle", toString(convang));
+    stereo->add("StereoAngle", QString::number(convang));
 
     if ( isDebug() ) {
       cout << "StereoAngle = " << convang << "\n";
     }
   } catch (IException &ie) { 
     if ( isDebug() ) {
-      cout << "Error computing StereoAngle [Keyword = " << keyword <<  "]:" 
+      cout << "Error computing StereoAngle [Keyword = " << keyword.toStdString() <<  "]:" 
         << ie.what() << "\n"; 
     }
     return (false);

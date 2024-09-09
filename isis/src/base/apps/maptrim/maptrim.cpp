@@ -71,19 +71,19 @@ namespace Isis{
       }
       else {
         tempFileName = FileName::createTempFile("TEMPORARYcropped.cub").name();
-        cropParams += " to=" + tempFileName.ToQt();
+        cropParams += " to=" + QString::fromStdString(tempFileName);
       }
 
-      cropParams += " sample= "   + toString(smallestSample);
-      cropParams += " nsamples= " + toString(samples);
-      cropParams += " line= "     + toString(smallestLine);
-      cropParams += " nlines= "   + toString(lines);
+      cropParams += " sample= "   + QString::number(smallestSample);
+      cropParams += " nsamples= " + QString::number(samples);
+      cropParams += " line= "     + QString::number(smallestLine);
+      cropParams += " nlines= "   + QString::number(lines);
 
       try {
         ProgramLauncher::RunIsisProgram("crop", cropParams);
       }
       catch(IException &e) {
-        std::string msg = "Could not execute crop with params: [" + cropParams + "]";
+        std::string msg = "Could not execute crop with params: [" + cropParams.toStdString() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
       if(mode == "BOTH") {
@@ -99,7 +99,7 @@ namespace Isis{
       ProcessByLine p;
       CubeAttributeInput att;
       if(mode == "BOTH") {
-        p.SetInputCube(tempFileName.ToQt(), att);
+        p.SetInputCube(QString::fromStdString(tempFileName), att);
       }
       else { //if its trim
         CubeAttributeInput &inputAtt = ui.GetInputAttribute("FROM");

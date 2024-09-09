@@ -80,10 +80,10 @@ namespace Isis {
     PvlFlatMap parms( getDefinitionMap() );
     m_mode           = parms.get("Mode", "Create").toLower();
     m_keywords       = parms.allValues("Keywords");
-    m_header         = toBool(parms.get("Header", "true"));
+    m_header         = toBool(parms.get("Header", "true").toStdString());
     m_delimiter      = parms.get("Delimiter", ",");
     m_default        = parms.get("DefaultValue", "NULL");
-    m_skipEmptyLists = toBool(parms.get("SkipEmptyLists", "false"));
+    m_skipEmptyLists = toBool(parms.get("SkipEmptyLists", "false").toStdString());
 
     if ( parms.exists("GisGeometryRef") ) {
       m_gisKey = parms.get("GisGeometryRef").toLower();
@@ -131,7 +131,7 @@ namespace Isis {
     //  Check for argument replacement
     QString fname = translateKeywordArgs("CsvFile", globals);
     if ( isDebug() ) { 
-      cout << "CsvWriter::Filename = " << fname << "\n"; 
+      cout << "CsvWriter::Filename = " << fname.toStdString() << "\n"; 
     }
   
     //  Now open the filename
@@ -146,7 +146,7 @@ namespace Isis {
     }
   
     if ( !os.is_open() ) {
-      std::string mess = "CsvWriter::Cannot open/create output file [" + fname +
+      std::string mess = "CsvWriter::Cannot open/create output file [" + fname.toStdString() +
                       "].";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
@@ -155,7 +155,7 @@ namespace Isis {
     if ( m_header ) {
       QString delimiter = "";
       BOOST_FOREACH ( QString column, m_keywords ) {
-        os << delimiter << column;
+        os << delimiter.toStdString() << column.toStdString();
         delimiter = m_delimiter;
       }
       os << "\n";
@@ -248,7 +248,7 @@ namespace Isis {
             value = gis->wkb(geos, GisTopology::PreserveGeometry);
           }
           else {
-            std::string mess = "Unsupported geometry type: " + gisType;
+            std::string mess = "Unsupported geometry type: " + gisType.toStdString();
             throw IException(IException::User, mess, _FILEINFO_);
           }
         }
@@ -258,7 +258,7 @@ namespace Isis {
         value = findReplacement(field, parameters, 0, defValue);
       }
 
-      os << myDelimiter << value;
+      os << myDelimiter.toStdString() << value.toStdString();
       myDelimiter = delimiter;
     }
 

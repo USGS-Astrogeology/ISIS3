@@ -64,7 +64,7 @@ namespace Isis {
     m_key = parms.get("Keyword");
   
     if ( parms.exists("CheckAll") ) {
-      m_checkAll = toBool(parms.get("CheckAll"));
+      m_checkAll = toBool(parms.get("CheckAll").toStdString());
     } 
   
     if ( parms.exists("Include") ) {
@@ -77,7 +77,7 @@ namespace Isis {
   
     if ( parms.exists("RegExp") ) {
       m_regexp.setPattern(parms.get("RegExp"));
-      if ( toBool(parms.get("WildCardMode", "false")) )  {
+      if ( toBool(parms.get("WildCardMode", "false").toStdString()) )  {
         m_regexp.setPatternSyntax(QRegExp::WildcardUnix);
       }
     }

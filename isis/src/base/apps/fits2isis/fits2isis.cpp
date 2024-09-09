@@ -32,7 +32,7 @@ namespace Isis{
       pfits.SetOrganization(ProcessImport::BIP);
     }
     else {
-      std::string msg = "Unknow value for ORGANIZATION [" + ui.GetString("ORGANIZATION") + "]";
+      std::string msg = "Unknow value for ORGANIZATION [" + ui.GetString("ORGANIZATION").toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

@@ -92,7 +92,7 @@ namespace Isis{
       throw;
     }
     catch (std::exception const &se) {
-      std::string message = "std::exception: " + (QString)se.what();
+      std::string message = "std::exception: " + (std::string)se.what();
       throw IException(IException::User, message, _FILEINFO_);
     }
     catch (...) {

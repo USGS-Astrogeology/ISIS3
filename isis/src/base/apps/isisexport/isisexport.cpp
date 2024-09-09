@@ -123,11 +123,11 @@ namespace Isis {
           for (auto& element : extraJson.items()) {
             if (dataSource["ExtraPvl"].contains(element.key())) {
               PvlGroup duplicateWarnings("Warning");
-              std::string message = "Duplicate key [" + QString::fromStdString(element.key())
-                              + "] in extra Pvl file [" + pvlFile + "]. "
-                              + "Previous value [" + QString::fromStdString(dataSource["ExtraPvl"][element.key()].dump())
+              std::string message = "Duplicate key [" + element.key()
+                              + "] in extra Pvl file [" + pvlFile.toStdString() + "]. "
+                              + "Previous value [" + dataSource["ExtraPvl"][element.key()].dump()
                               + "] will be overwritten.";
-              duplicateWarnings += PvlKeyword("Duplicate", message.toStdString());
+              duplicateWarnings += PvlKeyword("Duplicate", message);
               Application::AppendAndLog(duplicateWarnings, log);
             }
           }
@@ -170,11 +170,11 @@ namespace Isis {
           for (auto& element : extraJson.items()) {
             if (dataSource["ExtraJson"].contains(element.key())) {
               PvlGroup duplicateWarnings("Warning");
-              std::string message = "Duplicate key [" + QString::fromStdString(element.key())
-                              + "] in extra json file [" + jsonFile + "]. "
-                              + "Previous value [" + QString::fromStdString(dataSource["ExtraJson"][element.key()].dump())
+              std::string message = "Duplicate key [" + element.key()
+                              + "] in extra json file [" + jsonFile.toStdString() + "]. "
+                              + "Previous value [" + dataSource["ExtraJson"][element.key()].dump()
                               + "] will be overwritten.";
-              duplicateWarnings += PvlKeyword("Duplicate", message.toStdString());
+              duplicateWarnings += PvlKeyword("Duplicate", message);
               Application::AppendAndLog(duplicateWarnings, log);
             }
           }

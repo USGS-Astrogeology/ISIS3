@@ -64,7 +64,7 @@ namespace Isis {
       pencil.Open(ui.GetFileName("SPECTRUM"));
       std::cout << pencil.LineCount() << " " << icube->bandCount() << std::endl;
       if(pencil.LineCount() - 1 < icube->bandCount()) {
-        std::string msg = "The spectral pencil file [" + ui.GetAsString("SPECTRUM") +
+        std::string msg = "The spectral pencil file [" + ui.GetAsString("SPECTRUM").toStdString() +
                       "] does not contain enough data for all bands.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -85,7 +85,7 @@ namespace Isis {
         }
       }
       if(column < 0  || (unsigned)column > tokens.size()) {
-        std::string msg = "The column specified in file [" + ui.GetFileName("SPECTRUM")
+        std::string msg = "The column specified in file [" + ui.GetFileName("SPECTRUM").toStdString()
                       + "] was not found.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -95,8 +95,8 @@ namespace Isis {
         pencil.GetLine(st);
         Tokenize(st, tokens, ", \"");
         std::cout << "col: " << column << std::endl;
-        std::cout << Isis::IString(tokens[column]).ToDouble() << std::endl;
-        normalizer.push_back(Isis::IString(tokens[column]).ToDouble());
+        std::cout << tokens[column].toDouble() << std::endl;
+        normalizer.push_back(tokens[column].toDouble());
       }
     }
     else {  // avg == "CUBE"
@@ -153,8 +153,8 @@ namespace Isis {
   void Tokenize(const QString &strQStr,
                 vector<QString> & tokens,
                 const QString &delimitersQStr) {
-    IString str = strQStr;
-    IString delimiters = delimitersQStr;
+    IString str = strQStr.toStdString();
+    IString delimiters = delimitersQStr.toStdString();
   
     //Skip delimiters at the beginning
     string::size_type lastPos = str.find_first_not_of(delimiters, 0);

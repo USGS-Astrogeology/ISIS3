@@ -61,15 +61,15 @@ namespace Isis {
   
     //  Want to do this to check validity at creation time - not run time
     PvlFlatMap parms( getDefinitionMap() );
-    m_hasHeader      = toBool(parms.get("HasHeader", "false"));
-    m_ignoreComments = toBool(parms.get("IgnoreComments", "false"));
-    m_skipLines      = toInt(parms.get("SkipLines", "0"));
+    m_hasHeader      = toBool(parms.get("HasHeader", "false").toStdString());
+    m_ignoreComments = toBool(parms.get("IgnoreComments", "false").toStdString());
+    m_skipLines      = toInt(parms.get("SkipLines", "0").toStdString());
     m_delimiter      = parms.get("Delimiter", ",");
     m_rowBase        = parms.get("RowBaseName", "Row"); 
   
     //  Check for valid delimiter
     if ( m_delimiter.size() != 1 ) {
-      std::string mess = "Delimiter value (" + m_delimiter + ") must be one and only"
+      std::string mess = "Delimiter value (" + m_delimiter.toStdString() + ") must be one and only"
                      " one value - try again";
       throw IException(IException::User, mess, _FILEINFO_);
     }
@@ -110,13 +110,13 @@ namespace Isis {
     //  Fetch input file name
     QString fname = translateKeywordArgs("CsvFile", globals);
     if ( isDebug() ) { 
-      cout << "CsvReader::Filename = " << fname << "\n"; 
+      cout << "CsvReader::Filename = " << fname.toStdString() << "\n"; 
     }
     try {
       csv.read(fname);
     } 
     catch (IException &ie) {
-      std::string mess =  "Could not read CSV file \'" + fname + "\'";
+      std::string mess =  "Could not read CSV file \'" + fname.toStdString() + "\'";
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }
   
@@ -142,8 +142,8 @@ namespace Isis {
         if ( index < csvrow.dim() ) {
           rowsrc->add(header[column].first, csvrow[index]); 
           if ( isDebug() ) {
-            cout << "CsvReader::Column::" << header[column].first << "[" 
-                 << index << "] = " << csvrow[index] << "\n";
+            cout << "CsvReader::Column::" << header[column].first.toStdString() << "[" 
+                 << index << "] = " << csvrow[index].toStdString() << "\n";
           }
         }
       }
@@ -156,8 +156,8 @@ namespace Isis {
 
       rowsrc->setName(identity); 
       if ( isDebug() ) { 
-       cout << "  CsvReader::Resource::" << rowId << "::Identity = " 
-             << identity << "\n"; 
+       cout << "  CsvReader::Resource::" << rowId.toStdString() << "::Identity = " 
+             << identity.toStdString() << "\n"; 
       }
   
       // Import geometry w/exception handling
@@ -168,7 +168,7 @@ namespace Isis {
       }
       catch (IException &ie) {
         std::string mess = "Geometry conversion failed horribly for Resource(" + 
-                       identity + ")";
+                       identity.toStdString() + ")";
         throw IException(ie, IException::User, mess, _FILEINFO_);
       }
   
@@ -212,18 +212,18 @@ namespace Isis {
       if (keys.exists("Index") ) {
         QStringList indexes = keys.allValues("Index");
         if ( names.size() != indexes.size() ) {
-          std::string mess = "Size of Header (" + QString::number(names.size()) +
+          std::string mess = "Size of Header (" + toString(names.size()) +
                          " does not match size of Index (" +
-                          QString::number(indexes.size()) + ")";
+                          toString(indexes.size()) + ")";
           throw IException(IException::User, mess, _FILEINFO_);
         }
         
         for ( int i = 0 ;  i < names.size() ; i++ ) {
-          int index = toInt(indexes[i]);
+          int index = indexes[i].toInt();
           if ( (index < 0) || (index >= ncols) ) {
-            std::string mess = "Column " + names[i] + " index (" + indexes[i] +
+            std::string mess = "Column " + names[i].toStdString() + " index (" + indexes[i].toStdString() +
                            ") exceeds input column size (" + 
-                           QString::number(ncols) + ")";
+                           toString(ncols) + ")";
             // throw IException(IException::User, mess, _FILEINFO_);
             // Not an error if we handle the input conditions properly
             if ( isDebug() ) {
@@ -236,9 +236,9 @@ namespace Isis {
       }
       else {
         if ( names.size() > ncols ) {
-          std::string mess = "Size of Header (" + QString::number(names.size()) +
+          std::string mess = "Size of Header (" + toString(names.size()) +
                           ") exceeds input column size (" + 
-                           QString::number(ncols) + 
+                           toString(ncols) + 
                           ") - must provide Index otherwise";
           // throw IException(IException::User, mess, _FILEINFO_);
           // Not an error if we handle the input conditions properly

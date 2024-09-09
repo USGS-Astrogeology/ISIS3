@@ -74,7 +74,7 @@ namespace Isis {
   
       // check validity of keyword
       if ( (m_order != "ascending") && (m_order != "descending") ) {
-        std::string mess = "Specified sort Order [" + order + "] is invalid."
+        std::string mess = "Specified sort Order [" + order.toStdString() + "] is invalid."
                        " Must be Ascending or Descending.";
         throw IException(IException::Programmer, mess, _FILEINFO_);
       }
@@ -152,7 +152,7 @@ namespace Isis {
     if ( b->isDiscarded() ) { 
       return (true);  
     }
-    return (toDouble(a->value(m_sortKey)) < toDouble(b->value(m_sortKey)));
+    return (a->value(m_sortKey).toDouble() < b->value(m_sortKey).toDouble());
   }
   
     
@@ -189,7 +189,7 @@ namespace Isis {
     if ( b->isDiscarded() ) { 
       return (true);  
     }
-    return (toDouble(a->value(m_sortKey)) > toDouble(b->value(m_sortKey)));
+    return (a->value(m_sortKey).toDouble() > b->value(m_sortKey).toDouble());
   }  
 
 }  //namespace Isis

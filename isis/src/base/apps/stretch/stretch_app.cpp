@@ -61,15 +61,15 @@ namespace Isis {
 
     // Setup new mappings for special pixels if necessary
     if(ui.WasEntered("NULL"))
-      str.SetNull(StringToPixel(ui.GetString("NULL")));
+      str.SetNull(StringToPixel(ui.GetString("NULL").toStdString()));
     if(ui.WasEntered("LIS"))
-      str.SetLis(StringToPixel(ui.GetString("LIS")));
+      str.SetLis(StringToPixel(ui.GetString("LIS").toStdString()));
     if(ui.WasEntered("LRS"))
-      str.SetLrs(StringToPixel(ui.GetString("LRS")));
+      str.SetLrs(StringToPixel(ui.GetString("LRS").toStdString()));
     if(ui.WasEntered("HIS"))
-      str.SetHis(StringToPixel(ui.GetString("HIS")));
+      str.SetHis(StringToPixel(ui.GetString("HIS").toStdString()));
     if(ui.WasEntered("HRS"))
-      str.SetHrs(StringToPixel(ui.GetString("HRS")));
+      str.SetHrs(StringToPixel(ui.GetString("HRS").toStdString()));
 
     p.SetOutputCubeStretch("TO", &ui);
 

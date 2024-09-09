@@ -33,15 +33,15 @@ namespace Isis {
     while(startLine <= cube->lineCount()  &&  not hasReachedEndOfCube) {
       //! Sets up the proper paramaters for running the crop program
       QString parameters = "FROM=" + QString::fromStdString(inFile.expanded()) +
-                           " TO=" + QString::fromStdString(inFile.path()) + "/" + QString::fromStdString(inFile.baseName()) + ".segment" + toString(cropNum) + ".cub"
-                           + " LINE=" + toString(startLine) + " NLINES=";
+                           " TO=" + QString::fromStdString(inFile.path()) + "/" + QString::fromStdString(inFile.baseName()) + ".segment" + QString::number(cropNum) + ".cub"
+                           + " LINE=" + QString::number(startLine) + " NLINES=";
 
       if(startLine + numberOfLines > cube->lineCount()) {
-        parameters += toString(cube->lineCount() - (startLine - 1));
+        parameters += QString::number(cube->lineCount() - (startLine - 1));
         hasReachedEndOfCube = true;
       }
       else {
-        parameters += toString(numberOfLines);
+        parameters += QString::number(numberOfLines);
       }
 
       if(ui.GetParamPreference() != "") { 

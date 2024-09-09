@@ -68,7 +68,7 @@ namespace Isis{
       if(camstats) {
         PvlObject pcband("Camstats");
         for(int i = 0; i < camstats->size(); i++)
-          pcband += ValidateKey((*camstats)[i].first, toDouble((*camstats)[i].second));
+          pcband += ValidateKey((*camstats)[i].first, (*camstats)[i].second.toDouble());
         params.addObject(pcband);
       }
 
@@ -89,7 +89,7 @@ namespace Isis{
         }
         else {
           std::string msg = "Could not find OriginalLabel "
-                        "in input file [" + incube->fileName() + "].";
+                        "in input file [" + incube->fileName().toStdString() + "].";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -98,7 +98,7 @@ namespace Isis{
       if(statistics) {
         PvlObject sgroup("Statistics");
         for(int i = 0; i < statistics->size(); i++)
-          sgroup += ValidateKey((*statistics)[i].first, toDouble((*statistics)[i].second));
+          sgroup += ValidateKey((*statistics)[i].first, (*statistics)[i].second.toDouble());
         params.addObject(sgroup);
       }
 
@@ -188,10 +188,10 @@ namespace Isis{
 
       if (not appending) {
         keys.remove(QRegExp(delim + "$")); // Get rid of the extra delim char (",")
-        outFile << keys << endl;
+        outFile << keys.toStdString() << endl;
       }
       values.remove(QRegExp(delim + "$")); // Get rid of the extra delim char (",")
-      outFile << values << endl;
+      outFile << values.toStdString() << endl;
       outFile.close();
     }
 
@@ -249,9 +249,9 @@ namespace Isis{
         general->append(MakePair("RunDate",     iTime::CurrentGMT()));
         general->append(MakePair("IsisId",      SerialNumber::Compose(*incube)));
         general->append(MakePair("From",        QString::fromStdString(FileName(incube->fileName().toStdString()).baseName() + ".cub")));
-        general->append(MakePair("Lines",       toString(incube->lineCount())));
-        general->append(MakePair("Samples",     toString(incube->sampleCount())));
-        general->append(MakePair("Bands",       toString(incube->bandCount())));
+        general->append(MakePair("Lines",       QString::number(incube->lineCount())));
+        general->append(MakePair("Samples",     QString::number(incube->sampleCount())));
+        general->append(MakePair("Bands",       QString::number(incube->bandCount())));
 
 
         // Extracts camstat data from existing CameraStatistics Table in cube label
@@ -377,16 +377,16 @@ namespace Isis{
           double lrspercent  = (stats.LrsPixels() / (nPixels)) * 100;
 
           // Statistics output for band
-          statistics->append(MakePair("MeanValue", toString(stats.Average())));
-          statistics->append(MakePair("StandardDeviation", toString(stats.StandardDeviation())));
-          statistics->append(MakePair("MinimumValue", toString(stats.Minimum())));
-          statistics->append(MakePair("MaximumValue", toString(stats.Maximum())));
-          statistics->append(MakePair("PercentHIS", toString(hispercent)));
-          statistics->append(MakePair("PercentHRS", toString(hrspercent)));
-          statistics->append(MakePair("PercentLIS", toString(lispercent)));
-          statistics->append(MakePair("PercentLRS", toString(lrspercent)));
-          statistics->append(MakePair("PercentNull", toString(nullpercent)));
-          statistics->append(MakePair("TotalPixels", toString(stats.TotalPixels())));
+          statistics->append(MakePair("MeanValue", QString::number(stats.Average())));
+          statistics->append(MakePair("StandardDeviation", QString::number(stats.StandardDeviation())));
+          statistics->append(MakePair("MinimumValue", QString::number(stats.Minimum())));
+          statistics->append(MakePair("MaximumValue", QString::number(stats.Maximum())));
+          statistics->append(MakePair("PercentHIS", QString::number(hispercent)));
+          statistics->append(MakePair("PercentHRS", QString::number(hrspercent)));
+          statistics->append(MakePair("PercentLIS", QString::number(lispercent)));
+          statistics->append(MakePair("PercentLRS", QString::number(lrspercent)));
+          statistics->append(MakePair("PercentNull", QString::number(nullpercent)));
+          statistics->append(MakePair("TotalPixels", QString::number(stats.TotalPixels())));
         }
 
         bool getFootBlob = ui.GetBoolean("USELABEL");
@@ -421,7 +421,7 @@ namespace Isis{
             }
           }
           else {
-            std::string msg = "Invalid INCTYPE option[" + incType + "]";
+            std::string msg = "Invalid INCTYPE option[" + incType.toStdString() + "]";
             throw IException(IException::Programmer, msg, _FILEINFO_);
           }
 

@@ -147,8 +147,8 @@ namespace Isis {
       // Discard on error
       catch (IException &ie) {
         if ( isDebug() ) {
-         cout << "Calculator error on " << resource->name() << " with equation "
-              << eqn.equation << ": " << ie.what() << "\n"; 
+         cout << "Calculator error on " << resource->name().toStdString() << " with equation "
+              << eqn.equation.toStdString() << ": " << ie.what() << "\n"; 
         }
         m_result = Null;
         resource->discard();
@@ -196,7 +196,7 @@ namespace Isis {
           newkey.addValue(value.toStdString());
           if ( isDebug() ) {
             cout << "Initializing " << key.name() << "[" << i << "] = " 
-                  << value << "\n"; 
+                  << value.toStdString() << "\n"; 
           }
         }
         resource->add(newkey); 
@@ -331,7 +331,7 @@ namespace Isis {
     QVector<double> vars;
     BOOST_FOREACH ( SharedResource resource, m_resources ) {
       if ( resource->exists(variable) ) {  
-         vars.push_back(toDouble(resource->value(variable, index)));
+         vars.push_back(resource->value(variable, index).toDouble());
          break;
       }
     }
@@ -377,7 +377,7 @@ namespace Isis {
   QVector<double> PvlFlatMapCalculatorVariablePool::value(const QString &variable, 
                                                           const int &index) const {
     QVector<double> vars;
-    vars.push_back(toDouble(m_pvl.get(variable, index)));
+    vars.push_back(m_pvl.get(variable, index).toDouble());
     return (vars);
   }
 

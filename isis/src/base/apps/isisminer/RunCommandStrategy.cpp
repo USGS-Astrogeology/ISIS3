@@ -119,9 +119,9 @@ namespace Isis {
     QStringList excludes;
     excludes << "Commands" << "PreCommands" << "PostCommands";
     PvlFlatMap skeys( getDefinition(), PvlConstraints::withExcludes(excludes));
-    m_skipAllNoData   = toBool(skeys.get("SkipCommandsIfNoData", "true"));
-    m_onPreCommandErrorContinue = toBool(skeys.get("OnPreCommandErrorContinue", "false"));
-    m_onPostCommandErrorContinue = toBool(skeys.get("OnPostCommandErrorContinue", "false"));
+    m_skipAllNoData   = toBool(skeys.get("SkipCommandsIfNoData", "true").toStdString());
+    m_onPreCommandErrorContinue = toBool(skeys.get("OnPreCommandErrorContinue", "false").toStdString());
+    m_onPostCommandErrorContinue = toBool(skeys.get("OnPostCommandErrorContinue", "false").toStdString());
 
     return; 
   }
@@ -165,13 +165,13 @@ namespace Isis {
       cmd = scanAndReplace(cmd, "&apos;", "\'");
 
       if ( isDebug() ) { 
-        cout << "Running " << command.m_name << " PRE command: " << cmd << "\n"; 
+        cout << "Running " << command.m_name.toStdString() << " PRE command: " << cmd.toStdString() << "\n"; 
       }
       int status = system(cmd.toLatin1().data());
       if ( 0 != status) {
         if ( !m_onPreCommandErrorContinue ) {
-          std::string mess = command.m_name + " RunCommand::PreCommand failed - " + 
-                         cmd + " - you are terminated!";
+          std::string mess = command.m_name.toStdString() + " RunCommand::PreCommand failed - " + 
+                         cmd.toStdString() + " - you are terminated!";
           throw IException(IException::User, mess, _FILEINFO_);
         }
       }
@@ -191,15 +191,15 @@ namespace Isis {
       cmd = scanAndReplace(cmd, "&apos;", "\'");
 
       if ( isDebug() ) { 
-        cout << "Running " << command.m_name << " POST command: " << cmd << "\n"; 
+        cout << "Running " << command.m_name.toStdString() << " POST command: " << cmd.toStdString() << "\n"; 
       }
 
       // Check status and disposition
       int status = system(cmd.toLatin1().data());
       if ( 0 != status) {
         if ( !m_onPostCommandErrorContinue ) {
-          std::string mess = command.m_name + " RunCommand::PostCommand failed - " + 
-                         cmd + " - you are terminated!";
+          std::string mess = command.m_name.toStdString() + " RunCommand::PostCommand failed - " + 
+                         cmd.toStdString() + " - you are terminated!";
           throw IException(IException::User, mess, _FILEINFO_);
         }
       }
@@ -230,14 +230,14 @@ namespace Isis {
       cmd = scanAndReplace(cmd, "&apos;", "\'");
 
       if ( isDebug() ) { 
-        cout << "Running " << command.m_name << " command: " << cmd << "\n"; 
+        cout << "Running " << command.m_name.toStdString() << " command: " << cmd.toStdString() << "\n"; 
       }
       int status = system(cmd.toLatin1().data());
 
       // If command failed, deactivate the resource
       if (status != 0 ) {
         if ( isDebug() ) { 
-          cout << "Command " << command.m_name 
+          cout << "Command " << command.m_name.toStdString() 
                << " failed with status = " << status << "\n"; 
         }
         resource->discard();

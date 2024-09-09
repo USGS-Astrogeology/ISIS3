@@ -304,7 +304,7 @@ void CkSpiceSegment::import(Cube &cube, const QString &tblname) {
 
   } catch ( IException &ie  ) {
     ostringstream mess;
-    mess << "Failed to construct CK content from ISIS file " << _fname;
+    mess << "Failed to construct CK content from ISIS file " << _fname.toStdString();
     throw IException(ie, IException::User, mess.str(), _FILEINFO_);
   }
 
@@ -432,7 +432,7 @@ bool CkSpiceSegment::getFrameChains(Table &table, const int &leftBase,
     ostringstream mess;
     mess << "Left/Right CK frame ids invalid in TimeDependentFrames label keyword."
          <<  " Must have at least 1 and no more than 2 ids but have "
-         << QString::number(nfound);
+         << std::to_string(nfound);
     throw IException(IException::User, mess.str(), _FILEINFO_);
   }
 
@@ -719,13 +719,13 @@ QString CkSpiceSegment::getComment() const {
   comment <<
 "\n-----------------------------------------------------------------------\n" <<
 "  File:       " << fname.name() << endl <<
-"  ProductId:  " << _name << endl <<
-"  StartTime:  " << _utcStartTime << endl <<
-"  EndTime:    " << _utcEndTime << endl <<
-"  Instrument: " << _instId << endl <<
-"  Target:     " << _target << endl <<
-"  InstFrame:  " << _instFrame << endl <<
-"  RefFrame:   " << _refFrame << endl <<
+"  ProductId:  " << _name.toStdString() << endl <<
+"  StartTime:  " << _utcStartTime.toDouble() << endl <<
+"  EndTime:    " << _utcEndTime.toDouble() << endl <<
+"  Instrument: " << _instId.toDouble() << endl <<
+"  Target:     " << _target.toDouble() << endl <<
+"  InstFrame:  " << _instFrame.toDouble() << endl <<
+"  RefFrame:   " << _refFrame.toDouble() << endl <<
 "  Records:    " << size() << endl;
 
   if (_startOffset != 0) {
@@ -740,7 +740,7 @@ QString CkSpiceSegment::getComment() const {
 
   QString hasAV = (size(_avvs) > 0) ? "YES" : "NO";
   comment <<
-"  HasAV:      " << hasAV << endl;
+"  HasAV:      " << hasAV.toStdString() << endl;
 
   comment <<
 "  CamVersion: " << _camVersion << endl;
@@ -750,7 +750,7 @@ QString CkSpiceSegment::getComment() const {
 "  Kernels:    \n";
     for ( int i = 0 ; i < klist.size() ; i++  ) {
       comment <<
-"    " << klist[i] << endl;
+"    " << klist[i].toStdString() << endl;
     }
   }
 

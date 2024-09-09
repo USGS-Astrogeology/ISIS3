@@ -43,22 +43,18 @@ namespace Isis {
       m_inputDemMax = (double)shapeModelStats[0]["MaximumRadius"] * 1000.0;
 
       if ((double)shapeModelStats[0]["MinimumRadius"] <= 0.0) {
-        throw IException(IException::Unknown,
-                         QObject::tr("The input cube [%1] to the shadowing algorithm must be a DEM "
-                             "which stores radii; The input DEM contains zero or negative radii")
-                           .arg(inputDem->fileName()),
+        throw IException(IException::Unknown,"The input cube [" + inputDem->fileName().toStdString() + "] to the shadowing algorithm must be a DEM "
+                             "which stores radii; The input DEM contains zero or negative radii",
                          _FILEINFO_);
       }
     }
     catch (IException &e) {
-      throw IException(e, IException::Unknown,
-                       QObject::tr("The input cube [%1] is not a proper DEM. All DEM "
+      throw IException(e, IException::Unknown, "The input cube [" + inputDem->fileName().toStdString() + "] is not a proper DEM. All DEM "
                                    "files must now be padded at the poles and contain a "
                                    "ShapeModelStatistics table defining their minimum and maximum "
                                    "radii values. The demprep program should be used to prepare the "
                                    "DEM before you can run this program. There is more information "
-                                   "available in the documentation of the demprep program.")
-                         .arg(inputDem->fileName()),
+                                   "available in the documentation of the demprep program.",
                        _FILEINFO_);
     }
 
@@ -446,10 +442,8 @@ namespace Isis {
    */
   void ShadowFunctor::setRayPrecision(double approxDemRayTracePrecisionInPixels) {
     if (approxDemRayTracePrecisionInPixels <= 0.0) {
-      throw IException(IException::Unknown,
-                       QObject::tr("Ray precision [%1] must be positive; the algorithm does not "
-                                   "support ray tracing backwards through the target")
-                         .arg(approxDemRayTracePrecisionInPixels),
+      throw IException(IException::Unknown,"Ray precision [" + toString(approxDemRayTracePrecisionInPixels) + "] must be positive; the algorithm does not "
+                                   "support ray tracing backwards through the target",
                        _FILEINFO_);
     }
 
@@ -486,10 +480,8 @@ namespace Isis {
     }
     catch (IException &e) {
       throw IException(e,
-          IException::User,
-          QObject::tr("The match file [%1] must have camera information in order to identify the "
-                      "sun's position.")
-            .arg(cubeWithCamForSunPos->fileName()),
+          IException::User,"The match file [" + cubeWithCamForSunPos->fileName().toStdString() + "] must have camera information in order to identify the "
+                      "sun's position.",
           _FILEINFO_);
     }
 

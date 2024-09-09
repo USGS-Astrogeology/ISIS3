@@ -212,7 +212,7 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
   Pvl pvl(configFile.toStdString());
   if (!pvl.hasObject("IsisMiner") ) {
     throw IException(IException::User,
-                     "Strategy config file [" + configFile +
+                     "Strategy config file [" + configFile.toStdString() +
                      "] does not contain IsisMiner strategies object.",
                      _FILEINFO_);
   }
@@ -331,10 +331,10 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
       }
 
       if ( !missing.isEmpty() ) {
-        std::string mess = "Users of this configuration must provide the "
+        QString mess = "Users of this configuration must provide the "
                        "following parameter(s) but they were not found: " +
                         missing.join(", ");
-        throw IException(IException::User, mess, _FILEINFO_);
+        throw IException(IException::User, mess.toStdString(), _FILEINFO_);
       }
     }
     return;
@@ -370,7 +370,7 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
         sname = QString::fromStdString(definition["Name"][0]); 
       }
       std::string mess = "Strategy Type does not exist in configuration for " +
-                      sname + " strategy!";
+                      sname.toStdString() + " strategy!";
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }
 
@@ -530,7 +530,7 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
 
      // Check for successful load
      if ( !plugin.isLoaded() ) {
-       std::string mess = "Cannot find/load Strategy plugin library " + libname;
+       std::string mess = "Cannot find/load Strategy plugin library " + libname.toStdString();
        throw IException(IException::User, mess, _FILEINFO_);
      }
 
@@ -539,8 +539,8 @@ StrategyFactory *StrategyFactory::m_strategymaker = 0;
      QString routine = pluginkeys.get("Routine");
      StrategyCreator maker = (StrategyCreator) plugin.resolve(routine.toLatin1().data());
      if ( !maker ) {
-       std::string mess = "Unable to resolve Routine name [" + routine +
-                      "] in Strategy plugin [" + plugin.fileName() + "]";
+       std::string mess = "Unable to resolve Routine name [" + routine.toStdString() +
+                      "] in Strategy plugin [" + plugin.fileName().toStdString() + "]";
        throw IException(IException::User, mess, _FILEINFO_);
      }
 

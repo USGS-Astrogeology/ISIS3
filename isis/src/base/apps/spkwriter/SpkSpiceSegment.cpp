@@ -144,7 +144,7 @@ void SpkSpiceSegment::init(Cube &cube) {
 
   } catch ( IException &ie  ) {
     ostringstream mess;
-    mess << "Failed to construct Spice Segment basics from ISIS file " << _fname;
+    mess << "Failed to construct Spice Segment basics from ISIS file " << _fname.toStdString();
     throw IException(ie, IException::User, mess.str(), _FILEINFO_);
   }
 

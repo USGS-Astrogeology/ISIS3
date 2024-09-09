@@ -130,7 +130,7 @@ namespace Isis{
 
       PvlObject *label= icube->label();
       if (!label->hasObject("IsisCube")) {
-        std::string msg = "Input file [" + ui.GetCubeName("FROM") +
+        std::string msg = "Input file [" + ui.GetCubeName("FROM").toStdString() +
                       "] does not appear to be an ISIS cube.";
         throw  IException(IException::User, msg, _FILEINFO_);
       }

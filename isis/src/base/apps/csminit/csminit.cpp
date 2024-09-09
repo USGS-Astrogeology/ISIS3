@@ -106,11 +106,11 @@ namespace Isis {
       }
 
       if (possibleModels.size() > 1) {
-        std::string message = "Multiple models can be created from the ISD [" + isdFilePath + "]. "
+        std::string message = "Multiple models can be created from the ISD [" + isdFilePath.toStdString() + "]. "
                           "Re-run with the PLUGINNAME and MODELNAME parameters. "
                           "Possible plugin & model names:\n";
         for (const QStringList &modelSpec : possibleModels) {
-          message += "Plugin [" + modelSpec[0] + "], Model [" + modelSpec[1] + "]\n";
+          message += "Plugin [" + modelSpec[0].toStdString() + "], Model [" + modelSpec[1].toStdString() + "]\n";
         }
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -132,7 +132,7 @@ namespace Isis {
       QStringList modelSpec = possibleModels.front();
 
       if (modelSpec.size() != 3) {
-        std::string message = "Model specification [" + modelSpec.join(" ") + "] has [" + modelSpec.size() + "] elements "
+        std::string message = "Model specification [" + modelSpec.join(" ").toStdString() + "] has [" + std::to_string(modelSpec.size()) + "] elements "
           "when it should have 3 elements.";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
@@ -143,7 +143,7 @@ namespace Isis {
 
       const csm::Plugin *plugin = csm::Plugin::findPlugin(pluginName.toStdString());
       if (plugin == NULL) {
-        std::string message = "Cannot find requested Plugin: [" + pluginName + "].";
+        std::string message = "Cannot find requested Plugin: [" + pluginName.toStdString() + "].";
         throw IException(IException::User, message, _FILEINFO_);
       }
 
@@ -156,7 +156,7 @@ namespace Isis {
         model = plugin->constructModelFromISD(nitf21Isd, modelName.toStdString());
       }
       else {
-        std::string message = "Invalid ISD format specifications [" + isdFormat + "].";
+        std::string message = "Invalid ISD format specifications [" + isdFormat.toStdString() + "].";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
     } // end of ISD if statement
@@ -178,7 +178,7 @@ namespace Isis {
 
       const csm::Plugin *plugin = csm::Plugin::findPlugin(pluginName.toStdString());
       if (plugin == NULL) {
-        std::string message = "Cannot find requested Plugin: [" + pluginName + "].";
+        std::string message = "Cannot find requested Plugin: [" + pluginName.toStdString() + "].";
         throw IException(IException::User, message, _FILEINFO_);
       }
 
@@ -187,7 +187,7 @@ namespace Isis {
         model = plugin->constructModelFromState(stateString.toStdString());
       }
       else {
-        std::string message = "Could not construct sensor model using STATE string and MODELNAME: [" + modelName + "]";
+        std::string message = "Could not construct sensor model using STATE string and MODELNAME: [" + modelName.toStdString() + "]";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
     } // end of State else statement

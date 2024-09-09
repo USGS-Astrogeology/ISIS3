@@ -70,13 +70,13 @@ namespace Isis {
                                    m_strategies()  {
   
     PvlFlatMap parms(getDefinitionMap());
-    m_savepoint  = toBool(parms.get("SavePoint", "True"));
-    m_savedeletes = toBool(parms.get("SaveDelete", parms.get("SavePoint", "True")));
+    m_savepoint  = toBool(parms.get("SavePoint", "True").toStdString());
+    m_savedeletes = toBool(parms.get("SaveDelete", parms.get("SavePoint", "True")).toStdString());
     
     StrategyFactory *factory = StrategyFactory::instance();
     QString config = translateKeywordArgs("StrategyConfigFile", globals);
     if ( !config.isEmpty() ) {
-      if ( isDebug() ) cout << "Loading IsisMiner Objects from external config file " << config << "\n";
+      if ( isDebug() ) cout << "Loading IsisMiner Objects from external config file " << config.toStdString() << "\n";
       m_strategies = factory->buildRun(config);
     }
     else if ( getDefinition().hasObject("IsisMiner") ) {
@@ -84,12 +84,12 @@ namespace Isis {
       m_strategies = factory->buildRun(getDefinition().findObject("IsisMiner"));
     }
     else {
-      std::string mess = "No IsisMiner strategies found in " + name() + " Sidebar.";
+      std::string mess = "No IsisMiner strategies found in " + name().toStdString() + " Sidebar.";
       throw IException(IException::User, mess, _FILEINFO_);
     }
   
     if ( isDebug() ) {
-      cout << type() << "::" << name() << "::StrategiesLoaded = "
+      cout << type().toStdString() << "::" << name().toStdString() << "::StrategiesLoaded = "
            << m_strategies.size() << "\n";
     }
   
@@ -148,15 +148,15 @@ namespace Isis {
     (void) preRunProcess(resources, globals); 
     int nth(0);
     BOOST_FOREACH ( SharedStrategy strategy, m_strategies ) {
-      if  ( isDebug() ) cout << "\nRunning SideBar::" << strategy->type() << "::" 
-                             << strategy->name() << "\n"; 
+      if  ( isDebug() ) cout << "\nRunning SideBar::" << strategy->type().toStdString() << "::" 
+                             << strategy->name().toStdString() << "\n"; 
       preStrategyProcess(nth, strategy.data(), resources, globals);
       int n = apply(strategy, resources, globals);
       postStrategyProcess(nth, strategy.data(), resources, globals);
       unsigned int ntotal = strategy->totalProcessed();
       if ( isDebug() ) {
-        cout << n << " of " << ntotal << " processed in " << strategy->type() << "::"
-             << strategy->name() << "\n";
+        cout << n << " of " << ntotal << " processed in " << strategy->type().toStdString() << "::"
+             << strategy->name().toStdString() << "\n";
       }
       nth++;
     }

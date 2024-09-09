@@ -96,7 +96,7 @@ namespace Isis {
       ofstream fout;
       fout.open(outfile.toLatin1().data());
 
-      fout << "Cube:              " << icube->fileName() << endl;
+      fout << "Cube:              " << icube->fileName().toStdString() << endl;
       fout << "Band:              " << icube->bandCount() << endl;
 
       if(hist->ValidPixels() != 0) {

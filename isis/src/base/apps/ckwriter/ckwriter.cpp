@@ -72,10 +72,10 @@ namespace Isis {
       ofstream os;
       os.open(fFile.toLatin1().data(),ios::out);
       if (!os) {
-        std::string mess = "Cannot create SUMMARY output file " + fFile;
+        std::string mess = "Cannot create SUMMARY output file " + fFile.toStdString();
         throw IException(IException::User, mess, _FILEINFO_);
       }
-      os << kernel.getSummary(comfile);
+      os << kernel.getSummary(comfile).toStdString();
       os.close();
     }
 

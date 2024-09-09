@@ -120,13 +120,13 @@ namespace Isis {
       }
     }
     catch(IException &e) {
-      std::string msg = "Invalid cube in list file [" + ui.GetFileName("FROMLIST") + "]";
+      std::string msg = "Invalid cube in list file [" + ui.GetFileName("FROMLIST").toStdString() + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
     //if literally everything is a TRACKING band, throw an error, since we don't prop. TRACKING bands
     if (newcubeList.size() == 0) {
-      std::string msg = "Only TRACKING bands supplied in [" + ui.GetFileName("FROMLIST") + "]";
+      std::string msg = "Only TRACKING bands supplied in [" + ui.GetFileName("FROMLIST").toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -146,9 +146,9 @@ namespace Isis {
         }
       }
       if(!match) {
-        std::string msg = "FileName [" + ui.GetCubeName("PROPLAB") +
+        std::string msg = "FileName [" + ui.GetCubeName("PROPLAB").toStdString() +
                       "] to propagate labels from is not in the list file [" +
-                      ui.GetFileName("FROMLIST") + "]";
+                      ui.GetFileName("FROMLIST").toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -186,7 +186,7 @@ namespace Isis {
       m.SetBandBinMatch(false);
 
       Progress *prog = m.Progress();
-      prog->SetText("Adding bands from Cube " + toString((int)i + 1) +
+      prog->SetText("Adding bands from Cube " + QString::number((int)i + 1) +
                     " of " + newcubeList.size());
       m.SetOutputCube("TO", ui);
 

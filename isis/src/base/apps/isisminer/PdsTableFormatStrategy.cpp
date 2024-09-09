@@ -204,7 +204,7 @@ namespace Isis {
     for ( int i = 0 ; i < nColumns ; i++) {
       QString name = definition->value("Column", i);
       SharedResource column(new PdsColumn(name));
-      column->add("COLUMN_NUMBER", toString(i+1));
+      column->add("COLUMN_NUMBER", QString::number(i+1));
   
       column->add("NAME", name);
   
@@ -267,10 +267,10 @@ namespace Isis {
     int nvals = definition->count(keynam);
     if ( !((maxcols == nvals) || (mincols == nvals)) ) {
       if ( throwOnError ) {
-        std::string mess = "The keyword count [" + QString::number(nvals) + "] for the given " + keynam
+        std::string mess = "The keyword count [" + toString(nvals) + "] for the given " + keynam.toStdString()
                        + " Resource definition is invalid. Must equal maxcols [" 
-                       + QString::number(maxcols) + "or mincols [" 
-                       + QString::number(mincols) + "]."; 
+                       + toString(maxcols) + "or mincols [" 
+                       + toString(mincols) + "]."; 
         throw IException(IException::User, mess, _FILEINFO_);
       }
       return (-1);
