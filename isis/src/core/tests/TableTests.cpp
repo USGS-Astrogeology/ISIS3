@@ -6,8 +6,6 @@
 
 #include "gmock/gmock.h"
 
-#include <QTemporaryDir>
-
 using namespace Isis;
 
 TEST(TableTests, RecordConstructor) {
@@ -133,8 +131,8 @@ TEST(TableTests, AddingRecords) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(Isis::IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Unable to add the given record with size"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Unable to add the given record with size") != std::string::npos)
+      << e.toString();
   }
 }
 
@@ -187,8 +185,9 @@ TEST(TableTests, ToFromBlob) {
 
 
 TEST(TableTests, TableTestsWriteRead) {
-  QTemporaryDir tempDir;
-  ASSERT_TRUE(tempDir.isValid());
+  std::filesystem::path tempDir = std::filesystem::temp_directory_path();
+  std::filesystem::create_directory(tempDir);
+  ASSERT_TRUE(std::filesystem::exists(tempDir));
 
   TableField f1("Column1", TableField::Integer);
   TableField f2("Column2", TableField::Double);
@@ -215,7 +214,7 @@ TEST(TableTests, TableTestsWriteRead) {
   rec[3] = -0.55;
   t += rec;
 
-  QString tableFile = tempDir.path() + "/testTable.pvl";
+  std::string tableFile = tempDir.string() + "/testTable.pvl";
   t.Write(tableFile);
   Blob tableBlob("UNITTEST", "Table", tableFile);
   Table t2(tableBlob);

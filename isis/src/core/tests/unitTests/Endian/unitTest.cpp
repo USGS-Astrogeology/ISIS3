@@ -35,6 +35,6 @@ int main(int argc, char *argv[]) {
     cout << IsLsb() << endl;
   }
 
-  cout << ByteOrderName(ByteOrderEnumeration("msb")).toStdString() << endl;
-  cout << ByteOrderName(ByteOrderEnumeration("lsb")).toStdString() << endl;
+  cout << ByteOrderName(ByteOrderEnumeration("msb")) << endl;
+  cout << ByteOrderName(ByteOrderEnumeration("lsb")) << endl;
 }

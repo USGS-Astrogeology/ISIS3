@@ -15,8 +15,8 @@ using namespace std;
 
 class MyBlob : public Isis::Blob {
   public:
-    MyBlob(const QString &name) : Isis::Blob(name, "Blob") {};
-    MyBlob(const QString &name, const QString &file) : Isis::Blob(name, "Blob", file) {};
+    MyBlob(const std::string &name) : Isis::Blob(name, "Blob") {};
+    MyBlob(const std::string &name, const std::string &file) : Isis::Blob(name, "Blob", file) {};
     void MyBuf(char *buf, int size) {
       p_buffer = new char[size];
       p_nbytes = size;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     char buf[] = {"ABCD"};
     b.MyBuf(buf, 4);
     b.Write("junk");
-    cout << "Name = " << b.Name().toStdString() << endl;
+    cout << "Name = " << b.Name() << endl;
     cout << "Number of Bytes = " << b.Size() << endl;
     cout << "StartByte = " << b.StartByte() << endl;
     cout << "Type = " << b.Type() << endl;
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
     char buf2[5];
     c.GetBuf(buf2);
     buf2[4] = 0;
-    cout << "Name = " << c.Name().toStdString() << endl;
+    cout << "Name = " << c.Name() << endl;
     cout << "Number of Bytes = " << c.Size() << endl;
     cout << "StartByte = " << c.StartByte() << endl;
     cout << "Type = " << c.Type() << endl;
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
     c.Write(pvl, strm);
     strm.seekp(0, std::ios::beg);
     strm << pvl;
-    cout << "Name = " << c.Name().toStdString() << endl;
+    cout << "Name = " << c.Name() << endl;
     cout << "Number of Bytes = " << c.Size() << endl;
     cout << "StartByte = " << c.StartByte() << endl;
     cout << "Type = " << c.Type() << endl;
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
     c.Write(pvl2, strm2);
     strm2.seekp(0, std::ios::beg);
     strm2 << pvl2;
-    cout << "Name = " << c.Name().toStdString() << endl;
+    cout << "Name = " << c.Name() << endl;
     cout << "Number of Bytes = " << c.Size() << endl;
     cout << "StartByte = " << c.StartByte() << endl;
     cout << "Type = " << c.Type() << endl;

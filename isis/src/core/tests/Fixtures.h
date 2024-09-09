@@ -3,8 +3,6 @@
 
 #include "gtest/gtest.h"
 
-#include <QString>
-
 #include "PvlKeyword.h"
 
 namespace Isis {

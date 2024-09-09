@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
   filesToFullTest.push_back(".cub");
   filesToFullTest.push_back("/$TEMPORARY/unitTest.cpp");
 
-  foreach (std::string fileToTest, filesToFullTest) {
+  for (const std::string &fileToTest : filesToFullTest) {
     cout << "Running Full Test on [" << fileToTest << "]" << endl;
     TestGenericAccessors("\t", fileToTest, true);
     TestExtensionChanges("\t", fileToTest, true);
@@ -139,7 +139,7 @@ int main(int argc, char *argv[]) {
     tempFiles.push_back("Apr-22-99_v004.tmp");
     tempFiles.push_back("Apr-21-99_v009.tmp");
 
-    foreach (std::string fileName, tempFiles) {
+    for (const std::string &fileName : tempFiles) {
       std::ofstream file(fileName, std::ios::out | std::ios::trunc);
       if (!file.is_open()) {
         cout << "Failed to create temporary file for test: " << fileName << endl;

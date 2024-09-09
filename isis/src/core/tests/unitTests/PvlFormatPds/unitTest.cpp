@@ -7,6 +7,7 @@ find files of those names at the top level of this repository. **/
 #include <fstream>
 
 #include <QFile>
+#include <cstdio>
 
 #include "Pvl.h"
 #include "PvlKeyword.h"
@@ -111,7 +112,7 @@ int main() {
       out.close();
 
       pdsFormatter = new PvlFormatPds(pdsFile);
-      std::remove(pdsFile);
+      std::remove(pdsFile.c_str());
     }
 
     // Test Keywords

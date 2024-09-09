@@ -65,15 +65,17 @@ int main() {
     // make this error work regardless of directory...
     std::string errors = e.toString();
 
-    while(errors.indexOf("/") != -1) {
-      int pos = errors.indexOf("/");
+    size_t pos;
+    while ((pos = errors.find('/')) != std::string::npos) {
 
-      if(errors.indexOf("/", pos + 1) < errors.indexOf("]")) {
-        errors = errors.mid(0, pos + 1) +
-                 errors.mid(errors.indexOf("/", pos + 1) + 1);
+      size_t nextSlashPos = errors.find('/', pos + 1);
+      size_t nextBracketPos = errors.find(']', pos + 1);
+
+      if (nextSlashPos != std::string::npos && (nextBracketPos == std::string::npos || nextSlashPos < nextBracketPos)) {
+        errors = errors.substr(0, pos + 1) + errors.substr(nextSlashPos + 1);
       }
       else {
-        errors = errors.mid(0, pos - 1) + errors.mid(pos + 1);
+        errors = errors.substr(0, pos) + errors.substr(pos + 1);
       }
     }
 
@@ -93,20 +95,21 @@ int main() {
     // make this error work regardless of directory...
     std::string errors = e.toString();
 
-    while(errors.indexOf("/") != -1) {
-      int pos = errors.indexOf("/");
+    while (errors.find("/") != std::string::npos) {
+        size_t pos = errors.find("/");
 
-      if(errors.indexOf("/", pos + 1) < errors.indexOf("]")) {
-        errors = errors.mid(0, pos + 1) +
-                 errors.mid(errors.indexOf("/", pos + 1) + 1);
+        size_t nextSlashPos = errors.find("/", pos + 1);
+        size_t nextBracketPos = errors.find("]", pos + 1);
+
+        if (nextSlashPos != std::string::npos && (nextBracketPos == std::string::npos || nextSlashPos < nextBracketPos)) {
+            errors = errors.substr(0, pos + 1) + errors.substr(nextSlashPos + 1);
+        } else {
+            errors = errors.substr(0, pos) + errors.substr(pos + 1);
+        }
       }
-      else {
-        errors = errors.mid(0, pos - 1) + errors.mid(pos + 1);
-      }
+      
+      cout << errors;
     }
-
-    cout << errors;
-  }
 
   cout << endl << endl;
 
@@ -122,16 +125,17 @@ int main() {
     // make this error work regardless of directory...
     std::string errors = e.toString();
 
-    while(errors.indexOf("/") != -1) {
-      int pos = errors.indexOf("/");
+    while (errors.find("/") != std::string::npos) {
+        size_t pos = errors.find("/");
 
-      if(errors.indexOf("/", pos + 1) < errors.indexOf("]")) {
-        errors = errors.mid(0, pos + 1) +
-                 errors.mid(errors.indexOf("/", pos + 1) + 1);
-      }
-      else {
-        errors = errors.mid(0, pos - 1) + errors.mid(pos + 1);
-      }
+        size_t nextSlashPos = errors.find("/", pos + 1);
+        size_t nextBracketPos = errors.find("]", pos + 1);
+
+        if (nextSlashPos != std::string::npos && (nextBracketPos == std::string::npos || nextSlashPos < nextBracketPos)) {
+            errors = errors.substr(0, pos + 1) + errors.substr(nextSlashPos + 1);
+        } else {
+            errors = errors.substr(0, pos) + errors.substr(pos + 1);
+        }
     }
 
     cout << errors;
