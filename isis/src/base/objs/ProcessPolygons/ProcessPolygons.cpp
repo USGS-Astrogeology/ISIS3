@@ -229,7 +229,7 @@ namespace Isis {
 
     catch(geos::util::IllegalArgumentException *ill) {
       std::string msg = "ERROR! geos exception 1 [";
-      msg += (QString)ill->what() + "]";
+      msg += (std::string)ill->what() + "]";
       delete ill;
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }/*end catch*/

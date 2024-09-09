@@ -195,7 +195,7 @@ namespace Isis {
       p_aberrationCorrection = abcorr;
     }
     else {
-      std::string msg = "Invalid abberation correction [" + correction + "]";
+      std::string msg = "Invalid abberation correction [" + correction.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }

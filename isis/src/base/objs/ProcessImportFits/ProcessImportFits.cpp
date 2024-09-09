@@ -230,8 +230,8 @@ namespace Isis {
     }
 
     if (!m_extraFitsLabels) {
-      std::string msg = QObject::tr("The FITS label has not been initialized, "
-                                "call setFitsFile() first.");
+      std::string msg = "The FITS label has not been initialized, "
+                                "call setFitsFile() first.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     else if (m_extraFitsLabels->size() < labelNumber) {
@@ -264,8 +264,8 @@ namespace Isis {
     }
 
     if (!m_fitsImageLabels) {
-      std::string msg = QObject::tr("The FITS label has not been initialized, "
-                                "call setFitsFile first.");
+      std::string msg = "The FITS label has not been initialized, "
+                                "call setFitsFile first.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     else if (m_fitsImageLabels->size() < labelNumber) {
@@ -356,9 +356,8 @@ namespace Isis {
   void ProcessImportFits::setProcessFileStructure(int labelNumber) {
 
     if (labelNumber >= m_fitsImageLabels->size()) {
-      std::string msg = QObject::tr("The requested label number [%1], from file [%2] is "
-                                "past the last image in this FITS file [%3].").arg(labelNumber).
-                                arg(InputFile()).arg(m_fitsImageLabels->size()-1);
+      std::string msg = "The requested label number [" + std::to_string(labelNumber) + "], from file [" + InputFile().toStdString() + "] is "
+                                "past the last image in this FITS file [" + std::to_string(m_fitsImageLabels->size()-1) + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

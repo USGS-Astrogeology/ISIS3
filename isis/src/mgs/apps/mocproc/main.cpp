@@ -26,7 +26,7 @@ void IsisMain() {
   if(!ui.GetBoolean("INGESTION") &&
       !ui.GetBoolean("CALIBRATION") &&
       !ui.GetBoolean("MAPPING")) {
-    QString m = "Please pick at least one of [INGESTION, CALIBRATION, MAPPING]";
+    std::string m = "Please pick at least one of [INGESTION, CALIBRATION, MAPPING]";
     throw IException(IException::User, m, _FILEINFO_);
   }
 

@@ -106,7 +106,7 @@ namespace Isis {
   void ProcessMosaic::StartProcess(const int &os, const int &ol, const int &ob) {
     // Error checks ... there must be one input and one output
     if ((OutputCubes.size() != 1) || (InputCubes.size() != 1)) {
-      QString m = "You must specify exactly one input and one output cube";
+      std::string m = "You must specify exactly one input and one output cube";
       throw IException(IException::Programmer, m, _FILEINFO_);
     }
 
@@ -115,7 +115,7 @@ namespace Isis {
       bTrackExists = GetTrackStatus();
       if (m_trackingEnabled &&
             !(OutputCubes[0]->hasGroup("Tracking") || OutputCubes[0]->hasTable("InputImages"))) {
-        QString m = "Cannot enable tracking while adding to a mosaic without tracking ";
+        std::string m = "Cannot enable tracking while adding to a mosaic without tracking ";
         m += "information. Confirm that your mosaic was originally created with tracking enabled.";
         throw IException(IException::User, m, _FILEINFO_);
       }
@@ -171,7 +171,7 @@ namespace Isis {
 
     // Tests for completly off the mosaic
     if ((ins < 1) || (inl < 1)) {
-      QString m = "The input cube does not overlap the mosaic";
+      std::string m = "The input cube does not overlap the mosaic";
       throw IException(IException::User, m, _FILEINFO_);
     }
 
@@ -200,7 +200,7 @@ namespace Isis {
            (OutputCubes[0]->bandCount()) == 1) ||
           (m_imageOverlay == PlaceImagesOnTop && m_placeHighSatPixels && m_placeLowSatPixels &&
            m_placeNullPixels)) ){
-        QString m = "Tracking cannot be True for multi-band Mosaic with ontop or beneath priority";
+        std::string m = "Tracking cannot be True for multi-band Mosaic with ontop or beneath priority";
         throw IException(IException::Programmer, m, _FILEINFO_);
       }
     }
@@ -230,7 +230,7 @@ namespace Isis {
       }
       // BandBin group is not found
       else {
-        QString m = "Match BandBin cannot be True when the Image does not have the BandBin group";
+        std::string m = "Match BandBin cannot be True when the Image does not have the BandBin group";
         throw IException(IException::Programmer, m, _FILEINFO_);
       }
     }
@@ -328,11 +328,11 @@ namespace Isis {
             // Initialize a TrackingTable object from current mosaic
             Table *table;
             try {
-              table = new Table(TRACKING_TABLE_NAME, m_trackingCube->fileName());
+              table = new Table(TRACKING_TABLE_NAME, m_trackingCube->fileName().toStdString());
               trackingTable = new TrackingTable(*table);
             }
             catch (IException &e) {
-              std::string msg = "Unable to find Tracking Table in " + m_trackingCube->fileName() + ".";
+              std::string msg = "Unable to find Tracking Table in " + m_trackingCube->fileName().toStdString() + ".";
               throw IException(IException::User, msg, _FILEINFO_);
             }
           }
@@ -583,7 +583,7 @@ namespace Isis {
 
     // Make sure only one input is active at a time
     if (InputCubes.size() > 0) {
-      QString m = "You must specify exactly one input cube";
+      std::string m = "You must specify exactly one input cube";
       throw IException(IException::Programmer, m, _FILEINFO_);
     }
 
@@ -600,9 +600,9 @@ namespace Isis {
     Pvl *cInPvl = InputCubes[0]->label();
     if (cInPvl->findGroup("Dimensions", Pvl::Traverse).hasKeyword("Bands")) {
       PvlKeyword &cBandKey = cInPvl->findGroup("Dimensions", Pvl::Traverse).findKeyword("Bands");
-      QString sStr(QString::fromStdString(cBandKey[0]));
+      std::string sStr = cBandKey[0];
       if (toInt(sStr) < nb) {
-        QString m = "The parameter number of input bands exceeds the actual number of bands in the "
+        std::string m = "The parameter number of input bands exceeds the actual number of bands in the "
                    "input cube";
         throw IException(IException::Programmer, m, _FILEINFO_);
       }
@@ -654,7 +654,7 @@ namespace Isis {
 
     // Make sure only one input is active at a time
     if (InputCubes.size() > 0) {
-      QString m = "You must specify exactly one input cube";
+      std::string m = "You must specify exactly one input cube";
       throw IException(IException::Programmer, m, _FILEINFO_);
     }
 
@@ -671,9 +671,9 @@ namespace Isis {
     Pvl *cInPvl = InputCubes[0]->label();
     if (cInPvl->findGroup("Dimensions", Pvl::Traverse).hasKeyword("Bands")) {
       PvlKeyword &cBandKey = cInPvl->findGroup("Dimensions", Pvl::Traverse).findKeyword("Bands");
-      QString sStr(QString::fromStdString(cBandKey[0]));
+      std::string sStr = cBandKey[0];
       if (toInt(sStr) < nb) {
-        QString m = "The parameter number of input bands exceeds the actual number of bands in the input cube";
+        std::string m = "The parameter number of input bands exceeds the actual number of bands in the input cube";
         throw IException(IException::Programmer, m, _FILEINFO_);
       }
     }
@@ -705,7 +705,7 @@ namespace Isis {
 
     // Make sure there is only one output cube
     if (OutputCubes.size() > 0) {
-      QString m = "You must specify exactly one output cube";
+      std::string m = "You must specify exactly one output cube";
       throw IException(IException::Programmer, m, _FILEINFO_);
     }
 
@@ -939,7 +939,7 @@ namespace Isis {
     }
 
     throw IException(IException::Unknown,
-                     "The text [" + imageOverlayString + "] does not correspond to any known "
+                     "The text [" + imageOverlayString.toStdString() + "] does not correspond to any known "
                      "image overlay modes (mosaic priorities)",
                      _FILEINFO_);
   }
@@ -973,7 +973,7 @@ namespace Isis {
             }
           }
         }
-        QString sErrMsg = "Input and Mosaic DEM Shape Model do not match";
+        std::string sErrMsg = "Input and Mosaic DEM Shape Model do not match";
         throw IException(IException::User, sErrMsg, _FILEINFO_);
       }
     }

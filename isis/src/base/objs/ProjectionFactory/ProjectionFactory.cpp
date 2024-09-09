@@ -76,7 +76,7 @@ namespace Isis {
       }
       catch(IException &e) {
         std::string msg = "Unsupported projection, unable to find plugin for [" +
-                     proj + "]";
+                     proj.toStdString() + "]";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
 
@@ -144,7 +144,7 @@ namespace Isis {
       }
       catch(IException &e) {
         std::string msg = "Unsupported projection, unable to find plugin for [" +
-                      proj + "]";
+                      proj.toStdString() + "]";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
 

@@ -227,7 +227,7 @@ namespace Isis {
     double bestBand = -DBL_MAX;
 
     if (sectionNumber >= m_numSections) {
-      std::string msg = QObject::tr("Input section number is greater than total number of sections.");
+      std::string msg = "Input section number is greater than total number of sections.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

@@ -77,16 +77,16 @@ namespace Isis {
    */
   Blob OriginalXmlLabel::toBlob() const {
     std::stringstream sstream;
-    sstream << m_originalLabel.toString();
+    sstream << m_originalLabel.toString().toStdString();
     string orglblStr = sstream.str();
     Isis::Blob blob("IsisCube", "OriginalXmlLabel");
     blob.setData((char*)orglblStr.data(), orglblStr.length());
     blob.Label() += Isis::PvlKeyword("ByteOrder", "NULL");
     if (Isis::IsLsb()) {
-      blob.Label()["ByteOrder"] = Isis::ByteOrderName(Isis::Lsb).toStdString();
+      blob.Label()["ByteOrder"] = Isis::ByteOrderName(Isis::Lsb);
     }
     else {
-      blob.Label()["ByteOrder"] = Isis::ByteOrderName(Isis::Msb).toStdString();
+      blob.Label()["ByteOrder"] = Isis::ByteOrderName(Isis::Msb);
     }
     return blob;
   }

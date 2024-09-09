@@ -72,7 +72,7 @@ namespace Isis {
     int nlMosaic = mosaicCube->lineCount();
 
     if (*iproj != *oproj) {
-      std::string msg = "Mapping groups do not match between cube [" + inputFile + "] and mosaic";
+      std::string msg = "Mapping groups do not match between cube [" + inputFile.toStdString() + "] and mosaic";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

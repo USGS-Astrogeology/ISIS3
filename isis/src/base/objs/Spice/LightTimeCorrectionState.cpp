@@ -107,7 +107,7 @@ namespace Isis {
   bool LightTimeCorrectionState::checkAberrationCorrection(int ikCode, 
                                                          Spice *spice) {
     try {
-      QString ikernKey = "INS" + toString(ikCode) + "_LIGHTTIME_CORRECTION";
+      QString ikernKey = "INS" + QString::number(ikCode) + "_LIGHTTIME_CORRECTION";
       QString abcorr = spice->getString(ikernKey);
       m_abcorr = abcorr;
       return (true);
@@ -255,7 +255,7 @@ namespace Isis {
                                                          Spice *spice) {
 
     try {
-      QString ikernKey = "INS" + toString(ikCode) + "_SWAP_OBSERVER_TARGET";
+      QString ikernKey = "INS" + QString::number(ikCode) + "_SWAP_OBSERVER_TARGET";
       QString value = spice->getString(ikernKey).toUpper();
       m_swapObserverTarget = ("TRUE" == value);
     }
@@ -307,7 +307,7 @@ namespace Isis {
                                                                 Spice *spice) {
 
     try {
-      QString ikernKey = "INS" + toString(ikCode) + "_LT_SURFACE_CORRECT";
+      QString ikernKey = "INS" + QString::number(ikCode) + "_LT_SURFACE_CORRECT";
       QString value = spice->getString(ikernKey).toUpper();
       m_sc_to_surf_ltcorr = ("TRUE" == value);
     }

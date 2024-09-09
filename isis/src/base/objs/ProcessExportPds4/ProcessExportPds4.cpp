@@ -684,7 +684,7 @@ namespace Isis {
       axisBinSetElement.appendChild(bin);
 
       QDomElement binSequenceNumber = m_domDoc->createElement("sp:bin_sequence_number");
-      PvlToXmlTranslationManager::setElementValue(binSequenceNumber, toString(i+1));
+      PvlToXmlTranslationManager::setElementValue(binSequenceNumber, QString::number(i+1));
       bin.appendChild(binSequenceNumber);
 
 
@@ -895,12 +895,12 @@ namespace Isis {
 
         QDomElement scalingFactorElement = m_domDoc->createElement("scaling_factor");
         PvlToXmlTranslationManager::setElementValue(scalingFactorElement,
-                                                    toString(multiplier));
+                                                    QString::number(multiplier));
         elementArrayElement.appendChild(scalingFactorElement);
 
         QDomElement offsetElement = m_domDoc->createElement("value_offset");
         PvlToXmlTranslationManager::setElementValue(offsetElement,
-                                                    toString(base));
+                                                    QString::number(base));
         elementArrayElement.appendChild(offsetElement);
       }
 
@@ -1072,7 +1072,7 @@ namespace Isis {
    * @param[out] os file stream to which the XML label will be written.
    */
   void ProcessExportPds4::OutputLabel(std::ofstream &os) {
-    os << m_domDoc->toString() << endl;
+    os << m_domDoc->toString().toStdString() << endl;
   }
 
 
@@ -1191,7 +1191,7 @@ namespace Isis {
       xlatorSpecProj.Auto(*m_domDoc);
     }
     catch (IException &e) {
-      std::string msg = "Unable to export projection [" + projName + "] to PDS4 product. " +
+      std::string msg = "Unable to export projection [" + projName.toStdString() + "] to PDS4 product. " +
                      "This projection is not supported in ISIS3.";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
@@ -1216,9 +1216,9 @@ namespace Isis {
       if( units.compare("km", Qt::CaseInsensitive) != 0 && units.compare("kilometers", Qt::CaseInsensitive) != 0) {
 
         //if no units, assume in meters
-        double dValue = toDouble(semiMajorRadElement.text());
+        double dValue = toDouble(semiMajorRadElement.text().toStdString());
         dValue /= 1000.0;
-        PvlToXmlTranslationManager::resetElementValue(semiMajorRadElement, toString(dValue), "km");
+        PvlToXmlTranslationManager::resetElementValue(semiMajorRadElement, QString::number(dValue), "km");
       }
     }
 
@@ -1228,9 +1228,9 @@ namespace Isis {
       QString units = semiMinorRadElement.attribute("unit");
       if( units.compare("km", Qt::CaseInsensitive) != 0 && units.compare("kilometers", Qt::CaseInsensitive) != 0) {
         // If no units, assume in meters
-        double dValue = toDouble(semiMinorRadElement.text());
+        double dValue = toDouble(semiMinorRadElement.text().toStdString());
         dValue /= 1000.0;
-        PvlToXmlTranslationManager::resetElementValue(semiMinorRadElement, toString(dValue), "km");
+        PvlToXmlTranslationManager::resetElementValue(semiMinorRadElement, QString::number(dValue), "km");
       }
     }
 
@@ -1239,9 +1239,9 @@ namespace Isis {
       QString units = polarRadElement.attribute("unit");
       if( units.compare("km", Qt::CaseInsensitive) != 0 && units.compare("kilometers", Qt::CaseInsensitive) != 0) {
         // If no units, assume in meters
-        double dValue = toDouble(polarRadElement.text());
+        double dValue = toDouble(polarRadElement.text().toStdString());
         dValue /= 1000.0;
-        PvlToXmlTranslationManager::resetElementValue(polarRadElement, toString(dValue), "km");
+        PvlToXmlTranslationManager::resetElementValue(polarRadElement, QString::number(dValue), "km");
       }
     }
 
@@ -1270,16 +1270,16 @@ namespace Isis {
     // so if positive east, swap min/max
     if(QString::compare(lonDir, "PositiveEast", Qt::CaseInsensitive) == 0) {
       // west min, east max
-      PvlToXmlTranslationManager::resetElementValue(eastElement, toString(maxLon), "deg");
-      PvlToXmlTranslationManager::resetElementValue(westElement, toString(minLon), "deg");
+      PvlToXmlTranslationManager::resetElementValue(eastElement, QString::number(maxLon), "deg");
+      PvlToXmlTranslationManager::resetElementValue(westElement, QString::number(minLon), "deg");
     }
     else {
-      PvlToXmlTranslationManager::resetElementValue(eastElement, toString(minLon), "deg");
-      PvlToXmlTranslationManager::resetElementValue(westElement, toString(maxLon), "deg");
+      PvlToXmlTranslationManager::resetElementValue(eastElement, QString::number(minLon), "deg");
+      PvlToXmlTranslationManager::resetElementValue(westElement, QString::number(maxLon), "deg");
     }
 
-    PvlToXmlTranslationManager::resetElementValue(northElement, toString(maxLat), "deg");
-    PvlToXmlTranslationManager::resetElementValue(southElement, toString(minLat), "deg");
+    PvlToXmlTranslationManager::resetElementValue(northElement, QString::number(maxLat), "deg");
+    PvlToXmlTranslationManager::resetElementValue(southElement, QString::number(minLat), "deg");
 
     // longitude_of_central_meridian and latitude_of_projection_origin need to be converted to floats.
     xmlPath.clear();
@@ -1475,7 +1475,7 @@ namespace Isis {
       configPvl.read(transMapFile.toStdString());
     }
     catch(IException &e) {
-      std::string msg = "Failed to read unit translation config file [" + transMapFile + "].";
+      std::string msg = "Failed to read unit translation config file [" + transMapFile.toStdString() + "].";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
 
@@ -1484,7 +1484,7 @@ namespace Isis {
       transMap = createUnitMap(configPvl);
     }
     catch(IException &e) {
-      std::string msg = "Failed to load unit translation config file [" + transMapFile + "].";
+      std::string msg = "Failed to load unit translation config file [" + transMapFile.toStdString() + "].";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -1494,7 +1494,7 @@ namespace Isis {
       translateChildUnits( label.documentElement(), transMap );
     }
     catch(IException &e) {
-      std::string msg = "Failed to translate units with config file [" + transMapFile + "].";
+      std::string msg = "Failed to translate units with config file [" + transMapFile.toStdString() + "].";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -1560,7 +1560,7 @@ namespace Isis {
           childElement.setAttribute("unit", transMap.value( originalUnit.toLower() ) );
         }
         else {
-          std::string msg = "Could not translate unit [" + originalUnit + "] to PDS4 format.";
+          std::string msg = "Could not translate unit [" + originalUnit.toStdString() + "] to PDS4 format.";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
       }

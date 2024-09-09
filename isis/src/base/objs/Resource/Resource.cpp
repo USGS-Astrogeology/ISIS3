@@ -504,7 +504,7 @@ namespace Isis {
   QVariant Resource::asset(const QString &assetName) const {
     if ( !hasAsset(assetName) ) {
       throw IException(IException::Programmer,
-                        "Requested asset " + assetName + " does not exist.", 
+                        "Requested asset " + assetName.toStdString() + " does not exist.", 
                        _FILEINFO_);
     }
     return ( m_data->m_assets.value(assetName.toLower()) );

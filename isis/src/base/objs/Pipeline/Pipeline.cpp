@@ -140,7 +140,7 @@ namespace Isis {
           foundFirst = true;
 
           if (p_apps[i]->InputBranches().size() != OriginalBranches().size()) {
-            std::string msg = "The program [" + p_apps[i]->Name() + "] can not be the first in the pipeline";
+            std::string msg = "The program [" + p_apps[i]->Name().toStdString() + "] can not be the first in the pipeline";
             msg += " because it must be run multiple times with unspecified varying inputs";
             throw IException(IException::Programmer, msg, _FILEINFO_);
           }
@@ -158,7 +158,7 @@ namespace Isis {
         for (int j = i + 1; j < (int)tmpFiles.size(); j++) {
           if (tmpFiles[i] == tmpFiles[j]) {
             std::string msg = "There is a conflict with the temporary file naming. The temporary file [";
-            msg += tmpFiles[i] + "] is created twice.";
+            msg += tmpFiles[i].toStdString() + "] is created twice.";
             throw IException(IException::Programmer, msg, _FILEINFO_);
           }
         }
@@ -376,7 +376,7 @@ namespace Isis {
       filename = filelist.front();
       filelist.erase(filelist.begin());
       p_originalInput.push_back(QString::fromStdString(filename.expanded()));
-      p_inputBranches.push_back(QString::fromStdString(inputFileName.name()) + toString(branch));
+      p_inputBranches.push_back(QString::fromStdString(inputFileName.name()) + QString::number(branch));
       p_virtualBands.push_back("");
       p_finalOutput.push_back(QString::fromStdString(filename.name()));
 
@@ -584,7 +584,7 @@ namespace Isis {
     // Check uniqueness first
     for (unsigned int appIdentifier = 0; appIdentifier < p_appIdentifiers.size(); appIdentifier++) {
       if (p_appIdentifiers[appIdentifier] == identifier) {
-        std::string message = "The application identifier [" + identifier + "] is not unique. " +
+        std::string message = "The application identifier [" + identifier.toStdString() + "] is not unique. " +
                           "Please providing a unique identifier";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
@@ -642,7 +642,7 @@ namespace Isis {
     // Check uniqueness first
     for (unsigned int appIdentifier = 0; appIdentifier < p_appIdentifiers.size(); appIdentifier++) {
       if (p_appIdentifiers[appIdentifier] == appname) {
-        std::string message = "The application identifier [" + appname + "] is not unique. Please use " +
+        std::string message = "The application identifier [" + appname.toStdString() + "] is not unique. Please use " +
                           "the other AddToPipeline method providing a unique identifier";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }
@@ -705,7 +705,7 @@ namespace Isis {
     }
 
     if (!found) {
-      std::string msg = "Application identified by [" + identifier + "] has not been added to the pipeline";
+      std::string msg = "Application identified by [" + identifier.toStdString() + "] has not been added to the pipeline";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -723,7 +723,7 @@ namespace Isis {
    */
   PipelineApplication &Pipeline::Application(const int &index) {
     if (index > Size()) {
-      std::string msg = "Index [" + QString(index) + "] out of bounds";
+      std::string msg = "Index [" + std::to_string(index) + "] out of bounds";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -755,7 +755,7 @@ namespace Isis {
     // }
 
     if (appIndex >= (int)p_apps.size()) {
-      std::string msg = "Pipeline could not find application [" + appname + "]";
+      std::string msg = "Pipeline could not find application [" + appname.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -781,7 +781,7 @@ namespace Isis {
     }
 
     if (appIndex < 0) {
-      std::string msg = "Pipeline could not find application [" + appname + "]";
+      std::string msg = "Pipeline could not find application [" + appname.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -807,7 +807,7 @@ namespace Isis {
 
     if (p_finalOutput.size() > 1) {
       if ((unsigned int)branch >= p_finalOutput.size()) {
-        std::string msg = "Output not set for branch [" + QString(branch) + "]";
+        std::string msg = "Output not set for branch [" + std::to_string(branch) + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
@@ -918,7 +918,7 @@ namespace Isis {
     pipeline.Prepare();
 
     if (!pipeline.Name().isEmpty()) {
-      os << "PIPELINE -------> " << pipeline.Name() << " <------- PIPELINE" << endl;
+      os << "PIPELINE -------> " << pipeline.Name().toStdString() << " <------- PIPELINE" << endl;
     }
 
     for (int i = 0; i < pipeline.Size(); i++) {
@@ -931,10 +931,10 @@ namespace Isis {
 
             QStringList listFileData = cmd.split(" ");
             QString file = listFileData.takeFirst();
-            os << "echo -e \"" << listFileData.join("\\n") << "\" > " << file << endl;
+            os << "echo -e \"" << listFileData.join("\\n").toStdString() << "\" > " << file.toStdString() << endl;
           }
           else {
-            os << pipeline.Application(i).Name() << " " << params[j] << endl;
+            os << pipeline.Application(i).Name().toStdString() << " " << params[j].toStdString() << endl;
           }
         }
       }
@@ -946,7 +946,7 @@ namespace Isis {
           vector<QString> tmpFiles = pipeline.Application(i).TemporaryFiles();
           for (int file = 0; file < (int)tmpFiles.size(); file++) {
             if (!tmpFiles[file].contains("blank")) {
-              os << "rm " << tmpFiles[file] << endl;
+              os << "rm " << tmpFiles[file].toStdString() << endl;
             }
           }
         }
@@ -954,7 +954,7 @@ namespace Isis {
     }
 
     if (!pipeline.Name().isEmpty()) {
-      os << "PIPELINE -------> " << pipeline.Name() << " <------- PIPELINE" << endl;
+      os << "PIPELINE -------> " << pipeline.Name().toStdString() << " <------- PIPELINE" << endl;
     }
 
     return os;

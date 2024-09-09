@@ -76,14 +76,14 @@ namespace Isis {
     PvlToPvlTranslationManager trans(error, "$ISISROOT/appdata/translations/NaifErrors.trn");
 
     try {
-      errMsg = trans.Translate("ShortMessage");
+      errMsg = trans.Translate("ShortMessage").toStdString();
     }
     catch(IException &) {
       errMsg = "An unknown NAIF error has been encountered.";
     }
 
     try {
-      errMsg += " " + trans.Translate("LongMessage");
+      errMsg += " " + trans.Translate("LongMessage").toStdString();
     }
     catch(IException &) {
     }

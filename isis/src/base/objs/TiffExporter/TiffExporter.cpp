@@ -100,7 +100,7 @@ namespace Isis {
       TIFFSetField(m_image, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
     }
     else {
-      std::string msg = "Invalid TIFF compression algorithm: " + compression;
+      std::string msg = "Invalid TIFF compression algorithm: " + compression.toStdString();
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     TIFFSetField(m_image, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);

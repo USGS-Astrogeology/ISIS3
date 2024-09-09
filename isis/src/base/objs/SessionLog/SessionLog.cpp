@@ -66,7 +66,7 @@ namespace Isis {
       }
       catch(...) {
         std::cerr << "**WARNING** Unable to write session log [" <<
-                  p_outputFile << "] Disk may be full or directory permissions not writeable"
+                  p_outputFile.toStdString() << "] Disk may be full or directory permissions not writeable"
                   << std::endl;
         exit(1);
       }

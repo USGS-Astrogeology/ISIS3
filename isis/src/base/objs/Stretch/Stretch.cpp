@@ -157,8 +157,8 @@ namespace Isis {
       QStringList firstPairValues = firstPair.split(":");
 
       if (firstPairValues.count() == 2) {
-        io.first = toDouble(firstPairValues.first());
-        io.second = toDouble(firstPairValues.last());
+        io.first = firstPairValues.first().toDouble();
+        io.second = firstPairValues.last().toDouble();
 
         pairs = pairList.join(" ");
       }
@@ -198,7 +198,7 @@ namespace Isis {
       }
     }
     catch(IException &e) {
-      throw IException(e, IException::User, "Invalid stretch pairs [" + pairs + "]", _FILEINFO_);
+      throw IException(e, IException::User, "Invalid stretch pairs [" + pairs.toStdString() + "]", _FILEINFO_);
     }
   }
 
@@ -255,7 +255,7 @@ namespace Isis {
 
     catch(IException &e) {
       throw IException(e, IException::User, "Invalid stretch pairs [" +
-                       pairs + "]", _FILEINFO_);
+                       pairs.toStdString() + "]", _FILEINFO_);
     }
   }
 
@@ -271,7 +271,7 @@ namespace Isis {
 
     QString p("");
     for(int i = 0; i < p_pairs; i++) {
-      p += toString(p_input[i]) + ":" + toString(p_output[i]) + " ";
+      p += QString::number(p_input[i]) + ":" + QString::number(p_output[i]) + " ";
     }
     return p.trimmed();
   }

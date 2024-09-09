@@ -269,7 +269,7 @@ namespace Isis {
           }
         }
 
-        QString mStatsName = "MultivariateStatistics" + toString(band);
+        QString mStatsName = "MultivariateStatistics" + QString::number(band);
         PvlObject mStats(GetMStats(band).toPvl(mStatsName));
         mStats += validBand;
         o.addObject(mStats);
@@ -318,7 +318,7 @@ namespace Isis {
 
     // unserialize the MStats
     for (int band = 1; band <= Bands(); band++) {
-      QString name = "MultivariateStatistics" + toString(band);
+      QString name = "MultivariateStatistics" + QString::number(band);
       const PvlObject &mStats = inStats.findObject(name.toStdString());
       p_stats.push_back(MultivariateStatistics(mStats)); 
     }

@@ -52,13 +52,13 @@ namespace Isis {
         " -pid=" + toString(getpid());
 
     if(!isIsisProgram) {
-      std::string msg = "Program [" + programName + "] does not appear to be a "
+      std::string msg = "Program [" + programName.toStdString() + "] does not appear to be a "
           "valid Isis program";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
     QString serverName = "isis_" + Application::UserName() +
-        "_" + toString(getpid());
+        "_" + QString::number(getpid());
 
     QLocalServer server;
     server.listen(serverName);
@@ -95,7 +95,7 @@ namespace Isis {
       bool messageDone = false;
 
       QString code;
-      std::string message;
+      QString message;
       QByteArray lineData;
 
       if(childSocket->waitForReadyRead(1000)) {
@@ -135,7 +135,7 @@ namespace Isis {
     childProcess.waitForFinished();
 
     if(childProcess.exitCode() != 0) {
-      std::string msg = "Running Isis program [" + programName + "] failed with "
+      std::string msg = "Running Isis program [" + programName.toStdString() + "] failed with "
                     "return status [" + toString(childProcess.exitCode()) + "]";
       throw IException(errors, IException::Unknown, msg, _FILEINFO_);
     }
@@ -153,18 +153,18 @@ namespace Isis {
    *            parameter.
    */
   IException
-      ProgramLauncher::ProcessIsisMessageFromChild(QString code, std::string msg) {
+      ProgramLauncher::ProcessIsisMessageFromChild(QString code, QString msg) {
     IException errors;
 
     if(code == "PROGRESSTEXT" && iApp) {
       iApp->UpdateProgress(msg, true);
     }
     else if(code == "PROGRESS" && iApp) {
-      iApp->UpdateProgress(toInt(msg), true);
+      iApp->UpdateProgress(msg.toInt(), true);
     }
     else if(code == "LOG" && iApp) {
       stringstream msgStream;
-      msgStream << msg;
+      msgStream << msg.toStdString();
       Pvl logPvl;
       msgStream >> logPvl;
 
@@ -179,19 +179,19 @@ namespace Isis {
     }
     else if(code == "ERROR") {
       stringstream msgStream;
-      msgStream << msg;
+      msgStream << msg.toStdString();
       Pvl errorPvl;
       msgStream >> errorPvl;
 
       for(int i = 0; i < errorPvl.groups(); i++) {
         PvlGroup &g = errorPvl.group(i);
-        QString emsg = QString::fromStdString(g["Message"]);
+        std::string emsg = g["Message"];
         int ecode = g["Code"];
-        QString efile =QString::fromStdString(g["File"]);
+        std::string efile = g["File"];
         int eline = g["Line"];
 
         errors.append(
-          IException((IException::ErrorType)ecode, emsg, efile.toLatin1().data(), eline));
+          IException((IException::ErrorType)ecode, emsg, efile.c_str(), eline));
       }
     }
 
@@ -214,7 +214,7 @@ namespace Isis {
     int status = system(fullCommand.toLatin1().data());
 
     if(status != 0) {
-      std::string msg = "Executing command [" + fullCommand +
+      std::string msg = "Executing command [" + fullCommand.toStdString() +
                     "] failed with return status [" + toString(status) + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

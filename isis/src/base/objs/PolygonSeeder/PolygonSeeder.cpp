@@ -124,7 +124,7 @@ namespace Isis {
     }
     catch(IException &e) {
       std::string msg = "Improper format for PolygonSeeder PVL [";
-      msg +=  pvl.fileName() + "]. Location [" + errorSpot.toStdString() + "]";
+      msg +=  pvl.fileName() + "]. Location [" + errorSpot + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

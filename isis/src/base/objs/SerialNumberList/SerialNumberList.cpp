@@ -64,7 +64,7 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      std::string msg = "Can't open or invalid file list [" + listfile + "].";
+      std::string msg = "Can't open or invalid file list [" + listfile.toStdString() + "].";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -138,13 +138,13 @@ namespace Isis {
           }
           else {
             std::string msg = "Unable to find Instrument or Mapping group in "
-                          + filename + " for comparing target.";
+                          + filename.toStdString() + " for comparing target.";
             throw IException(IException::User, msg, _FILEINFO_);
           }
         }
         else {
           // No Instrument group
-          std::string msg = "Unable to find Instrument group in " + filename
+          std::string msg = "Unable to find Instrument group in " + filename.toStdString()
                         + " for comparing target.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -155,8 +155,8 @@ namespace Isis {
           m_target = target;
         }
         else if (m_target != target) {
-          std::string msg = "Target name of [" + target + "] from file ["
-                        + filename + "] does not match [" + m_target + "].";
+          std::string msg = "Target name of [" + target.toStdString() + "] from file ["
+                        + filename.toStdString() + "] does not match [" + m_target.toStdString() + "].";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -166,13 +166,13 @@ namespace Isis {
       QString on = ObservationNumber::Compose(p, def2filename);
       if (sn == "Unknown") {
         std::string msg = "Invalid serial number [Unknown] from file ["
-                      + filename + "].";
+                      + filename.toStdString() + "].";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       else if (hasSerialNumber(sn)) {
         int index = serialNumberIndex(sn);
-        std::string msg = "Duplicate serial number [" + sn + "] from files ["
-                      + SerialNumberList::fileName(sn) + "] and [" + fileName(index) + "].";
+        std::string msg = "Duplicate serial number ["+ sn.toStdString() + "] from files ["
+                      + SerialNumberList::fileName(sn).toStdString() + "] and [" + fileName(index).toStdString() + "].";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -267,7 +267,7 @@ namespace Isis {
         }
         else {
             std::string msg = "Unable to find Instrument or Mapping group in "
-                          + filename + " for comparing target.";
+                          + filename.toStdString() + " for comparing target.";
             throw IException(IException::User, msg, _FILEINFO_);
         }
 
@@ -277,8 +277,8 @@ namespace Isis {
           m_target = target;
         }
         else if (m_target != target) {
-          std::string msg = "Target name of [" + target + "] from file ["
-                        + filename + "] does not match [" + m_target + "].";
+          std::string msg = "Target name of [" + target.toStdString() + "] from file ["
+                        + filename.toStdString() + "] does not match [" + m_target.toStdString() + "].";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -286,14 +286,14 @@ namespace Isis {
       QString observationNumber = "Unknown";
       if (serialNumber == "Unknown") {
         std::string msg = "Invalid serial number [Unknown] from file ["
-                      + filename + "].";
+                      + filename.toStdString() + "].";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       else if (hasSerialNumber(serialNumber)) {
         int index = serialNumberIndex(serialNumber);
-        std::string msg = "Duplicate, serial number [" + serialNumber + "] from files ["
-                      + SerialNumberList::fileName(serialNumber)
-                      + "] and [" + fileName(index) + "].";
+        std::string msg = "Duplicate, serial number [" + serialNumber.toStdString() + "] from files ["
+                      + SerialNumberList::fileName(serialNumber).toStdString()
+                      + "] and [" + fileName(index).toStdString() + "].";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -303,13 +303,13 @@ namespace Isis {
         // Need to obtain the SpacecraftName and InstrumentId from the Instrument
         // group for use in bundle adjustment
         if (!cubeObj.hasGroup("Instrument")) {
-          std::string msg = "Unable to find Instrument group in " + filename
+          std::string msg = "Unable to find Instrument group in " + filename.toStdString()
                         + " needed for performing bundle adjustment.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         PvlGroup instGroup = cubeObj.findGroup("Instrument");
         if (!instGroup.hasKeyword("SpacecraftName") || !instGroup.hasKeyword("InstrumentId")) {
-          std::string msg = "Unable to find SpacecraftName or InstrumentId keywords in " + filename
+          std::string msg = "Unable to find SpacecraftName or InstrumentId keywords in " + filename.toStdString()
                         + " needed for performing bundle adjustment.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -318,7 +318,7 @@ namespace Isis {
       else {
         PvlGroup csmGroup = cubeObj.findGroup("CSMInfo");
         if (!csmGroup.hasKeyword("CSMPlatformID") || !csmGroup.hasKeyword("CSMInstrumentId")) {
-          std::string msg = "Unable to find CSMPlatformID or CSMInstrumentId keywords in " + filename
+          std::string msg = "Unable to find CSMPlatformID or CSMInstrumentId keywords in " + filename.toStdString()
                         + " needed for performing bundle adjustment.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -403,7 +403,7 @@ namespace Isis {
     }
     else {
       std::string msg = "Unable to get the FileName. The given serial number ["
-                    + sn + "] does not exist in the list.";
+                   + sn.toStdString() + "] does not exist in the list.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -493,7 +493,7 @@ namespace Isis {
     }
     else {
       std::string msg = "Unable to get the SerialNumber index. The given serial number ["
-                    + sn + "] does not exist in the list.";
+                   + sn.toStdString() + "] does not exist in the list.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -593,7 +593,7 @@ namespace Isis {
     }
     else {
       std::string msg = "Unable to get the Spacecraft InstrumentId. The given serial number ["
-                    + sn + "] does not exist in the list.";
+                   + sn.toStdString() + "] does not exist in the list.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -622,7 +622,7 @@ namespace Isis {
     }
     else {
       std::string msg = "Unable to get the possible serial numbers. The given observation number ["
-                    + on + "] does not exist in the list.";
+                    + on.toStdString() + "] does not exist in the list.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }

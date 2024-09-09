@@ -118,7 +118,7 @@ namespace Isis {
       }
       else {
         if(p_printPercent && p_autoDisplay) {
-          cout << p_text << endl;
+          cout << p_text.toStdString() << endl;
         }
       }
     }

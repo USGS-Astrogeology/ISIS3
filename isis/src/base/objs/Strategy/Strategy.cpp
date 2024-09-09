@@ -80,8 +80,8 @@ namespace Isis {
     PvlFlatMap parms(getDefinitionMap());
     m_name = parms.get("Name");
     m_type = parms.get("Type");
-    m_applyDiscarded = toBool(parms.get("ApplyToDiscarded", "false"));
-    m_debug = toBool(parms.get("Debug", "false"));
+    m_applyDiscarded = toBool(parms.get("ApplyToDiscarded", "false").toStdString());
+    m_debug = toBool(parms.get("Debug", "false").toStdString());
     initProgress();
   }
   
@@ -717,7 +717,7 @@ namespace Isis {
         geom = resource->value(giskey);
         
         // Erase key if requested
-        if ( toBool(keys.get("RemoveGisKeywordAfterImport", "false")) ) { 
+        if ( toBool(keys.get("RemoveGisKeywordAfterImport", "false").toStdString()) ) { 
           resource->erase(giskey); 
         }
       }
@@ -820,7 +820,7 @@ namespace Isis {
                                                      getGlobals(resource, globals), ""); 
 
         if ( !gisTolerance.isEmpty() ) {
-          tolerance = toDouble(gisTolerance);
+          tolerance = gisTolerance.toDouble();
           GisGeometry *simple = geosgeom->simplify(tolerance);
           if ( 0 != simple ) geosgeom.reset(simple);
           npoints = geosgeom->points();
@@ -833,14 +833,14 @@ namespace Isis {
                                                  getGlobals(resource, globals), 
                                                  ""); 
         if ( !pointsKey.isEmpty() ) {
-          resource->add(pointsKey, toString(npoints));
-          resource->add(pointsKey+"Original", toString(npointsOrg));
-          resource->add(pointsKey+"Tolerance", toString(tolerance));
+          resource->add(pointsKey, QString::number(npoints));
+          resource->add(pointsKey+"Original", QString::number(npointsOrg));
+          resource->add(pointsKey+"Tolerance", QString::number(tolerance));
         }
 
         //  Status if requested
         if ( isDebug() ) {
-          cout << "  " << type() << ":" << name() << " has a geometry with "
+          cout << "  " << type().toStdString() << ":" << name().toStdString() << " has a geometry with "
                << npoints << " points!\n";
           if ( npoints != npointsOrg ) {
             cout << "  Geometry has been simplified/reduced from original " 
@@ -853,7 +853,7 @@ namespace Isis {
   
     // Report geometry status
     if ( isDebug() ) {
-      cout << "  " << type() << ":" << name() << " does not have a geometry!\n";
+      cout << "  " << type().toStdString() << ":" << name().toStdString() << " does not have a geometry!\n";
     }
   
     return (false);
@@ -1005,7 +1005,7 @@ namespace Isis {
     // The programmer is required to ensure a valid geometry provides the
     // source of the intersection operation.
     if ( !geom.isValid() ) {
-      std::string mess = type() + ":" + name() + 
+      std::string mess = type().toStdString() + ":" + name().toStdString() + 
                      "Cannot apply RTree search to bad geometry."; 
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
@@ -1177,7 +1177,7 @@ namespace Isis {
     //  Check for initialization 
     if ( !doShowProgress()  ) {
       PvlFlatMap p_var( getDefinitionMap() );
-      if ( toBool(p_var.get("ShowProgress", "false")) ) {
+      if ( toBool(p_var.get("ShowProgress", "false").toStdString()) ) {
         m_progress.reset( new Progress() );
         if ( p_text.isEmpty() ) { 
            p_text = type() + "::" + name();

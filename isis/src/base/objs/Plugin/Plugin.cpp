@@ -61,8 +61,8 @@ namespace Isis {
 
     QFunctionPointer plugin = lib.resolve(pluginName.toLatin1().data());
     if (plugin == 0) {
-      std::string msg = "Unable to find plugin [" + pluginName +
-                    "] in shared library [" + lib.fileName() + "]";
+      std::string msg = "Unable to find plugin [" + pluginName.toStdString() +
+                    "] in shared library [" + lib.fileName().toStdString() + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 

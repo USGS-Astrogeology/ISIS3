@@ -218,7 +218,7 @@ namespace Isis {
     // Notify what we are translating and what the translating group is.
     if (isDebug) {
       cout << endl << "          ====================          " << endl;
-      cout << endl << "Translating output keyword: " << translationGroupName << endl;
+      cout << endl << "Translating output keyword: " << translationGroupName.toStdString() << endl;
       cout << endl << "Translation group:" << endl;
       cout << transGroup << endl << endl;
     }
@@ -228,7 +228,7 @@ namespace Isis {
     QString indent = "";
     if (isDebug) {
       cout << endl << "Finding input element:" << endl << endl;
-      cout << inputParentElement.tagName() << endl;
+      cout << inputParentElement.tagName().toStdString() << endl;
     }
     // traverse the input position path
     Pvl::ConstPvlKeywordIterator it = transGroup.findKeyword("InputPosition",
@@ -249,7 +249,7 @@ namespace Isis {
           }
           if (isDebug) {
             indent += "  ";
-            cout << indent << inputParentElement.tagName() << endl;
+            cout << indent.toStdString() << inputParentElement.tagName().toStdString() << endl;
           }
         }
         if (!inputParentElement.isNull()) {
@@ -263,7 +263,7 @@ namespace Isis {
         if (isDebug) {
           cout << endl << "Could not traverse input position, " <<
             "using default value: " <<
-            InputDefault(translationGroupName) << endl;
+            InputDefault(translationGroupName).toStdString() << endl;
         }
         return PvlTranslationTable::Translate( translationGroupName );
       }
@@ -278,7 +278,7 @@ namespace Isis {
     QDomElement inputKeyElement = inputParentElement.firstChildElement(inputKey);
     if (isDebug) {
       indent += "  ";
-      cout << indent << inputKeyElement.tagName() << endl;
+      cout << indent.toStdString() << inputKeyElement.tagName().toStdString() << endl;
     }
 
     // Check dependencies
@@ -305,7 +305,7 @@ namespace Isis {
       if ( hasInputDefault(translationGroupName) ) {
         if (isDebug) {
           cout << endl << "No input value found, using default value: " <<
-                          InputDefault(translationGroupName) << endl;
+                          InputDefault(translationGroupName).toStdString() << endl;
         }
         return PvlTranslationTable::Translate( translationGroupName );
       }
@@ -326,24 +326,24 @@ namespace Isis {
       else if (hasInputDefault(translationGroupName) ) {
         if (isDebug) {
           cout << endl << "No input value found, using default value: " <<
-                          InputDefault(translationGroupName) << endl;
+                          InputDefault(translationGroupName).toStdString() << endl;
         }
         return PvlTranslationTable::Translate( translationGroupName );
       }
       else {
-        std::string msg = "Input element [" + inputKeyElement.tagName() +
+        std::string msg = "Input element [" + inputKeyElement.tagName().toStdString() +
                       "] does not have an attribute named [" +
-                      attributeName + "].";
+                      attributeName.toStdString() + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
     if (isDebug) {
-          cout << endl << "Translating input value: " << inputValue << endl;
+          cout << endl << "Translating input value: " << inputValue.toStdString() << endl;
         }
     return PvlTranslationTable::Translate( translationGroupName, inputValue.trimmed() );
     }
     catch (IException &e){
-      std::string msg = "Failed to translate output value for [" + translationGroupName + "].";
+      std::string msg = "Failed to translate output value for [" + translationGroupName.toStdString() + "].";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -386,9 +386,9 @@ namespace Isis {
         cout << endl << "Testing dependency number " << toString(i+1) << endl;
         cout << "  Specification:    " << dependencies[i] << endl;
         cout << endl;
-        cout << "  Dependency type:  " << specification[0] << endl;
-        cout << "  Dependency name:  " << specification[1] << endl;
-        cout << "  Dependency value: " << specification[2] << endl;
+        cout << "  Dependency type:  " << specification[0].toStdString() << endl;
+        cout << "  Dependency name:  " << specification[1].toStdString() << endl;
+        cout << "  Dependency value: " << specification[2].toStdString() << endl;
       }
       if (specification[0] == "att") {
         if ( element.hasAttributes() ) {
@@ -396,8 +396,8 @@ namespace Isis {
           QString attributeValue = atts.namedItem(specification[1]).nodeValue();
           if (isDebug) {
             cout << endl;
-            cout << "  Attribute name:   " << atts.namedItem(specification[1]).nodeName();
-            cout << "  Attribute value:  " << attributeValue << endl;
+            cout << "  Attribute name:   " << atts.namedItem(specification[1]).nodeName().toStdString();
+            cout << "  Attribute value:  " << attributeValue.toStdString() << endl;
           }
           if ( attributeValue != specification[2] ) {
             // attribute value does not match specification or
@@ -416,8 +416,8 @@ namespace Isis {
         QString siblingValue = candidateSibling.text();
         if (isDebug) {
           cout << endl;
-          cout << "  Tag name:         " << candidateSibling.tagName() << endl;
-          cout << "  Tag value:        " << siblingValue << endl;
+          cout << "  Tag name:         " << candidateSibling.tagName().toStdString() << endl;
+          cout << "  Tag value:        " << siblingValue.toStdString() << endl;
         }
         if (siblingValue != specification[2] ) {
           // sibling tag value does not match specification or
@@ -427,7 +427,7 @@ namespace Isis {
       }
 
       else {
-        std::string msg = "Parsing error, dependency type [" + specification[0] +
+        std::string msg = "Parsing error, dependency type [" + specification[0].toStdString() +
                       "] is not [att] or [tag].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }

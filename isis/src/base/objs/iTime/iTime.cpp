@@ -9,6 +9,9 @@ find files of those names at the top level of this repository. **/
 #include <sstream>
 
 #include <QString>
+#include <QStringList>
+
+#include <QRegExp>
 
 #include "Preference.h"
 
@@ -218,7 +221,7 @@ namespace Isis {
    * @return string
    */
   QString iTime::YearString() const {
-    return toString(Year());
+    return QString::number(Year());
   }
 
   /**
@@ -242,7 +245,7 @@ namespace Isis {
    * @return string
    */
   QString iTime::MonthString() const {
-    return toString(Month());
+    return QString::number(Month());
   }
 
   /**
@@ -266,7 +269,7 @@ namespace Isis {
    * @return string
    */
   QString iTime::DayString() const {
-    return toString(Day());
+    return QString::number(Day());
   }
 
   /**
@@ -290,7 +293,7 @@ namespace Isis {
    * @return string
    */
   QString iTime::HourString() const {
-    return toString(Hour());
+    return QString::number(Hour());
   }
 
   /**
@@ -314,7 +317,7 @@ namespace Isis {
    * @return string
    */
   QString iTime::MinuteString() const {
-    return toString(Minute());
+    return QString::number(Minute());
   }
 
   /**
@@ -369,7 +372,7 @@ namespace Isis {
    * @return string
    */
   QString iTime::DayOfYearString() const {
-    return toString(DayOfYear());
+    return QString::number(DayOfYear());
   }
 
   /**
@@ -394,7 +397,7 @@ namespace Isis {
    * @return string
    */
   QString iTime::EtString() const {
-    return toString(p_et);
+    return QString::number(p_et);
   }
 
   /**

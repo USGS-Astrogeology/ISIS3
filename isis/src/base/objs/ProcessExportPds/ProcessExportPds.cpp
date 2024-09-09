@@ -1019,7 +1019,7 @@ namespace Isis {
     char *tableBuffer = new char[isisTable.Records() * fileRecordBytes];
     PvlObject metadata = pdsTable.exportTable(tableBuffer,
                                               fileRecordBytes,
-                                              ByteOrderName(p_endianType));
+                                              QString::fromStdString(ByteOrderName(p_endianType)));
     QString pdsTableName = pdsTable.formatPdsTableName();
     Pvl &mainPvl = *m_label;
     if (Attached()) {

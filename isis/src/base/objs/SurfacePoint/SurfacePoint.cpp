@@ -1369,7 +1369,7 @@ namespace Isis {
     }
     else {
       throw IException(IException::Programmer,
-                          "Unknown coordinate type for a SurfacePoint [" + type + "].",
+                          "Unknown coordinate type for a SurfacePoint [" + type.toStdString() + "].",
                           _FILEINFO_);
     }
   }

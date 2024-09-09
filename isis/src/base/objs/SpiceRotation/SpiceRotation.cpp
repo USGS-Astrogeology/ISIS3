@@ -119,7 +119,7 @@ namespace Isis {
     m_orientation = NULL;
 
     // Determine the axis for the velocity vector
-    QString key = "INS" + toString(frameCode) + "_TRANSX";
+    QString key = "INS" + QString::number(frameCode) + "_TRANSX";
     SpiceDouble transX[2];
     SpiceInt number;
     SpiceBoolean found;
@@ -127,7 +127,7 @@ namespace Isis {
     gdpool_c(key.toLatin1().data(), 1, 2, &number, transX, &found);
 
     if (!found) {
-      std::string msg = "Cannot find [" + key + "] in text kernels";
+      std::string msg = "Cannot find [" + key.toStdString() + "] in text kernels";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
@@ -993,7 +993,7 @@ namespace Isis {
       // added, this case is not being used in the pck file.  It is mentioned in the Naif required
       // reading file, pck.req, as a possibility for future pck files.
       // Look for a reference frame keyword for the body.  The default is J2000.
-      QString naifKeyword = "BODY" + toString(centerBodyCode) + "_CONSTANTS_REF_FRAME" ;
+      QString naifKeyword = "BODY" + QString::number(centerBodyCode) + "_CONSTANTS_REF_FRAME" ;
       SpiceInt numExpected;
       SpiceInt numReturned;
       SpiceChar naifType;
@@ -1012,7 +1012,7 @@ namespace Isis {
 
         // Make sure the standard coefficients are available for the body code by
         // checking for ra
-        naifKeyword = "BODY" + toString(centerBodyCode) + "_POLE_RA" ;
+        naifKeyword = "BODY" + QString::number(centerBodyCode) + "_POLE_RA" ;
         dtpool_c(naifKeyword.toLatin1().data(), &found, &numExpected, &naifType);
 
         if (found) {
@@ -1041,13 +1041,13 @@ namespace Isis {
 
           // Now check for nutation/precession terms.  Check for nut/prec ra values
           // first to see if the terms are even used for this body.
-          naifKeyword = "BODY" + toString(centerBodyCode) + "_NUT_PREC_RA" ;
+          naifKeyword = "BODY" + QString::number(centerBodyCode) + "_NUT_PREC_RA" ;
           dtpool_c(naifKeyword.toLatin1().data(), &found, &numReturned, &naifType);
           if (found) {
             // Get the barycenter (bc) linear coefficients first (2 for each period).
             // Then we can get the maximum expected coefficients.
             SpiceInt bcCode = centerBodyCode/100;  // Ex: bc code for Jupiter (599) & its moons is 5
-            naifKeyword = "BODY" + toString(bcCode) + "_NUT_PREC_ANGLES" ;
+            naifKeyword = "BODY" + QString::number(bcCode) + "_NUT_PREC_ANGLES" ;
             dtpool_c(naifKeyword.toLatin1().data(), &found, &numExpected, &naifType);
             std::vector<double>npAngles(numExpected, 0.);
             bodvcd_c(bcCode, "NUT_PREC_ANGLES", numExpected, &numReturned, &npAngles[0]);

@@ -371,7 +371,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
         }
         else {
           std::string msg = "You've chosen to reduce your output PixelType for [" +
-                       fname + "] you must specify the output pixel range too";
+                       fname.toStdString() + "] you must specify the output pixel range too";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -410,7 +410,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
         Isis::Pvl &inlab = *InputCubes[0]->label();
         for(int i = 0; i < inlab.objects(); i++) {
           if(inlab.object(i).isNamed("Table")) {
-            Isis::Blob t(QString::fromStdString(inlab.object(i)["Name"]), inlab.object(i).name());
+            Isis::Blob t(inlab.object(i)["Name"], inlab.object(i).name());
             InputCubes[0]->read(t);
             cube->write(t);
           }
@@ -422,7 +422,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
         Isis::Pvl &inlab = *InputCubes[0]->label();
         for(int i = 0; i < inlab.objects(); i++) {
           if(inlab.object(i).isNamed("Polygon")) {
-            Isis::Blob t(QString::fromStdString(inlab.object(i)["Name"]), inlab.object(i).name());
+            Isis::Blob t(inlab.object(i)["Name"], inlab.object(i).name());
             InputCubes[0]->read(t);
             cube->write(t);
           }
@@ -577,7 +577,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
     // Test for one band
     if(requirements & Isis::OneBand) {
       if(cube->bandCount() != 1) {
-        std::string message = "Input cube [" + cube->fileName() + "] must have one band";
+        std::string message = "Input cube [" + cube->fileName().toStdString() + "] must have one band";
         throw IException(IException::User, message, _FILEINFO_);
       }
     }
@@ -722,7 +722,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
 
         if (object.isNamed("Table")) {
           if (tableNames.isEmpty() || tableNames.contains(QString::fromStdString(object["Name"]))) {
-            Blob table(QString::fromStdString(object["Name"]), object.name());
+            Blob table(object["Name"], object.name());
             fromCube->read(table);
             OutputCubes[i]->write(table);
           }
@@ -793,7 +793,7 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
     // See if the data directory is installed
     Isis::FileName installed(dir);
     if(!installed.fileExists()) {
-      std::string message = "Data directory for mission [" + mission + "] " +
+      std::string message = "Data directory for mission [" + mission.toStdString() + "] " +
                        "is not installed at your site";
       throw IException(IException::Io, message, _FILEINFO_);
     }
@@ -867,9 +867,9 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
       int bandStop = cube->bandCount();
       int maxSteps = cube->lineCount() * cube->bandCount();
 
-      QString cubeNumStr = toString(cubeNum + 1);
-      QString totalCubes = toString((int)InputCubes.size());
-      std::string msg = "Calculating statistics for cube " + cubeNumStr + " of " + totalCubes;
+      QString cubeNumStr = QString::number(cubeNum + 1);
+      QString totalCubes = QString::number((int)InputCubes.size());
+      QString msg = "Calculating statistics for cube " + cubeNumStr + " of " + totalCubes;
 
       Isis::Progress progress;
       progress.SetText(msg);

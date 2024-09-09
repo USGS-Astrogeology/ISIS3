@@ -61,7 +61,7 @@ namespace Isis {
     // the Qt exporter only exports unsigned byte
     if (desc.pixelType() != UnsignedByte) {
       std::string msg = "Invalid pixel type. The Qt exporter for file type [";
-      msg += m_format;
+      msg += m_format.toStdString();
       msg += "] requires an unsigned byte (i.e. 8BIT) output.";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }

@@ -106,7 +106,7 @@ namespace Isis {
 
     if (pdsXlater.InputHasKeyword("EquatorialRadius")) {
       str = pdsXlater.Translate("EquatorialRadius");
-      p_equatorialRadius = toDouble(str) * 1000.0;
+      p_equatorialRadius = str.toDouble() * 1000.0;
     }
     else {
       std::string message = "No equatorial radius name in labels";
@@ -115,7 +115,7 @@ namespace Isis {
 
     if (pdsXlater.InputHasKeyword("PolarRadius")) {
       str = pdsXlater.Translate("PolarRadius");
-      p_polarRadius = toDouble(str) * 1000.0;
+      p_polarRadius = str.toDouble() * 1000.0;
     }
     else {
       std::string message = "No polar radius in labels";
@@ -142,7 +142,7 @@ namespace Isis {
     if (pdsXlater.InputHasKeyword("MinimumLatitude")) {
       str = pdsXlater.Translate("MinimumLatitude");
       try {
-        p_minimumLatitude = toDouble(str);
+        p_minimumLatitude = str.toDouble();
       }
       catch(IException &e) {
         p_minimumLatitude = Isis::NULL8;
@@ -155,7 +155,7 @@ namespace Isis {
     if (pdsXlater.InputHasKeyword("MaximumLatitude")) {
       str = pdsXlater.Translate("MaximumLatitude");
       try {
-        p_maximumLatitude = toDouble(str);
+        p_maximumLatitude = str.toDouble();
       }
       catch(IException &e) {
         p_maximumLatitude = Isis::NULL8;
@@ -172,7 +172,7 @@ namespace Isis {
       str = pdsXlater.Translate("MinimumLongitude");
       try {
         positiveWest = true;
-        p_minimumLongitude = toDouble(str);
+        p_minimumLongitude = str.toDouble();
       }
       catch(IException &e) {
         p_minimumLongitude = Isis::NULL8;
@@ -181,7 +181,7 @@ namespace Isis {
     else if (pdsXlater.InputHasKeyword("MinimumLongitude2")) {
       str = pdsXlater.Translate("MinimumLongitude2");
       try {
-        p_minimumLongitude = toDouble(str);
+        p_minimumLongitude = str.toDouble();
       }
       catch(IException &e) {
         p_minimumLongitude = Isis::NULL8;
@@ -195,7 +195,7 @@ namespace Isis {
       str = pdsXlater.Translate("MaximumLongitude");
       try {
         positiveWest = true;
-        p_maximumLongitude = toDouble(str);
+        p_maximumLongitude = str.toDouble();
       }
       catch(IException &e) {
         p_maximumLongitude = Isis::NULL8;
@@ -204,7 +204,7 @@ namespace Isis {
     else if (pdsXlater.InputHasKeyword("MaximumLongitude2")) {
       str = pdsXlater.Translate("MaximumLongitude2");
       try {
-        p_maximumLongitude = toDouble(str);
+        p_maximumLongitude = str.toDouble();
       }
       catch(IException &e) {
         p_maximumLongitude = Isis::NULL8;
@@ -215,7 +215,7 @@ namespace Isis {
     }
 
     str = pdsXlater.Translate("LongitudeDomain");
-    p_longitudeDomain = toInt(str);
+    p_longitudeDomain = str.toInt();
 
     /**
      * The input file does not have a longitude domain.
@@ -254,7 +254,7 @@ namespace Isis {
     }
 
     str = pdsXlater.Translate("PixelResolution");
-    p_pixelResolution = toDouble(str);
+    p_pixelResolution = str.toDouble();
     str = QString::fromStdString(pdsXlater.InputKeyword("PixelResolution").unit()).toUpper();
     // Assume KM/PIXEL if the unit doesn't exist or is not METERS/PIXEL
     if ((str != "METERS/PIXEL") && (str != "M/PIXEL") && (str != "M/PIX")) {
@@ -262,11 +262,11 @@ namespace Isis {
     }
 
     str = pdsXlater.Translate("Scale");
-    p_scaleFactor = toDouble(str);
+    p_scaleFactor = str.toDouble();
 
     try {
       str = pdsXlater.Translate("Rotation");
-      p_rotation = toDouble(str);
+      p_rotation = str.toDouble();
     }
     catch(IException &) {
       // assume no rotation if the value isn't a number
@@ -283,7 +283,7 @@ namespace Isis {
     else {
       str = pdsXlater.Translate("LineProjectionOffset2");
     }
-    p_lineProjectionOffset = toDouble(str);
+    p_lineProjectionOffset = str.toDouble();
     p_upperLeftY = ymult * (p_lineProjectionOffset + yoff) * p_pixelResolution;
 
     if (pdsXlater.InputHasKeyword("SampleProjectionOffset")) {
@@ -292,7 +292,7 @@ namespace Isis {
     else {
       str = pdsXlater.Translate("SampleProjectionOffset2");
     }
-    p_sampleProjectionOffset = toDouble(str);
+    p_sampleProjectionOffset = str.toDouble();
     p_upperLeftX = xmult * (p_sampleProjectionOffset + xoff) * p_pixelResolution;
 
     p_projectionOffsetGroup.addKeyword(PvlKeyword("xOffset", std::to_string(xoff)));
@@ -495,7 +495,7 @@ namespace Isis {
     if (dataFilePointer.size() == 1) {
       try {
         str = pdsXlater.Translate("DataFilePointer");
-        offset = toInt(str);
+        offset = str.toInt();
         units = QString::fromStdString(dataFilePointer.unit());
         // Successful? we have an offset, means current, p_labelFile
         // is the location of the data as well
@@ -513,20 +513,20 @@ namespace Isis {
     // Expection ("filname", <offset>)
     else if (dataFilePointer.size() == 2) {
       dataFileName = pdsXlater.Translate("DataFilePointer", 0);
-      offset = IString(pdsXlater.Translate("DataFilePointer", 1)).ToInteger();
+      offset = IString(pdsXlater.Translate("DataFilePointer", 1).toStdString()).ToInteger();
       units = QString::fromStdString(dataFilePointer.unit(1));
     }
     // Error, no value
     else if (dataFilePointer.size() == 0) {
       std::string msg = "Data file pointer ^IMAGE or ^QUBE has no value, must"
                    "have either file name or offset or both, in [" +
-                   p_labelFile + "]";
+                   p_labelFile.toStdString() + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     // Error, more than two values
     else {
       std::string msg = "Improperly formatted data file pointer keyword ^IMAGE or "
-                   "^QUBE, in [" + p_labelFile + "], must contain filename "
+                   "^QUBE, in [" + p_labelFile.toStdString() + "], must contain filename "
                    " or offset or both";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -571,7 +571,7 @@ namespace Isis {
     }
     else {
       QString recSize = pdsXlater.Translate("DataFileRecordBytes");
-      SetFileHeaderBytes((offset - 1) * toInt(recSize));
+      SetFileHeaderBytes((offset - 1) * recSize.toInt());
     }
   }
 
@@ -690,7 +690,7 @@ namespace Isis {
         }
       }
       else {
-        std::string msg = "Unsupported encoding type in [" + p_labelFile + "]";
+        std::string msg = "Unsupported encoding type in [" + p_labelFile.toStdString() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
     }
@@ -732,7 +732,7 @@ namespace Isis {
       ProcessPdsCombinedSpectrumLabel(pdsDataFile);
     }
     else {
-      std::string msg = "Unknown label type in [" + p_labelFile + "]. It is possible the label file "
+      std::string msg = "Unknown label type in [" + p_labelFile.toStdString() + "]. It is possible the label file "
 +                    "does not describe an image product (IMAGE, CUBE, or SPECTRALCUBE).";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -764,22 +764,22 @@ namespace Isis {
     QString str;
 
     str = pdsXlater.Translate("CoreLinePrefixBytes");
-    SetDataPrefixBytes(toInt(str));
+    SetDataPrefixBytes(str.toInt());
 
     str = pdsXlater.Translate("CoreLineSuffixBytes");
-    SetDataSuffixBytes(toInt(str));
+    SetDataSuffixBytes(str.toInt());
 
     ProcessPixelBitandType(pdsXlater);
 
     str = pdsXlater.Translate("CoreByteOrder");
-    SetByteOrder(Isis::ByteOrderEnumeration(str));
+    SetByteOrder(Isis::ByteOrderEnumeration(str.toStdString()));
 
     str = pdsXlater.Translate("CoreSamples");
-    int ns = toInt(str);
+    int ns = str.toInt();
     str = pdsXlater.Translate("CoreLines");
-    int nl = toInt(str);
+    int nl = str.toInt();
     str = pdsXlater.Translate("CoreBands");
-    int nb = toInt(str);
+    int nb = str.toInt();
 
     SetDimensions(ns, nl, nb);
 
@@ -809,9 +809,9 @@ namespace Isis {
     // Find the image data base and multiplier
     //------------------------------------------------------------
     str = pdsXlater.Translate("CoreBase");
-    SetBase(toDouble(str));
+    SetBase(str.toDouble());
     str = pdsXlater.Translate("CoreMultiplier");
-    SetMultiplier(toDouble(str));
+    SetMultiplier(str.toDouble());
 
     // Find the organization of the image data
     str = pdsXlater.Translate("CoreOrganization");
@@ -829,7 +829,7 @@ namespace Isis {
       SetOrganization(ProcessImport::BIL);
     }
     else {
-      std::string msg = "Unsupported axis order [" + str + "]";
+      std::string msg = "Unsupported axis order [" + str.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -882,7 +882,7 @@ namespace Isis {
         bandPos = i;
       }
       else {
-        std::string message = "Unknown file axis name [" + str + "]";
+        std::string message = "Unknown file axis name [" + str.toStdString() + "]";
         throw IException(IException::User, message, _FILEINFO_);
       }
     }
@@ -906,7 +906,7 @@ namespace Isis {
       stringstream pdsCoreOrgStream;
       pdsCoreOrgStream << pdsCoreOrg;
 
-      std::string msg = "Unsupported axis order [" + QString(pdsCoreOrgStream.str().c_str()) + "]";
+      std::string msg = "Unsupported axis order [" + (std::string)pdsCoreOrgStream.str().c_str() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -917,20 +917,20 @@ namespace Isis {
 
     // Set the number of bytes following the second dimension (right side plane)
     str = pdsXlater.Translate("SuffixItemSize");
-    int suffix = toInt(str);
+    int suffix = str.toInt();
     str = pdsXlater.Translate("AxisSuffixCount", 0);
-    suffix *= toInt(str);
+    suffix *= str.toInt();
     SetDataSuffixBytes(suffix);
 
     str = pdsXlater.Translate("SuffixItemSize");
 
     // Only set DataTrailerBytes if we haven't already set it elsewhere. (It's inialized to 0.)
     if (DataTrailerBytes() == 0) {
-      int trailer = toInt(str);
+      int trailer = str.toInt();
       str = pdsXlater.Translate("AxisSuffixCount", 1);
-      trailer *= toInt(str);
+      trailer *= str.toInt();
       str = pdsXlater.Translate("CoreSamples", samplePos);
-      trailer *= toInt(str);
+      trailer *= str.toInt();
       trailer += suffix;
       SetDataTrailerBytes(trailer);
     }
@@ -947,7 +947,7 @@ namespace Isis {
     //tjw:
     str = pdsXlater.Translate("CoreByteOrder");
 
-    SetByteOrder(Isis::ByteOrderEnumeration(str));
+    SetByteOrder(Isis::ByteOrderEnumeration(str.toStdString()));
 
     //if(str == "LSB" || str == "MSB")
     //    SetByteOrder(Isis::ByteOrderEnumeration(str));
@@ -960,11 +960,11 @@ namespace Isis {
 
     // Set the number of samples, lines and bands
     str = pdsXlater.Translate("CoreSamples", samplePos);
-    int ns = toInt(str);
+    int ns = str.toInt();
     str = pdsXlater.Translate("CoreLines", linePos);
-    int nl = toInt(str);
+    int nl = str.toInt();
     str = pdsXlater.Translate("CoreBands", bandPos);
-    int nb = toInt(str);
+    int nb = str.toInt();
     SetDimensions(ns, nl, nb);
 
 
@@ -1003,18 +1003,18 @@ namespace Isis {
       vector<double> mults;
       for(int i = 0; i < pdsXlater.InputKeyword("BandBase").size(); i++) {
         str = pdsXlater.Translate("BandBase", i);
-        bases.push_back(toDouble(str));
+        bases.push_back(str.toDouble());
         str = pdsXlater.Translate("BandMultiplier", i);
-        mults.push_back(toDouble(str));
+        mults.push_back(str.toDouble());
       }
       SetBase(bases);
       SetMultiplier(mults);
     }
     else {
       str = pdsXlater.Translate("CoreBase");
-      SetBase(toDouble(str));
+      SetBase(str.toDouble());
       str = pdsXlater.Translate("CoreMultiplier");
-      SetMultiplier(toDouble(str));
+      SetMultiplier(str.toDouble());
     }
   }
 
@@ -1037,22 +1037,22 @@ namespace Isis {
     QString str;
 
     str = pdsXlater.Translate("CoreLinePrefixBytes");
-    SetDataPrefixBytes(toInt(str));
+    SetDataPrefixBytes(str.toInt());
 
     str = pdsXlater.Translate("CoreLineSuffixBytes");
-    SetDataSuffixBytes(toInt(str));
+    SetDataSuffixBytes(str.toInt());
 
     ProcessPixelBitandType(pdsXlater);
 
     str = pdsXlater.Translate("CoreByteOrder");
-    SetByteOrder(Isis::ByteOrderEnumeration(str));
+    SetByteOrder(Isis::ByteOrderEnumeration(str.toStdString()));
 
     str = pdsXlater.Translate("CoreSamples");
-    int ns = toInt(str);
+    int ns = str.toInt();
     str = pdsXlater.Translate("CoreLines");
-    int nl = toInt(str);
+    int nl = str.toInt();
     str = pdsXlater.Translate("CoreBands");
-    int nb = toInt(str);
+    int nb = str.toInt();
 
     SetDimensions(ns, nl, nb);
 
@@ -1086,9 +1086,9 @@ namespace Isis {
     // Find the image data base and multiplier
     //------------------------------------------------------------
     str = pdsXlater.Translate("CoreBase");
-    SetBase(toDouble(str));
+    SetBase(str.toDouble());
     str = pdsXlater.Translate("CoreMultiplier");
-    SetMultiplier(toDouble(str));
+    SetMultiplier(str.toDouble());
 
     // Find the organization of the image data
     str = pdsXlater.Translate("CoreOrganization");
@@ -1106,7 +1106,7 @@ namespace Isis {
       SetOrganization(ProcessImport::BIL);
     }
     else {
-      std::string msg = "Unsupported axis order [" + str + "]";
+      std::string msg = "Unsupported axis order [" + str.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -1119,7 +1119,7 @@ namespace Isis {
   void ProcessImportPds::ProcessPixelBitandType(Isis::PvlToPvlTranslationManager & pdsXlater) {
     QString str;
     str = pdsXlater.Translate("CoreBitsPerPixel");
-    int bitsPerPixel = toInt(str);
+    int bitsPerPixel = str.toInt();
     str = pdsXlater.Translate("CorePixelType");
 
     if ((str == "Real") && (bitsPerPixel == 64)) {
@@ -1195,22 +1195,22 @@ namespace Isis {
     //  L1B (Rdn) products do not have an prefix or suffix data.  L0 have 1280 bytes at the
     //  beginning of each line of the BIL formatted file.
     str = pdsXlater.Translate("CoreLinePrefixBytes");
-    SetDataHeaderBytes(toInt(str));
+    SetDataHeaderBytes(str.toInt());
 
     str = pdsXlater.Translate("CoreLineSuffixBytes");
-    SetDataSuffixBytes(toInt(str));
+    SetDataSuffixBytes(str.toInt());
 
     ProcessPixelBitandType(pdsXlater);
 
     str = pdsXlater.Translate("CoreByteOrder");
-    SetByteOrder(Isis::ByteOrderEnumeration(str));
+    SetByteOrder(Isis::ByteOrderEnumeration(str.toStdString()));
 
     str = pdsXlater.Translate("CoreSamples");
-    int ns = toInt(str);
+    int ns = str.toInt();
     str = pdsXlater.Translate("CoreLines");
-    int nl = toInt(str);
+    int nl = str.toInt();
     str = pdsXlater.Translate("CoreBands");
-    int nb = toInt(str);
+    int nb = str.toInt();
     SetDimensions(ns, nl, nb);
 
     // Set any special pixel values, not qube, so use false
@@ -1243,9 +1243,9 @@ namespace Isis {
     // Find the image data base and multiplier
     //------------------------------------------------------------
     str = pdsXlater.Translate("CoreBase");
-    SetBase(toDouble(str));
+    SetBase(str.toDouble());
     str = pdsXlater.Translate("CoreMultiplier");
-    SetMultiplier(toDouble(str));
+    SetMultiplier(str.toDouble());
 
     // Find the organization of the image data
     str = pdsXlater.Translate("CoreOrganization");
@@ -1263,7 +1263,7 @@ namespace Isis {
       SetOrganization(ProcessImport::BIL);
     }
     else {
-      std::string msg = "Unsupported axis order [" + str + "]";
+      std::string msg = "Unsupported axis order [" + str.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -1279,13 +1279,13 @@ namespace Isis {
     if (pdsXlater.InputHasKeyword("CoreNull")) {
       str = pdsXlater.Translate("CoreNull");
       if (str != "NULL") {
-        pdsNull = toDouble(str);
+        pdsNull = str.toDouble();
       }
     }
     else if (!isQube && pdsXlater.InputHasKeyword("CoreNull2")) {
       str = pdsXlater.Translate("CoreNull2");
       if (str != "NULL") {
-        pdsNull = toDouble(str);
+        pdsNull = str.toDouble();
       }
     }
 
@@ -1293,13 +1293,13 @@ namespace Isis {
     if (pdsXlater.InputHasKeyword("CoreLrs")) {
       str = pdsXlater.Translate("CoreLrs");
       if (str != "NULL") {
-        pdsLrs = toDouble(str);
+        pdsLrs = str.toDouble();
       }
     }
     else if (!isQube && pdsXlater.InputHasKeyword("CoreLrs2")) {
       str = pdsXlater.Translate("CoreLrs2");
       if (str != "NULL") {
-        pdsLrs = toDouble(str);
+        pdsLrs = str.toDouble();
       }
     }
 
@@ -1307,13 +1307,13 @@ namespace Isis {
     if (pdsXlater.InputHasKeyword("CoreLis")) {
       str = pdsXlater.Translate("CoreLis");
       if (str != "NULL") {
-        pdsLis = toDouble(str);
+        pdsLis = str.toDouble();
       }
     }
     else if (!isQube && pdsXlater.InputHasKeyword("CoreLis2")) {
       str = pdsXlater.Translate("CoreLis2");
       if (str != "NULL") {
-        pdsLis = toDouble(str);
+        pdsLis = str.toDouble();
       }
     }
 
@@ -1321,13 +1321,13 @@ namespace Isis {
     if (pdsXlater.InputHasKeyword("CoreHrs")) {
       str = pdsXlater.Translate("CoreHrs");
       if (str != "NULL") {
-        pdsHrs = toDouble(str);
+        pdsHrs = str.toDouble();
       }
     }
     else if (!isQube && pdsXlater.InputHasKeyword("CoreHrs2")) {
       str = pdsXlater.Translate("CoreHrs2");
       if (str != "NULL") {
-        pdsHrs = toDouble(str);
+        pdsHrs = str.toDouble();
       }
     }
 
@@ -1335,13 +1335,13 @@ namespace Isis {
     if (pdsXlater.InputHasKeyword("CoreHis")) {
       str = pdsXlater.Translate("CoreHis");
       if (str != "NULL") {
-        pdsHis = toDouble(str);
+        pdsHis = str.toDouble();
       }
     }
     else if (!isQube && pdsXlater.InputHasKeyword("CoreHis2")) {
       str = pdsXlater.Translate("CoreHis2");
       if (str != "NULL") {
-        pdsHis = toDouble(str);
+        pdsHis = str.toDouble();
       }
     }
 
@@ -1402,9 +1402,9 @@ namespace Isis {
     }
     catch (IException &e) {
       throw IException(e, IException::User,
-                       QObject::tr("This image does not contain a pds label.  You will need an "
+                       "This image does not contain a pds label.  You will need an "
                                    "image with a PDS label or a detached PDS label for this "
-                                   "image."), _FILEINFO_);
+                                   "image.", _FILEINFO_);
     }
 
     // Save the label and file for future use

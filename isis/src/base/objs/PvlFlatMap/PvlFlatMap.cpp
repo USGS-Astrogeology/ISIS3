@@ -577,11 +577,11 @@ namespace Isis {
                           const int &index) const {
     QMap<QString, PvlKeyword>::const_iterator k = find(key.toLower());
     if (end() == k) {
-      std::string mess = "Keyword " + key + " does not exist!";
+      std::string mess = "Keyword " + key.toStdString() + " does not exist!";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
     if (index >= k.value().size()) {
-      std::string mess = "Index " + toString(index) + " does not exist for keyword " + key + "!";
+      std::string mess = "Index " + toString(index) + " does not exist for keyword " + key.toStdString() + "!";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
   
@@ -660,7 +660,7 @@ namespace Isis {
   PvlKeyword PvlFlatMap::keyword(const QString &key) const {
     QMap<QString, PvlKeyword>::const_iterator k = find(key.toLower());
     if (end() == k) {
-      std::string mess = "Keyword " + key + " does not exist!";
+      std::string mess = "Keyword " + key.toStdString() + " does not exist!";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
     return (k.value());

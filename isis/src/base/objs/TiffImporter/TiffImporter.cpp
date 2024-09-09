@@ -35,8 +35,7 @@ namespace Isis {
     // Open the TIFF image
     m_image = NULL;
     if ((m_image = XTIFFOpen(inputName.expanded().c_str(), "r")) == NULL) {
-      throw IException(IException::Programmer,
-          QString("Could not open TIFF image [") + inputName.expanded().c_str() + "]", _FILEINFO_);
+      throw IException(IException::Programmer, "Could not open TIFF image [" + inputName.expanded() + "]", _FILEINFO_);
     }
 
     // Get its constant dimensions.  Note, height seems to get reset to 0 if

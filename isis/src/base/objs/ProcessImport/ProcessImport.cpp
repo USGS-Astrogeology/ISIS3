@@ -269,7 +269,7 @@ namespace Isis {
     }
     else {
       std::string msg = "Unsupported pixel type [" +
-                   Isis::PixelTypeName(type) + "]";
+                   Isis::PixelTypeName(type).toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -282,7 +282,7 @@ namespace Isis {
     }
     else {
       std::string msg = "Unsupported pixel type [" +
-                   Isis::PixelTypeName(type) + "]";
+                   Isis::PixelTypeName(type).toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -1103,7 +1103,7 @@ namespace Isis {
           (pixelMax > p_null_min && pixelMax < p_null_max) ||  // --max crossing
           (pixelMin < p_null_min && pixelMax > p_null_max))) { // --straddling
                                                                //   values
-      std::string msg = "The " + pixelName + " range [" + toString(pixelMin) +
+      std::string msg = "The " + pixelName.toStdString() + " range [" + toString(pixelMin) +
                    "," + toString(pixelMax) + "] overlaps the NULL range [" +
                    toString(p_null_min) + "," + toString(p_null_max) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -1113,7 +1113,7 @@ namespace Isis {
           (pixelMin > p_lrs_min && pixelMin < p_lrs_max) ||
           (pixelMax > p_lrs_min && pixelMax < p_lrs_max) ||
           (pixelMin < p_lrs_min && pixelMax > p_lrs_max))) {
-      std::string msg = "The " + pixelName + " range [" + toString(pixelMin) +
+      std::string msg = "The " + pixelName.toStdString() + " range [" + toString(pixelMin) +
                    "," + toString(pixelMax) + "] overlaps the LRS range [" +
                    toString(p_lrs_min) + "," + toString(p_lrs_max) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -1123,7 +1123,7 @@ namespace Isis {
           (pixelMin > p_lis_min && pixelMin < p_lis_max) ||
           (pixelMax > p_lis_min && pixelMax < p_lis_max) ||
           (pixelMin < p_lis_min && pixelMax > p_lis_max))) {
-      std::string msg = "The " + pixelName + " range [" + toString(pixelMin) +
+      std::string msg = "The " + pixelName.toStdString() + " range [" + toString(pixelMin) +
                    "," + toString(pixelMax) + "] overlaps the LIS range [" +
                    toString(p_lis_min) + "," + toString(p_lis_max) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -1133,7 +1133,7 @@ namespace Isis {
           (pixelMin > p_hrs_min && pixelMin < p_hrs_max) ||
           (pixelMax > p_hrs_min && pixelMax < p_hrs_max) ||
           (pixelMin < p_hrs_min && pixelMax > p_hrs_max))) {
-      std::string msg = "The " + pixelName + " range [" + toString(pixelMin) +
+      std::string msg = "The " + pixelName.toStdString() + " range [" + toString(pixelMin) +
                    "," + toString(pixelMax) + "] overlaps the HRS range [" +
                    toString(p_hrs_min) + "," + toString(p_hrs_max) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -1143,7 +1143,7 @@ namespace Isis {
           (pixelMin > p_his_min && pixelMin < p_his_max) ||
           (pixelMax > p_his_min && pixelMax < p_his_max) ||
           (pixelMin < p_his_min && pixelMax > p_his_max))) {
-      std::string msg = "The " + pixelName + " range [" + toString(pixelMin) +
+      std::string msg = "The " + pixelName.toStdString() + " range [" + toString(pixelMin) +
                    "," + toString(pixelMax) + "] overlaps the HIS range [" +
                    toString(p_his_min) + "," + toString(p_his_max) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -1226,7 +1226,7 @@ namespace Isis {
       }
       else {
         std::string msg = "Unsupported pixel type [" +
-                     Isis::PixelTypeName(p_pixelType) + "]";
+                     Isis::PixelTypeName(p_pixelType).toStdString() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
       att.setMinimum(min);
@@ -1312,7 +1312,7 @@ namespace Isis {
       ProcessBip();
     }
     else {
-      std::string msg = "File [" + p_inFile
+      std::string msg = "File [" + p_inFile.toStdString()
                    + "] is not in a supported organization.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1342,7 +1342,7 @@ namespace Isis {
       ProcessBip(funct);
     }
     else {
-      std::string msg = "File [" + p_inFile + "] is not in a supported organization.";
+      std::string msg = "File [" + p_inFile.toStdString() + "] is not in a supported organization.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -1366,7 +1366,7 @@ namespace Isis {
     char *in = new char [readBytes];
 
     // Set up an Isis::EndianSwapper object
-    QString tok(Isis::ByteOrderName(p_byteOrder));
+    QString tok(QString::fromStdString(Isis::ByteOrderName(p_byteOrder)));
     tok = tok.toUpper();
     Isis::EndianSwapper swapper(tok);
 
@@ -1376,7 +1376,7 @@ namespace Isis {
     QString inFileName(QString::fromStdString(inFile.expanded()));
     fin.open(inFileName.toLatin1().data(), ios::in | ios::binary);
     if (!fin.is_open()) {
-      std::string msg = "Cannot open input file [" + p_inFile + "]";
+      std::string msg = "Cannot open input file [" + p_inFile.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
@@ -1393,7 +1393,7 @@ namespace Isis {
 
     // Check the last io
     if (!fin.good()) {
-      std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+      std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                    toString((int)pos) + "]. Byte count [" +
                    toString(p_fileHeaderBytes) + "]" ;
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -1438,7 +1438,7 @@ namespace Isis {
 
       // Check the last io
       if (!fin.good()) {
-        std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+        std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(p_dataHeaderBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -1462,7 +1462,7 @@ namespace Isis {
 
         // Check the last io
         if (!fin.good()) {
-          std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+          std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                        toString((int)pos) + "]. Byte count [" +
                        toString(p_dataPreBytes) + "]" ;
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -1472,7 +1472,7 @@ namespace Isis {
         pos = fin.tellg();
         fin.read(in, readBytes);
         if (!fin.good()) {
-          std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+          std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                        toString((int)pos) + "]. Byte count [" +
                        toString(readBytes) + "]" ;
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -1547,7 +1547,7 @@ namespace Isis {
 
         // Check the last io
         if (!fin.good()) {
-          std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+          std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                        toString((int)pos) + "]. Byte count [" +
                        toString(p_dataPreBytes) + "]" ;
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -1578,7 +1578,7 @@ namespace Isis {
 
       // Check the last io
       if (!fin.good()) {
-        std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+        std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(p_fileHeaderBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -1598,7 +1598,7 @@ namespace Isis {
 
       // Check the io
       if (!fin.good()) {
-        std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+        std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(p_fileTrailerBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -1630,7 +1630,7 @@ namespace Isis {
     char *in = new char [readBytes];
 
     // Set up an Isis::EndianSwapper object
-    QString tok(Isis::ByteOrderName(p_byteOrder));
+    QString tok(QString::fromStdString(Isis::ByteOrderName(p_byteOrder)));
     tok = tok.toUpper();
     Isis::EndianSwapper swapper(tok);
 
@@ -1640,7 +1640,7 @@ namespace Isis {
     QString inFileName(QString::fromStdString(inFile.expanded()));
     fin.open(inFileName.toLatin1().data(), ios::in | ios::binary);
     if (!fin.is_open()) {
-      std::string msg = "Cannot open input file [" + p_inFile + "]";
+      std::string msg = "Cannot open input file [" + p_inFile.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
@@ -1658,7 +1658,7 @@ namespace Isis {
 
     // Check the last io
     if (!fin.good()) {
-      std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+      std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                    toString((int)pos) + "]. Byte count [" +
                    toString(p_fileHeaderBytes) + "]" ;
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -1697,7 +1697,7 @@ namespace Isis {
 
         // Check the last io
         if (!fin.good()) {
-          std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+          std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                        toString((int)pos) + "]. Byte count [" +
                        toString(p_dataHeaderBytes) + "]" ;
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -1718,7 +1718,7 @@ namespace Isis {
 
         // Check the last io
         if (!fin.good()) {
-          std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+          std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                        toString((int)pos) + "]. Byte count [" +
                        toString(p_dataPreBytes) + "]" ;
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -1729,7 +1729,7 @@ namespace Isis {
         pos = fin.tellg();
         fin.read(in, readBytes);
         if (!fin.good()) {
-          std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+          std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                        toString((int)pos) + "]. Byte count [" +
                        toString(readBytes) + "]" ;
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -1801,7 +1801,7 @@ namespace Isis {
 
         // Check the last io
         if (!fin.good()) {
-          std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+          std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                        toString((int)pos) + "]. Byte count [" +
                        toString(p_dataPreBytes) + "]" ;
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -1821,7 +1821,7 @@ namespace Isis {
 
         // Check the last io
         if (!fin.good()) {
-          std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+          std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                        toString((int)pos) + "]. Byte count [" +
                        toString(p_fileHeaderBytes) + "]" ;
           throw IException(IException::Io, msg, _FILEINFO_);
@@ -1843,7 +1843,7 @@ namespace Isis {
 
       // Check the io
       if (!fin.good()) {
-        std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+        std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(p_fileTrailerBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -1870,7 +1870,7 @@ namespace Isis {
   void ProcessImport::ProcessBip(void funct(Isis::Buffer &out)) {
 
     // Set up an Isis::EndianSwapper object
-    QString tok(Isis::ByteOrderName(p_byteOrder));
+    QString tok(QString::fromStdString(Isis::ByteOrderName(p_byteOrder)));
     tok = tok.toUpper();
     Isis::EndianSwapper swapper(tok);
 
@@ -1880,7 +1880,7 @@ namespace Isis {
     QString inFileName(QString::fromStdString(inFile.expanded()));
     fin.open(inFileName.toLatin1().data(), ios::in | ios::binary);
     if (!fin.is_open()) {
-      std::string msg = "Cannot open input file [" + p_inFile + "]";
+      std::string msg = "Cannot open input file [" + p_inFile.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
@@ -1897,7 +1897,7 @@ namespace Isis {
 
     // Check the last io
     if (!fin.good()) {
-      std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+      std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                    toString((int)pos) + "]. Byte count [" +
                    toString(p_fileHeaderBytes) + "]" ;
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -1928,7 +1928,7 @@ namespace Isis {
     for(int line = 0; line < p_nl; line++) {
       // Check the last io
       if (!fin.good()) {
-        std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+        std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(p_dataHeaderBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -1939,7 +1939,7 @@ namespace Isis {
 
       // Check the last io
       if (!fin.good()) {
-        std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+        std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(p_dataPreBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -1949,7 +1949,7 @@ namespace Isis {
       pos = fin.tellg();
       fin.read(in, readBytes);
       if (!fin.good()) {
-        std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+        std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(readBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -2049,7 +2049,7 @@ namespace Isis {
 
       // Check the last io
       if (!fin.good()) {
-        std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+        std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(p_dataPreBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -2067,7 +2067,7 @@ namespace Isis {
 
       // Check the last io
       if (!fin.good()) {
-        std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+        std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(p_fileHeaderBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -2089,7 +2089,7 @@ namespace Isis {
 
       // Check the io
       if (!fin.good()) {
-        std::string msg = "Cannot read file [" + p_inFile + "]. Position [" +
+        std::string msg = "Cannot read file [" + p_inFile.toStdString() + "]. Position [" +
                      toString((int)pos) + "]. Byte count [" +
                      toString(p_fileTrailerBytes) + "]" ;
         throw IException(IException::Io, msg, _FILEINFO_);
@@ -2301,7 +2301,7 @@ namespace Isis {
   void ProcessImport::SetInputFile(const QString &file) {
     p_inFile = file;
     if (!Isis::FileName(file.toStdString()).fileExists()) {
-      std::string msg = "File [" + file + "] does not exist";
+      std::string msg = "File [" + file.toStdString() + "] does not exist";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

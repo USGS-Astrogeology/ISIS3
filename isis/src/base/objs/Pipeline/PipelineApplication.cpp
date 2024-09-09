@@ -446,8 +446,8 @@ namespace Isis {
                 params += " " + p_output[outParam].Name() + "=\"" + p_outputs[outBranch] + "\"";
 
                 if(outputSet) {
-                  std::string message = "Application [" + Name() + "] in the pipeline branches with an ";
-                  message += "output parameter for each branch, but branch [" + p_outBranches[outBranch];
+                  std::string message = "Application [" + Name().toStdString() + "] in the pipeline branches with an ";
+                  message += "output parameter for each branch, but branch [" + p_outBranches[outBranch].toStdString();
                   message += "] has multiple output files specified.";
                   throw IException(IException::Programmer, message, _FILEINFO_);
                 }
@@ -457,8 +457,8 @@ namespace Isis {
             }
 
             if(!outputSet) {
-              std::string message = "Application [" + Name() + "] in the pipeline branches with an ";
-              message += "output parameter for each branch, but branch [" + p_outBranches[outBranch];
+              std::string message = "Application [" + Name().toStdString() + "] in the pipeline branches with an ";
+              message += "output parameter for each branch, but branch [" + p_outBranches[outBranch].toStdString();
               message += "] has no output files specified.";
               throw IException(IException::Programmer, message, _FILEINFO_);
             }
@@ -495,7 +495,7 @@ namespace Isis {
       }
 
       if(inputFile.isEmpty()) {
-        std::string message = "There was a problem with calculating the inputs for program [" + Name();
+        std::string message = "There was a problem with calculating the inputs for program [" + Name().toStdString();
         message += "]. Please verify your program is not setting outputs for branches that ";
         message += "don't have input.";
         throw IException(IException::Programmer, message, _FILEINFO_);
@@ -738,11 +738,11 @@ namespace Isis {
     }
 
     if(p_inBranches[0] != "") {
-      std::string msg = "Application [" + Name() + "] in the pipeline does not have an input for branch [" + p_inBranches[branch] + "]";
+      std::string msg = "Application [" + Name().toStdString() + "] in the pipeline does not have an input for branch [" + p_inBranches[branch].toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     else {
-      std::string msg = "Application [" + Name() + "] in the pipeline does not have an input";
+      std::string msg = "Application [" + Name().toStdString() + "] in the pipeline does not have an input";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -782,7 +782,7 @@ namespace Isis {
     }
 
     if(!found) {
-      std::string msg = "Branch [" + name + "] does not exist in the pipeline application [" + Name() + "]";
+      std::string msg = "Branch [" + name.toStdString() + "] does not exist in the pipeline application [" + Name().toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

@@ -305,8 +305,7 @@ namespace Isis {
         }
         catch (std::exception &e) {
           throw IException(IException::Unknown,
-                           QObject::tr("Unable to convert polygon from Lat/Lon to Sample/Line. The "
-                                       "error given was [%1].").arg(e.what()),
+                           "Unable to convert polygon from Lat/Lon to Sample/Line. The error given was [" +  (std::string)e.what() + "].",
                            _FILEINFO_);
         }
 
@@ -398,7 +397,7 @@ namespace Isis {
     os << "<?xml version=\"1.0\" encoding=\"utf-8\" ?>" << endl;
     os << "<ogr:FeatureCollection" << endl;
     os << "    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" << endl;
-    os << "    xsi:schemaLocation=\"http://ogr.maptools.org/ " << schema << "\"" << endl;
+    os << "    xsi:schemaLocation=\"http://ogr.maptools.org/ " << schema.toStdString() << "\"" << endl;
     os << "    xmlns:ogr=\"http://ogr.maptools.org/\"" << endl;
     os << "    xmlns:gml=\"http://www.opengis.net/gml\">" << endl;
     os << "  <gml:boundedBy>" << endl;
@@ -423,7 +422,7 @@ namespace Isis {
     os << "  </gml:boundedBy>" << endl << endl;
     os << "  <gml:featureMember>" << endl;
     os << "   <ogr:multi_polygon fid=\"0\">" << endl;
-    os << "      <ogr:ID>" << idString << "</ogr:ID>" << endl;
+    os << "      <ogr:ID>" << idString.toStdString() << "</ogr:ID>" << endl;
     os << "      <ogr:geometryProperty><gml:MultiPolygon><gml:polygonMember>" <<
                      "<gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>";
 
@@ -1106,7 +1105,7 @@ namespace Isis {
       return FixGeometry(MakeMultiPolygon(geom));
     }
     else {
-      IString msg = "PolygonTools::FixGeometry does not support [" + GetGeometryName(geom) + "]";
+      IString msg = "PolygonTools::FixGeometry does not support [" + GetGeometryName(geom).toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -1580,7 +1579,7 @@ namespace Isis {
     }
     else {
       IString msg = "PolygonTools::ReducePrecision does not support [" +
-                    GetGeometryName(geom) + "]";
+                    GetGeometryName(geom).toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }

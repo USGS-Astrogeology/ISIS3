@@ -307,7 +307,7 @@ namespace Isis {
       // Get target body code and radii and store them in the Naif group
       // DAC modified to look for and store body code so that the radii keyword name
       // will be able to be constructed even for new bodies not in the standard PCK yet.
-      QString radiiKey = "BODY" + Isis::toString(m_target->naifBodyCode()) + "_RADII";
+      QString radiiKey = "BODY" + QString::number(m_target->naifBodyCode()) + "_RADII";
       QVariant result = m_target->naifBodyCode();
       storeValue("BODY_CODE", 0, SpiceIntType, result);
       std::vector<Distance> radii(3,Distance());
@@ -357,7 +357,7 @@ namespace Isis {
           namfrm_c(naifTarget.toLatin1().data(), &frameCode);
           if (frameCode == 0) {
             std::string msg = "Can not find NAIF BODY_FRAME_CODE for target ["
-                         + m_target->name() + "]";
+                         + m_target->name().toStdString() + "]";
             throw IException(IException::Io, msg, _FILEINFO_);
           }
         }
@@ -409,10 +409,10 @@ namespace Isis {
       solarLongitude();
     }
     else if (QString::fromStdString(kernels["TargetPosition"][0]).toUpper() == "TABLE") {
-      Table t("SunPosition", QString::fromStdString(lab.fileName()), lab);
+      Table t("SunPosition", lab.fileName(), lab);
       m_sunPosition->LoadCache(t);
 
-      Table t2("BodyRotation", QString::fromStdString(lab.fileName()), lab);
+      Table t2("BodyRotation", lab.fileName(), lab);
       m_bodyRotation->LoadCache(t2);
       if (t2.Label().hasKeyword("SolarLongitude")) {
         *m_solarLongitude = Longitude(t2.Label()["SolarLongitude"],
@@ -453,7 +453,7 @@ namespace Isis {
      }
     }
     else if (QString::fromStdString(kernels["InstrumentPointing"][0]).toUpper() == "TABLE") {
-      Table t("InstrumentPointing", QString::fromStdString(lab.fileName()), lab);
+      Table t("InstrumentPointing", lab.fileName(), lab);
       m_instrumentRotation->LoadCache(t);
     }
 
@@ -468,7 +468,7 @@ namespace Isis {
       m_instrumentPosition->LoadCache(isd["instrument_position"]);
     }
     else if (QString::fromStdString(kernels["InstrumentPosition"][0]).toUpper() == "TABLE") {
-      Table t("InstrumentPosition", QString::fromStdString(lab.fileName()), lab);
+      Table t("InstrumentPosition", lab.fileName(), lab);
       m_instrumentPosition->LoadCache(t);
     }
     NaifStatus::CheckErrors();
@@ -1064,7 +1064,7 @@ namespace Isis {
 
     iTime result;
 
-    QString key = "CLOCK_ET_" + Isis::toString(sclkCode) + "_" + clockValue;
+    QString key = "CLOCK_ET_" + QString::number(sclkCode) + "_" + clockValue;
     QVariant storedClockTime = getStoredResult(key, SpiceDoubleType);
 
     if (storedClockTime.isNull()) {
@@ -1136,11 +1136,11 @@ namespace Isis {
       }
 
       if (!found) {
-        std::string msg = "Can not find [" + key + "] in text kernels";
+        std::string msg = "Can not find [" + key.toStdString() + "] in text kernels";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       else if (numValuesRead == 0){
-        std::string msg = "Found " + key + "] in text kernels, but no values were identified and read.";
+        std::string msg = "Found " + key.toStdString() + "] in text kernels, but no values were identified and read.";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -1152,7 +1152,7 @@ namespace Isis {
       result = readStoredValue(key, type, index);
 
       if (result.isNull()) {
-        std::string msg = "The camera is requesting spice data [" + key + "] that "
+        std::string msg = "The camera is requesting spice data [" + key.toStdString() + "] that "
                       "was not attached, please re-run spiceinit";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
@@ -1223,7 +1223,7 @@ namespace Isis {
       storedKey[index] = std::to_string(value.toInt());
     }
     else {
-      std::string msg = "Unable to store variant in labels for key [" + key + "]";
+      std::string msg = "Unable to store variant in labels for key [" + key.toStdString() + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }

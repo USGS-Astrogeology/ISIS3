@@ -273,7 +273,7 @@ namespace Isis {
     SpiceBoolean found;
     bodn2c_c(name.toLatin1().data(), &code, &found);
     if (!found) {
-      std::string msg = "Could not convert Target [" + name +
+      std::string msg = "Could not convert Target [" + name.toStdString() +
                    "] to NAIF body code";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -406,7 +406,7 @@ namespace Isis {
 
       // If we get this far, we know the cube has no NaifKeywords object and previous attempts to
       // find radii in the mapping group or using spice IDs have failed
-      std::string msg = "Unable to find Equatorial and Polar radii for target [" + target + "].";
+      std::string msg = "Unable to find Equatorial and Polar radii for target [" + target.toStdString() + "].";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -447,7 +447,7 @@ namespace Isis {
       }
       catch (IException &e) {
         std::string msg = "Unable to find target radii for given target ["
-                      + target + "].";
+                      + target.toStdString() + "].";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 

@@ -275,7 +275,7 @@ namespace Isis {
       return filenames;
     }
     else {
-      std::string msg = "Requested observation number [" + on + "] ";
+      std::string msg = "Requested observation number [" + on.toStdString() + "] ";
       msg += "does not exist in the list";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

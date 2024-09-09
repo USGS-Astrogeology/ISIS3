@@ -34,13 +34,13 @@ namespace Isis {
     ifstream vicFile(vicarFile.toLatin1().data(), ios::in);
 
     if(!vicFile) {
-      std::string msg = "Cannot open vicar file [" + vicarFile + "]";
+      std::string msg = "Cannot open vicar file [" + vicarFile.toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     try {
       // get the starting VICAR label and convert to PVL
-      IString vicLabels = ExtractPvlLabel(0, vicFile);
+      IString vicLabels = ExtractPvlLabel(0, vicFile).toStdString();
 
       // Fill temp Pvl label for ProcessImport startprocess
       stringstream lbl;
@@ -68,7 +68,7 @@ namespace Isis {
       if(pixType == "HALF") pixelType = SignedWord;
       if(pixType == "REAL") pixelType = Real;
       if(pixelType == None) {
-        std::string msg = "Unsupported pixel type [FORMAT=" + pixType + "]";
+        std::string msg = "Unsupported pixel type [FORMAT=" + pixType.toStdString() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       SetPixelType(pixelType);
@@ -92,7 +92,7 @@ namespace Isis {
         SetOrganization(ProcessImport::BIP);
       }
       else {
-        std::string msg = "Unsupported file organization [" + organization + "]";
+        std::string msg = "Unsupported file organization [" + organization.toStdString() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -108,7 +108,7 @@ namespace Isis {
 
           QString endPvlLabel = ExtractPvlLabel(startByte, vicFile);
           stringstream lbl;
-          lbl << endPvlLabel;
+          lbl << endPvlLabel.toStdString();
 
           Pvl endLab;
           lbl >> endLab;
@@ -121,7 +121,7 @@ namespace Isis {
       }
     }
     catch(IException &e) {
-      std::string msg = "Input file [" + vicarFile + "] does not appear to be a vicar file";
+      std::string msg = "Input file [" + vicarFile.toStdString() + "] does not appear to be a vicar file";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

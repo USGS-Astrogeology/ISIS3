@@ -37,7 +37,7 @@ namespace Isis {
       static void RunSystemCommand(QString commandLine);
 
     private:
-      static IException ProcessIsisMessageFromChild(QString code, std::string msg);
+      static IException ProcessIsisMessageFromChild(QString code, QString msg);
 
     private:
       //! Construction is not allowed

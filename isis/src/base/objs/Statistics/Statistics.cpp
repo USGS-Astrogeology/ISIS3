@@ -44,7 +44,7 @@ namespace Isis {
     while (xmlReader->readNextStartElement()) {
       if (xmlReader->qualifiedName() == "sum") {
         try {
-          m_sum = toDouble(xmlReader->readElementText());
+          m_sum = xmlReader->readElementText().toDouble();
         }
         catch (IException &e) {
           m_sum = 0.0;
@@ -52,7 +52,7 @@ namespace Isis {
       }
       else if (xmlReader->qualifiedName() == "sumSquares") {
         try {
-          m_sumsum = toDouble(xmlReader->readElementText());
+          m_sumsum = xmlReader->readElementText().toDouble();
         }
         catch (IException &e) {
           m_sumsum = 0.0;
@@ -62,7 +62,7 @@ namespace Isis {
         while (xmlReader->readNextStartElement()) {
           if (xmlReader->qualifiedName() == "minimum") {
             try {
-              m_minimum = toDouble(xmlReader->readElementText());
+              m_minimum = xmlReader->readElementText().toDouble();
             }
             catch (IException &e) {
               m_minimum = DBL_MAX;
@@ -70,7 +70,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "maximum") {
             try {
-              m_maximum = toDouble(xmlReader->readElementText());
+              m_maximum = xmlReader->readElementText().toDouble();
             }
             catch (IException &e) {
               m_maximum = -DBL_MAX;
@@ -78,7 +78,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "validMinimum") {
             try {
-              m_validMinimum = toDouble(xmlReader->readElementText());
+              m_validMinimum = xmlReader->readElementText().toDouble();
             }
             catch (IException &e) {
               m_validMinimum = Isis::ValidMinimum;
@@ -86,7 +86,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "validMaximum") {
             try {
-              m_validMaximum = toDouble(xmlReader->readElementText());
+              m_validMaximum = xmlReader->readElementText().toDouble();
             }
             catch (IException &e) {
               m_validMaximum = Isis::ValidMaximum;
@@ -101,7 +101,7 @@ namespace Isis {
         while (xmlReader->readNextStartElement()) {
           if (xmlReader->qualifiedName() == "totalPixels") {
             try {
-              m_totalPixels = toBigInt(xmlReader->readElementText());
+              m_totalPixels = toBigInt(xmlReader->readElementText().toStdString());
             }
             catch (IException &e) {
               m_totalPixels = 0.0;
@@ -109,7 +109,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "validPixels") {
             try {
-              m_validPixels = toBigInt(xmlReader->readElementText());
+              m_validPixels = toBigInt(xmlReader->readElementText().toStdString());
             }
             catch (IException &e) {
               m_validPixels = 0.0;
@@ -117,7 +117,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "nullPixels") {
             try {
-              m_nullPixels = toBigInt(xmlReader->readElementText());
+              m_nullPixels = toBigInt(xmlReader->readElementText().toStdString());
             }
             catch (IException &e) {
               m_nullPixels = 0.0;
@@ -126,7 +126,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "lisPixels") {
             try {
-              m_lisPixels = toBigInt(xmlReader->readElementText());
+              m_lisPixels = toBigInt(xmlReader->readElementText().toStdString());
             }
             catch (IException &e) {
               m_lisPixels = 0.0;
@@ -134,7 +134,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "lrsPixels") {
             try {
-              m_lrsPixels = toBigInt(xmlReader->readElementText());
+              m_lrsPixels = toBigInt(xmlReader->readElementText().toStdString());
             }
             catch (IException &e) {
               m_lrsPixels = 0.0;
@@ -142,7 +142,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "hisPixels") {
             try {
-              m_hisPixels = toBigInt(xmlReader->readElementText());
+              m_hisPixels = toBigInt(xmlReader->readElementText().toStdString());
             }
             catch (IException &e) {
               m_hisPixels = 0.0;
@@ -150,7 +150,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "hrsPixels") {
             try {
-              m_hrsPixels = toBigInt(xmlReader->readElementText());
+              m_hrsPixels = toBigInt(xmlReader->readElementText().toStdString());
             }
             catch (IException &e) {
               m_hrsPixels = 0.0;
@@ -158,7 +158,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "underRangePixels") {
             try {
-              m_underRangePixels = toBigInt(xmlReader->readElementText());
+              m_underRangePixels = toBigInt(xmlReader->readElementText().toStdString());
             }
             catch (IException &e) {
               m_underRangePixels = 0.0;
@@ -166,7 +166,7 @@ namespace Isis {
           }
           else if (xmlReader->qualifiedName() == "overRangePixels") {
             try {
-              m_overRangePixels = toBigInt(xmlReader->readElementText());
+              m_overRangePixels = toBigInt(xmlReader->readElementText().toStdString());
             }
             catch (IException &e) {
               m_overRangePixels = 0.0;
@@ -179,7 +179,7 @@ namespace Isis {
       }
       else if (xmlReader->qualifiedName() == "removedData") {
         try {
-          m_removedData = toBool(xmlReader->readElementText());
+          m_removedData = toBool(xmlReader->readElementText().toStdString());
         }
         catch (IException &e) {
           m_removedData = false;
@@ -878,29 +878,29 @@ namespace Isis {
     stream.writeStartElement("statistics");
 //    stream.writeTextElement("id", m_id->std::to_string());
  
-    stream.writeTextElement("sum", toString(m_sum));
-    stream.writeTextElement("sumSquares", toString(m_sumsum));
+    stream.writeTextElement("sum", QString::number(m_sum));
+    stream.writeTextElement("sumSquares", QString::number(m_sumsum));
 
     stream.writeStartElement("range");
-    stream.writeTextElement("minimum", toString(m_minimum));
-    stream.writeTextElement("maximum", toString(m_maximum));
-    stream.writeTextElement("validMinimum", toString(m_validMinimum));
-    stream.writeTextElement("validMaximum", toString(m_validMaximum));
+    stream.writeTextElement("minimum", QString::number(m_minimum));
+    stream.writeTextElement("maximum", QString::number(m_maximum));
+    stream.writeTextElement("validMinimum", QString::number(m_validMinimum));
+    stream.writeTextElement("validMaximum", QString::number(m_validMaximum));
     stream.writeEndElement(); // end range
     
     stream.writeStartElement("pixelCounts");
-    stream.writeTextElement("totalPixels", toString(m_totalPixels));
-    stream.writeTextElement("validPixels", toString(m_validPixels));
-    stream.writeTextElement("nullPixels", toString(m_nullPixels));
-    stream.writeTextElement("lisPixels", toString(m_lisPixels));
-    stream.writeTextElement("lrsPixels", toString(m_lrsPixels));
-    stream.writeTextElement("hisPixels", toString(m_hisPixels));
-    stream.writeTextElement("hrsPixels", toString(m_hrsPixels));
-    stream.writeTextElement("underRangePixels", toString(m_underRangePixels));
-    stream.writeTextElement("overRangePixels", toString(m_overRangePixels));
+    stream.writeTextElement("totalPixels", QString::number(m_totalPixels));
+    stream.writeTextElement("validPixels", QString::number(m_validPixels));
+    stream.writeTextElement("nullPixels", QString::number(m_nullPixels));
+    stream.writeTextElement("lisPixels", QString::number(m_lisPixels));
+    stream.writeTextElement("lrsPixels", QString::number(m_lrsPixels));
+    stream.writeTextElement("hisPixels", QString::number(m_hisPixels));
+    stream.writeTextElement("hrsPixels", QString::number(m_hrsPixels));
+    stream.writeTextElement("underRangePixels", QString::number(m_underRangePixels));
+    stream.writeTextElement("overRangePixels", QString::number(m_overRangePixels));
     stream.writeEndElement(); // end pixelCounts
     
-    stream.writeTextElement("removedData", toString(m_removedData));
+    stream.writeTextElement("removedData", QString::number(m_removedData));
     stream.writeEndElement(); // end statistics
 
   }

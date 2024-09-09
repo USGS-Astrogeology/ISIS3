@@ -146,11 +146,11 @@ namespace Isis {
 
       QString preferred = parameters.get("RayTraceEngine", "None").toLower();
       QString onerror   = parameters.get("OnError", "Continue").toLower();
-      double  tolerance = toDouble(parameters.get("Tolerance", toString(DBL_MAX)));
+      double  tolerance = parameters.get("Tolerance", QString::number(DBL_MAX)).toDouble();
 
       // A file error message will be appened to the finalError, if no shape model is constructed.
-      QString fileErrorMsg = "Invalid shape model file ["
-                             + shapeModelFilenames + "] in Kernels group.";
+      std::string fileErrorMsg = "Invalid shape model file ["
+                             + shapeModelFilenames.toStdString() + "] in Kernels group.";
       IException fileError(IException::Io, fileErrorMsg, _FILEINFO_);
 
       //-------------- Check for bullet engine first -------------------------------//
@@ -171,7 +171,7 @@ namespace Isis {
             }
 
             // Always throw an error in this case
-            QString b_msg = "Bullet could not initialize DEM!";
+            std::string b_msg = "Bullet could not initialize DEM!";
             throw IException(IException::Unknown, b_msg, _FILEINFO_);
           }
           else {

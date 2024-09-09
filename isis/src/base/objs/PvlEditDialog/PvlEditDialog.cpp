@@ -119,7 +119,7 @@ namespace Isis {
     catch(IException &e) {
       // catch errors in Pvl format when populating pvl object
       std::string message = e.toString();
-      QMessageBox::warning((QWidget *)parent(), "Error", message);
+      QMessageBox::warning((QWidget *)parent(), "Error",QString::fromStdString(message));
       return;
     }
 
@@ -140,7 +140,7 @@ namespace Isis {
       catch(IException &e) {
         // report exception(s) to mesage box
         std::string message = e.toString();
-        QMessageBox::warning((QWidget *)parent(), "Error", message);
+        QMessageBox::warning((QWidget *)parent(), "Error", QString::fromStdString(message));
         return;
       }
     }

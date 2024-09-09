@@ -10,6 +10,7 @@ find files of those names at the top level of this repository. **/
 
 #include "Blob.h"
 #include "Pvl.h"
+#include <QString>
 
 namespace Isis {
   /**

@@ -152,7 +152,7 @@ namespace Isis {
     }
 
     //Load the new parameters into the gui
-    cout << p_progName << " ";
+    cout << p_progName.toStdString() << " ";
 
     for (unsigned int currArgument = 1; currArgument < p_cmdline.size(); currArgument ++) {
       QString paramName;
@@ -166,8 +166,8 @@ namespace Isis {
           continue;
 
         for (unsigned int value = 0; value < paramValue.size(); value++) {
-          IString thisValue = paramValue[value];
-          QString token = thisValue.Token("$").ToQt();
+          IString thisValue = paramValue[value].toStdString();
+          QString token = QString::fromStdString(thisValue.Token("$"));
 
           QString newValue;
 
@@ -177,12 +177,12 @@ namespace Isis {
               int j = toInt( thisValue.substr(0, 1).c_str() ) - 1;
               newValue += p_batchList[i][j];
               thisValue.replace(0, 1, "");
-              token = thisValue.Token("$").ToQt();
+              token = QString::fromStdString(thisValue.Token("$"));
             }
             catch (IException &e) {
               // Let the variable be parsed by the application
               newValue += "$";
-              token = thisValue.Token("$").ToQt();
+              token = QString::fromStdString(thisValue.Token("$"));
             }
           }
 
@@ -199,10 +199,10 @@ namespace Isis {
 
       PutAsString(paramName, paramValue);
 
-      cout << paramName;
+      cout << paramName.toStdString();
 
       if(paramValue.size() == 1) {
-        cout << "=" << paramValue[0] << " ";
+        cout << "=" << paramValue[0].toStdString() << " ";
       }
       else if (paramValue.size() > 1) {
         cout << "=(";
@@ -211,7 +211,7 @@ namespace Isis {
           if(value != 0)
             cout << ",";
 
-          cout << paramValue[value] << endl;
+          cout << paramValue[value].toStdString() << endl;
         }
 
         cout << ") ";
@@ -242,13 +242,13 @@ namespace Isis {
 
       // did not unit test since it is assumed ofstream will be instantiated correctly
       if ( !os.good() ) {
-        std::string msg = "Unable to create error list [" + p_errList
+        std::string msg = "Unable to create error list [" + p_errList.toStdString()
                       + "] Disk may be full or directory permissions not writeable";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       for (int j = 0; j < (int) p_batchList[i].size(); j++) {
-        os << p_batchList[i][j] << " ";
+        os << p_batchList[i][j].toStdString() << " ";
       }
 
       os << endl;
@@ -329,28 +329,28 @@ namespace Isis {
       temp.Open(file);
     }
     catch (IException &e) {
-      std::string msg = "The batchlist file [" + file + "] could not be opened";
+      std::string msg = "The batchlist file [" + file.toStdString() + "] could not be opened";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     p_batchList.resize( temp.LineCount() );
 
     for (int i = 0; i < temp.LineCount(); i++) {
-      QString t;
-      temp.GetLine(t);
+      IString t;
+      temp.GetLine(toBool(t));
 
       // Convert tabs to spaces but leave tabs inside quotes alone
-      t = IString(t).Replace("\t", " ", true).ToQt();
+      t = t.Replace("\t", " ", true);
 
-      t = IString(t).Compress().ToQt().trimmed();
+      t = QString::fromStdString(t.Compress()).trimmed().toStdString();
       // Allow " ," " , " or ", " as a valid single seperator
-      t = IString(t).Replace(" ,", ",", true).ToQt();
-      t = IString(t).Replace(", ", ",", true).ToQt();
+      t = t.Replace(" ,", ",", true);
+      t = t.Replace(", ", ",", true);
       // Convert all spaces to "," the use "," as delimiter
-      t = IString(t).Replace(" ", ",", true).ToQt();
+      t = t.Replace(" ", ",", true);
       int j = 0;
 
-      QStringList tokens = t.split(",");
+      QStringList tokens = QString::fromStdString(t).split(",");
 
       foreach (QString token, tokens) {
         // removes quotes from tokens. NOTE: also removes escaped quotes.
@@ -370,7 +370,7 @@ namespace Isis {
     }
     // The batchlist cannot be empty
     if (p_batchList.size() < 1) {
-      std::string msg = "The list file [" + file + "] does not contain any data";
+      std::string msg = "The list file [" + file.toStdString() + "] does not contain any data";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -480,7 +480,7 @@ namespace Isis {
 
         if (paramValue.size() > 1) {
           std::string msg = "Invalid value for reserve parameter ["
-                       + paramName + "]";
+                       + paramName.toStdString() + "]";
           throw IException(IException::User, msg, _FILEINFO_);
         }
 
@@ -526,7 +526,7 @@ namespace Isis {
     if(usedDashLast) {
       Pvl temp;
       CommandLine(temp);
-      cout << BuildNewCommandLineFromPvl(temp) << endl;
+      cout << BuildNewCommandLineFromPvl(temp).toStdString() << endl;
     }
 
     // Can't use the batchlist with the gui, save, last or restore option
@@ -639,13 +639,13 @@ namespace Isis {
          throw Isis::iException::Message( Isis::iException::User, msg, _FILEINFO_ );*/
       }
       catch (...) {
-        std::string msg = "The history file [" + file + "] is for a different application or corrupt, "\
+        std::string msg = "The history file [" + file.toStdString() + "] is for a different application or corrupt, "\
                       "please fix or delete this file";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     else {
-      std::string msg = "The history file [" + file + "] does not exist";
+      std::string msg = "The history file [" + file.toStdString() + "] does not exist";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -880,7 +880,7 @@ namespace Isis {
       }
     }
     else if (name == "-PID") {
-      p_parentId = toInt(value);
+      p_parentId = value.toInt();
     }
     else if (name == "-ERRLIST") {
       p_errList = value;
@@ -904,7 +904,7 @@ namespace Isis {
       }
 
       else {
-        std::string msg = "[" + value
+        std::string msg = "[" + value.toStdString()
                       + "] is an invalid value for -ONERROR, options are ABORT or CONTINUE";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -1100,7 +1100,7 @@ namespace Isis {
     for (int strPos = 0; strPos < arrayString.size(); strPos++) {
       if (strPos == 0) {
         if (arrayString[strPos] != '(') {
-          std::string msg = "Invalid array format [" + arrayString + "]";
+          std::string msg = "Invalid array format [" + arrayString.toStdString() + "]";
           throw IException(IException::User, msg, _FILEINFO_);
         }
 
@@ -1115,14 +1115,14 @@ namespace Isis {
       }
       // ends in a backslash??
       else if (arrayString[strPos] == '\\') {
-        std::string msg = "Invalid array format [" + arrayString + "]";
+        std::string msg = "Invalid array format [" + arrayString.toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       // not in quoted part of QString
       if (!inDoubleQuotes && !inSingleQuotes) {
         if (arrayClosed) {
-          std::string msg = "Invalid array format [" + arrayString + "]";
+          std::string msg = "Invalid array format [" + arrayString.toStdString() + "]";
           throw IException(IException::User, msg, _FILEINFO_);
         }
 
@@ -1187,7 +1187,7 @@ namespace Isis {
     }
 
     if (!arrayClosed || currElement != "") {
-      std::string msg = "Invalid array format [" + arrayString + "]";
+      std::string msg = "Invalid array format [" + arrayString.toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -1224,7 +1224,7 @@ namespace Isis {
       if ( reservedParams[option].startsWith(unresolvedParam) ) {
         if (matchOption >= 0) {
           std::string msg = "Ambiguous Reserve Parameter ["
-          + unresolvedParam + "]. Please clarify.";
+          + unresolvedParam.toStdString() + "]. Please clarify.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
         // set match to current iteration in loop
@@ -1236,9 +1236,9 @@ namespace Isis {
       // handle no matches
       if (matchOption < 0) {
         std::string msg = "Invalid Reserve Parameter Option ["
-        + unresolvedParam + "]. Choices are ";
+        + unresolvedParam.toStdString() + "]. Choices are ";
 
-        std::string msgOptions;
+        QString msgOptions;
         for (int option = 0; option < (int)reservedParams.size(); option++) {
           // Make sure not to show -PID as an option
           if (reservedParams[option].compare("-PID") == 0) {
@@ -1258,7 +1258,7 @@ namespace Isis {
 
         // remove the terminating ',' from msgOptions
         msgOptions.chop(1);
-        msg += " [" + msgOptions + "]";
+        msg += " [" + msgOptions.toStdString() + "]";
 
         throw IException(IException::User, msg, _FILEINFO_);
       }
