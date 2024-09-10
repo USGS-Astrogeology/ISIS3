@@ -581,7 +581,7 @@ namespace Isis {
       return BundleSettings::ParameterCorrections;
     }
     else throw IException(IException::Programmer,
-                          "Unknown bundle convergence criteria [" + criteria + "].",
+                          "Unknown bundle convergence criteria [" + criteria.toStdString() + "].",
                           _FILEINFO_);
   }
 
@@ -1027,16 +1027,16 @@ namespace Isis {
 
     stream.writeStartElement("globalSettings");
 
-    stream.writeTextElement("validateNetwork", toString(validateNetwork()));
+    stream.writeTextElement("validateNetwork", QString::number(validateNetwork()));
 
     stream.writeStartElement("solveOptions");
-    stream.writeAttribute("solveObservationMode", toString(solveObservationMode()));
-    stream.writeAttribute("solveRadius", toString(solveRadius()));
-    stream.writeAttribute("controlPointCoordTypeReports", toString(controlPointCoordTypeReports()));
-    stream.writeAttribute("controlPointCoordTypeBundle", toString(controlPointCoordTypeBundle()));
-    stream.writeAttribute("updateCubeLabel", toString(updateCubeLabel()));
-    stream.writeAttribute("errorPropagation", toString(errorPropagation()));
-    stream.writeAttribute("createInverseMatrix", toString(createInverseMatrix()));
+    stream.writeAttribute("solveObservationMode", QString::number(solveObservationMode()));
+    stream.writeAttribute("solveRadius", QString::number(solveRadius()));
+    stream.writeAttribute("controlPointCoordTypeReports", QString::number(controlPointCoordTypeReports()));
+    stream.writeAttribute("controlPointCoordTypeBundle", QString::number(controlPointCoordTypeBundle()));
+    stream.writeAttribute("updateCubeLabel", QString::number(updateCubeLabel()));
+    stream.writeAttribute("errorPropagation", QString::number(errorPropagation()));
+    stream.writeAttribute("createInverseMatrix", QString::number(createInverseMatrix()));
     stream.writeEndElement();
 
     stream.writeStartElement("aprioriSigmas");
@@ -1044,26 +1044,26 @@ namespace Isis {
       stream.writeAttribute("pointCoord1", "N/A");
     }
     else {
-      stream.writeAttribute("pointCoord1", toString(globalPointCoord1AprioriSigma()));
+      stream.writeAttribute("pointCoord1", QString::number(globalPointCoord1AprioriSigma()));
     }
     if (IsSpecial(globalPointCoord2AprioriSigma())) {
       stream.writeAttribute("pointCoord2", "N/A");
     }
     else {
-      stream.writeAttribute("pointCoord2", toString(globalPointCoord2AprioriSigma()));
+      stream.writeAttribute("pointCoord2", QString::number(globalPointCoord2AprioriSigma()));
     }
     if (IsSpecial(globalPointCoord3AprioriSigma())) {
       stream.writeAttribute("pointCoord3", "N/A");
     }
     else {
-      stream.writeAttribute("pointCoord3", toString(globalPointCoord3AprioriSigma()));
+      stream.writeAttribute("pointCoord3", QString::number(globalPointCoord3AprioriSigma()));
     }
     stream.writeEndElement();
 
     stream.writeStartElement("outlierRejectionOptions");
-    stream.writeAttribute("rejection", toString(outlierRejection()));
+    stream.writeAttribute("rejection", QString::number(outlierRejection()));
     if (outlierRejection()) {
-      stream.writeAttribute("multiplier", toString(outlierRejectionMultiplier()));
+      stream.writeAttribute("multiplier", QString::number(outlierRejectionMultiplier()));
     }
     else {
       stream.writeAttribute("multiplier", "N/A");
@@ -1074,9 +1074,9 @@ namespace Isis {
     stream.writeAttribute("convergenceCriteria",
                           convergenceCriteriaToString(convergenceCriteria()));
     stream.writeAttribute("threshold",
-                          toString(convergenceCriteriaThreshold()));
+                          QString::number(convergenceCriteriaThreshold()));
     stream.writeAttribute("maximumIterations",
-                          toString(convergenceCriteriaMaximumIterations()));
+                          QString::number(convergenceCriteriaMaximumIterations()));
     stream.writeEndElement();
 
     stream.writeStartElement("maximumLikelihoodEstimation");
@@ -1084,7 +1084,7 @@ namespace Isis {
       stream.writeStartElement("model");
       stream.writeAttribute("type",
                           MaximumLikelihoodWFunctions::modelToString(m_maximumLikelihood[i].first));
-      stream.writeAttribute("quantile", toString(m_maximumLikelihood[i].second));
+      stream.writeAttribute("quantile", QString::number(m_maximumLikelihood[i].second));
       stream.writeEndElement();
     }
     stream.writeEndElement();
@@ -1117,17 +1117,17 @@ namespace Isis {
           if (xmlReader->qualifiedName() == "validateNetwork") {
             QString validateNetwork = xmlReader->readElementText();
             if (!validateNetwork.isEmpty()) {
-              m_validateNetwork = toBool(validateNetwork);
+              m_validateNetwork = toBool(validateNetwork.toStdString());
             }       
           }
           else if (xmlReader->qualifiedName() == "solveOptions") {
             QStringRef solveObservationMode = xmlReader->attributes().value("solveObservationMode");
             if (!solveObservationMode.isEmpty()) {
-              m_solveObservationMode = toBool(solveObservationMode.toString());
+              m_solveObservationMode = toBool(solveObservationMode.toString().toStdString());
             }
             QStringRef solveRadius = xmlReader->attributes().value("solveRadius");
             if (!solveRadius.isEmpty()) {
-              m_solveRadius = toBool(solveRadius.toString());
+              m_solveRadius = toBool(solveRadius.toString().toStdString());
             }
             QStringRef controlPointCoordTypeReports = xmlReader->attributes().value("controlPointCoordTypeReports");
             if (!controlPointCoordTypeReports.isEmpty()) {
@@ -1149,15 +1149,15 @@ namespace Isis {
             }
             QStringRef updateCubeLabel = xmlReader->attributes().value("updateCubeLabel");
             if (!updateCubeLabel.isEmpty()) {
-              m_updateCubeLabel = toBool(updateCubeLabel.toString());
+              m_updateCubeLabel = toBool(updateCubeLabel.toString().toStdString());
             }
             QStringRef errorPropagation = xmlReader->attributes().value("errorPropagation");
             if (!errorPropagation.isEmpty()) {
-              m_errorPropagation = toBool(errorPropagation.toString());
+              m_errorPropagation = toBool(errorPropagation.toString().toStdString());
             }
             QStringRef createInverseMatrix = xmlReader->attributes().value("createInverseMatrix");
             if (!createInverseMatrix.isEmpty()) {
-              m_createInverseMatrix = toBool(createInverseMatrix.toString());
+              m_createInverseMatrix = toBool(createInverseMatrix.toString().toStdString());
             }
             xmlReader->skipCurrentElement();
           }
@@ -1194,7 +1194,7 @@ namespace Isis {
           else if (xmlReader->qualifiedName() == "outlierRejectionOptions") {
             QStringRef outlierRejection = xmlReader->attributes().value("rejection");
             if (!outlierRejection.isEmpty()) {
-              m_outlierRejection = toBool(outlierRejection.toString());
+              m_outlierRejection = toBool(outlierRejection.toString().toStdString());
             }
             QStringRef outlierRejectionMultiplier = xmlReader->attributes().value("multiplier");
             if (!outlierRejectionMultiplier.isEmpty()) {

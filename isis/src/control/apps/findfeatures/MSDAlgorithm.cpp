@@ -40,15 +40,15 @@ namespace Isis {
     setConfig(config);
     PvlFlatMap variables = setupParameters();
     variables.merge(cvars);
-    const int patchRadius = toInt(variables.get("PatchRadius"));
-    const int searchAreaRadius = toInt(variables.get("SearchAreaRadius"));
-    const int nmsRadius = toInt(variables.get("NMSRadius"));
-    const int nmsScaleRadius = toInt(variables.get("NMSScaleRadius"));
+    const int patchRadius = variables.get("PatchRadius").toInt();
+    const int searchAreaRadius = variables.get("SearchAreaRadius").toInt();
+    const int nmsRadius = variables.get("NMSRadius").toInt();
+    const int nmsScaleRadius = variables.get("NMSScaleRadius").toInt();
     const float thSaliency = variables.get("THSaliency").toFloat();
-    const int kNN = toInt(variables.get("KNN"));
+    const int kNN = variables.get("KNN").toInt();
     const float scaleFactor = variables.get("ScaleFactor").toFloat();
-    const int nScales = toInt(variables.get("NScales"));
-    const bool computeOrientation = toBool(variables.get("ComputeOrientation"));
+    const int nScales = variables.get("NScales").toInt();
+    const bool computeOrientation = toBool(variables.get("ComputeOrientation").toStdString());
 
     m_algorithm = MSDType::create(patchRadius, searchAreaRadius, nmsRadius, nmsScaleRadius,
                                   thSaliency, kNN, scaleFactor, nScales, computeOrientation);

@@ -303,7 +303,7 @@ namespace Isis {
        */
       bool setDefaultProfileName(const QString &name) {
         _defProfName = name;
-        return (_profiles.exists(name));
+        return (_profiles.exists(name.toStdString()));
       }
 
       std::vector<QString> available() const;

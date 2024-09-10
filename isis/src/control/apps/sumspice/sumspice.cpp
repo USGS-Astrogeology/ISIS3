@@ -47,7 +47,7 @@ namespace Isis {
     if ( IsSpecial(d) ) {
       return ( defValue );
     }
-    return (toString(d, precision));
+    return (QString::number(d, 'g', precision));
   }
 
 
@@ -161,15 +161,15 @@ namespace Isis {
 
       // Format a warning and save it off for later
       if ( !cubesum->isFound() ) {
-        std::string mess = "No SUMFILE found for " + cubesum->name() +
+        QString mess = "No SUMFILE found for " + cubesum->name() +
                         " - closest time: " +
-                        Isis::toString(cubesum->closest(), 10) +
+                        QString::number(cubesum->closest(), 'g', 10) +
                         " <seconds>";
         warnings <<  mess;
       }
       else {
         if ( !cubesum->update(options) ) {
-          std::string msg = "Failed to apply SUMFILE updates on cube " + filename;
+          std::string msg = "Failed to apply SUMFILE updates on cube " + filename.toStdString();
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -189,7 +189,7 @@ namespace Isis {
 
     if (warnings.size() > 0) {
       PvlKeyword message("Unmatched");
-      BOOST_FOREACH ( std::string mess, warnings ) {
+      BOOST_FOREACH ( QString mess, warnings ) {
         message.addValue(mess.toStdString());
       }
       PvlGroup loggrp("Warnings");

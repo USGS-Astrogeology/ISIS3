@@ -41,8 +41,8 @@ namespace Isis {
     setConfig(config);
     PvlFlatMap variables = setupParameters();
     variables.merge(cvars);
-    int bytes = toInt(variables.get("Bytes"));
-    bool useOrientation = toBool(variables.get("UseOrientation"));
+    int bytes = variables.get("Bytes").toInt();
+    bool useOrientation = toBool(variables.get("UseOrientation").toStdString());
 
     m_algorithm = BriefType::create(bytes, useOrientation);
 

@@ -121,11 +121,11 @@ namespace Isis {
     KAZEPtr algorithm = m_algorithm.dynamicCast<KAZEType>();
     PvlFlatMap variables;
     variables.add("Diffusivity",   m_typeMap.right.at(algorithm->getDiffusivity()));
-    variables.add("Extended",      toString(algorithm->getExtended()));
-    variables.add("NOctaveLayers", toString(algorithm->getNOctaveLayers()));
-    variables.add("NOctaves",      toString(algorithm->getNOctaves()));
-    variables.add("Threshold",     toString(algorithm->getThreshold()));
-    variables.add("Upright",       toString(algorithm->getUpright()));
+    variables.add("Extended",      QString::number(algorithm->getExtended()));
+    variables.add("NOctaveLayers", QString::number(algorithm->getNOctaveLayers()));
+    variables.add("NOctaves",      QString::number(algorithm->getNOctaves()));
+    variables.add("Threshold",     QString::number(algorithm->getThreshold()));
+    variables.add("Upright",       QString::number(algorithm->getUpright()));
     return (variables);
   }
 
@@ -144,27 +144,27 @@ namespace Isis {
 
     int numSet(0);
     if ( variables.exists("Extended") ) {
-      algorithm->setExtended(toInt(variables.get("Extended")));
+      algorithm->setExtended(variables.get("Extended").toInt());
       numSet++;
     }
 
     if ( variables.exists("Threshold") ) {
-      algorithm->setThreshold(toInt(variables.get("Threshold")));
+      algorithm->setThreshold(variables.get("Threshold").toInt());
       numSet++;
     }
 
     if ( variables.exists("NOctaveLayers") ) {
-      algorithm->setNOctaveLayers(toInt(variables.get("NOctaveLayers")));
+      algorithm->setNOctaveLayers(variables.get("NOctaveLayers").toInt());
       numSet++;
     }
 
     if ( variables.exists("NOctaves") ) {
-      algorithm->setNOctaves(toInt(variables.get("NOctaves")));
+      algorithm->setNOctaves(variables.get("NOctaves").toInt());
       numSet++;
     }
 
     if ( variables.exists("Upright") ) {
-      algorithm->setUpright(toInt(variables.get("Upright")));
+      algorithm->setUpright(variables.get("Upright").toInt());
       numSet++;
     }
 
@@ -184,7 +184,7 @@ namespace Isis {
         }
       }
       catch (std::exception &e) {
-        std::string msg = "The input value [" + value +
+        std::string msg = "The input value [" + value.toStdString() +
                       "] is not valid for KAZE's [Type] variable";
         throw IException(IException::User, msg, _FILEINFO_);
       }

@@ -34,8 +34,8 @@ FastGeom::FastGeom(const PvlFlatMap &parameters) : m_fastpts(25),
                                                    m_geomtype("camera"),
                                                    m_maxarea(3.0),
                                                    m_parameters(parameters) {
-  m_fastpts   = toInt(m_parameters.get("FastGeomPoints", "25"));
-  m_tolerance = toDouble(m_parameters.get("FastGeomTolerance", "3.0"));
+  m_fastpts   = m_parameters.get("FastGeomPoints", "25").toInt();
+  m_tolerance = m_parameters.get("FastGeomTolerance", "3.0").toDouble();
   m_geomtype  = m_parameters.get("GeomType", "camera").toLower();
   validate(m_geomtype);
 }
@@ -101,7 +101,7 @@ ImageTransform *FastGeom::compute(MatchImage &query, MatchImage &train,
 
   if ( errors.size() > 0 ) {
     logit << "--> Failed: " << errors.join("\n") << "\n";
-    throw IException(IException::User, "--> FastGeom failed <--\n" + errors.join("\n"),
+    throw IException(IException::User, "--> FastGeom failed <--\n" + errors.join("\n").toStdString(),
                      _FILEINFO_);
   }
 
@@ -113,10 +113,10 @@ ImageTransform *FastGeom::compute(MatchImage &query, MatchImage &train,
   double t_lines = train.source().lines();
 
   // Now get FOV tolerances. Default maps strictly within detector boundaries.
-  double fg_q_sample_tolerance = toDouble(m_parameters.get("FastGeomQuerySampleTolerance", "0.0"));
-  double fg_q_line_tolerance   = toDouble(m_parameters.get("FastGeomQueryLineTolerance",   "0.0"));
-  double fg_t_sample_tolerance = toDouble(m_parameters.get("FastGeomTrainSampleTolerance", "0.0"));
-  double fg_t_line_tolerance   = toDouble(m_parameters.get("FastGeomTrainLineTolerance",   "0.0"));
+  double fg_q_sample_tolerance = m_parameters.get("FastGeomQuerySampleTolerance", "0.0").toDouble();
+  double fg_q_line_tolerance   = m_parameters.get("FastGeomQueryLineTolerance",   "0.0").toDouble();
+  double fg_t_sample_tolerance = m_parameters.get("FastGeomTrainSampleTolerance", "0.0").toDouble();
+  double fg_t_line_tolerance   =m_parameters.get("FastGeomTrainLineTolerance",   "0.0").toDouble();
 
   // Train line/sample map restrictions
   double q_min_samp = 0.5 - fg_q_sample_tolerance;
@@ -171,11 +171,11 @@ ImageTransform *FastGeom::compute(MatchImage &query, MatchImage &train,
   // Compute homography if enough point ater in common FOVs of both images,
   // otherwise we report failure
   if ( n_total_points < m_fastpts ) {
-    std::string mess = "Failed to get FOV geometry mapping for " + train.name() +
-                    " to " + query.name() + " needing " + QString::number(m_fastpts) +
+    QString mess = "Failed to get FOV geometry mapping for " + train.name() +
+                    " to " + query.name()+ " needing " + QString::number(m_fastpts) +
                     " but got " + QString::number(n_total_points) +" in train FOV.";
     logit << ">>> ERROR - " << mess << "\n";
-    throw IException(IException::Programmer, mess, _FILEINFO_);
+    throw IException(IException::Programmer, mess.toStdString(), _FILEINFO_);
   }
 
   // Compute homography tranformation. Note the order of the point arrays.
@@ -286,9 +286,9 @@ int FastGeom::radial_algorithm(MatchImage &query, MatchImage &train,
   // Compute maximum radial track at the center of the image to
   // the corner and scaling parameters
   double fg_max_radius    = std::sqrt( (q_fov.width * q_fov.width) + ( q_fov.height * q_fov.height) ) / 2.0;
-  double fg_radial_seglen = toDouble(parameters.get("FastGeomRadialSegmentLength", "25.0"));
-  double fg_point_count   = toDouble(parameters.get("FastGeomRadialPointCount", "5.0"));
-  double fg_point_factor  = toDouble(parameters.get("FastGeomRadialPointFactor", "1.0"));
+  double fg_radial_seglen = parameters.get("FastGeomRadialSegmentLength", "25.0").toDouble();
+  double fg_point_count   = parameters.get("FastGeomRadialPointCount", "5.0").toDouble();
+  double fg_point_factor  = parameters.get("FastGeomRadialPointFactor", "1.0").toDouble();
 
   // Ensure the number of rings
   if ( fg_radial_seglen <= 1.0 ) fg_radial_seglen = 1.5;
@@ -296,7 +296,7 @@ int FastGeom::radial_algorithm(MatchImage &query, MatchImage &train,
 
   // See if user wants to secify the number of rings
   if  ( parameters.exists("FastGeomRadialSegments") ) {
-    fg_number_rings = std::ceil(toDouble(parameters.get("FastGeomRadialSegments")));
+    fg_number_rings = std::ceil(parameters.get("FastGeomRadialSegments").toDouble());
   }
 
   // Ensure a reasonable number of rings are computed
@@ -448,15 +448,15 @@ int FastGeom::grid_algorithm(MatchImage &query, MatchImage &train,
   double fg_max_axis = qMax( qMax(q_fov.width, q_fov.height), qMax(t_fov.width, t_fov.height) );
   int v_max_iter     = int( fg_max_axis / 2.0 );
 
-  int fg_grid_start_iter = toInt(  parameters.get("FastGeomGridStartIteration", "0") );
-  int fg_grid_stop_iter  = toInt(  parameters.get("FastGeomGridStopIteration", toString(v_max_iter)) );
-  int fg_grid_iter_step  = toInt(  parameters.get("FastGeomGridIterationStep", "1") );
-  bool fg_save_all       = toBool( parameters.get("FastGeomGridSaveAllPoints", "false") );
+  int fg_grid_start_iter = parameters.get("FastGeomGridStartIteration", "0").toInt();
+  int fg_grid_stop_iter  = parameters.get("FastGeomGridStopIteration", QString::number(v_max_iter)).toInt();
+  int fg_grid_iter_step  = parameters.get("FastGeomGridIterationStep", "1").toInt();
+  bool fg_save_all       = toBool(parameters.get("FastGeomGridSaveAllPoints", "false").toStdString());
 
   logit <<   "  FastGeomGridStartIteration: " << fg_grid_start_iter << "\n";
   logit <<   "  FastGeomGridStopIteration:  " << fg_grid_stop_iter << "\n";
   logit <<   "  FastGeomGridIterationStep:  " << fg_grid_iter_step << "\n";
-  logit <<   "  FastGeomGridSaveAllPoints:  " << toString(fg_save_all) << "\n";
+  logit <<   "  FastGeomGridSaveAllPoints:  " << QString::number(fg_save_all) << "\n";
   logit <<   "  FastGeomPointIncrement:     " << increment << "\n";
 
   // Set up line/sample mapping correspondence between images
@@ -660,7 +660,7 @@ cv::Mat FastGeom::getTransformMatrix(const std::vector<FastGeom::FGPoint> &query
   }
   catch ( std::exception &e ) {
     // This will also catch any ISIS error
-    std::string msg = "Matrix transform error: " + QString(e.what());
+    std::string msg = "Matrix transform error: " + (std::string)e.what();
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
@@ -707,7 +707,7 @@ void FastGeom::dump_point_mapping(MatchImage &query, MatchImage &train,
                       QLogger logger) const {
 
  // Lets dump the data if requested
-  if ( toBool(m_parameters.get("FastGeomDumpMapping","False")) ) {
+  if ( toBool(m_parameters.get("FastGeomDumpMapping","False").toStdString()) ) {
 
       // Shortcut reference directly to output stream method
     QDebugStreamType &logit = logger.logger();
@@ -764,7 +764,7 @@ void FastGeom::validate( const QString &geomtype ) const {
   QStringList options;
   options << "camera" << "crop" << "map";
   if ( !options.contains(geomtype, Qt::CaseInsensitive)  ) {
-    std::string mess = "FastGeom - invalid GEOMTYPE (" + geomtype + ")!"
+    std::string mess = "FastGeom - invalid GEOMTYPE (" + geomtype.toStdString() + ")!"
                    " Must be CAMERA, CROP or MAP.";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }

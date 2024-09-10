@@ -38,11 +38,11 @@ namespace Isis {
     setConfig(config);
     PvlFlatMap variables = setupParameters();
     variables.merge(cvars);
-    const int nfeatures = toInt(variables.get("nfeatures"));
-    const int nOctaveLayers = toInt(variables.get("nOctaveLayers"));
-    const double contrastThreshold = toDouble(variables.get("constrastThreshold"));
-    const double edgeThreshold = toDouble(variables.get("edgeThreshold"));
-    const double sigma = toDouble(variables.get("sigma"));
+    const int nfeatures = (variables.get("nfeatures").toInt());
+    const int nOctaveLayers = (variables.get("nOctaveLayers").toInt());
+    const double contrastThreshold = (variables.get("constrastThreshold").toDouble());
+    const double edgeThreshold = (variables.get("edgeThreshold").toDouble());
+    const double sigma = (variables.get("sigma").toDouble());
 
     m_algorithm = SIFTType::create(nfeatures, nOctaveLayers, contrastThreshold,
                                    edgeThreshold, sigma);

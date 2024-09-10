@@ -476,7 +476,7 @@ namespace Isis {
 
         // If any camera is initialized via CSMInit, but no csm solve options are specified, fail early.
         if (camera->GetCameraType() == Camera::Csm && m_bundleSettings->observationSolveSettings(observationNumber).csmSolveOption() == 0){
-          std::string msg = fileName + " camera was initialized using CSMInit, so jigsaw must use CSM parameters." +
+          std::string msg = fileName.toStdString() + " camera was initialized using CSMInit, so jigsaw must use CSM parameters." +
                                    " Please refer to documentation for more information." + "\n";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -486,7 +486,7 @@ namespace Isis {
         BundleImageQsp image = BundleImageQsp(new BundleImage(camera, serialNumber, fileName));
 
         if (!image) {
-          std::string msg = "In BundleAdjust::init(): image " + fileName + "is null." + "\n";
+          std::string msg = "In BundleAdjust::init(): image " + fileName.toStdString() + "is null." + "\n";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
 
@@ -495,7 +495,7 @@ namespace Isis {
 
         if (!observation) {
           std::string msg = "In BundleAdjust::init(): observation "
-                        + observationNumber + "is null." + "\n";
+                        + observationNumber.toStdString() + "is null." + "\n";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
       }
@@ -693,7 +693,7 @@ namespace Isis {
         }
 
         imagesWithInsufficientMeasures++;
-        msg += bundleImage->fileName() + ": " + toString(numMeasures) + "\n";
+        msg += bundleImage->fileName().toStdString() + ": " + toString(numMeasures) + "\n";
       }
     }
 
@@ -2072,7 +2072,7 @@ namespace Isis {
       if (!(measureCamera->GroundMap()->GetXY(point.adjustedSurfacePoint(),
                                               &computedX, &computedY, false))) {
         std::string msg = "Unable to map apriori surface point for measure ";
-        msg += measure.cubeSerialNumber() + " on point " + point.id() + " into focal plane";
+        msg += measure.cubeSerialNumber().toStdString() + " on point " + point.id().toStdString() + " into focal plane";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -2996,10 +2996,10 @@ namespace Isis {
     QString iterationNumber;
 
     if ( m_bundleResults.converged() ) {
-        iterationNumber = "Iteration" + toString(m_iteration) + ": Final";
+        iterationNumber = "Iteration" + QString::number(m_iteration) + ": Final";
     }
     else {
-        iterationNumber = "Iteration" + toString(m_iteration);
+        iterationNumber = "Iteration" + QString::number(m_iteration);
     }
 
     PvlGroup summaryGroup(iterationNumber.toStdString());

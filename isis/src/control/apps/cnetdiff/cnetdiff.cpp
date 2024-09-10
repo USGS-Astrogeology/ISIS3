@@ -163,8 +163,8 @@ namespace Isis {
 
     if (net1NumPts != net2NumPts) {
       differenceReason = "The number of control points in the networks, [" +
-                         toString(net1NumPts) + "] and [" +
-                         toString(net2NumPts) + "], differ.";
+                         QString::number(net1NumPts) + "] and [" +
+                         QString::number(net2NumPts) + "], differ.";
       filesMatch = false;
       return;
     }
@@ -221,8 +221,8 @@ namespace Isis {
     if (point1Pvl.groups() != point2Pvl.groups()) {
       filesMatch = false;
       differenceReason = "The number of control measures, [" +
-                         toString(point1Pvl.groups()) + "] and [" +
-                         toString(point2Pvl.groups()) + "] does not match.";
+                         QString::number(point1Pvl.groups()) + "] and [" +
+                         QString::number(point2Pvl.groups()) + "] does not match.";
     }
 
     // Start by comparing top level control point keywords.
@@ -310,7 +310,7 @@ namespace Isis {
     if (tolerances.hasKeyword(pvl1.name()) &&
         tolerances[pvl1.name()].size() > 1 &&
         pvl1.size() != tolerances[pvl1.name()].size()) {
-      std::string msg = "Size of value '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
+      std::string msg = "Size of value '" + pvl1.name() + "' does not match with ";
       msg += "its number of tolerances in the DIFF file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -318,7 +318,7 @@ namespace Isis {
     if (ignorekeys.hasKeyword(pvl1.name()) &&
         ignorekeys[pvl1.name()].size() > 1 &&
         pvl1.size() != ignorekeys[pvl1.name()].size()) {
-      std::string msg = "Size of value '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
+      std::string msg = "Size of value '" + pvl1.name() + "' does not match with ";
       msg += "its number of ignore keys in the DIFF file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -345,7 +345,7 @@ namespace Isis {
           }
 
           double tolerance = 0.0;
-          double difference = abs(toDouble(val1) - toDouble(val2));
+          double difference = abs(val1.toDouble() - val2.toDouble());
 
           if (tolerances.hasKeyword(pvl1.name())) {
             tolerance = std::stod((tolerances[pvl1.name()].size() == 1) ?
@@ -356,14 +356,14 @@ namespace Isis {
             filesMatch = false;
             if (pvl1.size() == 1) {
               differenceReason = "Value [" + QString::fromStdString(pvl1.name()) + "] difference is " +
-                                 toString(difference);
+                                 QString::number(difference);
             }
             else {
               differenceReason = "Value [" + QString::fromStdString(pvl1.name()) + "] at index " +
-                                 toString(i) + ": difference is " + toString(difference);
+                                 QString::number(i) + ": difference is " + QString::number(difference);
             }
             differenceReason += " (values are [" + val1 + "] and [" +
-                                val2 + "], tolerance is [" + toString(tolerance) + "])";
+                                val2 + "], tolerance is [" + QString::number(tolerance) + "])";
           }
         }
       }

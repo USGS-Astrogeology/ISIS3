@@ -167,7 +167,7 @@ namespace Isis {
       if ( !target.isNull() ) {  return (true);  }
 
       if ( throwIfInvalid ) {
-        throw IException(IException::Programmer, errmess, _FILEINFO_);
+        throw IException(IException::Programmer, errmess.toStdString(), _FILEINFO_);
       }
       return (false);
     }

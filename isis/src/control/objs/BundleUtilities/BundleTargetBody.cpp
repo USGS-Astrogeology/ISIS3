@@ -691,7 +691,7 @@ namespace Isis {
     }
     else {
       throw IException(IException::Programmer,
-                       "Unknown target body radius solution method [" + method + "].",
+                       "Unknown target body radius solution method [" + method.toStdString() + "].",
                        _FILEINFO_);
     }
   }
@@ -1044,7 +1044,7 @@ namespace Isis {
       if (m_aprioriSigmas[i] <= 0.0)
         sigma = "FREE";
       else
-        sigma = toString(m_aprioriSigmas[i], 8);
+        sigma = QString::number(m_aprioriSigmas[i], 'g', 8);
 
       if (errorPropagation) {
         Angle corr_temp = Angle(m_corrections(i),Angle::Radians);
@@ -1074,7 +1074,7 @@ namespace Isis {
       if (m_aprioriSigmas[i] <= 0.0)
         sigma = "FREE";
       else
-        sigma = toString(m_aprioriSigmas[i], 8);
+        sigma = QString::number(m_aprioriSigmas[i], 'g', 8);
 
       if (errorPropagation) {
         double d1 = finalParameterValues[i];

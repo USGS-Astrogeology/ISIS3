@@ -243,9 +243,9 @@ namespace Isis {
                                               origPnt.GetMeasure(iRefIndex)->GetCubeSerialNumber().toStdString());
           pvlRefChangeGrp += Isis::PvlKeyword("PrevIncAngle", std::to_string(bestIncidenceAngle[iRefIndex]));
 
-          istrTemp = toString((int)origPnt.GetMeasure(iRefIndex)->GetSample());
+          istrTemp = QString::number((int)origPnt.GetMeasure(iRefIndex)->GetSample());
           istrTemp += ",";
-          istrTemp += toString((int)origPnt.GetMeasure(iRefIndex)->GetLine());
+          istrTemp += QString::number((int)origPnt.GetMeasure(iRefIndex)->GetLine());
           pvlRefChangeGrp += Isis::PvlKeyword("PrevLocation", istrTemp.toStdString());
         }
         else {
@@ -256,9 +256,9 @@ namespace Isis {
             newPnt->GetMeasure(iBestIndex)->GetCubeSerialNumber().toStdString());
         pvlRefChangeGrp += Isis::PvlKeyword("NewLeastIncAngle", std::to_string(bestIncidenceAngle[iBestIndex]));
 
-        istrTemp = toString((int)newPnt->GetMeasure(iBestIndex)->GetSample());
+        istrTemp = QString::number((int)newPnt->GetMeasure(iBestIndex)->GetSample());
         istrTemp += ",";
-        istrTemp += toString((int)newPnt->GetMeasure(iBestIndex)->GetLine());
+        istrTemp += QString::number((int)newPnt->GetMeasure(iBestIndex)->GetLine());
         pvlRefChangeGrp += Isis::PvlKeyword("NewLocation", istrTemp.toStdString());
 
         pvlPointObj += pvlRefChangeGrp;

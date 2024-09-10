@@ -153,7 +153,7 @@ cv::Mat GenericTransform::computeInverse(const cv::Mat &matrix,
   }
  catch ( std::exception &e ) {
     // This will also catch any ISIS error
-    std::string msg = "Matrix inversion error: " + QString(e.what());
+    std::string msg = "Matrix inversion error: " + std::string(e.what());
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 

@@ -381,7 +381,7 @@ namespace Isis {
     }
     else {
       throw IException(IException::Programmer,
-                       "Unknown maximum likelihood model name " + modelName + ".",
+                       "Unknown maximum likelihood model name " + modelName.toStdString() + ".",
                        _FILEINFO_);
     }
   }
@@ -398,8 +398,8 @@ namespace Isis {
    */
   QString MaximumLikelihoodWFunctions::weightedResidualCutoff() {
     if (m_model == Huber || m_model == HuberModified) return "N/A";
-    else if (m_model == Welsch) return toString(m_tweakingConstant * 1.5);
-    else if (m_model == Chen) return toString(m_tweakingConstant);
+    else if (m_model == Welsch) return QString::number(m_tweakingConstant * 1.5);
+    else if (m_model == Chen) return QString::number(m_tweakingConstant);
     else throw IException(IException::Programmer, "Estimation model has not been set.", _FILEINFO_);
   }
 

@@ -80,11 +80,11 @@ namespace Isis {
    * @param value Value to add to the keyword
    */
   void DbProfile::add(const QString &key, const QString &value) {
-    if(_keys.exists(key)) {
-      _keys.get(key).addValue(value.toStdString());
+    if(_keys.exists(key.toStdString())) {
+      _keys.get(key.toStdString()).addValue(value.toStdString());
     }
     else {
-      _keys.add(key, PvlKeyword(key.toStdString(), value.toStdString()));
+      _keys.add(key.toStdString(), PvlKeyword(key.toStdString(), value.toStdString()));
     }
   }
 
@@ -101,7 +101,7 @@ namespace Isis {
    * @param value Value to add to the keyword
    */
   void DbProfile::replace(const QString &key, const QString &value) {
-    _keys.add(key, PvlKeyword(key.toStdString(), value.toStdString()));
+    _keys.add(key.toStdString(), PvlKeyword(key.toStdString(), value.toStdString()));
   }
 
 
@@ -111,7 +111,7 @@ namespace Isis {
    * @param key   Keyword to remove
    */
   void DbProfile::remove(const QString &key) {
-    _keys.remove(key);
+    _keys.remove(key.toStdString());
   }
 
   /**
@@ -125,8 +125,8 @@ namespace Isis {
    * @return int Number values in key, or 0 if the key does not exist
    */
   int DbProfile::count(const QString &key) const {
-    if(_keys.exists(key)) {
-      return (_keys.get(key).size());
+    if(_keys.exists(key.toStdString())) {
+      return (_keys.get(key.toStdString()).size());
     }
     return (0);
   }
@@ -145,11 +145,11 @@ namespace Isis {
    */
   QString DbProfile::value(const QString &key, int nth) const {
     try {
-      return QString::fromStdString(_keys.get(key)[nth]);
+      return QString::fromStdString(_keys.get(key.toStdString())[nth]);
     }
     catch(IException &ie) {
       ostringstream mess;
-      mess << "Error fetching value from key " << key;
+      mess << "Error fetching value from key " << key.toStdString();
       if(nth != 0) {
         mess << " (index=" << nth << ")";
       }

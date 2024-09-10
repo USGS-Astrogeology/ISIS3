@@ -129,7 +129,7 @@ namespace Isis {
         QFile file(ui.GetFileName("MEASURELIST"));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             std::string msg = "Unable to open MEASURELIST [" +
-                          file.fileName() + "]";
+                          file.fileName().toStdString() + "]";
             throw IException(IException::User, msg, _FILEINFO_);
         }
 
@@ -141,7 +141,7 @@ namespace Isis {
             QString line = in.readLine();
             QStringList results = line.split(",");
             if (results.size() < 2) {
-                std::string msg = "Line " + QString::number(lineNumber) + " in the MEASURELIST does "
+                std::string msg = "Line " + std::to_string(lineNumber) + " in the MEASURELIST does "
                                                                       "not contain a Point ID and a cube filename separated by a comma";
                 throw IException(IException::User, msg, _FILEINFO_);
             }
@@ -338,7 +338,7 @@ namespace Isis {
             if (pvlResults.groups() > 0 || pvlResults.keywords() > 0) {
                 Application::AppendAndLog(pvlResults.group(0), &results);
 
-                QString sErrMsg = "Invalid Deffile\n";
+                std::string sErrMsg = "Invalid Deffile\n";
                 throw IException(IException::User, sErrMsg, _FILEINFO_);
             }
 
@@ -950,7 +950,7 @@ namespace Isis {
       Camera *camera = NULL;
       if (cneteditValidator->IsCubeRequired()) {
         if (!serialNumbers->hasSerialNumber(serialNumber)) {
-          std::string msg = "Serial Number [" + serialNumber + "] contains no ";
+          std::string msg = "Serial Number [" + serialNumber.toStdString() + "] contains no ";
           msg += "matching cube in FROMLIST";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -963,7 +963,7 @@ namespace Isis {
             camera = cube->camera();
           }
           catch (IException &e) {
-            std::string msg = "Cannot Create Camera for Image:" + cube->fileName();
+            std::string msg = "Cannot Create Camera for Image:" + cube->fileName().toStdString();
             throw IException(e, IException::User, msg, _FILEINFO_);
           }
         }

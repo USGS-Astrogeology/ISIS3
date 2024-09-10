@@ -45,18 +45,18 @@ namespace Isis {
     params.maxThreshold = variables.get("MaxThreshold").toFloat();
     params.minRepeatability = variables.get("MinRepeatability").toUInt();
     params.minDistBetweenBlobs = variables.get("MinDistance").toFloat();
-    params.filterByColor = toBool(variables.get("FilterByColor"));
-    params.blobColor = (unsigned char) toInt(variables.get("BlobColor"));
-    params.filterByArea = toBool(variables.get("FilterByArea"));
+    params.filterByColor = toBool(variables.get("FilterByColor").toStdString());
+    params.blobColor = (unsigned char) variables.get("BlobColor").toInt();
+    params.filterByArea = toBool(variables.get("FilterByArea").toStdString());
     params.minArea = variables.get("MinArea").toFloat();
     params.maxArea = variables.get("MaxArea").toFloat();
-    params.filterByCircularity = toBool(variables.get("FilterByCircularity"));
+    params.filterByCircularity = toBool(variables.get("FilterByCircularity").toStdString());
     params.minCircularity = variables.get("MinCircularity").toFloat();
     params.maxCircularity = variables.get("maxCircularity").toFloat();
-    params.filterByInertia = toBool(variables.get("FilterByInertia"));
+    params.filterByInertia = toBool(variables.get("FilterByInertia").toStdString());
     params.minInertiaRatio = variables.get("MinInertiaRatio").toFloat();
     params.maxInertiaRatio = variables.get("MaxInertiaRatio").toFloat();
-    params.filterByConvexity = toBool(variables.get("FilterByConvexity"));
+    params.filterByConvexity = toBool(variables.get("FilterByConvexity").toStdString());
     params.minConvexity = variables.get("MinConvexity").toFloat();
     params.maxConvexity = variables.get("MaxConvexity").toFloat();
 

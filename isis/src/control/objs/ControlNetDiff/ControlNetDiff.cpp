@@ -98,7 +98,7 @@ namespace Isis {
 
     BigInt net1NumPts = cnv1.numPoints();
     BigInt net2NumPts = cnv2.numPoints();
-    diff("Points", toString(net1NumPts), toString(net2NumPts), report);
+    diff("Points", QString::number(net1NumPts), QString::number(net2NumPts), report);
 
     diff("NetworkId", cnv1.netId(), cnv2.netId(), report);
     diff("TargetName", cnv1.targetName(), cnv2.targetName(), report);
@@ -161,7 +161,7 @@ namespace Isis {
 
     int p1Measures = point1Pvl.groups();
     int p2Measures = point2Pvl.groups();
-    diff("Measures", toString(p1Measures), toString(p2Measures), pointReport);
+    diff("Measures", QString::number(p1Measures), QString::number(p2Measures), pointReport);
 
     compareGroups(point1Pvl, point2Pvl, pointReport);
 

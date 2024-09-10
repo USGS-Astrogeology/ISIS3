@@ -33,7 +33,7 @@ namespace Isis {
     if (m_rangeObserved <= 0) {
       std::string msg ="In BundleLidarRangeConstraint::BundleLidarRangeConstraint():"
                    "observed range for lidar point must be positive (Point Id: "
-                   + measure->parentControlPoint()->id() + ")\n.";
+                   + measure->parentControlPoint()->id().toStdString() + ")\n.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -42,7 +42,7 @@ namespace Isis {
     if (m_rangeObservedSigma <= 0) {
       std::string msg ="In BundleLidarRangeConstraint::BundleLidarRangeConstraint():"
                    "observed range sigma for lidar point must be positive (Point Id: "
-                   + measure->parentControlPoint()->id() + ")\n.";
+                   + measure->parentControlPoint()->id().toStdString() + ")\n.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -54,8 +54,8 @@ namespace Isis {
     if (m_simultaneousMeasure->camera()->GetCameraType() == Camera::Csm) {
       std::string msg = "Cannot apply a Lidar range constraint to a CSM camera model"
                     "(Point Id: "
-                    + measure->parentControlPoint()->id() + ", Measure Serial:"
-                    + measure->cubeSerialNumber() + ").\n";
+                    + measure->parentControlPoint()->id().toStdString() + ", Measure Serial:"
+                    + measure->cubeSerialNumber().toStdString() + ").\n";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -209,8 +209,8 @@ namespace Isis {
     if (!isisObservation) {
       std::string msg = "Failed to cast BundleObservation to IsisBundleObservation when applying "
                     "lidar constraint (Point Id: "
-                    + m_simultaneousMeasure->parentControlPoint()->id() + ", Measure Serial:"
-                    + m_simultaneousMeasure->cubeSerialNumber() + ").\n";
+                    + m_simultaneousMeasure->parentControlPoint()->id().toStdString() + ", Measure Serial:"
+                    + m_simultaneousMeasure->cubeSerialNumber().toStdString() + ").\n";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     int numPositionParameters = isisObservation->numberPositionParameters();

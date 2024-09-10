@@ -112,12 +112,12 @@ namespace Isis {
   PvlFlatMap GFTTAlgorithm::getAlgorithmVariables( ) const {
     GFTTPtr algorithm = m_algorithm.dynamicCast<GFTTType>();
     PvlFlatMap variables;
-    variables.add("MaxFeatures",    toString(algorithm->getMaxFeatures()));
-    variables.add("QualityLevel",   toString(algorithm->getQualityLevel()));
-    variables.add("MinDistance",    toString(algorithm->getMinDistance()));
-    variables.add("BlockSize",      toString(algorithm->getBlockSize()));
-    variables.add("HarrisDetector", toString(algorithm->getHarrisDetector()));
-    variables.add("K",              toString(algorithm->getK()));
+    variables.add("MaxFeatures",    QString::number(algorithm->getMaxFeatures()));
+    variables.add("QualityLevel",   QString::number(algorithm->getQualityLevel()));
+    variables.add("MinDistance",    QString::number(algorithm->getMinDistance()));
+    variables.add("BlockSize",      QString::number(algorithm->getBlockSize()));
+    variables.add("HarrisDetector", QString::number(algorithm->getHarrisDetector()));
+    variables.add("K",              QString::number(algorithm->getK()));
     return (variables);
   }
 
@@ -135,32 +135,32 @@ namespace Isis {
 
     int nset(0);
     if ( variables.exists("MaxFeatures") ) {
-      algorithm->setMaxFeatures(toInt(variables.get("MaxFeatures")));
+      algorithm->setMaxFeatures(variables.get("MaxFeatures").toInt());
       nset++;
     }
 
     if ( variables.exists("QualityLevel") ) {
-      algorithm->setQualityLevel(toDouble(variables.get("QualityLevel")));
+      algorithm->setQualityLevel(variables.get("QualityLevel").toDouble());
       nset++;
     }
 
     if ( variables.exists("MinDistance") ) {
-      algorithm->setMinDistance(toDouble(variables.get("MinDistance")));
+      algorithm->setMinDistance(variables.get("MinDistance").toDouble());
       nset++;
     }
 
     if ( variables.exists("BlockSize") ) {
-      algorithm->setBlockSize(toInt(variables.get("BlockSize")));
+      algorithm->setBlockSize(variables.get("BlockSize").toInt());
       nset++;
     }
 
     if ( variables.exists("HarrisDetector") ) {
-      algorithm->setHarrisDetector(toBool(variables.get("HarrisDetector")));
+      algorithm->setHarrisDetector(toBool(variables.get("HarrisDetector").toStdString()));
       nset++;
     }
 
     if ( variables.exists("K") ) {
-      algorithm->setK(toDouble(variables.get("K")));
+      algorithm->setK(variables.get("K").toDouble());
       nset++;
     }
 

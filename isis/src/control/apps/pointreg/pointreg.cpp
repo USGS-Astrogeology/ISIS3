@@ -154,8 +154,8 @@ namespace Isis {
       QString toString() {
         stringstream stream;
         stream <<
-          resultString() << "," << m_test << "," << m_pointId << "," <<
-          m_heldId << "," << m_registeredId << "," <<
+          resultString().toStdString() << "," << m_test.toStdString() << "," << m_pointId.toStdString() << "," <<
+          m_heldId.toStdString() << "," << m_registeredId.toStdString() << "," <<
           m_aprioriSample << "," << m_aprioriLine << "," <<
           m_shiftSample << "," << m_shiftLine << "," <<
           m_resDiff << "," << m_resTolerance << "," <<
@@ -240,7 +240,7 @@ namespace Isis {
     ControlNet outNet(ui.GetFileName("CNET"));
 
     if (outNet.GetNumPoints() <= 0) {
-      std::string msg = "Control network [" + ui.GetFileName("CNET") + "] ";
+      std::string msg = "Control network [" + ui.GetFileName("CNET").toStdString() + "] ";
       msg += "contains no points";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -416,13 +416,13 @@ namespace Isis {
             double outLine = cmTrans->GetLine();
 
             os <<
-              pointId << "," <<
-              filename << "," <<
-              measureType << "," <<
-              reference << "," <<
-              editLock << "," <<
-              ignore << "," <<
-              registered << "," <<
+              pointId.toStdString() << "," <<
+              filename.toStdString() << "," <<
+              measureType.toStdString() << "," <<
+              reference.toStdString() << "," <<
+              editLock.toStdString() << "," <<
+              ignore.toStdString() << "," <<
+              registered.toStdString() << "," <<
               inSamp << "," <<
               inLine << "," <<
               outSamp << "," <<
@@ -458,7 +458,7 @@ namespace Isis {
       ofstream os;
       os.open(filename.toLatin1().data(), ios::out);
 
-      os << Validation::getHeader() << endl;
+      os << Validation::getHeader().toStdString() << endl;
       for (int i = 0; i < falsePositives->size(); i++) {
         os << (*falsePositives)[i].toStdString() << endl;
       }

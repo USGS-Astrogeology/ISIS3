@@ -95,15 +95,15 @@ namespace Isis {
       defName = getDefaultProfileName();
     }
     else {
-      if(!_profiles.exists(defName)) {
+      if(!_profiles.exists(defName.toStdString())) {
         return (DbProfile(defName));
       }
     }
 
 //  We have identified the proper profile
-    if(_profiles.exists(defName)) {
+    if(_profiles.exists(defName.toStdString())) {
       //   Return the composite of this access scheme
-      return(DbProfile(*this, _profiles.get(defName), defName));
+      return(DbProfile(*this, _profiles.get(defName.toStdString()), defName));
     }
     else {
       //  Return only the high level database access keys and hope it is enough
@@ -169,7 +169,7 @@ namespace Isis {
                                         pvl.endGroup());
     while(group != pvl.endGroup()) {
       DbProfile dbgroup(*group);
-      _profiles.add(dbgroup.Name(), dbgroup);
+      _profiles.add(dbgroup.Name().toStdString(), dbgroup);
       group = pvl.findGroup("Profile", ++group, pvl.endGroup());
     }
     return;

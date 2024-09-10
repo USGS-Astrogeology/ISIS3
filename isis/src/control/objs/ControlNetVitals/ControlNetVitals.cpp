@@ -885,23 +885,23 @@ namespace Isis {
     QString details = "";
     if (hasIslands()) {
       status = "Broken!";
-      details = "This network has " + toString(numIslands()) + " islands.";
+      details = "This network has " + QString::number(numIslands()) + " islands.";
     }
     else {
 
       if (numPointsBelowMeasureThreshold() > 0) {
         status = "Weak!";
-        details += "This network has " + toString(numPointsBelowMeasureThreshold()) + " point(s) with less than 3 measures\n";
+        details += "This network has " + QString::number(numPointsBelowMeasureThreshold()) + " point(s) with less than 3 measures\n";
       }
 
       if (numImagesBelowMeasureThreshold() > 0) {
         status = "Weak!";
-        details += "This network has " + toString(numImagesBelowMeasureThreshold()) + " image(s) with less than 3 measures\n";
+        details += "This network has " + QString::number(numImagesBelowMeasureThreshold()) + " image(s) with less than 3 measures\n";
       }
 
       if (numImagesBelowHullTolerance() > 0) {
         status = "Weak!";
-        details += "This network has " + toString(numImagesBelowHullTolerance()) + " image(s) below the Convex Hull Tolerance of 75%\n";
+        details += "This network has " + QString::number(numImagesBelowHullTolerance()) + " image(s) below the Convex Hull Tolerance of 75%\n";
       }
 
       if (status.isEmpty()) {

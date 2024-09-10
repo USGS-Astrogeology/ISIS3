@@ -110,7 +110,7 @@ namespace Isis {
    *         iException is thrown if it fails.
    */
   bool SqlQuery::exec(const std::string &query) {
-    bool ok = this->QSqlQuery::exec(IString::ToQt(query));
+    bool ok = this->QSqlQuery::exec(QString::fromStdString((query)));
     if((!ok) && isThrowing()) {
       string mess = "Query \'" + query + "\' failed to execute";
       tossQueryError(mess, _FILEINFO_);
@@ -131,8 +131,8 @@ namespace Isis {
    *         undefined, an empty string is returned.
    */
   std::string SqlQuery::getQuery() const {
-    std::string lastq = IString::ToStd(lastQuery());
-    if(lastq.empty()) lastq = IString::ToStd(executedQuery());
+    std::string lastq = lastQuery().toStdString();
+    if(lastq.empty()) lastq = executedQuery().toStdString();
     return (lastq);
   }
 
@@ -164,7 +164,7 @@ namespace Isis {
    * @return std::string Name of column at given index
    */
   std::string SqlQuery::fieldName(int index) const {
-    return (IString::ToStd(record().fieldName(index)));
+    return (record().fieldName(index).toStdString());
   }
 
   /**
@@ -179,7 +179,7 @@ namespace Isis {
    * @return int Zero-based index of named column
    */
   int SqlQuery::fieldIndex(const std::string &name) const {
-    return(record().indexOf(IString::ToQt(name)));
+    return(record().indexOf(QString::fromStdString(name)));
   }
 
   /**
@@ -199,7 +199,7 @@ namespace Isis {
     std::vector<std::string> fields;
     QSqlRecord rec = record();
     for(int i = 0 ; i < rec.count() ; i++) {
-      fields.push_back(IString::ToStd(rec.fieldName(i)));
+      fields.push_back(rec.fieldName(i).toStdString());
     }
     return (fields);
   }
@@ -277,7 +277,7 @@ namespace Isis {
    */
   void SqlQuery::tossQueryError(const std::string &message, const char *f, int l) const {
     string errmess = message + " - QueryError = " +
-                     IString::ToStd(lastError().text());
+                     lastError().text().toStdString();
     throw IException(IException::User, errmess, f, l);
   }
 

@@ -189,7 +189,7 @@ namespace Isis {
 
         if(noIgnore && newMeasure->IsIgnored()) {
           //New error with deleting Reference Measures
-          std::string msg = newPoint->GetId() + "," + newMeasure->GetCubeSerialNumber();
+          QString msg = newPoint->GetId() + "," + newMeasure->GetCubeSerialNumber();
           if(newPoint->GetRefMeasure() != newMeasure) {
             omit(newPoint, cm);
           }
@@ -215,7 +215,7 @@ namespace Isis {
           // doesn't have serial number if measure is not associated with cubelist
           // we need to omit appropriate measures
           if(!hasSerialNumber) {
-            std::string msg = newPoint->GetId() + "," + newMeasure->GetCubeSerialNumber();
+            QString msg = newPoint->GetId() + "," + newMeasure->GetCubeSerialNumber();
             // if this measure is not reference, omit it
             // if this measure is a reference, but retainReference is off, omit it
             if(newPoint->GetRefMeasure() != newMeasure ||
@@ -791,7 +791,7 @@ namespace Isis {
       // moved the "if" statement to the previous for loop to prevent creating
       // an empty file
       //if(!sn2file[(*sn)].length() == 0) {
-        out_stream << sn2file[(*sn)] << std::endl;
+        out_stream << sn2file[(*sn)].toStdString() << std::endl;
       //}
     }
 
@@ -826,9 +826,9 @@ namespace Isis {
     out_stream.open(filename.toLatin1().data(), std::ios::out);
     out_stream.seekp(0, std::ios::beg);   //Start writing from beginning of file
 
-    out_stream << notExtracted[0];
+    out_stream << notExtracted[0].toStdString();
     for(int index = 1; index < notExtracted.size(); index ++) {
-      out_stream << std::endl << notExtracted[index];
+      out_stream << std::endl << notExtracted[index].toStdString();
     }
 
     out_stream.close();

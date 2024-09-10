@@ -39,8 +39,8 @@ namespace Isis {
     setConfig(config);
     PvlFlatMap variables = setupParameters();
     variables.merge(cvars);
-    const int lucidKernel = toInt(variables.get("LucidKernel"));
-    const int blurKernel = toInt(variables.get("BlurKernel"));
+    const int lucidKernel = variables.get("LucidKernel").toInt();
+    const int blurKernel = variables.get("BlurKernel").toInt();
 
     m_algorithm = LUCIDType::create(lucidKernel, blurKernel);
 

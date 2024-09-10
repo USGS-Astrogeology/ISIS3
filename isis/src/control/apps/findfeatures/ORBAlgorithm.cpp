@@ -126,15 +126,15 @@ namespace Isis {
     ORBPtr algorithm = m_algorithm.dynamicCast<ORBType>();
 
     PvlFlatMap variables;
-    variables.add("nfeatures",     toString(algorithm->getMaxFeatures()));
-    variables.add("scaleFactor",   toString(algorithm->getScaleFactor()));
-    variables.add("nlevels",       toString(algorithm->getNLevels()));
-    variables.add("edgeThreshold", toString(algorithm->getEdgeThreshold()));
-    variables.add("firstLevel",    toString(algorithm->getFirstLevel()));
-    variables.add("WTA_K",         toString(algorithm->getWTA_K()));
+    variables.add("nfeatures",     QString::number(algorithm->getMaxFeatures()));
+    variables.add("scaleFactor",   QString::number(algorithm->getScaleFactor()));
+    variables.add("nlevels",       QString::number(algorithm->getNLevels()));
+    variables.add("edgeThreshold", QString::number(algorithm->getEdgeThreshold()));
+    variables.add("firstLevel",    QString::number(algorithm->getFirstLevel()));
+    variables.add("WTA_K",         QString::number(algorithm->getWTA_K()));
     variables.add("scoreType",     m_typeMap.right.at(algorithm->getScoreType()));
-    variables.add("patchSize",     toString(algorithm->getPatchSize()));
-    variables.add("fastThreshold", toString(algorithm->getFastThreshold()));
+    variables.add("patchSize",     QString::number(algorithm->getPatchSize()));
+    variables.add("fastThreshold", QString::number(algorithm->getFastThreshold()));
     return (variables);
   }
 
@@ -154,33 +154,33 @@ namespace Isis {
 
     int numSet(0);
     if ( variables.exists("nfeatures") ) {
-      algorithm->setMaxFeatures(toInt(variables.get("nfeatures")));
+      algorithm->setMaxFeatures((variables.get("nfeatures")).toInt());
       numSet++;
     }
 
     if ( variables.exists("scaleFactor") ) {
-      algorithm->setScaleFactor(toDouble(variables.get("scaleFactor")));
+      algorithm->setScaleFactor((variables.get("scaleFactor")).toDouble());
       numSet++;
     }
 
 
      if ( variables.exists("nlevels") ) {
-      algorithm->setNLevels(toInt(variables.get("nlevels")));
+      algorithm->setNLevels((variables.get("nlevels")).toInt());
       numSet++;
      }
 
      if ( variables.exists("edgeThreshold") ) {
-      algorithm->setEdgeThreshold(toInt(variables.get("edgeThreshold")));
+      algorithm->setEdgeThreshold((variables.get("edgeThreshold")).toInt());
       numSet++;
      }
 
      if ( variables.exists("firstLevel") ) {
-      algorithm->setFirstLevel(toInt(variables.get("firstLevel")));
+      algorithm->setFirstLevel((variables.get("firstLevel")).toInt());
       numSet++;
      }
 
      if ( variables.exists("WTA_K") ) {
-      algorithm->setWTA_K(toInt(variables.get("WTA_K")));
+      algorithm->setWTA_K((variables.get("WTA_K")).toInt());
       numSet++;
      }
 
@@ -201,7 +201,7 @@ namespace Isis {
          }
        }
        catch (std::exception &e) {
-         std::string msg = "The input value [" + value +
+         std::string msg = "The input value [" + value.toStdString() +
                        "] is not valid for ORB's [Type] variable";
          throw IException(IException::User, msg, _FILEINFO_);
        }
@@ -210,12 +210,12 @@ namespace Isis {
       numSet++;
 
      if ( variables.exists("patchSize") ) {
-      algorithm->setPatchSize(toInt(variables.get("patchSize")));
+      algorithm->setPatchSize(variables.get("patchSize").toInt());
       numSet++;
      }
 
      if ( variables.exists("fastThreshold") ) {
-      algorithm->setPatchSize(toInt(variables.get("fastThreshold")));
+      algorithm->setPatchSize(variables.get("fastThreshold").toInt());
       numSet++;
      }
    }

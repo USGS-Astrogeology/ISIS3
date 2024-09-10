@@ -157,12 +157,12 @@ namespace Isis {
 
         //  Add the top level one - may be replaced
         const DbProfile &topProf = acp.getProfile();
-        _profiles.add(topProf.Name(), topProf);
+        _profiles.add(topProf.Name().toStdString(), topProf);
 
         //  Now add each individual one
         for(int i = 0 ; i < acp.profileCount() ; i++) {
           const DbProfile &newProf = acp.getProfile(i);
-          _profiles.add(newProf.Name(), newProf);
+          _profiles.add(newProf.Name().toStdString(), newProf);
         }
 
         // See if a default exists
@@ -192,7 +192,7 @@ namespace Isis {
    * @param profile New access profile to add to internal list
    */
   void DatabaseFactory::addProfile(const DbProfile &profile) {
-    _profiles.add(profile.Name(), profile);
+    _profiles.add(profile.Name().toStdString(), profile);
     return;
   }
 
@@ -207,7 +207,7 @@ namespace Isis {
   std::vector<QString> DatabaseFactory::getProfileList() const {
     std::vector<QString> plist;
     for(int i = 0 ; i < _profiles.size() ; i++) {
-      plist.push_back(_profiles.key(i).ToQt());
+      plist.push_back(QString::fromStdString(_profiles.key(i)));
     }
     return (plist);
   }
@@ -237,11 +237,11 @@ namespace Isis {
     if(profName.isEmpty()) profName = _defProfName;
 
     // Refer to user access if provided
-    if(!_profiles.exists(profName)) {
+    if(!_profiles.exists(profName.toStdString())) {
       return(DbProfile(profName));
     }
     else {
-      return (_profiles.get(profName));
+      return (_profiles.get(profName.toStdString()));
     }
   }
 
@@ -261,7 +261,7 @@ namespace Isis {
     Drivers drivers = getResourceList(true, true);
     std::vector<QString> dblist;
     for(int i = 0 ; i < drivers.size() ; i++) {
-      dblist.push_back(drivers.key(i).ToQt());
+      dblist.push_back(QString::fromStdString(drivers.key(i)));
     }
     return (dblist);
   }
@@ -278,10 +278,10 @@ namespace Isis {
    */
   bool DatabaseFactory::isDriverAvailable(const QString &dbname) const {
     Drivers drivers = getResourceList(true, false);
-    if(!drivers.exists(dbname)) {
+    if(!drivers.exists(dbname.toStdString())) {
       return (false);
     }
-    return (QSqlDatabase::isDriverAvailable(drivers.get(dbname)));
+    return (QSqlDatabase::isDriverAvailable(drivers.get(dbname.toStdString())));
   }
 
   /**
@@ -300,7 +300,7 @@ namespace Isis {
     if(name.isEmpty()) {
       name = _defDatabase;
     }
-    return (dbdrivers.exists(name));
+    return (dbdrivers.exists(name.toStdString()));
   }
 
   /**
@@ -333,7 +333,7 @@ namespace Isis {
    * @return bool True if the database is persistant, otherwise false
    */
   bool DatabaseFactory::isPersistant(const QString &dbname) const {
-    return (_dbList.exists(dbname));
+    return (_dbList.exists(dbname.toStdString()));
   }
 
 
@@ -361,14 +361,14 @@ namespace Isis {
 
     // Check driver availability
     if(!isDriverAvailable(driver)) {
-      std::string mess = "Driver [" + driver + "] for database [" + dbname
+      std::string mess = "Driver [" + driver.toStdString() + "] for database [" + dbname.toStdString()
                      + "] does not exist";
       throw IException(IException::Unknown, mess, _FILEINFO_);
     }
 
     //  Create the database with the specified driver and name
     Drivers drivers = getResourceList(true, false);
-    return (QSqlDatabase::addDatabase(drivers.get(driver), dbname));
+    return (QSqlDatabase::addDatabase(drivers.get(driver.toStdString()), dbname));
   }
 
   /**
@@ -385,12 +385,12 @@ namespace Isis {
   QSqlDatabase DatabaseFactory::create(const QString &dbname) {
 
     //  Return an existing connection
-    if(_dbList.exists(dbname)) {
-      return (_dbList.get(dbname));
+    if(_dbList.exists(dbname.toStdString())) {
+      return (_dbList.get(dbname.toStdString()));
     }
 
     // One doesn't exist, throw an error
-    std::string mess = "Database [" + dbname + "] does not exist";
+    std::string mess = "Database [" + dbname.toStdString() + "] does not exist";
     throw IException(IException::Unknown, mess, _FILEINFO_);
   }
 
@@ -414,7 +414,7 @@ namespace Isis {
    */
   void DatabaseFactory::add(const QSqlDatabase &db, const QString &name,
                             bool setAsDefault) {
-    _dbList.add(name, db);
+    _dbList.add(name.toStdString(), db);
     if(setAsDefault) {
       _defDatabase = name;
     }
@@ -448,7 +448,7 @@ namespace Isis {
    * @param name  Name of database to remove from the connection pool
    */
   void DatabaseFactory::remove(const QString &name) {
-    _dbList.remove(name);
+    _dbList.remove(name.toStdString());
 #if 0
     if(IString::Equal(name, _defDatabase)) {
       _defDatabase = "";
@@ -522,7 +522,7 @@ namespace Isis {
     Drivers dbDrivers;
     for(int i = 0 ; i < dblist.size() ; i++) {
       QString dbname(dblist.at(i));
-      dbDrivers.add(dbname, dbname);
+      dbDrivers.add(dbname.toStdString(), dbname);
     }
 
 

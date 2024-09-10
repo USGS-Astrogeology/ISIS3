@@ -120,11 +120,11 @@ namespace Isis {
   PvlFlatMap SURFAlgorithm::getAlgorithmVariables( ) const {
     PvlFlatMap variables;
     SURFPtr v_ref = m_algorithm.dynamicCast<SURFType>();
-    variables.add("HessianThreshold", toString(v_ref->getHessianThreshold()));
-    variables.add("NOctaves",  toString(v_ref->getNOctaves()));
-    variables.add("NOctaveLayers",  toString(v_ref->getNOctaveLayers()));
-    variables.add("Extended", toString(v_ref->getExtended()));
-    variables.add("Upright", toString(v_ref->getUpright()));
+    variables.add("HessianThreshold", QString::number(v_ref->getHessianThreshold()));
+    variables.add("NOctaves",  QString::number(v_ref->getNOctaves()));
+    variables.add("NOctaveLayers",  QString::number(v_ref->getNOctaveLayers()));
+    variables.add("Extended", QString::number(v_ref->getExtended()));
+    variables.add("Upright", QString::number(v_ref->getUpright()));
     return (variables);
   }
 
@@ -142,27 +142,27 @@ namespace Isis {
     SURFPtr v_ref = m_algorithm.dynamicCast<SURFType>();
     int nset(0);
     if ( variables.exists("HessianThreshold") ) {
-      v_ref->setHessianThreshold(toDouble(variables.get("HessianThreshold")));
+      v_ref->setHessianThreshold(variables.get("HessianThreshold").toDouble());
       nset++;
     }
 
     if ( variables.exists("NOctaves") ) {
-      v_ref->setNOctaves(toInt(variables.get("NOctaves")));
+      v_ref->setNOctaves(variables.get("NOctaves").toDouble());
       nset++;
     }
 
     if ( variables.exists("NOctaveLayers") ) {
-      v_ref->setNOctaveLayers(toInt(variables.get("NOctaveLayers")));
+      v_ref->setNOctaveLayers(variables.get("NOctaveLayers").toDouble());
       nset++;
     }
 
     if ( variables.exists("Extended") ) {
-      v_ref->setExtended(toBool(variables.get("Extended")));
+      v_ref->setExtended(toBool(variables.get("Extended").toStdString()));
       nset++;
     }
 
     if ( variables.exists("Upright") ) {
-      v_ref->setUpright(toBool(variables.get("Upright")));
+      v_ref->setUpright(toBool(variables.get("Upright").toStdString()));
       nset++;
     }
 

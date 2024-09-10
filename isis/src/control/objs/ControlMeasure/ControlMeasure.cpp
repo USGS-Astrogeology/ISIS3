@@ -515,7 +515,7 @@ namespace Isis {
 
     if (!updated) {
       std::string msg = "Unable to update the log data for ["
-                    + newLogData.DataTypeToName(newLogData.GetDataType()) + "] because this"
+                    + newLogData.DataTypeToName(newLogData.GetDataType()).toStdString() + "] because this"
                     " control measure does not have log data for this value. Please use "
                     "SetLogData instead";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -679,7 +679,7 @@ namespace Isis {
 
     if (!validField) {
       std::string msg = "Cannot test IsStatisticallyRelevant on Measure Data ["
-                    + QString(field) + "]";
+                    + QString(field).toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -823,7 +823,7 @@ namespace Isis {
       return p_ignore;
     }
     else {
-      std::string msg = data + " passed to GetMeasureData but is invalid";
+      std::string msg = data.toStdString() + " passed to GetMeasureData but is invalid";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -931,7 +931,7 @@ namespace Isis {
     else if (str == "registeredsubpixel")
       measureType = ControlMeasure::RegisteredSubPixel;
     else
-      throw IException(IException::Programmer, err, _FILEINFO_);
+      throw IException(IException::Programmer, err.toStdString(), _FILEINFO_);
 
     return measureType;
   }

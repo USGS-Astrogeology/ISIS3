@@ -121,7 +121,7 @@ namespace Isis {
         m_pointData->set_apriorisurfpointsource(ControlPointFileEntryV0002::BundleSolution);
       }
       else {
-        std::string msg = "Invalid AprioriXYZSource [" + source + "]";
+        std::string msg = "Invalid AprioriXYZSource [" + source.toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -148,7 +148,7 @@ namespace Isis {
         m_pointData->set_aprioriradiussource(ControlPointFileEntryV0002::BundleSolution);
       }
       else {
-        std::string msg = "Invalid AprioriRadiusSource, [" + source + "]";
+        std::string msg = "Invalid AprioriRadiusSource, [" + source.toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -235,7 +235,7 @@ namespace Isis {
       }
       else {
         throw IException(IException::Io,
-                         "Unknown measure type [" + type + "]",
+                         "Unknown measure type [" + type.toStdString() + "]",
                          _FILEINFO_);
       }
       group.deleteKeyword("MeasureType");

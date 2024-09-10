@@ -49,9 +49,9 @@ namespace Isis {
                                   cv::makePtr<cv::flann::SearchParams>(checks, epsilon, sorted))) {
     setConfig(config);
     PvlFlatMap variables;
-    variables.add("Checks",  toString(checks));
-    variables.add("Epsilon", toString(epsilon));
-    variables.add("Sorted",  toString(sorted));
+    variables.add("Checks",  QString::number(checks));
+    variables.add("Epsilon", QString::number(epsilon));
+    variables.add("Sorted",  QString::number(sorted));
     m_variables.merge(variables);
   }
 
@@ -84,9 +84,9 @@ namespace Isis {
    */
   DescriptorMatcherAlgorithm *FlannBasedMatcher::create(const PvlFlatMap &vars,
                                                         const QString &config) {
-    const int checks = toInt(vars.get("Checks", "32"));
+    const int checks = vars.get("Checks", "32").toInt();
     const float epsilon = vars.get("Epsilon", "0.0").toFloat();
-    const bool sorted = toBool(vars.get("Sorted", "true"));
+    const bool sorted = toBool(vars.get("Sorted", "true").toStdString());
 
     return ( new FlannBasedMatcher(vars, config, checks, epsilon, sorted) );
   }

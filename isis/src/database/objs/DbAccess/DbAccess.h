@@ -136,7 +136,7 @@ namespace Isis {
        * @return bool  True if the profile exists, false otherwise
        */
       bool profileExists(const QString &profile) const {
-        return (_profiles.exists(profile));
+        return (_profiles.exists(profile.toStdString()));
       }
 
       const DbProfile getProfile(const QString &name = "") const;
@@ -153,7 +153,7 @@ namespace Isis {
        * @param profile Profile to add
        */
       void addProfile(const DbProfile &profile) {
-        _profiles.add(profile.Name(), profile);
+        _profiles.add(profile.Name().toStdString(), profile);
       }
 
       void load(const QString &filename);

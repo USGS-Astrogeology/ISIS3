@@ -128,7 +128,7 @@ MatchPair RobustMatcher::match(MatchImage &query, MatchImage &train) const {
    cv::Mat i_query = v_query.image();
    cv::Mat i_train = v_train.image();
 
-   if ( toBool(m_parameters.get("SaveRenderedImages")) ) {
+   if ( toBool(m_parameters.get("SaveRenderedImages").toStdString()) ) {
      QString savepath = m_parameters.get("SavePath");
 
      FileName qfile(v_query.source().name().toStdString());
@@ -170,7 +170,7 @@ MatchPair RobustMatcher::match(MatchImage &query, MatchImage &train) const {
    int allPoints = v_query_points + v_train_points;
 
    // Limit keypoints if requested by user
-   int v_maxpoints = toInt(m_parameters.get("MaxPoints"));
+   int v_maxpoints = m_parameters.get("MaxPoints").toInt();
    if ( v_maxpoints > 0 ) {
      logger() << "  Keypoints restricted by user to " << v_maxpoints << " points...\n";
      logger().flush();
@@ -201,7 +201,7 @@ MatchPair RobustMatcher::match(MatchImage &query, MatchImage &train) const {
    v_pair.addTime( v_time + d_time );
 
    // Do root sift normalization if requested
-   bool v_doRootSift = toBool(m_parameters.get("RootSift"));
+   bool v_doRootSift = toBool(m_parameters.get("RootSift").toStdString());
    if ( v_doRootSift ) {
      if ( isDebug() ) {
        logger() << "  Computing RootSift Descriptors...\n";
@@ -237,7 +237,7 @@ MatchPair RobustMatcher::match(MatchImage &query, MatchImage &train) const {
      v_pair.addTime(mtime);
    }
    catch ( cv::Exception &c ) {
-     std::string mess = "Outlier removal process failed on image pair: "
+     QString mess = "Outlier removal process failed on image pair: "
                     " Query: " + v_query.name() +
                     ", Train: " + v_train.name() +
                     ".  CV::Error - " + c.what();
@@ -250,7 +250,7 @@ MatchPair RobustMatcher::match(MatchImage &query, MatchImage &train) const {
      }
    }
    catch ( IException &ie) {
-     std::string mess = "Outlier removal process failed on Query/Train image pair "
+     QString mess = "Outlier removal process failed on Query/Train image pair "
                     " Query: "  + v_query.name() +
                     ", Train: " + v_train.name();
      // throw IException(ie, IException::Programmer, mess, _FILEINFO_);
@@ -288,7 +288,7 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
 
   if (trainers.size() == 0 ) {
     std::string mess = "No trainer images provided!!";
-    if (isDebug() ) logger() << "  " << mess << "\n";
+    if (isDebug() ) logger() << "  " << QString::fromStdString(mess) << "\n";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -303,7 +303,7 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
   // Render images for efficiency
    cv::Mat i_query = v_query.image();
    std::vector<cv::Mat> i_trainers;
-   bool saveRendered = toBool(m_parameters.get("SaveRenderedImages"));
+   bool saveRendered = toBool(m_parameters.get("SaveRenderedImages").toStdString());
    QString savepath = m_parameters.get("SavePath");
 
    if ( true == saveRendered ) {
@@ -363,7 +363,7 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
    }
 
    // Limit keypoints if requested by user
-   int v_maxpoints = toInt(m_parameters.get("MaxPoints"));
+   int v_maxpoints = m_parameters.get("MaxPoints").toInt();
    if ( v_maxpoints > 0 ) {
      logger() << "  Keypoints restricted by user to " << v_maxpoints << " points...\n";
      logger().flush();
@@ -414,7 +414,7 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
    v_query.addTime( (d_time  + e_time) * ( v_query.size() / allPoints ) );
 
    // Do root sift normalization if requested
-   bool v_doRootSift = toBool(m_parameters.get("RootSift"));
+   bool v_doRootSift = toBool(m_parameters.get("RootSift").toStdString());
    if ( v_doRootSift ) {
      if ( isDebug() ) {
        logger() << "  Computing RootSift Descriptors...\n";
@@ -467,7 +467,7 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
        pairs.push_back( v_pair );
      }
      catch ( cv::Exception &c ) {
-       std::string mess = "Outlier removal process failed on Query/Train image pair "
+       QString mess = "Outlier removal process failed on Query/Train image pair "
                       " Query=" + v_query.name() +
                       ", Train[" + QString::number(i) + "]: " + v_train.name() +
                       ".  cv::Error - " + c.what();
@@ -481,7 +481,7 @@ MatchPairQList RobustMatcher::match(MatchImage &query,
        }
      }
      catch ( IException &ie) {
-       std::string mess = "Outlier removal process failed on Query/Train image pair "
+       QString mess = "Outlier removal process failed on Query/Train image pair "
                       " Query=" + v_query.name() +
                       ", Train[" + QString::number(i) + "]: " + v_train.name();
        // throw IException(ie, IException::Programmer, mess, _FILEINFO_);
@@ -558,7 +558,7 @@ bool RobustMatcher::removeOutliers(const cv::Mat &queryDescriptors,
                                    2); // return 2 nearest neighbours
               }
   catch (cv::Exception &e) {
-    std::string mess = "RobustMatcher::MatcherFailed: "+ QString(e.what()) +
+    std::string mess = "RobustMatcher::MatcherFailed: "+ (std::string)e.what() +
                    " - if its an assertion failure, you may be enabling "
                    "crosschecking with a BFMatcher. Must use a FlannBased "
                    "matcher if you want inherent ratio testing. "
@@ -630,7 +630,7 @@ bool RobustMatcher::removeOutliers(const cv::Mat &queryDescriptors,
 
   // 4) Compute the homography matrix with outlier removal options
   bool refineHomography(true);
-  double v_hmgTolerance = toDouble(m_parameters.get("HmgTolerance"));
+  double v_hmgTolerance = m_parameters.get("HmgTolerance").toDouble();
   homography = computeHomography(queryKeypoints, trainKeypoints,
                                  symMatches, homography_matches,
                                  mtime, cv::FM_RANSAC, v_hmgTolerance,
@@ -658,7 +658,7 @@ bool RobustMatcher::removeOutliers(const cv::Mat &queryDescriptors,
 int RobustMatcher::ratioTest(std::vector<std::vector<cv::DMatch> > &matches,
                              double &mtime) const {
 
-  double v_ratio = toDouble(m_parameters.get("Ratio"));
+  double v_ratio = m_parameters.get("Ratio").toDouble();
   if ( isDebug() ) {
     logger() << "Entered RobustMatcher::ratioTest(matches[2]) for 2 NearestNeighbors (NN)...\n";
     logger() << "  RobustMatcher::Ratio:       " << v_ratio << "\n";
@@ -783,8 +783,8 @@ cv::Mat RobustMatcher::ransacTest(const std::vector<cv::DMatch>& matches,
 
 
   // Introduce ourselves
-  double v_epiTolerance = toDouble(m_parameters.get("EpiTolerance"));
-  double v_epiConfidence = toDouble(m_parameters.get("EpiConfidence"));
+  double v_epiTolerance = m_parameters.get("EpiTolerance").toDouble();
+  double v_epiConfidence = m_parameters.get("EpiConfidence").toDouble();
   if ( isDebug() ) {
     logger() << "Entered EpiPolar RobustMatcher::ransacTest(matches, keypoints1/2...)...\n";
     logger() << " -Running EpiPolar Constraints/Fundamental Matrix...\n";
@@ -801,7 +801,7 @@ cv::Mat RobustMatcher::ransacTest(const std::vector<cv::DMatch>& matches,
 
   // See if enough points to compute fundamental matrix. Minumum number needed
   // for RANSAC is 8 points.
-  int v_minEpiPoints = toInt(m_parameters.get("MinimumFundamentalPoints"));
+  int v_minEpiPoints = m_parameters.get("MinimumFundamentalPoints").toInt();
   if ( (unsigned int) v_minEpiPoints > matches.size() ) {
     if ( isDebug() ) {
       logger() << "->ERROR - Not enough points (need at least "
@@ -837,12 +837,12 @@ cv::Mat RobustMatcher::ransacTest(const std::vector<cv::DMatch>& matches,
   }
   catch ( cv::Exception &e ) {
     std::string mess = "1st fundamental (epipolar) test failed!"
-                   " QueryPoints=" + QString::number(points1.size()) +
-                   ", TrainPoints=" + QString::number(points2.size()) +
+                   " QueryPoints=" + std::to_string(points1.size()) +
+                   ", TrainPoints=" + std::to_string(points2.size()) +
                    ".  cv::Error - " + e.what();
     if ( onErrorThrow ) throw IException(IException::Programmer, mess, _FILEINFO_);
     else if ( isDebug()  ) {
-      logger() << "->ERROR: " << mess << "return identity matrix for fundamental!\n";
+      logger() << "->ERROR: " << QString::fromStdString(mess) << "return identity matrix for fundamental!\n";
       logger().flush();
     }
     mtime = elapsed(stime);
@@ -864,11 +864,11 @@ cv::Mat RobustMatcher::ransacTest(const std::vector<cv::DMatch>& matches,
     logger().flush();
   }
 
-  if ( toBool(m_parameters.get("RefineFundamentalMatrix"))  ) {
+  if (toBool(m_parameters.get("RefineFundamentalMatrix").toStdString())) {
 
     // See if enough points to compute fundamental matrix. Minumum number needed
     // for RANSAC is 8 points.
-    int v_minEpiPoints = toInt(m_parameters.get("MinimumFundamentalPoints"));
+    int v_minEpiPoints = m_parameters.get("MinimumFundamentalPoints").toInt();
     if ( (unsigned int) v_minEpiPoints <= outMatches.size() ) {
 
       // Make a copy of the inliers of the first fundamental processing
@@ -902,12 +902,12 @@ cv::Mat RobustMatcher::ransacTest(const std::vector<cv::DMatch>& matches,
       catch ( cv::Exception &e ) {
         outMatches.clear();
         std::string mess = "2st fundamental (epipolar) test failed!"
-                       " QueryPoints=" + QString::number(points1.size()) +
-                       ", TrainPoints=" + QString::number(points2.size()) +
+                       " QueryPoints=" + std::to_string(points1.size()) +
+                       ", TrainPoints=" + std::to_string(points2.size()) +
                        ".  CV::Error - " + e.what();
         if ( onErrorThrow ) throw IException(IException::Programmer, mess, _FILEINFO_);
         else if ( isDebug()  ) {
-          logger() << "->Refinement ERROR: " << mess << "return initial matrix for fundamental!\n";
+          logger() << "->Refinement ERROR: " << QString::fromStdString(mess) << "return initial matrix for fundamental!\n";
           logger().flush();
         }
 
@@ -962,7 +962,7 @@ cv::Mat RobustMatcher::computeHomography(const std::vector<cv::KeyPoint>& query,
                                          const {
 
   // Introduce ourselves
-  double v_hmgTolerance = toDouble(m_parameters.get("HmgTolerance"));
+  double v_hmgTolerance = m_parameters.get("HmgTolerance").toDouble();
   if ( isDebug() ) {
     logger() << "Entered RobustMatcher::computeHomography(keypoints1/2, matches...)...\n";
     logger() << " -Running RANSAC Constraints/Homography Matrix...\n";
@@ -987,7 +987,7 @@ cv::Mat RobustMatcher::computeHomography(const std::vector<cv::KeyPoint>& query,
 
   // Test intial return condition
   inliers.clear();
-  int v_minHomoPoints = toInt(m_parameters.get("MinimumHomographyPoints"));
+  int v_minHomoPoints = m_parameters.get("MinimumHomographyPoints").toInt();
   if ( srcPoints.size() < (unsigned int) v_minHomoPoints ) {
     if ( isDebug() ) {
       logger() << "  Not enough points  (" << srcPoints.size()
@@ -1074,11 +1074,11 @@ cv::Mat RobustMatcher::computeHomography(const std::vector<cv::KeyPoint>& query,
     }
   }
   catch ( cv::Exception &e ) {
-    std::string mess = "RobustMatcher::HomographyFailed: with cv::Error - "+
-                   QString(e.what());
+    std::string mess = "RobustMatcher::HomographyFailed: with cv::Error - " +
+                   (std::string)e.what();
     if ( onErrorThrow ) throw IException(IException::Programmer, mess , _FILEINFO_);
     else if ( isDebug()  ) {
-      logger() << "->Homography ERROR: " << mess << "return current state of homography\n";
+      logger() << "->Homography ERROR: " << QString::fromStdString(mess) << "return current state of homography\n";
       logger().flush();
     }
     mtime = elapsed(stime);

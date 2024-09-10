@@ -161,7 +161,7 @@ namespace Isis {
     if ( table.Records() > 1 ) {
       std::string message = "Expected/support only one InstrumentPointing record "
                      "(i.e., Framing camera) but got " +
-                     toString(table.Records()) + " for file " + cube.fileName();
+                     toString(table.Records()) + " for file " + cube.fileName().toStdString();
       throw IException(IException::User, message, _FILEINFO_);
     }
 
@@ -169,7 +169,7 @@ namespace Isis {
     if ( rec0.Fields() < 5 ) {
       std::string message = "Expected/support quaternion Table containing 5 or more fields "
                      "(i.e., Framing camera) but got " +
-                     toString(rec0.Fields()) + " for file " + cube.fileName();
+                     toString(rec0.Fields()) + " for file " + cube.fileName().toStdString();
       throw IException(IException::User, message, _FILEINFO_);
     }
 
@@ -178,9 +178,9 @@ namespace Isis {
     }
 
     // Put a comment in the record
-    std::string message = "Updated pointing with SUMFILE " + name() + " on " + iTime::CurrentLocalTime();
+    std::string message = "Updated pointing with SUMFILE " + name().toStdString() + " on " + iTime::CurrentLocalTime().toStdString();
     PvlKeyword sumFileKeyword("SUMFILE", name().toStdString());
-    sumFileKeyword.addComment(message.toStdString());
+    sumFileKeyword.addComment(message);
     table.Label().addKeyword(sumFileKeyword, PvlContainer::Replace);
     table.Update(rec0, 0);
 
@@ -224,7 +224,7 @@ namespace Isis {
     if ( table.Records() > 1 ) {
       std::string message = "Expected/support only one InstrumentPosition record "
                      "(i.e., Framing camera) but got " +
-                     toString(table.Records()) + " for file " + cube.fileName();
+                     toString(table.Records()) + " for file " + cube.fileName().toStdString();
       throw IException(IException::User, message, _FILEINFO_);
     }
 
@@ -232,7 +232,7 @@ namespace Isis {
     if ( rec0.Fields() < 4 ) {
       std::string message = "Expected/support vector Table containing 4 or more fields "
                      "(i.e., Framing camera) but got " +
-                     toString(rec0.Fields()) + " for file " + cube.fileName();
+                     toString(rec0.Fields()) + " for file " + cube.fileName().toStdString();
       throw IException(IException::User, message, _FILEINFO_);
     }
 
@@ -242,9 +242,9 @@ namespace Isis {
     }
 
     // Put a comment in the record
-    std::string message = "Updated position with SUMFILE " + name() + " on " + iTime::CurrentLocalTime();
+    std::string message = "Updated position with SUMFILE " + name().toStdString() + " on " + iTime::CurrentLocalTime().toStdString();
     PvlKeyword sumFileKeyword("SUMFILE", name().toStdString());
-    sumFileKeyword.addComment(message.toStdString());
+    sumFileKeyword.addComment(message);
     table.Label().addKeyword(sumFileKeyword, PvlContainer::Replace);
     table.Update(rec0, 0);
 
@@ -333,7 +333,7 @@ namespace Isis {
    * @return @b std::ostream& The filled output stream.
    */
   std::ostream &SumFile::brief(std::ostream &outs) const {
-    outs << name() << ", " << utc() << ", "  << std::fixed << et() << ", "
+    outs << name().toStdString() << ", " << utc().toStdString() << ", "  << std::fixed << et() << ", "
          << m_numLines << ", " << m_numSamples
          << ", " << m_dnMin << ", " << m_dnMax;
     return (outs);
@@ -488,13 +488,13 @@ namespace Isis {
     if ( !tag.isEmpty() ) {
       if ( values.size() > 0 ) {
         if ( values.last().toLower() != tag.toLower() ) {
-          std::string message = "Expected line tag given (" + tag +
-                         ") does not match contents (" + values.last() + ")";
+          std::string message = "Expected line tag given (" + tag.toStdString() +
+                         ") does not match contents (" + values.last().toStdString() + ")";
           throw IException(IException::User, message, _FILEINFO_);
         }
       }
       else {
-        std::string message = "Line tag given (" + tag + ") but line has not values";
+        std::string message = "Line tag given (" + tag.toStdString() + ") but line has not values";
         throw IException(IException::User, message, _FILEINFO_);
       }
     }

@@ -245,12 +245,12 @@ template <class T> bool FeatureAlgorithm<T>::setVariable(const QString &var,
       variable.add(var, value);
       try {
         if (0 >= setAlgorithmVariables(variable)) {
-          std::string mess = "Setting of variable " + var + " failed in " + name();
+          std::string mess = "Setting of variable " + var.toStdString() + " failed in " + name().toStdString();
           throw IException(IException::Programmer, mess, _FILEINFO_);
         }
       }
       catch (IException &ie) {
-        std::string mess = "Error setting variable " + var + " in " + name();
+        std::string mess = "Error setting variable " + var.toStdString() + " in " + name().toStdString();
         throw IException(ie, IException::Programmer, mess, _FILEINFO_);
       }
 
@@ -302,15 +302,15 @@ template <class T> bool FeatureAlgorithm<T>::setVariable(const QString &vname,
                                                          const QVariant &var) {
       QString value = var.toString();
       if ( value.isEmpty() ) {
-        std::string mess = "Variant/variable " + vname +
-                       " cannot be converted in " + name();
+        std::string mess = "Variant/variable " + vname.toStdString() +
+                       " cannot be converted in " + name().toStdString();
         throw IException(IException::Programmer, mess, _FILEINFO_);
       }
 
       PvlFlatMap variable;
       variable.add(vname, value);
       if ( 0 >= setAlgorithmVariables(variable) ) {
-        std::string mess = "Setting of variable " + vname + " failed in " + name();
+        std::string mess = "Setting of variable " + vname.toStdString() + " failed in " + name().toStdString();
         throw IException(IException::Programmer, mess, _FILEINFO_);
       }
 

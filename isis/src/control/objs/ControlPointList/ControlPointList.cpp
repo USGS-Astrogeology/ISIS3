@@ -91,8 +91,8 @@ namespace Isis {
       return (mqCpList.value(piIndex));
     }
     else {
-      QString num = toString(piIndex);
-      std::string msg = "Index [" + num + "] is invalid";
+      QString num = QString::number(piIndex);
+      std::string msg = "Index [" + num.toStdString() + "] is invalid";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -109,7 +109,7 @@ namespace Isis {
       return mqCpList.indexOf(QString(psCpId));
     }
     else {
-      std::string msg = "Requested control point id [" + psCpId + "] ";
+      std::string msg = "Requested control point id [" + psCpId.toStdString() + "] ";
       msg += "does not exist in the list";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

@@ -137,7 +137,7 @@ namespace Isis {
     // Get seed domain for unit conversion, no keyword == XY
     SeedDomain seedDomain = XY;
     if (seedDef.hasKeyword("SeedDomain", Pvl::Traverse)) {
-      IString domain = QString::fromStdString(seedDef.findKeyword("SeedDomain", Pvl::Traverse));
+      IString domain = (std::string)seedDef.findKeyword("SeedDomain", Pvl::Traverse);
       if (unusedDefKeywords.hasKeyword("SeedDomain"))
         unusedDefKeywords.deleteKeyword("SeedDomain");
 
@@ -304,7 +304,7 @@ namespace Isis {
             else {
               errors << ", ";
             }
-            errors << (*overlaps[ov])[serNum];
+            errors << (*overlaps[ov])[serNum].toStdString();
           }
         }
 
@@ -362,7 +362,7 @@ namespace Isis {
 
           if (!gmap) {
             std::string msg = "Unable to create a Universal Ground for Serial Number [";
-            msg += (*overlaps[ov])[sn] + "] The associated image is more than ";
+            msg += (*overlaps[ov])[sn].toStdString() + "] The associated image is more than ";
             msg += "likely missing from your FROMLIST.";
             throw IException(IException::User, msg, _FILEINFO_);
           }
@@ -455,7 +455,7 @@ namespace Isis {
 
     //Log the ERRORS file
     if (ui.WasEntered("ERRORS") && errorNum > 0) {
-      std::string errorname = ui.GetFileName("ERRORS");
+      QString errorname = ui.GetFileName("ERRORS");
       std::ofstream errorsfile;
       errorsfile.open(errorname.toLatin1().data());
       errorsfile << errors.str();

@@ -68,7 +68,7 @@ namespace Isis {
                     "] is not valid for BruteForceMatcher's [NormType] variable";
       throw IException(IException::User, msg, _FILEINFO_);
     }
-    variables.add("CrossCheck", toString(crossCheck));
+    variables.add("CrossCheck", QString::number(crossCheck));
     m_variables.merge(variables);
   }
 
@@ -136,12 +136,12 @@ namespace Isis {
       }
     }
     catch (std::exception &e) {
-        std::string msg = "The input value [" + norm +
+        std::string msg = "The input value [" + norm.toStdString() +
                       "] is not valid for BruteForceMatcher's [NormType] variable";
         throw IException(IException::User, msg, _FILEINFO_);
     }
 
-    const bool crossCheck = toBool(vars.get("CrossCheck", "false"));
+    const bool crossCheck = toBool(vars.get("CrossCheck", "false").toStdString());
 
     return ( new BruteForceMatcher(vars, config, normType, crossCheck) );
   }

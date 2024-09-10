@@ -52,7 +52,7 @@ namespace Isis {
      std::vector<int> numberList;
      QStringList numberStrings = variables.get("NumberList").split(",");
      BOOST_FOREACH(QString number, numberStrings) {
-       numberList.push_back(toInt(number));
+       numberList.push_back(number.toInt());
      }
      const float dMax = variables.get("DMax", "5.85").toFloat();
      const float dMin = variables.get("DMin", "8.2").toFloat();
@@ -61,15 +61,15 @@ namespace Isis {
      if (!variables.get("IndexChange", "").isEmpty()) {
        QStringList indexStrings = variables.get("IndexChange").split(",");
        BOOST_FOREACH(QString index, indexStrings) {
-         indexChange.push_back(toInt(index));
+         indexChange.push_back(index.toInt());
        }
      }
      m_algorithm = BRISKType::create(radiusList, numberList, dMax, dMin, indexChange);
    }
    // Constructs the algorithm with the input variables
    else {
-     const int thresh = toInt(variables.get("Threshold"));
-     const int octaves = toInt(variables.get("NOctaves"));
+     const int thresh = variables.get("Threshold").toInt();
+     const int octaves = variables.get("NOctaves").toInt();
      const float patternScale = variables.get("PatternScale").toFloat();
 
      m_algorithm = BRISKType::create(thresh, octaves, patternScale);

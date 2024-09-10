@@ -248,9 +248,9 @@ namespace Isis {
           pvlRefChangeGrp += Isis::PvlKeyword("PrevEmAngle",
               std::to_string(bestEmissionAngle[iRefIndex]));
 
-          istrTemp = toString((int)origPnt.GetMeasure(iRefIndex)->GetSample());
+          istrTemp = QString::number((int)origPnt.GetMeasure(iRefIndex)->GetSample());
           istrTemp += ",";
-          istrTemp += toString((int)origPnt.GetMeasure(iRefIndex)->GetLine());
+          istrTemp += QString::number((int)origPnt.GetMeasure(iRefIndex)->GetLine());
           pvlRefChangeGrp += Isis::PvlKeyword("PrevLocation",     istrTemp.toStdString());
         }
         else {
@@ -262,9 +262,9 @@ namespace Isis {
         pvlRefChangeGrp += Isis::PvlKeyword("NewLeastEmAngle",
             std::to_string(bestEmissionAngle[iBestIndex]));
 
-        istrTemp = toString((int)newPnt->GetMeasure(iBestIndex)->GetSample());
+        istrTemp = QString::number((int)newPnt->GetMeasure(iBestIndex)->GetSample());
         istrTemp += ",";
-        istrTemp += toString((int)newPnt->GetMeasure(iBestIndex)->GetLine());
+        istrTemp += QString::number((int)newPnt->GetMeasure(iBestIndex)->GetLine());
         pvlRefChangeGrp += Isis::PvlKeyword("NewLocation", istrTemp.toStdString());
 
         pvlPointObj += pvlRefChangeGrp;

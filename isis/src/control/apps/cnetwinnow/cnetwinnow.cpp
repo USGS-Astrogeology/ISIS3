@@ -88,7 +88,7 @@ namespace Isis {
     for (int i=0;i<cubeSerials.size();i++) {
       std::string msg = "No file paths for the following serial numbers:\n";
       if (!serialNumList.hasSerialNumber(cubeSerials[i])) {
-        msg += cubeSerials[i] + "\n";
+        msg += cubeSerials[i].toStdString() + "\n";
         serFlag = false;
       }
       if (!serFlag) {
@@ -101,7 +101,7 @@ namespace Isis {
 
       //make sure there was some residual data in the control network
     if (hist.ValidPixels() < 1) {
-      std::string msg = "Error no valid residual data found in network [" + ui.GetFileName("CNET") + "]";
+      std::string msg = "Error no valid residual data found in network [" + ui.GetFileName("CNET").toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
       return;
     }

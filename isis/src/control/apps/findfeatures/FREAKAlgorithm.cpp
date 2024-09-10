@@ -40,15 +40,15 @@ namespace Isis {
     setConfig(config);
     PvlFlatMap variables = setupParameters();
     variables.merge(cvars);
-    const bool orientationNormalized = toBool(variables.get("OrientationNormalized"));
-    const bool scaleNormalized = toBool(variables.get("ScaleNormalized"));
+    const bool orientationNormalized = toBool(variables.get("OrientationNormalized").toStdString());
+    const bool scaleNormalized = toBool(variables.get("ScaleNormalized").toStdString());
     const float patternScale = variables.get("PatternScale").toFloat();
-    const int nOctaves = toInt(variables.get("NOctaves"));
+    const int nOctaves = variables.get("NOctaves").toInt();
     std::vector<int> selectedPairs;
     if (!variables.get("SelectedPairs").isEmpty()) {
       QStringList pairList = variables.get("SelectedPairs").split(",");
       BOOST_FOREACH(QString pair, pairList) {
-        selectedPairs.push_back(toInt(pair));
+        selectedPairs.push_back(pair.toInt());
       }
     }
 

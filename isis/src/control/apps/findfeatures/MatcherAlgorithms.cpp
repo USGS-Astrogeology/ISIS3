@@ -75,7 +75,7 @@ namespace Isis {
       }
       else {
         if ( !m_detector->hasDetector() ) {
-          std::string mess = "Detector " + detector().name() + " does not possess detector capabilities";
+          std::string mess = "Detector " + detector().name().toStdString() + " does not possess detector capabilities";
           ie.append(IException(IException::Programmer, mess,_FILEINFO_));
           nerrors++;
         }
@@ -99,7 +99,7 @@ namespace Isis {
       }
       else {
         if ( !m_extractor->hasExtractor() ) {
-          std::string mess = "Extractor " + extractor().name() + " does not possess extractor capabilities";
+          std::string mess = "Extractor " + extractor().name().toStdString() + " does not possess extractor capabilities";
           ie.append(IException(IException::Programmer, mess,_FILEINFO_));
           nerrors++;
         }
@@ -123,7 +123,7 @@ namespace Isis {
       }
       else {
         if ( !m_matcher->hasMatcher() ) {
-          std::string mess = "Matcher " + matcher().name() + " does not possess matcher capabilities";
+          std::string mess = "Matcher " + matcher().name().toStdString() + " does not possess matcher capabilities";
           ie.append(IException(IException::Programmer, mess,_FILEINFO_));
           nerrors++;
         }
@@ -132,7 +132,7 @@ namespace Isis {
 
     //  Shall we throw an exception to report the issues?
     if ( (0 < nerrors) && (true == throwOnErrors)) {
-      std::string mess = "There were " + QString::number(nerrors) +
+      std::string mess = "There were " + std::to_string(nerrors) +
                      " errors found in this matcher algorithm set";
       ie.append(IException(IException::Programmer, mess, _FILEINFO_));
       throw ie;

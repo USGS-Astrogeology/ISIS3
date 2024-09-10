@@ -39,15 +39,15 @@ namespace Isis {
     setConfig(config);
     PvlFlatMap variables = setupParameters();
     variables.merge(cvars);
-    const int delta = toInt(variables.get("Delta"));
-    const int minArea = toInt(variables.get("MinArea"));
-    const int maxArea = toInt(variables.get("MaxArea"));
-    const double maxVariation = toDouble(variables.get("MaxVariation"));
-    const double minDiversity = toDouble(variables.get("MinDiversity"));
-    const int maxEvolution = toInt(variables.get("MaxEvolution"));
-    const double areaThreshold = toDouble(variables.get("AreaThreshold"));
-    const double minMargin = toDouble(variables.get("MinMargin"));
-    const int edgeBlurSize = toInt(variables.get("EdgeBlurSize"));
+    const int delta = variables.get("Delta").toInt();
+    const int minArea = variables.get("MinArea").toInt();
+    const int maxArea = variables.get("MaxArea").toInt();
+    const double maxVariation = variables.get("MaxVariation").toDouble();
+    const double minDiversity = variables.get("MinDiversity").toDouble();
+    const int maxEvolution = variables.get("MaxEvolution").toInt();
+    const double areaThreshold = variables.get("AreaThreshold").toDouble();
+    const double minMargin = variables.get("MinMargin").toDouble();
+    const int edgeBlurSize = variables.get("EdgeBlurSize").toInt();
 
     m_algorithm = MSERType::create(delta, minArea, maxArea, maxVariation, minDiversity,
                                    maxEvolution, areaThreshold, minMargin, edgeBlurSize);

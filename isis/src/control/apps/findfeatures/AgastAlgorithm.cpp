@@ -120,8 +120,8 @@ namespace Isis {
   PvlFlatMap AgastAlgorithm::getAlgorithmVariables( ) const {
     AgastPtr algorithm = m_algorithm.dynamicCast<AgastType>();
     PvlFlatMap variables;
-    variables.add("NonmaxSuppression", toString(algorithm->getNonmaxSuppression()));
-    variables.add("Threshold",         toString(algorithm->getThreshold()));
+    variables.add("NonmaxSuppression", QString::number(algorithm->getNonmaxSuppression()));
+    variables.add("Threshold",         QString::number(algorithm->getThreshold()));
     variables.add("Type",              m_typeMap.right.at(algorithm->getType()));
     return (variables);
   }
@@ -142,12 +142,12 @@ namespace Isis {
 
     int numSet(0);
     if ( variables.exists("NonmaxSuppression") ) {
-      algorithm->setNonmaxSuppression(toInt(variables.get("NonmaxSuppression")));
+      algorithm->setNonmaxSuppression(variables.get("NonmaxSuppression").toInt());
       numSet++;
     }
 
     if ( variables.exists("Threshold") ) {
-      algorithm->setThreshold(toInt(variables.get("Threshold")));
+      algorithm->setThreshold(variables.get("Threshold").toInt());
       numSet++;
     }
 
@@ -167,7 +167,7 @@ namespace Isis {
         }
       }
       catch (std::exception &e) {
-        std::string msg = "The input value [" + value +
+        std::string msg = "The input value [" + value.toStdString() +
                       "] is not valid for AGAST's [Type] variable";
         throw IException(IException::User, msg, _FILEINFO_);
       }

@@ -2057,7 +2057,7 @@ namespace Isis {
 
       if ( !protoPoint.SerializeToOstream(output) ) {
         QString err = "Error writing to coded protobuf stream";
-        throw IException(IException::Programmer, err, _FILEINFO_);
+        throw IException(IException::Programmer, err.toStdString(), _FILEINFO_);
       }
 
       // Make sure that if the versioner owns the ControlPoint it is properly cleaned up.

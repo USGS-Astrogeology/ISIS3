@@ -328,7 +328,7 @@ namespace Isis {
     ostm.open(outName.toLatin1().data(), std::ios::out);
 
     if ( ostm.fail() ) {
-      std::string msg = QObject::tr("Cannot open file [%1]").arg(psImageFile);
+      std::string msg = "Cannot open file [" + psImageFile.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
      }
 
@@ -340,7 +340,7 @@ namespace Isis {
     //for (it = mImageMap.begin(); it != mImageMap.end(); it++) {
 
     for (it = mSerialNumMap.begin(); it != mSerialNumMap.end(); it++) {
-      ostm << mSerialNumList.fileName(it.key()) << ", " << it.key() << ", ";
+      ostm << mSerialNumList.fileName(it.key()).toStdString() << ", " << it.key().toStdString() << ", ";
       bool serialNumExists = it.value();
       if (serialNumExists) {
         QVector<double> imgStats = mImageMap[(it).key()] ;
@@ -355,7 +355,7 @@ namespace Isis {
     }
 
     if (!ostm) {
-      std::string msg = QObject::tr("Error writing to file: [%1]").arg(psImageFile);
+      std::string msg = "Error writing to file: [" + psImageFile.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
     ostm.close();
@@ -393,7 +393,7 @@ namespace Isis {
     ostm.open(outName.toLatin1().data(), std::ios::out);
 
     if ( ostm.fail() ) {
-      std::string msg = QObject::tr("Cannot open file [%1]").arg(psPointFile);
+      std::string msg = "Cannot open file [" + psPointFile.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
@@ -415,8 +415,8 @@ namespace Isis {
       int iIgnoredMeasures = iNumMeasures - iValidMeasures;
 
       // Log into the output file
-      ostm << cPoint->GetId()   << ", " << sPointType[(int)cPoint->GetType()] << ", " << sBoolean[(int)cPoint->IsIgnored()] << ", " ;
-      ostm << sBoolean[(int)cPoint->IsEditLocked()] << ", " << iNumMeasures << ", " << iValidMeasures << ", ";
+      ostm << cPoint->GetId().toStdString()   << ", " << sPointType[(int)cPoint->GetType()].toStdString() << ", " << sBoolean[(int)cPoint->IsIgnored()].toStdString() << ", " ;
+      ostm << sBoolean[(int)cPoint->IsEditLocked()].toStdString() << ", " << iNumMeasures << ", " << iValidMeasures << ", ";
       ostm << iIgnoredMeasures << ", " << cPoint->GetNumLockedMeasures() << endl;
 
       // Update Progress
@@ -425,7 +425,7 @@ namespace Isis {
     }
 
     if (!ostm) {
-      std::string msg = QObject::tr("Error writing to file: [%1]").arg(psPointFile);
+      std::string msg = "Error writing to file: [" + psPointFile.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 

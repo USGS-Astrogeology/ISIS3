@@ -270,7 +270,7 @@ namespace Isis {
     }
     else if (islands.size() == 0) {
       ss << "There are no control points in the provided Control Network [";
-      ss << networkName << "]" << endl;
+      ss << networkName.toStdString() << "]" << endl;
     }
     else {
       ss << "The cubes are NOT fully connected by the Control Network." << endl;
@@ -378,7 +378,7 @@ namespace Isis {
       ss << "There are " << inListNums.size();
       ss << " cubes in the input list [" << FileName(ui.GetFileName("FROMLIST").toStdString()).name();
       ss << "] which do not exist or are ignored in the Control Network [";
-      ss << networkName << "]" << endl;
+      ss << networkName.toStdString() << "]" << endl;
       ss << "These cubes are listed in [" + FileName(name.toStdString()).name() + "]" << endl;
     }
 
@@ -397,7 +397,7 @@ namespace Isis {
       for (int sn = 0; sn < (int)nonListedSerialNumbers.size(); sn++) {
         int validMeasureCount = innet.GetValidMeasuresInCube(nonListedSerialNumbers[sn]).size();
         QString rowText = nonListedSerialNumbers[sn] + " (Valid Measures: " +
-            toString(validMeasureCount) + ")";
+            QString::number(validMeasureCount) + ")";
         outputRow(out_stream, rowText);
       }
 
@@ -407,7 +407,7 @@ namespace Isis {
          "----------------------------------------" << endl;
       ss << "There are " << nonListedSerialNumbers.size();
       ss << " serial numbers in the Control Net [";
-      ss << networkName;
+      ss << networkName.toStdString();
       ss << "] \nwhich do not exist in the  input list [";
       ss << FileName(ui.GetFileName("FROMLIST").toStdString()).name() << "]" << endl;
       ss << "These serial numbers are listed in [";
@@ -447,7 +447,7 @@ namespace Isis {
            "----------------------------------------" << endl;
         ss << "There are " << singleMeasureCubes.size();
         ss << " serial numbers in the Control Net [";
-        ss << networkName;
+        ss << networkName.toStdString();
         ss << "] which only exist in one Control Measure." << endl;
         ss << "These serial numbers are listed in [";
         ss << FileName(name).name() + "]" << endl;
@@ -679,11 +679,11 @@ namespace Isis {
 
 
   QString buildRow(SerialNumberList &serials, QString sn, double value) {
-    return buildRow(serials, sn) + g_delimiter + toString(value);
+    return buildRow(serials, sn) + g_delimiter + QString::number(value);
   }
 
 
   void outputRow(ofstream &outStream, QString rowText) {
-    outStream << rowText << "\n";
+    outStream << rowText.toStdString() << "\n";
   }
 }

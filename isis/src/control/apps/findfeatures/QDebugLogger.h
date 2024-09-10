@@ -168,7 +168,7 @@ class QDebugLogger {
       QScopedPointer<QFile> t_dbugfile(new QFile( QString::fromStdString(t_fname.expanded()) ) );
       if ( !t_dbugfile->open(omode) ) {
         std::string mess = "Unable to open/create debug log stream for file: " +
-                       filename;
+                       filename.toStdString();
         throw IException(IException::User, mess, _FILEINFO_);
       }
       return ( t_dbugfile.take() );

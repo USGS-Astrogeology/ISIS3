@@ -142,9 +142,9 @@ namespace Isis {
    * @param pcPoint
    */
   void ControlNetFilter::PointStats(const ControlPoint &pcPoint) {
-    mOstm << pcPoint.GetId()   << ", " << sPointType[(int)pcPoint.GetType()]
-        << ", " << sBoolean[(int)pcPoint.IsIgnored()] << ", "
-        << sBoolean[(int)pcPoint.IsEditLocked()] << ", "
+    mOstm << pcPoint.GetId().toStdString()   << ", " << sPointType[(int)pcPoint.GetType()].toStdString()
+        << ", " << sBoolean[(int)pcPoint.IsIgnored()].toStdString() << ", "
+        << sBoolean[(int)pcPoint.IsEditLocked()].toStdString() << ", "
         << pcPoint.GetNumMeasures() << ", "
         << pcPoint.GetNumMeasures() - pcPoint.GetNumValidMeasures() << ", "
         << pcPoint.GetNumLockedMeasures() << ", ";
@@ -158,8 +158,8 @@ namespace Isis {
    * @param pcMeasure - Measure's Cube and Serial #
    */
   void ControlNetFilter::PrintCubeFileSerialNum(const ControlMeasure &pcMeasure) {
-    mOstm << mSerialNumList.fileName(pcMeasure.GetCubeSerialNumber()) << ", ";
-    mOstm << pcMeasure.GetCubeSerialNumber();
+    mOstm << mSerialNumList.fileName(pcMeasure.GetCubeSerialNumber()).toStdString() << ", ";
+    mOstm << pcMeasure.GetCubeSerialNumber().toStdString();
   }
 
   /**
@@ -223,18 +223,18 @@ namespace Isis {
       // Print into output, if it is the last Filter
       if (pbLastFilter) {
         for (int j = 0; j < iNumMeasures; j++) {
-          mOstm << cPoint->GetId() << ", " << sPointType[cPoint->GetType()] << ", "
-                << sBoolean[cPoint->IsIgnored()] << ", "
-                << sBoolean[cPoint->IsEditLocked()] << ", ";
+          mOstm << cPoint->GetId().toStdString() << ", " << sPointType[cPoint->GetType()].toStdString() << ", "
+                << sBoolean[cPoint->IsIgnored()].toStdString() << ", "
+                << sBoolean[cPoint->IsEditLocked()].toStdString() << ", ";
 
           const ControlMeasure *measure = cPoint->GetMeasure(j);
           PrintCubeFileSerialNum(*measure);
           double dPixelShift = measure->GetPixelShift();
           mOstm << ", " <<  (dPixelShift == Null ? "Null" : toString(dPixelShift)) << ", "
-                << measure->GetMeasureTypeString() << ", "
-                << sBoolean[measure->IsIgnored()] << ", "
-                << sBoolean[measure->IsEditLocked()] << ", "
-                << sBoolean[cPoint->GetRefMeasure() == measure]
+                << measure->GetMeasureTypeString().toStdString() << ", "
+                << sBoolean[measure->IsIgnored()].toStdString() << ", "
+                << sBoolean[measure->IsEditLocked()].toStdString() << ", "
+                << sBoolean[cPoint->GetRefMeasure() == measure].toStdString()
                 << endl;
         }
       }
@@ -293,10 +293,10 @@ namespace Isis {
           const ControlMeasure *cm = cPoint->GetMeasure(j);
           PointStats(*cPoint);
           PrintCubeFileSerialNum(*cm);
-          mOstm << ", " << cm->GetMeasureTypeString() << ", "
-                << sBoolean[cm->IsIgnored()] << ", "
-                << sBoolean[cm->IsEditLocked()] << ", "
-                << sBoolean[cm == cPoint->GetRefMeasure()]
+          mOstm << ", " << cm->GetMeasureTypeString().toStdString() << ", "
+                << sBoolean[cm->IsIgnored()].toStdString() << ", "
+                << sBoolean[cm->IsEditLocked()].toStdString() << ", "
+                << sBoolean[cm == cPoint->GetRefMeasure()].toStdString()
                 << endl;
         }
       }
@@ -339,9 +339,9 @@ namespace Isis {
 
       if (pbLastFilter) {
         int iNumMeasures = cPoint->GetNumMeasures();
-        mOstm << cPoint->GetId() << ", " << sPointType[cPoint->GetType()] << ", "
-              << sBoolean[cPoint->IsIgnored()] << ", "
-              << sBoolean[cPoint->IsEditLocked()] << ", "
+        mOstm << cPoint->GetId().toStdString() << ", " << sPointType[cPoint->GetType()].toStdString() << ", "
+              << sBoolean[cPoint->IsIgnored()].toStdString() << ", "
+              << sBoolean[cPoint->IsEditLocked()].toStdString() << ", "
               << iNumMeasures << ", "
               << (iNumMeasures - cPoint->GetNumValidMeasures()) << ", "
               <<  cPoint->GetNumLockedMeasures() << endl;
@@ -412,18 +412,18 @@ namespace Isis {
       else if (pbLastFilter) {
 
         for (int j = 0; j < iNumMeasures; j++) {
-          mOstm << cPoint->GetId() << ", " << sPointType[cPoint->GetType()] << ", "
-                << sBoolean[cPoint->IsIgnored()] << ", "
-                << sBoolean[cPoint->IsEditLocked()] << ", ";
+          mOstm << cPoint->GetId().toStdString() << ", " << sPointType[cPoint->GetType()].toStdString() << ", "
+                << sBoolean[cPoint->IsIgnored()].toStdString() << ", "
+                << sBoolean[cPoint->IsEditLocked()].toStdString() << ", ";
 
           const ControlMeasure *measure = cPoint->GetMeasure(j);
           PrintCubeFileSerialNum(*measure);
           double dResMag = measure->GetResidualMagnitude();
           mOstm << ", " << (dResMag == Null ? "Null" : IString(dResMag) ) << ", "
-                << measure->GetMeasureTypeString() << ", "
-                << sBoolean[measure->IsIgnored()] << ", "
-                << sBoolean[measure->IsEditLocked()] << ", "
-                << sBoolean[cPoint->GetRefMeasure() == measure]
+                << measure->GetMeasureTypeString().toStdString() << ", "
+                << sBoolean[measure->IsIgnored()].toStdString() << ", "
+                << sBoolean[measure->IsEditLocked()].toStdString() << ", "
+                << sBoolean[cPoint->GetRefMeasure() == measure].toStdString()
                 << endl;
         }
       }
@@ -536,10 +536,10 @@ namespace Isis {
           const ControlMeasure *cm = cPoint->GetMeasure(j);
           PointStats(*cPoint);
           PrintCubeFileSerialNum(*cm);
-          mOstm << ", " << cm->GetMeasureTypeString() << ", "
-                << sBoolean[cm->IsIgnored()] << ", "
-                << sBoolean[cm->IsEditLocked()] << ", "
-                << sBoolean[cm == cPoint->GetRefMeasure()]
+          mOstm << ", " << cm->GetMeasureTypeString().toStdString() << ", "
+                << sBoolean[cm->IsIgnored()].toStdString() << ", "
+                << sBoolean[cm->IsEditLocked()].toStdString() << ", "
+                << sBoolean[cm == cPoint->GetRefMeasure()].toStdString()
               << endl;
         }
       }
@@ -835,7 +835,7 @@ namespace Isis {
             if (!bMinDistance) {
               PointStats(*cp1);
             }
-            mOstm << cp2->GetId() << "#" << dDist << ", ";
+            mOstm << cp2->GetId().toStdString() << "#" << dDist << ", ";
           }
           bMinDistance = true;
         }
@@ -915,15 +915,15 @@ namespace Isis {
             const ControlMeasure *measure = cPoint->GetMeasure(j);
             double dMsrGFit= measure->GetLogData(ControlMeasureLogData::GoodnessOfFit).GetNumericalValue();
 
-            mOstm << cPoint->GetId() << ", " << sPointType[cPoint->GetType()] << ", "
-              << sBoolean[cPoint->IsIgnored()] << ", " << sBoolean[cPoint->IsEditLocked()] << ", "
+            mOstm << cPoint->GetId().toStdString() << ", " << sPointType[cPoint->GetType()].toStdString() << ", "
+              << sBoolean[cPoint->IsIgnored()].toStdString() << ", " << sBoolean[cPoint->IsEditLocked()].toStdString() << ", "
               << iNumMeasures << ", " << iNumMsIgnored << ", " << cPoint->GetNumLockedMeasures() << ", ";
             PrintCubeFileSerialNum(*measure);
             mOstm << ", " <<  (dMsrGFit == Null ? "NA" : IString(dMsrGFit)) << ", "
-              << measure->GetMeasureTypeString() << ", "
-              << sBoolean[measure->IsIgnored()] << ", "
-              << sBoolean[measure->IsEditLocked()] << ", "
-              << sBoolean[cPoint->GetRefMeasure() == measure]
+              << measure->GetMeasureTypeString().toStdString() << ", "
+              << sBoolean[measure->IsIgnored()].toStdString() << ", "
+              << sBoolean[measure->IsEditLocked()].toStdString() << ", "
+              << sBoolean[cPoint->GetRefMeasure() == measure].toStdString()
               << endl;
           }
         }
@@ -994,11 +994,11 @@ namespace Isis {
           if (pbLastFilter) {
             PointStats(*cPoint);
             QString sn = cMeasure->GetCubeSerialNumber();
-            mOstm << mSerialNumList.fileName(sn) << ", " << sn << ","
-                << sBoolean[(int) cMeasure->IsIgnored()] << ", "
-                << cMeasure->GetMeasureTypeString() << ", "
-                << sBoolean[cMeasure->IsEditLocked()] << ", "
-                << sBoolean[cPoint->GetRefMeasure() == cMeasure]
+            mOstm << mSerialNumList.fileName(sn).toStdString() << ", " << sn.toStdString() << ","
+                << sBoolean[(int) cMeasure->IsIgnored()].toStdString() << ", "
+                << cMeasure->GetMeasureTypeString().toStdString() << ", "
+                << sBoolean[cMeasure->IsEditLocked()].toStdString() << ", "
+                << sBoolean[cPoint->GetRefMeasure() == cMeasure].toStdString()
                 << endl;
           }
         }
@@ -1077,9 +1077,9 @@ namespace Isis {
           const ControlMeasure *cMeasure = cPoint->GetMeasure(j);
 
           // Point Details
-          mOstm << cPoint->GetId() << ", " << sPointType[cPoint->GetType()] << ", "
-                << sBoolean[cPoint->IsIgnored()] << ", "
-                << sBoolean[cPoint->IsEditLocked()] << ", "
+          mOstm << cPoint->GetId().toStdString() << ", " << sPointType[cPoint->GetType()].toStdString() << ", "
+                << sBoolean[cPoint->IsIgnored()].toStdString() << ", "
+                << sBoolean[cPoint->IsEditLocked()].toStdString() << ", "
                 << iNumMeasures << ", "
                 << iNumMeasures - cPoint->GetNumValidMeasures() << ", "
                 << cPoint->GetNumLockedMeasures() << ", ";
@@ -1087,12 +1087,12 @@ namespace Isis {
           // Image Details
           QString sn = cMeasure->GetCubeSerialNumber();
           QVector<double> imgStats = GetImageStatsBySerialNum(sn);
-          mOstm << mSerialNumList.fileName(sn)   << ", " << sn << ", "
+          mOstm << mSerialNumList.fileName(sn).toStdString()   << ", " << sn.toStdString() << ", "
                 << imgStats[imgTotalPoints] << ", " << imgStats[imgIgnoredPoints] << ", "
                 << imgStats[imgLockedPoints] << ", " << imgStats[imgFixedPoints] << ", "
                 << imgStats[imgConstrainedPoints] << ", " << imgStats[imgFreePoints] << ", "
                 << imgStats[imgConvexHullRatio] << ", "
-                << sBoolean[cMeasure->IsIgnored()] << ", " << sBoolean[cMeasure->IsEditLocked()] << endl;
+                << sBoolean[cMeasure->IsIgnored()].toStdString() << ", " << sBoolean[cMeasure->IsEditLocked()].toStdString() << endl;
         }
       }
     }
@@ -1150,7 +1150,7 @@ namespace Isis {
         mSerialNumFilter.remove(sSerialNum);
       }
       else if (pbLastFilter) {
-        mOstm << mSerialNumFilter.fileName(sSerialNum) << ", " << sSerialNum << ", "
+        mOstm << mSerialNumFilter.fileName(sSerialNum).toStdString() << ", " << sSerialNum.toStdString() << ", "
               << imgStats[imgTotalPoints]  << ", " << imgStats[imgIgnoredPoints] << ", " << imgStats[imgLockedPoints] << ", "
               << imgStats[imgFixedPoints] << ", " << imgStats[imgConstrainedPoints] << ", " << imgStats[imgFreePoints] << ", "
               <<  imgStats[imgConvexHullRatio]<< endl;
@@ -1219,9 +1219,9 @@ namespace Isis {
       for (int i = 0; i < iNumCubes; i++) {
         QString sSerialNum = mSerialNumFilter.serialNumber(i);
 
-        mOstm << mSerialNumFilter.fileName(i) << ", " << sSerialNum << ", ";
+        mOstm << mSerialNumFilter.fileName(i).toStdString() << ", " << sSerialNum.toStdString() << ", ";
         QVector<double> imgStats = GetImageStatsBySerialNum(sSerialNum);
-        mOstm << mSerialNumFilter.fileName(sSerialNum) << ", " << sSerialNum << ", "
+        mOstm << mSerialNumFilter.fileName(sSerialNum).toStdString() << ", " << sSerialNum.toStdString() << ", "
               << imgStats[imgTotalPoints]  << ", " << imgStats[imgIgnoredPoints] << ", " << imgStats[imgLockedPoints] << ", "
               << imgStats[imgFixedPoints] << ", " << imgStats[imgConstrainedPoints] << ", " << imgStats[imgFreePoints] << ", "
               << imgStats[imgConvexHullRatio]<< endl;
@@ -1253,7 +1253,7 @@ namespace Isis {
 
     if (iLessPoints < 0 || iGreaterPoints < 0 || iLessPoints < iGreaterPoints) {
       QString sErrMsg = "Invalid Deffile - Check Cube_NumPoints Group\n";
-      throw IException(IException::User, sErrMsg, _FILEINFO_);
+      throw IException(IException::User, sErrMsg.toStdString(), _FILEINFO_);
     }
 
     if (pbLastFilter) {
@@ -1272,7 +1272,7 @@ namespace Isis {
         mSerialNumFilter.remove(sSerialNum);
       }
       else if (pbLastFilter) {
-        mOstm << mSerialNumFilter.fileName(sSerialNum) << ", " << sSerialNum << ", "
+        mOstm << mSerialNumFilter.fileName(sSerialNum).toStdString() << ", " << sSerialNum.toStdString() << ", "
               << imgStats[imgTotalPoints]  << ", " << imgStats[imgIgnoredPoints] << ", " << imgStats[imgLockedPoints] << ", "
               << imgStats[imgFixedPoints] << ", " << imgStats[imgConstrainedPoints] << ", " << imgStats[imgFreePoints] << ", "
               <<  imgStats[imgConvexHullRatio] << endl;
@@ -1457,18 +1457,18 @@ namespace Isis {
       }
       else if (pbLastFilter) {
         QVector<double> imgStats = GetImageStatsBySerialNum((sSerialNum));
-        mOstm << mSerialNumList.fileName(sSerialNum) << ", " << sSerialNum << ", "
+        mOstm << mSerialNumList.fileName(sSerialNum).toStdString() << ", " << sSerialNum.toStdString() << ", "
               << iPointsTotal << ", " << iPointsIgnored << ", " << iPointsLocked << ", "
               << iPointsFixed << ", " << iPointsConstrained << ", " << iPointsFree << ", "
               << imgStats[ imgConvexHullRatio] << ", ";
         for (int j = 0; j < (int)sPointIndex1.size(); j++) {
-          QString sPointIDDist = toString(dPointDistance[j]);
+          QString sPointIDDist = QString::number(dPointDistance[j]);
           sPointIDDist += "#";
           sPointIDDist += (*mCNet)[sPointIndex1[j]]->GetId();
           sPointIDDist += "#";
           sPointIDDist += (*mCNet)[sPointIndex2[j]]->GetId();
 
-          mOstm << sPointIDDist << ",";
+          mOstm << sPointIDDist.toStdString() << ",";
         }
         mOstm << endl;
       }

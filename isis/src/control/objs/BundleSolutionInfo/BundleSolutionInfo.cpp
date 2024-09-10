@@ -1332,15 +1332,15 @@ namespace Isis {
           snprintf(buf, sizeof(buf),",");
           fpOut << buf;
 
-          fpOut << toString(rmsImageSampleResiduals[imgIndex].Rms()).toLatin1().data();
+          fpOut << toString(rmsImageSampleResiduals[imgIndex].Rms()).c_str();
           snprintf(buf, sizeof(buf),",");
           fpOut << buf;
 
-          fpOut << toString(rmsImageLineResiduals[imgIndex].Rms()).toLatin1().data();
+          fpOut << toString(rmsImageLineResiduals[imgIndex].Rms()).c_str();
           snprintf(buf, sizeof(buf),",");
           fpOut << buf;
 
-          fpOut << toString(rmsImageResiduals[imgIndex].Rms()).toLatin1().data();
+          fpOut << toString(rmsImageResiduals[imgIndex].Rms()).c_str();
           snprintf(buf, sizeof(buf),",");
           fpOut << buf;
 
@@ -1807,7 +1807,7 @@ namespace Isis {
         BundleLidarRangeConstraintQsp rangeConstraint = point->rangeConstraint(j);
 
         QString str = rangeConstraint->formatBundleOutputString(m_settings->errorPropagation());
-        fpOut << str;
+        fpOut << str.toStdString();
       }
     }
 
@@ -1996,37 +1996,27 @@ namespace Isis {
         QString oldFile = oldPath + "/" + QString::fromStdString(FileName(m_outputControl->fileName().toStdString()).name());
         QString newFile = newPath + "/" + QString::fromStdString(FileName(m_outputControl->fileName().toStdString()).name());
         if (!QFile::copy(oldFile, newFile)) {
-          throw IException(IException::Io,
-                           QString("Failed to copy file [%1] to new file [%2]")
-                             .arg(m_outputControl->fileName()).arg(newFile),
+          throw IException(IException::Io,"Failed to copy file [" + m_outputControl->fileName().toStdString() + "] to new file [" + newFile.toStdString() + "]",
                            _FILEINFO_);
         }
         newFile = newPath + "/" + QString::fromStdString(FileName(m_txtBundleOutputFilename.toStdString()).name());
         if (!QFile::copy(m_txtBundleOutputFilename, newFile)) {
-          throw IException(IException::Io,
-                           QString("Failed to copy file [%1] to new file [%2]")
-                             .arg(m_txtBundleOutputFilename).arg(newFile),
+          throw IException(IException::Io,"Failed to copy file ["+ m_txtBundleOutputFilename.toStdString() + "] to new file [" + newFile.toStdString() + "]",
                            _FILEINFO_);
         }
         newFile = newPath + "/" + QString::fromStdString(FileName(m_csvSavedImagesFilename.toStdString()).name());
         if (!QFile::copy(m_csvSavedImagesFilename, newFile)) {
-          throw IException(IException::Io,
-                           QString("Failed to copy file [%1] to new file [%2]")
-                             .arg(m_csvSavedImagesFilename).arg(newFile),
+          throw IException(IException::Io,"Failed to copy file [" + m_csvSavedImagesFilename.toStdString() + "] to new file [" + newFile.toStdString() + "]",
                            _FILEINFO_);
         }
         newFile = newPath + "/" + QString::fromStdString(FileName(m_csvSavedPointsFilename.toStdString()).name());
         if (!QFile::copy(m_csvSavedPointsFilename, newFile)) {
-          throw IException(IException::Io,
-                           QString("Failed to copy file [%1] to new file [%2]")
-                             .arg(m_csvSavedPointsFilename).arg(newFile),
+          throw IException(IException::Io,"Failed to copy file [" + m_csvSavedPointsFilename.toStdString() + "] to new file [" +  newFile.toStdString() + "]",
                            _FILEINFO_);
         }
         newFile = newPath + "/" + QString::fromStdString(FileName(m_csvSavedResidualsFilename.toStdString()).name());
         if (!QFile::copy(m_csvSavedResidualsFilename, newFile)) {
-          throw IException(IException::Io,
-                           QString("Failed to copy file [%1] to new file [%2]")
-                             .arg(m_csvSavedResidualsFilename).arg(newFile),
+          throw IException(IException::Io,"Failed to copy file [" + m_csvSavedResidualsFilename.toStdString() + "] to new file [" + newFile.toStdString() + "]",
                            _FILEINFO_);
         }
       }

@@ -388,7 +388,7 @@ namespace Isis {
     }
     catch (IException &ie) {
       std::string msg = "Fatal load errors encountered";
-      logger->dbugout() << "\n\n### " << msg << " - aborting..." << "\n";
+      logger->dbugout() << "\n\n### " << QString::fromStdString(msg) << " - aborting..." << "\n";
       throw IException(ie, IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -396,7 +396,7 @@ namespace Isis {
     if ( matcher.size() <= 0 ) {
       logger->dbugout() << "\n\n###   No valid files loaded - aborting...\n";
       logger->dbugout() <<     "Time: " << Application::DateTime() << "\n";
-      std::string msg = "Input cubes (" + QString::number(badgeom.size()) + ") failed to load. " +
+      std::string msg = "Input cubes (" + std::to_string(badgeom.size()) + ") failed to load. " +
                     "Must provide valid FROM/FROMLIST and MATCH cube or image filenames";
       throw IException(IException::User, msg,  _FILEINFO_);
     }
@@ -438,7 +438,7 @@ namespace Isis {
       logger->dbugout() << "Shucks! Insufficient matches were found ("
                         << best->size() << ")\n";
       std::string mess = "Shucks! Insufficient matches were found (" +
-                      QString::number(best->size()) + ")";
+                      std::to_string(best->size()) + ")";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
@@ -473,7 +473,7 @@ namespace Isis {
       PvlGroup cnetinfo = matcher.network(cnet, *best, pointId);
 
       if ( cnet.GetNumPoints() <= 0 ) {
-        std::string mess = "No control points found!!";
+        QString mess = "No control points found!!";
         logger->dbugout() << mess << "\n";
 
         // Get total elapded time
@@ -482,7 +482,7 @@ namespace Isis {
         logger->dbugout() << "\nSession complete in " << totalE.toString("hh:mm:ss.zzz")
                           << " of elapsed time\n";
 
-        throw IException(IException::User, mess, _FILEINFO_);
+        throw IException(IException::User, mess.toStdString(), _FILEINFO_);
       }
 
       // Umm..have to check this. Probably only makes sense with two images

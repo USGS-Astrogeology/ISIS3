@@ -117,7 +117,7 @@ namespace Isis {
       ReadControl(ptfile, progress);
     }
     catch (IException &e) {
-      std::string msg = "Invalid control network [" + ptfile + "]";
+      std::string msg = "Invalid control network [" + ptfile.toStdString() + "]";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
   }
@@ -323,16 +323,16 @@ namespace Isis {
         network.write(ptfile.toStdString());
       }
       catch (IException &e) {
-        std::string msg = "Failed writing control network to file [" + ptfile + "]";
+        std::string msg = "Failed writing control network to file [" + ptfile.toStdString() + "]";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
     else {
       try {
-        versionedWriter.write(QString::fromStdString((FileName(ptfile).toString())));
+        versionedWriter.write(FileName(ptfile.toStdString()).toString());
       }
       catch (IException &e) {
-        std::string msg = "Failed writing control network to file [" + ptfile + "]";
+        std::string msg = "Failed writing control network to file [" + ptfile.toStdString() + "]";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -388,7 +388,7 @@ namespace Isis {
 
     if (!ContainsPoint(point->GetId())) {
       std::string msg = "ControlNet does not contain the point [";
-      msg += point->GetId() + "]";
+      msg += point->GetId().toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -591,7 +591,7 @@ namespace Isis {
 
     if (!ContainsPoint(point->GetId())) {
       std::string msg = "ControlNet does not contain the point [";
-      msg += point->GetId() + "]";
+      msg += point->GetId().toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     // Add the measure to the corresponding node
@@ -647,7 +647,7 @@ namespace Isis {
 
       if (!ValidateSerialNumber(sourceSerial)) {
         std::string msg = "Node does not exist for [";
-        msg += sourceSerial + "]";
+        msg += sourceSerial.toStdString() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
@@ -657,7 +657,7 @@ namespace Isis {
 
         if (!ValidateSerialNumber(targetSerial)) {
           std::string msg = "Node does not exist for [";
-          msg += targetSerial + "]";
+          msg += targetSerial.toStdString() + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
         addEdge(sourceSerial, targetSerial);
@@ -694,7 +694,7 @@ namespace Isis {
 
     if (!ContainsPoint(point->GetId())) {
       std::string msg = "ControlNet does not contain the point [";
-      msg += point->GetId() + "]";
+      msg += point->GetId().toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -704,7 +704,7 @@ namespace Isis {
       QString sn = adjacentMeasure->GetCubeSerialNumber();
       if (!adjacentMeasure->IsIgnored() && !m_vertexMap.contains(sn)) {
         std::string msg = "Node does not exist for [";
-        msg += measure->GetCubeSerialNumber() + "]";
+        msg += measure->GetCubeSerialNumber().toStdString() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -787,7 +787,7 @@ namespace Isis {
 
       if (!ValidateSerialNumber(sourceSerial)) {
         std::string msg = "Node does not exist for [";
-        msg += sourceSerial + "]";
+        msg += sourceSerial.toStdString() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
@@ -797,7 +797,7 @@ namespace Isis {
 
         if (!ValidateSerialNumber(targetSerial)) {
           std::string msg = "Node does not exist for [";
-          msg += targetSerial + "]";
+          msg += targetSerial.toStdString() + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
         removeEdge(sourceSerial, targetSerial);
@@ -831,7 +831,7 @@ namespace Isis {
     QString serial = measure->GetCubeSerialNumber();
     if (!ValidateSerialNumber(serial)) {
       std::string msg = "Node does not exist for [";
-      msg += serial + "]";
+      msg += serial.toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1036,7 +1036,7 @@ namespace Isis {
    */
   QList< QString > ControlNet::getAdjacentImages(QString serialNumber) const {
     if (!ValidateSerialNumber(serialNumber)) {
-      std::string msg = "Cube Serial Number [" + serialNumber + "] not found in "
+      std::string msg = "Cube Serial Number [" + serialNumber.toStdString() + "] not found in "
           "the network";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1281,7 +1281,7 @@ namespace Isis {
 
     if (!ValidateSerialNumber(serialNumber)) {
       std::string msg = "serialNumber [";
-      msg += serialNumber;
+      msg += serialNumber.toStdString();
       msg += "] not found in ControlNet";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1618,7 +1618,7 @@ namespace Isis {
       }
       catch (IException &e) {
         std::string msg = "Unable to create camera for cube file ";
-        msg += filename;
+        msg += filename.toStdString();
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
 
@@ -1644,8 +1644,8 @@ namespace Isis {
           if (!curMeasure->IsIgnored()) p_cameraValidMeasuresMap[serialNumber]++;
         }
         else {
-          IString msg = "Control point [" + curPoint->GetId() +
-              "], measure [" + curMeasure->GetCubeSerialNumber() +
+          IString msg = "Control point [" + curPoint->GetId().toStdString() +
+              "], measure [" + curMeasure->GetCubeSerialNumber().toStdString() +
               "] does not have a cube with a matching serial number";
           throw IException(IException::User, msg, _FILEINFO_);
         }

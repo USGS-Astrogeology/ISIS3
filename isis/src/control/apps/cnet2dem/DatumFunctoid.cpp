@@ -83,7 +83,7 @@ DatumFunctoidList DatumFunctoidFactory::create(const QString &specs,
   BOOST_FOREACH ( QString functoid, algorithms ) {
     SharedDatumFunctoid f( make(functoid) );
     if ( f.isNull() ) {
-      std::string mess = "Algorithm \"" + functoid + "\" was not found!";
+      std::string mess = "Algorithm \"" + functoid.toStdString() + "\" was not found!";
       ie.append(IException(IException::User, mess, _FILEINFO_));
       nerrors++;
     }
@@ -140,8 +140,8 @@ PvlFlatMap DatumFunctoidFactory::parseParameters(const QString &parameters)
     // Is it valid?
     QStringList parmvaltag = specs.split(":");
     if ( 2 != parmvaltag.size() ) {
-      std::string mess = "Invalid parameter at or near [" + specs + "] in \"" +
-                     parameters + "\" - must be of the form "
+      std::string mess = "Invalid parameter at or near [" + specs.toStdString() + "] in \"" +
+                     parameters.toStdString() + "\" - must be of the form "
                      "\"name@parm1:value1@parm2:value2...\"";
       throw IException(IException::User, mess, _FILEINFO_);
     }

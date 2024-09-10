@@ -133,7 +133,7 @@ void ImageSource::load(const double minPercent,const double maxPercent) {
     cube.open(QString::fromStdString(ifile.expanded()), "r");
 
     if( cube.bandCount() != 1 ) {
-      std::string msg = "Input cube " + name + " must only have one band!";
+      std::string msg = "Input cube " + name.toStdString() + " must only have one band!";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -181,7 +181,7 @@ void ImageSource::load(const double minPercent,const double maxPercent) {
     catch (IException &ie) {
        throw IException(ie, IException::Programmer,
                          "Could not read and create grayscale image from " +
-                          name, _FILEINFO_);
+                          name.toStdString(), _FILEINFO_);
     }
   }
   else {
@@ -190,7 +190,7 @@ void ImageSource::load(const double minPercent,const double maxPercent) {
       m_data->m_image = cv::imread(ifile.expanded(),
                                    cv::IMREAD_GRAYSCALE);
       if ( m_data->m_image.empty() ) {
-        std::string mess = "Failed to read image from " + name;
+        std::string mess = "Failed to read image from " + name.toStdString();
         throw IException(IException::User, mess, _FILEINFO_);
       }
 
@@ -199,8 +199,8 @@ void ImageSource::load(const double minPercent,const double maxPercent) {
       // Here we could check for world files and construct geometry!!
     }
     catch (cv::Exception &e) {
-      std::string mess = "OpenCV cannot process file " + name + " " +
-                      QString::fromStdString(e.what());
+      std::string mess = "OpenCV cannot process file " + name.toStdString() + " " +
+                      e.what();
       throw IException(IException::User, mess, _FILEINFO_);
     }
   }
@@ -341,9 +341,9 @@ cv::Mat ImageSource::getGeometryMapping(ImageSource &match,
 
   // Compute homography if enough point
   if ( (int) source.size() < v_minpts ) {
-    std::string mess = "Failed to get geometry mapping for " + match.name() +
-                   " to " + name() + " needing " + QString::number(v_minpts) +
-                   " but only could get " + QString::number(source.size()) +".";
+    std::string mess = "Failed to get geometry mapping for " + match.name().toStdString() +
+                   " to " + name().toStdString() + " needing " + std::to_string(v_minpts) +
+                   " but only could get " + std::to_string(source.size()) +".";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }
 
@@ -392,7 +392,7 @@ bool ImageSource::initGeometry() {
   cube.open(QString::fromStdString(ifile.expanded()), "r");
 
   if( cube.bandCount() != 1 ) {
-    std::string msg = "Input cube " + m_data->m_name +
+    std::string msg = "Input cube " + m_data->m_name.toStdString() +
                   " must only have one band!";
    throw IException(IException::User, msg, _FILEINFO_);
   }

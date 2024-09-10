@@ -135,11 +135,11 @@ namespace Isis {
     PvlFlatMap variables;
     variables.add("DescriptorType",     m_descriptorTypeMap.right.at(
                                               algorithm->getDescriptorType()));
-    variables.add("DescriptorSize",     toString(algorithm->getDescriptorSize()));
-    variables.add("DescriptorChannels", toString(algorithm->getDescriptorChannels()));
-    variables.add("Threshold",          toString(algorithm->getThreshold()));
-    variables.add("NOctaves",           toString(algorithm->getNOctaves()));
-    variables.add("NOctaveLayers",      toString(algorithm->getNOctaveLayers()));
+    variables.add("DescriptorSize",     QString::number(algorithm->getDescriptorSize()));
+    variables.add("DescriptorChannels", QString::number(algorithm->getDescriptorChannels()));
+    variables.add("Threshold",          QString::number(algorithm->getThreshold()));
+    variables.add("NOctaves",           QString::number(algorithm->getNOctaves()));
+    variables.add("NOctaveLayers",      QString::number(algorithm->getNOctaveLayers()));
     variables.add("Diffusivity",        m_diffusivityMap.right.at(
                                               algorithm->getDiffusivity()));
     return (variables);
@@ -177,7 +177,7 @@ namespace Isis {
         }
       }
       catch (std::exception &e) {
-        std::string msg = "The input value [" + value +
+        std::string msg = "The input value [" + value.toStdString() +
                       "] is not valid for AKAZE's [DescriptorType] variable";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -186,27 +186,27 @@ namespace Isis {
     }
 
     if ( variables.exists("DescriptorSize") ) {
-      algorithm->setDescriptorSize(toInt(variables.get("DescriptorSize")));
+      algorithm->setDescriptorSize(variables.get("DescriptorSize").toInt());
       numSet++;
     }
 
     if ( variables.exists("DescriptorChannels") ) {
-      algorithm->setDescriptorChannels(toInt(variables.get("DescriptorChannels")));
+      algorithm->setDescriptorChannels(variables.get("DescriptorChannels").toInt());
       numSet++;
     }
 
     if ( variables.exists("Threshold") ) {
-      algorithm->setThreshold(toInt(variables.get("Threshold")));
+      algorithm->setThreshold(variables.get("Threshold").toInt());
       numSet++;
     }
 
     if ( variables.exists("NOctaves") ) {
-      algorithm->setNOctaves(toInt(variables.get("NOctaves")));
+      algorithm->setNOctaves(variables.get("NOctaves").toInt());
       numSet++;
     }
 
     if ( variables.exists("NOctaveLayers") ) {
-      algorithm->setNOctaveLayers(toInt(variables.get("NOctaveLayers")));
+      algorithm->setNOctaveLayers(variables.get("NOctaveLayers").toInt());
       numSet++;
     }
 
@@ -226,7 +226,7 @@ namespace Isis {
         }
       }
       catch (std::exception &e) {
-        std::string msg = "The input value [" + value +
+        std::string msg = "The input value [" + value.toStdString() +
                       "] is not valid for AKAZE's [Diffusivity] variable";
         throw IException(IException::User, msg, _FILEINFO_);
       }

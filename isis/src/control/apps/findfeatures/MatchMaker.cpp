@@ -187,7 +187,7 @@ MatcherSolutionList MatchMaker::match(const RobustMatcherList &matchers) {
   int nPoints = 0;
   int nBadPoints = 0;
   int nBadMeasures = 0;
-  bool preserve_ignored = toBool(m_parameters.get("PreserveIgnoredControl", "False"));
+  bool preserve_ignored = toBool(m_parameters.get("PreserveIgnoredControl", "False").toStdString());
   Statistics pointStats;
   for (int i = 0 ; i < points.size() ; i++) {
     if ( (points[i] != 0)  ) {
@@ -229,7 +229,7 @@ MatcherSolutionList MatchMaker::match(const RobustMatcherList &matchers) {
     logger() << "  ControlMeasures created:        " << nMeasures << "\n";
     logger() << "  InvalidIgnoredPoints:           " << nBadPoints << "\n";
     logger() << "  InvalidIgnoredMeasures:         " << nBadMeasures << "\n";
-    logger() << "  PreserveIgnoredControl          " << toString(preserve_ignored) << "\n";
+    logger() << "  PreserveIgnoredControl          " << QString::number(preserve_ignored) << "\n";
     logger().flush();
   }
 
@@ -320,9 +320,9 @@ int MatchMaker::addMeasure(ControlPoint **cpt, const MatchPair &mpair,
   // network. Use 2 * homography tolerance as a limit unless the user has added
   // a ResidualTolerance parameter to the matcher.
   double residual = std::sqrt( diff.x*diff.x + diff.y*diff.y);
-  double residTol = toDouble(solution.matcher()->parameters().get("HmgTolerance")) * 2.0;
-  residTol = toDouble(solution.matcher()->parameters().get("ResidualTolerance",
-                                                          toString(residTol)));
+  double residTol = solution.matcher()->parameters().get("HmgTolerance").toDouble() * 2.0;
+  residTol = solution.matcher()->parameters().get("ResidualTolerance",
+                                                          QString::number(residTol)).toDouble();
 
   // Don't add the measure to the point if it exceeds tolerance
   if ( residual <= residTol ) {
@@ -401,7 +401,7 @@ double MatchMaker::getParameter(const QString &name,
   if ( parameters.count(name) > 0 ) {
     QString value = parameters.get(name);
     if ( !value.isEmpty() ) {
-      parm = toDouble(value);
+      parm = value.toDouble();
     }
   }
 

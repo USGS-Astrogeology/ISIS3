@@ -111,7 +111,7 @@ namespace Isis{
       FileList list_o_nets(ui.GetFileName("CNETLIST").toStdString());
       if (list_o_nets.size() < 1) {
         std::string mess = "The file provided for CNETLIST, [";
-        mess += ui.GetAsString("CNETLIST");
+        mess += ui.GetAsString("CNETLIST").toStdString();
         mess += "] is empty.";
         throw IException(IException::User, mess, _FILEINFO_);
       }

@@ -101,7 +101,7 @@ namespace Isis {
       return ( creator( variables, config) );
     }
     else {
-      std::string mess = name + "Feature2D not found or invalid";
+      std::string mess = name.toStdString() + "Feature2D not found or invalid";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 
@@ -114,7 +114,7 @@ namespace Isis {
   FeatureAlgorithmPtr FeatureInventory::getDetector(const QString &config) const {
     FeatureAlgorithmPtr algo = getFeature(config);
     if ( !algo->hasDetector() ) {
-      std::string mess = "Specification does not define a detector:\n" + config;
+      std::string mess = "Specification does not define a detector:\n" + config.toStdString();
       throw IException(IException::User, mess, _FILEINFO_);
     }
     return ( algo );
@@ -124,7 +124,7 @@ namespace Isis {
   FeatureAlgorithmPtr FeatureInventory::getExtractor(const QString &config) const {
     FeatureAlgorithmPtr algo = getFeature(config);
     if ( !algo->hasExtractor() ) {
-      std::string mess = "Specification does not define an extractor:\n" + config;
+      std::string mess = "Specification does not define an extractor:\n" + config.toStdString();
       throw IException(IException::User, mess, _FILEINFO_);
     }
     return ( algo );
@@ -148,7 +148,7 @@ namespace Isis {
       return ( matcher(variables, config));
     }
     else {
-      std::string mess = c_name + " Matcher not found or invalid";
+      std::string mess = c_name.toStdString() + " Matcher not found or invalid";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 
@@ -187,7 +187,7 @@ namespace Isis {
         algorithmObject = getMatcher(lowerName)->info();
       }
       else {
-        std::string mess = "Algorithm [" + algorithmName +
+        std::string mess = "Algorithm [" + algorithmName.toStdString() +
                       "] is not a supported OpenCV3 algorithm.";
         throw IException(IException::User, mess, _FILEINFO_);
       }
@@ -196,7 +196,7 @@ namespace Isis {
     }
     catch (IException &e) {
       algorithmObject.clear();
-      algorithmObject += PvlKeyword( "Error", e.toString().toStdString() );
+      algorithmObject += PvlKeyword( "Error", e.toString() );
     }
 
     return ( algorithmObject );
@@ -222,7 +222,7 @@ namespace Isis {
       }
     }
     else {
-      std::string mess = "Algorithm [" + algorithmName +
+      std::string mess = "Algorithm [" + algorithmName.toStdString() +
                      "] is not a supported OpenCV3 algorithm.";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }

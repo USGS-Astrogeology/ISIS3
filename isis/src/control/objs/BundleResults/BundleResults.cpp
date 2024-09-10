@@ -159,7 +159,7 @@ namespace Isis {
     Q_ASSERT(xmlReader->name() == "generalStatisticsValues");
     while (xmlReader->readNextStartElement()) {
       if (xmlReader->qualifiedName() == "numberFixedPoints") {
-        m_numberFixedPoints = toInt(xmlReader->readElementText());
+        m_numberFixedPoints = xmlReader->readElementText().toInt();
       }
       else if (xmlReader->qualifiedName() == "numberIgnoredPoints") {
         m_numberIgnoredPoints = xmlReader->readElementText().toInt();
@@ -210,7 +210,7 @@ namespace Isis {
         m_sigma0 = xmlReader->readElementText().toDouble();
       }
       else if (xmlReader->qualifiedName() == "converged") {
-        m_converged = toBool(xmlReader->readElementText());
+        m_converged = toBool(xmlReader->readElementText().toStdString());
       }
       else if (xmlReader->qualifiedName() == "iterations") {
         m_iterations = xmlReader->readElementText().toInt();
@@ -1254,7 +1254,7 @@ namespace Isis {
       m_sigma0 = dvtpv;
     }
     else {
-      std::string msg = "Computed degrees of freedom [" + toString(m_degreesOfFreedom)
+      std::string msg = "Computed degrees of freedom [" + std::to_string(m_degreesOfFreedom)
                     + "] is invalid.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -2076,48 +2076,48 @@ namespace Isis {
     stream.writeEndElement(); // end correlationMatrix
 
     stream.writeStartElement("generalStatisticsValues");
-    stream.writeTextElement("numberFixedPoints", toString(numberFixedPoints()));
-    stream.writeTextElement("numberIgnoredPoints", toString(numberIgnoredPoints()));
-    stream.writeTextElement("numberHeldImages", toString(numberHeldImages()));
-    stream.writeTextElement("rejectionLimit", toString(rejectionLimit()));
-    stream.writeTextElement("numberRejectedObservations", toString(numberRejectedObservations()));
-    stream.writeTextElement("numberObservations", toString(numberObservations()));
-    stream.writeTextElement("numberLidarRangeConstraintEquations", toString(numberLidarRangeConstraintEquations()));
-    stream.writeTextElement("numberImageObservations", toString(numberImageObservations()));
-    stream.writeTextElement("numberLidarImageObservations", toString(numberLidarImageObservations()));
-    stream.writeTextElement("numberImageParameters", toString(numberImageParameters()));
+    stream.writeTextElement("numberFixedPoints", QString::number(numberFixedPoints()));
+    stream.writeTextElement("numberIgnoredPoints", QString::number(numberIgnoredPoints()));
+    stream.writeTextElement("numberHeldImages", QString::number(numberHeldImages()));
+    stream.writeTextElement("rejectionLimit", QString::number(rejectionLimit()));
+    stream.writeTextElement("numberRejectedObservations", QString::number(numberRejectedObservations()));
+    stream.writeTextElement("numberObservations", QString::number(numberObservations()));
+    stream.writeTextElement("numberLidarRangeConstraintEquations", QString::number(numberLidarRangeConstraintEquations()));
+    stream.writeTextElement("numberImageObservations", QString::number(numberImageObservations()));
+    stream.writeTextElement("numberLidarImageObservations", QString::number(numberLidarImageObservations()));
+    stream.writeTextElement("numberImageParameters", QString::number(numberImageParameters()));
     stream.writeTextElement("numberConstrainedPointParameters",
-                            toString(numberConstrainedPointParameters()));
+                            QString::number(numberConstrainedPointParameters()));
     stream.writeTextElement("numberConstrainedImageParameters",
-                            toString(numberConstrainedImageParameters()));
+                            QString::number(numberConstrainedImageParameters()));
     stream.writeTextElement("numberConstrainedTargetParameters",
-                            toString(numberConstrainedTargetParameters()));
-    stream.writeTextElement("numberUnknownParameters", toString(numberUnknownParameters()));
-    stream.writeTextElement("degreesOfFreedom", toString(degreesOfFreedom()));
-    stream.writeTextElement("sigma0", toString(sigma0()));
-    stream.writeTextElement("converged", toString(converged()));
-    stream.writeTextElement("iterations", toString(iterations()));
+                            QString::number(numberConstrainedTargetParameters()));
+    stream.writeTextElement("numberUnknownParameters", QString::number(numberUnknownParameters()));
+    stream.writeTextElement("degreesOfFreedom", QString::number(degreesOfFreedom()));
+    stream.writeTextElement("sigma0", QString::number(sigma0()));
+    stream.writeTextElement("converged", QString::number(converged()));
+    stream.writeTextElement("iterations", QString::number(iterations()));
     stream.writeEndElement(); // end generalStatisticsValues
 
     stream.writeStartElement("rms");
     stream.writeStartElement("residuals");
-    stream.writeAttribute("x", toString(rmsRx()));
-    stream.writeAttribute("y", toString(rmsRy()));
-    stream.writeAttribute("xy", toString(rmsRxy()));
+    stream.writeAttribute("x", QString::number(rmsRx()));
+    stream.writeAttribute("y", QString::number(rmsRy()));
+    stream.writeAttribute("xy", QString::number(rmsRxy()));
     stream.writeEndElement(); // end residuals element
     stream.writeStartElement("sigmas");
 
     // Set the label based of the coordinate type set for reports
     switch (coordType) {
       case SurfacePoint::Latitudinal:
-        stream.writeAttribute("lat", toString(sigmaCoord1StatisticsRms()));
-        stream.writeAttribute("lon", toString(sigmaCoord2StatisticsRms()));
-        stream.writeAttribute("rad", toString(sigmaCoord3StatisticsRms()));
+        stream.writeAttribute("lat", QString::number(sigmaCoord1StatisticsRms()));
+        stream.writeAttribute("lon", QString::number(sigmaCoord2StatisticsRms()));
+        stream.writeAttribute("rad", QString::number(sigmaCoord3StatisticsRms()));
         break;
       case SurfacePoint::Rectangular:
-        stream.writeAttribute("x", toString(sigmaCoord1StatisticsRms()));
-        stream.writeAttribute("y", toString(sigmaCoord2StatisticsRms()));
-        stream.writeAttribute("z", toString(sigmaCoord3StatisticsRms()));
+        stream.writeAttribute("x", QString::number(sigmaCoord1StatisticsRms()));
+        stream.writeAttribute("y", QString::number(sigmaCoord2StatisticsRms()));
+        stream.writeAttribute("z", QString::number(sigmaCoord3StatisticsRms()));
         break;
       default:
          IString msg ="Unknown surface point coordinate type enum [" + toString(coordType) + "]." ;
@@ -2127,7 +2127,7 @@ namespace Isis {
 
     stream.writeStartElement("imageResidualsLists");
     stream.writeStartElement("residualsList");
-    stream.writeAttribute("listSize", toString(rmsImageResiduals().size()));
+    stream.writeAttribute("listSize", QString::number(rmsImageResiduals().size()));
     for (int i = 0; i < m_rmsImageResiduals.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsImageResiduals[i].save(stream, project);
@@ -2135,7 +2135,7 @@ namespace Isis {
     }
     stream.writeEndElement(); // end residuals list
     stream.writeStartElement("sampleList");
-    stream.writeAttribute("listSize", toString(rmsImageSampleResiduals().size()));
+    stream.writeAttribute("listSize", QString::number(rmsImageSampleResiduals().size()));
     for (int i = 0; i < m_rmsImageSampleResiduals.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsImageSampleResiduals[i].save(stream, project);
@@ -2144,7 +2144,7 @@ namespace Isis {
     stream.writeEndElement(); // end sample residuals list
 
     stream.writeStartElement("lineList");
-    stream.writeAttribute("listSize", toString(rmsImageLineResiduals().size()));
+    stream.writeAttribute("listSize", QString::number(rmsImageLineResiduals().size()));
     for (int i = 0; i < m_rmsImageLineResiduals.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsImageLineResiduals[i].save(stream, project);
@@ -2153,7 +2153,7 @@ namespace Isis {
     stream.writeEndElement(); // end line residuals list
 
     stream.writeStartElement("lidarResidualsList");
-    stream.writeAttribute("listSize", toString(rmsLidarImageResiduals().size()));
+    stream.writeAttribute("listSize", QString::number(rmsLidarImageResiduals().size()));
     for (int i = 0; i < m_rmsLidarImageResiduals.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsLidarImageResiduals[i].save(stream, project);
@@ -2162,7 +2162,7 @@ namespace Isis {
     stream.writeEndElement(); // end line residuals list
 
     stream.writeStartElement("lidarSampleList");
-    stream.writeAttribute("listSize", toString(rmsLidarImageSampleResiduals().size()));
+    stream.writeAttribute("listSize", QString::number(rmsLidarImageSampleResiduals().size()));
     for (int i = 0; i < m_rmsLidarImageSampleResiduals.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsLidarImageSampleResiduals[i].save(stream, project);
@@ -2171,7 +2171,7 @@ namespace Isis {
     stream.writeEndElement(); // end line residuals list
 
     stream.writeStartElement("lidarLineList");
-    stream.writeAttribute("listSize", toString(rmsLidarImageLineResiduals().size()));
+    stream.writeAttribute("listSize", QString::number(rmsLidarImageLineResiduals().size()));
     for (int i = 0; i < m_rmsLidarImageLineResiduals.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsLidarImageLineResiduals[i].save(stream, project);
@@ -2182,7 +2182,7 @@ namespace Isis {
 
     stream.writeStartElement("imageSigmasLists");
     stream.writeStartElement("xSigmas");
-    stream.writeAttribute("listSize", toString(rmsImageXSigmas().size()));
+    stream.writeAttribute("listSize", QString::number(rmsImageXSigmas().size()));
     for (int i = 0; i < m_rmsImageXSigmas.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsImageXSigmas[i].save(stream, project);
@@ -2192,7 +2192,7 @@ namespace Isis {
     stream.writeEndElement(); // end x sigma list
 
     stream.writeStartElement("ySigmas");
-    stream.writeAttribute("listSize", toString(rmsImageYSigmas().size()));
+    stream.writeAttribute("listSize", QString::number(rmsImageYSigmas().size()));
     for (int i = 0; i < m_rmsImageYSigmas.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsImageYSigmas[i].save(stream, project);
@@ -2201,7 +2201,7 @@ namespace Isis {
     stream.writeEndElement(); // end y sigma list
 
     stream.writeStartElement("zSigmas");
-    stream.writeAttribute("listSize", toString(rmsImageZSigmas().size()));
+    stream.writeAttribute("listSize", QString::number(rmsImageZSigmas().size()));
     for (int i = 0; i < m_rmsImageZSigmas.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsImageZSigmas[i].save(stream, project);
@@ -2210,7 +2210,7 @@ namespace Isis {
     stream.writeEndElement(); // end z sigma list
 
     stream.writeStartElement("raSigmas");
-    stream.writeAttribute("listSize", toString(rmsImageRASigmas().size()));
+    stream.writeAttribute("listSize", QString::number(rmsImageRASigmas().size()));
     for (int i = 0; i < m_rmsImageRASigmas.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsImageRASigmas[i].save(stream, project);
@@ -2219,7 +2219,7 @@ namespace Isis {
     stream.writeEndElement(); // end ra sigma list
 
     stream.writeStartElement("decSigmas");
-    stream.writeAttribute("listSize", toString(rmsImageDECSigmas().size()));
+    stream.writeAttribute("listSize", QString::number(rmsImageDECSigmas().size()));
     for (int i = 0; i < m_rmsImageDECSigmas.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsImageDECSigmas[i].save(stream, project);
@@ -2228,7 +2228,7 @@ namespace Isis {
     stream.writeEndElement(); // end dec sigma list
 
     stream.writeStartElement("twistSigmas");
-    stream.writeAttribute("listSize", toString(rmsImageTWISTSigmas().size()));
+    stream.writeAttribute("listSize", QString::number(rmsImageTWISTSigmas().size()));
     for (int i = 0; i < m_rmsImageTWISTSigmas.size(); i++) {
       stream.writeStartElement("statisticsItem");
       m_rmsImageTWISTSigmas[i].save(stream, project);
@@ -2239,8 +2239,8 @@ namespace Isis {
     stream.writeEndElement(); // end rms
 
     stream.writeStartElement("elapsedTime");
-    stream.writeAttribute("time", toString(elapsedTime()));
-    stream.writeAttribute("errorProp", toString(elapsedTimeErrorProp()));
+    stream.writeAttribute("time", QString::number(elapsedTime()));
+    stream.writeAttribute("errorProp", QString::number(elapsedTimeErrorProp()));
     stream.writeEndElement(); // end elapsed time
 
     stream.writeStartElement("minMaxSigmas");
@@ -2249,53 +2249,53 @@ namespace Isis {
     switch (coordType) {
       case SurfacePoint::Latitudinal:
         stream.writeStartElement("minLat");
-        stream.writeAttribute("value", toString(minSigmaCoord1Distance().meters()));
+        stream.writeAttribute("value", QString::number(minSigmaCoord1Distance().meters()));
         stream.writeAttribute("pointId", minSigmaCoord1PointId());
         stream.writeEndElement();
         stream.writeStartElement("maxLat");
-        stream.writeAttribute("value", toString(maxSigmaCoord1Distance().meters()));
+        stream.writeAttribute("value", QString::number(maxSigmaCoord1Distance().meters()));
         stream.writeAttribute("pointId", maxSigmaCoord1PointId());
         stream.writeEndElement();
         stream.writeStartElement("minLon");
-        stream.writeAttribute("value", toString(minSigmaCoord2Distance().meters()));
+        stream.writeAttribute("value", QString::number(minSigmaCoord2Distance().meters()));
         stream.writeAttribute("pointId", minSigmaCoord2PointId());
         stream.writeEndElement();
         stream.writeStartElement("maxLon");
-        stream.writeAttribute("value", toString(maxSigmaCoord2Distance().meters()));
+        stream.writeAttribute("value", QString::number(maxSigmaCoord2Distance().meters()));
         stream.writeAttribute("pointId", maxSigmaCoord2PointId());
         stream.writeEndElement();
         stream.writeStartElement("minRad");
-        stream.writeAttribute("value", toString(minSigmaCoord3Distance().meters()));
+        stream.writeAttribute("value", QString::number(minSigmaCoord3Distance().meters()));
         stream.writeAttribute("pointId", minSigmaCoord3PointId());
         stream.writeEndElement();
         stream.writeStartElement("maxRad");
-        stream.writeAttribute("value", toString(maxSigmaCoord3Distance().meters()));
+        stream.writeAttribute("value", QString::number(maxSigmaCoord3Distance().meters()));
         stream.writeAttribute("pointId", maxSigmaCoord3PointId());
         stream.writeEndElement();
         break;
       case SurfacePoint::Rectangular:
         stream.writeStartElement("minX");
-        stream.writeAttribute("value", toString(minSigmaCoord1Distance().meters()));
+        stream.writeAttribute("value", QString::number(minSigmaCoord1Distance().meters()));
         stream.writeAttribute("pointId", minSigmaCoord1PointId());
         stream.writeEndElement();
         stream.writeStartElement("maxX");
-        stream.writeAttribute("value", toString(maxSigmaCoord1Distance().meters()));
+        stream.writeAttribute("value", QString::number(maxSigmaCoord1Distance().meters()));
         stream.writeAttribute("pointId", maxSigmaCoord1PointId());
         stream.writeEndElement();
         stream.writeStartElement("minY");
-        stream.writeAttribute("value", toString(minSigmaCoord2Distance().meters()));
+        stream.writeAttribute("value", QString::number(minSigmaCoord2Distance().meters()));
         stream.writeAttribute("pointId", minSigmaCoord2PointId());
         stream.writeEndElement();
         stream.writeStartElement("maxY");
-        stream.writeAttribute("value", toString(maxSigmaCoord2Distance().meters()));
+        stream.writeAttribute("value", QString::number(maxSigmaCoord2Distance().meters()));
         stream.writeAttribute("pointId", maxSigmaCoord2PointId());
         stream.writeEndElement();
         stream.writeStartElement("minZ");
-        stream.writeAttribute("value", toString(minSigmaCoord3Distance().meters()));
+        stream.writeAttribute("value", QString::number(minSigmaCoord3Distance().meters()));
         stream.writeAttribute("pointId", minSigmaCoord3PointId());
         stream.writeEndElement();
         stream.writeStartElement("maxZ");
-        stream.writeAttribute("value", toString(maxSigmaCoord3Distance().meters()));
+        stream.writeAttribute("value", QString::number(maxSigmaCoord3Distance().meters()));
         stream.writeAttribute("pointId", maxSigmaCoord3PointId());
         stream.writeEndElement();
         break;
@@ -2307,10 +2307,10 @@ namespace Isis {
 
     // call max likelihood setup from startElement to fill the rest of these values...
     stream.writeStartElement("maximumLikelihoodEstimation");
-    stream.writeAttribute("numberModels", toString(numberMaximumLikelihoodModels()));
-    stream.writeAttribute("maximumLikelihoodIndex", toString(maximumLikelihoodModelIndex()));
+    stream.writeAttribute("numberModels", QString::number(numberMaximumLikelihoodModels()));
+    stream.writeAttribute("maximumLikelihoodIndex", QString::number(maximumLikelihoodModelIndex()));
     stream.writeAttribute("maximumLikelihoodMedianR2Residuals",
-                          toString(maximumLikelihoodMedianR2Residuals()));
+                          QString::number(maximumLikelihoodMedianR2Residuals()));
 
     stream.writeStartElement("cumulativeProbabilityCalculator");
     // cumulativeProbabilityDistribution().save(stream, project);
@@ -2322,12 +2322,12 @@ namespace Isis {
 
     for (int i = 0; i < numberMaximumLikelihoodModels(); i++) {
       stream.writeStartElement("model");
-      stream.writeAttribute("modelNumber", toString(i+1));
+      stream.writeAttribute("modelNumber", QString::number(i+1));
       stream.writeAttribute("modelSelection",
         MaximumLikelihoodWFunctions::modelToString(m_maximumLikelihoodFunctions[i].first.model()));
       stream.writeAttribute("tweakingConstant",
-                            toString(m_maximumLikelihoodFunctions[i].first.tweakingConstant()));
-      stream.writeAttribute("quantile", toString(m_maximumLikelihoodFunctions[i].second));
+                            QString::number(m_maximumLikelihoodFunctions[i].first.tweakingConstant()));
+      stream.writeAttribute("quantile", QString::number(m_maximumLikelihoodFunctions[i].second));
       stream.writeEndElement(); // end this model
     }
     stream.writeEndElement(); // end maximumLikelihoodEstimation

@@ -478,7 +478,7 @@ namespace Isis {
     }
     else {
       throw IException(IException::Unknown,
-                       "Unknown bundle CSM solve option " + option + ".",
+                       "Unknown bundle CSM solve option " + option.toStdString() + ".",
                        _FILEINFO_);
     }
   }
@@ -531,7 +531,7 @@ namespace Isis {
     }
     else {
       throw IException(IException::Unknown,
-                       "Unknown bundle CSM parameter set " + set + ".",
+                       "Unknown bundle CSM parameter set " + set.toStdString() + ".",
                        _FILEINFO_);
     }
   }
@@ -584,7 +584,7 @@ namespace Isis {
     }
     else {
       throw IException(IException::Unknown,
-                       "Unknown bundle CSM parameter type " + type + ".",
+                       "Unknown bundle CSM parameter type " + type.toStdString() + ".",
                        _FILEINFO_);
     }
   }
@@ -742,7 +742,7 @@ namespace Isis {
     }
     else {
       throw IException(IException::Unknown,
-                       "Unknown bundle instrument pointing solve option " + option + ".",
+                       "Unknown bundle instrument pointing solve option " + option.toStdString() + ".",
                        _FILEINFO_);
     }
   }
@@ -1002,7 +1002,7 @@ namespace Isis {
     }
     else {
       throw IException(IException::Unknown,
-                          "Unknown bundle instrument position solve option " + option + ".",
+                          "Unknown bundle instrument position solve option " + option.toStdString() + ".",
                           _FILEINFO_);
     }
   }
@@ -1218,12 +1218,12 @@ namespace Isis {
     stream.writeStartElement("instrumentPointingOptions");
     stream.writeAttribute("solveOption",
                            instrumentPointingSolveOptionToString(m_instrumentPointingSolveOption));
-    stream.writeAttribute("numberCoefSolved", toString(m_numberCamAngleCoefSolved));
-    stream.writeAttribute("degree", toString(m_ckDegree));
-    stream.writeAttribute("solveDegree", toString(m_ckSolveDegree));
-    stream.writeAttribute("solveTwist", toString(m_solveTwist));
-    stream.writeAttribute("solveOverExisting", toString(m_solvePointingPolynomialOverExisting));
-    stream.writeAttribute("interpolationType", toString(m_pointingInterpolationType));
+    stream.writeAttribute("numberCoefSolved", QString::number(m_numberCamAngleCoefSolved));
+    stream.writeAttribute("degree", QString::number(m_ckDegree));
+    stream.writeAttribute("solveDegree", QString::number(m_ckSolveDegree));
+    stream.writeAttribute("solveTwist", QString::number(m_solveTwist));
+    stream.writeAttribute("solveOverExisting", QString::number(m_solvePointingPolynomialOverExisting));
+    stream.writeAttribute("interpolationType", QString::number(m_pointingInterpolationType));
 
     stream.writeStartElement("aprioriPointingSigmas");
     for (int i = 0; i < m_anglesAprioriSigma.size(); i++) {
@@ -1231,7 +1231,7 @@ namespace Isis {
         stream.writeTextElement("sigma", "N/A");
       }
       else {
-        stream.writeTextElement("sigma", toString(m_anglesAprioriSigma[i]));
+        stream.writeTextElement("sigma", QString::number(m_anglesAprioriSigma[i]));
       }
     }
     stream.writeEndElement();// end aprioriPointingSigmas
@@ -1241,11 +1241,11 @@ namespace Isis {
     stream.writeStartElement("instrumentPositionOptions");
     stream.writeAttribute("solveOption",
                            instrumentPositionSolveOptionToString(m_instrumentPositionSolveOption));
-    stream.writeAttribute("numberCoefSolved", toString(m_numberCamPosCoefSolved));
-    stream.writeAttribute("degree", toString(m_spkDegree));
-    stream.writeAttribute("solveDegree", toString(m_spkSolveDegree));
-    stream.writeAttribute("solveOverHermiteSpline", toString(m_solvePositionOverHermiteSpline));
-    stream.writeAttribute("interpolationType", toString(m_positionInterpolationType));
+    stream.writeAttribute("numberCoefSolved", QString::number(m_numberCamPosCoefSolved));
+    stream.writeAttribute("degree", QString::number(m_spkDegree));
+    stream.writeAttribute("solveDegree", QString::number(m_spkSolveDegree));
+    stream.writeAttribute("solveOverHermiteSpline", QString::number(m_solvePositionOverHermiteSpline));
+    stream.writeAttribute("interpolationType", QString::number(m_positionInterpolationType));
 
     stream.writeStartElement("aprioriPositionSigmas");
     for (int i = 0; i < m_positionAprioriSigma.size(); i++) {
@@ -1253,7 +1253,7 @@ namespace Isis {
         stream.writeTextElement("sigma", "N/A");
       }
       else {
-        stream.writeTextElement("sigma", toString(m_positionAprioriSigma[i]));
+        stream.writeTextElement("sigma", QString::number(m_positionAprioriSigma[i]));
       }
     }
     stream.writeEndElement();// end aprioriPositionSigmas
@@ -1292,11 +1292,11 @@ namespace Isis {
         }
         QStringRef solveTwist = xmlReader->attributes().value("solveTwist");
         if (!solveTwist.isEmpty()) {
-          m_solveTwist = toBool(solveTwist.toString());
+          m_solveTwist = toBool(solveTwist.toString().toStdString());
         }
         QStringRef solveOverExisting = xmlReader->attributes().value("solveOverExisting");
         if (!solveOverExisting.isEmpty()) {
-          m_solvePointingPolynomialOverExisting = toBool(solveOverExisting.toString());
+          m_solvePointingPolynomialOverExisting = toBool(solveOverExisting.toString().toStdString());
         }
         QStringRef interpolationType = xmlReader->attributes().value("interpolationType");
         if (!interpolationType.isEmpty()) {
@@ -1351,7 +1351,7 @@ namespace Isis {
         }
         QStringRef solveOverHermiteSpline = xmlReader->attributes().value("solveOverHermiteSpline");
         if (!solveOverHermiteSpline.isEmpty()) {
-          m_solvePositionOverHermiteSpline = toBool(solveOverHermiteSpline.toString());
+          m_solvePositionOverHermiteSpline = toBool(solveOverHermiteSpline.toString().toStdString());
         }
         QStringRef interpolationType = xmlReader->attributes().value("interpolationType");
         if (!interpolationType.isEmpty()) {

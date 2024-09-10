@@ -82,7 +82,7 @@ namespace Isis{
               Application::AppendAndLog(pvlObj.group(j), log);
             }
           }
-          QString sErrMsg = "Invalid Deffile\n";
+          std::string sErrMsg = "Invalid Deffile\n";
           throw IException(IException::User, sErrMsg, _FILEINFO_);
         }
       }

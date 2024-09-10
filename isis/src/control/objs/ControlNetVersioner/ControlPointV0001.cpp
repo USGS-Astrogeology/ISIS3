@@ -170,7 +170,7 @@ namespace Isis {
                          ControlNetFileProtoV0001_PBControlPoint::BundleSolution);
       }
       else {
-        std::string msg = "Invalid AprioriXYZSource [" + source + "]";
+        std::string msg = "Invalid AprioriXYZSource [" + source.toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -200,7 +200,7 @@ namespace Isis {
                            ControlNetFileProtoV0001_PBControlPoint::BundleSolution);
       }
       else {
-        std::string msg = "Invalid AprioriLatLonSource [" + source + "]";
+        std::string msg = "Invalid AprioriLatLonSource [" + source.toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -229,7 +229,7 @@ namespace Isis {
                            ControlNetFileProtoV0001_PBControlPoint::BundleSolution);
       }
       else {
-        std::string msg = "Invalid AprioriRadiusSource, [" + source + "]";
+        std::string msg = "Invalid AprioriRadiusSource, [" + source.toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -473,7 +473,7 @@ namespace Isis {
         }
         else {
           throw IException(IException::Io,
-                           "Unknown measure type [" + type + "]",
+                           "Unknown measure type [" + type.toStdString() + "]",
                            _FILEINFO_);
         }
         group.deleteKeyword("MeasureType");
@@ -523,7 +523,7 @@ namespace Isis {
           dataType = 8;
         }
         else {
-          std::string msg = "Invalid control measure log data name [" + name + "]";
+          std::string msg = "Invalid control measure log data name [" + name.toStdString() + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
 
