@@ -379,7 +379,7 @@ namespace Isis {
       p_lat = p_groundTab->p_latLineEdit->text().toDouble();
       p_lon = p_groundTab->p_lonLineEdit->text().toDouble();
       if (p_lat > 90 || p_lat < -90) {
-        std::string mess = QString::number(p_lat) + " is an invalid latitude value. "
+        QString mess = QString::number(p_lat) + " is an invalid latitude value. "
                          + "Please enter a latitude between -90 and 90.";
         QMessageBox::warning((QWidget *)parent(), "Warning", mess);
         p_lat = DBL_MAX;
@@ -679,7 +679,7 @@ namespace Isis {
       p_line = DBL_MAX;
       p_lat = DBL_MAX;
       p_lon = DBL_MAX;
-      QMessageBox::warning((QWidget *)parent(), "Warning", e.toString());
+      QMessageBox::warning((QWidget *)parent(), "Warning", QString::fromStdString(e.toString()));
     }
 
     return viewportResolution;

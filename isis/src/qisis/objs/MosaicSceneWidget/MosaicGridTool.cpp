@@ -622,7 +622,7 @@ namespace Isis {
         }
       }
 
-      if(toBool(QString::fromStdString(obj["Visible"][0]))) {
+      if(toBool(obj["Visible"][0])) {
         drawGrid();
       }
     }
@@ -848,7 +848,7 @@ namespace Isis {
     m_drawGridCheckBox->blockSignals(false);
     
     if (!getWidget()->getProjection()) {
-      std::string msg = "Please set the mosaic scene's projection before trying to "
+      QString msg = "Please set the mosaic scene's projection before trying to "
                     "draw a grid. This means either open a cube (a projection "
                     "will be calculated) or set the projection explicitly";
       QMessageBox::warning(NULL, tr("Grid Tool Requires Projection"), msg);

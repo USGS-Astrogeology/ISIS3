@@ -629,7 +629,7 @@ namespace Isis {
                            + IString(newScale*100) + "]",
                            _FILEINFO_);
       std::string message = fullError.toString();
-      QMessageBox::warning((QWidget *)parent(), "Warning", message);
+      QMessageBox::warning((QWidget *)parent(), "Warning", QString::fromStdString(message));
       newScale = oldScale;
       d->setScale(newScale);
     }
@@ -672,7 +672,7 @@ namespace Isis {
                            + IString(newScale * 100) + "]",
                            _FILEINFO_);
       std::string message = fullError.toString();
-      QMessageBox::warning((QWidget *)parent(), "Warning", message);
+      QMessageBox::warning((QWidget *)parent(), "Warning", QString::fromStdString(message));
       newScale = oldScale;
       d->setScale(newScale, x, y);
     }
@@ -715,7 +715,7 @@ namespace Isis {
                            + IString(newScale*100) + "]",
                            _FILEINFO_);
       std::string message = fullError.toString();
-      QMessageBox::warning((QWidget *)parent(), "Warning", message);
+      QMessageBox::warning((QWidget *)parent(), "Warning", QString::fromStdString(message));
       newScale = oldScale;
       d->setScale(newScale, samp, line);
     }

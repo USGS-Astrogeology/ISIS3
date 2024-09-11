@@ -464,8 +464,8 @@ namespace Isis {
     /*Now read the settings that are specific to this window.*/
     QString instanceName = p_dialog->windowTitle();
 
-    FileName config("$HOME/.Isis/" + appName + "/" + instanceName + ".config");
-    p_settings = new QSettings(config.expanded(), QSettings::NativeFormat);
+    FileName config("$HOME/.Isis/" + appName.toStdString() + "/" + instanceName.toStdString() + ".config");
+    p_settings = new QSettings(QString::fromStdString(config.expanded()), QSettings::NativeFormat);
 
     //For each special pixel value, if it exists set it, otherwise set
     //it to the system defaults.
@@ -548,8 +548,8 @@ namespace Isis {
     QString instanceName = p_dialog->windowTitle();
 
     //Write all of the special pixel value colors
-    FileName config("$HOME/.Isis/" + appName + "/" + instanceName + ".config");
-    QSettings settings(config.expanded(), QSettings::NativeFormat);
+    FileName config("$HOME/.Isis/" + appName.toStdString() + "/" + instanceName.toStdString() + ".config");
+    QSettings settings(QString::fromStdString(config.expanded()), QSettings::NativeFormat);
     settings.setValue("defaultNull", p_nullDefault);
     settings.setValue("defaultLis", p_lisDefault);
     settings.setValue("defaultLrs", p_lrsDefault);

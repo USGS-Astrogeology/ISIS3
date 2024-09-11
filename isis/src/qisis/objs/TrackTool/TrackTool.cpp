@@ -288,7 +288,7 @@ namespace Isis {
           p.y() >= rRect.top() && p.y() < rRect.bottom()) {
         const int rBufX = p.x() - rRect.left();
         const int rBufY = p.y() - rRect.top();
-        return PixelToString(buf->getLine(rBufY)[rBufX], 12);
+        return QString::fromStdString(PixelToString(buf->getLine(rBufY)[rBufX], 12));
       }
     }
     return "BUSY";

@@ -61,7 +61,7 @@ namespace Isis {
   CnetEditorWindow::CnetEditorWindow() {
     // Add the Qt plugin directory to the library path
     FileName qtpluginpath("$ISISROOT/3rdParty/plugins");
-    QCoreApplication::addLibraryPath(qtpluginpath.expanded());
+    QCoreApplication::addLibraryPath(QString::fromStdString(qtpluginpath.expanded()));
 
     // For some reason GUI style is not detected correctly by Qt for Isis.
     // This solution is less than ideal since it assumes one of at least 4
@@ -105,8 +105,8 @@ namespace Isis {
 
     // Can only load two file at a time
     if (args.size() > 2) {
-      std::string msg = tr("Cannot open more than one .net file and one .lis file at a time.");
-      std::cerr << msg << endl;
+      QString msg = tr("Cannot open more than one .net file and one .lis file at a time.");
+      std::cerr << msg.toStdString() << endl;
       QMessageBox::warning(this, tr("Unable to Open Files"), msg);
     }
     else {
@@ -115,16 +115,16 @@ namespace Isis {
         QString extension = QFileInfo(arg).suffix();
         if (extension.compare("net") != 0 && extension.compare("lis") != 0) {
           args.removeAll(arg);
-          std::string msg = tr("Invalid file extension [%1]. "
+          QString msg = tr("Invalid file extension [%1]. "
                            "Expected .net or .lis.").arg(arg);
-          std::cerr << msg << endl;
+          std::cerr << msg.toStdString() << endl;
           QMessageBox::warning(this, tr("Invalid File Extension"), msg);
         }
       }
       // Prevent multiple files of the same type from loading
       if (args.size() == 2 && QFileInfo(args[0]).suffix() == QFileInfo(args[1]).suffix()) {
-        std::string msg = tr("Cannot open two [%1] files.").arg(args[0]);
-        std::cerr << msg << endl;
+        QString msg = tr("Cannot open two [%1] files.").arg(args[0]);
+        std::cerr << msg.toStdString() << endl;
         QMessageBox::warning(this, tr("Unable to Open Files"), msg);
       }
       // Load file(s)
@@ -241,30 +241,30 @@ namespace Isis {
 
 
   void CnetEditorWindow::createActions() {
-    openNetAct = new QAction(QIcon(FileName("$ISISROOT/appdata/images/icons/fileopen.png").expanded()),
+    openNetAct = new QAction(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/fileopen.png").expanded())),
                              tr("&Open control network"), this);
     openNetAct->setShortcut(tr("Ctrl+O"));
     openNetAct->setStatusTip(tr("Open a control network file"));
     connect(openNetAct, SIGNAL(triggered()), this, SLOT(openNet()));
 
-    openCubeListAct = new QAction(QIcon(FileName("$ISISROOT/appdata/images/icons/openList.png").expanded()),
+    openCubeListAct = new QAction(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/openList.png").expanded())),
                                   tr("Open cube &list"), this);
     openCubeListAct->setShortcut(tr("Ctrl+L"));
     openCubeListAct->setStatusTip(tr("Open a cube list file"));
     connect(openCubeListAct, SIGNAL(triggered()), this, SLOT(openCubeList()));
 
-    saveAct = new QAction(QIcon(FileName("$ISISROOT/appdata/images/icons/filesave.png").expanded()),
+    saveAct = new QAction(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/filesave.png").expanded())),
                           tr("&Save"), this);
     saveAct->setShortcut(tr("Ctrl+S"));
     saveAct->setStatusTip(tr("save changes"));
     connect(saveAct, SIGNAL(triggered()), this, SLOT(save()));
 
-    saveAsAct = new QAction(QIcon(FileName("$ISISROOT/appdata/images/icons/filesaveas.png").expanded()),
+    saveAsAct = new QAction(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/filesaveas.png").expanded())),
                             tr("Save&As"), this);
     saveAsAct->setStatusTip(tr("Save control network to specified file"));
     connect(saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
-    closeAct = new QAction(QIcon(FileName("$ISISROOT/appdata/images/icons/fileclose.png").expanded()),
+    closeAct = new QAction(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/fileclose.png").expanded())),
                            tr("&Close"), this);
     closeAct->setStatusTip(tr("Close control net file"));
     connect(closeAct, SIGNAL(triggered()), this, SLOT(closeNetwork()));
@@ -273,7 +273,7 @@ namespace Isis {
     aboutAct->setStatusTip(tr("Show cneteditor's about box"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 
-    quitAct = new QAction(QIcon(FileName("$ISISROOT/appdata/images/icons/exit.png").expanded()),
+    quitAct = new QAction(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/exit.png").expanded())),
                           tr("&Quit"), this);
     quitAct->setShortcut(tr("Ctrl+Q"));
     quitAct->setStatusTip(tr("Quit cneteditor"));
@@ -383,8 +383,8 @@ namespace Isis {
 
   void CnetEditorWindow::readSettings() {
 
-    QSettings settings(FileName(
-        "$HOME/.Isis/cneteditor/cneteditor.config").expanded(),
+    QSettings settings(QString::fromStdString(FileName(
+        "$HOME/.Isis/cneteditor/cneteditor.config").expanded()),
         QSettings::NativeFormat);
 
     // load window position and size
@@ -401,8 +401,8 @@ namespace Isis {
 
   void CnetEditorWindow::writeSettings() {
 
-    QSettings settings(FileName(
-        "$HOME/.Isis/cneteditor/cneteditor.config").expanded(),
+    QSettings settings(QString::fromStdString(FileName(
+        "$HOME/.Isis/cneteditor/cneteditor.config").expanded()),
         QSettings::NativeFormat);
 
     // save window position and size
@@ -525,8 +525,8 @@ namespace Isis {
       setFileState(FileLoading, filename);
     }
     catch (IException &e) {
-      std::string msg = tr("Failed to open the file [%1].").arg(filename);
-      std::cerr << msg << endl;
+      QString msg = tr("Failed to open the file [%1].").arg(filename);
+      std::cerr << msg.toStdString() << endl;
       QMessageBox::critical(this, tr("cneteditor"), msg);
       setFileState(NoFile, "");
     }
@@ -551,8 +551,8 @@ namespace Isis {
     *cubeListFile = filename;
     }
     catch (IException &e) {
-      std::string msg = tr("Failed to open the file [%1].").arg(filename);
-      std::cerr << msg << endl;
+      QString msg = tr("Failed to open the file [%1].").arg(filename);
+      std::cerr << msg.toStdString() << endl;
       QMessageBox::critical(this, tr("cneteditor"), msg);
       setFileState(NoFile, "");
     }
@@ -581,7 +581,7 @@ namespace Isis {
           if (!newCubeListFile.open(QIODevice::WriteOnly | QIODevice::Text |
               QIODevice::Truncate)) {
             IString msg = "The file [";
-            msg += (IString) newCubeListFileName;
+            msg += newCubeListFileName.toStdString();
             msg += "failed to open for writing.\n";
             throw IException(IException::Programmer, msg, _FILEINFO_);
           }
@@ -708,8 +708,8 @@ namespace Isis {
 
     cnet = net;
     Control *control = new Control(net, currentFile);
-    editorWidget = new CnetEditorWidget(control, FileName(
-        "$HOME/.Isis/cneteditor/cneteditor.config").expanded());
+    editorWidget = new CnetEditorWidget(control, QString::fromStdString(FileName(
+        "$HOME/.Isis/cneteditor/cneteditor.config").expanded()));
     populateMenus();
     populateToolBars();
     connect(editorWidget, SIGNAL(cnetModified()), this, SLOT(setDirty()));

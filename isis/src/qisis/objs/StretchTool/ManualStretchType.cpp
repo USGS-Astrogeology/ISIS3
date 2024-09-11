@@ -145,7 +145,7 @@ namespace Isis {
     }
     catch (IException &e) {
       p_errorMessage->setText(
-          "<font color='red'>" + e.toString() + "</font>");
+          "<font color='red'>" + QString::fromStdString(e.toString()) + "</font>");
     }
 
     return stretch;

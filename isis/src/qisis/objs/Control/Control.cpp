@@ -314,8 +314,7 @@ namespace Isis {
   void Control::deleteFromDisk() {
 
     if (!QFile::remove(m_fileName)) {
-      throw IException(IException::Io,
-                       tr("Could not remove file [%1]").arg(m_fileName),
+      throw IException(IException::Io, "Could not remove file [" + m_fileName.toStdString() + "]",
                        _FILEINFO_);
     }
 

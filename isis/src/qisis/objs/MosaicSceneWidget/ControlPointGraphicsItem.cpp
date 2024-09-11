@@ -318,7 +318,7 @@ namespace Isis {
     toolTip += "<br />Point Type: " +
         m_controlPoint->GetPointTypeString();
     toolTip += "<br />Number of Measures: ";
-    toolTip += toString(m_controlPoint->GetNumMeasures());
+    toolTip += QString::number(m_controlPoint->GetNumMeasures());
     toolTip += "<br />Ignored: ";
     toolTip += m_controlPoint->IsIgnored() ? "Yes" : "No";
     toolTip += "<br />Edit Locked: ";
@@ -350,7 +350,7 @@ namespace Isis {
 
         double residMag = m_controlPoint->GetMeasure(serialNum)->GetResidualMagnitude();
         if (residMag != Null) {
-          toolTip += " [residual: <font color='red'>" + toString(residMag) + "</font>]";
+          toolTip += " [residual: <font color='red'>" + QString::number(residMag) + "</font>]";
         }
       }
     }

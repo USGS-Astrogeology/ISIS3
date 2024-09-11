@@ -11,6 +11,8 @@ find files of those names at the top level of this repository. **/
 #include "PvlContainer.h"
 #include "PvlGroup.h"
 
+#include <QMetaType>
+
 #include <nlohmann/json.hpp>
 
 
@@ -354,5 +356,7 @@ namespace Isis {
                                                 in the current PvlObject. */
   };
 }
+
+Q_DECLARE_METATYPE(Isis::PvlObject);
 
 #endif

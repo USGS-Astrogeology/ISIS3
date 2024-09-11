@@ -108,7 +108,7 @@ namespace Isis {
             mvp->cubeToViewport(0, mvp->cubeLines(), x2, y2);
             painter->drawLine(x1, y1, x1, y2);
 
-            painter->drawText(x1, y2 + 10, toString(lon));
+            painter->drawText(x1, y2 + 10, QString::number(lon));
         }
       }
 
@@ -124,7 +124,7 @@ namespace Isis {
             mvp->cubeToViewport(mvp->cubeSamples(), 0, x2, y2);
             painter->drawLine(x1, y1, x2, y1);
 
-            painter->drawText(x2 + 5, y1, toString(lat));
+            painter->drawText(x2 + 5, y1, QString::number(lat));
         }
       }
     }

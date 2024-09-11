@@ -188,7 +188,7 @@ namespace Isis {
    *
    * @param message
    */
-  void TableMainWindow::setStatusMessage(std::string message) {
+  void TableMainWindow::setStatusMessage(QString message) {
     this->statusBar()->showMessage(message);
   }
 

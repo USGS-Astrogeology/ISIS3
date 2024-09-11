@@ -119,7 +119,7 @@ namespace Isis {
                       const QString &menuText = "", int insertAt = -1,
                       Qt::Orientation o = Qt::Horizontal, QString toolTip = "");
       void deleteColumn(int item);
-      void setStatusMessage(std::string message);
+      void setStatusMessage(QString message);
       void closeEvent(QCloseEvent *event);
       void hideEvent(QHideEvent *event);
 

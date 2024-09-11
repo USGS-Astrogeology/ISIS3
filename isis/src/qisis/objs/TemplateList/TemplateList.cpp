@@ -174,29 +174,28 @@ namespace Isis {
     }
     else {
       throw IException(IException::Io,
-                       QString("Attempting to save unsupported template file type: [%1]").arg(m_type),
+                       "Attempting to save unsupported template file type: ["+m_type.toStdString()+"]",
                        _FILEINFO_);
     }
     stream.writeAttribute("name", m_name);
     stream.writeAttribute("type", m_type);
     stream.writeAttribute("path", m_path);
 
-    FileName settingsFileName(Project::templateRoot(newProjectRoot.toString())
-                              + "/" + m_type + "/" + m_name + "/templates.xml");
+    FileName settingsFileName(Project::templateRoot(QString::fromStdString(newProjectRoot.toString())).toStdString()
+                              + "/" + m_type.toStdString() + "/" + m_name.toStdString() + "/templates.xml");
 
-    if (!settingsFileName.dir().mkpath(settingsFileName.path())) {
+    if (!std::filesystem::create_directories(settingsFileName.dir())) {
       throw IException(IException::Io,
-                       QString("Failed to create directory [%1]").arg(settingsFileName.path()),
+                       "Failed to create directory ["+settingsFileName.path()+"]",
                        _FILEINFO_);
     }
 
-    QFile templateListContentsFile(settingsFileName.toString());
+    QFile templateListContentsFile(QString::fromStdString(settingsFileName.toString()));
 
     if (!templateListContentsFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
       throw IException(IException::Io,
-          QString("Unable to save template information for [%1] because [%2] could not be opened "
-                  "for writing")
-            .arg(m_name).arg(settingsFileName.original()),
+          "Unable to save template information for ["+m_name.toStdString()+"] because ["+settingsFileName.original()+"] could not be opened "
+                  "for writing",
           _FILEINFO_);
     }
 
@@ -208,12 +207,12 @@ namespace Isis {
     foreach (Template *currentTemplate, *this) {
       currentTemplate->save(templateDetailsWriter, project, newProjectRoot);
 
-      QString newPath = newProjectRoot.toString() + "/templates/" + m_type + "/" + m_name;
+      QString newPath = QString::fromStdString(newProjectRoot.toString()) + "/templates/" + m_type + "/" + m_name;
 
       if (currentTemplate->fileName() !=
-          newPath + "/" + FileName(currentTemplate->fileName()).name()) {
+          newPath + "/" + QString::fromStdString(FileName(currentTemplate->fileName().toStdString()).name())) {
         QFile::copy(currentTemplate->fileName(),
-                    newPath + "/" + FileName(currentTemplate->fileName()).name() );
+                    newPath + "/" + QString::fromStdString(FileName(currentTemplate->fileName().toStdString()).name()) );
       }
     }
 

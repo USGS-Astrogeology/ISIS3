@@ -256,7 +256,7 @@ namespace Isis {
           index++;
       }
     }
-    IString msg = "Header [" + keyword + "] not found; make sure spelling is correct";
+    IString msg = "Header [" + keyword.toStdString() + "] not found; make sure spelling is correct";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
 
@@ -339,10 +339,10 @@ namespace Isis {
     // Otherwise write out col 4 (Pixel value)
     QString pixel;
     if(cvp->isGray()) {
-      pixel = PixelToString(cvp->grayPixel(isample, iline), 12);
+      pixel = QString::fromStdString(PixelToString(cvp->grayPixel(isample, iline), 12));
     }
     else {
-      pixel = PixelToString(cvp->redPixel(isample, iline), 12);
+      pixel = QString::fromStdString(PixelToString(cvp->redPixel(isample, iline), 12));
     }
     p_tableWin->table()->item(row, getIndex("Pixel"))->setText(pixel);
 

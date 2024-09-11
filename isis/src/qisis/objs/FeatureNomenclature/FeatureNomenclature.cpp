@@ -481,7 +481,7 @@ namespace Isis {
     Distance result;
 
     try {
-      result = Distance(toDouble(getTagText("diameter")),
+      result = Distance(getTagText("diameter").toDouble(),
                         Distance::Kilometers);
     }
     catch (IException &) {
@@ -506,7 +506,7 @@ namespace Isis {
     Latitude result;
 
     try {
-      result = Latitude(toDouble(getTagText("centerlatitude")), Angle::Degrees);
+      result = Latitude(getTagText("centerlatitude").toDouble(), Angle::Degrees);
     }
     catch (IException &) {
     }
@@ -530,7 +530,7 @@ namespace Isis {
     Longitude result;
 
     try {
-      result = Longitude(toDouble(getTagText("centerlongitude")),
+      result = Longitude(getTagText("centerlongitude").toDouble(),
                          Angle::Degrees);
     }
     catch (IException &) {
@@ -555,7 +555,7 @@ namespace Isis {
     Latitude result;
 
     try {
-      result = Latitude(toDouble(getTagText("northernLatitude")), Angle::Degrees);
+      result = Latitude(getTagText("northernLatitude").toDouble(), Angle::Degrees);
     }
     catch (IException &) {
     }
@@ -580,7 +580,7 @@ namespace Isis {
     Latitude result;
 
     try {
-      result = Latitude(toDouble(getTagText("southernLatitude")), Angle::Degrees);
+      result = Latitude(getTagText("southernLatitude").toDouble(), Angle::Degrees);
     }
     catch (IException &) {
     }
@@ -605,7 +605,7 @@ namespace Isis {
     Longitude result;
 
     try {
-      result = Longitude(toDouble(getTagText("easternLongitude")),
+      result = Longitude(getTagText("easternLongitude").toDouble(),
                          Angle::Degrees);
     }
     catch (IException &) {
@@ -631,7 +631,7 @@ namespace Isis {
     Longitude result;
 
     try {
-      result = Longitude(toDouble(getTagText("westernLongitude")),
+      result = Longitude(getTagText("westernLongitude").toDouble(),
                          Angle::Degrees);
     }
     catch (IException &) {
@@ -800,7 +800,7 @@ namespace Isis {
   void FeatureNomenclature::requestFinished(QNetworkReply *reply) {
     if (reply->error() == QNetworkReply::NoError) {
 
-      std::string errorMsg;
+      QString errorMsg;
       int errorLine;
       int errorCol;
 
@@ -819,7 +819,7 @@ namespace Isis {
       else if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 301) {
         IString msg = "The URL has been permanently moved to " +
                       reply->attribute(QNetworkRequest::RedirectionTargetAttribute)
-                      .toUrl().toString();
+                      .toUrl().toString().toStdString();
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
       else {

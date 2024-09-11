@@ -138,7 +138,7 @@ namespace Isis {
     bool crashedPreviously = false;
 
     foreach (QString existingProject, existingProjects) {
-      FileName existingProjectFileName(tempDir.absolutePath() + "/" + existingProject);
+      FileName existingProjectFileName(tempDir.absolutePath().toStdString() + "/" + existingProject.toStdString());
       QString pidString = QString(existingProject).replace(QRegExp(".*_"), "");
       int otherPid = pidString.toInt();
 
@@ -146,7 +146,7 @@ namespace Isis {
         if ( !QFile::exists("/proc/" + pidString) ) {
           crashedPreviously = true;
           int status = system( ("rm -rf '" +
-                                existingProjectFileName.expanded() + "' &").toLatin1().data() );
+                                existingProjectFileName.expanded() + "' &").c_str() );
           if (status != 0) {
             std::string msg = "Executing command [rm -rf" + existingProjectFileName.expanded() +
                           "' &] failed with return status [" + toString(status) + "]";
@@ -181,8 +181,7 @@ namespace Isis {
     }
     catch (std::exception &e) {
       //  e.what()
-      throw IException(IException::Programmer,
-          tr("Error creating project folders [%1]").arg( e.what() ), _FILEINFO_);
+      throw IException(IException::Programmer, "Error creating project folders [" + (std::string)e.what() + "]", _FILEINFO_);
     }
     //  TODO TLS 2016-07-13  This seems to only be used by ControlNet when SetTarget is called.
     //     This needs to be better documented, possibly renamed or redesigned??
@@ -382,63 +381,61 @@ namespace Isis {
     QDir dir;
     if ( !dir.mkpath( m_projectRoot->path() ) ) {
       warn("Cannot create project directory.");
-      throw IException(IException::Io,
-                       tr("Unable to create folder [%1] when trying to initialize project")
-                         .arg(m_projectRoot->path() ),
+      throw IException(IException::Io,"Unable to create folder [" + m_projectRoot->path().toStdString() + "] when trying to initialize project",
                        _FILEINFO_);
     }
 
     try {
       if ( !dir.mkdir( cnetRoot() ) ) {
-        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
+        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( cnetRoot() );
         warn(msg);
-        throw IException(IException::Io, msg, _FILEINFO_);
+        throw IException(IException::Io, msg.toStdString(), _FILEINFO_);
       }
 
       if ( !dir.mkdir( imageDataRoot() ) ) {
-        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
+        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( imageDataRoot() );
         warn(msg);
-        throw IException(IException::Io, msg, _FILEINFO_);
+        throw IException(IException::Io, msg.toStdString(), _FILEINFO_);
       }
 
       if ( !dir.mkdir( shapeDataRoot() ) ) {
-        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
+        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( shapeDataRoot() );
         warn(msg);
-        throw IException(IException::Io, msg, _FILEINFO_);
+        throw IException(IException::Io, msg.toStdString(), _FILEINFO_);
       }
 
       if ( !dir.mkdir( resultsRoot() ) ) {
-        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
+        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( resultsRoot() );
         warn(msg);
-        throw IException(IException::Io, msg, _FILEINFO_);
+        throw IException(IException::Io, msg.toStdString(), _FILEINFO_);
       }
       if ( !dir.mkdir( bundleSolutionInfoRoot() ) ) {
-        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
+        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( bundleSolutionInfoRoot() );
         warn(msg);
-        throw IException(IException::Io, msg, _FILEINFO_);
+        throw IException(IException::Io, msg.toStdString(), _FILEINFO_);
       }
       if ( !dir.mkdir( templateRoot() ) ) {
-        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
+        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( templateRoot() );
         warn(msg);
-        throw IException(IException::Io, msg, _FILEINFO_);
+        throw IException(IException::Io, msg.toStdString(), _FILEINFO_);
       }
       if ( !dir.mkdir( templateRoot() + "/maps" ) ) {
-        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
+        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( templateRoot() + "/maps" );
         warn(msg);
-        throw IException(IException::Io, msg, _FILEINFO_);
+        throw IException(IException::Io, msg.toStdString(), _FILEINFO_);
       }
       if ( !dir.mkdir( templateRoot() + "/registrations" ) ) {
-        std::string msg = QString("Unable to create folder [%1] when trying to initialize project")
+        QString msg = QString("Unable to create folder [%1] when trying to initialize project")
                         .arg( templateRoot() + "/registrations" );
         warn(msg);
-        throw IException(IException::Io, msg, _FILEINFO_);
+        throw IException(IException::Io, msg.toStdString(), _FILEINFO_);
       }
     }
     catch (...) {
@@ -642,7 +639,7 @@ namespace Isis {
 
     catch (std::exception &e) {
       throw IException(IException::Programmer,
-          tr("Error creating project folders [%1]").arg( e.what() ), _FILEINFO_);
+          "Error creating project folders [" + (std::string)e.what() + "]", _FILEINFO_);
     }
 
     m_images->clear();
@@ -894,7 +891,7 @@ namespace Isis {
 
     foreach (QString fileName, fileNames) {
       try {
-        Cube tmp(fileName);
+        Cube tmp(fileName.toStdString());
         result.append(fileName);
       }
       catch (IException &) {
@@ -933,9 +930,7 @@ namespace Isis {
     while ( cnetFolder.exists(numberedPrefix) );
 
     if ( !cnetFolder.mkpath(numberedPrefix) ) {
-      throw IException(IException::Io,
-          tr("Could not create control network directory [%1] in [%2].")
-            .arg(numberedPrefix).arg( cnetFolder.absolutePath() ),
+      throw IException(IException::Io,"Could not create control network directory [" + numberedPrefix.toStdString() + "] in [" + cnetFolder.absolutePath().toStdString() + "].",
           _FILEINFO_);
     }
 
@@ -959,7 +954,7 @@ namespace Isis {
     connect( this, SIGNAL( projectRelocated(Project *) ),
              control, SLOT( updateFileName(Project *) ) );
 
-    createOrRetrieveControlList( FileName( control->fileName() ).dir().dirName(), "" )->append(control);
+    createOrRetrieveControlList(QString::fromStdString(FileName(control->fileName().toStdString()).dir().filename().string()), "")->append(control);
 
     (*m_idToControlMap)[control->id()] = control;
 
@@ -1011,8 +1006,7 @@ namespace Isis {
 
     if ( !imageFolder.mkpath(numberedPrefix) ) {
       throw IException(IException::Io,
-          tr("Could not create image directory [%1] in [%2].")
-            .arg(numberedPrefix).arg( imageFolder.absolutePath() ),
+          "Could not create image directory [" + numberedPrefix.toStdString() + "] in [" + imageFolder.absolutePath().toStdString() + "].",
           _FILEINFO_);
     }
 
@@ -1068,8 +1062,7 @@ namespace Isis {
 
     if ( !shapeFolder.mkpath(numberedPrefix) ) {
       throw IException(IException::Io,
-          tr("Could not create shape directory [%1] in [%2].")
-            .arg(numberedPrefix).arg( shapeFolder.absolutePath() ),
+          "Could not create shape directory ["+numberedPrefix.toStdString()+"] in ["+shapeFolder.absolutePath().toStdString()+"].",
           _FILEINFO_);
     }
 
@@ -1142,8 +1135,7 @@ namespace Isis {
 
     if ( !templateFolder.mkpath(numberedPrefix) ) {
       throw IException(IException::Io,
-          tr("Could not create template directory [%1] in [%2].")
-            .arg(numberedPrefix).arg( templateFolder.absolutePath() ),
+          "Could not create template directory ["+numberedPrefix.toStdString()+"] in ["+templateFolder.absolutePath().toStdString()+"].",
           _FILEINFO_);
     }
 
@@ -1173,8 +1165,7 @@ namespace Isis {
 
     if (!bundleSolutionInfoFolder.mkpath(folder)) {
       throw IException(IException::Io,
-                       tr("Could not create bundle results directory [%1] in [%2].")
-                       .arg(folder).arg(bundleSolutionInfoFolder.absolutePath()),
+                       "Could not create bundle results directory [" + folder.toStdString() + "] in [" + bundleSolutionInfoFolder.absolutePath().toStdString() + "].",
                        _FILEINFO_);
     }
 
@@ -1233,9 +1224,9 @@ namespace Isis {
     QString appName = QApplication::applicationName();
 
 
-    QSettings globalSettings(
-        FileName("$HOME/.Isis/" + appName + "/" + appName + "_" + "Project.config")
-          .expanded(),
+    QSettings globalSettings(QString::fromStdString(
+        FileName("$HOME/.Isis/" + appName.toStdString() + "/" + appName.toStdString() + "_" + "Project.config")
+          .expanded()),
         QSettings::NativeFormat);
 
     globalSettings.beginGroup("recent_projects");
@@ -1348,8 +1339,7 @@ namespace Isis {
 
     if ( !file.open(QFile::ReadOnly) ) {
       throw IException(IException::Io,
-                       QString("Unable to open [%1] with read access")
-                       .arg(projectXmlPath),
+                       "Unable to open [" + projectXmlPath.toStdString() + "] with read access",
                        _FILEINFO_);
     }
 
@@ -1358,8 +1348,7 @@ namespace Isis {
 
     if ( !historyFile.open(QFile::ReadOnly) ) {
       throw IException(IException::Io,
-                       QString("Unable to open [%1] with read access")
-                               .arg(projectXmlHistoryPath),
+                       "Unable to open [" + projectXmlHistoryPath.toStdString() + "] with read access",
                        _FILEINFO_);
     }
 
@@ -1368,8 +1357,7 @@ namespace Isis {
 
     if (!warningsFile.open(QFile::ReadOnly)) {
       throw IException(IException::Io,
-                       QString("Unable to open [%1] with read access")
-                       .arg(projectXmlWarningsPath),
+                       "Unable to open [" + projectXmlWarningsPath.toStdString() + "] with read access",
                        _FILEINFO_);
     }
 
@@ -1377,9 +1365,7 @@ namespace Isis {
     QFile directoryFile(directoryXmlPath);
 
     if (!directoryFile.open(QFile::ReadOnly)) {
-      throw IException(IException::Io,
-                       QString("Unable to open [%1] with read access")
-                       .arg(directoryXmlPath),
+      throw IException(IException::Io,"Unable to open [" + directoryXmlPath.toStdString() + "] with read access",
                        _FILEINFO_);
     }
 
@@ -1403,12 +1389,12 @@ namespace Isis {
     catch (IException &e) {
       directory()->showWarning(QString("Failed to open project completely [%1]")
                                .arg(projectAbsolutePathStr));
-      directory()->showWarning(e.toString());
+      directory()->showWarning(QString::fromStdString(e.toString()));
     }
     catch (std::exception &e) {
       directory()->showWarning(QString("Failed to open project completely[%1]")
                                .arg(projectAbsolutePathStr));
-      directory()->showWarning(e.what());
+      directory()->showWarning(QString::fromStdString(e.what()));
     }
 
     QXmlStreamReader reader2(&historyFile);
@@ -1422,12 +1408,12 @@ namespace Isis {
     catch (IException &e) {
       directory()->showWarning(QString("Failed to read history from project[%1]")
                                .arg(projectAbsolutePathStr));
-      directory()->showWarning(e.toString());
+      directory()->showWarning(QString::fromStdString(e.toString()));
       }
     catch (std::exception &e) {
       directory()->showWarning(QString("Failed to read history from project[%1]")
                                 .arg(projectAbsolutePathStr));
-      directory()->showWarning(e.what());
+      directory()->showWarning(QString::fromStdString(e.what()));
     }
     
     QXmlStreamReader reader3(&warningsFile);
@@ -1449,13 +1435,13 @@ namespace Isis {
     catch (IException &e) {
       directory()->showWarning(QString("Failed to read GUI state from project[%1]")
                                .arg(projectAbsolutePathStr));
-      directory()->showWarning(e.toString());
+      directory()->showWarning(QString::fromStdString(e.toString()));
 
     }
     catch (std::exception &e) {
       directory()->showWarning(QString("Failed to read GUI state from project[%1]")
                                .arg(projectAbsolutePathStr));
-      directory()->showWarning(e.what());
+      directory()->showWarning(QString::fromStdString(e.what()));
     }
 
     QDir bundleRoot(bundleSolutionInfoRoot());
@@ -2393,7 +2379,7 @@ namespace Isis {
 
       if ( !newDestination.isEmpty() ) {
         m_isTemporaryProject = false;
-        save( QFileInfo(newDestination + "/").absolutePath() );
+        save( QFileInfo(newDestination + "/").absolutePath().toStdString() );
 
         // delete the temporary project
         deleteAllProjectFiles();
@@ -2421,7 +2407,7 @@ namespace Isis {
           }
         }
       }
-      save(m_projectRoot->absolutePath(), false);
+      save(m_projectRoot->absolutePath().toStdString(), false);
       emit cnetSaved(true);
     }
 
@@ -2531,20 +2517,17 @@ namespace Isis {
    *
    */
   void Project::save(FileName newPath, bool verifyPathDoesntExist) {
-    if ( verifyPathDoesntExist && QFile::exists( newPath.toString() ) ) {
+    if ( verifyPathDoesntExist && QFile::exists( QString::fromStdString(newPath.toString()) ) ) {
       throw IException(IException::Io,
-                       QString("Projects may not be saved to an existing path [%1]; "
-                               "please select a new path or delete the current folder")
-                       .arg(newPath.original()),
+                       "Projects may not be saved to an existing path ["+newPath.original()+"]; "
+                               "please select a new path or delete the current folder",
                        _FILEINFO_);
     }
 
     QDir dir;
-    if (!dir.mkpath(newPath.toString())) {
-      throw IException(IException::Io,
-                       QString("Unable to save project at [%1] "
-                               "because we could not create the folder")
-                       .arg(newPath.original()),
+    if (!dir.mkpath(QString::fromStdString(newPath.toString()))) {
+      throw IException(IException::Io, "Unable to save project at ["+newPath.original()+"] "
+                               "because we could not create the folder",
                        _FILEINFO_);
     }
 
@@ -2552,19 +2535,18 @@ namespace Isis {
     //  the ideal way to handle this.  Maybe change the data copy methods to either take the new
     //  project root in addition to the data root or put the data root in the dataList (ImageList,
     //  etc.). If performing a "Save", m_newProjectRoot == m_projectRoot
-    m_newProjectRoot = newPath.toString();
+    m_newProjectRoot = QString::fromStdString(newPath.toString());
 
     //  For now set the member variable rather than calling setName which emits signal and updates
     //  ProjectItemModel & the project name on the tree.  This will be updated when the new project
     //  is opened.
-    m_name = newPath.name();
+    m_name = QString::fromStdString(newPath.name());
 
-    QFile projectSettingsFile(newPath.toString() + "/project.xml");
+    QFile projectSettingsFile(QString::fromStdString(newPath.toString()) + "/project.xml");
     if (!projectSettingsFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
       throw IException(IException::Io,
-                       QString("Unable to save project at [%1] because the file [%2] "
-                               "could not be opened for writing")
-                       .arg(newPath.original()).arg(projectSettingsFile.fileName()),
+                       "Unable to save project at ["+newPath.original()+"] because the file ["+projectSettingsFile.fileName().toStdString()+"] "
+                               "could not be opened for writing",
                        _FILEINFO_);
     }
 
@@ -2578,12 +2560,11 @@ namespace Isis {
 
     writer.writeEndDocument();
 
-    QFile projectHistoryFile(newPath.toString() + "/history.xml");
+    QFile projectHistoryFile(QString::fromStdString(newPath.toString()) + "/history.xml");
     if (!projectHistoryFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
       throw IException(IException::Io,
-                       QString("Unable to save project at [%1] because the file [%2] "
-                               "could not be opened for writing")
-                       .arg(newPath.original()).arg(projectHistoryFile.fileName()),
+                       "Unable to save project at ["+newPath.original()+"] because the file ["+projectHistoryFile.fileName().toStdString()+"] "
+                               "could not be opened for writing",
                        _FILEINFO_);
     }
 
@@ -2594,12 +2575,11 @@ namespace Isis {
     saveHistory(historyWriter);
     historyWriter.writeEndDocument();
 
-    QFile projectWarningsFile(newPath.toString() + "/warnings.xml");
+    QFile projectWarningsFile(QString::fromStdString(newPath.toString()) + "/warnings.xml");
     if (!projectWarningsFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
       throw IException(IException::Io,
-                       QString("Unable to save project at [%1] because the file [%2] could not be "
-                               "opened for writing")
-                       .arg(newPath.original()).arg(projectWarningsFile.fileName()),
+                       "Unable to save project at ["+newPath.original()+"] because the file ["+projectWarningsFile.fileName().toStdString()+"] could not be "
+                               "opened for writing",
                        _FILEINFO_);
     }
 
@@ -2611,12 +2591,11 @@ namespace Isis {
     warningsWriter.writeEndDocument();
 
     //  Save the Directory structure
-    QFile directoryStateFile(newPath.toString() + "/directory.xml");
+    QFile directoryStateFile(QString::fromStdString(newPath.toString()) + "/directory.xml");
     if (!directoryStateFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
       throw IException(IException::Io,
-                       QString("Unable to save project at [%1] because the file [%2] could not be "
-                               "opened for writing")
-                       .arg(newPath.original()).arg(directoryStateFile.fileName()),
+                       "Unable to save project at ["+newPath.original()+"] because the file ["+directoryStateFile.fileName().toStdString()+"] could not be "
+                               "opened for writing",
                        _FILEINFO_);
     }
 
@@ -2739,7 +2718,7 @@ namespace Isis {
         createOrRetrieveImageList(images.name(), images.path())->append(image);
       }
       else {
-        createOrRetrieveImageList(FileName(images[0]->fileName()).dir().dirName(), "")->append(image);
+        createOrRetrieveImageList(QString::fromStdString(FileName(images[0]->fileName().toStdString()).dir().filename().string()), "")->append(image);
       }
     }
 
@@ -2986,7 +2965,7 @@ namespace Isis {
         createOrRetrieveShapeList(shapes.name(), shapes.path())->append(shape);
       }
       else {
-        createOrRetrieveShapeList(FileName(shapes[0]->fileName()).dir().dirName(), "")->append(shape);
+        createOrRetrieveShapeList(QString::fromStdString(FileName(shapes[0]->fileName().toStdString()).dir().filename().string()), "")->append(shape);
       }
 
     }

@@ -185,7 +185,7 @@ namespace Isis {
 
       setProgressValue(totalProgress);
 
-      m_warning = functor.errors().toString();
+      m_warning = QString::fromStdString(functor.errors().toString());
 
       QThread::yieldCurrentThread();
     }

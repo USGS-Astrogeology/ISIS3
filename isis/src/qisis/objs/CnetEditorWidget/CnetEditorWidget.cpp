@@ -226,13 +226,13 @@ namespace Isis {
         if (!ignoreAll) {
           if (item == itemsToDelete.last()) {
             QMessageBox::warning(
-              this, "Failed to delete row", message, QMessageBox::Ok);
+              this, "Failed to delete row", QString::fromStdString(message), QMessageBox::Ok);
           }
           else {
             message += "\n\nOkay to continue?";
 
             QMessageBox::StandardButton status = QMessageBox::warning(
-                this, "Failed to delete row", message, QMessageBox::Yes |
+                this, "Failed to delete row", QString::fromStdString(message), QMessageBox::Yes |
                 QMessageBox::YesToAll | QMessageBox::No);
 
             if (status == QMessageBox::YesToAll)

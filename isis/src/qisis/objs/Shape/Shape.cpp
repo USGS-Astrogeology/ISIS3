@@ -112,7 +112,7 @@ namespace Isis {
 
   void Shape::initShape() {
 
-    m_displayProperties = new ShapeDisplayProperties(FileName(m_fileName).name(), this);
+    m_displayProperties = new ShapeDisplayProperties(QString::fromStdString(FileName(m_fileName.toStdString()).name()), this);
     m_id = new QUuid(QUuid::createUuid());
     m_serialNumber = SerialNumber::Compose(m_fileName, true);
 
@@ -154,7 +154,7 @@ namespace Isis {
           m_radiusSource = ControlPoint::RadiusSource::None;
           m_shapeType = Unknown;
           std::string message = "Cannot create either Camera or Projections "
-            "for the ground source file [" + displayProperties()->displayName() + "].  "
+            "for the ground source file [" + displayProperties()->displayName().toStdString() + "].  "
             "Check the validity of the  cube labels.  The cube must either be projected or "
             " run through spiceinit.";
           throw IException(e, IException::Io, message, _FILEINFO_);
@@ -174,10 +174,10 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      std::string message = "Cannot initialize the camera, map or dem statistics for this shape file [" +
+      QString message = "Cannot initialize the camera, map or dem statistics for this shape file [" +
           displayProperties()->displayName() + "]. Check the validity of the  cube labels.  The "
           "cube must either be projected or run through spiceinit. \n";
-      message += e.toString();
+      message += QString::fromStdString(e.toString());
       QMessageBox::warning((QWidget *) parent(), "Warning", message);
     }
 
@@ -218,11 +218,10 @@ namespace Isis {
    * @param pvl The PvlObject that contains shape information.
    */
   void Shape::fromPvl(const PvlObject &pvl) {
-    QString pvlFileName = ((IString)pvl["FileName"][0]).ToQt();
-    if (m_fileName != pvlFileName) {
+    std::string pvlFileName = pvl["FileName"][0];
+    if (m_fileName.toStdString() != pvlFileName) {
       throw IException(IException::Unknown,
-          tr("Tried to load Shape [%1] with properties/information from [%2].")
-            .arg(m_fileName).arg(pvlFileName),
+          "Tried to load Shape ["+m_fileName.toStdString()+"] with properties/information from ["+pvlFileName+"].",
           _FILEINFO_);
     }
 
@@ -284,15 +283,15 @@ namespace Isis {
     if (!result && m_cube) {
       Blob example = ImagePolygon().toBlob();
 
-      QString blobType = QString::fromStdString(example.Type());
-      QString blobName = example.Name();
+      std::string blobType = example.Type();
+      std::string blobName = example.Name();
 
       Pvl &labels = *m_cube->label();
 
       for (int i = 0; i < labels.objects(); i++) {
         PvlObject &obj = labels.object(i);
 
-        if (obj.isNamed(blobType.toStdString()) && obj.hasKeyword("Name") && QString::fromStdString(obj["Name"][0]) == blobName)
+        if (obj.isNamed(blobType) && obj.hasKeyword("Name") && obj["Name"][0] == blobName)
           result = true;
       }
     }
@@ -308,7 +307,7 @@ namespace Isis {
   Cube *Shape::cube() {
     if (!m_cube) {
       try {
-        m_cube = new Cube(m_fileName);
+        m_cube = new Cube(m_fileName.toStdString());
       }
       catch (IException &e) {
         throw IException(e, IException::Programmer, "Cube cannot be created", _FILEINFO_);
@@ -413,7 +412,7 @@ namespace Isis {
         }
         catch(IException &e) {
           IString msg = "Could not read the footprint from cube [" +
-              displayProperties()->displayName() + "]. Please make "
+              displayProperties()->displayName().toStdString() + "]. Please make "
               "sure footprintinit has been run";
           throw IException(e, IException::Io, msg, _FILEINFO_);
         }
@@ -537,11 +536,11 @@ namespace Isis {
    * Copy the cub/ecub files associated with this shape into the new project.
    */
   void Shape::copyToNewProjectRoot(const Project *project, FileName newProjectRoot) {
-    if (FileName(newProjectRoot) != FileName(project->projectRoot())) {
-      Cube origShape(m_fileName);
+    if (FileName(newProjectRoot) != FileName(project->projectRoot().toStdString())) {
+      Cube origShape(m_fileName.toStdString());
 
-      FileName newExternalLabelFileName(Project::shapeDataRoot(newProjectRoot.toString()) + "/" +
-          FileName(m_fileName).dir().dirName() + "/" + FileName(m_fileName).name());
+      FileName newExternalLabelFileName(Project::shapeDataRoot(QString::fromStdString(newProjectRoot.toString())).toStdString() + "/" +
+          FileName(m_fileName.toStdString()).dir().filename().string() + "/" + FileName(m_fileName.toStdString()).name());
 
       QScopedPointer<Cube> newExternalLabel(
           origShape.copy(newExternalLabelFileName, CubeAttributeOutput("+External")));
@@ -551,7 +550,7 @@ namespace Isis {
       if (!origShape.storesDnData()) {
         if (origShape.externalCubeFileName().path() == ".") {
           Cube dnFile(
-              FileName(m_fileName).path() + "/" + origShape.externalCubeFileName().name());
+              FileName(m_fileName.toStdString()).path() + "/" + origShape.externalCubeFileName().name());
 
           FileName newDnFileName = newExternalLabelFileName.setExtension("cub");
 
@@ -577,23 +576,21 @@ namespace Isis {
     closeCube();
 
     if (!QFile::remove(m_fileName)) {
-      throw IException(IException::Io,
-                       tr("Could not remove file [%1]").arg(m_fileName),
+      throw IException(IException::Io,"Could not remove file ["+m_fileName.toStdString()+"]",
                        _FILEINFO_);
     }
 
     if (deleteCubAlso) {
-      FileName cubFile = FileName(m_fileName).setExtension("cub");
-      if (!QFile::remove(cubFile.expanded())) {
-        throw IException(IException::Io,
-                         tr("Could not remove file [%1]").arg(m_fileName),
+      FileName cubFile = FileName(m_fileName.toStdString()).setExtension("cub");
+      if (!QFile::remove(QString::fromStdString(cubFile.expanded()))) {
+        throw IException(IException::Io, "Could not remove file ["+m_fileName.toStdString()+"]",
                          _FILEINFO_);
       }
     }
 
     // If we're the last thing in the folder, remove the folder too.
     QDir dir;
-    dir.rmdir(FileName(m_fileName).path());
+    dir.rmdir(QString::fromStdString(FileName(m_fileName.toStdString()).path()));
   }
 
 
@@ -606,10 +603,10 @@ namespace Isis {
   void Shape::updateFileName(Project *project) {
     closeCube();
 
-    FileName original(m_fileName);
-    FileName newName(project->shapeDataRoot() + "/" +
-                     original.dir().dirName() + "/" + original.name());
-    m_fileName = newName.expanded();
+    FileName original(m_fileName.toStdString());
+    FileName newName(project->shapeDataRoot().toStdString() + "/" +
+                     original.dir().filename().string() + "/" + original.name());
+    m_fileName = QString::fromStdString(newName.expanded());
   }
 
 
@@ -633,9 +630,7 @@ namespace Isis {
 
     imgPoly.Create(*cube(), sampleStepSize, lineStepSize);
 
-    IException e = IException(IException::User,
-        tr("Warning: Polygon re-calculated for [%1] which can be very slow")
-          .arg(displayProperties()->displayName()),
+    IException e = IException(IException::User,"Warning: Polygon re-calculated for ["+displayProperties()->displayName().toStdString()+"] which can be very slow",
         _FILEINFO_);
     e.print();
 
@@ -666,7 +661,7 @@ namespace Isis {
     }
 
     if (hasCamStats) {
-      Table camStatsTable("CameraStatistics", m_fileName, label);
+      Table camStatsTable("CameraStatistics", m_fileName.toStdString(), label);
 
       int numRecords = camStatsTable.Records();
       for (int recordIndex = 0; recordIndex < numRecords; recordIndex++) {
@@ -818,7 +813,7 @@ namespace Isis {
     stream.writeStartElement("shape");
 
     stream.writeAttribute("id", m_id->toString());
-    stream.writeAttribute("fileName", FileName(m_fileName).name());
+    stream.writeAttribute("fileName", QString::fromStdString(FileName(m_fileName.toStdString()).name()));
     stream.writeAttribute("serialNumber", m_serialNumber);
 
     QString type;
@@ -842,39 +837,39 @@ namespace Isis {
       stream.writeAttribute("spacecraftName", m_spacecraftName);
 
       if (!IsSpecial(m_aspectRatio)) {
-        stream.writeAttribute("aspectRatio", IString(m_aspectRatio).ToQt());
+        stream.writeAttribute("aspectRatio", QString::number(m_aspectRatio));
       }
 
       if (!IsSpecial(m_resolution)) {
-        stream.writeAttribute("resolution", IString(m_resolution).ToQt());
+        stream.writeAttribute("resolution", QString::number(m_resolution));
       }
 
       if (m_emissionAngle.isValid()) {
-        stream.writeAttribute("emissionAngle", IString(m_emissionAngle.radians()).ToQt());
+        stream.writeAttribute("emissionAngle", QString::number(m_emissionAngle.radians()));
       }
 
       if (m_incidenceAngle.isValid()) {
-        stream.writeAttribute("incidenceAngle", IString(m_incidenceAngle.radians()).ToQt());
+        stream.writeAttribute("incidenceAngle", QString::number(m_incidenceAngle.radians()));
       }
 
       if (!IsSpecial(m_lineResolution)) {
-        stream.writeAttribute("lineResolution", IString(m_lineResolution).ToQt());
+        stream.writeAttribute("lineResolution", QString::number(m_lineResolution));
       }
 
       if (m_localRadius.isValid()) {
-        stream.writeAttribute("localRadius", IString(m_localRadius.meters()).ToQt());
+        stream.writeAttribute("localRadius", QString::number(m_localRadius.meters()));
       }
 
       if (m_northAzimuth.isValid()) {
-        stream.writeAttribute("northAzimuth", IString(m_northAzimuth.radians()).ToQt());
+        stream.writeAttribute("northAzimuth", QString::number(m_northAzimuth.radians()));
       }
 
       if (m_phaseAngle.isValid()) {
-        stream.writeAttribute("phaseAngle", IString(m_phaseAngle.radians()).ToQt());
+        stream.writeAttribute("phaseAngle", QString::number(m_phaseAngle.radians()));
       }
 
       if (!IsSpecial(m_sampleResolution)) {
-        stream.writeAttribute("sampleResolution", IString(m_sampleResolution).ToQt());
+        stream.writeAttribute("sampleResolution", QString::number(m_sampleResolution));
       }
     }
     else if (m_shapeType == Basemap) {

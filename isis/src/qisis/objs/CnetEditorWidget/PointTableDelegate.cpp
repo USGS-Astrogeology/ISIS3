@@ -96,7 +96,7 @@ namespace Isis {
     }
 
     std::string msg = "Could not create delegate widget for column ["
-        + col->getTitle() + "]";
+        + col->getTitle().toStdString() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 

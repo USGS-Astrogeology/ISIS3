@@ -127,8 +127,8 @@ namespace Isis {
 
     SerialNumberList *snList = serialNumberList();
     for (int i = 0; i < snList->size(); i++) {
-      FileName filename = FileName(snList->fileName(i));
-      QString tempFileName = filename.name();
+      FileName filename = FileName(snList->fileName(i).toStdString());
+      QString tempFileName = QString::fromStdString(filename.name());
       p_listBox->insertItem(i, tempFileName);
     }
   }

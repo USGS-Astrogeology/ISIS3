@@ -439,7 +439,7 @@ namespace Isis {
     QAction *activateWhatsThisAct = new QAction("&What's This", this);
     activateWhatsThisAct->setShortcut(Qt::SHIFT | Qt::Key_F1);
     activateWhatsThisAct->setIcon(
-        QPixmap(FileName("$ISISROOT/appdata/images/icons/contexthelp.png").expanded()));
+        QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/contexthelp.png").expanded())));
     activateWhatsThisAct->setToolTip("Activate What's This and click on parts "
         "this program to see more information about them");
     connect(activateWhatsThisAct, SIGNAL(triggered()), this, SLOT(enterWhatsThisMode()));
@@ -554,7 +554,7 @@ namespace Isis {
 
     QString appName = QApplication::applicationName();
 
-    QSettings globalSettings(FileName("$HOME/.Isis/" + appName + "/ipce.config").expanded(),
+    QSettings globalSettings(QString::fromStdString(FileName("$HOME/.Isis/" + appName.toStdString() + "/ipce.config").expanded()),
         QSettings::NativeFormat);
 
     // If no config file exists and a user immediately opens a project,
@@ -666,7 +666,7 @@ namespace Isis {
       std::string msg = "Cannot write settings with a NULL Project pointer.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
-    QSettings projectSettings(FileName(project->newProjectRoot() + "/ipce.config").expanded(),
+    QSettings projectSettings(QString::fromStdString(FileName(project->newProjectRoot().toStdString() + "/ipce.config").expanded()),
         QSettings::NativeFormat);
 
     projectSettings.setValue("geometry", QVariant(geometry()));
@@ -712,11 +712,11 @@ namespace Isis {
     QString appName = QApplication::applicationName();
     QString filePath = project->projectRoot() + "/ipce.config";
     bool isFullScreen = false;
-    if (!FileName(filePath).fileExists()) {
+    if (!FileName(filePath.toStdString()).fileExists()) {
       filePath = "$HOME/.Isis/" + appName + "/ipce.config";
       // If the $HOME/.Isis/ipce/ipce.config does not exist then we want ipce to show up in
       // in full screen. In other words the default geometry is full screen
-      if (!FileName(filePath).fileExists()) {
+      if (!FileName(filePath.toStdString()).fileExists()) {
         isFullScreen = true;
       }
     }
@@ -728,7 +728,7 @@ namespace Isis {
       setWindowTitle( project->name() );
     }
 
-    QSettings projectSettings(FileName(filePath).expanded(), QSettings::NativeFormat);
+    QSettings projectSettings(QString::fromStdString(FileName(filePath.toStdString()).expanded()), QSettings::NativeFormat);
 
     if (!isFullScreen) {
       // If a project was not in fullscreen when saved, restore the project's window size.
@@ -746,7 +746,7 @@ namespace Isis {
     }
 
     if (project->name() == "Project") {
-      QSettings globalSettings(FileName("$HOME/.Isis/" + appName + "/ipce.config").expanded(),
+      QSettings globalSettings(QString::fromStdString(FileName("$HOME/.Isis/" + appName.toStdString() + "/ipce.config").expanded()),
                               QSettings::NativeFormat);
 
       QStringList projectNameList;

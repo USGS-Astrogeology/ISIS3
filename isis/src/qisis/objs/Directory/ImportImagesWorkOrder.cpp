@@ -453,8 +453,7 @@ namespace Isis {
 
     if (*m_numErrors >= 20) {
       result.append(
-          IException(IException::Unknown,
-                     tr("Aborted import images due to a high number of errors"),
+          IException(IException::Unknown,"Aborted import images due to a high number of errors",
                      _FILEINFO_));
     }
     return result;
@@ -592,7 +591,7 @@ namespace Isis {
         // See Qt's QThreadPool::reserveThread().
         QThreadPool::globalInstance()->reserveThread();
 
-        m_warning = functor.errors().toString();
+        m_warning = QString::fromStdString(functor.errors().toString());
 
         // Recall that m_newImages has thread affinity with a thread in the global thread pool.
         // Move it to the GUI-thread because these threads in the pool do not run in an event loop,

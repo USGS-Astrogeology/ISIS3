@@ -605,22 +605,20 @@ namespace Isis {
     stream.writeAttribute("path", m_path);
 
     FileName settingsFileName(
-        Project::shapeDataRoot(newProjectRoot.toString()) + "/" + m_path + "/shapes.xml");
+        Project::shapeDataRoot(QString::fromStdString(newProjectRoot.toString())).toStdString() + "/" + m_path.toStdString() + "/shapes.xml");
 
-    if (!settingsFileName.dir().mkpath(settingsFileName.path())) {
+    if (!std::filesystem::create_directories(settingsFileName.dir())) {
       throw IException(IException::Io,
-                       QString("Failed to create directory [%1]")
-                         .arg(settingsFileName.path()),
+                       "Failed to create directory [" + settingsFileName.path() + "]",
                        _FILEINFO_);
     }
 
-    QFile shapeListContentsFile(settingsFileName.toString());
+    QFile shapeListContentsFile(QString::fromStdString(settingsFileName.toString()));
 
     if (!shapeListContentsFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
       throw IException(IException::Io,
-          QString("Unable to save shape information for [%1] because [%2] could not be opened for "
-                  "writing")
-            .arg(m_name).arg(settingsFileName.original()),
+          "Unable to save shape information for ["+m_name.toStdString()+"] because ["+settingsFileName.original()+"] could not be opened for "
+                  "writing",
           _FILEINFO_);
     }
 

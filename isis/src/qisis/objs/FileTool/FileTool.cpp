@@ -441,8 +441,7 @@ namespace Isis {
     } catch(IException &e) {
         // Stacks error message from Cube's create method
         throw IException(e,
-            IException::Io,
-            QObject::tr("The cube could not be saved, unable to create the cube"),
+            IException::Io,"The cube could not be saved, unable to create the cube",
             _FILEINFO_);
     }
   }
@@ -477,7 +476,7 @@ namespace Isis {
     if (inb == 0) {
       inb = cubeViewport()->cube()->bandCount();
       for(int i = 1; i <= inb; i++) {
-        bands.push_back(toString(i));
+        bands.push_back(QString::number(i));
       }
     }
 
@@ -507,8 +506,7 @@ namespace Isis {
       icube->close();
       // Stacks error message from Cube's create method
       throw IException(e,
-          IException::Io,
-          QObject::tr("The cube could not be saved, unable to create the cube"),
+          IException::Io,"The cube could not be saved, unable to create the cube",
           _FILEINFO_);
     }
   }
@@ -589,7 +587,7 @@ namespace Isis {
         }
         else {
           std::string msg = "You've chosen to reduce your output PixelType for [" +
-                            psOutFile + "] you must specify the output pixel range too";
+                            psOutFile.toStdString() + "] you must specify the output pixel range too";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -617,7 +615,7 @@ namespace Isis {
       Pvl &inlab = *icube->label();
       for(int i = 0; i < inlab.objects(); i++) {
         if (inlab.object(i).isNamed("Table")) {
-          Blob t(QString::fromStdString(inlab.object(i)["Name"]), inlab.object(i).name());
+          Blob t(inlab.object(i)["Name"], inlab.object(i).name());
           icube->read(t);
           ocube->write(t);
         }
@@ -627,7 +625,7 @@ namespace Isis {
       inlab = *icube->label();
       for(int i = 0; i < inlab.objects(); i++) {
         if (inlab.object(i).isNamed("Polygon")) {
-          Blob t(QString::fromStdString(inlab.object(i)["Name"]), inlab.object(i).name());
+          Blob t(inlab.object(i)["Name"], inlab.object(i).name());
           icube->read(t);
           ocube->write(t);
         }

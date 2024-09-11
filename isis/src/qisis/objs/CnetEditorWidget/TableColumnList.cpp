@@ -61,7 +61,7 @@ namespace Isis {
         return (*m_cols)[i];
 
     std::string msg = "There is no column with a title of [";
-    msg += title;
+    msg += title.toStdString();
     msg += "] inside this column list";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }

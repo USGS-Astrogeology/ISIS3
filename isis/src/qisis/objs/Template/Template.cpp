@@ -75,7 +75,7 @@ namespace Isis{
    * @param project The project that this file is stored in.
    */
   void Template::updateFileName(Project *project) {
-    m_fileName = project->templateRoot() + "/" + m_templateType + "/" + m_importName +"/" + FileName(m_fileName).name();
+    m_fileName = project->templateRoot() + "/" + m_templateType + "/" + m_importName +"/" + QString::fromStdString(FileName(m_fileName.toStdString()).name());
   }
 
 
@@ -87,7 +87,7 @@ namespace Isis{
   void Template::deleteFromDisk() {
     if (!QFile::remove(m_fileName)) {
       throw IException(IException::Io,
-                       tr("Could not remove file [%1]").arg(m_fileName),
+                       "Could not remove file ["+m_fileName.toStdString()+"]",
                        _FILEINFO_);
     }
   }
@@ -104,7 +104,7 @@ namespace Isis{
   void Template::save(QXmlStreamWriter &stream, const Project *project, FileName newProjectRoot)
       const {
         stream.writeStartElement("template");
-        stream.writeAttribute("fileName", FileName(m_fileName).name());
+        stream.writeAttribute("fileName", QString::fromStdString(FileName(m_fileName.toStdString()).name()));
         stream.writeAttribute("templateType", m_templateType);
         stream.writeAttribute("importName", m_importName);
         stream.writeEndElement();

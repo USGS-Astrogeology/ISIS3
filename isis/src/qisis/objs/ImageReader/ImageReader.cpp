@@ -279,11 +279,11 @@ namespace Isis {
     Image *result = NULL;
 
     try {
-      QString fileName;
+      std::string fileName;
       if (imageData.canConvert<QString>()) {
-        fileName = imageData.value<QString>();
+        fileName = imageData.value<QString>().toStdString();
 
-        result = new Image(QString::fromStdString(FileName(fileName.toStdString()).expanded()));
+        result = new Image(QString::fromStdString(FileName(fileName).expanded()));
         ImageDisplayProperties *prop = result->displayProperties();
         prop->setShowFill(m_openFilled);
 
@@ -294,8 +294,8 @@ namespace Isis {
       }
       else if (imageData.canConvert<PvlObject>()) {
         PvlObject imageObj = imageData.value<PvlObject>();
-        fileName = ((IString)imageObj["FileName"][0]).ToQt();
-        result = new Image(QString::fromStdString(FileName(fileName.toStdString()).expanded()));
+        fileName = imageObj["FileName"][0];
+        result = new Image(QString::fromStdString(FileName(fileName).expanded()));
         result->fromPvl(imageObj);
       }
 

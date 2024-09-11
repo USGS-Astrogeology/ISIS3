@@ -798,7 +798,7 @@ namespace Isis {
     }
 
     if (m_editPoint->IsIgnored()) {
-      std::string message = "You are saving changes to a measure on an ignored ";
+      QString message = "You are saving changes to a measure on an ignored ";
       message += "point.  Do you want to set Ignore = False on the point and ";
       message += "both measures?";
       switch (QMessageBox::question(m_matchTool, "Match Tool Save Measure",
@@ -887,7 +887,7 @@ namespace Isis {
     //  if this is a reference measure.  The check for moving a reference is
     //  done below.
     if (origMeasure->IsEditLocked() && m->IsEditLocked()) {
-      std::string message = "The " + side + " measure is editLocked ";
+      QString message = "The " + side + " measure is editLocked ";
       message += "for editing.  Do you want to set EditLock = False for this ";
       message += "measure?";
       int response = QMessageBox::question(m_matchTool, "Match Tool Save Measure",
@@ -909,7 +909,7 @@ namespace Isis {
     }
 
     if (origMeasure->IsIgnored() && m->IsIgnored()) {
-      std::string message = "The " + side + "measure is ignored.  ";
+      QString message = "The " + side + "measure is ignored.  ";
       message += "Do you want to set Ignore = False on the measure?";
       switch(QMessageBox::question(m_matchTool, "Match Tool Save Measure",
                                    message, "&Yes", "&No", 0, 0)){
@@ -933,7 +933,7 @@ namespace Isis {
     if (m_editPoint->IsReferenceExplicit()) {
       if (refMeasure->GetCubeSerialNumber() == m->GetCubeSerialNumber()) {
         if (m->GetSample() != origMeasure->GetSample() || m->GetLine() != origMeasure->GetLine()) {
-          std::string message = "You are making a change to the reference measure.  You ";
+          QString message = "You are making a change to the reference measure.  You ";
           message += "may need to move all of the other measures to match the new ";
           message += " coordinate of the reference measure.  Do you really want to ";
           message += " change the reference measure's location? ";
@@ -952,7 +952,7 @@ namespace Isis {
       //  New reference measure
       else if (side == "left" && (refMeasure->GetCubeSerialNumber() != m->GetCubeSerialNumber())) {
         if (m_coregNet) {
-          std::string message = "This control network was created by the <i>coreg</i> program, and the "
+          QString message = "This control network was created by the <i>coreg</i> program, and the "
                             "reference measure needs to remain the same as what <i>coreg</i> set.  "
                             "Therefore, you cannot change which measure is the reference.  To "
                             "save this point, move the reference measure (measure in BOLD) back "
@@ -960,7 +960,7 @@ namespace Isis {
           QMessageBox::information(m_matchTool, "Cannot change reference", message);
         }
         else {
-          std::string message = "This point already contains a reference measure.  ";
+          QString message = "This point already contains a reference measure.  ";
           message += "Would you like to replace it with the measure on the left?";
           int  response = QMessageBox::question(m_matchTool,
                                     "Match Tool Save Measure", message,
@@ -1023,7 +1023,7 @@ namespace Isis {
     // measure as reference.
     ControlMeasure *refMeasure = m_editPoint->GetRefMeasure();
     if (refMeasure->GetCubeSerialNumber() != m_leftMeasure->GetCubeSerialNumber()) {
-      std::string message = "This point already contains a reference measure.  ";
+      QString message = "This point already contains a reference measure.  ";
       message += "Would you like to replace it with the measure on the left?";
       int  response = QMessageBox::question(m_matchTool,
                                 "Match Tool Save Measure", message,
@@ -1142,7 +1142,7 @@ namespace Isis {
     ControlPoint::Status status = m_editPoint->SetIgnored(ignore);
     if (status == ControlPoint::PointLocked) {
       m_ignorePoint->setChecked(m_editPoint->IsIgnored());
-      std::string message = "Unable to change Ignored on point.  Set EditLock ";
+      QString message = "Unable to change Ignored on point.  Set EditLock ";
       message += " to False.";
       QMessageBox::critical(m_matchTool, "Error", message);
       return;
@@ -1299,7 +1299,7 @@ namespace Isis {
 
     if (m_controlNet) {
       if (m_controlNet->GetNumPoints() != 0 && m_netChanged) {
-        std::string message = "A control net has already been created.  Do you want to save before "
+        QString message = "A control net has already been created.  Do you want to save before "
                           "opening a new control net?";
         int response = QMessageBox::question(m_matchTool, "Save current control net?",
                                              message,
@@ -1346,8 +1346,8 @@ namespace Isis {
       }
       catch (IException &e) {
         QApplication::restoreOverrideCursor();
-        std::string message = "Invalid control network.  \n";
-        message += e.toString();
+        QString message = "Invalid control network.  \n";
+        message += QString::fromStdString(e.toString());
         QMessageBox::critical(m_matchTool, "Error", message);
         m_cnetFileName.clear();
         delete m_controlNet;
@@ -1371,7 +1371,7 @@ namespace Isis {
    */
   void MatchTool::saveNet() {
     if (m_cnetFileName.isEmpty()) {
-      std::string message = "This is a new network, you must select "
+      QString message = "This is a new network, you must select "
                         "\"Save As\" under the File Menu or on the toolbar.";
       QMessageBox::critical(m_matchTool, "Error", message);
       return;
@@ -1466,7 +1466,7 @@ namespace Isis {
     if (s == Qt::LeftButton) {
 
       if (!m_controlNet || m_controlNet->GetNumPoints() == 0) {
-        std::string message = "No points exist for editing.  Create points ";
+        QString message = "No points exist for editing.  Create points ";
         message += "using the right mouse button.";
         QMessageBox::warning(m_matchTool, "Warning", message);
         return;
@@ -1479,8 +1479,8 @@ namespace Isis {
         point = m_controlNet->FindClosest(sn, samp, line);
       }
       catch (IException &e) {
-        std::string message = "Cannot find point for editing.";
-        message += e.toString();
+        QString message = "Cannot find point for editing.";
+        message += QString::fromStdString(e.toString());
         QMessageBox::warning(m_matchTool, "Warning", message);
         return;
       }
@@ -1489,7 +1489,7 @@ namespace Isis {
     }
     else if (s == Qt::MiddleButton) {
       if (!m_controlNet || m_controlNet->GetNumPoints() == 0) {
-        std::string message = "No points exist for deleting.  Create points ";
+        QString message = "No points exist for deleting.  Create points ";
         message += "using the right mouse button.";
         QMessageBox::warning(m_matchTool, "Warning", message);
         return;
@@ -1499,7 +1499,7 @@ namespace Isis {
       ControlPoint *point = m_controlNet->FindClosest(sn, samp, line);
 
       if (point == NULL) {
-        std::string message = "No points exist for deleting.  Create points ";
+        QString message = "No points exist for deleting.  Create points ";
         message += "using the right mouse button.";
         QMessageBox::warning(m_matchTool, "Warning", message);
         return;
@@ -1517,8 +1517,8 @@ namespace Isis {
           m_leftFile = mvp->cube()->fileName();
         }
         catch (IException &e) {
-          std::string message = "Cannot create control point.\n\n";
-          message += e.toString();
+          QString message = "Cannot create control point.\n\n";
+          message += QString::fromStdString(e.toString());
           QMessageBox::critical(m_matchTool, "Error", message);
           return;
         }
@@ -1623,7 +1623,7 @@ namespace Isis {
     // and set it to the reference measure.
     if (m_coregNet) {
       if (!m_newPoint->HasSerialNumber(m_coregReferenceSN)) {
-        std::string message = "This is a coreg network which needs the cube with serial number " +
+        QString message = "This is a coreg network which needs the cube with serial number " +
           m_coregReferenceSN + " as the reference measure.  This new control point does "
           "not have a measure for that serial number, so this point cannot be created until "
           "the cube listed above is added (Right-click on cube).";
@@ -1693,8 +1693,8 @@ namespace Isis {
 
     QStringList mCubes = missingCubes(point);
     if (mCubes.size() > 0) {
-      std::string msgTitle = "Missing Cubes";
-      std::string message = "This point is missing cubes for the following measures and cannot be ";
+      QString msgTitle = "Missing Cubes";
+      QString message = "This point is missing cubes for the following measures and cannot be ";
       message += "loaded into the editor. Do you still want to delete this point?\n\n";
       for (int i=0; i<mCubes.size(); i++) {
         message += mCubes.at(i) + "\n";
@@ -1759,7 +1759,7 @@ namespace Isis {
 
         //  If all measures being deleted, let user know and give them the option to quit operation
         if (!deletePointDialog->deleteAllCheckBox->isChecked()) {
-          std::string message = "You have selected all measures in this point to be deleted.  This "
+          QString message = "You have selected all measures in this point to be deleted.  This "
             "control point will be deleted.  Do you want to delete this control point?";
           int  response = QMessageBox::question(m_matchTool,
                                     "Delete control point", message,
@@ -1796,7 +1796,7 @@ namespace Isis {
           if (m_editPoint->IsReferenceExplicit() &&
                 (m_editPoint->GetRefMeasure()->GetCubeSerialNumber() ==
                 (*m_editPoint)[i]->GetCubeSerialNumber())) {
-            std::string message = "You are trying to delete the Reference measure."
+            QString message = "You are trying to delete the Reference measure."
                 "  Do you really want to delete the Reference measure?";
             switch (QMessageBox::question(m_matchTool,
                                           "Delete Reference measure?", message,
@@ -1874,7 +1874,7 @@ namespace Isis {
 
     //  If no measures, print info and return
     if (point->GetNumMeasures() == 0) {
-      std::string message = "This point has no measures.";
+      QString message = "This point has no measures.";
       QMessageBox::warning(m_matchTool, "Warning", message);
       emit editPointChanged();
       return;
@@ -1883,8 +1883,8 @@ namespace Isis {
     //  Make sure all measures have a cube loaded
     QStringList mCubes = missingCubes(point);
     if (mCubes.size() > 0) {
-      std::string msgTitle = "Missing Cubes";
-      std::string message = "This point is missing cubes and cannot be loaded into the editor. Open ";
+      QString msgTitle = "Missing Cubes";
+      QString message = "This point is missing cubes and cannot be loaded into the editor. Open ";
       message += "the cubes for the following measures before selecting this point.\n\n";
       for (int i=0; i<mCubes.size(); i++) {
         message += mCubes.at(i) + "\n";
@@ -2288,8 +2288,8 @@ namespace Isis {
       serial = serialNumberList().serialNumber(file);
     }
     catch (IException &e) {
-      std::string message = "Make sure the correct cube is opened.\n\n";
-      message += e.toString();
+      QString message = "Make sure the correct cube is opened.\n\n";
+      message += QString::fromStdString(e.toString());
       QMessageBox::critical(m_matchTool, "Error", message);
 
       //  Set index of combo back to what it was before user selected new.  Find the index
@@ -2344,8 +2344,8 @@ namespace Isis {
       serial = serialNumberList().serialNumber(file);
     }
     catch (IException &e) {
-      std::string message = "Make sure the correct cube is opened.\n\n";
-      message += e.toString();
+      QString message = "Make sure the correct cube is opened.\n\n";
+      message += QString::fromStdString(e.toString());
       QMessageBox::critical(m_matchTool, "Error", message);
 
       //  Set index of combo back to what it was before user selected new.  Find the index
@@ -2762,7 +2762,7 @@ namespace Isis {
 
     QFile file(QString::fromStdString(FileName(fn.toStdString()).expanded()));
     if (!file.open(QIODevice::ReadOnly)) {
-      std::string msg = "Failed to open template file \"" + fn + "\"";
+      QString msg = "Failed to open template file \"" + fn + "\"";
       QMessageBox::warning(m_matchTool, "IO Error", msg);
       return;
     }
@@ -2829,13 +2829,13 @@ namespace Isis {
 
     // catch errors in Pvl format when populating pvl object
     stringstream ss;
-    ss << contents;
+    ss << contents.toStdString();
     try {
       Pvl pvl;
       ss >> pvl;
     }
     catch(IException &e) {
-      std::string message = e.toString();
+      QString message = QString::fromStdString(e.toString());
       QMessageBox::warning(m_matchTool, "Error", message);
       return;
     }
@@ -2846,7 +2846,7 @@ namespace Isis {
     QFile file(QString::fromStdString(expandedFileName.toStdString()));
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-      std::string msg = "Failed to save template file to \"" + fn + "\"\nDo you "
+      QString msg = "Failed to save template file to \"" + fn + "\"\nDo you "
           "have permission?";
       QMessageBox::warning(m_matchTool, "IO Error", msg);
       return;
@@ -2892,7 +2892,7 @@ namespace Isis {
       registrationDialog.exec();
     }
     catch (IException &e) {
-      std::string message = e.toString();
+      QString message = QString::fromStdString(e.toString());
       QMessageBox::information(m_matchTool, "Error", message);
     }
   }
@@ -3362,7 +3362,7 @@ namespace Isis {
       //  If point changed or if a new point, prompt for saving.
       if ( m_controlNet->GetNumPoints() == 0 ||
           !m_controlNet->ContainsPoint(m_editPoint->GetId())) {
-        std::string message = "\n\nDo you want to save the point in the editor?";
+        QString message = "\n\nDo you want to save the point in the editor?";
         int response = QMessageBox::question(m_matchTool, "Save point in editor", message,
                                              QMessageBox::Yes | QMessageBox::No,
                                              QMessageBox::Yes);
@@ -3373,7 +3373,7 @@ namespace Isis {
     }
 
     if (m_controlNet && m_controlNet->GetNumPoints() != 0 && m_netChanged) {
-      std::string message = "The currently open control net has changed.  Do you want to save?";
+      QString message = "The currently open control net has changed.  Do you want to save?";
       int response = QMessageBox::question(m_matchTool, "Save current control net?",
                                            message,
                                            QMessageBox::Yes | QMessageBox::No,

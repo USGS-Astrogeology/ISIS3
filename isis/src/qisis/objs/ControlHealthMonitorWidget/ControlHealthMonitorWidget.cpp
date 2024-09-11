@@ -69,37 +69,37 @@ namespace Isis {
    *
    */
   void ControlHealthMonitorWidget::update() {
-    m_numImagesLabel->setText("Images: " + toString(m_vitals->numImages()));
-    m_numPointsLabel->setText("Points " + toString(m_vitals->numPoints()));
-    m_numMeasuresLabel->setText("Measures: " + toString(m_vitals->numMeasures()));
+    m_numImagesLabel->setText("Images: " + QString::number(m_vitals->numImages()));
+    m_numPointsLabel->setText("Points " + QString::number(m_vitals->numPoints()));
+    m_numMeasuresLabel->setText("Measures: " + QString::number(m_vitals->numMeasures()));
     m_netLabel->setText("Control Network: " + m_vitals->getNetworkId());
     m_statusLabel->setText(m_vitals->getStatus());
     m_statusDetails->setText(m_vitals->getStatusDetails());
-    m_imagesMeasuresValue->setText(toString(m_vitals->numImagesBelowMeasureThreshold()));
-    m_imagesHullValue->setText(toString(m_vitals->numImagesBelowHullTolerance()));
-    m_pointsIgnoredLabel->setText(toString(m_vitals->numIgnoredPoints()));
-    m_pointsFreeLabel->setText(toString(m_vitals->numFreePoints()));
-    m_pointsFixedLabel->setText(toString(m_vitals->numFixedPoints()));
-    m_pointsConstrainedLabel->setText(toString(m_vitals->numConstrainedPoints()));
-    m_pointsEditLockedLabel->setText(toString(m_vitals->numLockedPoints()));
-    m_pointsFewMeasuresLabel->setText(toString(m_vitals->numPointsBelowMeasureThreshold()));
+    m_imagesMeasuresValue->setText(QString::number(m_vitals->numImagesBelowMeasureThreshold()));
+    m_imagesHullValue->setText(QString::number(m_vitals->numImagesBelowHullTolerance()));
+    m_pointsIgnoredLabel->setText(QString::number(m_vitals->numIgnoredPoints()));
+    m_pointsFreeLabel->setText(QString::number(m_vitals->numFreePoints()));
+    m_pointsFixedLabel->setText(QString::number(m_vitals->numFixedPoints()));
+    m_pointsConstrainedLabel->setText(QString::number(m_vitals->numConstrainedPoints()));
+    m_pointsEditLockedLabel->setText(QString::number(m_vitals->numLockedPoints()));
+    m_pointsFewMeasuresLabel->setText(QString::number(m_vitals->numPointsBelowMeasureThreshold()));
 
     double freePercent = ( (double) m_vitals->numFreePoints() ) / ( (double) m_vitals->numPoints() ) * 100;
     freePercent = ( (int) (freePercent * 100) ) / 100.0;
-    QString freeFormat = toString(m_vitals->numFreePoints()) + " (" + toString(freePercent) + ")%";
+    QString freeFormat = QString::number(m_vitals->numFreePoints()) + " (" + QString::number(freePercent) + ")%";
     m_pointsFreeProgressbar->setValue(freePercent);
     m_pointsFreeProgressbar->setFormat(freeFormat);
 
     double constrainedPercent = ( (double) m_vitals->numConstrainedPoints() ) /
                                 ( (double) m_vitals->numPoints() ) * 100;
     constrainedPercent = ( (int) (constrainedPercent * 100) ) / 100.0;
-    QString constrainedFormat = toString(m_vitals->numConstrainedPoints()) + " (" + toString(constrainedPercent) + ")%";
+    QString constrainedFormat = QString::number(m_vitals->numConstrainedPoints()) + " (" + QString::number(constrainedPercent) + ")%";
     m_pointsConstrainedProgressbar->setValue(constrainedPercent);
     m_pointsConstrainedProgressbar->setFormat(constrainedFormat);
 
     double fixedPercent = ( (double) m_vitals->numFixedPoints() ) / ( (double) m_vitals->numPoints() ) * 100;
     fixedPercent = ( (int) (fixedPercent * 100) ) / 100.0;
-    QString fixedFormat = toString(m_vitals->numFixedPoints()) + " (" + toString(fixedPercent) + ")%";
+    QString fixedFormat = QString::number(m_vitals->numFixedPoints()) + " (" + QString::number(fixedPercent) + ")%";
     m_pointsFixedProgressbar->setValue(fixedPercent);
     m_pointsFixedProgressbar->setFormat(fixedFormat);
 
@@ -120,7 +120,7 @@ namespace Isis {
     //   double percent = slice->percentage() * 100;
     //   percent = ( (int) (percent * 100) ) / 100.0;
     //
-    //   QString label = slice->label() + " " + toString(percent) + "%";
+    //   QString label = slice->label() + " " + QString::number(percent) + "%";
     //
     //   if (percent > 0.0) {
     //     slice->setLabelVisible();
@@ -696,7 +696,7 @@ namespace Isis {
      m_imagesTable->setRowCount(0);
      for (int i = 0; i < serials.size(); i++) {
        m_imagesTable->insertRow(i);
-       m_imagesTable->setItem(i, 0, new QTableWidgetItem(toString(i + 1)));
+       m_imagesTable->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
        m_imagesTable->setItem(i, 1, new QTableWidgetItem(serials.at(i)));
      }
    }
@@ -711,12 +711,12 @@ namespace Isis {
     for (int i = 0; i < points.size(); i++) {
       ControlPoint *point = points.at(i);
       m_pointsTable->insertRow(i);
-      m_pointsTable->setItem(i, 0, new QTableWidgetItem(toString(i + 1)));
+      m_pointsTable->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
       m_pointsTable->setItem(i, 1, new QTableWidgetItem(point->GetId()));
       m_pointsTable->setItem(i, 2, new QTableWidgetItem(point->GetPointTypeString()));
-      m_pointsTable->setItem(i, 3, new QTableWidgetItem(toString(point->IsIgnored())));
-      m_pointsTable->setItem(i, 4, new QTableWidgetItem(toString(point->IsRejected())));
-      m_pointsTable->setItem(i, 5, new QTableWidgetItem(toString(point->IsEditLocked())));
+      m_pointsTable->setItem(i, 3, new QTableWidgetItem(QString::number(point->IsIgnored())));
+      m_pointsTable->setItem(i, 4, new QTableWidgetItem(QString::number(point->IsRejected())));
+      m_pointsTable->setItem(i, 5, new QTableWidgetItem(QString::number(point->IsEditLocked())));
     }
   }
 
@@ -728,8 +728,8 @@ namespace Isis {
   void ControlHealthMonitorWidget::viewPointAll() {
     updatePointTable(m_vitals->getAllPoints());
     m_pointsShowingLabel->setText("Showing: All Points <sup>" +
-                                  toString(m_vitals->numPoints()) +
-                                  " / " + toString(m_vitals->numPoints()) + "</sup>");
+                                  QString::number(m_vitals->numPoints()) +
+                                  " / " + QString::number(m_vitals->numPoints()) + "</sup>");
   }
 
 
@@ -740,8 +740,8 @@ namespace Isis {
   void ControlHealthMonitorWidget::viewPointIgnored() {
     updatePointTable(m_vitals->getIgnoredPoints());
     m_pointsShowingLabel->setText("Showing: Ignored Points <sup>" +
-                                  toString(m_vitals->numIgnoredPoints()) +
-                                  " / " + toString(m_vitals->numPoints()) + "</sup>");
+                                  QString::number(m_vitals->numIgnoredPoints()) +
+                                  " / " + QString::number(m_vitals->numPoints()) + "</sup>");
   }
 
 
@@ -752,8 +752,8 @@ namespace Isis {
   void ControlHealthMonitorWidget::viewPointFree() {
     updatePointTable(m_vitals->getFreePoints());
     m_pointsShowingLabel->setText("Showing: Free Points <sup>" +
-                                  toString(m_vitals->numFreePoints()) +
-                                  " / " + toString(m_vitals->numPoints()) + "</sup>");
+                                  QString::number(m_vitals->numFreePoints()) +
+                                  " / " + QString::number(m_vitals->numPoints()) + "</sup>");
   }
 
 
@@ -764,8 +764,8 @@ namespace Isis {
   void ControlHealthMonitorWidget::viewPointFixed() {
     updatePointTable(m_vitals->getFixedPoints());
     m_pointsShowingLabel->setText("Showing: Fixed Points <sup>" +
-                                  toString(m_vitals->numFixedPoints()) +
-                                  " / " + toString(m_vitals->numPoints()) + "</sup>");
+                                  QString::number(m_vitals->numFixedPoints()) +
+                                  " / " + QString::number(m_vitals->numPoints()) + "</sup>");
   }
 
 
@@ -776,8 +776,8 @@ namespace Isis {
   void ControlHealthMonitorWidget::viewPointConstrained() {
     updatePointTable(m_vitals->getConstrainedPoints());
     m_pointsShowingLabel->setText("Showing: Constrained Points <sup>" +
-                                  toString(m_vitals->numConstrainedPoints()) +
-                                  " / " + toString(m_vitals->numPoints()) + "</sup>");
+                                  QString::number(m_vitals->numConstrainedPoints()) +
+                                  " / " + QString::number(m_vitals->numPoints()) + "</sup>");
   }
 
 
@@ -788,8 +788,8 @@ namespace Isis {
   void ControlHealthMonitorWidget::viewPointEditLocked() {
     updatePointTable(m_vitals->getLockedPoints());
     m_pointsShowingLabel->setText("Showing: Locked Points <sup>" +
-                                  toString(m_vitals->numLockedPoints()) +
-                                  " / " + toString(m_vitals->numPoints()) + "</sup>");
+                                  QString::number(m_vitals->numLockedPoints()) +
+                                  " / " + QString::number(m_vitals->numPoints()) + "</sup>");
 
   }
 
@@ -801,8 +801,8 @@ namespace Isis {
   void ControlHealthMonitorWidget::viewPointFewMeasures() {
     updatePointTable(m_vitals->getPointsBelowMeasureThreshold());
     m_pointsShowingLabel->setText("Showing: Points with less than 3 Measures <sup>" +
-                                  toString(m_vitals->numPointsBelowMeasureThreshold()) +
-                                  " / " + toString(m_vitals->numPoints()) + "</sup>");
+                                  QString::number(m_vitals->numPointsBelowMeasureThreshold()) +
+                                  " / " + QString::number(m_vitals->numPoints()) + "</sup>");
   }
 
 
@@ -813,8 +813,8 @@ namespace Isis {
   void ControlHealthMonitorWidget::viewImageAll() {
     updateImageTable(m_vitals->getCubeSerials());
     m_imagesShowingLabel->setText("Showing: All Images <sup>" +
-                                  toString(m_vitals->numImages()) +
-                                  " / " + toString(m_vitals->numImages()) + "</sup>");
+                                  QString::number(m_vitals->numImages()) +
+                                  " / " + QString::number(m_vitals->numImages()) + "</sup>");
   }
 
 
@@ -825,8 +825,8 @@ namespace Isis {
   void ControlHealthMonitorWidget::viewImageFewMeasures() {
     updateImageTable(m_vitals->getImagesBelowMeasureThreshold());
     m_imagesShowingLabel->setText("Showing: Images with less than 3 Measures <sup>" +
-                                  toString(m_vitals->numImagesBelowMeasureThreshold()) +
-                                  " / " + toString(m_vitals->numImages()) + "</sup>");
+                                  QString::number(m_vitals->numImagesBelowMeasureThreshold()) +
+                                  " / " + QString::number(m_vitals->numImages()) + "</sup>");
   }
 
 
@@ -837,8 +837,8 @@ namespace Isis {
   void ControlHealthMonitorWidget::viewImageHullTolerance() {
     updateImageTable(m_vitals->getImagesBelowHullTolerance());
     m_imagesShowingLabel->setText("Showing: Images below a hull tolerance of 75% <sup>" +
-                                  toString(m_vitals->numImagesBelowHullTolerance()) +
-                                  " / " + toString(m_vitals->numImages()) + "</sup>");
+                                  QString::number(m_vitals->numImagesBelowHullTolerance()) +
+                                  " / " + QString::number(m_vitals->numImages()) + "</sup>");
   }
 
 

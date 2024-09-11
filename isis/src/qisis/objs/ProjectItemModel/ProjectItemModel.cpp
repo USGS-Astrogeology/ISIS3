@@ -484,26 +484,26 @@ namespace Isis {
             ProjectItem *bundleSummaryItem = new ProjectItem(FileItemQsp(
                new FileItem(bundleSolutionInfo->savedBundleOutputFilename())),
                             "Summary", bundleSolutionInfo->savedBundleOutputFilename(),
-                            QIcon(FileName("$ISISROOT/appdata/images/icons/office-chart-pie.png")
-                            .expanded()));
+                            QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/office-chart-pie.png")
+                            .expanded())));
             pItem->child(2)->appendRow(bundleSummaryItem);
             ProjectItem *residualsItem = new ProjectItem(FileItemQsp(
                new FileItem(bundleSolutionInfo->savedResidualsFilename())),
                             "Measure Residuals", bundleSolutionInfo->savedResidualsFilename(),
-                            QIcon(FileName("$ISISROOT/appdata/images/icons/office-chart-pie.png")
-                            .expanded()));
+                            QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/office-chart-pie.png")
+                            .expanded())));
             pItem->child(2)->appendRow(residualsItem);
             ProjectItem *imagesItem = new ProjectItem(FileItemQsp(
                new FileItem(bundleSolutionInfo->savedImagesFilename())),
                             "Image", bundleSolutionInfo->savedImagesFilename(),
-                            QIcon(FileName("$ISISROOT/appdata/images/icons/office-chart-pie.png")
-                            .expanded()));
+                            QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/office-chart-pie.png")
+                            .expanded())));
             pItem->child(2)->appendRow(imagesItem);
             ProjectItem *pointsItem = new ProjectItem(FileItemQsp(
                new FileItem(bundleSolutionInfo->savedPointsFilename())),
                             "Control Points", bundleSolutionInfo->savedPointsFilename(),
-                            QIcon(FileName("$ISISROOT/appdata/images/icons/office-chart-pie.png")
-                            .expanded()));
+                            QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/office-chart-pie.png")
+                            .expanded())));
             pItem->child(2)->appendRow(pointsItem);
           }
         }

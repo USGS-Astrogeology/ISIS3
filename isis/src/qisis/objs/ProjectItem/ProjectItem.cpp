@@ -781,8 +781,8 @@ namespace Isis {
   void ProjectItem::setBundleResults(BundleResults bundleResults) {
     setTextColor(Qt::black);
     setText("Statistics");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/kchart.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/kchart.png")
+                           .expanded())));
     setData( QVariant::fromValue<BundleResults>(bundleResults) );
   }
 
@@ -795,8 +795,8 @@ namespace Isis {
   void ProjectItem::setBundleSettings(BundleSettingsQsp bundleSettings) {
     setTextColor(Qt::black);
     setText("Settings");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/applications-system.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/applications-system.png")
+                           .expanded())));
     setData( QVariant::fromValue<BundleSettingsQsp>(bundleSettings) );
   }
 
@@ -814,8 +814,8 @@ namespace Isis {
     else {
       setText( bundleSolutionInfo->runTime() );
     }
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/kchart.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/kchart.png")
+                           .expanded())));
     setData( QVariant::fromValue<BundleSolutionInfo *>(bundleSolutionInfo) );
   }
 
@@ -828,8 +828,8 @@ namespace Isis {
   void ProjectItem::setImage(Image *image) {
     setTextColor(Qt::black);
     setText( QFileInfo( image->fileName() ).fileName() );
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/view-preview.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/view-preview.png")
+                           .expanded())));
     setData( QVariant::fromValue<Image *>(image) );
   }
 
@@ -847,8 +847,8 @@ namespace Isis {
     else {
       setText( imageList->path() );
     }
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder-image.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder-image.png")
+                           .expanded())));
     setData( QVariant::fromValue<ImageList *>(imageList) );
   }
 
@@ -859,8 +859,8 @@ namespace Isis {
   void ProjectItem::setImages() {
     setTextColor(Qt::black);
     setText("Images");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder-image.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder-image.png")
+                           .expanded())));
     setData( QVariant() );
   }
 
@@ -873,8 +873,8 @@ namespace Isis {
   void ProjectItem::setShape(Shape *shape) {
     setTextColor(Qt::black);
     setText( QFileInfo( shape->fileName() ).fileName() );
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/rating.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/rating.png")
+                           .expanded())));
     setData( QVariant::fromValue<Shape *>(shape) );
   }
 
@@ -892,8 +892,8 @@ namespace Isis {
     else {
       setText( shapeList->path() );
     }
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder-orange.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder-orange.png")
+                           .expanded())));
     setData( QVariant::fromValue<ShapeList *>(shapeList) );
   }
 
@@ -904,8 +904,8 @@ namespace Isis {
   void ProjectItem::setShapes() {
     setTextColor(Qt::black);
     setText("Shapes");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder-red.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder-red.png")
+                           .expanded())));
     setData( QVariant() );
   }
 
@@ -936,8 +936,8 @@ namespace Isis {
     else {
       setText( templateList->path() );
     }
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder-orange.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder-orange.png")
+                           .expanded())));
     setData( QVariant::fromValue<TemplateList *>(templateList) );
   }
 
@@ -947,22 +947,22 @@ namespace Isis {
    */
   void ProjectItem::setTemplates() {
     setText("Templates");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder-red.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder-red.png")
+                           .expanded())));
     setData( QVariant() );
 
     ProjectItem *mapsItem = new ProjectItem();
     mapsItem->setText("Maps");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder-red.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder-red.png")
+                           .expanded())));
     mapsItem->setData( QVariant() );
     appendRow(mapsItem);
 
 
     ProjectItem *registrationsItem = new ProjectItem();
     registrationsItem->setText("Registrations");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder-red.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder-red.png")
+                           .expanded())));
     registrationsItem->setData( QVariant() );
     appendRow(registrationsItem);
   }
@@ -976,8 +976,8 @@ namespace Isis {
   void ProjectItem::setControl(Control *control) {
     setTextColor(Qt::black);
     setText( QFileInfo( control->fileName() ).fileName() );
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/network-server-database.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/network-server-database.png")
+                           .expanded())));
     setData( QVariant::fromValue<Control *>(control) );
   }
 
@@ -990,8 +990,8 @@ namespace Isis {
   void ProjectItem::setControlList(ControlList *controlList) {
     setTextColor(Qt::black);
     setText( controlList->name() );
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder.png")
+                           .expanded())));
     setData( QVariant::fromValue<ControlList *>(controlList) );
   }
 
@@ -1002,8 +1002,8 @@ namespace Isis {
   void ProjectItem::setControls() {
     setTextColor(Qt::black);
     setText("Control Networks");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder-remote.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder-remote.png")
+                           .expanded())));
     setData( QVariant() );
   }
 
@@ -1016,8 +1016,8 @@ namespace Isis {
   void ProjectItem::setCorrelationMatrix(CorrelationMatrix correlationMatrix) {
     setTextColor(Qt::black);
     setText("Correlation Matrix");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/network-server-database.png")
-                           .expanded()));
+    setIcon(QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/network-server-database.png")
+                           .expanded())));
     setData( QVariant::fromValue<CorrelationMatrix>(correlationMatrix) );
   }
 
@@ -1035,8 +1035,8 @@ namespace Isis {
   void ProjectItem::setProject(Project *project) {
     setTextColor(Qt::black);
     setText( project->name() );
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/folder-activities.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/folder-activities.png")
+                           .expanded())));
     setData( QVariant::fromValue<Project *>(project) );
     setToolTip(project->projectRoot());
   }
@@ -1048,8 +1048,8 @@ namespace Isis {
   void ProjectItem::setResults() {
     setTextColor(Qt::black);
     setText("Results");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/kchart.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/kchart.png")
+                           .expanded())));
     setData( QVariant() );
   }
 
@@ -1062,8 +1062,8 @@ namespace Isis {
   void ProjectItem::setGuiCamera(GuiCameraQsp guiCamera) {
     setTextColor(Qt::black);
     setText( guiCamera->displayProperties()->displayName() );
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/camera-photo.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/camera-photo.png")
+                           .expanded())));
     setData( QVariant::fromValue<GuiCameraQsp>(guiCamera) );
   }
 
@@ -1074,8 +1074,8 @@ namespace Isis {
   void ProjectItem::setGuiCameraList() {
     setTextColor(Qt::black);
     setText("Sensors");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/camera-photo.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/camera-photo.png")
+                           .expanded())));
     setData( QVariant() );
   }
 
@@ -1086,8 +1086,8 @@ namespace Isis {
   void ProjectItem::setSpacecraft() {
     setTextColor(Qt::black);
     setText("Spacecraft");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/preferences-desktop-launch-feedback.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/preferences-desktop-launch-feedback.png")
+                           .expanded())));
     setData( QVariant() );
   }
 
@@ -1102,20 +1102,20 @@ namespace Isis {
     setTextColor(Qt::black);
     setText( targetBody->displayProperties()->displayName() );
     if (targetBody->displayProperties()->displayName() == "MOON")
-      setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/weather-clear-night.png")
-                             .expanded()));
+      setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/weather-clear-night.png")
+                             .expanded())));
     else if (targetBody->displayProperties()->displayName() == "Enceladus")
-      setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/nasa_enceladus.png")
-                             .expanded()));
+      setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/nasa_enceladus.png")
+                             .expanded())));
     else if (targetBody->displayProperties()->displayName() == "Mars")
-      setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/nasa_mars.png")
-                             .expanded()));
+      setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/nasa_mars.png")
+                             .expanded())));
     else if (targetBody->displayProperties()->displayName() == "Titan")
-      setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/nasa_titan.png")
-                             .expanded()));
+      setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/nasa_titan.png")
+                             .expanded())));
     else
-      setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/view-web-browser-dom-tree.png")
-                             .expanded()));
+      setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/view-web-browser-dom-tree.png")
+                             .expanded())));
 
     setData( QVariant::fromValue<TargetBodyQsp>(targetBody) );
   }
@@ -1127,8 +1127,8 @@ namespace Isis {
   void ProjectItem::setTargetBodyList() {
     setTextColor(Qt::black);
     setText("Target Body");
-    setIcon( QIcon(FileName("$ISISROOT/appdata/images/icons/view-web-browser-dom-tree.png")
-                           .expanded()));
+    setIcon( QIcon(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/view-web-browser-dom-tree.png")
+                           .expanded())));
     setData( QVariant() );
   }
 

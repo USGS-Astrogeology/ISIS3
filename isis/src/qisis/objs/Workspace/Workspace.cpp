@@ -346,7 +346,7 @@ namespace Isis {
       Cube *cube = new Cube;
 
       // Read in the CubeAttribueInput from the cube name
-      CubeAttributeInput inAtt(cubename);
+      CubeAttributeInput inAtt(cubename.toStdString());
       std::vector<QString> bands = inAtt.bands();
 
       // Set the virtual bands to the bands specified by the input
@@ -357,11 +357,11 @@ namespace Isis {
 
       // Check for RGB format (#R,#G,#B)
       if(bands.size() == 3) {
-        IString st = IString(bands.at(0));
+        IString st = bands.at(0).toStdString();
         int index_red = st.ToInteger();
-        st = IString(bands.at(1));
+        st = bands.at(1).toStdString();
         int index_green = st.ToInteger();
-        st = IString(bands.at(2));
+        st = bands.at(2).toStdString();
         int index_blue = st.ToInteger();
         cvp->viewRGB(index_red, index_green, index_blue);
       }
@@ -369,8 +369,8 @@ namespace Isis {
 
     catch (IException &e) {
 
-      std::string message("Error opening cube [" + cubename + "]...\n");
-      message += "Attempting to open [" + cubename + "] as a cube list...\n";
+      std::string message("Error opening cube [" + cubename.toStdString() + "]...\n");
+      message += "Attempting to open [" + cubename.toStdString() + "] as a cube list...\n";
 
       try {
         addCubeViewportFromList(cubename);
@@ -415,7 +415,7 @@ namespace Isis {
         cubename = cubesToOpen.at(i);
 
         // Read in the CubeAttribueInput from the cube name
-        CubeAttributeInput inAtt(cubename);
+        CubeAttributeInput inAtt(cubename.toStdString());
         std::vector<QString> bands = inAtt.bands();
 
         // Set the virtual bands to the bands specified by the input
@@ -426,17 +426,17 @@ namespace Isis {
 
         // Check for RGB format (#R,#G,#B)
         if(bands.size() == 3) {
-          IString st = IString(bands.at(0));
+          IString st = bands.at(0).toStdString();
           int index_red = st.ToInteger();
-          st = IString(bands.at(1));
+          st = bands.at(1).toStdString();
           int index_green = st.ToInteger();
-          st = IString(bands.at(2));
+          st = bands.at(2).toStdString();
           int index_blue = st.ToInteger();
           cvp->viewRGB(index_red, index_green, index_blue);
         }
       }
       catch (IException &e) {
-	       std::string message("Error attempting to open [" + cubename + "] from list [" + cubelist + "]...\n");
+	       std::string message("Error attempting to open [" + cubename.toStdString() + "] from list [" + cubelist.toStdString() + "]...\n");
 
 	       throw IException(e, IException::User, message, _FILEINFO_);
       }
@@ -478,8 +478,7 @@ namespace Isis {
     catch(IException &e) {
       throw IException(e,
                        IException::Programmer,
-                       tr("Error when attempting to show cube [%1]")
-                         .arg(cube->fileName()),
+                       "Error when attempting to show cube ["+cube->fileName().toStdString()+"]",
                        _FILEINFO_);
     }
 

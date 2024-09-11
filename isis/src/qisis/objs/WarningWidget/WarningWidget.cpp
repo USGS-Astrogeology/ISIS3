@@ -20,7 +20,7 @@ namespace Isis {
   WarningWidget::WarningWidget(QStatusBar *pParent): QObject(pParent) {
     mSBar = pParent;
 
-    QString sToolIconDir = FileName("$ISISROOT/appdata/images/icons").expanded();
+    QString sToolIconDir = QString::fromStdString(FileName("$ISISROOT/appdata/images/icons").expanded());
     QString qsIconFile(sToolIconDir);
 
     // default Action - No warning

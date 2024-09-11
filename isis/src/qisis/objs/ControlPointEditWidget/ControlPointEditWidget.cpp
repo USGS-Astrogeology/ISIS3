@@ -780,7 +780,7 @@ namespace Isis {
 
     //  Try to locate point position on current ground source,
     if (!m_groundGmap->SetUniversalGround(lat,lon)) {
-      std::string message = "This point does not exist on the ground source.\n";
+      QString message = "This point does not exist on the ground source.\n";
       message += "Latitude = " + QString::number(lat);
       message += "  Longitude = " + QString::number(lon);
       message += "\n A ground measure will not be created.";
@@ -902,10 +902,10 @@ namespace Isis {
         //  Give options for finding ground source file location. A new location
         //  for new location or new source, either a Shape in the project, or import a new shape,
         //  or simplay choose file?
-        std::string message = "Ground Source file " + groundFile.expanded();
+        QString message = "Ground Source file " + QString::fromStdString(groundFile.expanded());
         message += " doesn't exist.  Has the file moved?  Would you like to enter a new location for"
                    " this ground source?";
-        int ret = QMessageBox::question(this, "Ground Source not found", QString::fromStdString(message));
+        int ret = QMessageBox::question(this, "Ground Source not found", message);
         if (ret == QMessageBox::Yes) {
           QString dir = m_directory->project()->shapeDataRoot();
           NewGroundSourceLocationDialog *dialog = new NewGroundSourceLocationDialog(
@@ -1034,7 +1034,7 @@ namespace Isis {
         m_demCube.reset(newDemCube.take());
       }
       catch (IException &e) {
-        QMessageBox::critical(this, "Error", e.toString());
+        QMessageBox::critical(this, "Error", QString::fromStdString(e.toString()));
         QApplication::restoreOverrideCursor();
         return;
       }
@@ -1042,7 +1042,7 @@ namespace Isis {
 
       //  Make sure this is a dem
       if (!m_demCube->hasTable("ShapeModelStatistics")) {
-        std::string message = m_demFile + " is not a DEM.";
+        QString message = m_demFile + " is not a DEM.";
         QMessageBox::critical(this, "Error", message);
         m_demCube.reset(NULL);
         m_demOpen = false;
@@ -1504,7 +1504,7 @@ namespace Isis {
       // If this ControlPointId already exists, message box pops up and user is
       // asked to enter a new value.
       if (m_controlNet->ContainsPoint(newPoint->GetId())) {
-        std::string message = "A ControlPoint with Point Id = [" + newPoint->GetId();
+        QString message = "A ControlPoint with Point Id = [" + newPoint->GetId();
         message += "] already exists.  Re-enter Point Id for this ControlPoint.";
         QMessageBox::warning(this, "New Point Id", message);
         pointFiles.clear();
@@ -1595,7 +1595,7 @@ namespace Isis {
 
         //  If all measures being deleted, let user know and give them the option to quit operation
         if (!deletePointDialog->deleteAllCheckBox->isChecked()) {
-          std::string message = "You have selected all measures in this point to be deleted.  This "
+          QString message = "You have selected all measures in this point to be deleted.  This "
             "control point will be deleted.  Do you want to delete this control point?";
           int  response = QMessageBox::question(this,
                                     "Delete control point", message,
@@ -1633,7 +1633,7 @@ namespace Isis {
           if (m_editPoint->IsReferenceExplicit() &&
                 (m_editPoint->GetRefMeasure()->GetCubeSerialNumber() ==
                 (*m_editPoint)[i]->GetCubeSerialNumber())) {
-            std::string message = "You are trying to delete the Reference measure."
+            QString message = "You are trying to delete the Reference measure."
                 "  Do you really want to delete the Reference measure?";
             switch (QMessageBox::question(this,
                                           "Delete Reference measure?", message,
@@ -1758,7 +1758,7 @@ namespace Isis {
     }
 
     if (m_editPoint->IsIgnored()) {
-      std::string message = "You are saving changes to a measure on an ignored ";
+      QString message = "You are saving changes to a measure on an ignored ";
       message += "point.  Do you want to set Ignore = False on the point and ";
       message += "both measures?";
       switch (QMessageBox::question(this, "Save Measure", message, "&Yes", "&No", 0, 0)) {
@@ -1803,14 +1803,14 @@ namespace Isis {
          m_rightMeasure->GetCubeSerialNumber() == m_groundSN)) {
       // If point is locked and it is not a new point, print error
       if (m_editPoint->IsEditLocked() && m_controlNet->ContainsPoint(m_editPoint->GetId())) {
-        std::string message = "This control point is edit locked.  The Apriori latitude, longitude and ";
+        QString message = "This control point is edit locked.  The Apriori latitude, longitude and ";
         message += "radius cannot be updated.  You must first unlock the point by clicking the ";
         message += "check box above labeled \"Edit Lock Point\".";
         QMessageBox::warning(this, "Point Locked", message);
         return;
       }
       if (m_leftMeasure->IsIgnored()) {
-        std::string message = "This is a Constrained or Fixed point and the reference measure is ";
+        QString message = "This is a Constrained or Fixed point and the reference measure is ";
         message += "Ignored.  Unset the Ignore flag on the reference measure before saving.";
         QMessageBox::warning(this, "Point Locked", message);
         return;
@@ -1869,7 +1869,7 @@ namespace Isis {
     //  if this is a reference measure.  The check for moving a reference is
     //  done below.
     if (origMeasure->IsEditLocked() && m->IsEditLocked()) {
-      std::string message = "The " + side + " measure is editLocked ";
+      QString message = "The " + side + " measure is editLocked ";
       message += "for editing.  Do you want to set EditLock = False for this ";
       message += "measure?";
       int response = QMessageBox::question(this, "Save Measure",
@@ -1891,7 +1891,7 @@ namespace Isis {
     }
 
     if (origMeasure->IsIgnored() && m->IsIgnored()) {
-      std::string message = "The " + side + "measure is ignored.  ";
+      QString message = "The " + side + "measure is ignored.  ";
       message += "Do you want to set Ignore = False on the measure?";
       switch (QMessageBox::question(this, "Save Measure", message, "&Yes", "&No", 0, 0)) {
         // Yes:  set Ignore=false for the right measure and save point
@@ -1914,7 +1914,7 @@ namespace Isis {
     if (m_editPoint->IsReferenceExplicit()) {
       if (refMeasure->GetCubeSerialNumber() == m->GetCubeSerialNumber()) {
         if (m->GetSample() != origMeasure->GetSample() || m->GetLine() != origMeasure->GetLine()) {
-          std::string message = "You are making a change to the reference measure.  You ";
+          QString message = "You are making a change to the reference measure.  You ";
           message += "may need to move all of the other measures to match the new ";
           message += " coordinate of the reference measure.  Do you really want to ";
           message += " change the reference measure's location? ";
@@ -1935,7 +1935,7 @@ namespace Isis {
       }
       //  New reference measure
       else if (side == "left" && (refMeasure->GetCubeSerialNumber() != m->GetCubeSerialNumber())) {
-        std::string message = "This point already contains a reference measure.  ";
+        QString message = "This point already contains a reference measure.  ";
         message += "Would you like to replace it with the measure on the left?";
         int  response = QMessageBox::question(this,
                                   "Save Measure", message,
@@ -1996,7 +1996,7 @@ namespace Isis {
     // measure as reference.
     ControlMeasure *refMeasure = m_editPoint->GetRefMeasure();
     if (refMeasure->GetCubeSerialNumber() != m_leftMeasure->GetCubeSerialNumber()) {
-      std::string message = "This point already contains a reference measure.  ";
+      QString message = "This point already contains a reference measure.  ";
       message += "Would you like to replace it with the measure on the left?";
       int  response = QMessageBox::question(this,
                                 "Match Tool Save Measure", message,
@@ -2089,7 +2089,7 @@ namespace Isis {
     if (m_demOpen) {
       radius = demRadius(lat,lon);
       if (radius == Null) {
-        std::string msg = "Could not read radius from DEM, will default to "
+        QString msg = "Could not read radius from DEM, will default to "
           "local radius of reference measure.";
         QMessageBox::warning(this, "Warning", msg);
         if (m_editPoint->GetRefMeasure()->Camera()->SetGround(Latitude(lat, Angle::Degrees),
@@ -2100,7 +2100,7 @@ namespace Isis {
           m_editPoint->SetAprioriRadiusSource(ControlPoint::RadiusSource::None);
         }
         else {
-          std::string message = "Error trying to get radius at this pt.  "
+          QString message = "Error trying to get radius at this pt.  "
               "Lat/Lon does not fall on the reference measure.  "
               "Cannot save this measure.";
           QMessageBox::critical(this,"Error",message);
@@ -2117,7 +2117,7 @@ namespace Isis {
         radius = m_editPoint->GetRefMeasure()->Camera()->LocalRadius().meters();
       }
       else {
-        std::string message = "Error trying to get radius at this pt.  "
+        QString message = "Error trying to get radius at this pt.  "
             "Lat/Lon does not fall on the reference measure.  "
             "Cannot save this measure.";
         QMessageBox::critical(this,"Error",message);
@@ -2148,11 +2148,11 @@ namespace Isis {
       }
     }
     catch (IException &e) {
-      std::string message = "Unable to set Apriori Surface Point.\n";
+      QString message = "Unable to set Apriori Surface Point.\n";
       message += "Latitude = " + QString::number(lat);
       message += "  Longitude = " + QString::number(lon);
       message += "  Radius = " + QString::number(radius) + "\n";
-      message += e.toString();
+      message += QString::fromStdString(e.toString());
       QMessageBox::critical(this,"Error",message);
       return;
     }
@@ -2255,7 +2255,7 @@ namespace Isis {
     // Error check ignored and locked status
     if (pointType != ControlPoint::Free && m_leftMeasure->IsIgnored()) {
       m_pointTypeCombo->setCurrentIndex((int) m_editPoint->GetType());
-      std::string message = "The reference measure is Ignored.  Unset the Ignore flag on the ";
+      QString message = "The reference measure is Ignored.  Unset the Ignore flag on the ";
       message += "reference measure before setting the point type to Constrained or Fixed.";
       QMessageBox::warning(m_parent, "Ignored Reference Measure", message);
       return;
@@ -2263,7 +2263,7 @@ namespace Isis {
     ControlPoint::Status status = m_editPoint->SetType((ControlPoint::PointType) pointType);
     if (status == ControlPoint::PointLocked) {
       m_pointTypeCombo->setCurrentIndex((int) m_editPoint->GetType());
-      std::string message = "This control point is edit locked.  The point type cannot be changed.  You ";
+      QString message = "This control point is edit locked.  The point type cannot be changed.  You ";
       message += "must first unlock the point by clicking the check box above labeled ";
       message += "\"Edit Lock Point\".";
       QMessageBox::warning(m_parent, "Point Locked", message);
@@ -2338,7 +2338,7 @@ namespace Isis {
     ControlPoint::Status status = m_editPoint->SetIgnored(ignore);
     if (status == ControlPoint::PointLocked) {
       m_ignorePoint->setChecked(m_editPoint->IsIgnored());
-      std::string message = "Unable to change Ignored on point.  Set EditLock ";
+      QString message = "Unable to change Ignored on point.  Set EditLock ";
       message += " to False.";
       QMessageBox::critical(this, "Error", message);
       return;
@@ -2548,8 +2548,8 @@ namespace Isis {
       serial = m_serialNumberList->serialNumber(file);
     }
     catch (IException &e) {
-      std::string message = "Make sure the correct cube is opened.\n\n";
-      message += e.toString();
+      QString message = "Make sure the correct cube is opened.\n\n";
+      message += QString::fromStdString(e.toString());
       QMessageBox::critical(this, "Error", message);
 
       //  Set index of combo back to what it was before user selected new.  Find the index
@@ -2597,8 +2597,8 @@ namespace Isis {
       serial = m_serialNumberList->serialNumber(file);
     }
     catch (IException &e) {
-      std::string message = "Make sure the correct cube is opened.\n\n";
-      message += e.toString();
+      QString message = "Make sure the correct cube is opened.\n\n";
+      message += QString::fromStdString(e.toString());
       QMessageBox::critical(this, "Error", message);
 
       //  Set index of combo back to what it was before user selected new.  Find the index
@@ -2801,7 +2801,7 @@ namespace Isis {
 
     QFile file(QString::fromStdString(FileName(fn.toStdString()).expanded()));
     if (!file.open(QIODevice::ReadOnly)) {
-      std::string msg = "Failed to open template file \"" + fn + "\"";
+      QString msg = "Failed to open template file \"" + fn + "\"";
       QMessageBox::warning(this, "IO Error", msg);
       return;
     }
@@ -2870,13 +2870,13 @@ namespace Isis {
 
     // catch errors in Pvl format when populating pvl object
     stringstream ss;
-    ss << contents;
+    ss << contents.toStdString();
     try {
       Pvl pvl;
       ss >> pvl;
     }
     catch(IException &e) {
-      std::string message = e.toString();
+      QString message = QString::fromStdString(e.toString());
       QMessageBox::warning(this, "Error", message);
       return;
     }
@@ -2886,7 +2886,7 @@ namespace Isis {
     QFile file(expandedFileName);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-      std::string msg = "Failed to save template file to \"" + fn + "\"\nDo you "
+      QString msg = "Failed to save template file to \"" + fn + "\"\nDo you "
           "have permission?";
       QMessageBox::warning(this, "IO Error", msg);
       return;
@@ -2930,7 +2930,7 @@ namespace Isis {
       registrationDialog.exec();
     }
     catch (IException &e) {
-      std::string message = e.toString();
+      QString message = QString::fromStdString(e.toString());
       QMessageBox::information(this, "Error", message);
     }
   }

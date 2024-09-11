@@ -1459,7 +1459,7 @@ namespace Isis {
             dataIndex >= 0;
             dataIndex--) {
         double xValue = curve->data()->sample(dataIndex).x();
-        QString xValueString = toString(xValue);
+        QString xValueString = QString::number(xValue);
 
         int inverseDataIndex = (curve->data()->size() - 1) - dataIndex;
         progress.setValue(
@@ -1504,7 +1504,7 @@ namespace Isis {
       progress.setValue(500 + qRound(row * progressPerRow * 1000.0));
 
       QString xValueString = xAxisPoints[row];
-      double xValue = toDouble(xValueString);
+      double xValue = xValueString.toDouble();
 
       QTableWidgetItem *xAxisItem = new QTableWidgetItem(xValueString);
       m_tableWindow->table()->setItem(row, 0, xAxisItem);
@@ -1524,7 +1524,7 @@ namespace Isis {
              dataIndex < (int)curve->data()->size() && y == Null && !tooFar;
              dataIndex++) {
 
-          if (toString(curve->data()->sample(dataIndex).x()) == xValueString) {
+          if (QString::number(curve->data()->sample(dataIndex).x()) == xValueString) {
             // Try to compensate for decreasing x values by not performing this optimization
             if (dataIndex > 0 &&
                 curve->data()->sample(dataIndex - 1).x() < curve->data()->sample(dataIndex).x()) {
@@ -1545,7 +1545,7 @@ namespace Isis {
         if (IsSpecial(y))
           item = new QTableWidgetItem(QString("N/A"));
         else
-          item = new QTableWidgetItem(toString(y));
+          item = new QTableWidgetItem(QString::number(y));
 
         m_tableWindow->table()->setItem(row, col, item);
 
@@ -1768,7 +1768,7 @@ namespace Isis {
     bool result = false;
 
     try {
-      result = toDouble(left) < toDouble(right);
+      result = left.toDouble() < right.toDouble();
     }
     catch (IException &) {
     }

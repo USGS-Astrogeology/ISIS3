@@ -217,14 +217,14 @@ namespace Isis {
 
     if (!imageListFile.exists()) {
       IString msg = "The file [";
-      msg += (IString) fileName;
+      msg += fileName.toStdString();
       msg += "] does not exist.\n";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if (!imageListFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
       IString msg = "The file [";
-      msg += (IString) fileName;
+      msg += fileName.toStdString();
       msg += "] failed to open.\n";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

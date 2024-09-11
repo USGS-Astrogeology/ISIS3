@@ -624,8 +624,8 @@ namespace Isis {
 //    m_chip->ReLoad(*matchChip,m_zoomFactor);
     }
     catch (IException &e) {
-      std::string msg = "Cannot geom chip.\n";
-      msg += e.toString();
+      QString msg = "Cannot geom chip.\n";
+      msg += QString::fromStdString(e.toString());
       QMessageBox::information((QWidget *)parent(), "Error", msg);
       return;
     }
@@ -651,7 +651,7 @@ namespace Isis {
     catch (IException &e) {
       std::string msg = "Cannot load no geom chip.\n";
       msg += e.toString();
-      QMessageBox::information((QWidget *)parent(), "Error", msg);
+      QMessageBox::information((QWidget *)parent(), "Error", QString::fromStdString(msg));
       return;
     }
 
@@ -679,7 +679,7 @@ namespace Isis {
     catch (IException &e) {
       std::string msg = "Cannot load rotated chip.\n";
       msg += e.toString();
-      QMessageBox::information((QWidget *)parent(), "Error", msg);
+      QMessageBox::information((QWidget *)parent(), "Error", QString::fromStdString(msg));
       return;
     }
 
@@ -719,8 +719,8 @@ namespace Isis {
         m_chip->Load(*m_chipCube, *m_matchChip, *m_matchChipCube);
       }
       catch (IException &e) {
-        std::string msg = "Cannot reload chip.\n";
-        msg += e.toString();
+        QString msg = "Cannot reload chip.\n";
+        msg += QString::fromStdString(e.toString());
         QMessageBox::information((QWidget *)parent(), "Error", msg);
         return;
       }
@@ -731,8 +731,8 @@ namespace Isis {
         m_chip->Load(*m_chipCube, m_rotation, m_zoomFactor);
       }
       catch (IException &e) {
-        std::string msg = "Cannot reload chip.\n";
-        msg += e.toString();
+        QString msg = "Cannot reload chip.\n";
+        msg += QString::fromStdString(e.toString());
         QMessageBox::information((QWidget *)parent(), "Error", msg);
         return;
       }

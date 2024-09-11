@@ -155,9 +155,9 @@ namespace Isis {
 
 
   void ShapeReader::readSettings() {
-    QSettings settings(
-        FileName("$HOME/.Isis/" + QApplication::applicationName() + "/Shape Reader.config")
-          .expanded(),
+    QSettings settings(QString::fromStdString(
+        FileName("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/Shape Reader.config")
+          .expanded()),
         QSettings::NativeFormat);
 
     m_safeFileOpen = settings.value("safeFileOpen", m_safeFileOpen).toBool();
@@ -165,9 +165,9 @@ namespace Isis {
 
 
   void ShapeReader::writeSettings() {
-    QSettings settings(
-        FileName("$HOME/.Isis/" + QApplication::applicationName() + "/Shape Reader.config")
-          .expanded(),
+    QSettings settings(QString::fromStdString(
+        FileName("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/Shape Reader.config")
+          .expanded()),
         QSettings::NativeFormat);
 
     settings.setValue("safeFileOpen", m_safeFileOpen);
@@ -231,16 +231,16 @@ namespace Isis {
     Shape *result = NULL;
 
     try {
-      QString fileName;
+      std::string fileName;
       if (shapeData.canConvert<QString>()) {
-        fileName = shapeData.value<QString>();
+        fileName = shapeData.value<QString>().toStdString();
 
-        result = new Shape(FileName(fileName).expanded());
+        result = new Shape(QString::fromStdString(FileName(fileName).expanded()));
       }
       else if (shapeData.canConvert<PvlObject>()) {
         PvlObject shapeObj = shapeData.value<PvlObject>();
-        fileName = ((IString)shapeObj["FileName"][0]).ToQt();
-        result = new Shape(FileName(fileName).expanded());
+        fileName = (shapeObj["FileName"][0]);
+        result = new Shape(QString::fromStdString(FileName(fileName).expanded()));
         result->fromPvl(shapeObj);
       }
 

@@ -1253,7 +1253,7 @@ namespace Isis {
       stretchRect(cvp, rect);
     }
     catch (IException &e) {
-      std::string message = "Cannot stretch while the cube is still loading";
+      QString message = "Cannot stretch while the cube is still loading";
       QMessageBox::warning((QWidget *)parent(), "Warning", message);
       return;
     }

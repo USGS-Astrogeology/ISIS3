@@ -451,8 +451,8 @@ namespace Isis {
     try {
       if (m_startSamp != Null && m_startLine != Null &&
           m_endSamp != Null && m_endLine != Null) {
-        m_path = FileName(cubeViewport()->cube()->fileName()).path();
-        m_fileName = FileName(cubeViewport()->cube()->fileName()).name();
+        m_path = QString::fromStdString(FileName(cubeViewport()->cube()->fileName().toStdString()).path());
+        m_fileName = QString::fromStdString(FileName(cubeViewport()->cube()->fileName().toStdString()).name());
 
         /*     |
          *   \ _ /
@@ -560,11 +560,11 @@ namespace Isis {
       switch (displayUnits) {
         case Distance::Meters:
           m_shadowHeightLineEdit->setText(
-              toString(m_shadowHeight->meters()));
+              QString::number(m_shadowHeight->meters()));
           break;
         case Distance::Kilometers:
           m_shadowHeightLineEdit->setText(
-              toString(m_shadowHeight->kilometers()));
+              QString::number(m_shadowHeight->kilometers()));
           break;
         case Distance::SolarRadii:
         case Distance::Pixels:

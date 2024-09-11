@@ -143,8 +143,8 @@ namespace Isis {
       return;
 
     // Find directory and save for use in file dialog for net file
-    FileName file(list);
-    QString dir = file.path();
+    FileName file(list.toStdString());
+    std::string dir = file.path();
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
     // Use the list to get serial numbers and polygons
@@ -153,8 +153,8 @@ namespace Isis {
       *controlNet() = ControlNet();
     }
     catch (IException &e) {
-      std::string message = "Error processing cube list.  \n";
-      std::string errors = e.toString();
+      QString message = "Error processing cube list.  \n";
+      QString errors = QString::fromStdString(e.toString());
       message += errors;
       QMessageBox::information((QWidget *)parent(), "Error", message);
       QApplication::restoreOverrideCursor();
@@ -168,7 +168,7 @@ namespace Isis {
     filter += "All (*)";
     QString cNetFileName = QFileDialog::getOpenFileName((QWidget *)parent(),
         "Select a control network",
-        dir,
+        QString::fromStdString(dir),
         filter);
     QApplication::setOverrideCursor(Qt::WaitCursor);
     if (cNetFileName.isEmpty()) {
@@ -185,8 +185,8 @@ namespace Isis {
         *controlNet() = ControlNet(cNetFileName, &progress);
       }
       catch (IException &e) {
-        std::string message = "Invalid control network.  \n";
-        std::string errors = e.toString();
+        QString message = "Invalid control network.  \n";
+        QString errors = QString::fromStdString(e.toString());
         message += errors;
         QMessageBox::information((QWidget *)parent(), "Error", message);
         QApplication::restoreOverrideCursor();
@@ -200,8 +200,8 @@ namespace Isis {
       controlNet()->SetImages(*serialNumberList(), &progress);
     }
     catch (IException &e) {
-      std::string message = "Cannot initialize images in control network.  \n";
-      std::string errors = e.toString();
+      QString message = "Cannot initialize images in control network.  \n";
+      QString errors = QString::fromStdString(e.toString());
       message += errors;
       QMessageBox::information((QWidget *)parent(), "Error", message);
       QApplication::restoreOverrideCursor();
@@ -291,8 +291,8 @@ namespace Isis {
         controlNet()->Write(fn);
       }
       catch (IException &e) {
-        std::string message = "Error saving control network.  \n";
-        std::string errors = e.toString();
+        QString message = "Error saving control network.  \n";
+        QString errors = QString::fromStdString(e.toString());
         message += errors;
         QMessageBox::information((QWidget *)parent(), "Error", message);
         return;

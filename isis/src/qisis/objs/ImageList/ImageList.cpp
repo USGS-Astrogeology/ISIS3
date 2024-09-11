@@ -831,7 +831,7 @@ namespace Isis {
           future.resultAt(i);
         }
         catch(std::exception &e) {
-          std::string msg("Could not save ImageList: "+this->name() );
+          std::string msg = "Could not save ImageList: "+ this->name().toStdString();
           throw IException(IException::Io,msg,_FILEINFO_);
         }
       }
@@ -897,7 +897,7 @@ namespace Isis {
       imageToCopy->copyToNewProjectRoot(m_project, m_newProjectRoot); 
     }
     catch (IException &e) {
-      IString msg = "Could not copy image [" + imageToCopy->displayProperties()->displayName() +
+      IString msg = "Could not copy image [" + imageToCopy->displayProperties()->displayName().toStdString() +
                     "]";
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }

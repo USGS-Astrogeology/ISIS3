@@ -160,15 +160,15 @@ namespace Isis {
 
     if (!m_showMovementCheckBox->isChecked()) {
       m_tool->setMovementArrowColorSource(MosaicControlNetTool::NoMovement,
-          haveMeasureCountBrightest? toInt(m_brightestMeasureCountValueLineEdit->text()) : -1,
-          haveResidualMagBrightest? toDouble(m_brightestResidualMagValueLineEdit->text()) : Null);
+          haveMeasureCountBrightest? m_brightestMeasureCountValueLineEdit->text().toInt() : -1,
+          haveResidualMagBrightest? m_brightestResidualMagValueLineEdit->text().toDouble() : Null);
     }
     else {
 
       m_tool->setMovementArrowColorSource((MosaicControlNetTool::MovementColorSource)
             m_colorSourceComboBox->itemData(m_colorSourceComboBox->currentIndex()).toInt(),
-          haveMeasureCountBrightest? toInt(m_brightestMeasureCountValueLineEdit->text()) : -1,
-          haveResidualMagBrightest? toDouble(m_brightestResidualMagValueLineEdit->text()) : Null);
+          haveMeasureCountBrightest? m_brightestMeasureCountValueLineEdit->text().toInt() : -1,
+          haveResidualMagBrightest? m_brightestResidualMagValueLineEdit->text().toDouble() : Null);
     }
 
     // Now re-read to verify
@@ -189,12 +189,12 @@ namespace Isis {
 
     if (m_tool->maxMovementColorMeasureCount() != -1) {
       m_brightestMeasureCountValueLineEdit->setText(
-          toString(m_tool->maxMovementColorMeasureCount()));
+          QString::number(m_tool->maxMovementColorMeasureCount()));
     }
 
     if (m_tool->maxMovementColorResidualMagnitude() != Null) {
       m_brightestResidualMagValueLineEdit->setText(
-          toString(m_tool->maxMovementColorResidualMagnitude()));
+          QString::number(m_tool->maxMovementColorResidualMagnitude()));
     }
 
     refreshWidgetStates();

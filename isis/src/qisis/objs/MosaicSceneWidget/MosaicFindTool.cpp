@@ -85,7 +85,7 @@ namespace Isis {
           getWidget()->getView()->centerOn(scenePos);
         }
         else {
-          std::string message = "Lat/Lon not within this view.";
+          QString message = "Lat/Lon not within this view.";
           QMessageBox::information(getWidget(), "Point Not Found",
                                    message, QMessageBox::Ok);
         }
@@ -181,7 +181,7 @@ namespace Isis {
   void MosaicFindTool::fromPvl(const PvlObject &obj) {
     p_latLineEdit->setText(QString::fromStdString(obj["Latitude"][0]));
     p_lonLineEdit->setText(QString::fromStdString(obj["Longitude"][0]));
-    if(toBool(QString::fromStdString(obj["Visible"][0]))) {
+    if(toBool(QString::fromStdString(obj["Visible"][0]).toStdString())) {
       getUserGroundPoint();
     }
   }

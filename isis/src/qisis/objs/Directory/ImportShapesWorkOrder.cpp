@@ -355,8 +355,7 @@ namespace Isis {
 
     if (*m_numErrors >= 20) {
       result.append(
-          IException(IException::Unknown,
-                     tr("Aborted import shapes due to a high number of errors"),
+          IException(IException::Unknown,"Aborted import shapes due to a high number of errors",
                      _FILEINFO_));
     }
     return result;
@@ -451,7 +450,7 @@ namespace Isis {
         }
         QThreadPool::globalInstance()->reserveThread();
 
-        m_warning = functor.errors().toString();
+        m_warning = QString::fromStdString(functor.errors().toString());
 
         m_newShapes->moveToThread(thread());
 

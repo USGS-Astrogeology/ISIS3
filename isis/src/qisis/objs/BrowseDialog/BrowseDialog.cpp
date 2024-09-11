@@ -57,7 +57,7 @@ namespace Isis {
 
     /*If the user did not select a file warn them.*/
     if(selectedFiles.size() < 1) {
-      std::string message = tr("\nFile not found.\nPlease verify the "
+      QString message = tr("\nFile not found.\nPlease verify the "
                            "correct file name was given");
       QMessageBox::warning(this, "File Not Found", message);
 

@@ -236,15 +236,15 @@ namespace Isis {
       m_alarmOntoViewportHeight->value());
 
     m_window->setAlarmViewportDnBoxSize(
-      IString(m_alarmOntoViewportXDnSize->text()).ToDouble(),
-      IString(m_alarmOntoViewportYDnSize->text()).ToDouble());
+      m_alarmOntoViewportXDnSize->text().toDouble(),
+      m_alarmOntoViewportYDnSize->text().toDouble());
 
     QPair<double, double> alarmViewportDnBoxSize =
         m_window->alarmViewportDnBoxSize();
     m_alarmOntoViewportXDnSize->setText(
-        IString(alarmViewportDnBoxSize.first).ToQt());
+        QString::number(alarmViewportDnBoxSize.first));
     m_alarmOntoViewportYDnSize->setText(
-        IString(alarmViewportDnBoxSize.second).ToQt());
+        QString::number(alarmViewportDnBoxSize.second));
 
     QPair<int, int> alarmViewportScreenBoxSize =
         m_window->alarmViewportScreenBoxSize();
@@ -276,9 +276,9 @@ namespace Isis {
     QPair<double, double> alarmViewportDnBoxSize =
         m_window->alarmViewportDnBoxSize();
     m_alarmOntoViewportXDnSize->setText(
-        IString(alarmViewportDnBoxSize.first).ToQt());
+        QString::number(alarmViewportDnBoxSize.first));
     m_alarmOntoViewportYDnSize->setText(
-        IString(alarmViewportDnBoxSize.second).ToQt());
+        QString::number(alarmViewportDnBoxSize.second));
 
     QPair<int, int> alarmViewportScreenBoxSize =
         m_window->alarmViewportScreenBoxSize();

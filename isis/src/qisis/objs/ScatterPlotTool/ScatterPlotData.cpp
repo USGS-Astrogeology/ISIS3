@@ -253,8 +253,8 @@ namespace Isis {
     }
 
 
-    std::string msg = "Bin at index [" + QString::number(index) + "] not found. "
-                  "There are [" + QString::number(numberOfBins()) + "] bins";
+    std::string msg = "Bin at index [" + std::to_string(index) + "] not found. "
+                  "There are [" + std::to_string(numberOfBins()) + "] bins";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
@@ -447,8 +447,8 @@ namespace Isis {
     int xIndex = binIndex;
 
     if (xIndex < 0 || yIndex < 0 || xIndex >= xSize || yIndex >= ySize) {
-      std::string msg = "Bin at index [" + QString::number(binIndex) + "] not found. "
-                    "There are [" + QString::number(numberOfBins()) + "] bins";
+      std::string msg = "Bin at index [" + std::to_string(binIndex) + "] not found. "
+                    "There are [" + std::to_string(numberOfBins()) + "] bins";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

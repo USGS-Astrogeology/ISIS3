@@ -163,8 +163,8 @@ namespace Isis {
 
       if (!m_mp) {
         throw IException(IException::Unknown,
-            tr("Cannot display footprints of images which have no footprints. "
-               "Tried to display [%1]").arg(m_image->displayProperties()->displayName()),
+            "Cannot display footprints of images which have no footprints. "
+            "Tried to display [" + m_image->displayProperties()->displayName().toStdString() + "]",
             _FILEINFO_);
       }
 
@@ -175,7 +175,7 @@ namespace Isis {
         m_image->deleteLater();
 
         IString msg = "Could not project the footprint from cube [" +
-            m_image->displayProperties()->displayName() + "]";
+            m_image->displayProperties()->displayName().toStdString() + "]";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
     }

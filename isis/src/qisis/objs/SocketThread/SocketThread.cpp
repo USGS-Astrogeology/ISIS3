@@ -98,7 +98,7 @@ namespace Isis {
       IString buffer;
       for(int i = 0; i < bytes; i++) buffer += buf.data()[i];
       QChar escape(27);
-      IString escape2 = QString(escape);
+      IString escape2 = QString(escape).toStdString();
       while(buffer.size() > 0) {
         IString token = buffer.Token(escape2);
         if(token == "raise") {

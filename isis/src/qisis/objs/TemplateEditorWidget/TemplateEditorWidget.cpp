@@ -136,7 +136,7 @@ namespace Isis {
       }
       else {
         throw IException(IException::Io,
-                         QString("Could not import file [%1]").arg(templateFileName),
+                         "Could not import file ["+templateFileName.toStdString()+"]",
                          _FILEINFO_);      }
     }
 

@@ -121,11 +121,11 @@ namespace Isis {
       ImageTreeWidgetItem::TreeColumn col =
           ImageTreeWidgetItem::FootprintColumn;
       while (col < ImageTreeWidgetItem::BlankColumn) {
-        IString key = ImageTreeWidgetItem::treeColumnToString(col) + "Visible";
+        IString key = ImageTreeWidgetItem::treeColumnToString(col).toStdString() + "Visible";
         key = key.Convert(" ", '_');
 
         if (pvl.hasKeyword(key)) {
-          bool visible = toBool(QString::fromStdString(pvl[key][0]));
+          bool visible = toBool(QString::fromStdString(pvl[key][0]).toStdString());
 
           if (visible) {
             m_tree->showColumn(col);
@@ -185,7 +185,7 @@ namespace Isis {
     ImageTreeWidgetItem::TreeColumn col =
         ImageTreeWidgetItem::FootprintColumn;
     while (col < ImageTreeWidgetItem::BlankColumn) {
-      IString key = ImageTreeWidgetItem::treeColumnToString(col) + "Visible";
+      IString key = ImageTreeWidgetItem::treeColumnToString(col).toStdString() + "Visible";
       key = key.Convert(" ", '_');
       bool visible = !m_tree->isColumnHidden(col);
 

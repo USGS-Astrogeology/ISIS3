@@ -286,7 +286,7 @@ namespace Isis {
                  QFileInfo(m_sourceCube.at(m_sourceCube.size()-1)).baseName());
 
         if (band != -1) {
-          setTitle(title().text() + "+" + IString(band).ToQt());
+          setTitle(title().text() + "+" + QString::number(band));
         }
       }
 

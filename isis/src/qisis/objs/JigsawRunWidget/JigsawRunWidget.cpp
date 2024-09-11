@@ -526,8 +526,8 @@ namespace Isis {
    *
    * @param error Error status of bundle.
    */
-  void JigsawRunWidget::errorString(std::string error) {
-    std::string errorStr = "\n" + error;
+  void JigsawRunWidget::errorString(QString error) {
+    QString errorStr = "\n" + error;
     m_ui->statusUpdatesLabel->setText( m_ui->statusUpdatesLabel->text().append(errorStr) );
 
     updateScrollBar();

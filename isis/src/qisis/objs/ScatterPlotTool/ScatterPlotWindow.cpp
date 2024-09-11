@@ -120,21 +120,21 @@ namespace Isis {
 
     m_colorize = new QAction(this);
     m_colorize->setText("Colorize");
-    m_colorize->setIcon(QPixmap(FileName("$ISISROOT/appdata/images/icons/rgb.png").expanded()));
+    m_colorize->setIcon(QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/rgb.png").expanded())));
     connect(m_colorize, SIGNAL(triggered()),
             this, SLOT(colorPlot()));
 
     m_contour = new QAction(this);
     m_contour->setText("Hide Contour Lines");
     m_contour->setIcon(
-        QPixmap(FileName("$ISISROOT/appdata/images/icons/scatterplotcontour.png").expanded()));
+        QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/scatterplotcontour.png").expanded())));
     connect(m_contour, SIGNAL(triggered()),
             this, SLOT(showHideContour()));
 
     QAction *configureAlarmingAct = new QAction(this);
     configureAlarmingAct->setText("Change Alarming");
     configureAlarmingAct->setIcon(
-        QPixmap(FileName("$ISISROOT/appdata/images/icons/scatterplotalarming.png").expanded()));
+        QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/scatterplotalarming.png").expanded())));
     connect(configureAlarmingAct, SIGNAL(triggered()),
             this, SLOT(configureAlarming()));
 
@@ -156,8 +156,8 @@ namespace Isis {
     replot();
 
     QString instanceName = windowTitle();
-    FileName config("$HOME/.Isis/qview/" + instanceName + ".config");
-    QSettings settings(config.expanded(),
+    FileName config("$HOME/.Isis/qview/" + instanceName.toStdString() + ".config");
+    QSettings settings(QString::fromStdString(config.expanded()),
                        QSettings::NativeFormat);
     m_alarmPlot = settings.value("alarmOntoPlot", true).toBool();
     m_alarmViewport = settings.value("alarmOntoViewport", true).toBool();
@@ -182,8 +182,8 @@ namespace Isis {
 
   ScatterPlotWindow::~ScatterPlotWindow() {
     QString instanceName = windowTitle();
-    FileName config("$HOME/.Isis/qview/" + instanceName + ".config");
-    QSettings settings(config.expanded(),
+    FileName config("$HOME/.Isis/qview/" + instanceName.toStdString() + ".config");
+    QSettings settings(QString::fromStdString(config.expanded()),
                        QSettings::NativeFormat);
     settings.setValue("alarmOntoPlot", m_alarmPlot);
     settings.setValue("alarmOntoViewport", m_alarmViewport);
@@ -550,7 +550,7 @@ namespace Isis {
    */
   void ScatterPlotWindow::colorPlot() {
     if (m_colorize->text().compare("Colorize") == 0) {
-      m_colorize->setIcon(QPixmap(FileName("$ISISROOT/appdata/images/icons/gray.png").expanded()));
+      m_colorize->setIcon(QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/gray.png").expanded())));
       m_colorize->setText("Gray");
       QwtLinearColorMap *colorMap = new QwtLinearColorMap(Qt::darkCyan, Qt::red);
       colorMap->addColorStop(DBL_EPSILON, Qt::cyan);
@@ -560,7 +560,7 @@ namespace Isis {
       plot()->setCanvasBackground(Qt::darkCyan);
     }
     else {
-      m_colorize->setIcon(QPixmap(FileName("$ISISROOT/appdata/images/icons/rgb.png").expanded()));
+      m_colorize->setIcon(QPixmap(QString::fromStdString(FileName("$ISISROOT/appdata/images/icons/rgb.png").expanded())));
       m_colorize->setText("Colorize");
       QwtLinearColorMap *colorMap = new QwtLinearColorMap(Qt::black, Qt::white);
       colorMap->addColorStop(DBL_EPSILON, Qt::darkGray);

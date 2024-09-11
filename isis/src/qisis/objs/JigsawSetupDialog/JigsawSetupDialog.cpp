@@ -466,21 +466,21 @@ namespace Isis {
     // m_ui->updateCubeLabelCheckBox->setChecked(settings->updateCubeLabel());
     m_ui->errorPropagationCheckBox->setChecked(settings->errorPropagation());
     m_ui->outlierRejectionCheckBox->setChecked(settings->outlierRejection());
-    m_ui->outlierRejectionMultiplierLineEdit->setText(toString(settings->outlierRejectionMultiplier()));
-    m_ui->sigma0ThresholdLineEdit->setText(toString(settings->convergenceCriteriaThreshold()));
-    m_ui->maximumIterationsLineEdit->setText(toString(settings->convergenceCriteriaMaximumIterations()));
+    m_ui->outlierRejectionMultiplierLineEdit->setText(QString::number(settings->outlierRejectionMultiplier()));
+    m_ui->sigma0ThresholdLineEdit->setText(QString::number(settings->convergenceCriteriaThreshold()));
+    m_ui->maximumIterationsLineEdit->setText(QString::number(settings->convergenceCriteriaMaximumIterations()));
 
     // weighting tab
     if ( !IsNullPixel(settings->globalPointCoord1AprioriSigma()) ) {
-      m_ui->pointLatitudeSigmaLineEdit->setText(toString(settings->globalPointCoord1AprioriSigma()));
+      m_ui->pointLatitudeSigmaLineEdit->setText(QString::number(settings->globalPointCoord1AprioriSigma()));
       m_ui->pointLatitudeSigmaLineEdit->setModified(true);
     }
     if ( !IsNullPixel(settings->globalPointCoord2AprioriSigma()) ) {
-      m_ui->pointLongitudeSigmaLineEdit->setText(toString(settings->globalPointCoord2AprioriSigma()));
+      m_ui->pointLongitudeSigmaLineEdit->setText(QString::number(settings->globalPointCoord2AprioriSigma()));
       m_ui->pointLongitudeSigmaLineEdit->setModified(true);
     }
     if ( !IsNullPixel(settings->globalPointCoord3AprioriSigma()) ) {
-      m_ui->pointRadiusSigmaLineEdit->setText(toString(settings->globalPointCoord3AprioriSigma()));
+      m_ui->pointRadiusSigmaLineEdit->setText(QString::number(settings->globalPointCoord3AprioriSigma()));
       m_ui->pointRadiusSigmaLineEdit->setModified(true);
 
     }
@@ -1151,16 +1151,16 @@ namespace Isis {
 
         showTargetParametersGroupBox();
 
-        m_ui->rightAscensionLineEdit->setText(toString(raCoefs[0].degrees()));
-        m_ui->rightAscensionVelocityLineEdit->setText(toString(raCoefs[1].degrees()));
-        m_ui->declinationLineEdit->setText(toString(decCoefs[0].degrees()));
-        m_ui->declinationVelocityLineEdit->setText(toString(decCoefs[1].degrees()));
-        m_ui->primeMeridianOffsetLineEdit->setText(toString(pmCoefs[0].degrees()));
-        m_ui->spinRateLineEdit->setText(toString(pmCoefs[1].degrees()));
+        m_ui->rightAscensionLineEdit->setText(QString::number(raCoefs[0].degrees()));
+        m_ui->rightAscensionVelocityLineEdit->setText(QString::number(raCoefs[1].degrees()));
+        m_ui->declinationLineEdit->setText(QString::number(decCoefs[0].degrees()));
+        m_ui->declinationVelocityLineEdit->setText(QString::number(decCoefs[1].degrees()));
+        m_ui->primeMeridianOffsetLineEdit->setText(QString::number(pmCoefs[0].degrees()));
+        m_ui->spinRateLineEdit->setText(QString::number(pmCoefs[1].degrees()));
       }
       else {
         // Formulate message indicating why target parameters are disabled
-        std::string msg;
+        QString msg;
         if (target->displayProperties()->displayName() == "MOON") {
           msg = "Target body parameter cannot be solved for the Moon.";
         }
@@ -1173,17 +1173,17 @@ namespace Isis {
         hideTargetParametersGroupBox();
       }
 
-      m_ui->aRadiusLineEdit->setText(toString(target->radiusA().kilometers()));
-      //m_ui->aRadiusSigmaLineEdit->setText(toString(target->sigmaRadiusA().kilometers()));
+      m_ui->aRadiusLineEdit->setText(QString::number(target->radiusA().kilometers()));
+      //m_ui->aRadiusSigmaLineEdit->setText(QString::number(target->sigmaRadiusA().kilometers()));
 
-      m_ui->bRadiusLineEdit->setText(toString(target->radiusB().kilometers()));
-      //m_ui->bRadiusSigmaLineEdit->setText(toString(target->sigmaRadiusB().kilometers()));
+      m_ui->bRadiusLineEdit->setText(QString::number(target->radiusB().kilometers()));
+      //m_ui->bRadiusSigmaLineEdit->setText(QString::number(target->sigmaRadiusB().kilometers()));
 
-      m_ui->cRadiusLineEdit->setText(toString(target->radiusC().kilometers()));
-      //m_ui->cRadiusSigmaLineEdit->setText(toString(target->sigmaRadiusC().kilometers()));
+      m_ui->cRadiusLineEdit->setText(QString::number(target->radiusC().kilometers()));
+      //m_ui->cRadiusSigmaLineEdit->setText(QString::number(target->sigmaRadiusC().kilometers()));
 
-      m_ui->meanRadiusLineEdit->setText(toString(target->meanRadius().kilometers()));
-      //m_ui->meanRadiusSigmaLineEdit->setText(toString(target->sigmaMeanRadius().kilometers()));
+      m_ui->meanRadiusLineEdit->setText(QString::number(target->meanRadius().kilometers()));
+      //m_ui->meanRadiusSigmaLineEdit->setText(QString::number(target->sigmaMeanRadius().kilometers()));
     }
   }
 

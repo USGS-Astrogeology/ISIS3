@@ -85,7 +85,7 @@ namespace Isis {
         return (Column) i;
     }
 
-    std::string msg = "Column title [" + columnTitle + "] does not match any of "
+    std::string msg = "Column title [" + columnTitle.toStdString() + "] does not match any of "
         "the defined column types";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
@@ -358,14 +358,14 @@ namespace Isis {
     if (m_measure) {
       if (m_measure->Parent()->IsEditLocked()) {
         std::string msg = "Measures in point [" +
-            getFormattedData(getColumnName(PointId)) +
+            getFormattedData(getColumnName(PointId)).toStdString() +
             "] cannot be deleted because point is edit locked";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       else if (m_measure->IsEditLocked()) {
-        std::string msg = "Measure [" + getFormattedData() + "] in point [" +
-            getFormattedData(getColumnName(PointId)) +
+        std::string msg = "Measure [" + getFormattedData().toStdString() + "] in point [" +
+            getFormattedData(getColumnName(PointId)).toStdString() +
             "] cannot be deleted because m_measure is edit locked";
         throw IException(IException::User, msg, _FILEINFO_);
       }

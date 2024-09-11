@@ -167,11 +167,9 @@ namespace Isis {
    * @throws IException::Unknown "Tried to load Image with properties/information"
    */
   void Image::fromPvl(const PvlObject &pvl) {
-    QString pvlFileName = ((IString)pvl["FileName"][0]).ToQt();
-    if (m_fileName != pvlFileName) {
-      throw IException(IException::Unknown,
-          tr("Tried to load Image [%1] with properties/information from [%2].")
-            .arg(m_fileName).arg(pvlFileName),
+    std::string pvlFileName = pvl["FileName"][0];
+    if (m_fileName.toStdString() != pvlFileName) {
+      throw IException(IException::Unknown,"Tried to load Image [" + m_fileName.toStdString() + "] with properties/information from [" + pvlFileName + "].",
           _FILEINFO_);
     }
 
@@ -236,7 +234,7 @@ namespace Isis {
       Blob example = ImagePolygon().toBlob();
 
       QString blobType = QString::fromStdString(example.Type());
-      QString blobName = example.Name();
+      QString blobName = QString::fromStdString(example.Name());
 
       Pvl &labels = *m_cube->label();
 
@@ -392,7 +390,7 @@ namespace Isis {
         }
         catch (IException &e) {
           IString msg = "Could not read the footprint from cube [" +
-              displayProperties()->displayName() + "]. Please make "
+              displayProperties()->displayName().toStdString() + "]. Please make "
               "sure footprintinit has been run";
           throw IException(e, IException::Io, msg, _FILEINFO_);
         }
@@ -563,16 +561,14 @@ namespace Isis {
     closeCube();
 
     if (!QFile::remove(m_fileName)) {
-      throw IException(IException::Io,
-                       tr("Could not remove file [%1]").arg(m_fileName),
+      throw IException(IException::Io,"Could not remove file [" + m_fileName.toStdString() + "]",
                        _FILEINFO_);
     }
 
     if (deleteCubAlso) {
       FileName cubFile = FileName(m_fileName.toStdString()).setExtension("cub");
       if (!QFile::remove(QString::fromStdString(cubFile.expanded()) ) ) {
-        throw IException(IException::Io,
-                         tr("Could not remove file [%1]").arg(m_fileName),
+        throw IException(IException::Io,"Could not remove file [" +  m_fileName.toStdString() + "]",
                          _FILEINFO_);
       }
     }
@@ -608,39 +604,39 @@ namespace Isis {
     stream.writeAttribute("spacecraftName", m_spacecraftName);
 
     if (!IsSpecial(m_aspectRatio) ) {
-      stream.writeAttribute("aspectRatio", IString(m_aspectRatio).ToQt());
+      stream.writeAttribute("aspectRatio", QString::number(m_aspectRatio));
     }
 
     if (!IsSpecial(m_resolution) ) {
-      stream.writeAttribute("resolution", IString(m_resolution).ToQt());
+      stream.writeAttribute("resolution", QString::number(m_resolution));
     }
 
     if (m_emissionAngle.isValid() ) {
-      stream.writeAttribute("emissionAngle", IString(m_emissionAngle.radians()).ToQt());
+      stream.writeAttribute("emissionAngle", QString::number(m_emissionAngle.radians()));
     }
 
     if (m_incidenceAngle.isValid() ) {
-      stream.writeAttribute("incidenceAngle", IString(m_incidenceAngle.radians()).ToQt());
+      stream.writeAttribute("incidenceAngle", QString::number(m_incidenceAngle.radians()));
     }
 
     if (!IsSpecial(m_lineResolution) ) {
-      stream.writeAttribute("lineResolution", IString(m_lineResolution).ToQt());
+      stream.writeAttribute("lineResolution", QString::number(m_lineResolution));
     }
 
     if (m_localRadius.isValid() ) {
-      stream.writeAttribute("localRadius", IString(m_localRadius.meters()).ToQt());
+      stream.writeAttribute("localRadius", QString::number(m_localRadius.meters()));
     }
 
     if (m_northAzimuth.isValid() ) {
-      stream.writeAttribute("northAzimuth", IString(m_northAzimuth.radians()).ToQt());
+      stream.writeAttribute("northAzimuth", QString::number(m_northAzimuth.radians()));
     }
 
     if (m_phaseAngle.isValid() ) {
-      stream.writeAttribute("phaseAngle", IString(m_phaseAngle.radians()).ToQt());
+      stream.writeAttribute("phaseAngle", QString::number(m_phaseAngle.radians()));
     }
 
     if (!IsSpecial(m_sampleResolution) ) {
-      stream.writeAttribute("sampleResolution", IString(m_sampleResolution).ToQt());
+      stream.writeAttribute("sampleResolution", QString::number(m_sampleResolution));
     }
 
     if (m_footprint) {
@@ -693,8 +689,7 @@ namespace Isis {
     imgPoly.Create(*cube(), sampleStepSize, lineStepSize);
 
     IException e = IException(IException::User,
-        tr("Warning: Polygon re-calculated for [%1] which can be very slow")
-          .arg(displayProperties()->displayName()),
+        "Warning: Polygon re-calculated for [" + displayProperties()->displayName().toStdString() + "] which can be very slow",
         _FILEINFO_);
     e.print();
 
@@ -725,7 +720,7 @@ namespace Isis {
     }
 
     if (hasCamStats) {
-      Table camStatsTable("CameraStatistics", m_fileName, label);
+      Table camStatsTable("CameraStatistics", m_fileName.toStdString(), label);
 
       int numRecords = camStatsTable.Records();
       for (int recordIndex = 0; recordIndex < numRecords; recordIndex++) {

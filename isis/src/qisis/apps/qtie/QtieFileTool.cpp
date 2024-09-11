@@ -105,8 +105,8 @@ namespace Isis {
       }
 
       // Find directory and save for use in file dialog for match cube
-      FileName fname(baseFile);
-      dir = fname.path();
+      FileName fname(baseFile.toStdString());
+      dir = QString::fromStdString(fname.path());
 
       //  Make sure base is projected
       try {
@@ -115,7 +115,7 @@ namespace Isis {
           baseCube->projection();
         }
         catch (IException &) {
-          std::string message = "Base must be projected";
+          QString message = "Base must be projected";
           QMessageBox::critical((QWidget *)parent(), "Error", message);
           baseCube->close();
           continue;
@@ -126,8 +126,8 @@ namespace Isis {
           baseGM = new UniversalGroundMap(*baseCube);
         }
         catch (IException &e) {
-          std::string message = "Cannot initialize universal ground map for basemap.\n";
-          std::string errors = e.toString();
+          QString message = "Cannot initialize universal ground map for basemap.\n";
+          QString errors = QString::fromStdString(e.toString());
           message += errors;
           QMessageBox::critical((QWidget *)parent(), "Error", message);
           baseCube->close();
@@ -135,7 +135,7 @@ namespace Isis {
         }
       }
       catch (IException &) {
-        std::string message = "Unable to open base cube";
+        QString message = "Unable to open base cube";
         QMessageBox::critical((QWidget *)parent(), "Error", message);
       }
     }
@@ -165,14 +165,14 @@ namespace Isis {
         try {
 
           if (matchCube->hasGroup("Mapping")) {
-            std::string message = "The match cube cannot be a projected cube.";
+            QString message = "The match cube cannot be a projected cube.";
             QMessageBox::critical((QWidget *)parent(), "Error", message);
             matchCube->close();
             continue;
           }
         }
         catch (IException &) {
-          std::string message = "Error reading match cube labels.";
+          QString message = "Error reading match cube labels.";
           QMessageBox::critical((QWidget *)parent(), "Error", message);
           matchCube->close();
           continue;
@@ -182,8 +182,8 @@ namespace Isis {
           matchGM = new UniversalGroundMap(*matchCube);
         }
         catch (IException &e) {
-          std::string message = "Cannot initialize universal ground map for match cube.\n";
-          std::string errors = e.toString();
+          QString message = "Cannot initialize universal ground map for match cube.\n";
+          QString errors = QString::fromStdString(e.toString());
           message += errors;
           QMessageBox::critical((QWidget *)parent(), "Error", message);
           matchCube->close();
@@ -191,7 +191,7 @@ namespace Isis {
         }
       }
       catch (IException &) {
-        std::string message = "Unable to open match cube";
+        QString message = "Unable to open match cube";
         QMessageBox::critical((QWidget *)parent(), "Error", message);
       }
     }
@@ -200,8 +200,8 @@ namespace Isis {
     QString target = matchCube->camera()->target()->name();
 
     // Find directory and save for use in file dialog for control net
-    FileName fname(matchFile);
-    dir = fname.path();
+    FileName fname(matchFile.toStdString());
+    dir = QString::fromStdString(fname.path());
 
     bool netOk = false;
 
@@ -235,8 +235,8 @@ namespace Isis {
           }
         }
         catch (IException &e) {
-          std::string message = "Invalid control network.  \n";
-          std::string errors = e.toString();
+          QString message = "Invalid control network.  \n";
+          QString errors = QString::fromStdString(e.toString());
           message += errors;
           QMessageBox::information((QWidget *)parent(), "Error", message);
         }
@@ -279,7 +279,7 @@ namespace Isis {
 
     // Make sure targets match
     if (cnet->GetTarget() != matchCube->camera()->target()->name()) {
-      std::string message = tr("Control Net target, [%1], is not the same as the cube target, [%2].")
+      QString message = tr("Control Net target, [%1], is not the same as the cube target, [%2].")
                         .arg(QString(cnet->GetTarget()))
         .arg(QString(matchCube->camera()->target()->name()));
       QMessageBox::critical((QWidget *)parent(), "Invalid Control Network", message);
@@ -291,7 +291,7 @@ namespace Isis {
       double baseSamp, baseLine;
 
       if (p.GetNumMeasures() > 1) {
-        std::string message = "Control Networks coming into Qtie can only have a single control "
+        QString message = "Control Networks coming into Qtie can only have a single control "
                           "measure for the match cube in each control point.";
         QMessageBox::critical((QWidget *)parent(), "Invalid Control Network", message);
         return false;
@@ -299,7 +299,7 @@ namespace Isis {
 
       //  Make sure there is a measure for the match cube
       if (!p.HasSerialNumber(SerialNumber::Compose(*matchCube))) {
-        std::string message = "Cannot find a measure for the match cube";
+        QString message = "Cannot find a measure for the match cube";
         QMessageBox::critical((QWidget *)parent(), "Invalid Control Network", message);
         return false;
       }
@@ -312,7 +312,7 @@ namespace Isis {
           if (baseSamp < 1 || baseSamp > baseCube->sampleCount() ||
               baseLine < 1 || baseLine > baseCube->lineCount()) {
             // throw error? point not on base
-            std::string message = "Error parsing input control net.  Lat/Lon for Point Id: " +
+            QString message = "Error parsing input control net.  Lat/Lon for Point Id: " +
                               (p.GetId()) + " computes to a sample/line off " +
                               "the edge of the basemap cube.  This point will be skipped.";
             QMessageBox::critical((QWidget *)parent(), "Invalid Control Net", message);
@@ -322,7 +322,7 @@ namespace Isis {
         else {
           // throw error?  point not on base cube
           qDebug()<<"SetGround else";
-          std::string message = "Error parsing input control net.  Point Id: " +
+          QString message = "Error parsing input control net.  Point Id: " +
                             (p.GetId()) + " does not exist on basemap.  "
                             "This point will be skipped.";
           QMessageBox::critical((QWidget *)parent(), "Invalid Control Network", message);
@@ -331,7 +331,7 @@ namespace Isis {
       }
       catch (IException &e) {
         qDebug()<<"catch";
-        std::string message = "Error in SetGround.  Error parsing input control net.  Point Id: " +
+        QString message = "Error in SetGround.  Error parsing input control net.  Point Id: " +
                           (p.GetId()) + " does not exist on basemap.  "
                           "This point will be skipped.";
         QMessageBox::critical((QWidget *)parent(), "Invalid Control Network", message);

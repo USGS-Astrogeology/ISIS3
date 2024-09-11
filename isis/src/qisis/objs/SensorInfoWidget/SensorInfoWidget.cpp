@@ -38,8 +38,8 @@ namespace Isis {
       image.load(":cassini-iss-nac");
     }
     else if (displayName.contains("Metric")) {
-      image.load(FileName("$ISISROOT/images/icons/nasa_apollo_metric_camera.png")
-                          .expanded());
+      image.load(QString::fromStdString(FileName("$ISISROOT/images/icons/nasa_apollo_metric_camera.png")
+                          .expanded()));
     }
     else if (displayName.contains("HiRISE")) {
       // TODO Find legal image for this!

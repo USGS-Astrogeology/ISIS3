@@ -200,7 +200,7 @@ namespace Isis {
     loadNetwork();
 
     if (m_controlNetGraphics && m_displayControlNetButton) {
-      m_displayControlNetButton->setChecked( toBool(QString::fromStdString(obj["Visible"][0])) );
+      m_displayControlNetButton->setChecked( toBool(QString::fromStdString(obj["Visible"][0]).toStdString()) );
       displayControlNet();
     }
   }
@@ -588,7 +588,7 @@ namespace Isis {
       //  If ipce application, there must be an active control net and active image list.
       if (!getWidget()->directory()->project()->activeControl()) {
         // Error and return to Select Tool
-        std::string message = "No active control network chosen.  Choose an active image list then an"
+        QString message = "No active control network chosen.  Choose an active image list then an"
                           "active control network on the project tree.\n";
         QMessageBox::critical(getWidget(), "Error", message);
         return;
@@ -637,8 +637,8 @@ namespace Isis {
 
       }
       catch(IException &e) {
-        std::string message = "Invalid control network.\n";
-        message += e.toString();
+        QString message = "Invalid control network.\n";
+        message += QString::fromStdString(e.toString());
         QMessageBox::information(getWidget(), "Error", message);
         return;
       }
@@ -697,7 +697,7 @@ namespace Isis {
       cp = m_controlNetGraphics->findClosestControlPoint(point);
       if (!cp) {
       // TODO Figure out how to get this error message in the right place
-        std::string message = "No points exist for deleting. Create points "
+        QString message = "No points exist for deleting. Create points "
                           "using the right mouse button.";
         QMessageBox::warning(getWidget(), "Warning", message);
         return;

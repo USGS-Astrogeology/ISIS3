@@ -855,7 +855,7 @@ namespace Isis {
       }
       catch (IException &e) {
         IException fullError(e, IException::User, "Geom failed.", _FILEINFO_);
-        std::string message = fullError.toString();
+        QString message = QString::fromStdString(fullError.toString());
         QMessageBox::information((QWidget *)parent(), "Error", message);
         m_rightChip->Load(*m_rightCube);
         m_geomIt = false;
@@ -1000,10 +1000,10 @@ namespace Isis {
         colorizeSaveButton();
     }
     else {
-      std::string message = "Latitude: " + QString::number(lat) + "  Longitude: " +
+      QString message = "Latitude: " + QString::number(lat) + "  Longitude: " +
         QString::number(lon) + " is not on the right image. Right measure " +
         "was not moved.";
-      QMessageBox::warning((QWidget *)parent(),"Warning",message);
+      QMessageBox::warning((QWidget *)parent(),"Warning", message);
     }
 
   }
@@ -1052,7 +1052,7 @@ namespace Isis {
                             "Cannot create AutoRegFactory. As a result, "
                             "sub-pixel registration will not work.",
                             _FILEINFO_);
-        std::string message = fullError.toString();
+        QString message = QString::fromStdString(fullError.toString());
         QMessageBox::information((QWidget *)parent(), "Error", message);
         return;
       }
@@ -1095,14 +1095,14 @@ namespace Isis {
     catch (IException &e) {
       std::string msg = "Cannot register this point, unable to Load chips.\n";
       msg += e.toString();
-      QMessageBox::information((QWidget *)parent(), "Error", msg);
+      QMessageBox::information((QWidget *)parent(), "Error", QString::fromStdString(msg));
       return;
     }
 
     try {
       AutoReg::RegisterStatus status = m_autoRegFact->Register();
       if ( !m_autoRegFact->Success() ) {
-        std::string msg = "Cannot sub-pixel register this point.\n";
+        QString msg = "Cannot sub-pixel register this point.\n";
         if ( status == AutoReg::PatternChipNotEnoughValidData ) {
           msg += "\n\nNot enough valid data in Pattern Chip.\n";
           msg += "  PatternValidPercent = ";
@@ -1154,7 +1154,7 @@ namespace Isis {
     catch (IException &e) {
       std::string msg = "Cannot register this point.\n";
       msg += e.toString();
-      QMessageBox::information((QWidget *)parent(), "Error", msg);
+      QMessageBox::information((QWidget *)parent(), "Error", QString::fromStdString(msg));
       return;
     }
 
@@ -1228,7 +1228,7 @@ namespace Isis {
     if ( m_rightMeasure != NULL ) {
 
       if (m_rightMeasure->IsEditLocked()) {
-        std::string message = "The right measure is locked.  You must first unlock the measure by ";
+        QString message = "The right measure is locked.  You must first unlock the measure by ";
         message += "clicking the check box above labeled \"Edit Lock Measure\".";
         QMessageBox::warning((QWidget *)parent(),"Warning",message);
         return;
@@ -1253,7 +1253,7 @@ namespace Isis {
         // need to handle exception that SetLogData throws if our data is invalid -
         // unhandled exceptions thrown in Qt signal and slot connections produce undefined behavior
         catch (IException &e) {
-          std::string message = e.toString();
+          QString message = QString::fromStdString(e.toString());
           QMessageBox::critical((QWidget *)parent(), "Error", message);
           return;
         }
@@ -1294,7 +1294,7 @@ namespace Isis {
     if ( m_allowLeftMouse ) {
       if ( m_leftMeasure != NULL ) {
         if (m_leftMeasure->IsEditLocked()) {
-          std::string message = "The left measure is locked.  You must first unlock the measure by ";
+          QString message = "The left measure is locked.  You must first unlock the measure by ";
           message += "clicking the check box above labeled \"Edit Lock Measure\".";
           QMessageBox::warning((QWidget *)parent(),"Warning",message);
           return;
@@ -1341,7 +1341,7 @@ namespace Isis {
       }
       catch (IException &e) {
         IException fullError(e, IException::User, "Geom failed.", _FILEINFO_);
-        std::string message = fullError.toString();
+        QString message = QString::fromStdString(fullError.toString());
         QMessageBox::information((QWidget *)parent(), "Error", message);
         m_geomIt = false;
         m_nogeom->setChecked(true);
@@ -1369,7 +1369,7 @@ namespace Isis {
 //    }
 //    catch (IException &e) {
 //      IException fullError(e, IException::User, "Geom failed.", _FILEINFO_);
-//      std::string message = fullError.toString();
+//      QString message = fullError.toString();
 //      QMessageBox::information((QWidget *)parent(), "Error", message);
 //      m_geomIt = false;
 //      m_nogeom->setChecked(true);
@@ -1456,7 +1456,7 @@ namespace Isis {
     }
     catch (IException &e) {
       IException fullError(e, IException::User, "Geom failed.", _FILEINFO_);
-      std::string message = fullError.toString();
+      QString message = QString::fromStdString(fullError.toString());
       QMessageBox::information((QWidget *)parent(), "Error", message);
       m_geomIt = false;
       m_nogeom->setChecked(true);
@@ -1647,10 +1647,10 @@ namespace Isis {
       m_templateFileName = temp;
       IException fullError(e, IException::Io,
           "Cannot create AutoRegFactory for " +
-          fn +
+          fn.toStdString() +
           ".  As a result, current template file will remain set to " +
-          m_templateFileName, _FILEINFO_);
-      std::string message = fullError.toString();
+          m_templateFileName.toStdString(), _FILEINFO_);
+      QString message = QString::fromStdString(fullError.toString());
       QMessageBox::information((QWidget *)parent(), "Error", message);
       emit setTemplateFailed(m_templateFileName);
       return false;
@@ -1706,17 +1706,17 @@ namespace Isis {
 
 //    if (!m_autoRegShown) {
     if ( !m_autoRegAttempted ) {
-      std::string message = "Point must be Registered before chips can be saved.";
+      QString message = "Point must be Registered before chips can be saved.";
       QMessageBox::warning((QWidget *)parent(), "Warning", message);
       return;
     }
 
     //  Save chips - pattern, search and fit
     QString baseFile = m_pointId.replace(" ", "_") + "_" +
-                           toString((int)(m_leftMeasure ->GetSample())) + "_" +
-                           toString((int)(m_leftMeasure ->GetLine()))   + "_" +
-                           toString((int)(m_rightMeasure->GetSample())) + "_" +
-                           toString((int)(m_rightMeasure->GetLine()))   + "_";
+                           QString::number((int)(m_leftMeasure ->GetSample())) + "_" +
+                           QString::number((int)(m_leftMeasure ->GetLine()))   + "_" +
+                           QString::number((int)(m_rightMeasure->GetSample())) + "_" +
+                           QString::number((int)(m_rightMeasure->GetLine()))   + "_";
     QString fname = baseFile + "Search.cub";
     QString command = "$ISISROOT/bin/qview \'" + fname + "\'";
     m_autoRegFact->RegistrationSearchChip()->Write(fname);

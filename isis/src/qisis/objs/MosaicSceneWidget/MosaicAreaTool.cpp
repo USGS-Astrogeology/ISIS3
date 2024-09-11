@@ -199,7 +199,7 @@ namespace Isis {
             }
           }
           else {
-          std::string message = "Lat/Lon not within this view.";
+          QString message = "Lat/Lon not within this view.";
           QMessageBox::information(getWidget(), "Cannot Calculate Box",
                                   message, QMessageBox::Ok);
           }
@@ -314,7 +314,7 @@ namespace Isis {
       if(obj.hasKeyword("Area") && obj["Area"][0] != "Null")
         m_areaLineEdit->setText(QString::fromStdString(obj["Area"][0]));
 
-      if(toBool(QString::fromStdString(obj["Visible"][0])) != false) {
+      if(toBool(obj["Visible"][0]) != false) {
         userChangedBox();
       }
     }

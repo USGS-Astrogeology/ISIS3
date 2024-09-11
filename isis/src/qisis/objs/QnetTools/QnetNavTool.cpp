@@ -225,9 +225,9 @@ namespace Isis {
     gridLayout->addLayout(layout, 3, 0, 1, 2);
     m_navDialog->setLayout(gridLayout);
 
-    QString settingsFileName =
-        FileName("$HOME/.Isis/" + QApplication::applicationName() + "/NavTool.config").expanded();
-    QSettings settings(settingsFileName, QSettings::NativeFormat);
+    std::string settingsFileName =
+        FileName("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/NavTool.config").expanded();
+    QSettings settings(QString::fromStdString(settingsFileName), QSettings::NativeFormat);
     m_navDialog->resize(settings.value("size").toSize());
 
     // View the dialog - we need this to get the size of the dialog which we're using
@@ -245,9 +245,9 @@ namespace Isis {
 
 
   QnetNavTool::~QnetNavTool() {
-    QString settingsFileName =
-        FileName("$HOME/.Isis/" + QApplication::applicationName() + "/NavTool.config").expanded();
-    QSettings settings(settingsFileName, QSettings::NativeFormat);
+    std::string settingsFileName =
+        FileName("$HOME/.Isis/" + QApplication::applicationName().toStdString() + "/NavTool.config").expanded();
+    QSettings settings(QString::fromStdString(settingsFileName), QSettings::NativeFormat);
 
     settings.setValue("size", m_navDialog->size());
     settings.setValue("pos", m_navDialog->pos());
@@ -557,7 +557,7 @@ namespace Isis {
       //  Make sure edit point is selected and in view.
       updateEditPoint(m_editPointId);
 
-      std::string msg = "Filter Count: " + QString::number(m_listBox->count()) +
+      QString msg = "Filter Count: " + QString::number(m_listBox->count()) +
           " / " + QString::number(controlNet()->GetNumPoints());
       m_filterCountLabel->setText(msg);
     }
@@ -569,11 +569,11 @@ namespace Isis {
           this, SLOT(load(QListWidgetItem *)), Qt::UniqueConnection);
       //m_listBox->setSelectionMode(QAbstractItemView::ExtendedSelection);
       for (int i = 0; i < serialNumberList()->size(); i++) {
-        FileName filename = FileName(serialNumberList()->fileName(i));
-        QString tempFileName = filename.name();
-        m_listBox->insertItem(i, tempFileName);
+        FileName filename = FileName(serialNumberList()->fileName(i).toStdString());
+        std::string tempFileName = filename.name();
+        m_listBox->insertItem(i, QString::fromStdString(tempFileName));
       }
-      std::string msg = "Filter Count: " + QString::number(m_listBox->count()) +
+      QString msg = "Filter Count: " + QString::number(m_listBox->count()) +
           " / " + QString::number(serialNumberList()->size());
       m_filterCountLabel->setText(msg);
 
@@ -689,7 +689,7 @@ namespace Isis {
         int images = (*controlNet())[m_filteredPoints[i]]->GetNumMeasures();
         m_listBox->item(i)->setToolTip(QString::number(images) + " image(s) in point");
       }
-      std::string msg = "Filter Count: " + QString::number(m_listBox->count()) +
+      QString msg = "Filter Count: " + QString::number(m_listBox->count()) +
           " / " + QString::number(controlNet()->GetNumPoints());
       m_filterCountLabel->setText(msg);
       updateEditPoint(m_editPointId);
@@ -701,11 +701,11 @@ namespace Isis {
       connect(m_listBox, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
           this, SLOT(load(QListWidgetItem *)), Qt::UniqueConnection);
       for (int i = 0; i < m_filteredImages.size(); i++) {
-        FileName filename = FileName(serialNumberList()->fileName(m_filteredImages[i]));
-        QString tempFileName = filename.name();
-        m_listBox->insertItem(i, tempFileName);
+        FileName filename = FileName(serialNumberList()->fileName(m_filteredImages[i]).toStdString());
+        std::string tempFileName = filename.name();
+        m_listBox->insertItem(i, QString::fromStdString(tempFileName));
       }
-      std::string msg = "Filter Count: " + QString::number(m_listBox->count()) +
+      QString msg = "Filter Count: " + QString::number(m_listBox->count()) +
           " / " + QString::number(serialNumberList()->size());
       m_filterCountLabel->setText(msg);
     }

@@ -11,6 +11,8 @@ find files of those names at the top level of this repository. **/
 #include <QBuffer>
 #include <QDataStream>
 #include <QXmlStreamWriter>
+#include <QMap>
+#include <QVariant>
 
 #include "FileName.h"
 #include "Pvl.h"
@@ -43,7 +45,7 @@ namespace Isis {
 
 
   void DisplayProperties::fromPvl(const PvlObject &pvl) {
-    setDisplayName(((IString)pvl["DisplayName"][0]).ToQt());
+    setDisplayName(QString::fromStdString(pvl["DisplayName"][0]));
 
     QByteArray hexValues(QString::fromStdString(pvl["Values"][0]).toLatin1());
     QDataStream valuesStream(QByteArray::fromHex(hexValues));

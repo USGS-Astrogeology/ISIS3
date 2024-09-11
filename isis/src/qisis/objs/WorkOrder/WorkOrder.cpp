@@ -71,7 +71,7 @@ namespace Isis {
 
     if (!m_project) {
         throw IException(IException::Programmer,
-            tr("Work orders cannot be created without a project."), _FILEINFO_);
+            "Work orders cannot be created without a project.", _FILEINFO_);
     }
 
     connect(this, SIGNAL(triggered()),
@@ -133,8 +133,7 @@ namespace Isis {
 
     if (!other.isInStableState()) {
       throw IException(IException::Unknown,
-          tr("Can not copy work order [%1] because it is currently running")
-            .arg(((QUndoCommand &)other).text()),
+          "Can not copy work order ["+((QUndoCommand &)other).text().toStdString()+"] because it is currently running",
           _FILEINFO_);
     }
 
@@ -532,8 +531,8 @@ namespace Isis {
   void WorkOrder::save(QXmlStreamWriter &stream) const {
     if (!isInStableState()) {
       throw IException(IException::Programmer,
-                       tr("Can not store an unstable work order. The work order [%1] is currently "
-                          "working").arg(bestText()),
+                       "Can not store an unstable work order. The work order ["+bestText().toStdString()+"] is currently "
+                          "working",
                        _FILEINFO_);
     }
 

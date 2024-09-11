@@ -815,7 +815,7 @@ namespace Isis {
 
       Control *activeControl = project()->activeControl();
       if (activeControl == NULL) {
-        std::string message = "No active control network chosen.  Choose active control network on "
+        QString message = "No active control network chosen.  Choose active control network on "
                           "project tree.\n";
         QMessageBox::critical(qobject_cast<QWidget *>(parent()), "Error", message);
         return NULL;
@@ -843,7 +843,7 @@ namespace Isis {
       Control *activeControl = project()->activeControl();
       if (activeControl == NULL) {
         // Error and return to Select Tool
-        std::string message = "No active control network chosen.  Choose active control network on "
+        QString message = "No active control network chosen.  Choose active control network on "
                           "project tree.\n";
         QMessageBox::critical(qobject_cast<QWidget *>(parent()), "Error", message);
         return NULL;
@@ -851,7 +851,7 @@ namespace Isis {
       result->controlPointEditWidget()->setControl(activeControl);
 
       if (!project()->activeImageList() || !project()->activeImageList()->serialNumberList()) {
-        std::string message = "No active image list chosen.  Choose an active image list on the project "
+        QString message = "No active image list chosen.  Choose an active image list on the project "
                           "tree.\n";
         QMessageBox::critical(qobject_cast<QWidget *>(parent()), "Error", message);
         return NULL;

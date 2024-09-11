@@ -497,7 +497,7 @@ namespace Isis {
 
   MosaicSceneItem *MosaicSceneWidget::cubeToMosaic(Image *image) {
     if (image == NULL) {
-      std::string msg = tr("Can not find a NULL image in the mosaic");
+      std::string msg = "Can not find a NULL image in the mosaic";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -631,14 +631,14 @@ namespace Isis {
       foreach(MosaicSceneItem * mosaicSceneItem, *m_mosaicSceneItems) {
         stream.writeStartElement("image");
         stream.writeAttribute("id", mosaicSceneItem->image()->id());
-        stream.writeAttribute("zValue", toString(mosaicSceneItem->zValue()));
+        stream.writeAttribute("zValue", QString::number(mosaicSceneItem->zValue()));
         stream.writeEndElement();
       }
       stream.writeEndElement();
 
       stream.writeStartElement("viewTransform");
-      stream.writeAttribute("scrollBarXValue", toString(getView()->horizontalScrollBar()->value()));
-      stream.writeAttribute("scrollBarYValue", toString(getView()->verticalScrollBar()->value()));
+      stream.writeAttribute("scrollBarXValue", QString::number(getView()->horizontalScrollBar()->value()));
+      stream.writeAttribute("scrollBarYValue", QString::number(getView()->verticalScrollBar()->value()));
       QBuffer dataBuffer;
       dataBuffer.open(QIODevice::ReadWrite);
       QDataStream transformStream(&dataBuffer);
@@ -687,7 +687,7 @@ namespace Isis {
 
   MosaicSceneItem *MosaicSceneWidget::cubeToMosaic(DisplayProperties *props) {
     if (props == NULL) {
-      std::string msg = tr("Can not find a NULL Display Properties in the mosaic");
+      std::string msg = "Can not find a NULL Display Properties in the mosaic";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -1697,7 +1697,7 @@ namespace Isis {
         std::string msg = "The file [";
 
         if (mosaicSceneItem->image())
-          msg += mosaicSceneItem->image()->displayProperties()->displayName();
+          msg += mosaicSceneItem->image()->displayProperties()->displayName().toStdString();
 
         msg += "] is being removed due to not being able to project onto the scene";
 

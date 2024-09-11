@@ -83,8 +83,8 @@ namespace Isis {
 
     if (!result) {
       throw IException(IException::Unknown,
-                       QObject::tr("Could not create work order of type [%1] through "
-                                   "WorkOrderFactory").arg(type),
+                       "Could not create work order of type ["+type.toStdString()+"] through "
+                                   "WorkOrderFactory",
                        _FILEINFO_);
     }
 

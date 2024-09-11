@@ -344,7 +344,7 @@ namespace Isis {
    */
   void QnetSetAprioriDialog::fillCurrentAprioriLineEdits() {
     if (m_points.size() == 0) {
-      std::string msg = "There are no Points selected. Please select a Point.";
+      QString msg = "There are no Points selected. Please select a Point.";
       QMessageBox::warning((QWidget *)parent(), "Warning", msg);
       return;
     }
@@ -392,7 +392,7 @@ namespace Isis {
    */
   void QnetSetAprioriDialog::fillReferenceAprioriLineEdits() {
     if (m_points.size() == 0) {
-      std::string msg = "There are no Points selected. Please select a Point.";
+      QString msg = "There are no Points selected. Please select a Point.";
       QMessageBox::warning((QWidget *)parent(), "Warning", msg);
       return;
     }
@@ -436,7 +436,7 @@ namespace Isis {
       //If all of the line edits are empty something went wrong, tell the user, and return
       if ((m_latLineEdit->text() == "") && (m_lonLineEdit->text() == "")
           && (m_radiusLineEdit->text() == "")) {
-        std::string msg = "Cannot retrieve the latitude, longitude, and radius from the reference";
+        QString msg = "Cannot retrieve the latitude, longitude, and radius from the reference";
         msg = msg + "measure; this is the result of a known problem in our system. Please select ";
         msg = msg + "Current, Average, or enter your own values.";
         QMessageBox::warning((QWidget *)parent(), "Warning", msg);
@@ -464,7 +464,7 @@ namespace Isis {
    */
   void QnetSetAprioriDialog::fillAverageAprioriLineEdits() {
     if (m_points.size() == 0) {
-      std::string msg = "There are no Points selected. Please select a Point.";
+      QString msg = "There are no Points selected. Please select a Point.";
       QMessageBox::warning((QWidget *)parent(), "Warning", msg);
       return;
     }
@@ -520,7 +520,7 @@ namespace Isis {
 
       // Did we have any measures?
       if (goodMeasures == 0) {
-        std::string msg = "ControlPoint [" + id + "] has no measures which "
+        std::string msg = "ControlPoint [" + id.toStdString() + "] has no measures which "
            "project to lat/lon/radius (x/y/z)";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -585,7 +585,7 @@ namespace Isis {
       //tell the user that the average canot be computed and leave the apriori source alone
       if ((m_latLineEdit->text() == "") && (m_lonLineEdit->text() == "")
           && (m_radiusLineEdit->text() == "")) {
-        std::string msg = "Average cannot be computed for this point [" + m_points.at(0)->text();
+        QString msg = "Average cannot be computed for this point [" + m_points.at(0)->text();
         msg = msg + "]; this is the result of a known problem in our system. Please select ";
         msg = msg + "Current, Reference, or enter your own values.";
         QMessageBox::warning((QWidget *)parent(), "Warning", msg);
@@ -626,7 +626,7 @@ namespace Isis {
    */
   void QnetSetAprioriDialog::fillSigmaLineEdits() {
     if (m_points.size() == 0) {
-      std::string msg = "There are no Points selected. Please select a Point.";
+      QString msg = "There are no Points selected. Please select a Point.";
       QMessageBox::warning((QWidget *)parent(), "Warning", msg);
       return;
     }
@@ -718,14 +718,14 @@ namespace Isis {
       }
       if (m_multiPointsEditLockedCount > 0) {
         m_aprioriDialog->setDisabled(true);
-        std::string msg = "There is an EditLocked point selected. To continue, unselect the";
+        QString msg = "There is an EditLocked point selected. To continue, unselect the";
         msg = msg + " Editlocked point.";
         QMessageBox::warning((QWidget *)parent(), "Warning", msg);
         return;
       }
       if (m_multiPointsFixedCount > 0 || m_multiPointsFreeCount > 0) {
         m_aprioriDialog->setDisabled(true);
-        std::string msg = "Sigmas can only be set on Constrained points. Use Filters to filter by";
+        QString msg = "Sigmas can only be set on Constrained points. Use Filters to filter by";
         msg = msg + " Constrained points.";
         QMessageBox::warning((QWidget *)parent(), "Warning", msg);
         return;
@@ -739,7 +739,7 @@ namespace Isis {
       ControlPoint *pt = m_qnetTool->controlNet()->GetPoint(id);
       if (pt->IsEditLocked()) {
         m_aprioriDialog->setDisabled(true);
-        std::string msg = "This control point is edit locked.  The Apriori latitude, longitude and ";
+        QString msg = "This control point is edit locked.  The Apriori latitude, longitude and ";
         msg += "radius cannot be updated.  You must first unlock the point by clicking the ";
         msg += "check box above labeled \"Edit Lock Point\".";
         QMessageBox::warning((QWidget *)parent(), "Warning", msg);
@@ -859,7 +859,7 @@ namespace Isis {
   void QnetSetAprioriDialog::setApriori() {
 
     if (m_points.size() == 0) {
-      std::string msg = "There are no Points selected. Please select a Point.";
+      QString msg = "There are no Points selected. Please select a Point.";
       QMessageBox::warning((QWidget *)parent(), "Warning", msg);
       return;
     }
@@ -876,7 +876,7 @@ namespace Isis {
     if (m_latLineEdit->text() != "") {
       lat = m_latLineEdit->text().toDouble();
       if (lat > 90 || lat < -90) {
-        std::string msg = "Invalid latitude value. Please enter a latitude value between -90 and 90.";
+        QString msg = "Invalid latitude value. Please enter a latitude value between -90 and 90.";
         QMessageBox::warning((QWidget *)parent(), "Warning", msg);
         return;
       }
@@ -934,7 +934,7 @@ namespace Isis {
         }
       }
       if (!pt->HasAprioriCoordinates()) {
-        std::string msg = "Point [" + id + "] does not have an Apriori coordinate.  "
+        QString msg = "Point [" + id + "] does not have an Apriori coordinate.  "
           "Make sure to save the ground source measurement then the Point before "
           "setting the sigmas. ";
         if (m_points.size() > 1) {
@@ -966,8 +966,8 @@ namespace Isis {
         emit netChanged();
       }
       catch (IException &e)  {
-        std::string message = "Error setting sigmas. \n";
-        message += e.toString();
+        QString message = "Error setting sigmas. \n";
+        message += QString::fromStdString(e.toString());
         QMessageBox::critical((QWidget *)parent(),"Error",message);
         QApplication::restoreOverrideCursor();
         // Sigmas failed, but surface pt coordinate was set
