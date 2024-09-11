@@ -312,7 +312,6 @@ namespace Isis {
     return differences;
   }
 
-
   /**
    * Asserts that two JSON objects are the same except for numerical values are within
    * a given tolerance.
@@ -346,7 +345,6 @@ namespace Isis {
     return re.exactMatch(str);
   }
 
-
   // Compares CSV lines
   void compareCsvLine(CSVReader::CSVAxis csvLine, QString headerStr, int initialIndex) {
     QStringList compareMe = headerStr.split(",");
@@ -360,6 +358,20 @@ namespace Isis {
     }
   };
 
+
+  // Compares CSV lines allowing use of a custom delimiter (defaults to ",")
+  void compareCsvLineCustomDelimiter(CSVReader::CSVAxis csvLine, QString headerStr,
+                                     QString delimiter, int initialIndex) {
+    QStringList compareMe = headerStr.split(delimiter);
+    for (int i=initialIndex; i<compareMe.size(); i++) {
+      if (isNumeric(compareMe[i].trimmed()) && isNumeric(QString(csvLine[i].trimmed()))) {
+        EXPECT_NEAR(csvLine[i].toDouble(), compareMe[i].toDouble(), 0.000001);
+      }
+      else{
+        EXPECT_EQ(QString(csvLine[i].trimmed()).toStdString(), compareMe[i].trimmed().toStdString());
+      }
+    }
+  };
 
   // Compares CSV lines
   void compareCsvLine(CSVReader::CSVAxis csvLine, CSVReader::CSVAxis csvLine2, int initialIndex,

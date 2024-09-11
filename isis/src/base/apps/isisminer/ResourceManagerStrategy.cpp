@@ -61,7 +61,7 @@ namespace Isis {
    * @param definition ResourceManager Strategy PVL object 
    *                   definition
    * @param globals   List of global keywords to use in argument substitutions
-   * @throw IException::User "Invalid operations requestined in ResourceManager."
+   * @throw IException::User "Invalid operations requested in ResourceManager."
    */
   ResourceManagerStrategy::ResourceManagerStrategy(const PvlObject &definition, 
                                                    const ResourceList &globals) : 
@@ -89,7 +89,7 @@ namespace Isis {
     // Handle any errors encountered
     if ( !exceptions.empty() ) {
       IException ie(IException::User,
-                     "Invalid operations requestined in ResourceManager.",
+                     "Invalid operations requested in ResourceManager.",
                     _FILEINFO_); 
       BOOST_FOREACH ( IException e, exceptions ) {
         ie.append(e);
