@@ -4751,14 +4751,6 @@ End
         tests to gtest format. Moved some data from isis data area to
         "isis/tests/data/isisminer".
     </change>
-    <change name="Ken Edmundson" date="2024-09-23">
-        Originally implemented in UofA OSIRIS-REx code by Kris Becker, 2018-07-31.
-        Corrected problems with invalid geometries causeing isisminer to abort.
-        Added two new parameters, RepairInvalidGeometry and InvalidGeometryAction,
-        to allow user more control over how invalid geometries are managed. Updated
-        documentation. Ken Edmundson added unit tests to GisGeometry and Strategy
-        classes to address these changes.
-    </change>
   </history>
 
   <groups>
