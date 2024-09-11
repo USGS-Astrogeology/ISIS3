@@ -6,15 +6,14 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include "Isis.h"
+#ifndef explode_h
+#define explode_h
 
-#include "explode.h"
+#include "UserInterface.h"
 
-#include "Application.h"
-
-using namespace Isis;
-
-void IsisMain() {
-  UserInterface &ui = Application::GetUserInterface();
-  explode(ui);
+namespace Isis{
+  extern void explode(UserInterface &ui);
+  extern void explode(Cube *icube, UserInterface &ui);
 }
+
+#endif
