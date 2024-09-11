@@ -6,16 +6,14 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include "Isis.h"
+#ifndef algebra_h
+#define algebra_h
 
-#include "algebra.h"
+#include "UserInterface.h"
 
-#include "Application.h"
-
-using namespace Isis;
-
-void IsisMain() {
-  UserInterface &ui = Application::GetUserInterface();
-  algebra(ui);
+namespace Isis{
+  extern void algebra(UserInterface &ui);
+  extern void algebra(Cube* icube1, UserInterface &ui, Cube* icube2=nullptr);
 }
 
+#endif
