@@ -292,13 +292,13 @@ ostream &ProgramAnalyzer::listify(ostream &out) const {
   vector<ProgramData>::const_iterator progs = _pdata.begin();
   while (progs != _pdata.end()) {
     if ( progs->status == VALID ) {
-      out << format(progs->name) << ",";
-      out << format(progs->from) << ",";
-      out << format(progs->to) << ",";
-      out << format(progs->runtime) << ",";
-      out << DblToStr(progs->connectTime, 2) << ",";
-      out << DblToStr(progs->cpuTime, 2) << ",";
-      out << DblToStr(progs->connectTime-progs->cpuTime, 2) << "\n";
+      out << format(progs->name).toStdString() << ",";
+      out << format(progs->from).toStdString() << ",";
+      out << format(progs->to).toStdString() << ",";
+      out << format(progs->runtime).toStdString() << ",";
+      out << DblToStr(progs->connectTime, 2).toStdString() << ",";
+      out << DblToStr(progs->cpuTime, 2).toStdString() << ",";
+      out << DblToStr(progs->connectTime-progs->cpuTime, 2).toStdString() << "\n";
     }
    ++progs;
   }
@@ -396,7 +396,7 @@ ProgramAnalyzer::Status ProgramAnalyzer::convertTime(const QString &atime,
   double toSeconds(3600.0);
   dtime = 0.0;
   for ( unsigned int i = 0 ; i < 3 ; i++ ) {
-    dtime += toDouble(t[i]) * toSeconds;
+    dtime += t[i].toDouble() * toSeconds;
     toSeconds /= 60.0;
   }
 

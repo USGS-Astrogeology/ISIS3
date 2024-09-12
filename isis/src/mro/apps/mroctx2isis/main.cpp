@@ -95,7 +95,7 @@ void IsisMain() {
   id.Trim(" ");
   if(id != "MRO-M-CTX-2-EDR-L0-V1.0") {
     std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
-                  "in MRO-CTX EDR format. DATA_SET_ID is [" + id.ToQt() + "]";
+                  "in MRO-CTX EDR format. DATA_SET_ID is [" + id + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
 

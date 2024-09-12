@@ -105,7 +105,7 @@ void IsisMain() {
   id.Trim(" ");
   if(id != "MESSENGER") {
     std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
-                 "in MESSENGER EDR format. MISSION_NAME is [" + id.ToQt() + "]";
+                 "in MESSENGER EDR format. MISSION_NAME is [" + id + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
 

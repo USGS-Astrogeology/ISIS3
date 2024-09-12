@@ -89,7 +89,7 @@ namespace Isis {
       }
     }
     else if (ui.WasEntered("PREDICTLIST")) {
-      FileList kernList(ui.GetFileName("PREDICTLIST"));
+      FileList kernList(ui.GetFileName("PREDICTLIST").toStdString());
       PvlObject result = sdg.Direct("Predicted", kernList, startOffset, endOffset);
       PvlObject::PvlGroupIterator grp = result.beginGroup();
       while(grp != result.endGroup()) {
@@ -113,7 +113,7 @@ namespace Isis {
       }
     }
     else if (ui.WasEntered("RECONLIST")) {
-      FileList kernList(ui.GetFileName("RECONLIST"));
+      FileList kernList(ui.GetFileName("RECONLIST").toStdString());
       PvlObject result = sdg.Direct("Reconstructed", kernList, startOffset, endOffset);
       PvlObject::PvlGroupIterator grp = result.beginGroup();
       while(grp != result.endGroup()) {
@@ -137,7 +137,7 @@ namespace Isis {
       }
     }
     else if (ui.WasEntered("SMITHEDLIST")) {
-      FileList kernList(ui.GetFileName("SMITHEDLIST"));
+      FileList kernList(ui.GetFileName("SMITHEDLIST").toStdString());
       PvlObject result = sdg.Direct("Smithed", kernList, startOffset, endOffset);
       PvlObject::PvlGroupIterator grp = result.beginGroup();
       while(grp != result.endGroup()) {
@@ -159,7 +159,7 @@ namespace Isis {
     //specify a name for the output file
     FileName to("./kernels.????.db");
     if (ui.WasEntered("TO")) {
-      to = ui.GetFileName("TO");
+      to = ui.GetFileName("TO").toStdString();
     }
     //create a new output version if the user specified any version sequence
     if (to.isVersioned()) {
@@ -177,7 +177,7 @@ namespace Isis {
    *   be the highest version of the file.
    */
   FileName safeHighestVersion(QString fileNameString) {
-    FileName result(fileNameString);
+    FileName result(fileNameString.toStdString());
 
     if (result.isVersioned()) {
       result = result.highestVersion();
@@ -232,50 +232,48 @@ namespace Isis {
                     }
                     else {
                       throw IException(IException::Unknown,
-                                       QObject::tr("Expected the keyword File in [%1] to have two "
+                                       "Expected the keyword File in ["+ kernelFileName.original() +"] to have two "
                                                    "values, a mission data directory and a path into "
-                                                   "that directory. The keyword has [%2] values.")
-                                         .arg(kernelFileName.original()).arg(key.size()),
+                                                   "that directory. The keyword has ["+ std::to_string(key.size()) +"] values.",
                                        _FILEINFO_);
                     }
                   }
                   else {
                     throw IException(IException::Unknown,
                                      "Expected Pvl Group " + primaryGroup.name() + " in the first Pvl Object "
-                                                 " " + primaryObject.name() + " in the DB file " + kernelFileName.original().toStdString() + " to have a single keyword "
+                                                 " " + primaryObject.name() + " in the DB file " + kernelFileName.original() + " to have a single keyword "
                                                  "named File, but the keyword was named " + key.name() + "instead",
                                      _FILEINFO_);
                   }
                 }
                 else {
                   throw IException(IException::Unknown, "Expected Pvl Group " + primaryGroup.name() + " in the first Pvl Object " + primaryObject.name() + " "
-                                               "in the DB file " + kernelFileName.original().toStdString() + " to have a single keyword (named "
+                                               "in the DB file " + kernelFileName.original() + " to have a single keyword (named "
                                                "File), but found " + std::to_string(primaryGroup.keywords()) + " keywords",
                                    _FILEINFO_);
                 }
               }
               else {
                 throw IException(IException::Unknown, "Expected Pvl Group in the first Pvl Object " + primaryObject.name() + " in "
-                                             "the DB file " + kernelFileName.original().toStdString() + " to be named Selection but found " + primaryGroup.name(),
+                                             "the DB file " + kernelFileName.original() + " to be named Selection but found " + primaryGroup.name(),
                                  _FILEINFO_);
               }
             }
             else {
               throw IException(IException::Unknown,"Expected one Pvl Group in the first Pvl Object " + primaryObject.name() + " in "
-                                           "the DB file " + kernelFileName.original().toStdString() + " but found " + std::to_string(primaryObject.groups()), _FILEINFO_);
+                                           "the DB file " + kernelFileName.original() + " but found " + std::to_string(primaryObject.groups()), _FILEINFO_);
             }
           }
           else {
             throw IException(IException::Unknown,
-                             QObject::tr("Expected one Pvl Object in the DB file [%1] but "
-                                         "found [%2]")
-                               .arg(kernelFileName.original()).arg(kernelDbPvl.objects()),
+                             "Expected one Pvl Object in the DB file ["+kernelFileName.original()+"] but "
+                                         "found ["+ std::to_string(kernelDbPvl.objects()) +"]",
                              _FILEINFO_);
           }
         }
 
         results.append(kernelFileName);
-        dependencyGroup += PvlKeyword(kernelTypeName.toStdString(), (kernelFileName.original().toStdString()));
+        dependencyGroup += PvlKeyword(kernelTypeName.toStdString(), (kernelFileName.original()));
       }
     }
 

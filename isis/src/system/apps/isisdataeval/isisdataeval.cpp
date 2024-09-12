@@ -80,12 +80,12 @@ namespace Isis {
 
       for ( auto const &db_file : db_status ) {
         QString v_status = db_file.name().toLower();
-        db_os << v_status << ","
-              << db_file.key()  << ","
-              << db_file.datum().name() << ","
-              << db_file.datum().expanded() << ","
-              << db_file.datum().target() << ","
-              << db_file.status()
+        db_os << v_status.toStdString() << ","
+              << db_file.key().toStdString()  << ","
+              << db_file.datum().name().toStdString() << ","
+              << db_file.datum().expanded().toStdString() << ","
+              << db_file.datum().target().toStdString() << ","
+              << db_file.status().toStdString()
               << std::endl;
 
         if ( "missing"  == v_status ) counts.m_missing++;
@@ -115,17 +115,17 @@ namespace Isis {
 
     // Determine the DATADIR to evaluate
     QString datadir = ui.GetString( "DATADIR" );
-    FileName file_datadir( datadir );
+    FileName file_datadir( datadir.toStdString() );
     DBFileStatus f_info( datadir );
     QString dataroot = datadir;
 
     std::cout << std::endl;
-    std::cout << "DATAROOT = " << f_info.original() << std::endl;
-    std::cout << "DATAROOT = " << f_info.expanded() << std::endl;
+    std::cout << "DATAROOT = " << f_info.original().toStdString() << std::endl;
+    std::cout << "DATAROOT = " << f_info.expanded().toStdString() << std::endl;
 
     if ( !f_info.isDirectory() ) {
         throw IException( IException::User,
-                        "DATADIR (" + datadir + ") is not a directory!",
+                        "DATADIR (" + datadir.toStdString() + ") is not a directory!",
                         _FILEINFO_ );
     }
 
@@ -136,7 +136,7 @@ namespace Isis {
 
     // Now reset ISISDATA if requested by user
     if ( ui.WasEntered( "ISISDATA" ) ) {
-      isisdata = ui.GetAsString("ISISDATA");
+      isisdata = ui.GetAsString("ISISDATA").toStdString();
       PvlKeyword iroot( "ISISDATA", isisdata.expanded() );
       prefdir.addKeyword( iroot, PvlContainer::Replace );
       std::cout << "ISISDATA = " << isisdata.expanded() << std::endl;
@@ -152,7 +152,7 @@ namespace Isis {
     // the kernel kernel_????.db and kernel_????.conf
     // Traverse DATADIR using ISISDATA as $ISISDATA volume translations.
     //*******************************************************************
-    IsisDataModel v_isisdatadir( datadir, isisdata.expanded() );
+    IsisDataModel v_isisdatadir( datadir, QString::fromStdString(isisdata.expanded()) );
 
     // Run the evaluation of the kernel db/conf configuration
     BigInt t_install_size = v_isisdatadir.evaluate();
@@ -196,12 +196,12 @@ namespace Isis {
 
     // If users wants kernel issues reported, write it out here
     if ( ui.WasEntered( "TOISSUES" ) ) {
-      FileName toissues = ui.GetFileName( "TOISSUES" );
+      FileName toissues = ui.GetFileName( "TOISSUES" ).toStdString();
 
       // Only write the file if there are missing files
       if ( kernel_status.size() > 0 ) {
         std::ofstream os;
-        os.open( toissues.expanded().toLatin1().data(), std::ios::out );
+        os.open( toissues.expanded().c_str(), std::ios::out );
         if (!os ) {
           std::string mess = "Unable to open/create " + toissues.expanded();
           throw IException( IException::User, mess, _FILEINFO_ );
@@ -235,8 +235,8 @@ namespace Isis {
       // Check if user wants detailed log of DATADIR
       QString inventory_file( "/dev/null" );
       if ( needInventory ) {
-        FileName toinventory = ui.GetFileName( "TOINVENTORY" );
-        inventory_file = toinventory.expanded();
+        FileName toinventory = ui.GetFileName( "TOINVENTORY" ).toStdString();
+        inventory_file = QString::fromStdString(toinventory.expanded());
       }
 
       if ( needHash ) {
@@ -253,13 +253,13 @@ namespace Isis {
         std::ofstream os;
         os.open( inventory_file.toLatin1().data(), std::ios::out );
         if (!os ) {
-          std::string mess = "Unable to open/create " + inventory_file;
+          std::string mess = "Unable to open/create " + inventory_file.toStdString();
           throw IException( IException::User, mess, _FILEINFO_ );
         }
 
         // Create the header output from the first file in the inventory.
         // Note its assured to exist.  Add the hash field if requested.
-        QStringList header = v_isisdatadir.allfiles().cbegin()->header();
+        QStringList header = v_isisdatadir.allfiles().cbegin()->second.header();
 
         // Set the hashtag
         QString hashtag( hashtype );
@@ -269,7 +269,7 @@ namespace Isis {
         }
 
         // Write header to output file
-        os << header.join(",") << std::endl;
+        os << header.join(",").toStdString() << std::endl;
 
         std::cout << "Running inventory ..." << std::endl;
         Progress v_progress;
@@ -291,24 +291,24 @@ namespace Isis {
         const qint64 MaxBytesToRead = HashBufferSizeBytes;
 
         for ( auto const &dbfile : v_isisdatadir.allfiles()  ) {
-
-          if ( !dbfile.isDirectory() ) {
+          std::filesystem::path filepath = dbfile.first;
+          if (!std::filesystem::is_directory(filepath)) {
 
             // Check for symbolic links
             if ( dbfile.isSymbolicLink() ) {
 
-              QString symtarget = dbfile.info().symLinkTarget();
+              QString symtarget = dbfile.second.info().symLinkTarget();
               DBFileStatus symfile( symtarget );
 
               // Report symlink
-              inventory_errors.push_back( DBFileDisposition( "symlink", dbfile.name(), symfile, "inventory" ) );
+              inventory_errors.push_back( DBFileDisposition( "symlink", dbfile.second.name(), symfile, "inventory" ) );
 
               if ( !symfile.exists() ) {
-                inventory_errors.push_back( DBFileDisposition( "missing", dbfile.info().symLinkTarget(), dbfile, "nosymlink" ) );
+                inventory_errors.push_back( DBFileDisposition( "missing", dbfile.second.info().symLinkTarget(), dbfile.second, "nosymlink" ) );
               }
               else {
-                if ( !v_isisdatadir.allfiles().contains( symfile.original() ) ) {
-                  inventory_errors.push_back( DBFileDisposition( "external", symfile.name(), dbfile, "symlink" ) );
+                if (v_isisdatadir.allfiles().find(symfile.original().toStdString()) == v_isisdatadir.allfiles().end()) {
+                  inventory_errors.push_back( DBFileDisposition( "external", symfile.name(), dbfile.second, "symlink" ) );
                 }
               }
             }
@@ -316,20 +316,20 @@ namespace Isis {
 
               // Create and write the values array from json object
               // Don't terminate the row here in case hashing is needed
-              os << dbfile.values().join(",");
+              os << dbfile.second.values().join(",").toStdString();
 
               // If hashing has been requested, do it here. We are computing two
               // hashes - one is individual file hash, the other is the complete
               // volume hash. Otherwise, check the file for errors.
-              QFile v_file( dbfile.expanded() );
+              QFile v_file( dbfile.second.expanded() );
               if ( needHash ) {
                 QCryptographicHash file_hash( hash_algorithm );
 
                 // File exists, lets open it and compute the hash
                 if ( !v_file.open( QIODevice::ReadOnly ) ) {
-                  inventory_errors.push_back( DBFileDisposition( "error", dbfile.expanded(), dbfile, "openfailed" ) );
+                  inventory_errors.push_back( DBFileDisposition( "error", dbfile.second.expanded(), dbfile.second, "openfailed" ) );
                   // Write a null as the hash
-                  os << "," << db_null();
+                  os << "," << db_null().toStdString();
                 }
                 else {
                   // Read (in (1MB * HASHBUFFER) chunks) bytes and add to hashes
@@ -342,13 +342,13 @@ namespace Isis {
                   }
 
                   // Write the file hash to the output file row
-                  os << "," << QString::fromUtf8( file_hash.result().toHex() );
+                  os << "," << QString::fromUtf8( file_hash.result().toHex() ).toStdString();
                 }
               }
               else {
                 // Check for existance of expanded version of file
                 if ( !v_file.exists() ) {
-                  inventory_errors.push_back( DBFileDisposition( "error", dbfile.expanded(), dbfile, "badfilename" ) );
+                  inventory_errors.push_back( DBFileDisposition( "error", dbfile.second.expanded(), dbfile.second, "badfilename" ) );
                 }
               }
 
@@ -369,11 +369,11 @@ namespace Isis {
           // If users wants the missing reported, write it out here
           if ( ui.WasEntered( "TOERRORS" ) ) {
 
-            FileName toerrors = ui.GetFileName( "TOERRORS" );
+            FileName toerrors = ui.GetFileName( "TOERRORS" ).toStdString();
 
             // Only write the file if there are missing files
             std::ofstream error_os;
-            error_os.open( toerrors.expanded().toLatin1().data(), std::ios::out );
+            error_os.open( toerrors.expanded().c_str(), std::ios::out );
             if (!error_os ) {
               std::string mess = "Unable to open/create " + toerrors.expanded();
               throw IException( IException::User, mess, _FILEINFO_ );

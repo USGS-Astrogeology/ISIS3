@@ -653,7 +653,7 @@ namespace Isis {
             IString val = key[camVersionKeyIndex];
             IString commaTok;
 
-            while ((commaTok = val.Token(",")).ToQt().length() > 0) {
+            while ((commaTok = val.Token(",")).length() > 0) {
               if (commaTok.find('-') != string::npos) {
                 QString dashTok;
                 int start = commaTok.Token("-").ToInteger();
@@ -749,7 +749,7 @@ namespace Isis {
       loadKernelDbFiles(dataDir, baseDir + "/kernels/pck", lab);
     }
     // Load the target position DB
-    FileName tpDbPath(missionDir + "/kernels/tspk");
+    FileName tpDbPath(missionDir.toStdString() + "/kernels/tspk");
     if (tpDbPath.fileExists()) {
       loadKernelDbFiles(dataDir, missionDir + "/kernels/tspk", lab);
     }
@@ -804,7 +804,7 @@ namespace Isis {
   void KernelDb::loadKernelDbFiles(PvlGroup &dataDir,
                                    QString directory, const Pvl &lab) {
     // get most recent version of config file
-    FileName configFile = directory + "/kernels.????.conf";
+    FileName configFile = directory.toStdString() + "/kernels.????.conf";
     bool noConfigFile = false;
     // if there is no config file, default to the most recent kernel db file
     try {
@@ -814,7 +814,7 @@ namespace Isis {
       noConfigFile = true;
     }
     if (noConfigFile) {
-      FileName kernelDb(directory + "/kernels.????.db");
+      FileName kernelDb(directory.toStdString() + "/kernels.????.db");
       m_kernelDbFiles.append(kernelDb.highestVersion());
     }
     else { // else, read in the appropriate database files from the config file
@@ -833,7 +833,7 @@ namespace Isis {
               PvlKeyword keyword = grp[keyIndex];
               if (keyword.isNamed("File")) {
                 QString dir = QString::fromStdString(dataDir[keyword[0]]);
-                FileName kernelDb( dir + "/" + QString::fromStdString(keyword[1]));
+                FileName kernelDb( dir.toStdString() + "/" + keyword[1]);
                 m_kernelDbFiles.append(kernelDb.highestVersion());
               }
             }
@@ -910,17 +910,17 @@ namespace Isis {
       if (kfile.size() == 2) {
         QString pref = QString::fromStdString(kfile[0]);
         QString version = QString::fromStdString(kfile[1]);
-        FileName filename("$" + pref + "/" + version);
+        FileName filename("$" + pref.toStdString() + "/" + version.toStdString());
         if (filename.isVersioned())
           filename = filename.highestVersion();
-        files.push_back(filename.originalPath() + "/" + filename.name());
+        files.push_back(QString::fromStdString(filename.originalPath() + "/" + filename.name()));
       }
       // One value in "File" indicates a full file spec
       else if (kfile.size() == 1) {
-        FileName filename(QString::fromStdString(kfile[0]));
+        FileName filename(kfile[0]);
         if (filename.isVersioned())
           filename = filename.highestVersion();
-        files.push_back(filename.originalPath() + "/" + filename.name());
+        files.push_back(QString::fromStdString(filename.originalPath() + "/" + filename.name()));
       }
       else {
         std::string msg = "Invalid File keyword value in [Group = ";

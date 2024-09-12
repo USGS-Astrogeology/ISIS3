@@ -553,7 +553,7 @@ namespace Isis {
           scs2e_c(-94, sclk.c_str(), &et);
 
           // Get the gain mode id
-          gainId = line.Token(",").ToQt().remove("\"").trimmed();
+          gainId = line.Token(",").remove("\"").trimmed();
 
           // Get the offset mode id
           offsetId = line;

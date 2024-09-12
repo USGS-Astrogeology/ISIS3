@@ -92,8 +92,8 @@ namespace Isis {
     // Get values out of the bandbin group
     PvlGroup &bandbin = lab.findGroup("BandBin", Pvl::Traverse);
     IString filter = QString::fromStdString( bandbin["FilterName"]);
-    p_filter.push_back(filter.Token("/").ToQt());
-    p_filter.push_back(filter.ToQt());
+    p_filter.push_back(filter.Token("/"));
+    p_filter.push_back(filter);
   }
 
 

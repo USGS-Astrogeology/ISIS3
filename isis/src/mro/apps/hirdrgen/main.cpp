@@ -246,7 +246,7 @@ void IsisMain() {
     ccdTdi.addValue(cpmmTdi[cpmmByCcd[ccd]] != "Null" ? cpmmTdi[cpmmByCcd[ccd]] : "-9998");
     IString tmp = cpmmSpecial[cpmmByCcd[ccd]];
     tmp.Trim("\"");
-    ccdSpecial.addValue(tmp.ToQt().toStdString());
+    ccdSpecial.addValue(tmp.toStdString());
   }
 
   if (!pdsLabel.hasGroup("INSTRUMENT_SETTING_PARAMETERS")) {

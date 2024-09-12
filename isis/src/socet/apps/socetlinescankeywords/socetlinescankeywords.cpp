@@ -42,7 +42,7 @@ namespace Isis {
 
   void socetlinescankeywords(UserInterface &ui) {
   // Get user parameters and error check
-  Cube input(ui.GetCubeName("FROM"), "rw");    
+  Cube input(ui.GetCubeName("FROM").toStdString(), "rw");    
   socetlinescankeywords(&input, ui);
 }
 
@@ -122,7 +122,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
       isHiRise = true;
     }
     else {
-      std::string msg = "Unsupported instrument: " + origInstrumentId;
+      std::string msg = "Unsupported instrument: " + origInstrumentId.toStdString();
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -142,7 +142,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
     isHRSC = true;
   } 
   else {
-    std::string msg = "Unsupported instrument: " + instrumentId;
+    std::string msg = "Unsupported instrument: " + instrumentId.toStdString();
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -387,7 +387,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   if (InstrumentPosition == "Table") {
     // Labels contain SPK blob
     // set up Ephem pts/rates number and spacing
-    Table tablePosition("InstrumentPosition", QString::fromStdString(cubeHeader->fileName()));
+    Table tablePosition("InstrumentPosition", cubeHeader->fileName());
     numEphem = tablePosition.Records();
 
     // increase the number of ephem nodes by 20%.  This is somewhat random but
@@ -549,7 +549,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   // quarternions
 
   //set up quaternions number and spacing
-  Table tablePointing("InstrumentPointing", QString::fromStdString(cubeHeader->fileName()));
+  Table tablePointing("InstrumentPointing", cubeHeader->fileName());
 
   //number of quaternions
   int numQuaternions = tablePointing.Records();

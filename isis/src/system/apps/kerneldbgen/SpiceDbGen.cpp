@@ -64,18 +64,18 @@ PvlObject SpiceDbGen::Direct(QString quality, QString location,
 
   for (unsigned int i = 0; i < filter.size(); ++i) {
     //Create a list of all of the files matching the current filter
-    QStringList files = GetFiles(FileName(location), filter[i]);
+    QStringList files = GetFiles(FileName(location.toStdString()), filter[i]);
 
     // Throw an error if no files are being added to this database for
     // this filter/regex
     if (files.size() == 0) {
-      std::string message = "Your filter [" + location + "/" + filter[i] + "]"
-                       + "has not detected any " + quality + " kernels";
+      std::string message = "Your filter [" + location.toStdString() + "/" + filter[i].toStdString() + "]"
+                       + "has not detected any " + quality.toStdString() + " kernels";
       throw IException(IException::User, message, _FILEINFO_);
     }
 
     for (int fileNum = 0 ; fileNum < files.size() ; fileNum++) {
-      FileName currFile((QString) location + "/" + files[fileNum]);
+      FileName currFile(location.toStdString() + "/" + files[fileNum].toStdString());
       PvlGroup selection = AddSelection(currFile, startOffset, endOffset);
       selection += PvlKeyword("Type", quality.toStdString());
       result.addGroup(selection);
@@ -197,7 +197,7 @@ PvlObject SpiceDbGen::Direct(QString quality, FileList fileList,
   */
 QStringList SpiceDbGen::GetFiles(FileName location, QString filter) {
   filter.remove("\\");
-  QDir dir(location.expanded(), filter,
+  QDir dir(QString::fromStdString(location.expanded()), filter,
            QDir::Name, QDir::Files);
   return dir.entryList();
 }
@@ -227,7 +227,7 @@ PvlGroup SpiceDbGen::AddSelection(FileName fileIn, double startOffset, double en
   NaifStatus::CheckErrors();
 
   //finalize the filename so that it may be used in spice routines
-  QString tmp = fileIn.expanded();
+  QString tmp = QString::fromStdString(fileIn.expanded());
   //  const char* file = fileIn.expanded().c_str();
   furnsh_c(tmp.toLatin1().data());
   SpiceChar fileType[32], source[2048];
@@ -340,8 +340,8 @@ PvlGroup SpiceDbGen::AddSelection(FileName fileIn, double startOffset, double en
     }
   }
 
-  QString outFile = fileIn.originalPath();
-  result += PvlKeyword("File", outFile.toStdString() + "/" + fileIn.name().toStdString());
+  std::string outFile = fileIn.originalPath();
+  result += PvlKeyword("File", outFile + "/" + fileIn.name());
 
   NaifStatus::CheckErrors();
 
@@ -387,17 +387,17 @@ void SpiceDbGen::FurnishDependencies(QList<FileName> sclks, QList<FileName> lsks
 
   // furnish the lsk files
   foreach (FileName lsk, lsks) {
-    furnsh_c(lsk.expanded().toLatin1().data());
+    furnsh_c(lsk.expanded().c_str());
   }
 
   // furnish the sclk files
   foreach (FileName sclk, sclks) {
-    furnsh_c(sclk.expanded().toLatin1().data());
+    furnsh_c(sclk.expanded().c_str());
   }
 
   // furnish the extra files
   foreach (FileName extra, extras) {
-    furnsh_c(extra.expanded().toLatin1().data());
+    furnsh_c(extra.expanded().c_str());
   }
 
   NaifStatus::CheckErrors();

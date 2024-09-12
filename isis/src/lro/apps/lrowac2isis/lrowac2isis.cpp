@@ -79,8 +79,8 @@ namespace Isis {
         IString lutPair = lutKeyword[i];
         lutPair.ConvertWhiteSpace();
         lutPair.Remove("() ");
-        QString outValueMin = lutPair.Token(" ,").ToQt();
-        QString outValueMax = lutPair.Token(" ,").ToQt();
+        QString outValueMin = lutPair.Token(" ,");
+        QString outValueMax = lutPair.Token(" ,");
         lookupTable.AddPair(i, (toDouble(outValueMin) + toDouble(outValueMax)) / 2.0);
       }
     }

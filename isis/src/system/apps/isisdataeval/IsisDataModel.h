@@ -14,6 +14,7 @@ find files of those names at the top level of this repository. **/
 #include <tuple>
 #include <algorithm>
 #include <iomanip>
+#include <filesystem>
 
 #include <nlohmann/json.hpp>
 using isisdata_json = nlohmann::ordered_json;
@@ -287,11 +288,11 @@ namespace Isis {
         }
 
         inline QString original() const {
-          return ( file().original() );
+          return ( QString::fromStdString(file().original()) );
         }
 
         inline QString expanded() const {
-          return ( file().expanded() );
+          return ( QString::fromStdString(file().expanded()) );
         }
 
         inline QString absolute() const {
@@ -364,7 +365,7 @@ namespace Isis {
     typedef DBContainer<QString, DBFileStatus>          DBFileDisposition;
     typedef std::vector<DBFileDisposition>              DBFileDispositionList;
 
-    typedef QMap<QString, DBFileStatus>                 DBFileStatusSet;
+    typedef std::map<std::string, DBFileStatus>         DBFileStatusSet;
     typedef DBContainer<DBFileStatus, DBFileStatusSet>  DBDirectory;
 
     typedef DBContainer<QString, DBFileDispositionList> DBConfigStatus;
@@ -769,7 +770,8 @@ namespace Isis {
           if ( nullptr != n_directories ) {
             size_t n_dirs = 0;
             for ( auto const &file : m_allfiles ) {
-              if ( file.isDirectory() ) {
+              std::filesystem::path filepath = file.first;
+              if (std::filesystem::is_directory(filepath)) {
                 n_dirs++;
               }
             }
@@ -783,9 +785,10 @@ namespace Isis {
           size_t n_files(0);
           size_t n_bytes(0);
           for ( auto const &file : m_allfiles ) {
-            if ( !file.isDirectory() ) {
+            std::filesystem::path filepath = file.first;
+            if ( !std::filesystem::is_directory(filepath) ) {
               n_files++;
-              n_bytes += file.size();
+              n_bytes += file.second.size();
             }
           }
 
@@ -819,7 +822,8 @@ namespace Isis {
         inline size_t installSize() const {
           size_t n_bytes(0);
           for ( auto const &file : m_allfiles ) {
-            if ( !file.isDirectory() ) n_bytes += file.size();
+            std::filesystem::path filepath = file.first;
+            if ( !std::filesystem::is_directory(filepath) ) n_bytes += file.second.size();
           }
           return ( n_bytes );
         }

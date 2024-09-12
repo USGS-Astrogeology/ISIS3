@@ -74,7 +74,7 @@ void doit(Cube &cube) {
   }
   catch(IException &error) {
     IString errorStr = error.toString();
-    errorStr = errorStr.ToQt().replace(QRegExp(" in file.*"), ".");
+    errorStr = errorStr.replace(QRegExp(" in file.*"), ".");
     cerr << errorStr << endl;
   }
 
@@ -85,7 +85,7 @@ void doit(Cube &cube) {
   }
   catch(IException &error) {
     IString errorStr = error.toString();
-    errorStr = errorStr.ToQt().replace(QRegExp(" in file.*"), ".");
+    errorStr = errorStr.replace(QRegExp(" in file.*"), ".");
     cerr << errorStr << endl;
   }
 

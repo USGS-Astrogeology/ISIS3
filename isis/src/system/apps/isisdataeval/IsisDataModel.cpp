@@ -120,16 +120,16 @@ namespace Isis {
     DBFileStatus::DBFileStatus() : m_file() { }
     DBFileStatus::DBFileStatus( const DBFileStatus::DBFileData &dbfile ) : m_file ( dbfile ) { }
     DBFileStatus::DBFileStatus( const FileName &dbfile, const QFileInfo &dbfileinfo ) :
-                                m_file(dbfile.original(), dbfile , dbfileinfo, "DBFileStatus" ) { }
+                                m_file(QString::fromStdString(dbfile.original()), dbfile, dbfileinfo, "DBFileStatus" ) { }
 
     DBFileStatus::DBFileStatus( const FileName &dbfile, const bool versionIt ) :
-                                m_file( dbfile.original(), dbfile, QFileInfo( dbfile.expanded() ), "DBFileStatus") {
+                                m_file( QString::fromStdString(dbfile.original()), dbfile, QFileInfo( QString::fromStdString(dbfile.expanded()) ), "DBFileStatus") {
       if ( versionIt ) versionize();
     }
 
     DBFileStatus::DBFileStatus( const QString &dbfile, const bool versionIt ) : m_file() {
-      FileName v_file( dbfile );
-      m_file = DBFileData( dbfile, v_file, QFileInfo( v_file.expanded() ), "DBFileStatus");
+      FileName v_file( dbfile.toStdString() );
+      m_file = DBFileData( dbfile, v_file, QFileInfo( QString::fromStdString(v_file.expanded()) ), "DBFileStatus");
       if ( versionIt ) versionize();
     }
 
@@ -141,7 +141,7 @@ namespace Isis {
       bool isversioned( false) ;
       try {
         m_file.m_key = file().highestVersion();
-        m_file.m_data.setFile( file().expanded() );
+        m_file.m_data.setFile( QString::fromStdString(file().expanded()) );
         isversioned = true;
       }
       catch (...) {
@@ -209,9 +209,9 @@ namespace Isis {
       isisdata_json is_null;
 
 
-      if ( !dbfilestatus.file().toString().isEmpty() ) {
+      if ( !dbfilestatus.file().toString().empty() ) {
         js_dbfile["filespec"] = dbfilestatus.name().toStdString();
-        js_dbfile["filepath"] = dbfilestatus.expanded();
+        js_dbfile["filepath"] = dbfilestatus.expanded().toStdString();
         js_dbfile["exists"]   = json_bool( dbfilestatus.exists() ).toStdString();
       }
       else {
@@ -273,14 +273,14 @@ namespace Isis {
       // File exists, lets open it and compute the hash
       QFile v_file( expanded() );
       if ( !v_file.open( QIODevice::ReadOnly ) ) {
-        std::string mess = "Could not open file " + expanded() +  " to compute hash";
+        std::string mess = "Could not open file " + expanded().toStdString() +  " to compute hash";
         throw IException( IException::User, mess, _FILEINFO_ );
       }
 
       // Compute the hash!
       QCryptographicHash q_hash( hashAlgorithm );
       if ( !q_hash.addData( &v_file ) ) {
-        std::string mess = "Could not compute hash for  " + expanded();
+        std::string mess = "Could not compute hash for  " + expanded().toStdString();
         throw IException( IException::User, mess, _FILEINFO_ );
       }
 
@@ -444,7 +444,7 @@ namespace Isis {
           }
 
           // Check if file is in inventory
-          if ( !inventory.contains( dbfile.expanded() ) ) {
+          if (inventory.find(dbfile.expanded().toStdString()) == inventory.end()) {
             dbstatus.push_back( DBFileDisposition( "External", dbfile.expanded(), source(), type() ) );
             nbad++;
           }
@@ -468,7 +468,7 @@ namespace Isis {
 
       isisdata_json js_dbselection;
       if ( addSource ) {
-        js_dbselection["source"] = dbselection.source().expanded();
+        js_dbselection["source"] = dbselection.source().expanded().toStdString();
       }
 
       js_dbselection["time"]   = dbselection.time().to_json();
@@ -515,7 +515,7 @@ namespace Isis {
       }
 
       // Got a kerneldb file
-      Pvl db( dbfile.expanded() );
+      Pvl db( dbfile.expanded().toStdString() );
 
       // Check if there are any specs in the file
       if ( db.objects() < 1 ) {
@@ -570,7 +570,7 @@ namespace Isis {
         }
 
         // Check the location of the DB file (it does exist at this point)
-        if ( !inventory.contains( kerneldb().expanded() ) ) {
+        if (inventory.find(kerneldb().expanded().toStdString()) == inventory.end()) {
           // std::cout << "External_S, " << kerneldb().name() << ", " << source().name() << std::endl;
           dbstatus.push_back( DBFileDisposition( "External", kerneldb().expanded(), kerneldb(), category() ) );
           nbad++;
@@ -728,19 +728,19 @@ namespace Isis {
 
       // Check for validity of datadir and isisdata
       if ( !hasIsisData() ) {
-        std::string mess = "ISISDATA (" + isisdata().original() + ") does not not exist/invalid!";
+        std::string mess = "ISISDATA (" + isisdata().original().toStdString() + ") does not not exist/invalid!";
         throw IException( IException::User, mess, _FILEINFO_ );
       }
 
       // Check for validity of datadir and isisdata
       if ( !hasDataRoot() ) {
-        std::string mess = "DATAROOT (" + dataroot().original() + ") does not not exist/invalid!";
+        std::string mess = "DATAROOT (" + dataroot().original().toStdString() + ") does not not exist/invalid!";
         throw IException( IException::User, mess, _FILEINFO_ );
       }
 
       // Check for validity of datadir and isisdata
       if ( !dataroot().isDirectory() ) {
-        std::string mess = "DATAROOT (" + dataroot().original() + ") is not a directory!";
+        std::string mess = "DATAROOT (" + dataroot().original().toStdString() + ") is not a directory!";
         throw IException( IException::User, mess, _FILEINFO_ );
       }
 
@@ -756,9 +756,9 @@ namespace Isis {
       while ( ddir.hasNext() ) {
         QString ddfile = ddir.next();
         QFileInfo f_ddfile = ddir.fileInfo();
-        DBFileStatus d_file( DBFileStatus::DBFileData( givenPath( ddfile ), FileName( ddfile ), f_ddfile, "inventory" ) );
+        DBFileStatus d_file( DBFileStatus::DBFileData( givenPath( ddfile ), FileName( ddfile.toStdString() ), f_ddfile, "inventory" ) );
 
-        m_allfiles.insert( d_file.name(), d_file );
+        m_allfiles.insert(std::make_pair(d_file.name().toStdString(), d_file ));
 
         // Determine any kernels that are referenced in a directory
         if ( d_file.isDirectory() ) {

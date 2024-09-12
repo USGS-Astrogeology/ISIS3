@@ -1399,7 +1399,7 @@ namespace Isis {
 //     catch (IException &e) {
 //       throw IException(e, IException::Io,
 //                        QString("File [%1] does not appear to be an external cube label file")
-//                          .arg(externalLabelFile.original().ToQt()),
+//                          .arg(externalLabelFile.original()),
 //                        _FILEINFO_);
 //     }
 //   }

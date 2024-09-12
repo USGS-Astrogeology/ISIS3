@@ -58,7 +58,7 @@ namespace Isis {
         std::cout << "QCoreApplication doesn't exist yet!\n";
       }
       IString thirdPartyPluginPath = root + "/3rdParty/plugins";
-      pluginPaths << thirdPartyPluginPath.ToQt();
+      pluginPaths << thirdPartyPluginPath;
       std::cout << "PluginPaths=" << pluginPaths.join(";") << "\n";
       QCoreApplication::setLibraryPaths(pluginPaths);
     }

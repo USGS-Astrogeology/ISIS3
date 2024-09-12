@@ -117,7 +117,7 @@ namespace Isis {
 
 
   void camdev(UserInterface &ui) {
-    Cube icube(ui.GetCubeName("FROM"), "r");
+    Cube icube(ui.GetCubeName("FROM").toStdString(), "r");
     camdev(&icube, ui);
   }
 
@@ -149,7 +149,7 @@ namespace Isis {
         cam = icube->camera();
       }
       catch(IException &e) {
-        std::string msg = "If " + FileName(ui.GetCubeName("FROM")).name() + " is a mosaic, make sure the SOURCE "
+        std::string msg = "If " + FileName(ui.GetCubeName("FROM").toStdString()).name() + " is a mosaic, make sure the SOURCE "
         "option is set to PROJECTION";
         throw IException(e, IException::User, msg, _FILEINFO_);
       }
