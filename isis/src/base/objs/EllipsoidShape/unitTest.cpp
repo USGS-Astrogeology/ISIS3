@@ -59,8 +59,8 @@ int main() {
     EllipsoidShape shape(&targ);
     EllipsoidShape shape2;
 
-    cout << "    Shape  name is " << shape.name() << endl;
-    cout << "    Shape2  name is " << shape2.name() << endl;
+    cout << "    Shape  name is " << shape.name().toStdString() << endl;
+    cout << "    Shape2  name is " << shape2.name().toStdString() << endl;
     cout << "    Shape is DEM type?" << toString(shape.isDEM()) << endl;
 
     std::vector<double> sB(3);

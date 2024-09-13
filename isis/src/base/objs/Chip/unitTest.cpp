@@ -297,56 +297,56 @@ int main() {
     chip.SetReadInterpolator(Isis::Interpolator::None);
   }
   catch(IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << "Try to set interpolator to type 3 (enum value not assigned):" << endl;
   try {
     chip.SetReadInterpolator((Isis::Interpolator::interpType) 3);
   }
   catch(IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << "Try to set chip size with input parameter equal to 0:" << endl;
   try {
     newChip.SetSize(0, 1);
   }
   catch(IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << "Try to load a cube that is not camera or map projection:" << endl;
   try {
     newChip.Load(junk, matchChip, junkCube);
   }
   catch(IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << "Try to load a cube with a match cube that is not camera or map projection:" << endl;
   try {
     newChip.Load(junkCube, matchChip, junk);
   }
   catch(IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << "Try to load a cube with match chip and cube that can not find at least 3 points for Affine Transformation:" << endl;
   try {
     newChip.Load(junkCube, matchChip, junkCube2);
   }
   catch(IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << "Try to set valid range with larger number passed in as first parameter:" << endl;
   try {
     newChip.SetValidRange(4, 3);
   }
   catch(IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << "Try to extract a sub-chip with samples or lines greater than original chip:" << endl;
   try {
     newChip.Extract(2, 5, 1, 1);
   }
   catch(IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
 
 
@@ -386,6 +386,6 @@ int main() {
  *   @history 2010-06-15 Jeannie Walldren - Original version.
  */
 void ReportError(QString err) {
-  cout << err.replace(QRegExp("\\[[^\\]]*\\.cub\\]"), "[]") << endl << endl;
+  cout << err.replace(QRegExp("\\[[^\\]]*\\.cub\\]"), "[]").toStdString() << endl << endl;
 }
 

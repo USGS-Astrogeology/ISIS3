@@ -5,6 +5,7 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <iostream>
+#include <regex>
 
 #include <QFile>
 
@@ -62,16 +63,16 @@ int main(int argc, char *argv[]) {
     cout << "new list serial numbers: " << endl;
     for(int i = 0; i < snl.size(); i++) {
       QString sn = snl.serialNumber(i);
-      cout << "  " << sn << endl;
+      cout << "  " << sn.toStdString() << endl;
     }
 
     cout << endl << endl;
     for (int i = 0; i < snl.size(); i++) {
       QString obsNum = snl.observationNumber(i);
-      cout << "Possible SerialNumbers for Observation Number: " << obsNum << endl;
+      cout << "Possible SerialNumbers for Observation Number: " << obsNum.toStdString() << endl;
       std::vector<QString> possibles = snl.possibleSerialNumbers(obsNum);
       for (unsigned int j = 0; j < possibles.size(); j++) {
-        cout << "  " << possibles[j] << endl;
+        cout << "  " << possibles[j].toStdString() << endl;
       }
     }
 
@@ -88,19 +89,19 @@ int main(int argc, char *argv[]) {
 
   // Setup temp file - Need to cleanup later!
   FileName temp("$temporary/templist.txt");
-  QFile tempFile(temp.expanded());
+  QFile tempFile(QString::fromStdString(temp.expanded()));
   tempFile.open(QIODevice::WriteOnly | QIODevice::Text);
   tempFile.write("$ISISTESTDATA/isis/src/mgs/unitTestData/ab102401.cub\n");
   tempFile.write("$ISISTESTDATA/isis/src/mgs/unitTestData/m0402852.cub\n");
   tempFile.close();
 
   Progress p;
-  SerialNumberList snlProgress(temp.expanded(), false, &p);
+  SerialNumberList snlProgress(QString::fromStdString(temp.expanded()), false, &p);
   printSerialNumberList(snlProgress);
 
   // Test SerialNumberList(QString, bool, Progress=NULL)
   cout << endl << "Creating SerialNumberList(QString, bool, Progress=NULL)" << endl;
-  SerialNumberList snlProgressNull(temp.expanded(), true, NULL);
+  SerialNumberList snlProgressNull(QString::fromStdString(temp.expanded()), true, NULL);
   printSerialNumberList(snlProgressNull);
 
   cout << endl << endl;
@@ -114,8 +115,9 @@ int main(int argc, char *argv[]) {
     SerialNumberList("DNEFile", true, NULL);
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
 
@@ -129,8 +131,9 @@ int main(int argc, char *argv[]) {
     snl.add("$ISISTESTDATA/isis/src/lo/unitTestData/3133_h1.cub");
   }
   catch(IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -139,8 +142,9 @@ int main(int argc, char *argv[]) {
     snl.add("$ISISTESTDATA/isis/src/mgs/unitTestData/ab102401.cub");
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -150,8 +154,9 @@ int main(int argc, char *argv[]) {
     snl.add(filename, true);
   }
   catch(IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -161,8 +166,9 @@ int main(int argc, char *argv[]) {
     snl.add(filename, false);
   }
   catch(IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
 
@@ -176,8 +182,9 @@ int main(int argc, char *argv[]) {
     snl.add("sn3", "$ISISTESTDATA/isis/src/lo/unitTestData/3133_h1.cub");
   }
   catch(IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
   try {
     cout << endl << endl;
@@ -186,8 +193,9 @@ int main(int argc, char *argv[]) {
     snl.add("sn1", filename);
   }
   catch(IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -196,8 +204,9 @@ int main(int argc, char *argv[]) {
     snlNoTarget.add(QString("Unknown"), QString("$ISISTESTDATA/isis/src/base/unitTestData/blobTruth.cub"));
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -208,8 +217,9 @@ int main(int argc, char *argv[]) {
     snlNoTarget.add(sn, QString("$ISISTESTDATA/isis/src/base/unitTestData/blobTruth.cub"));
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -219,8 +229,9 @@ int main(int argc, char *argv[]) {
     snlNoTarget.add("sn1", filename);
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -229,8 +240,9 @@ int main(int argc, char *argv[]) {
     snlNoTarget.add("sn2", QString("$ISISTESTDATA/isis/src/base/unitTestData/isisTruthNoSpacecraftName.cub"));
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -239,8 +251,9 @@ int main(int argc, char *argv[]) {
     snlNoTarget.add("sn3", QString("$ISISTESTDATA/isis/src/base/unitTestData/isisTruthNoInstrumentId.cub"));
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::regex pattern("(\\[[^\\]]*/)([^\\]]*)");
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
 
@@ -335,14 +348,14 @@ void printSerialNumberList(SerialNumberList snl) {
     cout << toString(i+1) << endl;
     QString file = snl.fileName(i);
     QString sn = snl.serialNumber(i);
-    cout << "  FileName from index                  = " << FileName(file).name() << endl;
-    cout << "  FileName from SerialNumber           = " << FileName(snl.fileName(sn)).name() << endl;
+    cout << "  FileName from index                  = " << FileName(file.toStdString()).name() << endl;
+    cout << "  FileName from SerialNumber           = " << FileName(snl.fileName(sn).toStdString()).name() << endl;
     cout << "  FileName index from FileName         = " << snl.fileNameIndex(file) << endl;
-    cout << "  SerialNumber from index              = " << sn << endl;
-    cout << "  SerialNumber from FileName           = " << snl.serialNumber(file) << endl;
+    cout << "  SerialNumber from index              = " << sn.toStdString() << endl;
+    cout << "  SerialNumber from FileName           = " << snl.serialNumber(file).toStdString() << endl;
     cout << "  SerialNumber index from SerialNumber = " << snl.serialNumberIndex(sn) << endl;
-    cout << "  Observation number from index        = " << snl.observationNumber(i) << endl;
-    cout << "  Spacecraft Instrument ID from index  = " << snl.spacecraftInstrumentId(i) << endl;
-    cout << "  Spacecraft ID from SerialNumber      = " << snl.spacecraftInstrumentId(sn) << endl;
+    cout << "  Observation number from index        = " << snl.observationNumber(i).toStdString() << endl;
+    cout << "  Spacecraft Instrument ID from index  = " << snl.spacecraftInstrumentId(i).toStdString() << endl;
+    cout << "  Spacecraft ID from SerialNumber      = " << snl.spacecraftInstrumentId(sn).toStdString() << endl;
   }
 }

@@ -66,8 +66,8 @@ int main(int argc, char *argv[]) {
   lcp->SetId("testLidarControlPoint");
   defaultData.insert(lcp);
   cout << "\tnumber of points: " << defaultData.points().size() << endl;
-  cout << "\tname of point:    " << defaultData.points().first()->GetId() << endl;
-  cout << "\ttime of point:    " << defaultData.points().first()->time().UTC() << endl;
+  cout << "\tname of point:    " << defaultData.points().first()->GetId().toStdString() << endl;
+  cout << "\ttime of point:    " << defaultData.points().first()->time().UTC().toStdString() << endl;
   cout << endl;
 
   // Test write() JSON format
@@ -177,7 +177,7 @@ void print(const LidarData &lidarData) {
   std::cout << "LidarData:" << std::endl;
   foreach (QSharedPointer<LidarControlPoint> point, points) {
     std::cout << "\tLidarControlPoint:" << std::endl;
-    std::cout << "\t\tid: " << point->GetId() << std::endl;;
+    std::cout << "\t\tid: " << point->GetId().toStdString() << std::endl;;
 
     // Print the apriori surface point
     SurfacePoint sp = point->GetAprioriSurfacePoint();
@@ -192,7 +192,7 @@ void print(const LidarData &lidarData) {
     std::cout << "\t\trange:     " << point->range() << std::endl;
     std::cout << "\t\tsigmaRange:" << point->sigmaRange() << std::endl;
     // std::cout << "\t\ttime:      " << point->time().Et() << std::endl;
-    std::cout << "\t\ttime:      " << point->time().UTC() << std::endl;
+    std::cout << "\t\ttime:      " << point->time().UTC().toStdString() << std::endl;
     std::cout << "\t\tmatrix:      " << aprioriMatrix << std::endl;
 
     // Print the adjusted surface point
@@ -212,7 +212,7 @@ void print(const LidarData &lidarData) {
       std::cout << "\t\tControlMeasure: " << std::endl;
       std::cout << "\t\t\tline:   " << measure->GetLine() << std::endl;
       std::cout << "\t\t\tsample: " << measure->GetSample() << std::endl;
-      std::cout << "\t\t\tSN:     " << measure->GetCubeSerialNumber() << std::endl;
+      std::cout << "\t\t\tSN:     " << measure->GetCubeSerialNumber().toStdString() << std::endl;
       std::cout << "\t\t#END_ControlMeasure." << std::endl;
     }
     std::cout << "\t#END_LidarControlPoint." << std::endl << std::endl;

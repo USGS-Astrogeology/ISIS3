@@ -6,6 +6,7 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <iostream>
 #include <iomanip>
+#include <regex>
 #include "IException.h"
 #include "ProjectionFactory.h"
 #include "Pvl.h"
@@ -138,7 +139,7 @@ int main(int argc, char *argv[]) {
     proj->SetWorld(245.0, 355.0);
   }
   catch(IException &e) {
-    ReportError( e.toString() );
+    ReportError(QString::fromStdString(e.toString()));
   }
 
 
@@ -207,7 +208,7 @@ int main(int argc, char *argv[]) {
 
   catch (IException &e) {
 
-    ReportError (e.toString() );
+    ReportError (QString::fromStdString(e.toString()));
 
   }
 
@@ -277,7 +278,7 @@ int main(int argc, char *argv[]) {
 
   catch (IException &e) {
 
-    ReportError (e.toString() );
+    ReportError (QString::fromStdString(e.toString()));
 
   }
 
@@ -307,6 +308,8 @@ void doit2(Pvl &lab) {
 }
 
 void ReportError(QString err) {
-  cout << err.replace(QRegExp("\\[[^\\]]*\\.plugin\\]"), "[isis/lib/Projection.plugin]") << endl << endl;
+  std::regex pattern("\\[[^\\]]*\\.plugin\\]");
+  cout << std::regex_replace(err.toStdString(), pattern, "[isis/lib/Projection.plugin]") << endl << endl;
+  
 }
 

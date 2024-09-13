@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
   iCubes.push_back(icube);
   c.prepareCalculations(postfix, iCubes, icube);
 
-  std::cout << "EQUATION: " << postfix << std::endl;
+  std::cout << "EQUATION: " << postfix.toStdString() << std::endl;
 
   Isis::LineManager mgr(*icube);
   mgr.SetLine(1);

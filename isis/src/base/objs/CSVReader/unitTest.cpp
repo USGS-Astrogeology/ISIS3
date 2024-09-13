@@ -22,7 +22,7 @@ CSVReader::CSVTable summarize(const CSVReader &csv) {
   CSVReader::CSVAxis header = csv.getHeader();
   cout << "Size of header:       " << header.dim() << endl;
   if(header.dim() > 0) {
-    cout << "  First header value: " << header[0] << endl;
+    cout << "  First header value: " << header[0].toStdString() << endl;
   }
 
   CSVReader::CSVTable table = csv.getTable();
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
     cout.setf(ios::fixed);
     cout << "Size of column 0/1: " << scol.dim() << endl;
     for(int i = 0 ; i < dcol.dim() ; i++) {
-      cout << "IString: " << setw(10) << scol[i]
+      cout << "IString: " << setw(10)<< scol[i].toStdString() 
            << " \tDouble: " << setprecision(4) << dcol[i] << endl;
     }
 

@@ -62,18 +62,18 @@ int main(int argc, char *argv[]) {
 
     PvlGroup kern("Kernels");
     FileName f("$ISISTESTDATA/isis/src/base/unitTestData/kernels");
-    QString dir = f.expanded() + "/";
+    std::string dir = f.expanded() + "/";
 
     kern += PvlKeyword("NaifFrameCode", "-94031");
-    kern += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
-    kern += PvlKeyword("SpacecraftClock", dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
-    kern += PvlKeyword("TargetPosition", dir.toStdString() + "de405.bsp");
-    kern += PvlKeyword("TargetAttitudeShape", dir.toStdString() + "pck00006.tpc");
-    kern += PvlKeyword("Instrument", dir.toStdString() + "mocSensorUnitTest.ti");
-//  kern += PvlKeyword("InstrumentAddendum",dir.toStdString()+"mocAddendum.ti");
+    kern += PvlKeyword("LeapSecond", dir + "naif0007.tls");
+    kern += PvlKeyword("SpacecraftClock", dir + "MGS_SCLKSCET.00045.tsc");
+    kern += PvlKeyword("TargetPosition", dir + "de405.bsp");
+    kern += PvlKeyword("TargetAttitudeShape", dir + "pck00006.tpc");
+    kern += PvlKeyword("Instrument", dir + "mocSensorUnitTest.ti");
+//  kern += PvlKeyword("InstrumentAddendum",dir+"mocAddendum.ti");
     kern += PvlKeyword("InstrumentAddendum", "");
-    kern += PvlKeyword("InstrumentPosition", dir.toStdString() + "moc.bsp");
-    kern += PvlKeyword("InstrumentPointing", dir.toStdString() + "moc.bc");
+    kern += PvlKeyword("InstrumentPosition", dir + "moc.bsp");
+    kern += PvlKeyword("InstrumentPointing", dir + "moc.bc");
     kern += PvlKeyword("Frame", "");
     lab.addGroup(kern);
 
@@ -199,15 +199,15 @@ int main(int argc, char *argv[]) {
     kern.clear();
 
     kern += PvlKeyword("NaifFrameCode", "-94031");
-    kern += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
+    kern += PvlKeyword("LeapSecond", dir + "naif0007.tls");
     kern += PvlKeyword("SpacecraftClock",
-                              dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
-    kern += PvlKeyword("TargetPosition", dir.toStdString() + "de405.bsp");
-    kern += PvlKeyword("TargetAttitudeShape", dir.toStdString() + "pck00006.tpc");
-    kern += PvlKeyword("Instrument", dir.toStdString() + "mocSensorUnitTest.ti");
+                              dir + "MGS_SCLKSCET.00045.tsc");
+    kern += PvlKeyword("TargetPosition", dir + "de405.bsp");
+    kern += PvlKeyword("TargetAttitudeShape", dir + "pck00006.tpc");
+    kern += PvlKeyword("Instrument", dir + "mocSensorUnitTest.ti");
     kern += PvlKeyword("InstrumentAddendum", "");
-    kern += PvlKeyword("InstrumentPosition", dir.toStdString() + "moc.bsp");
-    kern += PvlKeyword("InstrumentPointing", dir.toStdString() + "moc.bc");
+    kern += PvlKeyword("InstrumentPosition", dir + "moc.bsp");
+    kern += PvlKeyword("InstrumentPointing", dir + "moc.bc");
     kern += PvlKeyword("Frame", "");
     kern += PvlKeyword("ShapeModel",
                         "$ISISDATA/base/dems/molaMarsPlanetaryRadius0004.cub");
@@ -327,10 +327,10 @@ int main(int argc, char *argv[]) {
     // Test name methods
     cerr << "Test name methods ..." << endl;
     MySensor s(dummyCube);
-    cout << "Spacecraft Name Long: " << s.spacecraftNameLong() << endl;
-    cout << "Spacecraft Name Short: " << s.spacecraftNameShort() << endl;
-    cout << "Instrument Name Long: " << s.instrumentNameLong() << endl;
-    cout << "Instrument Name Short: " << s.instrumentNameShort() << endl << endl;
+    cout << "Spacecraft Name Long: " << s.spacecraftNameLong().toStdString() << endl;
+    cout << "Spacecraft Name Short: " << s.spacecraftNameShort().toStdString() << endl;
+    cout << "Instrument Name Long: " << s.instrumentNameLong().toStdString() << endl;
+    cout << "Instrument Name Short: " << s.instrumentNameShort().toStdString() << endl << endl;
   }
   catch(IException &e) {
     e.print();

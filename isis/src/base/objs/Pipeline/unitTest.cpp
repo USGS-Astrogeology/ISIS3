@@ -67,7 +67,7 @@ void IsisMain() {
   ui.Clear("TO");
   ui.PutFileName("TO",   "./out.cub");
   std::cerr << "\n*** Continue option ***" << endl;
-  cerr << "input=" << ui.GetAsString("FROM") << endl;
+  cerr << "input=" << ui.GetAsString("FROM").toStdString() << endl;
   PipeContinue();
 }
 

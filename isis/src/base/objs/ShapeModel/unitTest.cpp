@@ -236,7 +236,7 @@ int main() {
 
     MyShape shape(&targ);
 
-    cout << endl << "  Shape name is " << shape.name() << endl;
+    cout << endl << "  Shape name is " << shape.name().toStdString() << endl;
     cout << "    Do we have an intersection? " << shape.hasIntersection() << endl;
     cout << "    Do we have an ellipsoid intersection? " << shape.ellipsoidIntersection() << endl;
     try {
@@ -517,7 +517,7 @@ int main() {
     // Test
     MyEllipse defaultShape;
     cout << endl << "  Testing default constructor..." << endl;
-    cout << "    Shape is " << defaultShape.name() << endl;
+    cout << "    Shape is " << defaultShape.name().toStdString() << endl;
     cout << "    Do we have an intersection? " << defaultShape.hasIntersection() << endl;
     cout << "    Is there a normal? " << defaultShape.normalStatus() << endl;
     try {

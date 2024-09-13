@@ -154,7 +154,7 @@ void PrintImageOverlap(ImageOverlap &poi) {
   cout << "Number of serial numbers: " << poi.Size() << endl;;
   cout << "Serial numbers: " << endl;
   for(int i = 0; i < poi.Size(); i++) {
-    cout << "  " << poi[i] << endl;
+    cout << "  " << poi[i].toStdString() << endl;
   }
   cout << endl;
   return;

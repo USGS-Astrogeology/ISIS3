@@ -58,12 +58,12 @@ int main(int argc, char *argv[]) {
 
   Projection &proj = *ProjectionFactory::Create(lab);
   TProjection *p = (TProjection *) &proj;
-  cout << "Projection Name:        " << p->Name() << endl;
-  cout << "Version:                " << p->Version() << endl;
+  cout << "Projection Name:        " << p->Name().toStdString() << endl;
+  cout << "Version:                " << p->Version().toStdString() << endl;
   cout << "Equatorial Cylindrical? " << p->IsEquatorialCylindrical() << endl;
   cout << endl;
-  cout << "Projection Name:        " << p->Name() << endl;
-  cout << "Version:                " << p->Version() << endl;
+  cout << "Projection Name:        " << p->Name().toStdString() << endl;
+  cout << "Version:                " << p->Version().toStdString() << endl;
   cout << "Equatorial Cylindrical? " << p->IsEquatorialCylindrical() << endl;
   cout << endl;
 
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
 
   Projection *s = &proj;
   cout << "Test Name and comparision methods ... " << endl;
-  cout << "Name:       " << s->Name() << endl;
+  cout << "Name:       " << s->Name().toStdString() << endl;
   cout << "operator==  " << (*s == *s) << endl;
   cout << endl;
 

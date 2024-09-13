@@ -588,8 +588,8 @@ int main(int argc, char *argv[]) {
     mapGroup.findKeyword("PolarRadius").setValue(std::to_string(p2a->EquatorialRadius()));
     TProjection *p9 = (TProjection *) ProjectionFactory::Create(lab);
     TProjection *s = p1;
-    cout << "Name:                       " << s->Name() << endl;
-    cout << "Version:                    " << p1->Version() << endl;
+    cout << "Name:                       " << s->Name().toStdString() << endl;
+    cout << "Version:                    " << p1->Version().toStdString() << endl;
     cout << "Rotation:                   " << p1->Rotation() << endl;
     cout << "TrueScaleLatitude:          " << p1->TrueScaleLatitude() << endl;
     cout << "Testing operator==  (True): " << (*s == *s) << endl;

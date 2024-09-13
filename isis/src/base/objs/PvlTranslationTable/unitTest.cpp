@@ -94,9 +94,9 @@ int main(void) {
     cout << "  Test InputKey :" << endl;
 
     cout << "    InputKeywordName (\"DataFileName\") = " <<
-         table.InputKeywordName("DataFileName") << endl;
+         table.InputKeywordName("DataFileName").toStdString() << endl;
     cout << "    InputKeywordName (\"CoreLines\") = " <<
-         table.InputKeywordName("CoreLines") << endl;
+         table.InputKeywordName("CoreLines").toStdString() << endl;
     try {
       table.InputKeywordName("tttt2");
     }
@@ -109,9 +109,9 @@ int main(void) {
     cout << "  Test InputDefault :" << endl;
 
     cout << "    InputDefault (\"DataFileName\") = " <<
-         table.InputDefault("DataFileName") << endl;
+         table.InputDefault("DataFileName").toStdString() << endl;
     cout << "    InputDefault (\"CoreBitsPerPixel\") = " <<
-         table.InputDefault("CoreBitsPerPixel") << endl;
+         table.InputDefault("CoreBitsPerPixel").toStdString() << endl;
     try {
       table.InputDefault("tttt3");
     }
@@ -124,13 +124,13 @@ int main(void) {
     cout << "  Test Translate :" << endl;
 
     cout << "    Translate (\"DataFileName\", \"tttt4\") = " <<
-         table.Translate("DataFileName", "tttt4") << endl;
+         table.Translate("DataFileName", "tttt4").toStdString() << endl;
     cout << "    Translate (\"CoreByteOrder\",\"MSB_INTEGER\") = " <<
-         table.Translate("CoreByteOrder", "MSB_INTEGER") << endl;
+         table.Translate("CoreByteOrder", "MSB_INTEGER").toStdString() << endl;
     cout << "    Translate (\"CorePixelType\") = " <<
-         table.Translate("CorePixelType") << endl;
+         table.Translate("CorePixelType").toStdString() << endl;
     cout << "    Translate (\"CorePixelType\") = " <<
-         table.Translate("CorePixelType", "baddata") << endl;
+         table.Translate("CorePixelType", "baddata").toStdString() << endl;
     try {
       table.Translate("tttt6");
     }
@@ -170,7 +170,7 @@ int main(void) {
     table.AddTable(in);
 
     cout << "    Translate (\"CoreLinePrefixBytes\", \"128\") = " <<
-         table.Translate("CoreLinePrefixBytes", "128") << endl << endl;
+         table.Translate("CoreLinePrefixBytes", "128").toStdString() << endl << endl;
 
 
     class protectedTester : public Isis::PvlTranslationTable {
@@ -216,7 +216,7 @@ int main(void) {
 
           cout << "  Test OutputName :" << endl;
           cout << "    OutputName (\"CoreBitsPerPixel\") = " <<
-               OutputName("CoreBitsPerPixel") << endl << endl;
+               OutputName("CoreBitsPerPixel").toStdString() << endl << endl;
 
         };
     };

@@ -50,6 +50,6 @@ void testColor(QColor color) {
     qDebug() << "\t\tSerialized successfully?" << serializeSuccess;
   }
   catch (IException &e) {
-    qDebug() << "\t\t" << e.toString();
+    qDebug() << "\t\t" << QString::fromStdString(e.toString());
   }
 }

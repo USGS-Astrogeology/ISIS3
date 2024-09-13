@@ -20,8 +20,8 @@ int main(int argc, char *argv[]) {
 
     cout << "*** Blobber unitTest ***\n";
     Preference::Preferences(true);
-    std::string fname = "$ISISTESTDATA/isis/src/base/unitTestData/blobTruth.cub";
-    cout << "\nFile Source: " << fname << endl;
+    QString fname = "$ISISTESTDATA/isis/src/base/unitTestData/blobTruth.cub";
+    cout << "\nFile Source: " << fname.toStdString() << endl;
 
 // This is assumed to be Hirise cube source
     QString blobName  = "HiRISE Calibration Ancillary";

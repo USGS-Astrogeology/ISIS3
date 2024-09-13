@@ -62,8 +62,8 @@ int main(int argc, char *argv[]) {
 
     // Projection 1 test
     cout << "Projection 1 parameters..." << endl;
-    cout << "Projection version         = " << p->Version() << endl;
-    cout << "  Projection name          =  " <<  p->Name()  << endl;
+    cout << "Projection version         = " << p->Version().toStdString() << endl;
+    cout << "  Projection name          =  " <<  p->Name().toStdString()  << endl;
     cout << "  Target name              =  " << (std::string) mapGroup["TargetName"]  << endl;
     cout << "  RingLongitude direction  = " << p->RingLongitudeDirectionString() << endl;
     cout << "  RingLongitude domain     = " << p->RingLongitudeDomainString() << endl;
@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
 
     Planar *s = p;
     cout << "Test Name and comparision methods ... " << endl;
-    cout << "Name:       " << s->Name() << endl;
+    cout << "Name:       " << s->Name().toStdString() << endl;
     cout << "operator==  " << (*s == *s) << endl;
     cout << endl;
 
@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
 
     // Projection 3 test
     cout << "Projection 3 parameters..." << endl;
-    cout << "  Projection name          =  " <<  p3.Name()  << endl;
+    cout << "  Projection name          =  " <<  p3.Name().toStdString()  << endl;
     cout << "  Target name              =  " << (std::string) mapGroup["TargetName"]  << endl;
     cout << "  RingLongitude direction  = " << p3.RingLongitudeDirectionString() << endl;
     cout << "  RingLongitude domain     = " << p3.RingLongitudeDomainString() << endl;
@@ -190,7 +190,7 @@ int main(int argc, char *argv[]) {
     // Projection 4 test
     Planar p4(lab, true);
     cout << "Projection 4 parameters...No range" << endl;
-    cout << "  Projection name          =  " <<  p4.Name()  << endl;
+    cout << "  Projection name          =  " <<  p4.Name().toStdString()  << endl;
     cout << "  Target name              =  " << (std::string) mapGroup["TargetName"]  << endl;
     cout << "  RingLongitude direction  = " << p4.RingLongitudeDirectionString() << endl;
     cout << "  RingLongitude domain     = " << p4.RingLongitudeDomainString() << endl;

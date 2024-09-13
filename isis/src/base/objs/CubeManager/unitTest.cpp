@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
   cout << "Cube FileNames: " << endl;
 
   for(int i = 0; i < (int)cubes.size(); i++) {
-    cout << "  " << i + 1 << " : " << FileName(cubes[i]->fileName()).baseName() << endl;
+    cout << "  " << i + 1 << " : " << FileName(cubes[i]->fileName().toStdString()).baseName() << endl;
   }
 
   cout << endl;
@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
     cout << "  " << i + 1 << " : ";
     // only isisTruth pointers are valid now, so let's verify those
     if (i < 2 or i > 3) {
-      cout << FileName(cubes[i]->fileName()).baseName() << endl;
+      cout << FileName(cubes[i]->fileName().toStdString()).baseName() << endl;
     }
     else {
       cout << "(cleaned)" << endl;
@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
   cout << "Currently managed cubes:" << endl;
   for (int i = 0; i < (int)cubes2.size(); i++) {
     cout << "  " << i + 1 << " : ";
-    cout << FileName(cubes2[i]->fileName()).baseName() << endl;
+    cout << FileName(cubes2[i]->fileName().toStdString()).baseName() << endl;
 
   }
   cout << endl;
@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < (int)cubes2.size(); i++) {
     cout << "  " << i + 1 << " : ";
     if (cubes2[i]) {
-      cout << FileName(cubes2[i]->fileName()).baseName() << endl;
+      cout << FileName(cubes2[i]->fileName().toStdString()).baseName() << endl;
     }
     else {
       cout << "(NULL)" << endl;

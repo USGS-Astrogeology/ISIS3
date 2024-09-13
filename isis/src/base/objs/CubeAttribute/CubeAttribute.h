@@ -231,7 +231,7 @@ namespace Isis {
        *                         "+Bsq+Real" or "Bsq+Real"
        */
       void addAttributes(const char *attributesString) {
-        addAttributes(QString(attributesString));
+        addAttributes(std::string(attributesString));
       }
 
 
@@ -244,7 +244,7 @@ namespace Isis {
        *                         "+Bsq+Real" or "Bsq+Real"
        */
       void addAttributes(const QString &attributesString) {
-        setAttributes(toString() + "+" + attributesString);
+        setAttributes(toString().toStdString() + "+" + attributesString.toStdString());
       }
 
 

@@ -52,13 +52,13 @@ int main(int argc, char *argv[]) {
 
   InfixToPostfix converter;
   for(int equation = 0; equation < NUM_EQUATIONS; equation ++) {
-    cout << endl << endl << equation + 1 << ": Convert '" << equations[equation] << "' to postfix" << endl;
+    cout << endl << endl << equation + 1 << ": Convert '" << equations[equation].toStdString() << "' to postfix" << endl;
 
     try {
       QString tokenized = converter.tokenizeEquation(equations[equation]);
-      cout << "   Tokenized equation: '" << tokenized << "'" << endl;
+      cout << "   Tokenized equation: '" << tokenized.toStdString() << "'" << endl;
       QString postfix = converter.convert(equations[equation]);
-      cout << "   Postfix: '" << postfix << "'" << endl;
+      cout << "   Postfix: '" << postfix.toStdString() << "'" << endl;
     }
     catch(IException &e) {
       e.print();

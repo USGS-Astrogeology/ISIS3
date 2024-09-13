@@ -7,6 +7,7 @@ find files of those names at the top level of this repository. **/
 #include "Isis.h"
 
 #include <string>
+#include <regex>
 
 #include "ProcessMapMosaic.h"
 #include "Application.h"
@@ -50,11 +51,12 @@ void IsisMain() {
   m1.SetImageOverlay(priority);
 
   for(int i = 0; i < cubes.size(); i++) {
-    if(m1.StartProcess(cubes[i].toString())) {
-      cout << cubes[i].toString().replace(QRegExp(".*base/unitTestData"), "base/unitTestData") << " is inside the mosaic" << endl;
+    std::regex pattern(".*base/unitTestData");
+    if(m1.StartProcess(QString::fromStdString(cubes[i].toString()))) {
+      cout << std::regex_replace(cubes[i].toString(), pattern, "base/unitTestData") << " is inside the mosaic" << endl;
     }
     else {
-      cout << cubes[i].toString().replace(QRegExp(".*base/unitTestData"), "base/unitTestData") << " is outside the mosaic" << endl;
+      cout << std::regex_replace(cubes[i].toString(), pattern, "base/unitTestData") << " is outside the mosaic" << endl;
     }
   }
 
@@ -75,11 +77,12 @@ void IsisMain() {
   m2.SetImageOverlay(priority);
 
   for(int i = 0; i < cubes.size(); i++) {
-    if(m2.StartProcess(cubes[i].toString())) {
-      cout << cubes[i].toString().replace(QRegExp(".*base/unitTestData"), "base/unitTestData") << " is inside the mosaic" << endl;
+    std::regex pattern(".*base/unitTestData");
+    if(m2.StartProcess(QString::fromStdString(cubes[i].toString()))) {
+      cout << std::regex_replace(cubes[i].toString(), pattern, "base/unitTestData") << " is inside the mosaic" << endl;
     }
     else {
-      cout << cubes[i].toString().replace(QRegExp(".*base/unitTestData"), "base/unitTestData") << " is outside the mosaic" << endl;
+      cout << std::regex_replace(cubes[i].toString(), pattern, "base/unitTestData") << " is outside the mosaic" << endl;
     }
   }
 
@@ -108,9 +111,9 @@ void IsisMain() {
 
   cout << endl << "Testing Mosaic where the input (x, y) is negative,"
           " according to the output cube." << endl;
-  QString inputFile = FileName("$ISISTESTDATA/isis/src/base/unitTestData/ProcessMapMosaic/unitTest1.cub").expanded();
+  std::string inputFile = FileName("$ISISTESTDATA/isis/src/base/unitTestData/ProcessMapMosaic/unitTest1.cub").expanded();
   Cube inCube;
-  inCube.open(inputFile);
+  inCube.open(QString::fromStdString(inputFile));
   PvlGroup mapGroup = inCube.label()->findGroup("Mapping", Pvl::Traverse);
 
   mapGroup.addKeyword(PvlKeyword("MinimumLatitude",  std::to_string(-4.9)), Pvl::Replace);
@@ -123,7 +126,7 @@ void IsisMain() {
   ProcessMapMosaic m3;
   
   m3.SetBandBinMatch(false);
-  m3.SetOutputCube(inputFile, mapGroup, oAtt2, "./unitTest3.cub");
+  m3.SetOutputCube(QString::fromStdString(inputFile), mapGroup, oAtt2, "./unitTest3.cub");
 
   //set priority
   m3.SetImageOverlay(priority);
@@ -131,7 +134,7 @@ void IsisMain() {
   m3.SetLowSaturationFlag(false);
   m3.SetNullFlag(false);
 
-  if(m3.StartProcess(inputFile)) {
+  if(m3.StartProcess(QString::fromStdString(inputFile))) {
     cout << "The mosaic was successfull." << endl;
   }
   else {
@@ -161,11 +164,12 @@ void IsisMain() {
   m4.SetImageOverlay(priority);
 
   for(int i = 0; i < cubes_crop.size(); i++) {
-    if(m4.StartProcess(cubes_crop[i].toString())) {
-      cout << cubes_crop[i].toString().replace(QRegExp(".*base/unitTestData"), "base/unitTestData") << " is inside the mosaic" << endl;
+    std::regex pattern(".*base/unitTestData");
+    if(m4.StartProcess(QString::fromStdString(cubes_crop[i].toString()))) {
+      cout << std::regex_replace(cubes_crop[i].toString(), pattern, "base/unitTestData") << " is inside the mosaic" << endl;
     }
     else {
-      cout << cubes_crop[i].toString().replace(QRegExp(".*base/unitTestData"), "base/unitTestData") << " is outside the mosaic" << endl;
+      cout << std::regex_replace(cubes_crop[i].toString(), pattern, "base/unitTestData") << " is outside the mosaic" << endl;
     }
   }
 

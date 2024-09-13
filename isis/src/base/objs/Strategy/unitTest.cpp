@@ -289,7 +289,7 @@ void IsisMain() {
       Strategy strat2(emptyDictionary,lst);
       }
   catch(IException &e) {
-     qDebug() <<  e.toString();
+     qDebug() <<  QString::fromStdString(e.toString());
      }
 
   Strategy strat3(elfDictionary,lst);
@@ -885,7 +885,7 @@ void IsisMain() {
   }
   catch(IException &e){
 
-  qDebug() << e.toString() << Qt::endl;
+  qDebug() << QString::fromStdString(e.toString()) << Qt::endl;
 
   }
 
@@ -963,5 +963,5 @@ void printMap(const PvlFlatMap &map){
 
 void printResourceList(const ResourceList &list){
     for (int i = 0; i < list.count(); i++)
-       cout << list[i] ->name() << endl;
+       cout << list[i]->name().toStdString() << endl;
 }

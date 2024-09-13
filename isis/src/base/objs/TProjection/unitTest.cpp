@@ -247,13 +247,13 @@ int main(int argc, char *argv[]) {
   cout << "Eccentricity:              " << p.Eccentricity() << endl;
   // test methods that return properties of the projection
   cout << "Is Equatorial Cylindrical: " << p.IsEquatorialCylindrical() << endl;
-  cout << "Latitude Type:             " << p.LatitudeTypeString() << endl;
+  cout << "Latitude Type:             " << p.LatitudeTypeString().toStdString() << endl;
   cout << "Is Planetographic:         " << p.IsPlanetographic() << endl;
   cout << "Is Planetocentric:         " << p.IsPlanetocentric() << endl;
-  cout << "Longitude Direction:       " << p.LongitudeDirectionString() << endl;
+  cout << "Longitude Direction:       " << p.LongitudeDirectionString().toStdString() << endl;
   cout << "Is PositiveEast:           " << p.IsPositiveEast() << endl;
   cout << "Is PositiveWest:           " << p.IsPositiveWest() << endl;
-  cout << "Longitude Domain:          " << p.LongitudeDomainString() << endl;
+  cout << "Longitude Domain:          " << p.LongitudeDomainString().toStdString() << endl;
   cout << "Has 360 domain:            " << p.Has360Domain() << endl;
   cout << "Has 180 domain:            " << p.Has180Domain() << endl;
   cout << "Has ground range:          " << p.HasGroundRange() << endl;
@@ -418,13 +418,13 @@ int main(int argc, char *argv[]) {
   cout << "Eccentricity:              " << latTestProjection->Eccentricity() << endl;
   // test methods that return properties of the projection
   cout << "Is Equatorial Cylindrical: " << latTestProjection->IsEquatorialCylindrical() << endl;
-  cout << "Latitude Type:             " << latTestProjection->LatitudeTypeString() << endl;
+  cout << "Latitude Type:             " << latTestProjection->LatitudeTypeString().toStdString() << endl;
   cout << "Is Planetographic:         " << latTestProjection->IsPlanetographic() << endl;
   cout << "Is Planetocentric:         " << latTestProjection->IsPlanetocentric() << endl;
-  cout << "Longitude Direction:       " << latTestProjection->LongitudeDirectionString() << endl;
+  cout << "Longitude Direction:       " << latTestProjection->LongitudeDirectionString().toStdString() << endl;
   cout << "Is PositiveEast:           " << latTestProjection->IsPositiveEast() << endl;
   cout << "Is PositiveWest:           " << latTestProjection->IsPositiveWest() << endl;
-  cout << "Longitude Domain:          " << latTestProjection->LongitudeDomainString() << endl;
+  cout << "Longitude Domain:          " << latTestProjection->LongitudeDomainString().toStdString() << endl;
   cout << "Has 360 domain:            " << latTestProjection->Has360Domain() << endl;
   cout << "Has 180 domain:            " << latTestProjection->Has180Domain() << endl;
   cout << "Has ground range:          " << latTestProjection->HasGroundRange() << endl;
@@ -519,14 +519,14 @@ int main(int argc, char *argv[]) {
   cout << endl;
 
   cout << "Testing string routines" << endl;
-  cout << p2.LatitudeTypeString() << endl;
-  cout << p2.LongitudeDirectionString() << endl;
-  cout << p2.LongitudeDomainString() << endl;
+  cout << p2.LatitudeTypeString().toStdString() << endl;
+  cout << p2.LongitudeDirectionString().toStdString() << endl;
+  cout << p2.LongitudeDomainString().toStdString() << endl;
   cout << endl;
 
   cout << "Testing Name and comparision routines" << endl;
-  cout << "Name:        " << p2.Name() << endl;
-  cout << "Version:     " << p2.Version() << endl;
+  cout << "Name:        " << p2.Name().toStdString() << endl;
+  cout << "Version:     " << p2.Version().toStdString() << endl;
   cout << "operator==:  " << (p == p2) << endl;
   cout << "operator!=:  " << (p != p2) << endl;
 
@@ -581,23 +581,23 @@ int main(int argc, char *argv[]) {
 
   cout << "Testing static conversion methods " << endl;
   cout << " 0 degrees in hours: " << p.ToHours(0.0) << endl;
-  cout << " 0 degrees in HMS format: " << p.ToHMS(0.0) << endl;
-  cout << " 0 degrees in DMS format: " << p.ToDMS(0.0) << endl;
+  cout << " 0 degrees in HMS format: " << p.ToHMS(0.0).toStdString() << endl;
+  cout << " 0 degrees in DMS format: " << p.ToDMS(0.0).toStdString() << endl;
   cout << " 30.5 degrees in hours: " << p.ToHours(30.5) << endl;
-  cout << " 30.5 degrees in HMS format: " << p.ToHMS(30.5) << endl;
-  cout << " 30.5 degrees in DMS format: " << p.ToDMS(30.5) << endl;
+  cout << " 30.5 degrees in HMS format: " << p.ToHMS(30.5).toStdString() << endl;
+  cout << " 30.5 degrees in DMS format: " << p.ToDMS(30.5).toStdString() << endl;
   cout << " 40.3472 degrees in hours: " << p.ToHours(40.3472) << endl;
-  cout << " 40.3472 degrees in HMS format: " << p.ToHMS(40.3472) << endl;
-  cout << " 40.3472 degrees in DMS format: " << p.ToDMS(40.3472) << endl;
+  cout << " 40.3472 degrees in HMS format: " << p.ToHMS(40.3472).toStdString() << endl;
+  cout << " 40.3472 degrees in DMS format: " << p.ToDMS(40.3472).toStdString() << endl;
   cout << " 45 degrees in Hours: " << p.ToHours(45.0) << endl;
-  cout << " 45 degrees in HMS format: " << p.ToHMS(45.0) << endl;
-  cout << " 45 degrees in DMS format: " << p.ToDMS(45.0) << endl;
+  cout << " 45 degrees in HMS format: " << p.ToHMS(45.0).toStdString() << endl;
+  cout << " 45 degrees in DMS format: " << p.ToDMS(45.0).toStdString() << endl;
   cout << " 180 degrees in Hours: " << p.ToHours(180.0) << endl;
-  cout << " 180 degrees in HMS format: " << p.ToHMS(180.0) << endl;
-  cout << " 180 degrees in DMS format: " << p.ToDMS(180.0) << endl;
+  cout << " 180 degrees in HMS format: " << p.ToHMS(180.0).toStdString() << endl;
+  cout << " 180 degrees in DMS format: " << p.ToDMS(180.0).toStdString() << endl;
   cout << " 360 degrees in Hours: " << p.ToHours(360.0) << endl;
-  cout << " 360 degrees in HMS format: " << p.ToHMS(360.0) << endl;
-  cout << " 360 degrees in DMS format: " << p.ToDMS(360.0) << endl;
+  cout << " 360 degrees in HMS format: " << p.ToHMS(360.0).toStdString() << endl;
+  cout << " 360 degrees in DMS format: " << p.ToDMS(360.0).toStdString() << endl;
   cout << "-390 To180Domain:          " << p.To180Domain(-390) << endl;
   cout << "-390 To360Domain:          " << p.To360Domain(-390) << endl;
   cout << " 50 to Planetocentric (sphere): " << p.ToPlanetocentric(50, 180000, 180000) << endl;

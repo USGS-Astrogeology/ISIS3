@@ -20,8 +20,8 @@ int main(int argc, char *argv[]) {
 
   cout << "Unit test for Isis::UserInterface ..." << endl;
 
-  QString unitTestXml = Isis::FileName(QString(ISISROOT) + "/src/base/objs/UserInterface/unitTest.xml").expanded();
-  QString highpass = Isis::FileName(QString(ISISBUILDDIR) + "/bin/xml/highpass.xml").expanded();
+  std::string unitTestXml = Isis::FileName((std::string)ISISROOT + "/src/base/objs/UserInterface/unitTest.xml").expanded();
+  std::string highpass = Isis::FileName((std::string)ISISBUILDDIR + "/bin/xml/highpass.xml").expanded();
 
   char *myArgv[15];// = {"unitTest", "from=input.cub", "to=output.cub"};
 
@@ -36,9 +36,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "from=input.cub");
       strcpy(myArgv[myArgc++], "to=output.cub");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui.GetAsString("TO") << endl;
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -55,9 +55,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "samp=");
       strcpy(myArgv[myArgc++], "3");
 
-      Isis::UserInterface ui(highpass, myArgc, myArgv);
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui.GetAsString("TO") << endl;
+      Isis::UserInterface ui(QString::fromStdString(highpass), myArgc, myArgv);
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -69,9 +69,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "unitTest");
 
       int myArgcQ = myArgc;
-      Isis::UserInterface ui(unitTestXml, myArgcQ, myArgv);
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui.GetAsString("TO") << endl;
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgcQ, myArgv);
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -88,16 +88,16 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "samp=");
       strcpy(myArgv[myArgc++], "3");
 
-      Isis::UserInterface ui(highpass, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(highpass), myArgc, myArgv);
       vector<QString> vals;
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      ";
       ui.GetAsString("TO", vals);
 
       for (unsigned int i = 0; i < vals.size(); i++) {
         if (i != 0) cout << ",";
 
-        cout << vals[i];
+        cout << vals[i].toStdString();
       }
       cout << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
@@ -116,14 +116,14 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "samp=");
       strcpy(myArgv[myArgc++], "3");
 
-      Isis::UserInterface ui(highpass, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(highpass), myArgc, myArgv);
       vector<QString> vals;
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << endl;
       ui.GetAsString("TO", vals);
 
       for(unsigned int i = 0; i < vals.size(); i++) {
-        cout << " >> '" << vals[i] << "'" << endl;
+        cout << " >> '" << vals[i].toStdString() << "'" << endl;
       }
       cout << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
@@ -142,14 +142,14 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "samp=");
       strcpy(myArgv[myArgc++], "3");
 
-      Isis::UserInterface ui(highpass, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(highpass), myArgc, myArgv);
       vector<QString> vals;
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << endl;
       ui.GetAsString("TO", vals);
 
       for(unsigned int i = 0; i < vals.size(); i++) {
-        cout << " >> " << vals[i] << endl;
+        cout << " >> " << vals[i].toStdString() << endl;
       }
       cout << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
@@ -163,13 +163,13 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "to=\\(escaped, argument)");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       vector<QString> vals;
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << endl;
       ui.GetAsString("TO", vals);
       for(unsigned int i = 0; i < vals.size(); i++) {
-        cout << " >> " << vals[i] << endl;
+        cout << " >> " << vals[i].toStdString() << endl;
       }
       cout << endl;
     }
@@ -181,13 +181,13 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "to=\\\\(escaped, argument)");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       vector<QString> vals;
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << endl;
       ui.GetAsString("TO", vals);
       for(unsigned int i = 0; i < vals.size(); i++) {
-        cout << " >> " << vals[i] << endl;
+        cout << " >> " << vals[i].toStdString() << endl;
       }
       cout << endl;
     }
@@ -210,9 +210,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "=");
       strcpy(myArgv[myArgc++], "3");
 
-      Isis::UserInterface ui(highpass, myArgc, myArgv);
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui.GetAsString("TO") << endl;
+      Isis::UserInterface ui(QString::fromStdString(highpass), myArgc, myArgv);
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -225,9 +225,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "from=input file.cub");
       strcpy(myArgv[myArgc++], "to=output.cub");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui.GetAsString("TO") << endl;
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -241,7 +241,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "to");
       strcpy(myArgv[myArgc++], "=output.cub");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -264,7 +264,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "=");
       strcpy(myArgv[myArgc++], "3");
 
-      Isis::UserInterface ui(highpass, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(highpass), myArgc, myArgv);
       cout << endl;
    }
     catch (Isis::IException &e) {
@@ -279,7 +279,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "from=(\"hello)");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -294,7 +294,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "from=(hello)\\");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -309,7 +309,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "$ISISROOT/bin/highpass/highpass");
       strcpy(myArgv[myArgc++], "bogus=parameter");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -324,7 +324,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-lastt");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -339,7 +339,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-verbose=(\"invalid\", \"value\")");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
 
     }
@@ -355,9 +355,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-la");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui.GetAsString("TO") << endl;
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -369,7 +369,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-l");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -383,7 +383,7 @@ int main(int argc, char *argv[]) {
       int myArgc = 0;
       strcpy(myArgv[myArgc++], "unitTest");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -392,7 +392,7 @@ int main(int argc, char *argv[]) {
       int myArgc = 0;
       strcpy(myArgv[myArgc++], "./unitTest");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -405,7 +405,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "-pid=1");
       strcpy(myArgv[myArgc++], "-gui");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -419,7 +419,7 @@ int main(int argc, char *argv[]) {
       int myArgc = 0;
       strcpy(myArgv[myArgc++], "./unitTest");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       ui.ParentId();
       ui.TheGui();
     }
@@ -431,7 +431,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-nogui");
 
-      Isis::UserInterface ui(highpass, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(highpass), myArgc, myArgv);
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -445,11 +445,11 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "to=$2");
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       for(int i = 0; i < ui.BatchListSize(); i++) {
         ui.SetBatchList(i);
-        cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-        cout << "TO:      " << ui.GetAsString("TO") << endl;
+        cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+        cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
         cout << "GUI:     " << ui.IsInteractive() << endl;
         cout << endl;
       }
@@ -469,7 +469,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "to=$2");
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -486,7 +486,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "to=$2");
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -503,7 +503,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "to=$2");
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -520,7 +520,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "to=$2");
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -534,7 +534,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-batchlist=doesntExist.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -549,7 +549,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-batchlist=unitTestEmpty.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -564,7 +564,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-batchlist=unitTestBadColumns.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -580,7 +580,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
       strcpy(myArgv[myArgc++], "-onerror=continue");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "AbortOnError() returns: " << ui.AbortOnError() << endl;
       cout << endl;
     }
@@ -593,7 +593,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
       strcpy(myArgv[myArgc++], "-onerror=abort");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "AbortOnError() returns: " << ui.AbortOnError() << endl;
       cout << endl;
     }
@@ -606,7 +606,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
       strcpy(myArgv[myArgc++], "-onerror=badValue");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -621,7 +621,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-onerror=continue");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
       }
     catch (Isis::IException &e) {
@@ -636,7 +636,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-errlist=unitTest.txt");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -652,7 +652,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "-errlist");
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -668,7 +668,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "-errlist=unitTestErr.txt");
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       for(int i = 0; i < ui.BatchListSize(); i++) {
         ui.SetBatchList(i);
         ui.SetErrorList(i);
@@ -689,7 +689,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "invalid=parameter");
       strcpy(myArgv[myArgc++], "-help");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "Evaluating -HELP should have thrown an exception during unit testing" << endl;
       cout << endl;
     }
@@ -707,7 +707,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-help=to");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "Evaluating -HELP should have thrown an exception during unit testing" << endl;
       cout << endl;
     }
@@ -722,7 +722,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-help=testone");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "Evaluating -HELP should have thrown an exception during unit testing" << endl;
       cout << endl;
     }
@@ -737,7 +737,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-help=testtwo");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "Evaluating -HELP should have thrown an exception during unit testing" << endl;
       cout << endl;
     }
@@ -752,7 +752,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-help=testthree");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "Evaluating -HELP should have thrown an exception during unit testing" << endl;
       cout << endl;
     }
@@ -767,7 +767,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-help=listtest");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "Evaluating -HELP should have thrown an exception during unit testing" << endl;
       cout << endl;
     }
@@ -785,9 +785,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-info");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "GetInfoFlag() returns: " << ui.GetInfoFlag() << endl;
-      cout << "GetInfoFileName() returns: " << ui.GetInfoFileName() << endl;
+      cout << "GetInfoFileName() returns: " << ui.GetInfoFileName().toStdString() << endl;
       cout << endl;
     }
 
@@ -798,9 +798,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-info=debug.log");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "GetInfoFlag() returns: " << ui.GetInfoFlag() << endl;
-      cout << "GetInfoFileName() returns: " << ui.GetInfoFileName() << endl;
+      cout << "GetInfoFileName() returns: " << ui.GetInfoFileName().toStdString() << endl;
       cout << endl;
     }
 
@@ -811,9 +811,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-last");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui.GetAsString("TO") << endl;
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -826,9 +826,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "from=otherParam");
       strcpy(myArgv[myArgc++], "-last");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui.GetAsString("TO") << endl;
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -841,7 +841,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-log");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << tempTestPrefs.findGroup("SessionLog")["FileOutput"] << endl;
       cout << tempTestPrefs.findGroup("SessionLog")["FileName"] << endl;
       cout << endl;
@@ -855,7 +855,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-log=unitTest.prt");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << tempTestPrefs.findGroup("SessionLog")["FileOutput"] << endl;
       cout << tempTestPrefs.findGroup("SessionLog")["FileName"] << endl;
       cout << endl;
@@ -868,9 +868,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-restore=unitTest.par");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui.GetAsString("TO") << endl;
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
     }
@@ -882,7 +882,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-restore=unitTestCorrupt.par");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -897,7 +897,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "$ISISROOT/bin/highpass");
       strcpy(myArgv[myArgc++], "-restore=junk.par");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
     catch (Isis::IException &e) {
@@ -913,7 +913,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-restore=unitTestEmpty.par");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
 
@@ -925,7 +925,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-restore=unitTestLoadHistory.par");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << endl;
     }
 
@@ -937,7 +937,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-save=unitTestSaveArgs.par");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       ui.SaveHistory();
       cout << endl;
     }
@@ -953,9 +953,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "-save=unitTestSave.par");
       strcpy(myArgv[myArgc++], "-preference=unitTestPrefs");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
-      cout << "FROM:    " << ui.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui.GetAsString("TO") << endl;
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
+      cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui.IsInteractive() << endl;
       cout << endl;
       ui.SaveHistory();
@@ -965,9 +965,9 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-restore=unitTestSave.par");
 
-      Isis::UserInterface ui2(unitTestXml, myArgc, myArgv);
-      cout << "FROM:    " << ui2.GetAsString("FROM") << endl;
-      cout << "TO:      " << ui2.GetAsString("TO") << endl;
+      Isis::UserInterface ui2(QString::fromStdString(unitTestXml), myArgc, myArgv);
+      cout << "FROM:    " << ui2.GetAsString("FROM").toStdString() << endl;
+      cout << "TO:      " << ui2.GetAsString("TO").toStdString() << endl;
       cout << "GUI:     " << ui2.IsInteractive() << endl;
       cout << endl;
 
@@ -985,7 +985,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "to=($2,$2copy)");
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       ui.SetBatchList(0);
       cout << endl;
 
@@ -996,7 +996,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "to= ");
       strcpy(myArgv[myArgc++], "-batchlist=unitTest.lis");
 
-      Isis::UserInterface ui2(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui2(QString::fromStdString(unitTestXml), myArgc, myArgv);
       ui2.SetBatchList(0);
       cout << endl;
     }
@@ -1009,7 +1009,7 @@ int main(int argc, char *argv[]) {
       int myArgc = 0;
       strcpy(myArgv[myArgc++], "./unitTest");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       ui.SetErrorList(0);
       cout << endl;
     }
@@ -1022,7 +1022,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
       strcpy(myArgv[myArgc++], "-verbose");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << tempTestPrefs.findGroup("SessionLog")["TerminalOutput"] << endl;
       cout << endl;
     }
@@ -1036,7 +1036,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "bogus=parameter");
       strcpy(myArgv[myArgc++], "-webhelp");
 
-      Isis::UserInterface ui(unitTestXml, myArgc, myArgv);
+      Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "Evaluating -WEBHELP should have thrown an exception during unit testing" << endl;
     }
     catch (Isis::IException &e) {

@@ -238,12 +238,12 @@ int main(int argc, char *argv[]) {
     foreach(current, data) {
       QList< QPair<Longitude, Longitude> > results =
           Longitude::to360Range(current.first, current.second);
-      cout << "Input Range: " << current.first.toString() << " to " << current.second.toString()
+      cout << "Input Range: " << current.first.toString().toStdString() << " to " << current.second.toString().toStdString()
            << endl;
       cout << "Input Range (PW): "
-            << Angle(current.first.positiveWest(Angle::Degrees), Angle::Degrees).toString()
+            << Angle(current.first.positiveWest(Angle::Degrees), Angle::Degrees).toString().toStdString()
             << " to "
-            << Angle(current.second.positiveWest(Angle::Degrees), Angle::Degrees).toString()
+            << Angle(current.second.positiveWest(Angle::Degrees), Angle::Degrees).toString().toStdString()
             << endl;
 
         cout << "\tTest inRange" << endl;
@@ -260,12 +260,12 @@ int main(int argc, char *argv[]) {
       QListIterator< QPair<Longitude, Longitude> > it(results);
       while (it.hasNext()) {
         current = it.next();
-        cout << "\tOutput Range: " << current.first.toString() << " to "
-             << current.second.toString() << endl;
+        cout << "\tOutput Range: " << current.first.toString().toStdString() << " to "
+             << current.second.toString().toStdString() << endl;
         cout << "\tOutput Range (PW): "
-             << Angle(current.first.positiveWest(Angle::Degrees), Angle::Degrees).toString()
+             << Angle(current.first.positiveWest(Angle::Degrees), Angle::Degrees).toString().toStdString()
              << " to "
-             << Angle(current.second.positiveWest(Angle::Degrees), Angle::Degrees).toString()
+             << Angle(current.second.positiveWest(Angle::Degrees), Angle::Degrees).toString().toStdString()
              << endl;
 
         cout << "\tTest inRange" << endl;

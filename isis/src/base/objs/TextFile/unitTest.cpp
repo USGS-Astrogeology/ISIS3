@@ -12,6 +12,7 @@ find files of those names at the top level of this repository. **/
 #include <iostream>
 #include <stdio.h>
 #include <vector>
+#include <regex>
 
 using namespace std;
 using namespace Isis;
@@ -76,7 +77,7 @@ int main(int argc, char *argv[]) {
 
 // ----------------------------------------------------------------------------------
 
-  cout << "1) Create / Overwrite file " << testFile << " with prefilled vector" << endl;
+  cout << "1) Create / Overwrite file " << testFile.toStdString() << " with prefilled vector" << endl;
 
   try {
     Isis::TextFile p(testFile, "overwrite", testLinesVector);     // write file
@@ -94,7 +95,7 @@ int main(int argc, char *argv[]) {
 
 // ----------------------------------------------------------------------------------
 
-  cout << "2) Read file " << testFile << " into vector" << endl;
+  cout << "2) Read file " << testFile.toStdString() << " into vector" << endl;
 
   try {
     vector<QString> linesIn;
@@ -128,8 +129,8 @@ int main(int argc, char *argv[]) {
       if(linesIn[i] != testLines[i]) {
         cout << " *** Failed IString Comparison Test *** " << endl;
         cout << i
-             << " Original IString =>" << testLines[i]
-             << "<= Vector read =>"   << linesIn[i]
+             << " Original IString =>" << testLines[i].toStdString()
+             << "<= Vector read =>"   << linesIn[i].toStdString()
              << "<=" << endl;
       }
     }
@@ -142,7 +143,7 @@ int main(int argc, char *argv[]) {
 
 // ----------------------------------------------------------------------------------
 
-  cout << "3) Create / Overwrite file " << testFile << " with prefilled QString array" << endl;
+  cout << "3) Create / Overwrite file " << testFile.toStdString() << " with prefilled QString array" << endl;
 
   try {
     // write first four lines
@@ -162,7 +163,7 @@ int main(int argc, char *argv[]) {
 
 // ----------------------------------------------------------------------------------
 
-  cout << "4) Read file " << testFile << " into QString array" << endl;
+  cout << "4) Read file " << testFile.toStdString() << " into QString array" << endl;
 
   try {
     // prefill QString array to nonnull, set last element to null
@@ -188,7 +189,7 @@ int main(int argc, char *argv[]) {
 
 // ----------------------------------------------------------------------------------
 
-  cout << "5) Overwrite file " << testFile << endl;
+  cout << "5) Overwrite file " << testFile.toStdString() << endl;
 
   try {                                                  // open file, will truncate
     Isis::TextFile f(testFile, "OverWrite");
@@ -316,8 +317,8 @@ int main(int argc, char *argv[]) {
     // so should return fourth line
     if(line != testLines[4]) {
       cout << " *** Failed Ignore comment lines *** " << endl;
-      cout << "should be:   =>" << testLines[4] << "<=" << endl;
-      cout << "returned is: =>" << line         << "<=" << endl;
+      cout << "should be:   =>" << testLines[4].toStdString() << "<=" << endl;
+      cout << "returned is: =>" << line.toStdString()         << "<=" << endl;
     }
     if(f.LineCount() != 13) {                             // total line count should be 12
       cout << " *** Failed Line Count = 13 *** " << endl;
@@ -431,7 +432,7 @@ int main(int argc, char *argv[]) {
     Isis::TextFile f(testFile, "Input");
   }
   catch(Isis::IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << endl;
 
@@ -444,7 +445,7 @@ int main(int argc, char *argv[]) {
     Isis::TextFile f(testFile, "Output");
   }
   catch(Isis::IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << endl;
 
@@ -455,7 +456,7 @@ int main(int argc, char *argv[]) {
     Isis::TextFile fxText(testFile, "xxxInputxxx");
   }
   catch(Isis::IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << endl;
 
@@ -467,7 +468,7 @@ int main(int argc, char *argv[]) {
     f.PutLine("Line 1");
   }
   catch(Isis::IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << endl;
 
@@ -480,7 +481,7 @@ int main(int argc, char *argv[]) {
     f.PutLine("Line 1");
   }
   catch(Isis::IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << endl;
 
@@ -493,14 +494,14 @@ int main(int argc, char *argv[]) {
     f.GetLine();
   }
   catch(Isis::IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   cout << endl;
 
   // create file that doesn't end in a newline and then test GetLine
   FILE *fp;
-  FileName testFileName(testFile);
-  fp = fopen(testFileName.expanded().toLatin1().data(), "w");
+  FileName testFileName(testFile.toStdString());
+  fp = fopen(testFileName.expanded().c_str(), "w");
   fprintf(fp, "this file has no newline chars in it!");   //???SEG FAULT HERE!!!!!!!
   fclose(fp);
   TextFile tf;
@@ -521,16 +522,16 @@ int main(int argc, char *argv[]) {
   if(fileContents != "")
     passed = "Passed";
 
-  cout << "testing GetLine for files that do not end in a newline: " << passed << "\n\n";
-  cout << fileContents << "\n\n";
+  cout << "testing GetLine for files that do not end in a newline: " << passed.toStdString() << "\n\n";
+  cout << fileContents.toStdString() << "\n\n";
 
 
 // ----------------------------------------------------------------------------------
 
-  cout << "11) Remove temp file -> " << testFile << " <-\n" << endl;
+  cout << "11) Remove temp file -> " << testFile.toStdString() << " <-\n" << endl;
 
-  if(std::remove(testFileName.expanded().toLatin1().data())) {                    // cleanup tmp file
-    cout << "*** Failed to remove tmp file: " << testFile << endl;
+  if(std::remove(testFileName.expanded().c_str())) {                    // cleanup tmp file
+    cout << "*** Failed to remove tmp file: " << testFile.toStdString() << endl;
   }
 }
 
@@ -542,6 +543,7 @@ int main(int argc, char *argv[]) {
  *   @history 2011-08-05 Jeannie Backer - Copied from Cube class.
  */
 void ReportError(QString err) {
-  cout << err.replace(QRegExp("\\[[^\\]*\\]"), "[]") << endl;
+  std::regex pattern("\\[[^\\]*\\]");
+  cout << std::regex_replace(err.toStdString(), pattern, std::string("[]")) << endl;
 }
 

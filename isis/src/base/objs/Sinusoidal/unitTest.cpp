@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
 
     Projection *s = p;
     cout << "Test Name and comparision method ... " << endl;
-    cout << "Name:       " << s->Name() << endl;
+    cout << "Name:       " << s->Name().toStdString() << endl;
     cout << "operator==  " << (*s == *s) << endl;
     cout << endl;
 

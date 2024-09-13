@@ -140,7 +140,7 @@ int main() {
   print(map1e);
 
   // Testing PvlConstraints from file
-  QString keyListFileName = FileName("$temporary/keyListFile.txt").expanded();
+  QString keyListFileName = QString::fromStdString(FileName("$temporary/keyListFile.txt").expanded());
   keyList.replaceInStrings("cat", "dog");
   // write the keylist to a text file
   TextFile keyListFile(keyListFileName, "output");
@@ -201,7 +201,7 @@ int main() {
 
   // merge all three maps
   qDebug() << "Merging Map3 to Maps 1,2. Adding [" 
-           << toString(map12.merge(map3)) << "] new keywords.";
+           << QString::number(map12.merge(map3)) << "] new keywords.";
   qDebug() << "Map1, Map2, and Map3 merged:";
   print(map12);
 
@@ -214,7 +214,7 @@ int main() {
   int climbs = map12.count("climb");
   qDebug() << "    climb count: " << climbs;
   for (int i = 0; i < climbs; i++) {
-    qDebug() << "    climb at index" << toString(i) << "is Null? " << map12.isNull("climb", i);
+    qDebug() << "    climb at index" << QString::number(i) << "is Null? " << map12.isNull("climb", i);
   }
 
   // test more map accessor methods

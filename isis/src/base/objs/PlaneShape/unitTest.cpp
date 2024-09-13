@@ -61,9 +61,9 @@ int main() {
     PlaneShape shape2(&targ);
     PlaneShape shape3;
 
-    cout << "    Shape1  name is " << shape.name() << endl;
-    cout << "    Shape2  name is " << shape2.name() << endl;
-    cout << "    Shape3  name is " << shape3.name() << endl;
+    cout << "    Shape1  name is " << shape.name().toStdString() << endl;
+    cout << "    Shape2  name is " << shape2.name().toStdString() << endl;
+    cout << "    Shape3  name is " << shape3.name().toStdString() << endl;
     cout << "    Shape is DEM type? " << toString(shape3.isDEM()) << endl;
 
     std::vector<double> sB(3);

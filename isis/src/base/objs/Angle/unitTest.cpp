@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
     cerr << "  Default constructor - valid?:  " << angle.isValid() <<
       " values: " << angle.radians() << " and " << angle.degrees() <<
       endl;
-    cerr << "  " << angle.toString() << endl;
+    cerr << "  " << angle.toString().toStdString() << endl;
   }
   catch(Isis::IException &e) {
     e.print();
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     cerr << "  Null input and degree output:  " << angle.degrees() <<
       " degrees" <<endl;
     cerr << "  Valid? " << angle.isValid() << endl;
-    cerr << "  " << angle.toString() << endl;
+    cerr << "  " << angle.toString().toStdString() << endl;
   }
   catch(Isis::IException &e) {
     e.print();
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
     cerr << "  Degree input and radian output:  " << angle.radians() <<
       " radians" << endl;
     cerr << "  Valid? " << angle.isValid() << endl;
-    cerr << "  " << angle.toString() << endl;
+    cerr << "  " << angle.toString().toStdString() << endl;
   }
   catch(Isis::IException &e) {
     e.print();
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
     Angle angle(30. * PI / 180., Angle::Radians );
     cerr << "  Radian input and degree output:  " << angle.degrees() <<
       " degrees" <<endl;
-    cerr << "  " << angle.toString(false) << endl;
+    cerr << "  " << angle.toString(false).toStdString() << endl;
   }
   catch(Isis::IException &e) {
     e.print();
@@ -319,7 +319,7 @@ int main(int argc, char *argv[]) {
   //Test Angle::Angle(QString):
   try {
     Angle angle(QString("-70 15 30.125"));
-    cerr << angle.toString() << endl;
+    cerr << angle.toString().toStdString() << endl;
   }
   catch (Isis::IException &e) {
     e.print();
@@ -327,7 +327,7 @@ int main(int argc, char *argv[]) {
 
   try {
     Angle angle(QString("  +70  30 11     "));
-    cerr << angle.toString() << endl;
+    cerr << angle.toString().toStdString() << endl;
   }
   catch (Isis::IException &e) {
     e.print();
@@ -335,7 +335,7 @@ int main(int argc, char *argv[]) {
 
   try {
     Angle angle(QString("100"));
-    cerr << angle.toString() << endl;
+    cerr << angle.toString().toStdString() << endl;
   }
   catch (Isis::IException &e) {
     e.print();
@@ -343,7 +343,7 @@ int main(int argc, char *argv[]) {
 
   try {
     Angle angle(QString("70 11"));
-    cerr << angle.toString() << endl;
+    cerr << angle.toString().toStdString() << endl;
   }
   catch (Isis::IException &e) {
     e.print();
@@ -351,7 +351,7 @@ int main(int argc, char *argv[]) {
 
   try {
     Angle angle(QString("this 79 should 00 fail 0.111"));
-    cerr << angle.toString() << endl;
+    cerr << angle.toString().toStdString() << endl;
   }
   catch (Isis::IException &e) {
     e.print();
@@ -359,7 +359,7 @@ int main(int argc, char *argv[]) {
 
   try {
     Angle angle(QString("100 00 00"));
-    cerr << angle.toString() << endl;
+    cerr << angle.toString().toStdString() << endl;
   }
   catch (Isis::IException &e) {
     e.print();

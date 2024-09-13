@@ -57,10 +57,10 @@ int main(int argc, char *argv[]) {
 
     qDebug() << "Construct NaifDskPlateModel object from NAIF DSK file and retrieve basic info.";
     FileName dskFile("$hayabusa/kernels/dsk/hay_a_amica_5_itokawashape_v1_0_512q.bds");
-    NaifDskPlateModel naifPlateModelFromDSK(dskFile.expanded());
+    NaifDskPlateModel naifPlateModelFromDSK(QString::fromStdString(dskFile.expanded()));
     qDebug() << "object is valid? " << naifPlateModelFromDSK.isValid();
-    FileName file(naifPlateModelFromDSK.filename());
-    qDebug() << "File name:          " << file.baseName();
+    FileName file(naifPlateModelFromDSK.filename().toStdString());
+    qDebug() << "File name:          " << QString::fromStdString(file.baseName());
     qDebug() << "Size:               " << naifPlateModelFromDSK.size();
     qDebug() << "Number of plates:   " << naifPlateModelFromDSK.numberPlates();
     qDebug() << "Number of vertices: " << naifPlateModelFromDSK.numberVertices();
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
     Latitude lat(0.0, Angle::Degrees);
     Longitude lon(0.0, Angle::Degrees);
     SurfacePoint *sp = naifPlateModelFromDSK.point(lat, lon);
-    qDebug() << "Surface point at pole is null?     " << toString(sp == NULL);
+    qDebug() << "Surface point at pole is null?     " << QString::number(sp == NULL);
     qDebug() << "Surface point: " << sp->GetX().meters()
                                   << sp->GetY().meters()
                                   << sp->GetZ().meters()
@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
     Intercept *intercept = naifPlateModelFromDSK.intercept(obsPos, rayDir);
     qDebug() << "Ray Dir:            " << rayDir;
     qDebug() << "Observer:           " << obsPos;
-    qDebug() << "Intercept is null?  " << toString(intercept == NULL);
+    qDebug() << "Intercept is null?  " << QString::number(intercept == NULL);
     qDebug() << "intercept plateID?  "
              << naifPlateModelFromDSK.plateIdOfIntercept(obsPos, rayDir, xpoint);
 
@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
     intercept = naifPlateModelFromDSK.intercept(obsPos, rayDir);
     qDebug() << "Ray Dir:            " << rayDir;
     qDebug() << "Observer:           " << obsPos;
-    qDebug() << "Intercept is null?  " << toString(intercept == NULL);
+    qDebug() << "Intercept is null?  " << QString::number(intercept == NULL);
     qDebug() << "intercept plate name                 = " << intercept->shape()->name();
     qDebug() << "intercept vertex (obsPos position) = " << intercept->observer();
     qDebug() << "intercept vector (look direction)    = " << intercept->lookDirectionRay();
@@ -160,7 +160,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Thrown from openDSK(): Open DSK file that doesn't exist.";
     try {
       FileName junkFile("./junk.bds");
-      NaifDskPlateModel naifPlateModelFromDSK(junkFile.expanded());
+      NaifDskPlateModel naifPlateModelFromDSK(QString::fromStdString(junkFile.expanded()));
     }
     catch (IException &e) {
       e.print();
@@ -178,10 +178,10 @@ int main(int argc, char *argv[]) {
     qDebug() << "~NaifDskDescriptor(): Unknown NAIF error has occured.";
     try {
       FileName junkFile("$base/kernels/spk/de405.bsp");
-      NaifDskPlateModel naifPlateModelFromDSK(junkFile.toString());
+      NaifDskPlateModel naifPlateModelFromDSK(QString::fromStdString(junkFile.toString()));
     }
     catch (IException &e) {
-      ReportError(e.toString());
+      ReportError(QString::fromStdString(e.toString()));
     }
 
   }

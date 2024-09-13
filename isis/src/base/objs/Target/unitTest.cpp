@@ -48,34 +48,34 @@ int main(int argc, char *argv[]) {
   PvlGroup kern1("Kernels");
   FileName f("$ISISTESTDATA/isis/src/base/unitTestData/kernels");
   FileName f2("$base/dems");
-  QString dir = f.expanded() + "/";
-  QString dir2 = f2.expanded() + "/";
+  std::string dir = f.expanded() + "/";
+  std::string dir2 = f2.expanded() + "/";
   kern1 += PvlKeyword("NaifFrameCode", std::to_string(-94031));
-  kern1 += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
-  kern1 += PvlKeyword("SpacecraftClock", dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
-  kern1 += PvlKeyword("TargetPosition", dir.toStdString() + "de405.bsp");
-  kern1 += PvlKeyword("TargetAttitudeShape", dir.toStdString() + "pck00006.tpc");
-  kern1 += PvlKeyword("Instrument", dir.toStdString() + "mocSpiceUnitTest.ti");
-  kern1 += PvlKeyword("InstrumentAddendum", dir.toStdString() + "mocAddendum.ti");
-  kern1 += PvlKeyword("InstrumentPosition", dir.toStdString() + "moc.bsp");
-  kern1 += PvlKeyword("InstrumentPointing", dir.toStdString() + "moc.bc");
+  kern1 += PvlKeyword("LeapSecond", dir + "naif0007.tls");
+  kern1 += PvlKeyword("SpacecraftClock", dir + "MGS_SCLKSCET.00045.tsc");
+  kern1 += PvlKeyword("TargetPosition", dir + "de405.bsp");
+  kern1 += PvlKeyword("TargetAttitudeShape", dir + "pck00006.tpc");
+  kern1 += PvlKeyword("Instrument", dir + "mocSpiceUnitTest.ti");
+  kern1 += PvlKeyword("InstrumentAddendum", dir + "mocAddendum.ti");
+  kern1 += PvlKeyword("InstrumentPosition", dir + "moc.bsp");
+  kern1 += PvlKeyword("InstrumentPointing", dir + "moc.bc");
   kern1 += PvlKeyword("Frame", "");
 
   PvlGroup kern2("Kernels");
   kern2 += PvlKeyword("NaifIkCode", std::to_string(-94031));
-  kern2 += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
-  kern2 += PvlKeyword("SpacecraftClock", dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
-  kern2 += PvlKeyword("TargetPosition", dir.toStdString() + "de405.bsp");
-  kern2 += PvlKeyword("TargetAttitudeShape", dir.toStdString() + "pck00006.tpc");
-  kern2 += PvlKeyword("Instrument", dir.toStdString() + "mocSpiceUnitTest.ti");
-  kern2 += PvlKeyword("InstrumentAddendum", dir.toStdString() + "mocAddendum.ti");
-  kern2 += PvlKeyword("InstrumentPosition", dir.toStdString() + "moc.bsp");
-  kern2 += PvlKeyword("InstrumentPointing", dir.toStdString() + "moc.bc");
+  kern2 += PvlKeyword("LeapSecond", dir + "naif0007.tls");
+  kern2 += PvlKeyword("SpacecraftClock", dir + "MGS_SCLKSCET.00045.tsc");
+  kern2 += PvlKeyword("TargetPosition", dir + "de405.bsp");
+  kern2 += PvlKeyword("TargetAttitudeShape", dir + "pck00006.tpc");
+  kern2 += PvlKeyword("Instrument", dir + "mocSpiceUnitTest.ti");
+  kern2 += PvlKeyword("InstrumentAddendum", dir + "mocAddendum.ti");
+  kern2 += PvlKeyword("InstrumentPosition", dir + "moc.bsp");
+  kern2 += PvlKeyword("InstrumentPointing", dir + "moc.bc");
   kern2 += PvlKeyword("Frame", "");
   kern2 += PvlKeyword("NaifBodyCode", std::to_string(499));
 
   PvlGroup kern3 = kern2;
-  kern3 += PvlKeyword("ShapeModel", dir2.toStdString()  + "molaMarsPlanetaryRadius0005.cub");
+  kern3 += PvlKeyword("ShapeModel", dir2  + "molaMarsPlanetaryRadius0005.cub");
 
   // Time Setup
   double startTime = -69382819.0;
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
   cout << endl;
   cout << "  Good target test..." << endl;
   cout << "     NaifBodyCode = " << tGood.naifBodyCode() << endl;
-  cout << "     TargetName = " << tGood.name() << endl;
+  cout << "     TargetName = " << tGood.name().toStdString() << endl;
   cout << "     IsSky = " << tGood.isSky() << endl;
 
   // Use a Spice object to test radii
@@ -177,11 +177,11 @@ int main(int argc, char *argv[]) {
   lab6.addGroup(kern3);
   Target target3(NULL, lab6);
   cout << endl << "  Testing methods setShapeEllipsoid and restoreShape..." << endl;
-  cout << "    Original shape is " << target3.shape()->name() << endl;
+  cout << "    Original shape is " << target3.shape()->name().toStdString() << endl;
   target3.setShapeEllipsoid();
-  cout << "    Shape changed to  " << target3.shape()->name() << endl;
+  cout << "    Shape changed to  " << target3.shape()->name().toStdString() << endl;
   target3.restoreShape();
-  cout << "    Shape restored to  " << target3.shape()->name() << endl;
+  cout << "    Shape restored to  " << target3.shape()->name().toStdString() << endl;
 
   //Test the default constructor
   Target defaultTarget;

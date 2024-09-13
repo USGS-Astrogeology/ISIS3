@@ -27,8 +27,8 @@ int main(int argc, char *argv[]) {
   strncpy(str, "HOST=wang", 256);
   putenv(str);
   
-  cerr << "userName: " << Environment::userName() << "\n";
-  cerr << "hostName: " << Environment::hostName() << "\n";
+  cerr << "userName: " << Environment::userName().toStdString() << "\n";
+  cerr << "hostName: " << Environment::hostName().toStdString() << "\n";
   
   QString cmd = "echo 'version:  isis" + Environment::isisVersion() + "' | cut -d . -f1";
   ProgramLauncher::RunSystemCommand(cmd);

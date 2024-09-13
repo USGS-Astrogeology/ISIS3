@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Create an EmbreeShapeModel from a string";
     qDebug() << "";
     QString itokawaCubeFile("$ISISTESTDATA/isis/src/hayabusa/unitTestData/st_2391934788_v.cub");
-    Cube itokawaCube(itokawaCubeFile);
+    Cube itokawaCube(itokawaCubeFile.toStdString());
     Camera *itokawaCamera = itokawaCube.camera();
     Target *itokawaTarget = itokawaCamera->target();
     EmbreeShapeModel itokawaModel(itokawaTarget, dskfile, manager);

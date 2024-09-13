@@ -10,6 +10,8 @@ find files of those names at the top level of this repository. **/
 #include "IException.h"
 #include "IString.h"
 #include "Preference.h"
+#include <QString>
+#include <QStringList> 
 
 using namespace Isis;
 using namespace std;
@@ -38,7 +40,7 @@ class TestTranslationManager : public LabelTranslationManager {
     }
 
     virtual QString Translate(QString nName, int findex = 0) {
-      QString inputValue = "Test Input, Index " + toString(findex);
+      QString inputValue = "Test Input, Index " + QString::number(findex);
       return PvlTranslationTable::Translate(nName, inputValue);
     }
 };
@@ -115,7 +117,7 @@ int main(void) {
 
     cout << endl << "Testing Translate method:" << endl;
     cout << endl << "Translating Extra: ";
-    cout << transMgr.Translate("Extra") << endl;
+    cout << transMgr.Translate("Extra").toStdString() << endl;
 
     cout << endl << "Testing Auto method:" << endl;
     Pvl translatedLabel;
@@ -188,7 +190,7 @@ int main(void) {
 
   try {
     cout << endl << "Testing parseSpecification method: att@name|value1|value2" << endl;
-    transMgr.parseSpecification((QString)"att@name|value1|value2");
+    transMgr.parseSpecification("att@name|value1|value2");
   }
   catch(IException &e) {
     e.print();

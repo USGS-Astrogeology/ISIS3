@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 
     cout << "Clean-up" << endl;
     delete importer;
-    QFile::remove(outputName.expanded());
+    QFile::remove(QString::fromStdString(outputName.expanded()));
 
     cout << endl << "Done" << endl;
   }

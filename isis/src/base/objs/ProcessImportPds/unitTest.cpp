@@ -13,7 +13,8 @@ find files of those names at the top level of this repository. **/
 #include "IString.h"
 #include "OriginalLabel.h"
 #include "Statistics.h"
-#include "QRegularExpression"
+
+#include <regex>
 
 using namespace std;
 using namespace Isis;
@@ -85,7 +86,7 @@ void IsisMain() {
       Isis::OriginalLabel ol(file);
     }
     catch(Isis::IException &e) {
-      ReportError(e.toString());
+      ReportError(QString::fromStdString(e.toString()));
     }
     QFile::remove(file);
   }
@@ -163,7 +164,7 @@ void IsisMain() {
     p.SetPdsFile("$ISISTESTDATA/isis/src/galileo/unitTestData/1213r.img", "$ISISTESTDATA/isis/src/galileo/unitTestData/1213r.img", plab);
   }
   catch (Isis::IException &e) {
-    ReportError(e.toString());
+    ReportError(QString::fromStdString(e.toString()));
   }
   
   //  Test that defaults for projection offsets are changed and can be returned
@@ -204,5 +205,6 @@ void IsisMain() {
  *                           Fixes #4738.
  */
 void ReportError(QString err) {
-  cout << err.replace(QRegularExpression("(\\/[\\w\\-\\. ]*)+\\/galileo"), "galileo") << endl;
+  std::regex pattern("(\\/[\\w\\-\\. ]*)+\\/galileo");
+  cout << std::regex_replace(err.toStdString(), pattern, "galileo") << endl;
 }

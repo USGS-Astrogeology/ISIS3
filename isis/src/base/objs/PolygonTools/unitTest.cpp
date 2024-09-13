@@ -182,7 +182,7 @@ int main() {
 
     cout << "GML Ploygon:" << endl;
     QString GMLpolygon = PolygonTools::ToGML(mPolygon, "test");
-    cout << GMLpolygon << endl;
+    cout << GMLpolygon.toStdString() << endl;
 
     cout << "GML Thickness:" << endl;
     double th = PolygonTools::Thickness(mPolygon);

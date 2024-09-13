@@ -11,6 +11,7 @@ find files of those names at the top level of this repository. **/
 #include "FileName.h"
 #include "Pvl.h"
 #include "Preference.h"
+#include <regex>
 
 using namespace Isis;
 using namespace std;
@@ -74,7 +75,8 @@ void doit(Cube &cube) {
   }
   catch(IException &error) {
     IString errorStr = error.toString();
-    errorStr = errorStr.replace(QRegExp(" in file.*"), ".");
+    std::regex pattern(" in file.*");
+    errorStr = std::regex_replace(errorStr, pattern, ".");
     cerr << errorStr << endl;
   }
 
@@ -85,7 +87,8 @@ void doit(Cube &cube) {
   }
   catch(IException &error) {
     IString errorStr = error.toString();
-    errorStr = errorStr.replace(QRegExp(" in file.*"), ".");
+    std::regex pattern(" in file.*");
+    errorStr = std::regex_replace(errorStr, pattern, ".");
     cerr << errorStr << endl;
   }
 

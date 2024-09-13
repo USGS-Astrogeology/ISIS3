@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
 
     cout << "Clean-up" << endl;
     delete importer;
-    remove(outputName.expanded().toLatin1().data());
+    remove(outputName.expanded().c_str());
 
     cout << endl << "Done" << endl;
   }

@@ -26,9 +26,31 @@ void printFailure(IString methodName, IString message="") {
     " : " << message << endl;
 }
 
+void compareEqual(IString methodName, double expected, double found,
+    IString expectedString="", IString foundString="") {
 
-template <class T>
-void compareEqual(IString methodName, T expected, T found,
+  bool equal = expected == found;
+  cout <<
+    (equal ? "PASS : " : "FAIL : ") <<
+    className << "::" << methodName << " : " <<
+    (expectedString != "" ? expectedString : IString(expected)) <<
+    (equal ? " == " : " != ") <<
+    (foundString != "" ? foundString : IString(found)) << endl;
+}
+
+void compareEqual(IString methodName, int expected, int found,
+    IString expectedString="", IString foundString="") {
+
+  bool equal = expected == found;
+  cout <<
+    (equal ? "PASS : " : "FAIL : ") <<
+    className << "::" << methodName << " : " <<
+    (expectedString != "" ? expectedString : IString(expected)) <<
+    (equal ? " == " : " != ") <<
+    (foundString != "" ? foundString : IString(found)) << endl;
+}
+
+void compareEqual(IString methodName, IString expected, IString found,
     IString expectedString="", IString foundString="") {
 
   bool equal = expected == found;
@@ -83,10 +105,7 @@ int main() {
     const ExportDescription::ChannelDescription &channel = desc.channel(i);
     compareEqual(innerName + "::filename()",
         filenames[i].name(), channel.filename().name());
-    compareEqual(innerName + "::attributes()",
-        QString("1"),
-        QString(
-            channel.attributes().toString()).mid(1));
+    compareEqual(innerName + "::attributes()", "1", channel.attributes().toString().toStdString().substr(1));
 
     if (i == 0) {
       compareEqual(innerName + "::hasCustomRange()",

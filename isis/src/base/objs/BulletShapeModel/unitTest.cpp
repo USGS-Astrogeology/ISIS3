@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "";
     qDebug() << "";
 
-    Cube itokawaCube(itokawaCubeFile);
+    Cube itokawaCube(itokawaCubeFile.toStdString());
     Camera *itokawaCamera = itokawaCube.camera();
     Target *itokawaTarget = itokawaCamera->target();
 

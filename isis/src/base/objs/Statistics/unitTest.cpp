@@ -35,12 +35,12 @@ namespace Isis {
     public:
       StatisticsXmlHandlerTester(QXmlStreamReader *reader, FileName xmlFile) : Statistics() {
 
-        QString xmlPath(xmlFile.expanded());
+        QString xmlPath(QString::fromStdString(xmlFile.expanded()));
         QFile file(xmlPath);
 
         if (!file.open(QFile::ReadOnly) ) {
           throw IException(IException::Io,
-                           QString("Unable to open xml file, [%1],  with read access").arg(xmlPath),
+                           "Unable to open xml file, ["+xmlPath.toStdString()+"],  with read access",
                            _FILEINFO_);
         }
 
@@ -371,11 +371,11 @@ int main(int argc, char *argv[]) {
     // write xml 
     qDebug() << "Testing XML: write XML from Statistics object...";
     FileName xmlFile("./Statistics.xml");
-    QString xmlPath = xmlFile.expanded();
+    QString xmlPath = QString::fromStdString(xmlFile.expanded());
     QFile qXmlFile(xmlPath);
     if (!qXmlFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
       throw IException(IException::Io,
-                       QString("Unable to open xml file, [%1],  with write access").arg(xmlPath),
+                       "Unable to open xml file, ["+xmlPath.toStdString()+"],  with write access",
                        _FILEINFO_);
     }
     QXmlStreamWriter writer(&qXmlFile);
@@ -390,7 +390,7 @@ int main(int argc, char *argv[]) {
 
     if(!qXmlFile.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(qXmlFile.fileName()),
+                        "Failed to parse xml file, ["+qXmlFile.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
 
@@ -428,10 +428,10 @@ int main(int argc, char *argv[]) {
     qDebug() << "Testing XML: read XML with no attributes or values to Statistics object...";
     FileName emptyXmlFile("./unitTest_NoElementValues.xml");
     
-    QFile xml(emptyXmlFile.expanded());
+    QFile xml(QString::fromStdString(emptyXmlFile.expanded()));
     if(!xml.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(xml.fileName()),
+                       "Failed to parse xml file, ["+xml.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
     QXmlStreamReader reader2(&xml);
@@ -541,7 +541,7 @@ int main(int argc, char *argv[]) {
 
     bool deleted = qXmlFile.remove();
     if (!deleted) {
-      std::string msg = "Unit Test failed. XML file [" + xmlPath + "not deleted.";
+      std::string msg = "Unit Test failed. XML file [" + xmlPath.toStdString() + "not deleted.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }

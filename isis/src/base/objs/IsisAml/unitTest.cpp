@@ -35,126 +35,126 @@ Inheritor::Inheritor(const char *xmlfile): IsisAml(xmlfile) {
   try {
     cout << "---------- Tests for private data ----------" << endl;
 
-    cout << "  App name = " << name << endl;
-    cout << "  App brief = " << brief << endl;
-    cout << "  App description = " << description << endl;
+    cout << "  App name = " << name.toStdString() << endl;
+    cout << "  App brief = " << brief.toStdString() << endl;
+    cout << "  App description = " << description.toStdString() << endl;
 
     // Print categories
     for(unsigned int l = 0; l < categorys.size(); l++) {
-      cout << "  category[" << l << "] = " << categorys[l] << endl;
+      cout << "  category[" << l << "] = " << categorys[l].toStdString() << endl;
     }
 
     // Loop for each group
     for(unsigned int g = 0; g < groups.size(); g++) {
-      cout << "  group " << g << " name = " << groups[g].name << endl;
+      cout << "  group " << g << " name = " << groups[g].name.toStdString() << endl;
 
       // Loop for each parameter in the group
       for(unsigned int p = 0; p < groups[g].parameters.size(); p++) {
         cout << "    parameter " << p << ", name = " <<
-             groups[g].parameters[p].name << endl;
-        cout << "      type = " << groups[g].parameters[p].type << endl;
-        cout << "      brief = " << groups[g].parameters[p].brief << endl;
+             groups[g].parameters[p].name.toStdString() << endl;
+        cout << "      type = " << groups[g].parameters[p].type.toStdString() << endl;
+        cout << "      brief = " << groups[g].parameters[p].brief.toStdString() << endl;
         cout << "      description = " <<
-             groups[g].parameters[p].description << endl;
+             groups[g].parameters[p].description.toStdString() << endl;
         cout << "      internal def = " <<
-             groups[g].parameters[p].internalDefault << endl;
+             groups[g].parameters[p].internalDefault.toStdString() << endl;
         // Loop for each helper in the parameter
         cout << "      helpers = " << groups[g].parameters[p].helpers.size()
              << endl;
         for(unsigned int h = 0; h < groups[g].parameters[p].helpers.size(); h++) {
-          cout << "        name = " << groups[g].parameters[p].helpers[h].name << endl;
-          cout << "        brief = " << groups[g].parameters[p].helpers[h].brief << endl;
-          cout << "        description = " << groups[g].parameters[p].helpers[h].description << endl;
-          cout << "        function = " << groups[g].parameters[p].helpers[h].function << endl;
-          cout << "        icon = " << groups[g].parameters[p].helpers[h].icon << endl;
+          cout << "        name = " << groups[g].parameters[p].helpers[h].name.toStdString() << endl;
+          cout << "        brief = " << groups[g].parameters[p].helpers[h].brief.toStdString() << endl;
+          cout << "        description = " << groups[g].parameters[p].helpers[h].description.toStdString() << endl;
+          cout << "        function = " << groups[g].parameters[p].helpers[h].function.toStdString() << endl;
+          cout << "        icon = " << groups[g].parameters[p].helpers[h].icon.toStdString() << endl;
 
         }
-        cout << "      count = " << groups[g].parameters[p].count << endl;
-        cout << "      minimum = " << groups[g].parameters[p].minimum << endl;
+        cout << "      count = " << groups[g].parameters[p].count.toStdString() << endl;
+        cout << "      minimum = " << groups[g].parameters[p].minimum.toStdString() << endl;
         cout << "      minimum inclusive = " <<
-             groups[g].parameters[p].minimum_inclusive << endl;
-        cout << "      maximum = " << groups[g].parameters[p].maximum << endl;
+             groups[g].parameters[p].minimum_inclusive.toStdString() << endl;
+        cout << "      maximum = " << groups[g].parameters[p].maximum.toStdString() << endl;
         cout << "      maximum inclusive = " <<
-             groups[g].parameters[p].maximum_inclusive << endl;
-        cout << "      filter = " << groups[g].parameters[p].filter << endl;
-        cout << "      file mode = " << groups[g].parameters[p].fileMode << endl;
-        cout << "      odd = " << groups[g].parameters[p].odd << endl;
+             groups[g].parameters[p].maximum_inclusive.toStdString() << endl;
+        cout << "      filter = " << groups[g].parameters[p].filter.toStdString() << endl;
+        cout << "      file mode = " << groups[g].parameters[p].fileMode.toStdString() << endl;
+        cout << "      odd = " << groups[g].parameters[p].odd.toStdString() << endl;
 
         // Print the current values
         cout << "      Values:" << endl;
         for(unsigned int l = 0; l < groups[g].parameters[p].values.size(); l++) {
           cout << "        [" << l << "] = " <<
-               groups[g].parameters[p].values[l] << endl;
+               groups[g].parameters[p].values[l].toStdString() << endl;
         }
 
         // Print the default values
         cout << "      Default Values:" << endl;
         for(unsigned int l = 0; l < groups[g].parameters[p].defaultValues.size(); l++) {
           cout << "        [" << l << "] = " <<
-               groups[g].parameters[p].defaultValues[l] << endl;
+               groups[g].parameters[p].defaultValues[l].toStdString() << endl;
         }
 
         // Print the parameters which this one must be greater than
         cout << "      Greater Than:" << endl;
         for(unsigned int l = 0; l < groups[g].parameters[p].greaterThan.size(); l++) {
           cout << "        [" << l << "] = " <<
-               groups[g].parameters[p].greaterThan[l] << endl;
+               groups[g].parameters[p].greaterThan[l].toStdString() << endl;
         }
 
         // Print the parameters which this one must be greater than or equal
         cout << "      Greater or Equal Than:" << endl;
         for(unsigned int l = 0; l < groups[g].parameters[p].greaterThanOrEqual.size(); l++) {
           cout << "        [" << l << "] = " <<
-               groups[g].parameters[p].greaterThanOrEqual[l] << endl;
+               groups[g].parameters[p].greaterThanOrEqual[l].toStdString() << endl;
         }
 
         // Print the parameters which this one must be less than
         cout << "      Less Than:" << endl;
         for(unsigned int l = 0; l < groups[g].parameters[p].lessThan.size(); l++) {
           cout << "        [" << l << "] = " <<
-               groups[g].parameters[p].lessThan[l] << endl;
+               groups[g].parameters[p].lessThan[l].toStdString() << endl;
         }
 
         // Print the parameters which this one must be less than or equal
         cout << "      Less Than or Equal:" << endl;
         for(unsigned int l = 0; l < groups[g].parameters[p].lessThanOrEqual.size(); l++) {
           cout << "        [" << l << "] = " <<
-               groups[g].parameters[p].lessThanOrEqual[l] << endl;
+               groups[g].parameters[p].lessThanOrEqual[l].toStdString() << endl;
         }
 
         // Print the parameters which this one must not be equal to
         cout << "      Not equal to:" << endl;
         for(unsigned int l = 0; l < groups[g].parameters[p].notEqual.size(); l++) {
           cout << "        [" << l << "] = " <<
-               groups[g].parameters[p].notEqual[l] << endl;
+               groups[g].parameters[p].notEqual[l].toStdString() << endl;
         }
 
         // Print the parameters which must be included if this parameter is used
         cout << "      Include parameters:" << endl;
         for(unsigned int l = 0; l < groups[g].parameters[p].include.size(); l++) {
           cout << "        [" << l << "] = " <<
-               groups[g].parameters[p].include[l] << endl;
+               groups[g].parameters[p].include[l].toStdString() << endl;
         }
 
         // Print the parameters which must NOT be included if this parameter is used
         cout << "      Exclude parameters:" << endl;
         for(unsigned int l = 0; l < groups[g].parameters[p].exclude.size(); l++) {
           cout << "        [" << l << "] = " <<
-               groups[g].parameters[p].exclude[l] << endl;
+               groups[g].parameters[p].exclude[l].toStdString() << endl;
         }
 
         // Print the parameter's list options
         cout << "      List data:" << endl;
         for(unsigned int l = 0; l < groups[g].parameters[p].listOptions.size(); l++) {
           cout << "        value [" << l << "] = " <<
-               groups[g].parameters[p].listOptions[l].value << endl;
+               groups[g].parameters[p].listOptions[l].value.toStdString() << endl;
           cout << "        brief [" << l << "] = " <<
-               groups[g].parameters[p].listOptions[l].brief << endl;
+               groups[g].parameters[p].listOptions[l].brief.toStdString() << endl;
           cout << "        description [" << l << "] = " <<
-               groups[g].parameters[p].listOptions[l].description << endl;
+               groups[g].parameters[p].listOptions[l].description.toStdString() << endl;
           for(unsigned int e = 0; e < groups[g].parameters[p].listOptions[l].exclude.size(); e++) {
             cout << "          exclude = " <<
-                 groups[g].parameters[p].listOptions[l].exclude[e] << endl;
+                 groups[g].parameters[p].listOptions[l].exclude[e].toStdString() << endl;
           }
         }
       }
@@ -171,9 +171,9 @@ int main(void) {
   // Create the aml object
   cout << "Create the aml object" << endl;
   Inheritor *aml;
-  QString xmlFile = FileName("./unitTest.xml").expanded();
+  std::string xmlFile = FileName("./unitTest.xml").expanded();
   try {
-    aml = new Inheritor(xmlFile.toLatin1().data());
+    aml = new Inheritor(xmlFile.c_str());
   }
   catch(IException &error) {
     error.print();
@@ -185,61 +185,61 @@ int main(void) {
   try {
     cout << "Application information" << endl;
 
-    cout << "Program name : " << aml->ProgramName() << endl;
-    cout << "Brief description: " << aml->Brief() << endl;
-    cout << "Full description: " << aml->Description() << endl;
-    cout << "Version date: " << aml->Version() << endl << endl;
+    cout << "Program name : " << aml->ProgramName().toStdString() << endl;
+    cout << "Brief description: " << aml->Brief().toStdString() << endl;
+    cout << "Full description: " << aml->Description().toStdString() << endl;
+    cout << "Version date: " << aml->Version().toStdString() << endl << endl;
 
     cout << "Number of parameter groups : " << aml->NumGroups() << endl << endl;
     cout << "Parameter information:" << endl;
     for(int g = 0; g < aml->NumGroups(); g++) {
       cout << "  Group number: " << g << endl;
-      cout << "  Group name : " << aml->GroupName(g) << endl;
+      cout << "  Group name : " << aml->GroupName(g).toStdString() << endl;
       for(int p = 0; p < aml->NumParams(g); p++) {
         cout << "    Parameter number: " << p << endl;
-        cout << "      Name: " << aml->ParamName(g, p) << endl;
-        cout << "      Type: " << aml->ParamType(g, p) << endl;
-        cout << "      Brief: " << aml->ParamBrief(g, p) << endl;
-        cout << "      Default: " << aml->ParamDefault(g, p) << endl;
-        cout << "      Internal default: " << aml->ParamInternalDefault(g, p) << endl;
-        cout << "      Filter: " << aml->ParamFilter(g, p) << endl;
-        cout << "      File Mode: " << aml->ParamFileMode(g, p) << endl;
+        cout << "      Name: " << aml->ParamName(g, p).toStdString() << endl;
+        cout << "      Type: " << aml->ParamType(g, p).toStdString() << endl;
+        cout << "      Brief: " << aml->ParamBrief(g, p).toStdString() << endl;
+        cout << "      Default: " << aml->ParamDefault(g, p).toStdString() << endl;
+        cout << "      Internal default: " << aml->ParamInternalDefault(g, p).toStdString() << endl;
+        cout << "      Filter: " << aml->ParamFilter(g, p).toStdString() << endl;
+        cout << "      File Mode: " << aml->ParamFileMode(g, p).toStdString() << endl;
         cout << "      Helper Information:" << endl;
         for(int h = 0; h < aml->HelpersSize(g, p); h++) {
-          cout << "        Name: " << aml->HelperButtonName(g, p, h) << endl;
-          cout << "        Brief: " << aml->HelperBrief(g, p, h) << endl;
-          cout << "        Description: " << aml->HelperDescription(g, p, h) << endl;
-          cout << "        Function: " << aml->HelperFunction(g, p, h) << endl;
-          cout << "        Icon: " << aml->HelperIcon(g, p, h) << endl;
+          cout << "        Name: " << aml->HelperButtonName(g, p, h).toStdString() << endl;
+          cout << "        Brief: " << aml->HelperBrief(g, p, h).toStdString() << endl;
+          cout << "        Description: " << aml->HelperDescription(g, p, h).toStdString() << endl;
+          cout << "        Function: " << aml->HelperFunction(g, p, h).toStdString() << endl;
+          cout << "        Icon: " << aml->HelperIcon(g, p, h).toStdString() << endl;
         }
         cout << "      List Information:" << endl;
         for(int o = 0; o < aml->ParamListSize(g, p); o++) {
-          cout << "        Value: " << aml->ParamListValue(g, p, o) << endl;
-          cout << "        Brief: " << aml->ParamListBrief(g, p, o) << endl;
-          cout << "        Description: " << aml->ParamListDescription(g, p, o) << endl;
+          cout << "        Value: " << aml->ParamListValue(g, p, o).toStdString() << endl;
+          cout << "        Brief: " << aml->ParamListBrief(g, p, o).toStdString() << endl;
+          cout << "        Description: " << aml->ParamListDescription(g, p, o).toStdString() << endl;
           cout << "        List exclusions: " << endl;
           for(int e = 0; e < aml->ParamListExcludeSize(g, p, o); e++) {
-            cout << "          Exclude parameter: " << aml->ParamListExclude(g, p, o, e) << endl;
+            cout << "          Exclude parameter: " << aml->ParamListExclude(g, p, o, e).toStdString() << endl;
           }
           cout << "        List inclusions: " << endl;
           for(int i = 0; i < aml->ParamListIncludeSize(g, p, o); i++) {
-            cout << "          Include parameter: " << aml->ParamListInclude(g, p, o, i) << endl;
+            cout << "          Include parameter: " << aml->ParamListInclude(g, p, o, i).toStdString() << endl;
           }
         }
       }
     }
 
     cout << "Get/Put/Clear/WasEntered tests" << endl;
-    cout << "Default value of G0P1 is " << aml->GetFileName("G0P1") << endl;
+    cout << "Default value of G0P1 is " << aml->GetFileName("G0P1").toStdString() << endl;
     cout << "G0P1 WasEntered value " << aml->WasEntered("G0P1") << endl;
     aml->PutAsString("G0P1", "/home/user/file1.cub");
     cout << "G0P1 WasEntered value " << aml->WasEntered("G0P1") << endl;
-    cout << "The value of G0P1 is " << aml->GetFileName("G0P1") << endl;
+    cout << "The value of G0P1 is " << aml->GetFileName("G0P1").toStdString() << endl;
     aml->Clear("G0P1");
-    cout << "Default value of G0P1 is " << aml->GetFileName("G0P1") << endl;
+    cout << "Default value of G0P1 is " << aml->GetFileName("G0P1").toStdString() << endl;
     aml->PutFileName("G0P1", "/home/user/file2.dat");
-    cout << "The value of G0P1 is " << aml->GetFileName("G0P1") << endl << endl;
-    cout << "The value of G0P1 is " << aml->GetFileName("G0P1", "txt") << endl << endl;
+    cout << "The value of G0P1 is " << aml->GetFileName("G0P1").toStdString() << endl << endl;
+    cout << "The value of G0P1 is " << aml->GetFileName("G0P1", "txt").toStdString() << endl << endl;
     aml->Clear("G0P1");
 
     cout << "Default value of G1P1 is " << aml->GetInteger("G1P1") << endl;
@@ -252,9 +252,9 @@ int main(void) {
     cout << "The value of G1P2 is " << aml->GetDouble("G1P2") << endl << endl;
     aml->Clear("G1P2");
 
-    cout << "Default value of G1P0 is " << aml->GetString("G1P0") << endl;
+    cout << "Default value of G1P0 is " << aml->GetString("G1P0").toStdString() << endl;
     aml->PutString("G1P0", "G1p0L1");
-    cout << "The value of G1P0 is " << aml->GetString("G1P0") << endl << endl;
+    cout << "The value of G1P0 is " << aml->GetString("G1P0").toStdString() << endl << endl;
     aml->Clear("G1P0");
 
     aml->PutBoolean("G6P0", true);
@@ -317,9 +317,9 @@ int main(void) {
     aml->Clear("G6P0");
 
     cout << "Exact and partial name match tests:" << endl;
-    cout << "  FROM's value = " << aml->GetString("from") << endl;
-    cout << "  FROM1's value = " << aml->GetString("from1") << endl;
-    cout << "  FR's value = " << aml->GetString("fr") << endl;
+    cout << "  FROM's value = " << aml->GetString("from").toStdString() << endl;
+    cout << "  FROM1's value = " << aml->GetString("from1").toStdString() << endl;
+    cout << "  FR's value = " << aml->GetString("fr").toStdString() << endl;
     cout << endl;
   }
   catch(IException &error) {
@@ -338,7 +338,7 @@ int main(void) {
       aml->PutAsString("G1P0", "22222");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
     aml->Clear("G1P0");
 
@@ -348,7 +348,7 @@ int main(void) {
       aml->PutString("G1P0", "22222");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
     aml->Clear("G1P0");
 
@@ -356,7 +356,7 @@ int main(void) {
       aml->PutString("G2P4", "xxxxxx");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     cout << "  PutFileName:" << endl;
@@ -365,7 +365,7 @@ int main(void) {
       aml->PutFileName("G0P0", "yyyyyyy");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
     aml->Clear("G0P0");
 
@@ -373,7 +373,7 @@ int main(void) {
       aml->PutCubeName("G2P4", "xxxxxx");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     cout << "  Cube tests:" << endl;
@@ -381,10 +381,10 @@ int main(void) {
     try { // UNABLE TO GET INPUT CUBE ATTRIBUTES
       aml->PutCubeName("CUBE2", "xxxxxxx.cub+1,2-4");
       CubeAttributeInput &att = aml->GetInputAttribute("CUBE2");
-      cout << "    " << att.toString() << endl;
+      cout << "    " << att.toString().toStdString() << endl;
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
     aml->Clear("CUBE2");
 
@@ -392,12 +392,12 @@ int main(void) {
       aml->PutCubeName("CUBE1", "yyyyyyy.cub+8-bit+BSQ+detached");
       CubeAttributeOutput &att = aml->GetOutputAttribute("CUBE1");
       QString strng = att.toString();
-      cout << "    Att QString  = " << strng << endl;
-      cout << "    File format = " << att.fileFormatString() << endl;
-      cout << "    Pixel type  = " << PixelTypeName(att.pixelType()) << endl;
+      cout << "    Att QString  = " << strng.toStdString() << endl;
+      cout << "    File format = " << att.fileFormatString().toStdString() << endl;
+      cout << "    Pixel type  = " << PixelTypeName(att.pixelType()).toStdString() << endl;
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
     aml->Clear("CUBE1");
 
@@ -407,7 +407,7 @@ int main(void) {
       aml->PutInteger("G6P2", 1);
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
     aml->Clear("G6P2");
 
@@ -415,7 +415,7 @@ int main(void) {
       aml->PutInteger("G6P0", 1);
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     cout << "  PutDouble:" << endl;
@@ -424,7 +424,7 @@ int main(void) {
       aml->PutDouble("G1P2", 1.0);
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
     aml->Clear("G1P2");
 
@@ -432,7 +432,7 @@ int main(void) {
       aml->PutDouble("G0P0", 1.0);
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
 
@@ -442,7 +442,7 @@ int main(void) {
       aml->PutBoolean("G6P0", false);
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
     aml->Clear("G6P0");
 
@@ -450,7 +450,7 @@ int main(void) {
       aml->PutBoolean("G0P0", false);
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     cout << "  GetAsString:" << endl;
@@ -458,7 +458,7 @@ int main(void) {
       QString s = aml->GetAsString("G2P0");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     cout << "  GetFileName:" << endl;
@@ -466,14 +466,14 @@ int main(void) {
       QString s = aml->GetFileName("G0P0");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     try { // PARAMETER NOT FILENAME
       QString s = aml->GetFileName("G2P4");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
 #if 0
@@ -501,14 +501,14 @@ int main(void) {
       QString s = aml->GetString("G6P3");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     try { // PARAMETER NOT STRING
       QString s = aml->GetString("G2P4");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     cout << "  GetInteger:" << endl;
@@ -516,14 +516,14 @@ int main(void) {
       aml->GetInteger("G2P0");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     try { // PARAMETER NOT INTEGER
       aml->GetInteger("G0P0");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     cout << "  GetDouble:" << endl;
@@ -531,14 +531,14 @@ int main(void) {
       aml->GetDouble("G1P3");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     try { // PARAMETER NOT DOUBLE
       aml->GetDouble("G0P1");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     cout << "  GetBoolean:" << endl;
@@ -546,7 +546,7 @@ int main(void) {
       aml->GetBoolean("G6P0");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     try { // INVALID BOOLEAN VALUE
@@ -554,7 +554,7 @@ int main(void) {
       aml->GetBoolean("G6P0");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
     aml->Clear("G6P0");
 
@@ -562,14 +562,14 @@ int main(void) {
       aml->GetBoolean("G1P1");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
     try { // PARAMETER NOT UNIQUE
       QString s = aml->GetString("F");
     }
     catch(IException &error) {
-      ReportError(error.toString());
+      ReportError(QString::fromStdString(error.toString()));
     }
 
   }
@@ -707,7 +707,7 @@ int main(void) {
     aml->VerifyAll();
   }
   catch(IException &error) {
-    ReportError(error.toString());
+    ReportError(QString::fromStdString(error.toString()));
   }
   aml->Clear("G1P0");
   aml->PutAsString("G1P3", "1.1");
@@ -719,7 +719,7 @@ int main(void) {
     aml->VerifyAll();
   }
   catch(IException &error) {
-    ReportError(error.toString());
+    ReportError(QString::fromStdString(error.toString()));
   }
   aml->Clear("G2P0");
 
@@ -728,7 +728,7 @@ int main(void) {
     aml->Clear("xyz");
   }
   catch(IException &error) {
-    ReportError(error.toString());
+    ReportError(QString::fromStdString(error.toString()));
   }
 
   cout << "---------- Check errors for user file overwrite preferences ----------" << endl;
@@ -751,7 +751,7 @@ int main(void) {
     aml->VerifyAll();
   }
   catch(IException &error) {
-    ReportError(error.toString());
+    ReportError(QString::fromStdString(error.toString()));
   }
 
   try { // INVALID OVERWRITE VALUE IN USER PREFERENCE FILE
@@ -760,7 +760,7 @@ int main(void) {
     aml->VerifyAll();
   }
   catch(IException &error) {
-    ReportError(error.toString());
+    ReportError(QString::fromStdString(error.toString()));
   }
   remove("junk.txt");
 }
@@ -773,6 +773,6 @@ int main(void) {
  *   @history 2010-07-26 Jeannie Walldren - Original version.
  */
 void ReportError(QString err) {
-  cout << err.replace(QRegExp("\\[/[^\\]]*\\]"), "[]") << endl << endl;
+  cout << err.replace(QRegExp("\\[/[^\\]]*\\]"), "[]").toStdString() << endl << endl;
 }
 

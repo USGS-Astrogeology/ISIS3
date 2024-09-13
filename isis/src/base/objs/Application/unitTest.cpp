@@ -30,7 +30,7 @@ void errorFormatting() {
   Isis::Pvl &prefs = Isis::Preference::Preferences();
   Isis::PvlGroup &errorPrefs = prefs.findGroup("ErrorFacility");
 
-  std::string errorString = Isis::Application::formatError(exception);
+  QString errorString = Isis::Application::formatError(exception);
   std::cout << errorString.toStdString() << std::endl;
 
   std::string &formatValue = errorPrefs["Format"][0];

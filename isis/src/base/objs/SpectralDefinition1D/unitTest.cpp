@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
   cerr << endl << "----- Testing multiple sections in opposite order-----" << endl << endl;
   try {
     SpectralDefinition1D oneD("assets/test-target-sections-desc.csv");
-    cerr << oneD.toString(); 
+    cerr << oneD.toString().toStdString(); 
     cerr << "The number of sections is : " << oneD.sectionCount() << endl; 
     Spectel spec;
     spec = oneD.findSpectelByWavelength(5.2, 3);
@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
     cerr << "Section number is: " << oneD.sectionNumber(1,1,1) << endl; 
     cerr << "Section number is: " << oneD.sectionNumber(10,3,10) << endl; 
     cerr << endl << "---- Testing toString --- " << endl << endl; 
-    cerr << oneD.toString(); 
+    cerr << oneD.toString().toStdString(); 
   }
   catch (IException &e) {
     e.print();

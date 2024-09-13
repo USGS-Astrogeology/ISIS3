@@ -116,8 +116,8 @@ void IsisMain() {
       }
   catch(Isis::IException &ex){
 
-      QString exMsg = ex.toString();
-      cout << exMsg.toStdString() << endl;
+      std::string exMsg = ex.toString();
+      cout << exMsg << endl;
 
 
   }
@@ -141,8 +141,8 @@ void IsisMain() {
   }
   catch(Isis::IException &ex){
 
-      QString exMsg = ex.toString();
-      cout << exMsg.toStdString() << endl;
+      std::string exMsg = ex.toString();
+      cout << exMsg << endl;
 
   }
 
@@ -171,8 +171,8 @@ void IsisMain() {
   }
   catch(Isis::IException &ex){
 
-      QString exMsg = ex.toString();
-      cout << exMsg.toStdString() << endl;
+      std::string exMsg = ex.toString();
+      cout << exMsg << endl;
 
   }
   p.SetTileSize(10,10);

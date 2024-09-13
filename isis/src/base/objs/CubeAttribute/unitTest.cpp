@@ -141,13 +141,13 @@ int main(int argc, char *argv[]) {
   cout << "Test of input attribute \"+3\"" << endl;
   try {
     CubeAttributeInput att("+3");
-    cout << att.toString() << endl;
+    cout << att.toString().toStdString() << endl;
 
     vector<QString> bands = att.bands();
     cout << "vector[" << bands.size() << "]:" << endl;
 
     for (unsigned int i = 0; i < bands.size(); i++)
-      cout << "\t" << bands[i] << endl;
+      cout << "\t" << bands[i].toStdString() << endl;
   }
   catch(IException &e) {
     e.print();
@@ -157,13 +157,13 @@ int main(int argc, char *argv[]) {
   cout << "Test of input attribute \"+3,5-9,99\"" << endl;
   try {
     CubeAttributeInput att("+3,5-9,99");
-    cout << att.toString() << endl;
+    cout << att.toString().toStdString() << endl;
 
     vector<QString> bands = att.bands();
     cout << "vector[" << bands.size() << "]:" << endl;
 
     for (unsigned int i = 0; i < bands.size(); i++)
-      cout << "\t" << bands[i] << endl;
+      cout << "\t" << bands[i].toStdString() << endl;
   }
   catch(IException &e) {
     e.print();
@@ -173,13 +173,13 @@ int main(int argc, char *argv[]) {
   cout << "Test of input attribute \"+7-10\"" << endl;
   try {
     CubeAttributeInput att("+7-10");
-    cout << att.toString() << endl;
+    cout << att.toString().toStdString() << endl;
 
     vector<QString> bands = att.bands();
     cout << "vector[" << bands.size() << "]:" << endl;
 
     for (unsigned int i = 0; i < bands.size(); i++)
-      cout << "\t" << bands[i] << endl;
+      cout << "\t" << bands[i].toStdString() << endl;
   }
   catch(IException &e) {
     e.print();
@@ -198,18 +198,18 @@ int main(int argc, char *argv[]) {
     att.setMinimum(1.0);
     att.setMaximum(2.0);
     att.setPixelType(UnsignedByte);
-    cout << att.toString() << endl;
+    cout << att.toString().toStdString() << endl;
 
     att.addAttributes("Attached");
     att.setMaximum(12.0);
     att.setPixelType(Real);
-    cout << att.toString() << endl;
+    cout << att.toString().toStdString() << endl;
 
     att.setLabelAttachment(DetachedLabel);
-    cout << att.toString() << endl;
+    cout << att.toString().toStdString() << endl;
 
     att.setLabelAttachment(ExternalLabel);
-    cout << att.toString() << endl;
+    cout << att.toString().toStdString() << endl;
   }
   catch (IException &e) {
     e.print();
@@ -222,7 +222,7 @@ int main(int argc, char *argv[]) {
     CubeAttributeInput att("+1-3,4,5,6,99-32");
     vector<QString> bandsVector(1, "+1-99");
     att.setBands(bandsVector);
-    cout << att.toString() << endl;
+    cout << att.toString().toStdString() << endl;
   }
   catch (IException &e) {
     e.print();
@@ -234,7 +234,7 @@ int main(int argc, char *argv[]) {
     CubeAttributeOutput att;
     att.setAttributes("+real");
     att.addAttributes(FileName("output/makecubeTruth5.cub"));
-    cout << att.toString() << endl;
+    cout << att.toString().toStdString() << endl;
   }
 
   // This is a correct result: The +'s are part of the path. This was suspected of being a bug.
@@ -248,7 +248,7 @@ int main(int argc, char *argv[]) {
     CubeAttributeOutput att;
     att.setMinimum(Null);
     att.setMaximum(52.0);
-    cout << att.toString() << endl;
+    cout << att.toString().toStdString() << endl;
   }
   catch (IException &e) {
     e.print();
@@ -258,7 +258,7 @@ int main(int argc, char *argv[]) {
 
 // Function to report everything about an output cube attribute
 void reportOutput(const CubeAttributeOutput &att, QString orderHint) {
-  cout << att.toString() << endl;
+  cout << att.toString().toStdString() << endl;
 
 //   Pvl pvl;
 //   att.Write(pvl);
@@ -267,7 +267,7 @@ void reportOutput(const CubeAttributeOutput &att, QString orderHint) {
   cout << "Propagate Pixel Type = " << att.propagatePixelType() << endl;
   try {
     QString tmp =   PixelTypeName(att.pixelType());
-    cout << "PixelType            = " << tmp << endl;
+    cout << "PixelType            = " << tmp.toStdString() << endl;
   }
   catch(IException &e) {
     e.print();
@@ -275,7 +275,7 @@ void reportOutput(const CubeAttributeOutput &att, QString orderHint) {
   cout << "Propagate Min/Max    = " << att.propagateMinimumMaximum() << endl;
   cout << "Minimum              = " << att.minimum() << endl;
   cout << "Maximum              = " << att.maximum() << endl;
-  cout << "FileFormatStr        = " << att.fileFormatString() << endl;
+  cout << "FileFormatStr        = " << att.fileFormatString().toStdString() << endl;
 
 //  cout << "ByteOrderStr         = " << att.ByteOrderStr() << endl;
 //  cout << "ByteOrder enum       = " << ByteOrderName(att.ByteOrder()) << endl;
@@ -289,7 +289,7 @@ void reportOutput(const CubeAttributeOutput &att, QString orderHint) {
     }
   }
   else {
-    oh = ByteOrderEnumeration(orderHint);
+    oh = ByteOrderEnumeration(orderHint.toStdString());
   }
   ByteOrder order =  att.byteOrder();
   if(order == oh) {
@@ -300,8 +300,8 @@ void reportOutput(const CubeAttributeOutput &att, QString orderHint) {
   }
 
   cout << "Label attachment     = ";
-  if(att.labelAttachment() == AttachedLabel)  cout << LabelAttachmentName(AttachedLabel) << endl;
-  if(att.labelAttachment() == DetachedLabel) cout << LabelAttachmentName(DetachedLabel) << endl;
+  if(att.labelAttachment() == AttachedLabel)  cout << LabelAttachmentName(AttachedLabel).toStdString() << endl;
+  if(att.labelAttachment() == DetachedLabel) cout << LabelAttachmentName(DetachedLabel).toStdString() << endl;
 
 #if 0
   fstream stream("CubeAttribute.truth", ios::in | ios::out);

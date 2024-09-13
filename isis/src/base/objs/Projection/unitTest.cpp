@@ -437,7 +437,7 @@ int main(int argc, char *argv[]) {
   cout << "Rotation:                  " << p.Rotation() << endl;
   cout << "Pixel Resolution:      " << p.MyPixelResolution() << endl;
   cout << "Resolution:      " << p.Resolution() << endl;
-  cout << "Projection name = " << p.Name() << endl;
+  cout << "Projection name = " << p.Name().toStdString() << endl;
   cout << "Pixel resolution = " << p.MyPixelResolution() << endl;
   cout << endl;
 
@@ -451,8 +451,8 @@ int main(int argc, char *argv[]) {
   cout << "Test == operator with names not matching, but resolutions do" << endl;
   cout << "Projection 1 resolution = " << p.Resolution() << endl;
   cout << "Projection 2 resolution = " << pMy2.Resolution() << endl;
-  cout << "Projection 1 name = " << p.Name() << endl;
-  cout << "Projection 2 name = " << pMy2.Name() << endl;
+  cout << "Projection 1 name = " << p.Name().toStdString() << endl;
+  cout << "Projection 2 name = " << pMy2.Name().toStdString() << endl;
   if (p == pMy2) 
     cout << "Result:   Match"  << endl;
   else
@@ -465,8 +465,8 @@ int main(int argc, char *argv[]) {
   pMy3.SetWorldMapper(new MyMapper());
   cout << "Projection 1 resolution = " << p.Resolution() << endl;
   cout << "Projection 2 resolution = " << pMy3.Resolution() << endl;
-  cout << "Projection 1 name = " << p.Name() << endl;
-  cout << "Projection 2 name = " << pMy3.Name() << endl;
+  cout << "Projection 1 name = " << p.Name().toStdString() << endl;
+  cout << "Projection 2 name = " << pMy3.Name().toStdString() << endl;
 
   if (p == pMy3) 
     cout << "Result:  Match"  << endl;
@@ -478,8 +478,8 @@ int main(int argc, char *argv[]) {
   MyProjection pMy4(lab);
   cout << "Projection 1 resolution = " << p.Resolution() << endl;
   cout << "Projection 2 resolution = " << pMy3.Resolution() << endl;
-  cout << "Projection 1 name = " << p.Name() << endl;
-  cout << "Projection 2 name = " << pMy3.Name() << endl;
+  cout << "Projection 1 name = " << p.Name().toStdString() << endl;
+  cout << "Projection 2 name = " << pMy3.Name().toStdString() << endl;
 
   if (p == pMy4) 
     cout << "Result:  Match"  << endl;
@@ -492,7 +492,7 @@ int main(int argc, char *argv[]) {
 
   cout << "Testing xyRange methods...\n" << endl;
   MyProjection p2(lab);
-  cout << "Projection 2 name = " << p2.Name() << endl;
+  cout << "Projection 2 name = " << p2.Name().toStdString() << endl;
   cout << "Get ground range from the labels...  " << endl;
   cout << "Has a ground range:  " << p2.HasGroundRange() << endl;
 
@@ -600,31 +600,31 @@ int main(int argc, char *argv[]) {
   cout << endl;
 
   cout << "Testing Name and comparision routines" << endl;
-  cout << "Name:        " << p2.Name() << endl;
+  cout << "Name:        " << p2.Name().toStdString() << endl;
   cout << "ProjectionType = " << p2.projectionType() << endl;
-  cout << "Version:     " << p2.Version() << endl;
+  cout << "Version:     " << p2.Version().toStdString() << endl;
   cout << "operator==:  " << (p == p2) << endl;
   cout << "operator!=:  " << (p != p2) << endl;
 
   cout << "Testing static conversion methods " << endl;
   cout << " 0 degrees in hours: " << p.ToHours(0.0) << endl;
-  cout << " 0 degrees in HMS format: " << p.ToHMS(0.0) << endl;
-  cout << " 0 degrees in DMS format: " << p.ToDMS(0.0) << endl;
+  cout << " 0 degrees in HMS format: " << p.ToHMS(0.0).toStdString() << endl;
+  cout << " 0 degrees in DMS format: " << p.ToDMS(0.0).toStdString() << endl;
   cout << " 30.5 degrees in hours: " << p.ToHours(30.5) << endl;
-  cout << " 30.5 degrees in HMS format: " << p.ToHMS(30.5) << endl;
-  cout << " 30.5 degrees in DMS format: " << p.ToDMS(30.5) << endl;
+  cout << " 30.5 degrees in HMS format: " << p.ToHMS(30.5).toStdString() << endl;
+  cout << " 30.5 degrees in DMS format: " << p.ToDMS(30.5).toStdString() << endl;
   cout << " 40.3472 degrees in hours: " << p.ToHours(40.3472) << endl;
-  cout << " 40.3472 degrees in HMS format: " << p.ToHMS(40.3472) << endl;
-  cout << " 40.3472 degrees in DMS format: " << p.ToDMS(40.3472) << endl;
+  cout << " 40.3472 degrees in HMS format: " << p.ToHMS(40.3472).toStdString() << endl;
+  cout << " 40.3472 degrees in DMS format: " << p.ToDMS(40.3472).toStdString() << endl;
   cout << " 45 degrees in Hours: " << p.ToHours(45.0) << endl;
-  cout << " 45 degrees in HMS format: " << p.ToHMS(45.0) << endl;
-  cout << " 45 degrees in DMS format: " << p.ToDMS(45.0) << endl;
+  cout << " 45 degrees in HMS format: " << p.ToHMS(45.0).toStdString() << endl;
+  cout << " 45 degrees in DMS format: " << p.ToDMS(45.0).toStdString() << endl;
   cout << " 180 degrees in Hours: " << p.ToHours(180.0) << endl;
-  cout << " 180 degrees in HMS format: " << p.ToHMS(180.0) << endl;
-  cout << " 180 degrees in DMS format: " << p.ToDMS(180.0) << endl;
+  cout << " 180 degrees in HMS format: " << p.ToHMS(180.0).toStdString() << endl;
+  cout << " 180 degrees in DMS format: " << p.ToDMS(180.0).toStdString() << endl;
   cout << " 360 degrees in Hours: " << p.ToHours(360.0) << endl;
-  cout << " 360 degrees in HMS format: " << p.ToHMS(360.0) << endl;
-  cout << " 360 degrees in DMS format: " << p.ToDMS(360.0) << endl;
+  cout << " 360 degrees in HMS format: " << p.ToHMS(360.0).toStdString() << endl;
+  cout << " 360 degrees in DMS format: " << p.ToDMS(360.0).toStdString() << endl;
 
   try {
     p.ToProjectionX(invalidValue);

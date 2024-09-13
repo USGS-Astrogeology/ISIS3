@@ -58,7 +58,7 @@ int main() {
 
     EquatorialCylindricalShape shape(&targ, pvl);
 
-    cout << "Shape name is " << shape.name() << endl;
+    cout << "Shape name is " << shape.name().toStdString() << endl;
     cout << "Shape is DEM type? " << toString(shape.isDEM()) << endl;
 
     cout << endl << "Testing method intersectSurface..." << endl; 

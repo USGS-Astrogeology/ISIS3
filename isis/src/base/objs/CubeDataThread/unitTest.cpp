@@ -22,7 +22,7 @@ using namespace Isis;
 using namespace std;
 
 void IsisMain() {
-  QString testFile = FileName("$ISISTESTDATA/isis/src/base/unitTestData/CubeDataThread/unitTest.cub").expanded();
+  QString testFile = QString::fromStdString(FileName("$ISISTESTDATA/isis/src/base/unitTestData/CubeDataThread/unitTest.cub").expanded());
   QString sysCommand = "cp " + testFile;
   ProgramLauncher::RunSystemCommand(sysCommand + " unitTest2.cub");
   ProgramLauncher::RunSystemCommand(sysCommand + " unitTest3.cub");

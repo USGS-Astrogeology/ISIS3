@@ -159,7 +159,7 @@ int main(void) {
 
     try {
       cout << "  Testing Translate" << endl;
-      cout << transMgr.Translate("Samples") << endl;
+      cout << transMgr.Translate("Samples").toStdString() << endl;
     }
     catch (IException &e) {
       e.print();
@@ -167,7 +167,7 @@ int main(void) {
 
     try {
       cout << "  Testing Bad Translate" << endl;
-      cout << transMgr.Translate("BAD") << endl;
+      cout << transMgr.Translate("BAD").toStdString() << endl;
     }
     catch (IException &e) {
       e.print();
@@ -221,7 +221,7 @@ int main(void) {
     try {
       cout << "  Testing Auto member" << endl;
       transMgr.Auto(*QDomDoc);
-      cout << QDomDoc->toString() << endl;
+      cout << QDomDoc->toString().toStdString() << endl;
       cout << endl;
     }
     catch(IException &e) {

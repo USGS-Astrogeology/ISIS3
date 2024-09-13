@@ -62,8 +62,8 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString exMsg = ex.toString();
-        cout << "1:" + exMsg.toStdString() << endl;
+        std::string exMsg = ex.toString();
+        cout << "1:" + exMsg << endl;
 
     }
 
@@ -73,8 +73,8 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString exMsg = ex.toString();
-        cout << "2:" + exMsg.toStdString() << endl;
+        std::string exMsg = ex.toString();
+        cout << "2:" + exMsg << endl;
 
     }
 
@@ -91,8 +91,8 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString exMsg = ex.toString();
-        cout << "3:" + exMsg.toStdString() << endl;
+        std::string exMsg = ex.toString();
+        cout << "3:" + exMsg << endl;
 
     }
 
@@ -113,8 +113,8 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString exMsg = ex.toString();
-        cout << "4:" + exMsg.toStdString() << endl;
+        std::string exMsg = ex.toString();
+        cout << "4:" + exMsg << endl;
 
     }
 
@@ -132,8 +132,8 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString exMsg = ex.toString();
-        cout << "5:" + exMsg.toStdString() << endl;
+        std::string exMsg = ex.toString();
+        cout << "5:" + exMsg << endl;
 
     }
 
@@ -151,8 +151,8 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString exMsg = ex.toString();
-        cout << "6:" + exMsg.toStdString() << endl;
+        std::string exMsg = ex.toString();
+        cout << "6:" + exMsg << endl;
 
     }
 
@@ -183,8 +183,8 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString exMsg = ex.toString();
-        cout << "7:" + exMsg.toStdString() << endl;
+        std::string exMsg = ex.toString();
+        cout << "7:" + exMsg << endl;
 
     }
 
@@ -212,8 +212,8 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString exMsg = ex.toString();
-        cout << "8:" + exMsg.toStdString() << endl;
+        std::string exMsg = ex.toString();
+        cout << "8:" + exMsg << endl;
 
     }
 
@@ -233,8 +233,8 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString exMsg = ex.toString();
-        cout << "9:" + exMsg.toStdString() << endl;
+        std::string exMsg = ex.toString();
+        cout << "9:" + exMsg << endl;
 
     }
 
@@ -257,8 +257,8 @@ void IsisMain() {
     }
     catch(Isis::IException &ex){
 
-        QString exMsg = ex.toString();
-        cout << "10:" + exMsg.toStdString() << endl;
+        std::string exMsg = ex.toString();
+        cout << "10:" + exMsg << endl;
 
     }
 
@@ -312,7 +312,7 @@ void IsisMain() {
     catch(Isis::IException &ex){
 
         std::string msg = ex.toString();
-        cout << msg.toStdString() << endl;
+        cout << msg << endl;
 
     }
 

@@ -91,7 +91,7 @@ void IsisMain() {
   p.SetStatCubes(output1 , output2 , out_atts, vimsPvl, 2);
 
   for(int f = 0; f < vimsCubes.size(); f++) {
-    Cube vimsCube(vimsCubes[f], "r");
+    Cube vimsCube(vimsCubes[f].toStdString(), "r");
     UniversalGroundMap *groundMap = new UniversalGroundMap(vimsCube);
 
     vimsValues.clear();
@@ -152,12 +152,12 @@ void IsisMain() {
 
   CubeAttributeInput atts;
 
-  std::cout << "File Name: " << output1 << std::endl;
+  std::cout << "File Name: " << output1.toStdString() << std::endl;
   pbl.SetInputCube(output1, atts, 0);
   pbl.StartProcess(writeAscii);
   pbl.EndProcess();
 
-  std::cout << "File Name: " << output2 << std::endl;
+  std::cout << "File Name: " << output2.toStdString() << std::endl;
   pbl.SetInputCube(output2, atts, 0);
   pbl.StartProcess(writeAscii);
   pbl.EndProcess();

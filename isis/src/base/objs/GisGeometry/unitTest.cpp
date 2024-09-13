@@ -290,13 +290,13 @@ void printBasicInfo(GisGeometry geom, QString description) {
  */
 void printTargetInfo(GisGeometry geom,  GisGeometry target, QString description) {
   qDebug() << description;
-  qDebug() << "    distance?        " << toString(geom.distance(target));
-  qDebug() << "    intersects?      " << toString(geom.intersects(target));
-  qDebug() << "    contains?        " << toString(geom.contains(target));
-  qDebug() << "    disjoint?        " << toString(geom.disjoint(target));
-  qDebug() << "    overlaps?        " << toString(geom.overlaps(target));
-  qDebug() << "    equals?          " << toString(geom.equals(target));
-  qDebug() << "    intersect ratio? " << toString(geom.intersectRatio(target));
+  qDebug() << "    distance?        " << QString::number(geom.distance(target));
+  qDebug() << "    intersects?      " << QString::number(geom.intersects(target));
+  qDebug() << "    contains?        " << QString::number(geom.contains(target));
+  qDebug() << "    disjoint?        " << QString::number(geom.disjoint(target));
+  qDebug() << "    overlaps?        " << QString::number(geom.overlaps(target));
+  qDebug() << "    equals?          " << QString::number(geom.equals(target));
+  qDebug() << "    intersect ratio? " << QString::number(geom.intersectRatio(target));
   qDebug() << "";
 }
 

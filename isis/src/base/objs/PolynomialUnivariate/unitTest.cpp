@@ -19,7 +19,7 @@ int main() {
   coefs.push_back(0.5);
   b.SetCoefficients(coefs);
 
-  cout << "Name   = " << b.Name() << endl;
+  cout << "Name   = " << b.Name().toStdString() << endl;
   cout << "Ncoefs = " << b.Coefficients() << endl;
   cout << "Vars   = " << b.Variables() << endl;
   for(int i = 0; i < b.Coefficients(); i++) {
@@ -46,7 +46,7 @@ int main() {
   // 0.5 + 0.5*v1 + 1.0*v1*v1
   PolynomialUnivariate c(2);
   cout << "---- 2nd order ----" << endl;
-  cout << "Name   = " << c.Name() << endl;
+  cout << "Name   = " << c.Name().toStdString() << endl;
   cout << "Ncoefs = " << c.Coefficients() << endl;
   cout << "Vars   = " << c.Variables() << endl;
   coefs.push_back(1.0);
@@ -58,7 +58,7 @@ int main() {
 
   //  Test Derivative methods
   cout << "---- 2nd order ----" << endl;
-  cout << "Name   = " << c.Name() << endl;
+  cout << "Name   = " << c.Name().toStdString() << endl;
   cout << "Ncoefs = " << c.Coefficients() << endl;
   cout << "Vars   = " << c.Variables() << endl;
   cout << "Variable Derivative = " << c.DerivativeVar(2.0) << endl;

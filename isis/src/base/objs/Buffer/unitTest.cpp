@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
   cout << "a[0]:             " << a[0] << endl;
   cout << "a[23]:            " << a[23] << endl << endl;
 
-  cout << "PixelType =       " << Isis::PixelTypeName(a.PixelType()) << endl;
+  cout << "PixelType =       " << Isis::PixelTypeName(a.PixelType()).toStdString() << endl;
   cout << endl;
 
   //  Test new default constructor.   Enclose in braces so destructor is tested

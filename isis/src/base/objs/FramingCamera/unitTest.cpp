@@ -83,9 +83,9 @@ int main() {
 
     // test ShutterOpenCloseTimes() method
     PvlGroup inst = cube.label()->findGroup("Instrument", Pvl::Traverse);
-    QString startTime = QString::fromStdString(inst["StartTime"]);
+    std::string startTime = inst["StartTime"];
     double eTime = 0.0;
-    utc2et_c(startTime.toLatin1().data(), &eTime);
+    utc2et_c(startTime.c_str(), &eTime);
     double expoDur = ((double) inst["ExposureDuration"])/1000; // in seconds
     pair <iTime, iTime> octime = cam.ShutterOpenCloseTimes(eTime,expoDur);
     cout.precision(12);

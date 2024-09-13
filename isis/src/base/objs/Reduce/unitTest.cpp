@@ -32,7 +32,7 @@ void IsisMain() {
   p.SetInputCube("FROM");
   Cube icube;
 
-  CubeAttributeInput cai(ui.GetAsString("FROM"));
+  CubeAttributeInput cai(ui.GetAsString("FROM").toStdString());
   bands = cai.bands();
 
   icube.setVirtualBands(bands);

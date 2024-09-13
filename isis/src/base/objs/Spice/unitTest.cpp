@@ -104,16 +104,16 @@ int main(int argc, char *argv[]) {
 
   PvlGroup kernelsGroup("Kernels");
   FileName f("$ISISTESTDATA/isis/src/base/unitTestData/kernels");
-  QString dir = f.expanded() + "/";
+  std::string dir = f.expanded() + "/";
   kernelsGroup += PvlKeyword("NaifFrameCode", "-94031");
-  kernelsGroup += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
-  kernelsGroup += PvlKeyword("SpacecraftClock", dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
-  kernelsGroup += PvlKeyword("TargetPosition", dir.toStdString() + "de405.bsp");
-  kernelsGroup += PvlKeyword("TargetAttitudeShape", dir.toStdString() + "pck00006.tpc");
-  kernelsGroup += PvlKeyword("Instrument", dir.toStdString() + "mocSpiceUnitTest.ti");
-  kernelsGroup += PvlKeyword("InstrumentAddendum", dir.toStdString() + "mocAddendum.ti");
-  kernelsGroup += PvlKeyword("InstrumentPosition", dir.toStdString() + "moc.bsp");
-  kernelsGroup += PvlKeyword("InstrumentPointing", dir.toStdString() + "moc.bc");
+  kernelsGroup += PvlKeyword("LeapSecond", dir + "naif0007.tls");
+  kernelsGroup += PvlKeyword("SpacecraftClock", dir + "MGS_SCLKSCET.00045.tsc");
+  kernelsGroup += PvlKeyword("TargetPosition", dir + "de405.bsp");
+  kernelsGroup += PvlKeyword("TargetAttitudeShape", dir + "pck00006.tpc");
+  kernelsGroup += PvlKeyword("Instrument", dir + "mocSpiceUnitTest.ti");
+  kernelsGroup += PvlKeyword("InstrumentAddendum", dir + "mocAddendum.ti");
+  kernelsGroup += PvlKeyword("InstrumentPosition", dir + "moc.bsp");
+  kernelsGroup += PvlKeyword("InstrumentPointing", dir + "moc.bc");
   kernelsGroup += PvlKeyword("Frame", "");
 
   // Time Setup
@@ -192,7 +192,7 @@ int main(int argc, char *argv[]) {
   cout << "Label has kernels? " << spi.hasKernels(lab) << endl;
   cout << spi.MyInteger("FRAME_MGS_MOC") << endl;
   cout << spi.MyDouble("INS-94030_NA_FOCAL_LENGTH") << endl;
-  cout << spi.MyString("FRAME_-94031_NAME") << endl;
+  cout << spi.MyString("FRAME_-94031_NAME").toStdString() << endl;
   cout << endl;
 
   // Testing radius
@@ -257,7 +257,7 @@ int main(int argc, char *argv[]) {
   try {
     cout << "Testing time() after time has been set... " << endl;
     cout << "Has time been set? " << spi.isTimeSet() << endl; 
-    cout << "The time is: " << spi.time().EtString() << endl << endl;; 
+    cout << "The time is: " << spi.time().EtString().toStdString() << endl << endl;; 
   } 
   catch (IException &e) {
     e.print();
@@ -265,7 +265,7 @@ int main(int argc, char *argv[]) {
   }
 
   cout << "Testing Utility methods" << endl;
-  cout << "Target Name = " << spi.target()->name() << endl;
+  cout << "Target Name = " << spi.target()->name().toStdString() << endl;
   cout << endl;
   PvlObject naifKeywords(spi.getStoredNaifKeywords());
   cout << "Get Stored Naif Keywords..." << endl;

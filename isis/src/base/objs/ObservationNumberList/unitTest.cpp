@@ -5,6 +5,7 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <iostream>
+#include <regex>
 
 #include <QFile>
 
@@ -52,7 +53,7 @@ int main(int argc, char *argv[]) {
 
     // Testing observationNumber(int)
     for (int i = 0; i < onl.size(); i++) {
-      cout << FileName(onl.fileName(i)).name().toStdString() << " = " 
+      cout << FileName(onl.fileName(i).toStdString()).name() << " = " 
            << onl.observationNumber(i).toStdString() << endl;
     }
 
@@ -61,7 +62,7 @@ int main(int argc, char *argv[]) {
     vector<QString> filenames = onl.possibleFileNames(onl.observationNumber(2));
     for (unsigned i = 0; i < filenames.size(); i++) {
       cout << "Possible filename for [" << onl.observationNumber(2).toStdString()
-           << "]: " << FileName(filenames[i]).name().toStdString() << endl;
+           << "]: " << FileName(filenames[i].toStdString()).name() << endl;
     }
     // Testing possibleSerialNumbers
     vector<QString> serials = onl.possibleSerialNumbers(onl.observationNumber(2));
@@ -74,9 +75,9 @@ int main(int argc, char *argv[]) {
     cout << "File->ON:" << onl.observationNumber("$ISISTESTDATA/isis/src/mgs/unitTestData/ab102401.cub").toStdString() 
          << endl;
 
-    cout << endl << "SN->File (0): " << FileName(snl.fileName(0)).name().toStdString() << endl;
-    cout << "SN->File (1): " << FileName(snl.fileName(1)).name().toStdString() << endl;
-    cout << "SN->File (2): " << FileName(snl.fileName(2)).name().toStdString() << endl << endl;
+    cout << endl << "SN->File (0): " << FileName(snl.fileName(0).toStdString()).name() << endl;
+    cout << "SN->File (1): " << FileName(snl.fileName(1).toStdString()).name() << endl;
+    cout << "SN->File (2): " << FileName(snl.fileName(2).toStdString()).name() << endl << endl;
 
     if (onl.hasObservationNumber("NotAnObservation"))
       cout << "This line shouldn't be showing!" << endl;
@@ -88,12 +89,12 @@ int main(int argc, char *argv[]) {
     cout << "Removing a SerialNumberList that doesn't have any SNs in the ObservationNumberList"
          << endl;
     FileName temp1("$temporary/temp1list.txt");
-    QFile tempFile1(temp1.expanded());
+    QFile tempFile1(QString::fromStdString(temp1.expanded()));
     tempFile1.open(QIODevice::WriteOnly | QIODevice::Text);
     tempFile1.write("$ISISTESTDATA/isis/src/odyssey/unitTestData/I56632006EDR.lev2.cub\n");
     tempFile1.close();
 
-    onl.remove(temp1.expanded());
+    onl.remove(QString::fromStdString(temp1.expanded()));
     cout << "size            = " << onl.size() << endl;
     cout << "observationSize = " << onl.observationSize() << endl;
 
@@ -152,7 +153,7 @@ int main(int argc, char *argv[]) {
 
   // Setup temp file - Need to cleanup later!
   FileName temp("$temporary/templist.txt");
-  QFile tempFile(temp.expanded());
+  QFile tempFile(QString::fromStdString(temp.expanded()));
   tempFile.open(QIODevice::WriteOnly | QIODevice::Text);
   tempFile.write("$ISISTESTDATA/isis/src/mgs/unitTestData/ab102401.cub\n");
   tempFile.write("$ISISTESTDATA/isis/src/mgs/unitTestData/m0402852.cub\n");
@@ -160,10 +161,11 @@ int main(int argc, char *argv[]) {
   tempFile.close();
 
   // Test 1st constructor
-  ObservationNumberList onl(temp.expanded(), false);
+  ObservationNumberList onl(QString::fromStdString(temp.expanded()), false);
 
   // Setup empty serial number list for exceptions
   SerialNumberList empty(false);
+  std::regex pattern(R"(\[[^\]]*/)([^\]]*)");
 
   // Test Exceptions
   try {
@@ -172,8 +174,8 @@ int main(int argc, char *argv[]) {
     ObservationNumberList emptyONL(&empty);
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -182,8 +184,8 @@ int main(int argc, char *argv[]) {
     onl.remove(&empty);
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -192,8 +194,8 @@ int main(int argc, char *argv[]) {
     onl.observationNumberMapIndex(-1);
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
  
   try {
@@ -202,8 +204,8 @@ int main(int argc, char *argv[]) {
     onl.observationNumber("$ISISTESTDATA/isis/src/odyssey/unitTestData/I00824006RDR.lev2.cub");
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   try {
@@ -212,8 +214,8 @@ int main(int argc, char *argv[]) {
     onl.observationNumber(5);
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   } 
 
   try {
@@ -222,8 +224,8 @@ int main(int argc, char *argv[]) {
     onl.possibleFileNames("DNE");
   }
   catch (IException &e) {
-    std::string error = e.toString().replace(QRegExp("(\\[[^\\]]*/)([^\\]]*)"), "[.../\\2");
-    cerr << error.toStdString() << endl;
+    std::string error = e.toString();
+    cerr << std::regex_replace(error, pattern, "[.../\\2") << endl;
   }
 
   cout << endl << endl;

@@ -76,8 +76,8 @@ void IsisMain() {
   }
 
   // Test for Tracking Table "InputImages" in the tracking cube
-  QString trackingBase = FileName(mosaicCube1->fileName()).removeExtension().expanded().split("/").last();
-  Cube *trackingCube1 = new Cube(FileName(trackingBase + "_tracking.cub"));
+  QString trackingBase = QString::fromStdString(FileName(mosaicCube1->fileName().toStdString()).removeExtension().expanded()).split("/").last();
+  Cube *trackingCube1 = new Cube(FileName(trackingBase.toStdString() + "_tracking.cub"));
   try {
     Table trackTable = trackingCube1->readTable(ProcessMosaic::TRACKING_TABLE_NAME);
     qDebug() << "b. SUCCESS - Track Table Exists in [" << trackingCube1->fileName() << "]";
@@ -350,7 +350,7 @@ void IsisMain() {
   qDebug() << "********* Test imagePositions() ********";
   for (int i = 0; i <= m11.imagePositions().groups() - 1; i++) {
     qDebug() << "Name: " << QString::fromStdString(m11.imagePositions().group(i).name());
-    qDebug() << "File: " << FileName(QString::fromStdString(m11.imagePositions().group(i).findKeyword("File")[0])).name();
+    qDebug() << "File: " << QString::fromStdString(FileName(m11.imagePositions().group(i).findKeyword("File")[0]).name());
     qDebug() << "StartSample: " << QString::fromStdString(m11.imagePositions().group(i).findKeyword("StartSample")[0]);
     qDebug() << "StartLine: " << QString::fromStdString(m11.imagePositions().group(i).findKeyword("StartLine")[0]);
   }
@@ -543,7 +543,7 @@ void IsisMain() {
     m.EndProcess();
   }
   catch (IException &e) {
-    std::string message = e.toString();
+    QString message = QString::fromStdString(e.toString());
     qDebug().noquote() << message.replace(QRegExp("cube.*base/unitTestData"), "cube [base/unitTestData");
     p.EndProcess();
     qDebug() << "";
@@ -591,8 +591,8 @@ void testIn(int iss, int isl, int isb, int ins, int inl, int inb) {
         if (iPixel == 5) {
           qDebug() << "";
         }
-        qDebug() << "(" << Isis::toString(line) << "," << Isis::toString(iS++) << ","
-                 << Isis::toString(band) << ")=" << Isis::toString((int)ciPortal[iPixel]);
+        qDebug() << "(" << QString::number(line) << "," << QString::number(iS++) << ","
+                 << QString::number(band) << ")=" << QString::number((int)ciPortal[iPixel]);
       }
       qDebug() << "";
     }
@@ -628,9 +628,9 @@ void testOut(int piSamples, int piLines,
 
   qDebug() << "";
   qDebug() << "***  Mosaic Image  ***  ";
-  qDebug() << "Start Stats " << Isis::toString(piLines) << ", " << Isis::toString(piSamples)
-           << ", " << Isis::toString(piBands);
-  qDebug() << "Total Bands=" << Isis::toString(iBands);
+  qDebug() << "Start Stats " << QString::number(piLines) << ", " << QString::number(piSamples)
+           << ", " << QString::number(piBands);
+  qDebug() << "Total Bands=" << QString::number(iBands);
   Portal coPortal(5, 1, cOutCube.pixelType());
   int band = piBands;
   while (band <= iBands) {
@@ -664,13 +664,13 @@ void testOut(int piSamples, int piLines,
           iFileIndex = (int)coPortal[iPixel] + iFileIndexOffset + 1;
         }
         if (band == originBand && piPriority != ProcessMosaic::AverageImageWithMosaic) {//orig band
-          qDebug() << "(" << Isis::toString(line) << "," << Isis::toString(iPixel + 1)
-                   << "," << Isis::toString(band) << ")=" << Isis::toString((int)coPortal[iPixel])
+          qDebug() << "(" << QString::number(line) << "," << QString::number(iPixel + 1)
+                   << "," << QString::number(band) << ")=" << QString::number((int)coPortal[iPixel])
                    << ", " << iFileIndex;
         }
         else {
-          qDebug() << "(" << Isis::toString(line) << "," << Isis::toString(iPixel + 1)
-                   << "," << Isis::toString(band) << ")=" << Isis::toString((int)coPortal[iPixel]);
+          qDebug() << "(" << QString::number(line) << "," << QString::number(iPixel + 1)
+                   << "," << QString::number(band) << ")=" << QString::number((int)coPortal[iPixel]);
         }
       }
       qDebug() << "";
@@ -689,7 +689,7 @@ void testOut(int piSamples, int piLines,
 
     qDebug() << "***  Tracking Cube  ***  ";
 
-    QString trackingBase = FileName(cOutCube.fileName()).removeExtension().expanded().split("/").last();
+    QString trackingBase = QString::fromStdString(FileName(cOutCube.fileName().toStdString()).removeExtension().expanded()).split("/").last();
     trackingCube.open(trackingBase + "_tracking.cub");
     Portal trackingPortal(5, 1, trackingCube.pixelType());
 
@@ -724,12 +724,12 @@ void testOut(int piSamples, int piLines,
           fileIndex = "Unknown";
         }
         else {
-          pixelString = Isis::toString((unsigned int)trackingPortal[iPixel]);
-          fileIndex = Isis::toString((unsigned int)trackingPortal[iPixel] - 2);
+          pixelString = QString::number((unsigned int)trackingPortal[iPixel]);
+          fileIndex = QString::number((unsigned int)trackingPortal[iPixel] - 2);
         }
 
-        qDebug() << "(" << Isis::toString(line)
-                 << "," << Isis::toString(iPixel + 1)
+        qDebug() << "(" << QString::number(line)
+                 << "," << QString::number(iPixel + 1)
                  << ")=" << pixelString
                  << ", " << fileIndex;
       }

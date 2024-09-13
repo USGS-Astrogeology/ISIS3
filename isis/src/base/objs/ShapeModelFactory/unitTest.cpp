@@ -15,6 +15,8 @@ find files of those names at the top level of this repository. **/
 #include "Target.h"
 #include "QRegularExpression"
 
+#include <regex>
+
   /**
    * This application tests the ShapeModelFactory class.
    *
@@ -43,7 +45,8 @@ using namespace Isis;
  */
 
  void ReportError(QString err) {
-   cout << err.replace(QRegularExpression("(\\/[\\w\\-\\. ]*)+\\/mgs"), "mgs") << endl;
+  std::regex pattern("(\\/[\\w\\-\\. ]*)+\\/mgs");
+   cout << std::regex_replace(err.toStdString(), pattern, "mgs") << endl;
  }
 
 int main() {
@@ -62,9 +65,9 @@ int main() {
     FileName f("$ISISTESTDATA/isis/src/base/unitTestData/kernels");
     FileName f2("$base/dems");
     FileName f3("$ISISTESTDATA/isis/src/mgs/unitTestData");
-    QString dir = f.expanded() + "/";
-    QString dir2 = f2.expanded() + "/";
-    QString dir3 = f3.expanded() + "/";
+    QString dir = QString::fromStdString(f.expanded()) + "/";
+    QString dir2 = QString::fromStdString(f2.expanded()) + "/";
+    QString dir3 = QString::fromStdString(f3.expanded()) + "/";
     kern1 += PvlKeyword("NaifFrameCode", std::to_string(-94031));
     kern1 += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
     kern1 += PvlKeyword("SpacecraftClock", dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
@@ -97,7 +100,7 @@ int main() {
     lab2.addGroup(kern2);
     Target targSh(NULL, lab2);
     ShapeModel *smSh = ShapeModelFactory::create(&targSh, lab2);
-    cout << "    Successfully created shape " << smSh->name() << endl;
+    cout << "    Successfully created shape " << smSh->name().toStdString() << endl;
     delete smSh;
 
     // Test ElevationModel keyword with value
@@ -109,7 +112,7 @@ int main() {
     lab3.addGroup(kern3);
     Target targEl(NULL, lab3);
     ShapeModel *smEl = ShapeModelFactory::create(&targEl, lab3);
-    cout << "    Successfully created shape " << smEl->name() << endl;
+    cout << "    Successfully created shape " << smEl->name().toStdString() << endl;
     delete smEl;
 
     // Test ShapeModel keyword with Null value
@@ -121,7 +124,7 @@ int main() {
     lab4.addGroup(kern4);
     Target targShNull(NULL, lab4);
     ShapeModel *smShNull = ShapeModelFactory::create(&targShNull, lab4);
-    cout << "    Successfully created shape " << smShNull->name() << endl;
+    cout << "    Successfully created shape " << smShNull->name().toStdString() << endl;
     delete smShNull;
 
     // Test ElevationModel keyword with Null value
@@ -133,7 +136,7 @@ int main() {
     lab5.addGroup(kern5);
     Target targElNull(NULL, lab5);
     ShapeModel *smElNull = ShapeModelFactory::create(&targElNull, lab5);
-    cout << "    Successfully created shape " << smElNull->name() << endl;
+    cout << "    Successfully created shape " << smElNull->name().toStdString() << endl;
     delete smElNull;
 
     // Test ShapeModel dem that's not Equatorial Cylindrical
@@ -145,21 +148,21 @@ int main() {
     lab6.addGroup(kern6);
     Target targDem(NULL, lab6);
     ShapeModel *smDem = ShapeModelFactory::create(&targDem, lab6);
-    cout << "    Successfully created shape " << smDem->name() << endl;
+    cout << "    Successfully created shape " << smDem->name().toStdString() << endl;
     delete smDem;
 
     // Test ShapeModel keyword with DSK
     cout << endl << "  Testing DSK file..." << endl;
     PvlGroup kern7 = kern1;
     FileName f7("$ISISTESTDATA/isis/src/base/unitTestData");
-    QString dir7 = f7.expanded() + "/";
-    kern7 += PvlKeyword("ShapeModel", dir7.toStdString() + "hay_a_amica_5_itokawashape_v1_0_64q.bds");
+    std::string dir7 = f7.expanded() + "/";
+    kern7 += PvlKeyword("ShapeModel", dir7 + "hay_a_amica_5_itokawashape_v1_0_64q.bds");
     Pvl lab7;
     lab7.addGroup(inst2);
     lab7.addGroup(kern7);
     Target targShDsk(NULL, lab7);
     ShapeModel *smShDsk = ShapeModelFactory::create(&targShDsk, lab7);
-    cout << "    Successfully created shape " << smShDsk->name() << endl;
+    cout << "    Successfully created shape " << smShDsk->name().toStdString() << endl;
     delete smShDsk;
 
     // Test ShapeModel keyword with DSK and Embree ray tracing
@@ -173,7 +176,7 @@ int main() {
     lab8.addGroup(kern8);
     Target targEmbree(NULL, lab8);
     ShapeModel *smEmbree = ShapeModelFactory::create(&targEmbree, lab8);
-    cout << "    Successfully created shape " << smEmbree->name() << endl;
+    cout << "    Successfully created shape " << smEmbree->name().toStdString() << endl;
     delete smEmbree;
 
     // Test ShapeModel keyword with DSK and Bullet ray tracing
@@ -187,14 +190,14 @@ int main() {
     lab9.addGroup(kern9);
     Target targBullet(NULL, lab9);
     ShapeModel *smBullet= ShapeModelFactory::create(&targBullet, lab9);
-    cout << "    Successfully created shape " << smBullet->name() << endl;
+    cout << "    Successfully created shape " << smBullet->name().toStdString() << endl;
     delete smBullet;
 
     // Create Spice and Target objects for sky test
     Target skyTarget(NULL, lab1);
     ShapeModel *skyShape = ShapeModelFactory::create(&skyTarget,  lab1);
     cout << endl << "  Testing Sky target..." << endl;
-    cout << "    Shape model is " << skyShape->name() << endl;
+    cout << "    Shape model is " << skyShape->name().toStdString() << endl;
 
     // Test demshape with ShapeModel keyword
     cout << endl << "  Testing DEM shape..." << endl;
@@ -208,7 +211,7 @@ int main() {
     Target targ(NULL, pvl);
     targ.setRadii(radii);
     ShapeModel *sm = ShapeModelFactory::create(&targ, pvl);
-    cout << "    Successfully created shape " << sm->name() << endl;
+    cout << "    Successfully created shape " << sm->name().toStdString() << endl;
     delete sm;
     cube.close();
 
@@ -222,7 +225,7 @@ int main() {
     Target targ2(NULL, pvl);
     targ2.setRadii(radii);
     sm = ShapeModelFactory::create(&targ2, pvl);
-    cout << "    Successfully created shape " << sm->name() << endl;
+    cout << "    Successfully created shape " << sm->name().toStdString() << endl;
     delete sm;
     cube.close();
 
@@ -259,7 +262,7 @@ int main() {
       labError.addGroup(kernError);
       Target targBadFile(NULL, labError);
       ShapeModel *smBadFile = ShapeModelFactory::create(&targBadFile, lab4);
-      cout << "    Successfully created shape " << smBadFile->name() << endl;
+      cout << "    Successfully created shape " << smBadFile->name().toStdString() << endl;
       delete smBadFile;
     }
     catch(Isis::IException &e) {
@@ -276,11 +279,11 @@ int main() {
       labError.addGroup(kernError);
       Target targBadFile(NULL, labError);
       ShapeModel *smBadFile = ShapeModelFactory::create(&targBadFile, lab4);
-      cout << "    Successfully created shape " << smBadFile->name() << endl;
+      cout << "    Successfully created shape " << smBadFile->name().toStdString() << endl;
       delete smBadFile;
     }
     catch(Isis::IException &e) {
-      ReportError(e.toString());
+      ReportError(QString::fromStdString(e.toString()));
     }
 
     try {
@@ -293,7 +296,7 @@ int main() {
       labError.addGroup(kernError);
       Target targBadFile(NULL, labError);
       ShapeModel *smBadFile = ShapeModelFactory::create(&targBadFile, lab4);
-      cout << "    Successfully created shape " << smBadFile->name() << endl;
+      cout << "    Successfully created shape " << smBadFile->name().toStdString() << endl;
       delete smBadFile;
     }
     catch (Isis::IException &e) {

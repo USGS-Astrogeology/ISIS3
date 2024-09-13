@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
   FileName file("$ISISTESTDATA/isis/src/lo/unitTestData/3133_h1.cub");
   Pvl p1(file.expanded());
 
-  cout << ObservationNumber::Compose(p1) << endl;
+  cout << ObservationNumber::Compose(p1).toStdString() << endl;
 
   return (0);
 }

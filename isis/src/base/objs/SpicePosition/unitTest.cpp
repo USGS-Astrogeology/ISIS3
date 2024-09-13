@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
   // Test case is taken from moc red wide angle image ab102401
   // sn = MGS/561812335:32/MOC-WA/RED
   FileName f("$ISISTESTDATA/isis/src/base/unitTestData/kernels");
-  QString dir = f.expanded() + "/";
+  QString dir = QString::fromStdString(f.expanded()) + "/";
   QString moc(dir + "moc.bsp");
   QString de(dir + "de405.bsp");
   QString pck(dir + "pck00006.tpc");

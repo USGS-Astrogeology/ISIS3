@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
 
     Isis::FileName cubeFile("$ISISTESTDATA/isis/src/base/unitTestData/isisTruth.cub");
     Isis::Cube icube;
-    icube.open(cubeFile.expanded());
+    icube.open(QString::fromStdString(cubeFile.expanded()));
     Isis::ImageHistogram *histcube;
     histcube = new Isis::ImageHistogram(icube, 1);
 
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
 
     Isis::FileName cubeFile("$ISISTESTDATA/isis/src/base/unitTestData/isisTruth_Signed16Bit.cub");
     Isis::Cube icube;
-    icube.open(cubeFile.expanded());
+    icube.open(QString::fromStdString(cubeFile.expanded()));
     Isis::ImageHistogram *histcube;
     histcube = new Isis::ImageHistogram(icube, 1);
 
@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
 
     Isis::FileName cubeFile("$ISISTESTDATA/isis/src/base/unitTestData/isisTruth_Unsigned16Bit.cub");
     Isis::Cube icube;
-    icube.open(cubeFile.expanded());
+    icube.open(QString::fromStdString(cubeFile.expanded()));
     Isis::ImageHistogram *histcube;
     histcube = new Isis::ImageHistogram(icube, 1);
 
@@ -155,7 +155,7 @@ int main(int argc, char *argv[]) {
 
     Isis::FileName cubeFile("$ISISTESTDATA/isis/src/base/unitTestData/isisTruth_8Bit.cub");
     Isis::Cube icube;
-    icube.open(cubeFile.expanded());
+    icube.open(QString::fromStdString(cubeFile.expanded()));
     Isis::ImageHistogram *histcube;
     histcube = new Isis::ImageHistogram(icube, 1);
 

@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
   cerr << "Section number is: " << twoD.sectionNumber(10,3,10) << endl; 
 
   cerr << "----- Testing toString -----" << endl << endl; 
-  cerr << twoD.toString(); 
+  cerr << twoD.toString().toStdString(); 
 
   cerr << "----- Testing outside of definition errors -----" << endl << endl;
   //TODO: Wait until isis exception error TODOs are done in 2D

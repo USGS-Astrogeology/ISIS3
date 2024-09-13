@@ -48,8 +48,8 @@ class MyShape : public DemShape {
 
    void testDemCube()  {
      // Cube *demCube();
-     IString fileName = demCube()->fileName();
-     cout << "    Using dem cube file = " << FileName(demCube()->fileName()).name() << endl;
+     IString fileName = demCube()->fileName().toStdString();
+     cout << "    Using dem cube file = " << FileName(demCube()->fileName().toStdString()).name() << endl;
    }
 };
 
@@ -72,8 +72,8 @@ int main() {
     DemShape shape(&targ, pvl);
     DemShape defaultShape;
 
-    cout << "    Shape name is " << shape.name() << endl;
-    cout << "    Shape name is " << defaultShape.name() << endl;
+    cout << "    Shape name is " << shape.name().toStdString() << endl;
+    cout << "    Shape name is " << defaultShape.name().toStdString() << endl;
     cout << "    Shape is DEM type? " << toString(shape.isDEM()) << endl;
 
     cout << endl << "  Testing method intersectSurface..." << endl;

@@ -611,12 +611,12 @@ int main(int argc, char *argv[]) {
     SurfacePoint::CoordinateType ctype = spRec1.stringToCoordinateType(ctypeStr);
     cout << "Testing stringToCoordinateType with Latitudinal:  coordType = " << ctype << endl;
     cout << "Testing coordinateTypeToString with coordType = 0:  coordTypeStr = " <<
-      spRec1.coordinateTypeToString(ctype)  << endl;
+      spRec1.coordinateTypeToString(ctype).toStdString()  << endl;
     ctypeStr = "RectanGular";
     ctype = spRec1.stringToCoordinateType(ctypeStr);
     cout << "Testing stringToCoordinateType with Rectangular:  coordType = " << ctype << endl; 
     cout << "Testing coordinateTypeToString with coordType = 1:  coordTypeStr = " << 
-         spRec1.coordinateTypeToString(ctype) << endl;
+         spRec1.coordinateTypeToString(ctype).toStdString() << endl;
     try {
     // Test invalid coordinate type error condition
       cout << endl;

@@ -120,14 +120,14 @@ int main(int argc, char *argv[]) {
 
     Projection *s = p;
     cout << "Test Name and comparision method ... " << endl;
-    cout << "Name:       " << s->Name() << endl;
+    cout << "Name:       " << s->Name().toStdString() << endl;
     cout << "operator==  " << (*s == *s) << endl;
     cout << endl;
 
     mapGrp["PoleRotation"] = "43.8423";
     ObliqueCylindrical different(lab);
     cout << "Test Name and comparision method with differing data... " << endl;
-    cout << "Name:       " << s->Name() << endl;
+    cout << "Name:       " << s->Name().toStdString() << endl;
     cout << "operator==  " << (different == *s) << endl;
     cout << endl;
 

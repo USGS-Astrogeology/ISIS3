@@ -24,7 +24,7 @@ int main() {
     for(int i = 0; i < 100; i++) {
       QString test = pid.Next();
       if(i % 10 == 0) {
-        cout << test << endl;
+        cout << test.toStdString() << endl;
       }
     }
   }
@@ -36,7 +36,7 @@ int main() {
   try {
     ID pid2("Serial");
     for(int i = 0; i < 5; i++) {
-      cout << pid2.Next() << endl;
+      cout << pid2.Next().toStdString() << endl;
     }
   }
   catch(IException &e) {
@@ -47,7 +47,7 @@ int main() {
   try {
     ID pid3("Serial??Number??");
     for(int i = 0; i < 5; i++) {
-      cout << pid3.Next() << endl;
+      cout << pid3.Next().toStdString() << endl;
     }
   }
   catch(IException &e) {
@@ -58,7 +58,7 @@ int main() {
   try {
     ID pid4("Test??", 0);
     for(int i = 0; i < 5; i++) {
-      cout << pid4.Next() << endl;
+      cout << pid4.Next().toStdString() << endl;
     }
   }
   catch(IException &e) {

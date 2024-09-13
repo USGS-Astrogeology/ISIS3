@@ -113,14 +113,14 @@ int main(int argc, char *argv[]) {
       std::cout << calc.compile("@@@#!#$") << std::endl;
   }
   catch (Isis::IException &e) {
-    qDebug() << e.toString();
+    qDebug() << QString::fromStdString(e.toString());
   }
   std::cout << "This should throw an exception: " << std::endl;
   try {
     std::cout << calc.compile("+ 1 2") << std::endl; //must be infix
   }
   catch (Isis::IException &e) {
-    qDebug() << e.toString();
+    qDebug() << QString::fromStdString(e.toString());
   }
 
   qDebug() << "1 + 2 to postfix: " <<  calc.toPostfixWrap("1 + 2");

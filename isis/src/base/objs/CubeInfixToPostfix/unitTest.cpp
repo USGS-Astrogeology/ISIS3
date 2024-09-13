@@ -51,12 +51,12 @@ int main(int argc, char *argv[]) {
 
   CubeInfixToPostfix converter;
   for(int equation = 0; equation < NUM_EQUATIONS; equation ++) {
-    cout << endl << endl << equation + 1 << ": Convert '" << equations[equation] << "' to postfix" << endl;
+    cout << endl << endl << equation + 1 << ": Convert '" << equations[equation].toStdString() << "' to postfix" << endl;
 
     try {
-      IString tokenized = converter.tokenizeEquation(equations[equation]);
+      IString tokenized = converter.tokenizeEquation(equations[equation]).toStdString();
       cout << "   Tokenized equation: '" << tokenized << "'" << endl;
-      IString postfix = converter.convert(equations[equation]);
+      IString postfix = converter.convert(equations[equation]).toStdString();
       cout << "   Postfix: '" << postfix << "'" << endl;
     }
     catch(IException &e) {

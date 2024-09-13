@@ -82,10 +82,10 @@ int main() {
     Pvl pvl = *cube.label();
     MyCamera cam(cube);
     cout << endl << "Testing Camera's spacecraft and instrument name methods..." << endl;
-    cout << "InstrumentNameLong: " << cam.instrumentNameLong() << endl;
-    cout << "InstrumentNameShort: " << cam.instrumentNameShort() << endl;
-    cout << "SpacecraftNameLong: " << cam.spacecraftNameLong() << endl;
-    cout << "SpacecraftNameShort: " << cam.spacecraftNameShort() << endl;
+    cout << "InstrumentNameLong: " << cam.instrumentNameLong().toStdString() << endl;
+    cout << "InstrumentNameShort: " << cam.instrumentNameShort().toStdString() << endl;
+    cout << "SpacecraftNameLong: " << cam.spacecraftNameLong().toStdString() << endl;
+    cout << "SpacecraftNameShort: " << cam.spacecraftNameShort().toStdString() << endl;
     double line = 453.0;
     double sample = 534.0;
     Latitude lat(18.221, Angle::Degrees);
@@ -93,7 +93,7 @@ int main() {
     double ra = 347.016;
     double dec = -51.2677;
 
-    cout << endl << "Camera* from: " << inputFile << endl;
+    cout << endl << "Camera* from: " << inputFile.toStdString() << endl;
     QList<QPointF> ifovOffsets = c->PixelIfovOffsets();
     cout << "Pixel Ifov: " << endl;
     foreach (QPointF offset, ifovOffsets) {
@@ -313,7 +313,7 @@ int main() {
     cube.close();
 
     cout << endl;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     ifovOffsets = cam2->PixelIfovOffsets();
     cout << "Pixel Ifov: " << endl;
     foreach (QPointF offset, ifovOffsets) {
@@ -386,7 +386,7 @@ int main() {
 
     sample = cam3->Samples() / 2.0;
     line = cam3->Lines() / 2.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam3->SetImage(sample, line)) << endl;
@@ -417,7 +417,7 @@ int main() {
 
     sample = cam4->Samples() / 2.0;
     line = cam4->Lines() / 2.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam4->SetImage(sample, line)) << endl;
@@ -443,7 +443,7 @@ int main() {
 
     sample = cam5->Samples() / 2.0;
     line = cam5->Lines() / 2.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam5->SetImage(sample, line)) << endl;
@@ -469,7 +469,7 @@ int main() {
 
     sample = cam6->Samples() / 2.0;
     line = cam6->Lines() / 2.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam6->SetImage(sample, line)) << endl;
@@ -495,7 +495,7 @@ int main() {
 
     sample = cam7->Samples() / 2.0;
     line = cam7->Lines() / 2.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam7->SetImage(sample, line)) << endl;
@@ -521,7 +521,7 @@ int main() {
 
     sample = cam8->Samples() / 2.0;
     line = cam8->Lines() / 2.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam8->SetImage(sample, line)) << endl;
@@ -547,7 +547,7 @@ int main() {
 
     sample = cam9->Samples() / 2.0;
     line = cam9->Lines() / 2.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam9->SetImage(sample, line)) << endl;
@@ -573,7 +573,7 @@ int main() {
 
     sample = cam10->Samples() / 2.0;
     line = cam10->Lines() / 2.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam10->SetImage(sample, line)) << endl;
@@ -599,7 +599,7 @@ int main() {
 
     sample = cam11->Samples() / 2.0;
     line = cam11->Lines() / 2.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam11->SetImage(sample, line)) << endl;
@@ -625,7 +625,7 @@ int main() {
 
     sample = 1.0;
     line = 1.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam12->SetImage(sample, line)) << endl;
@@ -652,7 +652,7 @@ int main() {
 
     sample = 20.0;
     line = 20.0;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     cout << "Sample = " << sample << endl;
     cout << "Line = " << line << endl;
     cout << "SetImage (sample, line): " << toString(cam13->SetImage(sample, line)) << endl;
@@ -669,7 +669,7 @@ int main() {
     }
 
     cout << endl << endl << "Testing non-square pixel Ifov using Hires vims cube" << endl;
-    cout << "Camera* from: " << inputFile << endl;
+    cout << "Camera* from: " << inputFile.toStdString() << endl;
     ifovOffsets = cam13->PixelIfovOffsets();
     cout << "Pixel Ifov: " << endl;
     foreach (QPointF offset, ifovOffsets) {

@@ -245,11 +245,11 @@ int main(void) {
 
     cout << "Testing Translate method" << endl << endl;
     cout << "Translation of InstrumentIfovWithUnits: " <<
-            transMgr.Translate("InstrumentIfovWithUnits") << endl << endl;
+            transMgr.Translate("InstrumentIfovWithUnits").toStdString() << endl << endl;
 
     cout << "Testing file-based constructor" << endl << endl;
     FileName XmltoPvlFile("$ISISTESTDATA/isis/src/base/unitTestData/XmlToPvlTestLabel.pvl");
-    QString XmltoPvlFileString = XmltoPvlFile.toString(); 
+    QString XmltoPvlFileString = QString::fromStdString(XmltoPvlFile.toString()); 
     XmlToPvlTranslationManager transMgrFileConstructor(XmltoPvlFileString);
 
     cout << "Testing stream-only constructor" << endl << endl;
@@ -390,8 +390,8 @@ int main(void) {
       XmlToPvlTranslationManager pvlTransFileManager(pvlFile, simpleTrans);
     }
     catch(IException &e) {
-      std::string message = e.toString();
-      cout << message.replace(QRegExp("in file.*/translations"), "in file [/translations");
+      QString message = QString::fromStdString(e.toString());
+      cout << message.replace(QRegExp("in file.*/translations"), "in file [/translations").toStdString();
       cout << endl;
       cout << endl;
     }

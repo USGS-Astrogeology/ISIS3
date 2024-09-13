@@ -53,9 +53,9 @@ class ImportPdsTableTester : public ImportPdsTable {
 
     // Test method to check that ColumnDescr are correctly storing label data
     static void printColumnDescr(const ColumnDescr &cd) {
-      cout << "m_name: " << cd.m_name << endl;
+      cout << "m_name: " << cd.m_name.toStdString() << endl;
       cout << "m_colnum: " << cd.m_colnum << endl;
-      cout << "m_dataType: " << cd.m_dataType << endl;
+      cout << "m_dataType: " << cd.m_dataType.toStdString() << endl;
       cout << "m_startByte: " << cd.m_startByte << endl;
       cout << "m_numBytes: " << cd.m_numBytes << endl;
       cout << "m_itemBytes: " << cd.m_itemBytes << endl;
@@ -99,20 +99,20 @@ int main(int argc, char *argv[]) {
   Isis::Preference::Preferences(true);
   Isis::FileName data("data/");
 
-  QString inputFile = data.expanded() + "VIR_IR_1A_1_332974737_1_HK.LBL";
+  std::string inputFile = data.expanded() + "VIR_IR_1A_1_332974737_1_HK.LBL";
   if (--argc == 1) { inputFile = argv[1]; }
 
   cout << "\n\nTesting ImportPdsTable class using file " << inputFile << "\n";
 
-  ImportPdsTable myTable(inputFile);
+  ImportPdsTable myTable(QString::fromStdString(inputFile));
 
   cout << "\n\nList of Columns found - Total: " << myTable.columns() << "\n";
   QStringList kfiles = myTable.getColumnNames();
-  cout << kfiles.join("\n");
+  cout << kfiles.join("\n").toStdString();
 
   cout << "\n\nNow without Name Conversion: \n";
   kfiles = myTable.getColumnNames(false);
-  cout << kfiles.join("\n") << endl;
+  cout << kfiles.join("\n").toStdString() << endl;
 
   // Update/correct column types
   myTable.setType("ShutterStatus", "CHARACTER");
@@ -165,7 +165,7 @@ int main(int argc, char *argv[]) {
   // The following tests were added when the class was expanded to import binary
   // PDS tables also...
 
-  QString pdsTableDir = data.expanded();
+  QString pdsTableDir = QString::fromStdString(data.expanded());
   QString pdsLabelFile = "";
   QString pdsTableFile = "";
 
@@ -229,27 +229,27 @@ int main(int argc, char *argv[]) {
   // Testing new changes made to ImportPdsTable class
 
   // Testing name() and setName()
-  cout << "\n\nTesting name() (default TABLE): " << myTable.name() << "\n";
+  cout << "\n\nTesting name() (default TABLE): " << myTable.name().toStdString() << "\n";
   cout << "\nTesting setName(\"My Table\"): ";
   myTable.setName(QString("My Table"));
-  cout << myTable.name() << "\n";
+  cout << myTable.name().toStdString() << "\n";
 
 
-  QString merLabelFile = data.expanded() + "edrindex.lbl";
-  QString merTableFile = data.expanded() + "edrindex.tab";
+  std::string merLabelFile = data.expanded() + "edrindex.lbl";
+  std::string merTableFile = data.expanded() + "edrindex.tab";
   cout << "\n\nTesting ImportPdsTable protected methods with file " << merLabelFile;
 
   cout << "\n\nConstructing new ImportPdsTable where the PDS table object name is ";
 
-  ImportPdsTableTester myTestTable(merLabelFile, merTableFile, QString("INDEX_TABLE"));
+  ImportPdsTableTester myTestTable(QString::fromStdString(merLabelFile), QString::fromStdString(merTableFile), QString("INDEX_TABLE"));
 
-  cout << myTestTable.name() << "\n";
+  cout << myTestTable.name().toStdString() << "\n";
 
   // Testing getColumnFields method
   // NOTE - this is NOT using ImportPdsTable's public interface, as we need access to
   //        m_rows in order to get table row data to pass to getColumnFields
   cout << "\nTesting getColumnFields..." << "\n";
-  TextFile tf(merTableFile);
+  TextFile tf(QString::fromStdString(merTableFile));
   // Grab the first data record (first row) in the table
   QString rowData;
   tf.GetLine(rowData);
@@ -261,7 +261,7 @@ int main(int argc, char *argv[]) {
                             myTestTable.getColumnDescriptorWrap(42));
   cout << oneItem.size() << "\n";
   foreach (QString item, oneItem)
-    cout << "  " << item << "\n";
+    cout << "  " << item.toStdString() << "\n";
 
   cout << "\nColumn Description for this column: " << endl;
   ImportPdsTableTester::printColumnDescr(myTestTable.getColumnDescriptorWrap(42));
@@ -274,7 +274,7 @@ int main(int argc, char *argv[]) {
                               myTestTable.getColumnDescriptorWrap(43));
   cout << manyItems.size() << "\n";
   foreach (QString item, manyItems)
-    cout << "  " << item << "\n";
+    cout << "  " << item.toStdString() << "\n";
 
   cout << "\nColumn Description for this column: " << endl;
   ImportPdsTableTester::printColumnDescr(myTestTable.getColumnDescriptorWrap(43));
@@ -505,15 +505,15 @@ int main(int argc, char *argv[]) {
   cout << "cols = " << pdsLsbTable.columns()                 << endl;
   cout << "rows = " << pdsLsbTable.rows()                    << endl;
   cout << "has double = " << pdsLsbTable.hasColumn("Double Value") << endl;
-  cout << "col 1 name = " << pdsLsbTable.getColumnName(1)          << endl;
+  cout << "col 1 name = " << pdsLsbTable.getColumnName(1).toStdString()          << endl;
   QStringList names = pdsLsbTable.getColumnNames();
   for (int i = 0; i < names.size(); i++) {
-    cout << names[i] << endl;
+    cout << names[i].toStdString() << endl;
   }
-  cout << "type Double Value column = " << pdsLsbTable.getType("Double Value") << endl;
+  cout << "type Double Value column = " << pdsLsbTable.getType("Double Value").toStdString() << endl;
   pdsLsbTable.setType("Double Value", "MSB_INTEGER");
   cout << "set Double Value column to type MSB_INTEGER " << endl;
-  cout << "type Double Value column = " << pdsLsbTable.getType("Double Value") << endl;
+  cout << "type Double Value column = " << pdsLsbTable.getType("Double Value").toStdString() << endl;
 
   return (0);
 }

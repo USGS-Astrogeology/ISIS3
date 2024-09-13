@@ -40,7 +40,7 @@ void IsisMain() {
     QString defaultLabel = defaultProcess.GetLabel().toString();
     defaultLabel.remove(QRegExp(" xmlns.*=\".*\""));
     defaultLabel.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << defaultLabel;
+    std::cout << defaultLabel.toStdString();
 
     std::cout << std::endl << "Testing default CaSSIS export" << std::endl;
 
@@ -58,7 +58,7 @@ void IsisMain() {
     QString rawLabel = p.StandardPds4Label().toString();
     rawLabel.remove(QRegExp(" xmlns.*=\".*\""));
     rawLabel.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << rawLabel;
+    std::cout << rawLabel.toStdString();
 
     std::ofstream ofs;
     p.OutputLabel(ofs);
@@ -70,7 +70,7 @@ void IsisMain() {
     rawLabel = p.GetLabel().toString();
     rawLabel.remove(QRegExp(" xmlns.*=\".*\""));
     rawLabel.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << rawLabel;
+    std::cout << rawLabel.toStdString();
 
     p.WritePds4("temp.img");
     remove("temp.img");
@@ -93,7 +93,7 @@ void IsisMain() {
     QString stretchedMsbSW = stretchProcess.StandardPds4Label().toString();
     stretchedMsbSW.remove(QRegExp(" xmlns.*=\".*\""));
     stretchedMsbSW.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << stretchedMsbSW;
+    std::cout << stretchedMsbSW.toStdString();
 
     stretchProcess.SetOutputType(Isis::SignedWord);
     stretchProcess.SetOutputEndian(Isis::Lsb);
@@ -101,7 +101,7 @@ void IsisMain() {
     stretchedMsbSW = stretchProcess.StandardPds4Label().toString();
     stretchedMsbSW.remove(QRegExp(" xmlns.*=\".*\""));
     stretchedMsbSW.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << stretchedMsbSW;
+    std::cout << stretchedMsbSW.toStdString();
 
     stretchProcess.SetOutputType(Isis::Real);
     stretchProcess.SetOutputEndian(Isis::Msb);
@@ -109,7 +109,7 @@ void IsisMain() {
     stretchedMsbSW = stretchProcess.StandardPds4Label().toString();
     stretchedMsbSW.remove(QRegExp(" xmlns.*=\".*\""));
     stretchedMsbSW.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << stretchedMsbSW;
+    std::cout << stretchedMsbSW.toStdString();
 
     stretchProcess.SetOutputType(Isis::UnsignedWord);
     stretchProcess.SetOutputEndian(Isis::Msb);
@@ -117,7 +117,7 @@ void IsisMain() {
     stretchedMsbSW = stretchProcess.StandardPds4Label().toString();
     stretchedMsbSW.remove(QRegExp(" xmlns.*=\".*\""));
     stretchedMsbSW.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << stretchedMsbSW;
+    std::cout << stretchedMsbSW.toStdString();
 
     stretchProcess.SetOutputType(Isis::UnsignedWord);
     stretchProcess.SetOutputEndian(Isis::Lsb);
@@ -125,7 +125,7 @@ void IsisMain() {
     stretchedMsbSW = stretchProcess.StandardPds4Label().toString();
     stretchedMsbSW.remove(QRegExp(" xmlns.*=\".*\""));
     stretchedMsbSW.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << stretchedMsbSW;
+    std::cout << stretchedMsbSW.toStdString();
 
     stretchProcess.SetOutputType(Isis::UnsignedByte);
     stretchProcess.SetOutputEndian(Isis::Lsb);
@@ -133,7 +133,7 @@ void IsisMain() {
     stretchedMsbSW = stretchProcess.StandardPds4Label().toString();
     stretchedMsbSW.remove(QRegExp(" xmlns.*=\".*\""));
     stretchedMsbSW.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << stretchedMsbSW;
+    std::cout << stretchedMsbSW.toStdString();
 
     std::cout << std::endl << "Testing missing start and end times" << std::endl;
 
@@ -149,11 +149,11 @@ void IsisMain() {
     QString badTimeLabel = badTimeProcess.GetLabel().toString();
     badTimeLabel.remove(QRegExp(" xmlns.*=\".*\""));
     badTimeLabel.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << badTimeLabel;
+    std::cout << badTimeLabel.toStdString();
 
     std::cout << std::endl << "Testing exporting a map projected product" << std::endl << std::endl;
 
-    QString projectedName("$ISISTESTDATA/isis/src/base/unitTestData/MarsPlanetaryRadius_45bottom.cub");
+    std::string projectedName("$ISISTESTDATA/isis/src/base/unitTestData/MarsPlanetaryRadius_45bottom.cub");
     Cube projectedCube(projectedName);
     ProcessExportPds4 projectedProcess;
     projectedProcess.SetInputCube(&projectedCube);
@@ -161,7 +161,7 @@ void IsisMain() {
     QString projectedLabel = projectedProcess.StandardPds4Label().toString();
     projectedLabel.remove(QRegExp(" xmlns.*=\".*\""));
     projectedLabel.remove(QRegExp(" xsi.*=\".*\""));
-    std::cout << projectedLabel;
+    std::cout << projectedLabel.toStdString();
 
     std::cout << std::endl << "Testing errors" << std::endl << std::endl;
 
@@ -208,8 +208,8 @@ void IsisMain() {
       testProcess.StandardPds4Label();
     }
     catch(Isis::IException &e) {
-      std::string message = e.toString();
-      cout << message.replace(QRegExp("file.*/translations"), "file [translations");
+      QString message = QString::fromStdString(e.toString());
+      cout << message.replace(QRegExp("file.*/translations"), "file [translations").toStdString();
       cout << endl;
       cout << endl;
     }

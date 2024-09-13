@@ -256,9 +256,9 @@ int main(int argc, char *argv[]) {
   int j = 0;
   for(isIter = dupstr.begin() ; isIter != dupstr.end() ; ++isIter, j++) {
     cout << "IntStr[" << j << "] = {" << isIter->first << ", "
-         << isIter->second << "}, Index: " << dupstr.index(isIter->first)
+         << isIter->second.toStdString() << "}, Index: " << dupstr.index(isIter->first)
          << endl;
-    cout << "Nth Test Ident       = " << dupstr.getNth(j) << endl;
+    cout << "Nth Test Ident       = " << dupstr.getNth(j).toStdString() << endl;
   }
 
   cout <<  "Non-existant Index: " << dupstr.index(4) << endl;

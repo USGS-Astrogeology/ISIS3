@@ -41,12 +41,12 @@ namespace Isis {
     public:
       StatisticsXmlHandlerTester(QXmlStreamReader *reader, FileName xmlFile) : StatCumProbDistDynCalc() {
 
-        QString xmlPath(xmlFile.expanded());
+        QString xmlPath(QString::fromStdString(xmlFile.expanded()));
         QFile file(xmlPath);
 
         if (!file.open(QFile::ReadOnly) ) {
           throw IException(IException::Io,
-                           QString("Unable to open xml file, [%1],  with read access").arg(xmlPath),
+                           "Unable to open xml file, ["+xmlPath.toStdString()+"],  with read access",
                            _FILEINFO_);
         }
 
@@ -174,10 +174,10 @@ int main(int argc, char *argv[]) {
     // read xml with no attributes or values
     FileName emptyXmlFile("./unitTest_NoElementValues.xml");
     Project *project = NULL;
-    QFile xml(emptyXmlFile.expanded());
+    QFile xml(QString::fromStdString(emptyXmlFile.expanded()));
     if(!xml.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(xml.fileName()),
+                        "Failed to parse xml file, ["+xml.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
 
@@ -187,7 +187,7 @@ int main(int argc, char *argv[]) {
                 "to StatCumProbDistDynCalc object... Then try to get "
                 "min from object with no observations.";
     try {
-      qDebug() << toString(statsFromEmptyXml.min());
+      qDebug() << QString::number(statsFromEmptyXml.min());
     } 
     catch (IException &e) {
      e.print();
@@ -625,11 +625,11 @@ int main(int argc, char *argv[]) {
     qDebug() << "Testing XML: write XML from StatCumProbDistDynCalc object...";
     // write xml 
     FileName xmlFile("./StatCumProbDistDynCalc.xml");
-    QString xmlPath = xmlFile.expanded();
+    QString xmlPath = QString::fromStdString(xmlFile.expanded());
     QFile qXmlFile(xmlPath);
     if (!qXmlFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
       throw IException(IException::Io,
-                       QString("Unable to open xml file, [%1],  with write access").arg(xmlPath),
+                       "Unable to open xml file, ["+xmlPath.toStdString()+"],  with write access",
                        _FILEINFO_);
     }
     QXmlStreamWriter writer(&qXmlFile);
@@ -640,10 +640,10 @@ int main(int argc, char *argv[]) {
     qXmlFile.close();
     // read xml    
     qDebug() << "Testing XML: read XML to StatCumProbDistDynCalc object...";
-    QFile xml2(xmlFile.expanded());
+    QFile xml2(QString::fromStdString(xmlFile.expanded()));
     if(!xml2.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(xml2.fileName()),
+                        "Failed to parse xml file, ["+xml2.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
 
@@ -717,7 +717,7 @@ int main(int argc, char *argv[]) {
 
     bool deleted = qXmlFile.remove();
     if (!deleted) {
-      std::string msg = "Unit Test failed. XML file [" + xmlPath + "not deleted.";
+      std::string msg = "Unit Test failed. XML file [" + xmlPath.toStdString() + "not deleted.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }

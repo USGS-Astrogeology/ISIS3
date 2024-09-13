@@ -28,7 +28,7 @@ void IsisMain() {
 
   cout << "Testing GetUserInterface ... " << endl;
   Isis::UserInterface &ui = Isis::Application::GetUserInterface();
-  cout << ui.GetAsString("FROM") << endl;
+  cout << ui.GetAsString("FROM").toStdString() << endl;
   cout << endl;
 
   cout << "Testing SetOutputCube without an input cube ..." << endl;
@@ -86,7 +86,7 @@ void IsisMain() {
   cout << "Testing SetInputWorkCube SizeMatch error for bands ..." << endl;
   try {
     Isis::CubeAttributeInput att("+1");
-    p.SetInputCube(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded(),
+    p.SetInputCube(QString::fromStdString(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded()),
                    att, Isis::SizeMatch);
   }
   catch(Isis::IException &e) {
@@ -97,13 +97,13 @@ void IsisMain() {
   cout << "Testing SetInputWorkCube SizeMatch error for lines ..." << endl;
   Isis::Cube cube;
   cube.setDimensions(126, 100, 2);
-  cube.create(FileName("$TEMPORARY/isisprocess_01").expanded());
+  cube.create(QString::fromStdString(FileName("$TEMPORARY/isisprocess_01").expanded()));
   cube.close();
   try {
     Isis::Process p2;
     Isis::CubeAttributeInput att;
-    p2.SetInputCube(FileName("$TEMPORARY/isisprocess_01").expanded(), att);
-    p2.SetInputCube(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded(), att,
+    p2.SetInputCube(QString::fromStdString(FileName("$TEMPORARY/isisprocess_01").expanded()), att);
+    p2.SetInputCube(QString::fromStdString(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded()), att,
                     Isis::SizeMatch);
   }
   catch(Isis::IException &e) {
@@ -113,13 +113,13 @@ void IsisMain() {
 
   cout << "Testing SetInputWorkCube SizeMatch error for samples ..." << endl;
   cube.setDimensions(100, 126, 2);
-  cube.create(FileName("$TEMPORARY/isisprocess_02").expanded());
+  cube.create(QString::fromStdString(FileName("$TEMPORARY/isisprocess_02").expanded()));
   cube.close();
   try {
     Isis::Process p2;
     Isis::CubeAttributeInput att;
-    p2.SetInputCube(FileName("$TEMPORARY/isisprocess_02").expanded(), att);
-    p2.SetInputCube(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded(), att,
+    p2.SetInputCube(QString::fromStdString(FileName("$TEMPORARY/isisprocess_02").expanded()), att);
+    p2.SetInputCube(QString::fromStdString(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded()), att,
                     Isis::SizeMatch);
   }
   catch(Isis::IException &e) {
@@ -131,8 +131,8 @@ void IsisMain() {
   try {
     Isis::Process p2;
     Isis::CubeAttributeInput att;
-    p2.SetInputCube(FileName("$TEMPORARY/isisprocess_01").expanded(), att);
-    p2.SetInputCube(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded(), att,
+    p2.SetInputCube(QString::fromStdString(FileName("$TEMPORARY/isisprocess_01").expanded()), att);
+    p2.SetInputCube(QString::fromStdString(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded()), att,
                     Isis::SpatialMatch);
   }
   catch(Isis::IException &e) {
@@ -144,8 +144,8 @@ void IsisMain() {
   try {
     Isis::Process p2;
     Isis::CubeAttributeInput att;
-    p2.SetInputCube(FileName("$TEMPORARY/isisprocess_02").expanded(), att);
-    p2.SetInputCube(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded(), att,
+    p2.SetInputCube(QString::fromStdString(FileName("$TEMPORARY/isisprocess_02").expanded()), att);
+    p2.SetInputCube(QString::fromStdString(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded()), att,
                     Isis::SpatialMatch);
   }
   catch(Isis::IException &e) {
@@ -155,13 +155,13 @@ void IsisMain() {
 
   cout << "Testing SetInputWorkCube BandMatchOrOne error ..." << endl;
   cube.setDimensions(126, 126, 3);
-  cube.create(FileName("$TEMPORARY/isisprocess_03").expanded());
+  cube.create(QString::fromStdString(FileName("$TEMPORARY/isisprocess_03").expanded()));
   cube.close();
   try {
     Isis::Process p2;
     Isis::CubeAttributeInput att;
-    p2.SetInputCube(FileName("$TEMPORARY/isisprocess_03").expanded(), att);
-    p2.SetInputCube(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded(), att,
+    p2.SetInputCube(QString::fromStdString(FileName("$TEMPORARY/isisprocess_03").expanded()), att);
+    p2.SetInputCube(QString::fromStdString(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded()), att,
                     Isis::BandMatchOrOne);
   }
   catch(Isis::IException &e) {
@@ -171,13 +171,13 @@ void IsisMain() {
 
   cout << "Testing SetInputWorkCube AllMatchOrOne error ..." << endl;
   cube.setDimensions(126, 126, 3);
-  cube.create(FileName("$TEMPORARY/isisprocess_03").expanded());
+  cube.create(QString::fromStdString(FileName("$TEMPORARY/isisprocess_03").expanded()));
   cube.close();
   try {
     Isis::Process p2;
     Isis::CubeAttributeInput att;
-    p2.SetInputCube(FileName("$TEMPORARY/isisprocess_03").expanded(), att);
-    p2.SetInputCube(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded(), att,
+    p2.SetInputCube(QString::fromStdString(FileName("$TEMPORARY/isisprocess_03").expanded()), att);
+    p2.SetInputCube(QString::fromStdString(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded()), att,
                     Isis::AllMatchOrOne);
   }
   catch(Isis::IException &e) {
@@ -254,7 +254,7 @@ void IsisMain() {
   // Create the list of tables to copy from the unitTest.cub (only copy Table2)
   QList<QString> tables;
   tables << "Table2";
-  pTableNames.PropagateTables(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded(), tables);
+  pTableNames.PropagateTables(QString::fromStdString(FileName("$ISISTESTDATA/isis/src/base/unitTestData/Process/unitTest.cub").expanded()), tables);
   cout << "Does output cube have \"Table\"  ? " << std::boolalpha
        << ocubeTableNames->hasTable("Table") << endl;
   cout << "Does output cube have \"Table2\" ? " << std::boolalpha
@@ -299,13 +299,13 @@ void IsisMain() {
   p6.EndProcess();
   cout << endl;
 
-  cube.open(FileName("$TEMPORARY/isisprocess_01").expanded());
+  cube.open(QString::fromStdString(FileName("$TEMPORARY/isisprocess_01").expanded()));
   cube.close(true);
-  cube.open(FileName("$TEMPORARY/isisprocess_02").expanded());
+  cube.open(QString::fromStdString(FileName("$TEMPORARY/isisprocess_02").expanded()));
   cube.close(true);
-  cube.open(FileName("$TEMPORARY/isisprocess_03").expanded());
+  cube.open(QString::fromStdString(FileName("$TEMPORARY/isisprocess_03").expanded()));
   cube.close(true);
-  cube.open(FileName("$TEMPORARY/isisprocess_04").expanded());
+  cube.open(QString::fromStdString(FileName("$TEMPORARY/isisprocess_04").expanded()));
   cube.close(true);
 }
 

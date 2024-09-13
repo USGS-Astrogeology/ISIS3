@@ -54,13 +54,13 @@ int main(int argc, char *argv[]) {
     qDebug() << "Default constructor.";
     NaifDskShape shapeModel;
     qDebug() << "Shape name is " << shapeModel.name();
-    qDebug() << "Shape is DEM type? " << toString(shapeModel.isDEM());
+    qDebug() << "Shape is DEM type? " << QString::number(shapeModel.isDEM());
 
     qDebug() << "";
 
     qDebug() << "Construct NaifDskShape object from a plate model.";    
     FileName dskFile("$hayabusa/kernels/dsk/hay_a_amica_5_itokawashape_v1_0_512q.bds");
-    NaifDskPlateModel plateModel(dskFile.expanded());
+    NaifDskPlateModel plateModel(QString::fromStdString(dskFile.expanded()));
     NaifDskShape shapeModelFromPlate(plateModel);
     qDebug() << "Try to intersect surface at obsPos (0,0,0) and lookDir (1,1,1)";
     std::vector<double> obsPos; 
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
     obsPos.push_back(0.0);   obsPos.push_back(0.0);   obsPos.push_back(0.0);
     lookDir.push_back(1.0);  lookDir.push_back(1.0);  lookDir.push_back(1.0);
     bool success = shapeModelFromPlate.intersectSurface(obsPos, lookDir);
-    qDebug() << "Intersection successful? " << toString(success);
+    qDebug() << "Intersection successful? " << QString::number(success);
     qDebug() << "";
      
     qDebug() << "Construct NaifDskShape object from cube labels with ShapeModel=DSK file.";
@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
     obsPos[0]  = 0.0;  obsPos[1]  = 0.0;   obsPos[2]  = 1000.0;
     lookDir[0] = 0.0;  lookDir[1] = -1.0;  lookDir[2] = -1.0;
     success = shapeModelFromPvlShape.intersectSurface(obsPos, lookDir);
-    qDebug() << "Intersection successful?     " << toString(success);
+    qDebug() << "Intersection successful?     " << QString::number(success);
 
     qDebug() << "Try to intersect surface at obsPos (1000,0,0) and ground point (1,0,0)";
     Displacement x(1.0, Displacement::Meters);
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
       qDebug() << "Intercept Y = " << point->DisplacementToDouble(point->GetY(), SurfacePoint::Kilometers);
       qDebug() << "Intercept Z = " << point->DisplacementToDouble(point->GetZ(), SurfacePoint::Kilometers);
     }
-    qDebug() << "Intersection successful?     " << toString(success);
+    qDebug() << "Intersection successful?     " << QString::number(success);
 
     qDebug() << "";
     qDebug() << "Construct NaifDskShape object from cube labels with ElevationModel=DSK file.";    
@@ -111,11 +111,11 @@ int main(int argc, char *argv[]) {
     obsPos[0]  = 1000.0;  obsPos[1]  = 0.0;   obsPos[2]  = 0.0;
     lookDir[0] = -1.0;  lookDir[1] = 0.0;  lookDir[2] = 0.0;
     success = shapeModelFromPvlElevation.intersectSurface(obsPos, lookDir);
-    qDebug() << "Intersection successful?     " << toString(success);
+    qDebug() << "Intersection successful?     " << QString::number(success);
     qDebug() << "Intersection valid? " << shapeModelFromPvlElevation.surfaceIntersection()->Valid();
 
     const Intercept *intercept = shapeModelFromPvlElevation.intercept();
-    qDebug() << "Intercept is null?  " << toString(intercept == NULL);
+    qDebug() << "Intercept is null?  " << QString::number(intercept == NULL);
     SurfacePoint xp = intercept->location();
     NaifVertex xpoint(3);
     xpoint[0] = xp.GetX().meters();
@@ -147,8 +147,8 @@ int main(int argc, char *argv[]) {
     qDebug() << "Access the associated NaifDskPlateModel.";
     NaifDskPlateModel plateModelFromShape = shapeModelFromPvlElevation.model();
     qDebug() << "Plate is valid?              " << plateModelFromShape.isValid();
-    FileName file(plateModelFromShape.filename());
-    qDebug() << "Plate file name:             " << file.baseName();
+    FileName file(plateModelFromShape.filename().toStdString());
+    qDebug() << "Plate file name:             " << QString::fromStdString(file.baseName());
     qDebug() << "Plate size:                  " << plateModelFromShape.size();
     qDebug() << "Number of plates:            " << plateModelFromShape.numberPlates();
     qDebug() << "Number of vertices:          " << plateModelFromShape.numberVertices();

@@ -236,9 +236,9 @@ int main(void) {
 //    cout << endl;
 
     cout << "  Testing Translate member" << endl;
-    cout << "    DataFileName = " << transMgr.Translate("DataFileName") << endl;
-    cout << "    ImageStartByte   = " << transMgr.Translate("ImageStartByte", 1) << endl;
-    cout << "    Lines = " << transMgr.Translate("NumberOfLines") << endl;
+    cout << "    DataFileName = " << transMgr.Translate("DataFileName").toStdString() << endl;
+    cout << "    ImageStartByte   = " << transMgr.Translate("ImageStartByte", 1).toStdString() << endl;
+    cout << "    Lines = " << transMgr.Translate("NumberOfLines").toStdString() << endl;
     cout << endl;
 
     cout << "  Testing Auto member" << endl;

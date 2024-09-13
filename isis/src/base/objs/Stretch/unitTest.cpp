@@ -26,7 +26,7 @@ int main() {
   s.AddPair(0.25, 50.0);
   s.AddPair(1.0, 100.0);
 
-  cout << "Pairs as Text: " << s.Text() << endl;
+  cout << "Pairs as Text: " << s.Text().toStdString() << endl;
   cout << "Number of Pairs = " << s.Pairs() << endl;
   cout << "First Input Value = " << s.Input(0) << endl;
   cout << "First Output Value = " << s.Output(0) << endl << endl;

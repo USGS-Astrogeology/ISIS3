@@ -29,22 +29,22 @@ int main(int argc, char *argv[]) {
   Pvl p;
   p.addObject(o);
 
-  cout << SerialNumber::Compose(p) << endl;
+  cout << SerialNumber::Compose(p).toStdString() << endl;
 
   p.findGroup("Instrument", Pvl::Traverse).deleteKeyword("InstrumentId");
-  cout << SerialNumber::Compose(p) << endl;
+  cout << SerialNumber::Compose(p).toStdString() << endl;
 
   Cube cube;
   cube.open("$ISISTESTDATA/isis/src/base/unitTestData/isisTruth.cub");
-  cout << SerialNumber::Compose(cube, true) << endl;
+  cout << SerialNumber::Compose(cube, true).toStdString() << endl;
 
   FileName file("$ISISTESTDATA/isis/src/lo/unitTestData/3133_h1.cub");
   Pvl p1(file.expanded());
 
-  cout << SerialNumber::Compose(p1) << endl;
+  cout << SerialNumber::Compose(p1).toStdString() << endl;
 
   cout << endl << "Testing ObservationKeys" << endl;
 
-  cout << ObservationNumber::Compose(p1) << endl;
+  cout << ObservationNumber::Compose(p1).toStdString() << endl;
   return (0);
 }

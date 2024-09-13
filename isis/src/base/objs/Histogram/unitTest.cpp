@@ -21,6 +21,7 @@ using namespace std;
 #include <vector>
 #include <algorithm>
 #include <fstream>
+#include <regex>
 
 void arrayDisplay(double *array, int size );
 void histogramMembers(Isis::Histogram *h);
@@ -165,8 +166,9 @@ int main(int argc, char *argv[]) {
   QList<QString> flist;
   Isis::Progress progress;
   Isis::FileName netName("$ISISTESTDATA/isis/src/base/unitTestData/enceladus_sp-Jig.net");
-  flist.append(netName.expanded());
-  cout << netName.toString().replace(QRegularExpression("(\\/[\\w\\-\\. ]*)+\\/*Data"), "data").toStdString() << endl;
+  flist.append(QString::fromStdString(netName.expanded()));
+  std::regex pattern(R"(\/[\w\-\. ]*\/?Data)");
+  cout << std::regex_replace(netName.toString(), pattern, "data") << endl;
 
   Isis::ControlNet net(flist[0], &progress);
 
