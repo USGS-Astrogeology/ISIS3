@@ -8,6 +8,7 @@ find files of those names at the top level of this repository. **/
 
 #include <string>
 #include <vector>
+#include <QStringList>
 #include "Database.h"
 #include "SqlQuery.h"
 #include "Preference.h"
@@ -54,14 +55,14 @@ int main(int argc, char *argv[]) {
     e.print();
   }
 
-  cout << "Database Name: " << testdb.Name() << endl;
+  cout << "Database Name: " << testdb.Name().toStdString() << endl;
   cout << "Persistant: " << testdb.isPersistant() << endl;
   cout << "Calling makePersistant()..." << endl;
   testdb.makePersistant();
   cout << "Persistant: " << testdb.isPersistant() << endl;
 
   Database c = testdb.clone("unittestdb clone");
-  cout << "Clone name: " << c.Name() << endl;
+  cout << "Clone name: " << c.Name().toStdString() << endl;
 
   cout << "Tables: ";
   print(testdb.getTables());
@@ -86,7 +87,7 @@ int main(int argc, char *argv[]) {
 void print(QStringList in) {
   cout << "[";
   for(int i = 0; i < (int)in.size(); i++) {
-    cout << " " << in[i] << " ";
+    cout << " " << in[i].toStdString() << " ";
   }
   cout << "]" << endl;
 }

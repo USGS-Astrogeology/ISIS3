@@ -83,7 +83,7 @@ namespace Isis {
     ProcessImportPds importPds;
     importPds.Progress()->SetText((QString)"Writing " + outputParamName + " file");
 
-    FileName in = ui.GetFileName("FROM");
+    FileName in = ui.GetFileName("FROM").toStdString();
 
     Pvl pdsLabel(in.expanded());
     if (fileType == (ProcessImportPds::L0 | ProcessImportPds::Rdn)) {
@@ -98,7 +98,7 @@ namespace Isis {
 
     // Convert the pds file to a cube
     try {
-      importPds.SetPdsFile(in.expanded(), "", pdsLabel, fileType);
+      importPds.SetPdsFile(QString::fromStdString(in.expanded()), "", pdsLabel, fileType);
     }
     catch(IException &e) {
       std::string msg = "Input file [" + in.expanded() +
@@ -327,13 +327,13 @@ namespace Isis {
 
     // Translate the archive group
     FileName transFile("$ISISROOT/appdata/translations/Chandrayaan1M3Archive.trn");
-    PvlToPvlTranslationManager archiveXlator(pdsLabel, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlator(pdsLabel, QString::fromStdString(transFile.expanded()));
     archiveXlator.Auto(outLabel);
     ocube->putGroup(outLabel.findGroup("Archive", Pvl::Traverse));
 
     // Translate the instrument group
     transFile = "$ISISROOT/appdata/translations/Chandrayaan1M3Instrument.trn";
-    PvlToPvlTranslationManager instrumentXlator(pdsLabel, transFile.expanded());
+    PvlToPvlTranslationManager instrumentXlator(pdsLabel, QString::fromStdString(transFile.expanded()));
     instrumentXlator.Auto(outLabel);
 
     PvlGroup &inst = outLabel.findGroup("Instrument", Pvl::Traverse);
@@ -347,15 +347,15 @@ namespace Isis {
       // jigsaw, so use the clock counts to update these keywords.
       NaifStatus::CheckErrors();
 
-      QString lsk = "$base/kernels/lsk/naif????.tls";
+      std::string lsk = "$base/kernels/lsk/naif????.tls";
       FileName lskName(lsk);
       lskName = lskName.highestVersion();
-      furnsh_c(lskName.expanded().toLatin1().data());
+      furnsh_c(lskName.expanded().c_str());
 
-      QString sclk = "$chandrayaan1/kernels/sclk/aig_ch1_sclk_complete_biased_m1p???.tsc";
+      std::string sclk = "$chandrayaan1/kernels/sclk/aig_ch1_sclk_complete_biased_m1p???.tsc";
       FileName sclkName(sclk);
       sclkName = sclkName.highestVersion();
-      furnsh_c(sclkName.expanded().toLatin1().data());
+      furnsh_c(sclkName.expanded().c_str());
 
       SpiceInt sclkCode = -86;
 

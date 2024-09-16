@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 
   // Add the Qt plugin directory to the library path
   FileName qtpluginpath("$ISISROOT/3rdParty/plugins");
-  QCoreApplication::addLibraryPath(qtpluginpath.expanded());
+ QCoreApplication::addLibraryPath(QString::fromStdString(qtpluginpath.expanded()));
 
   // Check to see if the user wants to force a new window
   int newWindow = -1;
@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
     strcpy(p_socketName.sun_path, p_socketFile.toLatin1().data());
     int p_socket;
 
-    if (((FileName)p_socketFile).fileExists()) {
+    if (((FileName)p_socketFile.toStdString()).fileExists()) {
       // Create a socket
       if ((p_socket = socket(PF_UNIX, SOCK_STREAM, 0)) >= 0) {
         // Try to connect to the socket
@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
            */
           QChar escape(27);
           for (int i = 1; i < argc; i++) {
-            temp += QFileInfo(FileName(argv[i]).expanded()).absoluteFilePath();
+            temp += QFileInfo(QString::fromStdString(FileName(argv[i]).expanded())).absoluteFilePath();
             temp += QString(escape);
           }
           temp += "raise";

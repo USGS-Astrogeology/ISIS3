@@ -31,12 +31,12 @@ void IsisMain() {
 
   // Check reseau status and make sure it is not nominal or removed
   if(((std::string)status == "Nominal")) {
-    std::string msg = "Input file [" + in +
+    std::string msg = "Input file [" + in.toStdString() +
                  "] appears to have nominal reseau status. You must run findrx first.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   if((std::string)status == "Removed") {
-    std::string msg = "Input file [" + in +
+    std::string msg = "Input file [" + in.toStdString() +
                  "] appears to already have reseaus removed.";
     throw IException(IException::User, msg, _FILEINFO_);
   }

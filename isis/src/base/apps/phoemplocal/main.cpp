@@ -89,7 +89,7 @@ void IsisMain() {
   }
 
   // Get Hapke function and parameters
-  IString sHapkeFunc = ui.GetAsString("PHTNAME");
+  IString sHapkeFunc = ui.GetAsString("PHTNAME").toStdString();
   sHapkeFunc = sHapkeFunc.UpCase();
 
   // Should contains parameter names matching GUI not to be included
@@ -111,7 +111,7 @@ void IsisMain() {
     inclusion.push_back("CH");
   }
   else {
-    QString sErrMsg = "Invalid Hapke Function\n";
+    std::string sErrMsg = "Invalid Hapke Function\n";
     throw IException(IException::User, sErrMsg, _FILEINFO_);
   }
 
@@ -170,7 +170,7 @@ void IsisMain() {
 
   // Order of approximation in atmospheric scatter model
   bool doAsm = false;
-  IString sAsmType = ui.GetAsString("ATMNAME");
+  IString sAsmType = ui.GetAsString("ATMNAME").toStdString();
   sAsmType = sAsmType.UpCase();
   if (sAsmType != "NONE") {
     doAsm = true;
@@ -251,7 +251,7 @@ void IsisMain() {
   }
 
   if (datum.m_phase > (datum.m_emission + datum.m_incidence)) {
-    QString sErrMsg = "No valid fit points\n";
+    std::string sErrMsg = "No valid fit points\n";
     throw IException(IException::User, sErrMsg, _FILEINFO_);
   }
   else {

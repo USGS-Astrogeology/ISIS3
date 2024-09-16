@@ -55,7 +55,7 @@ namespace Isis{
     ofstream outputFile;
     if (ui.WasEntered("TO")) {
       registrationFileSpecified = true;
-      QString to(FileName(ui.GetCubeName("TO")).expanded());
+      QString to(QString::fromStdString(FileName(ui.GetCubeName("TO").toStdString()).expanded()));
       outputFile.open(to.toLatin1().data());
       outputFile << "# checkline line, checkline sample, checkline time taken, "
                     "matched jittered image line, matched jittered image "
@@ -64,8 +64,8 @@ namespace Isis{
     }
 
     // ???? Question: Why use a file name here? Can't Table/blob read from an open Cube?
-    Table mainReadouts("Normalized Main Readout Line Times", jitterCube.fileName());
-    Table checklineReadouts("Normalized Checkline Readout Line Times", checkCube.fileName());
+    Table mainReadouts("Normalized Main Readout Line Times", jitterCube.fileName().toStdString());
+    Table checklineReadouts("Normalized Checkline Readout Line Times", checkCube.fileName().toStdString());
 
     // Register each check line to the area near the corresponding main image line using the
     // registration definition file
@@ -115,7 +115,7 @@ namespace Isis{
 
     if (ui.WasEntered("TO2")) {
       ofstream regStatsFile;
-      QString to(FileName(ui.GetFileName("TO2")).expanded());
+      QString to(QString::fromStdString(FileName(ui.GetFileName("TO2").toStdString()).expanded()));
       regStatsFile.open(to.toLatin1().data());
       Pvl regStats = ar->RegistrationStatistics();
       regStatsFile << regStats << endl;
@@ -169,7 +169,7 @@ namespace Isis{
 
     // Write the coefficients to COEFFICIENTTO file and the main cube label
     ofstream outputCoefficientFile;
-    QString coefficientTo(FileName(ui.GetFileName("COEFFICIENTTO")).expanded());
+    QString coefficientTo(QString::fromStdString(FileName(ui.GetFileName("COEFFICIENTTO").toStdString()).expanded()));
     outputCoefficientFile.open(coefficientTo.toLatin1().data());
     outputCoefficientFile << "# Line, Sample" << endl;
 
@@ -197,7 +197,7 @@ namespace Isis{
     // Write the registered line/samp, solved line/samp, residual line/samp, time
     if (ui.WasEntered("RESIDUALTO")) {
       ofstream outputResidualFile;
-      QString residualTo(FileName(ui.GetFileName("RESIDUALTO")).expanded());
+      QString residualTo(QString::fromStdString(FileName(ui.GetFileName("RESIDUALTO").toStdString()).expanded()));
       outputResidualFile.open(residualTo.toLatin1().data());
 
       outputResidualFile << "# Registered Line, Solved Line, Registered Line Residual, "

@@ -91,7 +91,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
        tolerances[pvl1.name()].size() > 1 &&
        pvl1.size() != tolerances[pvl1.name()].size() ) {
 
-    std::string msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
+    std::string msg = "Size of keyword '" + pvl1.name() + "' does not match with ";
     msg += "its number of tolerances in the DIFF file.";
     throw IException(IException::User, msg, _FILEINFO_);
 
@@ -101,7 +101,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
        ignoreKeys[pvl1.name()].size() > 1 &&
        pvl1.size() != ignoreKeys[pvl1.name()].size() ) {
 
-    std::string msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
+    std::string msg = "Size of keyword '" + pvl1.name() + "' does not match with ";
     msg += "its number of ignore keys in the DIFF file.";
     throw IException(IException::User, msg, _FILEINFO_);
 
@@ -111,7 +111,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
        ignoreFilePaths[pvl1.name()].size() > 1 &&
        pvl1.size() != ignoreFilePaths[pvl1.name()].size() ) {
 
-    std::string msg = "Size of keyword '" + QString::fromStdString(pvl1.name()) + "' does not match with ";
+    std::string msg = "Size of keyword '" + pvl1.name() + "' does not match with ";
     msg += "its number of filepath ignores in the DIFF file.";
     throw IException(IException::User, msg, _FILEINFO_);
 
@@ -150,7 +150,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
         }
 
         double tolerance = 0.0;
-        double difference = abs(toDouble(val1) - toDouble(val2));
+        double difference = abs(val1.toDouble() - val2.toDouble());
 
         if ( tolerances.hasKeyword(pvl1.name()) ) {
           tolerance = std::stod(
@@ -162,13 +162,13 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
           filesMatch = false;
           if ( pvl1.size() == 1 ) {
             differenceReason = "Keyword '" + QString::fromStdString(pvl1.name()) + "': difference is " +
-                               toString(difference);
+                               QString::number(difference);
           }
           else {
             differenceReason = "Keyword '" + QString::fromStdString(pvl1.name()) + "' at index " +
-                               toString(i) + ": difference is " + toString(difference);
+                               QString::number(i) + ": difference is " + QString::number(difference);
           }
-          differenceReason += " (tolerance is " + toString(tolerance) + ")";
+          differenceReason += " (tolerance is " + QString::number(tolerance) + ")";
         }
       }
     }

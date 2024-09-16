@@ -26,7 +26,7 @@ namespace Isis {
     ProcessImportPds p;
     Pvl pdsLabel;
 
-    FileName inFile = ui.GetFileName("FROM");
+    FileName inFile = ui.GetFileName("FROM").toStdString();
     QString instid;
     QString missid;
 
@@ -55,12 +55,12 @@ namespace Isis {
     }
 
 
-    p.SetPdsFile(inFile.expanded(), "", pdsLabel);
+    p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", pdsLabel);
     p.SetOrganization(Isis::ProcessImport::BSQ);
-    QString tmpName = "$TEMPORARY/" + inFile.baseName() + ".tmp.cub";
+    std::string tmpName = "$TEMPORARY/" + inFile.baseName() + ".tmp.cub";
     FileName tmpFile(tmpName);
     CubeAttributeOutput outatt = CubeAttributeOutput("+Real");
-    p.SetOutputCube(tmpFile.expanded(), outatt);
+    p.SetOutputCube(QString::fromStdString(tmpFile.expanded()), outatt);
     p.SaveFileHeader();
 
     Pvl labelPvl(inFile.expanded());
@@ -70,28 +70,28 @@ namespace Isis {
 
     ProcessBySample p2;
     CubeAttributeInput inatt;
-    p2.SetInputCube(tmpFile.expanded(), inatt);
+    p2.SetInputCube(QString::fromStdString(tmpFile.expanded()), inatt);
     Cube *outcube = p2.SetOutputCube("TO");
 
     // Get the directory where the DAWN translation tables are.
-    QString transDir = "$ISISROOT/appdata/translations/";
+    std::string transDir = "$ISISROOT/appdata/translations/";
 
     // Create a PVL to store the translated labels in
     Pvl outLabel;
 
     // Translate the BandBin group
     FileName transFile(transDir + "DawnFcBandBin.trn");
-    PvlToPvlTranslationManager bandBinXlater(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(labelPvl, QString::fromStdString(transFile.expanded()));
     bandBinXlater.Auto(outLabel);
 
     // Translate the Archive group
     transFile = transDir + "DawnFcArchive.trn";
-    PvlToPvlTranslationManager archiveXlater(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(labelPvl, QString::fromStdString(transFile.expanded()));
     archiveXlater.Auto(outLabel);
 
     // Translate the Instrument group
     transFile = transDir + "DawnFcInstrument.trn";
-    PvlToPvlTranslationManager instrumentXlater(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager instrumentXlater(labelPvl, QString::fromStdString(transFile.expanded()));
     instrumentXlater.Auto(outLabel);
 
     //  Update target if user specifies it
@@ -180,7 +180,7 @@ namespace Isis {
     p2.StartProcess(flipbyline);
     p2.EndProcess();
 
-    QString tmp(tmpFile.expanded());
+    QString tmp(QString::fromStdString(tmpFile.expanded()));
     QFile::remove(tmp);
   }
 

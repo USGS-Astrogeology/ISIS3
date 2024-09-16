@@ -32,7 +32,7 @@ void IsisMain() {
 void calcRange(double &minLat, double &maxLat, double &minLon, double &maxLon) {
   UserInterface &ui = Application::GetUserInterface();
 
-  FileList list(FileName(ui.GetFileName("FROMLIST")));
+  FileList list(FileName(ui.GetFileName("FROMLIST").toStdString()));
   minLat = DBL_MAX;
   maxLat = -DBL_MAX;
   minLon = DBL_MAX;
@@ -45,7 +45,7 @@ void calcRange(double &minLat, double &maxLat, double &minLon, double &maxLon) {
   for(int i = 0; i < list.size(); i++) {
     // Open the cube and get the maximum number of band in all cubes
     Cube cube;
-    cube.open(list[i].toString());
+    cube.open(QString::fromStdString(list[i].toString()));
     if(cube.bandCount() > nbands) nbands = cube.bandCount();
 
     // See if the cube has a projection and make sure it matches

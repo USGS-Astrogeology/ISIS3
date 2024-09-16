@@ -68,16 +68,16 @@ namespace Isis {
     }
 
     //following keywords in InstrumentAddendum file
-    QString ikernKey = "INS" + toString((int)naifIkCode()) + "_CONSTANT_TIME_OFFSET";
+    QString ikernKey = "INS" + QString::number((int)naifIkCode()) + "_CONSTANT_TIME_OFFSET";
     constantTimeOffset = getDouble(ikernKey);
 
-    ikernKey = "INS" + toString((int)naifIkCode()) + "_ADDITIONAL_PREROLL";
+    ikernKey = "INS" + QString::number((int)naifIkCode()) + "_ADDITIONAL_PREROLL";
     additionalPreroll = getDouble(ikernKey);
 
-    ikernKey = "INS" + toString((int)naifIkCode()) + "_ADDITIVE_LINE_ERROR";
+    ikernKey = "INS" + QString::number((int)naifIkCode()) + "_ADDITIVE_LINE_ERROR";
     additiveLineTimeError = getDouble(ikernKey);
 
-    ikernKey = "INS" + toString((int)naifIkCode()) + "_MULTIPLI_LINE_ERROR";
+    ikernKey = "INS" + QString::number((int)naifIkCode()) + "_MULTIPLI_LINE_ERROR";
     multiplicativeLineTimeError = getDouble(ikernKey);
 
     Pvl &lab = *cube.label();

@@ -66,7 +66,7 @@ namespace Isis {
     stime = stime.split(".").last();
 
     p_etStart = p_camera->getClockTime(intTime).Et();
-    p_etStart += toDouble(stime) / 15959.0;
+    p_etStart += stime.toDouble() / 15959.0;
 
     //----------------------------------------------------------------------
     //  Because of inaccuracy with the 15 Mhz clock, the IR exposure and
@@ -105,7 +105,7 @@ namespace Isis {
         p_camLineOffset = (3 * (lineOffset + p_swathLength / 2)) - p_swathLength / 2;
       }
       else {
-        string msg = "Unsupported SamplingMode [" + IString(sampMode) + "]";
+        string msg = "Unsupported SamplingMode [" + sampMode.toStdString() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -125,7 +125,7 @@ namespace Isis {
         p_camLineOffset = lineOffset - 1;
       }
       else {
-        string msg = "Unsupported SamplingMode [" + IString(sampMode) + "]";
+        string msg = "Unsupported SamplingMode [" + sampMode.toStdString() + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }

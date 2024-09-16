@@ -76,7 +76,7 @@ namespace Isis {
     if(!p_stream.good()) {
       line = "";
       std::string message = "TextFile:GetLine: -> Error reading text file: ["
-                        + p_filename + "]";
+                        + p_filename.toStdString() + "]";
       throw IException(IException::Io, message, _FILEINFO_);
     }
     // Search for tag "\begindata" if it was not already found by recursively using this method

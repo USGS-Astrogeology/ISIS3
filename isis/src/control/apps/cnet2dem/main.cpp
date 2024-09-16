@@ -154,9 +154,9 @@ void IsisMain() {
   }
 
   if ( ui.WasEntered("CNETLIST") ) {
-    FileList list_o_nets(ui.GetFileName("CNETLIST"));
+    FileList list_o_nets(ui.GetFileName("CNETLIST").toStdString());
     BOOST_FOREACH ( FileName cfile, list_o_nets ) {
-      cnetfiles.append( cfile.original() );
+      cnetfiles.append(QString::fromStdString(cfile.original()));
     }
   }
 
@@ -174,7 +174,7 @@ void IsisMain() {
   QString description;
   BigInt allPoints(0);
   BOOST_FOREACH ( QString cfile, cnetfiles ) {
-    std::cout << "\nLoading " << cfile << "...\n";
+    std::cout << "\nLoading " << cfile.toStdString() << "...\n";
     Progress c_progress;
     QScopedPointer<ControlNet> cnet( new ControlNet(cfile, &c_progress) );
     if ( netid.isEmpty() )       { netid = cnet->GetNetworkId(); }

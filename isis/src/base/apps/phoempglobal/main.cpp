@@ -86,7 +86,7 @@ void IsisMain() {
     inclusion.push_back("CH");
   }
   else {
-    QString sErrMsg = "Invalid Hapke Function\n";
+    std::string sErrMsg = "Invalid Hapke Function\n";
     throw IException(IException::User, sErrMsg, _FILEINFO_);
   }
 
@@ -109,7 +109,7 @@ void IsisMain() {
   } else if (sEmpirical == "LUNARLAMBERT") {
     limbValue.setName("LList");
   } else {
-    QString sErrMsg = "Invalid Photometric Model\n";
+    std::string sErrMsg = "Invalid Photometric Model\n";
     throw IException(IException::User, sErrMsg, _FILEINFO_);
   }
 

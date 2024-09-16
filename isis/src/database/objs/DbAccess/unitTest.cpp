@@ -23,24 +23,24 @@ int main(int argc, char *argv[]) {
   d.addProfile(p);
   cout << "Profile exist: " << d.profileExists("test profile") << endl;
   cout << "Profile count: " << d.profileCount() << endl;
-  cout << "Default profile name: " << d.getDefaultProfileName() << endl;
+  cout << "Default profile name: " << d.getDefaultProfileName().toStdString() << endl;
   DbProfile dup = d.getProfile(0);
-  cout << "Duplicate profile name: " << dup.Name() << endl;
+  cout << "Duplicate profile name: " << dup.Name().toStdString() << endl;
 
   cout << "DbProfile valid: " << p.isValid() << endl;
   cout << "Size: " << d.size() << endl;
   cout << "Setting name: ";
   d.setName("new name");
-  cout << d.Name() << endl;
+  cout << d.Name().toStdString() << endl;
   cout << "Adding a key test_key..." << endl;
   cout << "Exists (before): " << d.exists("test_key") << endl;
   d.add("test_key", "test value");
   cout << "Exists (after): " << d.exists("test_key") << endl;
   cout << "Size: " << d.size() << endl;
   cout << "Count: " << d.count("test_key") << endl;
-  cout << "Key: " << d.key(0) << endl;
-  cout << "Value: " << d.value("test_key") << endl;
-  cout << "() operator: " << d("test_key") << endl;
+  cout << "Key: " << d.key(0).toStdString() << endl;
+  cout << "Value: " << d.value("test_key").toStdString() << endl;
+  cout << "() operator: " << d("test_key").toStdString() << endl;
 
   try {
     d.getProfile(99);

@@ -54,7 +54,7 @@ void IsisMain() {
 
   // Make sure it is not the sky
   if(incam->target()->isSky()) {
-    std::string msg = "The image [" + ui.GetCubeName("FROM") +
+    std::string msg = "The image [" + ui.GetCubeName("FROM").toStdString() +
                   "] is targeting the sky, use skymap instead.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -209,7 +209,7 @@ void IsisMain() {
           }
         }
         else if(ui.GetString("RINGLONSEAM") == "ERROR") {
-          std::string msg = "The image [" + ui.GetCubeName("FROM") + "] crosses the " +
+          std::string msg = "The image [" + ui.GetCubeName("FROM").toStdString() + "] crosses the " +
                        "ring longitude seam";
           throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -589,7 +589,7 @@ void LoadMapRes() {
     ui.PutAsString("PIXRES", "MPP");
   }
   else {
-    std::string msg = "No resolution value found in [" + ui.GetFileName("MAP") + "]";
+    std::string msg = "No resolution value found in [" + ui.GetFileName("MAP").toStdString() + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 }
@@ -652,7 +652,7 @@ void LoadMapRange() {
 
   if(count < 4) {
     std::string msg = "One or more of the values for the ground range was not found";
-    msg += " in [" + ui.GetFileName("MAP") + "]";
+    msg += " in [" + ui.GetFileName("MAP").toStdString() + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 }

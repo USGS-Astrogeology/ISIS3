@@ -44,14 +44,14 @@ namespace Isis {
   void modifyNacRollingShutterLabel(UserInterface &ui, Cube *outputCube, FileName xmlFileName, OriginalXmlLabel xmlLabel);
 
   void eis2isis(UserInterface &ui) {
-    FileName xmlFileName = ui.GetFileName("FROM");
+    FileName xmlFileName = ui.GetFileName("FROM").toStdString();
 
     try {
       ProcessImport p;
       translateCoreInfo(xmlFileName, p);
 
       if (xmlFileName.removeExtension().addExtension("dat").fileExists()) {
-        p.SetInputFile(xmlFileName.removeExtension().addExtension("dat").expanded());
+        p.SetInputFile(QString::fromStdString(xmlFileName.removeExtension().addExtension("dat").expanded()));
       }
       else {
         std::string msg = "Cannot find image file for [" + xmlFileName.name() + "]. Confirm the "
@@ -64,7 +64,7 @@ namespace Isis {
 
       translateEISLabels(xmlFileName, outputLabel);
 
-      FileName outputCubeFileName(ui.GetCubeName("TO"));
+      FileName outputCubeFileName(ui.GetCubeName("TO").toStdString());
 
       OriginalXmlLabel xmlLabel;
       xmlLabel.readFromXmlFile(xmlFileName);
@@ -137,7 +137,7 @@ namespace Isis {
 
     // Get the translation manager ready
     FileName transFile = "$ISISROOT/appdata/translations/ClipperEisCore.trn";
-    XmlToPvlTranslationManager labelXlater(inputLabel, transFile.expanded());
+    XmlToPvlTranslationManager labelXlater(inputLabel, QString::fromStdString(transFile.expanded()));
     translateCoreInfo(labelXlater, importer);
   }
 
@@ -158,25 +158,25 @@ namespace Isis {
     // Set up the ProcessImport
     QString str;
     str = labelXlater.Translate("CoreSamples");
-    int ns = toInt(str);
+    int ns = str.toInt();
     str = labelXlater.Translate("CoreLines");
-    int nl = toInt(str);
+    int nl = str.toInt();
     str = labelXlater.Translate("CoreBands");
-    int nb = toInt(str);
+    int nb = str.toInt();
     importer.SetDimensions(ns, nl, nb);
 
     str = labelXlater.Translate("CoreType");
     importer.SetPixelType(PixelTypeEnumeration(str));
 
     str = labelXlater.Translate("CoreByteOrder");
-    importer.SetByteOrder(ByteOrderEnumeration(str));
+    importer.SetByteOrder(ByteOrderEnumeration(str.toStdString()));
 
     importer.SetFileHeaderBytes(0);
 
     str = labelXlater.Translate("CoreBase");
-    importer.SetBase(toDouble(str));
+    importer.SetBase(str.toDouble());
     str = labelXlater.Translate("CoreMultiplier");
-    importer.SetMultiplier(toDouble(str));
+    importer.SetMultiplier(str.toDouble());
 
     // These are hard-coded to ISIS values, but the team may choose to set them
     // differently and include them in the imported xml file in the future
@@ -210,7 +210,7 @@ namespace Isis {
    */
   void translateLabels(FileName &inputLabel, Pvl *outputLabel, FileName transFile) {
     // Get the translation manager ready for translating the label
-    XmlToPvlTranslationManager labelXlater(inputLabel, transFile.expanded());
+    XmlToPvlTranslationManager labelXlater(inputLabel, QString::fromStdString(transFile.expanded()));
 
     // Translate the output label
     labelXlater.Auto(*(outputLabel));
@@ -244,7 +244,7 @@ namespace Isis {
     if (ui.WasEntered("MAINREADOUT")) {
 
       // Create and write normalized time values in the range [-1,1] to the primary EIS cube
-      Table normalizedReadout = normalizeTimeTable(FileName(ui.GetFileName("MAINREADOUT")),
+      Table normalizedReadout = normalizeTimeTable(FileName(ui.GetFileName("MAINREADOUT").toStdString()),
                                   "Normalized Main Readout Line Times",
                                   outputCube->lineCount());
 
@@ -265,7 +265,7 @@ namespace Isis {
 
     // Handle an optional checkline cube.
     if (ui.WasEntered("FROM2")) {
-      FileName checklineXmlFileName = ui.GetFileName("FROM2");
+      FileName checklineXmlFileName = ui.GetFileName("FROM2").toStdString();
 
       if (ui.WasEntered("CHECKLINEREADOUT")) {
         // Process the checkline image to an ISIS cube and write the checkline tables
@@ -274,9 +274,9 @@ namespace Isis {
         if (checklineXmlFileName.removeExtension()
                                 .addExtension("dat")
                                 .fileExists()) {
-          p2.SetInputFile(checklineXmlFileName.removeExtension()
+          p2.SetInputFile(QString::fromStdString(checklineXmlFileName.removeExtension()
                                             .addExtension("dat")
-                                            .expanded());
+                                            .expanded()));
         }
         else {
           std::string msg = "Cannot find image file for [" + checklineXmlFileName.name() + "]. Confirm the "
@@ -293,13 +293,13 @@ namespace Isis {
         xmlLabel.readFromXmlFile(checklineXmlFileName);
         p2.StartProcess();
         // Create and write regular checkline time values to the checkline cube
-        Table checkLineReadout = createTable(FileName(ui.GetFileName("CHECKLINEREADOUT")),
+        Table checkLineReadout = createTable(FileName(ui.GetFileName("CHECKLINEREADOUT").toStdString()),
                                             "Checkline Readout Line Times",
                                             60);
 
         // Create and write normalized checkline time values in the range
         // [-1,1] to the checkline cube
-        Table checkLineNormalizedReadout = normalizeTimeTable(FileName(ui.GetFileName("CHECKLINEREADOUT")),
+        Table checkLineNormalizedReadout = normalizeTimeTable(FileName(ui.GetFileName("CHECKLINEREADOUT").toStdString()),
                                     "Normalized Checkline Readout Line Times",
                                     60);
 
@@ -336,7 +336,7 @@ namespace Isis {
   Table normalizeTimeTable(const FileName &file, const QString &tableName, int numLines) {
     double tmin =DBL_MAX;
     double tmax = DBL_MIN;
-    CSVReader csv(file.expanded() );
+    CSVReader csv(QString::fromStdString(file.expanded()));
 
     // Number of lines provided must match number of rows in csv file
     if (numLines != csv.rows()) {
@@ -396,7 +396,7 @@ namespace Isis {
    * @return Table Returns the created table.
    */
   Table createTable(const FileName &file, const QString &tableName, int numLines) {
-    CSVReader csv(file.expanded());
+    CSVReader csv(QString::fromStdString(file.expanded()));
 
     // Number of lines provided must match number of rows in csv file
     if (numLines != csv.rows()) {

@@ -220,7 +220,7 @@ void IsisMain() {
     numFrameLines = ui.GetInteger("FRAMELETHEIGHT");
   }
 
-  FileList inList(FileName(ui.GetFileName("FROMLIST")));
+  FileList inList(FileName(ui.GetFileName("FROMLIST").toStdString()));
   Progress progress;
 
   tempFileLength = 0;
@@ -256,7 +256,7 @@ void IsisMain() {
      * Read the current cube into memory
      */
     Cube tmp;
-    tmp.open(inList[currImage].toString());
+    tmp.open(QString::fromStdString(inList[currImage].toString()));
 
     /**
      * If we haven't determined how many samples the output
@@ -303,8 +303,8 @@ void IsisMain() {
     //   entire images, and push frame framelet exclusion stats can not be collected
     //   during pass 2 cleanly
     if((cameraType == Framing || cameraType == PushFrame) && imageValid) {
-      QString prog = "Calculating Standard Deviation " + toString((int)currImage + 1) + "/";
-      prog += toString((int)inList.size()) + " (" + inList[currImage].name() + ")";
+      QString prog = "Calculating Standard Deviation " + QString::number((int)currImage + 1) + "/";
+      prog += QString::number((int)inList.size()) + " (" + QString::fromStdString(inList[currImage].name()) + ")";
 
       if(cameraType == Framing) {
         Statistics *stats = tmp.statistics(1, prog);
@@ -375,7 +375,7 @@ void IsisMain() {
   ocube->setDimensions(numOutputSamples, tempFileLength, 2);
   PvlGroup &prefs = Preference::Preferences().findGroup("DataDirectory", Pvl::Traverse);
   QString outTmpName = QString::fromStdString(prefs["Temporary"][0]) + "/";
-  outTmpName += FileName(ui.GetCubeName("TO")).baseName() + ".tmp.cub";
+  outTmpName += QString::fromStdString(FileName(ui.GetCubeName("TO").toStdString()).baseName()) + ".tmp.cub";
   ocube->create(outTmpName);
   oLineMgr = new LineManager(*ocube);
   oLineMgr->SetLine(1);
@@ -395,7 +395,7 @@ void IsisMain() {
     }
 
     PvlObject currFile("Exclusions");
-    currFile += PvlKeyword("FileName", inList[currImage].toString().toStdString());
+    currFile += PvlKeyword("FileName", inList[currImage].toString());
     currFile += PvlKeyword("Tolerance", std::to_string(maxStdev));
 
     if(cameraType == LineScan) {
@@ -418,10 +418,10 @@ void IsisMain() {
       p.SetBrickSize(numOutputSamples, 1, 1);
     }
 
-    p.SetInputCube(inList[currImage].toString(), inAtt);
-    QString progText = "Calculating Averages " + toString((int)currImage + 1);
-    progText += "/" + toString((int)inList.size());
-    progText += " (" + inList[currImage].name() + ")";
+    p.SetInputCube(QString::fromStdString(inList[currImage].toString()), inAtt);
+    QString progText = "Calculating Averages " + QString::number((int)currImage + 1);
+    progText += "/" + QString::number((int)inList.size());
+    progText += " (" + QString::fromStdString(inList[currImage].name()) + ")";
     p.Progress()->SetText(progText);
 
     p.StartProcess(CreateTemporaryData);
@@ -459,7 +459,7 @@ void IsisMain() {
     ocube->setDimensions(numOutputSamples, tempFileLength, 1);
   }
 
-  ocube->create(FileName(ui.GetCubeName("TO")).expanded());
+  ocube->create(QString::fromStdString(FileName(ui.GetCubeName("TO").toStdString()).expanded()));
   oLineMgr = new LineManager(*ocube);
   oLineMgr->SetLine(1);
 
@@ -496,7 +496,7 @@ void IsisMain() {
   PvlGroup excludedFiles("ExcludedFiles");
   for(currImage = 0; currImage < inList.size(); currImage++) {
     if(Excluded(currImage)) {
-      excludedFiles += PvlKeyword("File", inList[currImage].original().toStdString());
+      excludedFiles += PvlKeyword("File", inList[currImage].original());
     }
   }
 
@@ -513,7 +513,7 @@ void IsisMain() {
       excludeFile.addObject(excludedDetails[i]);
     }
 
-    excludeFile.write(FileName(ui.GetFileName("EXCLUDE")).expanded());
+    excludeFile.write(FileName(ui.GetFileName("EXCLUDE").toStdString()).expanded());
   }
 
   remove(outTmpName.toLatin1().data());

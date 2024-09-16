@@ -43,10 +43,10 @@ void IsisMain() {
     int numPoints = cNet.GetNumPoints();
 
     if (numOutputFiles > numPoints) {
-      FileName inputNet(ui.GetFileName("CNET"));
+      FileName inputNet(ui.GetFileName("CNET").toStdString());
       std::string msg = "The number of output files is greater than total number of "
                     "Control Points in the given Control Network ["
-                    + ui.GetFileName("CNET") + "].";
+                    + ui.GetFileName("CNET").toStdString() + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

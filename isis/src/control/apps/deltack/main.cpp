@@ -98,7 +98,7 @@ void IsisMain() {
       results += PvlKeyword("Lon1", std::to_string(lon1.degrees()), "degrees");
       if ( !v_cam->SetUniversalGround(lat1.degrees(), lon1.degrees()) ) {
         std::string mess = "Geometry coordinate does not map into image at location (" +
-                       QString::number(lat1.degrees()) + "," + QString::number(lon1.degrees()) + ")";
+                       std::to_string(lat1.degrees()) + "," + std::to_string(lon1.degrees()) + ")";
         throw IException(IException::User, mess, _FILEINFO_);
       }
 
@@ -118,7 +118,7 @@ void IsisMain() {
         // image coordinate.
         if (!v_cam->InCube() ) {
           std::string mess = "Image coordinate is outside image coordinates at point (" +
-                         QString::number(samp1) + "," + QString::number(line1) + ")";
+                         std::to_string(samp1) + "," + std::to_string(line1) + ")";
           throw IException(IException::User, mess, _FILEINFO_);
         }
 
@@ -179,7 +179,7 @@ void IsisMain() {
         // else and we have to abort...
         if ( o_cmat.Records() != 4 ) {
           std::string mess = "Expect only 4 records for polynomial cache but got "
-                         + QString::number(o_cmat.Records()) + " instead!";
+                         + std::to_string(o_cmat.Records()) + " instead!";
           throw IException(IException::User, mess, _FILEINFO_);
         }
 
@@ -314,7 +314,7 @@ void IsisMain() {
     Application::Log(results);
   }
   catch (IException &e) {
-    std::string msg = "Unable to update camera pointing for [" + filename + "]";
+    std::string msg = "Unable to update camera pointing for [" + filename.toStdString() + "]";
     throw IException(e, IException::Unknown, msg, _FILEINFO_);
   }
 
@@ -325,7 +325,7 @@ void IsisMain() {
 
 // Compute the radius at the lat/lon
 Distance GetRadius(QString filename, Latitude lat, Longitude lon) {
-  Cube cube(filename, "r");
+  Cube cube(filename.toStdString(), "r");
   Camera *sensor = CameraFactory::Create(cube);
   sensor->SetGround(SurfacePoint(lat, lon, sensor->LocalRadius(lat, lon)));
   Distance radius = sensor->LocalRadius();
@@ -494,7 +494,7 @@ void ApplyRotation(const double R[3][3], Table &table) {
   // Sanity check...
   if ( table[0].Fields() < 4 ) {
     std::string mess = "Expect at least 4 fields for quaternion cache but got "
-                   + QString::number(table.Records()) + " instead!";
+                   + std::to_string(table.Records()) + " instead!";
     throw IException(IException::User, mess, _FILEINFO_);
   }
 

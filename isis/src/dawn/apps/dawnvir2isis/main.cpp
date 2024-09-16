@@ -26,7 +26,7 @@ void IsisMain ()
   Pvl pdsLabel;
   UserInterface &ui = Application::GetUserInterface();
 
-  FileName inFile = ui.GetFileName("FROM");
+  FileName inFile = ui.GetFileName("FROM").toStdString();
   QString imageFile("");
   if (ui.WasEntered("IMAGE")) {
     imageFile = ui.GetFileName("IMAGE");
@@ -34,18 +34,21 @@ void IsisMain ()
 
 
   // Generate the housekeeping filenames
-  QString hkLabel("");
+  std::string hkLabel("");
   QString hkData("");
   if (ui.WasEntered("HKFROM") ) {
-    hkLabel = ui.GetFileName("HKFROM");
+    hkLabel = ui.GetFileName("HKFROM").toStdString();
   }
   else {
     hkLabel = inFile.originalPath() + "/" + inFile.baseName() + "_HK.LBL";
     // Determine the housekeeping file
     FileName hkFile(hkLabel);
     if (!hkFile.fileExists()) {
-      hkFile = hkLabel.replace("_1B_", "_1A_");
-      if (hkFile.fileExists()) hkLabel = hkFile.expanded();
+      size_t pos = hkLabel.find("_1B_");
+      if (pos != std::string::npos) {
+          hkLabel.replace(pos, 4, "_1A_");
+      }
+    if (hkFile.fileExists()) hkLabel = hkFile.expanded();
     }
   }
 
@@ -82,7 +85,7 @@ void IsisMain ()
 
 //  p.SetPdsFile (inFile.expanded(),imageFile,pdsLabel);
 //  QString labelFile = ui.GetFileName("FROM");
-  p.SetPdsFile (inFile.expanded(),imageFile,pdsLabel);
+  p.SetPdsFile (QString::fromStdString(inFile.expanded()), imageFile, pdsLabel);
   p.SetOrganization(Isis::ProcessImport::BIP);
   Cube *outcube = p.SetOutputCube ("TO");
 //  p.SaveFileHeader();
@@ -92,24 +95,24 @@ void IsisMain ()
   p.StartProcess ();
 
   // Get the directory where the DAWN translation tables are.
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
 
   // Create a PVL to store the translated labels in
   Pvl outLabel;
 
   // Translate the BandBin group
   FileName transFile (transDir + "DawnVirBandBin.trn");
-  PvlToPvlTranslationManager bandBinXlater (labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager bandBinXlater (labelPvl, QString::fromStdString(transFile.expanded()));
   bandBinXlater.Auto(outLabel);
 
   // Translate the Archive group
   transFile = transDir + "DawnVirArchive.trn";
-  PvlToPvlTranslationManager archiveXlater (labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager archiveXlater (labelPvl, QString::fromStdString(transFile.expanded()));
   archiveXlater.Auto(outLabel);
 
   // Translate the Instrument group
   transFile = transDir + "DawnVirInstrument.trn";
-  PvlToPvlTranslationManager instrumentXlater (labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager instrumentXlater (labelPvl, QString::fromStdString(transFile.expanded()));
   instrumentXlater.Auto(outLabel);
 
   //  Update target if user specifies it
@@ -138,14 +141,14 @@ void IsisMain ()
 
   // Now handle generation of housekeeping data
  try {
-   ImportPdsTable hktable(hkLabel, hkData);
+   ImportPdsTable hktable(QString::fromStdString(hkLabel), hkData);
    hktable.setType("ScetTimeClock", "CHARACTER");
    hktable.setType("ShutterStatus", "CHARACTER");
    hktable.setType("MirrorSin", "DOUBLE");
    hktable.setType("MirrorCos", "DOUBLE");
    Table hktab = hktable.importTable("ScetTimeClock,ShutterStatus,MirrorSin,MirrorCos",
                                       "VIRHouseKeeping");
-   hktab.Label().addKeyword(PvlKeyword("SourceFile", hkLabel.toStdString()));
+   hktab.Label().addKeyword(PvlKeyword("SourceFile", hkLabel));
    outcube->write(hktab);
  }
  catch (IException &e) {

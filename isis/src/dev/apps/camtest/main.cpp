@@ -62,7 +62,7 @@ void IsisMain() {
   // Set to process by line
   p.SetBrickSize(iCube->sampleCount(), 1, 1);
 
-  IString format = ui.GetString("FORMAT");
+  IString format = ui.GetString("FORMAT").toStdString();
 
   OutputType outFormat = Lat;
   if (format == "LAT") {

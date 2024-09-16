@@ -45,21 +45,21 @@ namespace Isis {
     p_flightSoftware = cissLab.FlightSoftwareVersion();
     p_gainMode = cissLab.GainModeId();
     p_narrow = cissLab.NarrowAngle();
-    p_sum = toString(cissLab.SummingMode());
+    p_sum = QString::number(cissLab.SummingMode());
     p_imageTime = cissLab.ImageTime();
 
     if(cissLab.ReadoutCycleIndex() == "Unknown") {
       p_readoutIndex = -999;
     }
     else {
-      p_readoutIndex = toInt(cissLab.ReadoutCycleIndex());
+      p_readoutIndex = cissLab.ReadoutCycleIndex().toInt();
     }
 
     if(p_compType == "NotCompressed") {
       p_compRatio = 1.0;
     }
     else {
-      p_compRatio = toDouble(cissLab.CompressionRatio());
+      p_compRatio = cissLab.CompressionRatio().toDouble();
     }
 
     if(cissLab.DelayedReadoutFlag() == "No") {
@@ -85,7 +85,7 @@ namespace Isis {
 
     p_readoutOrder = cissLab.ReadoutOrder();
 
-    switch(toInt(p_sum)) {
+    switch(p_sum.toInt()) {
       case 1:
         p_lines   = 1024;
         break;
@@ -262,7 +262,7 @@ namespace Isis {
     if(p_flightSoftware == "Unknown") {
       fsw = 0.0;
     }
-    else fsw = toDouble(p_flightSoftware);
+    else fsw = p_flightSoftware.toDouble();
 
     double linetime;
     double tlm = p_telemetryRate / 8;
@@ -1034,19 +1034,19 @@ namespace Isis {
 
     if(p_narrow) {
       instrumentId += "nac";
-      p_bdpath = darkDir + "nac_bias_distortion.tab";
+      p_bdpath = darkDir.toStdString() + "nac_bias_distortion.tab";
     }
     else {
       instrumentId += "wac";
     }
     QString instModeId("");
-    if(toInt(p_sum) > 1) {
+    if(p_sum.toInt() > 1) {
       instModeId = instModeId + "sum" + p_sum;
     }
     else {
       instModeId += "full";
     }
-    p_dparamfile = darkDir + instrumentId + "_dark_parameters" + "." + instModeId + ".cub";
+    p_dparamfile = darkDir.toStdString() + instrumentId.toStdString() + "_dark_parameters" + "." + instModeId.toStdString() + ".cub";
 
     // needs to check directory for closeest epochs and compare
     double closestEpochFileNum = 0;
@@ -1060,17 +1060,17 @@ namespace Isis {
     }
     double imgTime = p_imageTime.mid(0, 4).toDouble() + (p_imageTime.mid(5, 3).toDouble() / 365);
     for(int i = 0; i < fileList.count(); i++){
-      if (FileName(fileList[i]).baseName().mid(0, 3) != instrument){
+      if (FileName(fileList[i].toStdString()).baseName().substr(0, 3) != instrument.toStdString()){
         continue;
       }
-      double currentEpoch = FileName(fileList[i]).baseName().mid(10, 6).toDouble();
+      double currentEpoch = std::stod(FileName(fileList[i].toStdString()).baseName().substr(10, 6));
       if (abs(currentEpoch - imgTime) < abs(closestEpochFileNum - imgTime)) { // find closest epoch
           closestEpochFileNum = currentEpoch;
-          p_hotpixfile = FileName(fileList[i]);
+          p_hotpixfile = FileName(fileList[i].toStdString());
       }
     }
 
-    p_hotpixfile = darkDir + p_hotpixfile.baseName() + ".tab";
+    p_hotpixfile = darkDir.toStdString() + p_hotpixfile.baseName() + ".tab";
 
     return;
   }//end FindDarkFiles
@@ -1178,7 +1178,7 @@ namespace Isis {
       //read the coefficient cube into a Brick
       Brick *darkCoefficients;
       Cube dparamCube;
-      dparamCube.open(p_dparamfile.expanded());
+      dparamCube.open(QString::fromStdString(p_dparamfile.expanded()));
       darkCoefficients = new Brick(p_samples, p_lines, 8, dparamCube.pixelType());
       darkCoefficients->SetBasePosition(1, 1, 1);
       dparamCube.read(*darkCoefficients);
@@ -1186,7 +1186,7 @@ namespace Isis {
 
       if (p_hotpixfile.baseName() != "") {
         std::cout << p_hotpixfile.baseName() << '\n';
-        CisscalFile *hotPixFile = new CisscalFile(p_hotpixfile.expanded());
+        CisscalFile *hotPixFile = new CisscalFile(QString::fromStdString(p_hotpixfile.expanded()));
         int num_params = 8;
         long numHotPixels = hotPixFile->LineCount();
         vector<double> exptimes;
@@ -1230,7 +1230,7 @@ namespace Isis {
         exposureLine=exposureLine.simplified().trimmed();
         QStringList exposureLineList = exposureLine.split(' ');
         for (int j = 2; j < exposureLineList.size(); j++ ){
-          exptimes.push_back(toDouble(exposureLineList[j]));
+          exptimes.push_back(exposureLineList[j].toDouble());
         }
         QString junk;
         hotPixFile->GetLine(junk); //this line is gain values which are not used
@@ -1248,13 +1248,13 @@ namespace Isis {
           line = line.simplified();
           QStringList lineList = line.split(' ');
           // make hotpix corrections
-          x = floor((toDouble(lineList[0]) / 1024) * p_samples);
-          y = floor((toDouble(lineList[1]) / 1024) * p_lines);
+          x = floor((lineList[0].toDouble() / 1024) * p_samples);
+          y = floor((lineList[1].toDouble() / 1024) * p_lines);
           elec.resize(lineList.size() - 3);
           for (unsigned int j = 0; j < elec.size(); j ++){
-            elec[j] = (toDouble(lineList[j + 2]));
+            elec[j] = (lineList[j + 2].toDouble());
           }
-          hotsat = toDouble(lineList.back());
+          hotsat = lineList.back().toDouble();
 
           if (hotsat != 0.0) {
             double maxExp;

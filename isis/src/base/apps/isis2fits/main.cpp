@@ -45,7 +45,7 @@ void IsisMain() {
   else if (ui.GetString("BITTYPE") == "16BIT") bitpix = "16";
   else if (ui.GetString("BITTYPE") == "32BIT") bitpix = "-32";
   else {
-    std::string msg = "Pixel type of [" + ui.GetString("BITTYPE") + "] is unsupported";
+    std::string msg = "Pixel type of [" + ui.GetString("BITTYPE").toStdString() + "] is unsupported";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -98,27 +98,27 @@ void IsisMain() {
     axes = 3;
   }
 
-  header += FitsKeyword("NAXIS", true, toString(axes));
+  header += FitsKeyword("NAXIS", true, QString::number(axes));
 
   // specify the limit on data axis 1 (number of samples)
-  header += FitsKeyword("NAXIS1", true, toString(icube->sampleCount()));
+  header += FitsKeyword("NAXIS1", true, QString::number(icube->sampleCount()));
 
   // specify the limit on data axis 2 (number of lines)
-  header += FitsKeyword("NAXIS2", true, toString(icube->lineCount()));
+  header += FitsKeyword("NAXIS2", true, QString::number(icube->lineCount()));
 
   if (axes == 3) {
-    header += FitsKeyword("NAXIS3", true, toString(icube->bandCount()));
+    header += FitsKeyword("NAXIS3", true, QString::number(icube->bandCount()));
   }
 
-  header += FitsKeyword("BZERO", true,  toString(base));
+  header += FitsKeyword("BZERO", true,  QString::number(base));
 
-  header += FitsKeyword("BSCALE", true, toString(scale));
+  header += FitsKeyword("BSCALE", true, QString::number(scale));
 
   // Sky and All cases
   if (ui.GetString("INFO") == "SKY" || ui.GetString("INFO") == "ALL") {
 
     //tjw:  IString msg changed to QString
-    std::string msg = "cube has not been skymapped";
+    QString msg = "cube has not been skymapped";
     PvlGroup map;
 
     if (icube->hasGroup("mapping")) {
@@ -133,10 +133,10 @@ void IsisMain() {
 
       midDec = ((double)map["MaximumLatitude"] + (double)map["MinimumLatitude"]) / 2;
 
-      header += FitsKeyword("OBJCTRA", true, toString(midRa));
+      header += FitsKeyword("OBJCTRA", true, QString::number(midRa));
 
       // Specify the Declination
-      header += FitsKeyword("OBJCTDEC", true, toString(midDec));
+      header += FitsKeyword("OBJCTDEC", true, QString::number(midDec));
 
     }
 
@@ -167,7 +167,7 @@ void IsisMain() {
     }
     // If we were set on SKY and Sky doesn't exist
     else if (msg != "Sky") {
-      throw IException(IException::User, msg, _FILEINFO_);
+      throw IException(IException::User, msg.toStdString(), _FILEINFO_);
     }
   }
 

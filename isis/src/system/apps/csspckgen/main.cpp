@@ -22,7 +22,7 @@ void IsisMain() {
   // Open the input file from the GUI or find the latest version of the DB file
   FileName inputName;
   if (ui.WasEntered("FROM")) {
-    inputName = ui.GetFileName("FROM");
+    inputName = ui.GetFileName("FROM").toStdString();
   }
   else {
     // Stores highest version
@@ -42,8 +42,8 @@ void IsisMain() {
   PvlGroup dependencies("Dependencies");
   FileName lskName("$base/kernels/lsk/naif????.tls");
   lskName = lskName.highestVersion();
-  QString lskString = lskName.originalPath() + "/" + lskName.name();
-  dependencies += PvlKeyword("LeapsecondKernel", lskString.toStdString());
+  std::string lskString = lskName.originalPath() + "/" + lskName.name();
+  dependencies += PvlKeyword("LeapsecondKernel", lskString);
   latestMain += dependencies;
 
   for (int g = 0; g < main.groups(); g++) {
@@ -59,15 +59,15 @@ void IsisMain() {
       for (int k = 0; k < group.keywords(); k++) {
         PvlKeyword &keyword = group[k];
         if (keyword.isNamed("File")) {
-          FileName pckName(QString::fromStdString(keyword[0]));
+          FileName pckName(keyword[0]);
           if (pckName.isDateVersioned()) {
             pckName = pckName.highestVersion();
-            QString latestPck = pckName.originalPath() + "/" + pckName.name();
+            std::string latestPck = pckName.originalPath() + "/" + pckName.name();
 
             // Replace the date-versioned filename with the direct path to the
             // latest PCK
             PvlKeyword &latestKeyword = latestGroup[k];
-            latestKeyword[0] = latestPck.toStdString();
+            latestKeyword[0] = latestPck;
 
             hasDateVersioning = true;
           }
@@ -96,7 +96,7 @@ void IsisMain() {
   // user-specified location
   FileName outputName;
   if (ui.WasEntered("TO")) {
-    outputName = ui.GetFileName("TO");
+    outputName = ui.GetFileName("TO").toStdString();
   }
   else {
     outputName = "$cassini/kernels/pck/kernels.????.db";

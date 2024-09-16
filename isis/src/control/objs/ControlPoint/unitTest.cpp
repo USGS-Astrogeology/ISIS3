@@ -81,7 +81,7 @@ int main() {
   cm1->SetChooserName("seedgrid");
   cm1->SetDateTime("2005-05-03T00:00:00");
 
-  std::cout << "Adding ControlMeasure with cube serial number [" << cm1->GetCubeSerialNumber() << "]" << std::endl; // Cube Serial Number "Test1"
+  std::cout << "Adding ControlMeasure with cube serial number [" << cm1->GetCubeSerialNumber().toStdString() << "]" << std::endl; // Cube Serial Number "Test1"
   cp.Add(cm1);
 
   printPoint(cp);
@@ -99,7 +99,7 @@ int main() {
   cm2->SetResidual(-2.0, 2.0);
   cm2->SetChooserName("seedgrid");
   cm2->SetDateTime("2005-05-03T00:00:00");
-  std::cout << "Adding ControlMeasure with cube serial number [" << cm2->GetCubeSerialNumber() << "]" << std::endl; // Cube Serial Number "Test2"
+  std::cout << "Adding ControlMeasure with cube serial number [" << cm2->GetCubeSerialNumber().toStdString() << "]" << std::endl; // Cube Serial Number "Test2"
   cp.Add(cm2);
   std::cout << "Testing Edit Locking... ";
   cp.SetRefMeasure(cm2);
@@ -139,7 +139,7 @@ int main() {
 
   // Should be successful
   std::cout << "Deleting ControlMeasure with cube serial number [" << cp.getCubeSerialNumbers().at(0).toLatin1().data() << "]" << std::endl;
-  std::cout << "Measure type: " << ControlMeasure::MeasureTypeToString(cp.GetMeasure(0)->GetType()) << std::endl;
+  std::cout << "Measure type: " << ControlMeasure::MeasureTypeToString(cp.GetMeasure(0)->GetType()).toStdString() << std::endl;
   cp.Delete(0);
   printPoint(cp);
 //  std::cout << "ReferenceIndex = " << cp.GetReferenceIndex();
@@ -257,12 +257,12 @@ int main() {
   getMeasuresTestPoint.Add(beta);
   QList< ControlMeasure * > measures = getMeasuresTestPoint.getMeasures();
   foreach (ControlMeasure * measure, measures) {
-    std::cout << measure->GetCubeSerialNumber() << std::endl;
+    std::cout << measure->GetCubeSerialNumber().toStdString() << std::endl;
   }
   beta->SetIgnored(true);
   measures = getMeasuresTestPoint.getMeasures(true);
   foreach (ControlMeasure * measure, measures) {
-    std::cout << measure->GetCubeSerialNumber() << std::endl;
+    std::cout << measure->GetCubeSerialNumber().toStdString() << std::endl;
   }
 
   std::cout << "\ntesting error handling for StringToPointType..." << std::endl;

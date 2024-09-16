@@ -78,12 +78,12 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
   FileList filelist;
   if (ui.GetString("INPUTTYPE") == "LIST") {
-    filelist.read(ui.GetFileName("CLIST"));
+    filelist.read(ui.GetFileName("CLIST").toStdString());
 
     if (ui.WasEntered("BASE")) {
       // User has chosen an explicit base network
       QString baseName = ui.GetFileName("BASE");
-      FileName baseFileName(baseName);
+      FileName baseFileName(baseName.toStdString());
 
       // Remove the base network from the list if it is present
       for (int i = 0; i < filelist.size(); i++) {
@@ -98,19 +98,19 @@ void IsisMain() {
 
       // Add the explicit base network to the front so it gets added to the
       // output first
-      filelist.insert(filelist.begin(), baseName);
+      filelist.insert(filelist.begin(), baseName.toStdString());
     }
     else {
       // So there is a record of which file was used as the BASE in the print
       // file
-      ui.PutFileName("BASE", filelist[0].toString());
+      ui.PutFileName("BASE", QString::fromStdString(filelist[0].toString()));
     }
 
     // Check after taking into account an explicit base network if we have at
     // least two networks to merge
     if (filelist.size() < 2) {
-      std::string msg = "CLIST [" + ui.GetFileName("CLIST") + "] and BASE [" +
-        (ui.WasEntered("BASE") ? ui.GetFileName("BASE") : "Automatic") +
+      std::string msg = "CLIST [" + ui.GetFileName("CLIST").toStdString() + "] and BASE [" +
+        (ui.WasEntered("BASE") ? ui.GetFileName("BASE") : "Automatic").toStdString() +
         "] must total to at least two distinct filenames: "
         "a base network and a new network";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -118,8 +118,8 @@ void IsisMain() {
   }
   else if (ui.GetString("INPUTTYPE") == "CNETS") {
     // Treat simple case in general way, as a two-cnet list
-    filelist.push_back(ui.GetFileName("BASE"));
-    filelist.push_back(ui.GetFileName("CNET2"));
+    filelist.push_back(ui.GetFileName("BASE").toStdString());
+    filelist.push_back(ui.GetFileName("CNET2").toStdString());
   }
 
   // Get overwrite options, all false by default, and only useable when in
@@ -160,8 +160,8 @@ void IsisMain() {
   }
 
   // Writes out the final Control Net
-  FileName outfile(ui.GetFileName("ONET"));
-  outNet->Write(outfile.expanded());
+  FileName outfile(ui.GetFileName("ONET").toStdString());
+  outNet->Write(QString::fromStdString(outfile.expanded()));
   delete outNet;
 }
 
@@ -176,7 +176,7 @@ ControlNet * mergeNetworks(FileList &filelist, PvlObject &conflictLog,
     QMap<QString, QString> pointSources;
     for (int n = 0; n < filelist.size(); n++) {
       FileName cnetName(filelist[n]);
-      ControlNet network(cnetName.expanded());
+      ControlNet network(QString::fromStdString(cnetName.expanded()));
 
       for (int p = 0; p < network.GetNumPoints(); p++) {
         ControlPoint *point = network.GetPoint(p);
@@ -188,21 +188,21 @@ ControlNet * mergeNetworks(FileList &filelist, PvlObject &conflictLog,
             duplicate.addKeyword(PvlKeyword("PointId", point->GetId().toStdString()));
             duplicate.addKeyword(PvlKeyword(
                   "SourceNetwork", pointSources[point->GetId()].toStdString()));
-            duplicate.addKeyword(PvlKeyword("AddNetwork", cnetName.name().toStdString()));
+            duplicate.addKeyword(PvlKeyword("AddNetwork", cnetName.name()));
             errors.addObject(duplicate);
           }
           else {
             // User has disallowed merging points, so throw an error
             std::string msg = "Add network [" + cnetName.name() + "] contains "
-              "Control Point with ID [" + point->GetId() + "] already "
+              "Control Point with ID [" + point->GetId().toStdString() + "] already "
               "contained within source network [" +
-              pointSources[point->GetId()] + "].  "
+              pointSources[point->GetId()].toStdString() + "].  "
               "Set DUPLICATEPOINTS=MERGE to merge conflicting Control Points";
             throw IException(IException::User, msg, _FILEINFO_);
           }
         }
         else {
-          pointSources.insert(point->GetId(), cnetName.name());
+          pointSources.insert(point->GetId(), QString::fromStdString(cnetName.name()));
         }
       }
     }
@@ -213,7 +213,7 @@ ControlNet * mergeNetworks(FileList &filelist, PvlObject &conflictLog,
       outPvl.write(logName.toStdString());
 
       std::string msg = "Networks contained duplicate points.  See log file [" +
-        FileName(logName).name() + "] for details.  "
+        FileName(logName.toStdString()).name() + "] for details.  "
         "Set DUPLICATEPOINTS=MERGE to merge conflicting Control Points";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -226,7 +226,7 @@ ControlNet * mergeNetworks(FileList &filelist, PvlObject &conflictLog,
 
   // The original base network is the first in the list, all successive
   // networks will be added to the base in descending order
-  ControlNet *baseNet = new ControlNet(filelist[0].toString(), &progress);
+  ControlNet *baseNet = new ControlNet(QString::fromStdString(filelist[0].toString()), &progress);
   baseNet->SetNetworkId(networkId);
   baseNet->SetUserName(Isis::Application::UserName());
   baseNet->SetCreatedDate(Isis::Application::DateTime());
@@ -238,11 +238,11 @@ ControlNet * mergeNetworks(FileList &filelist, PvlObject &conflictLog,
   // base
   for (int cnetIndex = 1; cnetIndex < (int) filelist.size(); cnetIndex++) {
     FileName currentCnetFileName(filelist[cnetIndex]);
-    ControlNet newNet(currentCnetFileName.expanded(), &progress);
+    ControlNet newNet(QString::fromStdString(currentCnetFileName.expanded()), &progress);
 
     // Networks can only be merged if the targets are the same
     if (baseNet->GetTarget().toLower() != newNet.GetTarget().toLower()) {
-      std::string msg = "Input [" + newNet.GetNetworkId() + "] does not target the "
+      std::string msg = "Input [" + newNet.GetNetworkId().toStdString() + "] does not target the "
           "same target as other Control Network(s)";
       throw IException(IException::User, msg, _FILEINFO_);
     }

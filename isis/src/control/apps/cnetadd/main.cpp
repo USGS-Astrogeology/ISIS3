@@ -65,13 +65,13 @@ void IsisMain() {
 
   UserInterface &ui = Application::GetUserInterface();
 
-  FileList addList(ui.GetFileName("ADDLIST"));
+  FileList addList(ui.GetFileName("ADDLIST").toStdString());
 
   bool log = false;
   FileName logFile;
   if (ui.WasEntered("LOG")) {
     log = true;
-    logFile = ui.GetFileName("LOG");
+    logFile = ui.GetFileName("LOG").toStdString();
   }
   Pvl results;
   results.setName("cnetadd_Results");
@@ -96,7 +96,7 @@ void IsisMain() {
   QString retrievalOpt = ui.GetString("RETRIEVAL");
   PvlKeyword duplicates("DupSerialNumbers");
   if (retrievalOpt == "REFERENCE") {
-    FileList list1(ui.GetFileName("FROMLIST"));
+    FileList list1(ui.GetFileName("FROMLIST").toStdString());
     SerialNumberList addSerials(ui.GetFileName("ADDLIST"));
 
     //Check for duplicate files in the lists by serial number
@@ -110,8 +110,8 @@ void IsisMain() {
       // Check for duplicate SNs within the addlist
       for (int j = i + 1; j < addSerials.size(); j++) {
         if (addSerials.serialNumber(i) == addSerials.serialNumber(j)) {
-          std::string msg = "Add list files [" + addSerials.fileName(i) + "] and [";
-          msg += addSerials.fileName(j) + "] share the same serial number.";
+          std::string msg = "Add list files [" + addSerials.fileName(i).toStdString() + "] and [";
+          msg += addSerials.fileName(j).toStdString() + "] share the same serial number.";
           throw IException(IException::User, msg, _FILEINFO_);
         }
       }
@@ -128,7 +128,7 @@ void IsisMain() {
 
       if (!surfacePoint.Valid()) {
         std::string msg = "Unable to retreive lat/lon from Control Point [";
-        msg += point->GetId() + "]. RETREIVAL=POINT cannot be used unless ";
+        msg += point->GetId().toStdString() + "]. RETREIVAL=POINT cannot be used unless ";
         msg += "all Control Points have Latitude/Longitude keywords.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -137,7 +137,7 @@ void IsisMain() {
     }
   }
 
-  FileName outNetFile(ui.GetFileName("ONET"));
+  FileName outNetFile(ui.GetFileName("ONET").toStdString());
 
   Progress progress;
   progress.SetText("Adding Images");
@@ -169,7 +169,7 @@ void IsisMain() {
   // Loop through all the images
   for (int img = 0; img < addList.size(); img++) {
     Cube cube;
-    cube.open(addList[img].toString());
+    cube.open(QString::fromStdString(addList[img].toString()));
     Pvl *cubepvl = cube.label();
     QString sn = SerialNumber::Compose(*cubepvl);
     Camera *cam = cube.camera();
@@ -259,7 +259,7 @@ void IsisMain() {
 
     if (log) {
       PvlKeyword &logKeyword = (imageAdded) ? added : omitted;
-      logKeyword.addValue(addList[img].baseName().toStdString());
+      logKeyword.addValue(addList[img].baseName());
     }
 
     progress.CheckStatus();
@@ -283,11 +283,11 @@ void IsisMain() {
 
   // List the modified points
   if (ui.WasEntered("MODIFIEDPOINTS")) {
-    FileName pointList(ui.GetFileName("MODIFIEDPOINTS"));
+    FileName pointList(ui.GetFileName("MODIFIEDPOINTS").toStdString());
 
     // Set up the output file for writing
     std::ofstream out_stream;
-    out_stream.open(pointList.expanded().toLatin1().data(), std::ios::out);
+    out_stream.open(pointList.expanded().c_str(), std::ios::out);
     out_stream.seekp(0, std::ios::beg);   //Start writing from beginning of file
 
     QList<QString> modifiedPointsList = g_modifications.keys();
@@ -341,18 +341,18 @@ void IsisMain() {
         toList.add(fromSerials->fileName(sn));
     }
 
-    IString name(ui.GetFileName("TOLIST"));
+    IString name(ui.GetFileName("TOLIST").toStdString());
     std::fstream out_stream;
     out_stream.open(name.c_str(), std::ios::out);
     out_stream.seekp(0, std::ios::beg); //Start writing from beginning of file
 
     for (int f = 0; f < (int) toList.size(); f++)
-      out_stream << toList.fileName(f) << std::endl;
+      out_stream << toList.fileName(f).toStdString() << std::endl;
 
     out_stream.close();
   }
 
-  inNet.Write(outNetFile.expanded());
+  inNet.Write(QString::fromStdString(outNetFile.expanded()));
 
   // delete fromSerials;
 }
@@ -384,7 +384,7 @@ void setControlPointLatLon(SerialNumberList &snl, ControlNet &cnet) {
     }
     catch (IException &e) {
       std::string msg = "Unable to create camera for cube file [";
-      msg += snl.fileName(cm->GetCubeSerialNumber()) + "]";
+      msg += snl.fileName(cm->GetCubeSerialNumber()).toStdString() + "]";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
     cube = NULL; //Do not delete, manager still has ownership

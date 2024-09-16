@@ -78,7 +78,7 @@ void IsisMain() {
   // If append is true, output will be appended or a new file created
   if (append) {
     // Check to see if its a new file or we open an existing file
-    FileName file(ui.GetFileName("FLATFILE"));
+    FileName file(ui.GetFileName("FLATFILE").toStdString());
     if (!file.fileExists()) {
       // It is new, so we aren't appending
       // Set this because it is used elsewhere
@@ -177,8 +177,8 @@ void IsisMain() {
     measureInfo += cpoint->GetPointTypeString() + ",";
     measureInfo += QString(cpoint->GetChooserName()) + ",";
     measureInfo += QString(cpoint->GetDateTime()) + ",";
-    measureInfo += toString((int)(cpoint->IsEditLocked())) + ",";
-    measureInfo += toString((int)(cpoint->IsIgnored())) + ",";
+    measureInfo += QString::number((int)(cpoint->IsEditLocked())) + ",";
+    measureInfo += QString::number((int)(cpoint->IsIgnored())) + ",";
 
     measureInfo += QString(cpoint->GetSurfacePointSourceString()) + ",";
     measureInfo += QString(cpoint->GetAprioriSurfacePointSourceFile()) + ",";
@@ -322,16 +322,16 @@ QString CheckValue(double value) {
     return QString("");
   }
   else {
-    return CheckValue(toString(value));
+    return CheckValue(QString::number(value));
   }
 }
 
 QString CheckValue(QString value) {
-  if (value == toString(Isis::Null) ||
-      value == toString(Isis::Hrs) ||
-      value == toString(Isis::His) ||
-      value == toString(Isis::Lrs) ||
-      value == toString(Isis::Lis) ||
+  if (value == QString::number(Isis::Null) ||
+      value == QString::number(Isis::Hrs) ||
+      value == QString::number(Isis::His) ||
+      value == QString::number(Isis::Lrs) ||
+      value == QString::number(Isis::Lis) ||
       value == QString::number(Isis::Null)) {
     return QString("");
   }

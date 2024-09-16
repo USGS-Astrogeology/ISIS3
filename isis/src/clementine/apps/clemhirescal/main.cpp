@@ -35,7 +35,7 @@ void IsisMain() {
   Pvl *label = input->label();
   QString wave = QString::fromStdString(label->findGroup("BandBin", Pvl::Traverse)["FilterName"]);
   if((wave != "A") && (wave != "B") && (wave != "C") && (wave != "D")) {
-    std::string message = "Invalid FilterName [" + wave + "], can only handle A-D filters";
+    std::string message = "Invalid FilterName [" + wave.toStdString() + "], can only handle A-D filters";
     throw IException(IException::Unknown, message, _FILEINFO_);
   }
   // Determine and load calibration flat field file
@@ -76,7 +76,7 @@ void IsisMain() {
     }
     // Other filters not supported for calculated K value
     else {
-      std::string message = "Image is of filter [" + wave + "], not supported type A or D, enter your own K value";
+      std::string message = "Image is of filter [" + wave.toStdString() + "], not supported type A or D, enter your own K value";
       throw IException(IException::User, message, _FILEINFO_);
     }
   }

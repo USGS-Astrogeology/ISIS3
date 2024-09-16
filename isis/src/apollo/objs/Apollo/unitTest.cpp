@@ -34,12 +34,12 @@ int main(int argc, char *argv[]) {
     cout << "Bands: " << apollo->Bands() << endl;
     cout << "ReseauDimension: " << apollo->ReseauDimension() << endl;
     cout << "PixelPitch: " << apollo->PixelPitch() << endl;
-    cout << "SpacecraftName: " << apollo->SpacecraftName() << endl;
-    cout << "InstrumentId: " << apollo->InstrumentId() << endl;
-    cout << "NaifFrameCode: " << apollo->NaifFrameCode() << endl;
-    cout << "TargetName: " << apollo->TargetName() << endl;
+    cout << "SpacecraftName: " << apollo->SpacecraftName().toStdString() << endl;
+    cout << "InstrumentId: " << apollo->InstrumentId().toStdString() << endl;
+    cout << "NaifFrameCode: " << apollo->NaifFrameCode().toStdString() << endl;
+    cout << "TargetName: " << apollo->TargetName().toStdString() << endl;
     QString time=(apollo->LaunchDate().UTC());
-    cout << "Time: " << time << endl;
+    cout << "Time: " << time.toStdString() << endl;
 
   }
   catch(IException &e) {

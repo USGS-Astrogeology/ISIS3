@@ -74,7 +74,7 @@ void IsisMain() {
       pvlTemplate.validatePvl(*pvlDefFile, pvlResults);
       if (pvlResults.groups() > 0 || pvlResults.keywords() > 0) {
         Application::Log(pvlResults.group(0));
-        QString sErrMsg = "Invalid Deffile\n";
+        std::string sErrMsg = "Invalid Deffile\n";
         throw IException(IException::User, sErrMsg, _FILEINFO_);
       }
     }
@@ -149,7 +149,7 @@ void IsisMain() {
       QString sOverlapListFile = "";
       if (ui.WasEntered("LIMIT")) {
         if (ui.GetBoolean("LIMIT")) {
-          sOverlapListFile = FileName(ui.GetFileName("OVERLAPLIST")).expanded();
+          sOverlapListFile = QString::fromStdString(FileName(ui.GetFileName("OVERLAPLIST").toStdString()).expanded());
         }
       }
 
@@ -196,12 +196,12 @@ void IsisMain() {
     throw;
   }
   catch (geos::util::GEOSException *exc) {
-    std::string message = "GEOS Exception: " + (QString)exc->what();
+    std::string message = "GEOS Exception: " + (std::string)exc->what();
     delete exc;
     throw IException(IException::User, message, _FILEINFO_);
   }
   catch (std::exception const &se) {
-    std::string message = "std::exception: " + (QString)se.what();
+    std::string message = "std::exception: " + (std::string)se.what();
     throw IException(IException::User, message, _FILEINFO_);
   }
   catch (...) {

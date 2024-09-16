@@ -147,7 +147,7 @@ void IsisMain() {
   }
   catch(IException &e) {
 
-    std::string msg = "The label for the input cube [" + QString(ui.GetAsString("FROM")) +
+    std::string msg = "The label for the input cube [" + ui.GetAsString("FROM").toStdString() +
         "] does not have a start time in the Instrument group.";
     throw IException(IException::User,msg,_FILEINFO_);
 
@@ -159,13 +159,13 @@ void IsisMain() {
 
 
   if(!isVims) {
-    std::string msg = "The input cube [" + QString(ui.GetAsString("FROM")) +
+    std::string msg = "The input cube [" + ui.GetAsString("FROM").toStdString() +
         "] is not a Cassini VIMS cube";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   if(icube->label()->findObject("IsisCube").hasGroup("AlphaCube")) {
-    std::string msg = "The input cube [" + QString(ui.GetAsString("FROM"))
+    std::string msg = "The input cube [" + ui.GetAsString("FROM").toStdString()
         + "] has had its dimensions modified and can not be calibrated";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -328,7 +328,7 @@ void calculateSolarRemove(Cube *icube, ProcessByLine *p) {
   }
   catch(IException &e) {
     std::string msg = "Unable to create a camera model from [" +
-                  icube->fileName() + "]. Please run "
+                  icube->fileName().toStdString() + "]. Please run "
                   "spiceinit on this file";
     throw IException(e, IException::Unknown, msg, _FILEINFO_);
   }
@@ -403,20 +403,20 @@ void calculateSolarRemove(Cube *icube, ProcessByLine *p) {
     attributes = "+97-352";
   }
 
-  CubeAttributeInput iatt(attributes);
+  CubeAttributeInput iatt(attributes.toStdString());
 
   //QString solarFilePath = "$cassini/calibration/vims/solar_v????.cub";
   QString solarFilePath = "$cassini/calibration/vims/"+calVersion+
      "/solar-spectrum/"+"solar."+yearString+"_v????.cub";
 
-  FileName solarFileName(solarFilePath);
+  FileName solarFileName(solarFilePath.toStdString());
 
   solarFileName = solarFileName.highestVersion();
 
   calibInfo += PvlKeyword("SolarColorFile",
-                          solarFileName.originalPath().toStdString() + "/" + solarFileName.name().toStdString());
+                          solarFileName.originalPath() + "/" + solarFileName.name());
 
-  p->SetInputCube(createCroppedFile(icube, solarFileName.expanded()), iatt);
+  p->SetInputCube(createCroppedFile(icube, QString::fromStdString(solarFileName.expanded())), iatt);
 }
 
 
@@ -477,22 +477,22 @@ void updateWavelengths(Cube *icube) {
       "wavelengths_average_v????.cub";
 
 
-  FileName bandwidthFileName = FileName(bandwidthFile);
-  FileName averageBandwidthFileName = FileName(averageBandwidthFile);
+  FileName bandwidthFileName = FileName(bandwidthFile.toStdString());
+  FileName averageBandwidthFileName = FileName(averageBandwidthFile.toStdString());
   bandwidthFileName =bandwidthFileName.highestVersion();
   averageBandwidthFileName = averageBandwidthFileName.highestVersion();
 
   Cube averageBandwidthCube;
   Cube bandwidthCube;
-  bandwidthCube.open(bandwidthFileName.expanded());
-  averageBandwidthCube.open(averageBandwidthFileName.expanded());
+  bandwidthCube.open(QString::fromStdString(bandwidthFileName.expanded()));
+  averageBandwidthCube.open(QString::fromStdString(averageBandwidthFileName.expanded()));
 
   calibInfo += PvlKeyword("BandwidthFile",
-                          bandwidthFileName.originalPath().toStdString() + "/" + bandwidthFileName.name().toStdString());
+                          bandwidthFileName.originalPath() + "/" + bandwidthFileName.name());
 
   calibInfo += PvlKeyword("AverageBandwidthFile",
-                          averageBandwidthFileName.originalPath().toStdString() + "/"
-                          + averageBandwidthFileName.name().toStdString());
+                          averageBandwidthFileName.originalPath() + "/"
+                          + averageBandwidthFileName.name());
 
   LineManager bandwidthMgr(bandwidthCube);
   LineManager averageBandwidthMgr(averageBandwidthCube);
@@ -634,33 +634,33 @@ void calculateSpecificEnergy(Cube *icube) {
       yearString+"_v????.cub";
 
 
-  FileName specEnergyFileName(specEnergyFile);
+  FileName specEnergyFileName(specEnergyFile.toStdString());
   specEnergyFileName = specEnergyFileName.highestVersion();
 
-  FileName visPerfFileName(visPerfFile);
+  FileName visPerfFileName(visPerfFile.toStdString());
   visPerfFileName = visPerfFileName.highestVersion();
 
-  FileName waveCalFileName(waveCalFile);
+  FileName waveCalFileName(waveCalFile.toStdString());
   waveCalFileName = waveCalFileName.highestVersion();
 
 
   Cube specEnergyCube;
-  specEnergyCube.open(specEnergyFileName.expanded());
+  specEnergyCube.open(QString::fromStdString(specEnergyFileName.expanded()));
 
   Cube visPerfCube;
-  visPerfCube.open(visPerfFileName.expanded());
+  visPerfCube.open(QString::fromStdString(visPerfFileName.expanded()));
 
   Cube waveCalCube;
-  waveCalCube.open(waveCalFileName.expanded());
+  waveCalCube.open(QString::fromStdString(waveCalFileName.expanded()));
 
   calibInfo += PvlKeyword("SpecificEnergyFile",
-                          specEnergyFileName.originalPath().toStdString() + "/" + specEnergyFileName.name().toStdString());
+                          specEnergyFileName.originalPath() + "/" + specEnergyFileName.name());
   if (g_visBool) {
     calibInfo += PvlKeyword("VisPerfFile",
-                            visPerfFileName.originalPath().toStdString() + "/" + visPerfFileName.name().toStdString());
+                            visPerfFileName.originalPath() + "/" + visPerfFileName.name());
   }
   calibInfo += PvlKeyword("WavelengthCalibrationFile",
-                          waveCalFileName.originalPath().toStdString() + "/" + waveCalFileName.name().toStdString());
+                          waveCalFileName.originalPath() + "/" + waveCalFileName.name());
 
   LineManager specEnergyMgr(specEnergyCube);
   LineManager visPerfMgr(specEnergyCube);
@@ -762,12 +762,12 @@ void calculateVisDarkCurrent(Cube *icube) {
 
   calFile += "_dark_model_v????.tab";
 
-  FileName calFileName(calFile);
+  FileName calFileName(calFile.toStdString());
   calFileName = calFileName.highestVersion();
 
-  calibInfo += PvlKeyword("DarkCurrentFile", calFileName.originalPath().toStdString() + "/" + calFileName.name().toStdString());
+  calibInfo += PvlKeyword("DarkCurrentFile", calFileName.originalPath() + "/" + calFileName.name());
 
-  calFile = calFileName.expanded();
+  calFile = QString::fromStdString(calFileName.expanded());
 
   EndianSwapper swapper("LSB");
 
@@ -793,7 +793,7 @@ void calculateVisDarkCurrent(Cube *icube) {
 
         if(fread(&calData, sizeof(calData), 1, calFilePtr) != 1) {
           // error!
-          std::string msg = "Error reading file [" + calFile + "]";
+          std::string msg = "Error reading file [" + calFile.toStdString() + "]";
           throw IException(IException::Io, msg, _FILEINFO_);
         }
 
@@ -873,7 +873,7 @@ void calculateIrDarkCurrent(Cube *icube) {
     return;
   }
 
-  Table sideplane("SideplaneIr", ui.GetCubeName("FROM"));
+  Table sideplane("SideplaneIr", ui.GetCubeName("FROM").toStdString());
 
   // If spectal summing is on OR compressor_id isnt N/A then
   //   just return.
@@ -1033,14 +1033,14 @@ if (!vis) {
 
   }
 
-  FileName calibrationFileName(calFile);
+  FileName calibrationFileName(calFile.toStdString());
   calibrationFileName = calibrationFileName.highestVersion();
 
-  calibInfo += PvlKeyword("FlatFile", calibrationFileName.originalPath().toStdString() +
-                          "/" + calibrationFileName.name().toStdString());
+  calibInfo += PvlKeyword("FlatFile", calibrationFileName.originalPath() +
+                          "/" + calibrationFileName.name());
 
   CubeAttributeInput iatt;
-  p->SetInputCube(createCroppedFile(icube, calibrationFileName.expanded(), true), iatt);
+  p->SetInputCube(createCroppedFile(icube, QString::fromStdString(calibrationFileName.expanded()), true), iatt);
 }
 
 
@@ -1063,19 +1063,19 @@ QString createCroppedFile(Cube *icube, QString cubeFileName, bool flatFile) {
 
 
   QString appArgs = "from=" + cubeFileName + " ";
-  appArgs += "sample=" + toString(sampOffset) + " ";
-  appArgs += "line=" + toString(lineOffset) + " ";
-  appArgs += "nsamples=" + toString(icube->sampleCount()) + " ";
-  appArgs += "nlines=" + toString(icube->lineCount()) + " ";
+  appArgs += "sample=" + QString::number(sampOffset) + " ";
+  appArgs += "line=" + QString::number(lineOffset) + " ";
+  appArgs += "nsamples=" + QString::number(icube->sampleCount()) + " ";
+  appArgs += "nlines=" + QString::number(icube->lineCount()) + " ";
 
-  FileName tempFile("$TEMPORARY/tmp_" + FileName(cubeFileName).baseName() +
-                    "_" + FileName(icube->fileName()).name());
+  FileName tempFile("$TEMPORARY/tmp_" + FileName(cubeFileName.toStdString()).baseName() +
+                    "_" + FileName(icube->fileName().toStdString()).name());
 
-  appArgs += "to=" + tempFile.expanded();
+  appArgs += "to=" + QString::fromStdString(tempFile.expanded());
 
   ProgramLauncher::RunIsisProgram("crop", appArgs);
-  tempFiles.push_back(tempFile.expanded());
-  return tempFile.expanded();
+  tempFiles.push_back(QString::fromStdString(tempFile.expanded()));
+  return QString::fromStdString(tempFile.expanded());
 }
 
 
@@ -1105,7 +1105,7 @@ void GetOffsets(const Pvl &lab, int &finalSampOffset, int &finalLineOffset) {
       finalLineOffset = (3 * (lineOffset + swathLength / 2)) - swathLength / 2;
     }
     else {
-      std::string msg = "Unsupported sampling mode [" + samplingMode + "]";
+      std::string msg = "Unsupported sampling mode [" + samplingMode.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -1123,7 +1123,7 @@ void GetOffsets(const Pvl &lab, int &finalSampOffset, int &finalLineOffset) {
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
     else {
-      std::string msg = "Unsupported sampling mode [" + samplingMode + "]";
+      std::string msg = "Unsupported sampling mode [" + samplingMode.toStdString() + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }

@@ -105,7 +105,7 @@ void IsisMain() {
   }
   else {
     std::string msg = "Unknow value for INTERP [" +
-                  ui.GetString("INTERP") + "]";
+                  ui.GetString("INTERP").toStdString() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 

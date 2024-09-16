@@ -79,9 +79,9 @@ namespace Isis {
     CameraFocalPlaneMap *focalMap = new CameraFocalPlaneMap(this, naifIkCode());
 
     focalMap->SetDetectorOrigin(
-      Spice::getDouble("INS" + toString(naifIkCode()) +
+      Spice::getDouble("INS" + QString::number(naifIkCode()) +
                        "_BORESIGHT_SAMPLE"),
-      Spice::getDouble("INS" + toString(naifIkCode()) +
+      Spice::getDouble("INS" + QString::number(naifIkCode()) +
                        "_BORESIGHT_LINE"));
 
     // Setup distortion map

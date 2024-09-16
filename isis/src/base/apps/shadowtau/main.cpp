@@ -92,25 +92,25 @@ void IsisMain() {
   if (sPhotoFunc == "HAPKEHEN" || sPhotoFunc == "HAPKELEG") { // Single Particle Phase Function HENYEY-GREENSTEIN
     if (ui.WasEntered("WH")) {
       QString keyval = ui.GetString("WH");
-      double wh = toDouble(keyval);
+      double wh = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
                addKeyword(PvlKeyword("WH",std::to_string(wh)),Pvl::Replace);
     }
     if (ui.WasEntered("HH")) {
       QString keyval = ui.GetString("HH");
-      double hh = toDouble(keyval);
+      double hh = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
                addKeyword(PvlKeyword("HH",std::to_string(hh)),Pvl::Replace);
     }
     if (ui.WasEntered("B0")) {
       QString keyval = ui.GetString("B0");
-      double b0 = toDouble(keyval);
+      double b0 = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
                addKeyword(PvlKeyword("B0",std::to_string(b0)),Pvl::Replace);
     }
     if (ui.WasEntered("THETA")) {
       QString keyval = ui.GetString("THETA");
-      double theta = toDouble(keyval);
+      double theta = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
                addKeyword(PvlKeyword("THETA",std::to_string(theta)),Pvl::Replace);
     }
@@ -123,13 +123,13 @@ void IsisMain() {
     if (sPhotoFunc == "HAPKEHEN") {
       if (ui.WasEntered("HG1")) {
         QString keyval = ui.GetString("HG1");
-        double hg1 = toDouble(keyval);
+        double hg1 = keyval.toDouble();
         photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
                  addKeyword(PvlKeyword("HG1",std::to_string(hg1)),Pvl::Replace);
       }
       if (ui.WasEntered("HG2")) {
         QString keyval = ui.GetString("HG2");
-        double hg2 = toDouble(keyval);
+        double hg2 = keyval.toDouble();
         photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
                  addKeyword(PvlKeyword("HG2",std::to_string(hg2)),Pvl::Replace);
       }
@@ -137,13 +137,13 @@ void IsisMain() {
     else {
       if (ui.WasEntered("BH")) {
         QString keyval = ui.GetString("BH");
-        double bh = toDouble(keyval);
+        double bh = keyval.toDouble();
         photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
                  addKeyword(PvlKeyword("BH",std::to_string(bh)),Pvl::Replace);
       }
       if (ui.WasEntered("CH")) {
         QString keyval = ui.GetString("CH");
-        double ch = toDouble(keyval);
+        double ch = keyval.toDouble();
         photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
                  addKeyword(PvlKeyword("CH",std::to_string(ch)),Pvl::Replace);
       }
@@ -152,7 +152,7 @@ void IsisMain() {
   else if (sPhotoFunc == "LUNARLAMBERT") {  // Single Particle Phase Function LEGENDRE
     if (ui.WasEntered("L")) {
       QString keyval = ui.GetString("L");
-      double l = toDouble(keyval);
+      double l = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
                addKeyword(PvlKeyword("L",std::to_string(l)),Pvl::Replace);
     }
@@ -160,7 +160,7 @@ void IsisMain() {
   else if (sPhotoFunc == "MINNAERT") {
     if (ui.WasEntered("K")) {
       QString keyval = ui.GetString("K");
-      double k = toDouble(keyval);
+      double k = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
                addKeyword(PvlKeyword("K",std::to_string(k)),Pvl::Replace);
     }
@@ -191,13 +191,13 @@ void IsisMain() {
 
   if (ui.WasEntered("WHA")) {
     QString keyval = ui.GetString("WHA");
-    double wha = toDouble(keyval);
+    double wha = keyval.toDouble();
     asmPvl.findObject("AtmosphericModel").findGroup("Algorithm").
            addKeyword(PvlKeyword("WHA",std::to_string(wha)),Pvl::Replace);
   }
   if (ui.WasEntered("HNORM")) {
     QString keyval = ui.GetString("HNORM");
-    double hnorm = toDouble(keyval);
+    double hnorm = keyval.toDouble();
     asmPvl.findObject("AtmosphericModel").findGroup("Algorithm").
            addKeyword(PvlKeyword("HNORM",std::to_string(hnorm)),Pvl::Replace);
   }
@@ -205,7 +205,7 @@ void IsisMain() {
   if (sAsmType=="ANISOTROPIC1" || sAsmType=="ANISOTROPIC2" ){
     if (ui.WasEntered("BHA")) {
       QString keyval = ui.GetString("BHA");
-      double bha = toDouble(keyval);
+      double bha = keyval.toDouble();
       asmPvl.findObject("AtmosphericModel").findGroup("Algorithm").
              addKeyword(PvlKeyword("BHA",std::to_string(bha)),Pvl::Replace);
     }
@@ -213,7 +213,7 @@ void IsisMain() {
   else if (sAsmType=="HAPKEATM1" || sAsmType=="HAPKEATM2" ) {
     if (ui.WasEntered("HGA")) {
       QString keyval = ui.GetString("HGA");
-      double hga = toDouble(keyval);
+      double hga = keyval.toDouble();
       asmPvl.findObject("AtmosphericModel").findGroup("Algorithm").
              addKeyword(PvlKeyword("HGA",std::to_string(hga)),Pvl::Replace);
     }
@@ -249,12 +249,12 @@ void IsisMain() {
   // or commas) and then parameters read from the words.  The line is
   // rejected if there aren't enough words or if any of them don't make
   // sense as the corresponding parameter.
-  FileName sInFileName(sInFile);
+  FileName sInFileName(sInFile.toStdString());
   // Try with the default ',' delimiter, if that only produces one row
   // item, try with spaces
-  CSVReader inFile(sInFileName.expanded());
+  CSVReader inFile(QString::fromStdString(sInFileName.expanded()));
   if (inFile.getRow(0).dim() <= 1) {
-    inFile = CSVReader(sInFileName.expanded(), false, 0, ' ');
+    inFile = CSVReader(QString::fromStdString(sInFileName.expanded()), false, 0, ' ');
   }
 
   if (inFile.getRow(0).dim() <= 1) {
@@ -274,11 +274,11 @@ void IsisMain() {
     std::vector<double> angles = {};
     for (int j = 1; j < row.dim(); j++) {
       try {
-        angles.push_back(toDouble(row[j]));
+        angles.push_back((row[j].toDouble()));
       }
       catch (IException &e) {
         std::string msg = "Unable to convert (" + toString(i) + ", " + toString(j) + 
-        ") element [" + row[j] + "] to double. You may want to check for excess delimiters." + 
+        ") element [" + row[j].toStdString() + "] to double. You may want to check for excess delimiters." + 
         "Current delimiter is set to '" + inFile.getDelimiter() + "'";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -396,7 +396,7 @@ void IsisMain() {
         se1 = shad_err(tau1, &shadData);
         se3 = shad_err(tau3, &shadData);
         if ((se1 < 0 && se3 < 0) || (se1 > 0 && se3 > 0)) {
-          outfile << "Root not bracketed for image " << imgId << ", " << inc << ", " ;
+          outfile << "Root not bracketed for image " << imgId.toStdString() << ", " << inc << ", " ;
           outfile << ema << ", " << phase << ", " << pflat << ", " << pshad << "\n";
           continue;
         }
@@ -412,7 +412,7 @@ void IsisMain() {
           albsol = shadData.m_rho * psurfref;
         }
       }
-      outfile << imgId << ", " << inc << ", " << ema << ", " << phase << ", " << pflat << ", " ;
+      outfile << imgId.toStdString() << ", " << inc << ", " << ema << ", " << phase << ", " << pflat << ", " ;
       outfile << pshad << ", " << tausol << ", " << albsol << "\n";
     }
   }

@@ -51,7 +51,7 @@ namespace Isis {
     CubeAttributeOutput cao;
     cao.setPixelType(Real);
     p.SetOutputCube(
-        FileName(ui.GetAsString("TO")).expanded(),
+        QString::fromStdString(FileName(ui.GetAsString("TO").toStdString()).expanded()),
         cao, inCube->sampleCount(), inCube->lineCount(),
         inCube->bandCount());
 

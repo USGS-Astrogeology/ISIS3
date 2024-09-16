@@ -53,10 +53,10 @@ void IsisMain() {
     TextFile * text = NULL;
     if (ui.WasEntered("TO")) {
       if (append) {
-        text = new TextFile(tofile.expanded(),"append");
+        text = new TextFile(QString::fromStdString(tofile.expanded()),"append");
       }
       else {
-        text = new TextFile(tofile.expanded(),"overwrite");
+        text = new TextFile(QString::fromStdString(tofile.expanded()),"overwrite");
       }
     }
     for(int i = 0; i < pvl.objects(); ++i) {
@@ -78,7 +78,7 @@ void IsisMain() {
         text->PutLine(all);
       }
       else {
-        cout << all << endl;
+        cout << all.toStdString() << endl;
       }
     }
     if (text) {

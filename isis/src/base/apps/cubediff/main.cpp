@@ -121,8 +121,8 @@ void IsisMain() {
     lab.write(ui.GetFileName("TO", "txt").toStdString());
   }
   if(doTable) {
-    QString filename = FileName(ui.GetFileName("TO", "txt")).expanded();
-    std::ofstream ofile(filename.toLatin1().data(), std::ios_base::app);
+    std::string filename = FileName(ui.GetFileName("TO", "txt").toStdString()).expanded();
+    std::ofstream ofile(filename.c_str(), std::ios_base::app);
     diffTable(ofile, ui.GetInteger("PRECISION"));
   }
 

@@ -243,7 +243,7 @@ void IsisMain() {
     QString naifTarget = QString("IAU_MOOM");
     namfrm_c(naifTarget.toLatin1().data(), &frameCode);
     if(frameCode == 0) {
-      std::string msg = "Can not find NAIF code for [" + naifTarget + "]";
+      std::string msg = "Can not find NAIF code for [" + naifTarget.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -615,7 +615,7 @@ void IsisMain() {
 
   //copy the patternS chip (the entire ApolloPanFiducialMark.cub)
   FileName fiducialFileName("$apollo15/calibration/ApolloPanFiducialMark.cub");
-  fidC.open(fiducialFileName.expanded(),"r");
+  fidC.open(QString::fromStdString(fiducialFileName.expanded()),"r");
   if( !fidC.isOpen() ) {
     std::string msg = "Unable to open the fiducial patternS cube: ApolloPanFiducialMark.cub\n";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -681,7 +681,7 @@ void IsisMain() {
     }
   }
   if(s>=averageLines+searchCellSize/2.0) {
-     std::string msg = "Unable to locate a fiducial mark in the input cube [" + fileName +
+     std::string msg = "Unable to locate a fiducial mark in the input cube [" + fileName.toStdString() +
                   "].  Check FROM and MICRONS parameters.";
      throw IException(IException::Io, msg, _FILEINFO_);
      return;
@@ -802,12 +802,12 @@ void Load_Kernel(Isis::PvlKeyword &key) {
      //Table was left as the first value of these keywords because one is about to be attached,
      //  still though it needs to be skipped in this loop
      if(QString::fromStdString(key[i]).toUpper() == "TABLE") continue;
-     Isis::FileName file(QString::fromStdString(key[i]));
+     Isis::FileName file(key[i]);
      if(!file.fileExists()) {
        std::string msg = "Spice file does not exist [" + file.expanded() + "]";
        throw IException(IException::Io, msg, _FILEINFO_);
      }
-     QString fileName(file.expanded());
+     QString fileName(QString::fromStdString(file.expanded()));
      furnsh_c(fileName.toLatin1().data());
   }
 

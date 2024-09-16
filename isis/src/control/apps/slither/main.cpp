@@ -63,13 +63,13 @@ void IsisMain() {
   //  Dump the transform statistics
   if(ui.WasEntered("RESULTS")) {
     // Get the control point file
-    QString rFile = FileName(ui.GetFileName("RESULTS")).expanded();
+    QString rFile = QString::fromStdString(FileName(ui.GetFileName("RESULTS").toStdString()).expanded());
     ofstream os;
     os.open(rFile.toLatin1().data(), ios::out);
     os << "#  Slither Transform Results\n"
-       << "#  RunDate: " << iTime::CurrentLocalTime() << endl
-       << "#    FROM:     " << icube->fileName() << endl
-       << "#    CNETFILE: " << cfile << endl << endl;
+       << "#  RunDate: " << iTime::CurrentLocalTime().toStdString() << endl
+       << "#    FROM:     " << icube->fileName().toStdString() << endl
+       << "#    CNETFILE: " << cfile.toStdString() << endl << endl;
 
     transform.dumpState(os);
   }
@@ -92,7 +92,7 @@ void IsisMain() {
   }
   else {
     std::string msg = "Unknown value for INTERP [" +
-                 ui.GetString("INTERP") + "]";
+                 ui.GetString("INTERP").toStdString() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 

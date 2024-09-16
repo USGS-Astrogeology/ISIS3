@@ -36,7 +36,7 @@ int main(void) {
 
     Cube c("$ISISTESTDATA/isis/src/dawn/unitTestData/FC21B0001010_09049002212F5D.cub", "r");
     DawnFcCamera *cam = (DawnFcCamera *) CameraFactory::Create(c);
-    cout << "FileName: " << FileName(c.fileName()).name() << endl;
+    cout << "FileName: " << FileName(c.fileName().toStdString()).name() << endl;
     cout << "CK Frame: " << cam->instrumentRotation()->Frame() << endl << endl;
     cout.setf(std::ios::fixed);
     cout << setprecision(9);
@@ -50,10 +50,10 @@ int main(void) {
 
     // Test name methods
     // TODO - test an FC1 image when data can be found.
-    cout << "Spacecraft Name Long: " << cam->spacecraftNameLong() << endl;
-    cout << "Spacecraft Name Short: " << cam->spacecraftNameShort() << endl;
-    cout << "Instrument Name Long: " << cam->instrumentNameLong() << endl;
-    cout << "Instrument Name Short: " << cam->instrumentNameShort() << endl << endl;
+    cout << "Spacecraft Name Long: " << cam->spacecraftNameLong().toStdString() << endl;
+    cout << "Spacecraft Name Short: " << cam->spacecraftNameShort().toStdString() << endl;
+    cout << "Instrument Name Long: " << cam->instrumentNameLong().toStdString() << endl;
+    cout << "Instrument Name Short: " << cam->instrumentNameShort().toStdString() << endl << endl;
 
     // Test Shutter Open/Close
     const PvlGroup &inst = c.label()->findGroup("Instrument", Pvl::Traverse);

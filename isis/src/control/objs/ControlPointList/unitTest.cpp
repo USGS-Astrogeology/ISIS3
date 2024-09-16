@@ -26,12 +26,12 @@ int main() {
 
   //print point ids in the list
   for(int i = 0; i < size; i++) {
-    std::cerr << cpl.ControlPointId(i) << "\n";
+    std::cerr << cpl.ControlPointId(i).toStdString() << "\n";
   }
 
   // index out of range
   try {
-    std::cerr << cpl.ControlPointId(size) << "\n";
+    std::cerr << cpl.ControlPointId(size).toStdString() << "\n";
   }
   catch(Isis::IException &e) {
     e.print();

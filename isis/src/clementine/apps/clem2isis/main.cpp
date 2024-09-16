@@ -34,8 +34,8 @@ PDSINFO *pdsi;
 void IsisMain() {
   // Grab the file to import
   UserInterface &ui = Application::GetUserInterface();
-  FileName in = ui.GetFileName("FROM");
-  FileName out = ui.GetCubeName("TO");
+  FileName in = ui.GetFileName("FROM").toStdString();
+  FileName out = ui.GetCubeName("TO").toStdString();
 
   // Make sure it is a Clementine EDR
   bool projected;
@@ -46,7 +46,7 @@ void IsisMain() {
     id = QString::fromStdString(lab["DATA_SET_ID"]);
     id = id.simplified().trimmed();
     if (!id.contains("CLEM")) {
-      std::string msg = "Invalid DATA_SET_ID [" + id + "]";
+      std::string msg = "Invalid DATA_SET_ID [" + id.toStdString() + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -67,7 +67,7 @@ void IsisMain() {
   //Decompress the file
   long int lines = 0;
   long int samps = 0;
-  QString filename = in.expanded();
+  QString filename = QString::fromStdString(in.expanded());
   pdsi = PDSR(filename.toLatin1().data(), &lines, &samps);
 
   ProcessByLine p;
@@ -107,11 +107,11 @@ void writeLine(Buffer &b) {
 
 void translateLabels(FileName in, Cube *ocube) {
   // Transfer the instrument group to the output cube
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
   FileName transFile(transDir + "Clementine.trn");
 
   Pvl pdsLab(in.expanded());
-  PvlToPvlTranslationManager labelXlater(pdsLab, transFile.expanded());
+  PvlToPvlTranslationManager labelXlater(pdsLab, QString::fromStdString(transFile.expanded()));
 
   // Pvl outputLabels;
   Pvl *outputLabel = ocube->label();

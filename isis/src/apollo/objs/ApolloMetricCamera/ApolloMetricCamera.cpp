@@ -90,9 +90,9 @@ namespace Isis {
     CameraFocalPlaneMap *focalMap = new CameraFocalPlaneMap(this, naifIkCode());
     focalMap->SetDetectorOrigin(ParentSamples() / 2.0, ParentLines() / 2.0);
 
-    QString ppKey("INS" + toString(naifIkCode()) + "_PP");
-    QString odkKey("INS" + toString(naifIkCode()) + "_OD_K");
-    QString decenterKey("INS" + toString(naifIkCode()) + "_DECENTER");
+    QString ppKey("INS" + QString::number(naifIkCode()) + "_PP");
+    QString odkKey("INS" + QString::number(naifIkCode()) + "_OD_K");
+    QString decenterKey("INS" + QString::number(naifIkCode()) + "_DECENTER");
 
     new ApolloMetricDistortionMap(this, getDouble(ppKey, 0),
                                   getDouble(ppKey, 1), getDouble(odkKey, 0), getDouble(odkKey, 1),

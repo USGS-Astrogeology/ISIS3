@@ -50,7 +50,7 @@ void IsisMain() {
   }
 
   // Get the output gml file name
-  QString outgml;
+  std::string outgml;
   if (ui.WasEntered("TO")) {
     outgml = ui.GetFileName("TO").toStdString();
     FileName out = ui.GetFileName("TO").toStdString();
@@ -64,28 +64,28 @@ void IsisMain() {
   }
 
   // Get the output xsd file name
-  QString outxsd = FileName(outgml).removeExtension().addExtension("xsd").expanded();
+  std::string outxsd = FileName(outgml).removeExtension().addExtension("xsd").expanded();
 
   // Convert the polygon to GML
   QString polyString;
 
   if (ui.WasEntered("LABEL")) {
     QString fid = ui.GetString("LABEL");
-    polyString = PolygonTools::ToGML(mPolygon, fid, FileName(outxsd).name());
+    polyString = PolygonTools::ToGML(mPolygon, fid, QString::fromStdString(FileName(outxsd).name()));
   }
   else {
-    polyString = PolygonTools::ToGML(mPolygon, "0", outxsd);
+    polyString = PolygonTools::ToGML(mPolygon, "0", QString::fromStdString(outxsd));
   }
 
   // Write the gml file.
   ofstream fout;
-  fout.open(outgml.toLatin1().data());
-  fout << polyString << endl;
+  fout.open(outgml.c_str());
+  fout << polyString.toStdString() << endl;
   fout.close();
 
   // Write the xsd file.
-  fout.open(outxsd.toLatin1().data());
-  fout << PolygonTools::GMLSchema() << endl;
+  fout.open(outxsd.c_str());
+  fout << PolygonTools::GMLSchema().toStdString() << endl;
   fout.close();
 }
 

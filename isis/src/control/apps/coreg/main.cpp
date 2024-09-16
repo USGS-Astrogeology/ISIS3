@@ -83,15 +83,15 @@ void IsisMain() {
 
 //  This still precludes band to band registrations.
   if (serialTrans == serialMatch) {
-    QString sTrans = FileName(trans.fileName()).name();
-    QString sMatch = FileName(match.fileName()).name();
+    std::string sTrans = FileName(trans.fileName().toStdString()).name();
+    std::string sMatch = FileName(match.fileName().toStdString()).name();
     if (sTrans == sMatch) {
-      std::string msg = "Cube Serial Numbers must be unique - FROM=" + serialTrans +
-                   ", MATCH=" + serialMatch;
+      std::string msg = "Cube Serial Numbers must be unique - FROM=" + serialTrans.toStdString() +
+                   ", MATCH=" + serialMatch.toStdString();
       throw IException(IException::User, msg, _FILEINFO_);
     }
-    serialTrans = sTrans;
-    serialMatch = sMatch;
+    serialTrans = QString::fromStdString(sTrans);
+    serialMatch = QString::fromStdString(sMatch);
   }
 
 
@@ -178,7 +178,7 @@ void IsisMain() {
       }
 
       // Add the measures to a control point
-      QString str = "Row_" + toString(r) + "_Column_" + toString(c);
+      QString str = "Row_" + QString::number(r) + "_Column_" + QString::number(c);
       ControlPoint * cp = new ControlPoint(str);
       cp->SetType(ControlPoint::Free);
       cp->Add(cmTrans);
@@ -240,9 +240,9 @@ void IsisMain() {
   // The flatfile is comma seperated and can be imported into an excel
   // spreadsheet
   if (ui.WasEntered("FLATFILE")) {
-    QString fFile = FileName(ui.GetFileName("FLATFILE")).expanded();
+    std::string fFile = FileName(ui.GetFileName("FLATFILE").toStdString()).expanded();
     ofstream os;
-    os.open(fFile.toLatin1().data(), ios::out);
+    os.open(fFile.c_str(), ios::out);
     os << "Sample,Line,TranslatedSample,TranslatedLine," <<
        "SampleDifference,LineDifference,GoodnessOfFit" << endl;
     for (int i = 0; i < cn.GetNumPoints(); i++) {
@@ -267,8 +267,8 @@ void IsisMain() {
     if (ui.GetString("TRANSFORM") == "TRANSLATE") {
       QString params = " from="   + ui.GetCubeName("FROM") +
                       " to="     + ui.GetCubeName("TO") +
-                      " strans=" + toString(sTrans) +
-                      " ltrans=" + toString(lTrans) +
+                      " strans=" + QString::number(sTrans) +
+                      " ltrans=" + QString::number(lTrans) +
                       " interp=" + ui.GetString("INTERP");
       ProgramLauncher::RunIsisProgram("translate", params);
     }
@@ -278,7 +278,7 @@ void IsisMain() {
                       " cube="   + ui.GetCubeName("MATCH") +
                       " cnet="   + ui.GetFileName("ONET") +
                       " interp=" + ui.GetString("INTERP") +
-                      " degree=" + toString(ui.GetInteger("DEGREE"));
+                      " degree=" + QString::number(ui.GetInteger("DEGREE"));
       ProgramLauncher::RunIsisProgram("warp", params);
     }
   }

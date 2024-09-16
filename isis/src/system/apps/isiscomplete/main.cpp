@@ -48,7 +48,7 @@ void MakeCompletion(const QString &appName) {
 
   // Do not complete image-viewer applications
   if(appName.compare("qview") == 0 || appName.compare("./qview") == 0) {
-    cout << "complete " << appName << " 'c/-/(new)/'; ";
+    cout << "complete " << appName.toStdString() << " 'c/-/(new)/'; ";
     return;
   }
 
@@ -56,24 +56,24 @@ void MakeCompletion(const QString &appName) {
 
   if(appName.compare("qmos") == 0 ||
      appName.compare("./qmos") == 0) {
-    cout << "complete " << appName
+    cout << "complete " << appName.toStdString()
          << " 'n@*@f:*.[mM][oO][sS]@'; ";
     return;
   }
 
   if(appName.compare("cneteditor") == 0 ||
      appName.compare("./cneteditor") == 0) {
-    cout << "complete " << appName << " 'n@*@f:*.[nN][eE][tT]@'; ";
+    cout << "complete " << appName.toStdString() << " 'n@*@f:*.[nN][eE][tT]@'; ";
     return;
   }
 
   if(appName.compare("ipce") == 0 || appName.compare("./ipce") == 0) {
-    cout << "complete " << appName << " 'n@*@f:*.[pP][cC][eE]@'; ";
+    cout << "complete " << appName.toStdString() << " 'n@*@f:*.[pP][cC][eE]@'; ";
     return;
   }
 
   if(appName.compare("isisui") == 0) {
-    QString binPath = FileName("$ISISROOT/bin").expanded();
+    std::string binPath = FileName("$ISISROOT/bin").expanded();
     cout << "complete isisui 'n@*@F:" << binPath << "/@'; ";
     return;
   }
@@ -101,7 +101,7 @@ void MakeCompletion(const QString &appName) {
   completeCommand += " " + BuildStaticCompletes(paramList) + " ";
   completeCommand += "'n/*/(-" + paramList + ")/='";
   completeCommand = "complete " + appName + " " + completeCommand + "; ";
-  cout << completeCommand;
+  cout << completeCommand.toStdString();
 
   delete [] argv[1];
   argv[1] = 0;

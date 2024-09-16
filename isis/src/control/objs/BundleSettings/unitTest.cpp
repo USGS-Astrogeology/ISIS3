@@ -93,12 +93,12 @@ namespace Isis {
       BundleSettingsXmlHandlerTester(QXmlStreamReader *reader,
                                      FileName xmlFile) : BundleSettings() {
 
-        QString xmlPath(xmlFile.expanded());
+        QString xmlPath(QString::fromStdString(xmlFile.expanded()));
         QFile file(xmlPath);
 
         if (!file.open(QFile::ReadOnly) ) {
           throw IException(IException::Io,
-                           QString("Unable to open xml file, [%1],  with read access").arg(xmlPath),
+                           "Unable to open xml file, ["+xmlPath.toStdString()+"],  with read access",
                            _FILEINFO_);
         }
 
@@ -243,7 +243,7 @@ int main(int argc, char *argv[]) {
             = copySettings.maximumLikelihoodEstimatorModels();
     for (int i = 0; i < models.size(); i++) {
       qDebug() << MaximumLikelihoodWFunctions::modelToString(models[i].first)
-               << toString(models[i].second);
+               << QString::number(models[i].second);
     }
     qDebug() << "";
 
@@ -260,11 +260,11 @@ int main(int argc, char *argv[]) {
     printXml<BundleSettings>(settings);
     // now write the object to serialization file
     FileName xmlFile("./BundleSettings2.xml");
-    QString xmlPath = xmlFile.expanded();
-    QFile qXmlFile(xmlPath);
+    std::string xmlPath = xmlFile.expanded();
+    QFile qXmlFile(QString::fromStdString(xmlPath));
     if (!qXmlFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
       throw IException(IException::Io,
-                       QString("Unable to open xml file, [%1],  with write access").arg(xmlPath),
+                       "Unable to open xml file, ["+xmlPath+"],  with write access",
                        _FILEINFO_);
     }
     QXmlStreamWriter writer(&qXmlFile);
@@ -277,7 +277,7 @@ int main(int argc, char *argv[]) {
 
     if(!qXmlFile.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(qXmlFile.fileName()),
+                        "Failed to parse xml file, ["+qXmlFile.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
 
@@ -294,7 +294,7 @@ int main(int argc, char *argv[]) {
     // globalRadiusAprioriSigma != N/A, outlierRejectionMultiplier != N/A
     if (!qXmlFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
       throw IException(IException::Io,
-                       QString("Unable to open xml file, [%1],  with write access").arg(xmlPath),
+                       "Unable to open xml file, ["+xmlPath+"],  with write access",
                        _FILEINFO_);
     }
     // write xml to test output file for comparison
@@ -308,7 +308,7 @@ int main(int argc, char *argv[]) {
 
     if(!qXmlFile.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(qXmlFile.fileName()),
+                        "Failed to parse xml file, ["+qXmlFile.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
 

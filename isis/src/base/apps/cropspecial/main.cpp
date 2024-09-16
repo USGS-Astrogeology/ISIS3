@@ -80,7 +80,7 @@ void IsisMain() {
     if (obj.name() != "Table") continue;
 
     // Read the table into a table object
-    Table table(obj["Name"], from);
+    Table table(obj["Name"], from.toStdString());
 
     ocube->write(table);
   }

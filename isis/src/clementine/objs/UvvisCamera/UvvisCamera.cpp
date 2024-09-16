@@ -62,14 +62,14 @@ namespace Isis {
     CameraFocalPlaneMap *focalMap = new CameraFocalPlaneMap(this, naifIkCode());
 
     focalMap->SetDetectorOrigin(
-      Spice::getDouble("INS" + toString(naifIkCode()) +
+      Spice::getDouble("INS" + QString::number(naifIkCode()) +
                        "_BORESIGHT_SAMPLE"),
-      Spice::getDouble("INS" + toString(naifIkCode()) +
+      Spice::getDouble("INS" + QString::number(naifIkCode()) +
                        "_BORESIGHT_LINE"));
 
-    QString ppKey("INS" + toString(naifIkCode()) + "_PP");
-    QString odKey("INS" + toString(naifIkCode()) + "_OD_K");
-    QString decenterKey("INS" + toString(naifIkCode()) + "_DECENTER");
+    QString ppKey("INS" + QString::number(naifIkCode()) + "_PP");
+    QString odKey("INS" + QString::number(naifIkCode()) + "_OD_K");
+    QString decenterKey("INS" + QString::number(naifIkCode()) + "_DECENTER");
 
     // Setup distortion map
     new ClementineUvvisDistortionMap(this,

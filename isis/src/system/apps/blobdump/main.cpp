@@ -34,11 +34,11 @@ map <QString, void *> GuiHelpers() {
 
 void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
-  FileName file = ui.GetCubeName("FROM");
+  FileName file = ui.GetCubeName("FROM").toStdString();
   QString blobname = ui.GetString("NAME");
   QString blobtype = ui.GetString("TYPE");
-  Blob blob(blobname, blobtype.toStdString(), file.expanded());
-  FileName outfname = ui.GetFileName("TO");
+  Blob blob(blobname.toStdString(), blobtype.toStdString(), file.expanded());
+  FileName outfname = ui.GetFileName("TO").toStdString();
   blob.Write(outfname.expanded());
 }
 
@@ -49,7 +49,7 @@ void helperButtonGetBlobList() {
 
   UserInterface &ui = Application::GetUserInterface();
   QString currentFile = ui.GetCubeName("FROM");
-  const Pvl label(FileName(currentFile).expanded());
+  const Pvl label(FileName(currentFile.toStdString()).expanded());
 
   // Check to see if the "FILE" parameter has changed since last press
   if(currentFile != previousFile) {

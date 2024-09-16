@@ -36,11 +36,11 @@ void IsisMain() {
 
   UserInterface &ui = Application::GetUserInterface();
 
-  FileList list2(ui.GetFileName("LIST2"));
+  FileList list2(ui.GetFileName("LIST2").toStdString());
 
   SerialNumberList snl(ui.GetFileName("LIST3"));
   for (int f = 0; f < list2.size(); f++) {
-    QString currFile(list2[f].toString());
+    QString currFile(QString::fromStdString(list2[f].toString()));
     Pvl lab(currFile.toStdString());
     PvlObject qube(lab.findObject("QUBE"));
     QString fsc;
@@ -52,7 +52,7 @@ void IsisMain() {
     }
     else {
       std::string msg = "Unable to find keyword [\"IMAGE_NUMBER\" or \"IMAGE_ID\"] in file [";
-      msg += fsc + "]";
+      msg += fsc.toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     QString sn(snl.serialNumber(f));
@@ -74,7 +74,7 @@ void IsisMain() {
   QString textLine;
 
   textLine = "Matchpoint total =    ";
-  textLine += toString(mpTotal);
+  textLine += QString::number(mpTotal);
   mpFile.PutLine(textLine);
   str.clear();
   str.str("");
@@ -135,7 +135,7 @@ void IsisMain() {
       formatter.str("");
       formatter.width(30);
       formatter.setf(ios::left);
-      formatter << currPoint->GetId() << " ";
+      formatter << currPoint->GetId().toStdString() << " ";
       textLine = formatter.str().c_str();
 
       //Set FSC
@@ -145,7 +145,7 @@ void IsisMain() {
       formatter.setf(ios::right);
       QString sn = currMeas->GetCubeSerialNumber();
       QString fsc = fscMap[snMap[sn]];
-      formatter << fsc << " ";
+      formatter << fsc.toStdString() << " ";
       textLine += formatter.str().c_str();
 
       //Set Line

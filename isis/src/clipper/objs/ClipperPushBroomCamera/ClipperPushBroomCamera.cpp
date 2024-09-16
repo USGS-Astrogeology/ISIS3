@@ -134,11 +134,11 @@ namespace Isis {
     * @param filename
     */
    void ClipperPushBroomCamera::ReadLineRates(QString filename) {
-     Table timesTable("LineScanTimes", filename);
+     Table timesTable("LineScanTimes", filename.toStdString());
 
      if(timesTable.Records() <= 0) {
        std::string msg = "Table [LineScanTimes] in [";
-       msg += filename + "] must not be empty";
+       msg += filename.toStdString() + "] must not be empty";
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }
 
@@ -150,7 +150,7 @@ namespace Isis {
 
      if(p_lineRates.size() <= 0) {
        std::string msg = "There is a problem with the data within the Table ";
-       msg += "[LineScanTimes] in [" + filename + "]";
+       msg += "[LineScanTimes] in [" + filename.toStdString() + "]";
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }
    }

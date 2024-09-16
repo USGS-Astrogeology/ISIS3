@@ -56,11 +56,11 @@ void OutputKeyValue(PvlKeyword & key, QString val){
   key.clear();
   int found = val.indexOf(",");
   while(found != -1) {
-    key += std::to_string(toDouble(val.mid(0, found)));
+    key += std::to_string((val.mid(0, found)).toDouble());
     val = val.mid(found+1);
     found = val.indexOf(",");
   }
-  key += std::to_string(toDouble(val));
+  key += std::to_string((val).toDouble());
 }
 
 // Helper function to load the input pvl file into the GUI
@@ -235,7 +235,7 @@ void LoadPvl() {
           }
         } else if (phtVal != "LAMBERT" && phtVal != "LOMMELSEELIGER" &&
                    phtVal != "LUNARLAMBERTMCEWEN") {
-          std::string message = "Unsupported photometric model [" + phtVal + "].";
+          std::string message = "Unsupported photometric model [" + phtVal.toStdString() + "].";
           throw IException(IException::User, message, _FILEINFO_);
         }
         ui.PutAsString("PHTNAME", phtVal);
@@ -355,7 +355,7 @@ void LoadPvl() {
         if (atmVal != "ANISOTROPIC1" && atmVal != "ANISOTROPIC2" &&
             atmVal != "HAPKEATM1" && atmVal != "HAPKEATM2" &&
             atmVal != "ISOTROPIC1" && atmVal != "ISOTROPIC2") {
-          std::string message = "Unsupported atmospheric model [" + atmVal + "].";
+          std::string message = "Unsupported atmospheric model [" + atmVal.toStdString() + "].";
           throw IException(IException::User, message, _FILEINFO_);
         }
         ui.PutAsString("ATMNAME", atmVal);
@@ -368,7 +368,7 @@ void IsisMain() {
   // Get the output file name from the GUI and write the pvl
   // to the file. If no extension is given, '.pvl' will be used.
   UserInterface &ui = Application::GetUserInterface();
-  FileName out = ui.GetFileName("TOPVL");
+  FileName out = ui.GetFileName("TOPVL").toStdString();
   QString output = ui.GetFileName("TOPVL");
   if(out.extension() == "") {
     output += ".pvl";
@@ -474,7 +474,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                   hasKeyword("THETA")) {
-        std::string message = "The " + phtName + " Photometric model requires a value for the THETA parameter.";
+        std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the THETA parameter.";
         message += "The normal range for THETA is: 0 <= THETA <= 90";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -487,7 +487,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                   hasKeyword("WH")) {
-        std::string message = "The " + phtName + " Photometric model requires a value for the WH parameter.";
+        std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the WH parameter.";
         message += "The normal range for WH is: 0 < WH <= 1";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -500,7 +500,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                   hasKeyword("HH")) {
-        std::string message = "The " + phtName + " Photometric model requires a value for the HH parameter.";
+        std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the HH parameter.";
         message += "The normal range for HH is: 0 <= HH";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -513,7 +513,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                   hasKeyword("B0")) {
-        std::string message = "The " + phtName + " Photometric model requires a value for the B0 parameter.";
+        std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the B0 parameter.";
         message += "The normal range for B0 is: 0 <= B0";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -530,7 +530,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
                hasKeyword("ZEROB0STANDARD")) {
       if (ui.IsInteractive()) { 
         QMessageBox msgbox;
-        std::string message = "You requested that the ZEROB0STANDARD value come from the input PVL file, but there is not one, so the ";
+        QString message = "You requested that the ZEROB0STANDARD value come from the input PVL file, but there is not one, so the ";
         message += "ZEROB0STANDARD parameter is being set to TRUE.";
         msgbox.setText(message);
         msgbox.exec();
@@ -547,7 +547,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
       } else {
         if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                     hasKeyword("HG1")) {
-          std::string message = "The " + phtName + " Photometric model requires a value for the HG1 parameter.";
+          std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the HG1 parameter.";
           message += "The normal range for HG1 is: -1 < HG1 < 1";
           throw IException(IException::User, message, _FILEINFO_);
         }
@@ -560,7 +560,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
       } else {
         if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                     hasKeyword("HG2")) {
-          std::string message = "The " + phtName + " Photometric model requires a value for the HG2 parameter.";
+          std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the HG2 parameter.";
           message += "The normal range for HG2 is: 0 <= HG2 <= 1";
           throw IException(IException::User, message, _FILEINFO_);
         }
@@ -574,7 +574,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
       } else {
         if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                     hasKeyword("BH")) {
-          std::string message = "The " + phtName + " Photometric model requires a value for the BH parameter.";
+          std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the BH parameter.";
           message += "The normal range for BH is: -1 <= BH <= 1";
           throw IException(IException::User, message, _FILEINFO_);
         }
@@ -587,7 +587,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
       } else {
         if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                     hasKeyword("CH")) {
-          std::string message = "The " + phtName + " Photometric model requires a value for the CH parameter.";
+          std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the CH parameter.";
           message += "The normal range for CH is: -1 <= CH <= 1";
           throw IException(IException::User, message, _FILEINFO_);
         }
@@ -610,7 +610,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                     hasKeyword("PHASELIST")) {
-        std::string message = "The " + phtName + " Photometric model requires a value for the PHASELIST parameter.";
+        std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the PHASELIST parameter.";
         throw IException(IException::User, message, _FILEINFO_);
       }
       phaselistsize = outPvl.findObject("PhotometricModel").findGroup("Algorithm").
@@ -625,7 +625,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                   hasKeyword("PHASECURVELIST")) {
-        std::string message = "The " + phtName + " Photometric model requires a value for the PHASECURVELIST parameter.";
+        std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the PHASECURVELIST parameter.";
         throw IException(IException::User, message, _FILEINFO_);
       }
       phasecurvelistsize = outPvl.findObject("PhotometricModel").findGroup("Algorithm").
@@ -641,14 +641,14 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
       } else {
         if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                     hasKeyword("LLIST")) {
-          std::string message = "The " + phtName + " Photometric model requires a value for the LLIST parameter.";
+          std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the LLIST parameter.";
           throw IException(IException::User, message, _FILEINFO_);
         }
         llistsize = outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                     findKeyword("LLIST").size();
       }
       if (llistsize != phaselistsize || llistsize != phasecurvelistsize) {
-        std::string message = "The " + phtName + " Photometric model requires that the LLIST, ";
+        std::string message = "The " + phtName.toStdString() + " Photometric model requires that the LLIST, ";
         message += "PHASELIST, and PHASECURVELIST  parameters all have the same number of ";
         message += "entries.";
         throw IException(IException::User, message, _FILEINFO_);
@@ -663,14 +663,14 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
       } else {
         if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                     hasKeyword("KLIST")) {
-          std::string message = "The " + phtName + " Photometric model requires a value for the KLIST parameter.";
+          std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the KLIST parameter.";
           throw IException(IException::User, message, _FILEINFO_);
         }
         klistsize = outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                     findKeyword("KLIST").size();
       }
       if (klistsize != phaselistsize || klistsize != phasecurvelistsize) {
-        std::string message = "The " + phtName + " Photometric model requires that the KLIST, ";
+        std::string message = "The " + phtName.toStdString() + " Photometric model requires that the KLIST, ";
         message += "PHASELIST, and PHASECURVELIST  parameters all have the same number of ";
         message += "entries.";
         throw IException(IException::User, message, _FILEINFO_);
@@ -687,7 +687,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                   hasKeyword("L")) {
-        std::string message = "The " + phtName + " Photometric model requires a value for the L parameter.";
+        std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the L parameter.";
         message += "The L parameter has no limited range";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -703,7 +703,7 @@ void addPhoModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("PhotometricModel").findGroup("Algorithm").
                   hasKeyword("K")) {
-        std::string message = "The " + phtName + " Photometric model requires a value for the K parameter.";
+        std::string message = "The " + phtName.toStdString() + " Photometric model requires a value for the K parameter.";
         message += "The normal range for K is: 0 <= K";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -785,7 +785,7 @@ void addAtmosModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("AtmosphericModel").findGroup("Algorithm").
                   hasKeyword("HNORM")) {
-        std::string message = "The " + atmName + " Atmospheric model requires a value for the HNORM parameter.";
+        std::string message = "The " + atmName.toStdString() + " Atmospheric model requires a value for the HNORM parameter.";
         message += "The normal range for HNORM is: 0 <= HNORM";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -798,7 +798,7 @@ void addAtmosModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("AtmosphericModel").findGroup("Algorithm").
                   hasKeyword("TAU")) {
-        std::string message = "The " + atmName + " Atmospheric model requires a value for the TAU parameter.";
+        std::string message = "The " + atmName.toStdString() + " Atmospheric model requires a value for the TAU parameter.";
         message += "The normal range for TAU is: 0 <= TAU";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -811,7 +811,7 @@ void addAtmosModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("AtmosphericModel").findGroup("Algorithm").
                   hasKeyword("TAUREF")) {
-        std::string message = "The " + atmName + " Atmospheric model requires a value for the TAUREF parameter.";
+        std::string message = "The " + atmName.toStdString() + " Atmospheric model requires a value for the TAUREF parameter.";
         message += "The normal range for TAUREF is: 0 <= TAUREF";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -824,7 +824,7 @@ void addAtmosModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("AtmosphericModel").findGroup("Algorithm").
                   hasKeyword("WHA")) {
-        std::string message = "The " + atmName + " Atmospheric model requires a value for the WHA parameter.";
+        std::string message = "The " + atmName.toStdString() + " Atmospheric model requires a value for the WHA parameter.";
         message += "The normal range for WHA is: 0 < WHA < 1";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -838,7 +838,7 @@ void addAtmosModel(Pvl &pvl, Pvl &outPvl) {
                addKeyword(PvlKeyword("NULNEG","NO"),Pvl::Replace);
     } else if (!outPvl.findObject("AtmosphericModel").findGroup("Algorithm").
                   hasKeyword("NULNEG")) {
-        std::string message = "The " + atmName + " Atmospheric model requires a value for the NULNEG parameter.";
+        std::string message = "The " + atmName.toStdString() + " Atmospheric model requires a value for the NULNEG parameter.";
         message += "The valid values for NULNEG are: YES, NO";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -853,7 +853,7 @@ void addAtmosModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("AtmosphericModel").findGroup("Algorithm").
                   hasKeyword("BHA")) {
-        std::string message = "The " + atmName + " Atmospheric model requires a value for the BHA parameter.";
+        std::string message = "The " + atmName.toStdString() + " Atmospheric model requires a value for the BHA parameter.";
         message += "The normal range for BHA is: -1 <= BHA <= 1";
         throw IException(IException::User, message, _FILEINFO_);
       }
@@ -868,7 +868,7 @@ void addAtmosModel(Pvl &pvl, Pvl &outPvl) {
     } else {
       if (!outPvl.findObject("AtmosphericModel").findGroup("Algorithm").
                   hasKeyword("HGA")) {
-        std::string message = "The " + atmName + " Atmospheric model requires a value for the HGA parameter.";
+        std::string message = "The " + atmName.toStdString() + " Atmospheric model requires a value for the HGA parameter.";
         message += "The normal range for HGA is: -1 < HGA < 1";
         throw IException(IException::User, message, _FILEINFO_);
       }

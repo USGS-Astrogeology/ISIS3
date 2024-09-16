@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 
     Cube c(FileName("$ISISTESTDATA/isis/src/apollo/unitTestData/AS15-M-0533.cropped.cub").expanded(), "r");
     ApolloMetricCamera *cam = (ApolloMetricCamera *) CameraFactory::Create(c);
-    cout << "FileName: " << FileName(c.fileName()).name() << endl;
+    cout << "FileName: " << FileName(c.fileName().toStdString()).name() << endl;
     cout << "CK Frame: " << cam->instrumentRotation()->Frame() << endl << endl;
     cout.setf(std::ios::fixed);
     cout << setprecision(9);
@@ -107,12 +107,12 @@ int main(int argc, char **argv) {
 
     cout << endl << endl << "Testing name methods ..." << endl;
     for (int i = 0; i < files.size(); i++) {
-      Cube n(files[i], "r");
+      Cube n(files[i].toStdString(), "r");
       ApolloMetricCamera *nCam = (ApolloMetricCamera *) CameraFactory::Create(n);
-      cout << "Spacecraft Name Long: " << nCam->spacecraftNameLong() << endl;
-      cout << "Spacecraft Name Short: " << nCam->spacecraftNameShort() << endl;
-      cout << "Instrument Name Long: " << nCam->instrumentNameLong() << endl;
-      cout << "Instrument Name Short: " << nCam->instrumentNameShort() << endl << endl;
+      cout << "Spacecraft Name Long: " << nCam->spacecraftNameLong().toStdString() << endl;
+      cout << "Spacecraft Name Short: " << nCam->spacecraftNameShort().toStdString() << endl;
+      cout << "Instrument Name Long: " << nCam->instrumentNameLong().toStdString() << endl;
+      cout << "Instrument Name Short: " << nCam->instrumentNameShort().toStdString() << endl << endl;
     }
 
     // Test exception

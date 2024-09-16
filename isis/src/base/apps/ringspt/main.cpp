@@ -62,7 +62,7 @@ void IsisMain() {
 
   if(ui.WasEntered("TO")) {
     // Get user params from ui
-    QString outFile = FileName(ui.GetFileName("TO")).expanded();
+    std::string outFile = FileName(ui.GetFileName("TO").toStdString()).expanded();
     bool exists = FileName(outFile).fileExists();
     bool append = ui.GetBoolean("APPEND");
 
@@ -72,10 +72,10 @@ void IsisMain() {
       temp.setTerminator("");
       temp.addGroup((*point));
       if(append) {
-        temp.append(outFile.toStdString());
+        temp.append(outFile);
       }
       else {
-        temp.write(outFile.toStdString());
+        temp.write(outFile);
       }
     }
 
@@ -85,13 +85,13 @@ void IsisMain() {
       ofstream os;
       bool writeHeader = false;
       if(append) {
-        os.open(outFile.toLatin1().data(), ios::app);
+        os.open(outFile.c_str(), ios::app);
         if(!exists) {
           writeHeader = true;
         }
       }
       else {
-        os.open(outFile.toLatin1().data(), ios::out);
+        os.open(outFile.c_str(), ios::out);
         writeHeader = true;
       }
 

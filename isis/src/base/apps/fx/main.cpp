@@ -69,12 +69,12 @@ void IsisMain() {
     outCube = p.SetOutputCube("TO");
   }
   else if (ui.GetString("MODE") == "LIST") {
-    FileList list(ui.GetFileName("FROMLIST"));
+    FileList list(ui.GetFileName("FROMLIST").toStdString());
 
     // Run through file list and set its entries as input cubes
     for (int i = 0; i < list.size(); i++) {
       CubeAttributeInput att(list[i].original());
-      inCube = p.SetInputCube(list[i].original(), att, Isis::AllMatchOrOne);
+      inCube = p.SetInputCube(QString::fromStdString(list[i].original()), att, Isis::AllMatchOrOne);
       cubes.push_back(inCube);
     }
     bands = cubes[0]->bandCount();

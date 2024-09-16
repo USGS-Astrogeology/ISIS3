@@ -84,7 +84,7 @@ void IsisMain() {
       double filteredLine = filter.Average(line);
 
       if(csvOutput != NULL) {
-        csvOutput->PutLine(toString(lineAverages[band][line]) + (QString)"," + toString(filteredLine));
+        csvOutput->PutLine(QString::number(lineAverages[band][line]) + (QString)"," + QString::number(filteredLine));
       }
 
       lineAverages[band][line] = filteredLine;

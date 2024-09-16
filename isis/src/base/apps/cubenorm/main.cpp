@@ -94,10 +94,10 @@ void IsisMain() {
     p.StartProcess(getStats);
   }
   else if(ui.GetString("STATSOURCE") == "TABLE") {
-    tableIn(ui.GetFileName("FROMSTATS"));
+    tableIn(ui.GetFileName("FROMSTATS").toStdString());
   }
   else {
-    PVLIn(ui.GetFileName("FROMSTATS"));
+    PVLIn(ui.GetFileName("FROMSTATS").toStdString());
   }
 
   //check to make sure the first vector has as many elements as the last
@@ -105,7 +105,7 @@ void IsisMain() {
   if((band.size() != (unsigned int)(rowcol * totalBands)) ||
       (st.size() != (unsigned int)(rowcol * totalBands))) {
     std::string message = "You have entered an invalid input file " +
-                      ui.GetFileName("FROMSTATS");
+                      ui.GetFileName("FROMSTATS").toStdString();
     throw IException(IException::Io, message, _FILEINFO_);
   }
 
@@ -298,7 +298,7 @@ void tableOut(const QString &StatFile) {
 //*******************************************************
 void PVLIn(const Isis::FileName &filename) {
   Pvl pvlFileIn;
-  pvlFileIn.read(filename.name().toStdString());
+  pvlFileIn.read(filename.name());
   PvlGroup results = pvlFileIn.findGroup("Results");
   PvlObject::PvlKeywordIterator itr = results.begin();
 
@@ -337,8 +337,8 @@ void PVLIn(const Isis::FileName &filename) {
 //*******************************************************
 void tableIn(const Isis::FileName &filename) {
   ifstream in;
-  QString expanded(filename.expanded());
-  in.open(expanded.toLatin1().data(), std::ios::in);
+  std::string expanded(filename.expanded());
+  in.open(expanded.c_str(), std::ios::in);
 
 
   if(!in) {

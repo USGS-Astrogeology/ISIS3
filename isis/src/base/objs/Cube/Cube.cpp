@@ -1619,7 +1619,7 @@ namespace Isis {
    * @throws IsisProgrammerError Band was less than zero or more than the number
    * of bands in the cube.
    */
-  Histogram *Cube::histogram(const int &band, std::string msg) {
+  Histogram *Cube::histogram(const int &band, QString msg) {
     return histogram(band, ValidMinimum, ValidMaximum, msg);
   }
 
@@ -1650,7 +1650,7 @@ namespace Isis {
    * of bands in the cube.
    */
   Histogram *Cube::histogram(const int &band, const double &validMin,
-                                const double &validMax, std::string msg) {
+                                const double &validMax, QString msg) {
     // Make sure cube is open
     if ( !isOpen() ) {
       std::string msg = "Cannot create histogram object for an unopened cube";
@@ -1695,7 +1695,7 @@ namespace Isis {
     hist->SetValidRange(binMin,binMax);
 
     // Loop and get the histogram
-    progress.SetText(QString::fromStdString(msg));
+    progress.SetText(msg);
     progress.SetMaximumSteps(maxSteps);
     progress.CheckStatus();
 
@@ -1850,7 +1850,7 @@ namespace Isis {
    *          such as the minimum and maximum pixel values for the input cube on the
    *          band specified, or all bands as the case may be.
    */
-  Statistics *Cube::statistics(const int &band, std::string msg) {
+  Statistics *Cube::statistics(const int &band, QString msg) {
     return statistics(band, ValidMinimum, ValidMaximum, msg);
   }
 
@@ -1872,7 +1872,7 @@ namespace Isis {
    * @return Statistics*
    */
   Statistics *Cube::statistics(const int &band, const double &validMin,
-                                     const double &validMax, std::string msg) {
+                                     const double &validMax, QString msg) {
     // Make sure cube is open
     if ( !isOpen() ) {
       std::string msg = "Cannot create statistics object for an unopened cube";
@@ -1901,7 +1901,7 @@ namespace Isis {
     }
 
     Progress progress;
-    progress.SetText(QString::fromStdString(msg));
+    progress.SetText(msg);
     progress.SetMaximumSteps(maxSteps);
     progress.CheckStatus();
 

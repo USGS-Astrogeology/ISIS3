@@ -33,8 +33,8 @@ void IsisMain() {
 
   UserInterface &ui = Application::GetUserInterface();
 
-  cout << "CNET=" << ui.GetAsString("CNET") << endl;
-  cout << "Serial File=" << ui.GetAsString("FROMLIST") << endl;
+  cout << "CNET=" << ui.GetAsString("CNET").toStdString() << endl;
+  cout << "Serial File=" << ui.GetAsString("FROMLIST").toStdString() << endl;
 
   ControlNet cnetOrig(ui.GetFileName("CNET"));
   ControlNet cnet = cnetOrig;

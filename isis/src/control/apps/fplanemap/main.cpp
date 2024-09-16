@@ -169,7 +169,7 @@ void IsisMain() {
   // The flatfile is comma seperated and can be imported into an excel
   // spreadsheet
   if(ui.WasEntered("TO")) {
-    QString fFile = FileName(ui.GetFileName("TO")).expanded();
+    QString fFile = QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded());
     ofstream os;
     os.open(fFile.toLatin1().data(), ios::out);
     os << "OldSample,OldLine,NewSample,NewLine," <<

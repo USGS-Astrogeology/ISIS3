@@ -74,7 +74,7 @@ void IsisMain() {
       mapGroup += PvlKeyword("PolarRadius", pvlRadii["PolarRadius"], "Meters");
     }
     catch (IException &e) {
-      std::string msg = "Unable to get target radii values from the given target [" + target + "]. "
+      std::string msg = "Unable to get target radii values from the given target [" + target.toStdString() + "]. "
                     "User must add EquatorialRadius and PolarRadius values to the input MAP file.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }

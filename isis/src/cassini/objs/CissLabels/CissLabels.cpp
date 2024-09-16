@@ -91,9 +91,9 @@ namespace Isis {
     p_imageNumber           = (double) arch["ImageNumber"];
     // Get values out of the bandbin group
     PvlGroup &bandbin = lab.findGroup("BandBin", Pvl::Traverse);
-    IString filter = QString::fromStdString( bandbin["FilterName"]);
-    p_filter.push_back(filter.Token("/"));
-    p_filter.push_back(filter);
+    IString filter = (std::string)bandbin["FilterName"];
+    p_filter.push_back(QString::fromStdString(filter.Token("/")));
+    p_filter.push_back(QString::fromStdString(filter));
   }
 
 

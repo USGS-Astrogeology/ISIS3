@@ -49,7 +49,7 @@ void IsisMain() {
     }
     else if (ui.WasEntered("TO")) {
       // Open the output file
-      QFile outFile( FileName( ui.GetFileName("TO").toStdString() ).expanded() );
+      QFile outFile(QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded()));
       QIODevice::OpenMode openMode;
       if (ui.GetBoolean("APPEND")) {
         openMode = QIODevice::WriteOnly | QIODevice::Append;
@@ -72,12 +72,12 @@ void IsisMain() {
       outFile.close();
     }
     else {
-      cout << origXml.toString(2) << endl;
+      cout << origXml.toString(2).toStdString() << endl;
     }
   }
   else {
     std::string msg = "Could not find OriginalLabel or OriginalXmlLabel "
-                  "in input file [" + file + "].";
+                  "in input file [" + file.toStdString() + "].";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 }

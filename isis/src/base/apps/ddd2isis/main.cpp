@@ -12,7 +12,7 @@ using namespace Isis;
 void IsisMain() {
 
   UserInterface &ui = Application::GetUserInterface();
-  IString from = ui.GetFileName("FROM");
+  IString from = ui.GetFileName("FROM").toStdString();
   ifstream fin;
 
   fin.open(from.c_str(), ios::in | ios::binary);

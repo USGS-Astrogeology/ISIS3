@@ -43,7 +43,7 @@ void IsisMain() {
   }
   catch (IException &e) {
     IString msg = "Cannot initalize UniversalGroundMap for DEM cube [" +
-                   demFile + "]";
+                   demFile.toStdString() + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -58,7 +58,7 @@ void IsisMain() {
 
 
   GetLatLon newRadiiSource;
-  IString getLatLon = IString(ui.GetAsString("GETLATLON")).UpCase();
+  IString getLatLon = IString(ui.GetAsString("GETLATLON").toStdString()).UpCase();
   if (getLatLon == "ADJUSTED") {
     newRadiiSource = Adjusted;
   }
@@ -67,7 +67,7 @@ void IsisMain() {
   }
   else {
     std::string msg = "The value for parameter GETLATLON [";
-    msg += ui.GetAsString("GETLATLON") + "] must be provided.";
+    msg += ui.GetAsString("GETLATLON").toStdString() + "] must be provided.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -151,7 +151,7 @@ void IsisMain() {
     }
     else {
       std::string msg = "No valid radii can be calculated. Verify that the DEM [" +
-                       ui.GetAsString("MODEL") + "] is valid.";
+                       ui.GetAsString("MODEL").toStdString() + "] is valid.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -172,7 +172,7 @@ void IsisMain() {
   // if a filename was entered, use it to create the log
   if (ui.WasEntered("ERRORS")) {
     errorlog = true;
-    errorlogFile = ui.GetFileName("ERRORS");
+    errorlogFile = ui.GetFileName("ERRORS").toStdString();
   }
   // if no filename was entered, but there were some failures,
   // create an error log named "failures" in the current directory
@@ -194,7 +194,7 @@ void IsisMain() {
     if (numFailures > 0) {
       // if there are any failures, add comment to the summary log to alert user
       summaryGroup.addComment("Unable to calculate radius for all points. Point"
-              " IDs for failures contained in [" + errorlogFile.name().toStdString() + "].");
+              " IDs for failures contained in [" + errorlogFile.name() + "].");
       PvlGroup failGroup = PvlGroup("Failures");
       failGroup.addComment("A point fails if we are unable to set universal "
                "ground or if the radius calculated is a special pixel value.");

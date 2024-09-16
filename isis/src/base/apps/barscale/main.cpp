@@ -444,9 +444,9 @@ void IsisMain() {
   QString inFile = ui.GetCubeName("FROM");
   QString outFile = ui.GetFileName("TO");
   FileName tmpBarFile = FileName::createTempFile("barscale.tif");
-  QString scaleTif = tmpBarFile.expanded();
+  QString scaleTif = QString::fromStdString(tmpBarFile.expanded());
   tmpBarFile = FileName::createTempFile("barscale.cub");
-  QString scaleCub = tmpBarFile.expanded();
+  QString scaleCub = QString::fromStdString(tmpBarFile.expanded());
   barScaleQImage.save(scaleTif, "TIFF", 100);
 
   // Convert bar scale to ISIS cube
@@ -461,7 +461,7 @@ void IsisMain() {
   tmpCube.open(scaleCub, "r");
   Statistics *stats = tmpCube.statistics(1);
   tmpBarFile = FileName::createTempFile("barscalestr.cub");
-  QString scaleStrCub = tmpBarFile.expanded();
+  QString scaleStrCub = QString::fromStdString(tmpBarFile.expanded());
   if (stats->ValidPixels() > 0) {
     parameters = "FROM=" + scaleCub + " TO=" + scaleStrCub + " NULLMIN=0 NULLMAX=130" +
                  " HRSMIN=131 HRSMAX=255";
@@ -480,24 +480,24 @@ void IsisMain() {
       if (i == 1) {
         parameters = "FROM=" + inFile + " MOSAIC=" + outFile + " PRIORITY=ONTOP OUTSAMPLE=1" +
                      " OUTLINE=1" + " OUTBAND=1" + " MATCHBANDBIN=NO CREATE=YES" +
-                     " NSAMPLES=" + toString(numSamps) + " NLINES=" + toString(numLines) +
-                     " NBANDS=" + toString(numBands);
+                     " NSAMPLES=" + QString::number(numSamps) + " NLINES=" + QString::number(numLines) +
+                     " NBANDS=" + QString::number(numBands);
         ProgramLauncher::RunIsisProgram("handmos", parameters);
       }
       parameters = "FROM=" + scaleStrCub + " MOSAIC=" + outFile + " PRIORITY=ONTOP OUTSAMPLE=" +
-                   toString(placeSample) + " OUTLINE=" + toString(placeLine) + " OUTBAND=" +
-                   toString(i) + " MATCHBANDBIN=NO NULL=YES HIGHSATURATION=YES";
+                   QString::number(placeSample) + " OUTLINE=" + QString::number(placeLine) + " OUTBAND=" +
+                   QString::number(i) + " MATCHBANDBIN=NO NULL=YES HIGHSATURATION=YES";
       ProgramLauncher::RunIsisProgram("handmos", parameters);
     }
   }
 
   // Need to pad the image with bar scale if requested
   if (padImage) {
-    parameters = "FROM=" + inFile + " TO=" + outFile + " BOTTOM=" + toString(totalHeight);
+    parameters = "FROM=" + inFile + " TO=" + outFile + " BOTTOM=" + QString::number(totalHeight);
     ProgramLauncher::RunIsisProgram("pad", parameters);
     for (int i = 1; i <= numBands; i++) {
       parameters = "FROM=" + scaleStrCub + " MOSAIC=" + outFile + " PRIORITY=ONTOP OUTSAMPLE=1" +
-                   " OUTLINE=" + toString(numLines+1) + " OUTBAND=" + toString(i) +
+                   " OUTLINE=" + QString::number(numLines+1) + " OUTBAND=" + QString::number(i) +
                    " MATCHBANDBIN=NO " + " NULL=YES HIGHSATURATION=YES";
       ProgramLauncher::RunIsisProgram("handmos", parameters);
     }

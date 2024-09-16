@@ -63,7 +63,7 @@ void IsisMain() {
   // to the output file, add .map extension if the
   // user did not enter an extension
   UserInterface &ui = Application::GetUserInterface();
-  FileName out = ui.GetFileName("MAP");
+  FileName out = ui.GetFileName("MAP").toStdString();
   QString output = ui.GetFileName("MAP");
   if(out.extension() == "") {
     output += ".map";
@@ -557,7 +557,7 @@ void addResolution(PvlGroup &mapping) {
 void calcRange(double &minLat, double &maxLat,
                double &minLon, double &maxLon) {
   UserInterface &ui = Application::GetUserInterface();
-  FileList flist(FileName(ui.GetFileName("FROMLIST")));
+  FileList flist(FileName(ui.GetFileName("FROMLIST").toStdString()));
   minLat = DBL_MAX;
   maxLat = -DBL_MAX;
   minLon = DBL_MAX;
@@ -632,7 +632,7 @@ void calcRange(double &minLat, double &maxLat,
     double camMinLon;
     double camMaxLon;
     Cube c;
-    c.open(flist[i].toString());
+    c.open(QString::fromStdString(flist[i].toString()));
     Camera *cam = c.camera();
     Pvl defaultMap;
     cam->BasicMapping(defaultMap);
@@ -665,14 +665,14 @@ void calcRange(double &minLat, double &maxLat,
 //  value will be in meters
 double calcResolution() {
   UserInterface &ui = Application::GetUserInterface();
-  FileList flist(FileName(ui.GetFileName("FROMLIST")));
+  FileList flist(FileName(ui.GetFileName("FROMLIST").toStdString()));
   double sumRes = 0.0;
   double highRes = DBL_MAX;
   double lowRes = -DBL_MAX;
   // Loop through the from list at get high and low camera resolution
   for(int i = 0; i < flist.size(); i++) {
     Cube c;
-    c.open(flist[i].toString());
+    c.open(QString::fromStdString(flist[i].toString()));
     Camera *cam = c.camera();
     double camLowRes = cam->LowestImageResolution();
     double camHighRes = cam->HighestImageResolution();

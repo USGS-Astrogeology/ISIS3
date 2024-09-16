@@ -39,14 +39,14 @@ namespace Isis{
     //PROCESS 1: saves off label, header, and line prefix data ==========================================//
     ProcessImportPds p;
     Pvl label;
-    FileName in = ui.GetFileName("FROM");
+    FileName in = ui.GetFileName("FROM").toStdString();
 
     try {
-      p.SetPdsFile(in.expanded(), "", label);
+      p.SetPdsFile(QString::fromStdString(in.expanded()), "", label);
     }
     catch (IException &e) {
       throw IException(e, IException::User,
-                       QObject::tr("Error reading input file.  Make sure it contains a PDS label."),
+                       "Error reading input file.  Make sure it contains a PDS label.",
                        _FILEINFO_);
     }
 
@@ -62,7 +62,7 @@ namespace Isis{
     outAtt.setPixelType(SignedWord);
     outAtt.setMinimum((double)VALID_MIN2);
     outAtt.setMaximum((double)VALID_MAX2);
-    Cube *ocube = p.SetOutputCube(FileName(ui.GetCubeName("TO")).expanded(), outAtt);
+    Cube *ocube = p.SetOutputCube(QString::fromStdString(FileName(ui.GetCubeName("TO").toStdString()).expanded()), outAtt);
 
     TranslateCassIssLabels(in, ocube, log);
 
@@ -209,9 +209,9 @@ namespace Isis{
   void CreateStretchPairs() {
     // Set up the strech for the 8 to 12 bit conversion from file
     PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-    QString missionDir = QString::fromStdString(dataDir["Cassini"]);
+    std::string missionDir = dataDir["Cassini"];
     FileName *lutFile = new FileName(missionDir + "/calibration/lut/lut.tab");
-    CisscalFile *stretchPairs = new CisscalFile(lutFile->expanded());
+    CisscalFile *stretchPairs = new CisscalFile(QString::fromStdString(lutFile->expanded()));
     // Create the stretch pairs
     double temp1 = 0;
     stretch.ClearPairs();
@@ -221,7 +221,7 @@ namespace Isis{
       line = line.simplified();
 
       foreach (QString value, line.split(QRegExp("[\\s,]"), Qt::SkipEmptyParts)) {
-        stretch.AddPair(temp1, toDouble(value));
+        stretch.AddPair(temp1, value.toDouble());
         temp1++;
       }
     }
@@ -272,12 +272,12 @@ namespace Isis{
    */
   void TranslateCassIssLabels(FileName &labelFile, Cube *ocube, Pvl *log) {
     // Get the directory where the CISS translation tables are.
-    QString dir = "$ISISROOT/appdata/translations";
+    std::string dir = "$ISISROOT/appdata/translations";
     FileName transFile(dir + "/CassiniIss.trn");
 
     // Get the translation manager ready
     Pvl inputLabel(labelFile.expanded());
-    PvlToPvlTranslationManager labelXlater(inputLabel, transFile.expanded());
+    PvlToPvlTranslationManager labelXlater(inputLabel, QString::fromStdString(transFile.expanded()));
 
     // Pvl outputLabels;
     Pvl *outputLabel = ocube->label();
@@ -307,7 +307,7 @@ namespace Isis{
     dataConversionType = QString::fromStdString(inst.findKeyword("DataConversionType"));
     sumMode = inst.findKeyword("SummingMode");
     compressionType = QString::fromStdString(inst.findKeyword("CompressionType"));
-    IString fsw(QString::fromStdString(inst.findKeyword("FlightSoftwareVersionId")));
+    IString fsw((std::string)inst.findKeyword("FlightSoftwareVersionId"));
     if(fsw == "Unknown") {
       flightSoftware = 0.0;
     }
@@ -336,10 +336,10 @@ namespace Isis{
     QString instrumentID = QString::fromStdString(inst.findKeyword("InstrumentId"));
     QString cameraAngleDefs;
     if(instrumentID.at(3) == 'N') {
-      cameraAngleDefs = dir + "/CassiniIssNarrowAngle.def";
+      cameraAngleDefs = QString::fromStdString(dir) + "/CassiniIssNarrowAngle.def";
     }
     else if(instrumentID.at(3) == 'W') {
-      cameraAngleDefs = dir + "/CassiniIssWideAngle.def";
+      cameraAngleDefs = QString::fromStdString(dir) + "/CassiniIssWideAngle.def";
     }
 
     double center = 0;
@@ -354,8 +354,8 @@ namespace Isis{
 
       QStringList tokens = line.simplified().split(" ");
       if(tokens.count() > 2 && tokens.first() == filter) {
-        center = toDouble(tokens[1]);
-        width = toDouble(tokens[2]);
+        center = tokens[1].toDouble();
+        width = tokens[2].toDouble();
         foundfilter = true;
         break;
       }

@@ -33,10 +33,10 @@ void IsisMain() {
   // Open the input file from the GUI or find the latest version of the DB file
   FileName dbFileName;
   if (ui.WasEntered("FROM")) {
-    dbFileName = ui.GetFileName("FROM");
+    dbFileName = ui.GetFileName("FROM").toStdString();
   }
   else {
-    QString dbString("$messenger/kernels/spk/kernels.????.db");
+    std::string dbString("$messenger/kernels/spk/kernels.????.db");
     dbFileName = FileName(dbString).highestVersion();
   }
   Pvl kernelDb(dbFileName.expanded());
@@ -73,7 +73,7 @@ void IsisMain() {
   // the kernels area (as run by makedb)
   FileName outDBfile;
   if (ui.WasEntered("TO")) {
-    outDBfile = ui.GetFileName("TO");
+    outDBfile = ui.GetFileName("TO").toStdString();
   }
   else {
     outDBfile = dbFileName;

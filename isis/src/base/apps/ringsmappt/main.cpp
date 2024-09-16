@@ -48,7 +48,7 @@ void IsisMain() {
     double rad = ui.GetDouble("RINGRADIUS");
     double ringLongitude = ui.GetDouble("RINGLONGITUDE");
 
-    IString coordsys = ui.GetString("COORDSYS");
+    IString coordsys = ui.GetString("COORDSYS").toStdString();
     coordsys.UpCase();
 
     // All of these ifs will finish by setting the ground in the projection,
@@ -67,11 +67,11 @@ void IsisMain() {
 
     // Use the mapping group from a given file
     else if(coordsys == "MAP") {
-      FileName mapFile = ui.GetFileName("MAP");
+      FileName mapFile = ui.GetFileName("MAP").toStdString();
 
       // Does it exist?
       if(!mapFile.fileExists()) {
-        std::string msg = "Filename [" + ui.GetFileName("MAP") + "] does not exist";
+        std::string msg = "Filename [" + ui.GetFileName("MAP").toStdString() + "] does not exist";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -130,10 +130,10 @@ void IsisMain() {
   if(proj->IsGood()) {
     PvlGroup results("Results");
     results += PvlKeyword("Filename",
-                          FileName(ui.GetCubeName("FROM")).expanded());
+                          FileName(ui.GetCubeName("FROM").toStdString()).expanded());
     results += PvlKeyword("Sample", std::to_string(proj->WorldX()));
     results += PvlKeyword("Line", std::to_string(proj->WorldY()));
-    results += PvlKeyword("PixelValue", PixelToString(b[0]).toStdString());
+    results += PvlKeyword("PixelValue", PixelToString(b[0]));
     results += PvlKeyword("X", std::to_string(proj->XCoord()));
     results += PvlKeyword("Y", std::to_string(proj->YCoord()));
 
@@ -189,8 +189,8 @@ void IsisMain() {
     // Write an output label file if necessary
     if(ui.WasEntered("TO")) {
       // Get user params from ui
-      QString outFile = FileName(ui.GetFileName("TO")).expanded();
-      bool exists = FileName(outFile).fileExists();
+      QString outFile = QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded());
+      bool exists = FileName(outFile.toStdString()).fileExists();
       bool append = ui.GetBoolean("APPEND");
 
       // Write the pvl group out to the file

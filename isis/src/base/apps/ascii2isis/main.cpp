@@ -64,7 +64,7 @@ void IsisMain() {
   
   fin.open(from.toLatin1().data(), std::ios::in);
   if (!fin.is_open()) {
-    std::string msg = "Cannot open input file [" + from + "]";
+    std::string msg = "Cannot open input file [" + from.toStdString() + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
 
@@ -119,7 +119,7 @@ void ascii2isis(Buffer &out) {
 
     // If we've reached the end of file and stream is bad, we didn't find enough numerical data
     if (!fin && fin.eof()) {
-      std::string msg = "End of file reached. There is not enough data in [" + from;
+      std::string msg = "End of file reached. There is not enough data in [" + from.toStdString();
       msg += "] to fill the output cube.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -128,9 +128,9 @@ void ascii2isis(Buffer &out) {
     if (!fin) {
       // Clean stream to get the position and invalid data that broke the stream
       fin.clear();
-      std::string msg = "Could not extract non-numerical data [" + QString(fin.peek()) + "] ";
-      msg += "at byte position [" + QString::number(fin.tellg()) + "]. ";
-      msg += "Please make sure to skip any header data in [" + from + "].";
+      std::string msg = "Could not extract non-numerical data [" + std::to_string(fin.peek()) + "] ";
+      msg += "at byte position [" + std::to_string(fin.tellg()) + "]. ";
+      msg += "Please make sure to skip any header data in [" + from.toStdString() + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

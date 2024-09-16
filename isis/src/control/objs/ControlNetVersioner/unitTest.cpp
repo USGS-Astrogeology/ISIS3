@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
 
   cout << endl << "Test reading version 1 protobuf network" << endl << endl;
   QString cnetv1 = "$ISISTESTDATA/isis/src/control/unitTestData/unitTest_ControlNetVersioner_ProtoNetwork1_ProtoV0001.net";
-  ControlNetVersioner *binV1Versioner = new ControlNetVersioner(FileName(cnetv1), testProgress);
+  ControlNetVersioner *binV1Versioner = new ControlNetVersioner(FileName(cnetv1.toStdString()), testProgress);
   cout << "Take all of the control points and delete them." << endl;
   int pointsTaken = 0;
   ControlPoint *readPoint = binV1Versioner->takeFirstPoint();
@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
 
   cout << endl << "Test reading version 5 protobuf network" << endl << endl;
   QString cnetv5 = "$ISISTESTDATA/isis/src/control/unitTestData/unitTest_ControlNetVersioner_ProtoNetwork3_ProtoV0005.net";
-  ControlNetVersioner *binV5Versioner = new ControlNetVersioner(FileName(cnetv5), testProgress);
+  ControlNetVersioner *binV5Versioner = new ControlNetVersioner(FileName(cnetv5.toStdString()), testProgress);
   delete binV5Versioner;
   binV5Versioner = NULL;
 
@@ -157,54 +157,54 @@ int main(int argc, char *argv[]) {
   QString badCnetName = "";
   try {
     badCnetName = "$ISISTESTDATA/isis/src/control/unitTestData/unitTest_ControlNetVersioner_PvlNetwork_BadHeaderV1.net";
-    ControlNetVersioner invalidVersionerV1(badCnetName);
+    ControlNetVersioner invalidVersionerV1(badCnetName.toStdString());
   }
   catch (IException &e) {
-    std::string message = e.toString();
-    cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData");
+    QString message = QString::fromStdString(e.toString());
+    cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData").toStdString();
     cout << endl;
   }
   try {
     badCnetName = "$ISISTESTDATA/isis/src/control/unitTestData/unitTest_ControlNetVersioner_PvlNetwork_BadHeaderV2.net";
-    ControlNetVersioner invalidVersionerV2(badCnetName);
+    ControlNetVersioner invalidVersionerV2(badCnetName.toStdString());
   }
   catch (IException &e) {
-    std::string message = e.toString();
-    cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData");
+    QString message = QString::fromStdString(e.toString());
+    cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData").toStdString();
     cout << endl;
   }
   try {
     badCnetName = "$ISISTESTDATA/isis/src/control/unitTestData/unitTest_ControlNetVersioner_PvlNetwork_BadHeaderV3.net";
-    ControlNetVersioner invalidVersionerV3(badCnetName);
+    ControlNetVersioner invalidVersionerV3(badCnetName.toStdString());
   }
   catch (IException &e) {
-    std::string message = e.toString();
-    cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData");
+    QString message = QString::fromStdString(e.toString());
+    cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData").toStdString();
     cout << endl;
   }
   try {
     badCnetName = "$ISISTESTDATA/isis/src/control/unitTestData/unitTest_ControlNetVersioner_PvlNetwork_BadHeaderV4.net";
-    ControlNetVersioner invalidVersionerV4(badCnetName);
+    ControlNetVersioner invalidVersionerV4(badCnetName.toStdString());
   }
   catch (IException &e) {
-    std::string message = e.toString();
-    cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData");
+    QString message = QString::fromStdString(e.toString());
+    cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData").toStdString();
     cout << endl;
   }
   try {
     badCnetName = "$ISISTESTDATA/isis/src/control/unitTestData/unitTest_ControlNetVersioner_PvlNetwork_BadHeaderV5.net";
-    ControlNetVersioner invalidVersionerV5(badCnetName);
+    ControlNetVersioner invalidVersionerV5(badCnetName.toStdString());
   }
   catch (IException &e) {
-    std::string message = e.toString();
-    cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData");
+    QString message = QString::fromStdString(e.toString());
+    cout << message.replace(QRegExp("file.*control/unitTestData"), "file [control/unitTestData").toStdString();
     cout << endl;
   }
 
   cout << endl << "Test reading a protobuf file with a bad version number" << endl << endl;
   try {
     badCnetName = "$ISISTESTDATA/isis/src/control/unitTestData/unitTest_ControlNetVersioner_ProtoNetwork_BadVersion.net";
-    ControlNetVersioner invalidVersioner(badCnetName);
+    ControlNetVersioner invalidVersioner(badCnetName.toStdString());
   }
   catch (IException &e) {
     e.print();
@@ -213,7 +213,7 @@ int main(int argc, char *argv[]) {
   cout << endl << "Test reading a protobuf file with no version number" << endl << endl;
   try {
     badCnetName = "$ISISTESTDATA/isis/src/control/unitTestData/unitTest_ControlNetVersioner_ProtoNetwork_NoVersion.net";
-    ControlNetVersioner invalidVersioner(badCnetName);
+    ControlNetVersioner invalidVersioner(badCnetName.toStdString());
 
   }
   catch (IException &e) {
@@ -235,8 +235,8 @@ int main(int argc, char *argv[]) {
  *                 format.
  */
 void TestNetwork(const QString &filename, Progress *progress, bool printNetwork, bool pvlInput) {
-  cout << "\nReading: " << filename << "...\n";
-  FileName networkFileName(filename);
+  cout << "\nReading: " << filename.toStdString() << "...\n";
+  FileName networkFileName(filename.toStdString());
 
   ControlNetVersioner *test = NULL;
   ControlNetVersioner *test2 = NULL;
@@ -324,8 +324,8 @@ void TestNetwork(const QString &filename, Progress *progress, bool printNetwork,
       cNet2->write( FileName("./tmpCNet2") );
 
       //if there are differences between the pvls.
-      QString cmd = "diff -bB --suppress-common-lines -I 'Version.*' " + networkFileName.expanded() + " ./tmp.pvl";
-      if(system(cmd.toStdString().c_str())) {
+      std::string cmd = "diff -bB --suppress-common-lines -I 'Version.*' " + networkFileName.expanded() + " ./tmp.pvl";
+      if(system(cmd.c_str())) {
 
         //if the binary files are different.
         if(system("diff -bB --suppress-common-lines ./tmp ./tmpCNet2")){
@@ -353,9 +353,9 @@ void TestNetwork(const QString &filename, Progress *progress, bool printNetwork,
     }
   }
   catch(IException &e) {
-    QStringList errors = e.toString().split("\n");
+    QStringList errors = QString::fromStdString(e.toString()).split("\n");
     errors.removeLast();
-    cout << errors.join("\n") << endl;
+    cout << errors.join("\n").toStdString() << endl;
   }
 
   if(test) {

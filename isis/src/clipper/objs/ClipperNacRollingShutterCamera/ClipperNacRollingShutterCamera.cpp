@@ -75,7 +75,7 @@ namespace Isis {
         lineCoeffs.push_back(std::stod(lineCoefficients[i]));
       }
 
-      Table normalizedReadoutTimes("Normalized Main Readout Line Times", QString::fromStdString(lab.fileName()), lab);
+      Table normalizedReadoutTimes("Normalized Main Readout Line Times", lab.fileName(), lab);
 
       for (int i = 0; i < normalizedReadoutTimes.Records(); i++) {
         TableRecord record = normalizedReadoutTimes[i];

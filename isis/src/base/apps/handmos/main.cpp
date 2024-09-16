@@ -67,7 +67,7 @@ void IsisMain() {
     ProcessByLine bl;
 
     bl.Progress()->SetText("Initializing base mosaic");
-    CubeAttributeInput iAtt(inputFile);
+    CubeAttributeInput iAtt(inputFile.toStdString());
     bl.SetInputCube(inputFile, iAtt);
 
     if (!ui.GetBoolean("Propagate")) {
@@ -108,7 +108,7 @@ void IsisMain() {
   int outBand   = ui.GetInteger("OUTBAND")   - ui.GetInteger("INBAND")   + 1;
 
   // Set the input image and attributes
-  CubeAttributeInput inAtt(inputFile);
+  CubeAttributeInput inAtt(inputFile.toStdString());
   p.SetInputCube(inputFile, inAtt);
 
   // Set the output mosaic

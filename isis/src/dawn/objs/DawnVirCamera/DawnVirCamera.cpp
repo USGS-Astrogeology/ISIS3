@@ -102,10 +102,10 @@ namespace Isis {
     new CameraFocalPlaneMap(this, naifIkCode());
 
     //  Retrieve boresight location from instrument kernel (IK) (addendum?)
-    QString ikernKey = "INS" + toString(naifIkCode()) + "_BORESIGHT_SAMPLE";
+    QString ikernKey = "INS" + QString::number(naifIkCode()) + "_BORESIGHT_SAMPLE";
     double sampleBoreSight = getDouble(ikernKey);
 
-    ikernKey = "INS" + toString(naifIkCode()) + "_BORESIGHT_LINE";
+    ikernKey = "INS" + QString::number(naifIkCode()) + "_BORESIGHT_LINE";
     double lineBoreSight = getDouble(ikernKey);
 
     FocalPlaneMap()->SetDetectorOrigin(sampleBoreSight, lineBoreSight);
@@ -308,7 +308,7 @@ namespace Isis {
   void DawnVirCamera::readHouseKeeping(const QString &filename,
                                        double lineRate) {
    //  Open the ISIS table object
-   Table hktable("VIRHouseKeeping", filename);
+   Table hktable("VIRHouseKeeping", filename.toStdString());
 
    m_lineRates.clear();
    int lineno(1);
@@ -554,8 +554,8 @@ namespace Isis {
       }
       catch (IException &ie2) {
         ostringstream mess;
-        mess << "Could not get state rotation for Frame1 (" << frame1
-             << ") to Frame2 (" <<  frame2 <<  ") at time " << etTime;
+        mess << "Could not get state rotation for Frame1 (" << frame1.toStdString()
+             << ") to Frame2 (" <<  frame2.toStdString()<<  ") at time " << etTime;
         throw IException(ie2, IException::User, mess.str(), _FILEINFO_);
       }
     }

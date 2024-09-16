@@ -56,7 +56,7 @@ int main(void) {
     Cube cubeBR(FileName("$ISISTESTDATA/isis/src/apollo/unitTestData/BR.cub").expanded(), "r");
     ApolloPanoramicCamera *camBR = (ApolloPanoramicCamera *) CameraFactory::Create(cubeBR);
 
-    cout << "FileName: " << FileName(cubeTL.fileName()).name() << endl;
+    cout << "FileName: " << FileName(cubeTL.fileName().toStdString()).name() << endl;
     cout << "CK Frame: " << camTL->instrumentRotation()->Frame() << endl << endl;
     cout.setf(std::ios::fixed);
     cout << setprecision(9);
@@ -106,10 +106,10 @@ int main(void) {
     //TODO - test name methods for Apollo16 and 17 Panoramic
     // Test name methods
     cout << endl << endl << "Testing name methods ..." << endl;
-    cout << "Spacecraft Name Long: " << camM->spacecraftNameLong() << endl;
-    cout << "Spacecraft Name Short: " << camM->spacecraftNameShort() << endl;
-    cout << "Instrument Name Long: " << camM->instrumentNameLong() << endl;
-    cout << "Instrument Name Short: " << camM->instrumentNameShort() << endl << endl;
+    cout << "Spacecraft Name Long: " << camM->spacecraftNameLong().toStdString() << endl;
+    cout << "Spacecraft Name Short: " << camM->spacecraftNameShort().toStdString() << endl;
+    cout << "Instrument Name Long: " << camM->instrumentNameLong().toStdString() << endl;
+    cout << "Instrument Name Short: " << camM->instrumentNameShort().toStdString() << endl << endl;
 
     // Test exception: camera is not a supported Kaguya camera
     cout << endl << "Testing exceptions:" << endl << endl;

@@ -62,14 +62,14 @@ void IsisMain() {
     proj = (TProjection *) ProjectionFactory::Create(p);
   }
   catch(IException &e) {
-    std::string msg = "Cannot create grid - MapFile [" + mapFile +
+    std::string msg = "Cannot create grid - MapFile [" + mapFile.toStdString() +
                   "] does not contain necessary information to create a projection";
     throw IException(e, IException::User, msg, _FILEINFO_);
   }
 
 
   // Write grid to well known text output
-  QString out = FileName(ui.GetFileName("TO").toStdString()).expanded();
+  QString out = QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded());
   std::ofstream os;
   os.open(out.toLatin1().data(), std::ios::out);
 

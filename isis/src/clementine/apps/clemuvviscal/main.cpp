@@ -135,8 +135,8 @@ void IsisMain() {
     QChar missionPhase = (QString::fromStdString(((icube->group("Archive"))["MissionPhase"]))).at(0);
     QString n1subQString(productID.mid(productID.indexOf('.') + 1, productID.length() - 1));
     QString n2subQString(productID.mid(4, productID.indexOf('.') - 5));
-    int n1 = toInt(n1subQString);
-    int n2 = toInt(n2subQString);
+    int n1 = n1subQString.toInt();
+    int n2 = n2subQString.toInt();
     int phase = 0;
 
     if(missionPhase == 'L') {
@@ -312,7 +312,7 @@ void UvVisCal(std::vector< Isis::Buffer * > &in, std::vector< Isis::Buffer * > &
  * in a loss in precision. We believe this makes the lookup table inaccurate.
  */
 void FixTemp(int imgID) {
-  QString table = "$clementine1/calibration/uvvis/uvvisTemperature.tbl";
+  std::string table = "$clementine1/calibration/uvvis/uvvisTemperature.tbl";
   Table t("FocalPlaneTemperatures", table);
   float currID = t[0]["ImageID"];
   int currIndex = 0;

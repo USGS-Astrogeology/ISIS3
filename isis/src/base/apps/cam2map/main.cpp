@@ -74,7 +74,7 @@ void loadMapRes() {
     ui.PutAsString("PIXRES", "MPP");
   }
   else {
-    std::string msg = "No resolution value found in [" + ui.GetFileName("MAP") + "]";
+    std::string msg = "No resolution value found in [" + ui.GetFileName("MAP").toStdString() + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 }
@@ -137,7 +137,7 @@ void loadMapRange() {
 
   if (count < 4) {
     std::string msg = "One or more of the values for the ground range was not found";
-    msg += " in [" + ui.GetFileName("MAP") + "]";
+    msg += " in [" + ui.GetFileName("MAP").toStdString() + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 }

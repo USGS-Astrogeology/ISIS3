@@ -49,7 +49,7 @@ void IsisMain() {
 
   UserInterface &ui = Application::GetUserInterface();
   QString from = ui.GetCubeName("FROM");
-  QString to = FileName(ui.GetFileName("TO")).expanded();
+  QString to = QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded());
   QString socetProject = ui.GetString("SS_PROJECT");
   QString socetImageLocation = ui.GetString("SS_IMG_LOC");
   QString socetInputDataPath = ui.GetString("SS_INPUT_PATH");
@@ -60,9 +60,9 @@ void IsisMain() {
   cube.open(from);
 
   if (cube.isProjected()) {
-    std::string msg = QString("You can only create a SOCET Set Framing Camera or FrameOffAxis settings "
-                          "file for level 1 images. The input image [%1] is a map projected, level "
-                          "2, cube.").arg(from);
+    std::string msg = "You can only create a SOCET Set Framing Camera or FrameOffAxis settings "
+                          "file for level 1 images. The input image ["+from.toStdString()+"] is a map projected, level "
+                          "2, cube.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -76,8 +76,8 @@ void IsisMain() {
   PvlGroup test = cube.label()->findGroup("Kernels", Pvl::Traverse);
   QString instrumentPointing = QString::fromStdString(test["InstrumentPointing"]);
   if (instrumentPointing != "Table") {
-    std::string msg = QString("Input image [%1] does not contain needed SPICE blobs.  Please run "
-                          "spiceinit on the image with attach=yes.").arg(from);
+    std::string msg = "Input image "+from.toStdString()+"] does not contain needed SPICE blobs.  Please run "
+                          "spiceinit on the image with attach=yes.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -202,16 +202,16 @@ void IsisMain() {
       socetCamFile += "OCAMS_PolyCam.cam";
     }
     else {
-      std::string msg = QString("The ISIS to SOCET Set translation of input image "
-                            "[%1] is currently not supported for OSIRIS-REX "
-                            "instrument [%2].").arg(from).arg(instrumentId);
+      std::string msg = "The ISIS to SOCET Set translation of input image "
+                            "["+from.toStdString()+"] is currently not supported for OSIRIS-REX "
+                            "instrument ["+instrumentId.toStdString()+"].";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
   // Throw exception for unsupported camera
   else {
-    std::string msg = QString("The ISIS to SOCET Set translation of input image [%1] is currently "
-                          "not supported for instrument [%2].").arg(from).arg(instrumentId);
+    std::string msg = "The ISIS to SOCET Set translation of input image ["+from.toStdString()+"] is currently "
+                          "not supported for instrument ["+instrumentId.toStdString()+"].";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -287,17 +287,17 @@ void IsisMain() {
   }
 
   toStrm << "setting_file                        1.1\n";
-  toStrm << "multi_frame.project                 " << socetProject << endl;
-  toStrm << "multi_frame.cam_calib_filename      " << socetCamFile << endl;
+  toStrm << "multi_frame.project                 " << socetProject.toStdString() << endl;
+  toStrm << "multi_frame.cam_calib_filename      " << socetCamFile.toStdString() << endl;
   toStrm << "multi_frame.create_files            IMAGE_AND_SUPPORT\n";
   toStrm << "multi_frame.atmos_ref               0\n";
   toStrm << "multi_frame.auto_min                YES\n";
   toStrm << "multi_frame.digital_cam             NO\n";
-  toStrm << "multi_frame.input_image_filename    " << socetInputDataPath + baseName +
+  toStrm << "multi_frame.input_image_filename    " << socetInputDataPath.toStdString() + baseName.toStdString() +
                                                  ".raw" << endl;
   toStrm << "multi_frame.output_format           img_type_vitec\n";
-  toStrm << "multi_frame.output_name             " << socetSupFile << endl;
-  toStrm << "multi_frame.output_location         " << socetImageLocation << endl;
+  toStrm << "multi_frame.output_name             " << socetSupFile.toStdString() << endl;
+  toStrm << "multi_frame.output_location         " << socetImageLocation.toStdString() << endl;
   toStrm << "multi_frame.cam_loc_ang_sys         OPK\n";
   toStrm << "multi_frame.cam_loc_ang_units       UNIT_DEGREES\n";
   toStrm << "multi_frame.cam_loc_xy_units        UNIT_DEGREES\n";
@@ -402,8 +402,8 @@ void IsisMain() {
     toStrm << "USE_LENS_DISTORTION 1" << endl;
     toStrm << "ORIGINAL_HALF_LINES " <<  originalHalfLines << endl;
     toStrm << "ORIGINAL_HALF_SAMPLES " << originalHalfSamples << endl;
-    toStrm << "LENSCOX " << lenscoX << endl;
-    toStrm << "LENSCOY " << lenscoY << endl;
+    toStrm << "LENSCOX " << lenscoX.toStdString() << endl;
+    toStrm << "LENSCOY " << lenscoY.toStdString() << endl;
     toStrm << "SAMPLE_SUMMING  " << sampleSumming << endl;
     toStrm << "LINE_SUMMING  " << lineSumming << endl;
     toStrm << "STARTING_DETECTOR_SAMPLE " << setprecision(17) << startingSample << endl;
@@ -430,9 +430,9 @@ void IsisMain() {
               isisFocalPlane2SocetPlateTranspose[2][0] << " " <<
               isisFocalPlane2SocetPlateTranspose[2][1] << " " <<
               isisFocalPlane2SocetPlateTranspose[2][2] << endl;
-    toStrm << "INS-" << ikCode << "_SWAP_OBSERVER_TARGET = '" << swapObserverTarget << "'\n";
-    toStrm << "INS-" << ikCode << "_LIGHTTIME_CORRECTION = '" << lightTimeCorrection << "'\n";
-    toStrm << "INS-" << ikCode << "_LT_SURFACE_CORRECT = '" << ltSurfaceCorrect <<"'\n";
+    toStrm << "INS-" << ikCode.toStdString() << "_SWAP_OBSERVER_TARGET = '" << swapObserverTarget.toStdString() << "'\n";
+    toStrm << "INS-" << ikCode.toStdString() << "_LIGHTTIME_CORRECTION = '" << lightTimeCorrection.toStdString() << "'\n";
+    toStrm << "INS-" << ikCode.toStdString() << "_LT_SURFACE_CORRECT = '" << ltSurfaceCorrect.toStdString() <<"'\n";
   }
 
 } //End IsisMain
@@ -871,8 +871,8 @@ void getCamPosOPK(Spice &spice, QString spacecraftName, SpiceDouble et, Camera *
 
   // Confirm that matrix is now a rotation matrix
   else {
-    std::string msg = QString("The ISIS to SOCET Set translation of input image is currently "
-                          "not supported for instrument [%1].").arg(spacecraftName);
+    std::string msg = "The ISIS to SOCET Set translation of input image is currently "
+                          "not supported for instrument ["+spacecraftName.toStdString()+"].";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 

@@ -51,12 +51,12 @@ void IsisMain() {
   ProcessImportPds p;
   Pvl pdsLabel;
   UserInterface &ui = Application::GetUserInterface();
-  FileName inFile = ui.GetFileName("FROM");
+  FileName inFile = ui.GetFileName("FROM").toStdString();
 
-  p.SetPdsFile(inFile.expanded(), "", pdsLabel);
+  p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", pdsLabel);
 
-  QString filename = FileName(ui.GetFileName("FROM")).baseName();
-  FileName toFile = ui.GetCubeName("TO");
+  QString filename = QString::fromStdString(FileName(ui.GetFileName("FROM").toStdString()).baseName());
+  FileName toFile = ui.GetCubeName("TO").toStdString();
 
   apollo = new Apollo(filename);
 
@@ -65,13 +65,13 @@ void IsisMain() {
   // Setup the output cube attributes for a 16-bit unsigned tiff
   Isis::CubeAttributeOutput cao;
   cao.setPixelType(Isis::Real);
-  p.SetOutputCube(toFile.expanded(), cao);
+  p.SetOutputCube(QString::fromStdString(toFile.expanded()), cao);
 
   // Import image
   p.StartProcess();
   p.EndProcess();
 
-  cube.open(toFile.expanded(), "rw");
+  cube.open(QString::fromStdString(toFile.expanded()), "rw");
 
   // Once the image is imported, we need to find and decrypt the code
   if (apollo->IsMetric() && FindCode())
@@ -79,7 +79,7 @@ void IsisMain() {
 
   CalculateTransform();
   // Once we have decrypted the code, we need to populate the image labels
-  TranslateApolloLabels(filename, &cube);
+  TranslateApolloLabels(filename.toStdString(), &cube);
   cube.close();
 }
 
@@ -371,17 +371,17 @@ QString FrameTime() {
       month += 1;
     }
 
-    QString sTime = toString(year) + "-";
+    QString sTime = QString::number(year) + "-";
     if (month < 10) sTime += "0";
-    sTime += toString(month)+ "-";
+    sTime += QString::number(month)+ "-";
     if (days <10) sTime += "0";
-    sTime += toString(days) + "T";
+    sTime += QString::number(days) + "T";
     if (hours <10) sTime += "0";
-    sTime += toString(hours) + ":";
+    sTime += QString::number(hours) + ":";
     if (minutes <10) sTime += "0";
-    sTime += toString(minutes) + ":";
+    sTime += QString::number(minutes) + ":";
     if (seconds <10) sTime += "0";
-    sTime += toString(seconds);
+    sTime += QString::number(seconds);
 
     return sTime;
 }

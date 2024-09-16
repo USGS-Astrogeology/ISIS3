@@ -291,7 +291,7 @@ bool copyObject(Pvl *source, Pvl *mergeTo, QString name)
 
 bool copyBlob(Cube * from, Cube * to, QString name, QString type, QString fname) {
   try {
-    Blob blob(name, type.toStdString(), fname);
+    Blob blob(name.toStdString(), type.toStdString(), fname.toStdString());
     from->read(blob);
     to->write(blob);
     return true;

@@ -87,7 +87,7 @@ int main() {
   qDebug() << "Covariance Matrix:";
   qDebug() << tmpMat;
 
-  QFile covQFile( covFile.expanded() );
+  QFile covQFile( QString::fromStdString(covFile.expanded()) );
   covQFile.open(QIODevice::ReadWrite);
   QDataStream dataStream(&covQFile);
 
@@ -106,7 +106,7 @@ int main() {
   }
   catch (IException &e) {
     qDebug() << "Exception 1:";
-    qDebug().noquote() << e.toString();
+    qDebug().noquote() << QString::fromStdString(e.toString());
 
   }
 
@@ -132,8 +132,8 @@ int main() {
   qDebug() << "";
   qDebug() << "***Correlation Matrix Information***";
   qDebug() << "";
-  qDebug() << "Covariance File Name:" << corrMat.covarianceFileName().expanded();
-  qDebug() << "Correlation File Name:" << corrMat.correlationFileName().expanded();
+  qDebug() << "Covariance File Name:" << QString::fromStdString(corrMat.covarianceFileName().expanded());
+  qDebug() << "Correlation File Name:" << QString::fromStdString(corrMat.correlationFileName().expanded());
   qDebug() << "Images and Parameters:";
   QMapIterator<QString, QStringList> imgIt( *corrMat.imagesAndParameters() );
   while ( imgIt.hasNext() ) {
@@ -159,8 +159,8 @@ int main() {
      qDebug() << "";
      qDebug() << "***Correlation Matrix Information***";
      qDebug() << "";
-     qDebug() << "Covariance File Name:" << corrMat4.correlationFileName().expanded();
-     qDebug() << "Correlation File Name:" << corrMat4.correlationFileName().expanded();
+     qDebug() << "Covariance File Name:" << QString::fromStdString(corrMat4.correlationFileName().expanded());
+     qDebug() << "Correlation File Name:" << QString::fromStdString(corrMat4.correlationFileName().expanded());
      qDebug() << "Images and Parameters:";
        QMapIterator<QString, QStringList> imgIt( *corrMat4.imagesAndParameters() );
      imgIt.toFront();
@@ -199,7 +199,7 @@ int main() {
 
    catch (IException &e) {
      qDebug() << "Exception 1";
-     qDebug().noquote() << e.toString();
+     qDebug().noquote() << QString::fromStdString(e.toString());
    }
 
    try {
@@ -208,7 +208,7 @@ int main() {
 
    catch (IException &e) {
      qDebug() << "Exception 2";
-     qDebug().noquote() << e.toString();
+     qDebug().noquote() << QString::fromStdString(e.toString());
    }
 
    try {
@@ -217,7 +217,7 @@ int main() {
 
    catch (IException &e) {
      qDebug() << "Exception 3";
-     qDebug().noquote() << e.toString();
+     qDebug().noquote() << QString::fromStdString(e.toString());
    }
 
    try {
@@ -226,13 +226,13 @@ int main() {
 
    catch (IException &e) {
      qDebug() << "Exception 4";
-     qDebug().noquote() << e.toString();
+     qDebug().noquote() << QString::fromStdString(e.toString());
    }
 
 
 
   //delete mat files
   covQFile.remove();
-  QFile(corrMat.correlationFileName().expanded()).remove();
+  QFile(QString::fromStdString(corrMat.correlationFileName().expanded())).remove();
 
 }

@@ -21,7 +21,7 @@ void IsisMain() {
                   ui.GetInteger("BANDS"));
   p.SetFileHeaderBytes(ui.GetInteger("SKIP"));
   p.SetPixelType(PixelTypeEnumeration(ui.GetString("BITTYPE")));
-  p.SetByteOrder(ByteOrderEnumeration(ui.GetString("BYTEORDER")));
+  p.SetByteOrder(ByteOrderEnumeration(ui.GetString("BYTEORDER").toStdString()));
   p.SetInputFile(ui.GetFileName("FROM"));
   p.SetOutputCube("TO");
 

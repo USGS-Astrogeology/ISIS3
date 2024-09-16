@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
   DbProfile p1("test profile 1");
   DbProfile p2("test profile 2");
   df->setDefault("default profile");
-  cout << "Default name: " << df->getDefault() << endl;
+  cout << "Default name: " << df->getDefault().toStdString() << endl;
   cout << "Add access profile: " << df->addAccessProfile("profile") << endl;
   cout << "Adding a couple profiles..." << endl;
   df->addProfile(p1);
@@ -36,10 +36,10 @@ int main(int argc, char *argv[]) {
 
   DbProfile dup = df->getProfile("test profile 1");
 
-  cout << "Default profile name: " << df->getDefaultProfileName() << endl;
+  cout << "Default profile name: " << df->getDefaultProfileName().toStdString() << endl;
   cout << "Setting a default name... ";
   cout << df->setDefaultProfileName("default name") << endl;
-  cout << "Default profile name: " << df->getDefaultProfileName() << endl;
+  cout << "Default profile name: " << df->getDefaultProfileName().toStdString() << endl;
 
   vector<QString> available = df->available();
   cout << "Driver available [doesntexist]: " << df->isDriverAvailable("doesntexist") << endl;

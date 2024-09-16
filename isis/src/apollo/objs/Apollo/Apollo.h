@@ -12,6 +12,7 @@ find files of those names at the top level of this repository. **/
 #include "iTime.h"
 #include "IString.h"
 #include "IException.h"
+#include <QString>
 
 namespace Isis {
 /**
@@ -264,7 +265,7 @@ namespace Isis {
           p_imagePixelPitch = 200.5;
         }
         else {
-          std::string msg = "Unknown instrument: " + instrument;
+          std::string msg = "Unknown instrument: " + instrument.toStdString();
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 
@@ -290,7 +291,7 @@ namespace Isis {
           else if (IsPanoramic()) p_naifFrameCode = "-917230";
         }
         else {
-          std::string msg = "Unknown spacecraft: " + spacecraft;
+          std::string msg = "Unknown spacecraft: " + spacecraft.toStdString();
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
       }

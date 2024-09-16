@@ -65,7 +65,7 @@ void IsisMain() {
   QString compressionType = QString::fromStdString((icube->group("Instrument"))["EncodingFormat"]);
   offsetModeID = (icube->group("Instrument"))["OffsetModeID"];
   int gainModeID = (icube->group("Instrument"))["GainModeID"];
-  QString gainModeIDStr = toString(gainModeID);
+  QString gainModeIDStr = QString::number(gainModeID);
   double exposureDuration = (double)(icube->group("Instrument"))["ExposureDuration"];
   optimalExposureDuration = (exposureDuration * 0.984675) + 0.233398;
   cryocoolerDuration = (icube->group("Instrument"))["CryocoolerDuration"];
@@ -107,9 +107,9 @@ void IsisMain() {
       QStringList tokens = line.split(" ");
       if(tokens.count() > 6 && orbit == tokens.takeFirst() &&
           filter == tokens.takeFirst() &&
-          gainModeID == toInt(tokens.takeFirst()) &&
-          offsetModeID == toInt(tokens.takeFirst()) &&
-          (int)exposureDuration == toInt(tokens.takeFirst()) &&
+          gainModeID == (tokens.takeFirst().toInt()) &&
+          offsetModeID == (tokens.takeFirst().toInt()) &&
+          (int)exposureDuration == (tokens.takeFirst().toInt()) &&
           QString(hemisphereCode) == tokens.takeFirst()) {
         tokens.takeFirst();
         affileLoc = tokens.takeFirst();
@@ -125,11 +125,11 @@ void IsisMain() {
     gainFactorDef += "clemnircal.def";
     Pvl gainFactorData(gainFactorDef.toStdString());
     QString group = "GainModeID";
-    group += toString(gainModeID);
+    group += QString::number(gainModeID);
 
     if(!gainFactorData.hasGroup(group.toStdString())) {
-      QString err = "The Gain Factor for Gain Mode ID [";
-      err += toString(gainModeID);
+      std::string err = "The Gain Factor for Gain Mode ID [";
+      err += std::to_string(gainModeID);
       err += "] could not be found in clemnircal.def";
       throw IException(IException::Programmer, err, _FILEINFO_);
     }
@@ -137,8 +137,8 @@ void IsisMain() {
     gainFactor = (gainFactorData.findGroup(group.toStdString()))["GAIN"];
 
     if(abs(gainFactor) < DBL_EPSILON) {
-      QString err = "The Gain Factor for Gain Mode ID [";
-      err += toString(gainModeID);
+      std::string err = "The Gain Factor for Gain Mode ID [";
+      err += std::to_string(gainModeID);
       err += "] can not be zero.";
       throw IException(IException::Programmer, err, _FILEINFO_);
     }
@@ -215,22 +215,22 @@ void IsisMain() {
     line = line.simplified().trimmed();
     QStringList tokens = line.split(" ");
 
-    if(toInt(orbit) == toInt(tokens.takeFirst())) { // if orbits match, get data
-      cryonorm = toDouble(tokens.takeFirst());
-      numCoefficients = toInt(tokens.takeFirst());
+    if(orbit.toInt() == tokens.takeFirst().toInt()) { // if orbits match, get data
+      cryonorm = tokens.takeFirst().toDouble();
+      numCoefficients = tokens.takeFirst().toInt();
 
       // Read in coefficients
-      thermBgCoefficients.push_back(toDouble(tokens.takeFirst()));
+      thermBgCoefficients.push_back(tokens.takeFirst().toDouble());
 
       for(int iCoeff = 0; iCoeff < numCoefficients; iCoeff ++) {
-        thermBgCoefficients.push_back(toDouble(tokens.takeFirst()));
+        thermBgCoefficients.push_back(tokens.takeFirst().toDouble());
       }
       break;
     }
   }
 
   if(numCoefficients == 0) {
-    QString err = "The orbit [" + orbit + "] could not be located in the thermal corrections table [" + thermTbl + "].";
+    std::string err = "The orbit [" + orbit.toStdString() + "] could not be located in the thermal corrections table [" + thermTbl.toStdString() + "].";
     throw IException(IException::Unknown, err, _FILEINFO_);
   }
 

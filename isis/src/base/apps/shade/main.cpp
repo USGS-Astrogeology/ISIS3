@@ -42,7 +42,7 @@ void IsisMain() {
           inCube->label()->findObject("IsisCube").findGroup("Mapping")["PixelResolution"]);
     }
     else {
-      std::string msg = "The file [" + ui.GetCubeName("FROM") + "] does not have a mapping group,"
+      std::string msg = "The file [" + ui.GetCubeName("FROM").toStdString() + "] does not have a mapping group,"
                     + " you must enter a Pixel Resolution";
       throw IException(IException::User, msg, _FILEINFO_);
     }

@@ -34,12 +34,12 @@ void IsisMain() {
   // Fetch the DEM DB file
   FileName dbFileName;
   if (ui.WasEntered("FROM")) {
-    dbFileName = ui.GetFileName("FROM");
+    dbFileName = ui.GetFileName("FROM").toStdString();
   }
   else {
     // If not provided, assume the latest DB file in the data area
     QString demFile("$base/dems/kernels.????.db");
-    dbFileName = FileName(demFile).highestVersion();
+    dbFileName = FileName(demFile.toStdString()).highestVersion();
   }
 
   Pvl dems(dbFileName.expanded());
@@ -55,14 +55,14 @@ void IsisMain() {
 
       // The third element in the Match keyword describes the DEM target (e.g.
       // Mars)
-      QString target = QString::fromStdString(match[2]);
+      std::string target = match[2];
 
       // The first element of the File keyword gives the "mission" associated
       // with the keyword (currently, always "base").  The second element gives
       // the path from "base" to the actual DEM cube.
-      QString mission = QString::fromStdString(file[0]);
-      QString area = "$" + QString::fromStdString(file[0]);
-      QString pattern = QString::fromStdString(file[1]);
+      std::string mission = file[0];
+      std::string area = "$" + file[0];
+      std::string pattern = file[1];
 
       // Some DEMs are hardcoded, but others are versioned.
       FileName demFileName(area + "/" + pattern);
@@ -75,26 +75,26 @@ void IsisMain() {
 
         // If the mission name maps to a data area in the Isis Preferences file,
         // then replace the variable $MISSION with the path to that area
-        if (dataDir.hasKeyword(mission.toStdString())) {
-          area = QString::fromStdString(dataDir[mission.toStdString()]);
+        if (dataDir.hasKeyword(mission)) {
+          area = (std::string)dataDir[mission];
         }
       }
 
       // Construct the relative path with environment variable placeholders in
       // tact for outputting to XML
-      QString filePath = area + "/dems/" + demFileName.name();
+      std::string filePath = area + "/dems/" + demFileName.name();
 
       // Add this filename to the list of DEMs corresponding to its target.  If
       // that list doesn't already exist, create it first.
-      if (!demMap.contains(target)) demMap.insert(target, QList<QString>());
-      demMap[target].append(filePath);
+      if (!demMap.contains(QString::fromStdString(target))) demMap.insert(QString::fromStdString(target), QList<QString>());
+      demMap[QString::fromStdString(target)].append(QString::fromStdString(filePath));
     }
   }
 
   // Prepare to write out the output XML.
-  FileName outFile = ui.GetFileName("TO");
+  FileName outFile = ui.GetFileName("TO").toStdString();
   ofstream os;
-  os.open(outFile.expanded().toLatin1().data(), ios::out);
+  os.open(outFile.expanded().c_str(), ios::out);
 
   // Write the installation XML
   os << "<packs>";

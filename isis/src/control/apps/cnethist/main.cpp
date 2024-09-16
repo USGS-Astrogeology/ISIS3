@@ -41,9 +41,9 @@ void IsisMain() {
   //prepare the list of net files
   FileList fList;  //empty FileList
   if (ui.WasEntered("CLIST"))
-    fList.read(ui.GetFileName("CLIST"));
+    fList.read(ui.GetFileName("CLIST").toStdString());
   if (ui.WasEntered("CNET"))
-    fList << ui.GetFileName("CNET");
+    fList << ui.GetFileName("CNET").toStdString();
 
   HistogramPlotWindow *plot=NULL;
 
@@ -97,7 +97,7 @@ void IsisMain() {
 
   //loop throught the control nets writing reports and drawing histograms as needed
   for (int i=0;i<fList.size();i++) {
-    ControlNet net(fList[i].toString(),&progress);
+    ControlNet net(QString::fromStdString(fList[i].toString()),&progress);
     Histogram *hist;
     // Setup the histogram
     try {
@@ -105,9 +105,9 @@ void IsisMain() {
     }
     catch (IException &e) {
       std::string msg = "The following error was thrown while building a histogram from netfile [" +
-                    fList[i].expanded() + "]: " +e.toString() + "\n";
+                    fList[i].expanded() + "]: " + e.toString() + "\n";
       if (ui.IsInteractive())  //if in gui mode print the error message to the terminal
-        Application::GuiLog(msg);
+        Application::GuiLog(QString::fromStdString(msg));
       if (ui.WasEntered("TO")) //add the msg to the output file if there is one
         fout << msg << endl << endl << endl;
 
@@ -178,7 +178,7 @@ void IsisMain() {
       CubePlotCurve *histCurve = new CubePlotCurve(CubePlotCurve::CubeDN,
                                                 CubePlotCurve::Percentage);
       histCurve->setColor(curveColor(i));
-      QString baseName = FileName(fList[i]).baseName();
+      QString baseName = QString::fromStdString(FileName(fList[i]).baseName());
       histCurve->setTitle(baseName);
 
 

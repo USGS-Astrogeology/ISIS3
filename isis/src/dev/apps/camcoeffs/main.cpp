@@ -128,18 +128,18 @@ void IsisMain() {
     throw IException(IException::Unknown, "Not enough information", _FILEINFO_);
   }
 
-  QString inEquationX = "X = " + toString(eq1[0]);
-  inEquationX += " + " + toString(eq1[1]) + "S";
-  inEquationX += " + " + toString(eq1[2]) + "L";
-  QString inEquationY = "Y = " + toString(eq2[0]);
-  inEquationY += " + " + toString(eq2[1]) + "S";
-  inEquationY += " + " + toString(eq2[2]) + "L";
-  QString outEquationS = "S = " + toString(res1[0]);
-  outEquationS += " + " + toString(res1[1]) + "X";
-  outEquationS += " + " + toString(res1[2]) + "Y";
-  QString outEquationL = "L = " + toString(res2[0]);
-  outEquationL += " + " + toString(res2[1]) + "X";
-  outEquationL += " + " + toString(res2[2]) + "Y";
+  QString inEquationX = "X = " + QString::number(eq1[0]);
+  inEquationX += " + " + QString::number(eq1[1]) + "S";
+  inEquationX += " + " + QString::number(eq1[2]) + "L";
+  QString inEquationY = "Y = " + QString::number(eq2[0]);
+  inEquationY += " + " + QString::number(eq2[1]) + "S";
+  inEquationY += " + " + QString::number(eq2[2]) + "L";
+  QString outEquationS = "S = " + QString::number(res1[0]);
+  outEquationS += " + " + QString::number(res1[1]) + "X";
+  outEquationS += " + " + QString::number(res1[2]) + "Y";
+  QString outEquationL = "L = " + QString::number(res2[0]);
+  outEquationL += " + " + QString::number(res2[1]) + "X";
+  outEquationL += " + " + QString::number(res2[2]) + "Y";
 
   // check....
   /*

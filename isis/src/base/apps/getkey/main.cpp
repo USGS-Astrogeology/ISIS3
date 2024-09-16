@@ -83,7 +83,7 @@ void IsisMain() {
     // Make sure they requested a value inside the range of the list
     if(key.size() < i) {
       std::string msg = "The value entered for [KEYINDEX] is out of the array ";
-      msg += "bounds for the keyword [" + ui.GetString("KEYWORD") + "]";
+      msg += "bounds for the keyword [" + ui.GetString("KEYWORD").toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     // Get the keyword value
@@ -120,7 +120,7 @@ void IsisMain() {
     Application::GuiLog(results);
   }
   else {
-    cout << value << endl;
+    cout << value.toStdString() << endl;
   }
   // Write the results to the log but not the terminal
   SessionLog::TheLog().AddResults(results);

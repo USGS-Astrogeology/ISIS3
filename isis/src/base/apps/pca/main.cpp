@@ -91,7 +91,7 @@ void IsisMain() {
     p.EndProcess();
   }
   else {
-    std::string m = "Invalid option for MODE [" + ui.GetString("MODE") + "]";
+    std::string m = "Invalid option for MODE [" + ui.GetString("MODE").toStdString() + "]";
     throw IException(IException::Programmer, m, _FILEINFO_);
   }
 }

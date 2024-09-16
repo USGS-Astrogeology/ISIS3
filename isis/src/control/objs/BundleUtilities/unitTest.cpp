@@ -84,12 +84,12 @@ namespace Isis {
       XmlHandlerTester(QXmlStreamReader *reader, FileName xmlFile)
           : BundleObservationSolveSettings() {
 
-        QString xmlPath(xmlFile.expanded());
+        QString xmlPath(QString::fromStdString(xmlFile.expanded()));
         QFile file(xmlPath);
 
         if (!file.open(QFile::ReadOnly) ) {
           throw IException(IException::Io,
-                           QString("Unable to open xml file, [%1],  with read access").arg(xmlPath),
+                           "Unable to open xml file, ["+xmlPath.toStdString()+"],  with read access",
                            _FILEINFO_);
         }
 
@@ -248,14 +248,14 @@ int main(int argc, char *argv[]) {
     qDebug() << "Testing XML: write XML from BundleObservationSolveSettings object...";
     // write xml
     FileName xmlFile("./BundleObservationSolveSettings.xml");
-    QString xmlPath = xmlFile.expanded();
-    QFile qXmlFile(xmlPath);
+    std::string xmlPath = xmlFile.expanded();
+    QFile qXmlFile(QString::fromStdString(xmlPath));
 
     // For test coverage, we need to write/read BundleObservationSolveSettings objects
     // with 0,1,2,3 apriori sigmas and an empty xml
     if (!qXmlFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
       throw IException(IException::Io,
-                       QString("Unable to open xml file, [%1],  with write access").arg(xmlPath),
+                       "Unable to open xml file, ["+xmlPath+"],  with write access",
                        _FILEINFO_);
     }
     QXmlStreamWriter writer(&qXmlFile);
@@ -269,7 +269,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Testing XML: read XML to BundleObservationSolveSettings object...";
     if(!qXmlFile.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(qXmlFile.fileName()),
+                        "Failed to parse xml file, ["+qXmlFile.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
     QXmlStreamReader reader2(&qXmlFile);
@@ -279,7 +279,7 @@ int main(int argc, char *argv[]) {
 
     if (!qXmlFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
       throw IException(IException::Io,
-                       QString("Unable to open xml file, [%1],  with write access").arg(xmlPath),
+                       "Unable to open xml file, ["+xmlPath+"],  with write access",
                        _FILEINFO_);
     }
     writer.setAutoFormatting(true);
@@ -290,7 +290,7 @@ int main(int argc, char *argv[]) {
     // read xml
     if(!qXmlFile.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(qXmlFile.fileName()),
+                        "Failed to parse xml file, ["+qXmlFile.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
     QXmlStreamReader reader3(&qXmlFile);
@@ -301,7 +301,7 @@ int main(int argc, char *argv[]) {
 
     if (!qXmlFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
       throw IException(IException::Io,
-                       QString("Unable to open xml file, [%1],  with write access").arg(xmlPath),
+                       "Unable to open xml file, ["+xmlPath+"],  with write access",
                        _FILEINFO_);
     }
     writer.setAutoFormatting(true);
@@ -313,7 +313,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Testing XML: read XML to BundleObservationSolveSettings object...";
     if(!qXmlFile.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(qXmlFile.fileName()),
+                        "Failed to parse xml file, ["+qXmlFile.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
     QXmlStreamReader reader4(&qXmlFile);
@@ -323,7 +323,7 @@ int main(int argc, char *argv[]) {
 
     if (!qXmlFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
       throw IException(IException::Io,
-                       QString("Unable to open xml file, [%1],  with write access").arg(xmlPath),
+                       "Unable to open xml file, ["+xmlPath+"],  with write access",
                        _FILEINFO_);
     }
     writer.setAutoFormatting(true);
@@ -335,7 +335,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Testing XML: read XML to BundleObservationSolveSettings object...";
     if(!qXmlFile.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(qXmlFile.fileName()),
+                        "Failed to parse xml file, ["+qXmlFile.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
     QXmlStreamReader reader5(&qXmlFile);
@@ -345,7 +345,7 @@ int main(int argc, char *argv[]) {
 
     if (!qXmlFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
       throw IException(IException::Io,
-                       QString("Unable to open xml file, [%1],  with write access").arg(xmlPath),
+                       "Unable to open xml file, ["+xmlPath+"],  with write access",
                        _FILEINFO_);
     }
     writer.setAutoFormatting(true);
@@ -357,7 +357,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Testing XML: read XML to BundleObservationSolveSettings object...";
     if(!qXmlFile.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(qXmlFile.fileName()),
+                        "Failed to parse xml file, ["+qXmlFile.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
     QXmlStreamReader reader6(&qXmlFile);
@@ -368,10 +368,10 @@ int main(int argc, char *argv[]) {
     // read xml with no attributes or values
     qDebug() << "Testing XML: read XML with no attributes or values to object...";
     FileName emptyXmlFile("./unitTest_NoElementValues.xml");
-    QFile xml(emptyXmlFile.expanded());
+    QFile xml(QString::fromStdString(emptyXmlFile.expanded()));
     if(!xml.open(QFile::ReadOnly | QFile::Text)){
       throw IException(IException::Unknown,
-                        QString("Failed to parse xml file, [%1]").arg(xml.fileName()),
+                        "Failed to parse xml file, ["+xml.fileName().toStdString()+"]",
                         _FILEINFO_);
     }
 
@@ -530,9 +530,9 @@ int main(int argc, char *argv[]) {
     bossFromBo = *bo3.solveSettings();
     printXml(bossFromBo);
     bo3.setIndex(1);
-    qDebug() << "index = " << toString(bo3.index());
+    qDebug() << "index = " << QString::number(bo3.index());
     qDebug() << "instrument id = " << bo3.instrumentId();
-    qDebug() << "number parameters =     " << toString(bo3.numberParameters());
+    qDebug() << "number parameters =     " << QString::number(bo3.numberParameters());
     qDebug() << "parameter list: " << bo3.parameterList();
     qDebug() << "image names:    " << bo3.imageNames();
 
@@ -542,22 +542,22 @@ int main(int argc, char *argv[]) {
     LinearAlgebra::Vector adjSigma = bo3.adjustedSigmas();
     QString vectors = "parameter weights :     ";
     for (unsigned int i = 0; i < paramWts.size(); i++) {
-      vectors.append(toString(paramWts[i]));
+      vectors.append(QString::number(paramWts[i]));
       vectors.append("     ");
     }
     vectors.append("\nparameter corrections : ");
     for (unsigned int i = 0; i < paramCor.size(); i++) {
-      vectors.append(toString(paramCor[i]));
+      vectors.append(QString::number(paramCor[i]));
       vectors.append("     ");
     }
     vectors.append("\napriori sigmas :        ");
     for (unsigned int i = 0; i < aprSigma.size(); i++) {
-      vectors.append(toString(aprSigma[i]));
+      vectors.append(QString::number(aprSigma[i]));
       vectors.append("     ");
     }
     vectors.append("\nadjusted sigmas :       ");
     for (unsigned int i = 0; i < adjSigma.size(); i++) {
-      vectors.append(toString(adjSigma[i]));
+      vectors.append(QString::number(adjSigma[i]));
       vectors.append("     ");
     }
     qDebug().noquote() << vectors;
@@ -572,12 +572,12 @@ int main(int argc, char *argv[]) {
     qDebug().noquote() << QString::fromStdString(fpOut5.str());
     qDebug().noquote() << bo3.bundleOutputCSV(true);
     qDebug() << "init exterior orientiation successful?  "
-             << toString(bo3.initializeExteriorOrientation());
+             << QString::number(bo3.initializeExteriorOrientation());
     //TODO: We should not have to catch an exception here, we need to use an observation
     //      with a better (i.e. non-null) Camera. See ticket #4249.
     try {
       qDebug() << "apply param corrections successful?";
-      qDebug() << toString(bo3.applyParameterCorrections(paramCor));
+      qDebug() << QString::number(bo3.applyParameterCorrections(paramCor));
     }
     catch (IException &e) {
       e.print();
@@ -655,7 +655,7 @@ int main(int argc, char *argv[]) {
     */
     BundleObservationVector bov;
     BundleSettingsQsp bundleSettings = BundleSettingsQsp(new BundleSettings);
-    qDebug() << "number of parameters: " << toString(bov.numberParameters());
+    qDebug() << "number of parameters: " << QString::number(bov.numberParameters());
     qDebug() << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
     qDebug() << "";
     qDebug() << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
@@ -685,10 +685,10 @@ int main(int argc, char *argv[]) {
 
     bcp1.setRejected(true);
     qDebug() << "Set BundleControlPoint 1 to rejected - is rejected?"
-        << toString(bcp1.isRejected());
+        << QString::number(bcp1.isRejected());
     bcp1.setRejected(false);
     qDebug() << "Set BundleControlPoint 1 to non-rejected - is rejected?"
-        << toString(bcp1.isRejected());
+        << QString::number(bcp1.isRejected());
 
     qDebug() << "Number of rejected measures:" << bcp1.numberOfRejectedMeasures();
     bcp1.setNumberOfRejectedMeasures(2);
@@ -750,15 +750,15 @@ int main(int argc, char *argv[]) {
     boost::numeric::ublas::bounded_vector< double, 3 > nicVector = bcp1.nicVector();
     SparseBlockRowMatrix qMatrix = bcp1.cholmodQMatrix(); //??? empty matrix...
     qDebug() << "aprioriSigmas:  "
-               << (Isis::IsSpecial(aprioriSigmas[0]) ? "N/A" : Isis::toString(aprioriSigmas[0]))
-               << (Isis::IsSpecial(aprioriSigmas[1]) ? "N/A" : Isis::toString(aprioriSigmas[1]))
-               << (Isis::IsSpecial(aprioriSigmas[2]) ? "N/A" : Isis::toString(aprioriSigmas[2]));
+               << (Isis::IsSpecial(aprioriSigmas[0]) ? "N/A" : QString::number(aprioriSigmas[0]))
+               << (Isis::IsSpecial(aprioriSigmas[1]) ? "N/A" : QString::number(aprioriSigmas[1]))
+               << (Isis::IsSpecial(aprioriSigmas[2]) ? "N/A" : QString::number(aprioriSigmas[2]));
     qDebug() << "weights:        " << weights[0] << weights[1] << weights[2];
     qDebug() << "corrections:    " << corrections[0] << corrections[1] << corrections[2];
     qDebug() << "adjustedSigmas: "
-               << (Isis::IsSpecial(adjustedSigmas[0]) ? "N/A" : Isis::toString(adjustedSigmas[0]))
-               << (Isis::IsSpecial(adjustedSigmas[1]) ? "N/A" : Isis::toString(adjustedSigmas[1]))
-               << (Isis::IsSpecial(adjustedSigmas[2]) ? "N/A" : Isis::toString(adjustedSigmas[2]));
+               << (Isis::IsSpecial(adjustedSigmas[0]) ? "N/A" : QString::number(adjustedSigmas[0]))
+               << (Isis::IsSpecial(adjustedSigmas[1]) ? "N/A" : QString::number(adjustedSigmas[1]))
+               << (Isis::IsSpecial(adjustedSigmas[2]) ? "N/A" : QString::number(adjustedSigmas[2]));
     qDebug() << "nicVector:      " << nicVector[0] << nicVector[1] << nicVector[2];
     qDebug() << "qMatrix:";
     qDebug() << qMatrix;
@@ -789,9 +789,9 @@ int main(int argc, char *argv[]) {
     aprioriSigmas = bcp1a.aprioriSigmas();
     weights = bcp1a.weights();
     qDebug() << "aprioriSigmas:  "
-               << (Isis::IsSpecial(aprioriSigmas[0]) ? "N/A" : Isis::toString(aprioriSigmas[0]))
-               << (Isis::IsSpecial(aprioriSigmas[1]) ? "N/A" : Isis::toString(aprioriSigmas[1]))
-               << (Isis::IsSpecial(aprioriSigmas[2]) ? "N/A" : Isis::toString(aprioriSigmas[2]));
+               << (Isis::IsSpecial(aprioriSigmas[0]) ? "N/A" : QString::number(aprioriSigmas[0]))
+               << (Isis::IsSpecial(aprioriSigmas[1]) ? "N/A" : QString::number(aprioriSigmas[1]))
+               << (Isis::IsSpecial(aprioriSigmas[2]) ? "N/A" : QString::number(aprioriSigmas[2]));
     qDebug() << "weights:        " << weights[0] << weights[1] << weights[2];
     qDebug() << "";
 
@@ -809,20 +809,20 @@ int main(int argc, char *argv[]) {
     aprioriSigmas = bcp1b.aprioriSigmas();
     weights = bcp1b.weights();
     qDebug() << "aprioriSigmas:  "
-               << (Isis::IsSpecial(aprioriSigmas[0]) ? "N/A" : Isis::toString(aprioriSigmas[0]))
-               << (Isis::IsSpecial(aprioriSigmas[1]) ? "N/A" : Isis::toString(aprioriSigmas[1]))
-               << (Isis::IsSpecial(aprioriSigmas[2]) ? "N/A" : Isis::toString(aprioriSigmas[2]));
+               << (Isis::IsSpecial(aprioriSigmas[0]) ? "N/A" : QString::number(aprioriSigmas[0]))
+               << (Isis::IsSpecial(aprioriSigmas[1]) ? "N/A" : QString::number(aprioriSigmas[1]))
+               << (Isis::IsSpecial(aprioriSigmas[2]) ? "N/A" : QString::number(aprioriSigmas[2]));
     qDebug() << "weights:        " << weights[0] << weights[1] << weights[2];
     qDebug() << "";
 
     ControlPoint *cp = bcp1b.rawControlPoint();
-    qDebug() << "Raw control point equal to original?    " << toString(*cp == *freePoint);
-    qDebug() << "Raw control point is rejected?          " << toString(bcp1b.isRejected());
+    qDebug() << "Raw control point equal to original?    " << QString::number(*cp == *freePoint);
+    qDebug() << "Raw control point is rejected?          " << QString::number(bcp1b.isRejected());
     SurfacePoint sp = bcp1b.adjustedSurfacePoint();
     qDebug() << "Adjusted SurfacePoint (Lat, Lon, Rad) = "
-               << toString(sp.GetLatitude().degrees())
-               << toString(sp.GetLongitude().degrees())
-               << toString(sp.GetLocalRadius().meters());
+               << QString::number(sp.GetLatitude().degrees())
+               << QString::number(sp.GetLongitude().degrees())
+               << QString::number(sp.GetLocalRadius().meters());
     qDebug() << "";
 
 // Testing of Free point settings is complete
@@ -853,9 +853,9 @@ settings->setSolveOptions(false, false, false, true, SurfacePoint::Latitudinal,
     aprioriSigmas = bcp3b->aprioriSigmas();
     weights = bcp3b->weights();
     qDebug() << "aprioriSigmas:  "
-               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : Isis::toString(aprioriSigmas[0]))
-               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : Isis::toString(aprioriSigmas[1]))
-               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : Isis::toString(aprioriSigmas[2]));
+               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : QString::number(aprioriSigmas[0]))
+               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : QString::number(aprioriSigmas[1]))
+               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : QString::number(aprioriSigmas[2]));
     qDebug() << "weights:        " << weights[0] << weights[1] << weights[2];
     qDebug() << "";
 
@@ -874,9 +874,9 @@ settings->setSolveOptions(false, false, false, true, SurfacePoint::Latitudinal,
     aprioriSigmas = bcp4a.aprioriSigmas();
     weights = bcp4a.weights();
     qDebug() << "aprioriSigmas:  "
-               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : Isis::toString(aprioriSigmas[0]))
-               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : Isis::toString(aprioriSigmas[1]))
-               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : Isis::toString(aprioriSigmas[2]));
+               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : QString::number(aprioriSigmas[0]))
+               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : QString::number(aprioriSigmas[1]))
+               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : QString::number(aprioriSigmas[2]));
     qDebug() << "weights:        " << weights[0] << weights[1] << weights[2];
     qDebug() << "";
 
@@ -892,9 +892,9 @@ settings->setSolveOptions(false, false, false, true, SurfacePoint::Latitudinal,
     aprioriSigmas = bcp4b.aprioriSigmas();
     weights = bcp4b.weights();
     qDebug() << "aprioriSigmas:  "
-               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : Isis::toString(aprioriSigmas[0]))
-               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : Isis::toString(aprioriSigmas[1]))
-               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : Isis::toString(aprioriSigmas[2]));
+               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : QString::number(aprioriSigmas[0]))
+               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : QString::number(aprioriSigmas[1]))
+               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : QString::number(aprioriSigmas[2]));
     qDebug() << "weights:        " << weights[0] << weights[1] << weights[2];
     qDebug() << "";
 
@@ -911,9 +911,9 @@ settings->setSolveOptions(false, false, false, true, SurfacePoint::Latitudinal,
     aprioriSigmas = bcp4c.aprioriSigmas();
     weights = bcp4c.weights();
     qDebug() << "aprioriSigmas:  "
-               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : Isis::toString(aprioriSigmas[0]))
-               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : Isis::toString(aprioriSigmas[1]))
-               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : Isis::toString(aprioriSigmas[2]));
+               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : QString::number(aprioriSigmas[0]))
+               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : QString::number(aprioriSigmas[1]))
+               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : QString::number(aprioriSigmas[2]));
     if (!IsSpecial(weights[0]) && !IsSpecial(weights[1]) && !IsSpecial(weights[2])) {
       qDebug() << "weights:        " << weights[0] << weights[1] << weights[2];
     }
@@ -975,9 +975,9 @@ settings->setSolveOptions(false, false, false, true, SurfacePoint::Latitudinal,
                                           // SurfacePoint truth data
     weights = bcp5b.weights();
     qDebug() << "aprioriSigmas:  "
-               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : Isis::toString(aprioriSigmas[0]))
-               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : Isis::toString(aprioriSigmas[1]))
-               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : Isis::toString(aprioriSigmas[2]));
+               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : QString::number(aprioriSigmas[0]))
+               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : QString::number(aprioriSigmas[1]))
+               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : QString::number(aprioriSigmas[2]));
     qDebug() << "weights:        " << weights[0] << weights[1] << weights[2];
     qDebug() << "";
 
@@ -1056,9 +1056,9 @@ settings->setSolveOptions(false, false, false, true, SurfacePoint::Latitudinal,
     aprioriSigmas = bcp4d.aprioriSigmas();
     weights = bcp4d.weights();
     qDebug() << "aprioriSigmas:  "
-               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : Isis::toString(aprioriSigmas[0]))
-               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : Isis::toString(aprioriSigmas[1]))
-               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : Isis::toString(aprioriSigmas[2]));
+               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : QString::number(aprioriSigmas[0]))
+               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : QString::number(aprioriSigmas[1]))
+               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : QString::number(aprioriSigmas[2]));
     qDebug() << "weights:        " << weights[0] << weights[1] << weights[2];
     qDebug() << "";
 
@@ -1079,9 +1079,9 @@ settings->setSolveOptions(false, false, false, true, SurfacePoint::Latitudinal,
     aprioriSigmas = bcp4e.aprioriSigmas();
     weights = bcp4e.weights();
     qDebug() << "aprioriSigmas:  "
-               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : Isis::toString(aprioriSigmas[0]))
-               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : Isis::toString(aprioriSigmas[1]))
-               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : Isis::toString(aprioriSigmas[2]));
+               << (Isis::IsSpecial(aprioriSigmas[0]) ? "NULL" : QString::number(aprioriSigmas[0]))
+               << (Isis::IsSpecial(aprioriSigmas[1]) ? "NULL" : QString::number(aprioriSigmas[1]))
+               << (Isis::IsSpecial(aprioriSigmas[2]) ? "NULL" : QString::number(aprioriSigmas[2]));
     qDebug() << "weights:        " << weights[0] << weights[1] << weights[2];
     qDebug() << "";
 
@@ -1239,7 +1239,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     LinearAlgebra::Vector btb1Weights = btb1.parameterWeights();
     QString btb1WString;
     for (size_t i = 0; i < btb1Weights.size(); i++) {
-      btb1WString.append(toString(btb1Weights[i]));
+      btb1WString.append(QString::number(btb1Weights[i]));
       if (i < btb1Weights.size() - 1) {
         btb1WString.append(", ");
       }
@@ -1254,7 +1254,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     btb1CumCorrections = btb1.parameterCorrections();
     QString btb1CString;
     for (size_t i = 0; i < btb1CumCorrections.size(); i++) {
-      btb1CString.append(toString(btb1CumCorrections[i]));
+      btb1CString.append(QString::number(btb1CumCorrections[i]));
       if (i < btb1CumCorrections.size() - 1) {
         btb1CString.append(", ");
       }
@@ -1270,7 +1270,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     btb1Weights = btb1.parameterWeights();
     btb1WString.clear();
     for (size_t i = 0; i < btb1Weights.size(); i++) {
-      btb1WString.append(toString(btb1Weights[i]));
+      btb1WString.append(QString::number(btb1Weights[i]));
       if (i < btb1Weights.size() - 1) {
         btb1WString.append(", ");
       }
@@ -1280,7 +1280,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     btb1CumCorrections = btb1.parameterCorrections();
     btb1CString.clear();
     for (size_t i = 0; i < btb1CumCorrections.size(); i++) {
-      btb1CString.append(toString(btb1CumCorrections[i]));
+      btb1CString.append(QString::number(btb1CumCorrections[i]));
       if (i < btb1CumCorrections.size() - 1) {
         btb1CString.append(", ");
       }
@@ -1295,7 +1295,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     btb1Weights = btb1.parameterWeights();
     btb1WString.clear();
     for (size_t i = 0; i < btb1Weights.size(); i++) {
-      btb1WString.append(toString(btb1Weights[i]));
+      btb1WString.append(QString::number(btb1Weights[i]));
       if (i < btb1Weights.size() - 1) {
         btb1WString.append(", ");
       }
@@ -1305,7 +1305,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     btb1CumCorrections = btb1.parameterCorrections();
     btb1CString.clear();
     for (size_t i = 0; i < btb1CumCorrections.size(); i++) {
-      btb1CString.append(toString(btb1CumCorrections[i]));
+      btb1CString.append(QString::number(btb1CumCorrections[i]));
       if (i < btb1CumCorrections.size() - 1) {
         btb1CString.append(", ");
       }
@@ -1329,7 +1329,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     LinearAlgebra::Vector btb1Solutions = btb1.parameterSolution();
     QString btb1SString;
     for (size_t i = 0; i < btb1Solutions.size(); i++) {
-      btb1SString.append(toString(btb1Solutions[i]));
+      btb1SString.append(QString::number(btb1Solutions[i]));
       if (i < btb1Solutions.size() - 1) {
         btb1SString.append(", ");
       }
@@ -1339,7 +1339,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     LinearAlgebra::Vector btb1Apriori = btb1.aprioriSigmas();
     QString btb1AprioriString;
     for (size_t i = 0; i < btb1Apriori.size(); i++) {
-      btb1AprioriString.append(toString(btb1Apriori[i]));
+      btb1AprioriString.append(QString::number(btb1Apriori[i]));
       if (i < btb1Apriori.size() - 1) {
         btb1AprioriString.append(", ");
       }
@@ -1349,7 +1349,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     LinearAlgebra::Vector btb1Adjusted = btb1.adjustedSigmas();
     QString btb1AdjustedString;
     for (size_t i = 0; i < btb1Adjusted.size(); i++) {
-      btb1AdjustedString.append(toString(btb1Adjusted[i]));
+      btb1AdjustedString.append(QString::number(btb1Adjusted[i]));
       if (i < btb1Adjusted.size() - 1) {
         btb1AdjustedString.append(", ");
       }
@@ -1425,7 +1425,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     btb1Weights = btb1.parameterWeights();
     btb1WString.clear();
     for (size_t i = 0; i < btb1Weights.size(); i++) {
-      btb1WString.append(toString(btb1Weights[i]));
+      btb1WString.append(QString::number(btb1Weights[i]));
       if (i < btb1Weights.size() - 1) {
         btb1WString.append(", ");
       }
@@ -1467,7 +1467,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     LinearAlgebra::Vector btb2Weights = btb2.parameterWeights();
     QString btb2WString;
     for (size_t i = 0; i < btb2Weights.size(); i++) {
-      btb2WString.append(toString(btb2Weights[i]));
+      btb2WString.append(QString::number(btb2Weights[i]));
       if (i < btb2Weights.size() - 1) {
         btb2WString.append(", ");
       }
@@ -1496,7 +1496,7 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
     btb2Weights = btb2.parameterWeights();
     btb2WString.clear();
     for (size_t i = 0; i < btb2Weights.size(); i++) {
-      btb2WString.append(toString(btb2Weights[i]));
+      btb2WString.append(QString::number(btb2Weights[i]));
       if (i < btb2Weights.size() - 1) {
         btb2WString.append(", ");
       }
@@ -1956,18 +1956,18 @@ settings->setSolveOptions(false, false, false, false, SurfacePoint::Rectangular,
  * @param m The BundleMeasure to print information on
  */
  void printBundleMeasure(BundleMeasure &m) {
-   qDebug() << "rejected?" << toString(m.isRejected());
-   qDebug() << "measure sample " << toString(m.sample());
-   qDebug() << "measure line   " << toString(m.line());
-   qDebug() << "sample residual" << toString(m.sampleResidual());
-   qDebug() << "line residual" << toString(m.lineResidual());
-   qDebug() << "residual magnitude" << toString(m.residualMagnitude());
+   qDebug() << "rejected?" << QString::number(m.isRejected());
+   qDebug() << "measure sample " << QString::number(m.sample());
+   qDebug() << "measure line   " << QString::number(m.line());
+   qDebug() << "sample residual" << QString::number(m.sampleResidual());
+   qDebug() << "line residual" << QString::number(m.lineResidual());
+   qDebug() << "residual magnitude" << QString::number(m.residualMagnitude());
    qDebug() << "measure serial number" << m.cubeSerialNumber();
-   qDebug() << "focal x" << toString(m.focalPlaneMeasuredX());
-   qDebug() << "focal y" << toString(m.focalPlaneMeasuredY());
-   qDebug() << "computed focal x" << toString(m.focalPlaneComputedX());
-   qDebug() << "computed focal y" << toString(m.focalPlaneComputedY());
-   qDebug() << "observation index" << toString(m.observationIndex());
+   qDebug() << "focal x" << QString::number(m.focalPlaneMeasuredX());
+   qDebug() << "focal y" << QString::number(m.focalPlaneMeasuredY());
+   qDebug() << "computed focal x" << QString::number(m.focalPlaneComputedX());
+   qDebug() << "computed focal y" << QString::number(m.focalPlaneComputedY());
+   qDebug() << "observation index" << QString::number(m.observationIndex());
    qDebug() << "";
 }
 

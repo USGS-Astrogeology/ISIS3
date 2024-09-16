@@ -83,7 +83,7 @@ void WriteCnet(const QString &netfile, SmtkQStack &points,
   cn.SetCreatedDate(iTime::CurrentLocalTime());
   SmtkQStackIter pnt = points.begin();
   for (int i = 0 ; pnt != points.end() ; i++, ++pnt) {
-    QString pntid = "Point_" + toString(i);
+    QString pntid = "Point_" + QString::number(i);
     cn.AddPoint(new ControlPoint(CreatePoint(pnt.value(), pntid, lcn, rcn)));
   }
 
@@ -141,11 +141,11 @@ void IsisMain() {
 
 //  This still precludes band to band registrations.
   if (serialLeft == serialRight) {
-    QString sLeft = FileName(lhImage.fileName()).name();
-    QString sRight = FileName(rhImage.fileName()).name();
+    QString sLeft = QString::fromStdString(FileName(lhImage.fileName().toStdString()).name());
+    QString sRight = QString::fromStdString(FileName(rhImage.fileName().toStdString()).name());
     if (sLeft == sRight) {
-      std::string msg = "Cube Serial Numbers must be unique - FROM=" + serialLeft +
-                   ", MATCH=" + serialRight;
+      std::string msg = "Cube Serial Numbers must be unique - FROM=" + serialLeft.toStdString() +
+                   ", MATCH=" + serialRight.toStdString();
       throw IException(IException::User,msg,_FILEINFO_);
     }
     serialLeft = sLeft;

@@ -140,7 +140,7 @@ namespace Isis {
 
     //copy the patternS chip (the entire ApolloPanFiducialMark.cub)
     FileName fiducialFileName("$apollo15/calibration/ApolloPanFiducialMark.cub");
-    fidC.open(fiducialFileName.expanded(),"r");
+    fidC.open(QString::fromStdString(fiducialFileName.expanded()),"r");
     if (!fidC.isOpen()) {
       string msg = "Unable to open the fiducial patternS cube: ApolloPanFiducialMark.cub\n";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -156,10 +156,10 @@ namespace Isis {
     fileBaseName = ui.GetString("FILE_BASE");
     for (i = 1; i <= 8; i++) {
       panC[i-1] = new Cube;
-      fileName = fileBaseName + "-000" + toString(i) + ".cub";
+      fileName = fileBaseName + "-000" + QString::number(i) + ".cub";
       panC[i-1]->open(fileName, "r");
       if (!panC[i-1]->isOpen()) {
-        string msg = "Unable to open input cube: " + IString(fileName) + "\n";
+        string msg = "Unable to open input cube: " + IString(fileName.toStdString()) + "\n";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -232,7 +232,7 @@ namespace Isis {
         }
       }
       if (s >= averageLines + searchCellSize / 2.0) {
-         std::string msg = "Unable to locate a fiducial mark in the input cube [" + panC[i]->fileName()
+         std::string msg = "Unable to locate a fiducial mark in the input cube [" + panC[i]->fileName().toStdString()
                         + "].  Check FROM and MICRONS parameters.";
          throw IException(IException::Io, msg, _FILEINFO_);
          return;
@@ -762,7 +762,7 @@ namespace Isis {
                           int(sampleTo - sampleFrom),
                           int(maxL));
       rubberS.SetInputCube(panC[i]);
-      rubberS.SetOutputCube(tempFile.expanded(),
+      rubberS.SetOutputCube(QString::fromStdString(tempFile.expanded()),
                             att,
                             transform.OutputSamples(),
                             transform.OutputLines(),
@@ -774,7 +774,7 @@ namespace Isis {
       rubberS.EndProcess();
 
       //use process mosaic to add the sub cube to the stiched cube
-      mosaic.SetInputCube(tempFile.expanded(),
+      mosaic.SetInputCube(QString::fromStdString(tempFile.expanded()),
                           attI,
                           1,
                           1,
@@ -788,7 +788,7 @@ namespace Isis {
       //clear input cube
       mosaic.ClearInputCubes();
 
-      QFile::remove(tempFile.expanded());  //delete temporary cube if it exists
+      QFile::remove(QString::fromStdString(tempFile.expanded()));  //delete temporary cube if it exists
     }
     mosaic.EndProcess();
   }

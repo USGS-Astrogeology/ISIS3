@@ -41,13 +41,13 @@ namespace Isis {
     Pvl &lab = *cube.label();
     PvlGroup &bandBin = lab.findGroup("BandBin", Pvl::Traverse);
     // Get the camera characteristics
-    QString key = "INS" + toString(naifIkCode()) + "_" + QString::fromStdString(bandBin["FilterName"][0]) + "_FOCAL_LENGTH";
+    QString key = "INS" + QString::number(naifIkCode()) + "_" + QString::fromStdString(bandBin["FilterName"][0]) + "_FOCAL_LENGTH";
     key = key.replace("/", "_");
     double focalLength = Spice::getDouble(key);
 
     SetFocalLength(focalLength);
     SetPixelPitch();
-    instrumentRotation()->SetFrame(Spice::getInteger("INS_" + toString(naifIkCode()) + "_FRAME_ID"));
+    instrumentRotation()->SetFrame(Spice::getInteger("INS_" + QString::number(naifIkCode()) + "_FRAME_ID"));
 
 
     // Get the start time in et
@@ -71,11 +71,11 @@ namespace Isis {
     // Setup focal plane map
     CameraFocalPlaneMap *focalMap = new CameraFocalPlaneMap(this, naifIkCode());
 
-    focalMap->SetDetectorOrigin(Spice::getDouble("INS" + toString(naifIkCode()) + "_BORESIGHT_SAMPLE"),
-                                Spice::getDouble("INS" + toString(naifIkCode()) + "_BORESIGHT_LINE"));
+    focalMap->SetDetectorOrigin(Spice::getDouble("INS" + QString::number(naifIkCode()) + "_BORESIGHT_SAMPLE"),
+                                Spice::getDouble("INS" + QString::number(naifIkCode()) + "_BORESIGHT_LINE"));
 
     // Setup distortion map
-    double k1 = Spice::getDouble("INS" + toString(naifIkCode()) + "_K1");
+    double k1 = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_K1");
     new RadialDistortionMap(this, k1);
 
     // Setup the ground and sky map

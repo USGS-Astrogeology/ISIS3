@@ -138,10 +138,9 @@ void createSlpCubeAutomatic(Buffer &in, double &v) {
     Distance(in[4], Distance::Meters);
   }
   catch (IException &e) {
-    std::string msg = QString("The input cube contains a negative DN at (sample,line,band) "
-        "[(%1,%2,%3)]. The automatic pixel resolution option requires the input cube contain "
-        "raduis values. It is possible the input cube contains elevation or other data.").
-        arg( in.Sample(4) ).arg( in.Line(4) ).arg( in.Band(4) );
+    std::string msg = "The input cube contains a negative DN at (sample,line,band) "
+        "[("+std::to_string(in.Sample(4))+","+std::to_string(in.Line(4))+","+std::to_string(in.Band(4))+")]. The automatic pixel resolution option requires the input cube contain "
+        "raduis values. It is possible the input cube contains elevation or other data.";
     throw IException(e, IException::User, msg, _FILEINFO_);
   }
 

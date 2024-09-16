@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
 
 // ----------------------------------------------------------------------------------
 
-  cout << "1) Read valid data from " << testFile << endl;
+  cout << "1) Read valid data from " << testFile.toStdString() << endl;
   try {
     Isis::CisscalFile f(testFile);
     bool lineFound = false;
@@ -77,11 +77,11 @@ int main(int argc, char *argv[]) {
     }
     if (line != testLines[4]) {
       cout << " *** Failed to Find \"\\begindata\" Tag *** " << endl;
-      cout << "   First line of data should be:   -> " << testLines[4] << " <-" << endl;
-      cout << "   returned is: -> " << line << " <-" << endl;
+      cout << "   First line of data should be:   -> " << testLines[4].toStdString() << " <-" << endl;
+      cout << "   returned is: -> " << line.toStdString() << " <-" << endl;
       return 0;
     }
-    cout << line << endl;
+    cout << line.toStdString() << endl;
     // data line 2
     lineFound = f.GetLine(line);
     if (!lineFound) {
@@ -90,11 +90,11 @@ int main(int argc, char *argv[]) {
     }
     if (line != testLines[5]) {
       cout << " *** Failed to Match Second Line *** " << endl;
-      cout << "   First line of data should be:   -> " << testLines[5] << " <-" << endl;
-      cout << "   returned is: -> " << line << " <-" << endl;
+      cout << "   First line of data should be:   -> " << testLines[5].toStdString() << " <-" << endl;
+      cout << "   returned is: -> " << line.toStdString() << " <-" << endl;
       return 0;
     }
-    cout << line << endl;
+    cout << line.toStdString() << endl;
     // data line 3
     lineFound = f.GetLine(line);
     if (!lineFound) {
@@ -103,11 +103,11 @@ int main(int argc, char *argv[]) {
     }
     if (line != testLines[6]) {
       cout << " *** Failed to Match Third Line *** " << endl;
-      cout << "   First line of data should be:   -> " << testLines[6] << " <-" << endl;
-      cout << "   returned is: -> " << line << " <-" << endl;
+      cout << "   First line of data should be:   -> " << testLines[6].toStdString() << " <-" << endl;
+      cout << "   returned is: -> " << line.toStdString() << " <-" << endl;
       return 0;
     }
-    cout << line << endl;
+    cout << line.toStdString() << endl;
     // last line, empty
     lineFound = f.GetLine(line);
     if (!lineFound) {
@@ -116,15 +116,15 @@ int main(int argc, char *argv[]) {
     }
     if (line != testLines[7]) {
       cout << " *** Failed to Match Last Line *** " << endl;
-      cout << "   First line of data should be:   -> " << testLines[7] << " <-" << endl;
-      cout << "   returned is: -> " << line << " <-" << endl;
+      cout << "   First line of data should be:   -> " << testLines[7].toStdString() << " <-" << endl;
+      cout << "   returned is: -> " << line.toStdString() << " <-" << endl;
       return 0;
     }
-    cout << line << endl;
+    cout << line.toStdString() << endl;
     // grab line beyond end of file
     lineFound = f.GetLine(line);
     if (lineFound) {
-      cout << "Extra Line Found:   -> " << line << " <-" << endl;
+      cout << "Extra Line Found:   -> " << line.toStdString() << " <-" << endl;
       lineFound = f.GetLine(line);
       cout << "Next Line True?   -> " << lineFound << " <-" << endl;
       return 0;
@@ -136,9 +136,9 @@ int main(int argc, char *argv[]) {
     e.print();
   }
 //-----------------------------------------------------------------------------------
-  cout << "2) Remove temp file -> " << testFile << " <-" << endl;
-  if (!QFile::remove(FileName(testFile).expanded())) {
-    cout << "*** Failed to remove tmp file: " << testFile << endl;
+  cout << "2) Remove temp file -> " << testFile.toStdString() << " <-" << endl;
+  if (!QFile::remove(QString::fromStdString(FileName(testFile.toStdString()).expanded()))) {
+    cout << "*** Failed to remove tmp file: " << testFile.toStdString() << endl;
   }
   return 0;
 }

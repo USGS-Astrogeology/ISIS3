@@ -1252,8 +1252,8 @@ namespace Isis {
     }
 
     if (iLessPoints < 0 || iGreaterPoints < 0 || iLessPoints < iGreaterPoints) {
-      QString sErrMsg = "Invalid Deffile - Check Cube_NumPoints Group\n";
-      throw IException(IException::User, sErrMsg.toStdString(), _FILEINFO_);
+      std::string sErrMsg = "Invalid Deffile - Check Cube_NumPoints Group\n";
+      throw IException(IException::User, sErrMsg, _FILEINFO_);
     }
 
     if (pbLastFilter) {

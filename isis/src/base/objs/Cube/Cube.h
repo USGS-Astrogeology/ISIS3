@@ -296,10 +296,10 @@ namespace Isis {
       virtual QString fileName() const;
       Format format() const;
       virtual Histogram *histogram(const int &band = 1,
-                                        std::string msg = "Gathering histogram");
+                                        QString msg = "Gathering histogram");
       virtual Histogram *histogram(const int &band, const double &validMin,
                                         const double &validMax,
-                                        std::string msg = "Gathering histogram");
+                                        QString msg = "Gathering histogram");
       Pvl *label() const;
       int labelSize(bool actual = false) const;
       int lineCount() const;
@@ -309,10 +309,10 @@ namespace Isis {
       Projection *projection();
       int sampleCount() const;
       Statistics *statistics(const int &band = 1,
-                             std::string msg = "Gathering statistics");
+                             QString msg = "Gathering statistics");
       Statistics *statistics(const int &band, const double &validMin,
                              const double &validMax,
-                             std::string msg = "Gathering statistics");
+                             QString msg = "Gathering statistics");
       bool storesDnData() const;
 
       void addCachingAlgorithm(CubeCachingAlgorithm *);

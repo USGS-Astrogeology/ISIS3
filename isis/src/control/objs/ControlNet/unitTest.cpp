@@ -54,8 +54,8 @@ void printMeasures(QList< ControlMeasure * > measures,
 
   for (int i = 0; i < measures.size(); i++) {
     cout << "      " << measureNames[measures[i]].toStdString() <<
-      " (" << measures[i]->GetCubeSerialNumber() << " -> " <<
-      measures[i]->Parent()->GetId() << ", residual = " <<
+      " (" << measures[i]->GetCubeSerialNumber().toStdString() << " -> " <<
+      measures[i]->Parent()->GetId().toStdString() << ", residual = " <<
       measures[i]->GetResidualMagnitude() << ")" << endl;
   }
 }
@@ -157,7 +157,7 @@ void testConnectivity() {
 
   std::cout << "Getting measures in cube with SN: ALPHA: " << std::endl;
   QList< ControlMeasure *> measures = net.GetMeasuresInCube("ALPHA");
-  std::cout << "Serial Number: " << measures[0]->GetCubeSerialNumber() << std::endl;
+  std::cout << "Serial Number: " << measures[0]->GetCubeSerialNumber().toStdString() << std::endl;
 
   std::cout << "Testing GetSerialConnections" << std::endl;
   net.GetSerialConnections();
@@ -189,13 +189,13 @@ int main() {
   // test ignoring of measures
   cout << "testing ignoring measures..............................\n";
   cout << "starting graph\n";
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
   cout << "ignore a measure\n";
   p0m1->SetIgnored(true);
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
   cout << "un-ignore a measure\n";
   p0m1->SetIgnored(false);
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
 
   // add another point - testing case where measures are added to points which
   // are already added to a net.
@@ -210,32 +210,32 @@ int main() {
   ControlMeasure *p1m2 = new ControlMeasure;
   p1m2->SetCubeSerialNumber("CHARLIE");
   cout << "add point with only 1 measure\n";
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
   cout << "add a measure\n";
   p1->Add(p1m1);
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
   cout << "add another measure\n";
   p1->Add(p1m2);
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
 
   // test ignoring of point
   cout << "testing setting point to ignored.......................\n";
   cout << "ignore p1\n";
   p1->SetIgnored(true);
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
   cout << "un-ignore p1\n";
   p1->SetIgnored(false);
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
 
   // test measure deletion
   cout << "testing measure deletion & addition....................\n";
   p0->Delete(p0m1);
   p0m1 = NULL;
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
   p0m0 = new ControlMeasure;
   p0m0->SetCubeSerialNumber("DELTA");
   p0->Add(p0m0);
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
 
   // test FindClosest()
   cout << "testing FindClosest....................\n";
@@ -243,7 +243,7 @@ int main() {
   p0m0->SetCoordinate(1.0, 2.0);
 
   ControlPoint *closestPoint = net.FindClosest("ALPHA", 1.0,1.0);
-  cout << "Closest Point ID: " << closestPoint->GetId() << endl << endl;
+  cout << "Closest Point ID: " << closestPoint->GetId().toStdString() << endl << endl;
 
   // test getAdjacentImages()
   cout << "testing getAdjacentImages....................\n";
@@ -253,7 +253,7 @@ int main() {
   adjacentSerials.sort();
   cout << "Adjacent Images: " << endl;
   foreach(QString serial, adjacentSerials) {
-    cout << "  " << serial << endl;
+    cout << "  " << serial.toStdString() << endl;
   }
   cout << endl;
 
@@ -261,7 +261,7 @@ int main() {
   cout << "testing point deletion.................................\n";
   net.DeletePoint(p1);
   p1 = NULL;
-  cout << net.GraphToString() << "\n";
+  cout << net.GraphToString().toStdString() << "\n";
 
   cout << "******* Done testing cube graph ***************\n\n\n";
 
@@ -285,7 +285,7 @@ int main() {
   Pvl label;
   // no mapping group, (i.e. target name empty)
   cn1.SetTarget(label);
-  cout << "        TargetName = " << cn1.GetTarget() << endl;
+  cout << "        TargetName = " << cn1.GetTarget().toStdString() << endl;
   cout << endl;
 
   cout << "Set target using actual PVL." << endl;
@@ -294,17 +294,17 @@ int main() {
   mapping += PvlKeyword("TargetName", "Mars");
   cout << label << endl;
   cn1.SetTarget(label);
-  cout << "        TargetName = " << cn1.GetTarget() << endl;
+  cout << "        TargetName = " << cn1.GetTarget().toStdString() << endl;
   cout << endl;
 
   cout << "Set empty target." << endl;
   cn1.SetTarget("");
-  cout << "        TargetName = " << cn1.GetTarget() << endl;
+  cout << "        TargetName = " << cn1.GetTarget().toStdString() << endl;
   cout << endl;
 
   cout << "Set Mars target." << endl;
   cn1.SetTarget("Mars");
-  cout << "        TargetName = " << cn1.GetTarget() << endl;
+  cout << "        TargetName = " << cn1.GetTarget().toStdString() << endl;
   cout << endl;
 
   cn1.SetTarget("Mars");
@@ -476,27 +476,27 @@ int main() {
   // Use this to sort the output
   sort(graphSNs.begin(), graphSNs.end());
   foreach ( QString sn, graphSNs ) {
-    cout << "    " << sn << "\n";
+    cout << "    " << sn.toStdString() << "\n";
   }
 
-  cout << net.GraphToString() << endl;
+  cout << net.GraphToString().toStdString() << endl;
   cout << "\nTesting getEdgeCount: " << net.getEdgeCount() << "\n";
 
   testConnectivity();
 
   cout << "\nTesting take() functionality to take owernship of the points in a ControlNet:" << endl;
 
-  cout << "Original control net number of points: " << QString::number(net.GetNumPoints()) << endl;
+  cout << "Original control net number of points: " << std::to_string(net.GetNumPoints()) << endl;
 
   QList<ControlPoint*> points = net.take();
 
-  cout << "Number of points taken out: " << QString::number(points.length()) << endl;
+  cout << "Number of points taken out: " << std::to_string(points.length()) << endl;
 
   cout << "Now there should be zero points in the original control net. There are: "
-       << QString::number(net.GetNumPoints()) << endl;
+       << std::to_string(net.GetNumPoints()) << endl;
 
   cout << "And zero pointIDs in the original control net. There are: "
-       << QString::number(net.GetPointIds().length()) << endl;
+       << std::to_string(net.GetPointIds().length()) << endl;
 
     //system("cat unitTest.output | grep -v DateTime > temp.output; mv temp.output unitTest.output");
   //system("cat unitTest.output | sed -r s/`date +%Y-%m-%dT`\\[0-9:\\]\\{8\\}/2010-08-27T17:10:06/g > temp.output; mv temp.output unitTest.output");

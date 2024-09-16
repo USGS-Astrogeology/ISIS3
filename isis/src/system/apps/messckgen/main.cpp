@@ -55,11 +55,11 @@ void IsisMain() {
   // Fetch the pivot file
   FileName pivotFileName;
   if (ui.WasEntered("PIVOT")) {
-    pivotFileName = ui.GetFileName("PIVOT");
+    pivotFileName = ui.GetFileName("PIVOT").toStdString();
   }
   else {
     // If not provided, assume the latest pivot file in the data area
-    QString pivotString("$messenger/kernels/ck/pivot_kernels.????.db");
+    std::string pivotString("$messenger/kernels/ck/pivot_kernels.????.db");
     pivotFileName = FileName(pivotString).highestVersion();
   }
   Pvl pivot(pivotFileName.expanded());
@@ -67,11 +67,11 @@ void IsisMain() {
   // Fetch the atthist file
   FileName atthistFileName;
   if (ui.WasEntered("ATTHIST")) {
-    atthistFileName = ui.GetFileName("ATTHIST");
+    atthistFileName = ui.GetFileName("ATTHIST").toStdString();
   }
   else {
     // If not provided, assume the latest atthist file in the data area
-    QString atthistString("$messenger/kernels/ck/atthist_kernels.????.db");
+    std::string atthistString("$messenger/kernels/ck/atthist_kernels.????.db");
     atthistFileName = FileName(atthistString).highestVersion();
   }
   Pvl atthist(atthistFileName.expanded());
@@ -79,10 +79,10 @@ void IsisMain() {
   // Open the input file from the GUI or find the latest version of the DB file
   FileName dbFileName;
   if (ui.WasEntered("FROM")) {
-    dbFileName = ui.GetFileName("FROM");
+    dbFileName = ui.GetFileName("FROM").toStdString();
   }
   else {
-    QString dbString("$messenger/kernels/ck/kernels.????.db");
+    std::string dbString("$messenger/kernels/ck/kernels.????.db");
     dbFileName = FileName(dbString).highestVersion();
   }
   Pvl kernelDb(dbFileName.expanded());
@@ -181,8 +181,8 @@ void IsisMain() {
               bcFileName += "msgr" + year + month + day + ".bc";
 
               // Check that the current day's BC file exists
-              QString bcExpanded = FileName(bcFileName).expanded();
-              if (!QFile(bcExpanded).exists()) {
+              std::string bcExpanded = FileName(bcFileName.toStdString()).expanded();
+              if (!QFile(QString::fromStdString(bcExpanded)).exists()) {
                 std::string msg = "The BC file [" + bcExpanded + "] does not exist";
                 throw IException(IException::User, msg, _FILEINFO_);
               }
@@ -245,7 +245,7 @@ void IsisMain() {
   // the kernels area (as run by makedb)
   FileName outDBfile;
   if (ui.WasEntered("TO")) {
-    outDBfile = ui.GetFileName("TO");
+    outDBfile = ui.GetFileName("TO").toStdString();
   }
   else {
     outDBfile = FileName("$messenger/kernels/ck/kernels.????.db").newVersion();

@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   // SQLite
   FileName dbfile("$TEMPORARY/test.db");
   Database testdb("testdb", "SQLite");
-  QString dbfileName(dbfile.expanded());
+  QString dbfileName(QString::fromStdString(dbfile.expanded()));
   testdb.setDatabaseName(dbfileName.toLatin1().data());
   if(!testdb.open()) {
     throw IException(IException::User, "Connection failed", _FILEINFO_);
@@ -48,9 +48,9 @@ int main(int argc, char *argv[]) {
 
     while(create.next()) {
       SqlRecord r = create.getRecord();
-      cout << "v1: " << IString(r.getValue(0)) << endl;
-      cout << "v2: " << IString(r.getValue(1)) << endl;
-      cout << "v3: " << IString(r.getValue(2)) << endl;
+      cout << "v1: " << r.getValue(0).toStdString() << endl;
+      cout << "v2: " << r.getValue(1).toStdString() << endl;
+      cout << "v3: " << r.getValue(2).toStdString() << endl;
       cout << "Is null (v1): " << r.isNull("v1") << endl;
       cout << "Is null (blank): " << r.isNull("") << endl;
     }
@@ -70,12 +70,12 @@ int main(int argc, char *argv[]) {
        "systems that report double will need OS truth data." << endl;
 
   for(int i = 0; i < record.size(); i++) {
-    IString value = record.getValue(i);
-    cout << "Col " << i << ") " << "Name: " << record.getFieldName(i) <<
-         ", Type: " << record.getType(i) << endl;
+    QString value = record.getValue(i);
+    cout << "Col " << i << ") " << "Name: " << record.getFieldName(i).toStdString() <<
+         ", Type: " << record.getType(i).toStdString() << endl;
 
   }
 
-  QFile::remove(FileName("$TEMPORARY/test.db").expanded());
+  QFile::remove(QString::fromStdString(FileName("$TEMPORARY/test.db").expanded()));
   return 0;
 }

@@ -70,15 +70,15 @@ void IsisMain() {
 
   if (ui.WasEntered("TO")) {
     if (sumall.ValidPixels() == 0) {
-      std::string mess = "No valid pixels so cannot compute center in " + icube->fileName();
+      std::string mess = "No valid pixels so cannot compute center in " + icube->fileName().toStdString();
       throw IException(IException::User, mess, _FILEINFO_);
     }
     double sTrans = sMiddle - csamp;
     double lTrans = lMiddle - cline;
     QString params = "from=" + ui.GetCubeName("FROM") + 
                      " to=" + ui.GetCubeName("TO") + 
-                     " strans=" + toString(sTrans) + 
-                     " ltrans=" + toString(lTrans) + 
+                     " strans=" + QString::number(sTrans) + 
+                     " ltrans=" + QString::number(lTrans) + 
                      " interp=" + ui.GetString("INTERP");
     ProgramLauncher::RunIsisProgram("translate",params);
   }
