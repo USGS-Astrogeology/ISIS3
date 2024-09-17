@@ -39,7 +39,7 @@ namespace Isis {
   inline KeywordType toKeywordType(const std::string type) {
 
     std::string t(type);
-    std::regex e("[\\w_-\"'");
+    std::regex e("\\w_-\"'");
     t = std::regex_replace(t, e, "");
 
     std::transform(t.begin(), t.end(), t.begin(), ::toupper);
