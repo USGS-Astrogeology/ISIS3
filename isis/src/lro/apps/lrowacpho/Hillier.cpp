@@ -182,8 +182,8 @@ namespace Isis {
                 for (unsigned int i = 0; i < m_profiles.size(); i++) {
                     const DbProfile &p = m_profiles[i];
                     if (p.exists("BandBinCenter")) {
-                        double p_center = toDouble(ConfKey(p, "BandBinCenter", toString(Null)));
-                        double tolerance = toDouble(ConfKey(p, "BandBinCenterTolerance", toString(1.0E-6)));
+                        double p_center = ConfKey(p, "BandBinCenter", QString::number(Null)).toDouble();
+                        double tolerance = ConfKey(p, "BandBinCenterTolerance", QString::number(1.0E-6)).toDouble();
                         if (fabs(wavelength - p_center) <= fabs(tolerance)) {
                             Parameters pars = extract(p);
                             pars.iProfile = i;
@@ -213,15 +213,15 @@ namespace Isis {
              */
             Hillier::Parameters Hillier::extract ( const DbProfile &p ) const {
                 Parameters pars;
-                pars.b0 = toDouble(ConfKey(p, "B0", toString(0.0)));
-                pars.b1 = toDouble(ConfKey(p, "B1", toString(0.0)));
-                pars.a0 = toDouble(ConfKey(p, "A0", toString(0.0)));
-                pars.a1 = toDouble(ConfKey(p, "A1", toString(0.0)));
-                pars.a2 = toDouble(ConfKey(p, "A2", toString(0.0)));
-                pars.a3 = toDouble(ConfKey(p, "A3", toString(0.0)));
-                pars.a4 = toDouble(ConfKey(p, "A4", toString(0.0)));
-                pars.wavelength = toDouble(ConfKey(p, "BandBinCenter", toString(Null)));
-                pars.tolerance = toDouble(ConfKey(p, "BandBinCenterTolerance", toString(Null)));
+                pars.b0 = ConfKey(p, "B0", QString::number(0.0)).toDouble();
+                pars.b1 = ConfKey(p, "B1", QString::number(0.0)).toDouble();
+                pars.a0 = ConfKey(p, "A0", QString::number(0.0)).toDouble();
+                pars.a1 = ConfKey(p, "A1", QString::number(0.0)).toDouble();
+                pars.a2 = ConfKey(p, "A2", QString::number(0.0)).toDouble();
+                pars.a3 = ConfKey(p, "A3", QString::number(0.0)).toDouble();
+                pars.a4 = ConfKey(p, "A4", QString::number(0.0)).toDouble();
+                pars.wavelength = ConfKey(p, "BandBinCenter", QString::number(Null)).toDouble();
+                pars.tolerance = ConfKey(p, "BandBinCenterTolerance", QString::number(Null)).toDouble();
                 //  Determine equation units - defaults to Radians
                 pars.units = ConfKey(p, "HillierUnits", QString("Radians"));
                 pars.phaUnit = (pars.units.toLower() == "degrees") ? 1.0 : rpd_c();
@@ -249,9 +249,9 @@ namespace Isis {
 
                 //  Interate over all Photometric groups
                 m_normProf = DbProfile(pvl.findObject("NormalizationModel").findGroup("Algorithm", Pvl::Traverse));
-                m_iRef = toDouble(ConfKey(m_normProf, "IncRef", toString(30.0)));
-                m_eRef = toDouble(ConfKey(m_normProf, "EmaRef", toString(0.0)));
-                m_gRef = toDouble(ConfKey(m_normProf, "PhaRef", toString(m_iRef)));
+                m_iRef = ConfKey(m_normProf, "IncRef", QString::number(30.0)).toDouble();
+                m_eRef = ConfKey(m_normProf, "EmaRef", QString::number(0.0)).toDouble();
+                m_gRef = ConfKey(m_normProf, "PhaRef", QString::number(m_iRef)).toDouble();
 
                 PvlObject &phoObj = pvl.findObject("PhotometricModel");
                 DbProfile phoProf = DbProfile(phoObj);
@@ -265,7 +265,7 @@ namespace Isis {
 
                 Pvl *label = cube.label();
                 PvlKeyword center = label->findGroup("BandBin", Pvl::Traverse)["Center"];
-                QString errs("");
+                std::string errs("");
                 for (int i = 0; i < cube.bandCount(); i++) {
                     Parameters parms = findParameters(std::stod(center[i]));
                     if (parms.IsValid()) {
@@ -284,8 +284,8 @@ namespace Isis {
                 }
 
                 // Check for errors and throw them all at the same time
-                if (!errs.isEmpty()) {
-                    errs += " --> Errors in the input PVL file \"" + QString::fromStdString(pvl.fileName()) + "\"";
+                if (!errs.empty()) {
+                    errs += " --> Errors in the input PVL file \"" + pvl.fileName() + "\"";
                     throw IException(IException::User, errs, _FILEINFO_);
                 }
 

@@ -71,9 +71,9 @@ namespace Isis {
     // Setup focal plane map, and detector origin
     CameraFocalPlaneMap *focalMap = new CameraFocalPlaneMap(this, naifIkCode());
 
-    QString ikernKey = "INS" + toString((int)naifIkCode()) + "_BORESIGHT_SAMPLE";
+    QString ikernKey = "INS" + QString::number((int)naifIkCode()) + "_BORESIGHT_SAMPLE";
     double sampleBoresight = getDouble(ikernKey);
-    ikernKey = "INS" + toString((int)naifIkCode()) + "_BORESIGHT_LINE";
+    ikernKey = "INS" + QString::number((int)naifIkCode()) + "_BORESIGHT_LINE";
     double lineBoresight = getDouble(ikernKey);
 
     focalMap->SetDetectorOrigin(sampleBoresight, lineBoresight);
@@ -95,12 +95,12 @@ namespace Isis {
     }
     else {
       std::string msg = "File does not appear to be a Mariner10 image. InstrumentId ["
-          + instId + "] is invalid Mariner 10 value.";
+          + instId.toStdString() + "] is invalid Mariner 10 value.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
-    QString fname = FileName("$mariner10/reseaus/mar10" + cam
-                             + "MasterReseaus.pvl").expanded();
+    QString fname = QString::fromStdString(FileName("$mariner10/reseaus/mar10" + cam.toStdString()
+                             + "MasterReseaus.pvl").expanded());
 
     try {
       new ReseauDistortionMap(this, lab, fname);

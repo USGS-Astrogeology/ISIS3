@@ -42,15 +42,15 @@ namespace Isis {
     else                       m_numDistCoef = 4;  //NIR camera has 4 distortion coefs
 
     //read the distortion coefs from the NAIF Kernels
-    QString naifXKey = "INS" + toString(naifIkCode) + "_DISTORTION_COEF_X";
-    QString naifYKey = "INS" + toString(naifIkCode) + "_DISTORTION_COEF_Y";
+    QString naifXKey = "INS" + QString::number(naifIkCode) + "_DISTORTION_COEF_X";
+    QString naifYKey = "INS" + QString::number(naifIkCode) + "_DISTORTION_COEF_Y";
     for (int i=0; i < m_numDistCoef; i++) {
       m_distCoefX[i] = p_camera->getDouble(naifXKey,i);
       m_distCoefY[i] = p_camera->getDouble(naifYKey,i);
     }
 
     //now read the boresights, or what I would typicall call the principal point offsets
-    naifXKey = "INS" + toString(naifIkCode) + "_BORESIGHT";
+    naifXKey = "INS" + QString::number(naifIkCode) + "_BORESIGHT";
     m_boreX = p_camera->getDouble(naifXKey, 0);
     m_boreY = p_camera->getDouble(naifXKey, 1);
   }

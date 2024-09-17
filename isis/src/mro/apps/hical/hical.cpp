@@ -88,7 +88,7 @@ namespace Isis {
       }
       else {
         // Set default to output directory
-        hiconf.add("OPATH", FileName(ocube->fileName()).path());
+        hiconf.add("OPATH", QString::fromStdString(FileName(ocube->fileName().toStdString()).path()));
       }
 
       // Do I/F output DN conversions
@@ -139,7 +139,7 @@ namespace Isis {
       if (!SkipModule(hiprof) ) {
         ZeroBufferFit zbf(hiconf);
 
-        calVars->add(hiconf.getProfileName(),
+        calVars->add(hiconf.getProfileName().toStdString(),
                      zbf.Normalize(zbf.Solve(calVars->get("ZeroBufferSmooth"))));
         ZbfHist = zbf.History();
         if ( hiprof.exists("DumpModuleFile") ) {
@@ -147,7 +147,7 @@ namespace Isis {
         }
       }
       else {
-        calVars->add(hiconf.getProfileName(), HiVector(nlines, 0.0));
+        calVars->add(hiconf.getProfileName().toStdString(), HiVector(nlines, 0.0));
         ZbfHist.add("Debug::SkipModule invoked!");
       }
 
@@ -161,14 +161,14 @@ namespace Isis {
       ZrHist.add("Profile["+ hiprof.Name()+"]");
       if ( !SkipModule(hiprof) ) {
         ZeroReverse zr(caldata, hiconf);
-        calVars->add(hiconf.getProfileName(), zr.ref());
+        calVars->add(hiconf.getProfileName().toStdString(), zr.ref());
         ZrHist = zr.History();
         if ( hiprof.exists("DumpModuleFile") ) {
           zr.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
         }
       }
       else {
-        calVars->add(hiconf.getProfileName(), HiVector(nsamps, 0.0));
+        calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 0.0));
         ZrHist.add("Debug::SkipModule invoked!");
       }
 
@@ -201,7 +201,7 @@ namespace Isis {
           }
           try{
             ZeroDarkRate zdr(hiconf);
-            calVars->add(hiconf.getProfileName(), zdr.ref());
+            calVars->add(hiconf.getProfileName().toStdString(), zdr.ref());
             ZdrHist = zdr.History();
             if ( hiprof.exists("DumpModuleFile") ) {
               zdr.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
@@ -210,7 +210,7 @@ namespace Isis {
           catch(IException &e){
             if (hiprof.exists("Fallback") && IsTrueValue(hiprof, "Fallback")){
                 zdrFallback = true;
-                calVars->add(hiconf.getProfileName(), HiVector(nsamps, 0.0));
+                calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 0.0));
                 std::cerr << "Falling back to ZeroDark implementation. Unable to initialize ZeroDarkRate "
                           << "module with the following error:" << std::endl << e.what() << "\nContinuing..."<< std::endl;
                 ZdrHist.add("Debug::Unable to initialize ZeroDarkRate module. "
@@ -227,7 +227,7 @@ namespace Isis {
           }
         }
         else {
-          calVars->add(hiconf.getProfileName(), HiVector(nsamps, 0.0));
+          calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 0.0));
           ZdrHist.add("Debug::SkipModule invoked!");
         }
       }
@@ -243,14 +243,14 @@ namespace Isis {
       // If ZeroDark module is enabled or we need to fall back to zero dark from zero dark rate
       if ( !SkipModule(hiprof) || zdrFallback) {
         ZeroDark zd(hiconf);
-        calVars->add(hiconf.getProfileName(), zd.ref());
+        calVars->add(hiconf.getProfileName().toStdString(), zd.ref());
         ZdHist = zd.History();
         if ( hiprof.exists("DumpModuleFile") ) {
           zd.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
         }
       }
       else {
-        calVars->add(hiconf.getProfileName(), HiVector(nsamps, 0.0));
+        calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 0.0));
         ZdHist.add("Debug::SkipModule invoked!");
       }
 
@@ -265,14 +265,14 @@ namespace Isis {
       GldHist.add("Profile["+ hiprof.Name()+"]");
       if ( !SkipModule(hiprof) ) {
         GainLineDrift gld(hiconf);
-        calVars->add(hiconf.getProfileName(), gld.ref());
+        calVars->add(hiconf.getProfileName().toStdString(), gld.ref());
         GldHist = gld.History();
         if ( hiprof.exists("DumpModuleFile") ) {
           gld.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
         }
       }
       else {
-        calVars->add(hiconf.getProfileName(), HiVector(nlines, 1.0));
+        calVars->add(hiconf.getProfileName().toStdString(), HiVector(nlines, 1.0));
         GldHist.add("Debug::SkipModule invoked!");
       }
 
@@ -285,14 +285,14 @@ namespace Isis {
       GnlHist.add("Profile["+ hiprof.Name()+"]");
       if ( !SkipModule(hiprof) ) {
         GainNonLinearity gnl(hiconf);
-        calVars->add(hiconf.getProfileName(), gnl.ref());
+        calVars->add(hiconf.getProfileName().toStdString(), gnl.ref());
         GnlHist = gnl.History();
         if ( hiprof.exists("DumpModuleFile") ) {
           gnl.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
         }
       }
       else {
-        calVars->add(hiconf.getProfileName(), HiVector(1, 0.0));
+        calVars->add(hiconf.getProfileName().toStdString(), HiVector(1, 0.0));
         GnlHist.add("Debug::SkipModule invoked!");
       }
 
@@ -305,14 +305,14 @@ namespace Isis {
       GcnHist.add("Profile["+ hiprof.Name()+"]");
       if ( !SkipModule(hiprof) ) {
         GainChannelNormalize gcn(hiconf);
-        calVars->add(hiconf.getProfileName(), gcn.ref());
+        calVars->add(hiconf.getProfileName().toStdString(), gcn.ref());
         GcnHist = gcn.History();
         if ( hiprof.exists("DumpModuleFile") ) {
           gcn.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
         }
       }
       else {
-        calVars->add(hiconf.getProfileName(), HiVector(nsamps, 1.0));
+        calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 1.0));
         GcnHist.add("Debug::SkipModule invoked!");
       }
 
@@ -325,14 +325,14 @@ namespace Isis {
       GffHist.add("Profile["+ hiprof.Name()+"]");
       if ( !SkipModule(hiprof) ) {
         GainFlatField gff(hiconf);
-        calVars->add(hiconf.getProfileName(), gff.ref());
+        calVars->add(hiconf.getProfileName().toStdString(), gff.ref());
         GffHist = gff.History();
         if ( hiprof.exists("DumpModuleFile") ) {
           gff.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
         }
       }
       else {
-        calVars->add(hiconf.getProfileName(), HiVector(nsamps, 1.0));
+        calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 1.0));
         GffHist.add("Debug::SkipModule invoked!");
       }
 
@@ -345,14 +345,14 @@ namespace Isis {
       GtHist.add("Profile["+ hiprof.Name()+"]");
       if ( !SkipModule(hiprof) ) {
         GainTemperature gt(hiconf);
-        calVars->add(hiconf.getProfileName(), gt.ref());
+        calVars->add(hiconf.getProfileName().toStdString(), gt.ref());
         GtHist = gt.History();
         if ( hiprof.exists("DumpModuleFile") ) {
           gt.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
         }
       }
       else {
-        calVars->add(hiconf.getProfileName(), HiVector(nsamps, 1.0));
+        calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 1.0));
         GtHist.add("Debug::SkipModule invoked!");
       }
 
@@ -366,14 +366,14 @@ namespace Isis {
       GucHist.add("Profile["+ hiprof.Name()+"]");
       if ( !SkipModule(hiprof) ) {
         GainUnitConversion guc(hiconf, units, hifrom);
-        calVars->add(hiconf.getProfileName(), guc.ref());
+        calVars->add(hiconf.getProfileName().toStdString(), guc.ref());
         GucHist = guc.History();
         if ( hiprof.exists("DumpModuleFile") ) {
           guc.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
         }
       }
       else {
-        calVars->add(hiconf.getProfileName(), HiVector(1,1.0));
+        calVars->add(hiconf.getProfileName().toStdString(), HiVector(1,1.0));
         GucHist.add("Debug::SkipModule invoked!");
         GucHist.add("Units[Unknown]");
       }
@@ -458,8 +458,8 @@ namespace Isis {
       // is completely controlled by the configuration file
       if ( hiprof.exists("DumpHistoryFile") ) {
         procStep = "logging/reporting phase";
-        FileName hdump(hiconf.getMatrixSource("DumpHistoryFile",hiprof));
-        QString hdumpFile = hdump.expanded();
+        FileName hdump(hiconf.getMatrixSource("DumpHistoryFile",hiprof).toStdString());
+        QString hdumpFile = QString::fromStdString(hdump.expanded());
         ofstream ofile(hdumpFile.toLatin1().data(), ios::out);
         if (!ofile) {
           std::string mess = "Unable to open/create history dump file " +
@@ -467,16 +467,16 @@ namespace Isis {
           IException(IException::User, mess, _FILEINFO_).print();
         }
         else {
-          ofile << "Program:  " << hical_program << endl;
-          ofile << "RunTime:  " << hical_runtime << endl;
-          ofile << "Version:  " << hical_version << endl;
-          ofile << "Revision: " << hical_revision << endl << endl;
+          ofile << "Program:  " << hical_program.toStdString() << endl;
+          ofile << "RunTime:  " << hical_runtime.toStdString() << endl;
+          ofile << "Version:  " << hical_version.toStdString() << endl;
+          ofile << "Revision: " << hical_revision.toStdString() << endl << endl;
 
-          ofile << "FROM:     " << hifrom->fileName() << endl;
-          ofile << "TO:       " << ocube->fileName()  << endl;
-          ofile << "CONF:     " << conf_file  << endl << endl;
+          ofile << "FROM:     " << hifrom->fileName().toStdString() << endl;
+          ofile << "TO:       " << ocube->fileName().toStdString()  << endl;
+          ofile << "CONF:     " << conf_file.toStdString()  << endl << endl;
 
-          ofile << "/* " << hical_program << " application equation */\n"
+          ofile << "/* " << hical_program.toStdString() << " application equation */\n"
                 << "/* hdn = (idn - ZeroBufferFit(ZeroBufferSmooth) - ZeroReverse -"
                 << "(ZeroDark OR ZeroDarkRate) */\n"
                 << "/* odn = hdn / GainLineDrift * GainNonLinearity * GainChannelNormalize */\n"
@@ -543,8 +543,8 @@ namespace Isis {
     catch (IException &ie) {
       delete calVars;
       calVars = 0;
-      std::string mess = "Failed in " + procStep;
-      throw IException(ie, IException::User, mess.toLatin1().data(), _FILEINFO_);
+      std::string mess = "Failed in " + procStep.toStdString();
+      throw IException(ie, IException::User, mess.c_str(), _FILEINFO_);
     }
 
     // Clean up parameters

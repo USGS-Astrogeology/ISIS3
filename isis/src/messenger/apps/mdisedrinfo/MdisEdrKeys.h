@@ -111,7 +111,7 @@ namespace Isis {
           _keys.add(key.name(), key);
         }
         else {
-          _keys.add(name, key);
+          _keys.add(name.toStdString(), key);
         }
         return;
       }
@@ -145,7 +145,7 @@ namespace Isis {
        * @return PvlKeyword& Reference to named keyword
        */
       PvlKeyword &get(const QString &name) {
-        return (_keys.get(name));
+        return (_keys.get(name.toStdString()));
       }
 
       /**
@@ -160,7 +160,7 @@ namespace Isis {
        *         keyword
        */
       const PvlKeyword &get(const QString &name) const {
-        return (_keys.get(name));
+        return (_keys.get(name.toStdString()));
       }
 
       /**
@@ -202,21 +202,21 @@ namespace Isis {
           QString keyname(keylist[i]);
           keyname = keyname.trimmed();
           try {
-            PvlKeyword &key = _keys.get(keyname);
+            PvlKeyword &key = _keys.get(keyname.toStdString());
             if(group) group->addKeyword(key);
             if((key.size() == 0) || (key.isNull())) {
-              out << loopSep << "NULL";
+              out << loopSep.toStdString() << "NULL";
             }
             else if(key.size() == 1) {
-              out << loopSep << key[0] << formatUnit(QString::fromStdString(key.unit(0)));
+              out << loopSep.toStdString() << key[0] << formatUnit(QString::fromStdString(key.unit(0))).toStdString();
             }
             else {
-              out << loopSep << "(";
+              out << loopSep.toStdString() << "(";
               QString vsep("");
               for(int iv = 0 ; iv < key.size() ; iv++) {
-                out << vsep << key[iv];
+                out << vsep.toStdString() << key[iv];
                 if(QString::fromStdString(key[iv]) != NAstr) {
-                  out << formatUnit(QString::fromStdString(key.unit(iv)));
+                  out << formatUnit(QString::fromStdString(key.unit(iv))).toStdString();
                 }
                 vsep = ",";
               }
@@ -226,7 +226,7 @@ namespace Isis {
           }
           catch(IException &ie) {
             nbad++;
-            std::string mess = "Keyword \"" + keyname + "\" does not exist!";
+            std::string mess = "Keyword \"" + keyname.toStdString() + "\" does not exist!";
             errors.append(
                 IException(IException::User, mess, _FILEINFO_));
           }
@@ -265,7 +265,7 @@ namespace Isis {
           QString keyname = prefix + QString::fromStdString(keyIter->name());
           PvlKeyword key = *keyIter;
           key.setName(keyname.toStdString());
-          keys.add(keyname, key);
+          keys.add(keyname.toStdString(), key);
         }
         return;
       }

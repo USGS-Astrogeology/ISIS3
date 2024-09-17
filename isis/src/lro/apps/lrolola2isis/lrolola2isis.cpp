@@ -16,8 +16,8 @@ namespace Isis {
     FileList filelist;
     
     // Get the Lidar csv data from either/or both FROM and FROMLIST
-    if (ui.WasEntered("FROM")) filelist.push_back(FileName(ui.GetFileName("FROM")));
-    if (ui.WasEntered("FROMLIST")) filelist.read(FileName(ui.GetFileName("FROMLIST")));
+    if (ui.WasEntered("FROM")) filelist.push_back(FileName(ui.GetFileName("FROM").toStdString()));
+    if (ui.WasEntered("FROMLIST")) filelist.read(FileName(ui.GetFileName("FROMLIST").toStdString()));
     
     if (filelist.size() < 1) {
       std::string msg =
@@ -49,7 +49,7 @@ namespace Isis {
     for (int i = 0; i < cubeList.size(); i++) {
       LidarCube lidarCube;
       QString serialNumber = cubeList.serialNumber(i);
-      FileName fileName = FileName(cubeList.fileName(serialNumber));
+      FileName fileName = FileName(cubeList.fileName(serialNumber).toStdString());
       Cube cube(fileName);
 
       lidarCube.name = fileName;
@@ -73,7 +73,7 @@ namespace Isis {
     // Loop through Lidar csv data file(s) and load the data into a single LidarData object, LidarDataSet
     for (int ifile = 0; ifile < filelist.size(); ifile++) {
       CSVReader lidarDataFile;
-      lidarDataFile.read(filelist[ifile].expanded());
+      lidarDataFile.read(QString::fromStdString(filelist[ifile].expanded()));
        
       // Start at 1 to skip the header. TODO actually set a header in lidarDataFile
       for (int i = 1; i < lidarDataFile.rows(); i++) {
@@ -103,7 +103,7 @@ namespace Isis {
 
         // Loop through images to set measures in the Lidar Control Point
         for (int j = 0; j < images.size(); j++) {
-          Cube *cube = cubeMgr.OpenCube(images[j].name.expanded());
+          Cube *cube = cubeMgr.OpenCube(QString::fromStdString(images[j].name.expanded()));
           
           if (cube != NULL) {
             Camera *camera = cube->camera();
@@ -149,13 +149,13 @@ namespace Isis {
     } // End loop on lidar data file list
 
     if (ui.GetString("OUTPUTTYPE") == "JSON") {
-      lidarDataSet.write(ui.GetFileName("TO"), LidarData::Format::Json);
+      lidarDataSet.write(ui.GetFileName("TO").toStdString(), LidarData::Format::Json);
     }
     else if (ui.GetString("OUTPUTTYPE") == "TEST") {
-      lidarDataSet.write(ui.GetFileName("TO"), LidarData::Format::Test);
+      lidarDataSet.write(ui.GetFileName("TO").toStdString(), LidarData::Format::Test);
     }
     else {
-      lidarDataSet.write(ui.GetFileName("TO"), LidarData::Format::Binary);
+      lidarDataSet.write(ui.GetFileName("TO").toStdString(), LidarData::Format::Binary);
     }
   }
 }

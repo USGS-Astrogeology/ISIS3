@@ -26,17 +26,17 @@ namespace Isis {
 
     FileName tempFile = FileName::createTempFile("$TEMPORARY/hicubeit.temp.lis");
     TextFile tf;
-    tf.Open(tempFile.expanded(), "output");
+    tf.Open(QString::fromStdString(tempFile.expanded()), "output");
     tf.PutLine(irFile + "\n");
     tf.PutLine(redFile + "\n");
     tf.PutLine(bgFile + "\n");
     tf.Close();
 
-    QString parameters = QString(" FROMLIST = ")    + tempFile.expanded() +
+    QString parameters = QString(" FROMLIST = ")    + QString::fromStdString(tempFile.expanded()) +
                         QString(" TO = ")      + ui.GetCubeName("TO") +
                         QString(" PROPLAB = ") + redFile;
     ProgramLauncher::RunIsisProgram("cubeit", parameters);
-    remove(tempFile.expanded().toLatin1().data());
+    remove(tempFile.expanded().c_str());
 
     // Get the instrument group from each file
     Pvl redLab(redFile.toStdString());

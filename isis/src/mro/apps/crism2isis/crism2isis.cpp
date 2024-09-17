@@ -22,9 +22,9 @@ namespace Isis{
     Pvl pdsLabel;
     PvlGroup results;
 
-    FileName inFile = ui.GetFileName("FROM");
+    FileName inFile = ui.GetFileName("FROM").toStdString();
 
-    p.SetPdsFile(inFile.expanded(), "", pdsLabel);
+    p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", pdsLabel);
     // 65535 is set to NULL
     p.SetNull(65535, 65535);
 
@@ -67,10 +67,10 @@ namespace Isis{
           PvlKeyword widths = PvlKeyword("Width");
           QString tablePath = QString::fromStdString(labelPvl.findKeyword("MRO:WAVELENGTH_FILE_NAME"));
           tablePath = tablePath.toLower();
-          FileName tableFile(inFile.path() + "/" + tablePath);
+          FileName tableFile(inFile.path() + "/" + tablePath.toStdString());
           //Check if the wavelength file exists
           if (tableFile.fileExists()) {
-            TextFile *fin = new TextFile(tableFile.expanded());
+            TextFile *fin = new TextFile(QString::fromStdString(tableFile.expanded()));
             // Open table file
             if (!fin->OpenChk()) {
               std::string msg = "Cannot open wavelength table [" + tableFile.expanded() + "]";
@@ -153,12 +153,12 @@ namespace Isis{
 
     // Translate the Instrument group
     FileName transFile("$ISISROOT/appdata/translations/MroCrismInstrument.trn");
-    PvlToPvlTranslationManager instrumentXlater(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager instrumentXlater(labelPvl, QString::fromStdString(transFile.expanded()));
     instrumentXlater.Auto(outLabel);
 
     // Translate the Archive group
     transFile  = "$ISISROOT/appdata/translations/MroCrismArchive.trn";
-    PvlToPvlTranslationManager archiveXlater(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(labelPvl, QString::fromStdString(transFile.expanded()));
     archiveXlater.Auto(outLabel);
 
     ocube->putGroup(outLabel.findGroup("Instrument", Pvl::Traverse));

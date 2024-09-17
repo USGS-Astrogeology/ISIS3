@@ -51,7 +51,7 @@ namespace Isis {
     if (_csvSpecs.exists(makeKey("RowName")   )) rowHeader = true;
 
     // Skip lines, comment headers and separator
-    int skip = toInt(ConfKey(_csvSpecs, makeKey("SkipLines"), QString("0")));
+    int skip = ConfKey(_csvSpecs, makeKey("SkipLines"), QString("0")).toInt();
     addHistory("SkipLines", ToString(skip));
     bool comments = IsEqual(ConfKey(_csvSpecs, makeKey("IgnoreComments"), QString("TRUE")));
     QString separator = ConfKey(_csvSpecs, makeKey("Separator"), QString(","));
@@ -65,12 +65,12 @@ namespace Isis {
     if (separator[0] == ' ') csv.setSkipEmptyParts();
 
     //  Now read the file
-    FileName csvF(csvfile);
-    csvfile = csvF.expanded();
+    FileName csvF(csvfile.toStdString());
+    csvfile = QString::fromStdString(csvF.expanded());
     try {
       csv.read(csvfile);
     } catch (IException &ie) {
-      std::string mess =  "Could not read CSV file \'" + csvfile + "\'";
+      std::string mess =  "Could not read CSV file \'" + csvfile.toStdString() + "\'";
       throw IException(ie, IException::User, mess, _FILEINFO_);
     }
 
@@ -89,8 +89,8 @@ namespace Isis {
       CSVReader::CSVAxis chead = csv.getHeader();
       startColumn = getAxisIndex(colName, chead);
       if (startColumn < 0) {
-        std::string mess = "Column name " + colName +
-                      " not found in CSV file " + csvfile;
+        std::string mess = "Column name " + colName.toStdString() +
+                      " not found in CSV file " + csvfile.toStdString();
         throw IException(IException::User, mess, _FILEINFO_);
       }
       endColumn = startColumn;
@@ -115,7 +115,7 @@ namespace Isis {
       CSVReader::CSVAxis rhead = csv.getColumn(0);
       startRow = getAxisIndex(rowName, rhead);
       if (startRow < 0) {
-        std::string mess = "Row name " + rowName + " not found in CSV file " + csvfile;
+        std::string mess = "Row name " + rowName.toStdString() + " not found in CSV file " + csvfile.toStdString();
         throw IException(IException::User, mess, _FILEINFO_);
       }
       endRow = startRow;
@@ -142,10 +142,10 @@ namespace Isis {
         }
         catch (...) {
           std::ostringstream mess;
-          mess << "Invalid real value (" << row[c] << ") in row index " << r;
-          if (!rowName.isEmpty()) mess << " (Name:" << rowName << ")";
+          mess << "Invalid real value (" << row[c].toStdString() << ") in row index " << r;
+          if (!rowName.isEmpty()) mess << " (Name:" << rowName.toStdString() << ")";
           mess << ", column index " << c;
-          if (!colName.isEmpty()) mess << " (Name:" << colName << ")";
+          if (!colName.isEmpty()) mess << " (Name:" << colName.toStdString() << ")";
           errors.push_back(mess.str().c_str());
           d[hr][hc] = Null;
         }
@@ -159,12 +159,12 @@ namespace Isis {
     if (errors.size() > 0) {
       //iException::Clear(); Not sure how this could ever do anything
       std::ostringstream mess;
-      mess << "Conversion errors in CSV file " + csvfile + ": Errors: ";
+      mess << "Conversion errors in CSV file " + csvfile.toStdString() + ": Errors: ";
 
       std::vector<QString>::const_iterator it = errors.begin();
 
       while (it != errors.end()) {
-        mess << *it << "; ";
+        mess << it->toStdString() << "; ";
         it++;
       }
       throw IException(IException::User, mess.str().c_str(), _FILEINFO_);
@@ -187,7 +187,7 @@ namespace Isis {
       if (!throw_on_error) return (false);
       ostringstream mess;
       mess << "Invalid count (Expected: " << expected << ", Received: "
-           << size() << ") in CSV file " << getValue();
+           << size() << ") in CSV file " << getValue().toStdString();
       throw IException(IException::User, mess.str(), _FILEINFO_);
     }
     return (true);
@@ -208,7 +208,7 @@ namespace Isis {
     mess << "LoadCSV(";
     QString comma("");
     for (unsigned int i = 0 ; i < _history.size() ; i++) {
-      mess << comma << _history[i];
+      mess << comma.toStdString() << _history[i].toStdString();
       comma = ",";
     }
     mess << ")";
@@ -227,7 +227,7 @@ namespace Isis {
   void LoadCSV::addHistory(const QString &element,
                            const QString &desc) {
     std::ostringstream mess;
-    mess << element << "[" << desc << "]";
+    mess << element.toStdString() << "[" << desc.toStdString() << "]";
     _history.push_back(mess.str().c_str());
   }
 

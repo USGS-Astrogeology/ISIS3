@@ -34,7 +34,7 @@ int main() {
     cout << "Focal Plane Temperature = " << lab1.FocalPlaneTemperature() << endl;
     cout << "Line Rate = " << lab1.LineRate() << endl;
     cout << "Exposure Duration = " << lab1.ExposureDuration() << endl;
-    cout << "Start Time = " << lab1.StartTime() << endl;
+    cout << "Start Time = " << lab1.StartTime().toStdString() << endl;
     cout << "Detectors = " << lab1.Detectors() << endl;
     cout << "StartDetector(1) = " << lab1.StartDetector(1) << endl;
     cout << "EndDetector(1) = " << lab1.EndDetector(1) << endl;
@@ -57,7 +57,7 @@ int main() {
     cout << "Focal Plane Temperature = " << lab2.FocalPlaneTemperature() << endl;
     cout << "Line Rate = " << lab2.LineRate() << endl;
     cout << "Exposure Duration = " << lab2.ExposureDuration() << endl;
-    cout << "Start Time = " << lab2.StartTime() << endl;
+    cout << "Start Time = " << lab2.StartTime().toStdString() << endl;
     cout << "Detectors = " << lab2.Detectors() << endl;
     cout << "StartDetector(1) = " << lab2.StartDetector(1) << endl;
     cout << "EndDetector(1) = " << lab2.EndDetector(1) << endl;

@@ -55,7 +55,7 @@ void IsisMain() {
 
   // If it is already calibrated then complain
   if (icube->hasGroup("Radiometry")) {
-    std::string msg = "This Mariner 10 image [" + icube->fileName() + "] has "
+    std::string msg = "This Mariner 10 image [" + icube->fileName().toStdString() + "] has "
                   "already been radiometrically calibrated";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -84,7 +84,7 @@ void IsisMain() {
       exposureOffset = 3.060;
     }
     else {
-      std::string msg = "Camera [" + camera + "] is not supported.";
+      std::string msg = "Camera [" + camera.toStdString() + "] is not supported.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -114,7 +114,7 @@ void IsisMain() {
   }
 
   if (filter == "FAB" || filter == "WAF") {
-    std::string msg = "Filter type [" + filter + "] is not supported at this time.";
+    std::string msg = "Filter type [" + filter.toStdString() + "] is not supported at this time.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -122,9 +122,9 @@ void IsisMain() {
     coCube.open(ui.GetCubeName("COEFCUBE"));
   }
   else {
-    FileName coFile("$mariner10/calibration/mariner_10_" + filter + "_" +
-        camera + "_coef.cub");
-    coCube.open(coFile.expanded());
+    FileName coFile("$mariner10/calibration/mariner_10_" + filter.toStdString() + "_" +
+        camera.toStdString() + "_coef.cub");
+    coCube.open(QString::fromStdString(coFile.expanded()));
   }
   coef = new Brick(icube->sampleCount(), 1, 6, coCube.pixelType());
 
@@ -139,7 +139,7 @@ void IsisMain() {
       absCoef = 750.0;
     }
     else {
-      std::string msg = "Camera [" + camera + "] is not supported.";
+      std::string msg = "Camera [" + camera.toStdString() + "] is not supported.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -154,7 +154,7 @@ void IsisMain() {
   if (!camSuccess) {
     throw IException(IException::Unknown,
         "Unable to calculate the Solar Distance on [" +
-        icube->fileName() + "]", _FILEINFO_);
+        icube->fileName().toStdString() + "]", _FILEINFO_);
   }
   sunDist = cam->SolarDistance();
 

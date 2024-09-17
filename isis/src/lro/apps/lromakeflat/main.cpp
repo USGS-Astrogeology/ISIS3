@@ -115,7 +115,7 @@ void IsisMain() {
 
   // Set attributes
   UserInterface &ui(Application::GetUserInterface());
-  g_list = FileName(ui.GetFileName("FROMLIST"));
+  g_list = FileName(ui.GetFileName("FROMLIST").toStdString());
   g_numStdevs = abs(ui.GetDouble("STDEVTOL"));
 
   // Input cube attributes
@@ -129,7 +129,7 @@ void IsisMain() {
 
   // Get some info from first cube in list
   Cube firstCube;
-  firstCube.open(g_list[0].toString());
+  firstCube.open(QString::fromStdString(g_list[0].toString()));
   g_sampleCount = firstCube.sampleCount();
   iLineCount = firstCube.lineCount();
 
@@ -179,9 +179,9 @@ void IsisMain() {
   oMedianCube->setDimensions(g_sampleCount, oLineCount, 1);
   oMeanCube->setDimensions(g_sampleCount, oLineCount, 1);
   // Set name of cubes
-  oStdevCube->create(FileName(ui.GetCubeName("TO")).expanded() + ".stdev.cub");
-  oMedianCube->create(FileName(ui.GetCubeName("TO")).expanded() + ".median.cub");
-  oMeanCube->create(FileName(ui.GetCubeName("TO")).expanded() + ".mean.cub");
+  oStdevCube->create(QString::fromStdString(FileName(ui.GetCubeName("TO").toStdString()).expanded() + ".stdev.cub"));
+  oMedianCube->create(QString::fromStdString(FileName(ui.GetCubeName("TO").toStdString()).expanded() + ".median.cub"));
+  oMeanCube->create(QString::fromStdString(FileName(ui.GetCubeName("TO").toStdString()).expanded() + ".mean.cub"));
   // create new line manager
   oStdevlineMgr = new LineManager(*oStdevCube);
   oMedianLineMgr = new LineManager(*oMedianCube);
@@ -198,7 +198,7 @@ void IsisMain() {
     pixelMatrix.resize(g_sampleCount, vector<double>(g_list.size() * framesPerCube, Isis::Null));
     for (int listIndex = 0; listIndex < g_list.size(); listIndex++) {
       Cube tmp2;
-      tmp2.open(g_list[listIndex].toString());
+      tmp2.open(QString::fromStdString(g_list[listIndex].toString()));
       // Only run for cubes with one band
       if (tmp2.bandCount() != 1) {
         string err = "Warning: This cube has too many bands(" + IString(tmp2.bandCount()) +
@@ -250,7 +250,7 @@ void IsisMain() {
     }
     catch (IException &e) {
       //cout << "It's no use at this point. Just go. Leave me here. I'll only slow you down.";
-      string err = "Could not write to output cube " + IString(FileName(ui.GetCubeName("TO")).expanded()) + ".\n";
+      string err = "Could not write to output cube " + IString(FileName(ui.GetCubeName("TO").toStdString()).expanded()) + ".\n";
       throw IException(IException::Programmer, err, _FILEINFO_);
     }
     pixelMatrix.clear();
@@ -290,7 +290,7 @@ void IsisMain() {
     for(unsigned int i = 0; i < g_excludedDetails.size(); i++) {
       excludeFile.addObject(g_excludedDetails[i]);
     }
-    excludeFile.write(FileName(ui.GetFileName("EXCLUDE")).expanded());
+    excludeFile.write(FileName(ui.GetFileName("EXCLUDE").toStdString()).expanded());
   }
 } // end of main
 
@@ -325,10 +325,10 @@ void getCubeListNormalization(Matrix2d &matrix, int cubeWidth, int frameHeight, 
       continue;
     }
     Cube tmp;
-    tmp.open(g_list[listIndex].toString());
+    tmp.open(QString::fromStdString(g_list[listIndex].toString()));
     PvlGroup normResults("NormalizationResults");
-    g_msg = "Getting frame mean avg " + toString((int) listIndex + 1) + "/";
-    g_msg += toString((int) g_list.size()) + " (" + g_list[listIndex].name() + ")";
+    g_msg = "Getting frame mean avg " + QString::number((int) listIndex + 1) + "/";
+    g_msg += QString::number((int) g_list.size()) + " (" + QString::fromStdString(g_list[listIndex].name()) + ")";
     g_prog.SetText(g_msg);
     g_prog.SetMaximumSteps(g_list.size());
     g_prog.CheckStatus();
@@ -360,7 +360,7 @@ void getCubeListNormalization(Matrix2d &matrix, int cubeWidth, int frameHeight, 
       int frame = cubeLine/frameLineCount;
       double normalizationAverage = hist.Average();
       matrix[listIndex][frame] = normalizationAverage;
-      normResults += PvlKeyword("FileName", g_list[listIndex].toString().toStdString());
+      normResults += PvlKeyword("FileName", g_list[listIndex].toString());
       normResults += PvlKeyword("Frame", std::to_string(frame));
       normResults += PvlKeyword("Frame_MeanAverage", std::to_string(normalizationAverage));
       Application::Log(normResults);
@@ -474,7 +474,7 @@ void exclude(int listIndex, string reason) {
     g_excludedCubes.insert(pair<int, string>(listIndex, reason));
     PvlObject exclusion("Excluded_Items");
     PvlGroup excludedFiles("Excluded_Files");
-    excludedFiles += PvlKeyword("FileName", g_list[listIndex].toString().toStdString());
+    excludedFiles += PvlKeyword("FileName", g_list[listIndex].toString());
     excludedFiles += PvlKeyword("Reason", reason);
     Application::Log(excludedFiles);
     exclusion.addGroup(excludedFiles);
@@ -503,7 +503,7 @@ void exclude(int listIndex, int frame, string reason){
     g_excludedFrames.insert(pair < pair < int, int > , string > (pair<int, int>(listIndex, frame), reason));
     PvlObject exclusion("Excluded_Items");
     PvlGroup excludedFiles("Excluded_Frames");
-    excludedFiles += PvlKeyword("Frame_from_cube", g_list[listIndex].toString().toStdString());
+    excludedFiles += PvlKeyword("Frame_from_cube", g_list[listIndex].toString());
     excludedFiles += PvlKeyword("Frame_number", std::to_string(frame));
     excludedFiles += PvlKeyword("Exclusion_reason", reason);
     Application::Log(excludedFiles);

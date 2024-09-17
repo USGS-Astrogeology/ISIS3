@@ -143,7 +143,7 @@ void IsisMain() {
   // We need to get a user definition of how to auto correlate around each
   // of the grid points.
   Pvl regdef;
-  FileName regFile(ui.GetFileName("REGDEF"));
+  FileName regFile(ui.GetFileName("REGDEF").toStdString());
   regdef.read(regFile.expanded());
   AutoReg *ar = AutoRegFactory::Create(regdef);
 
@@ -203,7 +203,7 @@ void IsisMain() {
   jparms.fromJit = trans.GetInfo();
   jparms.matchCorns = mcorns;
   jparms.matchJit = match.GetInfo();
-  jparms.regFile =  regFile.expanded();
+  jparms.regFile = QString::fromStdString(regFile.expanded());
   jparms.cols = cols;
   jparms.rows = rows;
   jparms.lSpacing = lSpacing;
@@ -317,7 +317,7 @@ void IsisMain() {
       }
 
       // Add the measures to a control point
-      QString str = "Row " + toString(r) + " Column " + toString(c);
+      QString str = "Row " + QString::number(r) + " Column " + QString::number(c);
       ControlPoint * cp = new ControlPoint(str);
       cp->SetType(ControlPoint::Free);
       cp->Add(cmTrans);
@@ -335,7 +335,7 @@ void IsisMain() {
   if (ui.WasEntered("FLATFILE")) {
     QString fFile = ui.GetFileName("FLATFILE");
     ofstream os;
-    QString fFileExpanded = FileName(fFile).expanded();
+    QString fFileExpanded = QString::fromStdString(FileName(fFile.toStdString()).expanded());
     os.open(fFileExpanded.toLatin1().data(), ios::out);
     dumpResults(os, reglist, jparms, *ar);
   }
@@ -387,9 +387,9 @@ static ostream &dumpResults(ostream &out, const RegList &regs,
 
   out << "#          Hijitreg ISIS Application Results" << endl;
   out << "#    Coordinates are (Sample, Line) unless indicated" << endl;
-  out << "#           RunDate:  " << iTime::CurrentLocalTime() << endl;
+  out << "#           RunDate:  " << iTime::CurrentLocalTime().toStdString() << endl;
   out << "#\n#    ****  Image Input Information ****\n";
-  out << "#  FROM:  " << fJit.filename << endl;
+  out << "#  FROM:  " << fJit.filename.toStdString() << endl;
   out << "#    Lines:       " << setprecision(0) << fJit.lines << endl;
   out << "#    Samples:     " << setprecision(0) << fJit.samples << endl;
   out << "#    FPSamp0:     " << setprecision(0) << fJit.fpSamp0 << endl;
@@ -409,12 +409,12 @@ static ostream &dumpResults(ostream &out, const RegList &regs,
       << fcorns.lowerRight.sample << " "
       << setw(7) << setprecision(0)
       << fcorns.lowerRight.line << endl;
-  out << "#    StartTime:   " << fJit.UTCStartTime << " <UTC>" << endl;
-  out << "#    SCStartTime: " << fJit.scStartTime << " <SCLK>" << endl;
+  out << "#    StartTime:   " << fJit.UTCStartTime.toStdString() << " <UTC>" << endl;
+  out << "#    SCStartTime: " << fJit.scStartTime.toStdString() << " <SCLK>" << endl;
   out << "#    StartTime:   " << setprecision(8) << fJit.obsStartTime
       << " <seconds>" << endl;
   out << "\n";
-  out << "#  MATCH: " << mJit.filename << endl;
+  out << "#  MATCH: " << mJit.filename.toStdString() << endl;
   out << "#    Lines:       " << setprecision(0) << mJit.lines << endl;
   out << "#    Samples:     " << setprecision(0) << mJit.samples << endl;
   out << "#    FPSamp0:     " << setprecision(0) << mJit.fpSamp0 << endl;
@@ -434,8 +434,8 @@ static ostream &dumpResults(ostream &out, const RegList &regs,
       << mcorns.lowerRight.sample  << " "
       << setw(7) << setprecision(0)
       << mcorns.lowerRight.line << endl;
-  out << "#    StartTime:   " << mJit.UTCStartTime << " <UTC>" << endl;
-  out << "#    SCStartTime: " << mJit.scStartTime << " <SCLK>" << endl;
+  out << "#    StartTime:   " << mJit.UTCStartTime.toStdString() << " <UTC>" << endl;
+  out << "#    SCStartTime: " << mJit.scStartTime.toStdString() << " <SCLK>" << endl;
   out << "#    StartTime:   " << setprecision(8) << mJit.obsStartTime
       << " <seconds>" << endl;
   out << "\n";
@@ -443,13 +443,13 @@ static ostream &dumpResults(ostream &out, const RegList &regs,
   double nlines(fcorns.lowerRight.line - fcorns.topLeft.line + 1);
   double nsamps(fcorns.lowerRight.sample - fcorns.topLeft.sample + 1);
   out << "\n#  **** Registration Data ****\n";
-  out << "#   RegFile: " << jparms.regFile << endl;
+  out << "#   RegFile: " << jparms.regFile.toStdString() << endl;
   out << "#   OverlapSize:      " << setw(7) << (int) nsamps << " "
       << setw(7) << (int) nlines << "\n";
   out << "#   Sample Spacing:   " << setprecision(1) << jparms.sSpacing << endl;
   out << "#   Line Spacing:     " << setprecision(1) << jparms.lSpacing << endl;
   out << "#   Columns, Rows:    " << jparms.cols << " " << jparms.rows << endl;
-  out << "#   Corr. Algorithm:  " << ar.AlgorithmName() << endl;
+  out << "#   Corr. Algorithm:  " << ar.AlgorithmName().toStdString() << endl;
   out << "#   Corr. Tolerance:  " << setprecision(2) << ar.Tolerance() << endl;
   out << "#   Total Registers:  " << regs.size() << " of "
       << (jparms.rows * jparms.cols) << endl;

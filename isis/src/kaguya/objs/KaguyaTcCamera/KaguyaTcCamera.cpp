@@ -76,10 +76,10 @@ namespace Isis {
     // The detector offsets are 0,0 because the borsight is in the center of the array
     // The origin of the detector does not depend on swath mode.
     QString key;
-    key = "INS" + toString(naifIkCode()) + "_BORESIGHT_SAMPLE";
+    key = "INS" + QString::number(naifIkCode()) + "_BORESIGHT_SAMPLE";
     double sampleBoreSight = getDouble(key);
 
-    key = "INS" + toString(naifIkCode()) + "_BORESIGHT_LINE";
+    key = "INS" + QString::number(naifIkCode()) + "_BORESIGHT_LINE";
     double lineBoreSight = getDouble(key);
     focalMap->SetDetectorOrigin(sampleBoreSight, lineBoreSight);
 

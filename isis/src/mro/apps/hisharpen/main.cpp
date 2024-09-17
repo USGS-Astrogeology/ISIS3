@@ -133,7 +133,7 @@ void CreatePsf(Pipeline &p) {
 
   // calculate the temp file filename
   QString tmpFile = p.TemporaryFolder() + "/";
-  tmpFile += FileName(ui.GetAsString("TO")).baseName();
+  tmpFile += QString::fromStdString(FileName(ui.GetAsString("TO").toStdString()).baseName());
   tmpFile += ".psf.cub";
 
   // We need the base input and psf cubes to make the temporary psf cube
@@ -147,7 +147,7 @@ void CreatePsf(Pipeline &p) {
 
     if(instrument != "HIRISE") {
       std::string message = "This program is meant to be run on HiRISE images only, found "
-                        "[InstrumentId] to be [" + instrument + "] and was expecting [HIRISE]";
+                        "[InstrumentId] to be [" + instrument.toStdString() + "] and was expecting [HIRISE]";
       throw IException(IException::User, message, _FILEINFO_);
     }
   }
@@ -159,8 +159,8 @@ void CreatePsf(Pipeline &p) {
 
   if(fromCube.lineCount() != fromCube.sampleCount()) {
     std::string message = "This program only works on square cubes, the number of samples [" +
-                      QString::number(fromCube.sampleCount()) + "] must match the number of lines [" +
-                      QString::number(fromCube.lineCount()) + "]";
+                      toString(fromCube.sampleCount()) + "] must match the number of lines [" +
+                      toString(fromCube.lineCount()) + "]";
     throw IException(IException::User, message, _FILEINFO_);
   }
 
@@ -178,7 +178,7 @@ void CreatePsf(Pipeline &p) {
     psfFile += "IR";
   }
   else {
-    std::string message = "The filter [" + filter + "] does not have a default point spread function. Please provide one using the [PSF] parameter.";
+    std::string message = "The filter [" + filter.toStdString() + "] does not have a default point spread function. Please provide one using the [PSF] parameter.";
     throw IException(IException::Programmer, message, _FILEINFO_);
   }
 
@@ -188,14 +188,14 @@ void CreatePsf(Pipeline &p) {
   psfCube.open(psfFile);
 
   if(psfCube.lineCount() > fromCube.lineCount()) {
-    std::string message = "The input cube dimensions must be at least [" + QString::number(psfCube.lineCount());
+    std::string message = "The input cube dimensions must be at least [" + toString(psfCube.lineCount());
     message += "] pixels in the line and sample dimensions";
     throw IException(IException::User, message, _FILEINFO_);
   }
 
   if(!IsPowerOf2(fromCube.lineCount())) {
     std::string message = "The input cube dimensions must be a power of 2 (found [" +
-                      QString::number(fromCube.lineCount()) + "])";
+                      toString(fromCube.lineCount()) + "])";
     throw IException(IException::User, message, _FILEINFO_);
   }
 
@@ -252,7 +252,7 @@ void CleanPsf() {
   UserInterface &ui = Application::GetUserInterface();
 
   if(!manualPsf) {
-    QString psfTempFile = FileName(ui.GetAsString("PSF")).expanded();
+    QString psfTempFile = QString::fromStdString(FileName(ui.GetAsString("PSF").toStdString()).expanded());
 
     if(ui.GetBoolean("CLEANUP")) {
       remove(psfTempFile.toLatin1().data());

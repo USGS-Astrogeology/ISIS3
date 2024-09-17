@@ -109,7 +109,7 @@ namespace Isis {
               }
             }
 
-            std::string msg = "No parameter band named '" + name + "'.";
+            std::string msg = "No parameter band named '" + name.toStdString() + "'.";
             throw IException(Isis::IException::User, msg, _FILEINFO_);
           }
 

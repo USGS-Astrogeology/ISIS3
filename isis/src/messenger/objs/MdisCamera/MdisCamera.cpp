@@ -68,7 +68,7 @@ namespace Isis {
       m_instrumentNameShort = "MDIS-WAC";
     }
     else {
-      std::string msg = QString::number(naifIkCode());
+      std::string msg = toString(naifIkCode());
       msg += " is not a supported instrument kernel code for Messenger.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -109,9 +109,9 @@ namespace Isis {
     }
 
     //  Set up instrument and filter code strings
-    QString ikCode = toString(naifIkCode());
+    QString ikCode = QString::number(naifIkCode());
     int fnCode(naifIkCode() - filterNumber);
-    QString filterCode = toString(fnCode);
+    QString filterCode = QString::number(fnCode);
     QString ikernKey;
 
     // Fetch the frame translations from the instrument kernels
@@ -300,7 +300,7 @@ namespace Isis {
     //  considered below.
     QVariant my_tdfl = readStoredValue(tdflKey, SpiceStringType, 0);
     if (my_tdfl.isValid()) {
-      focalLength = IString(my_tdfl.toString()).ToDouble();
+      focalLength = QString(my_tdfl.toString()).toDouble();
     }
     else {
       // Hasn't been computed yet (in spiceinit now - maybe) or the proper
@@ -313,8 +313,8 @@ namespace Isis {
       bool tdfl_disabled(false);
 #ifndef DISABLE_TDFL_DISABLING
       try {
-        IString tdfl_state = getString("DISABLE_MDIS_TD_FOCAL_LENGTH");
-        tdfl_disabled = ( "TRUE" == tdfl_state.UpCase() );
+        QString tdfl_state = getString("DISABLE_MDIS_TD_FOCAL_LENGTH");
+        tdfl_disabled = ( "TRUE" == tdfl_state.toUpper() );
       }
       catch (IException &ie) {
         tdfl_disabled = false;

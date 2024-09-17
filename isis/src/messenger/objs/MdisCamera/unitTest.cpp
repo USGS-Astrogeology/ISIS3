@@ -41,7 +41,7 @@ int main(void) {
 
     Cube c("$ISISTESTDATA/isis/src/messenger/unitTestData/EW0089570936I.cub", "r");
     MdisCamera *cam = (MdisCamera *) CameraFactory::Create(c);
-    cout << "FileName: " << FileName(c.fileName()).name() << endl;
+    cout << "FileName: " << FileName(c.fileName().toStdString()).name() << endl;
     cout << "CK Frame: " << cam->instrumentRotation()->Frame() << endl << endl;
     cout.setf(std::ios::fixed);
     cout << setprecision(9);
@@ -107,12 +107,12 @@ int main(void) {
     files.append("$ISISTESTDATA/isis/src/messenger/unitTestData/DN0163645629M_DE_0.reduced.cub");
 
     for (int i = 0; i < files.size(); i++) {
-      Cube m(files[i], "r");
+      Cube m(files[i].toStdString(), "r");
       MdisCamera *mCam = (MdisCamera *) CameraFactory::Create(m);
-      cout << "Spacecraft Name Long: " << mCam->spacecraftNameLong() << endl;
-      cout << "Spacecraft Name Short: " << mCam->spacecraftNameShort() << endl;
-      cout << "Instrument Name Long: " << mCam->instrumentNameLong() << endl;
-      cout << "Instrument Name Short: " << mCam->instrumentNameShort() << endl << endl;
+      cout << "Spacecraft Name Long: " << mCam->spacecraftNameLong().toStdString() << endl;
+      cout << "Spacecraft Name Short: " << mCam->spacecraftNameShort().toStdString() << endl;
+      cout << "Instrument Name Long: " << mCam->instrumentNameLong().toStdString() << endl;
+      cout << "Instrument Name Short: " << mCam->instrumentNameShort().toStdString() << endl << endl;
     }
   }
   catch(IException &e) {

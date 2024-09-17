@@ -60,11 +60,11 @@ double validMaxDn = WACValidMaximum;  //  Assumes the WAC
  * @return double Converted value
  */
 template <typename T> double ToDouble(const T &value) {
-  return (IString(value).Trim(" \r\t\n").ToDouble());
+  return (IString(value.toStdString()).Trim(" \r\t\n").ToDouble());
 }
 
 template <typename T> int ToInteger(const T &value) {
-  return (IString(value).Trim(" \r\t\n").ToInteger());
+  return (IString(value.toStdString()).Trim(" \r\t\n").ToInteger());
 }
 
 
@@ -75,7 +75,7 @@ void IsisMain() {
   bool needsUnlut = false;
 
   // Get the input filename and make sure it is a MESSENGER/MDIS EDR
-  FileName inFile = ui.GetFileName("FROM");
+  FileName inFile = ui.GetFileName("FROM").toStdString();
   IString id;
   bool projected;
   Pvl lab(inFile.expanded());
@@ -84,7 +84,7 @@ void IsisMain() {
     needsUnlut = (int) lab.findKeyword("MESS:COMP12_8");
     // Check for NAC imager
     if((int) lab.findKeyword("MESS:IMAGER") == 1) validMaxDn = NACValidMaximum;
-    id =  QString::fromStdString(lab.findKeyword("MISSION_NAME"));
+    id =  (std::string)lab.findKeyword("MISSION_NAME");
     projected = lab.hasObject("IMAGE_MAP_PROJECTION");
   }
   catch(IException &e) {
@@ -115,9 +115,9 @@ void IsisMain() {
   }
 
   // Perform PDS/EDR source keyword translations to ISIS label keywords
-  p.SetPdsFile(inFile.expanded(), "", pdsLabel);
+  p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", pdsLabel);
   Pvl outLabel = TranslateMdisEdrLabels(inFile, target);
-  PvlKeyword sourceId("SourceProductId", '"' + inFile.baseName().toStdString() + '"');
+  PvlKeyword sourceId("SourceProductId", '"' + inFile.baseName() + '"');
 
   //  Create YearDoy keyword in Archive group
   iTime stime( QString::fromStdString(outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]));
@@ -190,24 +190,24 @@ Pvl TranslateMdisEdrLabels(FileName &labelFile, const QString &target) {
   //Create a PVL to store the translated labels
   Pvl outLabel;
 
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
 
   // Get a filename for the MESSENGER EDR label
   Pvl labelPvl(labelFile.expanded());
 
   // Translate the Instrument group
   FileName transFile(transDir + "MessengerMdisInstrument.trn");
-  PvlToPvlTranslationManager instrumentXlater(labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager instrumentXlater(labelPvl, QString::fromStdString(transFile.expanded()));
   instrumentXlater.Auto(outLabel);
 
   // Translate the BandBin group
   transFile  = transDir + "MessengerMdisBandBin.trn";
-  PvlToPvlTranslationManager bandBinXlater(labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager bandBinXlater(labelPvl, QString::fromStdString(transFile.expanded()));
   bandBinXlater.Auto(outLabel);
 
   // Translate the Archive group
   transFile  = transDir + "MessengerMdisArchive.trn";
-  PvlToPvlTranslationManager archiveXlater(labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager archiveXlater(labelPvl, QString::fromStdString(transFile.expanded()));
   archiveXlater.Auto(outLabel);
 
   // Create the Kernel Group
@@ -318,7 +318,7 @@ int CreateFilterSpecs(const QString &instId, int filter_code,
   }
   else {
     //  Not the expected instrument
-    std::string msg = "Unknown InstrumentId [" + instId + "], image does not " +
+    std::string msg = "Unknown InstrumentId [" + instId.toStdString() + "], image does not " +
                  "appear to be from the MESSENGER/MDIS Camera";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
@@ -362,10 +362,10 @@ LutTable LoadLut(Pvl &label, QString &tableused, QString &froot) {
 
   FileName tableFile("$messenger/calibration/LUT_INVERT/MDISLUTINV_?.TAB");
   tableFile = tableFile.highestVersion();
-  tableused = tableFile.originalPath() + "/" + tableFile.name();
-  froot = tableFile.baseName();
+  tableused = QString::fromStdString(tableFile.originalPath() + "/" + tableFile.name());
+  froot = QString::fromStdString(tableFile.baseName());
 
-  CSVReader csv(tableFile.expanded());
+  CSVReader csv(QString::fromStdString(tableFile.expanded()));
 
   int nRows = csv.rows();
   if(nRows != 256) {

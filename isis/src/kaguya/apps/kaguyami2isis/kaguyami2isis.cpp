@@ -29,7 +29,7 @@ namespace Isis {
     ProcessImportPds p;
     Pvl label;
 
-    FileName inFile = ui.GetFileName("FROM");
+    FileName inFile = ui.GetFileName("FROM").toStdString();
     QString id;
     Pvl lab(inFile.expanded());
 
@@ -47,7 +47,7 @@ namespace Isis {
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
 
-    p.SetPdsFile(inFile.expanded(), "", label);
+    p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", label);
     CubeAttributeOutput &att = ui.GetOutputAttribute("TO");
     Cube *outcube = p.SetOutputCube(ui.GetCubeName("TO"), att);
 
@@ -73,19 +73,19 @@ namespace Isis {
     p.StartProcess();
 
     // Get the directory where the Kaguya MI translation tables are.
-    QString transDir = "$ISISROOT/appdata/translations/";
+    std::string transDir = "$ISISROOT/appdata/translations/";
     Pvl inputLabel(inFile.expanded());
     Pvl *outputLabel = outcube->label();
     FileName transFile;
 
     // Translate the Archive group
     transFile = transDir + "KaguyaMiArchive.trn";
-    PvlToPvlTranslationManager archiveXlater(inputLabel, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(inputLabel, QString::fromStdString(transFile.expanded()));
     archiveXlater.Auto(*(outputLabel));
 
     // Translate the Instrument group
     transFile = transDir + "KaguyaMiInstrument.trn";
-    PvlToPvlTranslationManager instrumentXlater(inputLabel, transFile.expanded());
+    PvlToPvlTranslationManager instrumentXlater(inputLabel, QString::fromStdString(transFile.expanded()));
     instrumentXlater.Auto(*(outputLabel));
       //trim trailing z's from the time strings
     PvlGroup &instGroup(outputLabel->findGroup("Instrument",Pvl::Traverse));
@@ -110,7 +110,7 @@ namespace Isis {
 
     // Translate the BandBin group
     transFile = transDir + "KaguyaMiBandBin.trn";
-    PvlToPvlTranslationManager bandBinXlater(inputLabel, transFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(inputLabel, QString::fromStdString(transFile.expanded()));
     bandBinXlater.Auto(*(outputLabel));
 
     //Set up the Kernels group
@@ -118,15 +118,15 @@ namespace Isis {
     QString baseBand = QString::fromStdString(lab.findKeyword("BASE_BAND")[0]);
     if (lab.findKeyword("INSTRUMENT_ID")[0] == "MI-VIS") {
       if (baseBand.contains("MV")) {
-        kern += PvlKeyword("NaifFrameCode", (toString(-13133) + baseBand[2]).toStdString());
+        kern += PvlKeyword("NaifFrameCode", (toString(-13133) + QString(baseBand[2]).toStdString()));
       }
       kern += PvlKeyword("NaifCkCode", std::to_string(-131330));
     }
     else if (lab.findKeyword("INSTRUMENT_ID")[0] == "MI-NIR") {
       if (baseBand.contains("MN")) {
-        kern += PvlKeyword("NaifFrameCode", (toString(-13134) + baseBand[2]).toStdString());
+        kern += PvlKeyword("NaifFrameCode", (toString(-13134) + QString(baseBand[2]).toStdString()));
       }
-      kern += PvlKeyword("NaifCkCode", std::to_string(-131340));
+      kern += PvlKeyword("NaifCkCode", toString(-131340));
     }
 
     //At the time of this writing there was no expectation that Kaguya ever did any binning

@@ -111,15 +111,15 @@ namespace Isis {
       }
 
       CubeAttributeInput cai;
-      cai.setAttributes("+" + bands[0]);
+      cai.setAttributes("+" + bands[0].toStdString());
       p.SetInputCube(ui.GetCubeName("BACKPLANE"), cai);
-      cai.setAttributes("+" + bands[1]);
+      cai.setAttributes("+" + bands[1].toStdString());
       p.SetInputCube(ui.GetCubeName("BACKPLANE"), cai);
-      cai.setAttributes("+" + bands[2]);
+      cai.setAttributes("+" + bands[2].toStdString());
       p.SetInputCube(ui.GetCubeName("BACKPLANE"), cai);
-      cai.setAttributes("+" + bands[3]);
+      cai.setAttributes("+" + bands[3].toStdString());
       p.SetInputCube(ui.GetCubeName("BACKPLANE"), cai);
-      cai.setAttributes("+" + bands[4]);
+      cai.setAttributes("+" + bands[4].toStdString());
       p.SetInputCube(ui.GetCubeName("BACKPLANE"), cai);
 
       useBackplane = true;
@@ -127,7 +127,7 @@ namespace Isis {
 
     // Get the name of the parameter files
     QString algoFile = ui.GetAsString("PHOALGO");
-    FileName algoFileName(algoFile);
+    FileName algoFileName(algoFile.toStdString());
     if (algoFileName.isVersioned()) {
       algoFileName = algoFileName.highestVersion();
     }
@@ -138,7 +138,7 @@ namespace Isis {
     Pvl par(algoFileName.expanded());
 
     QString parCubeFile = ui.GetCubeName("PHOPARCUBE");
-    FileName parCubeFileName(parCubeFile);
+    FileName parCubeFileName(parCubeFile.toStdString());
     if (parCubeFileName.isVersioned()) {
       parCubeFileName = parCubeFileName.highestVersion();
     }
@@ -188,7 +188,7 @@ namespace Isis {
       phoLroc->setNormalized(normalized);
     }
     else {
-      std::string msg = " Algorithm Name [" + algoName + "] not recognized. ";
+      std::string msg = " Algorithm Name [" + algoName.toStdString() + "] not recognized. ";
       msg += "Compatible Algorithms are:\n    HapkeLRO\n    HapkeLROC";
       throw IException(IException::User, msg, _FILEINFO_);
     }

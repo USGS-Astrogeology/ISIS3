@@ -52,12 +52,12 @@ namespace Isis {
 
       g_isIof = QString::fromStdString(inCube->label()->findGroup("Radiometry", Pvl::Traverse).findKeyword("RadiometricType")[0]).toUpper() == "IOF";
 
-      FileName scaledCube("$TEMPORARY/" + FileName(ui.GetCubeName("FROM")).name());
+      FileName scaledCube("$TEMPORARY/" + FileName(ui.GetCubeName("FROM").toStdString()).name());
       scaledCube.addExtension("cub");
 
       scaledCube = FileName::createTempFile(scaledCube);
       p.SetOutputCube(
-          scaledCube.expanded(), CubeAttributeOutput(),
+          QString::fromStdString(scaledCube.expanded()), CubeAttributeOutput(),
           inCube->sampleCount(), inCube->lineCount(),
           inCube->bandCount());
 
@@ -68,7 +68,7 @@ namespace Isis {
       ProcessExport pe;
 
       // Setup the input cube
-      inCube = pe.SetInputCube(scaledCube.expanded(), CubeAttributeInput());
+      inCube = pe.SetInputCube(QString::fromStdString(scaledCube.expanded()), CubeAttributeInput());
 
       if (g_isIof) {
           pe.SetOutputType(Isis::SignedWord);
@@ -96,8 +96,8 @@ namespace Isis {
       }
 
       FileName tempFile;
-      tempFile = FileName::createTempFile("$TEMPORARY/" + FileName(ui.GetFileName("TO")).baseName() + ".temp");
-      QString tempFileName(tempFile.expanded());
+      tempFile = FileName::createTempFile("$TEMPORARY/" + FileName(ui.GetFileName("TO").toStdString()).baseName() + ".temp");
+      QString tempFileName(QString::fromStdString(tempFile.expanded()));
       ofstream temporaryFile(tempFileName.toLatin1().data());
 
       pe.StartProcess(temporaryFile);
@@ -106,8 +106,8 @@ namespace Isis {
       // Calculate MD5 Checksum
       g_md5Checksum = MD5Checksum(tempFileName);
 
-      FileName outFile(ui.GetFileName("TO"));
-      QString outFileName(outFile.expanded());
+      FileName outFile(ui.GetFileName("TO").toStdString());
+      QString outFileName(QString::fromStdString(outFile.expanded()));
       ifstream inFile(tempFileName.toLatin1().data());
       ofstream pdsFile(outFileName.toLatin1().data());
 
@@ -121,7 +121,7 @@ namespace Isis {
 
       pe.EndProcess();
 
-      remove((scaledCube.expanded()).toLatin1().data());
+      remove((scaledCube.expanded()).c_str());
       remove(tempFileName.toLatin1().data());
       return;
   }
@@ -163,7 +163,7 @@ namespace Isis {
 
       //Translate the Original Pds Label
       FileName transFile("$ISISROOT/appdata/translations/LroNacPdsLabelExport.trn");
-      PvlToPvlTranslationManager labelXlator(labelPvl, transFile.expanded());
+      PvlToPvlTranslationManager labelXlator(labelPvl, QString::fromStdString(transFile.expanded()));
       labelXlator.Auto(outLabel);
 
       // Copy any Translation changes over
@@ -268,7 +268,7 @@ namespace Isis {
           pdsLabel += " ";
       }
 
-      fout << pdsLabel;
+      fout << pdsLabel.toStdString();
       return;
   }
 

@@ -25,7 +25,7 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
 
   QString labelFile = ui.GetFileName("FROM");
-  FileName inFile = ui.GetFileName("FROM");
+  FileName inFile = ui.GetFileName("FROM").toStdString();
   QString id;
   Pvl lab(inFile.expanded());
 
@@ -48,7 +48,7 @@ void IsisMain() {
                  "in CHANDRAYAAN-1 MINI-RF FORERUNNER level 1 or level 2 format " +
                  "or in LUNAR RECONNAISSANCE ORBITER MINI-RF LRO level 1 or " +
                  "level 2 format. " +
-                 "DATA_SET_ID is [" + id + "]";
+                 "DATA_SET_ID is [" + id.toStdString() + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
 
@@ -69,7 +69,7 @@ void IsisMain() {
   }
   else {
     std::string msg = "Input file [" + inFile.expanded() + "] has an invalid " +
-                 "band storage type. BAND_STORAGE_TYPE is [" + bandorder + "]";
+                 "band storage type. BAND_STORAGE_TYPE is [" + bandorder.toStdString() + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
   p.StartProcess();
@@ -81,12 +81,12 @@ void IsisMain() {
   if(id == "CHAN1-L-MRFFR-5-CDR-MAP-V1.0" || id == "LRO-L-MRFLRO-5-CDR-MAP-V1.0") {
     // Translate the BandBin group
     FileName transFile("$ISISROOT/appdata/translations/MrfLev2BandBin.trn");
-    PvlToPvlTranslationManager bandBinXlater(label, transFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(label, QString::fromStdString(transFile.expanded()));
     bandBinXlater.Auto(otherLabels);
 
     // Translate the Archive group
     transFile = "$ISISROOT/appdata/translations/MrfLev2Archive.trn";
-    PvlToPvlTranslationManager archiveXlater(label, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(label, QString::fromStdString(transFile.expanded()));
     archiveXlater.Auto(otherLabels);
 
     // Write the BandBin, Archive, and Mapping groups to the output cube label
@@ -97,22 +97,22 @@ void IsisMain() {
   else {
     // Translate the BandBin group
     FileName transFile("$ISISROOT/appdata/translations/MrfLev1BandBin.trn");
-    PvlToPvlTranslationManager bandBinXlater(label, transFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(label, QString::fromStdString(transFile.expanded()));
     bandBinXlater.Auto(otherLabels);
 
     // Translate the Archive group
     transFile = "$ISISROOT/appdata/translations/MrfLev1Archive.trn";
-    PvlToPvlTranslationManager archiveXlater(label, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(label, QString::fromStdString(transFile.expanded()));
     archiveXlater.Auto(otherLabels);
 
     // Translate the Instrument group
     transFile = "$ISISROOT/appdata/translations/MrfLev1Instrument.trn";
-    PvlToPvlTranslationManager instrumentXlater(label, transFile.expanded());
+    PvlToPvlTranslationManager instrumentXlater(label, QString::fromStdString(transFile.expanded()));
     instrumentXlater.Auto(otherLabels);
 
     // Translate the Image group
     transFile = "$ISISROOT/appdata/translations/MrfLev1Image.trn";
-    PvlToPvlTranslationManager imageXlater(label, transFile.expanded());
+    PvlToPvlTranslationManager imageXlater(label, QString::fromStdString(transFile.expanded()));
     imageXlater.Auto(otherLabels);
 
     // Write the BandBin, Archive, Instrument, and ImageInfo groups

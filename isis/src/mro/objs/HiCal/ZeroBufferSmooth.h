@@ -99,15 +99,15 @@ namespace Isis {
         _history.clear();
         _history.add("Profile["+ prof.Name()+"]");
 
-        int samp0 = toInt(ConfKey(prof,"ZeroBufferSmoothFirstSample",QString("0")));
-        int sampN = toInt(ConfKey(prof,"ZeroBufferSmoothLastSample",QString("11")));
+        int samp0 = ConfKey(prof,"ZeroBufferSmoothFirstSample",QString("0")).toInt();
+        int sampN = ConfKey(prof,"ZeroBufferSmoothLastSample",QString("11")).toInt();
         _buffer = averageSamples(cal.getBuffer(), samp0, sampN);
         _history.add("AveCols(Buffer["+ToString(samp0)+","+ToString(sampN)+"])");
 
         //  Smooth/filter the averages
         LowPassFilter bufter(_buffer, _history,
-                          toInt(ConfKey(prof,"ZeroBufferSmoothFilterWidth",QString("201"))),
-                          toInt(ConfKey(prof,"ZeroBufferSmoothFilterIterations",QString("2"))));
+                          ConfKey(prof,"ZeroBufferSmoothFilterWidth",QString("201")).toInt(),
+                          ConfKey(prof,"ZeroBufferSmoothFilterIterations",QString("2")).toInt());
         //  If need be, fill the data with a cubic spline
         SplineFill spline(bufter);
         _data = spline.ref();
@@ -140,8 +140,8 @@ namespace Isis {
           << std::setw(_fmtWidth+1) << "Filtered\n";
 
         for (int i = 0 ; i < _data.dim() ; i++) {
-          o << formatDbl(_buffer[i]) << " "
-            << formatDbl(_data[i]) << std::endl;
+          o << formatDbl(_buffer[i]).toStdString() << " "
+            << formatDbl(_data[i]).toStdString() << std::endl;
         }
         return;
       }

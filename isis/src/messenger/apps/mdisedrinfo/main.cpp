@@ -37,7 +37,7 @@ void IsisMain() {
 //  Input parameters
   UserInterface &ui = Application::GetUserInterface();
   QString sourceFile = ui.GetAsString("FROM");    //  Save off source filename
-  FileName from(sourceFile);
+  FileName from(sourceFile.toStdString());
 
   QString to;
   if(ui.WasEntered("TO")) to = ui.GetAsString("TO");
@@ -54,25 +54,25 @@ void IsisMain() {
 
 // Run mdis2isis if necessary.  If this step must be done, we must also
 //  run spiceinit to initialize it with spice.
-  if(from.extension().toUpper() != "CUB") {
+  if(IString(from.extension()).UpCase() != "CUB") {
     FileName temp = FileName::createTempFile("$TEMPORARY/" + from.baseName() + ".cub");
-    QString params = "from=" + from.expanded()  + " to=" + temp.expanded();
+    QString params = QString::fromStdString("from=" + from.expanded()  + " to=" + temp.expanded());
 
     try {
       ProgramLauncher::RunIsisProgram("mdis2isis", params);
 
 // Ensure a proper target before initialization
       Cube cube;
-      cube.open(temp.expanded(), "rw");
+      cube.open(QString::fromStdString(temp.expanded()), "rw");
       Pvl *label = cube.label();
       MdisGeometry::validateTarget(*label, true);
       cube.close();
 
       //  Run spiceinit on it
-      ProgramLauncher::RunIsisProgram("spiceinit", "from=" + temp.expanded());
+      ProgramLauncher::RunIsisProgram("spiceinit", "from=" + QString::fromStdString(temp.expanded()));
     }
     catch(IException &ie) {
-      QString tempName(temp.expanded());
+      QString tempName(QString::fromStdString(temp.expanded()));
       remove(tempName.toLatin1().data());
       throw IException(ie, IException::User,
                        "Failed to execute mdis2isis/spiceinit", _FILEINFO_);
@@ -91,7 +91,7 @@ void IsisMain() {
     MdisEdrKeys edrkeys(edrlab);
 
 //  Compute the Geometry
-    MdisGeometry geom(from.expanded());
+    MdisGeometry geom(QString::fromStdString(from.expanded()));
     Pvl geomkeys = geom.getGeometry(sourceFile);
     edrkeys.updateKeys(geomkeys);
 
@@ -99,7 +99,7 @@ void IsisMain() {
 
 //  Only process the PDS EDR keyword mapping if KEYMAP (or TO) is entered.
     if(!keylist.isEmpty()) {
-      FileName kmap(keylist);
+      FileName kmap(keylist.toStdString());
       if(!kmap.fileExists()) {
         std::string mess = "EDR keyword map source file, " + kmap.expanded()
                        + ", does not exist!";
@@ -107,7 +107,7 @@ void IsisMain() {
       }
 
       // Get the keylist source line
-      QString kmapName(kmap.expanded());
+      QString kmapName(QString::fromStdString(kmap.expanded()));
       ifstream ifile(kmapName.toLatin1().data(), ios::in);
       if(!ifile) {
         std::string mess = "Unable to open key map source file " + kmap.expanded();
@@ -128,8 +128,8 @@ void IsisMain() {
 
       if(!to.isEmpty()) {
         //  Now open the output file and write the result
-        FileName tomap(to);
-        QString tomapName(tomap.expanded());
+        FileName tomap(to.toStdString());
+        QString tomapName(QString::fromStdString(tomap.expanded()));
         bool toExists = tomap.fileExists();
         ofstream ofile;
         if(toExists) {
@@ -141,13 +141,13 @@ void IsisMain() {
 
         if(!ofile) {
           std::string mess = "Could not open or create output TO file " +
-                         tomapName;
+                         tomapName.toStdString();
           throw IException(IException::User, mess, _FILEINFO_);
         }
 
         //  Write the header if requested by the user
         if(!toExists) ofile << keystring << endl;
-        ofile << keyvalues << endl;
+        ofile << keyvalues.toStdString() << endl;
         ofile.close();
       }
     }
@@ -169,12 +169,12 @@ void IsisMain() {
     Application::Log(mdiskeys);
   }
   catch(IException &) {
-    QString fromName(from.expanded());
+    QString fromName(QString::fromStdString(from.expanded()));
     if(delete_from) remove(fromName.toLatin1().data());
     throw;
   }
 
 // Delete the from file if it was temporarily created from an EDR
-  QString fromName(from.expanded());
+  QString fromName(QString::fromStdString(from.expanded()));
   if(delete_from) remove(fromName.toLatin1().data());
 }

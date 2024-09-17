@@ -147,14 +147,14 @@ namespace Isis {
 
     auto CopyCubeIntoBuffer = [](QString &fileString, Buffer* &data) -> void {
       Cube cube;
-      FileName filename(fileString);
+      FileName filename(fileString.toStdString());
       if (filename.isVersioned())
         filename = filename.highestVersion();
       if (!filename.fileExists()) {
-        std::string msg = fileString + " does not exist.";
+        std::string msg = fileString.toStdString() + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
-      cube.open(filename.expanded());
+      cube.open(QString::fromStdString(filename.expanded()));
       Brick brick(cube.sampleCount(), cube.lineCount(), cube.bandCount(), cube.pixelType());
       brick.SetBasePosition(1, 1, 1);
       cube.read(brick);
@@ -162,7 +162,7 @@ namespace Isis {
       data = NULL;
       data = new Buffer(brick);
 
-      fileString = filename.expanded();
+      fileString = QString::fromStdString(filename.expanded());
     };
 
     /**
@@ -185,8 +185,8 @@ namespace Isis {
     */
     auto GetDark = [CopyCubeIntoBuffer](QString fileString, double temp, double time, Buffer* &data1, Buffer* &data2,
                       double & temp1, double & temp2, QString & file1, QString & file2) -> void {
-      FileName filename(fileString);
-      QString basename = FileName(filename.baseName()).baseName(); // We do it twice to remove the ".????.cub"
+      FileName filename(fileString.toStdString());
+      QString basename = QString::fromStdString(FileName(filename.baseName()).baseName()); // We do it twice to remove the ".????.cub"
 
       // create a regular expression to capture the temp and time from filenames
       QString regexPattern(basename);
@@ -198,7 +198,7 @@ namespace Isis {
       filter.append(".*");
 
       // get a list of dark files that match our basename
-      QDir dir(filename.path(), filter);
+      QDir dir(QString::fromStdString(filename.path()), filter);
 
       vector<DarkFileInfo> darkFiles;
       darkFiles.reserve(dir.count());
@@ -232,7 +232,7 @@ namespace Isis {
 
       // we require at least 2 different dark files to interpolate/extrapolate
       if (darkFiles.size() < 2) {
-        std::string msg = "Not enough Dark files exist for these image options [" + basename + "]. Need at least 2 files with different temperatures\n";
+        std::string msg = "Not enough Dark files exist for these image options [" + basename.toStdString() + "]. Need at least 2 files with different temperatures\n";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -264,20 +264,20 @@ namespace Isis {
       int timeIndex = fileString.indexOf("*T");
 
       file1 = fileString;
-      file1.replace(timeIndex, 1, toString(time1));
-      file1.replace(tempIndex, 1, toString((int)temp1));
+      file1.replace(timeIndex, 1, QString::number(time1));
+      file1.replace(tempIndex, 1, QString::number((int)temp1));
 
       file2 = fileString;
-      file2.replace(timeIndex, 1, toString(time2));
-      file2.replace(tempIndex, 1, toString((int)temp2));
+      file2.replace(timeIndex, 1, QString::number(time2));
+      file2.replace(tempIndex, 1, QString::number((int)temp2));
 
       CopyCubeIntoBuffer(file1, data1);
       CopyCubeIntoBuffer(file2, data2);
     };
 
     auto GetMask = [CopyCubeIntoBuffer](QString &fileString, double temp, Buffer* &data) {
-      FileName filename(fileString);
-      QString basename = FileName(filename.baseName()).baseName(); // We do it twice to remove the ".????.cub"
+      FileName filename(fileString.toStdString());
+      QString basename = QString::fromStdString(FileName(filename.baseName()).baseName()); // We do it twice to remove the ".????.cub"
 
       unsigned int index = basename.indexOf("*");
 
@@ -285,7 +285,7 @@ namespace Isis {
       QString filter(basename);
       filter.append(".*");
 
-      QDir dir(filename.path(), filter);
+      QDir dir(QString::fromStdString(filename.path()), filter);
 
       // create a regular expression to capture the temp and time from filenames
       QString regexPattern(basename);
@@ -319,12 +319,12 @@ namespace Isis {
       }
 
       if (bestTemp == DBL_MAX) {
-        std::string msg = "No files exist for these mask options [" + basename + "]";
+        std::string msg = "No files exist for these mask options [" + basename.toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       index = fileString.indexOf("*");
-      fileString.replace(index, 1, toString((int)bestTemp));
+      fileString.replace(index, 1, QString::number((int)bestTemp));
 
       CopyCubeIntoBuffer(fileString, data);
     };
@@ -542,7 +542,7 @@ namespace Isis {
     instId = instId.toUpper();
     if (instId != "WAC-VIS" && instId != "WAC-UV") {
       std::string msg = "This program is intended for use on LROC WAC images only. [";
-      msg += icube->fileName() + "] does not appear to be a WAC image.";
+      msg += icube->fileName().toStdString() + "] does not appear to be a WAC image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -584,9 +584,9 @@ namespace Isis {
     //We have to pay special attention incase we are passed a
     //single band image that has been "exploded" from a multiband wac
     if (instModeId == "COLOR" && g_bands.size() == 1)
-      g_bands[0] = (toInt(filterNum) -2);
+      g_bands[0] = (filterNum.toInt() -2);
     else if (instModeId == "UV" && g_bands.size() == 1)
-      g_bands[0] = (toInt(filterNum));
+      g_bands[0] = (filterNum.toInt());
 
     if (g_dark) {
       if (darkFiles.size() == 0 || darkFiles[0] =="Default" || darkFiles[0].length() == 0) {
@@ -608,10 +608,10 @@ namespace Isis {
       else {
         CopyCubeIntoBuffer(darkFiles[0], g_darkCube1);
         int index = darkFiles[0].lastIndexOf("_");
-        g_temp1 = IString(darkFiles[0].mid(darkFiles[0].lastIndexOf("_", index-1), index)).ToDouble();
+        g_temp1 = darkFiles[0].mid(darkFiles[0].lastIndexOf("_", index-1), index).toDouble();
         CopyCubeIntoBuffer(darkFiles[1], g_darkCube2);
         index = darkFiles[1].lastIndexOf("_");
-        g_temp2 = IString(darkFiles[1].mid(darkFiles[1].lastIndexOf("_", index-1), index)).ToDouble();
+        g_temp2 = darkFiles[1].mid(darkFiles[1].lastIndexOf("_", index-1), index).toDouble();
       }
     }
 
@@ -639,11 +639,11 @@ namespace Isis {
       if (radFile.toLower() == "default" || radFile.length() == 0)
         radFile = GetCalibrationDirectory("") + "WAC_RadiometricResponsivity.????.pvl";
 
-      FileName radFileName(radFile);
+      FileName radFileName(radFile.toStdString());
       if (radFileName.isVersioned())
         radFileName = radFileName.highestVersion();
       if (!radFileName.fileExists()) {
-        std::string msg = radFile + " does not exist.";
+        std::string msg = radFile.toStdString() + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -726,11 +726,11 @@ namespace Isis {
       if (tempFile.toLower() == "default" || tempFile.length() == 0)
         tempFile = GetCalibrationDirectory("") + "WAC_TempratureConstants.????.pvl";
 
-      FileName tempFileName(tempFile);
+      FileName tempFileName(tempFile.toStdString());
       if (tempFileName.isVersioned())
         tempFileName = tempFileName.highestVersion();
       if (!tempFileName.fileExists()) {
-        std::string msg = tempFile + " does not exist.";
+        std::string msg = tempFile.toStdString() + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 

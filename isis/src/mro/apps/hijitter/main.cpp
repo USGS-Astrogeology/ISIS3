@@ -91,7 +91,7 @@ void IsisMain() {
   // Get user interface
   UserInterface &ui = Application::GetUserInterface();
 
-  FileList inputList(ui.GetFileName("FROMLIST"));
+  FileList inputList(ui.GetFileName("FROMLIST").toStdString());
 
   int masterFileNum = ui.GetInteger("MASTER");
 
@@ -108,7 +108,7 @@ void IsisMain() {
 
   matchfilePipeline.SetInputFile(masterCcdFileName(inputList, masterFileNum));
   matchfilePipeline.SetOutputFile(FileName("$TEMPORARY/matchMaster.cub"));
-  g_tempFiles.push_back(FileName("$TEMPORARY/matchMaster.cub").expanded());
+  g_tempFiles.push_back(QString::fromStdString(FileName("$TEMPORARY/matchMaster.cub").expanded()));
 
   matchfilePipeline.KeepTemporaryFiles(false);
 
@@ -167,8 +167,8 @@ void IsisMain() {
   mainPipeline.AddToPipeline("noproj");
   mainPipeline.Application("noproj").SetInputParameter("FROM", true);
   mainPipeline.Application("noproj").AddConstParameter("MATCH",
-                                            FileName("$TEMPORARY/matchMaster.cub").expanded());
-  mainPipeline.Application("noproj").SetOutputParameter("TO", FileName("$TEMPORARY/noproj").expanded());
+                                            QString::fromStdString(FileName("$TEMPORARY/matchMaster.cub").expanded()));
+  mainPipeline.Application("noproj").SetOutputParameter("TO", QString::fromStdString(FileName("$TEMPORARY/noproj").expanded()));
 
   mainPipeline.Prepare();
 
@@ -198,7 +198,7 @@ void IsisMain() {
   // the outputs from this pipeline are temporary files created by cubeatt
   std::vector<QString> outputs = mainPipeline.OriginalBranches();
   for (int i = 0; i < g_numFiles; i++) {
-    g_tempFiles.push_back(FileName("$TEMPORARY/noproj."  + outputs[i] + ".cub").expanded());
+    g_tempFiles.push_back(QString::fromStdString(FileName("$TEMPORARY/noproj."  + outputs[i].toStdString() + ".cub").expanded()));
   }
 
   // Do some calculations, delete the final outputs from the pipeline
@@ -247,7 +247,7 @@ void IsisMain() {
     }
     catch(IException &e) {
       std::string msg = "Creation of the output ck, " +
-        ui.GetFileName("JITTERCK") + " failed.";
+        ui.GetFileName("JITTERCK").toStdString() + " failed.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     // run main hijitter pipeline with same parameters as last run:
@@ -284,18 +284,18 @@ void IsisMain() {
       Pipeline pcrop("Crop Pipeline");
       pcrop.KeepTemporaryFiles(false);
 
-      QString tag = "crop" + toString(i);
+      QString tag = "crop" + QString::number(i);
       QString inFile(mainPipeline.FinalOutput(i));
       QString outFile = "temp_"+tag+".cub";
 
-      pcrop.SetInputFile(FileName(inFile));
-      pcrop.SetOutputFile(FileName(outFile));
+      pcrop.SetInputFile(FileName(inFile.toStdString()));
+      pcrop.SetOutputFile(FileName(outFile.toStdString()));
 
       pcrop.AddToPipeline("crop", tag);
       pcrop.Application(tag).SetInputParameter ("FROM",   false);
       pcrop.Application(tag).SetOutputParameter("TO",     "crop");
-      pcrop.Application(tag).AddConstParameter ("LINE",   toString(line1));
-      pcrop.Application(tag).AddConstParameter ("NLINES", toString(numLines));
+      pcrop.Application(tag).AddConstParameter ("LINE",   QString::number(line1));
+      pcrop.Application(tag).AddConstParameter ("NLINES", QString::number(numLines));
       pcrop.Run();
 
       remove(inFile.toLatin1().data());
@@ -334,7 +334,7 @@ FileName masterCcdFileName(FileList &inList, int masterCcdNumber) {
     std::string msg = "File containing master CCD [" + toString(masterCcdNumber) + "] is not in the input file list.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
-  return g_ccdFiles[masterCcdNumber];
+  return g_ccdFiles[masterCcdNumber].toStdString();
 }
 
 /**
@@ -364,23 +364,23 @@ void init(FileList &inList) {
       QString ccdKeywordValue = QString::fromStdString(inst["CcdId"]);
       int ccdNumber = 0;
       if (ccdKeywordValue.indexOf("RED") == 0) {
-        ccdNumber = (int) toInt((QString)ccdKeywordValue.mid(3));
+        ccdNumber = ccdKeywordValue.mid(3).toInt();
       }
       else if (ccdKeywordValue.indexOf("IR") == 0) {
-        ccdNumber = (int) toInt((QString)ccdKeywordValue.mid(2));
+        ccdNumber = ccdKeywordValue.mid(2).toInt();
       }
       else if (ccdKeywordValue.indexOf("BG") == 0) {
-        ccdNumber = (int) toInt((QString)ccdKeywordValue.mid(2));
+        ccdNumber = ccdKeywordValue.mid(2).toInt();
       }
       else {
-        std::string msg = "CcdId value of [" + ccdKeywordValue + "] found in ["
+        std::string msg = "CcdId value of [" + ccdKeywordValue.toStdString() + "] found in ["
                       + inList[i].toString() + "] not supported. Valid values "
                       "include RED0-RED9, IR10-IR11, BG12-BG13";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
       if (ccdNumber < 0 || ccdNumber > 13) {
-        std::string msg = "CcdId value of [" + ccdKeywordValue + "] found in ["
+        std::string msg = "CcdId value of [" + ccdKeywordValue.toStdString() + "] found in ["
                       + inList[i].toString() + "] not supported. Valid values "
                       "include RED0-RED9, IR10-IR11, BG12-BG13";
         throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -400,7 +400,7 @@ void init(FileList &inList) {
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
-      g_ccdFiles[ccdNumber] = inList[i].toString();
+      g_ccdFiles[ccdNumber] = QString::fromStdString(inList[i].toString());
       g_ccdNumbers.push_back(ccdNumber);
     }
     catch(IException &e) {
@@ -465,18 +465,18 @@ void init(FileList &inList) {
 
         QString overlappingCcds = "";
         if (i == 0 || i == 10 || i == 12) {
-          overlappingCcds = "CCD [" + color + toString((int) (i+1) ) + "] is";
+          overlappingCcds = "CCD [" + color + QString::number((int) (i+1) ) + "] is";
         }
         else if (i == 9 || i == 11 || i == 13) {
-          overlappingCcds = "CCD [" + color + toString((int) (i-1)) + "] is";
+          overlappingCcds = "CCD [" + color + QString::number((int) (i-1)) + "] is";
         }
         else {
-          overlappingCcds = "CCDs [RED" + toString((int) (i-1))
-                         + "] and [RED" + toString((int) (i+1)) + "] are";
+          overlappingCcds = "CCDs [RED" + QString::number((int) (i-1))
+                         + "] and [RED" + QString::number((int) (i+1)) + "] are";
         }
-        std::string msg = "Invalid file list. A file containing the CCD [" + color
+        std::string msg = "Invalid file list. A file containing the CCD [" + color.toStdString()
                       + toString((int) i) + "] is in the input file list, "
-                      "but adjacent " + overlappingCcds + " not in the list.";
+                      "but adjacent " + overlappingCcds.toStdString() + " not in the list.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       previousCcdEmpty = false;
@@ -523,9 +523,9 @@ void processNoprojFiles(Pipeline &p) {
     if (g_ccdNumbers[i] != 9 && g_ccdNumbers[i] != 11 && g_ccdNumbers[i] != 13
         && g_ccdNumbers[i+1] == g_ccdNumbers[i] + 1) {
 
-      QString tempDir = FileName("$TEMPORARY").expanded();
-      QString flatFileName = tempDir + "/first" + toString(g_ccdNumbers[i])
-                            + "-" + toString(g_ccdNumbers[i+1]) + ".flat";
+      QString tempDir = QString::fromStdString(FileName("$TEMPORARY").expanded());
+      QString flatFileName = tempDir + "/first" + QString::number(g_ccdNumbers[i])
+                            + "-" + QString::number(g_ccdNumbers[i+1]) + ".flat";
       QString params = "";
       params += "FROM=" + tempDir + "/noproj." + outputs[i] + ".cub";
       params += " MATCH=" + tempDir + "/noproj." + outputs[i + 1] + ".cub";
@@ -578,7 +578,7 @@ void processNoprojFiles(Pipeline &p) {
             // cut off text after our number
             line = line.mid(0, line.indexOf(" "));
 
-            g_avgOffsets[offsetIndex][0] = (double)toDouble((QString)line);
+            g_avgOffsets[offsetIndex][0] = line.toDouble();
             pos = -1;
           }
 
@@ -591,7 +591,7 @@ void processNoprojFiles(Pipeline &p) {
             // cut off text after our number
             line = line.mid(0, line.indexOf(" "));
 
-            g_avgOffsets[offsetIndex][1] = (double)toDouble((QString)line);
+            g_avgOffsets[offsetIndex][1] = line.toDouble();
             pos = -1;
           }
         }
@@ -612,7 +612,7 @@ void processNoprojFiles(Pipeline &p) {
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 
-  Cube cube(FileName("$TEMPORARY/noproj." + outputs[0] + ".cub").expanded(), "r");
+  Cube cube(FileName("$TEMPORARY/noproj." + outputs[0].toStdString() + ".cub").expanded(), "r");
   Camera *cam = CameraFactory::Create(cube);
 
   double lineRate = cam->DetectorMap()->LineRate();
@@ -640,8 +640,8 @@ void processNoprojFiles(Pipeline &p) {
     yaw += atan(g_avgOffsets[index][0] / g_lineOff[index]) / numOffsets;
   }
 
-  p.Application("appjit").AddConstParameter("PITCHRATE", toString(pitchRate));
-  p.Application("appjit").AddConstParameter("YAW", toString(yaw));
+  p.Application("appjit").AddConstParameter("PITCHRATE", QString::number(pitchRate));
+  p.Application("appjit").AddConstParameter("YAW", QString::number(yaw));
   return;
 }
 
@@ -667,7 +667,7 @@ void ephemerisTimeFromJitterFile(const QString jitterFile, double & eTime1, doub
     int iArrSize = csvArr.dim();
     for (int i=0; i<iArrSize; i++) {
       csvArr[i] = csvArr[i].trimmed().remove(QRegExp("(^,*|,*$)"));
-      temp = toDouble(QString(csvArr[i]));
+      temp = QString(csvArr[i]).toDouble();
       if (!i && temp == 0) {
         break;
       }

@@ -39,8 +39,8 @@ namespace Isis{
 
     // Decide if the file is an HRSC image or something else
     if (label["INSTRUMENT_ID"][0] != "HRSC") {
-      IString msg = "File [" + ui.GetFileName("FROM") + "] with [INSTRUMENT_ID = " +
-                      QString::fromStdString(label["INSTRUMENT_ID"][0]) +
+      IString msg = "File [" + ui.GetFileName("FROM").toStdString() + "] with [INSTRUMENT_ID = " +
+                      label["INSTRUMENT_ID"][0] +
                     "] does not appear to be a Mars Express HRSC image. " +
                     "Consider using pds2isis to import the image.";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -63,15 +63,15 @@ namespace Isis{
       isSrcFile = false;
     }
     else {
-      std::string msg = "File [" + ui.GetFileName("FROM");
+      std::string msg = "File [" + ui.GetFileName("FROM").toStdString();
       msg += "] does not appear to be a Mars Express stereo or SRC file. Label keyword [DETECTOR_ID = ";
-      msg +=  QString::fromStdString(label["DETECTOR_ID"][0]) + "] is not recognized.";
+      msg +=  label["DETECTOR_ID"][0] + "] is not recognized.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if ((int)label["PROCESSING_LEVEL_ID"] >= 4) {
-      std::string msg = "File [" + ui.GetFileName("FROM");
-      msg += "] has keyword [PROCESSING_LEVEL_ID = " +  QString::fromStdString(label["PROCESSING_LEVEL_ID"][0]) + "]";
+      std::string msg = "File [" + ui.GetFileName("FROM").toStdString();
+      msg += "] has keyword [PROCESSING_LEVEL_ID = " +  label["PROCESSING_LEVEL_ID"][0] + "]";
       msg += " and can not be read by this program.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -144,7 +144,7 @@ namespace Isis{
     lineInFile.clear();
     numLinesSkipped = 0;
 
-    CubeAttributeOutput outAtt(ui.GetCubeName("TO"));
+    CubeAttributeOutput outAtt(ui.GetCubeName("TO").toStdString());
     outCube = new Cube();
 
     outCube->setByteOrder(outAtt.byteOrder());
@@ -303,11 +303,11 @@ namespace Isis{
   void TranslateHrscLabels(Pvl &inLabels, Pvl &outLabel) {
 
     // Get the directory where the translation tables are.
-    QString transDir = "$ISISROOT/appdata/translations/";
+    std::string transDir = "$ISISROOT/appdata/translations/";
 
     // Translate the Instrument group
     FileName transFile(transDir + "MexHrscInstrument.trn");
-    PvlToPvlTranslationManager instrumentXlater(inLabels, transFile.expanded());
+    PvlToPvlTranslationManager instrumentXlater(inLabels, QString::fromStdString(transFile.expanded()));
     instrumentXlater.Auto(outLabel);
 
     // Remove 'Z' from times
@@ -321,17 +321,17 @@ namespace Isis{
 
     // Translate the BandBin group
     transFile  = transDir + "MexHrscBandBin.trn";
-    PvlToPvlTranslationManager bandBinXlater(inLabels, transFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(inLabels, QString::fromStdString(transFile.expanded()));
     bandBinXlater.Auto(outLabel);
 
     // Translate the Archive group
     transFile  = transDir + "MexHrscArchive.trn";
-    PvlToPvlTranslationManager archiveXlater(inLabels, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(inLabels, QString::fromStdString(transFile.expanded()));
     archiveXlater.Auto(outLabel);
 
     // Translate the Kernels group
     transFile  = transDir + "MexHrscKernels.trn";
-    PvlToPvlTranslationManager kernelsXlater(inLabels, transFile.expanded());
+    PvlToPvlTranslationManager kernelsXlater(inLabels, QString::fromStdString(transFile.expanded()));
     kernelsXlater.Auto(outLabel);
 
   }

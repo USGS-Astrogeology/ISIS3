@@ -192,7 +192,7 @@ void IsisMain() {
     // Both cases require dark pixels, g_model does not
     if ((darkCurr == "STANDARD") || (darkCurr == "LINEAR")) {
       std::string mess = "Warning: There are no valid dark current pixels which are required"
-                     " for " + darkCurr + " calibration. Changing dark correction method to MODEL.";
+                     " for " + darkCurr.toStdString() + " calibration. Changing dark correction method to MODEL.";
       IException ie(IException::User, mess, _FILEINFO_);
       ie.print();
       darkCurr = "MODEL";
@@ -316,7 +316,7 @@ void IsisMain() {
     g_empiricalCorrectionFactor = loadEmpiricalCorrection(startTime, g_filterNumber + 1,
                                                           empiricalCorrectionFile,
                                                           empiricalCorrectionDate, icube);
-    empiricalCorrectionFactor = toString(g_empiricalCorrectionFactor);
+    empiricalCorrectionFactor = QString::number(g_empiricalCorrectionFactor);
   }
   else {
     // already initialized g_empiricalCorrectionFactor = 1.0;
@@ -353,19 +353,19 @@ void IsisMain() {
   QString reducedFlat = "";
   FileName flatfield = determineFlatFieldFile();
   if (pxlBin > 0) {
-    QString scale(toString(pxlBin));
+    QString scale(QString::number(pxlBin));
     FileName newflat = FileName::createTempFile("$temporary/"
                                                 + flatfield.baseName() + "_reduced.cub");
-    reducedFlat = newflat.expanded();
-    QString parameters = "FROM=" + flatfield.expanded() +
-       " TO="   + newflat.expanded() +
+    reducedFlat = QString::fromStdString(newflat.expanded());
+    QString parameters = "FROM=" + QString::fromStdString(flatfield.expanded()) +
+       " TO="   + QString::fromStdString(newflat.expanded()) +
        " MODE=SCALE" +
        " LSCALE=" + scale +
        " SSCALE=" + scale;
     try {
       // iApp->Exec("reduce", parameters);
       ProgramLauncher::RunIsisProgram("reduce", parameters);
-      reducedFlat = newflat.expanded();
+      reducedFlat = QString::fromStdString(newflat.expanded());
     }
     catch (IException&) {
       remove(reducedFlat.toLatin1().data());
@@ -376,7 +376,7 @@ void IsisMain() {
   }
   else {
     CubeAttributeInput att;
-    p.SetInputCube(flatfield.expanded(), att);
+    p.SetInputCube(QString::fromStdString(flatfield.expanded()), att);
   }
 
   // Set output file for processing
@@ -402,8 +402,8 @@ void IsisMain() {
   calibrationLog.addKeyword(PvlKeyword("DarkCurrentModel", darkCurr.toStdString()));
 
   if (g_darkCurrentMode == DarkCurrentLinear) {
-    QString equation = "Y = " + toString(g_calibrationValues[0]) + QString(" + ")
-                       + toString(g_calibrationValues[1]) + QString("x");
+    QString equation = "Y = " + QString::number(g_calibrationValues[0]) + QString(" + ")
+                       + QString::number(g_calibrationValues[1]) + QString("x");
     calibrationLog.addKeyword(PvlKeyword("DarkCurrentEquation", equation.toStdString()));
   }
   else if (g_darkCurrentMode == DarkCurrentModel) {
@@ -414,13 +414,13 @@ void IsisMain() {
   calibrationLog.addKeyword(PvlKeyword("FilterNumber", std::to_string(g_filterNumber + 1)));
   if (g_applyFlatfield) {
     calibrationLog.addKeyword(PvlKeyword("FlatFieldFile",
-                                         flatfield.originalPath().toStdString() + "/" + flatfield.name().toStdString()));
+                                         flatfield.originalPath() + "/" + flatfield.name()));
   }
   else {
     calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", "N/A"));
   }
   calibrationLog.addKeyword(PvlKeyword("CalibrationFile",
-                                       calibFile.originalPath().toStdString() + "/" + calibFile.name().toStdString()));
+                                       calibFile.originalPath() + "/" + calibFile.name()));
   calibrationLog.addKeyword(PvlKeyword("ResponsivityFile", respfile.toStdString()));
   calibrationLog.addKeyword(PvlKeyword("SmearCompFile", smearfile.toStdString()));
   PvlKeyword rspKey("Response", std::to_string(rsp[0]));
@@ -470,7 +470,7 @@ void IsisMain() {
   PvlGroup& archive = ocube->group("Archive");
   PvlKeyword key = archive["ProductId"];
   QString orgProdId =  QString::fromStdString(key[0]);
-  QString newProdId = orgProdId + "_" + calibType + "_" + toString(cdrVersion);
+  QString newProdId = orgProdId + "_" + calibType + "_" + QString::number(cdrVersion);
   newProdId[0] = 'C';
   key.setValue(quote(newProdId).toStdString());
   archive.addKeyword(key, Pvl::Replace);
@@ -487,13 +487,13 @@ void IsisMain() {
   }
 
   if (!darkCurrentFile.isEmpty()) {
-    key.addValue(quote(FileName(darkCurrentFile).baseName()).toStdString());
+    key.addValue(quote(QString::fromStdString(FileName(darkCurrentFile.toStdString()).baseName())).toStdString());
   }
-  key.addValue(quote(flatfield.baseName()).toStdString());
-  key.addValue(quote(FileName(respfile).baseName()).toStdString());
+  key.addValue(quote(QString::fromStdString(flatfield.baseName())).toStdString());
+  key.addValue(quote(QString::fromStdString(FileName(respfile.toStdString()).baseName())).toStdString());
   // key.addValue(quote(FileName(smearfile).baseName()));
   if (validIOF) {
-    key.addValue(quote(FileName(solirrfile).baseName()).toStdString());
+    key.addValue(quote(QString::fromStdString(FileName(solirrfile.toStdString()).baseName())).toStdString());
   }
   archive.addKeyword(key, Pvl::Replace);
 
@@ -519,11 +519,11 @@ FileName determineFlatFieldFile() {
     // add a zero if the filter is 1-digit
     filename += "_FIL";
     if (g_filterNumber < 9) filename += "0";
-    filename += toString(g_filterNumber + 1);
+    filename += QString::number(g_filterNumber + 1);
     filename += "_?.cub";
   }
 
-  FileName final(filename);
+  FileName final(filename.toStdString());
   final = final.highestVersion();
   return final;
 }

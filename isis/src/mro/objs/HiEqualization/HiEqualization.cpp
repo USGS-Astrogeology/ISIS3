@@ -39,7 +39,7 @@ namespace Isis {
   void HiEqualization::calculateStatistics() {
     // TODO member variable
     const FileList &imageList = getInputs();
-    QString maxCubeStr = toString((int) imageList.size());
+    QString maxCubeStr = QString::number((int) imageList.size());
 
     // Adds statistics for whole and side regions of every cube
     vector<Statistics *> statsList;
@@ -50,13 +50,13 @@ namespace Isis {
       Statistics *statsLeft = new Statistics();
       Statistics *statsRight = new Statistics();
 
-      QString cubeStr = toString((int) img + 1);
+      QString cubeStr = QString::number((int) img + 1);
 
       ProcessByLine p;
       p.Progress()->SetText("Calculating Statistics for Cube " +
           cubeStr + " of " + maxCubeStr);
       CubeAttributeInput att;
-      QString inp = imageList[img].toString();
+      QString inp = QString::fromStdString(imageList[img].toString());
       p.SetInputCube(inp, att);
       HiCalculateFunctor func(stats, statsLeft, statsRight, 100.0);
       p.ProcessCubeInPlace(func, false);
@@ -117,7 +117,7 @@ namespace Isis {
 
     // Ensures number of images is within bound
     if (imageList.size() > 10) {
-      std::string msg = "The input file [" + fromListName +
+      std::string msg = "The input file [" + fromListName.toStdString() +
         "] cannot contain more than 10 file names";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -130,7 +130,7 @@ namespace Isis {
     for (int i = 0; i < imageList.size(); i++) {
       try {
         Cube cube1;
-        cube1.open(imageList[i].toString());
+        cube1.open(QString::fromStdString(imageList[i].toString()));
         PvlGroup &from1Instrument = cube1.group("INSTRUMENT");
         int cpmmNumber = from1Instrument["CpmmNumber"];
         ccds.push_back(cpmm2ccd[cpmmNumber]);
@@ -168,7 +168,7 @@ namespace Isis {
 
     // Insertion sorts a list of filenames by their CCD numbers
     for (int i = 1; i < imageList.size(); i++) {
-      QString temp = imageList[i].toString();
+      QString temp = QString::fromStdString(imageList[i].toString());
       int ccd1 = ccds[i];
       int movedIndex = movedIndices[i];
 
@@ -176,7 +176,7 @@ namespace Isis {
       int ccd2 = ccds[j];
 
       while (j >= 0 && ccd2 > ccd1) {
-        setInput(j + 1, imageList[j].toString());
+        setInput(j + 1, QString::fromStdString(imageList[j].toString()));
         ccds[j + 1] = ccds[j];
         movedIndices[j + 1] = movedIndices[j];
 

@@ -74,7 +74,7 @@ namespace Isis {
     Pvl pdsLabel;
 
     // Get the input filename and make sure it is a HiRISE EDR
-    FileName inFile = ui.GetFileName("FROM");
+    FileName inFile = ui.GetFileName("FROM").toStdString();
     QString id;
     bool projected;
     try {
@@ -98,11 +98,11 @@ namespace Isis {
     id = id.simplified().trimmed();
     if(id != "MRO-M-HIRISE-2-EDR-V1.0") {
       std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be " +
-                   "in HiRISE EDR format. DATA_SET_ID is [" + id + "]";
+                   "in HiRISE EDR format. DATA_SET_ID is [" + id.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
-    p.SetPdsFile(inFile.expanded(), "", pdsLabel);
+    p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", pdsLabel);
 
     // Make sure the data we need for the BLOBs is saved by the Process
     p.SaveFileHeader();
@@ -457,24 +457,24 @@ namespace Isis {
     Pvl outLabel;
 
     // Get the path where the MRO HiRISE translation tables are.
-    QString transDir = "$ISISROOT/appdata/translations/";
+    std::string transDir = "$ISISROOT/appdata/translations/";
 
     // Get a filename for the HiRISE EDR label
     Pvl labelPvl(labelFile.expanded());
 
     // Translate the Instrument group
     FileName transFile(transDir + "MroHiriseInstrument.trn");
-    PvlToPvlTranslationManager instrumentXlater(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager instrumentXlater(labelPvl, QString::fromStdString(transFile.expanded()));
     instrumentXlater.Auto(outLabel);
 
     // Translate the BandBin group
     transFile  = transDir + "MroHiriseBandBin.trn";
-    PvlToPvlTranslationManager bandBinXlater(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(labelPvl, QString::fromStdString(transFile.expanded()));
     bandBinXlater.Auto(outLabel);
 
     // Translate the Archive group
     transFile  = transDir + "MroHiriseArchive.trn";
-    PvlToPvlTranslationManager archiveXlater(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(labelPvl, QString::fromStdString(transFile.expanded()));
     archiveXlater.Auto(outLabel);
 
     // Create the Instrument group keyword CcdId from the ProductId

@@ -39,7 +39,7 @@ void IsisMain() {
 
   // Determine whether input is a raw Mariner 10 image or an Isis 2 cube
   bool isRaw = false;
-  FileName inputFile = ui.GetFileName("FROM");
+  FileName inputFile = ui.GetFileName("FROM").toStdString();
   Pvl label(inputFile.expanded());
 
   // If the PVL created from the input labels is empty, then input is raw
@@ -78,7 +78,7 @@ void IsisMain() {
     p.SetByteOrder(Lsb);
     p.SetDataSuffixBytes(136);
 
-    p.SetPdsFile(inputFile.expanded(), "", label);
+    p.SetPdsFile(QString::fromStdString(inputFile.expanded()), "", label);
     Cube *oCube = p.SetOutputCube("TO");
 
     TranslateIsis2Labels(inputFile, oCube);
@@ -144,7 +144,7 @@ void UpdateLabels(Cube *cube, const QString &labels) {
   filterName = filterName.trimmed();
 
   // Center wavelength
-  int fnum = toInt(filterNum);
+  int fnum = filterNum.toInt();
   double filterCenter = 0.;
   switch(fnum) {
     case 0:
@@ -182,7 +182,7 @@ void UpdateLabels(Cube *cube, const QString &labels) {
   inst += PvlKeyword("InstrumentId", "M10_VIDICON_" + ccamera.toStdString());
 
   // Get the date
-  int days = toInt(day);
+  int days = day.toInt();
   QString date = DaysToDate(days);
 
   // Get the time
@@ -196,9 +196,9 @@ void UpdateLabels(Cube *cube, const QString &labels) {
   // Create the archive group
   PvlGroup archive("Archive");
 
-  int year = toInt(yr);
+  int year = yr.toInt();
   year += 1900;
-  QString fullGMT = toString(year) + ":" + day + ":" + time;
+  QString fullGMT = QString::number(year) + ":" + day + ":" + time;
   archive += PvlKeyword("GMT", fullGMT.toStdString());
   archive += PvlKeyword("ImageNumber", fds.toStdString());
 
@@ -210,7 +210,7 @@ void UpdateLabels(Cube *cube, const QString &labels) {
   QString number = filterNum;
   bandBin += PvlKeyword("FilterNumber", number.toStdString());
   bandBin += PvlKeyword("OriginalBand", "1");
-  QString center = toString(filterCenter);
+  QString center = QString::number(filterCenter);
   bandBin += PvlKeyword("Center", center.toStdString());
   bandBin.findKeyword("Center").setUnits("micrometers");
 
@@ -332,14 +332,14 @@ void UpdateLabels(Cube *cube, const QString &labels) {
 // Translate Isis 2 labels into Isis labels.
 void TranslateIsis2Labels(FileName &labelFile, Cube *oCube) {
   // Transfer the instrument group to the output cube
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
   Pvl inputLabel(labelFile.expanded());
   FileName transFile;
 
   transFile = transDir + "Mariner10isis2.trn";
 
   // Get the translation manager ready
-  PvlToPvlTranslationManager translation(inputLabel, transFile.expanded());
+  PvlToPvlTranslationManager translation(inputLabel, QString::fromStdString(transFile.expanded()));
   Pvl *outputLabel = oCube->label();
   translation.Auto(*(outputLabel));
 
@@ -483,8 +483,8 @@ QString DaysToDate(int days) {
     }
     days--;
   }
-  QString year = toString(currentYear);
-  QString month = (currentMonth < 10) ? "0" + toString(currentMonth) : toString(currentMonth);
-  QString day = (currentDay < 10) ? "0" + toString(currentDay) : toString(currentDay);
+  QString year = QString::number(currentYear);
+  QString month = (currentMonth < 10) ? "0" + QString::number(currentMonth) : QString::number(currentMonth);
+  QString day = (currentDay < 10) ? "0" + QString::number(currentDay) : QString::number(currentDay);
   return year + "-" + month + "-" + day;
 }

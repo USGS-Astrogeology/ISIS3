@@ -56,7 +56,7 @@ namespace Isis {
     QString sensor = QString::fromStdString(inst ["SensorId"]);
 
     // Prepare instrument code
-    QString ikCode(toString(naifIkCode()));
+    QString ikCode(QString::number(naifIkCode()));
 
     // Set Frame mounting.  Same for both (VNIR, IR) detectors
     SetFocalLength();

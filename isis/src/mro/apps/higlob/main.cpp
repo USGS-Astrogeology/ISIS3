@@ -69,7 +69,7 @@ void IsisMain() {
   PvlGroup &ins = icube->group("Instrument");
   int chan = ins["ChannelNumber"];
 
-  IString flipChan = ui.GetString("FLIP");
+  IString flipChan = ui.GetString("FLIP").toStdString();
   if (flipChan.UpCase() != "NONE") {
     if (flipChan.ToInteger() == chan) g_flip = true;
   }

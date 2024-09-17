@@ -59,7 +59,7 @@ namespace Isis {
   static void calculateScaleFactor0(Cube *icube, Cube *gaincube);
   
   void gllssical(UserInterface &ui, Pvl *log) {
-    Cube icube(ui.GetCubeName("FROM"));
+    Cube icube(ui.GetCubeName("FROM").toStdString());
     gllssical(&icube, ui, log);
   }   
 
@@ -81,15 +81,15 @@ namespace Isis {
   
     Isis::CubeAttributeInput inAtt1;
     FileName darkFileName = FindDarkFile(icube);
-    Cube *darkcube = p.SetInputCube(darkFileName.expanded(), inAtt1);
+    Cube *darkcube = p.SetInputCube(QString::fromStdString(darkFileName.expanded()), inAtt1);
     dcScaleFactor = std::stod(darkcube->group("Instrument")["PicScale"][0]);
   
     Isis::CubeAttributeInput inAtt2;
     FileName gainFileName = FindGainFile(icube);
-    Cube *gaincube = p.SetInputCube(gainFileName.expanded(), inAtt2);
+    Cube *gaincube = p.SetInputCube(QString::fromStdString(gainFileName.expanded()), inAtt2);
   
     Isis::CubeAttributeInput inAtt3;
-    p.SetInputCube(FindShutterFile(icube).expanded(), inAtt3, Isis::AllMatchOrOne);
+    p.SetInputCube(QString::fromStdString(FindShutterFile(icube).expanded()), inAtt3, Isis::AllMatchOrOne);
   
     Cube *ocube = p.SetOutputCubeStretch("TO", &ui);
   
@@ -120,12 +120,12 @@ namespace Isis {
     calibrationLog.addKeyword(PvlKeyword("From", ui.GetCubeName("FROM").toStdString()));
   
     FileName shutterFileName = FindShutterFile(icube);
-    calibrationLog.addKeyword(PvlKeyword("DarkCurrentFile", darkFileName.originalPath().toStdString() + "/" +
-                                         darkFileName.name().toStdString()));
-    calibrationLog.addKeyword(PvlKeyword("GainFile", gainFileName.originalPath().toStdString() + "/" +
-                                         gainFileName.name().toStdString()));
-    calibrationLog.addKeyword(PvlKeyword("ShutterFile", shutterFileName.originalPath().toStdString() + "/" +
-                                         shutterFileName.name().toStdString()));
+    calibrationLog.addKeyword(PvlKeyword("DarkCurrentFile", darkFileName.originalPath() + "/" +
+                                         darkFileName.name()));
+    calibrationLog.addKeyword(PvlKeyword("GainFile", gainFileName.originalPath() + "/" +
+                                         gainFileName.name()));
+    calibrationLog.addKeyword(PvlKeyword("ShutterFile", shutterFileName.originalPath() + "/" +
+                                         shutterFileName.name()));
     calibrationLog.addKeyword(PvlKeyword("ScaleFactor", std::to_string(scaleFactor)));
     calibrationLog.addKeyword(PvlKeyword("OutputUnits", iof ? "I/F" : "Radiance"));
     if (iof) {
@@ -260,17 +260,17 @@ namespace Isis {
       }
   
       QString gainState = (tokens.count()? tokens.takeFirst() : "");
-      if(toInt(gainState) != gainModeId) {
+      if(gainState.toInt() != gainModeId) {
         continue;
       }
   
       QString frameRate = (tokens.count()? tokens.takeFirst() : "");
-      if(frameRateId != toInt(frameRate)) {
+      if(frameRateId != frameRate.toInt()) {
         continue;
       }
   
       QString tableExposureTypeId = (tokens.count()? tokens.takeFirst() : "");
-      if(toInt(tableExposureTypeId) != exposureTypeId) {
+      if(tableExposureTypeId.toInt() != exposureTypeId) {
         continue;
       }
   
@@ -279,8 +279,8 @@ namespace Isis {
         continue;
       }
   
-      int minImageNum = toInt(tokens.takeFirst());
-      int maxImageNum = toInt(tokens.takeFirst());
+      int minImageNum = tokens.takeFirst().toInt();
+      int maxImageNum = tokens.takeFirst().toInt();
   
       int imageNumber = (int)(std::stod(icube->group("Instrument")["SpacecraftClockStartCount"]) * 100 + 0.5);
       QString telemetry = QString::fromStdString(icube->group("Instrument")["TelemetryFormat"][0]);
@@ -299,7 +299,7 @@ namespace Isis {
       }
   
       // By process of elimination, we found the dark current file successfully. Return it.
-      return FileName("$galileo/calibration/darkcurrent/" + tokens.takeFirst() + ".cub");
+      return FileName("$galileo/calibration/darkcurrent/" + tokens.takeFirst().toStdString() + ".cub");
     }
   
     throw IException(IException::Unknown, "Dark current file could not be determined.", _FILEINFO_);
@@ -338,20 +338,20 @@ namespace Isis {
         continue;
       }
   
-      int minImageNum = toInt(tokens.takeFirst());
-      int maxImageNum = toInt(tokens.takeFirst());
+      int minImageNum = tokens.takeFirst().toInt();
+      int maxImageNum = tokens.takeFirst().toInt();
       if(imageNumber < minImageNum || imageNumber > maxImageNum) {
         continue;
       }
   
-      return FileName("$galileo/calibration/gain/" + tokens.takeFirst() + ".cub");
+      return FileName("$galileo/calibration/gain/" + tokens.takeFirst().toStdString() + ".cub");
     }
   
     throw IException(IException::Unknown, "Gain file could not be determined.", _FILEINFO_);
   }
   
   FileName ReadWeightTable(Cube *icube) {
-    QString file = "$galileo/calibration/weightTables_v???.sav";
+    std::string file = "$galileo/calibration/weightTables_v???.sav";
   
     FileName weightFile(file);
     weightFile = weightFile.highestVersion();
@@ -478,8 +478,8 @@ namespace Isis {
   
           Spice spicegll(*icube);
           spicegll.instrumentPosition()->SetAberrationCorrection("LT+S");
-          Isis::FileName sclk(QString::fromStdString(label->findGroup("Kernels",Pvl::Traverse)["SpacecraftClock"][0]));
-          QString sclkName(sclk.expanded());
+          Isis::FileName sclk(label->findGroup("Kernels",Pvl::Traverse)["SpacecraftClock"][0]);
+          QString sclkName(QString::fromStdString(sclk.expanded()));
   
           NaifStatus::CheckErrors();
           furnsh_c(sclkName.toLatin1().data());
@@ -524,14 +524,14 @@ namespace Isis {
   }
   
   FileName GetScaleFactorFile() {
-    QString file = "$galileo/calibration/conversionFactors_v???.sav";
+    std::string file = "$galileo/calibration/conversionFactors_v???.sav";
     FileName scaleFactor(file);
     scaleFactor = scaleFactor.highestVersion();
     return scaleFactor;
   }
   
   FileName FindShutterFile(Cube *icube) {
-    QString file = "$galileo/calibration/shutter/calibration.so02";
+    std::string file = "$galileo/calibration/shutter/calibration.so02";
     file += icube->group("Instrument")["FrameModeId"][0].at(0);
     file += ".cub";
     FileName shutterFile(file);

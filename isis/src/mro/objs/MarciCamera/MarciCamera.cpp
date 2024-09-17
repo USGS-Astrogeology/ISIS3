@@ -52,7 +52,7 @@ namespace Isis {
     // Set up the camera characteristics
     SetFocalLength();
 
-    QString pixelPitchKey = "INS" + toString(naifIkCode()) + "_PIXEL_SIZE";
+    QString pixelPitchKey = "INS" + QString::number(naifIkCode()) + "_PIXEL_SIZE";
     SetPixelPitch(getDouble(pixelPitchKey));
 
     // Get necessary variables
@@ -104,7 +104,7 @@ namespace Isis {
 
     for(int i = 0; i < filtNames.size(); i++) {
       if(filterToDetectorOffset.find(QString::fromStdString(filtNames[i])) == filterToDetectorOffset.end()) {
-        std::string msg = "Unrecognized filter name [" + QString::fromStdString(filtNames[i]) + "]";
+        std::string msg = "Unrecognized filter name [" + filtNames[i] + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 

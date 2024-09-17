@@ -542,7 +542,7 @@ namespace Isis {
 
     //  Now compute the reticle points of all subframes if they exist
     for (int i = 1 ; i <= 5 ; i++) {
-      QString n = Isis::toString(i);
+      QString n = QString::number(i);
       QString object = "SUBFRAME" + n + "_PARAMETERS/";
 
       double sample, line, width, height;
@@ -651,7 +651,7 @@ namespace Isis {
     }
     else {
       //  It does exist, extract coordinates from original image label
-      QString n = Isis::toString(frameno);
+      QString n = QString::number(frameno);
       sample  = (double) _orglabel.findKeyword("MESS:SUBF_X" + n.toStdString(),
                 PvlObject::Traverse);
       line    = (double) _orglabel.findKeyword("MESS:SUBF_Y" + n.toStdString(),

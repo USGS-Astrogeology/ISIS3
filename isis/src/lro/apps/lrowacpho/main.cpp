@@ -62,11 +62,11 @@ void IsisMain () {
         }
 
         CubeAttributeInput cai;
-        cai.setAttributes("+" + backplaneCai.bands()[0]);
+        cai.setAttributes("+" + backplaneCai.bands()[0].toStdString());
         p.SetInputCube(ui.GetCubeName("BACKPLANE"), cai);
-        cai.setAttributes("+" + backplaneCai.bands()[1]);
+        cai.setAttributes("+" + backplaneCai.bands()[1].toStdString());
         p.SetInputCube(ui.GetCubeName("BACKPLANE"), cai);
-        cai.setAttributes("+" + backplaneCai.bands()[2]);
+        cai.setAttributes("+" + backplaneCai.bands()[2].toStdString());
         p.SetInputCube(ui.GetCubeName("BACKPLANE"), cai);
 
         useBackplane = true;
@@ -75,8 +75,8 @@ void IsisMain () {
     // Get the name of the parameter file
     Pvl par(ui.GetFileName("PHOPAR").toStdString());
 
-    IString algoName = PhotometricFunction::algorithmName(par);
-    algoName.UpCase();
+    QString algoName = PhotometricFunction::algorithmName(par);
+    algoName.toUpper();
 
     if (algoName == "HILLIER") {
         pho = new Hillier(par, *icube, !useBackplane);
@@ -88,7 +88,7 @@ void IsisMain () {
         pho = new HapkeExponential(par, *icube, !useBackplane);
     }
     else {
-        string msg = " Algorithm Name [" + algoName + "] not recognized. ";
+        string msg = " Algorithm Name [" + algoName.toStdString() + "] not recognized. ";
         msg += "Compatible Algorithms are:\n    Hillier\n    Exponential\n    HapkeExponential";
 
         throw IException(IException::User, msg, _FILEINFO_);

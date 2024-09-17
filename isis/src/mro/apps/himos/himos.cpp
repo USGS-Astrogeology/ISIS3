@@ -32,13 +32,13 @@ namespace Isis {
   void himos(UserInterface &ui) {
 
     // Get the list of cubes to mosaic
-    FileList flist(ui.GetFileName("FROMLIST"));
+    FileList flist(ui.GetFileName("FROMLIST").toStdString());
 
 
     vector<Cube *> clist;
     try {
       if(flist.size() < 1) {
-        std::string msg = "the list file [" + ui.GetFileName("FROMLIST") +
+        std::string msg = "the list file [" + ui.GetFileName("FROMLIST").toStdString() +
                       "does not contain any data";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -47,7 +47,7 @@ namespace Isis {
       for(int i = 0; i < flist.size(); i++) {
         Cube *c = new Cube();
         clist.push_back(c);
-        c->open(flist[i].toString());
+        c->open(QString::fromStdString(flist[i].toString()));
       }
 
       // run the compair function here.  This will conpair the
@@ -285,7 +285,7 @@ namespace Isis {
         delete clist[i];
       }
       std::cout << e.what() << '\n';
-      std::string msg = "The mosaic [" + ui.GetCubeName("TO") + "] was NOT created";
+      std::string msg = "The mosaic [" + ui.GetCubeName("TO").toStdString() + "] was NOT created";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   } // end of isis main

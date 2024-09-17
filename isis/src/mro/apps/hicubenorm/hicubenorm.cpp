@@ -59,7 +59,7 @@ namespace Isis {
     void CorrectCubenormStats(int piFilterSize, bool pbPauseCrop, int piChannelNum, QString psMode);
 
     void hicubenorm(UserInterface &ui) {
-        Cube *cube = new Cube(ui.GetCubeName("FROM"), "r");
+        Cube *cube = new Cube(ui.GetCubeName("FROM").toStdString(), "r");
         hicubenorm(cube, ui);
     }
 
@@ -104,16 +104,16 @@ namespace Isis {
             p.StartProcess(getStats);
         }
         else if(ui.GetString("STATSOURCE") == "TABLE") {
-            tableIn(ui.GetFileName("FROMSTATS"));
+            tableIn(ui.GetFileName("FROMSTATS").toStdString());
         }
         else {
-            PVLIn(ui.GetFileName("FROMSTATS"));
+            PVLIn(ui.GetFileName("FROMSTATS").toStdString());
         }
         // Check to make sure the first vector has as many elements as the last
         // vector, and that there is a vector element for each row/col
         if(!bNewVersion && band.size() != (unsigned int)(rowcol * totalBands)) {
             std::string message = "You have entered an invalid input file " +
-                            ui.GetFileName("FROMSTATS");
+                            ui.GetFileName("FROMSTATS").toStdString();
             throw IException(IException::Io, message, _FILEINFO_);
         }
 
@@ -170,11 +170,11 @@ namespace Isis {
             }
 
             Isis::CubeAttributeOutput atts = ui.GetOutputAttribute("TO");
-            FileName outFileName = ui.GetCubeName("TO");
+            FileName outFileName = ui.GetCubeName("TO").toStdString();
 
             // Setup the output file and apply the coefficients by either
             // subtracting or multipling them
-            p.SetOutputCube(outFileName.expanded(), atts, totalSamples, totalLines, totalBands);
+            p.SetOutputCube(QString::fromStdString(outFileName.expanded()), atts, totalSamples, totalLines, totalBands);
             // Should we preserve the average/median of the input image???
             if(ui.GetBoolean("PRESERVE")) {
             if(ui.GetString("MODE") == "SUBTRACT") {
@@ -362,7 +362,7 @@ namespace Isis {
     //*******************************************************
     void tableIn(const Isis::FileName &filename) {
     ifstream in;
-    QString expanded(filename.expanded());
+    QString expanded(QString::fromStdString(filename.expanded()));
     in.open(expanded.toLatin1().data(), std::ios::in);
 
 

@@ -41,7 +41,7 @@ namespace Isis {
     ResetGlobals();
 
     // Check that the file comes from the right camera
-    FileName inFile = ui.GetFileName("FROM");
+    FileName inFile = ui.GetFileName("FROM").toStdString();
     QString id;
     try {
       Pvl lab(inFile.expanded());
@@ -75,7 +75,7 @@ namespace Isis {
         g_bterm.push_back(std::stod(btermKeyword[i]));
       }
 
-      double versionId = toDouble(QString::fromStdString(lab.findKeyword("PRODUCT_VERSION_ID")[0]).remove(QRegExp("^v")));
+      double versionId = QString::fromStdString(lab.findKeyword("PRODUCT_VERSION_ID")[0]).remove(QRegExp("^v")).toDouble();
       if(lab.findKeyword("FRAME_ID")[0] == "RIGHT" && versionId < 1.30)
         g_flip = true;
       else
@@ -91,7 +91,7 @@ namespace Isis {
     id = id.simplified().trimmed();
     if(id.mid(13, 3) != "EDR") {
       std::string msg = "Input file [" + inFile.expanded() + "] does not appear to be "
-                   + "in LROC-NAC EDR format. DATA_SET_ID is [" + id + "]"
+                   + "in LROC-NAC EDR format. DATA_SET_ID is [" + id.toStdString() + "]"
                    + " Use pds2isis for RDR or CDR.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -99,7 +99,7 @@ namespace Isis {
     //Process the file
     Pvl pdsLab;
     ProcessImportPds p;
-    p.SetPdsFile(inFile.expanded(), "", pdsLab);
+    p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", pdsLab);
     // Set the output bit type to Real
     CubeAttributeOutput &outAtt = ui.GetOutputAttribute("TO");
 
@@ -197,17 +197,17 @@ namespace Isis {
 
     //Translate the Instrument group
     FileName transFile("$ISISROOT/appdata/translations/LroNacInstrument.trn");
-    PvlToPvlTranslationManager instrumentXlator(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager instrumentXlator(labelPvl, QString::fromStdString(transFile.expanded()));
     instrumentXlator.Auto(outLabel);
 
     //Translate the Archive group
     transFile = "$ISISROOT/appdata/translations/LroNacArchive.trn";
-    PvlToPvlTranslationManager archiveXlater(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(labelPvl, QString::fromStdString(transFile.expanded()));
     archiveXlater.Auto(outLabel);
 
     //Translate the BandBin group
     transFile = "$ISISROOT/appdata/translations/LroNacBandBin.trn";
-    PvlToPvlTranslationManager bandBinXlater(labelPvl, transFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(labelPvl, QString::fromStdString(transFile.expanded()));
     bandBinXlater.Auto(outLabel);
 
     Pvl lab(labelFile.expanded());

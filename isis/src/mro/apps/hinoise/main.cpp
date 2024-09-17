@@ -53,7 +53,7 @@ void IsisMain() {
 
     QString sInputFile  = ui.GetAsString("FROM");
     QString sOutputFile = ui.GetAsString("TO");
-    QString sInBaseName = FileName(sInputFile).baseName();
+    QString sInBaseName = QString::fromStdString(FileName(sInputFile.toStdString()).baseName());
 
     bool bRemove = ui.GetBoolean("REMOVE");
 
@@ -95,8 +95,8 @@ void IsisMain() {
     Pipeline p1("hinoise1");
     p1.SetInputFile("FROM");
     QString sTempHistFile = "$TEMPORARY/" + sInBaseName + "_hist.txt";
-    p1.SetOutputFile(FileName(sTempHistFile));
-    sTempFiles.push_back(FileName(sTempHistFile).expanded());
+    p1.SetOutputFile(FileName(sTempHistFile.toStdString()));
+    sTempFiles.push_back(QString::fromStdString(FileName(sTempHistFile.toStdString()).expanded()));
     p1.KeepTemporaryFiles(!bRemove);
 
     p1.AddToPipeline("hist");
@@ -109,7 +109,7 @@ void IsisMain() {
     p1.Run();
 
     double dLisPer, dMaxDN, dStdDev;
-    GetValuesFromHistogram(FileName(sTempHistFile).expanded(), dLisPer, dMaxDN, dStdDev);
+    GetValuesFromHistogram(QString::fromStdString(FileName(sTempHistFile.toStdString()).expanded()), dLisPer, dMaxDN, dStdDev);
   #ifdef _DEBUG_
     cerr << "Lis=" << dLisPer << "  MaxDN=" << dMaxDN << " StdDev=" << dStdDev << endl;
   #endif
@@ -117,8 +117,8 @@ void IsisMain() {
     Pipeline p2("hinoise2");
     p2.SetInputFile("FROM");
     QString sTempFile2 = "$TEMPORARY/" + sInBaseName + "_cubenorm.txt";
-    p2.SetOutputFile(FileName(sTempFile2));
-    sTempFiles.push_back(FileName(sTempFile2).expanded());
+    p2.SetOutputFile(FileName(sTempFile2.toStdString()));
+    sTempFiles.push_back(QString::fromStdString(FileName(sTempFile2.toStdString()).expanded()));
     p2.KeepTemporaryFiles(!bRemove);
 
     p2.AddToPipeline("cubenorm");
@@ -132,22 +132,22 @@ void IsisMain() {
   #endif
     p2.Run();
 
-    gsCubeStats1 = FileName("$TEMPORARY/" + sInBaseName + "_cubenorm1.txt").expanded();
-    gsCubeStats2 = FileName("$TEMPORARY/" + sInBaseName + "_cubenorm2.txt").expanded();
+    gsCubeStats1 = QString::fromStdString(FileName("$TEMPORARY/" + sInBaseName.toStdString() + "_cubenorm1.txt").expanded());
+    gsCubeStats2 = QString::fromStdString(FileName("$TEMPORARY/" + sInBaseName.toStdString() + "_cubenorm2.txt").expanded());
   #ifdef _DEBUG_
     cerr << gsCubeStats1 << "  " << gsCubeStats2 << endl;
   #endif
     sTempFiles.push_back(gsCubeStats1);
     sTempFiles.push_back(gsCubeStats2);
 
-    ProcessCubeNormStats(FileName(sTempFile2).expanded(), iChannel, iSumming);
+    ProcessCubeNormStats(QString::fromStdString(FileName(sTempFile2.toStdString()).expanded()), iChannel, iSumming);
 
     // Clear the bad colmns for the highpass filter
     Pipeline p3("hinoise3");
     p3.SetInputFile("FROM");
     QString sTempFile3 = "$TEMPORARY/" + sInBaseName + "_Temp_p3_out.cub";
-    p3.SetOutputFile(FileName(sTempFile3));
-    sTempFiles.push_back(FileName(sTempFile3).expanded());
+    p3.SetOutputFile(FileName(sTempFile3.toStdString()));
+    sTempFiles.push_back(QString::fromStdString(FileName(sTempFile3.toStdString()).expanded()));
     p3.KeepTemporaryFiles(!bRemove);
   #ifdef _DEBUG_
     cerr << "stats1=" << gsCubeStats1 << endl;
@@ -170,8 +170,8 @@ void IsisMain() {
     Pipeline p4("hinoise4");
     p4.SetInputFile("FROM");
     QString sTempFile4 = "$TEMPORARY/" + sInBaseName + "_Temp_p4_out.cub";
-    p4.SetOutputFile(FileName(sTempFile4));
-    sTempFiles.push_back(FileName(sTempFile4).expanded());
+    p4.SetOutputFile(FileName(sTempFile4.toStdString()));
+    sTempFiles.push_back(QString::fromStdString(FileName(sTempFile4.toStdString()).expanded()));
     p4.KeepTemporaryFiles(!bRemove);
 
     p4.AddToPipeline("cubenorm");
@@ -194,19 +194,19 @@ void IsisMain() {
     // a. Lowpass
     Pipeline p5("hinoise5");
     QString sTempFile5 = "$TEMPORARY/" + sInBaseName + "_Temp_p5_out.cub";
-    p5.SetInputFile(FileName(sTempFile4));
-    p5.SetOutputFile(FileName(sTempFile5));
-    sTempFiles.push_back(FileName(sTempFile5).expanded());
+    p5.SetInputFile(FileName(sTempFile4.toStdString()));
+    p5.SetOutputFile(FileName(sTempFile5.toStdString()));
+    sTempFiles.push_back(QString::fromStdString(FileName(sTempFile5.toStdString()).expanded()));
     p5.KeepTemporaryFiles(!bRemove);
 
     p5.AddToPipeline("lowpass");
     p5.Application("lowpass").SetInputParameter ("FROM",    false);
     p5.Application("lowpass").SetOutputParameter("TO",      "lowpass.p5");
-    p5.Application("lowpass").AddConstParameter ("SAMPLES", toString(giLpfSamples));
-    p5.Application("lowpass").AddConstParameter ("LINES",   toString(giLpfLines));
+    p5.Application("lowpass").AddConstParameter ("SAMPLES", QString::number(giLpfSamples));
+    p5.Application("lowpass").AddConstParameter ("LINES",   QString::number(giLpfLines));
     p5.Application("lowpass").AddConstParameter ("MINOPT",  "PERCENT");
     p5.Application("lowpass").AddConstParameter ("LIS",     "FALSE");
-    p5.Application("lowpass").AddConstParameter ("MINIMUM", toString(giLpfMinPer));
+    p5.Application("lowpass").AddConstParameter ("MINIMUM", QString::number(giLpfMinPer));
     p5.Application("lowpass").AddConstParameter ("REPLACE", "NULL");
   #ifdef _DEBUG_
     cout << p5 << endl;
@@ -216,18 +216,18 @@ void IsisMain() {
 
     // b. Highpass
     Pipeline p6("hinoise6");
-    p6.SetInputFile (FileName(sTempFile3));
+    p6.SetInputFile (FileName(sTempFile3.toStdString()));
     QString sTempFile6 = "$TEMPORARY/" + sInBaseName + "_Temp_p6_out.cub";
-    p6.SetOutputFile(FileName(sTempFile6));
-    sTempFiles.push_back(FileName(sTempFile6).expanded());
+    p6.SetOutputFile(FileName(sTempFile6.toStdString()));
+    sTempFiles.push_back(QString::fromStdString(FileName(sTempFile6.toStdString()).expanded()));
     p6.KeepTemporaryFiles(!bRemove);
 
     p6.AddToPipeline("highpass");
     p6.Application("highpass").SetInputParameter ("FROM",    false);
     p6.Application("highpass").SetOutputParameter("TO",      "highpass.p6");
-    p6.Application("highpass").AddConstParameter ("SAMPLES", toString(giHpfSamples));
-    p6.Application("highpass").AddConstParameter ("LINES",   toString(giHpfLines));
-    p6.Application("highpass").AddConstParameter ("MINIMUM", toString(giHpfMinPer));
+    p6.Application("highpass").AddConstParameter ("SAMPLES", QString::number(giHpfSamples));
+    p6.Application("highpass").AddConstParameter ("LINES",   QString::number(giHpfLines));
+    p6.Application("highpass").AddConstParameter ("MINIMUM", QString::number(giHpfMinPer));
     p6.Application("highpass").AddConstParameter ("MINOPT", "PERCENT");
   #ifdef _DEBUG_
     cout << p6 << endl;
@@ -237,20 +237,20 @@ void IsisMain() {
 
     // Enter the outputs of lowpass and highpass filenames to a list file
     QString sTempListFile = "$TEMPORARY/" + sInBaseName + "_TempList.lis";
-    gsTempFile = FileName(sTempListFile).expanded();
+    gsTempFile = QString::fromStdString(FileName(sTempListFile.toStdString()).expanded());
     sTempFiles.push_back(gsTempFile);
     fstream ostm;
     ostm.open(gsTempFile.toLatin1().data(), std::ios::out);
-    ostm << FileName(sTempFile5).expanded() << endl;
-    ostm << FileName(sTempFile6).expanded() << endl;
+    ostm << FileName(sTempFile5.toStdString()).expanded() << endl;
+    ostm << FileName(sTempFile6.toStdString()).expanded() << endl;
     ostm.close();
 
     // c. algebra (lowpass + highpass)
     Pipeline p7("hinoise7");
-    p7.SetInputFile (FileName(sTempListFile));
+    p7.SetInputFile (FileName(sTempListFile.toStdString()));
     QString sTempFile7 = "$TEMPORARY/" + sInBaseName + "_Temp_p7_out.cub";
-    p7.SetOutputFile(FileName(sTempFile7));
-    sTempFiles.push_back(FileName(sTempFile7).expanded());
+    p7.SetOutputFile(FileName(sTempFile7.toStdString()));
+    sTempFiles.push_back(QString::fromStdString(FileName(sTempFile7.toStdString()).expanded()));
     p7.KeepTemporaryFiles(!bRemove);
 
     p7.AddToPipeline("fx");
@@ -270,10 +270,10 @@ void IsisMain() {
     // Perform noise filter 3 times
     // ****************************************************************************
     Pipeline p8("hinoise8");
-    p8.SetInputFile (FileName(sTempFile7));
+    p8.SetInputFile (FileName(sTempFile7.toStdString()));
     QString sTempFile8 = "$TEMPORARY/" + sInBaseName + "_Temp_p8_out.cub";
-    p8.SetOutputFile(FileName(sTempFile8));
-    sTempFiles.push_back(FileName(sTempFile8).expanded());
+    p8.SetOutputFile(FileName(sTempFile8.toStdString()));
+    sTempFiles.push_back(QString::fromStdString(FileName(sTempFile8.toStdString()).expanded()));
     p8.KeepTemporaryFiles(!bRemove);
 
     if (dLisPer >= gdHardFilter) {
@@ -289,15 +289,15 @@ void IsisMain() {
     p8.AddToPipeline("noisefilter", "noisefilter_pass1");
     p8.Application("noisefilter_pass1").SetInputParameter ("FROM",    false);
     p8.Application("noisefilter_pass1").SetOutputParameter("TO",      "noisefilter.1");
-    p8.Application("noisefilter_pass1").AddConstParameter ("FLATTOL", toString(gdFlatTol));
+    p8.Application("noisefilter_pass1").AddConstParameter ("FLATTOL", QString::number(gdFlatTol));
     p8.Application("noisefilter_pass1").AddConstParameter ("TOLDEF",  "STDDEV");
-    p8.Application("noisefilter_pass1").AddConstParameter ("LOW",     toString(gdMinValue));
-    p8.Application("noisefilter_pass1").AddConstParameter ("HIGH",    toString(dMaxDN));
-    p8.Application("noisefilter_pass1").AddConstParameter ("TOLMIN",  toString(gdTolMin));
-    p8.Application("noisefilter_pass1").AddConstParameter ("TOLMAX",  toString(gdTolMax));
+    p8.Application("noisefilter_pass1").AddConstParameter ("LOW",     QString::number(gdMinValue));
+    p8.Application("noisefilter_pass1").AddConstParameter ("HIGH",    QString::number(dMaxDN));
+    p8.Application("noisefilter_pass1").AddConstParameter ("TOLMIN",  QString::number(gdTolMin));
+    p8.Application("noisefilter_pass1").AddConstParameter ("TOLMAX",  QString::number(gdTolMax));
     p8.Application("noisefilter_pass1").AddConstParameter ("REPLACE", "NULL");
-    p8.Application("noisefilter_pass1").AddConstParameter ("SAMPLE",  toString(giNoiseSamples));
-    p8.Application("noisefilter_pass1").AddConstParameter ("LINE",    toString(giNoiseLines));
+    p8.Application("noisefilter_pass1").AddConstParameter ("SAMPLE",  QString::number(giNoiseSamples));
+    p8.Application("noisefilter_pass1").AddConstParameter ("LINE",    QString::number(giNoiseLines));
     p8.Application("noisefilter_pass1").AddConstParameter ("LISISNOISE", "TRUE");
     p8.Application("noisefilter_pass1").AddConstParameter ("LRSISNOISE", "TRUE");
 
@@ -305,15 +305,15 @@ void IsisMain() {
     p8.AddToPipeline("noisefilter", "noisefilter_pass2");
     p8.Application("noisefilter_pass2").SetInputParameter ("FROM",    false);
     p8.Application("noisefilter_pass2").SetOutputParameter("TO",      "noisefilter.2");
-    p8.Application("noisefilter_pass2").AddConstParameter ("FLATTOL", toString(gdFlatTol));
+    p8.Application("noisefilter_pass2").AddConstParameter ("FLATTOL", QString::number(gdFlatTol));
     p8.Application("noisefilter_pass2").AddConstParameter ("TOLDEF",  "STDDEV");
-    p8.Application("noisefilter_pass2").AddConstParameter ("LOW",     toString(gdMinValue));
-    p8.Application("noisefilter_pass2").AddConstParameter ("HIGH",    toString(dMaxDN));
-    p8.Application("noisefilter_pass2").AddConstParameter ("TOLMIN",  toString(gdTolMin));
-    p8.Application("noisefilter_pass2").AddConstParameter ("TOLMAX",  toString(gdTolMax));
+    p8.Application("noisefilter_pass2").AddConstParameter ("LOW",     QString::number(gdMinValue));
+    p8.Application("noisefilter_pass2").AddConstParameter ("HIGH",    QString::number(dMaxDN));
+    p8.Application("noisefilter_pass2").AddConstParameter ("TOLMIN",  QString::number(gdTolMin));
+    p8.Application("noisefilter_pass2").AddConstParameter ("TOLMAX",  QString::number(gdTolMax));
     p8.Application("noisefilter_pass2").AddConstParameter ("REPLACE", "NULL");
-    p8.Application("noisefilter_pass2").AddConstParameter ("SAMPLE",  toString(giNoiseSamples));
-    p8.Application("noisefilter_pass2").AddConstParameter ("LINE",    toString(giNoiseLines));
+    p8.Application("noisefilter_pass2").AddConstParameter ("SAMPLE",  QString::number(giNoiseSamples));
+    p8.Application("noisefilter_pass2").AddConstParameter ("LINE",    QString::number(giNoiseLines));
     p8.Application("noisefilter_pass2").AddConstParameter ("LISISNOISE", "TRUE");
     p8.Application("noisefilter_pass2").AddConstParameter ("LRSISNOISE", "TRUE");
 
@@ -321,15 +321,15 @@ void IsisMain() {
     p8.AddToPipeline("noisefilter", "noisefilter_pass3");
     p8.Application("noisefilter_pass3").SetInputParameter ("FROM",    false);
     p8.Application("noisefilter_pass3").SetOutputParameter("TO",      "noisefilter.3");
-    p8.Application("noisefilter_pass3").AddConstParameter ("FLATTOL", toString(gdFlatTol));
+    p8.Application("noisefilter_pass3").AddConstParameter ("FLATTOL", QString::number(gdFlatTol));
     p8.Application("noisefilter_pass3").AddConstParameter ("TOLDEF",  "STDDEV");
-    p8.Application("noisefilter_pass3").AddConstParameter ("LOW",     toString(gdMinValue));
-    p8.Application("noisefilter_pass3").AddConstParameter ("HIGH",    toString(dMaxDN));
-    p8.Application("noisefilter_pass3").AddConstParameter ("TOLMIN",  toString(gdTolMin));
-    p8.Application("noisefilter_pass3").AddConstParameter ("TOLMAX",  toString(gdTolMax));
+    p8.Application("noisefilter_pass3").AddConstParameter ("LOW",     QString::number(gdMinValue));
+    p8.Application("noisefilter_pass3").AddConstParameter ("HIGH",    QString::number(dMaxDN));
+    p8.Application("noisefilter_pass3").AddConstParameter ("TOLMIN",  QString::number(gdTolMin));
+    p8.Application("noisefilter_pass3").AddConstParameter ("TOLMAX",  QString::number(gdTolMax));
     p8.Application("noisefilter_pass3").AddConstParameter ("REPLACE", "NULL");
-    p8.Application("noisefilter_pass3").AddConstParameter ("SAMPLE",  toString(giNoiseSamples));
-    p8.Application("noisefilter_pass3").AddConstParameter ("LINE",    toString(giNoiseLines));
+    p8.Application("noisefilter_pass3").AddConstParameter ("SAMPLE",  QString::number(giNoiseSamples));
+    p8.Application("noisefilter_pass3").AddConstParameter ("LINE",    QString::number(giNoiseLines));
     p8.Application("noisefilter_pass3").AddConstParameter ("LISISNOISE", "TRUE");
     p8.Application("noisefilter_pass3").AddConstParameter ("LRSISNOISE", "TRUE");
   #ifdef _DEBUG_
@@ -344,19 +344,19 @@ void IsisMain() {
     // ****************************************************************************
     // a. Lowpass
     Pipeline p9("hinoise9");
-    p9.SetInputFile (FileName(sTempFile8));
+    p9.SetInputFile (FileName(sTempFile8.toStdString()));
     QString sTempFile9 = "$TEMPORARY/" + sInBaseName + "_Temp_p9_out.cub";
-    p9.SetOutputFile(FileName(sTempFile9));
-    sTempFiles.push_back(FileName(sTempFile9).expanded());
+    p9.SetOutputFile(FileName(sTempFile9.toStdString()));
+    sTempFiles.push_back(QString::fromStdString(FileName(sTempFile9.toStdString()).expanded()));
     p9.KeepTemporaryFiles(!bRemove);
 
     p9.AddToPipeline("lowpass");
     p9.Application("lowpass").SetInputParameter ("FROM",    false);
     p9.Application("lowpass").SetOutputParameter("TO",      "lowpass.p9");
-    p9.Application("lowpass").AddConstParameter ("SAMPLES", toString(giLpfSamples));
-    p9.Application("lowpass").AddConstParameter ("LINES",   toString(giLpfLines));
+    p9.Application("lowpass").AddConstParameter ("SAMPLES", QString::number(giLpfSamples));
+    p9.Application("lowpass").AddConstParameter ("LINES",   QString::number(giLpfLines));
     p9.Application("lowpass").AddConstParameter ("MINOPT",  "PERCENT");
-    p9.Application("lowpass").AddConstParameter ("MINIMUM", toString(giLpfMinPer));
+    p9.Application("lowpass").AddConstParameter ("MINIMUM", QString::number(giLpfMinPer));
     p9.Application("lowpass").AddConstParameter ("REPLACE", "NULL");
     p9.Application("lowpass").AddConstParameter ("NULL",    "FALSE");
     p9.Application("lowpass").AddConstParameter ("HRS",     "FALSE");
@@ -371,18 +371,18 @@ void IsisMain() {
 
     // b. Highpass
     Pipeline p10("hinoise10");
-    p10.SetInputFile (FileName(sTempFile8));
+    p10.SetInputFile (FileName(sTempFile8.toStdString()));
     QString sTempFile10 = "$TEMPORARY/" + sInBaseName + "_Temp_p10_out.cub";
-    p10.SetOutputFile(FileName(sTempFile10));
-    sTempFiles.push_back(FileName(sTempFile10).expanded());
+    p10.SetOutputFile(FileName(sTempFile10.toStdString()));
+    sTempFiles.push_back(QString::fromStdString(FileName(sTempFile10.toStdString()).expanded()));
     p10.KeepTemporaryFiles(!bRemove);
 
     p10.AddToPipeline("highpass");
     p10.Application("highpass").SetInputParameter ("FROM",    false);
     p10.Application("highpass").SetOutputParameter("TO",      "highpass.p10");
-    p10.Application("highpass").AddConstParameter ("SAMPLES", toString(giHpfSamples));
-    p10.Application("highpass").AddConstParameter ("LINES",   toString(giHpfLines));
-    p10.Application("highpass").AddConstParameter ("MINIMUM", toString(giHpfMinPer));
+    p10.Application("highpass").AddConstParameter ("SAMPLES", QString::number(giHpfSamples));
+    p10.Application("highpass").AddConstParameter ("LINES",   QString::number(giHpfLines));
+    p10.Application("highpass").AddConstParameter ("MINIMUM", QString::number(giHpfMinPer));
     p10.Application("highpass").AddConstParameter ("MINOPT", "PERCENT");
   #ifdef _DEBUG_
     cout << p10 << endl;
@@ -391,21 +391,21 @@ void IsisMain() {
     p10.Run();
 
     // Enter the outputs of lowpass and highpass filenames to a list file
-    gsTempFile = FileName(sTempListFile).expanded();
+    gsTempFile = QString::fromStdString(FileName(sTempListFile.toStdString()).expanded());
     sTempFiles.push_back(gsTempFile);
     ostm.open(gsTempFile.toLatin1().data(), std::ios::out);
-    ostm << FileName(sTempFile9).expanded() << endl;
-    ostm << FileName(sTempFile10).expanded() << endl;
+    ostm << FileName(sTempFile9.toStdString()).expanded() << endl;
+    ostm << FileName(sTempFile10.toStdString()).expanded() << endl;
     ostm.close();
 
     // c. algebra (lowpass + highpass)
     Pipeline p11("hinoise11");
-    p11.SetInputFile (FileName(sTempListFile));
+    p11.SetInputFile (FileName(sTempListFile.toStdString()));
     QString sTempFile11;
     if (sCcdId == "RED") {
       sTempFile11 = "$TEMPORARY/" + sInBaseName + "_Temp_p11_out.cub";
-      p11.SetOutputFile(FileName(sTempFile11));
-      sTempFiles.push_back(FileName(sTempFile11).expanded());
+      p11.SetOutputFile(FileName(sTempFile11.toStdString()));
+      sTempFiles.push_back(QString::fromStdString(FileName(sTempFile11.toStdString()).expanded()));
     }
     else {
       p11.SetOutputFile("TO");
@@ -431,7 +431,7 @@ void IsisMain() {
     if (sCcdId == "RED") {
       int iMin = int( (gdLpfzLines * gdLpfzSamples)/3 );
       Pipeline p12("hinoise12");
-      p12.SetInputFile(FileName(sTempFile11));
+      p12.SetInputFile(FileName(sTempFile11.toStdString()));
       p12.SetOutputFile("TO");
       p12.KeepTemporaryFiles(!bRemove);
 
@@ -453,10 +453,10 @@ void IsisMain() {
       p12.AddToPipeline("lowpass", "lowpass_pass2");
       p12.Application("lowpass_pass2").SetInputParameter ("FROM",    false);
       p12.Application("lowpass_pass2").SetOutputParameter("TO",      "lowpass.p12.2");
-      p12.Application("lowpass_pass2").AddConstParameter ("SAMPLES", toString(gdLpfzSamples));
-      p12.Application("lowpass_pass2").AddConstParameter ("LINES",   toString(gdLpfzLines));
+      p12.Application("lowpass_pass2").AddConstParameter ("SAMPLES", QString::number(gdLpfzSamples));
+      p12.Application("lowpass_pass2").AddConstParameter ("LINES",   QString::number(gdLpfzLines));
       p12.Application("lowpass_pass2").AddConstParameter ("MINOPT",  "COUNT");
-      p12.Application("lowpass_pass2").AddConstParameter ("MINIMUM", toString(iMin));
+      p12.Application("lowpass_pass2").AddConstParameter ("MINIMUM", QString::number(iMin));
       p12.Application("lowpass_pass2").AddConstParameter ("FILTER",  "OUTSIDE");
       p12.Application("lowpass_pass2").AddConstParameter ("NULL",    "TRUE");
       p12.Application("lowpass_pass2").AddConstParameter ("HRS",     "FALSE");
@@ -480,11 +480,11 @@ void IsisMain() {
     throw;
   }
   catch(std::exception const &se) {
-    QString sErrMsg = "std::exception: " + (QString)se.what();
+    std::string sErrMsg = "std::exception: " + (std::string)se.what();
     throw IException(IException::User, sErrMsg, _FILEINFO_);
   }
   catch(...) {
-    QString sErrMsg = "Other Error";
+    std::string sErrMsg = "Other Error";
     throw IException(IException::User, sErrMsg, _FILEINFO_);
   }
 }
@@ -514,9 +514,9 @@ void ProcessCubeNormStats(QString psStatsFile, int piChannel, int piSumming)
   for (int i=0; i<iRows; i++) {
     csvArr = statsFile.getRow(i);
     if (i) {
-      iBand.push_back(IString(csvArr[0]).ToInteger());
-      iRowCol.push_back(IString(csvArr[1]).ToInteger());
-      int iPoints = IString(csvArr[2]).ToInteger();
+      iBand.push_back(csvArr[0].toInt());
+      iRowCol.push_back(csvArr[1].toInt());
+      int iPoints = csvArr[2].toInt();
       iValidPoints.push_back(iPoints);
       if (iPoints > iMaxValidPoints) {
         iMaxValidPoints = iPoints;
@@ -661,16 +661,16 @@ void GetValuesFromHistogram(QString psHistFile, double & pdLisPer, double & pdMa
     }
 
     if (csvArr[0] == "Std Deviation") {
-      pdStdDev = IString(csvArr[1]).ToDouble();
+      pdStdDev = csvArr[1].toDouble();
     }
     else if (csvArr[0] == "Total Pixels") {
-      iTotalPixels = IString(csvArr[1]).ToInteger();
+      iTotalPixels = csvArr[1].toInt();
     }
     else if (csvArr[0] == "Null Pixels") {
-      iNullPixels = IString(csvArr[1]).ToInteger();
+      iNullPixels = csvArr[1].toInt();
     }
     else if (csvArr[0] == "Lis Pixels") {
-      iLisPixels = IString(csvArr[1]).ToInteger();
+      iLisPixels = csvArr[1].toInt();
     }
   }
 
@@ -690,9 +690,9 @@ void GetValuesFromHistogram(QString psHistFile, double & pdLisPer, double & pdMa
   iStartIndex++;
   for (int i=iStartIndex; i<iRows; i++) {
     csvArr = histFile.getRow(i);
-    double dCurrCumPer = IString(csvArr[5]).ToDouble();
+    double dCurrCumPer = csvArr[5].toDouble();
     if (dCurrCumPer > dCumPer) {
-      pdMaxDN = (IString(csvArr[0]).ToDouble() + IString(csvArr[1]).ToDouble()) / 2.0;
+      pdMaxDN = ((csvArr[0]).toDouble() + csvArr[1].toDouble()) / 2.0;
     }
   }
 }

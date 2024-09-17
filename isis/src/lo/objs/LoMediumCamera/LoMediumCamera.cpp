@@ -60,7 +60,7 @@ namespace Isis {
     }
     else {
       std::string msg = "File does not appear to be a Lunar Orbiter image: ";
-      msg += QString::number(naifIkCode());
+      msg += toString(naifIkCode());
       msg += " is not a supported instrument kernel code for Lunar Orbiter.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

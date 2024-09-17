@@ -72,7 +72,7 @@ namespace Isis {
         else {
           std::ostringstream mess;
           mess << "Expected 1 or " << nsamps << " values from CSV file "
-               << getcsvFile() << " but got " << z.dim() << " instead!";
+               << getcsvFile().toStdString() << " but got " << z.dim() << " instead!";
           throw IException(IException::User, mess.str(), _FILEINFO_);
         }
 

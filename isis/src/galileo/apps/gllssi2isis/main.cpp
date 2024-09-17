@@ -40,11 +40,11 @@ void IsisMain() {
   // Grab the file to import
   ProcessImportPds p;
   UserInterface &ui = Application::GetUserInterface();
-  FileName inFile = ui.GetFileName("FROM");
-  FileName outFile = ui.GetCubeName("TO");
+  FileName inFile = ui.GetFileName("FROM").toStdString();
+  FileName outFile = ui.GetCubeName("TO").toStdString();
 
   // Apply a fix to the gallileo pds labels so they can be read
-  fixPvl(inFile.toString());
+  fixPvl(QString::fromStdString(inFile.toString()));
 
   // Make sure it is a Galileo SSI image
   Pvl lab(inFile.expanded());
@@ -63,7 +63,7 @@ void IsisMain() {
 
   if(!dataSetId.contains("SSI-2-REDR-V1.0") && !dataSetId.contains("SSI-2-REDR-V1.1")
       && !dataSetId.contains("SSI-4-REDR-V1.0") && !dataSetId.contains("SSI-4-REDR-V1.1") ) {
-    std::string msg = "Invalid DATA_SET_ID [" + dataSetId + "]" + 
+    std::string msg = "Invalid DATA_SET_ID [" + dataSetId.toStdString() + "]" + 
     " from input file [" + inFile.expanded() + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
@@ -95,7 +95,7 @@ void IsisMain() {
 
   Progress prog;
   Pvl pdsLabel;
-  p.SetPdsFile(inFile.expanded(), "", pdsLabel);
+  p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", pdsLabel);
 
   // If summed handle the image similarly to pds2isis
   // with an extra translation step
@@ -112,7 +112,7 @@ void IsisMain() {
     summedOutput = new Cube();
     summedOutput->setDimensions(p.Samples() / 2, p.Lines() / 2, p.Bands());
     summedOutput->setPixelType(p.PixelType());
-    summedOutput->create(outFile.expanded());
+    summedOutput->create(QString::fromStdString(outFile.expanded()));
 
     p.StartProcess(translateData);
     translateLabels(pdsLabel, summedOutput);
@@ -175,7 +175,7 @@ void translateLabels(Pvl &pdsLabel, Cube *ocube) {
   FileName transFile("$ISISROOT/appdata/translations/GalileoSsi.trn");
 
   // Get the translation manager ready
-  PvlToPvlTranslationManager labelXlater(pdsLabel, transFile.expanded());
+  PvlToPvlTranslationManager labelXlater(pdsLabel, QString::fromStdString(transFile.expanded()));
   // Pvl outputLabels;
   Pvl *outputLabel = ocube->label();
   labelXlater.Auto(*(outputLabel));

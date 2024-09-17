@@ -77,7 +77,7 @@ void IsisMain() {
       QDomElement subframeParametersElement = process.getElement(xmlPath, baseElement);
 
       QDomElement linesElement = pdsLabel.createElement("img:lines");
-      PvlToXmlTranslationManager::setElementValue(linesElement, toString(lines));
+      PvlToXmlTranslationManager::setElementValue(linesElement, QString::number(lines));
       subframeParametersElement.appendChild(linesElement);
 
     }
@@ -88,7 +88,7 @@ void IsisMain() {
       QDomElement subframeParametersElement = process.getElement(xmlPath, baseElement);
 
       QDomElement samplesElement = pdsLabel.createElement("img:samples");
-      PvlToXmlTranslationManager::setElementValue(samplesElement, toString(samples));
+      PvlToXmlTranslationManager::setElementValue(samplesElement, QString::number(samples));
       subframeParametersElement.appendChild(samplesElement);
     }
 
@@ -103,7 +103,7 @@ void IsisMain() {
     QDomElement baseElement = pdsLabel.documentElement();
     QDomElement radiometricParametersElement = process.getElement(xmlPath, baseElement);
     QDomElement radianceFactorElement = pdsLabel.createElement("img:radiance_scaling_factor_WO_units");
-    PvlToXmlTranslationManager::setElementValue(radianceFactorElement, toString(radianceScalingFactor));
+    PvlToXmlTranslationManager::setElementValue(radianceFactorElement, QString::number(radianceScalingFactor));
     radiometricParametersElement.appendChild(radianceFactorElement);
 
     ProcessExportPds4::translateUnits(pdsLabel);
@@ -130,31 +130,31 @@ void generateCSVOutput(Pvl &inputCubeLabel) {
     // Output the result
     fstream outFile;//QFile???
     QString outputImage = ui.GetAsString("TO");
-    FileName imgOutput(outputImage);
+    FileName imgOutput(outputImage.toStdString());
     FileName csvOutput = imgOutput.removeExtension().setExtension("csv");
 
     PvlGroup instGroup = inputCubeLabel.findObject("IsisCube").findGroup("Instrument");
     if (QString::fromStdString(instGroup["InstrumentId"][0]).compare("amica", Qt::CaseInsensitive) == 0) {
       if (inputCubeLabel.findObject("IsisCube").hasGroup("RadiometricCalibration")) {
-        outFile.open(csvOutput.expanded().toLatin1().data(), std::ios::out);
+        outFile.open(csvOutput.expanded().c_str(), std::ios::out);
         PvlGroup radiometricGroup = inputCubeLabel.findObject("IsisCube").findGroup("RadiometricCalibration");
         outFile << "RadiometricCalibrationUnits"
-                << delimeter
+                << delimeter.toStdString()
                 << "RadianceStandard"
-                << delimeter
+                << delimeter.toStdString()
                 << "RadianceScaleFactor"
                 << endl;
         outFile << radiometricGroup["Units"][0]
-                << delimeter
+                << delimeter.toStdString()
                 << radiometricGroup["RadianceStandard"][0]
-                << delimeter
+                << delimeter.toStdString()
                 << radiometricGroup["RadianceScaleFactor"][0]
                 << endl;
         outFile.close();
       }
     }
     else { // NIRS
-      outFile.open(csvOutput.expanded().toLatin1().data(), std::ios::out);
+      outFile.open(csvOutput.expanded().c_str(), std::ios::out);
       outFile << "IntegrationTime" << endl;
       outFile << instGroup["IntegrationTime"][0] << endl;
       outFile.close();

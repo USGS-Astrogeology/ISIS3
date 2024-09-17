@@ -32,7 +32,7 @@ int main(void) {
     Cube cm("$ISISTESTDATA/isis/src/lo/unitTestData/3083_med_raw.cub", "r");
     Camera *camm = CameraFactory::Create(cm);
 
-    cout << "FileName: " << FileName(cm.fileName()).name() << endl;
+    cout << "FileName: " << FileName(cm.fileName().toStdString()).name() << endl;
     cout << "CK Frame: " << camm->instrumentRotation()->Frame() << endl << endl;
     cout.setf(std::ios::fixed);
     cout << setprecision(9);
@@ -123,7 +123,7 @@ int main(void) {
     Cube ch("$ISISTESTDATA/isis/src/lo/unitTestData/4164H_Full_mirror.cub", "r");
     Camera *camh = CameraFactory::Create(ch);
 
-    cout << "FileName: " << FileName(ch.fileName()).name() << endl;
+    cout << "FileName: " << FileName(ch.fileName().toStdString()).name() << endl;
     cout << "CK Frame: " << camh->instrumentRotation()->Frame() << endl << endl;
     cout.setf(std::ios::fixed);
     cout << setprecision(9);

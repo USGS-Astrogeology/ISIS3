@@ -55,7 +55,7 @@ namespace Isis{
     // Input data for MARCI is unsigned byte
     p.SetPixelType(Isis::UnsignedByte);
 
-    FileName inFile = ui.GetFileName("FROM");
+    FileName inFile = ui.GetFileName("FROM").toStdString();
 
     //Checks if in file is rdr
     Pvl lab(inFile.expanded());
@@ -66,7 +66,7 @@ namespace Isis{
     }
 
     Pvl pdsLab;
-    p.SetPdsFile(inFile.expanded(), "", pdsLab);
+    p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", pdsLab);
 
     if((int)pdsLab["SAMPLING_FACTOR"] == 12) {
       throw IException(IException::User, "Summing mode of 12 not supported", _FILEINFO_);
@@ -126,9 +126,9 @@ namespace Isis{
     outputCubes[0]->setDimensions(numSamples, numLines, numFilters);
     outputCubes[1]->setDimensions(numSamples, numLines, numFilters);
 
-    FileName outputFile(ui.GetCubeName("TO"));
-    QString evenFile = outputFile.path() + "/" + outputFile.baseName() + ".even.cub";
-    QString oddFile = outputFile.path() + "/" + outputFile.baseName() + ".odd.cub";
+    FileName outputFile(ui.GetCubeName("TO").toStdString());
+    QString evenFile = QString::fromStdString(outputFile.path() + "/" + outputFile.baseName() + ".even.cub");
+    QString oddFile = QString::fromStdString(outputFile.path() + "/" + outputFile.baseName() + ".odd.cub");
 
     outputCubes[0]->create(evenFile);
     outputCubes[1]->create(oddFile);
@@ -183,9 +183,9 @@ namespace Isis{
     // Load the MARCI exposure duration calibration tables.
     bool header=false;
     int skip=0;
-    FileName csvfile(varExpFile);
+    FileName csvfile(varExpFile.toStdString());
 
-    CSVReader csv(csvfile.expanded(), header, skip);
+    CSVReader csv(QString::fromStdString(csvfile.expanded()), header, skip);
       // There may be multiple entries in the file for this productID,
       // so we *must* loop through the entire file.
     for(int i = 0 ; i < csv.rows() ; i++) {
@@ -206,8 +206,8 @@ namespace Isis{
           }
           // Build the two vectors, exptime and frame. We'll relate those to each other
           // back in main(). Remember that a productID may have multiple entries in the table.
-          frameseq.push_back(toInt(row[1]));
-          exptime.push_back(toDouble(row[2]));
+          frameseq.push_back(row[1].toInt());
+          exptime.push_back(row[2].toDouble());
         }
     }
 
@@ -223,7 +223,7 @@ namespace Isis{
     if (exptime.size() < 2) {
       PvlGroup missing("NoExposureTimeDataFound");
       PvlKeyword message("Message", "No variable exposure information found in the varexp file."
-                                    " Assuming exposure time is fixed for [" + inFile.toString().toStdString() +  "]" );
+                                    " Assuming exposure time is fixed for [" + inFile.toString() +  "]" );
       missing.addKeyword(message);
       missing.addKeyword(PvlKeyword("FileNotFoundInVarexpFile", prodId.toStdString()), Pvl::Replace);
       Application::Log(missing);

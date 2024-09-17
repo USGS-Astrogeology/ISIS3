@@ -35,7 +35,7 @@ static unsigned int iCheckSum = 0;
 
 void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
-  FileName inFile = ui.GetCubeName("FROM");
+  FileName inFile = ui.GetCubeName("FROM").toStdString();
 
   // Set the processing object
   ProcessExportMiniRFLroPds cProcess;
@@ -45,8 +45,8 @@ void IsisMain() {
   Pvl *cInLabel =  cInCube->label();
 
   // Get the output label file
-  FileName outFile(ui.GetFileName("TO", "lbl"));
-  QString outFileName(outFile.expanded());
+  FileName outFile(ui.GetFileName("TO", "lbl").toStdString());
+  QString outFileName(QString::fromStdString(outFile.expanded()));
 
   cProcess.SetDetached(outFileName);
 
@@ -394,13 +394,13 @@ void FixLabel(Pvl &pcPdsLbl, bool &pbLevel2) {
         dLat = atan(z / (sqrt(pow(x, 2) + pow(y, 2)))) * (180 / Isis::PI);
 
         PvlKeyword cKeyRefLon("REFERENCE_LONGITUDE");
-        QString iStr = toString(dLon, 6);
+        QString iStr = QString::number(dLon,'g', 6);
         iStr += " <DEG>";
         cKeyRefLon.setValue(iStr.toStdString());
         cProjectionObject.addKeyword(cKeyRefLon);
 
         PvlKeyword cKeyRefLat("REFERENCE_LATITUDE");
-        iStr = toString(dLat, 6);
+        iStr = QString::number(dLat,'g', 6);
         iStr += " <DEG>";
         cKeyRefLat.setValue(iStr.toStdString());
         cProjectionObject.addKeyword(cKeyRefLat);

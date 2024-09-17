@@ -66,7 +66,7 @@ void IsisMain() {
     Pipeline p1("hicalproc1");
     p1.SetInputFile("FROM");
     p1.SetOutputFile(FileName("$TEMPORARY/p1_out.cub"));
-    sTempFiles.push_back(FileName("$TEMPORARY/p1_out.cub").expanded());
+    sTempFiles.push_back(QString::fromStdString(FileName("$TEMPORARY/p1_out.cub").expanded()));
     p1.KeepTemporaryFiles(!bRemoveTempFiles);
 
     // If Raw image convert to Isis format
@@ -131,7 +131,7 @@ void IsisMain() {
     Pipeline pStats;
     pStats.SetInputFile(FileName("$TEMPORARY/p1_out.cub"));
     pStats.SetOutputFile(FileName("$TEMPORARY/statsMask"));
-    sTempFiles.push_back(FileName("$TEMPORARY/statsMask").expanded());
+    sTempFiles.push_back(QString::fromStdString(FileName("$TEMPORARY/statsMask").expanded()));
     pStats.KeepTemporaryFiles(!bRemoveTempFiles);
 
     pStats.AddToPipeline("cubenorm");
@@ -150,14 +150,14 @@ void IsisMain() {
 
     double dMinDN=0, dMaxDN=0;
     if (bNoiseFilter) {
-      AnalyzeCubenormStats(FileName("$TEMPORARY/statsMask").expanded(), iSumming, dMinDN, dMaxDN);
+      AnalyzeCubenormStats(QString::fromStdString(FileName("$TEMPORARY/statsMask").expanded()), iSumming, dMinDN, dMaxDN);
     }
 
     Pipeline p2("hicalproc2");
     p2.SetInputFile(FileName("$TEMPORARY/p1_out.cub"));
     if (bNoiseFilter || bHideStripe || bMapping ) {
       p2.SetOutputFile(FileName("$TEMPORARY/p2_out.cub"));
-      sTempFiles.push_back(FileName("$TEMPORARY/p2_out.cub").expanded());
+      sTempFiles.push_back(QString::fromStdString(FileName("$TEMPORARY/p2_out.cub").expanded()));
     }
     else {
       p2.SetOutputFile("TO");
@@ -168,8 +168,8 @@ void IsisMain() {
     p2.Application("mask").SetContinue(true);
     p2.Application("mask").SetInputParameter("FROM",     false);
     p2.Application("mask").SetOutputParameter("TO",      "mask2");
-    p2.Application("mask").AddConstParameter("MINIMUM",  toString(dMinDN));
-    p2.Application("mask").AddConstParameter("MAXIMUM",  toString(dMaxDN));
+    p2.Application("mask").AddConstParameter("MINIMUM",  QString::number(dMinDN));
+    p2.Application("mask").AddConstParameter("MAXIMUM",  QString::number(dMaxDN));
     p2.Application("mask").AddConstParameter("PRESERVE", "INSIDE");
     p2.Application("mask").AddConstParameter("SPIXELS",  "NONE");
     if (!bNoiseFilter) {
@@ -205,7 +205,7 @@ void IsisMain() {
       Pipeline p3("hicalproc3");
       p3.SetInputFile(FileName("$TEMPORARY/p2_out.cub"));
       p3.SetOutputFile(FileName("$TEMPORARY/StatsCubeNorm1"));
-      sTempFiles.push_back(FileName("$TEMPORARY/StatsCubeNorm1").expanded());
+      sTempFiles.push_back(QString::fromStdString(FileName("$TEMPORARY/StatsCubeNorm1").expanded()));
       p3.KeepTemporaryFiles(!bRemoveTempFiles);
 
       // Crop if skip top and bottom lines are defined in the Configuration file
@@ -230,7 +230,7 @@ void IsisMain() {
       Pipeline p4("hicalproc4");
       p4.SetInputFile(FileName("$TEMPORARY/p2_out.cub"));
       p4.SetOutputFile(FileName("$TEMPORARY/StatsCubeNorm2"));
-      sTempFiles.push_back(FileName("$TEMPORARY/StatsCubeNorm2").expanded());
+      sTempFiles.push_back(QString::fromStdString(FileName("$TEMPORARY/StatsCubeNorm2").expanded()));
       p4.KeepTemporaryFiles(!bRemoveTempFiles);
 
       p4.AddToPipeline("hicubenorm");
@@ -240,7 +240,7 @@ void IsisMain() {
       p4.Application("hicubenorm").AddConstParameter ("FILTER",       "5");
       p4.Application("hicubenorm").AddConstParameter ("STATSOURCE",   "TABLE");
       p4.Application("hicubenorm").AddConstParameter ("FROMSTATS",
-                                       FileName("$TEMPORARY/StatsCubeNorm1").expanded());
+                                       QString::fromStdString(FileName("$TEMPORARY/StatsCubeNorm1").expanded()));
       p4.Application("hicubenorm").AddConstParameter ("NEW_VERSION",   "TRUE");
       p4.Application("hicubenorm").AddConstParameter ("HIGHPASS_MODE", "HIGHPASS_DIVIDE");
       p4.Application("hicubenorm").AddConstParameter ("PAUSECROP",     "TRUE");
@@ -256,7 +256,7 @@ void IsisMain() {
       p5.SetInputFile(FileName("$TEMPORARY/p2_out.cub"));
       if (bHideStripe || bMapping) {
         p5.SetOutputFile(FileName("$TEMPORARY/p5_out.cub"));
-        sTempFiles.push_back(FileName("$TEMPORARY/p5_out.cub").expanded());
+        sTempFiles.push_back(QString::fromStdString(FileName("$TEMPORARY/p5_out.cub").expanded()));
       }
       else {
         p5.SetOutputFile("TO");
@@ -269,7 +269,7 @@ void IsisMain() {
       p5.Application("cubenorm").SetOutputParameter("TO",         "cbnorm");
       p5.Application("cubenorm").AddConstParameter ("format",     "TABLE");
       p5.Application("cubenorm").AddConstParameter ("STATSOURCE", "TABLE");
-      p5.Application("cubenorm").AddConstParameter ("FROMSTATS",  FileName("$TEMPORARY/StatsCubeNorm2").expanded());
+      p5.Application("cubenorm").AddConstParameter ("FROMSTATS",  QString::fromStdString(FileName("$TEMPORARY/StatsCubeNorm2").expanded()));
       p5.Application("cubenorm").AddConstParameter ("DIRECTION",  "COLUMN");
       p5.Application("cubenorm").AddConstParameter ("NORMALIZER", "AVERAGE");
       p5.Application("cubenorm").AddConstParameter ("PRESERVE",   "FALSE");
@@ -332,7 +332,7 @@ void IsisMain() {
       }
       else {
         p6.SetOutputFile(FileName("$TEMPORARY/p6_out.cub"));
-        sTempFiles.push_back(FileName("$TEMPORARY/p6_out.cub").expanded());
+        sTempFiles.push_back(QString::fromStdString(FileName("$TEMPORARY/p6_out.cub").expanded()));
       }
       p6.KeepTemporaryFiles(!bRemoveTempFiles);
 
@@ -400,7 +400,7 @@ void IsisMain() {
   }
   catch(std::exception const &se) {
     CleanUp(sTempFiles, inFile);
-    std::string message = "std::exception: " + (QString)se.what();
+    std::string message = "std::exception: " + (std::string)se.what();
     throw IException(IException::User, message, _FILEINFO_);
   }
   catch(...) {
@@ -451,21 +451,21 @@ void GetCCD_Channel_Coefficients(Pvl & pCubeLabel)
 
   // Summing keyword
   if (!instrGrp.hasKeyword("Summing")) {
-    QString sMsg = "Summing keyword not found";
+    std::string sMsg = "Summing keyword not found";
     throw IException(IException::User, sMsg, _FILEINFO_);
   }
   else {
     PvlKeyword binKey = instrGrp.findKeyword("Summing");
     iSumming = std::stoi(binKey[0]);
     if (iSumming != 1 && iSumming != 2 && iSumming != 4) {
-      QString sMsg = "Invalid Summing value in input file, must be 1,2,or 4";
+      std::string sMsg = "Invalid Summing value in input file, must be 1,2,or 4";
       throw IException(IException::User, sMsg, _FILEINFO_);
     }
   }
 
   // CCD Keyword
   if (!instrGrp.hasKeyword("CcdId")) {
-    QString sMsg = "CcdId keyword not found";
+    std::string sMsg = "CcdId keyword not found";
     throw IException(IException::User, sMsg, _FILEINFO_);
   }
   else {
@@ -475,7 +475,7 @@ void GetCCD_Channel_Coefficients(Pvl & pCubeLabel)
 
   // Channel Keyword
   if (!instrGrp.hasKeyword("ChannelNumber")) {
-    QString sMsg = "ChannelNumber keyword not found";
+    std::string sMsg = "ChannelNumber keyword not found";
     throw IException(IException::User, sMsg, _FILEINFO_);
   }
   else {
@@ -484,14 +484,14 @@ void GetCCD_Channel_Coefficients(Pvl & pCubeLabel)
   }
 
   // Get the coefficient file name
-  QString dCoeffFile = "$mro/calibration/HiRISE_Gain_Drift_Correction_Bin" + toString(iSumming) + ".0001.csv";
+  QString dCoeffFile = "$mro/calibration/HiRISE_Gain_Drift_Correction_Bin" + QString::number(iSumming) + ".0001.csv";
   //QString dCoeffFile = "/home/sprasad/isis3/isis/src/mro/apps/hicalproc/HiRISE_Gain_Drift_Correction_Bin" + toString(iSumming) + ".0001.csv";
 #ifdef _DEBUG_
   cout << dCoeffFile << endl;
 #endif
 
   // Get the coefficients
-  ReadCoefficientFile(FileName(dCoeffFile).expanded(), sCcd, iChannel);
+  ReadCoefficientFile(QString::fromStdString(FileName(dCoeffFile.toStdString()).expanded()), sCcd, iChannel);
 }
 
 /**
@@ -508,7 +508,7 @@ void ReadCoefficientFile(QString psCoeffile, QString psCcd, int piChannel)
   int iRows = coefFile.rows();
   int iRowIndex = -1;
 
-  QString sColName = psCcd + "_" + toString(piChannel);
+  QString sColName = psCcd + "_" + QString::number(piChannel);
 #ifdef _DEBUG_
   cout << endl << "Col name=" << sColName <<  "Rows=" << iRows << endl;
 #endif
@@ -525,10 +525,10 @@ void ReadCoefficientFile(QString psCoeffile, QString psCcd, int piChannel)
     int iArrSize = csvArr.dim();
     for (int i=1; i<iArrSize; i++) {
       csvArr[i] = csvArr[i].trimmed().remove(QRegExp("(^,*|,*$)"));
-      dCoeff[i] = toDouble(csvArr[i]);
+      dCoeff[i] = csvArr[i].toDouble();
       if (dCoeff[i] < 0) {
         dCoeff[i] *= -1;
-        csvArr[i] = toString(dCoeff[i]) ;
+        csvArr[i] = QString::number(dCoeff[i]) ;
       }
     }
   }
@@ -563,8 +563,8 @@ void AnalyzeCubenormStats(QString psStatsFile, int piSumming, double & pdMinDN, 
       // given RowCol
       //cerr << "  " << j << "." << csvArr[j];
       if (j==2) {
-        iValidPoints.push_back(toInt(csvArr[j]));
-        int iCurrValidPoints = toInt(csvArr[j]);
+        iValidPoints.push_back(csvArr[j].toInt());
+        int iCurrValidPoints = csvArr[j].toInt();
         if (iCurrValidPoints > iMaxValidPoints) {
           iMaxValidPoints = iCurrValidPoints;
         }
@@ -572,15 +572,15 @@ void AnalyzeCubenormStats(QString psStatsFile, int piSumming, double & pdMinDN, 
       }
       // Get the Standard deviation
       if (j==5) {
-        dStdDev.push_back(toDouble(csvArr[j]));
+        dStdDev.push_back(csvArr[j].toDouble());
       }
 
       // Get the Maximum and Minimum values
       if (j==6) {
-        dMinimum.push_back(toDouble(csvArr[j]));
+        dMinimum.push_back(csvArr[j].toDouble());
       }
       if (j==7) {
-        dMaximum.push_back(toDouble(csvArr[j]));
+        dMaximum.push_back(csvArr[j].toDouble());
       }
     }
   }

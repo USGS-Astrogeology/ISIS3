@@ -54,13 +54,13 @@ namespace Isis {
     */
     if(imageDate < removeCoverDate) {
       int code = naifIkCode();
-      QString key = "INS" + toString(code) + "_FOCAL_LENGTH_COVER";
+      QString key = "INS" + QString::number(code) + "_FOCAL_LENGTH_COVER";
       SetFocalLength(Spice::getDouble(key));
-      k1 = Spice::getDouble("INS" + toString(naifIkCode()) + "_K1_COVER");
+      k1 = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_K1_COVER");
     }
     else {
       SetFocalLength();
-      k1 = Spice::getDouble("INS" + toString(naifIkCode()) + "_K1");
+      k1 = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_K1");
     }
 
     SetPixelPitch();
@@ -87,9 +87,9 @@ namespace Isis {
     CameraFocalPlaneMap *focalMap = new CameraFocalPlaneMap(this, naifIkCode());
 
     focalMap->SetDetectorOrigin(
-      Spice::getDouble("INS" + toString(naifIkCode()) +
+      Spice::getDouble("INS" + QString::number(naifIkCode()) +
                        "_BORESIGHT_SAMPLE"),
-      Spice::getDouble("INS" + toString(naifIkCode()) +
+      Spice::getDouble("INS" + QString::number(naifIkCode()) +
                        "_BORESIGHT_LINE"));
 
     // Setup distortion map

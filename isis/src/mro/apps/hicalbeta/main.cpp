@@ -154,7 +154,7 @@ void IsisMain(){
     }
     else {
       //  Set default to output directory
-      hiconf.add("OPATH", FileName(ocube->fileName()).path());
+      hiconf.add("OPATH", QString::fromStdString(FileName(ocube->fileName().toStdString()).path()));
     }
 
 //  Do I/F output DN conversions
@@ -205,7 +205,7 @@ void IsisMain(){
     if (!SkipModule(hiprof) ) {
       ZeroBufferFit zbf(hiconf);
 
-      calVars->add(hiconf.getProfileName(),
+      calVars->add(hiconf.getProfileName().toStdString(),
                    zbf.Normalize(zbf.Solve(calVars->get("ZeroBufferSmooth"))));
       ZbfHist = zbf.History();
       if ( hiprof.exists("DumpModuleFile") ) {
@@ -213,7 +213,7 @@ void IsisMain(){
       }
     }
     else {
-      calVars->add(hiconf.getProfileName(), HiVector(nlines, 0.0));
+      calVars->add(hiconf.getProfileName().toStdString(), HiVector(nlines, 0.0));
       ZbfHist.add("Debug::SkipModule invoked!");
     }
 
@@ -227,14 +227,14 @@ void IsisMain(){
     ZrHist.add("Profile["+ hiprof.Name()+"]");
     if ( !SkipModule(hiprof) ) {
       ZeroReverse zr(caldata, hiconf);
-      calVars->add(hiconf.getProfileName(), zr.ref());
+      calVars->add(hiconf.getProfileName().toStdString(), zr.ref());
       ZrHist = zr.History();
       if ( hiprof.exists("DumpModuleFile") ) {
         zr.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
       }
     }
     else {
-      calVars->add(hiconf.getProfileName(), HiVector(nsamps, 0.0));
+      calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 0.0));
       ZrHist.add("Debug::SkipModule invoked!");
     }
 
@@ -248,14 +248,14 @@ void IsisMain(){
     ZdHist.add("Profile["+ hiprof.Name()+"]");
     if ( !SkipModule(hiprof) ) {
       ZeroDark zd(hiconf);
-      calVars->add(hiconf.getProfileName(), zd.ref());
+      calVars->add(hiconf.getProfileName().toStdString(), zd.ref());
       ZdHist = zd.History();
       if ( hiprof.exists("DumpModuleFile") ) {
         zd.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
       }
     }
     else {
-      calVars->add(hiconf.getProfileName(), HiVector(nsamps, 0.0));
+      calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 0.0));
       ZdHist.add("Debug::SkipModule invoked!");
     }
 
@@ -269,14 +269,14 @@ void IsisMain(){
     GldHist.add("Profile["+ hiprof.Name()+"]");
     if ( !SkipModule(hiprof) ) {
       GainLineDrift gld(hiconf);
-      calVars->add(hiconf.getProfileName(), gld.ref());
+      calVars->add(hiconf.getProfileName().toStdString(), gld.ref());
       GldHist = gld.History();
       if ( hiprof.exists("DumpModuleFile") ) {
         gld.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
       }
     }
     else {
-      calVars->add(hiconf.getProfileName(), HiVector(nlines, 1.0));
+      calVars->add(hiconf.getProfileName().toStdString(), HiVector(nlines, 1.0));
       GldHist.add("Debug::SkipModule invoked!");
     }
 
@@ -289,14 +289,14 @@ void IsisMain(){
     GnlHist.add("Profile["+ hiprof.Name()+"]");
     if ( !SkipModule(hiprof) ) {
       GainNonLinearity gnl(hiconf);
-      calVars->add(hiconf.getProfileName(), gnl.ref());
+      calVars->add(hiconf.getProfileName().toStdString(), gnl.ref());
       GnlHist = gnl.History();
       if ( hiprof.exists("DumpModuleFile") ) {
         gnl.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
       }
     }
     else {
-      calVars->add(hiconf.getProfileName(), HiVector(1, 0.0));
+      calVars->add(hiconf.getProfileName().toStdString(), HiVector(1, 0.0));
       GnlHist.add("Debug::SkipModule invoked!");
     }
 
@@ -309,14 +309,14 @@ void IsisMain(){
     GcnHist.add("Profile["+ hiprof.Name()+"]");
     if ( !SkipModule(hiprof) ) {
       GainChannelNormalize gcn(hiconf);
-      calVars->add(hiconf.getProfileName(), gcn.ref());
+      calVars->add(hiconf.getProfileName().toStdString(), gcn.ref());
       GcnHist = gcn.History();
       if ( hiprof.exists("DumpModuleFile") ) {
         gcn.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
       }
     }
     else {
-      calVars->add(hiconf.getProfileName(), HiVector(nsamps, 1.0));
+      calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 1.0));
       GcnHist.add("Debug::SkipModule invoked!");
     }
 
@@ -329,14 +329,14 @@ void IsisMain(){
     GffHist.add("Profile["+ hiprof.Name()+"]");
     if ( !SkipModule(hiprof) ) {
       GainFlatField gff(hiconf);
-      calVars->add(hiconf.getProfileName(), gff.ref());
+      calVars->add(hiconf.getProfileName().toStdString(), gff.ref());
       GffHist = gff.History();
       if ( hiprof.exists("DumpModuleFile") ) {
         gff.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
       }
     }
     else {
-      calVars->add(hiconf.getProfileName(), HiVector(nsamps, 1.0));
+      calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 1.0));
       GffHist.add("Debug::SkipModule invoked!");
     }
 
@@ -349,14 +349,14 @@ void IsisMain(){
     GtHist.add("Profile["+ hiprof.Name()+"]");
     if ( !SkipModule(hiprof) ) {
       GainTemperature gt(hiconf);
-      calVars->add(hiconf.getProfileName(), gt.ref());
+      calVars->add(hiconf.getProfileName().toStdString(), gt.ref());
       GtHist = gt.History();
       if ( hiprof.exists("DumpModuleFile") ) {
         gt.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
       }
     }
     else {
-      calVars->add(hiconf.getProfileName(), HiVector(nsamps, 1.0));
+      calVars->add(hiconf.getProfileName().toStdString(), HiVector(nsamps, 1.0));
       GtHist.add("Debug::SkipModule invoked!");
     }
 
@@ -370,14 +370,14 @@ void IsisMain(){
     GucHist.add("Profile["+ hiprof.Name()+"]");
     if ( !SkipModule(hiprof) ) {
       GainUnitConversion guc(hiconf, units, hifrom);
-      calVars->add(hiconf.getProfileName(), guc.ref());
+      calVars->add(hiconf.getProfileName().toStdString(), guc.ref());
       GucHist = guc.History();
       if ( hiprof.exists("DumpModuleFile") ) {
         guc.Dump(hiconf.getMatrixSource("DumpModuleFile",hiprof));
       }
     }
     else {
-      calVars->add(hiconf.getProfileName(), HiVector(1,1.0));
+      calVars->add(hiconf.getProfileName().toStdString(), HiVector(1,1.0));
       GucHist.add("Debug::SkipModule invoked!");
       GucHist.add("Units[Unknown]");
     }
@@ -400,8 +400,8 @@ void IsisMain(){
     // is completely controlled by the configuration file
     if ( hiprof.exists("DumpHistoryFile") ) {
       procStep = "logging/reporting phase";
-      FileName hdump(hiconf.getMatrixSource("DumpHistoryFile",hiprof));
-      QString hdumpFile = hdump.expanded();
+      FileName hdump(hiconf.getMatrixSource("DumpHistoryFile",hiprof).toStdString());
+      QString hdumpFile = QString::fromStdString(hdump.expanded());
       ofstream ofile(hdumpFile.toLatin1().data(), ios::out);
       if (!ofile) {
         std::string mess = "Unable to open/create history dump file " +
@@ -409,16 +409,16 @@ void IsisMain(){
         IException(IException::User, mess, _FILEINFO_).print();
       }
       else {
-        ofile << "Program:  " << hical_program << endl;
-        ofile << "RunTime:  " << hical_runtime << endl;
-        ofile << "Version:  " << hical_version << endl;
-        ofile << "Revision: " << hical_revision << endl << endl;
+        ofile << "Program:  " << hical_program.toStdString() << endl;
+        ofile << "RunTime:  " << hical_runtime.toStdString() << endl;
+        ofile << "Version:  " << hical_version.toStdString() << endl;
+        ofile << "Revision: " << hical_revision.toStdString() << endl << endl;
 
-        ofile << "FROM:     " << hifrom->fileName() << endl;
-        ofile << "TO:       " << ocube->fileName()  << endl;
-        ofile << "CONF:     " << conf_file  << endl << endl;
+        ofile << "FROM:     " << hifrom->fileName().toStdString() << endl;
+        ofile << "TO:       " << ocube->fileName().toStdString()  << endl;
+        ofile << "CONF:     " << conf_file.toStdString()  << endl << endl;
 
-        ofile << "/* " << hical_program << " application equation */\n"
+        ofile << "/* " << hical_program.toStdString() << " application equation */\n"
               << "/* hdn = (idn - ZeroBufferFit(ZeroBufferSmooth) - ZeroReverse - ZeroDark) */\n"
               << "/* odn = hdn / GainLineDrift * GainNonLinearity * GainChannelNormalize */\n"
               << "/*           * GainFlatField  * GainTemperature / GainUnitConversion */\n\n";
@@ -482,7 +482,7 @@ void IsisMain(){
   catch (IException &ie) {
     delete calVars;
     calVars = 0;
-    std::string mess = "Failed in " + procStep;
+    std::string mess = "Failed in " + procStep.toStdString();
     throw IException(ie, IException::User, mess, _FILEINFO_);
   }
 

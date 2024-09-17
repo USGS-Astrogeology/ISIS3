@@ -57,7 +57,7 @@ namespace Isis {
   NirsImportFits::NirsImportFits(const FileName &fitsFile,
                                  const QString &fitsLabelName) {
     init();
-    load(fitsFile.expanded(), fitsLabelName);
+    load(QString::fromStdString(fitsFile.expanded()), fitsLabelName);
   }
 
   /**
@@ -113,15 +113,15 @@ namespace Isis {
     init();
 
     //  Set up file state
-    m_file = fitsfile;
+    m_file = fitsfile.toStdString();
 
       // Setup to read headers/labels
     ifstream input;
-    input.open(m_file.expanded().toLatin1().data(), ios::in | ios::binary);
+    input.open(m_file.expanded().c_str(), ios::in | ios::binary);
 
   // Check stream open status
     if ( !input.is_open() ) {
-      std::string msg = "Cannot open input file [" + fitsfile + "]";
+      std::string msg = "Cannot open input file [" + fitsfile.toStdString() + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 

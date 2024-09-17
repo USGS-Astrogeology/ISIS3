@@ -23,7 +23,7 @@ namespace Isis{
   void lo2isis(UserInterface &ui) {
     ProcessImportPds p;
     Pvl label;
-    FileName in = ui.GetCubeName("FROM");
+    FileName in = ui.GetCubeName("FROM").toStdString();
 
     //Checks if in file is rdr
     label = in.expanded();
@@ -33,7 +33,7 @@ namespace Isis{
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
-    p.SetPdsFile(in.expanded(), "", label);
+    p.SetPdsFile(QString::fromStdString(in.expanded()), "", label);
     // Segfault here
     CubeAttributeOutput &att = ui.GetOutputAttribute("TO");
     Cube *ocube = p.SetOutputCube(ui.GetCubeName("TO"), att);
@@ -47,7 +47,7 @@ namespace Isis{
   void TranslateLunarLabels(FileName &labelFile, Cube *ocube) {
 
     // Transfer the instrument group to the output cube
-    QString transDir = "$ISISROOT/appdata/translations/";
+    std::string transDir = "$ISISROOT/appdata/translations/";
     Pvl inputLabel(labelFile.expanded());
     FileName transFile;
     FileName bandBinTransFile;
@@ -72,7 +72,7 @@ namespace Isis{
       }
       else {
         std::string msg = "[" + labelFile.name() + "] contains unknown PDS version [" +
-                     pdsVersion + "]";
+                     pdsVersion.toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -93,12 +93,12 @@ namespace Isis{
 
     transFile = transDir + "LoGeneralImport.trn";
     // Get the translation manager ready
-    PvlToPvlTranslationManager commonlabelXlater(inputLabel, transFile.expanded());
+    PvlToPvlTranslationManager commonlabelXlater(inputLabel, QString::fromStdString(transFile.expanded()));
     // Pvl outputLabels;
     Pvl *outputLabel = ocube->label();
     commonlabelXlater.Auto(*(outputLabel));
 
-    PvlToPvlTranslationManager labelXlater(inputLabel, bandBinTransFile.expanded());
+    PvlToPvlTranslationManager labelXlater(inputLabel, QString::fromStdString(bandBinTransFile.expanded()));
     labelXlater.Auto(*(outputLabel));
 
     PvlGroup &inst = outputLabel->findGroup("Instrument", Pvl::Traverse);
@@ -168,7 +168,7 @@ namespace Isis{
 
     //Create subframe and frame keywords
     QString imgNumber = QString::fromStdString(inst.findKeyword("ImageNumber"));
-    int subFrame = toInt(imgNumber.mid(5));
+    int subFrame = imgNumber.mid(5).toInt();
 
     inst.addKeyword(PvlKeyword("SubFrame", std::to_string(subFrame)));
     //ImageNumber is auto translated, and no longer needed

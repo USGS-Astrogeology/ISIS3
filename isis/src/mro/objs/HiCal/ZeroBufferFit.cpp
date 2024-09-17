@@ -46,19 +46,19 @@ namespace Isis {
     _useLinFit = IsTrueValue(prof, "ZeroBufferFitOnFailUseLinear");
 
 
-    _absErr = toDouble(ConfKey(prof, "AbsoluteError", QString("1.0E-4")));
-    _relErr = toDouble(ConfKey(prof, "RelativeError", QString("1.0E-4")));
+    _absErr = ConfKey(prof, "AbsoluteError", QString("1.0E-4")).toDouble();
+    _relErr = ConfKey(prof, "RelativeError", QString("1.0E-4")).toDouble();
 
-    _sWidth = toInt(ConfKey(prof, "GuessFilterWidth", QString("17")));
-    _sIters = toInt(ConfKey(prof, "GuessFilterIterations", QString("1")));
+    _sWidth = ConfKey(prof, "GuessFilterWidth", QString("17")).toInt();
+    _sIters = ConfKey(prof, "GuessFilterIterations", QString("1")).toInt();
 
     if ( prof.exists("MaximumIterations") ) {
       setMaxIters(ToInteger(prof("MaximumIterations")));
     }
 
-    _maxLog = toDouble(ConfKey(prof, "MaximumLog", QString("709.0")));
+    _maxLog = ConfKey(prof, "MaximumLog", QString("709.0")).toDouble();
     _badLines = ToInteger(prof("TrimLines"))/ToInteger(prof("Summing"));
-    _minLines = toInt(ConfKey(prof,"ZeroBufferFitMinimumLines", QString("100")));
+    _minLines = ConfKey(prof,"ZeroBufferFitMinimumLines", QString("100")).toInt();
 
 
     QString histstr = "ZeroBufferFit(AbsErr[" + ToString(_absErr) +
@@ -326,10 +326,10 @@ namespace Isis {
 
     HiVector fit = Yfit();
     for (int i = 0 ; i < _data.dim() ; i++) {
-      o << formatDbl(i) << " "
-        << formatDbl(_timet(i)) << " "
-        << formatDbl(_data[i]) << " "
-        << formatDbl(fit[i]) << endl;
+      o << formatDbl(i).toStdString() << " "
+        << formatDbl(_timet(i)).toStdString() << " "
+        << formatDbl(_data[i]).toStdString() << " "
+        << formatDbl(fit[i]).toStdString() << endl;
     }
     return;
   }

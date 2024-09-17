@@ -47,9 +47,9 @@ int main(void) {
     files.append("$ISISTESTDATA/isis/src/lo/unitTestData/5006_high_res_1.cropped.cub"); // L05 High
 
     for (int i = 0; i < files.size(); i++) {
-      Cube c(files[i], "r");
+      Cube c(files[i].toStdString(), "r");
       LoHighCamera *cam = (LoHighCamera *) CameraFactory::Create(c);
-      cout << "FileName: " << FileName(c.fileName()).name() << endl;
+      cout << "FileName: " << FileName(c.fileName().toStdString()).name() << endl;
       cout << "CK Frame: " << cam->instrumentRotation()->Frame() << endl << endl;
       cout.setf(std::ios::fixed);
       cout << setprecision(9);
@@ -62,10 +62,10 @@ int main(void) {
       cout << "SPK Reference ID = " << cam->SpkReferenceId() << endl << endl;
 
       // Test name methods
-      cout << "Spacecraft Name Long: " << cam->spacecraftNameLong() << endl;
-      cout << "Spacecraft Name Short: " << cam->spacecraftNameShort() << endl;
-      cout << "Instrument Name Long: " << cam->instrumentNameLong() << endl;
-      cout << "Instrument Name Short: " << cam->instrumentNameShort() << endl << endl;
+      cout << "Spacecraft Name Long: " << cam->spacecraftNameLong().toStdString() << endl;
+      cout << "Spacecraft Name Short: " << cam->spacecraftNameShort().toStdString() << endl;
+      cout << "Instrument Name Long: " << cam->instrumentNameLong().toStdString() << endl;
+      cout << "Instrument Name Short: " << cam->instrumentNameShort().toStdString() << endl << endl;
 
       // Test Shutter Open/Close
 

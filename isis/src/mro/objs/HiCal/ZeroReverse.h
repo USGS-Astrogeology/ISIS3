@@ -93,8 +93,8 @@ namespace Isis {
         _history.clear();
         _history.add("Profile["+ prof.Name()+"]");
 
-        int line0 = toInt(ConfKey(prof,"ZeroReverseFirstLine",QString("0")));
-        int lineN = toInt(ConfKey(prof,"ZeroReverseLastLine",QString("19")));
+        int line0 = ConfKey(prof,"ZeroReverseFirstLine",QString("0")).toInt();
+        int lineN = ConfKey(prof,"ZeroReverseLastLine",QString("19")).toInt();
         QString tfile= conf.getMatrixSource("ReverseClockStatistics",prof);
 
         HiMatrix revclk = cropLines(cal.getReverseClock(), line0, lineN);
@@ -117,11 +117,11 @@ namespace Isis {
        _triggered= false;
        if (triggers.profileExists(tprofName)) {
          DbProfile tprof(prof, triggers.getProfile(tprofName), tprofName);
-         double revmean = toDouble(ConfKey(tprof,"RevMeanTrigger", toString(_stats.Average())));
-         double revstddev = toDouble(ConfKey(tprof,"RevStdDevTrigger", toString(DBL_MAX)));
-         int lisTol = toInt(ConfKey(tprof, "RevLisTolerance", toString(1)));
-         int hisTol = toInt(ConfKey(tprof, "RevHisTolerance", toString(1)));
-         int nulTol = toInt(ConfKey(tprof, "RevNulTolerance", toString(1)));
+         double revmean = ConfKey(tprof,"RevMeanTrigger", QString::number(_stats.Average())).toDouble();
+         double revstddev = ConfKey(tprof,"RevStdDevTrigger", QString::number(DBL_MAX)).toDouble();
+         int lisTol = ConfKey(tprof, "RevLisTolerance", QString::number(1)).toInt();
+         int hisTol = ConfKey(tprof, "RevHisTolerance", QString::number(1)).toInt();
+         int nulTol = ConfKey(tprof, "RevNulTolerance", QString::number(1)).toInt();
 
          _history.add("TriggerLimits(RevMeanTrigger["+ToString(revmean) +
                       "],RevStdDevTrigger["+ToString(revstddev)+
@@ -164,8 +164,8 @@ namespace Isis {
           << std::setw(_fmtWidth+1) << "Applied\n";
 
         for (int i = 0 ; i < _data.dim() ; i++) {
-          o << formatDbl(_revClock[i]) << " "
-            << formatDbl(_data[i]) << std::endl;
+          o << formatDbl(_revClock[i]).toStdString() << " "
+            << formatDbl(_data[i]).toStdString() << std::endl;
         }
         return;
       }

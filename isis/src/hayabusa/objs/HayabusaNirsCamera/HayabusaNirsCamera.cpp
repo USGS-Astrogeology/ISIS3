@@ -60,8 +60,8 @@ namespace Isis {
 
     // lines and samples added to the pvl in the order you
     // call getDouble()
-    double bLines = Spice::getDouble("INS" + toString(naifIkCode()) + "_BORESIGHT_LINE");
-    double bSamples = Spice::getDouble("INS" + toString(naifIkCode()) + "_BORESIGHT_SAMPLE");
+    double bLines = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_BORESIGHT_LINE");
+    double bSamples = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_BORESIGHT_SAMPLE");
 
     focalMap->SetDetectorOrigin(bSamples, bLines);
 

@@ -28,7 +28,7 @@ void IsisMain() {
   // Check that it is a Mariner10 cube.
   Pvl * labels = cube.label();
   if ("Mariner_10" !=  QString::fromStdString(labels->findKeyword("SpacecraftName", Pvl::Traverse))) {
-    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM").toStdString() + "] does not appear" +
       " to be a Mariner10 cube";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -41,7 +41,7 @@ void IsisMain() {
   stats = cp.Statistics();
   // Maximum possible number of good pixels in a 5x5
   if(stats->ValidPixels() > 8) {
-    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] does not need" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM").toStdString() + "] does not need" +
       " reconstruction, try mar10clean instead";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -137,10 +137,10 @@ void IsisMain() {
   p.AddToPipeline("trim");
   p.Application("trim").SetInputParameter("FROM", true);
   p.Application("trim").SetOutputParameter("TO", "trim");
-  p.Application("trim").AddConstParameter("LEFT", toString(15));
-  p.Application("trim").AddConstParameter("RIGHT", toString(5));
-  p.Application("trim").AddConstParameter("BOTTOM", toString(0));
-  p.Application("trim").AddConstParameter("TOP", toString(5));
+  p.Application("trim").AddConstParameter("LEFT", QString::number(15));
+  p.Application("trim").AddConstParameter("RIGHT", QString::number(5));
+  p.Application("trim").AddConstParameter("BOTTOM", QString::number(0));
+  p.Application("trim").AddConstParameter("TOP", QString::number(5));
 
   p.Run();
 }

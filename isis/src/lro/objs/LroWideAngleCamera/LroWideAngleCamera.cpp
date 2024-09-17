@@ -86,7 +86,7 @@ namespace Isis {
       m_instrumentNameShort = "WAC-VIS";
     }
     else {
-      std::string msg = "Invalid value [" + instId
+      std::string msg = "Invalid value [" + instId.toStdString()
                     + "] for keyword [InstrumentId]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -301,7 +301,7 @@ namespace Isis {
     if (nvals <= 0) {
       PvlObject NaifKeywords = getStoredNaifKeywords();
       if (!NaifKeywords.hasKeyword(key.toStdString())){
-        std::string mess = "Kernel pool keyword " + key + " not found!";
+        std::string mess = "Kernel pool keyword " + key.toStdString() + " not found!";
         throw IException(IException::Programmer, mess, _FILEINFO_);
       }
       PvlKeyword kw = NaifKeywords[key.toStdString()];

@@ -59,7 +59,7 @@ void IsisMain() {
                            .findGroup("OriginalInstrument")["InstrumentId"][0]);
   if (origInstrument != "HIRISE") {
     std::string msg = "Input cube must from a HiRISE image. The original "
-                  "InstrumentId = [" + origInstrument
+                  "InstrumentId = [" + origInstrument.toStdString()
                   + "] is unsupported by hideal2pds.";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
@@ -67,14 +67,14 @@ void IsisMain() {
                                     .findGroup("Instrument")["InstrumentId"][0]);
   if (instrumentId != "IdealCamera") {
     std::string msg = "Input cube must be IdealCamera. InstrumentId = ["
-                  + instrumentId + "] is unsupported by hideal2pds.";
+                  + instrumentId.toStdString() + "] is unsupported by hideal2pds.";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
   QString target = QString::fromStdString(isisCubeLab->findObject("IsisCube")
                               .findGroup("Instrument")["TargetName"][0]);
   if (target.toUpper() != "MARS") {
     std::string msg = "Input cube must from a HiRise image. The target = ["
-                  + target + "] is unsupported by hideal2pds.";
+                  + target.toStdString() + "] is unsupported by hideal2pds.";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
 
@@ -166,8 +166,8 @@ void IsisMain() {
   p.SetPdsResolution(ProcessExportPds::Meter);
 
   // output PDS file with detached labels and tables for this application
-  FileName outPdsFile(ui.GetFileName("TO", "img"));
-  QString pdsLabelFile = outPdsFile.path() + "/" + outPdsFile.baseName() + ".lbl";
+  FileName outPdsFile(ui.GetFileName("TO", "img").toStdString());
+  QString pdsLabelFile = QString::fromStdString(outPdsFile.path() + "/" + outPdsFile.baseName() + ".lbl");
   p.SetDetached(pdsLabelFile);
   // create generic pds label - this will be finalized with proper line/byte counts later
   Pvl &pdsLabel = p.StandardPdsLabel(ProcessExportPds::Image);
@@ -208,7 +208,7 @@ void IsisMain() {
   //    a problem since our tables are detached.  However, it could be a
   //    problem if we decide to allow attached PDS products in the future.
   QString pdsTableFile = "";
-  pdsTableFile = outPdsFile.baseName() + "_INSTRUMENT_POINTING_TABLE.dat";
+  pdsTableFile = QString::fromStdString(outPdsFile.baseName()) + "_INSTRUMENT_POINTING_TABLE.dat";
   Table instRotationTable = cam->instrumentRotation()->Cache("InstrumentPointing");
   p.ExportTable(instRotationTable, pdsTableFile);
   PvlObject isisTableLab = instRotationTable.Label();
@@ -232,7 +232,7 @@ void IsisMain() {
   tableKeyword.setName("CK_TABLE_ORIGINAL_SIZE");
   instPtTabLab += tableKeyword;
 
-  pdsTableFile = outPdsFile.baseName() + "_INSTRUMENT_POSITION_TABLE.dat";
+  pdsTableFile = QString::fromStdString(outPdsFile.baseName()) + "_INSTRUMENT_POSITION_TABLE.dat";
   Table instPositionTable = cam->instrumentPosition()->Cache("InstrumentPosition");
   p.ExportTable(instPositionTable, pdsTableFile);
   isisTableLab = instPositionTable.Label();
@@ -250,7 +250,7 @@ void IsisMain() {
   tableKeyword.setName("SPK_TABLE_ORIGINAL_SIZE");
   instPosTabLab += tableKeyword;
 
-  pdsTableFile = outPdsFile.baseName() + "_BODY_ROTATION_TABLE.dat";
+  pdsTableFile = QString::fromStdString(outPdsFile.baseName()) + "_BODY_ROTATION_TABLE.dat";
   Table bodyRotationTable = cam->bodyRotation()->Cache("BodyRotation");
   p.ExportTable(bodyRotationTable, pdsTableFile);
   isisTableLab = bodyRotationTable.Label();
@@ -279,7 +279,7 @@ void IsisMain() {
   }
   bodyRotTabLab += tableKeyword;
 
-  pdsTableFile = outPdsFile.baseName() + "_SUN_POSITION_TABLE.dat";
+  pdsTableFile = QString::fromStdString(outPdsFile.baseName()) + "_SUN_POSITION_TABLE.dat";
   Table sunPositionTable  = cam->sunPosition()->Cache("SunPosition");
   p.ExportTable(sunPositionTable, pdsTableFile);
   isisTableLab = sunPositionTable.Label();
@@ -314,7 +314,7 @@ void IsisMain() {
   // now that all translations/additions/modifications to the labels have been
   // completed
   p.OutputDetachedLabel();
-  QString outFileName(outPdsFile.expanded());
+  QString outFileName(QString::fromStdString(outPdsFile.expanded()));
   ofstream outputStream(outFileName.toLatin1().data());
   p.StartProcess(outputStream);
   p.EndProcess();
@@ -513,8 +513,8 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
   pdsLabel += PvlKeyword("SOFTWARE_NAME", sfname.toStdString());
   QString matchedCube = QString::fromStdString(isisCubeLab->findObject("IsisCube").findGroup("Instrument")
                                   .findKeyword("MatchedCube")[0]);
-  FileName matchedCubeFileNoPath(matchedCube);
-  pdsLabel += PvlKeyword("MATCHED_CUBE", matchedCubeFileNoPath.name().toStdString());
+  FileName matchedCubeFileNoPath(matchedCube.toStdString());
+  pdsLabel += PvlKeyword("MATCHED_CUBE", matchedCubeFileNoPath.name());
 
   // Add jitter correction flag value to the ROOT object
   bool jitter = false;
@@ -531,8 +531,8 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
   // Add Isis Kernels group keywords to the ROOT object
   QString shapeModel = QString::fromStdString(isisCubeLab->findObject("IsisCube").findGroup("Kernels")
                                   .findKeyword("ShapeModel")[0]);
-  FileName shapeModelFileNoPath(shapeModel);
-  pdsLabel += PvlKeyword("SHAPE_MODEL", shapeModelFileNoPath.name().toStdString());
+  FileName shapeModelFileNoPath(shapeModel.toStdString());
+  pdsLabel += PvlKeyword("SHAPE_MODEL", shapeModelFileNoPath.name());
 
   // PRODUCT_ID and SOURCE_PRODUCT_ID should be keywords added when creating the
   // mosaic input cube.

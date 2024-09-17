@@ -101,8 +101,8 @@ void IsisMain() {
   const QString mdis2pdsRuntime = Application::DateTime();
 
   UserInterface &ui = Application::GetUserInterface();
-  FileName input(ui.GetCubeName("FROM"));
-  FileName output = ui.GetFileName("TO");
+  FileName input(ui.GetCubeName("FROM").toStdString());
+  FileName output = ui.GetFileName("TO").toStdString();
   output = output.addExtension("IMG");
 
   // Set up the export
@@ -272,7 +272,7 @@ void IsisMain() {
   PvlKeyword &productIdKeyword = pdsLabel.findKeyword("PRODUCT_ID",
                                                       Pvl::Traverse);
   if (productIdKeyword[0] == "N/A") {
-    productIdKeyword.setValue(output.baseName().toStdString());
+    productIdKeyword.setValue(output.baseName());
   }
 
   // product creation time
@@ -358,7 +358,7 @@ void IsisMain() {
 
   //  Now address nested keywords in SUBFRAME groups
   for (int i = 1; i <= 5; i++) {
-    QString n(toString(i));
+    QString n(QString::number(i));
     QString group = "SUBFRAME" + n + "_PARAMETERS";
     if (pdsLabel.hasGroup(group.toStdString())) {
       PvlGroup &grp = pdsLabel.findGroup(group.toStdString());
@@ -375,7 +375,7 @@ void IsisMain() {
 
   // All done...write result.
   pdsLabel.setFormatTemplate("$ISISROOT/appdata/translations/mdisPdsCdr.def");
-  QString ofile(output.expanded());
+  QString ofile(QString::fromStdString(output.expanded()));
   ofstream outstream(ofile.toLatin1().data());
   processPds.OutputLabel(outstream);
 

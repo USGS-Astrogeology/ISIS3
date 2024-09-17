@@ -61,8 +61,8 @@ namespace Isis {
    * @param naifIkCode    Code to search for in instrument kernel
    */
   void TaylorCameraDistortionMap::SetDistortion(const int naifIkCode) {
-    QString odtxkey = "INS" + toString(naifIkCode) + "_OD_T_X";
-    QString odtykey = "INS" + toString(naifIkCode) + "_OD_T_Y";
+    QString odtxkey = "INS" + QString::number(naifIkCode) + "_OD_T_X";
+    QString odtykey = "INS" + QString::number(naifIkCode) + "_OD_T_Y";
     for(int i = 0; i < 10; ++i) {
       p_odtx.push_back(p_camera->getDouble(odtxkey, i));
       p_odty.push_back(p_camera->getDouble(odtykey, i));

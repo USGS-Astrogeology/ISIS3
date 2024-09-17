@@ -28,17 +28,15 @@ void IsisMain() {
 
   QString inFile = ui.GetFileName("FROM");
   Pvl lab(inFile.toStdString());
-  QString dataFile = QString::fromStdString(lab.findKeyword("FILE_NAME")[0]);
+  std::string dataFile = lab.findKeyword("FILE_NAME")[0];
 
   // Detached labels use format keyword = "dataFile" value <unit>
   int keywordIndex = 1;
 
-  // Determine label for inFile is attached label or detached label
-  if (FileName(inFile).name() == FileName(dataFile).name()){
-    // If input filename matches datafile filename without path information,
-    // one assumes label file for inFile is attached label, otherwise
-    // detached label.
-    dataFile = inFile;
+  if (FileName(inFile.toStdString()).baseName() == FileName(dataFile).baseName()){
+    // data files usually do not include path information.  If input basename matches datafile basename, include path information
+    // this allows users to specify data that is not in the current directory.
+    dataFile = inFile.toStdString();
     // Attached labels use format keyword = value <units>
     keywordIndex = 0;
   } else {
@@ -50,21 +48,21 @@ void IsisMain() {
   }
 
   ofstream os;
-  QString outFile = FileName(ui.GetFileName("TO")).expanded();
-  os.open(outFile.toLatin1().data(), ios::out);
+  std::string outFile = FileName(ui.GetFileName("TO").toStdString()).expanded();
+  os.open(outFile.c_str(), ios::out);
 
   int minobs = 1;
   int maxobs = 1000000;
   if (ui.WasEntered("MINOBS")) {
     QString keyval = ui.GetString("MINOBS");
-    minobs = toInt(keyval);
+    minobs = keyval.toInt();
     if (minobs < 1) {
       minobs = 1;
     }
   }
   if (ui.WasEntered("MAXOBS")) {
     QString keyval = ui.GetString("MAXOBS");
-    maxobs = toInt(keyval);
+    maxobs = keyval.toInt();
   }
   if (maxobs < minobs) {
     int temp = minobs;
@@ -104,7 +102,7 @@ void IsisMain() {
   }
 
   FILE *spcptr;
-  if ((spcptr = fopen(dataFile.toLatin1().data(),"rb")) == 0) {
+  if ((spcptr = fopen(dataFile.c_str(),"rb")) == 0) {
     std::string msg = "Error opening input Kaguya SP file [" + dataFile + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -122,7 +120,7 @@ void IsisMain() {
   if (!lab.hasObject("SP_SPECTRUM_WAV") || !lab.hasObject("SP_SPECTRUM_QA") ||
       !lab.hasObject("SP_SPECTRUM_RAD") || !(lab.hasObject("SP_SPECTRUM_REF") ||
       (lab.hasObject("SP_SPECTRUM_REF1") && lab.hasObject("SP_SPECTRUM_REF2")))) {
-    std::string msg = "Input file [" + inFile + "] is not a valid ";
+    std::string msg = "Input file [" + inFile.toStdString() + "] is not a valid ";
     msg += "Kaguya Spectral Profiler file";
     throw IException(IException::User, msg, _FILEINFO_);
   }

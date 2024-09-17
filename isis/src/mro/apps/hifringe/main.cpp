@@ -49,10 +49,10 @@ void pvlOut(Statistics stats1, Statistics stats2, QString name, int start,
 
 void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
-  Isis::FileName fromFile = ui.GetCubeName("FROM");
+  Isis::FileName fromFile = ui.GetCubeName("FROM").toStdString();
 
   Isis::Cube inputCube;
-  inputCube.open(fromFile.expanded());
+  inputCube.open(QString::fromStdString(fromFile.expanded()));
 
   //Check to make sure we got the cube properly
   if(!inputCube.isOpen()) {
@@ -157,7 +157,7 @@ void IsisMain() {
   // Write the results to the output file if the user specified one
   PvlObject leftSide("LeftSide"), rightSide("RightSide");
   for(int i = 0 ; i < numSections ; i++) {
-    QString sectionName = "Section" + toString(i + 1);
+    QString sectionName = "Section" + QString::number(i + 1);
     pvlOut(sections[i].first, //Stats to add to the left Object
            sections[i].second, //Stats to add to the right Object
            sectionName,    //Name for the new groups

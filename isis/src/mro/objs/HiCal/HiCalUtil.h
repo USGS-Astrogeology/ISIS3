@@ -210,7 +210,7 @@ template <typename T>
  * @return int Converted value
  */
 template <typename T> int ToInteger(const T &value) {
-    return toInt(QString(value).trimmed());
+    return QString(value).trimmed().toInt();
 }
 
 /**
@@ -222,7 +222,7 @@ template <typename T> int ToInteger(const T &value) {
  * @return double Converted value
  */
 template <typename T> double ToDouble(const T &value) {
-    return toDouble(QString(value).trimmed());
+    return QString(value).trimmed().toDouble();
 }
 
 /**
@@ -234,7 +234,7 @@ template <typename T> double ToDouble(const T &value) {
  * @return string Converted value
  */
 template <typename T> QString ToString(const T &value) {
-    return (toString(value).trimmed());
+    return (QString::number(value).trimmed());
 }
 
 /**

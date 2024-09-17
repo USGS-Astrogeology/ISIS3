@@ -63,13 +63,13 @@ static void loadNaifTiming() {
     Isis::FileName pck4("$hayabusa/kernels/spk/hay_osbj_050911_051118_v1n.bsp");
 
 //  Load the kernels
-    QString leapsecondsName(leapseconds.expanded());
-    QString sclkName(sclk.expanded());
+    QString leapsecondsName(QString::fromStdString(leapseconds.expanded()));
+    QString sclkName(QString::fromStdString(sclk.expanded()));
 
-    QString pckName1(pck1.expanded());
-    QString pckName2(pck2.expanded());
-    QString pckName3(pck3.expanded());
-    QString pckName4(pck4.expanded());
+    QString pckName1(QString::fromStdString(pck1.expanded()));
+    QString pckName2(QString::fromStdString(pck2.expanded()));
+    QString pckName3(QString::fromStdString(pck3.expanded()));
+    QString pckName4(QString::fromStdString(pck4.expanded()));
 
     furnsh_c(leapsecondsName.toLatin1().data());
     furnsh_c(sclkName.toLatin1().data());

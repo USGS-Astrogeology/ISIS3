@@ -38,16 +38,16 @@ void IsisMain() {
   p.TranslatePdsProjection(otherLabels);
 
   // Get the path where the MRO HiRISE RDR translation tables are.
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
 
   // Translate the BandBin group
   FileName transFile(transDir + "MroHiriseRdrBandBin.trn");
-  PvlToPvlTranslationManager bandBinXlater(label, transFile.expanded());
+  PvlToPvlTranslationManager bandBinXlater(label, QString::fromStdString(transFile.expanded()));
   bandBinXlater.Auto(otherLabels);
 
   // Translate the Mosaic group
   transFile = transDir + "MroHiriseRdrMosaic.trn";
-  PvlToPvlTranslationManager archiveXlater(label, transFile.expanded());
+  PvlToPvlTranslationManager archiveXlater(label, QString::fromStdString(transFile.expanded()));
   archiveXlater.Auto(otherLabels);
 
   // Write the BandBin, Archive, and Mapping groups to the output cube label

@@ -61,9 +61,9 @@ struct TemporaryCubeDeleter {
    static inline void cleanup(Cube *cube) {
      if ( cube ) {
 
-       FileName filename( cube->fileName() );
+       FileName filename( cube->fileName().toStdString() );
        delete cube;
-       remove( filename.expanded().toLatin1().data() );
+       remove( filename.expanded().c_str() );
      }
    }
 };
@@ -196,7 +196,7 @@ void IsisMain() {
   }
   catch(IException &e) {
     std::string msg = "Unable to read [ExposureDuration] keyword in the Instrument group "
-                  "from input file [" + inputCube->fileName() + "]";
+                  "from input file [" + inputCube->fileName().toStdString() + "]";
     throw IException(e, IException::Io, msg, _FILEINFO_);
   }
 
@@ -206,7 +206,7 @@ void IsisMain() {
   }
   catch(IException &e) {
     std::string msg = "Unable to read [CcdTemperature] keyword in the Instrument group "
-                  "from input file [" + inputCube->fileName() + "]";
+                  "from input file [" + inputCube->fileName().toStdString() + "]";
     throw IException(e, IException::Io, msg, _FILEINFO_);
 
   }
@@ -236,18 +236,18 @@ void IsisMain() {
   QScopedPointer<Cube, TemporaryCubeDeleter> flatcube;
   FileName flatfile = determineFlatFieldFile(g_filter, g_nullPolarizedPixels);
 
-  QString reducedFlat = flatfile.expanded();
+  std::string reducedFlat = flatfile.expanded();
 
   // Image is not cropped
   if (firstLine ==0 && startsample == 0){
 
     if (binning > 1) {
-      QString scale(toString(binning));
+      QString scale(QString::number(binning));
       FileName newflat = FileName::createTempFile("$TEMPORARY/" +
                                                   flatfile.baseName() + "_reduced.cub");
       reducedFlat = newflat.expanded();
-      QString parameters = "FROM=" + flatfile.expanded() +
-         " TO="   + newflat.expanded() +
+      QString parameters = "FROM=" + QString::fromStdString(flatfile.expanded()) +
+         " TO="   + QString::fromStdString(newflat.expanded()) +
          " MODE=SCALE" +
          " LSCALE=" + scale +
          " SSCALE=" + scale;
@@ -256,7 +256,7 @@ void IsisMain() {
         ProgramLauncher::RunIsisProgram("reduce", parameters);
       }
       catch (IException& ie) {
-        remove(reducedFlat.toLatin1().data());
+        remove(reducedFlat.c_str());
         throw ie;
       }
       QScopedPointer<Cube, TemporaryCubeDeleter> reduced(new Cube(reducedFlat, "r"));
@@ -265,7 +265,7 @@ void IsisMain() {
 
     // Set up processing for flat field as a second input file
     CubeAttributeInput att;
-    process.SetInputCube(reducedFlat, att);
+    process.SetInputCube(QString::fromStdString(reducedFlat), att);
   }
   else {
     // Image is cropped so we have to deal with it
@@ -280,13 +280,13 @@ void IsisMain() {
     // Translates and scales the flatfield image.  Scaling
     // might be necessary in the event that the raw image was also binned.
 
-    translate(flatOriginal, transform, transFlat.expanded());
+    translate(flatOriginal, transform, QString::fromStdString(transFlat.expanded()));
 
     QScopedPointer<Cube, TemporaryCubeDeleter> translated(new Cube(transFlat.expanded(), "r"));
     flatcube.swap(translated);
 
     CubeAttributeInput att;
-    process.SetInputCube(transFlat.expanded(), att);
+    process.SetInputCube(QString::fromStdString(transFlat.expanded()), att);
   }
 
   Cube *outputCube  = process.SetOutputCube("TO");
@@ -371,32 +371,32 @@ void IsisMain() {
   calibrationLog.addKeyword(PvlKeyword("SoftwareVersion", amicacalVersion.toStdString()));
   calibrationLog.addKeyword(PvlKeyword("ProcessDate", amicacalRuntime.toStdString()));
   calibrationLog.addKeyword(PvlKeyword("CalibrationFile", calfile.toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", flatfile.originalPath().toStdString()
-                                                        + "/" + flatfile.name().toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("CompressionFactor", toString(g_compfactor, 2).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", flatfile.originalPath()
+                                                        + "/" + flatfile.name()));
+  calibrationLog.addKeyword(PvlKeyword("CompressionFactor", toString(g_compfactor, 2)));
 
   // Parameters
   PvlKeyword key("Bias_Bn");
-  key.addValue(toString(g_b0, 8).toStdString());
-  key.addValue(toString(g_b1, 8).toStdString());
-  key.addValue(toString(g_b2, 8).toStdString());
+  key.addValue(toString(g_b0, 8));
+  key.addValue(toString(g_b1, 8));
+  key.addValue(toString(g_b2, 8));
   calibrationLog.addKeyword(key);
-  calibrationLog.addKeyword(PvlKeyword("Bias", toString(g_bias, 16).toStdString(), "DN"));
+  calibrationLog.addKeyword(PvlKeyword("Bias", toString(g_bias, 16), "DN"));
 
   key = PvlKeyword("Linearity_Ln");
-  key.addValue(toString(g_L0, 8).toStdString());
-  key.addValue(toString(g_L1, 8).toStdString());
+  key.addValue(toString(g_L0, 8));
+  key.addValue(toString(g_L1, 8));
   calibrationLog.addKeyword(key);
-  calibrationLog.addKeyword(PvlKeyword("Linearity_Gamma", toString(g_gamma, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("Linearity_Gamma", toString(g_gamma, 16)));
 
-  calibrationLog.addKeyword(PvlKeyword("Smear_tvct", toString(g_tvct, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("Smear_tvct", toString(g_tvct, 16)));
 
   calibrationLog.addKeyword(PvlKeyword("CalibrationUnits", g_iofCorrection.toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("RadianceStandard", toString(g_radStd, 16).toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("RadianceScaleFactor", toString(g_iofScale, 16).toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("SolarDistance", toString(g_solarDist, 16).toStdString(), "AU"));
-  calibrationLog.addKeyword(PvlKeyword("SolarFlux", toString(g_solarFlux, 16).toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("IOFFactor", toString(g_calibrationScale, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("RadianceStandard", toString(g_radStd, 16)));
+  calibrationLog.addKeyword(PvlKeyword("RadianceScaleFactor", toString(g_iofScale, 16)));
+  calibrationLog.addKeyword(PvlKeyword("SolarDistance", toString(g_solarDist, 16), "AU"));
+  calibrationLog.addKeyword(PvlKeyword("SolarFlux", toString(g_solarFlux, 16)));
+  calibrationLog.addKeyword(PvlKeyword("IOFFactor", toString(g_calibrationScale, 16)));
   calibrationLog.addKeyword(PvlKeyword("Units", g_units.toStdString()));
 
 #if 0
@@ -435,7 +435,7 @@ void IsisMain() {
         processDiffusionModel.EndProcess();
         outputCube->putGroup(calibrationLog);
         process.EndProcess();
-        remove( psfModel.expanded().toLatin1().data() );
+        remove( psfModel.expanded().c_str() );
         throw IException(ie,
                          IException::Programmer,
                          "Calculating the diffusion model failed!",
@@ -484,7 +484,7 @@ void IsisMain() {
         processPSFCorrection.EndProcess();
         outputCube->putGroup(calibrationLog);
         process.EndProcess();
-        remove( psfModel.expanded().toLatin1().data() );
+        remove( psfModel.expanded().c_str() );
         throw IException(ie,
                          IException::Programmer,
                          "Applying the PSF correction failed!",
@@ -495,7 +495,7 @@ void IsisMain() {
       processPSFCorrection.EndProcess();
 
       // Remove the PSF file
-      remove( psfModel.expanded().toLatin1().data() );
+      remove( psfModel.expanded().c_str() );
   }
 #endif
 
@@ -529,7 +529,7 @@ FileName determineFlatFieldFile(const QString &filter, const bool nullPolarPix) 
     fileName += "flat_" + filter.toLower() + ".cub";
 
   }
-  FileName final(fileName);
+  FileName final(fileName.toStdString());
 
 
   //final = final.highestVersion();
@@ -605,7 +605,7 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
 //  UserInterface& ui = Application::GetUserInterface();
 
 //  FileName calibFile("$hayabusa/calibration/amica/amicaCalibration????.trn");
-  FileName calibFile(config);
+  FileName calibFile(config.toStdString());
   if ( config.contains("?") ) calibFile = calibFile.highestVersion();
 
   // Pvl configFile;
@@ -721,7 +721,7 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
   g_radStd = radGroup["iof_standard"];
   g_iofScale   = radGroup[g_filter.toStdString()];
 
-  return ( calibFile.original() );
+  return ( QString::fromStdString(calibFile.original()) );
 }
 
 

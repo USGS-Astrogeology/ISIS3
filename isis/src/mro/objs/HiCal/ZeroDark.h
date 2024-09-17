@@ -91,11 +91,11 @@ namespace Isis {
         _intercept = loadCsv("DarkIntercept", conf, prof, 256);
 
         // Get temperation normalization factor
-        _refTemp = toDouble(ConfKey(prof, "FpaReferenceTemperature", toString(21.0)));
+        _refTemp = ConfKey(prof, "FpaReferenceTemperature", QString::number(21.0)).toDouble();
 
         //  Smooth/filter if requested
-        int width =  toInt(ConfKey(prof,"ZeroDarkFilterWidth",toString(3)));
-        int iters =  toInt(ConfKey(prof,"ZerDarkFilterIterations",toString(0)));
+        int width =  ConfKey(prof,"ZeroDarkFilterWidth",QString::number(3)).toInt();
+        int iters =  ConfKey(prof,"ZerDarkFilterIterations",QString::number(0)).toInt();
         LowPassFilter smooth(width, iters);
         _history.add("Smooth(Width["+ToString(width)+"],Iters["+ToString(iters)+"])");
 
@@ -154,9 +154,9 @@ namespace Isis {
           << std::setw(_fmtWidth+1) << "ZeroDark\n";
 
         for (int i = 0 ; i < _data.dim() ; i++) {
-          o << formatDbl(_BM[i]) << " "
-            << formatDbl(_tempProf[i]) << " "
-            << formatDbl(_data[i]) << std::endl;
+          o << formatDbl(_BM[i]).toStdString() << " "
+            << formatDbl(_tempProf[i]).toStdString() << " "
+            << formatDbl(_data[i]).toStdString() << std::endl;
         }
         return;
       }

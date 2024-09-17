@@ -123,11 +123,11 @@ void importQubs(QString coreParamName, QString suffixParamName) {
   importPds.Progress()->SetText((QString)"Writing " + coreParamName + " file");
 
 
-  FileName inFile = ui.GetFileName("FROM");
-  QFileInfo fi(inFile.expanded());
+  FileName inFile = ui.GetFileName("FROM").toStdString();
+  QFileInfo fi(QString::fromStdString(inFile.expanded()));
 
   //Fix the broken XML tags in the pvl file
-  QByteArray pvlData= pvlFix(inFile.expanded());
+  QByteArray pvlData= pvlFix(QString::fromStdString(inFile.expanded()));
   QTextStream pvlTextStream(&pvlData);
   istringstream pvlStream(pvlTextStream.readAll().toStdString());
   Pvl *pdsLabel = new Pvl();
@@ -161,7 +161,7 @@ void importQubs(QString coreParamName, QString suffixParamName) {
   try {
     if (!galileoRx.exactMatch(dataSetId) )
     {
-      std::string msg = "Invalid DATA_SET_ID [" + dataSetId + "]";
+      std::string msg = "Invalid DATA_SET_ID [" + dataSetId.toStdString() + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }
@@ -205,7 +205,7 @@ void importQubs(QString coreParamName, QString suffixParamName) {
 
   // Convert the pds file to a cube
   try {
-      importPds.SetPdsFile(*pdsLabel,inFile.expanded(),fileType);
+      importPds.SetPdsFile(*pdsLabel,QString::fromStdString(inFile.expanded()),fileType);
   }
   catch(IException &e) {
     std::string msg = "Input file [" + inFile.expanded() +
@@ -251,8 +251,8 @@ PvlGroup originalMappingGroup = qube.findGroup("IMAGE_MAP_PROJECTION", Pvl::Trav
   importPds.EndProcess();
 
 // New nocam2map hint PvlGroup
-  Cube coreCube(FileName(ui.GetCubeName("CORE")).expanded(),"rw");
-  Cube suffixCube(FileName(ui.GetCubeName("SUFFIX")).expanded(), "rw");
+  Cube coreCube(FileName(ui.GetCubeName("CORE").toStdString()).expanded(),"rw");
+  Cube suffixCube(FileName(ui.GetCubeName("SUFFIX").toStdString()).expanded(), "rw");
 
   PvlGroup mappingInfo("MappingInformation");
 
@@ -483,12 +483,12 @@ void translateNIMSLabels(Pvl &pdsLab, Cube *ocube,FileName inFile,CubeType ctype
   PvlObject qube(pdsLab.findObject("Qube"));
 
   // Directory containing translation tables
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
 
-  QString instrument="GalileoNIMSInstrument.trn";
-  QString archive = "GalileoNIMSArchive.trn";
-  QString coreBandBin = "GalileoNIMSCoreBandBin.trn";
-  QString suffixBandBin = "GalileoNIMSSuffixBandBin.trn";
+  std::string instrument="GalileoNIMSInstrument.trn";
+  std::string  archive = "GalileoNIMSArchive.trn";
+  std::string  coreBandBin = "GalileoNIMSCoreBandBin.trn";
+  std::string  suffixBandBin = "GalileoNIMSSuffixBandBin.trn";
 
   FileName coreBandBinFile(transDir+coreBandBin);
   FileName suffixBandBinFile(transDir+suffixBandBin);
@@ -496,10 +496,10 @@ void translateNIMSLabels(Pvl &pdsLab, Cube *ocube,FileName inFile,CubeType ctype
   FileName instrumentFile(transDir+instrument);
   FileName archiveFile(transDir+archive);
 
-  PvlToPvlTranslationManager archiveXlator(pdsLabel, archiveFile.expanded());
-  PvlToPvlTranslationManager instrumentXlator(pdsLabel, instrumentFile.expanded());
-  PvlToPvlTranslationManager coreBandBinXlator(pdsLabel,coreBandBinFile.expanded());
-  PvlToPvlTranslationManager suffixBandBinXlator(pdsLabel,suffixBandBinFile.expanded());
+  PvlToPvlTranslationManager archiveXlator(pdsLabel, QString::fromStdString(archiveFile.expanded()));
+  PvlToPvlTranslationManager instrumentXlator(pdsLabel, QString::fromStdString(instrumentFile.expanded()));
+  PvlToPvlTranslationManager coreBandBinXlator(pdsLabel,QString::fromStdString(coreBandBinFile.expanded()));
+  PvlToPvlTranslationManager suffixBandBinXlator(pdsLabel,QString::fromStdString(suffixBandBinFile.expanded()));
 
   archiveXlator.Auto(archiveLabel);
 

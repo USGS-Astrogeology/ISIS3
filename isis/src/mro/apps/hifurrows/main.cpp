@@ -251,8 +251,8 @@ void RemoveFurrows_Version_1_42(void)
   QString sTempFile("./FixFurrows.cub");
   if(bFurrowsFound) {
     Pipeline p;
-    p.SetInputFile(FileName(ui.GetCubeName("TO")));
-    p.SetOutputFile(FileName(sTempFile));
+    p.SetInputFile(FileName(ui.GetCubeName("TO").toStdString()));
+    p.SetOutputFile(FileName(sTempFile.toStdString()));
     p.KeepTemporaryFiles(false);
 
     p.AddToPipeline("trimfilter");

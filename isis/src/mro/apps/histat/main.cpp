@@ -59,9 +59,9 @@ void IsisMain() {
   }
 
 
-  Isis::FileName fromFile = ui.GetCubeName("FROM");
+  Isis::FileName fromFile = ui.GetCubeName("FROM").toStdString();
   Isis::Cube inputCube;
-  inputCube.open(fromFile.expanded());
+  inputCube.open(QString::fromStdString(fromFile.expanded()));
 
   //Check to make sure we got the cube properly
   if(!inputCube.isOpen()) {
@@ -331,8 +331,8 @@ PvlGroup PvlStats(Statistics &stats, const QString &name) {
 }
 
 void ThrowException(int vectorSize, int left, int right, QString name) {
-  QString err;
-  err = "You are trying to skip as many or more samples of the " + name +
+  std::string err;
+  err = "You are trying to skip as many or more samples of the " + name.toStdString() +
         " than exist";
   throw IException(IException::User, err, _FILEINFO_);
 }

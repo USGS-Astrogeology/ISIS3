@@ -38,7 +38,7 @@ int main(void) {
 
     Cube c("$ISISTESTDATA/isis/src/mro/unitTestData/P12_005911_3396_MA_00N009W.cropped.cub", "r");
     Camera *cam = CameraFactory::Create(c);
-    cout << "FileName: " << FileName(c.fileName()).name() << endl;
+    cout << "FileName: " << FileName(c.fileName().toStdString()).name() << endl;
     cout << "CK Frame: " << cam->instrumentRotation()->Frame() << endl << endl;
     cout.setf(std::ios::fixed);
     cout << setprecision(9);
@@ -51,10 +51,10 @@ int main(void) {
     cout << "SPK Reference ID = " << cam->SpkReferenceId() << endl << endl;
 
     // Test name methods
-    cout << "Spacecraft Name Long: " << cam->spacecraftNameLong() << endl;
-    cout << "Spacecraft Name Short: " << cam->spacecraftNameShort() << endl;
-    cout << "Instrument Name Long: " << cam->instrumentNameLong() << endl;
-    cout << "Instrument Name Short: " << cam->instrumentNameShort() << endl << endl;
+    cout << "Spacecraft Name Long: " << cam->spacecraftNameLong().toStdString() << endl;
+    cout << "Spacecraft Name Short: " << cam->spacecraftNameShort().toStdString() << endl;
+    cout << "Instrument Name Long: " << cam->instrumentNameLong().toStdString() << endl;
+    cout << "Instrument Name Short: " << cam->instrumentNameShort().toStdString() << endl << endl;
 
     // Test all four corners to make sure the conversions are right
     cout << "For upper left corner ..." << endl;

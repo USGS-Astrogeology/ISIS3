@@ -29,7 +29,7 @@ namespace Isis {
    * Construct MocLabels object using the file name
    */
   MocLabels::MocLabels(const QString &file) {
-    Cube cube(file, "r");
+    Cube cube(file.toStdString(), "r");
     Init(cube);
   }
 
@@ -100,8 +100,8 @@ namespace Isis {
 
     // Get the two kernels for time computations
     PvlGroup &kerns = lab.findGroup("Kernels", Pvl::Traverse);
-    p_lsk = FileName( QString::fromStdString(kerns["LeapSecond"][0]));
-    p_sclk = FileName( QString::fromStdString(kerns["SpacecraftClock"][0]));
+    p_lsk = FileName(kerns["LeapSecond"][0]);
+    p_sclk = FileName(kerns["SpacecraftClock"][0]);
   }
 
   /**
@@ -120,8 +120,8 @@ namespace Isis {
     }
 
     if(!p_mocNA && !p_mocRedWA && !p_mocBlueWA) {
-      std::string msg = "InstrumentID [" + p_instrumentId + "] and/or FilterName ["
-                    + p_filter + "] are inappropriate for the MOC camera";
+      std::string msg = "InstrumentID [" + p_instrumentId.toStdString() + "] and/or FilterName ["
+                    + p_filter.toStdString() + "] are inappropriate for the MOC camera";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -174,7 +174,7 @@ namespace Isis {
       p = p_gainMapNA.find(p_gainModeId);
       if(p == p_gainMapNA.end()) {
         std::string msg = "Invalid value for PVL keyword GainModeId [" +
-                      p_gainModeId + "]";
+                      p_gainModeId.toStdString() + "]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -182,7 +182,7 @@ namespace Isis {
       p = p_gainMapWA.find(p_gainModeId);
       if(p == p_gainMapWA.end()) {
         std::string msg = "Invalid value for PVL keyword GainModeId [" +
-                      p_gainModeId + "]";
+                      p_gainModeId.toStdString() + "]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -226,8 +226,8 @@ namespace Isis {
     InitDetectorMaps();
 
     // Temporarily load some naif kernels
-    QString lsk = p_lsk.expanded();
-    QString sclk = p_sclk.expanded();
+    QString lsk = QString::fromStdString(p_lsk.expanded());
+    QString sclk = QString::fromStdString(p_sclk.expanded());
     furnsh_c(lsk.toLatin1().data());
     furnsh_c(sclk.toLatin1().data());
 
@@ -428,15 +428,15 @@ namespace Isis {
     firstTime = false;
 
     // Load naif kernels
-    QString lskKern = p_lsk.expanded();
-    QString sclkKern = p_sclk.expanded();
+    QString lskKern = QString::fromStdString(p_lsk.expanded());
+    QString sclkKern = QString::fromStdString(p_sclk.expanded());
     furnsh_c(lskKern.toLatin1().data());
     furnsh_c(sclkKern.toLatin1().data());
 
     //Set up file for reading
     FileName wagoFile("$mgs/calibration/MGSC_????_wago.tab");
     wagoFile = wagoFile.highestVersion();
-    QString nameOfFile = wagoFile.expanded();
+    QString nameOfFile = QString::fromStdString(wagoFile.expanded());
     ifstream temp(nameOfFile.toLatin1().data());
     vector<int> wholeFile;
 
@@ -553,7 +553,7 @@ namespace Isis {
           scs2e_c(-94, sclk.c_str(), &et);
 
           // Get the gain mode id
-          gainId = line.Token(",").remove("\"").trimmed();
+          gainId = QString::fromStdString(line.Token(",")).remove("\"").trimmed();
 
           // Get the offset mode id
           offsetId = line;
@@ -569,7 +569,7 @@ namespace Isis {
             unload_c(lskKern.toLatin1().data());
             unload_c(sclkKern.toLatin1().data());
 
-            std::string msg = "Invalid GainModeId [" + gainId + "] in wago table";
+            std::string msg = "Invalid GainModeId [" + gainId.toStdString() + "] in wago table";
             throw IException(IException::Unknown, msg, _FILEINFO_);
           }
           double gain = p->second;

@@ -150,7 +150,7 @@ void IsisMain() {
   if(seamSize + skipSize > icube1->sampleCount()) {
     std::string msg = "SEAMSIZE [" + toString(seamSize) + "] + SKIP [" + toString(skipSize) + "] must ";
     msg += " be less than the number of samples [" + toString(icube1->sampleCount()) + "] in ";
-    msg += "[" + ui.GetAsString("FROM1") + "]";
+    msg += "[" + ui.GetAsString("FROM1").toStdString() + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -183,7 +183,7 @@ void IsisMain() {
     if(seamSize + skipSize > icube2->sampleCount()) {
       std::string msg = "SEAMSIZE [" + toString(seamSize) + "] + SKIP [" + toString(skipSize) + "] must ";
       msg += " be less than the number of samples [" + toString(icube2->sampleCount()) + " in ";
-      msg += "[" + ui.GetAsString("FROM2") + "]";
+      msg += "[" + ui.GetAsString("FROM2").toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

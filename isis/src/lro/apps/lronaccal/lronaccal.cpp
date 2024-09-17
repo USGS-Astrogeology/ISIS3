@@ -95,7 +95,7 @@ namespace Isis {
     */
   void lronaccal(UserInterface &ui){
      //Cube *iCube = p.SetInputCube("FROM", OneBand);
-    Cube iCube(ui.GetCubeName("FROM"));
+    Cube iCube(ui.GetCubeName("FROM").toStdString());
     lronaccal(&iCube, ui);
   }
 
@@ -172,11 +172,11 @@ namespace Isis {
         GetCalibrationDirectory("", maskedFile);
         maskedFile = maskedFile + instId + "_MaskedPixels.????.pvl";
       }
-      FileName maskedFileName(maskedFile);
+      FileName maskedFileName(maskedFile.toStdString());
       if(maskedFileName.isVersioned())
         maskedFileName = maskedFileName.highestVersion();
       if(!maskedFileName.fileExists()) {
-        std::string msg = maskedFile + " does not exist.";
+        std::string msg = maskedFile.toStdString() + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       Pvl maskedPvl(maskedFileName.expanded());
@@ -295,11 +295,11 @@ namespace Isis {
         radFile = radFile + "NAC_RadiometricResponsivity.????.pvl";
       }
 
-      FileName radFileName(radFile);
+      FileName radFileName(radFile.toStdString());
       if(radFileName.isVersioned())
         radFileName = radFileName.highestVersion();
       if(!radFileName.fileExists()) {
-        std::string msg = radFile + " does not exist.";
+        std::string msg = radFile.toStdString() + " does not exist.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
@@ -483,19 +483,19 @@ namespace Isis {
   *
   */
   void ReadTextDataFile(QString &fileString, vector<double> &data) {
-    FileName filename(fileString);
+    FileName filename(fileString.toStdString());
     if(filename.isVersioned())
       filename = filename.highestVersion();
     if(!filename.fileExists()) {
-      std::string msg = fileString + " does not exist.";
+      std::string msg = fileString.toStdString() + " does not exist.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
-    TextFile file(filename.expanded());
+    TextFile file(QString::fromStdString(filename.expanded()));
     QString lineString;
     while(file.GetLine(lineString)) {
       data.push_back(toDouble(lineString.split(QRegExp("[ ,;]")).first()));
     }
-    fileString = filename.original();
+    fileString = QString::fromStdString(filename.original());
   }
 
   /**
@@ -506,14 +506,14 @@ namespace Isis {
   *
   */
   void ReadTextDataFile(QString &fileString, vector<vector<double> > &data) {
-    FileName filename(fileString);
+    FileName filename(fileString.toStdString());
     if(filename.isVersioned())
       filename = filename.highestVersion();
     if(!filename.fileExists()) {
-      std::string msg = fileString + " does not exist.";
+      std::string msg = fileString.toStdString() + " does not exist.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
-    TextFile file(filename.expanded());
+    TextFile file(QString::fromStdString(filename.expanded()));
     QString lineString;
     while(file.GetLine(lineString)) {
       vector<double> line;
@@ -521,13 +521,13 @@ namespace Isis {
 
       QStringList lineTokens = lineString.split(QRegExp("[ ,]"), Qt::SkipEmptyParts);
       foreach (QString value, lineTokens) {
-        line.push_back(toDouble(value));
+        line.push_back(value.toDouble());
       }
 
       data.push_back(line);
     }
 
-    fileString = filename.original();
+    fileString = QString::fromStdString(filename.original());
   }
 
   /**
@@ -704,8 +704,8 @@ namespace Isis {
   * @param file0 Filename of dark file 1
   */
   void GetNearestDarkFile(QString fileString, QString &file) {
-    FileName filename(fileString);
-    QString basename = FileName(filename.baseName()).baseName(); // We do it twice to remove the ".????.cub"
+    FileName filename(fileString.toStdString());
+    QString basename = QString::fromStdString(FileName(filename.baseName()).baseName()); // We do it twice to remove the ".????.cub"
     // create a regular expression to capture time from filenames
     QString regexPattern(basename);
     regexPattern.replace("*", "([0-9\\.-]*)");
@@ -714,7 +714,7 @@ namespace Isis {
     QString filter(basename);
     filter.append(".*");
     // get a list of dark files that match our basename
-    QDir dir( filename.path(), filter );
+    QDir dir( QString::fromStdString(filename.path()), filter );
     vector<int> matchedDarkTimes;
     matchedDarkTimes.reserve(dir.count());
     // Loop through all files in the dir that match our basename and extract time
@@ -743,7 +743,7 @@ namespace Isis {
     int darkTime = matchedDarkTimes[0];
     int fileTimeIndex = fileString.indexOf("*T");
     file = fileString;
-    file.replace(fileTimeIndex, 1, toString(darkTime));
+    file.replace(fileTimeIndex, 1, QString::number(darkTime));
     CopyCubeIntoVector(file, g_avgDarkLineCube0);
   }
 
@@ -761,8 +761,8 @@ namespace Isis {
   * @param file1 Filename of dark file 2
   */
   void GetNearestDarkFilePair(QString &fileString, QString &file0, QString &file1) {
-    FileName filename(fileString);
-    QString basename = FileName(filename.baseName()).baseName(); // We do it twice to remove the ".????.cub"
+    FileName filename(fileString.toStdString());
+    QString basename = QString::fromStdString(FileName(filename.baseName()).baseName()); // We do it twice to remove the ".????.cub"
     // create a regular expression to capture time from filenames
     QString regexPattern(basename);
     regexPattern.replace("*", "([0-9\\.-]*)");
@@ -771,11 +771,11 @@ namespace Isis {
     QString filter(basename);
     filter.append(".*");
     // get a list of dark files that match our basename
-    QDir dir( filename.path(), filter );
+    QDir dir(QString::fromStdString(filename.path()), filter );
     vector<int> matchedDarkTimes;
     matchedDarkTimes.reserve(dir.count());
     if (dir.count() < 1){
-      std::string msg = "Could not find any dark file of type " + filter + ".\n";
+      std::string msg = "Could not find any dark file of type " + filter.toStdString() + ".\n";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     // Loop through all files in the dir that match our basename and extract time
@@ -825,16 +825,16 @@ namespace Isis {
       
     //check time range between darks is within 45 day window
     if (timeDayDiff < 0  || timeDayDiff > 45) {
-        std::string msg = "Could not find a pair of dark files within 45 day range that includes the image [" + basename + "]. Check to make sure your set of dark files is complete.\n";
+        std::string msg = "Could not find a pair of dark files within 45 day range that includes the image [" + basename.toStdString() + "]. Check to make sure your set of dark files is complete.\n";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       else {
         file0 = fileString;
-        file0.replace(fileTimeIndex, 1, toString(t0));
+        file0.replace(fileTimeIndex, 1, QString::number(t0));
         CopyCubeIntoVector(file0, g_avgDarkLineCube0);
         g_darkTimes.push_back(t0);
         file1 = fileString;
-        file1.replace(fileTimeIndex, 1, toString(t1));
+        file1.replace(fileTimeIndex, 1, QString::number(t1));
         CopyCubeIntoVector(file1, g_avgDarkLineCube1);
         g_darkTimes.push_back(t1);
       }
@@ -844,7 +844,7 @@ namespace Isis {
       g_nearestDarkPair = false;
       int darkTime = matchedDarkTimes[0];
       file0 = fileString;
-      file0.replace(fileTimeIndex, 1, toString(darkTime));
+      file0.replace(fileTimeIndex, 1, QString::number(darkTime));
       CopyCubeIntoVector(file0, g_avgDarkLineCube0);
       g_darkTimes.push_back(darkTime);
     }
@@ -860,14 +860,14 @@ namespace Isis {
   */
   void CopyCubeIntoVector(QString &fileString, vector<double> &data) {
     Cube cube;
-    FileName filename(fileString);
+    FileName filename(fileString.toStdString());
     if(filename.isVersioned())
       filename = filename.highestVersion();
     if(!filename.fileExists()) {
-      std::string msg = fileString + " does not exist.";
+      std::string msg = fileString.toStdString() + " does not exist.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
-    cube.open(filename.expanded());
+    cube.open(QString::fromStdString(filename.expanded()));
     Brick brick(cube.sampleCount(), cube.lineCount(), cube.bandCount(), cube.pixelType());
     brick.SetBasePosition(1, 1, 1);
     cube.read(brick);
@@ -875,10 +875,10 @@ namespace Isis {
     for(int i = 0; i < cube.sampleCount(); i++)
       data.push_back(brick[i]);
 
-    fileString = filename.original();
+    fileString = QString::fromStdString(filename.original());
 
     if(data.empty()){
-      std::string msg = "Copy from + " + fileString + " into vector failed.";
+      std::string msg = "Copy from + " + fileString.toStdString() + " into vector failed.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

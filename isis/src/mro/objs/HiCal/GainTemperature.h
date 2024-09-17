@@ -72,7 +72,7 @@ namespace Isis {
         _fpaFactor = factor[0];
 
         //  Get temperature parameters
-        _refTemp = toDouble(ConfKey(prof, "FpaReferenceTemperature", toString(21.0)));
+        _refTemp = ConfKey(prof, "FpaReferenceTemperature", QString::number(21.0)).toDouble();
 
         double fpa_py_temp = ToDouble(prof("FpaPositiveYTemperature"));
         double fpa_my_temp = ToDouble(prof("FpaNegativeYTemperature"));

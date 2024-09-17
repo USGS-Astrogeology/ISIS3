@@ -52,7 +52,7 @@ namespace Isis {
      *               entered.
      */
     void MiCalibration::ReadKernel(Pvl &kernel) {
-      QString rover = "MI_" + toString(p_instrumentSerialNumber);
+      QString rover = "MI_" + QString::number(p_instrumentSerialNumber);
       PvlGroup kernelgrp = kernel.findGroup(rover.toStdString(), Pvl::Traverse);
       p_DELCCDTa = kernelgrp["DELCCDTa"];
       p_DELCCDTb = kernelgrp["DELCCDTb"];

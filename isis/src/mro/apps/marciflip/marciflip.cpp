@@ -32,7 +32,7 @@ namespace Isis {
         Isis::CubeAttributeInput inAtt;
 
         cubeFn = ui.GetCubeName("FROM");
-        icube = new Cube(cubeFn);
+        icube = new Cube(cubeFn.toStdString());
         inAtt = ui.GetInputAttribute("FROM");
 
         p.SetInputCube(cubeFn, inAtt);

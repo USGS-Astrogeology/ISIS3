@@ -40,11 +40,11 @@ namespace Isis {
 
     NaifStatus::CheckErrors();
 
-    SetFocalLength(Spice::getDouble("INS" + toString(naifIkCode()) + "_FOCAL_LENGTH"));
+    SetFocalLength(Spice::getDouble("INS" + QString::number(naifIkCode()) + "_FOCAL_LENGTH"));
 
     // For setting the pixel pitch, the Naif keyword PIXEL_SIZE is used instead of the ISIS
     // default of PIXEL_PITCH, so set the value directly.
-    QString pp = "INS" + toString(naifIkCode()) + "_PIXEL_SIZE";
+    QString pp = "INS" + QString::number(naifIkCode()) + "_PIXEL_SIZE";
     double pixelPitch = Spice::getDouble(pp);
     pixelPitch /= 1000.0;
     SetPixelPitch(pixelPitch);
@@ -60,8 +60,8 @@ namespace Isis {
 
     // The boresight position recorded in the IK is zero-based and therefore needs to be adjusted
     // for ISIS
-    double boresightSample = Spice::getDouble("INS" + toString(naifIkCode()) + "_CCD_CENTER",0) + 1.0;
-    double boresightLine = Spice::getDouble("INS" + toString(naifIkCode()) + "_CCD_CENTER",1) + 1.0;
+    double boresightSample = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_CCD_CENTER",0) + 1.0;
+    double boresightLine = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_CCD_CENTER",1) + 1.0;
     focalMap->SetDetectorOrigin(boresightSample,boresightLine);
 
     // The distortion is documented as near 1 pixel at the corners. This is less than the

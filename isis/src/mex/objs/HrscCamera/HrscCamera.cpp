@@ -58,10 +58,10 @@ namespace Isis {
 
     new CameraFocalPlaneMap(this, naifIkCode());
 
-    QString ikernKey = "INS" + toString(naifIkCode())  + "_BORESIGHT_SAMPLE";
+    QString ikernKey = "INS" + QString::number(naifIkCode())  + "_BORESIGHT_SAMPLE";
     double sampleBoresight = getDouble(ikernKey);
 
-    ikernKey = "INS" + toString(naifIkCode())  + "_BORESIGHT_LINE";
+    ikernKey = "INS" + QString::number(naifIkCode())  + "_BORESIGHT_LINE";
     double lineBoresight = getDouble(ikernKey);
 
     FocalPlaneMap()->SetDetectorOrigin(sampleBoresight, lineBoresight);

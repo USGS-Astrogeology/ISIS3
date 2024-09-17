@@ -113,7 +113,7 @@ namespace Isis {
     }
 
     if (m_hfunc != "HG") {
-      std::string msg = "Invalid HFunction: " + m_hfunc;
+      std::string msg = "Invalid HFunction: " + m_hfunc.toStdString();
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

@@ -13,6 +13,7 @@ find files of those names at the top level of this repository. **/
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <QString>
 
 #include "tnt_array1d.h"
 #include "tnt_array1d_utils.h"
@@ -40,7 +41,7 @@ class HiHistory {
       std::vector<QString>::const_iterator it = h._events.begin();
 
       while (it != h._events.end()) {
-        o << *it << "; ";
+        o << it->toStdString() << "; ";
         it++;
       }
       return (o);

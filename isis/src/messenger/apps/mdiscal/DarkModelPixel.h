@@ -76,13 +76,13 @@ namespace Isis {
         filename += (isFpuBinned) ? "_BINNED_" : "_NOTBIN_";
         filename += "DARKMODEL_?.TAB";
 
-        FileName finalName(filename);
+        FileName finalName(filename.toStdString());
         finalName = finalName.highestVersion();
-        filename = finalName.originalPath() + "/" + finalName.name();
+        filename = QString::fromStdString(finalName.originalPath() + "/" + finalName.name());
         m_filename = filename;
 
         //  Open the CSV file
-        CSVReader csv(finalName.expanded());
+        CSVReader csv(QString::fromStdString(finalName.expanded()));
         DVector coefs(8);
         double ccdTempSqrd = m_ccdTemp * m_ccdTemp;
         double ccdTempCubed = ccdTempSqrd * m_ccdTemp;

@@ -54,10 +54,10 @@ namespace Isis {
  */
   void LroWideAngleCameraFocalPlaneMap::addFilter(int naifIkCode) {
 
-    QString xkey  = "INS" + toString(naifIkCode) + "_TRANSX";
-    QString ykey  = "INS" + toString(naifIkCode) + "_TRANSY";
-    QString ixkey = "INS" + toString(naifIkCode) + "_ITRANSS";
-    QString iykey = "INS" + toString(naifIkCode) + "_ITRANSL";
+    QString xkey  = "INS" + QString::number(naifIkCode) + "_TRANSX";
+    QString ykey  = "INS" + QString::number(naifIkCode) + "_TRANSY";
+    QString ixkey = "INS" + QString::number(naifIkCode) + "_ITRANSS";
+    QString iykey = "INS" + QString::number(naifIkCode) + "_ITRANSL";
     TranslationParameters trans_p;
     for (int i = 0; i < 3; ++i) {
       trans_p.m_transx[i]  = p_camera->getDouble(xkey, i);
@@ -85,8 +85,8 @@ namespace Isis {
  */
   void LroWideAngleCameraFocalPlaneMap::setBand(int vband) {
     if ( (vband <= 0) || (vband > m_transparms.size()) ) {
-      std::string mess = "Invalid band (" + QString::number(vband) + " requested " +
-                     " Must be <= " + QString::number(m_transparms.size());
+      std::string mess = "Invalid band (" + toString(vband) + " requested " +
+                     " Must be <= " + toString(m_transparms.size());
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 

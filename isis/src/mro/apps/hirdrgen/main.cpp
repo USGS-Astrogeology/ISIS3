@@ -48,7 +48,7 @@ void IsisMain() {
   // Check to see if the input cube looks like a HiRISE RDR
   if (icube->bandCount() > 3) {
     std::string msg = "Input file [" +
-                 Application::GetUserInterface().GetCubeName("FROM") +
+                 Application::GetUserInterface().GetCubeName("FROM").toStdString() +
                  "] does not appear to be a HiRISE RDR product. Number of " +
                  "bands is greater than 3";
     throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -61,7 +61,7 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
 
   // Determine if the data is to be converted to JPEG2000
-  IString enctype = ui.GetString("ENCODING_TYPE");
+  IString enctype = ui.GetString("ENCODING_TYPE").toStdString();
   enctype.DownCase();
 
   for (int band = 1; band <= icube->bandCount(); ++band) {
@@ -109,8 +109,8 @@ void IsisMain() {
 
   if (enctype.Equal("jp2")) {
     g_jp2buf = new char* [icube2->bandCount()];
-    FileName lblFile(ui.GetFileName("TO"));
-    QString lblFileName = lblFile.path() + "/" + lblFile.baseName() + ".lbl";
+    FileName lblFile(ui.GetFileName("TO").toStdString());
+    QString lblFileName = QString::fromStdString(lblFile.path() + "/" + lblFile.baseName() + ".lbl");
     p.SetDetached(lblFileName);
     p.setFormat(ProcessExport::JP2);
   }
@@ -246,7 +246,7 @@ void IsisMain() {
     ccdTdi.addValue(cpmmTdi[cpmmByCcd[ccd]] != "Null" ? cpmmTdi[cpmmByCcd[ccd]] : "-9998");
     IString tmp = cpmmSpecial[cpmmByCcd[ccd]];
     tmp.Trim("\"");
-    ccdSpecial.addValue(tmp.toStdString());
+    ccdSpecial.addValue(tmp);
   }
 
   if (!pdsLabel.hasGroup("INSTRUMENT_SETTING_PARAMETERS")) {
@@ -519,8 +519,8 @@ void IsisMain() {
     }
   }
   else {
-    FileName outFile(ui.GetFileName("TO"));
-    ofstream oCube(outFile.expanded().toLatin1().data());
+    FileName outFile(ui.GetFileName("TO").toStdString());
+    ofstream oCube(outFile.expanded().c_str());
     p.OutputLabel(oCube);
     p.StartProcess(oCube);
     oCube.close();

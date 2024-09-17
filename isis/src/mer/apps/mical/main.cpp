@@ -62,7 +62,7 @@ void IsisMain() {
 
   //check if the image is calibrated
   if(pack->hasGroup("Radiometry")) {
-    std::string msg = "The MI image [" + pack->fileName() + "] has already "
+    std::string msg = "The MI image [" + pack->fileName().toStdString() + "] has already "
                  "been radiometrically calibrated";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -191,7 +191,7 @@ void IsisMain() {
     }
   }
   else {
-    cout << "TEST of cover " << gbl::mi->FilterName() << endl;
+    cout << "TEST of cover " << gbl::mi->FilterName().toStdString() << endl;
     if(gbl::mi->FilterName() == "MI_OPEN") {
       p.SetInputCube(gbl::mi->FlatImageOpen(), att);
       if(stagestop == "FLAT" || stagestop == "IOF") {

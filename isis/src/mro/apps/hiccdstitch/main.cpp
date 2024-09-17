@@ -113,9 +113,9 @@ void IsisMain() {
   // Get the list of names of input CCD cubes to stitch together
   FileList list;
   UserInterface &ui = Application::GetUserInterface();
-  list.read(ui.GetFileName("FROMLIST"));
+  list.read(ui.GetFileName("FROMLIST").toStdString());
   if(list.size() < 1) {
-    std::string msg = "The list file[" + ui.GetFileName("FROMLIST") +
+    std::string msg = "The list file[" + ui.GetFileName("FROMLIST").toStdString() +
                  " does not contain any filenames";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -142,7 +142,7 @@ void IsisMain() {
   }
   else {
     std::string msg = "Unknow value for INTERP [" +
-                 ui.GetString("INTERP") + "]";
+                 ui.GetString("INTERP").toStdString() + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -163,7 +163,7 @@ void IsisMain() {
   for(int i = 0; i < list.size(); i++) {
     HiriseCCD CCDinfo;
     Cube *cube = new Cube();
-    cube->open(list[i].toString());
+    cube->open(QString::fromStdString(list[i].toString()));
 
     PvlGroup arch = cube->label()->findGroup("Archive", Pvl::Traverse);
     if(first) {
@@ -197,7 +197,7 @@ void IsisMain() {
     }
 
     CCDinfo.cube = cube;
-    CCDinfo.filename = list[i].toString();
+    CCDinfo.filename = QString::fromStdString(list[i].toString());
     CCDinfo.ccdName = ccdNames[ccd];
     CCDinfo.ccdNumber = ccd;
     CCDinfo.summing = inst["Summing"];
@@ -230,8 +230,8 @@ void IsisMain() {
 
     //  Determine if a shift of the CCD exists in the definitions file
     //  Combine summing/tdi into a QString
-    QString sumTdi = toString(CCDinfo.summing) + "/" +
-                     toString(CCDinfo.tdi);
+    QString sumTdi = QString::number(CCDinfo.summing) + "/" +
+                     QString::number(CCDinfo.tdi);
 
     QString ccdId = ccdNames[ccd];
     if(stitch.hasObject(ccdId.toStdString())) {
@@ -331,7 +331,7 @@ void IsisMain() {
     // Check for appropriate bands
     if(CCDlist[i].nb != maxBands) {
       ostringstream mess;
-      mess << "File " << CCDlist[i].filename << " does not have the required "
+      mess << "File " << CCDlist[i].filename.toStdString() << " does not have the required "
            << maxBands << " bands, but only " << CCDlist[i].nb;
       IException(IException::User, mess.str(), _FILEINFO_);
       nBandErrs++;

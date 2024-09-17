@@ -36,11 +36,11 @@ void IsisMain() {
 
   ProcessImportPds processPDS;
 
-  FileName detachedLabel = ui.GetFileName("FROM");
+  FileName detachedLabel = ui.GetFileName("FROM").toStdString();
   Pvl label;
-  processPDS.SetPdsFile (detachedLabel.expanded(), "", label);
+  processPDS.SetPdsFile (QString::fromStdString(detachedLabel.expanded()), "", label);
 
-  QString fitsImage = detachedLabel.path() + "/" + QString::fromStdString(label.findKeyword("^COMBINED_SPECTRUM"));
+  std::string fitsImage = detachedLabel.path() + "/" + (std::string)label.findKeyword("^COMBINED_SPECTRUM");
   FileName fitsFile(fitsImage);
   NirsImportFits fits(fitsFile, "FitsLabel");
   label += fits.label();
@@ -68,14 +68,14 @@ void IsisMain() {
                   "] does not have the correct dimensions " +
                   "for a Hayabusa NIRS FITS image.\n" +
                   "Expected dimensions are [2] axes, [64 x 2]. " +
-                  "File dimensions are [" + axisCount + "] axes, [" +
-                  axis1Length + " x " + axis2Length + "].";
+                  "File dimensions are [" + axisCount.toStdString() + "] axes, [" +
+                  axis1Length.toStdString() + " x " + axis2Length.toStdString() + "].";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   processPDS.OmitOriginalLabel();
 
-  QString tempCubeName = detachedLabel.baseName() + ".temp.cub";
+  QString tempCubeName = QString::fromStdString(detachedLabel.baseName()) + ".temp.cub";
   CubeAttributeOutput outputAtts = ui.GetOutputAttribute("TO");
   outputAtts.setPixelType( Isis::Real);
   Cube* tempCube = processPDS.SetOutputCube(tempCubeName, outputAtts);
@@ -130,22 +130,22 @@ void IsisMain() {
     stdevCube->write(stdevManager);
   }
 
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
   Pvl newLabel;
 
-  QString instTrans = transDir + "HayabusaNirsInstrument.trn";
+  QString instTrans = QString::fromStdString(transDir) + "HayabusaNirsInstrument.trn";
   Isis::PvlToPvlTranslationManager instXlater(label, instTrans);
   instXlater.Auto(newLabel);
 
-  QString archTrans = transDir + "HayabusaNirsArchive.trn";
+  QString archTrans = QString::fromStdString(transDir) + "HayabusaNirsArchive.trn";
   Isis::PvlToPvlTranslationManager archXlater(label, archTrans);
   archXlater.Auto(newLabel);
 
-  QString bandTrans = transDir + "HayabusaNirsBandBin.trn";
+  QString bandTrans = QString::fromStdString(transDir) + "HayabusaNirsBandBin.trn";
   Isis::PvlToPvlTranslationManager bandXlater(label, bandTrans);
   bandXlater.Auto(newLabel);
 
-  QString kernTrans = transDir + "HayabusaNirsKernels.trn";
+  QString kernTrans = QString::fromStdString(transDir) + "HayabusaNirsKernels.trn";
   Isis::PvlToPvlTranslationManager kernXlater(label, kernTrans);
   kernXlater.Auto(newLabel);
 

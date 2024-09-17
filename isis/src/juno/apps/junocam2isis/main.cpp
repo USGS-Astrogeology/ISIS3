@@ -49,10 +49,10 @@ void IsisMain() {
   g_outputCubes.clear();
 
   UserInterface &ui = Application::GetUserInterface();
-  FileName inputFile = ui.GetFileName("FROM");
+  FileName inputFile = ui.GetFileName("FROM").toStdString();
 
   Pvl inputLabel;
-  importPds.SetPdsFile(inputFile.expanded(), "", inputLabel);
+  importPds.SetPdsFile(QString::fromStdString(inputFile.expanded()), "", inputLabel);
   OriginalLabel origLabels(inputLabel);
 
   Pvl outputLabel;
@@ -109,13 +109,13 @@ void IsisMain() {
     int numFullFrames = importPds.Lines() / g_fullFrameLines;
 
     // Allocate this number of total cubes of the correct size
-    FileName outputFileName(ui.GetCubeName("TO"));
-    QString outputBaseName = outputFileName.removeExtension().expanded();
+    FileName outputFileName(ui.GetCubeName("TO").toStdString());
+    QString outputBaseName = QString::fromStdString(outputFileName.removeExtension().expanded());
 
     // Now this will be a list of output Fullframes 1-N.cub
     QFile allCubesListFile(outputBaseName + ".lis");
     if (!allCubesListFile.open(QFile::WriteOnly | QFile::Text)) {
-      std::string msg = "Unable to write file [" + allCubesListFile.fileName() + "]";
+      std::string msg = "Unable to write file [" + allCubesListFile.fileName().toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     QTextStream allCubesListWriter(&allCubesListFile);
@@ -130,14 +130,14 @@ void IsisMain() {
       QString fullFrameNumString = QString("%1").arg(i+1, 4, 10, QChar('0'));
       fullFrameCube->setDimensions(ccdLayout.ccdSamples(), ccdLayout.ccdLines(), 1);
       fullFrameCube->setPixelType(Isis::SignedWord);
-      FileName fullFrameCubeFileName(outputBaseName
-                                     + "_" + fullFrameNumString
+      FileName fullFrameCubeFileName(outputBaseName.toStdString()
+                                     + "_" + fullFrameNumString.toStdString()
                                      + ".cub");
-      fullFrameCube->create(fullFrameCubeFileName.expanded());
+      fullFrameCube->create(QString::fromStdString(fullFrameCubeFileName.expanded()));
       g_outputCubes.append(fullFrameCube);
       fullFrameCube->close();
-      g_outputCubeFileNames.append(fullFrameCubeFileName.expanded());
-      allCubesListWriter << fullFrameCubeFileName.baseName() << ".cub\n";
+      g_outputCubeFileNames.append(QString::fromStdString(fullFrameCubeFileName.expanded()));
+      allCubesListWriter << QString::fromStdString(fullFrameCubeFileName.baseName()) << ".cub\n";
     }
     progress.CheckStatus();
     allCubesListFile.close();
@@ -185,12 +185,12 @@ void IsisMain() {
                          .addKeyword(PvlKeyword("NumberFramelets", std::to_string(frameletsPerFilter)));
 
     // get output file name and remove cube extension, if entered
-    FileName outputFileName(ui.GetCubeName("TO"));
-    QString outputBaseName = outputFileName.removeExtension().expanded();
+    FileName outputFileName(ui.GetCubeName("TO").toStdString());
+    QString outputBaseName = QString::fromStdString(outputFileName.removeExtension().expanded());
 
     QFile allCubesListFile(outputBaseName + ".lis");
     if (!allCubesListFile.open(QFile::WriteOnly | QFile::Text)) {
-      std::string msg = "Unable to write file [" + allCubesListFile.fileName() + "]";
+      std::string msg = "Unable to write file [" + allCubesListFile.fileName().toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     QTextStream allCubesListWriter(&allCubesListFile);
@@ -207,26 +207,26 @@ void IsisMain() {
       frameletCube->setDimensions(importPds.Samples(), g_frameletLines, 1);
       frameletCube->setPixelType(Isis::SignedWord);
       int filterIndex = i % g_filterList.size();
-      FileName frameletCubeFileName(outputBaseName
-                                    + "_" + g_filterList[filterIndex]
-                                    + "_" + frameletNumString
+      FileName frameletCubeFileName(outputBaseName.toStdString()
+                                    + "_" + g_filterList[filterIndex].toStdString()
+                                    + "_" + frameletNumString.toStdString()
                                     + ".cub");
 
-      frameletCube->create(frameletCubeFileName.expanded());
+      frameletCube->create(QString::fromStdString(frameletCubeFileName.expanded()));
       g_outputCubes.append(frameletCube);
       frameletCube->close();
-      g_outputCubeFileNames.append(frameletCubeFileName.expanded());
+      g_outputCubeFileNames.append(QString::fromStdString(frameletCubeFileName.expanded()));
 
       QFile filterListFile(outputBaseName + "_" + g_filterList[filterIndex] + ".lis");
       if ( (frameletNumber == 1 && !filterListFile.open(QFile::WriteOnly | QFile::Text))
            || (frameletNumber > 1 && !filterListFile.open(QFile::Append | QFile::Text)) ) {
-        std::string msg = "Unable to write to file [" + filterListFile.fileName() + "]";
+        std::string msg = "Unable to write to file [" + filterListFile.fileName().toStdString() + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       QTextStream filterListWriter(&filterListFile);
 
-      allCubesListWriter << frameletCubeFileName.baseName() << ".cub\n";
-      filterListWriter << frameletCubeFileName.baseName() << ".cub\n";
+      allCubesListWriter << QString::fromStdString(frameletCubeFileName.baseName()) << ".cub\n";
+      filterListWriter << QString::fromStdString(frameletCubeFileName.baseName()) << ".cub\n";
       filterListFile.close();
     }
 
@@ -299,11 +299,11 @@ void IsisMain() {
  */
 void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
   // Get the directory where the Juno translation tables are
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
 
   // Translate the Instrument group
   FileName instTransFile(transDir + "JunoJunoCamInstrument.trn");
-  PvlToPvlTranslationManager instrumentXlater(inputLabel, instTransFile.expanded());
+  PvlToPvlTranslationManager instrumentXlater(inputLabel, QString::fromStdString(instTransFile.expanded()));
   instrumentXlater.Auto(outputLabel);
   PvlGroup &inst = outputLabel.findGroup("Instrument", PvlObject::Traverse);
   inst["StartTime"].addComment("Start time for the entire observation, "
@@ -316,16 +316,16 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
       || instId.compare("JNC", Qt::CaseInsensitive) != 0) {
 
     std::string msg = "Unrecognized Spacecraft name ["
-                  + spcName
+                  + spcName.toStdString()
                   + "] and instrument ID ["
-                  + instId
+                  + instId.toStdString()
                   + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   // Translate the BandBin group
   FileName bandBinTransFile(transDir + "JunoJunoCamBandBin.trn");
-  PvlToPvlTranslationManager bandBinXlater(inputLabel, bandBinTransFile.expanded());
+  PvlToPvlTranslationManager bandBinXlater(inputLabel, QString::fromStdString(bandBinTransFile.expanded()));
   bandBinXlater.Auto(outputLabel);
   PvlGroup &bandBin = outputLabel.findGroup("BandBin", PvlObject::Traverse);
   QString filter  = QString::fromStdString(bandBin.findKeyword("FilterName"));
@@ -334,7 +334,7 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
   QString summingKey = QString::fromStdString(outputLabel.findKeyword("SummingMode", PvlObject::Traverse)[0]);
   if (summingKey.compare("1") != 0 &&
       summingKey.compare("2") != 0) {
-    std::string msg = "Invalid summing mode [" + summingKey + "], expected [1] or [2].";
+    std::string msg = "Invalid summing mode [" + summingKey.toStdString() + "], expected [1] or [2].";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
   int summingMode = summingKey.toInt();
@@ -349,7 +349,7 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
 
   // Translate the Archive group
   FileName archiveTransFile(transDir + "JunoJunoCamArchive.trn");
-  PvlToPvlTranslationManager archiveXlater(inputLabel, archiveTransFile.expanded());
+  PvlToPvlTranslationManager archiveXlater(inputLabel, QString::fromStdString(archiveTransFile.expanded()));
   archiveXlater.Auto(outputLabel);
   PvlGroup &archive = outputLabel.findGroup("Archive", PvlObject::Traverse);
   iTime startTime(QString::fromStdString(inst["StartTime"][0]));
@@ -360,7 +360,7 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
   //  NOTE - This needs to be the complete base name of the output filter file, not as it
   // is here, which is just the base name of the input file. It should be moved the place
   // where the file is created with the full label in it.
-  PvlKeyword sourceProductId("SourceProductId", FileName(ui.GetFileName("FROM")).baseName().toStdString());
+  PvlKeyword sourceProductId("SourceProductId", FileName(ui.GetFileName("FROM").toStdString()).baseName());
   archive.addKeyword(sourceProductId);
 
   // Setup the kernel group

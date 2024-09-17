@@ -49,7 +49,7 @@ namespace Isis {
 
 
   void moccal(UserInterface &ui) {
-    Cube icube(ui.GetCubeName("FROM"), "rw");
+    Cube icube(ui.GetCubeName("FROM").toStdString(), "rw");
     moccal(&icube, ui);
   }
 
@@ -64,7 +64,7 @@ namespace Isis {
 
     // If it is already calibrated then complain
     if(icube->hasGroup("Radiometry")) {
-      std::string msg = "The MOC image [" + icube->fileName() + "] has already "
+      std::string msg = "The MOC image [" + icube->fileName().toStdString() + "] has already "
                   "been radiometrically calibrated";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -278,7 +278,7 @@ namespace Isis {
     TextFile coef(file);
     QString record, tok;
     coef.GetLine(record, true);
-    int numCoefs = toInt(record);
+    int numCoefs = record.toInt();
     for(int i = 0; i < numCoefs; i++) {
       coef.GetLine(record, true);
       record = record.simplified().trimmed();
@@ -286,15 +286,15 @@ namespace Isis {
       QStringList records = record.split(" ");
 
       if (records.count() > 1) {
-        gainCoef.push_back(toDouble(records.takeFirst()));
-        offsetCoef.push_back(toDouble(records.takeFirst()));
+        gainCoef.push_back(records.takeFirst().toDouble());
+        offsetCoef.push_back(records.takeFirst().toDouble());
       }
     }
 
     // Make sure the file had the correct number of coefficients.  It should
     // match the number of detectors in the NA or WA camera
     if((int)gainCoef.size() != gbl::moc->Detectors()) {
-      std::string msg = "Coefficient file [" + file + "] size is wrong ... should have [";
+      std::string msg = "Coefficient file [" + file.toStdString() + "] size is wrong ... should have [";
       msg += toString(gbl::moc->Detectors()) + "] gain/offset entries";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

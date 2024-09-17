@@ -31,7 +31,7 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
 
   // Get the input filename and make sure it is a MOC EDR
-  FileName in = ui.GetFileName("FROM");
+  FileName in = ui.GetFileName("FROM").toStdString();
   QString id;
   bool compressed = false;
   bool projected;
@@ -58,7 +58,7 @@ void IsisMain() {
   if((id != "MGS-M-MOC-NA/WA-2-DSDP-L0-V1.0") &&
       (id != "MGS-M-MOC-NA/WA-2-SDP-L0-V1.0")) {
     std::string msg = "Input file [" + in.expanded() + "] does not appear to be " +
-                 "in MOC EDR format. DATA_SET_ID [" + id + "]";
+                 "in MOC EDR format. DATA_SET_ID [" + id.toStdString() + "]";
     throw IException(IException::Io, msg, _FILEINFO_);
   }
 
@@ -72,17 +72,17 @@ void IsisMain() {
     // Get a temporary file for the uncompressed version incase we need it
     uncompressed = FileName::createTempFile("$TEMPORARY/" + in.baseName() + ".img");
 
-    QString command = "mocuncompress " + in.expanded() + " " +
-                      uncompressed.expanded();
+    QString command = QString::fromStdString("mocuncompress " + in.expanded() + " " +
+                      uncompressed.expanded());
     if(system(command.toLatin1().data()) == 1) {
       std::string msg = "Unable to execute [mocuncompress]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
-    p.SetPdsFile(uncompressed.expanded(), "", pdsLabel);
+    p.SetPdsFile(QString::fromStdString(uncompressed.expanded()), "", pdsLabel);
     translbl = uncompressed;
   }
   else {
-    p.SetPdsFile(in.expanded(), "", pdsLabel);
+    p.SetPdsFile(QString::fromStdString(in.expanded()), "", pdsLabel);
   }
 
   Cube *ocube = p.SetOutputCube("TO");
@@ -91,7 +91,7 @@ void IsisMain() {
   p.EndProcess();
 
   if(compressed) {
-    QString uncompressedName(uncompressed.expanded());
+    QString uncompressedName(QString::fromStdString(uncompressed.expanded()));
     remove(uncompressedName.toLatin1().data());
   }
 
@@ -102,13 +102,13 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
   QString startTime, productId, clockCount;
 
   // Transfer the instrument group to the output cube
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
 
   FileName transFile(transDir + "MgsMocInstrument.trn");
 
   // Get the translation manager ready
   Pvl labelPvl(labelFile.expanded());
-  PvlToPvlTranslationManager instrumentXlater(labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager instrumentXlater(labelPvl, QString::fromStdString(transFile.expanded()));
 
   PvlGroup inst("Instrument");
 
@@ -193,7 +193,7 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
 
   if(instrumentXlater.InputHasKeyword("FirstLineSample")) {
     QString str = instrumentXlater.Translate("FirstLineSample");
-    int num = toInt(str);
+    int num = str.toInt();
     num++;
     inst += PvlKeyword("FirstLineSample", std::to_string(num));
   }
@@ -205,7 +205,7 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
   FileName transFileArchive(transDir + "MgsMocArchive.trn");
 
   // Get the translation manager ready for the archive group
-  PvlToPvlTranslationManager archiveXlater(labelPvl, transFileArchive.expanded());
+  PvlToPvlTranslationManager archiveXlater(labelPvl, QString::fromStdString(transFileArchive.expanded()));
 
   PvlGroup arch("Archive");
 
@@ -278,7 +278,7 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
   FileName transFileBandBin(transDir + "MgsMocBandBin.trn");
 
   // Get the translation manager ready for the BandBin group
-  PvlToPvlTranslationManager bandBinXlater(labelPvl, transFileBandBin.expanded());
+  PvlToPvlTranslationManager bandBinXlater(labelPvl, QString::fromStdString(transFileBandBin.expanded()));
 
   PvlGroup bandBin("BandBin");
   QString frameCode;
@@ -301,7 +301,7 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
       frameCode = "-94032";
     }
     else {
-      std::string msg = "Invalid value for filter name [" + str + "]";
+      std::string msg = "Invalid value for filter name [" + str.toStdString() + "]";
     }
   }
   else {

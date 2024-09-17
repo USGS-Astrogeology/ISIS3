@@ -21,21 +21,21 @@ using namespace std;
 namespace Isis {
   void kaguyatc2isis(UserInterface &ui, Pvl *log) {
     ProcessImportPds importPds;
-    FileName inFile = ui.GetFileName("FROM");
-    QString labelFile = inFile.expanded();
-    Pvl label(labelFile.toStdString());
+    FileName inFile = ui.GetFileName("FROM").toStdString();
+    std::string labelFile = inFile.expanded();
+    Pvl label(labelFile);
 
-    QString dataFile = "";
-    if ( inFile.extension().toLower() == "lbl" ) {
-      dataFile = inFile.path() + "/" + QString::fromStdString(label.findKeyword("FILE_NAME"));
+    std::string dataFile = "";
+    if (IString(inFile.extension()).DownCase() == "lbl" ) {
+      dataFile = inFile.path() + "/" + (std::string)label.findKeyword("FILE_NAME");
     }
     else {
       dataFile = labelFile;
     }
 
-    QString id = "";
+    std::string id = "";
     try {
-      id = QString::fromStdString(label.findKeyword("DATA_SET_ID"));
+      id = (std::string)label.findKeyword("DATA_SET_ID");
     }
     catch(IException &e) {
       std::string msg = "Unable to read [DATA_SET_ID] from label file ["
@@ -43,7 +43,7 @@ namespace Isis {
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
 
-    id = id.simplified().trimmed();
+    id = QString::fromStdString(id).simplified().trimmed().toStdString();
     if (id != "TC_MAP"
         && id != "TCO_MAP"
         && id != "TC1_Level2B"
@@ -65,7 +65,7 @@ namespace Isis {
       label.addKeyword(PvlKeyword("TARGET_NAME", "MOON"), Pvl::Replace);
     }
 
-    importPds.SetPdsFile(label, dataFile);
+    importPds.SetPdsFile(label, QString::fromStdString(dataFile));
 
     CubeAttributeOutput &att = ui.GetOutputAttribute("TO");
     Cube *outcube = importPds.SetOutputCube(ui.GetCubeName("TO"), att);
@@ -96,23 +96,23 @@ namespace Isis {
     importPds.TranslatePdsProjection(otherLabels);
 
     // Translate the remaining MI MAP labels
-    QString transDir = "$ISISROOT/appdata/translations/";
+    std::string transDir = "$ISISROOT/appdata/translations/";
 
     FileName transFile(transDir + "KaguyaTcBandBin.trn");
-    PvlToPvlTranslationManager bandBinXlater(label, transFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(label, QString::fromStdString(transFile.expanded()));
     bandBinXlater.Auto(otherLabels);
 
     transFile = transDir + "KaguyaTcInstrument.trn";
-    PvlToPvlTranslationManager instXlater(label, transFile.expanded());
+    PvlToPvlTranslationManager instXlater(label, QString::fromStdString(transFile.expanded()));
     instXlater.Auto(otherLabels);
 
     transFile = transDir + "KaguyaTcArchive.trn";
-    PvlToPvlTranslationManager archiveXlater(label, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(label, QString::fromStdString(transFile.expanded()));
     archiveXlater.Auto(otherLabels);
 
     transFile = transDir + "KaguyaTcKernels.trn";
 
-    PvlToPvlTranslationManager kernelsXlater(label, transFile.expanded());
+    PvlToPvlTranslationManager kernelsXlater(label, QString::fromStdString(transFile.expanded()));
     kernelsXlater.Auto(otherLabels);
 
     if ( otherLabels.hasGroup("Mapping")

@@ -76,8 +76,8 @@ namespace Isis {
     CameraFocalPlaneMap *focalMap = new CameraFocalPlaneMap(this, naifIkCode());
 
     // BORESIGHT SAMPLE AND LINE still need to be added to the IAK
-    double bLines = Spice::getDouble("INS" + toString(naifIkCode()) + "_BORESIGHT_LINE");
-    double bSamples = Spice::getDouble("INS" + toString(naifIkCode()) + "_BORESIGHT_SAMPLE");
+    double bLines = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_BORESIGHT_LINE");
+    double bSamples = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_BORESIGHT_SAMPLE");
 
     focalMap->SetDetectorOrigin(bSamples, bLines);
 

@@ -34,7 +34,7 @@ int main(void) {
 
     Cube c("$ISISTESTDATA/isis/src/chandrayaan1/unitTestData/FSR_CDR_LV1_01801_0R.cub", "r");
     Camera *cam = Isis::CameraFactory::Create(c);
-    cout << "FileName: " << FileName( c.fileName() ).name() << endl;
+    cout << "FileName: " << FileName(c.fileName().toStdString()).name() << endl;
     cout << "CK Frame: " << cam->instrumentRotation()->Frame() << endl << endl;
     cout.setf(std::ios::fixed);
     cout << setprecision(9);
@@ -83,15 +83,15 @@ int main(void) {
 
     // Test name methods
     cout << endl << endl << "Testing name methods ..." << endl;
-    cout << "Spacecraft Name Long: " << cam->spacecraftNameLong() << endl;
-    cout << "Spacecraft Name Short: " << cam->spacecraftNameShort() << endl;
-    cout << "Instrument Name Long: " << cam->instrumentNameLong() << endl;
-    cout << "Instrument Name Short: " << cam->instrumentNameShort() << endl << endl;
+    cout << "Spacecraft Name Long: " << cam->spacecraftNameLong().toStdString() << endl;
+    cout << "Spacecraft Name Short: " << cam->spacecraftNameShort().toStdString() << endl;
+    cout << "Instrument Name Long: " << cam->instrumentNameLong().toStdString() << endl;
+    cout << "Instrument Name Short: " << cam->instrumentNameShort().toStdString() << endl << endl;
 
-    cout << "Spacecraft Name Long: " << cam2->spacecraftNameLong() << endl;
-    cout << "Spacecraft Name Short: " << cam2->spacecraftNameShort() << endl;
-    cout << "Instrument Name Long: " << cam2->instrumentNameLong() << endl;
-    cout << "Instrument Name Short: " << cam2->instrumentNameShort() << endl << endl;
+    cout << "Spacecraft Name Long: " << cam2->spacecraftNameLong().toStdString() << endl;
+    cout << "Spacecraft Name Short: " << cam2->spacecraftNameShort().toStdString() << endl;
+    cout << "Instrument Name Long: " << cam2->instrumentNameLong().toStdString() << endl;
+    cout << "Instrument Name Short: " << cam2->instrumentNameShort().toStdString() << endl << endl;
 
     // Test kernel ID messages
     cout << endl << "Kernel ID error messages: " << endl;

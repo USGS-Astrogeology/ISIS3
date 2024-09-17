@@ -73,7 +73,7 @@ namespace Isis {
     // Currently k0 is non-existant in kernels (i.e equals zero). The try is
     // here in case this coefficient is needed for future distortion models.
     try {
-      QString odk0 = "INS" + toString(naifIkCode) + "_DISTORTION_K0";
+      QString odk0 = "INS" + QString::number(naifIkCode) + "_DISTORTION_K0";
       p_odk.push_back(p_camera->Spice::getDouble(odk0));
 
     }
@@ -81,9 +81,9 @@ namespace Isis {
       p_odk.push_back(0.0);
     }
 
-    QString odk1 = "INS" + toString(naifIkCode) + "_DISTORTION_K1";
+    QString odk1 = "INS" + QString::number(naifIkCode) + "_DISTORTION_K1";
     p_odk.push_back(p_camera->Spice::getDouble(odk1) / p2);
-    QString odk2 = "INS" + toString(naifIkCode) + "_DISTORTION_K2";
+    QString odk2 = "INS" + QString::number(naifIkCode) + "_DISTORTION_K2";
     p_odk.push_back(p_camera->Spice::getDouble(odk2) / (p2 * p2));
   }
 

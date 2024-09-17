@@ -46,7 +46,7 @@ int main(void) {
     qDebug() << "Testing TC2 w L2B0 image...";
     Cube c("$ISISTESTDATA/isis/src/kaguya/unitTestData/TC2W2B0_01_02735N583E3115.cub", "r");
     KaguyaTcCamera *cam = (KaguyaTcCamera *) CameraFactory::Create(c);
-    qDebug() << "FileName: " << FileName(c.fileName()).name();
+    qDebug() << "FileName: " <<  QString::fromStdString(FileName(c.fileName().toStdString()).name());
     qDebug() << "CK Frame: " << cam->instrumentRotation()->Frame();
     qDebug() << "";
 
@@ -108,7 +108,7 @@ int main(void) {
 
     Cube c2("$ISISTESTDATA/isis/src/kaguya/unitTestData/TC1S2B0_01_06691S820E0465.cub", "r");
     KaguyaTcCamera *cam2 = (KaguyaTcCamera *) CameraFactory::Create(c2);
-    qDebug() << "FileName: " << FileName(c2.fileName()).name();
+    qDebug() << "FileName: " << QString::fromStdString(FileName(c2.fileName().toStdString()).name());
     qDebug() << "CK Frame: " << cam2->instrumentRotation()->Frame();
     qDebug() << "";
 

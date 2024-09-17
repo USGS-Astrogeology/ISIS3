@@ -86,14 +86,14 @@ bool HiCalConf::_naifLoaded = false;
    * @return QString Expanded filename but not the filepath
    */
   QString HiCalConf::filepath(const QString &fname) const {
-    FileName efile(fname);
+    FileName efile(fname.toStdString());
     if (efile.isVersioned()) {
-      QString path(efile.originalPath());
+      QString path(QString::fromStdString(efile.originalPath()));
       if (!path.isEmpty()) path += "/";
 
       efile = efile.highestVersion();
 
-      return (path + efile.name());
+      return (path + QString::fromStdString(efile.name()));
     }
     return (fname);
   }
@@ -229,8 +229,8 @@ bool HiCalConf::_naifLoaded = false;
     if (expected_size != 0) {
       if (cube.sampleCount() != expected_size) {
         ostringstream mess;
-        mess << "Specifed matrix  (" << name
-             << ") from file \"" << mfile
+        mess << "Specifed matrix  (" << name.toStdString()
+             << ") from file \"" << mfile.toStdString()
              << "\" does not have expected samples (" << expected_size
              << ") but has " << cube.sampleCount();
         cube.close();
@@ -274,7 +274,7 @@ bool HiCalConf::_naifLoaded = false;
     if (expected_size != 0) {
       if (nvals != expected_size) {
         ostringstream mess;
-        mess << "Specifed scalar (" << name
+        mess << "Specifed scalar (" << name.toStdString()
              << ") does not have expected size (" << expected_size
              << ") but has " << nvals;
         throw IException(IException::User, mess.str(), _FILEINFO_);
@@ -426,10 +426,10 @@ void HiCalConf::loadNaifTiming( ) {
     sat = sat.highestVersion();
 
 //  Load the kernels
-    QString lsk = leapseconds.expanded();
-    QString sClock = sclk.expanded();
-    QString pConstants = pck.expanded();
-    QString satConstants = sat.expanded();
+    QString lsk = QString::fromStdString(leapseconds.expanded());
+    QString sClock = QString::fromStdString(sclk.expanded());
+    QString pConstants = QString::fromStdString(pck.expanded());
+    QString satConstants = QString::fromStdString(sat.expanded());
     furnsh_c(lsk.toLatin1().data());
     furnsh_c(sClock.toLatin1().data());
     furnsh_c(pConstants.toLatin1().data());
@@ -510,7 +510,7 @@ DbProfile HiCalConf::getMatrixProfile(const QString &profile) const {
   DbProfile matconf = getProfile(myprof);
   if (!matconf.isValid()) {
     ostringstream mess;
-    mess << "Specifed matrix profile (" << matconf.Name()
+    mess << "Specifed matrix profile (" << matconf.Name().toStdString()
          << ") does not exist or is invalid!";
     throw IException(IException::User, mess.str(), _FILEINFO_);
   }

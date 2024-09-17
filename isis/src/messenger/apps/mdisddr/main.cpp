@@ -116,7 +116,7 @@ void IsisMain() {
   const QString dataSetID = "MESS-E/V/H-MDIS-6-DDR-GEOMDATA-V1.0";
 
   UserInterface &ui = Application::GetUserInterface();
-  FileName input(ui.GetCubeName("FROM"));
+  FileName input(ui.GetCubeName("FROM").toStdString());
   QString to = "";
   bool toEntered = ui.WasEntered("TO");
   if (toEntered) {
@@ -133,8 +133,8 @@ void IsisMain() {
 
   //  Generate the image cube that phocube produces for the DDR data
   FileName phoFile = FileName::createTempFile("$temporary/" + input.baseName() + "_phocube.cub");
-  QString pfile = phoFile.expanded();
-  QString parameters = "FROM=" + input.expanded() + " TO=" + pfile +
+  QString pfile = QString::fromStdString(phoFile.expanded());
+  QString parameters = "FROM=" + QString::fromStdString(input.expanded()) + " TO=" + pfile +
                       " LATITUDE=TRUE LONGITUDE=TRUE PHASE=TRUE EMISSION=TRUE INCIDENCE=TRUE";
   ProgramLauncher::RunIsisProgram("phocube", parameters);
 
@@ -195,7 +195,7 @@ void IsisMain() {
     // cube as the phocube output goes into the specification of the
     // output PDS file (required for 5 band IMAGE object).
     Cube from;
-    from.open(input.expanded());
+    from.open(QString::fromStdString(input.expanded()));
     OriginalLabel origBlob = from.readOriginalLabel();
     Pvl origLabel;
     PvlObject origLabelObj = origBlob.ReturnLabels();
@@ -224,7 +224,7 @@ void IsisMain() {
     dataSetIdKeyword.setValue(dataSetID.toStdString());
 
     // product set id
-    QString prodid(input.baseName());
+    QString prodid(QString::fromStdString(input.baseName()));
     PvlKeyword &productIdKeyword = pdsLabel.findKeyword("PRODUCT_ID",
                                                         Pvl::Traverse);
     if ((productIdKeyword.size() == 0)
@@ -241,9 +241,9 @@ void IsisMain() {
     }
     // Now we have enough to establish output file name
     if (!toEntered) to = opath + "/" + prodid;
-    FileName output(to);
+    FileName output(to.toStdString());
     output = output.addExtension("IMG");
-    if (!toEntered) ui.PutFileName("TO", output.expanded());
+    if (!toEntered) ui.PutFileName("TO", QString::fromStdString(output.expanded()));
 
     // product creation time
     PvlKeyword &productCreationTimeKeyword = pdsLabel.findKeyword("PRODUCT_CREATION_TIME",
@@ -297,8 +297,8 @@ void IsisMain() {
                                                               Pvl::Traverse);
     sourceProductIdKeyword.clear();
     for (int i = 0; i < kfiles.size(); i++) {
-      FileName kfile(kfiles[i]);
-      sourceProductIdKeyword.addValue(quote(kfile.name()).toStdString());
+      FileName kfile(kfiles[i].toStdString());
+      sourceProductIdKeyword.addValue(quote(QString::fromStdString(kfile.name())).toStdString());
     }
     //  Enforce parentheses for scalars
     if (sourceProductIdKeyword.size() == 1)
@@ -350,7 +350,7 @@ void IsisMain() {
 
     //  Now address nested keywords in SUBFRAME groups
     for (int i = 1; i <= 5; i++) {
-      QString n(toString(i));
+      QString n(QString::number(i));
       QString group = "SUBFRAME" + n + "_PARAMETERS";
       if (pdsLabel.hasGroup(group.toStdString())) {
         PvlGroup &grp = pdsLabel.findGroup(group.toStdString());
@@ -367,7 +367,7 @@ void IsisMain() {
 
     // All done...write result.
     pdsLabel.setFormatTemplate("$ISISROOT/appdata/translations/mdisPdsDdr.def");
-    QString ofile(output.expanded());
+    QString ofile(QString::fromStdString(output.expanded()));
     ofstream outstream(ofile.toLatin1().data());
     processPds.OutputLabel(outstream);
 

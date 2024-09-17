@@ -34,7 +34,7 @@ namespace Isis {
                                                                    int naifIkCode) :
                                                                    CameraDistortionMap(parent) {
     // Initialize distortion coefficients to 0 to avoid segfaults
-    QString odkkey = "INS" + toString(naifIkCode) + "_OD_K";
+    QString odkkey = "INS" + QString::number(naifIkCode) + "_OD_K";
     for (int i = 0; i < 3; ++i) {
       p_odk.push_back(0);
     }
@@ -82,8 +82,8 @@ namespace Isis {
  */
   void LroWideAngleCameraDistortionMap::setBand(int vband) {
     if ( (vband <= 0) || (vband > m_odkFilters.size()) ) {
-      std::string mess = "Invalid band (" + QString::number(vband) + " requested " +
-                     " Must be <= " + QString::number(m_odkFilters.size());
+      std::string mess = "Invalid band (" + toString(vband) + " requested " +
+                     " Must be <= " + toString(m_odkFilters.size());
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 

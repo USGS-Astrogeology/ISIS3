@@ -42,7 +42,7 @@ namespace Isis {
   }
 
   template <typename T> int toInteger(const T &value) {
-    return toInt(QString(value).trimmed());
+    return QString(value).trimmed().toInt();
   }
 
   inline QString quote(const QString &value) {
@@ -72,9 +72,9 @@ namespace Isis {
       pck = pck.highestVersion();
 
       //  Load the kernels
-      QString leapsecondsName(leapseconds.expanded());
-      QString sclkName(sclk.expanded());
-      QString pckName(pck.expanded());
+      QString leapsecondsName(QString::fromStdString(leapseconds.expanded()));
+      QString sclkName(QString::fromStdString(sclk.expanded()));
+      QString pckName(QString::fromStdString(pck.expanded()));
       furnsh_c(leapsecondsName.toLatin1().data());
       furnsh_c(sclkName.toLatin1().data());
       furnsh_c(pckName.toLatin1().data());
@@ -147,16 +147,16 @@ namespace Isis {
   std::vector<double> loadWACCSV(const QString &fname, int filter,
                                  int nvalues, bool header=true, int skip=0) {
     //  Open the CSV file
-    FileName csvfile(fname);
-    CSVReader csv(csvfile.expanded(), header, skip);
+    FileName csvfile(fname.toStdString());
+    CSVReader csv(QString::fromStdString(csvfile.expanded()), header, skip);
     for (int i = 0; i < csv.rows(); i++) {
       CSVReader::CSVAxis row = csv.getRow(i);
       if (toInteger(row[0]) == filter) {
         if ((row.dim1() - 1) < nvalues) {
-          std::string mess = "Number values (" + QString(row.dim1() - 1) +
-                             ") in file " + fname +
+          std::string mess = "Number values (" + toString(row.dim1() - 1) +
+                             ") in file " + fname.toStdString() +
                              " less than number requested (" +
-                             QString(nvalues) + ")!";
+                             toString(nvalues) + ")!";
           throw IException(IException::User, mess, _FILEINFO_);
         }
 
@@ -170,8 +170,8 @@ namespace Isis {
 
     // If it reaches here, the filter was not found
     std::ostringstream mess;
-    mess << "CSV Vector MDIS filter " << filter <<  ", not found in file "
-         << fname << "!";
+    mess << "CSV Vector MDIS filter " << toString(filter) <<  ", not found in file "
+         << fname.toStdString() << "!";
     throw IException(IException::User, mess.str(), _FILEINFO_);
   }
 
@@ -182,13 +182,13 @@ namespace Isis {
   std::vector<double> loadNACCSV(const QString &fname, int nvalues,
                                  bool header=true, int skip=0) {
     //  Open the CSV file
-    FileName csvfile(fname);
-    CSVReader csv(csvfile.expanded(), header, skip);
+    FileName csvfile(fname.toStdString());
+    CSVReader csv(QString::fromStdString(csvfile.expanded()), header, skip);
     CSVReader::CSVAxis row = csv.getRow(0);
     if (row.dim1() < nvalues) {
-      std::string mess = "Number values (" + QString(row.dim1()) +
-                         ") in file " + fname + " less than number requested (" +
-                         QString(nvalues) + ")!";
+      std::string mess = "Number values (" + toString(row.dim1()) +
+                         ") in file " + fname.toStdString() + " less than number requested (" +
+                         toString(nvalues) + ")!";
       throw IException(IException::User, mess, _FILEINFO_);
 
     }
@@ -206,14 +206,14 @@ namespace Isis {
   std::vector<double> loadResponsivity(bool isNAC, bool binned, int filter,
                                        QString &fname) {
 
-    FileName resfile(fname);
+    FileName resfile(fname.toStdString());
     if (fname.isEmpty()) {
       QString camstr = (isNAC) ? "NAC" : "WAC";
       QString binstr = (binned)       ? "_BINNED" : "_NOTBIN";
       QString base   = "$messenger/calibration/RESPONSIVITY/";
-      resfile = base + "MDIS" + camstr + binstr + "_RESP_?.TAB";
+      resfile = base.toStdString() + "MDIS" + camstr.toStdString() + binstr.toStdString() + "_RESP_?.TAB";
       resfile = resfile.highestVersion();
-      fname = resfile.originalPath() + "/" + resfile.name();
+      fname = QString::fromStdString(resfile.originalPath() + "/" + resfile.name());
     }
 
     // Unfortunately NAC has a slightly different format so must do it
@@ -234,13 +234,13 @@ namespace Isis {
   std::vector<double> loadSolarIrr(bool isNAC, bool binned, int filter,
                                    QString &fname)  {
 
-    FileName solfile(fname);
+    FileName solfile(fname.toStdString());
     if (fname.isEmpty()) {
       QString camstr = (isNAC) ? "NAC" : "WAC";
       QString base   = "$messenger/calibration/SOLAR/";
-      solfile = base + "MDIS" + camstr + "_SOLAR_?.TAB";
+      solfile = base.toStdString() + "MDIS" + camstr.toStdString() + "_SOLAR_?.TAB";
       solfile = solfile.highestVersion();
-      fname = solfile.originalPath() + "/" + solfile.name();
+      fname = QString::fromStdString(solfile.originalPath() + "/" + solfile.name());
     }
 
     if (isNAC) {
@@ -257,13 +257,13 @@ namespace Isis {
    */
   double loadSmearComponent(bool isNAC, int filter, QString &fname) {
 
-    FileName smearfile(fname);
+    FileName smearfile(fname.toStdString());
     if (fname.isEmpty()) {
       QString camstr = (isNAC) ? "NAC" : "WAC";
       QString base   = "$messenger/calibration/smear/";
-      smearfile = base + "MDIS" + camstr + "_FRAME_TRANSFER_??.TAB";
+      smearfile = base.toStdString() + "MDIS" + camstr.toStdString() + "_FRAME_TRANSFER_??.TAB";
       smearfile = smearfile.highestVersion();
-      fname = smearfile.originalPath() + "/" + smearfile.name();
+      fname = QString::fromStdString(smearfile.originalPath() + "/" + smearfile.name());
     }
 
     std::vector<double> smear;
@@ -378,19 +378,19 @@ namespace Isis {
     if ( ename.isEmpty() ) {
       FileName eventfile("$messenger/calibration/events/event_table_ratioed_v?.txt");
       eventfile = eventfile.highestVersion();
-      ename = eventfile.originalPath() + "/" + eventfile.name();
+      ename = QString::fromStdString(eventfile.originalPath() + "/" + eventfile.name());
     }
 
     //  Open/read the CSV empirical correction file
-    FileName csvfile(ename);
+    FileName csvfile(ename.toStdString());
     const bool header = false;  // No header in file
     const int skip = 0;         // No lines to skip to data
     const int nvalues = 13;     // Expected columns in table
-    CSVReader csv(csvfile.expanded(), header, skip);
+    CSVReader csv(QString::fromStdString(csvfile.expanded()), header, skip);
     if (csv.columns() < nvalues) {  // All rows should have same # columns
-      std::string mess = "Number values (" + QString(csv.columns()) +
-                         ") in file " + ename + " less than number requested (" +
-                         QString(nvalues) + ")!";
+      std::string mess = "Number values (" + toString(csv.columns()) +
+                         ") in file " + ename.toStdString() + " less than number requested (" +
+                         toString(nvalues) + ")!";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 

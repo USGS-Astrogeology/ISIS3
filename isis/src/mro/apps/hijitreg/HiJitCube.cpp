@@ -116,8 +116,8 @@ namespace Isis {
     if(jdata.summing != other.summing) {
       ostringstream msg;
       msg << "Summing mode (" << jdata.summing
-          << ") in file " << fileName() << " is not equal to summing mode ("
-          << other.summing << ") in file " << cube.fileName() << endl;
+          << ") in file " << fileName().toStdString() << " is not equal to summing mode ("
+          << other.summing << ") in file " << cube.fileName().toStdString() << endl;
       throw IException(IException::User, msg.str(), _FILEINFO_);
     }
     return;
@@ -147,8 +147,8 @@ namespace Isis {
       sclk = sclk.highestVersion();
 
 //  Load the kernels
-      QString lsk = leapseconds.expanded();
-      QString sClock = sclk.expanded();
+      QString lsk = QString::fromStdString(leapseconds.expanded());
+      QString sClock = QString::fromStdString(sclk.expanded());
       NaifStatus::CheckErrors();
       furnsh_c(lsk.toLatin1().data());
       NaifStatus::CheckErrors();
@@ -292,7 +292,7 @@ namespace Isis {
       ostringstream msg;
       msg << "Summing mode (" << jdata.summing
           << ") is illegal (must be > 0) or CPMM number (" << jdata.cpmmNumber
-          << ") is invalid in file " << fileName() << endl;
+          << ") is invalid in file " << fileName().toStdString() << endl;
       throw IException(IException::User, msg.str(), _FILEINFO_);
     }
 
@@ -303,7 +303,7 @@ namespace Isis {
     if((jdata.channelNumber > 2) || (jdata.channelNumber < 0)) {
       ostringstream msg;
       msg << "Channel number (" << jdata.channelNumber
-          << ") is invalid (must be 0, 1 or 2) in file " << fileName()
+          << ") is invalid (must be 0, 1 or 2) in file " << fileName().toStdString()
           << endl;
       throw IException(IException::User, msg.str(), _FILEINFO_);
     }
@@ -333,7 +333,7 @@ namespace Isis {
 
     ostringstream msg;
     msg << "Invalid summing mode (" << summing << ") for file " <<
-        fileName() << std::endl;
+        fileName().toStdString() << std::endl;
     throw IException(IException::User, msg.str(), _FILEINFO_);
   }
 

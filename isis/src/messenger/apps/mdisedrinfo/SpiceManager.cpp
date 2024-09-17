@@ -128,10 +128,10 @@ namespace Isis {
     QString kfile(kernfile);
 
     //  Check for versioned file naming
-    FileName efile(kfile);
+    FileName efile(kfile.toStdString());
     if (efile.isVersioned()) {
       efile = efile.highestVersion();
-      kfile = efile.expanded();
+      kfile = QString::fromStdString(efile.expanded());
     }
 
     //  Add a specific kernel to the list
@@ -157,8 +157,8 @@ namespace Isis {
     std::vector<QString> flist;
     for(unsigned int i = 0 ; i < _kernlist.size() ; i++) {
       if(removePath) {
-        FileName kfile(_kernlist[i]);
-        flist.push_back(kfile.name());
+        FileName kfile(_kernlist[i].toStdString());
+        flist.push_back(QString::fromStdString(kfile.name()));
       }
       else {
         flist.push_back(_kernlist[i]);
@@ -179,8 +179,8 @@ namespace Isis {
         *  string kernName(FileName(_kernlist[i]).expanded());
         *  unload_c(kernName.c_str());
         */
-        FileName f(_kernlist[i]);
-        QString kernName(f.expanded());
+        FileName f(_kernlist[i].toStdString());
+        QString kernName(QString::fromStdString(f.expanded()));
         unload_c(kernName.toLatin1().data());
       }
     }
@@ -210,12 +210,12 @@ namespace Isis {
       if(IString(key[i]).UpCase() == "NULL") continue;
       if(IString(key[i]).UpCase() == "NADIR") continue;
       if(IString(key[i]).UpCase() == "TABLE") continue;
-      Isis::FileName file(QString::fromStdString(key[i]));
+      Isis::FileName file(key[i]);
       if(!file.fileExists()) {
         std::string msg = "Spice file does not exist [" + file.expanded() + "]";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
-      QString fileName(file.expanded());
+      QString fileName(QString::fromStdString(file.expanded()));
       if(_furnish) furnsh_c(fileName.toLatin1().data());
       addKernelName(QString::fromStdString(key[i]));
     }

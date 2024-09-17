@@ -40,7 +40,7 @@ int main(void) {
     Cube c("$ISISTESTDATA/isis/src/lro/unitTestData/M111607830RE_crop.cub", "r");
     Camera *cam = CameraFactory::Create(c);
 
-    cout << "FileName: " << FileName(c.fileName()).name() << endl;
+    cout << "FileName: " << FileName(c.fileName().toStdString()).name() << endl;
     cout << "CK Frame: " << cam->instrumentRotation()->Frame() << endl << endl;
     cout.setf(std::ios::fixed);
     cout << setprecision(9);
@@ -94,12 +94,12 @@ int main(void) {
     files.append("$ISISTESTDATA/isis/src/lro/unitTestData/M1153718003LE.reduced.cub");
 
     for (int i = 0; i < files.size(); i++) {
-      Cube n(files[i], "r");
+      Cube n(files[i].toStdString(), "r");
       Camera *nCam = CameraFactory::Create(n);
-      cout << "Spacecraft Name Long: " << nCam->spacecraftNameLong() << endl;
-      cout << "Spacecraft Name Short: " << nCam->spacecraftNameShort() << endl;
-      cout << "Instrument Name Long: " << nCam->instrumentNameLong() << endl;
-      cout << "Instrument Name Short: " << nCam->instrumentNameShort() << endl << endl;
+      cout << "Spacecraft Name Long: " << nCam->spacecraftNameLong().toStdString() << endl;
+      cout << "Spacecraft Name Short: " << nCam->spacecraftNameShort().toStdString() << endl;
+      cout << "Instrument Name Long: " << nCam->instrumentNameLong().toStdString() << endl;
+      cout << "Instrument Name Short: " << nCam->instrumentNameShort().toStdString() << endl << endl;
     }
 
     // Test exception: camera is not a supported Kaguya camera

@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     QString holdList = "HoldList.lst";
 
     cout << "UnitTest for Equalization" << endl;
-    HiEqualization equalizer(fromList.toString());
+    HiEqualization equalizer(QString::fromStdString(fromList.toString()));
     equalizer.addHolds(holdList);
 
     equalizer.calculateStatistics();
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < imageList.size(); i++) {
       ProcessByLine p;
       CubeAttributeInput att;
-      QString inp = imageList[i].toString();
+      QString inp = QString::fromStdString(imageList[i].toString());
       Cube *inputCube = p.SetInputCube(inp, att);
       TestFunctor func(&equalizer, inputCube->lineCount(), i);
       p.ProcessCubeInPlace(func, false);

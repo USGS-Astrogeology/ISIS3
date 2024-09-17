@@ -140,8 +140,8 @@ namespace Isis {
           << std::setw(_fmtWidth+1) << "ZeroDarkRate\n";
 
         for (int i = 0 ; i < _data.dim() ; i++) {
-          o << formatDbl(_temp) << " "
-            << formatDbl(_data[i]) << std::endl;
+          o << formatDbl(_temp).toStdString() << " "
+            << formatDbl(_data[i]).toStdString() << std::endl;
         }
         return;
       }

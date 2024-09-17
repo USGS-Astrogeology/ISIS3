@@ -162,7 +162,7 @@ namespace Isis {
       icube.setVirtualBands(inAtt.bands());
     }
 
-    icube.open(FileName(ui.GetCubeName("FROM")).expanded());
+    icube.open(QString::fromStdString(FileName(ui.GetCubeName("FROM").toStdString()).expanded()));
 
     // Make sure it is a Marci cube
     try {
@@ -175,14 +175,14 @@ namespace Isis {
       }
     }
     catch (IException &) {
-      FileName inFileName = ui.GetCubeName("FROM");
+      FileName inFileName = ui.GetCubeName("FROM").toStdString();
       std::string msg = "This program is intended for use on MARCI images only. [";
       msg += inFileName.expanded() + "] does not appear to be a MARCI image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     if (icube.group("Archive")["SampleBitModeId"][0] != "SQROOT") {
-      std::string msg = "Sample bit mode [" + QString::fromStdString(icube.group("Archive")["SampleBitModeId"][0]) + "] is not supported.";
+      std::string msg = "Sample bit mode [" + icube.group("Archive")["SampleBitModeId"][0] + "] is not supported.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -211,15 +211,15 @@ namespace Isis {
 
     // Get the LUT data
     FileName temp = FileName("$mro/calibration/marcisqroot_???.lut").highestVersion();
-    TextFile stretchPairs(temp.expanded());
+    TextFile stretchPairs(QString::fromStdString(temp.expanded()));
 
     // Create the stretch pairs
     stretch.ClearPairs();
     for (int i = 0; i < stretchPairs.LineCount(); i++) {
       QString line;
       stretchPairs.GetLine(line, true);
-      int temp1 = toInt(line.split(" ").first());
-      int temp2 = toInt(line.split(" ").last());
+      int temp1 = line.split(" ").first().toInt();
+      int temp2 = line.split(" ").last().toInt();
       stretch.AddPair(temp1, temp2);
     }
 
@@ -237,7 +237,7 @@ namespace Isis {
     // Check our coefficient file
     if (calibrationData.objects() != 7) {
       std::string msg = "Calibration file [" + calFile.expanded() + "] must contain data for 7 filters in ascending order;";
-      msg += " only [" + QString::number(calibrationData.objects()) + "] objects were found";
+      msg += " only [" + toString(calibrationData.objects()) + "] objects were found";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -277,12 +277,12 @@ namespace Isis {
         continue;
       }
 
-      filePattern += "flat_band" + toString(band + 1);
-      filePattern += "_summing" + toString(summing) + "_v???.cub";
+      filePattern += "flat_band" + QString::number(band + 1);
+      filePattern += "_summing" + QString::number(summing) + "_v???.cub";
 
-      FileName flatFile = FileName(filePattern).highestVersion();
+      FileName flatFile = FileName(filePattern.toStdString()).highestVersion();
       Cube *fcube = new Cube();
-      fcube->open(flatFile.expanded());
+      fcube->open(QString::fromStdString(flatFile.expanded()));
       flatcubes.push_back(fcube);
 
       LineManager * fcubeMgr = new LineManager(*fcube);
@@ -300,7 +300,7 @@ namespace Isis {
     ocube.setLabelsAttached(outAtt.labelAttachment() == AttachedLabel);
     ocube.setPixelType(outAtt.pixelType());
 
-    ocube.create(FileName(ui.GetCubeName("TO")).expanded());
+    ocube.create(QString::fromStdString(FileName(ui.GetCubeName("TO").toStdString()).expanded()));
 
     LineManager icubeMgr(icube);
 
@@ -324,7 +324,7 @@ namespace Isis {
         filter.push_back(filterNameToFilterNumber.find(QString::fromStdString(filtNames[i]))->second);
       }
       else {
-        std::string msg = "Unrecognized filter name [" + QString::fromStdString(filtNames[i]) + "]";
+        std::string msg = "Unrecognized filter name [" + filtNames[i] + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -549,7 +549,7 @@ namespace Isis {
 
     for (int o = 0; o < icube.label()->objects(); o++) {
       if (icube.label()->object(o).isNamed("Table")) {
-        Blob t(QString::fromStdString(icube.label()->object(o)["Name"]), icube.label()->object(o).name());
+        Blob t(icube.label()->object(o)["Name"], icube.label()->object(o).name());
         icube.read(t);
         ocube.write(t);
       }

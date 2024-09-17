@@ -47,7 +47,7 @@ int main(void) {
 
     Cube c("$ISISTESTDATA/isis/src/juno/unitTestData/JNCE_2013282_00M00099_V01_METHANE_0003.cub", "r");
     JunoCamera *cam = (JunoCamera *) CameraFactory::Create(c);
-    qDebug() << "FileName: " << FileName(c.fileName()).name();
+    qDebug() << "FileName: " <<  QString::fromStdString(FileName(c.fileName().toStdString()).name());
     qDebug() << "CK Frame: " << cam->instrumentRotation()->Frame();
     qDebug() << "";
 

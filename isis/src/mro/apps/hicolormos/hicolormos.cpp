@@ -30,9 +30,9 @@ using namespace std;
 namespace Isis {
 
 void hicolormos(UserInterface &ui) {
-  Cube from1(ui.GetCubeName("FROM1"), "r");
+  Cube from1(ui.GetCubeName("FROM1").toStdString(), "r");
   if (ui.WasEntered("FROM2")) {
-    Cube from2(ui.GetCubeName("FROM2"), "r");
+    Cube from2(ui.GetCubeName("FROM2").toStdString(), "r");
     hicolormos(&from1, &from2, ui);
   }
   else {
@@ -45,7 +45,7 @@ void hicolormos(Cube *from1, Cube* from2, UserInterface &ui) {
   // Make a temporary list file for automos
   FileName tempFile = FileName::createTempFile("$TEMPORARY/hicolormos.temp.lis");
   TextFile tf;
-  tf.Open(tempFile.expanded(), "output");
+  tf.Open(QString::fromStdString(tempFile.expanded()), "output");
   tf.PutLine(from1->fileName() + "\n");
 
   Pvl from1lab = *from1->label();
@@ -205,7 +205,7 @@ void hicolormos(Cube *from1, Cube* from2, UserInterface &ui) {
   }
 
   if(runXY) {
-    QString tmp(tempFile.expanded());
+    QString tmp(QString::fromStdString(tempFile.expanded()));
     remove(tmp.toLatin1().data());
     std::string msg = "Camera did not intersect images to gather stats";
     throw IException(IException::User, msg, _FILEINFO_);
@@ -246,7 +246,7 @@ void hicolormos(Cube *from1, Cube* from2, UserInterface &ui) {
   // automos step
   QString MosaicPriority = ui.GetString("PRIORITY");
 
-  QString parameters = "FROMLIST=" + tempFile.expanded() +
+  QString parameters = "FROMLIST=" + QString::fromStdString(tempFile.expanded()) +
                       " MOSAIC=" + ui.GetCubeName("TO") +
                       " PRIORITY=" + MosaicPriority;
   ProgramLauncher::RunIsisProgram("automos", parameters);
@@ -279,7 +279,7 @@ void hicolormos(Cube *from1, Cube* from2, UserInterface &ui) {
   c.close();
 
   // Clean up the temporary automos list file
-  QString tmp(tempFile.expanded());
+  QString tmp(QString::fromStdString(tempFile.expanded()));
   remove(tmp.toLatin1().data());
 } // end of isis main
 

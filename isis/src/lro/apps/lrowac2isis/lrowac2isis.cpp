@@ -79,9 +79,9 @@ namespace Isis {
         IString lutPair = lutKeyword[i];
         lutPair.ConvertWhiteSpace();
         lutPair.Remove("() ");
-        QString outValueMin = lutPair.Token(" ,");
-        QString outValueMax = lutPair.Token(" ,");
-        lookupTable.AddPair(i, (toDouble(outValueMin) + toDouble(outValueMax)) / 2.0);
+        QString outValueMin = QString::fromStdString(lutPair.Token(" ,"));
+        QString outValueMax = QString::fromStdString(lutPair.Token(" ,"));
+        lookupTable.AddPair(i, (outValueMin.toDouble() + outValueMax.toDouble()) / 2.0);
       }
     }
 
@@ -169,7 +169,7 @@ namespace Isis {
       }
     }
 
-    FileName baseFileName(ui.GetCubeName("TO"));
+    FileName baseFileName(ui.GetCubeName("TO").toStdString());
 
     if(uveven && uvodd) {
       // padding[1] is max padding for UV
@@ -181,13 +181,13 @@ namespace Isis {
       uveven->setDimensions(numSamples, numLines, numBands);
       uveven->setPixelType(Isis::Real);
 
-      QString filename = baseFileName.path() + "/" + baseFileName.baseName() + ".uv.even.cub";
+      QString filename = QString::fromStdString(baseFileName.path()) + "/" + QString::fromStdString(baseFileName.baseName()) + ".uv.even.cub";
       uveven->create(filename);
 
       uvodd->setDimensions(numSamples, numLines, numBands);
       uvodd->setPixelType(Isis::Real);
 
-      filename = baseFileName.path() + "/" + baseFileName.baseName() + ".uv.odd.cub";
+      filename = QString::fromStdString(baseFileName.path()) + "/" + QString::fromStdString(baseFileName.baseName()) + ".uv.odd.cub";
       uvodd->create(filename);
     }
 
@@ -200,13 +200,13 @@ namespace Isis {
       viseven->setDimensions(numSamples, numLines, numBands);
       viseven->setPixelType(Isis::Real);
 
-      QString filename = baseFileName.path() + "/" + baseFileName.baseName() + ".vis.even.cub";
+      QString filename = QString::fromStdString(baseFileName.path()) + "/" + QString::fromStdString(baseFileName.baseName()) + ".vis.even.cub";
       viseven->create(filename);
 
       visodd->setDimensions(numSamples, numLines, numBands);
       visodd->setPixelType(Isis::Real);
 
-      filename = baseFileName.path() + "/" + baseFileName.baseName() + ".vis.odd.cub";
+      filename = QString::fromStdString(baseFileName.path()) + "/" + QString::fromStdString(baseFileName.baseName()) + ".vis.odd.cub";
       visodd->create(filename);
     }
 
@@ -475,7 +475,7 @@ namespace Isis {
 
     // Translate the instrument group
     FileName transFile("$ISISROOT/appdata/translations/LroWacInstrument.trn");
-    PvlToPvlTranslationManager instrumentXlater(pdsLab, transFile.expanded());
+    PvlToPvlTranslationManager instrumentXlater(pdsLab, QString::fromStdString(transFile.expanded()));
     instrumentXlater.Auto(isis3VisEven);
     instrumentXlater.Auto(isis3VisOdd);
     instrumentXlater.Auto(isis3UvEven);
@@ -483,7 +483,7 @@ namespace Isis {
 
     // Translate the Archive group
     transFile = "$ISISROOT/appdata/translations/LroWacArchive.trn";
-    PvlToPvlTranslationManager archiveXlater(pdsLab, transFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(pdsLab, QString::fromStdString(transFile.expanded()));
 
     archiveXlater.Auto(isis3VisEven);
     archiveXlater.Auto(isis3VisOdd);
@@ -768,7 +768,7 @@ namespace Isis {
       for(unsigned int i = 0; i < sizeof(QString) / sizeof(invalidKeywords); i++) {
         if(pdsLab.hasKeyword(invalidKeywords[i].toStdString())) {
           std::string msg = "Keyword [";
-          msg += invalidKeywords[i];
+          msg += invalidKeywords[i].toStdString();
           msg += "] must not exist";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
@@ -799,7 +799,7 @@ namespace Isis {
       for(unsigned int i = 0; i < sizeof(numericKeywords) / sizeof(QString); i++) {
         if(pdsLab[numericKeywords[i].toStdString()].size() != 1 || !numberRegex.exactMatch(QString::fromStdString(pdsLab[numericKeywords[i].toStdString()][0]))) {
           std::string msg = "The value of keyword [";
-          msg += numericKeywords[i];
+          msg += numericKeywords[i].toStdString();
           msg += "] is not valid";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
@@ -815,7 +815,7 @@ namespace Isis {
       for(unsigned int i = 0; i < sizeof(timeKeywords) / sizeof(QString); i++) {
         if(pdsLab[timeKeywords[i].toStdString()].size() != 1 || !timeRegex.exactMatch(QString::fromStdString(pdsLab[timeKeywords[i].toStdString()][0]))) {
           std::string msg = "The value of keyword [";
-          msg += timeKeywords[i];
+          msg += timeKeywords[i].toStdString();
           msg += "] is not valid";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
@@ -831,7 +831,7 @@ namespace Isis {
       for(unsigned int i = 0; i < sizeof(clockKeywords) / sizeof(QString); i++) {
         if(pdsLab[clockKeywords[i].toStdString()].size() != 1 || !clockRegex.exactMatch(QString::fromStdString(pdsLab[clockKeywords[i].toStdString()][0]))) {
           std::string msg = "The value of keyword [";
-          msg += clockKeywords[i];
+          msg += clockKeywords[i].toStdString();
           msg += "] is not valid";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }

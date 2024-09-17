@@ -28,8 +28,8 @@ void IsisMain() {
   // Get user interface
   UserInterface &ui = Application::GetUserInterface();
   // Copy the input image to specified output cube in BSQ format
-  FileName from = ui.GetFileName("FROM");
-  QString pdsLabelFile = from.expanded();
+  FileName from = ui.GetFileName("FROM").toStdString();
+  QString pdsLabelFile = QString::fromStdString(from.expanded());
   Pvl pdsLabelPvl;
   ProcessImportPds p;
   p.SetPdsFile(pdsLabelFile, "", pdsLabelPvl);
@@ -38,7 +38,7 @@ void IsisMain() {
   if(instId != "HIRISE_IDEAL_CAMERA") {
     std::string msg = "Invalid PDS label [" + from.expanded() + "]. The PDS product"
                   " must be from an Ideal camera model derived from a HiRISE"
-                  " image. The INSTRUMENT_ID = [" + instId + "] is unsupported"
+                  " image. The INSTRUMENT_ID = [" + instId.toStdString() + "] is unsupported"
                   " by pds2hideal.";
     throw IException(IException::Io, msg, _FILEINFO_);
   }

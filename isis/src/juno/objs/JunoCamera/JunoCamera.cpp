@@ -63,7 +63,7 @@ namespace Isis {
 
     // Juno codes
     int junoCode = naifIkCode();
-    QString juno = toString(junoCode);
+    QString juno = QString::number(junoCode);
 
     // Setup focal plane map and set Juno detector boresight
     new CameraFocalPlaneMap(this, junoCode);

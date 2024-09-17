@@ -38,7 +38,7 @@ void IsisMain() {
 
   //Check that the file comes from the right camera
   UserInterface &ui = Application::GetUserInterface();
-  FileName inFile = ui.GetFileName("FROM");
+  FileName inFile = ui.GetFileName("FROM").toStdString();
   fillGap = false;
   IString id, bitMode;
   int sumMode, editMode;
@@ -51,7 +51,7 @@ void IsisMain() {
       Pvl lab(inFile.expanded());
 
       msg = "PVL Keyword [DATA_SET_ID] not found in label.";
-      id = QString::fromStdString(lab.findKeyword("DATA_SET_ID"));
+      id = (std::string)lab.findKeyword("DATA_SET_ID");
       projected = lab.hasObject("IMAGE_MAP_PROJECTION");
 
       msg = "PVL Keywords [SPATIAL_SUMMING] and [SAMPLING_FACTOR] not found in label.";
@@ -64,7 +64,7 @@ void IsisMain() {
       }
 
       msg = "PVL Keyword [SAMPLE_BIT_MODE_ID] not found in label.";
-      bitMode = QString::fromStdString(lab.findKeyword("SAMPLE_BIT_MODE_ID"));
+      bitMode = (std::string)lab.findKeyword("SAMPLE_BIT_MODE_ID");
 
       msg = "PVL Keywords [EDIT_MODE_ID] and [SAMPLE_FIRST_PIXEL] not found in label.";
       msg += "The mroctx2isis application requires at least one to exist in order to set edit mode.";
@@ -107,7 +107,7 @@ void IsisMain() {
 
   //Process the file
   Pvl pdsLab;
-  p.SetPdsFile(inFile.expanded(), "", pdsLab);
+  p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", pdsLab);
 
   int startPix = 0;
   int endPix = 0;
@@ -183,15 +183,15 @@ void IsisMain() {
   // Set up the strech for the 8 to 12 bit conversion from file
   FileName *temp = new FileName("$mro/calibration/ctxsqroot_???.lut");
   *temp = temp->highestVersion();
-  TextFile *stretchPairs = new TextFile(temp->expanded());
+  TextFile *stretchPairs = new TextFile(QString::fromStdString(temp->expanded()));
 
   // Create the stretch pairs
   stretch.ClearPairs();
   for(int i = 0; i < stretchPairs->LineCount(); i++) {
     QString line;
     stretchPairs->GetLine(line, true);
-    int temp1 = toInt(line.split(" ").first());
-    int temp2 = toInt(line.split(" ").last());
+    int temp1 = line.split(" ").first().toInt();
+    int temp2 = line.split(" ").last().toInt();
     stretch.AddPair(temp1, temp2);
   }
 
@@ -228,17 +228,17 @@ void TranslateMroCtxLabels(FileName &labelFile, Cube *ocube) {
 
   //Pvl to store the labels
   Pvl outLabel;
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
   Pvl labelPvl(labelFile.expanded());
 
   //Translate the Instrument group
   FileName transFile(transDir + "MroCtxInstrument.trn");
-  PvlToPvlTranslationManager instrumentXlator(labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager instrumentXlator(labelPvl, QString::fromStdString(transFile.expanded()));
   instrumentXlator.Auto(outLabel);
 
   //Translate the Archive grooup
   transFile  = transDir + "MroCtxArchive.trn";
-  PvlToPvlTranslationManager archiveXlater(labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager archiveXlater(labelPvl, QString::fromStdString(transFile.expanded()));
   archiveXlater.Auto(outLabel);
 
   // Set up the BandBin groups

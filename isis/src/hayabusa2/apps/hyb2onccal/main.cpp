@@ -55,9 +55,9 @@ struct TemporaryCubeDeleter {
   static inline void cleanup(Cube *cube) {
     if ( cube ) {
 
-      FileName filename( cube->fileName() );
+      FileName filename( cube->fileName().toStdString() );
       delete cube;
-      remove( filename.expanded().toLatin1().data() );
+      remove( filename.expanded().c_str() );
     }
   }
 };
@@ -152,7 +152,7 @@ void IsisMain() {
   }
   catch(IException &e) {
     std::string msg = "Unable to read [ExposureDuration] keyword in the Instrument group "
-    "from input file [" + icube->fileName() + "]";
+    "from input file [" + icube->fileName().toStdString() + "]";
     throw IException(e, IException::Io,msg, _FILEINFO_);
   }
 
@@ -163,8 +163,8 @@ void IsisMain() {
     g_temp = inst[oncCCDTemperature.toStdString()];
   }
   catch(IException &e) {
-    std::string msg = "Unable to read [" + oncCCDTemperature + "] keyword in the Instrument group "
-    "from input file [" + icube->fileName() + "]";
+    std::string msg = "Unable to read [" + oncCCDTemperature.toStdString() + "] keyword in the Instrument group "
+    "from input file [" + icube->fileName().toStdString() + "]";
     throw IException(e, IException::Io,msg, _FILEINFO_);
 
   }
@@ -189,7 +189,7 @@ void IsisMain() {
     QScopedPointer<Cube, TemporaryCubeDeleter> flatcube;
     flatfile = DetermineFlatFieldFile(g_filter);
 
-    QString reducedFlat(flatfile.expanded());
+    QString reducedFlat(QString::fromStdString(flatfile.expanded()));
 
     // Image is not cropped
     if (startLine == 1 && startSample == 1) {
@@ -197,12 +197,12 @@ void IsisMain() {
       // Determine if we need to subsample the flat field if pixel binning occurred
       // TODO: test a binned image (add test case).
       if (binning > 1) {
-        QString scale(toString(binning));
+        QString scale(QString::number(binning));
         FileName newflat = FileName::createTempFile("$TEMPORARY/" +
         flatfile.baseName() + "_reduced.cub");
-        reducedFlat = newflat.expanded();
-        QString parameters = "FROM=" + flatfile.expanded() +
-        " TO="   + newflat.expanded() +
+        reducedFlat = QString::fromStdString(newflat.expanded());
+        QString parameters = "FROM=" + QString::fromStdString(flatfile.expanded()) +
+        " TO="   + QString::fromStdString(newflat.expanded()) +
         " MODE=SCALE" +
         " LSCALE=" + scale +
         " SSCALE=" + scale;
@@ -214,7 +214,7 @@ void IsisMain() {
           remove(reducedFlat.toLatin1().data());
           throw ie;
         }
-        QScopedPointer<Cube, TemporaryCubeDeleter> reduced(new Cube(reducedFlat, "r"));
+        QScopedPointer<Cube, TemporaryCubeDeleter> reduced(new Cube(reducedFlat.toStdString(), "r"));
         flatcube.swap( reduced );
       }
 
@@ -234,14 +234,14 @@ void IsisMain() {
       // Translates and scales the flatfield image.  Scaling
       // might be necessary in the event that the raw image was also binned.
 
-      translate(flatOriginal,transform,transFlat.expanded());
+      translate(flatOriginal,transform,QString::fromStdString(transFlat.expanded()));
 
       QScopedPointer<Cube, TemporaryCubeDeleter> translated(new Cube(transFlat.expanded(), "r"));
       flatcube.swap(translated);
 
       CubeAttributeInput att;
       std::cout<<" before second setinputcube()...\n"<<std::endl;
-      p.SetInputCube(transFlat.expanded(),att);
+      p.SetInputCube(QString::fromStdString(transFlat.expanded()),att);
       std::cout<<" after second setinputcube()...\n"<<std::endl;
     }
   }
@@ -298,26 +298,26 @@ void IsisMain() {
   calibrationLog.addKeyword(PvlKeyword("SoftwareVersion", hyb2cal_version.toStdString()));
   calibrationLog.addKeyword(PvlKeyword("ProcessDate", hyb2cal_runtime.toStdString()));
   calibrationLog.addKeyword(PvlKeyword("CalibrationFile", calfile.toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", flatfile.originalPath().toStdString()
-  + "/" + flatfile.name().toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("CompressionFactor", toString(g_compfactor, 2).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("FlatFieldFile", flatfile.originalPath()
+  + "/" + flatfile.name()));
+  calibrationLog.addKeyword(PvlKeyword("CompressionFactor", toString(g_compfactor, 2)));
 
   // Parameters
   PvlKeyword key("Bias_Bn");
-  key.addValue(toString(g_b0, 8).toStdString());
-  key.addValue(toString(g_b1, 8).toStdString());
-  key.addValue(toString(g_b2, 8).toStdString());
+  key.addValue(toString(g_b0, 8));
+  key.addValue(toString(g_b1, 8));
+  key.addValue(toString(g_b2, 8));
   calibrationLog.addKeyword(key);
-  calibrationLog.addKeyword(PvlKeyword("Bias", toString(g_bias, 16).toStdString(), "DN"));
+  calibrationLog.addKeyword(PvlKeyword("Bias", toString(g_bias, 16), "DN"));
 
   // calibrationLog.addKeyword(PvlKeyword("Smear_Tvct", toString(g_Tvct, 16)));
 
   calibrationLog.addKeyword(PvlKeyword("CalibrationUnits", g_iofCorrection.toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("RadianceStandard", toString(g_v_standard, 16).toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("RadianceScaleFactor", toString(g_iofScale, 16).toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("SolarDistance", toString(g_solarDist, 16).toStdString(), "AU"));
-  calibrationLog.addKeyword(PvlKeyword("SolarFlux", toString(g_solarFlux, 16).toStdString()));
-  calibrationLog.addKeyword(PvlKeyword("IOFFactor", toString(g_iof, 16).toStdString()));
+  calibrationLog.addKeyword(PvlKeyword("RadianceStandard", toString(g_v_standard, 16)));
+  calibrationLog.addKeyword(PvlKeyword("RadianceScaleFactor", toString(g_iofScale, 16)));
+  calibrationLog.addKeyword(PvlKeyword("SolarDistance", toString(g_solarDist, 16), "AU"));
+  calibrationLog.addKeyword(PvlKeyword("SolarFlux", toString(g_solarFlux, 16)));
+  calibrationLog.addKeyword(PvlKeyword("IOFFactor", toString(g_iof, 16)));
   calibrationLog.addKeyword(PvlKeyword("Units", g_units.toStdString()));
 
   // Write Calibration group to output file
@@ -342,7 +342,7 @@ FileName DetermineFlatFieldFile(const QString &filter) {
   QString fileName = "$hayabusa2/calibration/flatfield/";
   // FileName consists of binned/notbinned, camera, and filter
   fileName += "flat_" + filter.toLower() + ".cub";
-  FileName final(fileName);
+  FileName final(fileName.toStdString());
   return final;
 }
 
@@ -356,7 +356,7 @@ QString loadCalibrationVariables(const QString &config)  {
 
   //  UserInterface& ui = Application::GetUserInterface();
 
-  FileName calibFile(config);
+  FileName calibFile(config.toStdString());
   if ( config.contains("?") ) calibFile = calibFile.highestVersion();
 
   // Pvl configFile;
@@ -392,7 +392,7 @@ QString loadCalibrationVariables(const QString &config)  {
   // iof      = radiance * pi *dist_au^2
   // g_iofScale   = iof[g_filter];
 
-  return ( calibFile.original() );
+  return (QString::fromStdString(calibFile.original()));
 }
 
 

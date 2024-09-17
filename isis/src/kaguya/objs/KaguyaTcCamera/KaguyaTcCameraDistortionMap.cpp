@@ -29,9 +29,9 @@ namespace Isis {
    */
   KaguyaTcCameraDistortionMap::KaguyaTcCameraDistortionMap(Camera *parent, int naifIkCode)
       : CameraDistortionMap(parent) {
-    QString odtxkey = "INS" + toString(naifIkCode) + "_DISTORTION_COEF_X";
-    QString odtykey = "INS" + toString(naifIkCode) + "_DISTORTION_COEF_Y";
-    QString boresightkey = "INS" + toString(naifIkCode) + "_BORESIGHT";
+    QString odtxkey = "INS" + QString::number(naifIkCode) + "_DISTORTION_COEF_X";
+    QString odtykey = "INS" + QString::number(naifIkCode) + "_DISTORTION_COEF_Y";
+    QString boresightkey = "INS" + QString::number(naifIkCode) + "_BORESIGHT";
 
     for(int i = 0; i < 4; ++i) {
       p_odkx.push_back(p_camera->getDouble(odtxkey, i));

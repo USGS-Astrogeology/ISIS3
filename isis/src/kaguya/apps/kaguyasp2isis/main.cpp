@@ -25,25 +25,25 @@ void IsisMain() {
   ProcessImportPds p;
   UserInterface &ui = Application::GetUserInterface();
 
-  FileName inFile = ui.GetFileName("FROM");
+  FileName inFile = ui.GetFileName("FROM").toStdString();
   Pvl lab(inFile.expanded());
 
   ofstream os;
-  QString outFile = FileName(ui.GetFileName("TO")).expanded();
-  os.open(outFile.toLatin1().data(), ios::out);
+  std::string outFile = FileName(ui.GetFileName("TO").toStdString()).expanded();
+  os.open(outFile.c_str(), ios::out);
 
   int minobs = 1;
   int maxobs = 1000000;
   if (ui.WasEntered("MINOBS")) {
     QString keyval = ui.GetString("MINOBS");
-    minobs = toInt(keyval);
+    minobs = keyval.toInt();
     if (minobs < 1) {
       minobs = 1;
     }
   }
   if (ui.WasEntered("MAXOBS")) {
     QString keyval = ui.GetString("MAXOBS");
-    maxobs = toInt(keyval);
+    maxobs = keyval.toInt();
   }
   if (maxobs < minobs) {
     int temp = minobs;
@@ -74,7 +74,7 @@ void IsisMain() {
   }
 
   FILE *spcptr;
-  if ((spcptr = fopen(inFile.expanded().toLatin1().data(),"rb")) == 0) {
+  if ((spcptr = fopen(inFile.expanded().c_str(),"rb")) == 0) {
     std::string msg = "Error opening input Kaguya SP file [" + inFile.expanded() + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }
