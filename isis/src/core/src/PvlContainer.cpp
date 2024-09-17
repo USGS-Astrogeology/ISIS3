@@ -133,18 +133,15 @@ namespace Isis {
    */
   bool PvlContainer::cleanDuplicateKeywords() {
     bool keywordDeleted = false;
-
-    for(int index = 0; index < m_keywords.size(); index ++) {
-      PvlKeyword &current = m_keywords[index];
-
-      for(PvlKeywordIterator key = begin() + index + 1; key < end(); key ++) {
-        if(current == *key) {
-          key = m_keywords.erase(key);
+    for (auto current = this->begin(); current!=this->end(); ++current){
+      auto &comp = current;
+      for (std::next(comp); comp!=this->end(); ++comp){
+        if (*current == *comp){
+          comp = m_keywords.erase(comp);
           keywordDeleted = true;
         }
       }
     }
-
     return keywordDeleted;
   }
 
@@ -172,7 +169,9 @@ namespace Isis {
       std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
-    return *(m_keywords.begin() + index);
+    PvlKeywordIterator it = m_keywords.begin();
+    std::advance(it, index);
+    return *(it);
   };
 
 
@@ -187,7 +186,9 @@ namespace Isis {
       std::string msg = Message::ArraySubscriptNotInRange(index);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
-    return *(m_keywords.begin() + index);
+    ConstPvlKeywordIterator it = m_keywords.begin();
+    std::advance(it, index);
+    return *(it);
   }
 
   /**

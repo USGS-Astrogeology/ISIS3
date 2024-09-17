@@ -6,7 +6,7 @@ For more details about the LICENSE terms and the AUTHORS, you will
 find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
-#include <vector>
+#include <list>
 #include <map>
 #include <iostream>
 
@@ -138,15 +138,15 @@ namespace Isis {
 
       //! Returns the first value  in this keyword converted to a double
       operator double() const {
-        return std::stod(operator[](0));
+        return Isis::toDouble(operator[](0));
       };
       //! Returns the first value  in this keyword converted to an integer
       operator int() const {
-        return std::stoi(operator[](0));
+        return Isis::toInt(operator[](0));
       };
       //! Returns the first value  in this keyword converted to a BigInt
       operator Isis::BigInt() const {
-        return std::stoll(operator[](0));
+        return Isis::toBigInt(operator[](0));
       };
 
       operator std::string() const;

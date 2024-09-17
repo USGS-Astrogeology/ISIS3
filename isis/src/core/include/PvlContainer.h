@@ -8,8 +8,6 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 #include "PvlKeyword.h"
 
-template<typename T> class QList;
-
 namespace Isis {
   /**
    * @brief Contains more than one keyword-value pair.
@@ -155,10 +153,10 @@ namespace Isis {
 
       bool hasKeyword(const std::string &name) const;
       //! The keyword iterator.
-      typedef std::vector<PvlKeyword>::iterator PvlKeywordIterator;
+      typedef std::list<PvlKeyword>::iterator PvlKeywordIterator;
 
       //! The const keyword iterator
-      typedef std::vector<PvlKeyword>::const_iterator ConstPvlKeywordIterator;
+      typedef std::list<PvlKeyword>::const_iterator ConstPvlKeywordIterator;
 
 
       PvlKeywordIterator findKeyword(const std::string &name,
@@ -185,7 +183,7 @@ namespace Isis {
        * @return The const beginning iterator.
        */
       ConstPvlKeywordIterator begin() const {
-        return m_keywords.begin();
+        return m_keywords.cbegin();
       };
 
       /**
@@ -201,7 +199,7 @@ namespace Isis {
        * @return The const ending iterator.
        */
       ConstPvlKeywordIterator end() const {
-        return m_keywords.end();
+        return m_keywords.cend();
       };
 
       void deleteKeyword(const std::string &name);
@@ -287,8 +285,8 @@ namespace Isis {
                                                     object was not
                                                     initialized using a filename
                                                     the string is empty.*/
-      PvlKeyword m_name;                   //!< This is the name keyword
-      std::vector<PvlKeyword> m_keywords; /**<This is the vector of
+      PvlKeyword m_name;                        //!< This is the name keyword
+      std::list<PvlKeyword> m_keywords;         /**<This is the list of
                                                     PvlKeywords the container is
                                                     holding. */
 
