@@ -135,7 +135,7 @@ namespace Isis {
     if(m_keywordMap.hasKeyword(name)) {
       PvlKeyword &key = m_keywordMap.findKeyword(name);
       if(key.size() > 1) {
-        return std::stoi(key[1]);
+        return Isis::toInt(key[1]);
       }
     }
     return -1;

@@ -615,13 +615,13 @@ namespace Isis {
         fieldValues = (std::string)field;
       }
       else if (field.isInteger()){
-        fieldValues = std::to_string((int)field);
+        fieldValues = Isis::toString((int)field);
       }
       else if (field.isDouble()){
-        fieldValues = std::to_string((double)field);
+        fieldValues = Isis::toString((double)field);
       }
       else { //real
-        fieldValues = std::to_string((float)field);
+        fieldValues = Isis::toString((float)field);
       }
     }
     // Otherwise, build a vector to contain the entries

@@ -72,7 +72,7 @@ namespace Isis {
   PvlSequence &PvlSequence::operator+=(std::vector<int> &array) {
     std::vector<std::string> temp;
     for(int i = 0; i < (int)array.size(); i++) {
-      temp.push_back(std::to_string(array[i]));
+      temp.push_back(Isis::toString(array[i]));
     }
     p_sequence.push_back(temp);
     return *this;
@@ -87,7 +87,7 @@ namespace Isis {
   PvlSequence &PvlSequence::operator+=(std::vector<double> &array) {
     std::vector<std::string> temp;
     for(int i = 0; i < (int)array.size(); i++) {
-      temp.push_back(std::to_string(array[i]));
+      temp.push_back(Isis::toString(array[i]));
     }
     p_sequence.push_back(temp);
     return *this;

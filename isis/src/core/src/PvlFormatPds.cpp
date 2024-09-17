@@ -135,7 +135,7 @@ namespace Isis {
     }
 
     // Handle PDS special values "N/A" "NULL" "UNK"
-    std::string tmp = std::to_string(keyword[num][0]);
+    std::string tmp = Isis::toString(keyword[num][0]);
     std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
     if((tmp == "N/A") || (tmp == "NULL") || (tmp == "UNK")) {
       val += "\"" + tmp + "\"";
@@ -212,7 +212,7 @@ namespace Isis {
     }
     else if(places >= 0) {
       stringstream out;
-      out << setiosflags(ios::fixed) << setprecision(places) << std::stod(keyword[num]);
+      out << setiosflags(ios::fixed) << setprecision(places) << Isis::toDouble(keyword[num]);
       val += out.str().c_str();
     }
     else {
@@ -447,7 +447,6 @@ namespace Isis {
     bool singleUnit = false;
 
     // Create a Null value if the value index is greater than the number of values
-    stringstream ss;
     if((num >= keyword.size()) || (keyword[num].size() == 0)) {
       return "NULL";
     }
@@ -465,17 +464,16 @@ namespace Isis {
     }
     else {
       tmp.clear();
-      BigInt value = std::stoll(keyword[num]);
+      BigInt value = Isis::toBigInt(keyword[num]);
       string binDig = "01";
       do {
         tmp = binDig[value % 2] + tmp;
         value /= 2;
       }
       while(value);
-
-      ss << right << setfill('0') << setw(bits) << tmp;
-      tmp = ss.str().c_str();
-      val += "2#" + tmp + "#";
+      size_t len = bits;
+      std::string paddedString = std::string(len - std::min(len, tmp.length()), '0') + tmp;
+      val += "2#" + paddedString + "#";
     }
 
     // Add the units to this value
