@@ -9,6 +9,7 @@ find files of those names at the top level of this repository. **/
 #include "PvlGroup.h"
 #include "Preference.h"
 #include "IException.h"
+#include "IString.h"
 
 using namespace std;
 using namespace Isis;
@@ -16,7 +17,7 @@ using namespace Isis;
 int main() {
   Isis::Preference::Preferences(true);
 
-  Isis::PvlKeyword dog("DOG", std::to_string(5.2), "meters");
+  Isis::PvlKeyword dog("DOG", Isis::toString(5.2), "meters");
   Isis::PvlKeyword cat("CATTLE");
   cat = "Meow";
   cat.addComment("Cats shed");
@@ -118,7 +119,7 @@ int main() {
 
   // PvlGroup to be Validated
   PvlGroup pvlGrp("Point_errormagnitude");
-  PvlKeyword pvlKwrd("LessThan", std::to_string(2.5));
+  PvlKeyword pvlKwrd("LessThan", Isis::toString(2.5));
 
   try {
     pvlTmplGrp.validateGroup(pvlGrp);
@@ -132,19 +133,19 @@ int main() {
   // Test Repeated values
   try {
     pvlKwrd.clear();
-    PvlKeyword pvlKwrd("LessThan", std::to_string(2.5));
+    PvlKeyword pvlKwrd("LessThan", Isis::toString(2.5));
     pvlGrp += pvlKwrd;
 
     pvlKwrd.clear();
-    pvlKwrd = PvlKeyword("GreaterThan", std::to_string(3.5));
+    pvlKwrd = PvlKeyword("GreaterThan", Isis::toString(3.5));
     pvlGrp += pvlKwrd;
 
     pvlKwrd.clear();
-    pvlKwrd = PvlKeyword("GreaterThan", std::to_string(4.4545));
+    pvlKwrd = PvlKeyword("GreaterThan", Isis::toString(4.4545));
     pvlGrp += pvlKwrd;
 
     pvlKwrd.clear();
-    pvlKwrd = PvlKeyword("GreaterThan", std::to_string(100.8988095));
+    pvlKwrd = PvlKeyword("GreaterThan", Isis::toString(100.8988095));
     pvlGrp += pvlKwrd;
     pvlTmplGrp.validateGroup(pvlGrp);
 
@@ -159,11 +160,11 @@ int main() {
   // Test for unvalidated elements
   try {
     pvlKwrd.clear();
-    PvlKeyword pvlKwrd("Less123Than", std::to_string(2.5));
+    PvlKeyword pvlKwrd("Less123Than", Isis::toString(2.5));
     pvlGrp += pvlKwrd;
 
     pvlKwrd.clear();
-    pvlKwrd = PvlKeyword("GreaterThan", std::to_string(3.5));
+    pvlKwrd = PvlKeyword("GreaterThan", Isis::toString(3.5));
     pvlGrp += pvlKwrd;
 
     pvlTmplGrp.validateGroup(pvlGrp);

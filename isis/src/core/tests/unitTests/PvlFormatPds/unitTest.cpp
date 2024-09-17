@@ -47,7 +47,7 @@ int main() {
       }
       {
         PvlKeyword key("fkey2", "rEaL");
-        key.addValue(std::to_string(2));
+        key.addValue(Isis::toString(2));
         out << key << endl;
       }
       {
@@ -56,7 +56,7 @@ int main() {
       }
       {
         PvlKeyword key("fkey0", "real");
-        key.addValue(std::to_string(0));
+        key.addValue(Isis::toString(0));
         out << key << endl;
       }
       {
@@ -73,22 +73,22 @@ int main() {
       }
       {
         PvlKeyword key("hkey2", "hEX");
-        key.addValue(std::to_string(2));
+        key.addValue(Isis::toString(2));
         out << key << endl;
       }
       {
         PvlKeyword key("hkey4", "hEX");
-        key.addValue(std::to_string(4));
+        key.addValue(Isis::toString(4));
         out << key << endl;
       }
       {
         PvlKeyword key("binkey", "binary");
-        key.addValue(std::to_string(7));
+        key.addValue(Isis::toString(7));
         out << key << endl;
       }
       {
         PvlKeyword key("binkey16", "binary");
-        key.addValue(std::to_string(16));
+        key.addValue(Isis::toString(16));
         out << key << endl;
       }
       {
@@ -97,7 +97,7 @@ int main() {
       }
       {
         PvlKeyword key("dblkeyarray", "rEaL");
-        key.addValue(std::to_string(2));
+        key.addValue(Isis::toString(2));
         out << key << endl;
       }
       {
@@ -166,51 +166,51 @@ int main() {
     }
 
     {
-      PvlKeyword key("myfloat", std::to_string(-12345.67e+89), "degrees");
+      PvlKeyword key("myfloat", Isis::toString(-12345.67e+89), "degrees");
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("fkey", std::to_string(-12345.6789));
+      PvlKeyword key("fkey", Isis::toString(-12345.6789));
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("fkey0", std::to_string(-9876.543));
+      PvlKeyword key("fkey0", Isis::toString(-9876.543));
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("fkey0", std::to_string(-9876.543e-99));
+      PvlKeyword key("fkey0", Isis::toString(-9876.543e-99));
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("fkey2", std::to_string(0.123456));
+      PvlKeyword key("fkey2", Isis::toString(0.123456));
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("fkey2", std::to_string(0.123456), "goofys");
-      key.addValue(std::to_string(987.123), "goofys");
+      PvlKeyword key("fkey2", Isis::toString(0.123456), "goofys");
+      key.addValue(Isis::toString(987.123), "goofys");
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("fkey2", std::to_string(0.123456), "goofys");
-      key.addValue(std::to_string(987.123));
+      PvlKeyword key("fkey2", Isis::toString(0.123456), "goofys");
+      key.addValue(Isis::toString(987.123));
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
@@ -231,42 +231,42 @@ int main() {
     }
 
     {
-      PvlKeyword key("hkey0", std::to_string((BigInt)0x123456789abcdeffLL));
+      PvlKeyword key("hkey0", Isis::toString((BigInt)0x123456789abcdeffLL));
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("hkey2", std::to_string(0x7a8b));
+      PvlKeyword key("hkey2", Isis::toString(0x7a8b));
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("hkey4", std::to_string(0x1a2b3c4d));
+      PvlKeyword key("hkey4", Isis::toString(0x1a2b3c4d));
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("binkey", std::to_string(0xA));
+      PvlKeyword key("binkey", Isis::toString(0xA));
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("binkey16", std::to_string(0xffff));
+      PvlKeyword key("binkey16", Isis::toString(0xffff));
       cout << key << endl;
       key.setFormat(pdsFormatter);
       cout << key << pdsFormatter->formatEOL();
     }
 
     {
-      PvlKeyword key("intkeyarray", std::to_string(1));
+      PvlKeyword key("intkeyarray", Isis::toString(1));
       key.addValue("NULL");
       key.addValue("3");
       key.addValue("NULL");
@@ -276,7 +276,7 @@ int main() {
     }
 
     {
-      PvlKeyword key("intkeyarray", std::to_string(1), "m");
+      PvlKeyword key("intkeyarray", Isis::toString(1), "m");
       key.addValue("NULL", "m");
       key.addValue("3", "m");
       key.addValue("N/A");
@@ -287,7 +287,7 @@ int main() {
     }
 
     {
-      PvlKeyword key("dblkeyarray", std::to_string(1.01));
+      PvlKeyword key("dblkeyarray", Isis::toString(1.01));
       key.addValue("NULL");
       key.addValue("3.4");
       key.addValue("UNK");
@@ -305,8 +305,8 @@ int main() {
       grp += PvlKeyword("sNULLstring", "NULL");   // should add quotes after format set
       grp += PvlKeyword("sUNKquote", "\"UNK\"");   // should not add more quotes
       grp += PvlKeyword("sNAsingle", "\'N/A\'");   // should not add more quotes
-      grp += PvlKeyword("myint", std::to_string(12345));
-      grp += PvlKeyword("myfloat", std::to_string(12345.67e+89));
+      grp += PvlKeyword("myint", Isis::toString(12345));
+      grp += PvlKeyword("myfloat", Isis::toString(12345.67e+89));
       grp += PvlKeyword("myarray", "(12345,\"a short string\",1.234)");
       cout << "=============================== Before" << endl;
       cout << grp << endl;
@@ -324,8 +324,8 @@ int main() {
       grp += PvlKeyword("sNULLstring", "NULL");   // should add quotes after format set
       grp += PvlKeyword("sUNKquote", "\"UNK\"");   // should not add more quotes
       grp += PvlKeyword("sNAsingle", "\'N/A\'");   // should not add more quotes
-      grp += PvlKeyword("myint", std::to_string(12345));
-      grp += PvlKeyword("myfloat", std::to_string(12345.67e+89));
+      grp += PvlKeyword("myint", Isis::toString(12345));
+      grp += PvlKeyword("myfloat", Isis::toString(12345.67e+89));
       grp += PvlKeyword("myarray", "(12345,\"a short string\",1.234)");
       PvlObject obj("Object1");
       obj.addGroup(grp);
@@ -336,8 +336,8 @@ int main() {
       obj2 += PvlKeyword("sNULLstring", "NULL");   // should add quotes after format set
       obj2 += PvlKeyword("sUNKquote", "\"UNK\"");   // should not add more quotes
       obj2 += PvlKeyword("sNAsingle", "\'N/A\'");   // should not add more quotes
-      obj2 += PvlKeyword("myint", std::to_string(12345));
-      obj2 += PvlKeyword("myfloat", std::to_string(12345.67e+89));
+      obj2 += PvlKeyword("myint", Isis::toString(12345));
+      obj2 += PvlKeyword("myfloat", Isis::toString(12345.67e+89));
       obj2 += PvlKeyword("myarray", "(12345,\"a short string\",1.234)");
       obj.addObject(obj2);
 
@@ -346,8 +346,8 @@ int main() {
       obj += PvlKeyword("sNULLstring", "NULL");   // should add quotes after format set
       obj += PvlKeyword("sUNKquote", "\"UNK\"");   // should not add more quotes
       obj += PvlKeyword("sNAsingle", "\'N/A\'");   // should not add more quotes
-      obj += PvlKeyword("myint", std::to_string(12345));
-      obj += PvlKeyword("myfloat", std::to_string(12345.67e+89));
+      obj += PvlKeyword("myint", Isis::toString(12345));
+      obj += PvlKeyword("myfloat", Isis::toString(12345.67e+89));
       obj += PvlKeyword("myarray", "(12345,\"a short string\",1.234)");
 
 
@@ -371,8 +371,8 @@ int main() {
       grp += PvlKeyword("sNULLstring", "NULL");   // should add quotes after format set
       grp += PvlKeyword("sUNKquote", "\"UNK\"");   // should not add more quotes
       grp += PvlKeyword("sNAsingle", "\'N/A\'");   // should not add more quotes
-      grp += PvlKeyword("myint", std::to_string(12345));
-      grp += PvlKeyword("myfloat", std::to_string(12345.67e+89));
+      grp += PvlKeyword("myint", Isis::toString(12345));
+      grp += PvlKeyword("myfloat", Isis::toString(12345.67e+89));
       grp += PvlKeyword("myarray", "(12345,\"a short string\",1.234)");
       obj.addGroup(grp);
 
@@ -382,10 +382,10 @@ int main() {
       obj2 += PvlKeyword("sNULLstring", "NULL");   // should add quotes after format set
       obj2 += PvlKeyword("sUNKquote", "\"UNK\"");   // should not add more quotes
       obj2 += PvlKeyword("sNAsingle", "\'N/A\'");   // should not add more quotes
-      obj2 += PvlKeyword("myint", std::to_string(12345));
-      obj2 += PvlKeyword("myfloat", std::to_string(12345.67e+89));
+      obj2 += PvlKeyword("myint", Isis::toString(12345));
+      obj2 += PvlKeyword("myfloat", Isis::toString(12345.67e+89));
       obj2 += PvlKeyword("myarray", "(12345,\"a short string\",1.234)");
-      obj2 += PvlKeyword("binkey16", std::to_string(0x01f0));
+      obj2 += PvlKeyword("binkey16", Isis::toString(0x01f0));
       obj.addObject(obj2);
 
       obj += PvlKeyword("skey", "stringval");
@@ -393,8 +393,8 @@ int main() {
       obj += PvlKeyword("sNULLstring", "NULL");   // should add quotes after format set
       obj += PvlKeyword("sUNKquote", "\"UNK\"");   // should not add more quotes
       obj += PvlKeyword("sNAsingle", "\'N/A\'");   // should not add more quotes
-      obj += PvlKeyword("myint", std::to_string(12345));
-      obj += PvlKeyword("myfloat", std::to_string(12345.67e+89));
+      obj += PvlKeyword("myint", Isis::toString(12345));
+      obj += PvlKeyword("myfloat", Isis::toString(12345.67e+89));
       obj += PvlKeyword("myarray", "(12345,\"a short string\",1.234)");
 
       pvl += PvlKeyword("skey", "stringval");
@@ -402,8 +402,8 @@ int main() {
       pvl += PvlKeyword("sNULLstring", "NULL");   // should add quotes after format set
       pvl += PvlKeyword("sUNKquote", "\"UNK\"");   // should not add more quotes
       pvl += PvlKeyword("sNAsingle", "\'N/A\'");   // should not add more quotes
-      pvl += PvlKeyword("myint", std::to_string(12345));
-      pvl += PvlKeyword("myfloat", std::to_string(12345.67e+89));
+      pvl += PvlKeyword("myint", Isis::toString(12345));
+      pvl += PvlKeyword("myfloat", Isis::toString(12345.67e+89));
       pvl += PvlKeyword("myarray", "(12345,\"a short string\",1.234)");
 
       pvl.addObject(obj);
@@ -414,28 +414,28 @@ int main() {
       grp2 += PvlKeyword("sNULLstring", "NULL");   // should add quotes after format set
       grp2 += PvlKeyword("sUNKquote", "\"UNK\"");   // should not add more quotes
       grp2 += PvlKeyword("sNAsingle", "\'N/A\'");   // should not add more quotes
-      grp2 += PvlKeyword("myint", std::to_string(12345));
-      grp2 += PvlKeyword("myfloat", std::to_string(12345.67e+89));
+      grp2 += PvlKeyword("myint", Isis::toString(12345));
+      grp2 += PvlKeyword("myfloat", Isis::toString(12345.67e+89));
       grp2 += PvlKeyword("myarray", "(12345,\"a short string\",1.234)");
-      grp2 += PvlKeyword("binkey16", std::to_string(0x8001));
+      grp2 += PvlKeyword("binkey16", Isis::toString(0x8001));
       grp2 += PvlKeyword("wrapword", "The quick brown fox jumped over the lazy duck. "
                                "Repunzel Repunzel let down your hair. The little toy dog is covered with dust,"
                                " but sturdy and staunch he stands; and the little toy soldier is red with rust.");
-      PvlKeyword key(PvlKeyword("array", std::to_string(12345)));
-      key.addValue(std::to_string(67890));
-      key.addValue(std::to_string(12345));
-      key.addValue(std::to_string(67890));
-      key.addValue(std::to_string(12345));
-      key.addValue(std::to_string(67890));
-      key.addValue(std::to_string(12345));
-      key.addValue(std::to_string(67890));
-      key.addValue(std::to_string(12345));
-      key.addValue(std::to_string(67890));
-      key.addValue(std::to_string(12345));
-      key.addValue(std::to_string(67890));
-      key.addValue(std::to_string(12345));
-      key.addValue(std::to_string(67890));
-      key.addValue(std::to_string(12345));
+      PvlKeyword key(PvlKeyword("array", Isis::toString(12345)));
+      key.addValue(Isis::toString(67890));
+      key.addValue(Isis::toString(12345));
+      key.addValue(Isis::toString(67890));
+      key.addValue(Isis::toString(12345));
+      key.addValue(Isis::toString(67890));
+      key.addValue(Isis::toString(12345));
+      key.addValue(Isis::toString(67890));
+      key.addValue(Isis::toString(12345));
+      key.addValue(Isis::toString(67890));
+      key.addValue(Isis::toString(12345));
+      key.addValue(Isis::toString(67890));
+      key.addValue(Isis::toString(12345));
+      key.addValue(Isis::toString(67890));
+      key.addValue(Isis::toString(12345));
       grp2 += key;
       pvl.addGroup(grp2);
 
