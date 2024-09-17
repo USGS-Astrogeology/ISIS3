@@ -1037,8 +1037,6 @@ namespace Isis {
 
         if (line.find("*/") != std::string::npos) {
           multiLineComment = false;
-
-          line = line.substr(0, line.find("*/")) + " */";
         }
       }
 
