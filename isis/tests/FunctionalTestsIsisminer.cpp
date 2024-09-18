@@ -15,9 +15,9 @@
 using namespace std;
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isisminer.xml").expanded();
-static QString APP_XML2 = FileName("$ISISROOT/bin/xml/camstats.xml").expanded();
-static QString APP_XML3 = FileName("$ISISROOT/bin/xml/footprintinit.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isisminer.xml").expanded());
+static QString APP_XML2 = QString::fromStdString(FileName("$ISISROOT/bin/xml/camstats.xml").expanded());
+static QString APP_XML3 = QString::fromStdString(FileName("$ISISROOT/bin/xml/footprintinit.xml").expanded());
 
 /**
    * IsisminerResourceManager
@@ -102,7 +102,7 @@ class IsisminerMainProgram : public TempTestingFiles {
       isisminerObject.addObject(CsvReader);
 
       conf.addObject(isisminerObject);
-      conf.write(tempDir.path() + "/mainProgram_test.conf");
+      conf.write(tempDir.path().toStdString() + "/mainProgram_test.conf");
     }
 };
 
@@ -234,7 +234,7 @@ TEST(Isisminer, IsisminerTestAssetSideBar) {
   conf.addObject(isisminerObject);
 
   QString configFilename = tempDir.path() + "/assetsidebar_test.conf";
-  conf.write(configFilename);
+  conf.write(configFilename.toStdString());
 
   QVector<QString> args = {"config=" + configFilename,
                            "parameters=inputdir:" + tempDir.path()
@@ -248,7 +248,7 @@ TEST(Isisminer, IsisminerTestAssetSideBar) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
   
   /////////////////////////////////////////////////////////////////
@@ -401,7 +401,7 @@ TEST(Isisminer, IsisminerTestCalculator) {
     QStringList keywordList = {"x", "y", "\"123\"", "\"var_x\"", "\"x%y\"", "\"pi\"", "degs(x)", "rads(x)", "\"e\"", "\"x-4/2^3\"", "\"Accumulator\""};
     PvlKeyword kw("Keywords");
     for (auto const &v : keywordList) {
-      kw.addValue(v);
+      kw.addValue(v.toStdString());
     }
 
     strategyWriteTestInclude.addKeyword(kw);
@@ -410,7 +410,7 @@ TEST(Isisminer, IsisminerTestCalculator) {
   conf.addObject(isisminerObject);
 
   QString configFilename = tempDir.path() + "/calculator_test.conf";
-  conf.write(configFilename);
+  conf.write(configFilename.toStdString());
 
   QVector<QString> args = {"config=" + configFilename,
                            "parameters=inputdir:" + tempDir.path()
@@ -424,7 +424,7 @@ TEST(Isisminer, IsisminerTestCalculator) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv file
@@ -523,7 +523,7 @@ TEST(Isisminer, IsisminerTestCnetReader) {
   conf.addObject(isisminerObject);
 
   QString configFilename = tempDir.path() + "/cnetreader_test.conf";
-  conf.write(configFilename);
+  conf.write(configFilename.toStdString());
 
   QVector<QString> args = {"config=" + configFilename,
                            "parameters=inputdir:data/isisminer/cnetreader/@outputdir:"
@@ -536,7 +536,7 @@ TEST(Isisminer, IsisminerTestCnetReader) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -784,7 +784,7 @@ TEST(Isisminer, IsisminerTestCsvReader) {
   conf.addObject(isisminerObject);
 
   QString configFilename = tempDir.path() + "/csvreader_test.conf";
-  conf.write(configFilename);
+  conf.write(configFilename.toStdString());
 
   QVector<QString> args = {"config=" + tempDir.path() + "/csvreader_test.conf",
                            "parameters=inputdir:" + tempDir.path()
@@ -798,7 +798,7 @@ TEST(Isisminer, IsisminerTestCsvReader) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -967,7 +967,7 @@ TEST(Isisminer, IsisminerTestCsvWriter) {
   conf.addObject(isisminerObject);
 
   QString configFilename = tempDir.path() + "/csvwriter_test.conf";
-  conf.write(configFilename);
+  conf.write(configFilename.toStdString());
 
   QVector<QString> args = {"config=" + tempDir.path() + "/csvwriter_test.conf",
                            "parameters=inputdir:" + tempDir.path()
@@ -981,7 +981,7 @@ TEST(Isisminer, IsisminerTestCsvWriter) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -1133,9 +1133,9 @@ TEST(Isisminer, IsisminerTestDatabaseReader) {
   QTemporaryDir tempDir;
 
   // create input SQLite database_data.db file in tempDir 
-  FileName dbfile(tempDir.path() + "/database_data.db");
+  FileName dbfile(tempDir.path().toStdString() + "/database_data.db");
   Database db("isisminerTestdb", "SQLite");
-  QString dbfileName(dbfile.expanded());
+  QString dbfileName(QString::fromStdString(dbfile.expanded()));
   db.setDatabaseName(dbfileName.toLatin1().data());
   if(!db.open()) {
     throw IException(IException::User, "Connection failed", _FILEINFO_);
@@ -1202,7 +1202,7 @@ TEST(Isisminer, IsisminerTestDatabaseReader) {
   conf.addObject(isisminerObject);
 
   QString configFilename = tempDir.path() + "/database_test.conf";
-  conf.write(configFilename);
+  conf.write(configFilename.toStdString());
 
   QVector<QString> args = {"config=" + configFilename,
                            "parameters=inputdir:" + tempDir.path()
@@ -1216,7 +1216,7 @@ TEST(Isisminer, IsisminerTestDatabaseReader) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv file
@@ -1330,7 +1330,7 @@ TEST(Isisminer, IsisminerTestFilter) {
 
     PvlKeyword kw("Keywords");
     for (auto const &v : keywordList) {
-      kw.addValue(v);
+      kw.addValue(v.toStdString());
     }
 
     CsvWriter.addKeyword(kw);
@@ -1415,7 +1415,7 @@ TEST(Isisminer, IsisminerTestFilter) {
   conf.addObject(isisminerObject);
 
   QString configFilename = tempDir.path() + "/filter_test.conf";
-  conf.write(configFilename);
+  conf.write(configFilename.toStdString());
 
   QVector<QString> args = {"config=" + configFilename,
                            "parameters=inputdir:" + tempDir.path()
@@ -1429,7 +1429,7 @@ TEST(Isisminer, IsisminerTestFilter) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -1562,7 +1562,7 @@ TEST(Isisminer, IsisminerTestGisIntersect) {
   FileName labelFile("$ISISROOT/../isis/tests/data/isisminer/gisintersect/EN0240208184M.lev1.pvl");
 
   Cube cube;
-  cube.fromIsd(tempDir.path() + "/EN0240208184M.lev1.cub", labelFile, isdFile, "rw");
+  cube.fromIsd(tempDir.path().toStdString() + "/EN0240208184M.lev1.cub", labelFile, isdFile, "rw");
   
   // run camstats and footprintinit on newly created cube
   QVector<QString> args = {"from=" + tempDir.path() + "/EN0240208184M.lev1.cub",
@@ -1578,7 +1578,7 @@ TEST(Isisminer, IsisminerTestGisIntersect) {
     camstats(ui1, &camstatsLog);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
   
   args = {"from=" + tempDir.path() + "/EN0240208184M.lev1.cub",
@@ -1598,7 +1598,7 @@ TEST(Isisminer, IsisminerTestGisIntersect) {
     footprintinit(ui2, &fpinitLog);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // create input file gisfile.pvl
@@ -1776,7 +1776,7 @@ TEST(Isisminer, IsisminerTestGisIntersect) {
     isisminerObject.addObject(CsvWriter);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/gisintersect_test.conf");
+  conf.write(tempDir.path().toStdString() + "/gisintersect_test.conf");
 
   args = {"config=" + tempDir.path() + "/gisintersect_test.conf",
           "parameters=inputdir1:" + tempDir.path()
@@ -1791,7 +1791,7 @@ TEST(Isisminer, IsisminerTestGisIntersect) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -1968,7 +1968,7 @@ TEST(Isisminer, IsisminerTestGisOverlap) {
 
         PvlKeyword kw("Keywords");
         for (auto const &v : keywordList) {
-          kw.addValue(v);
+          kw.addValue(v.toStdString());
         }
 
         CsvWriter.addKeyword(kw);
@@ -1977,7 +1977,7 @@ TEST(Isisminer, IsisminerTestGisOverlap) {
   isisminerObject.addObject(AssetSidebar);
   conf.addObject(isisminerObject);
 
-  conf.write(tempDir.path() + "/gisoverlap_test.conf");
+  conf.write(tempDir.path().toStdString() + "/gisoverlap_test.conf");
 
   QVector<QString> args = {"config=" + tempDir.path() + "/gisoverlap_test.conf",
                            "parameters=inputdir:data/isisminer/gisoverlap/@outputdir:"
@@ -1990,7 +1990,7 @@ TEST(Isisminer, IsisminerTestGisOverlap) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -2301,7 +2301,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
   isisminerObject.addObject(CsvWriter);
   
   conf0.addObject(isisminerObject);
-  conf0.write(tempDir.path() + "/gisUnion_test0.conf");
+  conf0.write(tempDir.path().toStdString() + "/gisUnion_test0.conf");
 
   // gisUnion_test1.conf
   Pvl conf1;
@@ -2321,7 +2321,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
   isisminerObject1.addObject(CsvWriter);
 
   conf1.addObject(isisminerObject1);  
-  conf1.write(tempDir.path() + "/gisUnion_test1.conf");
+  conf1.write(tempDir.path().toStdString() + "/gisUnion_test1.conf");
 
   // gisUnion_test2.conf
   Pvl conf2;
@@ -2341,7 +2341,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
   isisminerObject2.addObject(CsvWriter);
 
   conf2.addObject(isisminerObject2);  
-  conf2.write(tempDir.path() + "/gisUnion_test2.conf");
+  conf2.write(tempDir.path().toStdString() + "/gisUnion_test2.conf");
   
   // gisUnion_test3.conf
   Pvl conf3;
@@ -2361,7 +2361,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
   isisminerObject3.addObject(CsvWriter);
 
   conf3.addObject(isisminerObject3);  
-  conf3.write(tempDir.path() + "/gisUnion_test3.conf");
+  conf3.write(tempDir.path().toStdString() + "/gisUnion_test3.conf");
 
   // gisUnion_test4.conf
   Pvl conf4;
@@ -2381,7 +2381,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
   isisminerObject4.addObject(CsvWriter);
 
   conf4.addObject(isisminerObject4);  
-  conf4.write(tempDir.path() + "/gisUnion_test4.conf");
+  conf4.write(tempDir.path().toStdString() + "/gisUnion_test4.conf");
 
   // gisUnion_test5.conf
   Pvl conf5;
@@ -2401,7 +2401,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
   isisminerObject5.addObject(CsvWriter);
 
   conf5.addObject(isisminerObject5);  
-  conf5.write(tempDir.path() + "/gisUnion_test5.conf");
+  conf5.write(tempDir.path().toStdString() + "/gisUnion_test5.conf");
 
   // run isisminer for each example (6 times)
   QVector<QString> args = {"config=" + tempDir.path() + "/gisUnion_test0.conf",
@@ -2416,7 +2416,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
     isisminer(ui0);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   args = {"config=" + tempDir.path() + "/gisUnion_test1.conf",
@@ -2431,7 +2431,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
     isisminer(ui1);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   args = {"config=" + tempDir.path() + "/gisUnion_test2.conf",
@@ -2446,7 +2446,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
     isisminer(ui2);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   args = {"config=" + tempDir.path() + "/gisUnion_test3.conf",
@@ -2461,7 +2461,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
     isisminer(ui3);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   args = {"config=" + tempDir.path() + "/gisUnion_test4.conf",
@@ -2476,7 +2476,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
     isisminer(ui4);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   args = {"config=" + tempDir.path() + "/gisUnion_test5.conf",
@@ -2491,7 +2491,7 @@ TEST(Isisminer, IsisminerTestGisUnion) {
     isisminer(ui5);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -2699,7 +2699,7 @@ TEST(Isisminer, IsisminerTestIsNumeric) {
     isisminerObject.addObject(CsvWriter);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/isnumeric_test.conf");
+  conf.write(tempDir.path().toStdString() + "/isnumeric_test.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/isnumeric_test.conf",
@@ -2714,7 +2714,7 @@ TEST(Isisminer, IsisminerTestIsNumeric) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -2897,7 +2897,7 @@ TEST(Isisminer, IsisminerTestLimit) {
   isisminerObject.addObject(CsvWriter);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/limit_test.conf");
+  conf.write(tempDir.path().toStdString() + "/limit_test.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/limit_test.conf",
@@ -2912,7 +2912,7 @@ TEST(Isisminer, IsisminerTestLimit) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -3013,7 +3013,7 @@ TEST_F(IsisminerMainProgram, IsisminerTestMainProgramGlobals) {
     isisminer(ui1);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // try to read output text file
@@ -3074,7 +3074,7 @@ TEST_F(IsisminerMainProgram, IsisminerTestMainProgramNoParameters) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // close ofstream and reset std output
@@ -3131,7 +3131,7 @@ TEST_F(IsisminerMainProgram, IsisminerTestMainProgramParametersIllformed) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Ill-formed PARAMETERS"));
+    EXPECT_TRUE(e.toString().find("Ill-formed PARAMETERS") != std::string::npos);
   }
   catch(...) {
     FAIL() << "Expected an IException with message: \"**USER ERROR** Ill-formed PARAMETERS (x) - use form @key:val.\"";
@@ -3271,7 +3271,7 @@ TEST(Isisminer, IsisminerTestNumericalSort) {
     isisminerObject.addObject(CsvWriter);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/numericalsort_test.conf");
+  conf.write(tempDir.path().toStdString() + "/numericalsort_test.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/numericalsort_test.conf",
@@ -3286,7 +3286,7 @@ TEST(Isisminer, IsisminerTestNumericalSort) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -3412,7 +3412,7 @@ TEST(Isisminer, IsisminerTestNumericalSortError) {
     isisminerObject.addObject(NumericalSort);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/numericalsort_error.conf");
+  conf.write(tempDir.path().toStdString() + "/numericalsort_error.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/numericalsort_error.conf",
@@ -3428,7 +3428,7 @@ TEST(Isisminer, IsisminerTestNumericalSortError) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Specified sort Order [Best] is invalid."));
+    EXPECT_TRUE(e.toString().find("Specified sort Order [Best] is invalid.") != std::string::npos);
   }
   catch(...) {
     FAIL() << "Expected an IException with message: \"Specified sort Order [Best] is invalid.\n"
@@ -3632,7 +3632,7 @@ TEST(Isisminer, IsisminerTestPdsTableCreator) {
       " location."), Pvl::Replace);
   testGeneralFormat.addObject(column);
 
-  testGeneralFormat.write(tempDir.path() + "/TestGeneralFormat.txt");
+  testGeneralFormat.write(tempDir.path().toStdString() + "/TestGeneralFormat.txt");
 
   // create input config file pdstablecreator_test.conf in tempDir
   Pvl conf;
@@ -3663,7 +3663,7 @@ TEST(Isisminer, IsisminerTestPdsTableCreator) {
 
     PvlKeyword hw("Header");
     for (auto const &v : headerList) {
-      hw.addValue(v);
+      hw.addValue(v.toStdString());
     }
 
     CsvReader.addKeyword(hw);
@@ -3691,7 +3691,7 @@ TEST(Isisminer, IsisminerTestPdsTableCreator) {
     isisminerObject.addObject(PdsTableCreator);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/pdstablecreator_test.conf");
+  conf.write(tempDir.path().toStdString() + "/pdstablecreator_test.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/pdstablecreator_test.conf",
@@ -3706,7 +3706,7 @@ TEST(Isisminer, IsisminerTestPdsTableCreator) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -3885,7 +3885,7 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
 
   PvlKeyword colList("Column");
   for (auto const &v : stringList1) {
-    colList.addValue(v);
+    colList.addValue(v.toStdString());
   }
 
   PdsTableFormat.addKeyword(colList);
@@ -3899,7 +3899,7 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
 
   PvlKeyword dataType("DataType");
   for (auto const &v : stringList2) {
-    dataType.addValue(v);
+    dataType.addValue(v.toStdString());
   }
 
   PdsTableFormat.addKeyword(dataType);
@@ -3913,7 +3913,7 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
 
   PvlKeyword unit("Unit");
   for (auto const &v : stringList3) {
-    unit.addValue(v);
+    unit.addValue(v.toStdString());
   }
 
   PdsTableFormat.addKeyword(unit);
@@ -3955,7 +3955,7 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
 
   PvlKeyword dataDescription("DataDescription");
   for (auto const &v : stringList4) {
-    dataDescription.addValue(v);
+    dataDescription.addValue(v.toStdString());
   }
 
   PdsTableFormat.addKeyword(dataDescription);
@@ -3978,7 +3978,7 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
   isisminerObject.addObject(PdsTableFormat);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/pdstableformat_test.conf");
+  conf.write(tempDir.path().toStdString() + "/pdstableformat_test.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/pdstableformat_test.conf",
@@ -3993,12 +3993,12 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // read TestGeneralFormat.txt into pvl file
   Pvl testgenformatPvl;
-  testgenformatPvl.read(tempDir.path()+ "/TestGeneralFormat.txt");
+  testgenformatPvl.read(tempDir.path().toStdString() + "/TestGeneralFormat.txt");
 
   // confirm 17 Pvl objects in this file
   EXPECT_EQ(testgenformatPvl.objects(), 17);
@@ -4007,32 +4007,32 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
   PvlObject column = testgenformatPvl.findObject("COLUMN");
 
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 1);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "POINT_ID");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "CHARACTER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "POINT_ID");
+  EXPECT_EQ(column["DATA_TYPE"][0], "CHARACTER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 2);
   EXPECT_EQ(int(column["BYTES"]), 32);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Unique point identifier for each jigsaw control point.");
+  EXPECT_EQ(column["DESCRIPTION"][0], "Unique point identifier for each jigsaw control point.");
   
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 2);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "STATUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "CHARACTER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "STATUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "CHARACTER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 37);
   EXPECT_EQ(int(column["BYTES"]), 12);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Status of point. It can be FREE, FIXED or CONSTRAINED.");
+  EXPECT_EQ(column["DESCRIPTION"][0], "Status of point. It can be FREE, FIXED or CONSTRAINED.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 3);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ACCEPTED_MEASURES");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_INTEGER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "ACCEPTED_MEASURES");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_INTEGER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 51);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Number of accepted (non-rejected) measures for the control"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Number of accepted (non-rejected) measures for the control"
                    " point. This is actually the number of images that contain"
                    " the control point point (also referred to as the point"
                    " depth).");
@@ -4040,165 +4040,165 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 4);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "REJECTED_MEASURES");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_INTEGER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "REJECTED_MEASURES");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_INTEGER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 52);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Number of measures rejected by jigsaw during the bundle"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Number of measures rejected by jigsaw during the bundle"
                    " adjustment (if outlier rejection is active)");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 5);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "RESIDUAL_RMS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "PIXELS");
+  EXPECT_EQ(column["NAME"][0], "RESIDUAL_RMS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "PIXELS");
   EXPECT_EQ(int(column["START_BYTE"]), 53);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Root mean square error of residuals for a point." 
+  EXPECT_EQ(column["DESCRIPTION"][0], "Root mean square error of residuals for a point." 
                    " Indicates the statistical measure of variation in the"
                    " difference of each measure within a control point.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 6);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ADJUSTED_LATITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "DEGREES");
+  EXPECT_EQ(column["NAME"][0], "ADJUSTED_LATITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "DEGREES");
   EXPECT_EQ(int(column["START_BYTE"]), 54);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Latitude coordinate of the control point. This is the"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Latitude coordinate of the control point. This is the"
                    " adjusted location of the control point after jigsaw bundle"
                    " adjustment.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 7);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ADJUSTED_LONGITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "DEGREES");
+  EXPECT_EQ(column["NAME"][0], "ADJUSTED_LONGITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "DEGREES");
   EXPECT_EQ(int(column["START_BYTE"]), 55);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Longitude coordinate of control point. This is the"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Longitude coordinate of control point. This is the"
                    " adjusted location of the control point after jigsaw bundle"
                    " adjustment.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 8);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ADJUSTED_RADIUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "ADJUSTED_RADIUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 56);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Radius of control point. This is the adjusted radius of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Radius of control point. This is the adjusted radius of"
                    " the control point after jigsaw bundle adjustment.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 9);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "SIGMA_LATITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "SIGMA_LATITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 57);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Adjusted uncertainty of Latitude coordinate of the control"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Adjusted uncertainty of Latitude coordinate of the control"
                    " point after jigsaw bundle adjustment.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 10);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "SIGMA_LONGITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "SIGMA_LONGITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 58);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Adjusted uncertainty of Longitude coordinate of the"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Adjusted uncertainty of Longitude coordinate of the"
                    " control point after jigsaw bundle adjustment.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 11);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "SIGMA_RADIUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "SIGMA_RADIUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 59);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Adjusted uncertainty of Radius coordinate of the control"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Adjusted uncertainty of Radius coordinate of the control"
                    " point after jigsaw bundle adjustment.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 12);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "DELTA_LATITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "DELTA_LATITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 60);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Latitude adjustment. The number of meters the latitude"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Latitude adjustment. The number of meters the latitude"
                    " coordinate has been adjusted by the jigsaw bundle"
                    " adjustment.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 13);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "DELTA_LONGITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "DELTA_LONGITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 61);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Longitude adjustment. The number of meters the longitude"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Longitude adjustment. The number of meters the longitude"
                    " coordinate has been adjusted by the jigsaw bundle"
                    " adjustment.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 14);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "DELTA_RADIUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "DELTA_RADIUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 62);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Radius adjustment. The number of meters the radius has"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Radius adjustment. The number of meters the radius has"
                    " been adjusted by the jigsaw bundle adjustment.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 15);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "X");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "X");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 63);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Body-fixed X coordinate of the vector from the center of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Body-fixed X coordinate of the vector from the center of"
                    " the target body to the surface coordinate location.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 16);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "Y");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "Y");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 64);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Body-fixed Y coordinate of the vector from the center of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Body-fixed Y coordinate of the vector from the center of"
                    " the target body to the surface coordinate location.");
 
   testgenformatPvl.deleteObject("COLUMN");
   column = testgenformatPvl.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 17);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "Z");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "Z");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 65);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Body-fixed Z coordinate of the vector from the center of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Body-fixed Z coordinate of the vector from the center of"
                    " the target body to the surface coordinate location.");
 
   // read TestNoPointIDFormat.txt into pvl file
   Pvl noPointIdFormat;
-  noPointIdFormat.read(tempDir.path()+ "/TestNoPointIDFormat.txt");
+  noPointIdFormat.read(tempDir.path().toStdString() + "/TestNoPointIDFormat.txt");
 
   // confirm 17 Pvl objects in this file
   EXPECT_EQ(noPointIdFormat.objects(), 17);
@@ -4207,32 +4207,32 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
   column = noPointIdFormat.findObject("COLUMN");
 
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 1);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "POINT_ID");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "CHARACTER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "POINT_ID");
+  EXPECT_EQ(column["DATA_TYPE"][0], "CHARACTER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 2);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Unique point identifier for each jigsaw control point.");
+  EXPECT_EQ(column["DESCRIPTION"][0], "Unique point identifier for each jigsaw control point.");
   
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 2);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "STATUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "CHARACTER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "STATUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "CHARACTER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 5);
   EXPECT_EQ(int(column["BYTES"]), 12);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Status of point. It can be FREE, FIXED or CONSTRAINED.");
+  EXPECT_EQ(column["DESCRIPTION"][0], "Status of point. It can be FREE, FIXED or CONSTRAINED.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 3);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ACCEPTED_MEASURES");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_INTEGER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "ACCEPTED_MEASURES");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_INTEGER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 19);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Number of accepted (non-rejected) measures for the control"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Number of accepted (non-rejected) measures for the control"
                    " point. This is actually the number of images that contain"
                    " the control point point (also referred to as the point"
                    " depth).");
@@ -4240,165 +4240,165 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 4);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "REJECTED_MEASURES");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_INTEGER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "REJECTED_MEASURES");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_INTEGER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 20);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Number of measures rejected by jigsaw during the bundle"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Number of measures rejected by jigsaw during the bundle"
                    " adjustment (if outlier rejection is active)");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 5);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "RESIDUAL_RMS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "PIXELS");
+  EXPECT_EQ(column["NAME"][0], "RESIDUAL_RMS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "PIXELS");
   EXPECT_EQ(int(column["START_BYTE"]), 21);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Root mean square error of residuals for a point." 
+  EXPECT_EQ(column["DESCRIPTION"][0], "Root mean square error of residuals for a point." 
                    " Indicates the statistical measure of variation in the"
                    " difference of each measure within a control point.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 6);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ADJUSTED_LATITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "DEGREES");
+  EXPECT_EQ(column["NAME"][0], "ADJUSTED_LATITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "DEGREES");
   EXPECT_EQ(int(column["START_BYTE"]), 22);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Latitude coordinate of the control point. This is the"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Latitude coordinate of the control point. This is the"
                    " adjusted location of the control point after jigsaw bundle"
                    " adjustment.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 7);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ADJUSTED_LONGITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "DEGREES");
+  EXPECT_EQ(column["NAME"][0], "ADJUSTED_LONGITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "DEGREES");
   EXPECT_EQ(int(column["START_BYTE"]), 23);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Longitude coordinate of control point. This is the"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Longitude coordinate of control point. This is the"
                    " adjusted location of the control point after jigsaw bundle"
                    " adjustment.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 8);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ADJUSTED_RADIUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "ADJUSTED_RADIUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 24);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Radius of control point. This is the adjusted radius of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Radius of control point. This is the adjusted radius of"
                    " the control point after jigsaw bundle adjustment.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 9);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "SIGMA_LATITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "SIGMA_LATITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 25);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Adjusted uncertainty of Latitude coordinate of the control"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Adjusted uncertainty of Latitude coordinate of the control"
                    " point after jigsaw bundle adjustment.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 10);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "SIGMA_LONGITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "SIGMA_LONGITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 26);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Adjusted uncertainty of Longitude coordinate of the"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Adjusted uncertainty of Longitude coordinate of the"
                    " control point after jigsaw bundle adjustment.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 11);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "SIGMA_RADIUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "SIGMA_RADIUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 27);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Adjusted uncertainty of Radius coordinate of the control"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Adjusted uncertainty of Radius coordinate of the control"
                    " point after jigsaw bundle adjustment.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 12);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "DELTA_LATITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "DELTA_LATITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 28);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Latitude adjustment. The number of meters the latitude"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Latitude adjustment. The number of meters the latitude"
                    " coordinate has been adjusted by the jigsaw bundle"
                    " adjustment.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 13);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "DELTA_LONGITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "DELTA_LONGITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 29);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Longitude adjustment. The number of meters the longitude"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Longitude adjustment. The number of meters the longitude"
                    " coordinate has been adjusted by the jigsaw bundle"
                    " adjustment.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 14);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "DELTA_RADIUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "DELTA_RADIUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 30);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Radius adjustment. The number of meters the radius has"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Radius adjustment. The number of meters the radius has"
                    " been adjusted by the jigsaw bundle adjustment.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 15);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "X");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "X");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 31);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Body-fixed X coordinate of the vector from the center of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Body-fixed X coordinate of the vector from the center of"
                    " the target body to the surface coordinate location.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 16);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "Y");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "Y");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 32);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Body-fixed Y coordinate of the vector from the center of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Body-fixed Y coordinate of the vector from the center of"
                    " the target body to the surface coordinate location.");
 
   noPointIdFormat.deleteObject("COLUMN");
   column = noPointIdFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 17);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "Z");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "Z");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 33);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Body-fixed Z coordinate of the vector from the center of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Body-fixed Z coordinate of the vector from the center of"
                    " the target body to the surface coordinate location.");
 
   // read TestNoStatusBytesFormat.txt into pvl file
   Pvl noStatusBytesFormat;
-  noStatusBytesFormat.read(tempDir.path()+ "/TestNoStatusBytesFormat.txt");
+  noStatusBytesFormat.read(tempDir.path().toStdString() + "/TestNoStatusBytesFormat.txt");
 
   // confirm 17 Pvl objects in this file
   EXPECT_EQ(noStatusBytesFormat.objects(), 17);
@@ -4407,32 +4407,32 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
   column = noStatusBytesFormat.findObject("COLUMN");
 
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 1);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "POINT_ID");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "CHARACTER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "POINT_ID");
+  EXPECT_EQ(column["DATA_TYPE"][0], "CHARACTER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 2);
   EXPECT_EQ(int(column["BYTES"]), 32);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Unique point identifier for each jigsaw control point.");
+  EXPECT_EQ(column["DESCRIPTION"][0], "Unique point identifier for each jigsaw control point.");
   
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 2);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "STATUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "CHARACTER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "STATUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "CHARACTER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 37);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Status of point. It can be FREE, FIXED or CONSTRAINED.");
+  EXPECT_EQ(column["DESCRIPTION"][0], "Status of point. It can be FREE, FIXED or CONSTRAINED.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 3);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ACCEPTED_MEASURES");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_INTEGER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "ACCEPTED_MEASURES");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_INTEGER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 39);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Number of accepted (non-rejected) measures for the control"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Number of accepted (non-rejected) measures for the control"
                    " point. This is actually the number of images that contain"
                    " the control point point (also referred to as the point"
                    " depth).");
@@ -4440,160 +4440,160 @@ TEST(Isisminer, IsisminerTestPdsTableFormat) {
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 4);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "REJECTED_MEASURES");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_INTEGER");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "NONE");
+  EXPECT_EQ(column["NAME"][0], "REJECTED_MEASURES");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_INTEGER");
+  EXPECT_EQ(column["UNIT"][0], "NONE");
   EXPECT_EQ(int(column["START_BYTE"]), 40);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Number of measures rejected by jigsaw during the bundle"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Number of measures rejected by jigsaw during the bundle"
                    " adjustment (if outlier rejection is active)");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 5);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "RESIDUAL_RMS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "PIXELS");
+  EXPECT_EQ(column["NAME"][0], "RESIDUAL_RMS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "PIXELS");
   EXPECT_EQ(int(column["START_BYTE"]), 41);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Root mean square error of residuals for a point." 
+  EXPECT_EQ(column["DESCRIPTION"][0], "Root mean square error of residuals for a point." 
                    " Indicates the statistical measure of variation in the"
                    " difference of each measure within a control point.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 6);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ADJUSTED_LATITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "DEGREES");
+  EXPECT_EQ(column["NAME"][0], "ADJUSTED_LATITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "DEGREES");
   EXPECT_EQ(int(column["START_BYTE"]), 42);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Latitude coordinate of the control point. This is the"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Latitude coordinate of the control point. This is the"
                    " adjusted location of the control point after jigsaw bundle"
                    " adjustment.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 7);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ADJUSTED_LONGITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "DEGREES");
+  EXPECT_EQ(column["NAME"][0], "ADJUSTED_LONGITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "DEGREES");
   EXPECT_EQ(int(column["START_BYTE"]), 43);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Longitude coordinate of control point. This is the"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Longitude coordinate of control point. This is the"
                    " adjusted location of the control point after jigsaw bundle"
                    " adjustment.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 8);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "ADJUSTED_RADIUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "ADJUSTED_RADIUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 44);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Radius of control point. This is the adjusted radius of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Radius of control point. This is the adjusted radius of"
                    " the control point after jigsaw bundle adjustment.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 9);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "SIGMA_LATITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "SIGMA_LATITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 45);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Adjusted uncertainty of Latitude coordinate of the control"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Adjusted uncertainty of Latitude coordinate of the control"
                    " point after jigsaw bundle adjustment.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 10);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "SIGMA_LONGITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "SIGMA_LONGITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 46);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Adjusted uncertainty of Longitude coordinate of the"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Adjusted uncertainty of Longitude coordinate of the"
                    " control point after jigsaw bundle adjustment.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 11);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "SIGMA_RADIUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "SIGMA_RADIUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 47);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Adjusted uncertainty of Radius coordinate of the control"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Adjusted uncertainty of Radius coordinate of the control"
                    " point after jigsaw bundle adjustment.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 12);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "DELTA_LATITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "DELTA_LATITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 48);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Latitude adjustment. The number of meters the latitude"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Latitude adjustment. The number of meters the latitude"
                    " coordinate has been adjusted by the jigsaw bundle"
                    " adjustment.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 13);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "DELTA_LONGITUDE");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "DELTA_LONGITUDE");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 49);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Longitude adjustment. The number of meters the longitude"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Longitude adjustment. The number of meters the longitude"
                    " coordinate has been adjusted by the jigsaw bundle"
                    " adjustment.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 14);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "DELTA_RADIUS");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "METERS");
+  EXPECT_EQ(column["NAME"][0], "DELTA_RADIUS");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "METERS");
   EXPECT_EQ(int(column["START_BYTE"]), 50);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Radius adjustment. The number of meters the radius has"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Radius adjustment. The number of meters the radius has"
                    " been adjusted by the jigsaw bundle adjustment.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 15);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "X");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "X");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 51);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Body-fixed X coordinate of the vector from the center of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Body-fixed X coordinate of the vector from the center of"
                    " the target body to the surface coordinate location.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 16);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "Y");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "Y");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 52);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Body-fixed Y coordinate of the vector from the center of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Body-fixed Y coordinate of the vector from the center of"
                    " the target body to the surface coordinate location.");
 
   noStatusBytesFormat.deleteObject("COLUMN");
   column = noStatusBytesFormat.findObject("COLUMN");
   EXPECT_EQ(int(column["COLUMN_NUMBER"]), 17);
-  EXPECT_EQ(column["NAME"][0].toStdString(), "Z");
-  EXPECT_EQ(column["DATA_TYPE"][0].toStdString(), "ASCII_REAL");
-  EXPECT_EQ(column["UNIT"][0].toStdString(), "KILOMETERS");
+  EXPECT_EQ(column["NAME"][0], "Z");
+  EXPECT_EQ(column["DATA_TYPE"][0], "ASCII_REAL");
+  EXPECT_EQ(column["UNIT"][0], "KILOMETERS");
   EXPECT_EQ(int(column["START_BYTE"]), 53);
   EXPECT_EQ(int(column["BYTES"]), 0);
-  EXPECT_EQ(column["DESCRIPTION"][0].toStdString(), "Body-fixed Z coordinate of the vector from the center of"
+  EXPECT_EQ(column["DESCRIPTION"][0], "Body-fixed Z coordinate of the vector from the center of"
                    " the target body to the surface coordinate location.");
 }
 
@@ -4680,7 +4680,7 @@ TEST(Isisminer, IsisminerTestPdsTableReader) {
     isisminerObject.addObject(CsvWriter);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/pdstablereader_test.conf");
+  conf.write(tempDir.path().toStdString() + "/pdstablereader_test.conf");
 
   QVector<QString> args = {"config=" + tempDir.path() + "/pdstablereader_test.conf",
                            "parameters=inputdir:data/isisminer/pdstablereader/@outputdir:"
@@ -4693,7 +4693,7 @@ TEST(Isisminer, IsisminerTestPdsTableReader) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -4996,7 +4996,7 @@ TEST(Isisminer, IsisminerTestPvlReader) {
     isisminerObject.addObject(CsvWriter);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/pvlreader_test.conf");
+  conf.write(tempDir.path().toStdString() + "/pvlreader_test.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/pvlreader_test.conf",
@@ -5011,7 +5011,7 @@ TEST(Isisminer, IsisminerTestPvlReader) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -5147,11 +5147,11 @@ TEST_F(IsisminerResourceManager, FunctionalTestIsisminerResourceManager) {
   cubePvl.addKeyword(PvlKeyword("RationaleDesc", "OLYMPUS MONS SPECIAL RED WIDE ANGLE"));
   cubePvl.addKeyword(PvlKeyword("FirstLineSample", "673"));
   isisTruth.addObject(cubePvl);
-  isisTruth.write(tempDir.path() + "/isisTruth.pvl");
+  isisTruth.write(tempDir.path().toStdString() + "/isisTruth.pvl");
 
   ofstream of;
   of.open(tempDir.path().toStdString() + "/pvls.lis");
-  of << tempDir.path() + "/isisTruth.pvl\n" + tempDir.path() + "/isisTruth.pvl";
+  of << tempDir.path().toStdString() + "/isisTruth.pvl\n" + tempDir.path().toStdString() + "/isisTruth.pvl";
   of.close();
 
   // create input config file resourceManager_test.conf in tempDir
@@ -5210,7 +5210,7 @@ TEST_F(IsisminerResourceManager, FunctionalTestIsisminerResourceManager) {
 
     PvlKeyword kw("Keywords");
     for (auto const &v : keywordList) {
-      kw.addValue(v);
+      kw.addValue(v.toStdString());
     }
 
     CsvWriter.addKeyword(kw);
@@ -5316,7 +5316,7 @@ TEST_F(IsisminerResourceManager, FunctionalTestIsisminerResourceManager) {
     isisminerObject.addObject(CsvWriter);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/resourceManager_test.conf");
+  conf.write(tempDir.path().toStdString() + "/resourceManager_test.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/resourceManager_test.conf",
@@ -5331,7 +5331,7 @@ TEST_F(IsisminerResourceManager, FunctionalTestIsisminerResourceManager) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -5459,7 +5459,7 @@ TEST_F(IsisminerResourceManager, FunctionalTestIsisminerResourceManagerDebug) {
     isisminerObject.addObject(ResourceManager);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/resourceManager_debug.conf");
+  conf.write(tempDir.path().toStdString() + "/resourceManager_debug.conf");
 
   // redirect isisminer's std::cout to file
   ofstream out(tempDir.path().toStdString() + "/resourceManager_debug.txt");
@@ -5479,7 +5479,7 @@ TEST_F(IsisminerResourceManager, FunctionalTestIsisminerResourceManagerDebug) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // close ofstream and reset to standard output again
@@ -5558,7 +5558,7 @@ TEST_F(IsisminerResourceManager, FunctionalTestIsisminerResourceManagerIllFormed
     isisminerObject.addObject(ResourceManager);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/resourceManager_exception_illformed.conf");
+  conf.write(tempDir.path().toStdString() + "/resourceManager_exception_illformed.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/resourceManager_exception_illformed.conf",
@@ -5574,9 +5574,9 @@ TEST_F(IsisminerResourceManager, FunctionalTestIsisminerResourceManagerIllFormed
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Invalid operations requested in ResourceManager"));
-    EXPECT_TRUE(e.toString().toLatin1().contains("ResourceManager::Operator [Unknown] not recognized.  Valid are ResetDiscard, ToggleDiscard, DeleteDiscard and DeleteAsset::AssetName"));
-    EXPECT_TRUE(e.toString().toLatin1().contains("ResourceManager::Operator [ResetDiscard::C::D] is ill-formed"));
+    EXPECT_TRUE(e.toString().find("Invalid operations requested in ResourceManager") != std::string::npos);
+    EXPECT_TRUE(e.toString().find("ResourceManager::Operator [Unknown] not recognized.  Valid are ResetDiscard, ToggleDiscard, DeleteDiscard and DeleteAsset::AssetName") != std::string::npos);
+    EXPECT_TRUE(e.toString().find("ResourceManager::Operator [ResetDiscard::C::D] is ill-formed") != std::string::npos);
   }
   catch(...) {
     FAIL() << "Expected an IException with message:"
@@ -5633,7 +5633,7 @@ TEST_F(IsisminerResourceManager, FunctionalTestIsisminerResourceManagerNoAssetEx
     isisminerObject.addObject(ResourceManager);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/resourceManager_exception_notargetasset.conf");
+  conf.write(tempDir.path().toStdString() + "/resourceManager_exception_notargetasset.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/resourceManager_exception_notargetasset.conf",
@@ -5649,9 +5649,9 @@ TEST_F(IsisminerResourceManager, FunctionalTestIsisminerResourceManagerNoAssetEx
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("**USER ERROR** Invalid operations requested in ResourceManager"));
-    EXPECT_TRUE(e.toString().toLatin1().contains("**USER ERROR** ResourceManager HasAsset requires an asset name.  Operation [HasAsset] is ill-formed."));
-    EXPECT_TRUE(e.toString().toLatin1().contains("**USER ERROR** ResourceManager DeleteAsset requires an asset name.  Operation [DeleteAsset] is ill-formed."));    
+    EXPECT_TRUE(e.toString().find("**USER ERROR** Invalid operations requested in ResourceManager") != std::string::npos);
+    EXPECT_TRUE(e.toString().find("**USER ERROR** ResourceManager HasAsset requires an asset name.  Operation [HasAsset] is ill-formed.") != std::string::npos);
+    EXPECT_TRUE(e.toString().find("**USER ERROR** ResourceManager DeleteAsset requires an asset name.  Operation [DeleteAsset] is ill-formed.") != std::string::npos);    
   }
   catch(...) {
     FAIL() << "Expected an IException with message:"
@@ -5705,7 +5705,7 @@ TEST(Isisminer, IsisminerTestSidebar) {
   Calculator.addGroup(initializers);
   isisminerCalcArea.addObject(Calculator);
   conf.addObject(isisminerCalcArea);
-  conf.write(tempDir.path() + "/calculate_area.conf");
+  conf.write(tempDir.path().toStdString() + "/calculate_area.conf");
 
   // create input config file sidebar_test.conf in tempDir
   Pvl conf1;
@@ -5841,7 +5841,7 @@ TEST(Isisminer, IsisminerTestSidebar) {
     isisminerSidebarTest.addObject(CsvWriter3);
 
   conf1.addObject(isisminerSidebarTest);
-  conf1.write(tempDir.path() + "/sidebar_test.conf");
+  conf1.write(tempDir.path().toStdString() + "/sidebar_test.conf");
 
   ifstream f3(tempDir.path().toStdString() + "/sidebar_test.conf");
   cout << f3.rdbuf() << endl;
@@ -5860,7 +5860,7 @@ TEST(Isisminer, IsisminerTestSidebar) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -5941,7 +5941,7 @@ TEST(Isisminer, IsisminerTestSidebarException) {
     isisminerObject.addObject(Sidebar);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/sidebar_exception.conf");
+  conf.write(tempDir.path().toStdString() + "/sidebar_exception.conf");
 
   QVector<QString> args = {"config=" + tempDir.path() + "/sidebar_exception.conf",
                            "parameters=inputdir:" + tempDir.path()
@@ -5957,7 +5957,7 @@ TEST(Isisminer, IsisminerTestSidebarException) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("No IsisMiner strategies found"));
+    EXPECT_TRUE(e.toString().find("No IsisMiner strategies found") != std::string::npos);
   }
   catch(...) {
     FAIL() << "Expected an IException with message: \"No IsisMiner strategies found in TestException Sidebar.\"";
@@ -6028,7 +6028,7 @@ TEST(Isisminer, IsisminerTestSidebarDebug) {
     isisminerObject.addObject(Sidebar);
   
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/sidebar_debug.conf");
+  conf.write(tempDir.path().toStdString() + "/sidebar_debug.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/sidebar_debug.conf",
@@ -6046,7 +6046,7 @@ TEST(Isisminer, IsisminerTestSidebarDebug) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
   
   // close ofstream and reset to standard output again
@@ -6226,7 +6226,7 @@ TEST(Isisminer, IsisminerTestStereoPair) {
 
         PvlKeyword kw("Keywords");
         for (auto const &v : keywordList) {
-          kw.addValue(v);
+          kw.addValue(v.toStdString());
         }
 
         CsvWriter.addKeyword(kw);
@@ -6237,7 +6237,7 @@ TEST(Isisminer, IsisminerTestStereoPair) {
   isisminerObject.addObject(AssetSidebar);
   conf.addObject(isisminerObject);
 
-  conf.write(tempDir.path() + "/stereopair_test.conf");
+  conf.write(tempDir.path().toStdString() + "/stereopair_test.conf");
 
   QVector<QString> args = {"config=" + tempDir.path() + "/stereopair_test.conf",
                            "parameters=inputdir:data/isisminer/stereopair/@outputdir:"
@@ -6249,7 +6249,7 @@ TEST(Isisminer, IsisminerTestStereoPair) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -6560,7 +6560,7 @@ TEST(Isisminer, IsisminerTestStereoPair2) {
                         "\"GisIntersectionFootprint\""};
       PvlKeyword kw("Keywords");
       for (auto const &v : keywordList) {
-        kw.addValue(v);
+        kw.addValue(v.toStdString());
       }
 
       CsvWriter.addKeyword(kw);
@@ -6569,7 +6569,7 @@ TEST(Isisminer, IsisminerTestStereoPair2) {
     isisminerObject.addObject(AssetSidebar);
   
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/stereopair_intersect_centroid.conf");
+  conf.write(tempDir.path().toStdString() + "/stereopair_intersect_centroid.conf");
 
   // test open and output of conf file contents
   // ifstream f2(tempDir.path().toStdString() + "/stereopair_intersect_centroid.conf");
@@ -6592,7 +6592,7 @@ TEST(Isisminer, IsisminerTestStereoPair2) {
     isisminer(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << endl;
+    FAIL() << e.toString().c_str() << endl;
   }
 
   // Validate output csv files
@@ -6784,7 +6784,7 @@ TEST(Isisminer, IsisminerTestStrategyFactoryNoIsisMinerObject) {
   conf.addObject(CnetReader);
 
   QString configFilename = tempDir.path() + "/error_noIsisMinerObject.conf";
-  conf.write(configFilename);
+  conf.write(configFilename.toStdString());
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/error_noIsisMinerObject.conf",
@@ -6800,7 +6800,7 @@ TEST(Isisminer, IsisminerTestStrategyFactoryNoIsisMinerObject) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("does not contain IsisMiner strategies object."));
+    EXPECT_TRUE(e.toString().find("does not contain IsisMiner strategies object.") != std::string::npos);
   }
   catch(...) {
     FAIL() << "Expected an IException with message: \"Strategy config file\n"
@@ -6900,7 +6900,7 @@ TEST(Isisminer, IsisminerTestStrategyFactoryUnknownStrategy) {
     isisminerObject.addObject(StereoPair);
 
   conf.addObject(isisminerObject);
-  conf.write(tempDir.path() + "/error_unknownStrategy.conf");
+  conf.write(tempDir.path().toStdString() + "/error_unknownStrategy.conf");
 
   // run isisminer
   QVector<QString> args = {"config=" + tempDir.path() + "/error_unknownStrategy.conf",
@@ -6916,7 +6916,7 @@ TEST(Isisminer, IsisminerTestStrategyFactoryUnknownStrategy) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Could not create a NotAStrategy"));
+    EXPECT_TRUE(e.toString().find("Could not create a NotAStrategy") != std::string::npos);
   }
   catch(...) {
     FAIL() << "Expected an IException with message: \"Could not create a \n"

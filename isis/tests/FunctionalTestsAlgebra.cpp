@@ -8,7 +8,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/algebra.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/algebra.xml").expanded());
 
 /**
    * class AlgebraCube
@@ -26,9 +26,9 @@ class AlgebraCube : public DefaultCube {
       label.addObject(isisCube);
 
       PvlGroup &dim = label.findObject("IsisCube").findObject("Core").findGroup("Dimensions");
-      dim.findKeyword("Samples").setValue(QString::number(samples));
-      dim.findKeyword("Lines").setValue(QString::number(lines));
-      dim.findKeyword("Bands").setValue(QString::number(bands));
+      dim.findKeyword("Samples").setValue(toString(samples));
+      dim.findKeyword("Lines").setValue(toString(lines));
+      dim.findKeyword("Bands").setValue(toString(bands));
 
       // force Real dns
       PvlObject &core = label.findObject("IsisCube").findObject("Core");
@@ -37,7 +37,7 @@ class AlgebraCube : public DefaultCube {
 
       delete testCube;
       testCube = new Cube();
-      testCube->fromIsd(tempDir.path() + "/default.cub", label, isd, "rw");
+      testCube->fromIsd(tempDir.path().toStdString() + "/default.cub", label, isd, "rw");
 
       LineManager line(*testCube);
       int pixelValue = 1;
@@ -130,11 +130,11 @@ TEST_F(AlgebraCube, FunctionalTestAlgebraAdd) {
      algebra(testCube, ui, testCube);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << e.toString().c_str() << std::endl;
   }
 
   // Open output cube
-  Cube outCube(tempDir.path() + "/algebraAddOut.cub");
+  Cube outCube(tempDir.path().toStdString() + "/algebraAddOut.cub");
 
   // validate histogram statistics in output cube
   std::unique_ptr<Histogram> hist (outCube.histogram(1));
@@ -220,11 +220,11 @@ TEST_F(AlgebraCube, FunctionalTestAlgebraSubtract) {
      algebra(testCube, ui, testCube);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << e.toString().c_str() << std::endl;
   }
 
   // Open output cube
-  Cube outCube(tempDir.path() + "/algebraSubtractOut.cub");
+  Cube outCube(tempDir.path().toStdString() + "/algebraSubtractOut.cub");
 
   // validate histogram statistics in output cube
   std::unique_ptr<Histogram> hist (outCube.histogram(1));
@@ -310,11 +310,11 @@ TEST_F(AlgebraCube, FunctionalTestAlgebraMultiply) {
      algebra(testCube, ui, testCube);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << e.toString().c_str() << std::endl;
   }
 
   // Open output cube
-  Cube outCube(tempDir.path() + "/algebraMultiplyOut.cub");
+  Cube outCube(tempDir.path().toStdString() + "/algebraMultiplyOut.cub");
 
   // validate histogram statistics in output cube
   std::unique_ptr<Histogram> hist (outCube.histogram(1));
@@ -400,11 +400,11 @@ TEST_F(AlgebraCube, FunctionalTestAlgebraMultiply) {
      algebra(testCube, ui, testCube);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << e.toString().c_str() << std::endl;
   }
 
   // Open output cube
-  Cube outCube(tempDir.path() + "/algebraDivideOut.cub");
+  Cube outCube(tempDir.path().toStdString() + "/algebraDivideOut.cub");
 
   // validate histogram statistics in output cube
   std::unique_ptr<Histogram> hist (outCube.histogram(1));
@@ -488,11 +488,11 @@ TEST_F(AlgebraCube, FunctionalTestAlgebraMultiply) {
      algebra(testCube, ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << e.toString().c_str() << std::endl;
   }
 
   // Open output cube
-  Cube outCube(tempDir.path() + "/algebraUnaryOut.cub");
+  Cube outCube(tempDir.path().toStdString() + "/algebraUnaryOut.cub");
 
   // validate histogram statistics in output cube
   std::unique_ptr<Histogram> hist (outCube.histogram(1));

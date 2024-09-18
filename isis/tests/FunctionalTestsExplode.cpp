@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/explode.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/explode.xml").expanded());
 
 /**
    * ExplodeDefault Test
@@ -42,11 +42,11 @@ TEST_F(DefaultCube, FunctionalTestExplodeDefault) {
     explode(testCube, ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << e.toString().c_str() << std::endl;
   }
 
   // validate band 1 output cube
-  Cube outCube1(tempDir.path() + "/explodeOut.band0001.cub");
+  Cube outCube1(tempDir.path().toStdString() + "/explodeOut.band0001.cub");
 
   ASSERT_EQ(outCube1.sampleCount(), 5);
   ASSERT_EQ(outCube1.lineCount(), 5);
@@ -62,7 +62,7 @@ TEST_F(DefaultCube, FunctionalTestExplodeDefault) {
   EXPECT_NEAR(outCube1Hist->StandardDeviation(), inCubeBand1Hist->StandardDeviation(), .000001);
 
   // validate band 2 output cube
-  Cube outCube2(tempDir.path() + "/explodeOut.band0002.cub");
+  Cube outCube2(tempDir.path().toStdString() + "/explodeOut.band0002.cub");
 
   ASSERT_EQ(outCube2.sampleCount(), 5);
   ASSERT_EQ(outCube2.lineCount(), 5);

@@ -69,7 +69,7 @@ namespace Isis {
     // open optional, global parameter file if provided
     // file is for use in global variable pool
     if ( ui.WasEntered("GLOBALS") ) {
-      Pvl pvl_globals(ui.GetFileName("GLOBALS"));
+      Pvl pvl_globals(ui.GetFileName("GLOBALS").toStdString());
 
       return isisminer(configFile, ui, &pvl_globals);
     }
@@ -114,16 +114,16 @@ namespace Isis {
         // Split values from keyword name
         QStringList keyval = parm.split(":", Qt::SkipEmptyParts);
         if ( keyval.size() != 2 ) {
-          QString mess = "Ill-formed PARAMETERS (" + parm + ") - use form @key:val";
+          std::string mess = "Ill-formed PARAMETERS (" + parm.toStdString() + ") - use form @key:val";
           throw IException(IException::User, mess, _FILEINFO_);
         }
 
         // Now split multi string values and construct the Pvl keyword
         QString keyname = keyval[0];
         QStringList values =  keyval[1].split(",", Qt::SkipEmptyParts);
-        PvlKeyword keyword(keyname);
+        PvlKeyword keyword(keyname.toStdString());
         BOOST_FOREACH ( QString val, values) {
-          keyword.addValue(val);
+          keyword.addValue(val.toStdString());
         }
 
         // Add the parameter to global parameters
@@ -152,24 +152,24 @@ namespace Isis {
     QTime runTime = QTime::currentTime();
     BOOST_FOREACH ( SharedStrategy strategy, strategies ) {
       QTime stime = QTime::currentTime();
-      cout << "\nRunning " << strategy->type() << "::" << strategy->name() 
-          << " (TimeIn:  " << stime.toString("hh:mm:ss.zzz") 
+      cout << "\nRunning " << strategy->type().toStdString() << "::" << strategy->name().toStdString() 
+          << " (TimeIn:  " << stime.toString("hh:mm:ss.zzz").toStdString() 
           << ")\n"
-          << "Description: " << strategy->description() << "\n";
+          << "Description: " << strategy->description().toStdString() << "\n";
       QElapsedTimer stimer;
       stimer.start();
       int n = strategy->apply(resources);
       unsigned int ntotal = strategy->totalProcessed();
       cout << n << " of " << ntotal << " processed in " 
-          << strategy->type() << "::" << strategy->name() 
-          << " (TimeOut: " << QTime::currentTime().toString("hh:mm:ss.zzz") << ")\n";
+          << strategy->type().toStdString() << "::" << strategy->name().toStdString() 
+          << " (TimeOut: " << QTime::currentTime().toString("hh:mm:ss.zzz").toStdString() << ")\n";
       cout << "ElapsedTime(s): " << stimer.elapsed() / 1000  << "\n";
     }
 
     // Get total elapsed time
     QTime totalT(0,0);
     totalT = totalT.addMSecs(runTime.msecsTo(QTime::currentTime()));
-    cout << "\nSession complete in " << totalT.toString("hh:mm:ss.zzz") 
+    cout << "\nSession complete in " << totalT.toString("hh:mm:ss.zzz").toStdString()
         << " of elapsed time\n";
 
       return;

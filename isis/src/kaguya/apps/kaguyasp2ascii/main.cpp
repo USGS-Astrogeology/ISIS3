@@ -44,7 +44,8 @@ void IsisMain() {
      // information. If label is detached label, data file is located at
      // the same directory as label file. 
      // this allows users to specify data that is not in the current directory.
-     dataFile = FileName(inFile).dir().path() + "/" + dataFile;
+     std::filesystem::path dir = FileName(inFile.toStdString()).dir();
+     dataFile = (dir / dataFile).string();
   }
 
   ofstream os;

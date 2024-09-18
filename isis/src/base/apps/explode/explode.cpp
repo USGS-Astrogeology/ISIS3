@@ -58,13 +58,13 @@ namespace Isis {
     // Loop and extract each band
     for(int band = 1; band <= bands; band++) {
       int pband = icube->physicalBand(band);
-      QString sband(toString(pband));
+      QString sband(QString::number(pband));
 
       ProcessByLine p2;
       Progress *prog = p2.Progress();
       prog->SetText("Exploding band " + sband);
 
-      CubeAttributeInput inatt("+" + sband);
+      CubeAttributeInput inatt("+" + sband.toStdString());
       p2.SetInputCube(infile, inatt);
 
       QString outfile = outbase + ".band";
