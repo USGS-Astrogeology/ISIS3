@@ -166,7 +166,7 @@ namespace Isis {
 
              return key;
            }
-           it = transGroup.findKeyword("InputKey", it + 1, transGroup.end());
+           it = transGroup.findKeyword("InputKey", std::next(it, 1), transGroup.end());
          }
        }
      }

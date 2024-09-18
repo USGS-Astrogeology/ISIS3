@@ -254,7 +254,7 @@ namespace Isis {
         }
       }
 
-      it = translationGroup.findKeyword("Translation", it + 1, translationGroup.end());
+      it = translationGroup.findKeyword("Translation", std::next(it, 1), translationGroup.end());
     }
 
     std::string msg = "Unable to find a translation value for [" +
@@ -325,7 +325,7 @@ namespace Isis {
         currentInstance ++;
       }
 
-      it = translationGroup.findKeyword("InputPosition", it + 1, translationGroup.end());
+      it = translationGroup.findKeyword("InputPosition", std::next(it, 1), translationGroup.end());
     }
 
     /* Error if no containers were listed

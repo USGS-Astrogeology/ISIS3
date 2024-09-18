@@ -255,7 +255,7 @@ namespace Isis {
         if (!inputParentElement.isNull()) {
           break;
         }
-        it = transGroup.findKeyword("InputPosition", it + 1, transGroup.end());
+        it = transGroup.findKeyword("InputPosition", std::next(it, 1), transGroup.end());
     }
 
     if (inputParentElement.isNull()) {
