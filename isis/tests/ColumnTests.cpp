@@ -94,7 +94,7 @@ TEST(Column, Precision) {
 //Should throw an error when SetName is called with a string
 //whose length is greater than Width.
 TEST(Column, SetNameError) {
-  std::string message = "Name [Test Column] is wider than width";
+  QString message = "Name [Test Column] is wider than width";
   Column column;
   column.SetWidth(1);
   try {
@@ -113,7 +113,7 @@ TEST(Column, SetNameError) {
 //Should throw an error when SetWidth is called with a value less than
 //the length of Name
 TEST(Column, SetWidthError) {
-  std::string message = "Width is insufficient to contain name[Test Column]";
+  QString message = "Width is insufficient to contain name[Test Column]";
   Column column;
   column.SetName("Test Column");
   try {
@@ -132,7 +132,7 @@ TEST(Column, SetWidthError) {
 //Should throw an error when Alignment is Decimal and
 //SetType is called with String or Integer
 TEST_P(TypeError, SetTypeError) {
-  std::string message = "Integer or string type is not sensible if alignment is Decimal.";
+  QString message = "Integer or string type is not sensible if alignment is Decimal.";
   Column column;
   column.SetAlignment(Column::Decimal);
   try {
@@ -151,7 +151,7 @@ TEST_P(TypeError, SetTypeError) {
 //Should throw an error when Type is String or Integer and
 //SetAllignment is called with Decimal
 TEST_P(TypeError, SetAlignmentError) {
-  std::string message = "Decimal alignment does not make sense for integer or string values.";
+  QString message = "Decimal alignment does not make sense for integer or string values.";
   Column column;
   column.SetType(GetParam());
   try {
@@ -172,7 +172,7 @@ INSTANTIATE_TEST_SUITE_P(Column, TypeError, ::testing::Values(
 //Tests that Precision's exceptions are working correctly
 //Should throw an error when SetPrecision is called and Alignment is not Decimal
 TEST_P(PrecisionError, SetPrecisionError) {
-  std::string message = "Setting precision only makes sense for Decimal Alignment";
+  QString message = "Setting precision only makes sense for Decimal Alignment";
   Column column;
   column.SetAlignment(GetParam());
 

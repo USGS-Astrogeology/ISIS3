@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/bandnorm.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/bandnorm.xml").expanded());
 
 TEST_F(SmallCube, FunctionalTestBandnormDefault) {
   QString outCubeFileName = tempDir.path() + "/outTEMP.cub";
@@ -35,7 +35,7 @@ TEST_F(SmallCube, FunctionalTestBandnormDefault) {
     FAIL() << "Unable to process image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   std::unique_ptr<Histogram> oCubeStats;
 
   for (int i = 1; i <= testCube->bandCount(); i++) {
@@ -73,7 +73,7 @@ TEST_F(SmallCube, FunctionalTestBandnormPencil) {
     FAIL() << "Unable to process image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   std::unique_ptr<Histogram> oCubeStats(oCube.histogram());
   ASSERT_DOUBLE_EQ(oCubeStats->Average(), 49.5);
   ASSERT_DOUBLE_EQ(oCubeStats->Sum(), 4950);
@@ -166,7 +166,7 @@ TEST_F(SmallCube, FunctionalTestBandnormByNumber) {
     FAIL() << "Unable to process image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   std::unique_ptr<Histogram> oCubeStats(oCube.histogram(7));
   EXPECT_NEAR(oCubeStats->Average(), 92.7857, 0.0001);
   EXPECT_NEAR(oCubeStats->Sum(), 9278.5714263916016, 0.0001);
@@ -196,7 +196,7 @@ TEST_F(SmallCube, FunctionalTestBandnormByBandAvg) {
     FAIL() << "Unable to process image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   std::unique_ptr<Histogram> oCubeStats(oCube.histogram(1));
   EXPECT_NEAR(oCubeStats->Average(), 1, 0.0001);
   EXPECT_NEAR(oCubeStats->Sum(), 100.0, 0.0001);
@@ -226,7 +226,7 @@ TEST_F(SmallCube, FunctionalTestBandnormByCubeAvg) {
     FAIL() << "Unable to process image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   std::unique_ptr<Histogram> oCubeStats(oCube.histogram(1));
   EXPECT_NEAR(oCubeStats->Average(), 0.099099099056329576, 0.0001);
   EXPECT_NEAR(oCubeStats->Sum(), 9.9099099056329578, 0.0001);

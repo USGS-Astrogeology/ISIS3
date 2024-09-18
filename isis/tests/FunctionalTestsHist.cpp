@@ -14,7 +14,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/hist.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/hist.xml").expanded());
 
 TEST_F(SmallCube, FunctionalTestHistDefault) {
   QString outputFile = tempDir.path()+"/output.txt";

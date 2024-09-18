@@ -9,7 +9,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/ringsautomos.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/ringsautomos.xml").expanded());
 
 TEST_F(RingsCube, FunctionalTestRingsautomos) {
   QString outPath = tempDir.path() + "/mosaic.cub";
@@ -20,7 +20,7 @@ TEST_F(RingsCube, FunctionalTestRingsautomos) {
 
   ringsautomos(options, &appLog);
 
-  Cube mos(outPath);
+  Cube mos(outPath.toStdString());
   Pvl label = *mos.label();
 
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");
@@ -62,7 +62,7 @@ TEST_F(RingsCube, FunctionalTestRingsautomosSetRanges) {
 
   ringsautomos(options, &appLog);
 
-  Cube mos(outPath);
+  Cube mos(outPath.toStdString());
   Pvl label = *mos.label();
 
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");
@@ -89,11 +89,11 @@ TEST_F(RingsCube, FunctionalTestRingsautomosSetRanges) {
   EXPECT_NEAR(oCubeStats->StandardDeviation(), 753.01066871414162, 0.001);
 
   FileList lout;
-  lout.read(oFileListPath);
+  lout.read(oFileListPath.toStdString());
 
   EXPECT_EQ(lout.size(), cubeFileList.size());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, lout.at(0).expanded(), cubeFileList.at(0).expanded());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, lout.at(1).expanded(), cubeFileList.at(1).expanded());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, lout.at(0).expanded(), cubeFileList.at(0).expanded());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, lout.at(1).expanded(), cubeFileList.at(1).expanded());
 }
 
 
@@ -108,7 +108,7 @@ TEST_F(RingsCube, FunctionalTestRingsautomosPriority) {
 
   ringsautomos(options, &appLog);
 
-  Cube mos(outPath);
+  Cube mos(outPath.toStdString());
   Pvl label = *mos.label();
 
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");
@@ -147,7 +147,7 @@ TEST_F(RingsCube, FunctionalTestRingsautomosBandSelect) {
 
   ringsautomos(options, &appLog);
 
-  Cube mos(outPath);
+  Cube mos(outPath.toStdString());
   Pvl label = *mos.label();
 
   PvlGroup bandBin = label.findObject("IsisCube").findGroup("BandBin");

@@ -37,7 +37,7 @@ namespace Isis {
    */
   void tagcams2isis(UserInterface &ui) {
 
-    FileName fitsFileName(ui.GetFileName("FROM"));
+    FileName fitsFileName(ui.GetFileName("FROM").toStdString());
 
     return tagcams2isis(fitsFileName, ui);
   }
@@ -71,8 +71,8 @@ namespace Isis {
       instId  = QString::fromStdString((flabel.findKeyword("INSTRUME", Pvl::Traverse))).simplified();
     }
     catch (IException &ie) {
-      std::string msg = QObject::tr("Unable to retrieve expected TAGCAMS keywords."
-                                "The file provided in FROM is likely not a TAGCAMS image.");
+      std::string msg = "Unable to retrieve expected TAGCAMS keywords."
+                                "The file provided in FROM is likely not a TAGCAMS image.";
       throw IException(ie, IException::User, msg, _FILEINFO_);
     }
 
@@ -105,7 +105,7 @@ namespace Isis {
     // Compute the boundary pixels if present and requested.
     if ( removeCal && hasDark ) {
       QString bitpix = QString::fromStdString(flabel.findKeyword("BITPIX", Pvl::Traverse));
-      int bytesPerPix = abs(toInt(bitpix)) / 8;
+      int bytesPerPix = abs(bitpix.toInt()) / 8;
       importFits.SetDataHeaderBytes(bytesPerPix * ((54 * rawSamples) / pixScale));
       importFits.SetDataPrefixBytes(bytesPerPix * (144 / pixScale));
       importFits.SetDataSuffixBytes(bytesPerPix * (16  / pixScale));
@@ -129,7 +129,7 @@ namespace Isis {
     }
 
     // Get the directory where the OSIRIS-REx translation tables are.
-    QString transDir = "$ISISROOT/appdata/translations/";
+    std::string transDir = "$ISISROOT/appdata/translations/";
 
     // Temp storage of translated labels
     Pvl outLabel;
@@ -140,19 +140,19 @@ namespace Isis {
 
     // Create an Instrument group
     FileName insTransFile(transDir + "OsirisRexTagcamsInstrument_fit.trn");
-    PvlToPvlTranslationManager insXlater(fitsLabel, insTransFile.expanded());
+    PvlToPvlTranslationManager insXlater(fitsLabel, QString::fromStdString(insTransFile.expanded()));
     insXlater.Auto(outLabel);
     PvlGroup &instGrp(outLabel.findGroup("Instrument", Pvl::Traverse));
 
     // Create an Archive group
     FileName archTransFile(transDir + "OsirisRexTagcamsArchive_fit.trn");
-    PvlToPvlTranslationManager archXlater(fitsLabel, archTransFile.expanded());
+    PvlToPvlTranslationManager archXlater(fitsLabel, QString::fromStdString(archTransFile.expanded()));
     archXlater.Auto(outLabel);
     PvlGroup &archiveGrp(outLabel.findGroup("Archive", Pvl::Traverse));
 
     // Add product id which is just the filename base
-    FileName from(ui.GetFileName("FROM"));
-    QString prodid = from.baseName();
+    FileName from(ui.GetFileName("FROM").toStdString());
+    QString prodid = QString::fromStdString(from.baseName());
     archiveGrp.addKeyword(PvlKeyword("SourceProductId", prodid.toStdString()), archiveGrp.begin());
 
     // Create YearDoy keyword in Archive group
@@ -186,13 +186,13 @@ namespace Isis {
 
     // Create a Band Bin group
     FileName bandTransFile(transDir + "OsirisRexTagcamsBandBin_fit.trn");
-    PvlToPvlTranslationManager bandBinXlater(fitsLabel, bandTransFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(fitsLabel, QString::fromStdString(bandTransFile.expanded()));
     bandBinXlater.Auto(outLabel);
     output->putGroup(outLabel.findGroup("BandBin", Pvl::Traverse));
 
     // Create a Kernels group
     FileName kernelsTransFile(transDir + "OsirisRexTagcamsKernels_fit.trn");
-    PvlToPvlTranslationManager kernelsXlater(fitsLabel, kernelsTransFile.expanded());
+    PvlToPvlTranslationManager kernelsXlater(fitsLabel, QString::fromStdString(kernelsTransFile.expanded()));
     kernelsXlater.Auto(outLabel);
     output->putGroup(outLabel.findGroup("Kernels", Pvl::Traverse));
 

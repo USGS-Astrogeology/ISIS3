@@ -27,10 +27,10 @@ void IsisMain() {
     icube.setVirtualBands(inAtt.bands());
   }
 
-  icube.open(FileName(ui.GetCubeName("FROM")).expanded());
+  icube.open(QString::fromStdString(FileName(ui.GetCubeName("FROM").toStdString()).expanded()));
 
   // Make sure it is a Themis EDR/RDR
-  FileName inFileName = ui.GetCubeName("FROM");
+  FileName inFileName = ui.GetCubeName("FROM").toStdString();
   try {
     if(icube.group("Instrument")["InstrumentID"][0] != "THEMIS_VIS") {
       std::string msg = "This program is intended for use on THEMIS VIS images only. [";
@@ -50,11 +50,11 @@ void IsisMain() {
 
   for(int filt = 0; filt < 5; filt++) {
     QString filePattern = "$odyssey/calibration/flat_filter_";
-    filePattern += toString(filt + 1) + "_summing_";
-    filePattern += toString(summing) + "_v????.cub";
-    FileName flatFile = FileName(filePattern).highestVersion();
+    filePattern += QString::number(filt + 1) + "_summing_";
+    filePattern += QString::number(summing) + "_v????.cub";
+    FileName flatFile = FileName(filePattern.toStdString()).highestVersion();
     Cube *fcube = new Cube();
-    fcube->open(flatFile.expanded());
+    fcube->open(QString::fromStdString(flatFile.expanded()));
     flatcubes.push_back(fcube);
 
     LineManager *fcubeMgr = new LineManager(*fcube);
@@ -71,7 +71,7 @@ void IsisMain() {
   ocube.setLabelsAttached(outAtt.labelAttachment() == AttachedLabel);
   ocube.setPixelType(outAtt.pixelType());
 
-  ocube.create(FileName(ui.GetCubeName("TO")).expanded());
+  ocube.create(QString::fromStdString(FileName(ui.GetCubeName("TO").toStdString()).expanded()));
 
   LineManager icubeMgr(icube);
   vector<int> filter;
@@ -136,7 +136,7 @@ void IsisMain() {
 
   for(int o = 0; o < icube.label()->objects(); o++) {
     if(icube.label()->object(o).isNamed("Table")) {
-      Blob t(QString::fromStdString(icube.label()->object(o)["Name"]),
+      Blob t(icube.label()->object(o)["Name"],
              icube.label()->object(o).name());
       icube.read(t);
       ocube.write(t);

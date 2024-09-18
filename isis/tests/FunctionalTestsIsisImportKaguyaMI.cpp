@@ -20,7 +20,7 @@ using namespace Isis;
 using namespace testing;
 using json = nlohmann::json;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isisimport.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isisimport.xml").expanded());
 
 TEST_F(TempTestingFiles, FunctionalTestIsisImportKaguyamiVis) {
   QTemporaryDir prefix;
@@ -32,10 +32,10 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportKaguyamiVis) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -110,10 +110,10 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportKaguyamiNir) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -210,10 +210,10 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportKaguyamiNullRange) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist (cube.histogram());
 
   EXPECT_EQ(hist->ValidPixels(), 79);
@@ -234,10 +234,10 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportKaguyamiHrsRange) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist (cube.histogram());
 
   EXPECT_EQ(hist->ValidPixels(), 79);
@@ -258,10 +258,10 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportKaguyamiHisRange) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist (cube.histogram());
 
   EXPECT_EQ(hist->ValidPixels(), 79);
@@ -282,10 +282,10 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportKaguyamiLrsRange) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist (cube.histogram());
 
   EXPECT_EQ(hist->ValidPixels(), 79);
@@ -306,10 +306,10 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportKaguyamiLisRange) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist (cube.histogram());
 
   EXPECT_EQ(hist->ValidPixels(), 79);

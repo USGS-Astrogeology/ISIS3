@@ -19,8 +19,8 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isis2std.xml").expanded();
-static QString STD2ISIS_XML = FileName("$ISISROOT/bin/xml/std2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isis2std.xml").expanded());
+static QString STD2ISIS_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/std2isis.xml").expanded());
 
 class IsisTruthCube : public TempTestingFiles {
     protected:
@@ -149,7 +149,7 @@ void checkReingestedCube(QString tempDirPath, QString exportedFile, int chunkSiz
   catch (IException &e) {
     FAIL() << "Unable to reingest image: " << e.what() << std::endl;
   }
-  Cube reingestCube(reingestCubeFilename);
+  Cube reingestCube(reingestCubeFilename.toStdString());
 
   Portal checkReader(reingestCube.sampleCount(), chunkSize, reingestCube.pixelType());
 
@@ -332,7 +332,7 @@ TEST_F(SmallARGBCube, FunctionalTestsIsis2StdJpeg2KRGB) {
     FAIL() << "Unable to reingest image: " << e.what() << std::endl;
   }
 
-  Cube reingestCube(reingestCubeFilename);
+  Cube reingestCube(reingestCubeFilename.toStdString());
   inputCube.open(inputCubeFilename);
   int pixelsPerBand = inputCube.lineCount() * inputCube.sampleCount();
 
@@ -394,7 +394,7 @@ TEST_F(SmallARGBCube, FunctionalTestsIsis2StdJpeg2KARGB) {
     FAIL() << "Unable to reingest image: " << e.what() << std::endl;
   }
 
-  Cube reingestCube(reingestCubeFilename);
+  Cube reingestCube(reingestCubeFilename.toStdString());
   inputCube.open(inputCubeFilename);
   int pixelsPerBand = inputCube.lineCount() * inputCube.sampleCount();
 
@@ -528,7 +528,7 @@ TEST_F(SmallARGBCube, FunctionalTestsIsis2StdPNGRGB) {
     FAIL() << "Unable to reingest image: " << e.what() << std::endl;
   }
 
-  Cube reingestCube(reingestCubeFilename);
+  Cube reingestCube(reingestCubeFilename.toStdString());
   inputCube.open(inputCubeFilename);
   int pixelsPerBand = inputCube.lineCount() * inputCube.sampleCount();
 
@@ -672,7 +672,7 @@ TEST_F(SmallARGBCube, FunctionalTestsIsis2StdTIFFRGB) {
     FAIL() << "Unable to reingest image: " << e.what() << std::endl;
   }
 
-  Cube reingestCube(reingestCubeFilename);
+  Cube reingestCube(reingestCubeFilename.toStdString());
   inputCube.open(inputCubeFilename);
   int pixelsPerBand = inputCube.lineCount() * inputCube.sampleCount();
 
@@ -756,7 +756,7 @@ TEST_F(IsisTruthCube, FunctionalTestsIsis2StdTIFFS16) {
 
   // std2isis smashes the 16-bit output back down to 8-bit on re-ingest
   // this results in negative values underflowing to large positive values
-  Cube reingestCube(reingestCubeFilename);
+  Cube reingestCube(reingestCubeFilename.toStdString());
 
   Portal checkReader(reingestCube.sampleCount(), chunkSize, reingestCube.pixelType());
 
@@ -951,7 +951,7 @@ TEST_F(SmallARGBCube, FunctionalTestsIsis2StdManualStretch) {
     FAIL() << "Unable to reingest image: " << e.what() << std::endl;
   }
 
-  Cube reingestCube(reingestCubeFilename);
+  Cube reingestCube(reingestCubeFilename.toStdString());
   inputCube.open(inputCubeFilename);
   int pixelsPerBand = inputCube.lineCount() * inputCube.sampleCount();
 
@@ -1002,7 +1002,7 @@ TEST_F(SmallARGBCube, FunctionalTestsIsis2StdManualStretchRGB) {
     FAIL() << "Unable to reingest image: " << e.what() << std::endl;
   }
 
-  Cube reingestCube(reingestCubeFilename);
+  Cube reingestCube(reingestCubeFilename.toStdString());
   inputCube.open(inputCubeFilename);
   int pixelsPerBand = inputCube.lineCount() * inputCube.sampleCount();
 

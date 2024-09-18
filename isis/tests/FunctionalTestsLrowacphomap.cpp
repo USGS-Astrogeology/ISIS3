@@ -18,7 +18,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lrowacphomap.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lrowacphomap.xml").expanded());
 
 TEST(Lrowacphomap, FunctionalTestLrowacphomapWithBack) {
   QTemporaryDir tempDir;
@@ -52,7 +52,7 @@ TEST(Lrowacphomap, FunctionalTestLrowacphomapWithBack) {
   double expectedMax = 160.17492675781;
   double expectedSum = 197132.65177917;
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist(outCube.histogram());
 
@@ -95,7 +95,7 @@ TEST(Lrowacphomap, FunctionalTestLrowacphomapNoBack) {
   double expectedMax = 155.67340087891;
   double expectedSum = 195764.77809525;
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist(outCube.histogram());
 
@@ -135,7 +135,7 @@ TEST(Lrowacphomap, FunctionalTestLrowacphomapDefaultAlgoAndParCubeWithBack) {
   double expectedMax = 157.08757019043;
   double expectedSum = 192367.54685402;
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist(outCube.histogram());
 
@@ -174,7 +174,7 @@ TEST(Lrowacphomap, FunctionalTestLrowacphomapDefaultAlgoAndParCubeNoBack) {
   double expectedMax = 152.65106201172;
   double expectedSum = 191020.53982925;
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist(outCube.histogram());
 

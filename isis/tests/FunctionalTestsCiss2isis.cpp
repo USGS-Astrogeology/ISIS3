@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/ciss2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/ciss2isis.xml").expanded());
 
 TEST(Ciss2Isis, Ciss2isisTestNac) {
   Pvl appLog;
@@ -23,10 +23,10 @@ TEST(Ciss2Isis, Ciss2isisTestNac) {
     ciss2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest file: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);
@@ -132,10 +132,10 @@ TEST(Ciss2Isis, Ciss2isisTestWac) {
     ciss2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest file: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);
@@ -247,10 +247,10 @@ TEST(Ciss2Isis, Ciss2isisCustomMax) {
     ciss2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest file: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);

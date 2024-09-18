@@ -11,7 +11,7 @@
 using namespace Isis;
 using namespace testing;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/hicrop.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/hicrop.xml").expanded());
 
 TEST_F(MroHiriseCube, FunctionalTestHicropCropByCk) {
   // make the image stretch outside of the CK time ranges
@@ -45,7 +45,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByCk) {
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484265.14186");
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484271.36245");
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 1002);
@@ -85,7 +85,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByLine) {
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.57678");
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63921");
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 1002);
@@ -126,7 +126,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByTimes) {
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.57342");
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63279");
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 953);
@@ -167,7 +167,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByJitterDefault) {
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.57342");
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63279");
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 953);
@@ -229,7 +229,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByJitterZero) {
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.58046");
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63279");
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 840);
@@ -291,7 +291,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByJitterZeroSample) {
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.57342");
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63279");
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 953);
@@ -353,7 +353,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicropCropByJitterZeroLine) {
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStartClock"), "4/0895484264.57342");
   EXPECT_PRED_FORMAT2(AssertStringsEqual, results.findKeyword("OututStopClock"), "4/0895484264.63279");
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   PvlGroup oCubeInstrument = testCube->label()->findObject("IsisCube").findGroup("Instrument");
 
   EXPECT_EQ(oCube.lineCount(), 953);

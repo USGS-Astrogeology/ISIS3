@@ -29,7 +29,7 @@ namespace Isis {
     outputCubes.clear();
     frameletLines = 192;
 
-    FileName in = ui.GetFileName("FROM");
+    FileName in = ui.GetFileName("FROM").toStdString();
 
     // Make sure it is a Themis EDR/RDR
     bool projected;
@@ -40,7 +40,7 @@ namespace Isis {
       id = QString::fromStdString(lab["DATA_SET_ID"]);
       id = id.simplified().trimmed();
       if(!id.startsWith("ODY-M-THM")) {
-        std::string msg = "Invalid DATA_SET_ID [" + id + "]";
+        std::string msg = "Invalid DATA_SET_ID [" + id.toStdString() + "]";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -60,7 +60,7 @@ namespace Isis {
 
     // Ok looks good ... set it as the PDS file
     Pvl pdsLab;
-    p.SetPdsFile(in.expanded(), "", pdsLab);
+    p.SetPdsFile(QString::fromStdString(in.expanded()), "", pdsLab);
 
     OriginalLabel origLabels(pdsLab);
 
@@ -68,7 +68,7 @@ namespace Isis {
     TranslateLabels(pdsLab, isis3Lab, p.Bands(), ui);
 
     // Set up the output cube
-    FileName outFile(ui.GetCubeName("TO"));
+    FileName outFile(ui.GetCubeName("TO").toStdString());
     PvlGroup &inst = isis3Lab.findGroup("Instrument", Pvl::Traverse);
     CubeAttributeOutput outAttr = ui.GetOutputAttribute("to");
     
@@ -79,8 +79,8 @@ namespace Isis {
       even->setDimensions(p.Samples(), p.Lines(), p.Bands());
       odd->setDimensions(p.Samples(), p.Lines(), p.Bands());
 
-      QString evenFile = outFile.path() + "/" + outFile.baseName() + ".even.cub";
-      QString oddFile = outFile.path() + "/" + outFile.baseName() + ".odd.cub";
+      QString evenFile = QString::fromStdString(outFile.path() + "/" + outFile.baseName() + ".even.cub");
+      QString oddFile = QString::fromStdString(outFile.path() + "/" + outFile.baseName() + ".odd.cub");
 
       even->create(evenFile, outAttr);
       odd->create(oddFile, outAttr);
@@ -94,7 +94,7 @@ namespace Isis {
       Cube *outCube = new Cube();
       outCube->setDimensions(p.Samples(), p.Lines(), p.Bands());
 
-      outCube->create(outFile.expanded(), outAttr);
+      outCube->create(QString::fromStdString(outFile.expanded()), outAttr);
       outputCubes.push_back(outCube);
     }
 

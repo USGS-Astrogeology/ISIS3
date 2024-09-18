@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/camstats.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/camstats.xml").expanded());
 
 TEST(CamStats, FunctionalTestCamstatsDefaultParameters) {
   QVector<QString> args = {"from=data/camstats/camstats-default.cub"};

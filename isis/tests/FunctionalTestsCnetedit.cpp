@@ -20,7 +20,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/cnetedit.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cnetedit.xml").expanded());
 
 class CneteditCheckValid : public TempTestingFiles {
   protected:
@@ -47,9 +47,9 @@ class CneteditCheckValid : public TempTestingFiles {
       Cube cube1;
       Cube cube2;
 
-      cube1.fromLabel(tempDir.path() + "/PSP_002733_1880_RED4.crop.cub",
+      cube1.fromLabel(tempDir.path().toStdString() + "/PSP_002733_1880_RED4.crop.cub",
                     label1, "rw");
-      cube2.fromLabel(tempDir.path() + "/PSP_002733_1880_RED5.crop.cub",
+      cube2.fromLabel(tempDir.path().toStdString() + "/PSP_002733_1880_RED5.crop.cub",
                     label2, "rw");
 
       LineManager line(cube1);
@@ -72,9 +72,9 @@ class CneteditCheckValid : public TempTestingFiles {
 
       // set up cube list for checkValid tests
       FileList chkValidCubeList;
-      chkValidCubeList.append(cube1.fileName());
-      chkValidCubeList.append(cube2.fileName());
-      chkValidCubeList.write(chkValidCubeListFile);
+      chkValidCubeList.append(cube1.fileName().toStdString());
+      chkValidCubeList.append(cube2.fileName().toStdString());
+      chkValidCubeList.write(chkValidCubeListFile.toStdString());
 
       // set up pvl def file
       PvlGroup validMeasureGroup("ValidMeasure");
@@ -123,11 +123,11 @@ class CneteditMeasureList : public TempTestingFiles {
       badMeasureList1.append("I24827003RDR_bndry_53,data/cnetedit/I24827003RDR.dstr.cub.label.pvl");
       badMeasureList1.append("I24827003RDR_bndry_56,data/cnetedit/I24827003RDR.dstr.cub.label.pvl");
       badMeasureList1.append("I24827003RDR_bndry_8,data/cnetedit/I07873009RDR.dstr.cub.label.pvl");
-      badMeasureList1.write(badMeasureListFile1);
+      badMeasureList1.write(badMeasureListFile1.toStdString());
 
       FileList badMeasureList2(badMeasureList1);
       badMeasureList2.append("I24827003RDR_bndry_11,data/cnetedit/I24827003RDR.dstr.cub.label.pvl");
-      badMeasureList2.write(badMeasureListFile2);
+      badMeasureList2.write(badMeasureListFile2.toStdString());
     }
 };
 
@@ -150,12 +150,12 @@ class Cnetedit : public TempTestingFiles {
       // set up cube list
       FileList cubeList;
       cubeList.append("data/cnetedit/e0902065.cal.sub.cub");
-      cubeList.write(cubeListFile);
+      cubeList.write(cubeListFile.toStdString());
 
       // set up measureList
       FileList measureList;
       measureList.append("new0001,data/cnetedit/e0902065.cal.sub.cub");
-      measureList.write(measureListFile);
+      measureList.write(measureListFile.toStdString());
 
       // set up point list
       FileList pointList;
@@ -165,7 +165,7 @@ class Cnetedit : public TempTestingFiles {
       pointList.append("new0036");
       pointList.append("new0020");
       pointList.append("new0008");
-      pointList.write(pointListFile);
+      pointList.write(pointListFile.toStdString());
     }
 };
 
@@ -206,7 +206,7 @@ TEST_F(CneteditCheckValid, FunctionalTestCneteditCheckValid) {
     cneteditLog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back log file
@@ -329,7 +329,7 @@ TEST_F(CneteditCheckValid, FunctionalTestCneteditCheckValidIgnoreAll) {
     cneteditLog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back log file
@@ -464,7 +464,7 @@ TEST_F(Cnetedit, FunctionalTestCneteditDefault) {
     cneteditLog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back log file
@@ -628,7 +628,7 @@ TEST_F(Cnetedit, FunctionalTestCneteditEditlock) {
     cneteditLog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back log file
@@ -748,7 +748,7 @@ TEST_F(Cnetedit, FunctionalTestCneteditEditUnlock) {
     cneteditLog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back log file
@@ -851,8 +851,8 @@ TEST_F(Cnetedit, FunctionalTestCneteditError) {
     FAIL() << "Expected Exception for an invalid control network";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Invalid control network"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Invalid control network"))
+      <<  e.toString();
   }
 }
 
@@ -894,7 +894,7 @@ TEST_F(Cnetedit, CneteditIgnore) {
     cneteditlog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
     // read back log file
@@ -1219,7 +1219,7 @@ TEST_F(Cnetedit, CneteditIgnoreMeasuresPoints) {
     cneteditlog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
     // read back log file
@@ -1567,7 +1567,7 @@ TEST_F(Cnetedit, CneteditIgnorePoints) {
     cneteditlog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
     // read back log file
@@ -1779,7 +1779,7 @@ TEST_F(Cnetedit, CneteditIgnoreAllPoints) {
     cneteditlog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
     // read back log file
@@ -2033,7 +2033,7 @@ TEST_F(Cnetedit, CneteditNoDelete) {
     cneteditlog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
     // read back log file
@@ -2297,7 +2297,7 @@ TEST_F(Cnetedit, CneteditPreservePoints) {
     cneteditlog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
     // read back log file
@@ -2624,7 +2624,7 @@ TEST_F(CneteditMeasureList, CneteditMeasureListGeneral) {
     cneteditlog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
     // read back log file
@@ -2732,7 +2732,7 @@ TEST_F(CneteditMeasureList, CneteditMeasureListIgnoreAll) {
     cneteditlog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
     // read back log file
@@ -2838,7 +2838,7 @@ TEST_F(CneteditMeasureList, CneteditMeasureListDelete) {
     cneteditlog = cnetedit(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
     // read back log file

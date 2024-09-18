@@ -35,14 +35,14 @@ namespace Isis {
   static QString convertUniqueIdToObservationId(Pvl &outputLabel);
 
   void tgocassis2isis(UserInterface &ui) {
-    FileName xmlFileName = ui.GetFileName("FROM");
+    FileName xmlFileName = ui.GetFileName("FROM").toStdString();
 
     if (!xmlFileName.removeExtension().addExtension("dat").fileExists() && !xmlFileName.removeExtension().addExtension("img").fileExists()) {
         std::string msg = "Cannot find image file for [" + xmlFileName.name() + "]. Confirm that the "
         ".dat or .img file for this XML exists and is located in the same directory.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
-    if(xmlFileName.name().contains("cas_raw_sc")){
+    if(QString::fromStdString(xmlFileName.name()).contains("cas_raw_sc")){
         std::string msg = "tgocassis2isis is unable to process cas_raw_sc data. Please use cas_cal_sc data instead.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -52,10 +52,10 @@ namespace Isis {
       translateCoreInfo(xmlFileName, importer);
 
       if(xmlFileName.removeExtension().addExtension("dat").fileExists()){
-        importer.SetInputFile(xmlFileName.removeExtension().addExtension("dat").expanded());
+        importer.SetInputFile(QString::fromStdString(xmlFileName.removeExtension().addExtension("dat").expanded()));
       }
       else if (xmlFileName.removeExtension().addExtension("img").fileExists()) {
-        importer.SetInputFile(xmlFileName.removeExtension().addExtension("img").expanded());
+        importer.SetInputFile(QString::fromStdString(xmlFileName.removeExtension().addExtension("img").expanded()));
       }
       else {
         std::string msg = "Cannot find image file for [" + xmlFileName.name() + "]. Confirm that the "
@@ -67,7 +67,7 @@ namespace Isis {
       Cube *outputCube = importer.SetOutputCube(ui.GetCubeName("TO"), att);
 
       QString transRawFile = "TgoCassisInstrument.trn";
-      QFile xmlFile(xmlFileName.expanded());
+      QFile xmlFile(QString::fromStdString(xmlFileName.expanded()));
       QDomDocument xmlDoc;
       xmlDoc.setContent(&xmlFile, true);
       // If any instances of "Optical_Filter" or "Mission_Area" exist, use PSA .trn file
@@ -111,7 +111,7 @@ namespace Isis {
         convertUniqueIdToObservationId(*outputLabel);
       }
 
-      FileName outputCubeFileName(ui.GetCubeName("TO"));
+      FileName outputCubeFileName(ui.GetCubeName("TO").toStdString());
 
       OriginalXmlLabel xmlLabel;
       xmlLabel.readFromXmlFile(xmlFileName);
@@ -151,14 +151,14 @@ namespace Isis {
     // Get the translation manager ready
     FileName transFile;
     try {
-      transFile = FileName(missionDir + "TgoCassis.trn");
-      XmlToPvlTranslationManager labelXlater(inputLabel, transFile.expanded());
+      transFile = FileName(missionDir.toStdString() + "TgoCassis.trn");
+      XmlToPvlTranslationManager labelXlater(inputLabel, QString::fromStdString(transFile.expanded()));
       translateCoreInfo(labelXlater, importer);
     }
     catch (IException &e) {
       // if exported, use this!
-      transFile = FileName(missionDir + "TgoCassisRdr.trn");
-      XmlToPvlTranslationManager labelXlater(inputLabel, transFile.expanded());
+      transFile = FileName(missionDir.toStdString() + "TgoCassisRdr.trn");
+      XmlToPvlTranslationManager labelXlater(inputLabel, QString::fromStdString(transFile.expanded()));
       translateCoreInfo(labelXlater, importer);
     }
   }
@@ -180,25 +180,25 @@ namespace Isis {
     // Set up the ProcessImport
     QString str;
     str = labelXlater.Translate("CoreSamples");
-    int ns = toInt(str);
+    int ns = str.toInt();
     str = labelXlater.Translate("CoreLines");
-    int nl = toInt(str);
+    int nl = str.toInt();
     str = labelXlater.Translate("CoreBands");
-    int nb = toInt(str);
+    int nb = str.toInt();
     importer.SetDimensions(ns, nl, nb);
 
     str = labelXlater.Translate("CoreType");
     importer.SetPixelType(PixelTypeEnumeration(str));
 
     str = labelXlater.Translate("CoreByteOrder");
-    importer.SetByteOrder(ByteOrderEnumeration(str));
+    importer.SetByteOrder(ByteOrderEnumeration(str.toStdString()));
 
     importer.SetFileHeaderBytes(0);
 
     str = labelXlater.Translate("CoreBase");
-    importer.SetBase(toDouble(str));
+    importer.SetBase(str.toDouble());
     str = labelXlater.Translate("CoreMultiplier");
-    importer.SetMultiplier(toDouble(str));
+    importer.SetMultiplier(str.toDouble());
   }
 
 
@@ -214,18 +214,18 @@ namespace Isis {
     try {
       QString missionDir = "$ISISROOT/appdata/translations/";
       QDomDocument xmlDoc;
-      QFile xmlFile(xmlFileName.expanded());
+      QFile xmlFile(QString::fromStdString(xmlFileName.expanded()));
       xmlDoc.setContent(&xmlFile, true);
       // If any instances of "Observing_System_Component" exist, use PSA .trn file
       FileName mapTransFile;
       if (xmlDoc.elementsByTagName("cart:a_axis_radius").size()){
-        mapTransFile = FileName(missionDir + "TgoCassisMapping_PSA.trn");
+        mapTransFile = FileName(missionDir.toStdString() + "TgoCassisMapping_PSA.trn");
       } else {
-        mapTransFile = FileName(missionDir + "TgoCassisMapping.trn");
+        mapTransFile = FileName(missionDir.toStdString() + "TgoCassisMapping.trn");
       }
       // Get the translation manager ready for translating the mapping label
 
-      XmlToPvlTranslationManager labelXMappinglater(xmlFileName, mapTransFile.expanded());
+      XmlToPvlTranslationManager labelXMappinglater(xmlFileName, QString::fromStdString(mapTransFile.expanded()));
 
       // Pvl output label
       Pvl *outputLabel = outputCube->label();
@@ -252,7 +252,7 @@ namespace Isis {
   bool translateMosaicLabel(FileName xmlFileName, Cube *outputCube) {
     QDomDocument xmlDoc;
 
-    QFile xmlFile(xmlFileName.expanded());
+    QFile xmlFile(QString::fromStdString(xmlFileName.expanded()));
     if ( !xmlFile.open(QIODevice::ReadOnly) ) {
       std::string msg = "Could not open label file [" + xmlFileName.expanded() +
                     "].";
@@ -265,7 +265,7 @@ namespace Isis {
       xmlFile.close();
       std::string msg = "XML read/parse error in file [" + xmlFileName.expanded()
           + "] at line [" + toString(errline) + "], column [" + toString(errcol)
-          + "], message: " + errmsg;
+          + "], message: " + errmsg.toStdString();
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -282,16 +282,16 @@ namespace Isis {
           if (logicalIdStringList.contains("data_mosaic")) {
             try {
               QString missionDir = "$ISISROOT/appdata/translations";
-              FileName bandBinTransFile(missionDir + "/translations/TgoCassisMosaicBandBin.trn");
+              FileName bandBinTransFile(missionDir.toStdString() + "/translations/TgoCassisMosaicBandBin.trn");
               // Get the translation manager ready for translating the band bin label
-              XmlToPvlTranslationManager labelXBandBinlater(xmlFileName, bandBinTransFile.expanded());
+              XmlToPvlTranslationManager labelXBandBinlater(xmlFileName, QString::fromStdString(bandBinTransFile.expanded()));
               // Pvl output label
               Pvl *outputLabel = outputCube->label();
               labelXBandBinlater.Auto(*(outputLabel));
-              FileName mosaicTransFile(missionDir + "/translations/TgoCassisMosaic.trn");
+              FileName mosaicTransFile(missionDir.toStdString() + "/translations/TgoCassisMosaic.trn");
 
               // Get the translation manager ready for translating the mosaic label
-              XmlToPvlTranslationManager labelXMosaiclater(xmlFileName, mosaicTransFile.expanded());
+              XmlToPvlTranslationManager labelXMosaiclater(xmlFileName, QString::fromStdString(mosaicTransFile.expanded()));
               labelXMosaiclater.Auto(*(outputLabel));
               return true;
             }
@@ -328,10 +328,10 @@ namespace Isis {
   void translateLabels(FileName &inputLabel, Cube *outputCube, QString instTransFile) {
     // Get the directory where the Tgo translation tables are
     QString missionDir = "$ISISROOT/appdata/translations/";
-    FileName transFile(missionDir + instTransFile);
+    FileName transFile(missionDir.toStdString() + instTransFile.toStdString());
 
     // Get the translation manager ready for translating the instrument label
-    XmlToPvlTranslationManager labelXlater(inputLabel, transFile.expanded());
+    XmlToPvlTranslationManager labelXlater(inputLabel, QString::fromStdString(transFile.expanded()));
 
     // Pvl output label
     Pvl *outputLabel = outputCube->label();
@@ -345,8 +345,8 @@ namespace Isis {
       inst.findKeyword("ExposureDuration").setUnits("seconds");
     }
     // Translate BandBin group
-    FileName bandBinTransFile(missionDir + "TgoCassisBandBin.trn");
-    XmlToPvlTranslationManager bandBinXlater(inputLabel, bandBinTransFile.expanded());
+    FileName bandBinTransFile(missionDir.toStdString() + "TgoCassisBandBin.trn");
+    XmlToPvlTranslationManager bandBinXlater(inputLabel, QString::fromStdString(bandBinTransFile.expanded()));
 
     // Pvl output label
     outputLabel = outputCube->label();
@@ -357,11 +357,11 @@ namespace Isis {
     bandBin.findKeyword("Width").setUnits("nm");
 
     // Create the Archive Group
-    FileName archiveTransFile(missionDir + "TgoCassisArchive.trn");
-    XmlToPvlTranslationManager archiveXlater(inputLabel, archiveTransFile.expanded());
+    FileName archiveTransFile(missionDir.toStdString() + "TgoCassisArchive.trn");
+    XmlToPvlTranslationManager archiveXlater(inputLabel, QString::fromStdString(archiveTransFile.expanded()));
 
-    FileName subTransFile(missionDir + "TgoCassisSubWindow.trn");
-    XmlToPvlTranslationManager subXlater(inputLabel, subTransFile.expanded());
+    FileName subTransFile(missionDir.toStdString() + "TgoCassisSubWindow.trn");
+    XmlToPvlTranslationManager subXlater(inputLabel, QString::fromStdString(subTransFile.expanded()));
 
     // Pvl output label
     outputLabel = outputCube->label();
@@ -460,7 +460,7 @@ namespace Isis {
       }
       else {
         std::string msg = "Unrecognized filter name ["
-          + filter
+          + filter.toStdString()
           + "].";
           throw IException(IException::User, msg, _FILEINFO_);
 
@@ -470,9 +470,9 @@ namespace Isis {
     }
     else {
       std::string msg = "Unrecognized Spacecraft name ["
-        + spcName
+        + spcName.toStdString()
         + "] and instrument ID ["
-        + instId
+        + instId.toStdString()
         + "]";
         throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -481,7 +481,7 @@ namespace Isis {
     // Add an alpha cube group based on the subwindowing
     if (archive.hasKeyword("Window_Count")) {
       int windowNumber = (int)archive["Window_Count"] + 1;
-      QString windowString = "Window_" + toString(windowNumber);
+      QString windowString = "Window_" + QString::number(windowNumber);
       int frameletStartSample = (int) archive[windowString.toStdString() + "_Start_Sample"] + 1;
       int frameletEndSample   = (int) archive[windowString.toStdString() + "_End_Sample"] + 1;
       int frameletStartLine   = (int) archive[windowString.toStdString() + "_Start_Line"] + 1;
@@ -521,7 +521,7 @@ namespace Isis {
     operationPeriod /= qPow(2,28);
     FileName transFile("$ISISROOT/appdata/translations/TgoCassisOperationPeriod.trn");
     PvlTranslationTable transTable(transFile);
-    observationId = transTable.Translate("OperationPeriod", toString(operationPeriod));
+    observationId = transTable.Translate("OperationPeriod", QString::number(operationPeriod));
     BigInt orbitNumber = (uniqueIdDecimalValue & 268433408);
     orbitNumber /= qPow(2,11);
     observationId += "_";
@@ -539,7 +539,7 @@ namespace Isis {
 
     int imageType = (uniqueIdDecimalValue & 3);
     observationId += "_";
-    observationId += toString(imageType);
+    observationId += QString::number(imageType);
 
     archiveGroup += PvlKeyword("ObservationId", observationId.toStdString());
 

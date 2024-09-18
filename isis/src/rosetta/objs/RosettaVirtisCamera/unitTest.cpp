@@ -68,7 +68,7 @@ int main(void) {
 }
 
 int TestCamera(Camera *cam, Cube c, double lines, double knownLat, double knownLon) {
-  cout << "FileName: " << FileName(c.fileName()).name() << endl;
+  cout << "FileName: " << FileName(c.fileName().toStdString()).name() << endl;
   cout << "CK Frame: " << cam->instrumentRotation()->Frame() << endl << endl;
   cout.setf(std::ios::fixed);
   cout << setprecision(9);
@@ -81,10 +81,10 @@ int TestCamera(Camera *cam, Cube c, double lines, double knownLat, double knownL
   cout << "SPK Reference ID = " << cam->SpkReferenceId() << endl << endl;
 
   // Test name methods
-  cout << "Spacecraft Name Long: " << cam->spacecraftNameLong() << endl;
-  cout << "Spacecraft Name Short: " << cam->spacecraftNameShort() << endl;
-  cout << "Instrument Name Long: " << cam->instrumentNameLong() << endl;
-  cout << "Instrument Name Short: " << cam->instrumentNameShort() << endl << endl;
+  cout << "Spacecraft Name Long: " << cam->spacecraftNameLong().toStdString() << endl;
+  cout << "Spacecraft Name Short: " << cam->spacecraftNameShort().toStdString() << endl;
+  cout << "Instrument Name Long: " << cam->instrumentNameLong().toStdString() << endl;
+  cout << "Instrument Name Short: " << cam->instrumentNameShort().toStdString() << endl << endl;
 
   // Test Shutter Open/Close
   std::pair< double, double > imgTimes = cam->StartEndEphemerisTimes();

@@ -14,7 +14,7 @@
 using namespace Isis;
 using namespace testing;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/kaguyatc2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/kaguyatc2isis.xml").expanded());
 
 TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisVis) {
   QTemporaryDir prefix;
@@ -26,10 +26,10 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisVis) {
     kaguyami2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -104,10 +104,10 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisNir) {
     kaguyami2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -201,10 +201,10 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisNullRange) {
     kaguyami2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist (cube.histogram());
 
   EXPECT_EQ(hist->ValidPixels(), 79);
@@ -225,10 +225,10 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisHrsRange) {
     kaguyami2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist (cube.histogram());
 
   EXPECT_EQ(hist->ValidPixels(), 79);
@@ -249,10 +249,10 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisHisRange) {
     kaguyami2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist (cube.histogram());
 
   EXPECT_EQ(hist->ValidPixels(), 79);
@@ -273,10 +273,10 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisLrsRange) {
     kaguyami2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist (cube.histogram());
 
   EXPECT_EQ(hist->ValidPixels(), 79);
@@ -297,10 +297,10 @@ TEST(kaguyatc2isisTest, FunctionalTestKaguyami2isisLisRange) {
     kaguyami2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya MI image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist (cube.histogram());
 
   EXPECT_EQ(hist->ValidPixels(), 79);

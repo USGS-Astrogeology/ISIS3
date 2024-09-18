@@ -87,7 +87,7 @@ namespace Isis {
     QString odkkey;
 
 
-    odkkey = "INS" + toString(naifIkCode) + "_OD_K";
+    odkkey = "INS" + QString::number(naifIkCode) + "_OD_K";
     try {
       for (int i = 0; i < 5; ++i) {
          p_odk.push_back(p_camera->Spice::getDouble(odkkey, i));
@@ -98,15 +98,15 @@ namespace Isis {
 
     // Load center-of-distortion coordinates, including filter if we have it
     QString odcenterkey; 
-    odcenterkey = "INS" + toString(naifIkCode) + "_OD_CENTER";
+    odcenterkey = "INS" + QString::number(naifIkCode) + "_OD_CENTER";
     m_distortionOriginSample = p_camera->Spice::getDouble(odcenterkey, 0);
     m_distortionOriginLine =   p_camera->Spice::getDouble(odcenterkey, 1);
 
-    QString tolKey = "INS" + toString(naifIkCode) + "_TOLERANCE";
+    QString tolKey = "INS" + QString::number(naifIkCode) + "_TOLERANCE";
     p_tolerance = p_camera->getDouble(tolKey, 0);
 
-    QString dbKey = "INS" + toString(naifIkCode) + "_DEBUG_MODEL";
-    p_debug       = toBool(p_camera->getString(dbKey, 0));
+    QString dbKey = "INS" + QString::number(naifIkCode) + "_DEBUG_MODEL";
+    p_debug       = toBool(p_camera->getString(dbKey, 0).toStdString());
   }
 
 

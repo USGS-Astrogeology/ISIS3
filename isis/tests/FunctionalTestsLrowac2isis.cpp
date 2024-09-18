@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lrowac2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lrowac2isis.xml").expanded());
 
 TEST(Lrowac2isisTests, FunctionalTestLrowac2isisDefault) {
   QTemporaryDir prefix;
@@ -26,12 +26,12 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisDefault) {
     lrowac2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LROWAC image " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LROWAC image " <<  e.toString().c_str() << std::endl;
   }
 
   // UV Even Cube
   QString cubeFileUvEven = prefix.path() + "/lrowac2isisTEMP.uv.even.cub";
-  Cube uvEvenCube(cubeFileUvEven);
+  Cube uvEvenCube(cubeFileUvEven.toStdString());
   Pvl *uvEvenLabel = uvEvenCube.label();
 
   // Dimensions group
@@ -85,7 +85,7 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisDefault) {
 
   // UV Odd Cube
   QString cubeFileUvOdd = prefix.path() + "/lrowac2isisTEMP.uv.odd.cub";
-  Cube uvOddCube(cubeFileUvOdd);
+  Cube uvOddCube(cubeFileUvOdd.toStdString());
   Pvl *uvOddLabel = uvOddCube.label();
 
   // Dimensions group
@@ -139,7 +139,7 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisDefault) {
 
   // VIS Even Cube
   QString cubeFileVisEven = prefix.path() + "/lrowac2isisTEMP.vis.even.cub";
-  Cube visEvenCube(cubeFileVisEven);
+  Cube visEvenCube(cubeFileVisEven.toStdString());
   Pvl *visEvenLabel = visEvenCube.label();
 
   // Dimensions group
@@ -193,7 +193,7 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisDefault) {
 
   // VIS Odd Cube
   QString cubeFileVisOdd = prefix.path() + "/lrowac2isisTEMP.vis.odd.cub";
-  Cube visOddCube(cubeFileVisOdd);
+  Cube visOddCube(cubeFileVisOdd.toStdString());
   Pvl *visOddLabel = visOddCube.label();
 
   // Dimensions group
@@ -258,12 +258,12 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisColorOffset) {
     lrowac2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LROWAC image " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LROWAC image " <<  e.toString().c_str() << std::endl;
   }
 
   // UV Even Cube
   QString cubeFileUvEven = prefix.path() + "/lrowac2isisTEMP.uv.even.cub";
-  Cube uvEvenCube(cubeFileUvEven);
+  Cube uvEvenCube(cubeFileUvEven.toStdString());
   Pvl *uvEvenLabel = uvEvenCube.label();
 
   // Dimensions group
@@ -289,7 +289,7 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisColorOffset) {
 
   // UV Odd Cube
   QString cubeFileUvOdd = prefix.path() + "/lrowac2isisTEMP.uv.odd.cub";
-  Cube uvOddCube(cubeFileUvOdd);
+  Cube uvOddCube(cubeFileUvOdd.toStdString());
   Pvl *uvOddLabel = uvOddCube.label();
 
   // Dimensions group
@@ -315,7 +315,7 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisColorOffset) {
 
   // VIS Even Cube
   QString cubeFileVisEven = prefix.path() + "/lrowac2isisTEMP.vis.even.cub";
-  Cube visEvenCube(cubeFileVisEven);
+  Cube visEvenCube(cubeFileVisEven.toStdString());
   Pvl *visEvenLabel = visEvenCube.label();
 
   // Dimensions group
@@ -359,7 +359,7 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisColorOffset) {
 
   // VIS Odd Cube
   QString cubeFileVisOdd = prefix.path() + "/lrowac2isisTEMP.vis.odd.cub";
-  Cube visOddCube(cubeFileVisOdd);
+  Cube visOddCube(cubeFileVisOdd.toStdString());
   Pvl *visOddLabel = visOddCube.label();
 
   // Dimensions group
@@ -416,12 +416,12 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisNoUnlut) {
     lrowac2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LROWAC image " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LROWAC image " <<  e.toString().c_str() << std::endl;
   }
 
   // UV Even Cube
   QString cubeFileUvEven = prefix.path() + "/lrowac2isisTEMP.uv.even.cub";
-  Cube uvEvenCube(cubeFileUvEven);
+  Cube uvEvenCube(cubeFileUvEven.toStdString());
   Pvl *uvEvenLabel = uvEvenCube.label();
 
   // Dimensions group
@@ -447,7 +447,7 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisNoUnlut) {
 
   // UV Odd Cube
   QString cubeFileUvOdd = prefix.path() + "/lrowac2isisTEMP.uv.odd.cub";
-  Cube uvOddCube(cubeFileUvOdd);
+  Cube uvOddCube(cubeFileUvOdd.toStdString());
   Pvl *uvOddLabel = uvOddCube.label();
 
   // Dimensions group
@@ -473,7 +473,7 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisNoUnlut) {
 
   // VIS Even Cube
   QString cubeFileVisEven = prefix.path() + "/lrowac2isisTEMP.vis.even.cub";
-  Cube visEvenCube(cubeFileVisEven);
+  Cube visEvenCube(cubeFileVisEven.toStdString());
   Pvl *visEvenLabel = visEvenCube.label();
 
   // Dimensions group
@@ -499,7 +499,7 @@ TEST(Lrowac2isisTests, FunctionalTestLrowac2isisNoUnlut) {
 
   // VIS Odd Cube
   QString cubeFileVisOdd = prefix.path() + "/lrowac2isisTEMP.vis.odd.cub";
-  Cube visOddCube(cubeFileVisOdd);
+  Cube visOddCube(cubeFileVisOdd.toStdString());
   Pvl *visOddLabel = visOddCube.label();
 
   // Dimensions group

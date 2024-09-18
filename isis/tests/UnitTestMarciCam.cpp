@@ -25,7 +25,7 @@ TEST_F(TempTestingFiles, UnitTestMarciCameraPhocubeBandChange) {
   PvlGroup newbbin;
   bbin_stream >> newbbin;
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
   PvlGroup &ogbbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
   ogbbin = newbbin;

@@ -15,7 +15,7 @@
 using namespace Isis;
 using namespace testing;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lronac2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lronac2isis.xml").expanded());
 
 TEST(Lronac2isisTests, Lro2isisNacLFull) {
   QTemporaryDir prefix;
@@ -29,10 +29,10 @@ TEST(Lronac2isisTests, Lro2isisNacLFull) {
     lronac2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -95,10 +95,10 @@ TEST(Lronac2isisTests, Lro2isisNacR) {
     lronac2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group

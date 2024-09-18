@@ -18,7 +18,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/shadow.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/shadow.xml").expanded());
 
 TEST_F(DemCube, FunctionalTestShadowMatch) {
   QVector<QString> shadowArgs = {"to=" + tempDir.path() + "/shadow.cub",
@@ -45,7 +45,7 @@ TEST_F(DemCube, FunctionalTestShadowMatch) {
   EXPECT_EQ(int(shadowStats["NumSpecialPixels"]), 2800);
   EXPECT_EQ(int(shadowStats["NumPixelsShadowedByRays"]), 0);
 
-  Cube shadowCube(shadowUi.GetCubeName("TO"));
+  Cube shadowCube(shadowUi.GetCubeName("TO").toStdString());
 
   std::unique_ptr<Histogram> hist (shadowCube.histogram());
 
@@ -84,7 +84,7 @@ TEST_F(DemCube, FunctionalTestShadowTime) {
   EXPECT_EQ(int(shadowStats["NumSpecialPixels"]), 2800);
   EXPECT_EQ(int(shadowStats["NumPixelsShadowedByRays"]), 104);
 
-  Cube shadowCube(shadowUi.GetCubeName("TO"));
+  Cube shadowCube(shadowUi.GetCubeName("TO").toStdString());
 
   std::unique_ptr<Histogram> hist (shadowCube.histogram());
 
@@ -121,7 +121,7 @@ TEST_F(DemCube, FunctionalTestShadowNoShadow) {
   EXPECT_EQ(int(shadowStats["NumSpecialPixels"]), 2800);
   EXPECT_EQ(int(shadowStats["NumPixelsShadowedByRays"]), 0);
 
-  Cube shadowCube(shadowUi.GetCubeName("TO"));
+  Cube shadowCube(shadowUi.GetCubeName("TO").toStdString());
 
   std::unique_ptr<Histogram> hist (shadowCube.histogram());
 
@@ -157,7 +157,7 @@ TEST_F(DemCube, FunctionalTestShadowAccurate) {
   EXPECT_EQ(int(shadowStats["NumSpecialPixels"]), 2800);
   EXPECT_EQ(int(shadowStats["NumPixelsShadowedByRays"]), 0);
 
-  Cube shadowCube(shadowUi.GetCubeName("TO"));
+  Cube shadowCube(shadowUi.GetCubeName("TO").toStdString());
 
   std::unique_ptr<Histogram> hist (shadowCube.histogram());
 
@@ -193,7 +193,7 @@ TEST_F(DemCube, FunctionalTestShadowCustom) {
   EXPECT_EQ(int(shadowStats["NumSpecialPixels"]), 2800);
   EXPECT_EQ(int(shadowStats["NumPixelsShadowedByRays"]), 0);
 
-  Cube shadowCube(shadowUi.GetCubeName("TO"));
+  Cube shadowCube(shadowUi.GetCubeName("TO").toStdString());
 
   std::unique_ptr<Histogram> hist (shadowCube.histogram());
 

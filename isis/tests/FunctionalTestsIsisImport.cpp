@@ -20,7 +20,7 @@ using namespace Isis;
 using namespace testing;
 using json = nlohmann::json;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isisimport.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isisimport.xml").expanded());
 
 TEST_F(TempTestingFiles, FunctionalTestIsisImportLabelXmlInput) {
   QString labelFileName = "data/isisimport/pds4.xml";

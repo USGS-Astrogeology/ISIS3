@@ -23,7 +23,7 @@ void IsisMain() {
   }
 
   if(ui.WasEntered("PCK")) {
-    FileName pckPreference = ui.GetFileName("PCK");
+    FileName pckPreference = ui.GetFileName("PCK").toStdString();
     if(!pckPreference.fileExists()){
       std::string msg = "Please provide a valid PCK preference file.";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -31,7 +31,7 @@ void IsisMain() {
   }
 
   if(ui.WasEntered("CK")) {
-    FileName ckPreference = ui.GetFileName("CK");
+    FileName ckPreference = ui.GetFileName("CK").toStdString();
     if(!ckPreference.fileExists()){
       std::string msg = "Please provide a valid CK preference file.";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -39,21 +39,21 @@ void IsisMain() {
   }
 
   if(ui.WasEntered("SPK")) {
-    FileName spkPreference = ui.GetFileName("SPK");
+    FileName spkPreference = ui.GetFileName("SPK").toStdString();
     if(!spkPreference.fileExists()){
       std::string msg = "Please provide a valid SPK preference file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
   if(ui.WasEntered("MAP")) {
-    FileName mapPreference = ui.GetFileName("MAP");
+    FileName mapPreference = ui.GetFileName("MAP").toStdString();
     if(!mapPreference.fileExists()){
       std::string msg = "Please provide a valid MAP preference file.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
   if(ui.WasEntered("MODEL")) {
-    FileName modelPreference = ui.GetCubeName("MODEL");
+    FileName modelPreference = ui.GetCubeName("MODEL").toStdString();
     if(!modelPreference.fileExists()){
       std::string msg = "Please provide a valid MODEL preference file.";
       throw IException(IException::User, msg, _FILEINFO_);

@@ -14,7 +14,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/skypt.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/skypt.xml").expanded());
 
 /**
    * FunctionalTestSkyptDefault
@@ -235,8 +235,8 @@ TEST_F(DefaultCube, FunctionalTestSkyptFlatFileError) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(Isis::IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Flat file must have a name."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Flat file must have a name.") != std::string::npos)
+      <<  e.toString();
   }
   catch(...) {
     FAIL() << "Expected an IException with message: \"Flat file must have a name.\"";

@@ -28,9 +28,9 @@ void IsisMain() {
   // We should be processing a PDS file
   ProcessImportPds p;
   UserInterface &ui = Application::GetUserInterface();
-  FileName in = ui.GetFileName("FROM");
+  FileName in = ui.GetFileName("FROM").toStdString();
 
-  QString tempName = "$TEMPORARY/" + in.baseName() + ".img";
+  std::string tempName = "$TEMPORARY/" + in.baseName() + ".img";
   FileName temp(tempName);
   bool tempFile = false;
 
@@ -48,8 +48,8 @@ void IsisMain() {
   }
   catch(IException &e) {
     tempFile = true;
-    QString command = "$ISISROOT/bin/vdcomp " + in.expanded() + " " +
-                     temp.expanded() + " > /dev/null 2>&1";
+    QString command = QString::fromStdString("$ISISROOT/bin/vdcomp " + in.expanded() + " " +
+                     temp.expanded() + " > /dev/null 2>&1");
     int returnValue = system(command.toLatin1().data()) >> 8;
     if(returnValue) {
       std::string msg = "Error running vdcomp";
@@ -92,7 +92,7 @@ void IsisMain() {
   // Convert the pds file to a cube
   Pvl pdsLabel;
   try {
-    p.SetPdsFile(in.expanded(), "", pdsLabel);
+    p.SetPdsFile(QString::fromStdString(in.expanded()), "", pdsLabel);
   }
   catch(IException &e) {
     std::string msg = "Input file [" + in.expanded() +
@@ -105,7 +105,7 @@ void IsisMain() {
   TranslateVikingLabels(pdsLabel, ocube);
   p.EndProcess();
 
-  if(tempFile) remove(temp.expanded().toLatin1().data());
+  if(tempFile) remove(temp.expanded().c_str());
   return;
 }
 

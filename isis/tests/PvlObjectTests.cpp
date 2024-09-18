@@ -48,7 +48,7 @@ TEST(PvlObject, KeywordError) {
     o.findKeyword("CAT", PvlObject::Traverse);
   }
   catch (IException &e) {
-    EXPECT_TRUE(e.toString().contains("Unable to find PVL keyword"));
+    EXPECT_TRUE(e.toString().find("Unable to find PVL keyword") != std::string::npos);
     return; 
   }
   
@@ -73,7 +73,7 @@ TEST(PvlObject, invalidStream) {
     os >> o;
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().contains("Unexpected [EndGroup] in PVL Object"));
+    EXPECT_TRUE(e.toString().find("Unexpected [EndGroup] in PVL Object") != std::string::npos);
     return;
   }
 

@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/tagcams2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/tagcams2isis.xml").expanded());
 
 /**
    * FunctionalTestTagcams2IsisNavCam
@@ -37,12 +37,12 @@ TEST_F(TempTestingFiles, FunctionalTestTagcams2IsisNavCam) {
   }
   catch (IException &e) {
     FAIL() << "Unable to ingest OSIRIS-REx NAVCam image: "
-          << e.toString().toStdString().c_str()
+          <<  e.toString().c_str()
           << std::endl;
   }
 
   // open cube and read label
-  std::unique_ptr<Cube> cube (new Cube(cubeFileName));
+  std::unique_ptr<Cube> cube (new Cube(cubeFileName.toStdString()));
   Pvl *isisLabel = cube->label();
 
   // Core object
@@ -149,12 +149,12 @@ TEST_F(TempTestingFiles, FunctionalTestTagcams2IsisNavCamRemCalPixOff) {
   }
   catch (IException &e) {
     FAIL() << "Unable to ingest OSIRIS-REx NAVCam image: "
-          << e.toString().toStdString().c_str()
+          <<  e.toString().c_str()
           << std::endl;
   }
 
   // open cube and read label
-  std::unique_ptr<Cube> cube (new Cube(cubeFileName));
+  std::unique_ptr<Cube> cube (new Cube(cubeFileName.toStdString()));
   Pvl *isisLabel = cube->label();
 
   // Core object
@@ -259,12 +259,12 @@ TEST_F(TempTestingFiles, FunctionalTestTagcams2IsisNftCam) {
   }
   catch (IException &e) {
     FAIL() << "Unable to ingest OSIRIS-REx NFTCam image: "
-          << e.toString().toStdString().c_str()
+          <<  e.toString().c_str()
           << std::endl;
   }
 
   // open cube and read label
-  std::unique_ptr<Cube> cube (new Cube(cubeFileName));
+  std::unique_ptr<Cube> cube (new Cube(cubeFileName.toStdString()));
   Pvl *isisLabel = cube->label();
 
   // Core object
@@ -369,12 +369,12 @@ TEST_F(TempTestingFiles, FunctionalTestTagcams2IsisStowCam) {
   }
   catch (IException &e) {
     FAIL() << "Unable to ingest OSIRIS-REx StowCam image: "
-          << e.toString().toStdString().c_str()
+          <<  e.toString().c_str()
           << std::endl;
   }
 
   // open cube and read label
-  std::unique_ptr<Cube> cube (new Cube(cubeFileName));
+  std::unique_ptr<Cube> cube (new Cube(cubeFileName.toStdString()));
   Pvl *isisLabel = cube->label();
 
   // Core object

@@ -19,7 +19,7 @@ using namespace std;
 TEST_F(TempTestingFiles, UnitTestOsirisRexTagCamsNAVCam) {
 
   QString cubeFileName = "data/osirisRexImages/20200303T213031S138_ncm_L0-reduced.cub";
-  Cube navCube(cubeFileName);
+  Cube navCube(cubeFileName.toStdString());
   
   OsirisRexTagcamsCamera *cam = (OsirisRexTagcamsCamera *)navCube.camera();
 
@@ -103,7 +103,7 @@ TEST_F(TempTestingFiles, UnitTestOsirisRexTagCamsNAVCam) {
 TEST_F(TempTestingFiles, UnitTestOsirisRexTagCamsNFTCam) {
 
   QString cubeFileName = "data/osirisRexImages/20201020T214241S004_nft_L0-reduced.cub";
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   
   OsirisRexTagcamsCamera *cam = (OsirisRexTagcamsCamera *)cube.camera();
 

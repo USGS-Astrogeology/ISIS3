@@ -28,7 +28,7 @@ TEST(Affine, MatrixConstructor) {
 
 
 TEST(Affine, IncorrectDimensions) {
-  std::string message = "Affine matrices must be 3x3";
+  QString message = "Affine matrices must be 3x3";
   try {
     Isis::Affine::AMatrix matrix(2, 2, 0.0);
     matrix[0][0] = 1.0;
@@ -45,7 +45,7 @@ TEST(Affine, IncorrectDimensions) {
 
 
 TEST(Affine, NotInvertible) {
-  std::string message = "Affine transform not invertible";
+  QString message = "Affine transform not invertible";
   try {
     Isis::Affine::AMatrix matrix(3, 3, 1.0);
     Isis::Affine affine(matrix);

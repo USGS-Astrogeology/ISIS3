@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lrowaccal.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lrowaccal.xml").expanded());
 
 TEST(Lrowaccal, FunctionalTestLrowaccalRadianceUnitsLabelExists) {
   QTemporaryDir tempDir;
@@ -32,7 +32,7 @@ TEST(Lrowaccal, FunctionalTestLrowaccalRadianceUnitsLabelExists) {
     FAIL() << "Call to lrowaccal failed, unable to calibrate cube: " << e.what() << std::endl;
   }
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
 
   ASSERT_TRUE(outCube.hasGroup("Radiometry"));
   PvlGroup &radiometry = outCube.group("Radiometry");
@@ -62,7 +62,7 @@ TEST(Lrowaccal, FunctionalTestLrowaccalRadianceUnitsLabelNotForIOF) {
     FAIL() << "Call to lrowaccal failed, unable to calibrate cube: " << e.what() << std::endl;
   }
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
 
   ASSERT_TRUE(outCube.hasGroup("Radiometry"));
   PvlGroup &radiometry = outCube.group("Radiometry");

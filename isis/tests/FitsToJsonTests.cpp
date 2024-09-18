@@ -16,7 +16,7 @@ TEST(FitsToJson, FitsConversion) {
     jsonData = fitsToJson(fileTemplate);
   }
   catch (IException &e) {
-    FAIL() << "Unable to convert lorri fits label to json " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to convert lorri fits label to json " <<  e.toString().c_str() << std::endl;
   }
   // Instrument info
   EXPECT_EQ(jsonData["FitsLabels"][0]["HOSTNAME"]["Value"], "NEW HORIZONS");
@@ -41,7 +41,7 @@ TEST(FitsToJson, FitsConversion) {
     jsonData = fitsToJson(fileTemplate);
   }
   catch (IException &e) {
-    FAIL() << "Unable to convert fits leisa label to json " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to convert fits leisa label to json " <<  e.toString().c_str() << std::endl;
   }
 
   // Instrument info

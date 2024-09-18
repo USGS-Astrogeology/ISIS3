@@ -11,7 +11,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/tgocassisunstitch.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/tgocassisunstitch.xml").expanded());
 
 TEST(TgoCassisunstitch, TgoCassisunstitchDefaultTest) {
   QTemporaryDir prefix;
@@ -29,7 +29,7 @@ TEST(TgoCassisunstitch, TgoCassisunstitchDefaultTest) {
 
   // Unstitched Pan Cube
   QString panFile = prefix.path() + "/unstitched_PAN.cub";
-  Cube panCube(panFile);
+  Cube panCube(panFile.toStdString());
   Pvl *panLabel = panCube.label();
 
   // Dimensions group
@@ -118,7 +118,7 @@ TEST(TgoCassisunstitch, TgoCassisunstitchDefaultTest) {
 
   // Unstitched Red Cube
   QString redFile = prefix.path() + "/unstitched_RED.cub";
-  Cube redCube(redFile);
+  Cube redCube(redFile.toStdString());
   Pvl *redLabel = redCube.label();
 
   // Dimensions group
@@ -208,7 +208,7 @@ TEST(TgoCassisunstitch, TgoCassisunstitchDefaultTest) {
 
   // Unstitched Blu Cube
   QString bluFile = prefix.path() + "/unstitched_BLU.cub";
-  Cube bluCube(bluFile);
+  Cube bluCube(bluFile.toStdString());
   Pvl *bluLabel = bluCube.label();
 
   // Dimensions group
@@ -298,7 +298,7 @@ TEST(TgoCassisunstitch, TgoCassisunstitchDefaultTest) {
 
   // Unstitched Nir Cube
   QString nirFile = prefix.path() + "/unstitched_NIR.cub";
-  Cube nirCube(nirFile);
+  Cube nirCube(nirFile.toStdString());
   Pvl *nirLabel = nirCube.label();
 
   // Dimensions group
@@ -403,7 +403,7 @@ TEST(TgoCassisunstitch, TgoCassisunstitchSpiceTest) {
 
   // Unstitched Pan Cube
   QString panFile = prefix.path() + "/unstitched_PAN.cub";
-  Cube panCube(panFile);
+  Cube panCube(panFile.toStdString());
   Pvl *panLabel = panCube.label();
 
   // Dimensions group
@@ -501,7 +501,7 @@ TEST(TgoCassisunstitch, TgoCassisunstitchSpiceTest) {
 
   // Unstitched Red Cube
   QString redFile = prefix.path() + "/unstitched_RED.cub";
-  Cube redCube(redFile);
+  Cube redCube(redFile.toStdString());
   Pvl *redLabel = redCube.label();
 
   // Dimensions group
@@ -600,7 +600,7 @@ TEST(TgoCassisunstitch, TgoCassisunstitchSpiceTest) {
 
   // Unstitched Blu Cube
   QString bluFile = prefix.path() + "/unstitched_BLU.cub";
-  Cube bluCube(bluFile);
+  Cube bluCube(bluFile.toStdString());
   Pvl *bluLabel = bluCube.label();
 
   // Dimensions group
@@ -699,7 +699,7 @@ TEST(TgoCassisunstitch, TgoCassisunstitchSpiceTest) {
 
   // Unstitched Nir Cube
   QString nirFile = prefix.path() + "/unstitched_NIR.cub";
-  Cube nirCube(nirFile);
+  Cube nirCube(nirFile.toStdString());
   Pvl *nirLabel = nirCube.label();
 
   // Dimensions group

@@ -34,7 +34,7 @@ namespace Isis {
 
   void mvic2isis(UserInterface &ui, Pvl *log) {
     ProcessImportFits importFits;
-    importFits.setFitsFile(FileName(ui.GetFileName("FROM")));
+    importFits.setFitsFile(FileName(ui.GetFileName("FROM").toStdString()));
 
     // Get the primary FITS label
     Pvl primaryLabel;
@@ -59,7 +59,7 @@ namespace Isis {
     }
 
     if (!mvic) {
-      FileName in = ui.GetFileName("FROM");
+      FileName in = ui.GetFileName("FROM").toStdString();
       std::string msg = "Input file [" + in.expanded() + "] does not appear to be " +
                     "in New Horizons/MVIC FITS format.";
       throw IException(IException::User, msg, _FILEINFO_);
@@ -73,9 +73,9 @@ namespace Isis {
           !QString::fromStdString(undistortedLabel["COMMENT"][0]).startsWith("This is the bias-subtracted, "
                                                      "flattened, distortion-removed image cube.")) {
 
-        std::string msg = QObject::tr("Input file [%1] does not appear to contain an MVIC undistorted "
+        QString msg = QObject::tr("Input file [%1] does not appear to contain an MVIC undistorted "
                                   "image in XTENSION [2]").arg(ui.GetFileName("FROM"));
-        throw IException(IException::User, msg, _FILEINFO_);
+        throw IException(IException::User, msg.toStdString(), _FILEINFO_);
       }
     }
 
@@ -86,9 +86,9 @@ namespace Isis {
       if (!errorLabel.hasKeyword("COMMENT") ||
           errorLabel["COMMENT"][0] != "1-sigma error per pixel for the image in extension 1.") {
 
-        std::string msg = QObject::tr("Input file [%1] does not appear to contain an MVIC Error image "
+        QString msg = QObject::tr("Input file [%1] does not appear to contain an MVIC Error image "
                                   "in the XTENSION [3]").arg(ui.GetFileName("FROM"));
-        throw IException(IException::User, msg, _FILEINFO_);
+        throw IException(IException::User, msg.toStdString(), _FILEINFO_);
       }
     }
 
@@ -99,15 +99,15 @@ namespace Isis {
       if (!qualityLabel.hasKeyword("COMMENT") ||
           qualityLabel["COMMENT"][0] != "Data quality flag for the image in extension 1.") {
 
-        std::string msg = QObject::tr("Input file [%1] does not appear to contain an MVIC Quality image "
+        QString msg = QObject::tr("Input file [%1] does not appear to contain an MVIC Quality image "
                                   "in extension [3]").arg(ui.GetFileName("FROM"));
-        throw IException(IException::User, msg, _FILEINFO_);
+        throw IException(IException::User, msg.toStdString(), _FILEINFO_);
       }
     }
 
     // Convert the primary image
     QString bitpix = QString::fromStdString(primaryLabel.findKeyword("BITPIX", Pvl::Traverse));
-    int bytesPerPix = abs(toInt(bitpix)) / 8;
+    int bytesPerPix = abs(bitpix.toInt()) / 8;
     importFits.SetDataPrefixBytes(bytesPerPix * 12);
     importFits.SetDataSuffixBytes(bytesPerPix * 12);
     importFits.setProcessFileStructure(0);
@@ -134,7 +134,7 @@ namespace Isis {
       PvlGroup undistortedLabel = importFits.fitsImageLabel(1);
 
       QString bitpix = QString::fromStdString(undistortedLabel.findKeyword("BITPIX"));
-      int bytesPerPix = abs(toInt(bitpix)) / 8;
+      int bytesPerPix = abs(bitpix.toInt()) / 8;
       importFits.SetDataPrefixBytes(bytesPerPix * 12);
       importFits.SetDataSuffixBytes(bytesPerPix * 12);
       importFits.setProcessFileStructure(1);
@@ -159,7 +159,7 @@ namespace Isis {
       // Get the label of the Error image and make sure this is a New Horizons MVIC Error image
       PvlGroup errorLabel = importFits.fitsImageLabel(2);
       QString bitpix = QString::fromStdString(errorLabel.findKeyword("BITPIX"));
-      int bytesPerPix = abs(toInt(bitpix)) / 8;
+      int bytesPerPix = abs(bitpix.toInt()) / 8;
       importFits.SetDataPrefixBytes(bytesPerPix * 12);
       importFits.SetDataSuffixBytes(bytesPerPix * 12);
       importFits.setProcessFileStructure(2);
@@ -184,7 +184,7 @@ namespace Isis {
       // Get the label of the Error image and make sure this is a New Horizons MVIC Quality image
       PvlGroup qualityLabel = importFits.fitsImageLabel(3);
       QString bitpix = QString::fromStdString(qualityLabel.findKeyword("BITPIX"));
-      int bytesPerPix = abs(toInt(bitpix)) / 8;
+      int bytesPerPix = abs(bitpix.toInt()) / 8;
       importFits.SetDataPrefixBytes(bytesPerPix * 12);
       importFits.SetDataSuffixBytes(bytesPerPix * 12);
       importFits.setProcessFileStructure(3);
@@ -207,12 +207,12 @@ namespace Isis {
   void translateLabels(Pvl &fitslabel, Cube *ocube) {
 
     // Get the path where the New Horizons translation tables are.
-    QString transDir = "$ISISROOT/appdata/translations/";
+    std::string transDir = "$ISISROOT/appdata/translations/";
 
     Pvl *isisLabel = ocube->label();
     // Create an Instrument group
     FileName insTransFile(transDir + "NewHorizonsMvicInstrument_fit.trn");
-    PvlToPvlTranslationManager insXlater(fitslabel, insTransFile.expanded());
+    PvlToPvlTranslationManager insXlater(fitslabel, QString::fromStdString(insTransFile.expanded()));
     insXlater.Auto(*(isisLabel));
 
     // Modify/add Instument group keywords not handled by the translater
@@ -237,16 +237,16 @@ namespace Isis {
     //  and spacecraft clock kernels to calculate time.
     NaifStatus::CheckErrors();
     // Leapsecond kernel
-    QString lsk = "$ISISDATA/base/kernels/lsk/naif????.tls";
+    std::string lsk = "$ISISDATA/base/kernels/lsk/naif????.tls";
     FileName lskName(lsk);
     lskName = lskName.highestVersion();
-    furnsh_c(lskName.expanded().toLatin1().data());
+    furnsh_c(lskName.expanded().c_str());
 
     // Spacecraft clock kernel
-    QString sclk = "$ISISDATA/newhorizons/kernels/sclk/new_horizons_???.tsc";
+    std::string sclk = "$ISISDATA/newhorizons/kernels/sclk/new_horizons_???.tsc";
     FileName sclkName(sclk);
     sclkName = sclkName.highestVersion();
-    furnsh_c(sclkName.expanded().toLatin1().data());
+    furnsh_c(sclkName.expanded().c_str());
 
     SpiceInt sclkCode;
     if (fitslabel.hasKeyword("SPCSCID", Pvl::Traverse)) {
@@ -266,7 +266,7 @@ namespace Isis {
 
     // Create a Band Bin group
     FileName bandTransFile(transDir + "NewHorizonsMvicBandBin_fit.trn");
-    PvlToPvlTranslationManager bandBinXlater(fitslabel, bandTransFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(fitslabel, QString::fromStdString(bandTransFile.expanded()));
     bandBinXlater.Auto(*(isisLabel));
     // Add units and OriginalBand keyword
     PvlGroup &bandBin = isisLabel->findGroup("BandBin", Pvl::Traverse);
@@ -296,18 +296,18 @@ namespace Isis {
 
     // Create an Archive group
     FileName archiveTransFile(transDir + "NewHorizonsMvicArchive_fit.trn");
-    PvlToPvlTranslationManager archiveXlater(fitslabel, archiveTransFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(fitslabel, QString::fromStdString(archiveTransFile.expanded()));
     archiveXlater.Auto(*(isisLabel));
 
     // Create a Kernels group
     FileName kernelsTransFile(transDir + "NewHorizonsMvicKernels_fit.trn");
-    PvlToPvlTranslationManager kernelsXlater(fitslabel, kernelsTransFile.expanded());
+    PvlToPvlTranslationManager kernelsXlater(fitslabel, QString::fromStdString(kernelsTransFile.expanded()));
     kernelsXlater.Auto(*(isisLabel));
 
     // If Level 2 product, Create a RadiometricCalibration group
     if (fitslabel.hasKeyword("SOCL2VER", Pvl::Traverse)) {
       FileName calibrationTransFile(transDir + "NewHorizonsMvicCalibration_fit.trn");
-      PvlToPvlTranslationManager calibrationXlater(fitslabel, calibrationTransFile.expanded());
+      PvlToPvlTranslationManager calibrationXlater(fitslabel, QString::fromStdString(calibrationTransFile.expanded()));
       calibrationXlater.Auto(*(isisLabel));
 
       //  Add comments to calibration keywords.  This is done by hand because the translation tables

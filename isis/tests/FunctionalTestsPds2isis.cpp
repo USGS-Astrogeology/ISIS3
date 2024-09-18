@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/pds2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/pds2isis.xml").expanded());
 
 TEST(Pds2Isis, Pds2isisTestDefault) {
   Pvl appLog;
@@ -23,10 +23,10 @@ TEST(Pds2Isis, Pds2isisTestDefault) {
     pds2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest file: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);
@@ -70,10 +70,10 @@ TEST(Pds2Isis, Pds2isisTestBandBin) {
     pds2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest file: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);
@@ -157,10 +157,10 @@ TEST(Pds2Isis, Pds2isisTestOffset) {
     pds2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest file: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup mapping = outLabel->findGroup("Mapping", Pvl::Traverse);
@@ -200,10 +200,10 @@ TEST(Pds2Isis, Pds2isisTestProjection) {
     pds2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest file: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup mapping = outLabel->findGroup("Mapping", Pvl::Traverse);
@@ -246,7 +246,7 @@ TEST(Pds2Isis, Pds2isisTestSpecialPixels) {
     pds2isis(options_nullrange, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Failed for setnullrange=yes on file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Failed for setnullrange=yes on file: " <<  e.toString().c_str() << std::endl;
   }
 
   // test sethrsrange
@@ -258,7 +258,7 @@ TEST(Pds2Isis, Pds2isisTestSpecialPixels) {
     pds2isis(options_hrsrange, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Failed for sethrsrange=yes on file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Failed for sethrsrange=yes on file: " <<  e.toString().c_str() << std::endl;
   }
 
   // test sethisrange
@@ -270,7 +270,7 @@ TEST(Pds2Isis, Pds2isisTestSpecialPixels) {
     pds2isis(options_hisrange, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Failed for sethisrange=yes on file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Failed for sethisrange=yes on file: " <<  e.toString().c_str() << std::endl;
   }
 
   // test setlrsrange
@@ -282,7 +282,7 @@ TEST(Pds2Isis, Pds2isisTestSpecialPixels) {
     pds2isis(options_lrsrange, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Failed for setlrsrange=yes on file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Failed for setlrsrange=yes on file: " <<  e.toString().c_str() << std::endl;
   }
 
   // test setlisrange
@@ -294,7 +294,7 @@ TEST(Pds2Isis, Pds2isisTestSpecialPixels) {
     pds2isis(options_lisrange, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Failed for setlisrange=yes on file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Failed for setlisrange=yes on file: " <<  e.toString().c_str() << std::endl;
   }
 }
 
@@ -311,10 +311,10 @@ TEST(Pds2Isis, Pds2isisTestBIL) {
     pds2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Failed to ingest file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Failed to ingest file: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);
@@ -342,10 +342,10 @@ TEST(Pds2Isis, Pds2isisTestBIP) {
     pds2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Failed to ingest file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Failed to ingest file: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);
@@ -373,10 +373,10 @@ TEST(Pds2Isis, Pds2isisTestNIMSQub) {
     pds2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Failed to ingest file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Failed to ingest file: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);

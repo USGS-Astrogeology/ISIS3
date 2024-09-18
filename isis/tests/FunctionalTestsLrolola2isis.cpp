@@ -11,7 +11,7 @@
 using namespace Isis;
 using namespace testing;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lrolola2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lrolola2isis.xml").expanded());
 
 TEST_F(LidarObservationPair, FunctionalTestLrolola2isisTwoImage) {
   QString testFilePath = tempDir.path() + "/LidarTest_TwoImage";
@@ -32,7 +32,7 @@ TEST_F(LidarObservationPair, FunctionalTestLrolola2isisTwoImage) {
     lrolola2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LRO images / point cloud: " << e.toString().toStdString() << std::endl;
+    FAIL() << "Unable to ingest LRO images / point cloud: " <<  e.toString() << std::endl;
   }
 
   QString otestFilePath = testFilePath + ".json";
@@ -72,7 +72,7 @@ TEST_F(LidarObservationPair, FunctionalTestLrolola2isisMultipleCsv) {
     lrolola2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LRO images / point cloud: " << e.toString().toStdString() << std::endl;
+    FAIL() << "Unable to ingest LRO images / point cloud: " <<  e.toString() << std::endl;
   }
 
   QString otestFilePath = testFilePath + ".json";

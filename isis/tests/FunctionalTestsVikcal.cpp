@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/vikcal.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/vikcal.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestVikcalDefault) {
   // Note: DefaultCube is a viking image
@@ -26,7 +26,7 @@ TEST_F(DefaultCube, FunctionalTestVikcalDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   PvlGroup radGroup = oCube.label()->findObject("IsisCube").findGroup("Radiometry");
 
@@ -77,8 +77,8 @@ TEST_F(DefaultCube, FunctionalTestCtxcalCameraComparison) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oNoCamCube(outCubeFileNameCam, "r");
-  Cube oCamCube(outCubeFileNameCam, "r");
+  Cube oNoCamCube(outCubeFileNameCam.toStdString(), "r");
+  Cube oCamCube(outCubeFileNameCam.toStdString(), "r");
 
   Pvl *noCamLab = oNoCamCube.label();
   Pvl *camLab = oCamCube.label();

@@ -16,7 +16,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/grid.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/grid.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestGridGround) {
   QVector<QString> args = {"to=" + tempDir.path() + "/output.cub"};
@@ -346,7 +346,7 @@ TEST_F(DefaultCube, FunctionalTestGridWorld) {
   delete projTestCube;
 
   // Cube now has new mapping group
-  projTestCube = new Cube(fileName, "rw");
+  projTestCube = new Cube(fileName.toStdString(), "rw");
 
   QVector<QString> args = {"to=" + tempDir.path() + "/output.cub", "ticks=true", "diagonal=true", "loninc=45"};
   UserInterface options(APP_XML, args);

@@ -53,7 +53,7 @@ namespace Isis {
     // The Osiris focal length is fixed and is designed not to change throught the operational
     // temperature.  For OSIRIS, the focal length is in mm, so we shouldn't need the unit conversion
 
-    QString ikCode =  toString(naifIkCode());
+    QString ikCode =  QString::number(naifIkCode());
 
     QString fl = "INS" + ikCode + "_FOCAL_LENGTH";
     double focalLength = Spice::getDouble(fl);

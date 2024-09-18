@@ -20,7 +20,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/footprintinit.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/footprintinit.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestFootprintinitDefault) {
   QVector<QString> footprintArgs = {};

@@ -14,10 +14,10 @@ namespace Isis {
           const char* contents_expr,
           IException &e,
           QString contents) {
-    if (e.toString().contains(contents)) return ::testing::AssertionSuccess();
+    if (e.toString().find(contents.toStdString()) != std::string::npos) return ::testing::AssertionSuccess();
 
     return ::testing::AssertionFailure() << "IExeption "<< e_expr << "\'s error message (\""
-       << e.toString().toStdString() << "\") does not contain " << contents_expr << " (\""
+       <<  e.toString() << "\") does not contain " << contents_expr << " (\""
        << contents.toStdString() << "\").";
   }
 
@@ -412,18 +412,18 @@ namespace Isis {
     QVector<QString> binaryKernelList;
 
     for (QString kernel : kernelList) {
-      FileName file(kernel);
-      QString pathToBinaryKernel = file.path() + "/" + file.baseName() + "." + file.extension().replace('x', 'b');
-      FileName binaryFile(pathToBinaryKernel);
+      FileName file(kernel.toStdString());
+      QString pathToBinaryKernel = QString::fromStdString(file.path() + "/" + file.baseName()) + "." + QString::fromStdString(file.extension()).replace('x', 'b');
+      FileName binaryFile(pathToBinaryKernel.toStdString());
 
-      if (file.extension().contains("x") && !binaryFile.fileExists()) {
-        QString path = file.expanded();
+      if (file.extension().find("x") != std::string::npos && !binaryFile.fileExists()) {
+        QString path = QString::fromStdString(file.expanded());
         QString command = "tobin " + path;
-        command += " >nul 2>nul";
+        command += " >nul 2>nul"; 
         int status = system(command.toLatin1().data());
 
         if (status != 0) {
-          std::string msg = "Executing command [" + command +
+          std::string msg = "Executing command [" + command.toStdString() +
                         "] failed with return status [" + toString(status) + "]";
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
@@ -434,10 +434,10 @@ namespace Isis {
   }
 
   QString fileListToString(QVector<QString> fileList) {
-    QString filesAsString("(");
+    std::string filesAsString("(");
 
     for (int i = 0; i < fileList.size(); i++) {
-      FileName file(fileList[i]);
+      FileName file(fileList[i].toStdString());
 
       filesAsString += file.expanded();
       if (i != fileList.size() - 1) {
@@ -445,7 +445,7 @@ namespace Isis {
       }
     }
     filesAsString += ")";
-    return filesAsString;
+    return QString::fromStdString(filesAsString);
   }
 
 }

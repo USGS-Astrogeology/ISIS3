@@ -20,7 +20,7 @@
 using namespace Isis;
 using json = nlohmann::json;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isisexport.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isisexport.xml").expanded());
 
 TEST_F(SmallCube, FunctionalTestIsisexportMainLabel) {
   PvlGroup testGroup("TestGroup");
@@ -91,7 +91,7 @@ TEST_F(SmallCube, FunctionalTestIsisexportOriginalXmlLabel) {
   ofxml << R"(<Outside> <name>Something</name> </Outside>)";
   ofxml.close();
   OriginalXmlLabel origLabel;
-  origLabel.readFromXmlFile(labelFileName);
+  origLabel.readFromXmlFile(labelFileName.toStdString());
   testCube->write(origLabel);
 
   QString templateFile = tempDir.path()+"/test_result.tpl";

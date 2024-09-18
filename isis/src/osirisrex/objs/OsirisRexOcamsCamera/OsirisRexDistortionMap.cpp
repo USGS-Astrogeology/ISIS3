@@ -73,10 +73,10 @@ namespace Isis {
     QString odkkey;
 
     if (filter.toUpper().compare("UNKNOWN") == 0) {
-      odkkey = "INS" + toString(naifIkCode) + "_OD_K";
+      odkkey = "INS" + QString::number(naifIkCode) + "_OD_K";
     }
     else {
-      odkkey = "INS" + toString(naifIkCode) + "_OD_K_" + filter.trimmed().toUpper();
+      odkkey = "INS" + QString::number(naifIkCode) + "_OD_K_" + filter.trimmed().toUpper();
     }
 
     try {
@@ -95,10 +95,10 @@ namespace Isis {
     // Load center-of-distortion coordinates, including filter if we have it
     QString odcenterkey;
     if (filter.toUpper().compare("UNKNOWN") == 0) {
-      odcenterkey = "INS" + toString(naifIkCode) + "_OD_CENTER";
+      odcenterkey = "INS" + QString::number(naifIkCode) + "_OD_CENTER";
     }
     else {
-      odcenterkey = "INS" + toString(naifIkCode) + "_OD_CENTER_" + filter.trimmed().toUpper();
+      odcenterkey = "INS" + QString::number(naifIkCode) + "_OD_CENTER_" + filter.trimmed().toUpper();
     }
     m_distortionOriginSample = p_camera->Spice::getDouble(odcenterkey, 0);
     m_distortionOriginLine =   p_camera->Spice::getDouble(odcenterkey, 1);

@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 #include <QPair>
+#include <QString>
 
 using namespace Isis;
 
@@ -10,8 +11,8 @@ class ConversionTest : public ::testing::TestWithParam<QPair <QString, Isis::Byt
 };
 
 TEST_P(ConversionTest, ByteOrder) {
-	ASSERT_EQ(ByteOrderEnumeration(GetParam().first), GetParam().second);
-	ASSERT_EQ(ByteOrderName(GetParam().second), GetParam().first);
+	ASSERT_EQ(ByteOrderEnumeration(GetParam().first.toStdString()), GetParam().second);
+	ASSERT_EQ(QString::fromStdString(ByteOrderName(GetParam().second)), GetParam().first);
 }
 
 QPair<QString, Isis::ByteOrder> noOrder("None", Isis::ByteOrder::NoByteOrder);

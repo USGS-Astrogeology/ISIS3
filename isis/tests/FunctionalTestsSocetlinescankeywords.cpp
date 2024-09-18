@@ -13,7 +13,7 @@
 using namespace Isis;
 using namespace testing;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/socetlinescankeywords.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/socetlinescankeywords.xml").expanded());
 
 TEST_F(MroHiriseCube, FunctionalTestSocetlinescankeywordsHirise) {
   testCube->reopen("rw");

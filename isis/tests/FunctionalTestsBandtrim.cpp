@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/bandtrim.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/bandtrim.xml").expanded());
 
 /**
    * BandtrimDefault Test
@@ -82,11 +82,11 @@ TEST_F(DefaultCube, FunctionalTestBandtrimDefault) {
      bandtrim(testCube, ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Open output cube
-  Cube outCube(tempDir.path() + "/bandtrimDefaultOut.cub");
+  Cube outCube(tempDir.path().toStdString() + "/bandtrimDefaultOut.cub");
 
   // validate histogram statistics for each band in output cube
   std::unique_ptr<Histogram> band1Hist (outCube.histogram(1));
@@ -174,11 +174,11 @@ TEST_F(DefaultCube, FunctionalTestBandtrimOneBand) {
     bandtrim(testCube, ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Open output cube
-  Cube outCube(tempDir.path() + "/bandtrimOneBandOut.cub");
+  Cube outCube(tempDir.path().toStdString() + "/bandtrimOneBandOut.cub");
 
   // validate histogram statistics for each band in output cube
   std::unique_ptr<Histogram> band1Hist (outCube.histogram(1));

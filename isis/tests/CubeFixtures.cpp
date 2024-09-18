@@ -354,7 +354,7 @@ namespace Isis {
     cubeListPath = tempDir.path() + "/filelist.txt";
     cubeFileList.append("data/rings/rings1proj.cub");
     cubeFileList.append("data/rings/rings2proj.cub");
-    cubeFileList.write(cubeListPath);
+    cubeFileList.write(cubeListPath.toStdString());
   }
 
 }

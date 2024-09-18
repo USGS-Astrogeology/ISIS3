@@ -20,7 +20,7 @@ using json = nlohmann::json;
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/csminit.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/csminit.xml").expanded());
 
 class CSMPluginFixture : public TempTestingFiles {
   protected:
@@ -65,7 +65,7 @@ class CSMPluginFixture : public TempTestingFiles {
       cubeLabel >> label;
       testCube = new Cube();
       filename = tempDir.path() + "/csminitCube.cub";
-      testCube->fromLabel(filename, label, "rw");
+      testCube->fromLabel(filename.toStdString(), label, "rw");
       testCube->close();
 
       plugin = csm::Plugin::findPlugin(TestCsmPlugin::PLUGIN_NAME);
@@ -322,7 +322,7 @@ TEST_F(DefaultCube, CSMInitSpiceCleanup) {
 
   testCube->close();
   csminit(options);
-  Cube outputCube(cubeFile);
+  Cube outputCube(cubeFile.toStdString());
 
   EXPECT_FALSE(outputCube.hasTable("InstrumentPointing"));
   EXPECT_FALSE(outputCube.hasTable("InstrumentPosition"));
@@ -362,7 +362,7 @@ TEST_F(DefaultCube, CSMInitSpiceRestoredAfterFailure) {
 
   ASSERT_ANY_THROW(csminit(options));
 
-  Cube outputCube(cubeFile);
+  Cube outputCube(cubeFile.toStdString());
   ASSERT_NO_THROW(outputCube.camera());
 
   EXPECT_TRUE(outputCube.hasTable("InstrumentPointing"));
@@ -399,7 +399,7 @@ TEST_F(DefaultCube, CSMInitSpiceNoCleanup) {
   testCube->close();
   // Expect a failure due to being unable to construct any model from the isd
   EXPECT_ANY_THROW(csminit(options));
-  Cube outputCube(cubeFile);
+  Cube outputCube(cubeFile.toStdString());
 
   // The cube should still be intact and we should still be able to get a camera
   EXPECT_NO_THROW(outputCube.camera());

@@ -20,7 +20,7 @@ using namespace Isis;
 using namespace testing;
 using json = nlohmann::json;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isisimport.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isisimport.xml").expanded());
 
 TEST_F(TempTestingFiles, FunctionalTestIsisImportLroNacLFull) {
   QString cubeFileName = tempDir.path() + "/lo2isisTEMP.cub";
@@ -31,10 +31,10 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportLroNacLFull) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -43,7 +43,6 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportLroNacLFull) {
   EXPECT_EQ(cube.bandCount(), 1);
 
   // Pixels group
-  std::cout << PixelTypeName(cube.pixelType()) << '\n';
   EXPECT_EQ(PixelTypeName(cube.pixelType()), "Real");
   EXPECT_EQ(ByteOrderName(cube.byteOrder()), "Lsb");
   EXPECT_DOUBLE_EQ(cube.base(), 0.0);
@@ -101,10 +100,10 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportLroNacRFull) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group

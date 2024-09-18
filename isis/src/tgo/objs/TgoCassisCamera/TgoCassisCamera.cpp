@@ -46,7 +46,7 @@ namespace Isis {
 
     // CaSSIS codes
     int cassisCode = naifIkCode();
-    QString cassis = toString(cassisCode);
+    QString cassis = QString::number(cassisCode);
 
     // Get all the necessary stuff from the labels
     Pvl &lab = *cube.label();

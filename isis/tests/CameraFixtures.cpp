@@ -117,7 +117,7 @@ namespace Isis {
     demLabel.findObject("IsisCube").findObject("Core").findGroup("Pixels")["Type"] = "Real";
 
     demCube = new Cube();
-    demCube->fromLabel(tempDir.path() + "/demCube.cub", demLabel, "rw");
+    demCube->fromLabel(tempDir.path().toStdString() + "/demCube.cub", demLabel, "rw");
 
     TableField minRadius("MinimumRadius", TableField::Double);
     TableField maxRadius("MaximumRadius", TableField::Double);
@@ -185,7 +185,7 @@ namespace Isis {
     projCubeLabel >> projLabel;
 
     testCube = new Cube();
-    testCube->fromIsd(tempDir.path() + "/default.cub", label, isd, "rw");
+    testCube->fromIsd(tempDir.path().toStdString() + "/default.cub", label, isd, "rw");
 
     LineManager line(*testCube);
     int pixelValue = 1;
@@ -198,7 +198,7 @@ namespace Isis {
     }
 
     projTestCube = new Cube();
-    projTestCube->fromIsd(tempDir.path() + "/default.level2.cub", projLabel, isd, "rw");
+    projTestCube->fromIsd(tempDir.path().toStdString() + "/default.level2.cub", projLabel, isd, "rw");
 
     line = LineManager(*projTestCube);
     pixelValue = 1;
@@ -225,7 +225,7 @@ namespace Isis {
 
     delete testCube;
     testCube = new Cube();
-    testCube->fromIsd(tempDir.path() + "/default.cub", label, isd, "rw");
+    testCube->fromIsd(tempDir.path().toStdString() + "/default.cub", label, isd, "rw");
 
     LineManager line(*testCube);
     int pixelValue = 1;
@@ -251,7 +251,7 @@ namespace Isis {
 
     delete projTestCube;
     projTestCube = new Cube();
-    projTestCube->fromIsd(tempDir.path() + "/default.level2.cub", projLabel, isd, "rw");
+    projTestCube->fromIsd(tempDir.path().toStdString() + "/default.level2.cub", projLabel, isd, "rw");
 
     line = LineManager(*projTestCube);
     pixelValue = 1;
@@ -294,7 +294,7 @@ namespace Isis {
     projCubeLabel >> projLabel;
 
     testCube = new Cube();
-    testCube->fromIsd(tempDir.path() + "/default.cub", label, isd, "rw");
+    testCube->fromIsd(tempDir.path().toStdString() + "/default.cub", label, isd, "rw");
     LineManager line(*testCube);
     int pixelValue = 1;
     for(line.begin(); !line.end(); line++) {
@@ -306,7 +306,7 @@ namespace Isis {
     }
 
     projTestCube = new Cube();
-    projTestCube->fromIsd(tempDir.path() + "/default.level2.cub", projLabel, isd, "rw");
+    projTestCube->fromIsd(tempDir.path().toStdString() + "/default.level2.cub", projLabel, isd, "rw");
     line = LineManager(*projTestCube);
     pixelValue = 1;
     for(line.begin(); !line.end(); line++) {
@@ -368,7 +368,7 @@ namespace Isis {
 
     QString testPath = tempDir.path() + "/B10_test.cub";
     QFile::copy("data/mroCtxImage/ctxTestImage.cub", testPath);
-    testCube.reset(new Cube(testPath));
+    testCube.reset(new Cube(testPath.toStdString()));
   }
 
 
@@ -389,7 +389,7 @@ namespace Isis {
     delete testCube;
     testCube = new Cube();
 
-    FileName newCube(tempDir.path() + "/testing.cub");
+    FileName newCube(tempDir.path().toStdString() + "/testing.cub");
 
     testCube->fromIsd(newCube, label, isd, "rw");
     PvlGroup &kernels = testCube->label()->findObject("IsisCube").findGroup("Kernels");
@@ -508,7 +508,7 @@ namespace Isis {
     delete testCube;
     testCube = new Cube();
 
-    FileName newCube(tempDir.path() + "/testing.cub");
+    FileName newCube(tempDir.path().toStdString() + "/testing.cub");
 
     testCube->fromIsd(newCube, label, isd, "rw");
     PvlGroup &kernels = testCube->label()->findObject("IsisCube").findGroup("Kernels");
@@ -639,7 +639,7 @@ namespace Isis {
     delete testCube;
     // This is now a MRO cube
 
-    testCube = new Cube(fileName, "rw");
+    testCube = new Cube(fileName.toStdString(), "rw");
 
     // create a jitter file
     QString jitter = R"(# Sample                 Line                   ET
@@ -739,7 +739,7 @@ namespace Isis {
     QString fileName = tempDir.path() + "/leisa.cub";
     delete testCube;
     testCube = new Cube();
-    testCube->fromIsd(fileName, label, isd, "rw");
+    testCube->fromIsd(fileName.toStdString(), label, isd, "rw");
 
     LineManager line(*testCube);
     double pixelValue = 0.0;
@@ -756,7 +756,7 @@ namespace Isis {
     delete testCube;
     testCube = new Cube();
 
-    FileName newCube(tempDir.path() + "/testing.cub");
+    FileName newCube(tempDir.path().toStdString() + "/testing.cub");
 
     testCube->fromIsd(newCube, label, isd, "rw");
 
@@ -817,7 +817,7 @@ namespace Isis {
 
     QString fileName = testCube->fileName();
     delete testCube;
-    testCube = new Cube(fileName, "rw");
+    testCube = new Cube(fileName.toStdString(), "rw");
   }
 
   void OsirisRexTagcamsNAVCamCube::setInstrument(QString ikid, QString instrumentId) {
@@ -829,7 +829,7 @@ namespace Isis {
     Pvl testLabel;
     cubeLabel >> testLabel;
 
-    testCube->fromLabel(tempDir.path() + "/testCube.cub", testLabel, "rw");
+    testCube->fromLabel(tempDir.path().toStdString() + "/testCube.cub", testLabel, "rw");
   }
 
 
@@ -842,7 +842,7 @@ namespace Isis {
     Pvl testLabel;
     cubeLabel >> testLabel;
 
-    testCube->fromLabel(tempDir.path() + "/testCube.cub", testLabel, "rw");
+    testCube->fromLabel(tempDir.path().toStdString() + "/testCube.cub", testLabel, "rw");
   }
 
 
@@ -851,7 +851,7 @@ namespace Isis {
 
     QString testPath = tempDir.path() + "/test.cub";
     QFile::copy("data/mgsImages/mocImage.cub", testPath);
-    testCube.reset(new Cube(testPath));
+    testCube.reset(new Cube(testPath.toStdString()));
   }
 
 
@@ -864,7 +864,7 @@ namespace Isis {
 
     QString testPath = tempDir.path() + "/test.cub";
     QFile::copy("data/clipper/ClipperWacFc.cub", testPath);
-    wacFcCube = new Cube(testPath);
+    wacFcCube = new Cube(testPath.toStdString());
 
     PvlGroup &wacKernels = wacFcCube->label()->findObject("IsisCube").findGroup("Kernels");
     wacKernels.findKeyword("NaifFrameCode").setValue("-159102");
@@ -891,7 +891,7 @@ namespace Isis {
     delete testCube;
     testCube = new Cube();
 
-    FileName newCube(tempDir.path() + "/testing.cub");
+    FileName newCube(tempDir.path().toStdString() + "/testing.cub");
 
     testCube->fromIsd(newCube, label, isd, "rw");
 
@@ -936,7 +936,7 @@ namespace Isis {
 
     QString fileName = testCube->fileName();
     delete testCube;
-    testCube = new Cube(fileName, "rw");
+    testCube = new Cube(fileName.toStdString(), "rw");
 
     double offset = 10;
     AlphaCube aCube(testCube->sampleCount(), testCube->lineCount(),
@@ -959,12 +959,12 @@ namespace Isis {
     if (instrumentId == "NAC-PUSHBROOM") {
       QString testPath = tempDir.path() + "/nacTest.cub";
       QFile::copy("data/clipper/ClipperNacPb.cub", testPath);
-      testCube = new Cube(testPath, "rw");
+      testCube = new Cube(testPath.toStdString(), "rw");
     }
     else if (instrumentId == "WAC-PUSHBROOM") {
       QString testPath = tempDir.path() + "/wacTest.cub";
       QFile::copy("data/clipper/ClipperWacPb.cub", testPath);
-      testCube = new Cube(testPath, "rw");
+      testCube = new Cube(testPath.toStdString(), "rw");
     }
   }
 
@@ -981,7 +981,7 @@ namespace Isis {
     cubeLabel >> label;
 
     testCube.reset( new Cube() ) ;
-    testCube->fromIsd(tempDir.path() + "/m0155881376f3_2p_cif_dbl.cub", label, isd, "rw");
+    testCube->fromIsd(tempDir.path().toStdString() + "/m0155881376f3_2p_cif_dbl.cub", label, isd, "rw");
   }
 
   void NearMsiCameraCube::TearDown() {

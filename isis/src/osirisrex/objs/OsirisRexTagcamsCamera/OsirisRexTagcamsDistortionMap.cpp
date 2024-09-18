@@ -51,7 +51,7 @@ namespace Isis {
                                                  : CameraDistortionMap(parent, zdir) {
 
       // Define kernel keywords to fetch
-    QString ikCode = toString(naifIkCode);
+    QString ikCode = QString::number(naifIkCode);
     QString odkKey = "INS" + ikCode + "_OPENCV_OD_K";
     QString ppKey  = "INS" + ikCode + "_OPENCV_OD_P";
     QString flKey  = "INS" + ikCode + "_OPENCV_OD_F";
@@ -77,7 +77,7 @@ namespace Isis {
     p_camTemp = 0.0;  // Default is no camera head temperature adjustment
 
     p_tolerance = parent->getDouble(tolKey, 0);
-    p_debug     = toBool(parent->getString(dbKey, 0));
+    p_debug     = toBool(parent->getString(dbKey, 0).toStdString());
 
     // Set up our own focal plane map from the camera model. NOTE!!!
     // The CameraFocalPlaneMap must be set in the Camera object 

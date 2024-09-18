@@ -30,14 +30,14 @@ void IsisMain() {
   if(scn == "VIKING_ORBITER_1") spn = 1;
   else if(scn == "VIKING_ORBITER_2") spn = 2;
   else {
-    std::string msg = "Invalid spacecraftname [" + scn + "]";
+    std::string msg = "Invalid spacecraftname [" + scn.toStdString() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   // determine if # of cols is even or odd
   bool even = true;
   PvlGroup &arch = p.findGroup("Archive", Pvl::Traverse);
   QString id = QString::fromStdString(arch["ProductId"]);
-  int num = toInt(id.mid(5, 1));
+  int num = (id.mid(5, 1).toInt());
   if(num == 1 || num == 3 || num == 5 || num == 7 || num == 9) even = false;
 
   // Run a standard deviation filter on the cube
@@ -67,8 +67,8 @@ void IsisMain() {
   pipeline.Application("mask").SetInputParameter("FROM", false);
   pipeline.Application("mask").SetOutputParameter("TO", "step3");
 
-  QString maskParameter = "$ISISDATA/viking" + toString(spn) +
-    "/calibration/vik" + toString(spn);
+  QString maskParameter = "$ISISDATA/viking" + QString::number(spn) +
+    "/calibration/vik" + QString::number(spn);
   if(even) {
     maskParameter += "evenMask.cub";
   }

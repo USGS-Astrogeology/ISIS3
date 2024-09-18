@@ -392,8 +392,8 @@ TEST_F(CSMCameraFixture, getParameterIndicesListError) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Failed to find indices for the following parameters ["
-        "Parameter 4,Parameter 0].")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Failed to find indices for the following parameters ["
+        "Parameter 4,Parameter 0].") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -483,8 +483,8 @@ TEST_F(CSMCameraFixture, SetTime) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Setting the image time is not supported "
-        "for CSM camera models")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Setting the image time is not supported "
+        "for CSM camera models") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -504,8 +504,8 @@ TEST_F(CSMCameraFixture, SubSolarPoint) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Sub solar point is not supported "
-        "for CSM camera models")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Sub solar point is not supported "
+        "for CSM camera models") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -524,8 +524,8 @@ TEST_F(CSMCameraFixture, PixelIfovOffsets) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Pixel Field of View is not supported "
-        "for CSM camera models")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Pixel Field of View is not supported "
+        "for CSM camera models") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -545,8 +545,8 @@ TEST_F(CSMCameraFixture, SunPosition) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Sun position is not supported "
-        "for CSM camera models")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Sun position is not supported "
+        "for CSM camera models") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -560,8 +560,8 @@ TEST_F(CSMCameraFixture, SunPosition) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Sun position is not supported "
-        "for CSM camera models")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Sun position is not supported "
+        "for CSM camera models") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -580,8 +580,8 @@ TEST_F(CSMCameraFixture, InstrumentPosition) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Instrument position is not supported "
-        "for CSM camera models")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Instrument position is not supported "
+        "for CSM camera models") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -597,8 +597,8 @@ TEST_F(CSMCameraFixture, BodyRotation) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Body orientation is not supported "
-        "for CSM camera models")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Body orientation is not supported "
+        "for CSM camera models") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -615,8 +615,8 @@ TEST_F(CSMCameraFixture, InstrumentRotation) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Instrument orientation is not supported "
-        "for CSM camera models")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Instrument orientation is not supported "
+        "for CSM camera models") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -633,8 +633,8 @@ TEST_F(CSMCameraFixture, SolarLongitude) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Solar longitude is not supported "
-        "for CSM camera models")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Solar longitude is not supported "
+        "for CSM camera models") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -651,8 +651,8 @@ TEST_F(CSMCameraFixture, SolarDistance) {
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Solar distance is not supported "
-        "for CSM camera models")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Solar distance is not supported "
+        "for CSM camera models") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {

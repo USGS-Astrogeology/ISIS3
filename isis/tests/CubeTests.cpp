@@ -247,7 +247,7 @@ TEST(CubeTest, TestCubeAttachSpiceFromIsd) {
 
   QTemporaryFile tempFile;
   Cube testCube;
-  testCube.fromIsd(tempFile.fileName() + ".cub", label, isd, "rw");
+  testCube.fromIsd(tempFile.fileName().toStdString() + ".cub", label, isd, "rw");
 
   PvlGroup kernels = testCube.group("Kernels");
 

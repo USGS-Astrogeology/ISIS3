@@ -13,17 +13,17 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/himos.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/himos.xml").expanded());
 
 TEST_F(MroHiriseCube, FunctionalTestHimosDefault) {
 
-  FileName mosFileList(tempDir.path() + "/himosFileList.lis");
+  FileName mosFileList(tempDir.path().toStdString() + "/himosFileList.lis");
 
   FileList * cubeList = new FileList();
-  cubeList->append(dejitteredCube.fileName());
+  cubeList->append(dejitteredCube.fileName().toStdString());
   cubeList->write(mosFileList);
 
-  QVector<QString> args = {"from=" + mosFileList.toString(),
+  QVector<QString> args = {"from=" + QString::fromStdString(mosFileList.toString()),
                            "to=" + tempDir.path() + "/outputMos.cub"};
 
   UserInterface options(APP_XML, args);
@@ -31,9 +31,9 @@ TEST_F(MroHiriseCube, FunctionalTestHimosDefault) {
    himos(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to create mosaic image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to create mosaic image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube outputMos(options.GetCubeName("TO"));
+  Cube outputMos(options.GetCubeName("TO").toStdString());
   PvlObject inputCubeLabel = dejitteredCube.label()->findObject("IsisCube");
   PvlObject outputCubeLabel = outputMos.label()->findObject("IsisCube");
   PvlGroup dimensions = outputCubeLabel.findObject("Core").findGroup("Dimensions");
@@ -76,13 +76,13 @@ TEST_F(MroHiriseCube, FunctionalTestHimosDefault) {
 
 TEST_F(MroHiriseCube, FunctionalTestHimosError) {
 
-  FileName mosFileList(tempDir.path() + "/himosFileList.lis");
+  FileName mosFileList(tempDir.path().toStdString() + "/himosFileList.lis");
 
   FileList * cubeList = new FileList();
-  cubeList->append(testCube->fileName());
+  cubeList->append(testCube->fileName().toStdString());
   cubeList->write(mosFileList);
 
-  QVector<QString> args = {"from=" + mosFileList.toString(),
+  QVector<QString> args = {"from=" + QString::fromStdString(mosFileList.toString()),
                            "to=" + tempDir.path() + "/outputMos.cub"};
 
   UserInterface options(APP_XML, args);
@@ -96,19 +96,19 @@ TEST_F(MroHiriseCube, FunctionalTestHimosError) {
 }
 
 TEST_F(MroHiriseCube, FunctionalTestHimosMismatchObs) {
-  CubeAttributeOutput cubeAtts(FileName(dejitteredCube.fileName()));
-  Cube *copyDejitteredCube = dejitteredCube.copy(tempDir.path() + "/copyDejitteredCube.cub", cubeAtts);
+  CubeAttributeOutput cubeAtts(FileName(dejitteredCube.fileName().toStdString()));
+  Cube *copyDejitteredCube = dejitteredCube.copy(tempDir.path().toStdString() + "/copyDejitteredCube.cub", cubeAtts);
   copyDejitteredCube->label()->findObject("IsisCube").findGroup("Archive")["ObservationId"] = "Banana";
   copyDejitteredCube->reopen("rw");
 
-  FileName mosFileList(tempDir.path() + "/himosFileList.lis");
+  FileName mosFileList(tempDir.path().toStdString() + "/himosFileList.lis");
 
   FileList * cubeList = new FileList();
-  cubeList->append(dejitteredCube.fileName());
-  cubeList->append(copyDejitteredCube->fileName());
+  cubeList->append(dejitteredCube.fileName().toStdString());
+  cubeList->append(copyDejitteredCube->fileName().toStdString());
   cubeList->write(mosFileList);
 
-  QVector<QString> args = {"from=" + mosFileList.toString(),
+  QVector<QString> args = {"from=" + QString::fromStdString(mosFileList.toString()),
                            "to=" + tempDir.path() + "/outputMos.cub"};
 
   UserInterface options(APP_XML, args);
@@ -122,19 +122,19 @@ TEST_F(MroHiriseCube, FunctionalTestHimosMismatchObs) {
 }
 
 TEST_F(MroHiriseCube, FunctionalTestHimosMismatchFilter) {
-  CubeAttributeOutput cubeAtts(FileName(dejitteredCube.fileName()));
-  Cube *copyDejitteredCube = dejitteredCube.copy(tempDir.path() + "/copyDejitteredCube.cub", cubeAtts);
+  CubeAttributeOutput cubeAtts(FileName(dejitteredCube.fileName().toStdString()));
+  Cube *copyDejitteredCube = dejitteredCube.copy(tempDir.path().toStdString() + "/copyDejitteredCube.cub", cubeAtts);
   copyDejitteredCube->label()->findObject("IsisCube").findGroup("BandBin")["Name"] = "Red";
   copyDejitteredCube->reopen("rw");
 
-  FileName mosFileList(tempDir.path() + "/himosFileList.lis");
+  FileName mosFileList(tempDir.path().toStdString() + "/himosFileList.lis");
 
   FileList * cubeList = new FileList();
-  cubeList->append(dejitteredCube.fileName());
-  cubeList->append(copyDejitteredCube->fileName());
+  cubeList->append(dejitteredCube.fileName().toStdString());
+  cubeList->append(copyDejitteredCube->fileName().toStdString());
   cubeList->write(mosFileList);
 
-  QVector<QString> args = {"from=" + mosFileList.toString(),
+  QVector<QString> args = {"from=" + QString::fromStdString(mosFileList.toString()),
                            "to=" + tempDir.path() + "/outputMos.cub"};
 
   UserInterface options(APP_XML, args);

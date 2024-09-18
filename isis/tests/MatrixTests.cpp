@@ -151,8 +151,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Invalid matrix dimensions")) 
-            << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Invalid matrix dimensions") != std::string::npos) 
+            <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Invalid matrix dimensions";
@@ -163,8 +163,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Invalid matrix dimensions")) 
-            << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Invalid matrix dimensions") != std::string::npos) 
+            <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Invalid matrix dimensions";
@@ -178,8 +178,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Invalid matrix dimensions")) 
-            << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Invalid matrix dimensions") != std::string::npos) 
+            <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Invalid matrix dimensions";
@@ -190,8 +190,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Invalid matrix dimensions")) 
-            << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Invalid matrix dimensions") != std::string::npos) 
+            <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Invalid matrix dimensions";
@@ -207,8 +207,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Unable to calculate the determinant, the " 
-                                                   "matrix is not square")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Unable to calculate the determinant, the " 
+                                                   "matrix is not square") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Unable to calculate the determinant, the matrix is not square.";
@@ -224,8 +224,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Unable to calculate the trace, the matrix is "
-                                                   "not square")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Unable to calculate the trace, the matrix is "
+                                                   "not square") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Unable to calculate the trace, the matrix is not square.";
@@ -243,8 +243,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Incompatible matrix dimensions, cannot add "
-                                                   "the matrices")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Incompatible matrix dimensions, cannot add "
+                                                   "the matrices") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Incompatible matrix dimensions, cannot add the matrices.";
@@ -255,8 +255,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Incompatible matrix dimensions, cannot add "  
-                                                   "the matrices")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Incompatible matrix dimensions, cannot add "  
+                                                   "the matrices") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Incompatible matrix dimensions, cannot add the matrices.";
@@ -274,8 +274,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Incompatible matrix dimensions, cannot "  
-                                                   "subtract the matrices")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Incompatible matrix dimensions, cannot "  
+                                                   "subtract the matrices") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Incompatible matrix dimensions, cannot subtract the matrices.";
@@ -286,8 +286,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Incompatible matrix dimensions, cannot "  
-                                                   "subtract the matrices")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Incompatible matrix dimensions, cannot "  
+                                                   "subtract the matrices") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Incompatible matrix dimensions, cannot subtract the matrices.";
@@ -304,8 +304,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Incompatible matrix dimensions, cannot "  
-                                                   "multiply the matrices")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Incompatible matrix dimensions, cannot "  
+                                                   "multiply the matrices") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Incompatible matrix dimensions, cannot multiply the matrices.";
@@ -323,8 +323,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Incompatible matrix dimensions, cannot "  
-                                                   "multiply the matrices")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Incompatible matrix dimensions, cannot "  
+                                                   "multiply the matrices") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Incompatible matrix dimensions, cannot multiply the matrices.";
@@ -335,8 +335,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Incompatible matrix dimensions, cannot "  
-                                                   "multiply the matrices")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Incompatible matrix dimensions, cannot "  
+                                                   "multiply the matrices") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Incompatible matrix dimensions, cannot multiply the matrices.";
@@ -352,8 +352,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Unable to calculate the inverse, the matrix "  
-                                                   "is not square")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Unable to calculate the inverse, the matrix "  
+                                                   "is not square") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Unable to calculate the inverse, the matrix is not square.";
@@ -369,8 +369,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Unable to calculate eigenvalues, the matrix "  
-                                                   "is not square")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Unable to calculate eigenvalues, the matrix "  
+                                                   "is not square") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Unable to calculate eigenvalues, the matrix is not square.";
@@ -386,8 +386,8 @@ namespace Isis {
       FAIL() << "Expected an IException";
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("Unable to calculate eigenvectors, the matrix "  
-                                                   "is not square")) << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("Unable to calculate eigenvectors, the matrix "  
+                                                   "is not square") != std::string::npos) <<  e.toString();
     }
     catch(...) {
       FAIL() << "Expected error message: Unable to calculate eigenvectors, the matrix is not square.";

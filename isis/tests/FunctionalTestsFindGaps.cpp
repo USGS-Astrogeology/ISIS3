@@ -13,7 +13,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/findgaps.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/findgaps.xml").expanded());
 
 // Tests a basic gap detection
 TEST_F( SmallCube, FindGapsDefault )
@@ -48,10 +48,10 @@ TEST_F( SmallCube, FindGapsDefault )
     findgaps(options);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
 
   // test that nullified gaps were written to output cube as expected
   std::unique_ptr<Histogram> outHist (outCube.histogram());
@@ -99,10 +99,10 @@ TEST_F( SmallCube, FindGapsEndOfBand )
     findgaps(options);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
 
   // test that nullified gaps were written to output cube as expected
   std::unique_ptr<Histogram> outHist (outCube.histogram());
@@ -162,10 +162,10 @@ TEST_F( SmallCube, FindGapsCorTol )
     findgaps(options);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
 
   // test that nullified gaps were written to output cube as expected
   std::unique_ptr<Histogram> outHist (outCube.histogram());

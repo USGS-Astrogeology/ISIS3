@@ -14,7 +14,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/overlapstats.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/overlapstats.xml").expanded());
 
 TEST_F(ThreeImageNetwork, FunctionalTestOverlapstatsBadCubeList) {
   QString badCubeList = tempDir.path() + "/badcubes.lis";
@@ -22,13 +22,13 @@ TEST_F(ThreeImageNetwork, FunctionalTestOverlapstatsBadCubeList) {
   FileList cubes;
 
   // badCubeList only contains cube1, overlaps has cube1 and cube2
-  cubes.append(FileName(cube1->fileName()));
-  cubes.write(badCubeList);
-  cubes.append(FileName(cube2->fileName()));
+  cubes.append(FileName(cube1->fileName().toStdString()));
+  cubes.write(badCubeList.toStdString());
+  cubes.append(FileName(cube2->fileName().toStdString()));
   cube1->close();
   cube2->close();
 
-  QString FIO_APP_XML = FileName("$ISISROOT/bin/xml/findimageoverlaps.xml").expanded();
+  QString FIO_APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/findimageoverlaps.xml").expanded());
   QVector<QString> fio_args = { "OVERLAPLIST=" + overlapsPath };
   UserInterface fioOptions(FIO_APP_XML, fio_args);
   findimageoverlaps(cubes, fioOptions, false, nullptr);
@@ -44,8 +44,8 @@ TEST_F(ThreeImageNetwork, FunctionalTestOverlapstatsBadCubeList) {
   }
   catch(IException &e) {
     std::string errorMsg = "in overlap list that was not in the provided cube list";
-    EXPECT_TRUE(e.toString().toLatin1().contains(errorMsg.toLatin1()))
-                                              << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find(errorMsg.c_str()) != std::string::npos)
+                                              <<  e.toString();
   }
 }
 
@@ -63,19 +63,19 @@ TEST_F(ThreeImageNetwork, FunctionalTestOverlapstatsDefault) {
   cube3->reopen("rw");
 
   FileList cubes;
-  cubes.append(FileName(cube1->fileName()));
-  cubes.append(FileName(cube2->fileName()));
-  cubes.append(FileName(cube3->fileName()));
+  cubes.append(FileName(cube1->fileName().toStdString()));
+  cubes.append(FileName(cube2->fileName().toStdString()));
+  cubes.append(FileName(cube3->fileName().toStdString()));
   cube1->close();
   cube2->close();
   cube3->close();
 
   QString cubeListPath = tempDir.path() + "/cubes.lis";
   QString overlapsPath = tempDir.path() + "/overlaps.lis";
-  cubes.write(cubeListPath);
+  cubes.write(cubeListPath.toStdString());
 
   // get overlaps from findimageoverlaps
-  QString FIO_APP_XML = FileName("$ISISROOT/bin/xml/findimageoverlaps.xml").expanded();
+  QString FIO_APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/findimageoverlaps.xml").expanded());
   QVector<QString> fio_args = { "OVERLAPLIST=" + overlapsPath };
   UserInterface fioOptions(FIO_APP_XML, fio_args);
   findimageoverlaps(cubes, fioOptions);
@@ -119,17 +119,17 @@ TEST_F(ThreeImageNetwork, FunctionalTestOverlapstatsFull) {
   cube2->reopen("rw");
 
   FileList cubes;
-  cubes.append(FileName(cube1->fileName()));
-  cubes.append(FileName(cube2->fileName()));
+  cubes.append(FileName(cube1->fileName().toStdString()));
+  cubes.append(FileName(cube2->fileName().toStdString()));
   cube1->close();
   cube2->close();
 
   QString cubeListPath = tempDir.path() + "/cubes.lis";
   QString overlapsPath = tempDir.path() + "/overlaps.lis";
-  cubes.write(cubeListPath);
+  cubes.write(cubeListPath.toStdString());
 
   // get overlaps for overlapstats input
-  QString FIO_APP_XML = FileName("$ISISROOT/bin/xml/findimageoverlaps.xml").expanded();
+  QString FIO_APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/findimageoverlaps.xml").expanded());
   QVector<QString> fio_args = { "OVERLAPLIST=" + overlapsPath };
   UserInterface fioOptions(FIO_APP_XML, fio_args);
   findimageoverlaps(cubes, fioOptions);
@@ -173,19 +173,19 @@ TEST_F(ThreeImageNetwork, FunctionalTestOverlapstatsNoOverlap) {
   cube3->reopen("rw");
 
   FileList cubes;
-  cubes.append(FileName(cube1->fileName()));
-  cubes.append(FileName(cube2->fileName()));
-  cubes.append(FileName(cube3->fileName()));
+  cubes.append(FileName(cube1->fileName().toStdString()));
+  cubes.append(FileName(cube2->fileName().toStdString()));
+  cubes.append(FileName(cube3->fileName().toStdString()));
   cube1->close();
   cube2->close();
   cube3->close();
 
   QString cubeListPath = tempDir.path() + "/cubes.lis";
   QString overlapsPath = tempDir.path() + "/overlaps.lis";
-  cubes.write(cubeListPath);
+  cubes.write(cubeListPath.toStdString());
 
   // get overlaps for overlapstats input
-  QString FIO_APP_XML = FileName("$ISISROOT/bin/xml/findimageoverlaps.xml").expanded();
+  QString FIO_APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/findimageoverlaps.xml").expanded());
   QVector<QString> fio_args = { "OVERLAPLIST=" + overlapsPath };
   UserInterface fioOptions(FIO_APP_XML, fio_args);
   findimageoverlaps(cubes, fioOptions);

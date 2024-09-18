@@ -34,12 +34,12 @@ namespace Isis {
   void tgocassismos(UserInterface &ui) {
 
     // Get the list of cubes to mosaic
-    FileList fromList(ui.GetFileName("FROMLIST"));
+    FileList fromList(ui.GetFileName("FROMLIST").toStdString());
 
     vector<Cube *> cubeList;
     try {
       if (fromList.size() < 1) {
-        std::string msg = "the list file [" + ui.GetFileName("FROMLIST") +
+        std::string msg = "the list file [" + ui.GetFileName("FROMLIST").toStdString() +
                       "does not contain any data";
         throw IException(IException::User, msg, _FILEINFO_);
       }
@@ -49,7 +49,7 @@ namespace Isis {
       for (int i = 0; i < fromList.size(); i++) {
         Cube *cube = new Cube();
         cubeList.push_back(cube);
-        cube->open(fromList[i].toString());
+        cube->open(QString::fromStdString(fromList[i].toString()));
       }
 
 
@@ -272,7 +272,7 @@ namespace Isis {
         cubeList[i]->close();
         delete cubeList[i];
       }
-      std::string msg = "The mosaic [" + ui.GetCubeName("TO") + "] was NOT created";
+      std::string msg = "The mosaic [" + ui.GetCubeName("TO").toStdString() + "] was NOT created";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   } // end of isis main

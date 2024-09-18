@@ -20,7 +20,7 @@ using namespace Isis;
 using ::testing::Return;
 using ::testing::AtLeast;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/cam2cam.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cam2cam.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestCam2camNoChange) {
 
@@ -29,14 +29,14 @@ TEST_F(DefaultCube, FunctionalTestCam2camNoChange) {
 
   testCube->reopen("r");
   QString inFile = testCube->fileName();
-  Cube mcube(inFile,"r");
+  Cube mcube(inFile.toStdString(),"r");
 
   cam2cam(testCube, &mcube, ui);
 
-  Cube icube(inFile);
+  Cube icube(inFile.toStdString());
   PvlGroup icubeInstrumentGroup = icube.label()->findGroup("Instrument", Pvl::Traverse);
 
-  Cube ocube(tempDir.path()+"/Cam2CamNoChange.cub");
+  Cube ocube(tempDir.path().toStdString()+"/Cam2CamNoChange.cub");
   PvlGroup ocubeInstrumentGroup = ocube.label()->findGroup("Instrument", Pvl::Traverse);
 
   ASSERT_EQ(icubeInstrumentGroup.findKeyword("SpacecraftName"), ocubeInstrumentGroup.findKeyword("SpacecraftName"));

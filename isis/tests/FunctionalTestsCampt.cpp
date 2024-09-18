@@ -18,7 +18,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/campt.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/campt.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestCamptBadColumnError) {
   // set up bad coordinates file
@@ -39,8 +39,8 @@ TEST_F(DefaultCube, FunctionalTestCamptBadColumnError) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(Isis::IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Coordinate file formatted incorrectly."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Coordinate file formatted incorrectly.") != std::string::npos)
+      <<  e.toString();
   }
   catch(...) {
     FAIL() << "Expected an IException with message: \"Coordinate file formatted incorrectly.\n"
@@ -60,8 +60,8 @@ TEST_F(DefaultCube, FunctionalTestCamptFlatFileError) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(Isis::IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Flat file must have a name."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Flat file must have a name.") != std::string::npos)
+      <<  e.toString();
   }
   catch(...) {
     FAIL() << "Expected an IException with message: \"Flat file must have a name.\"";

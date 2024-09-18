@@ -13,7 +13,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/crop.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/crop.xml").expanded());
 
 TEST_F(LargeCube, FunctionalTestCropDefault) {
   QTemporaryDir tempDir;
@@ -29,7 +29,7 @@ TEST_F(LargeCube, FunctionalTestCropDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 
@@ -53,7 +53,7 @@ TEST_F(LargeCube, FunctionalTestCropSkip1) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
 }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 
@@ -77,7 +77,7 @@ TEST_F(LargeCube, FunctionalTestCropSkip2) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 
@@ -101,7 +101,7 @@ TEST_F(LargeCube, FunctionalTestCropSkip5) {
       FAIL() << "Unable to open image: " << e.what() << std::endl;
     }
 
-    Cube oCube(outCubeFileName, "r");
+    Cube oCube(outCubeFileName.toStdString(), "r");
 
     Histogram *oCubeStats = oCube.histogram();
 
@@ -127,7 +127,7 @@ TEST_F(DefaultCube, FunctionalTestCropNoSpice) {
       FAIL() << "Unable to open image: " << e.what() << std::endl;
     }
 
-    Cube oCube(outCubeFileName, "r");
+    Cube oCube(outCubeFileName.toStdString(), "r");
 
     Histogram *oCubeStats = oCube.histogram();
 
@@ -153,7 +153,7 @@ TEST_F(DefaultCube, FunctionalTestCropProj) {
       FAIL() << "Unable to open image: " << e.what() << std::endl;
     }
 
-    Cube oCube(outCubeFileName, "r");
+    Cube oCube(outCubeFileName.toStdString(), "r");
 
     Histogram *oCubeStats = oCube.histogram();
 

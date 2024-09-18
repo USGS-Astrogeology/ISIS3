@@ -58,7 +58,7 @@ namespace Isis {
     QString instrumentId = QString::fromStdString(inst["InstrumentId"]);
     if ( "virtis" != instrumentId.toLower()) {
       std::string mess = "This data is apparently not from the VIRTIS instrument but "
-                      + instrumentId;
+                      + instrumentId.toStdString();
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
@@ -124,10 +124,10 @@ namespace Isis {
     // Setup focal plane map
     new CameraFocalPlaneMap(this, naifIkCode());
     //  Retrieve boresight location from instrument kernel (IK) (addendum?)
-    QString ikernKey = "INS" + toString(naifIkCode()) + "_BORESIGHT_SAMPLE";
+    QString ikernKey = "INS" + QString::number(naifIkCode()) + "_BORESIGHT_SAMPLE";
     double sampleBoreSight = getDouble(ikernKey);
 
-    ikernKey = "INS" + toString(naifIkCode()) + "_BORESIGHT_LINE";
+    ikernKey = "INS" + QString::number(naifIkCode()) + "_BORESIGHT_LINE";
     double lineBoreSight = getDouble(ikernKey);
     FocalPlaneMap()->SetDetectorOrigin(sampleBoreSight, lineBoreSight);
 
@@ -301,7 +301,7 @@ namespace Isis {
   void RosettaVirtisCamera::readSCET(const QString &filename) {
    //  Open the ISIS table object
    std::vector<double> cacheTime;
-   Table hktable("VIRTISHouseKeeping", filename);
+   Table hktable("VIRTISHouseKeeping", filename.toStdString());
    m_lineRates.clear();
    int lineno(1);
    double lineEndTime = 0;
@@ -356,7 +356,7 @@ namespace Isis {
   void RosettaVirtisCamera::readHouseKeeping(const QString &filename,
                                        double lineRate) {
    //  Open the ISIS table object
-   Table hktable("VIRTISHouseKeeping", filename);
+   Table hktable("VIRTISHouseKeeping", filename.toStdString());
 
    m_lineRates.clear();
    int lineno(1);
@@ -377,7 +377,7 @@ namespace Isis {
      ScanMirrorInfo smInfo;
      double lineMidTime;
      //  scs2e_c(naifSpkCode(), scet.c_str(), &lineMidTime);
-     lineMidTime = getClockTime(toString(scet), naifSpkCode()).Et();
+     lineMidTime = getClockTime(QString::number(scet), naifSpkCode()).Et();
      bool isDark = (shutterMode == 1);
 
      // Add fit data for all open angles
@@ -601,8 +601,8 @@ namespace Isis {
       }
       catch (IException &ie2) {
         ostringstream mess;
-        mess << "Could not get state rotation for Frame1 (" << frame1
-             << ") to Frame2 (" <<  frame2 <<  ") at time " << etTime;
+        mess << "Could not get state rotation for Frame1 (" << frame1.toStdString()
+             << ") to Frame2 (" <<  frame2.toStdString() <<  ") at time " << etTime;
         throw IException(ie2, IException::User, mess.str(), _FILEINFO_);
       }
     }

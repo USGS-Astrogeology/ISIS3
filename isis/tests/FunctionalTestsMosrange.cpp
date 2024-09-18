@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/mosrange.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/mosrange.xml").expanded());
 
 /**
    * MosrangeDefault
@@ -34,7 +34,7 @@ TEST(Mosrange, MosrangeDefault) {
     results = mosrange(options);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   PvlGroup &mapping = results.findGroup("Mapping", Pvl::Traverse);
@@ -81,7 +81,7 @@ TEST(Mosrange, MosrangeOnErrorContinue) {
     results = mosrange(options);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   PvlGroup &mapping = results.findGroup("Mapping", Pvl::Traverse);
@@ -133,8 +133,8 @@ TEST(Mosrange, MosrangeOnErrorFail) {
     FAIL() << "Expected Exception for a cube that hasn't been spiceinited";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Unable to initialize camera model"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Unable to initialize camera model") != std::string::npos)
+      <<  e.toString();
   }
 
   // try to read back error log pvl output file
@@ -158,8 +158,8 @@ TEST(Mosrange, MosrangeOnErrorFail) {
   ASSERT_EQ(errorFileFullPath.fileName(), "EN0108828337M_noSPICE.cub");
 
   // confirm bad cube needs to be re-spiceinited
-  std::string errorType = QString::fromStdString(errorFile.findKeyword("Error"));
-  ASSERT_TRUE(errorType.contains("re-run spiceinit"));
+  std::string errorType = errorFile.findKeyword("Error");
+  ASSERT_TRUE(errorType.find("re-run spiceinit") != std::string::npos);
 
   // try to read back errorList output file
   QFile errorListFile(tempDir.path() + "/errorList.txt");

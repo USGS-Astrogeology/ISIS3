@@ -12,7 +12,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/hidtmgen.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/hidtmgen.xml").expanded());
 
 TEST(Hidtmgen, HidtmgenTestColor){
    //Serves as default test case -- test all keywords for all generated products.
@@ -30,7 +30,7 @@ TEST(Hidtmgen, HidtmgenTestColor){
     hidtmgen(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to HIRISE generate PDS products: " <<  e.toString().c_str() << std::endl;
   }
 
   Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_042252_1930_042753_1930_A31.IMG");
@@ -259,7 +259,7 @@ TEST(Hidtmgen, HidtmgenTestDtmOnly){
     hidtmgen(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to HIRISE generate PDS products: " <<  e.toString().c_str() << std::endl;
   }
 
   Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_042252_1930_042753_1930_A15.IMG");
@@ -286,7 +286,7 @@ TEST(Hidtmgen, HidtmgenTestEqui){
     hidtmgen(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to HIRISE generate PDS products: " <<  e.toString().c_str() << std::endl;
   }
 
   Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_002118_1510_003608_1510_A02.IMG");
@@ -536,7 +536,7 @@ TEST(Hidtmgen, HidtmgenTestNonDefaultNames){
     hidtmgen(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to HIRISE generate PDS products: " <<  e.toString().c_str() << std::endl;
   }
 
   Pvl dtmLabel(prefix.path().toStdString() +"/dtm.img");
@@ -563,7 +563,7 @@ TEST(Hidtmgen, HidtmgenTestOrthoOnly){
     hidtmgen(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to HIRISE generate PDS products: " <<  e.toString().c_str() << std::endl;
   }
 
   Pvl orthoLabel(prefix.path().toStdString() +"/ESP_042252_1930_IRB_D_31_ORTHO.IMG");
@@ -600,7 +600,7 @@ TEST(Hidtmgen, HidtmgenTestOutputTypesAll832){
     hidtmgen(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to HIRISE generate PDS products: " <<  e.toString().c_str() << std::endl;
   }
 
   Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_042252_1930_042753_1930_A31.IMG");
@@ -650,7 +650,7 @@ TEST(Hidtmgen, HidtmgenTestOutputTypesAllU16S16){
     hidtmgen(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to HIRISE generate PDS products: " <<  e.toString().c_str() << std::endl;
   }
 
   Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_042252_1930_042753_1930_A07.IMG");
@@ -699,7 +699,7 @@ TEST(Hidtmgen, HidtmgenTestOutputTypesNoneS16U16){
     hidtmgen(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to HIRISE generate PDS products: " <<  e.toString().c_str() << std::endl;
   }
 
   Pvl dtmLabel(prefix.path().toStdString() +"/DTEEZ_042252_1930_042753_1930_A07.IMG");
@@ -740,7 +740,7 @@ TEST(Hidtmgen, HidtmgenTestPolar){
     hidtmgen(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to HIRISE generate PDS products: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to HIRISE generate PDS products: " <<  e.toString().c_str() << std::endl;
   }
 
   Pvl dtmLabel(prefix.path().toStdString() +"/DTEPZ_009404_2635_010221_2635_Z12.IMG");

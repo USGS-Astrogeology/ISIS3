@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString STRETCH_XML = FileName("$ISISROOT/bin/xml/stretch.xml").expanded();
+static QString STRETCH_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/stretch.xml").expanded());
 
 // case 1
 TEST_F(SpecialSmallCube, FunctionalTestStretchDefault) {
@@ -29,7 +29,7 @@ TEST_F(SpecialSmallCube, FunctionalTestStretchDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 
@@ -55,7 +55,7 @@ TEST_F(SpecialSmallCube, FunctionalTestStretchSwitchSpecial) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 

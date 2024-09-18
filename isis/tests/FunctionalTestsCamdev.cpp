@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/camdev.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/camdev.xml").expanded());
 
 TEST_F(LineScannerCube, FunctionalTestCamdevDefault) {
   LineManager line(*testCube);
@@ -80,7 +80,7 @@ TEST_F(LineScannerCube, FunctionalTestCamdevDefault) {
     FAIL() << "Unable to process image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   std::unique_ptr<Histogram> oCubeStats;
 
   double average = 0;

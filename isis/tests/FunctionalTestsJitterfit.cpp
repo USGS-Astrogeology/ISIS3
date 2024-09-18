@@ -8,7 +8,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/jitterfit.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/jitterfit.xml").expanded());
 TEST_F(TempTestingFiles, DISABLED_FunctionalTestJitterfitDefault){
   QTemporaryDir prefix;
   QString outputCoeffs = prefix.path() + "/coef.csv";
@@ -68,7 +68,7 @@ TEST_F(TempTestingFiles, DISABLED_FunctionalTestJitterfitDefault){
   EXPECT_DOUBLE_EQ(csvLine[1].toDouble(), 0.0032581267520383002);
 
   // Test coefficients that were written to cube
-  Cube cube(dataCube);
+  Cube cube(dataCube.toStdString());
   Pvl *isisLabel = cube.label();
   PvlGroup &inst = isisLabel->findGroup("Instrument", Pvl::Traverse);
 

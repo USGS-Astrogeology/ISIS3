@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/moccal.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/moccal.xml").expanded());
 
 TEST_F(MgsMocCube, FunctionalTestMoccalDefault) {
   QString outCubeFileName = tempDir.path() + "/outTemp.cub";
@@ -25,7 +25,7 @@ TEST_F(MgsMocCube, FunctionalTestMoccalDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   PvlGroup radGroup = oCube.label()->findObject("IsisCube").findGroup("Radiometry");
 
@@ -61,7 +61,7 @@ TEST_F(MgsMocCube, FunctionalTestMoccalIofFalse) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   PvlGroup radGroup = oCube.label()->findObject("IsisCube").findGroup("Radiometry");
 
@@ -98,7 +98,7 @@ TEST_F(MgsMocCube, FunctionalTestMoccalNullwagoTrue) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   PvlGroup radGroup = oCube.label()->findObject("IsisCube").findGroup("Radiometry");
 
@@ -148,8 +148,8 @@ TEST_F(MgsMocCube, FunctionalTestMoccalCameraComparison) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oNoCamCube(outCubeFileNameCam, "r");
-  Cube oCamCube(outCubeFileNameCam, "r");
+  Cube oNoCamCube(outCubeFileNameCam.toStdString(), "r");
+  Cube oCamCube(outCubeFileNameCam.toStdString(), "r");
 
   PvlGroup noCamLab = oNoCamCube.label()->findObject("IsisCube").findGroup("Radiometry");
   PvlGroup camLab = oCamCube.label()->findObject("IsisCube").findGroup("Radiometry");

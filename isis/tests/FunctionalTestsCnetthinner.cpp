@@ -12,9 +12,9 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/cnetthinner.xml").expanded();
-static QString APP1_XML = FileName("$ISISROOT/bin/xml/cnetdiff.xml").expanded();
-static QString APP2_XML = FileName("$ISISROOT/bin/xml/cnetedit.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cnetthinner.xml").expanded());
+static QString APP1_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cnetdiff.xml").expanded());
+static QString APP2_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cnetedit.xml").expanded());
 
 class Cnetthinner : public TempTestingFiles {
   protected:
@@ -50,8 +50,8 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerEmptyControlNet) {
     FAIL() << "Expected Exception for invalid, empty control network file";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Invalid control network"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Invalid control network") != std::string::npos)
+      <<  e.toString();
   }
 }
 
@@ -84,7 +84,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerDefault) {
     cnetthinner(ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // check output ControlNetwork
@@ -151,7 +151,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerIgnoreOrRemove) {
     cnetthinner(ui1);
   }
   catch(IException &e) {
-    FAIL() << "cnetthinner ignore failure: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "cnetthinner ignore failure: " <<  e.toString().c_str() << std::endl;
   }
   
   // Use cnetthinner to suppress points by removing in customPointsTruth.net.
@@ -167,7 +167,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerIgnoreOrRemove) {
     cnetthinner(ui2);
   }
   catch(IException &e) {
-    FAIL() << "cnetthinner remove failure: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "cnetthinner remove failure: " <<  e.toString().c_str() << std::endl;
   }
 
   // confirm 64 points are ignored in both runs
@@ -192,7 +192,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerIgnoreOrRemove) {
     cnetedit(ui3);
   }
   catch(IException &e) {
-    FAIL() << "cnetedit failure to delete removed points: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "cnetedit failure to delete removed points: " <<  e.toString().c_str() << std::endl;
   }
 
    // Use cnetdiff to compare ignored_removed.net and removed.net.
@@ -209,7 +209,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerIgnoreOrRemove) {
     cnetdiff(ui4);
   }
   catch(IException &e) {
-    FAIL() << "cnetdiff failure to compare networks: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "cnetdiff failure to compare networks: " <<  e.toString().c_str() << std::endl;
   }
 
   // read back compareIgnored_IgnoredRemoved log file
@@ -259,7 +259,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerMinMaxPoints) {
     cnetthinner(ui1);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   ControlNet outNet50(tempDir.path()+ "/50.net");
@@ -275,7 +275,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerMinMaxPoints) {
     cnetthinner(ui2);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 	
   ControlNet outNet200(tempDir.path()+ "/200.net");
@@ -291,7 +291,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerMinMaxPoints) {
     cnetthinner(ui3);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   ControlNet outNet400(tempDir.path()+"/400.net");
@@ -330,7 +330,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerTolerance) {
     cnetthinner(ui1);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   ControlNet smallTol(tempDir.path()+"/tolSmall.net");
@@ -347,7 +347,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerTolerance) {
     cnetthinner(ui2);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 	
   ControlNet mediumTol(tempDir.path()+"/tolMedium.net");
@@ -364,7 +364,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerTolerance) {
     cnetthinner(ui3);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   ControlNet largeTol(tempDir.path()+"/tolLarge.net");
@@ -403,7 +403,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerWeight) {
     cnetthinner(ui1);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   ControlNet smallWeight(tempDir.path()+"/Small.net");
@@ -420,7 +420,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerWeight) {
     cnetthinner(ui2);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 	
   ControlNet mediumWeight(tempDir.path()+"/Medium.net");
@@ -437,7 +437,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerWeight) {
     cnetthinner(ui3);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   ControlNet largeWeight(tempDir.path() + "/Large.net");
@@ -454,7 +454,7 @@ TEST_F(Cnetthinner, FunctionalTestCnetthinnerWeight) {
     cnetthinner(ui4);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   ControlNet xLargeWeight(tempDir.path() + "/XLarge.net");

@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded());
 
 TEST(Leisa2Isis, Leisa2IsisTestDefault) {
    Pvl appLog;
@@ -23,9 +23,9 @@ TEST(Leisa2Isis, Leisa2IsisTestDefault) {
    leisa2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LEISA image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LEISA image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -102,7 +102,7 @@ TEST(Leisa2Isis, Leisa2IsisTestDefault) {
 TEST(Leisa2Isis, Leisa2IsisTestJan2015Format) {
    Pvl appLog;
    QTemporaryDir prefix;
-   QString dAPP_XML = FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded();
+   QString dAPP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded());
    QString cubeFileName = prefix.path() + "/leisa2isisTEMP.cub";
    QString errFileName = prefix.path() + "/leisa2isisTEMPerr.cub";
    QString qualityFileName = prefix.path() + "/leisa2isisTEMPqual.cub";
@@ -116,11 +116,11 @@ TEST(Leisa2Isis, Leisa2IsisTestJan2015Format) {
    leisa2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LEISA image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LEISA image: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube errCube(errFileName);
-  Cube qualityCube(qualityFileName);
+  Cube errCube(errFileName.toStdString());
+  Cube qualityCube(qualityFileName.toStdString());
   Pvl *isisErrLabel = errCube.label();
   Pvl *isisQualityLabel = qualityCube.label();
 
@@ -175,7 +175,7 @@ TEST(Leisa2Isis, Leisa2IsisTestJan2015Format) {
 TEST(Leisa2Isis, Leisa2IsisTestCalib) {
    Pvl appLog;
    QTemporaryDir prefix;
-   QString dAPP_XML = FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded();
+   QString dAPP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded());
    QString cubeFileName = prefix.path() + "/leisa2isisTEMP.cub";
    QString errFileName = prefix.path() + "/leisa2isisTEMPerr.cub";
    QString qualityFileName = prefix.path() + "/leisa2isisTEMPqual.cub";
@@ -189,11 +189,11 @@ TEST(Leisa2Isis, Leisa2IsisTestCalib) {
    leisa2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LEISA image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LEISA image: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube errCube(errFileName);
-  Cube qualityCube(qualityFileName);
+  Cube errCube(errFileName.toStdString());
+  Cube qualityCube(qualityFileName.toStdString());
   Pvl *isisErrLabel = errCube.label();
   Pvl *isisQualityLabel = qualityCube.label();
 
@@ -247,7 +247,7 @@ TEST(Leisa2Isis, Leisa2IsisTestCalib) {
 TEST(Leisa2Isis, Leisa2IsisTestRaw) {
    Pvl appLog;
    QTemporaryDir prefix;
-   QString dAPP_XML = FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded();
+   QString dAPP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded());
    QString cubeFileName = prefix.path() + "/leisa2isisTEMP.cub";
 
    QVector<QString> args = {"from=data/leisa2isis/raw.fit",
@@ -259,10 +259,10 @@ TEST(Leisa2Isis, Leisa2IsisTestRaw) {
      leisa2isis(options, &appLog);
    }
    catch (IException &e) {
-     FAIL() << "Unable to ingest LEISA image: " << e.toString().toStdString().c_str() << std::endl;
+     FAIL() << "Unable to ingest LEISA image: " <<  e.toString().c_str() << std::endl;
    }
 
-   Cube cube(cubeFileName);
+   Cube cube(cubeFileName.toStdString());
    Pvl *isisLabel = cube.label();
 
       // Dimensions Group
@@ -324,7 +324,7 @@ TEST(Leisa2Isis, Leisa2IsisTestRaw) {
 TEST(Leisa2Isis, Leisa2IsisTestRawErrormapFail) {
    Pvl appLog;
    QTemporaryDir prefix;
-   QString dAPP_XML = FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded();
+   QString dAPP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded());
    QString cubeFileName = prefix.path() + "/leisa2isisTEMP.cub";
    QString errFileName = prefix.path() + "/leisa2isisTEMPerr.cub";
 
@@ -341,7 +341,7 @@ TEST(Leisa2Isis, Leisa2IsisTestRawErrormapFail) {
 TEST(Leisa2Isis, Leisa2IsisTestRawQualityFail) {
    Pvl appLog;
    QTemporaryDir prefix;
-   QString dAPP_XML = FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded();
+   QString dAPP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/leisa2isis.xml").expanded());
    QString cubeFileName = prefix.path() + "/leisa2isisTEMP.cub";
    QString qualityFileName = prefix.path() + "/leisa2isisTEMPqual.cub";
 
@@ -368,9 +368,9 @@ TEST(Leisa2Isis, Leisa2IsisTestQualityReplacement) {
    leisa2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LEISA image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LEISA image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   Histogram *hist = cube.histogram();
 

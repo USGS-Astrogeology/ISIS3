@@ -30,25 +30,25 @@ namespace Isis {
 
     ProcessImportFits importFits;
 
-    importFits.setFitsFile(FileName(ui.GetFileName("FROM")));
+    importFits.setFitsFile(FileName(ui.GetFileName("FROM").toStdString()));
 
     // Get the first label and make sure this is a New Horizons LORRI file
     PvlGroup mainLabel = importFits.fitsImageLabel(0);
     if (mainLabel["MISSION"][0] != "New Horizons" || mainLabel["INSTRU"][0] != "lor") {
-      std::string msg = QObject::tr("Input file [%1] does not appear to be a New Horizons LORRI FITS "
+      QString msg = QObject::tr("Input file [%1] does not appear to be a New Horizons LORRI FITS "
       "file. Input file label value for MISSION is [%2] and INSTRU is [%3]").
       arg(ui.GetFileName("FROM")).arg(QString::fromStdString(mainLabel["MISSION"][0])).arg(QString::fromStdString(mainLabel["INSTRU"][0]));
-      throw IException(IException::User, msg, _FILEINFO_);
+      throw IException(IException::User, msg.toStdString(), _FILEINFO_);
     }
 
     // Get the label of extension #1 and make sure this is a New Horizons LORRI Error image
     if (ui.WasEntered("ERROR")) {
       PvlGroup errorLabel = importFits.fitsImageLabel(1);
       if (errorLabel["XTENSION"][0] != "IMAGE" || errorLabel["EXTNAME"][0] != "LORRI Error image") {
-        std::string msg = QObject::tr("Input file [%1] does not appear to contain a LORRI Error image. "
+        QString msg = QObject::tr("Input file [%1] does not appear to contain a LORRI Error image. "
             "Input file label value for EXTNAME is [%2] and XTENSION is [%3]").
             arg(ui.GetFileName("FROM")).arg(QString::fromStdString(errorLabel["EXTNAME"][0])).arg(QString::fromStdString(errorLabel["XTENSION"][0]));
-        throw IException(IException::User, msg, _FILEINFO_);
+        throw IException(IException::User, msg.toStdString(), _FILEINFO_);
       }
     }
 
@@ -57,10 +57,10 @@ namespace Isis {
       PvlGroup qualityLabel = importFits.fitsImageLabel(2);
       if (qualityLabel["XTENSION"][0] != "IMAGE" ||
           qualityLabel["EXTNAME"][0] != "LORRI Quality flag image") {
-        std::string msg = QObject::tr("Input file [%1] does not appear to contain a LORRI Quality image. "
+        QString msg = QObject::tr("Input file [%1] does not appear to contain a LORRI Quality image. "
             "Input file label value for EXTNAME is [%2] and XTENSION is [%3]").
             arg(ui.GetFileName("FROM")).arg(QString::fromStdString(qualityLabel["EXTNAME"][0])).arg(QString::fromStdString(qualityLabel["XTENSION"][0]));
-        throw IException(IException::User, msg, _FILEINFO_);
+        throw IException(IException::User, msg.toStdString(), _FILEINFO_);
       }
     }
 
@@ -70,7 +70,7 @@ namespace Isis {
     Cube *output = importFits.SetOutputCube(ui.GetCubeName("TO"), att);
 
     // Get the path where the New Horizons translation tables are.
-    QString transDir = "$ISISROOT/appdata/translations/";
+    std::string transDir = "$ISISROOT/appdata/translations/";
 
     // Temp storage of translated labels
     Pvl outLabel;
@@ -81,7 +81,7 @@ namespace Isis {
 
     // Create an Instrument group
     FileName insTransFile(transDir + "NewHorizonsLorriInstrument_fit.trn");
-    PvlToPvlTranslationManager insXlater(fitsLabel, insTransFile.expanded());
+    PvlToPvlTranslationManager insXlater(fitsLabel, QString::fromStdString(insTransFile.expanded()));
     insXlater.Auto(outLabel);
 
     // Modify/add Instument group keywords not handled by the translater
@@ -95,19 +95,19 @@ namespace Isis {
 
     // Create a Band Bin group
     FileName bandTransFile(transDir + "NewHorizonsLorriBandBin_fit.trn");
-    PvlToPvlTranslationManager bandBinXlater(fitsLabel, bandTransFile.expanded());
+    PvlToPvlTranslationManager bandBinXlater(fitsLabel, QString::fromStdString(bandTransFile.expanded()));
     bandBinXlater.Auto(outLabel);
     output->putGroup(outLabel.findGroup("BandBin", Pvl::Traverse));
 
     // Create an Archive group
     FileName archiveTransFile(transDir + "NewHorizonsLorriArchive_fit.trn");
-    PvlToPvlTranslationManager archiveXlater(fitsLabel, archiveTransFile.expanded());
+    PvlToPvlTranslationManager archiveXlater(fitsLabel, QString::fromStdString(archiveTransFile.expanded()));
     archiveXlater.Auto(outLabel);
     output->putGroup(outLabel.findGroup("Archive", Pvl::Traverse));
 
     // Create a Kernels group
     FileName kernelsTransFile(transDir + "NewHorizonsLorriKernels_fit.trn");
-    PvlToPvlTranslationManager kernelsXlater(fitsLabel, kernelsTransFile.expanded());
+    PvlToPvlTranslationManager kernelsXlater(fitsLabel, QString::fromStdString(kernelsTransFile.expanded()));
     kernelsXlater.Auto(outLabel);
     output->putGroup(outLabel.findGroup("Kernels", Pvl::Traverse));
 

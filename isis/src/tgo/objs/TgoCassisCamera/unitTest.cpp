@@ -46,7 +46,7 @@ int main(void) {
 
     Cube c("$ISISTESTDATA/isis/src/tgo/unitTestData/CAS-MCO-2016-11-22T16.38.39.354-NIR-02036-00.cub", "r");
     TgoCassisCamera *cam = (TgoCassisCamera *) CameraFactory::Create(c);
-    qDebug() << "FileName: " << FileName(c.fileName()).name();
+    qDebug() << "FileName: " <<  QString::fromStdString(FileName(c.fileName().toStdString()).name());
     qDebug() << "Instrument Rotation Frame: " << cam->instrumentRotation()->Frame();
     qDebug() << "";
 

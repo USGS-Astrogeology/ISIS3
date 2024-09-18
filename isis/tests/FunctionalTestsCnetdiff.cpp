@@ -18,7 +18,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/cnetdiff.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cnetdiff.xml").expanded());
 
 class CompareNetsReportFirstDiff : public TempTestingFiles {
   protected:
@@ -589,7 +589,7 @@ TEST_F(CompareNetsReportFirstDiff, FunctionalTestCnetdiffReportFirst) {
     log = cnetdiff(ui1);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
     // read back CompareSame1 output file
@@ -616,7 +616,7 @@ TEST_F(CompareNetsReportFirstDiff, FunctionalTestCnetdiffReportFirst) {
     log = cnetdiff(ui2);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back CompareSame2 output file
@@ -643,7 +643,7 @@ TEST_F(CompareNetsReportFirstDiff, FunctionalTestCnetdiffReportFirst) {
     log = cnetdiff(ui3);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back CompareDifferent output file
@@ -675,7 +675,7 @@ TEST_F(CompareNetsReportFirstDiff, FunctionalTestCnetdiffReportFirst) {
     log = cnetdiff(ui4);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back CompareDifferent2 output file
@@ -739,7 +739,7 @@ TEST_F(CompareNetsReportFull, FunctionalTestCnetdiffReportFull) {
     log = cnetdiff(ui1);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back compareSame1 output file
@@ -771,7 +771,7 @@ TEST_F(CompareNetsReportFull, FunctionalTestCnetdiffReportFull) {
     log = cnetdiff(ui2);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back compareSame2 output file
@@ -803,7 +803,7 @@ TEST_F(CompareNetsReportFull, FunctionalTestCnetdiffReportFull) {
     log = cnetdiff(ui3);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back compareDifferent1 output file
@@ -939,7 +939,7 @@ TEST_F(CompareNetsReportFull, FunctionalTestCnetdiffReportFull) {
     log = cnetdiff(ui4);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // read back compareDifferent2 output file

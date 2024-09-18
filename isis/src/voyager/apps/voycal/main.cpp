@@ -66,7 +66,7 @@ void IsisMain() {
 
   // Check for projection
   if (incube->isProjected()) {
-    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] has a projection" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM").toStdString() + "] has a projection" +
                   " and cannot be radiometrically calibrated";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -79,7 +79,7 @@ void IsisMain() {
 
   // Verify not radiometrically corrected
   if (isiscube.hasGroup("Radiometry")) {
-    std::string msg = "Cube [" + ui.GetCubeName("FROM") + "] has already been" +
+    std::string msg = "Cube [" + ui.GetCubeName("FROM").toStdString() + "] has already been" +
                   " radiometrically corrected";
     throw IException(IException::User,msg,_FILEINFO_);
   }
@@ -87,14 +87,14 @@ void IsisMain() {
   // Verify Voyager spacecraft and get number, 1 or 2
   QString scNumber = QString::fromStdString(instrument["SpacecraftName"][0]);
   if (scNumber != "VOYAGER_1" && scNumber != "VOYAGER_2") {
-    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM").toStdString() + "] does not appear" +
                   " to be a Voyager image";
     throw IException(IException::User, msg, _FILEINFO_);
   }
   scNumber = scNumber[8];
 
   // Open calibration file to find constants and files
-  Pvl calibra(FileName("$voyager" + scNumber +
+  Pvl calibra(FileName("$voyager" + scNumber.toStdString() +
                            "/calibration/voycal.pvl").expanded());
   PvlObject calib;
   QList<QString> hierarchy;
@@ -124,11 +124,11 @@ void IsisMain() {
 
   // Get appropriate calibration files
   CubeAttributeInput in1;
-  p.SetInputCube(FileName("$voyager" + scNumber + "/calibration/" +
-                          QString::fromStdString(calib["OffsetCorrectionFile"])).expanded(), in1);
+  p.SetInputCube(QString::fromStdString(FileName("$voyager" + scNumber.toStdString() + "/calibration/" +
+                          (std::string)calib["OffsetCorrectionFile"]).expanded()), in1);
   CubeAttributeInput in2;
-  p.SetInputCube(FileName("$voyager" + scNumber + "/calibration/" +
-                          QString::fromStdString(calib["GainCorrectionFile"])).expanded(), in2);
+  p.SetInputCube(QString::fromStdString(FileName("$voyager" + scNumber.toStdString() + "/calibration/" +
+                          (std::string)calib["GainCorrectionFile"]).expanded()), in2);
 
   // Constants from voycal.pvl for correction
   omegaNaught = calib["OmegaNaught"];
@@ -140,7 +140,7 @@ void IsisMain() {
   // If we are doing a linear correction as well, go here
   linear = ui.GetBoolean("LINEAR");
   if (linear) {
-    Pvl linearity(FileName("$voyager" + scNumber +
+    Pvl linearity(FileName("$voyager" + scNumber.toStdString() +
                      "/calibration/voylin.pvl").expanded());
 
     PvlObject lin;
@@ -344,7 +344,7 @@ void checkCoefficients(PvlObject &coefficients, QStringList keyNames) {
   if (!missingCoeffs.isEmpty()) {
     throw IException(
         IException::Programmer,
-        "Coefficients [" + missingCoeffs.join(", ") + "] were not found in the "
+        "Coefficients [" + missingCoeffs.join(", ").toStdString() + "] were not found in the "
         "calibration PVL for the input data.  Consider adding a default.",
         _FILEINFO_);
   }

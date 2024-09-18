@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/marcical.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/marcical.xml").expanded());
 
 TEST(Marcical, MarcicalTestDefault) {
   QTemporaryDir prefix;
@@ -20,7 +20,7 @@ TEST(Marcical, MarcicalTestDefault) {
   UserInterface options(APP_XML, args);
   marcical(options);
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -47,7 +47,7 @@ TEST(Marcical, MarcicalTestDefaultNoIof) {
   UserInterface options(APP_XML, args);
   marcical(options);
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -74,7 +74,7 @@ TEST(Marcical, MarcicalTestSingleDuration) {
   UserInterface options(APP_XML, args);
   marcical(options);
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -99,7 +99,7 @@ TEST(Marcical, MarcicalTestSingleDurationNoIof) {
   UserInterface options(APP_XML, args);
   marcical(options);
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);

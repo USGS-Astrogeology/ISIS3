@@ -12,7 +12,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/reduce.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/reduce.xml").expanded());
 
 TEST_F(LargeCube, FunctionalTestReduceDefault) {
   QTemporaryDir prefix;
@@ -33,7 +33,7 @@ TEST_F(LargeCube, FunctionalTestReduceDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube ocube(outCubeFileName);
+  Cube ocube(outCubeFileName.toStdString());
 
   ASSERT_EQ(ocube.sampleCount(), 100);
   ASSERT_EQ(ocube.lineCount(), 100);
@@ -66,7 +66,7 @@ TEST_F(LargeCube, FunctionalTestReduceAverageScale1) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube ocube(outCubeFileName);
+  Cube ocube(outCubeFileName.toStdString());
 
   ASSERT_EQ(ocube.sampleCount(), 1000);
   ASSERT_EQ(ocube.lineCount(), 1000);
@@ -99,7 +99,7 @@ TEST_F(LargeCube, FunctionalTestReduceAverageScale2) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube ocube(outCubeFileName);
+  Cube ocube(outCubeFileName.toStdString());
 
   ASSERT_EQ(ocube.sampleCount(), 100);
   ASSERT_EQ(ocube.lineCount(), 100);
@@ -132,7 +132,7 @@ TEST_F(LargeCube, FunctionalTestReduceNearestNeighbor) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube ocube(outCubeFileName);
+  Cube ocube(outCubeFileName.toStdString());
 
   ASSERT_EQ(ocube.sampleCount(), 100);
   ASSERT_EQ(ocube.lineCount(), 100);
@@ -173,7 +173,7 @@ TEST_F(LargeCube, FunctionalTestReduceRoundOff) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube ocube(outCubeFileName);
+  Cube ocube(outCubeFileName.toStdString());
 
   ASSERT_EQ(ocube.sampleCount(), 80);
   ASSERT_EQ(ocube.lineCount(), 483);

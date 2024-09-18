@@ -13,7 +13,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/chan1m32isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/chan1m32isis.xml").expanded());
 
 TEST(Chan1m32Isis, Chan1m32IsisTestFowardAscending) {
   QTemporaryDir prefix;
@@ -33,9 +33,9 @@ TEST(Chan1m32Isis, Chan1m32IsisTestFowardAscending) {
     chan1m32isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Chandrayaan image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Chandrayaan image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -127,9 +127,9 @@ TEST(Chan1m32Isis, Chan1m32IsisTestFowardDescending) {
     chan1m32isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Chandrayaan image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Chandrayaan image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Instrument Group
@@ -178,9 +178,9 @@ TEST(Chan1m32Isis, Chan1m32IsisTestReverseDescending) {
     chan1m32isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Chandrayaan image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Chandrayaan image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Instrument Group
@@ -231,9 +231,9 @@ TEST(Chan1m32Isis, Chan1m32IsisTestReverseAscending) {
     chan1m32isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Chandrayaan image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Chandrayaan image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Instrument Group
@@ -275,9 +275,9 @@ TEST(Chan1m32Isis, Chan1m32IsisTestLinerateNotConstant) {
     chan1m32isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Chandrayaan image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Chandrayaan image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Instrument Group
@@ -315,9 +315,9 @@ TEST(Chan1m32Isis, Chan1m32IsisTestL0) {
     chan1m32isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Chandrayaan image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Chandrayaan image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group

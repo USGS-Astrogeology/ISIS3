@@ -11,7 +11,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/segment.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/segment.xml").expanded());
 
 TEST_F(LargeCube, FunctionalTestSegmentDefault) {
 
@@ -28,7 +28,7 @@ TEST_F(LargeCube, FunctionalTestSegmentDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube segOne(tempDir.path() + "/large." + "segment1.cub");
+  Cube segOne(tempDir.path().toStdString() + "/large." + "segment1.cub");
 
   EXPECT_EQ(segOne.sampleCount(), 1000);
   EXPECT_EQ(segOne.lineCount(), 250);
@@ -41,7 +41,7 @@ TEST_F(LargeCube, FunctionalTestSegmentDefault) {
   EXPECT_EQ(histSegOne->ValidPixels(), 250000);
   EXPECT_NEAR(histSegOne->StandardDeviation(), 72.16835, 0.00001);
 
-  Cube segTwo(tempDir.path() + "/large." + "segment2.cub");
+  Cube segTwo(tempDir.path().toStdString() + "/large." + "segment2.cub");
 
   EXPECT_EQ(segTwo.sampleCount(), 1000);
   EXPECT_EQ(segTwo.lineCount(), 250);
@@ -54,7 +54,7 @@ TEST_F(LargeCube, FunctionalTestSegmentDefault) {
   EXPECT_EQ(histSegTwo->ValidPixels(), 250000);
   EXPECT_NEAR(histSegTwo->StandardDeviation(), 72.1683506, 0.00001);
 
-  Cube segThree(tempDir.path() + "/large." + "segment3.cub");
+  Cube segThree(tempDir.path().toStdString() + "/large." + "segment3.cub");
 
   EXPECT_EQ(segThree.sampleCount(), 1000);
   EXPECT_EQ(segThree.lineCount(), 250);
@@ -67,7 +67,7 @@ TEST_F(LargeCube, FunctionalTestSegmentDefault) {
   EXPECT_EQ(histSegThree->ValidPixels(), 250000);
   EXPECT_NEAR(histSegThree->StandardDeviation(), 72.16835, 0.00001);
 
-  Cube segFour(tempDir.path() + "/large." + "segment4.cub");
+  Cube segFour(tempDir.path().toStdString() + "/large." + "segment4.cub");
 
   EXPECT_EQ(segFour.sampleCount(), 1000);
   EXPECT_EQ(segFour.lineCount(), 250);
@@ -80,7 +80,7 @@ TEST_F(LargeCube, FunctionalTestSegmentDefault) {
   EXPECT_EQ(histSegFour->ValidPixels(), 250000);
   EXPECT_NEAR(histSegFour->StandardDeviation(), 72.168350, 0.00001);
 
-  Cube segFive(tempDir.path() + "/large." + "segment5.cub");
+  Cube segFive(tempDir.path().toStdString() + "/large." + "segment5.cub");
 
   EXPECT_EQ(segFive.sampleCount(), 1000);
   EXPECT_EQ(segFive.lineCount(), 250);
@@ -109,7 +109,7 @@ TEST_F(LargeCube, FunctionalTestSegmentBoundary) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube segOne(tempDir.path() + "/large." + "segment1.cub");
+  Cube segOne(tempDir.path().toStdString() + "/large." + "segment1.cub");
 
   EXPECT_EQ(segOne.sampleCount(), 1000);
   EXPECT_EQ(segOne.lineCount(), 500);
@@ -122,7 +122,7 @@ TEST_F(LargeCube, FunctionalTestSegmentBoundary) {
   EXPECT_EQ(histSegOne->ValidPixels(), 500000);
   EXPECT_NEAR(histSegOne->StandardDeviation(), 144.3374229, 0.00001);
 
-  Cube segTwo(tempDir.path() + "/large." + "segment2.cub");
+  Cube segTwo(tempDir.path().toStdString() + "/large." + "segment2.cub");
 
   EXPECT_EQ(segTwo.sampleCount(), 1000);
   EXPECT_EQ(segTwo.lineCount(), 500);
@@ -135,7 +135,7 @@ TEST_F(LargeCube, FunctionalTestSegmentBoundary) {
   EXPECT_EQ(histSegTwo->ValidPixels(), 500000);
   EXPECT_NEAR(histSegTwo->StandardDeviation(), 144.33742295, 0.00001);
 
-  Cube segThree(tempDir.path() + "/large." + "segment3.cub");
+  Cube segThree(tempDir.path().toStdString() + "/large." + "segment3.cub");
 
   EXPECT_EQ(segThree.sampleCount(), 1000);
   EXPECT_EQ(segThree.lineCount(), 176);

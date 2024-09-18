@@ -36,14 +36,14 @@ void IsisMain() {
 
   ProcessImportFits importFits;
 
-  importFits.setFitsFile(FileName(ui.GetFileName("FROM")));
+  importFits.setFitsFile(FileName(ui.GetFileName("FROM").toStdString()));
 
   importFits.setProcessFileStructure(0);
 
   Cube *output = importFits.SetOutputCube("TO");
 
   // Get the directory where the OSIRIS-REx translation tables are.
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
 
   // Temp storage of translated labels
   Pvl outLabel;
@@ -54,20 +54,20 @@ void IsisMain() {
 
   // Create an Instrument group
   FileName insTransFile(transDir + "OsirisRexOcamsInstrument_fit.trn");
-  PvlToPvlTranslationManager insXlater(fitsLabel, insTransFile.expanded());
+  PvlToPvlTranslationManager insXlater(fitsLabel, QString::fromStdString(insTransFile.expanded()));
   insXlater.Auto(outLabel);
   output->putGroup(outLabel.findGroup("Instrument", Pvl::Traverse));
 
 
   // Create a Band Bin group
   FileName bandTransFile(transDir + "OsirisRexOcamsBandBin_fit.trn");
-  PvlToPvlTranslationManager bandBinXlater(fitsLabel, bandTransFile.expanded());
+  PvlToPvlTranslationManager bandBinXlater(fitsLabel, QString::fromStdString(bandTransFile.expanded()));
   bandBinXlater.Auto(outLabel);
   output->putGroup(outLabel.findGroup("BandBin", Pvl::Traverse));
 
   // Create a Kernels group
   FileName kernelsTransFile(transDir + "OsirisRexOcamsKernels_fit.trn");
-  PvlToPvlTranslationManager kernelsXlater(fitsLabel, kernelsTransFile.expanded());
+  PvlToPvlTranslationManager kernelsXlater(fitsLabel, QString::fromStdString(kernelsTransFile.expanded()));
   kernelsXlater.Auto(outLabel);
   output->putGroup(outLabel.findGroup("Kernels", Pvl::Traverse));
 

@@ -14,7 +14,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lrowac2pds.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lrowac2pds.xml").expanded());
 
 TEST(Lrowac2pds, FunctionalTestLrowac2pdsUv) {
   QTemporaryDir prefix;

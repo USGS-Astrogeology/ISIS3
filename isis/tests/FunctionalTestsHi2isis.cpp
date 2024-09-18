@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/hi2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/hi2isis.xml").expanded());
 
 TEST(hi2isisTest, FunctionalTestHi2isisDefault) {
   QTemporaryDir prefix;
@@ -27,7 +27,7 @@ TEST(hi2isisTest, FunctionalTestHi2isisDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -152,7 +152,7 @@ TEST(hi2isisTest, FunctionalTestHi2isisDefaultWorstCase) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -246,7 +246,7 @@ TEST(hi2isisTest, FunctionalTestHi2isisUnlut) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram());
 

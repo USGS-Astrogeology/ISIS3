@@ -48,11 +48,11 @@ namespace Isis {
        */
       BundleResultsXmlHandlerTester(QXmlStreamReader *reader, FileName xmlFile) : BundleResults() {
 
-        m_file.setFileName(xmlFile.expanded());
+        m_file.setFileName(QString::fromStdString(xmlFile.expanded()));
 
         if (!m_file.open(QFile::ReadOnly) ) {
           throw IException(IException::Io,
-                           QString("Unable to open xml file, [%1],  with read access").arg(xmlFile.expanded()),
+                           "Unable to open xml file, ["+xmlFile.expanded()+"],  with read access",
                            _FILEINFO_);
         }
 
@@ -550,7 +550,7 @@ TEST(BundleResults, Sigma0Computation) {
   }
   catch (IException &e) {
     EXPECT_THAT(
-          e.toString().toStdString(),
+           e.toString(),
           ::testing::HasSubstr("Computed degrees of freedom ["));
   }
   catch (...) {
@@ -576,7 +576,7 @@ TEST(BundleResults, NoOutputNet) {
   }
   catch (IException &e) {
     EXPECT_THAT(
-          e.toString().toStdString(),
+           e.toString(),
           ::testing::HasSubstr("Output Control Network has not been set."));
   }
   catch (...) {
@@ -599,12 +599,12 @@ TEST_F(BundleResultsPopulated, Serialization) {
   QFile xml(saveFile);
   if(!xml.open(QFile::ReadOnly | QFile::Text)){
     throw IException(IException::Unknown,
-                      QString("Failed to parse xml file, [%1]").arg(xml.fileName()),
+                      "Failed to parse xml file, ["+xml.fileName().toStdString()+"]",
                       _FILEINFO_);
   }
 
   QXmlStreamReader reader(&xml);
-  BundleResultsXmlHandlerTester newResults(&reader, saveFile);
+  BundleResultsXmlHandlerTester newResults(&reader, saveFile.toStdString());
 
   EXPECT_EQ(newResults.numberFixedPoints(), results.numberFixedPoints());
   EXPECT_EQ(newResults.numberHeldImages(), results.numberHeldImages());

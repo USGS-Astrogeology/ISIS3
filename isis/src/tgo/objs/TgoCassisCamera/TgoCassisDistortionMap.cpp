@@ -30,7 +30,7 @@ namespace Isis {
                                                  int naifIkCode)
       : CameraDistortionMap(parent) {
 
-    QString od = "INS" + toString(naifIkCode) + "_OD_";
+    QString od = "INS" + QString::number(naifIkCode) + "_OD_";
 
     for(int i = 0; i < 6; i++) {
       m_A1_corr.push_back(p_camera->getDouble(od + "A1_CORR", i));
@@ -40,9 +40,9 @@ namespace Isis {
       m_A2_dist.push_back(p_camera->getDouble(od + "A2_DIST", i));
       m_A3_dist.push_back(p_camera->getDouble(od + "A3_DIST", i));
     }
-    m_pixelPitch = p_camera->getDouble("INS" + toString(naifIkCode) + "_PIXEL_PITCH");
-    m_width  = p_camera->getDouble("INS" + toString(naifIkCode) + "_FILTER_SAMPLES");
-    m_height = p_camera->getDouble("INS" + toString(naifIkCode) + "_FILTER_LINES");
+    m_pixelPitch = p_camera->getDouble("INS" + QString::number(naifIkCode) + "_PIXEL_PITCH");
+    m_width  = p_camera->getDouble("INS" + QString::number(naifIkCode) + "_FILTER_SAMPLES");
+    m_height = p_camera->getDouble("INS" + QString::number(naifIkCode) + "_FILTER_LINES");
   }
 
 

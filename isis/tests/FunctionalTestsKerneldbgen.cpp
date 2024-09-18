@@ -10,7 +10,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/kerneldbgen.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/kerneldbgen.xml").expanded());
 
 TEST(Kerneldbgen, FunctionalTestKerneldbgenCk) {
   QTemporaryDir prefix;

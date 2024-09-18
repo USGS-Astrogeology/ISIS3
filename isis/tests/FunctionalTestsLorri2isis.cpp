@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lorri2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lorri2isis.xml").expanded());
 
 TEST(Lorri2Isis, Lorri2IsisTestDefault) {
   QTemporaryDir prefix;
@@ -23,9 +23,9 @@ TEST(Lorri2Isis, Lorri2IsisTestDefault) {
     lorri2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LORRI image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LORRI image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -87,10 +87,10 @@ TEST(Lorri2Isis, Lorri2IsisTestRaw) {
      lorri2isis(options);
    }
    catch (IException &e) {
-     FAIL() << "Unable to ingest LORRI image: " << e.toString().toStdString().c_str() << std::endl;
+     FAIL() << "Unable to ingest LORRI image: " <<  e.toString().c_str() << std::endl;
    }
 
-   Cube cube(cubeFileName);
+   Cube cube(cubeFileName.toStdString());
    Pvl *isisLabel = cube.label();
 
       // Dimensions Group
@@ -146,11 +146,11 @@ TEST(Lorri2Isis, Lorri2IsisTestRaw) {
     lorri2isis(options);
    }
    catch (IException &e) {
-     FAIL() << "Unable to ingest LORRI image: " << e.toString().toStdString().c_str() << std::endl;
+     FAIL() << "Unable to ingest LORRI image: " <<  e.toString().c_str() << std::endl;
    }
 
-   Cube errCube(errFileName);
-   Cube qualityCube(qualityFileName);
+   Cube errCube(errFileName.toStdString());
+   Cube qualityCube(qualityFileName.toStdString());
    Pvl *isisErrLabel = errCube.label();
    Pvl *isisQualityLabel = qualityCube.label();
 

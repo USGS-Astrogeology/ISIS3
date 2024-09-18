@@ -17,7 +17,7 @@ TEST_F(TempTestingFiles, DISABLED_UnitTestImageImporterTestJpeg) {
   FileName inputName("data/stdFormatImages/rgb.jpg");
 
   ImageImporter *importer = ImageImporter::fromFileName(inputName);
-  FileName outputName(tempDir.path() + "/out.cub");
+  FileName outputName(tempDir.path().toStdString() + "/out.cub");
   importer->import(outputName);
   delete importer;
 
@@ -52,7 +52,7 @@ TEST_F(TempTestingFiles, UnitTestImageImporterStd2IsisTiffRgb) {
   FileName inputName("data/stdFormatImages/rgb.tif");
 
   ImageImporter *importer = ImageImporter::fromFileName(inputName);
-  FileName outputName(tempDir.path() + "/out.cub");
+  FileName outputName(tempDir.path().toStdString() + "/out.cub");
   importer->import(outputName);
   delete importer;
 
@@ -87,7 +87,7 @@ TEST_F(TempTestingFiles, UnitTestImageImporterStd2IsisJp2) {
   FileName inputName("data/stdFormatImages/rgb.jp2");
 
   ImageImporter *importer = ImageImporter::fromFileName(inputName);
-  FileName outputName(tempDir.path() + "/out.cub");
+  FileName outputName(tempDir.path().toStdString() + "/out.cub");
   importer->import(outputName);
   delete importer;
 

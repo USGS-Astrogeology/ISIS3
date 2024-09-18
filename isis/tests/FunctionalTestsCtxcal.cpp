@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/ctxcal.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/ctxcal.xml").expanded());
 
 
 TEST_F(MroCtxCube, DISABLED_FunctionalTestCtxcalDefault) {
@@ -26,7 +26,7 @@ TEST_F(MroCtxCube, DISABLED_FunctionalTestCtxcalDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   PvlGroup radGroup = oCube.label()->findObject("IsisCube").findGroup("Radiometry");
   EXPECT_DOUBLE_EQ((double)radGroup.findKeyword("iof"), 1.86764430855461e-04);
@@ -53,7 +53,7 @@ TEST_F(MroCtxCube, FunctionalTestCtxcalFlatfile) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 
@@ -76,7 +76,7 @@ TEST_F(MroCtxCube, FunctionalTestCtxcalMonthlyFlatfile) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 
@@ -100,7 +100,7 @@ TEST_F(MroCtxCube, DISABLED_FunctionalTestCtxcalIofFalse) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   PvlGroup radGroup = oCube.label()->findObject("IsisCube").findGroup("Radiometry");
   EXPECT_DOUBLE_EQ((double)radGroup.findKeyword("iof"), 1);
@@ -141,8 +141,8 @@ TEST_F(MroCtxCube, FunctionalTestCtxcalCameraComparison) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oNoCamCube(outCubeFileNameCam, "r");
-  Cube oCamCube(outCubeFileNameCam, "r");
+  Cube oNoCamCube(outCubeFileNameCam.toStdString(), "r");
+  Cube oCamCube(outCubeFileNameCam.toStdString(), "r");
 
   Pvl *noCamLab = oNoCamCube.label();
   Pvl *camLab = oCamCube.label();

@@ -20,7 +20,7 @@ using namespace Isis;
 using namespace testing;
 using json = nlohmann::json;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isisimport.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isisimport.xml").expanded());
 
 TEST(IsisImportTests, loTestDefault) {
   QTemporaryDir prefix;
@@ -32,10 +32,10 @@ TEST(IsisImportTests, loTestDefault) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -111,10 +111,10 @@ TEST(IsisImportTests, loMirrored) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -150,10 +150,10 @@ TEST(IsisImportTests, loMedToHi) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -193,10 +193,10 @@ TEST(IsisImportTests, loMed) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -234,10 +234,10 @@ TEST(IsisImportTests, loReingest) {
     isisimport(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group

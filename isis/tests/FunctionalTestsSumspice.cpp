@@ -13,7 +13,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/sumspice.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/sumspice.xml").expanded());
 
 TEST(Sumspice, FunctionalTestSumspiceTimeUpdate) {
   QTemporaryDir prefix;
@@ -29,7 +29,7 @@ TEST(Sumspice, FunctionalTestSumspiceTimeUpdate) {
   UserInterface options(APP_XML, args);
   sumspice(options);
 
-  Cube cube(tempDest);
+  Cube cube(tempDest.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Instrument Group
@@ -71,7 +71,7 @@ TEST(Sumspice, FunctionalTestSumspicePointingUpdate) {
   UserInterface options(APP_XML, args);
   sumspice(options);
 
-  Cube cube(tempDest);
+  Cube cube(tempDest.toStdString());
 
   // InstrumentPointing Table
   Table ptTable = cube.readTable("InstrumentPointing");
@@ -110,7 +110,7 @@ TEST(Sumspice, FunctionalTestSumspicePositionUpdate) {
   UserInterface options(APP_XML, args);
   sumspice(options);
 
-  Cube cube(tempDest);
+  Cube cube(tempDest.toStdString());
 
   // InstrumentPointing Table
   Table ptTable = cube.readTable("InstrumentPointing");
@@ -149,7 +149,7 @@ TEST(Sumspice, FunctionalTestSumspiceSpiceUpdate) {
   UserInterface options(APP_XML, args);
   sumspice(options);
 
-  Cube cube(tempDest);
+  Cube cube(tempDest.toStdString());
 
   // InstrumentPointing Table
   Table ptTable = cube.readTable("InstrumentPointing");

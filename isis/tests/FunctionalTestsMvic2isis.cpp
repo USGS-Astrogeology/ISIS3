@@ -15,13 +15,13 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/mvic2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/mvic2isis.xml").expanded());
 
 TEST_F(TempTestingFiles, Mvic2IsisTestTdiMode) {
   Pvl appLog;
   QString cubeFileName = tempDir.path() + "/mvic2isisTEMP.cub";
   QString undistortedCubeName = tempDir.path() + "/mvic2isisUndistorted.cub";
-  std::string errorCubeName = tempDir.path() + "/mvic2isisError.cub";
+  QString errorCubeName = tempDir.path() + "/mvic2isisError.cub";
   QString qualityCubeName = tempDir.path() + "/mvic2isisQuality.cub";
   QVector<QString> args = {"from=data/mvic2isis/mc3_0034948318_0x536_sci_1_cropped.fits",
                            "to=" + cubeFileName,
@@ -34,9 +34,9 @@ TEST_F(TempTestingFiles, Mvic2IsisTestTdiMode) {
    mvic2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest MVIC image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest MVIC image: " <<  e.toString().c_str() << std::endl;
   }
-  std::unique_ptr<Cube> cube (new Cube(cubeFileName));
+  std::unique_ptr<Cube> cube (new Cube(cubeFileName.toStdString()));
   Pvl *isisLabel = cube->label();
 
   // Dimensions Group
@@ -118,21 +118,21 @@ TEST_F(TempTestingFiles, Mvic2IsisTestTdiMode) {
   try {
     cube->open(undistortedCubeName);
   } catch(IException &e) {
-    FAIL() << "Unable to open undistorted output MVIC cube: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to open undistorted output MVIC cube: " <<  e.toString().c_str() << std::endl;
   }
 
   cube->close();
   try {
     cube->open(errorCubeName);
   } catch(IException &e) {
-    FAIL() << "Unable to open error output MVIC cube: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to open error output MVIC cube: " <<  e.toString().c_str() << std::endl;
   }
 
   cube->close();
   try {
     cube->open(qualityCubeName);
   } catch(IException &e) {
-    FAIL() << "Unable to open quality output MVIC cube: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to open quality output MVIC cube: " <<  e.toString().c_str() << std::endl;
   }
 }
 
@@ -146,9 +146,9 @@ TEST_F(TempTestingFiles, Mvic2IsisTestPanMode) {
    mvic2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest MVIC image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest MVIC image: " <<  e.toString().c_str() << std::endl;
   }
-  std::unique_ptr<Cube> cube (new Cube(cubeFileName));
+  std::unique_ptr<Cube> cube (new Cube(cubeFileName.toStdString()));
   Pvl *isisLabel = cube->label();
 
   // Instrument Group
@@ -205,9 +205,9 @@ TEST_F(TempTestingFiles, Mvic2IsisTestFrameMode) {
    mvic2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest MVIC image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest MVIC image: " <<  e.toString().c_str() << std::endl;
   }
-  std::unique_ptr<Cube> cube (new Cube(cubeFileName));
+  std::unique_ptr<Cube> cube (new Cube(cubeFileName.toStdString()));
   Pvl *isisLabel = cube->label();
 
   // Instrument Group
@@ -265,9 +265,9 @@ TEST_F(TempTestingFiles, Mvic2IsisTestUncalibrated) {
    mvic2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest MVIC image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest MVIC image: " <<  e.toString().c_str() << std::endl;
   }
-  std::unique_ptr<Cube> cube (new Cube(cubeFileName));
+  std::unique_ptr<Cube> cube (new Cube(cubeFileName.toStdString()));
   Pvl *isisLabel = cube->label();
 
   // Instrument Group

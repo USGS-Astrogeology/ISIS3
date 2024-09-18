@@ -58,14 +58,14 @@ TEST(iTimeTests, StringTimes) {
     QString timeString("2003-01-02T12:15:01.1234");
     iTime testTime(timeString);
 
-    EXPECT_EQ(toString(testTime.Year()).toStdString(), testTime.YearString().toStdString());
-    EXPECT_EQ(toString(testTime.Month()).toStdString(), testTime.MonthString().toStdString());
-    EXPECT_EQ(toString(testTime.Day()).toStdString(), testTime.DayString().toStdString());
-    EXPECT_EQ(toString(testTime.Hour()).toStdString(), testTime.HourString().toStdString());
-    EXPECT_EQ(toString(testTime.Minute()).toStdString(), testTime.MinuteString().toStdString());
-    EXPECT_EQ(toString(testTime.Second(), 8).toStdString(), testTime.SecondString(8).toStdString());
-    EXPECT_EQ(toString(testTime.DayOfYear()).toStdString(), testTime.DayOfYearString().toStdString());
-    EXPECT_EQ(toString(testTime.Et()).toStdString(), testTime.EtString().toStdString());
+    EXPECT_EQ(toString(testTime.Year()), testTime.YearString().toStdString());
+    EXPECT_EQ(toString(testTime.Month()), testTime.MonthString().toStdString());
+    EXPECT_EQ(toString(testTime.Day()), testTime.DayString().toStdString());
+    EXPECT_EQ(toString(testTime.Hour()), testTime.HourString().toStdString());
+    EXPECT_EQ(toString(testTime.Minute()), testTime.MinuteString().toStdString());
+    EXPECT_EQ(toString(testTime.Second(), 8), testTime.SecondString(8).toStdString());
+    EXPECT_EQ(toString(testTime.DayOfYear()), testTime.DayOfYearString().toStdString());
+    EXPECT_EQ(toString(testTime.Et()), testTime.EtString().toStdString());
     EXPECT_EQ(timeString.toStdString(), testTime.UTC().toStdString());
 }
 

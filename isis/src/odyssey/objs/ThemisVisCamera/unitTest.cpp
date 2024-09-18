@@ -47,7 +47,7 @@ int main(void) {
     Cube evenCube("$ISISTESTDATA/isis/src/odyssey/unitTestData/V14093008RDR.even.cub", "r");
 //    Cube evenCube("./V14093008RDR.even.cub", "r");
     Camera *evenCam = CameraFactory::Create(evenCube);
-    qDebug() << "FileName: " << FileName(evenCube.fileName()).name();
+    qDebug() << "FileName: " << QString::fromStdString(FileName(evenCube.fileName().toStdString()).name());
     qDebug() << "CK Frame: " << evenCam->instrumentRotation()->Frame();
     qDebug() << "";
 
@@ -106,7 +106,7 @@ int main(void) {
     qDebug() << "";
     Cube oddCube("$ISISTESTDATA/isis/src/odyssey/unitTestData/V14093008RDR.odd.cub", "r");
     Camera *oddCam = CameraFactory::Create(oddCube);
-    qDebug()<< "FileName: " << FileName(oddCube.fileName()).name();
+    qDebug()<< "FileName: " << QString::fromStdString(FileName(oddCube.fileName().toStdString()).name());
     qDebug()<< "CK Frame: " << oddCam->instrumentRotation()->Frame();
     qDebug() << "";
 

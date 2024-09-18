@@ -55,8 +55,8 @@ TEST(LineEquation, AddingPoints)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Line equation is already defined"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Line equation is already defined"))
+      <<  e.toString();
   }
   catch(...)
   {
@@ -83,8 +83,8 @@ TEST(LineEquation, UndefinedSlope)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Line equation undefined"))
-      <<e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Line equation undefined"))
+      <<e.toString();
   }
   catch(...)
   {
@@ -104,8 +104,8 @@ TEST(LineEquation, UndefinedIntercept)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Line equation undefined"))
-      <<e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Line equation undefined"))
+      <<e.toString();
   }
   catch(...)
   {
@@ -127,8 +127,8 @@ TEST(LineEquation, AddSamePoints)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Points have identical"))
-      <<e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Points have identical"))
+      <<e.toString();
   }
   catch(...)
   {
@@ -143,8 +143,8 @@ TEST(LineEquation, AddSamePoints)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Points have identical"))
-      <<e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Points have identical"))
+      <<e.toString();
   }
   catch(...)
   {
@@ -162,8 +162,8 @@ TEST(LineEquation, InitSamePoints)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Points have identical"))
-      <<e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Points have identical"))
+      <<e.toString();
   }
   catch(...)
   {

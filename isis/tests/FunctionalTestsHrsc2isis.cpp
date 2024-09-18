@@ -14,7 +14,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/hrsc2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/hrsc2isis.xml").expanded());
 
 TEST(Hrsc2isis, Hrsc2IsisTestDefault) {
   QTemporaryDir prefix;
@@ -27,9 +27,9 @@ TEST(Hrsc2isis, Hrsc2IsisTestDefault) {
     hrsc2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest HRSC image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest HRSC image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -100,9 +100,9 @@ TEST(Hrsc2isis, Hrsc2IsisTestPhobos) {
     hrsc2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest HRSC image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest HRSC image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -174,9 +174,9 @@ TEST(Hrsc2isis, Hrsc2IsisTestSrcImage) {
     hrsc2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest HRSC image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest HRSC image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group

@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/gaussstretch.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/gaussstretch.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestGaussstretch) {
   QString outputCubePath = tempDir.path() + "/tempGaussStretchOut.cub";
@@ -23,7 +23,7 @@ TEST_F(DefaultCube, FunctionalTestGaussstretch) {
   catch (IException &e) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
-  Cube outputCube(outputCubePath);
+  Cube outputCube(outputCubePath.toStdString());
 
   EXPECT_FLOAT_EQ(outputCube.histogram()->Median(), -1.79769e+308);
 }

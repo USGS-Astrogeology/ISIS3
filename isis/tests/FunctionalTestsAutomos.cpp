@@ -10,13 +10,13 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/automos.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/automos.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestAutomosDefault) {
   QString singleCubeListPath = tempDir.path() + "/newCubeList.lis";
   FileList singleCubeList;
-  singleCubeList.append(projTestCube->fileName());
-  singleCubeList.write(singleCubeListPath);
+  singleCubeList.append(projTestCube->fileName().toStdString());
+  singleCubeList.write(singleCubeListPath.toStdString());
   QString outPath = tempDir.path() + "/mosaic.cub";
 
   QVector<QString> args = {"fromlist=" + singleCubeListPath, "mosaic=" + outPath};
@@ -27,7 +27,7 @@ TEST_F(DefaultCube, FunctionalTestAutomosDefault) {
 
   EXPECT_TRUE(appLog.hasGroup("ImageLocation"));
 
-  Cube mos(outPath);
+  Cube mos(outPath.toStdString());
   Pvl label = *mos.label();
 
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");
@@ -63,8 +63,8 @@ TEST_F(DefaultCube, FunctionalTestAutomosSetRanges) {
 
   QString singleCubeListPath = tempDir.path() + "/newCubeList.lis";
   FileList singleCubeList;
-  singleCubeList.append(projTestCube->fileName());
-  singleCubeList.write(singleCubeListPath);
+  singleCubeList.append(projTestCube->fileName().toStdString());
+  singleCubeList.write(singleCubeListPath.toStdString());
 
   QVector<QString> args = {"fromlist=" + singleCubeListPath, "mosaic=" + outPath,
                            "tolist=" + oFileListPath, "priority=beneath", "grange=user",
@@ -75,7 +75,7 @@ TEST_F(DefaultCube, FunctionalTestAutomosSetRanges) {
 
   automos(options);
 
-  Cube mos(outPath);
+  Cube mos(outPath.toStdString());
   Pvl label = *mos.label();
 
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");
@@ -91,10 +91,10 @@ TEST_F(DefaultCube, FunctionalTestAutomosSetRanges) {
   EXPECT_DOUBLE_EQ((double)mapping.findKeyword("MaximumLatitude"), 8.0);
 
   FileList lout;
-  lout.read(oFileListPath);
+  lout.read(oFileListPath.toStdString());
 
   EXPECT_EQ(lout.size(), singleCubeList.size());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, lout.at(0).expanded(), singleCubeList.at(0).expanded());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, lout.at(0).expanded(), singleCubeList.at(0).expanded());
 }
 
 
@@ -103,8 +103,8 @@ TEST_F(DefaultCube, FunctionalTestAutomosPriority) {
   QString singleCubeListPath = tempDir.path() + "/newCubeList.lis";
 
   FileList singleCubeList;
-  singleCubeList.append(projTestCube->fileName());
-  singleCubeList.write(singleCubeListPath);
+  singleCubeList.append(projTestCube->fileName().toStdString());
+  singleCubeList.write(singleCubeListPath.toStdString());
 
   QVector<QString> args = {"fromlist=" + singleCubeListPath, "mosaic=" + outPath,
                            "priority=average", "highsat=true", "lowsat=true", "null=true"};
@@ -113,7 +113,7 @@ TEST_F(DefaultCube, FunctionalTestAutomosPriority) {
 
   automos(options);
 
-  Cube mos(outPath);
+  Cube mos(outPath.toStdString());
   Pvl label = *mos.label();
 
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");
@@ -148,8 +148,8 @@ TEST_F(DefaultCube, FunctionalTestAutomosTracking) {
   QString trackingPath = tempDir.path() + "/mosaic_tracking.cub";
 
   FileList singleCubeList;
-  singleCubeList.append(projTestCube->fileName());
-  singleCubeList.write(singleCubeListPath);
+  singleCubeList.append(projTestCube->fileName().toStdString());
+  singleCubeList.write(singleCubeListPath.toStdString());
 
   QVector<QString> args = {"fromlist=" + singleCubeListPath, "mosaic=" + outPath,
                            "priority=band", "highsat=true", "lowsat=true", "null=true", "track=true"};
@@ -158,8 +158,8 @@ TEST_F(DefaultCube, FunctionalTestAutomosTracking) {
 
   automos(options);
 
-  Cube mos(outPath);
-  Cube track(trackingPath);
+  Cube mos(outPath.toStdString());
+  Cube track(trackingPath.toStdString());
   Pvl label = *mos.label();
   Pvl trackingLabel = *track.label();
 
@@ -189,8 +189,8 @@ TEST_F(DefaultCube, FunctionalTestAutomosBandSelect) {
   QString singleCubeListPath = tempDir.path() + "/newCubeList.lis";
 
   FileList singleCubeList;
-  singleCubeList.append(projTestCube->fileName());
-  singleCubeList.write(singleCubeListPath);
+  singleCubeList.append(projTestCube->fileName().toStdString());
+  singleCubeList.write(singleCubeListPath.toStdString());
 
   QVector<QString> args = {"fromlist=" + singleCubeListPath, "mosaic=" + outPath,
                            "priority=band", "number=1", "criteria=lesser"};
@@ -199,7 +199,7 @@ TEST_F(DefaultCube, FunctionalTestAutomosBandSelect) {
 
   automos(options);
 
-  Cube mos(outPath);
+  Cube mos(outPath.toStdString());
   Pvl label = *mos.label();
 
   PvlGroup mapping = label.findObject("IsisCube").findGroup("Mapping");

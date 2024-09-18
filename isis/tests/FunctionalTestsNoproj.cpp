@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/noproj.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/noproj.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestNoprojDefault) {
   QString cubeFileName = tempDir.path() + "/output.cub";
@@ -22,7 +22,7 @@ TEST_F(DefaultCube, FunctionalTestNoprojDefault) {
   // Empty match cube
   noproj(testCube, NULL, options);
 
-  Cube oCube(cubeFileName);
+  Cube oCube(cubeFileName.toStdString());
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
   EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
@@ -37,9 +37,9 @@ TEST_F(DefaultCube, FunctionalTestNoprojDefault) {
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), 1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), 1.0);
 
-  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
-  FileName defaultCubeName(testCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
+  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName defaultCubeName(testCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
   PvlGroup origInst = isisLabel->findGroup("OriginalInstrument", Pvl::Traverse);
   PvlGroup testCubeInst = testCube->label()->findGroup("Instrument", Pvl::Traverse);
@@ -59,7 +59,7 @@ TEST_F(DefaultCube, DISABLED_FunctionalTestNoprojExpand) {
 
   noproj(testCube, NULL, options);
 
-  Cube oCube(cubeFileName);
+  Cube oCube(cubeFileName.toStdString());
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
   EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
@@ -74,9 +74,9 @@ TEST_F(DefaultCube, DISABLED_FunctionalTestNoprojExpand) {
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), 1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), 1.0);
 
-  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
-  FileName defaultCubeName(testCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
+  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName defaultCubeName(testCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
   PvlGroup origInst = isisLabel->findGroup("OriginalInstrument", Pvl::Traverse);
   PvlGroup testCubeInst = testCube->label()->findGroup("Instrument", Pvl::Traverse);
@@ -99,7 +99,7 @@ TEST_F(DefaultCube, FunctionalTestNoprojFromInput) {
 
   noproj(testCube, NULL, options);
 
-  Cube oCube(cubeFileName);
+  Cube oCube(cubeFileName.toStdString());
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
   EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
@@ -114,9 +114,9 @@ TEST_F(DefaultCube, FunctionalTestNoprojFromInput) {
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), 1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), 1.0);
 
-  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
-  FileName defaultCubeName(testCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
+  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName defaultCubeName(testCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
   PvlGroup origInst = isisLabel->findGroup("OriginalInstrument", Pvl::Traverse);
   PvlGroup testCubeInst = testCube->label()->findGroup("Instrument", Pvl::Traverse);
@@ -136,7 +136,7 @@ TEST_F(DefaultCube, FunctionalTestNoprojFromUser) {
 
   noproj(testCube, NULL, options);
 
-  Cube oCube(cubeFileName);
+  Cube oCube(cubeFileName.toStdString());
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
   EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
@@ -151,9 +151,9 @@ TEST_F(DefaultCube, FunctionalTestNoprojFromUser) {
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), 1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), 1.0);
 
-  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
-  FileName defaultCubeName(testCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
+  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName defaultCubeName(testCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
   PvlGroup origInst = isisLabel->findGroup("OriginalInstrument", Pvl::Traverse);
   PvlGroup testCubeInst = testCube->label()->findGroup("Instrument", Pvl::Traverse);
@@ -321,7 +321,7 @@ TEST_F(DefaultCube, FunctionalTestNoprojSpecs) {
 
   noproj(testCube, NULL, options);
 
-  Cube oCube(cubeFileName);
+  Cube oCube(cubeFileName.toStdString());
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
   EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
@@ -336,9 +336,9 @@ TEST_F(DefaultCube, FunctionalTestNoprojSpecs) {
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), 1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), 1.0);
 
-  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
-  FileName defaultCubeName(testCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
+  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName defaultCubeName(testCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
   PvlGroup origInst = isisLabel->findGroup("OriginalInstrument", Pvl::Traverse);
   PvlGroup testCubeInst = testCube->label()->findGroup("Instrument", Pvl::Traverse);
@@ -373,7 +373,7 @@ TEST_F(LineScannerCube, FunctionalTestNoprojLineScanner) {
 
   noproj(testCube, NULL, options);
 
-  Cube oCube(cubeFileName);
+  Cube oCube(cubeFileName.toStdString());
   Pvl *isisLabel = oCube.label();
   PvlGroup instGroup = isisLabel->findGroup("Instrument", Pvl::Traverse);
   EXPECT_PRED_FORMAT2(AssertStringsEqual, instGroup.findKeyword("SpacecraftName"), "IdealSpacecraft");
@@ -388,9 +388,9 @@ TEST_F(LineScannerCube, FunctionalTestNoprojLineScanner) {
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransX"), -1.0);
   EXPECT_DOUBLE_EQ((double) instGroup.findKeyword("TransY"), -1.0);
 
-  FileName matchedCubeName(QString::fromStdString(instGroup.findKeyword("matchedCube")));
-  FileName defaultCubeName(testCube->fileName());
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, matchedCubeName.name(), defaultCubeName.name());
+  FileName matchedCubeName(instGroup.findKeyword("matchedCube"));
+  FileName defaultCubeName(testCube->fileName().toStdString());
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, matchedCubeName.name(), defaultCubeName.name());
 
   PvlGroup origInst = isisLabel->findGroup("OriginalInstrument", Pvl::Traverse);
   PvlGroup testCubeInst = testCube->label()->findGroup("Instrument", Pvl::Traverse);

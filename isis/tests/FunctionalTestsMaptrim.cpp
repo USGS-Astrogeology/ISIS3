@@ -19,7 +19,7 @@
 using namespace Isis;
 using testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/maptrim.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/maptrim.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestMaptrimDefault){
   QTemporaryDir prefix;
@@ -40,7 +40,7 @@ TEST_F(DefaultCube, FunctionalTestMaptrimDefault){
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -156,7 +156,7 @@ TEST_F(DefaultCube, FunctionalTestMaptrimBoth){
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
 
   // Dimensions group
   EXPECT_EQ(cube.sampleCount(), 3);
@@ -191,7 +191,7 @@ TEST_F(DefaultCube, FunctionalTestMaptrimCrop){
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
 
   EXPECT_EQ(cube.sampleCount(), 3);
   EXPECT_EQ(cube.lineCount(), 3);
@@ -220,7 +220,7 @@ TEST_F(DefaultCube, FunctionalTestMaptrimLabelRanges){
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
 
   EXPECT_EQ(cube.sampleCount(), 6);
   EXPECT_EQ(cube.lineCount(), 6);

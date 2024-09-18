@@ -262,7 +262,7 @@ TEST_P(BoolTest, saveValidateNetwork) {
   QDomElement validateNetwork = globalSettings.firstChildElement("validateNetwork");
   ASSERT_FALSE(validateNetwork.isNull());
   EXPECT_EQ("validateNetwork", validateNetwork.tagName());
-  EXPECT_EQ(toString(testSettings.validateNetwork()), validateNetwork.text());
+  EXPECT_EQ(QString::number(testSettings.validateNetwork()), validateNetwork.text());
 }
 
 TEST_P(BoolTest, outlierRejection) {
@@ -285,12 +285,12 @@ TEST_P(BoolTest, saveOutlierRejection) {
   ASSERT_FALSE(outlierRejectionOptions.isNull());
   QDomNamedNodeMap outlierRejectionOptionsAtts = outlierRejectionOptions.attributes();
   EXPECT_EQ(
-        toString(testSettings.outlierRejection()),
+        QString::number(testSettings.outlierRejection()),
         outlierRejectionOptionsAtts.namedItem("rejection").nodeValue()
   );
   EXPECT_EQ(
         (testSettings.outlierRejection() ?
-            toString(testSettings.outlierRejectionMultiplier()) : "N/A"),
+            QString::number(testSettings.outlierRejectionMultiplier()) : "N/A"),
         outlierRejectionOptionsAtts.namedItem("multiplier").nodeValue()
   );
 }
@@ -341,23 +341,23 @@ TEST_P(BoolTest, saveSolveOptions) {
   ASSERT_FALSE(solveOptions.isNull());
   QDomNamedNodeMap solveOptionAtts = solveOptions.attributes();
   EXPECT_EQ(
-        toString(testSettings.solveObservationMode()),
+        QString::number(testSettings.solveObservationMode()),
         solveOptionAtts.namedItem("solveObservationMode").nodeValue()
   );
   EXPECT_EQ(
-        toString(testSettings.solveRadius()),
+        QString::number(testSettings.solveRadius()),
         solveOptionAtts.namedItem("solveRadius").nodeValue()
   );
   EXPECT_EQ(
-        toString(testSettings.updateCubeLabel()),
+        QString::number(testSettings.updateCubeLabel()),
         solveOptionAtts.namedItem("updateCubeLabel").nodeValue()
   );
   EXPECT_EQ(
-        toString(testSettings.errorPropagation()),
+        QString::number(testSettings.errorPropagation()),
         solveOptionAtts.namedItem("errorPropagation").nodeValue()
   );
   EXPECT_EQ(
-        toString(testSettings.createInverseMatrix()),
+        QString::number(testSettings.createInverseMatrix()),
         solveOptionAtts.namedItem("createInverseMatrix").nodeValue()
   );
 }
@@ -402,11 +402,11 @@ TEST_P(BoolTest, saveCoordinateTypes) {
   ASSERT_FALSE(solveOptions.isNull());
   QDomNamedNodeMap solveOptionAtts = solveOptions.attributes();
   EXPECT_EQ(
-        toString(testSettings.controlPointCoordTypeReports()),
+        QString::number(testSettings.controlPointCoordTypeReports()),
         solveOptionAtts.namedItem("controlPointCoordTypeReports").nodeValue()
   );
   EXPECT_EQ(
-        toString(testSettings.controlPointCoordTypeBundle()),
+        QString::number(testSettings.controlPointCoordTypeBundle()),
         solveOptionAtts.namedItem("controlPointCoordTypeBundle").nodeValue()
   );
 }
@@ -496,15 +496,15 @@ TEST(BundleSettings, saveGlobalSigmas) {
   ASSERT_FALSE(aprioriSigmas.isNull());
   QDomNamedNodeMap aprioriSigmasAtts = aprioriSigmas.attributes();
   EXPECT_EQ(
-        toString(testSettings.globalPointCoord1AprioriSigma()),
+        QString::number(testSettings.globalPointCoord1AprioriSigma()),
         aprioriSigmasAtts.namedItem("pointCoord1").nodeValue()
   );
   EXPECT_EQ(
-        toString(testSettings.globalPointCoord2AprioriSigma()),
+        QString::number(testSettings.globalPointCoord2AprioriSigma()),
         aprioriSigmasAtts.namedItem("pointCoord2").nodeValue()
   );
   EXPECT_EQ(
-        toString(testSettings.globalPointCoord3AprioriSigma()),
+        QString::number(testSettings.globalPointCoord3AprioriSigma()),
         aprioriSigmasAtts.namedItem("pointCoord3").nodeValue()
   );
 }
@@ -622,11 +622,11 @@ TEST_P(ConvergenceCriteriaTest, saveConvergenceCriteria) {
         convergenceCriteriaOptionsAtts.namedItem("convergenceCriteria").nodeValue()
   );
   EXPECT_EQ(
-        toString(testSettings.convergenceCriteriaThreshold()),
+        QString::number(testSettings.convergenceCriteriaThreshold()),
         convergenceCriteriaOptionsAtts.namedItem("threshold").nodeValue()
   );
   EXPECT_EQ(
-        toString(testSettings.convergenceCriteriaMaximumIterations()),
+        QString::number(testSettings.convergenceCriteriaMaximumIterations()),
         convergenceCriteriaOptionsAtts.namedItem("maximumIterations").nodeValue()
   );
 }
@@ -677,7 +677,7 @@ TEST(BundleSettings, maximumLikelihoodWelsch) {
   }
   catch (IException &e) {
     EXPECT_THAT(
-          e.toString().toStdString(),
+           e.toString(),
           ::testing::HasSubstr("the first model must be of type HUBER or HUBER_MODIFIED")
     );
   }
@@ -700,7 +700,7 @@ TEST(BundleSettings, maximumLikelihoodChen) {
   }
   catch (IException &e) {
     EXPECT_THAT(
-          e.toString().toStdString(),
+           e.toString(),
           ::testing::HasSubstr("the first model must be of type HUBER or HUBER_MODIFIED")
     );
   }
@@ -781,7 +781,7 @@ TEST(BundleSettings, saveMaximumLikelyhoodModels) {
           modelAtts.namedItem("type").nodeValue()
     );
     EXPECT_EQ(
-          toString(functions[modelIndex].second),
+          QString::number(functions[modelIndex].second),
           modelAtts.namedItem("quantile").nodeValue()
     );
   }

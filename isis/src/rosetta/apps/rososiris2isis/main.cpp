@@ -32,7 +32,7 @@ void IsisMain() {
   Pvl pdsLabel;
   UserInterface &ui = Application::GetUserInterface();
 
-  FileName inFile = ui.GetFileName("FROM");
+  FileName inFile = ui.GetFileName("FROM").toStdString();
   QString instId;
   QString missionId;
 
@@ -57,12 +57,12 @@ void IsisMain() {
     throw IException(IException::Io, msg, _FILEINFO_);
   }
 
-  p.SetPdsFile(inFile.expanded(), "", pdsLabel);
+  p.SetPdsFile(QString::fromStdString(inFile.expanded()), "", pdsLabel);
   p.SetOrganization(Isis::ProcessImport::BSQ);
-  QString tmpName = "$TEMPORARY/" + inFile.baseName() + ".tmp.cub";
-  FileName tmpFile(tmpName);
+  QString tmpName = QString::fromStdString("$TEMPORARY/" + inFile.baseName() + ".tmp.cub");
+  FileName tmpFile(tmpName.toStdString());
   CubeAttributeOutput outatt = CubeAttributeOutput("+Real");
-  p.SetOutputCube(tmpFile.expanded(), outatt);
+  p.SetOutputCube(QString::fromStdString(tmpFile.expanded()), outatt);
   p.SaveFileHeader();
 
   Pvl labelPvl(inFile.expanded());
@@ -72,28 +72,28 @@ void IsisMain() {
 
   ProcessBySample p2;
   CubeAttributeInput inatt;
-  p2.SetInputCube(tmpFile.expanded(), inatt);
+  p2.SetInputCube(QString::fromStdString(tmpFile.expanded()), inatt);
   Cube *outcube = p2.SetOutputCube("TO");
 
   // Get the directory where the OSIRIS translation tables are.
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
 
   // Create a PVL to store the translated labels in
   Pvl outLabel;
 
   // Translate the Archive group
   FileName transFile(transDir + "RosettaOsirisArchive.trn");
-  PvlToPvlTranslationManager archiveXlater(labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager archiveXlater(labelPvl, QString::fromStdString(transFile.expanded()));
   archiveXlater.Auto(outLabel);
 
   // Translate the BandBin group
   transFile = transDir + "RosettaOsirisBandBin.trn";
-  PvlToPvlTranslationManager bandBinXlater(labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager bandBinXlater(labelPvl, QString::fromStdString(transFile.expanded()));
   bandBinXlater.Auto(outLabel);
 
   // Translate the Instrument group
   transFile = transDir + "RosettaOsirisInstrument.trn";
-  PvlToPvlTranslationManager instrumentXlater(labelPvl, transFile.expanded());
+  PvlToPvlTranslationManager instrumentXlater(labelPvl, QString::fromStdString(transFile.expanded()));
   instrumentXlater.Auto(outLabel);
 
   // Write the BandBin, Archive, and Instrument groups
@@ -121,18 +121,18 @@ void IsisMain() {
     try {
       transFile = transDir + "RosettaOsirisFilters.trn";
       PvlTranslationTable filterTable(transFile.expanded());
-      filterCenters[i] = toDouble(filterTable.Translate("FilterCenter_" + instId,
-                                                        filterNames[i]));
-      filterWidths[i] = toDouble(filterTable.Translate("FilterWidth_" + instId,
-                                                       filterNames[i]));
+      filterCenters[i] = filterTable.Translate("FilterCenter_" + instId,
+                                                        filterNames[i]).toDouble();
+      filterWidths[i] = filterTable.Translate("FilterWidth_" + instId,
+                                                       filterNames[i]).toDouble();
     }
     catch (IException &e) {
       std::string msg = "Input file [" + inFile.expanded()
                     + "] appears invalid. "
                     + "FilterName ["
-                    + filterNames[i]
+                    + filterNames[i].toStdString()
                     + "] for instrument ["
-                    + instId
+                    + instId.toStdString()
                     + "] not found in ["
                     + transFile.expanded() + "].";
       throw IException(e, IException::Io, msg, _FILEINFO_);
@@ -164,7 +164,7 @@ void IsisMain() {
   p2.StartProcess(flipbyline);
   p2.EndProcess();
 
-  QString tmp(tmpFile.expanded());
+  QString tmp(QString::fromStdString(tmpFile.expanded()));
   QFile::remove(tmp);
 }
 

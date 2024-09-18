@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/hicolormos.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/hicolormos.xml").expanded());
 
 TEST_F(MroHiriseCube, FunctionalTestHicolormosDefault) {
   QString outCubeFileName = tempDir.path() + "/outTEMP.cub";
@@ -25,7 +25,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicolormosDefault) {
     FAIL() << "Unable to process HRISE image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   Pvl *label = oCube.label();
   PvlGroup group = label->findObject("IsisCube").findGroup("Mosaic");
 

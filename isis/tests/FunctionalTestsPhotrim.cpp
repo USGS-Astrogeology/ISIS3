@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/photrim.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/photrim.xml").expanded());
 
 /**
    * FunctionalTestsPhotrimBase
@@ -54,11 +54,11 @@ static QString APP_XML = FileName("$ISISROOT/bin/xml/photrim.xml").expanded();
      photrim(testCube, ui);
    }
    catch(IException &e) {
-     FAIL() << e.toString().toStdString().c_str() << std::endl;
+     FAIL() <<  e.toString().c_str() << std::endl;
    }
 
   // validate output cube
-  Cube outCube(tempDir.path() + "/PhotrimBase.cub");
+  Cube outCube(tempDir.path().toStdString() + "/PhotrimBase.cub");
 
   // validate histogram statistics for output cube
   std::unique_ptr<Histogram> hist (outCube.histogram(1));
@@ -115,11 +115,11 @@ TEST_F(DefaultCube, FunctionalTestsPhotrimEmission) {
      photrim(testCube, ui);
    }
    catch(IException &e) {
-     FAIL() << e.toString().toStdString().c_str() << std::endl;
+     FAIL() <<  e.toString().c_str() << std::endl;
    }
 
   // validate output cube
-  Cube outCube(tempDir.path() + "/photrimEmission.cub");
+  Cube outCube(tempDir.path().toStdString() + "/photrimEmission.cub");
 
   // validate histogram statistics for output cube
   std::unique_ptr<Histogram> hist (outCube.histogram(1));
@@ -176,11 +176,11 @@ TEST_F(DefaultCube, FunctionalTestsPhotrimPhase) {
      photrim(testCube, ui);
    }
    catch(IException &e) {
-     FAIL() << e.toString().toStdString().c_str() << std::endl;
+     FAIL() <<  e.toString().c_str() << std::endl;
    }
 
   // validate output cube
-  Cube outCube(tempDir.path() + "/photrimPhase.cub");
+  Cube outCube(tempDir.path().toStdString() + "/photrimPhase.cub");
 
   // validate histogram statistics for output cube
   std::unique_ptr<Histogram> hist (outCube.histogram(1));
@@ -237,11 +237,11 @@ TEST_F(DefaultCube, FunctionalTestsPhotrimIncidence) {
      photrim(testCube, ui);
    }
    catch(IException &e) {
-     FAIL() << e.toString().toStdString().c_str() << std::endl;
+     FAIL() <<  e.toString().c_str() << std::endl;
    }
 
   // validate output cube
-  Cube outCube(tempDir.path() + "/photrimIncidence.cub");
+  Cube outCube(tempDir.path().toStdString() + "/photrimIncidence.cub");
 
   // validate histogram statistics for output cube
   std::unique_ptr<Histogram> hist (outCube.histogram(1));
@@ -298,11 +298,11 @@ TEST_F(DefaultCube, FunctionalTestsPhotrimUseDEM) {
     photrim(testCube, ui);
   }
   catch(IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // validate output cube
-  Cube outCube(tempDir.path() + "/photrimUseDEM.cub");
+  Cube outCube(tempDir.path().toStdString() + "/photrimUseDEM.cub");
 
   // validate histogram statistics for output cube
   std::unique_ptr<Histogram> hist (outCube.histogram(1));

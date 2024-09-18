@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/marciflip.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/marciflip.xml").expanded());
 
 TEST(Marciflip, MarciflipTestDefault) {
   QTemporaryDir prefix;
@@ -22,8 +22,8 @@ TEST(Marciflip, MarciflipTestDefault) {
   UserInterface options(APP_XML, args);
   marciflip(options);
 
-  Cube inCube(inCubeFn);
-  Cube outCube(outCubeFn);
+  Cube inCube(inCubeFn.toStdString());
+  Cube outCube(outCubeFn.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);

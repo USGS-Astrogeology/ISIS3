@@ -27,7 +27,7 @@ namespace Isis{
 
 
   TEST (ColorTests, InvalidColorToString) {
-    std::string message = "Can not convert an invalid color to an RGBA string.  "
+    QString message = "Can not convert an invalid color to an RGBA string.  "
                       "There is no string representation of an invalid color";
     try {
       Color::toRGBAString(QColor());

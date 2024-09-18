@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/kaguyatc2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/kaguyatc2isis.xml").expanded());
 
 TEST(kaguyatc2isisTest, kaguyatc2isisTestDefault) {
   Pvl appLog;
@@ -24,10 +24,10 @@ TEST(kaguyatc2isisTest, kaguyatc2isisTestDefault) {
     kaguyatc2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya TC image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya TC image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -97,10 +97,10 @@ TEST(kaguyatc2isisTest, kaguyatc2isisTestSpSupport) {
     kaguyatc2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest Kaguya TC image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest Kaguya TC image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group

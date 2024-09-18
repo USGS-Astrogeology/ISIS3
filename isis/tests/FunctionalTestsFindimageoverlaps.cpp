@@ -25,7 +25,7 @@ using json = nlohmann::json;
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/findimageoverlaps.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/findimageoverlaps.xml").expanded());
 
 TEST_F(ThreeImageNetwork, FunctionalTestFindimageoverlapsNoOverlap) {
   ImagePolygon fp1;
@@ -34,25 +34,25 @@ TEST_F(ThreeImageNetwork, FunctionalTestFindimageoverlapsNoOverlap) {
 
   Cube newCube2;
   json newIsd2;
-  std::ifstream i(isdPath2->expanded().toStdString());
+  std::ifstream i(isdPath2->expanded());
   i >> newIsd2;
 
   newIsd2["instrument_position"]["positions"] = {{1,1,1}, {2,2,2}, {3,3,3}};
-  newCube2.fromIsd(tempDir.path()+"/new2.cub", *cube2->label(), newIsd2, "rw");
+  newCube2.fromIsd(tempDir.path().toStdString()+"/new2.cub", *cube2->label(), newIsd2, "rw");
 
   ImagePolygon fp2;
   fp2.Create(newCube2);
   newCube2.write(fp2);
 
   FileList cubes;
-  cubes.append(cube1->fileName());
-  cubes.append(newCube2.fileName());
+  cubes.append(cube1->fileName().toStdString());
+  cubes.append(newCube2.fileName().toStdString());
   cube1->close();
   cube2->close();
   newCube2.close();
 
   QString cubeListPath = tempDir.path() + "/cubes.lis";
-  cubes.write(cubeListPath);
+  cubes.write(cubeListPath.toStdString());
   QVector<QString> args = {"from="+cubeListPath, "overlapList="+tempDir.path()+"/overlaps.txt"};
   UserInterface options(APP_XML, args);
   Pvl appLog;
@@ -62,8 +62,8 @@ TEST_F(ThreeImageNetwork, FunctionalTestFindimageoverlapsNoOverlap) {
     FAIL() << "Expected an IException with message: \"No overlaps were found\".";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("No overlaps were found"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("No overlaps were found") != std::string::npos)
+      <<  e.toString();
   }
 }
 
@@ -72,8 +72,8 @@ TEST_F(ThreeImageNetwork, FunctionalTestFindimageoverlapsTwoImageOverlap) {
   QVector<QString> args = {"OVERLAPLIST=" + tempDir.path() + "/overlaps.txt", "detailed=true", "errors=true"};
   UserInterface ui(APP_XML, args);
   FileList images;
-  images.append(FileName(cube1->fileName()));
-  images.append(FileName(cube2->fileName()));
+  images.append(FileName(cube1->fileName().toStdString()));
+  images.append(FileName(cube2->fileName().toStdString()));
   findimageoverlaps(images, ui, false, nullptr);
 
   // Find all the overlaps between the images in the FROMLIST
@@ -119,8 +119,8 @@ TEST_F(ThreeImageNetwork, FunctionalTestFindimageoverlapsFullOverlap) {
   QVector<QString> args = {"OVERLAPLIST=" + tempDir.path() + "/overlaps.txt", "detailed=true", "errors=true"};
   UserInterface ui(APP_XML, args);
   FileList images;
-  images.append(FileName(cube1->fileName()));
-  images.append(FileName(cube2->fileName()));
+  images.append(FileName(cube1->fileName().toStdString()));
+  images.append(FileName(cube2->fileName().toStdString()));
   findimageoverlaps(images, ui, false, nullptr);
 
   // Find all the overlaps between the images in the FROMLIST

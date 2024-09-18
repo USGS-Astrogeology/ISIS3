@@ -19,7 +19,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/std2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/std2isis.xml").expanded());
 
 TEST_F(TempTestingFiles, FunctionalTestStd2isisDefault) {
   QString outCubeFileName = tempDir.path() + "/outTemp.cub";
@@ -34,7 +34,7 @@ TEST_F(TempTestingFiles, FunctionalTestStd2isisDefault) {
     FAIL() << "Unable to translate image: " << e.what() << std::endl;
   }
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);
@@ -74,7 +74,7 @@ TEST_F(TempTestingFiles, FunctionalTestStd2isisArgb) {
     FAIL() << "Unable to translate image: " << e.what() << std::endl;
   }
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);
@@ -115,7 +115,7 @@ TEST_F(TempTestingFiles, FunctionalTestStd2isisTiffGrayscale) {
     FAIL() << "Unable to translate image: " << e.what() << std::endl;
   }
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);
@@ -156,7 +156,7 @@ TEST_F(TempTestingFiles, FunctionalTestStd2isisSpecial) {
     FAIL() << "Unable to translate image: " << e.what() << std::endl;
   }
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);
@@ -198,7 +198,7 @@ TEST_F(TempTestingFiles, FunctionalTestStd2isisJp2) {
     FAIL() << "Unable to translate image: " << e.what() << std::endl;
   }
 
-  Cube outCube(outCubeFileName);
+  Cube outCube(outCubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);

@@ -21,7 +21,7 @@ TEST_F(DefaultCube, UnitTestImagePolygonDefaultParams) {
     poly.Create(*testCube);
   }
   catch(IException &e) {
-    std::string msg = "Cannot create polygon for [" + testCube->fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + testCube->fileName().toStdString() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   ASSERT_EQ(4517, poly.numVertices());
@@ -48,7 +48,7 @@ TEST_F(DefaultCube, UnitTestImagePolygonSubPoly) {
     poly.Create(*testCube, 100, 100, 384, 640, 385);
   }
   catch(IException &e) {
-    std::string msg = "Cannot create polygon for [" + testCube->fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + testCube->fileName().toStdString() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   ASSERT_EQ(19, poly.numVertices());
@@ -74,14 +74,14 @@ TEST_F(TempTestingFiles, UnitTestImagePolygonCross) {
   FileName labelFile("$ISISROOT/../isis/tests/data/footprintinit/cross.pvl");
 
   Cube crossCube;
-  crossCube.fromIsd(tempDir.path() + "/footprintCube.cub", labelFile, isdFile, "rw");
+  crossCube.fromIsd(tempDir.path().toStdString() + "/footprintCube.cub", labelFile, isdFile, "rw");
 
   ImagePolygon poly;
   try {
     poly.Create(crossCube, 100, 100);
   }
   catch(IException &e) {
-    std::string msg = "Cannot create polygon for [" + crossCube.fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + crossCube.fileName().toStdString() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   ASSERT_EQ(40, poly.numVertices());
@@ -130,14 +130,14 @@ TEST_F(DefaultCube, UnitTestImagePolygonBoundary) {
   kernels["ShapeModel"] = "$base/dems/MSGR_DEM_USG_EQ_I_V02_prep.cub";
 
   Cube footprintCube;
-  footprintCube.fromIsd(tempDir.path() + "/footprintCube.cub", label, isd, "rw");
+  footprintCube.fromIsd(tempDir.path().toStdString() + "/footprintCube.cub", label, isd, "rw");
 
   ImagePolygon poly;
   try {
     poly.Create(footprintCube, 3000, 3000);
   }
   catch(IException &e) {
-    std::string msg = "Cannot create polygon for [" + footprintCube.fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + footprintCube.fileName().toStdString() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   footprintCube.close();
@@ -167,7 +167,7 @@ TEST_F(TempTestingFiles, UnitTestImagePolygonMosaic) {
   cubeLabel >> footprintLabel;
 
   Cube footprintCube;
-  FileName footprintFile(tempDir.path() + "/footprintCube.cub");
+  FileName footprintFile(tempDir.path().toStdString() + "/footprintCube.cub");
   footprintCube.fromLabel(footprintFile, footprintLabel, "rw");
 
   LineManager line(footprintCube);
@@ -184,7 +184,7 @@ TEST_F(TempTestingFiles, UnitTestImagePolygonMosaic) {
     poly.Create(footprintCube);
   }
   catch(IException &e) {
-    std::string msg = "Cannot create polygon for [" + footprintCube.fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + footprintCube.fileName().toStdString() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   footprintCube.close();
@@ -237,7 +237,7 @@ TEST_F(DefaultCube, UnitTestImagePolygonOutlier) {
   kernels["ShapeModel"] = "Null";
 
   Cube footprintCube;
-  footprintCube.fromIsd(tempDir.path() + "/footprintCube.cub", label, isd, "rw");
+  footprintCube.fromIsd(tempDir.path().toStdString() + "/footprintCube.cub", label, isd, "rw");
 
   ImagePolygon poly;
   poly.Emission(89);
@@ -246,7 +246,7 @@ TEST_F(DefaultCube, UnitTestImagePolygonOutlier) {
     poly.Create(footprintCube, 10, 10);
   }
   catch(IException &e) {
-    std::string msg = "Cannot create polygon for [" + footprintCube.fileName() + "]";
+    std::string msg = "Cannot create polygon for [" + footprintCube.fileName().toStdString() + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
   footprintCube.close();

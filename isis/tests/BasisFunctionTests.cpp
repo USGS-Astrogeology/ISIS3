@@ -56,8 +56,8 @@ TEST(BasisFunction, InequalCoefficientAmount)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Unable to set coefficients vector"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Unable to set coefficients vector") != std::string::npos)
+      <<  e.toString();
   }
   catch(...)
   {
@@ -87,8 +87,8 @@ TEST(BasisFunction, InequalVariableAmount)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Unable to evaluate function"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Unable to evaluate function") != std::string::npos)
+      <<  e.toString();
   }
   catch(...)
   {
@@ -115,8 +115,8 @@ TEST(BasisFunction, ExtraCoefficients)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Unable to evaluate function"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Unable to evaluate function") != std::string::npos)
+      <<  e.toString();
   }
   catch(...)
   {

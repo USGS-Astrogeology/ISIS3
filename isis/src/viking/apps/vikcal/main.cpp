@@ -46,15 +46,15 @@ void IsisMain() {
 
   // If the file has already been calibrated, throw an error
   if(icube.hasGroup("Radiometry")) {
-    std::string msg = "The Viking image [" + icube.fileName() + "] has already "
+    std::string msg = "The Viking image [" + icube.fileName().toStdString() + "] has already "
         "been radiometrically calibrated";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   CubeAttributeInput dcf;
   CubeAttributeInput fff;
-  const QString gainFile = (QString)FileName(calParam->GainFile()).expanded();
-  const QString offsetFile = (QString)FileName(calParam->OffsetFile()).expanded();
+  const QString gainFile = QString::fromStdString(FileName(calParam->GainFile().toStdString()).expanded());
+  const QString offsetFile = QString::fromStdString(FileName(calParam->OffsetFile().toStdString()).expanded());
 
   // Setup the input cubes
   p.SetInputCube("FROM");

@@ -56,7 +56,7 @@ namespace Isis {
 
     try {
       // Open up the list of framelet files
-      FileName frameletListFile = ui.GetFileName("FROMLIST");
+      FileName frameletListFile = ui.GetFileName("FROMLIST").toStdString();
 
       // Sort the framelets into frames based on start time
       frameMap = sortFramelets(frameletListFile);
@@ -67,14 +67,14 @@ namespace Isis {
     }
 
     // read the optional cubename
-    FileName frameletCubeFlag(ui.GetCubeName("CUBENAME"));
-    QString frameletCubeName = frameletCubeFlag.expanded();
+    FileName frameletCubeFlag(ui.GetCubeName("CUBENAME").toStdString());
+    QString frameletCubeName = QString::fromStdString(frameletCubeFlag.expanded());
 
     // Stitch together the individual frames
-    FileName outputPrefix(ui.GetCubeName("OUTPUTPREFIX"));
-    FileName outputSuffix(ui.GetCubeName("OUTPUTSUFFIX"));
-    QString outputPrefBaseName = outputPrefix.expanded();
-    QString outputSuffBaseName = outputSuffix.expanded();
+    FileName outputPrefix(ui.GetCubeName("OUTPUTPREFIX").toStdString());
+    FileName outputSuffix(ui.GetCubeName("OUTPUTSUFFIX").toStdString());
+    QString outputPrefBaseName = QString::fromStdString(outputPrefix.expanded());
+    QString outputSuffBaseName = QString::fromStdString(outputSuffix.expanded());
     QStringList frameKeys = frameMap.uniqueKeys();
     Progress stitchProgress;
     stitchProgress.SetText("Stitching Frames");
@@ -86,20 +86,20 @@ namespace Isis {
         QString frameIdentifier = frameKey.split("/").last();
         FileName frameFileName;
         if (frameletCubeName != "") {
-          frameFileName = FileName(outputPrefBaseName + "-" +
-                               frameletCubeName +
-                               outputSuffBaseName + ".cub");
+          frameFileName = FileName(outputPrefBaseName.toStdString() + "-" +
+                               frameletCubeName.toStdString() +
+                               outputSuffBaseName.toStdString() + ".cub");
         } else {
-          frameFileName = FileName(outputPrefBaseName + "-" +
-                                 frameIdentifier +
-                                 outputSuffBaseName + ".cub");
+          frameFileName = FileName(outputPrefBaseName.toStdString() + "-" +
+                                 frameIdentifier.toStdString() +
+                                 outputSuffBaseName.toStdString() + ".cub");
         }
         stitchFrame( frameMap.values(frameKey), frameFileName );
         stitchProgress.CheckStatus();
       }
       catch (IException &e) {
         std::string msg = "Failed stitch frame for observation ["
-                      + frameKey + "].";
+                      + frameKey.toStdString() + "].";
         throw IException(e, IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -121,11 +121,11 @@ namespace Isis {
   QMap<QString, FileName> sortFramelets(FileName frameletListFile) {
     QMultiMap<QString, FileName> frameMap;
 
-    ObservationNumberList frameletList(frameletListFile.expanded(), false);
+    ObservationNumberList frameletList(QString::fromStdString(frameletListFile.expanded()), false);
 
     for (int i = 0; i < frameletList.size(); i++) {
       frameMap.insert( frameletList.observationNumber(i),
-                            frameletList.fileName(i) );
+                            frameletList.fileName(i).toStdString() );
     }
 
     return std::move(frameMap);
@@ -152,7 +152,7 @@ namespace Isis {
     frameCube.setPixelType( firstFrameletCube.pixelType() );
     frameCube.setByteOrder( firstFrameletCube.byteOrder() );
     frameCube.setBaseMultiplier( firstFrameletCube.base(), firstFrameletCube.multiplier() );
-    frameCube.create( frameFileName.expanded() );
+    frameCube.create( QString::fromStdString(frameFileName.expanded()) );
 
     // Setup the label for the new cube
     PvlGroup kernGroup = firstFrameletCube.group("Kernels");
@@ -181,7 +181,7 @@ namespace Isis {
     Pvl &frameCubeLabel = *frameCube.label();
     for(int i = 0; i < firstFrameletLabel.objects(); i++) {
       if(firstFrameletLabel.object(i).isNamed("Table")) {
-        Isis::Blob table(QString::fromStdString(firstFrameletLabel.object(i)["Name"]), firstFrameletLabel.object(i).name());
+        Isis::Blob table(firstFrameletLabel.object(i)["Name"], firstFrameletLabel.object(i).name());
         firstFrameletCube.read(table);
         frameCube.write(table);
       }
@@ -199,12 +199,12 @@ namespace Isis {
       ProcessByLine frameletProcess;
       frameletProcess.Progress()->DisableAutomaticDisplay();
       CubeAttributeInput inputAtts(frameletFile);
-      Cube *frameletCube = frameletProcess.SetInputCube(frameletFile.expanded(), inputAtts);
+      Cube *frameletCube = frameletProcess.SetInputCube(QString::fromStdString(frameletFile.expanded()), inputAtts);
       // Check for summing in the framelet cube
       // Eventually summing can be handled, but right now we don't know enough, so error
       PvlGroup frameletInst = frameletCube->group("Instrument");
       if ((int)frameletInst["SummingMode"] != 0) {
-        std::string msg = "Summing mode [" + QString::fromStdString(frameletInst["SummingMode"])
+        std::string msg = "Summing mode [" + (std::string)frameletInst["SummingMode"]
                       + "] for framelet [" + frameletFile.expanded()
                       + "] is not supported.";
         throw IException(IException::User, msg, _FILEINFO_);
@@ -236,7 +236,7 @@ namespace Isis {
       Pvl &frameletLabel = *frameletCube->label();
       for(int i = 0; i < frameletLabel.objects(); i++) {
         if( frameletLabel.object(i).isNamed("History") ) {
-          Blob historyBlob(QString::fromStdString(frameletLabel.object(i)["Name"]), "History" );
+          Blob historyBlob(frameletLabel.object(i)["Name"], "History" );
           frameletCube->read(historyBlob);
           frameCube.write(historyBlob);
         }

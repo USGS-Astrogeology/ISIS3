@@ -38,8 +38,8 @@ namespace Isis {
   void msi2isis( UserInterface &ui, Pvl *log ) {
 
     // get the label for the input image
-    FileName from = ui.GetFileName("FROM");
-    if (from.extension().toUpper() != "LBL") {
+    FileName from = ui.GetFileName("FROM").toStdString();
+    if (IString(from.extension()).UpCase() != "LBL") {
       from = from.setExtension("lbl");
       if (!from.fileExists()) {
         from = from.setExtension("LBL");
@@ -47,7 +47,7 @@ namespace Isis {
       if (!from.fileExists()) {
         throw IException(IException::Io,
                         "Unable to find PDS label file for ["
-                        + ui.GetFileName("FROM") + "].",
+                        + ui.GetFileName("FROM").toStdString() + "].",
                         _FILEINFO_);
       }
     }
@@ -63,7 +63,7 @@ namespace Isis {
     ProcessImportPds importPds;
     Pvl inputLabelPvl;
 
-    importPds.SetPdsFile(from.expanded(), "", inputLabelPvl);
+    importPds.SetPdsFile(QString::fromStdString(from.expanded()), "", inputLabelPvl);
 
 
     // from the pds label, verfify that the image is valid before continuing
@@ -71,7 +71,7 @@ namespace Isis {
       throw IException(IException::Io,
                       "The input label [" + from.expanded() + "] has an invalid "
                       "value for INSTRUMENT_ID = ["
-                      + QString::fromStdString(inputLabelPvl["INSTRUMENT_ID"][0])
+                      + inputLabelPvl["INSTRUMENT_ID"][0]
                       + "]. The msi2isis program requires INSTRUMENT_ID = [MSI].",
                       _FILEINFO_);
     }
@@ -81,14 +81,14 @@ namespace Isis {
       std::string msg = "The given file [" + from.expanded() + "] does not contain "
                     "a full MSI image. Full NEAR Shoemaker MSI images have "
                     "dimension 537 samples x 244 (or 412) lines. The given image is ["
-                    + QString(toString(samples)) + "] samples by ["
-                    + QString(toString(lines)) + "] lines.";
+                    + toString(samples) + "] samples by ["
+                    + toString(lines) + "] lines.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
     if (inputLabelPvl["SAMPLE_DISPLAY_DIRECTION"][0] != "RIGHT") {
       std::string msg = "The input label [" + from.expanded() + "] has an invalid "
                     "value for SAMPLE_DISPLAY_DIRECTION = ["
-                    + QString::fromStdString(inputLabelPvl["SAMPLE_DISPLAY_DIRECTION"][0])
+                    + inputLabelPvl["SAMPLE_DISPLAY_DIRECTION"][0]
                     + "]. The msi2isis program requires "
                     "SAMPLE_DISPLAY_DIRECTION = [RIGHT].";
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -96,7 +96,7 @@ namespace Isis {
     if (inputLabelPvl["LINE_DISPLAY_DIRECTION"][0] != "UP") {
       std::string msg = "The input label [" + from.expanded() + "] has an invalid "
                     "value for LINE_DISPLAY_DIRECTION = ["
-                    + QString::fromStdString(inputLabelPvl["LINE_DISPLAY_DIRECTION"][0])
+                    + inputLabelPvl["LINE_DISPLAY_DIRECTION"][0]
                     + "]. The msi2isis program requires "
                     "LINE_DISPLAY_DIRECTION = [UP].";
       throw IException(IException::Io, msg, _FILEINFO_);
@@ -113,7 +113,7 @@ namespace Isis {
     // the given input file appears to be valid, continue with the import process
     FileName importProcessOutCube = FileName::createTempFile("$Temporary/" + from.baseName() + ".import.tmp.cub");
     CubeAttributeOutput outatt = CubeAttributeOutput("+Real");
-    importPds.SetOutputCube(importProcessOutCube.expanded(), outatt);
+    importPds.SetOutputCube(QString::fromStdString(importProcessOutCube.expanded()), outatt);
     importPds.StartProcess();
     importPds.Finalize();
     importPds.ClearCubes();
@@ -124,8 +124,8 @@ namespace Isis {
     if ( 412 != lines ) {
       // The second process will enlarge the imported cube from 537x244 to 537x412
       ProcessRubberSheet enlargeProcess;
-      Cube *cube = enlargeProcess.SetInputCube(importProcessOutCube.expanded(), inatt);
-      enlargeProcess.SetOutputCube(enlargeProcessOutCube.expanded(), outatt, 537, 412, 1);
+      Cube *cube = enlargeProcess.SetInputCube(QString::fromStdString(importProcessOutCube.expanded()), inatt);
+      enlargeProcess.SetOutputCube(QString::fromStdString(enlargeProcessOutCube.expanded()), outatt, 537, 412, 1);
 
       // Set up the interpolator
       QScopedPointer<Interpolator>  interp;
@@ -155,7 +155,7 @@ namespace Isis {
     // The third (last) process will flip the image lines and set the 33 pixels
     // along each border (top, bottom, left, and right) to null.
     ProcessBySample processSamps;
-    processSamps.SetInputCube(enlargeProcessOutCube.expanded(), inatt);
+    processSamps.SetInputCube(QString::fromStdString(enlargeProcessOutCube.expanded()), inatt);
 
     QString fname = ui.GetCubeName("TO");
     CubeAttributeOutput &atts = ui.GetOutputAttribute("TO");
@@ -189,8 +189,8 @@ namespace Isis {
       translateMsiLabels(inputLabelPvl, isisLabelPvl);
     }
     catch ( IException &e) {
-      remove(importProcessOutCube.expanded().toLatin1());
-      remove(enlargeProcessOutCube.expanded().toLatin1());
+      remove(importProcessOutCube.expanded().c_str());
+      remove(enlargeProcessOutCube.expanded().c_str());
       std::string msg = "Unable to translate the labels from [" + from.expanded()
                     + "] to ISIS format using msi2isis.";
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
@@ -245,8 +245,8 @@ namespace Isis {
 
 
     // clean up temp files and "new" pointers
-    remove(importProcessOutCube.expanded().toLatin1());
-    remove(enlargeProcessOutCube.expanded().toLatin1());
+    remove(importProcessOutCube.expanded().c_str());
+    remove(enlargeProcessOutCube.expanded().c_str());
   }
 
 

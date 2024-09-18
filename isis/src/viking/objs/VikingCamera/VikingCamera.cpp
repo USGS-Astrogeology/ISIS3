@@ -85,7 +85,7 @@ namespace Isis {
       }
       else {
         std::string msg = "File does not appear to be a Viking image. InstrumentId ["
-            + instId + "] is invalid Viking value.";
+            + instId.toStdString() + "] is invalid Viking value.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -117,13 +117,13 @@ namespace Isis {
       }
       else {
         std::string msg = "File does not appear to be a Viking image. InstrumentId ["
-            + instId + "] is invalid Viking value.";
+            + instId.toStdString() + "] is invalid Viking value.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     else {
       std::string msg = "File does not appear to be a Viking image. SpacecraftName ["
-          + spacecraft + "] is invalid Viking value.";
+          + spacecraft.toStdString() + "] is invalid Viking value.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -175,8 +175,8 @@ namespace Isis {
     focalMap->SetDetectorOrigin(602.0, 528.0);
 
     // Setup distortion map
-    QString fname = FileName("$viking" + toString(spn) + "/reseaus/vik" + cam
-                             + "MasterReseaus.pvl").expanded();
+    QString fname = QString::fromStdString(FileName("$viking" + toString(spn) + "/reseaus/vik" + cam.toStdString()
+                             + "MasterReseaus.pvl").expanded());
     new ReseauDistortionMap(this, lab, fname);
 
     // Setup the ground and sky map

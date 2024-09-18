@@ -49,7 +49,7 @@ class SpiceRotationKernels : public ::testing::Test {
     frameCode = -94031;
     targetCode = 499;
 
-    QString dir = FileName("$ISISTESTDATA/isis/src/base/unitTestData/kernels").expanded() + "/";
+    QString dir = QString::fromStdString(FileName("$ISISTESTDATA/isis/src/base/unitTestData/kernels").expanded() + "/");
     kernels.clear();
     kernels.push_back(dir + "naif0007.tls");
     kernels.push_back(dir + "MGS_SCLKSCET.00045.tsc");

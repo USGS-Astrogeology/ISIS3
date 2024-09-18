@@ -11,7 +11,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/tgocassis2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/tgocassis2isis.xml").expanded());
 
 TEST(TgoCassis2Isis, TgoCassis2IsisTestBlu) {
   QTemporaryDir prefix;
@@ -24,9 +24,9 @@ TEST(TgoCassis2Isis, TgoCassis2IsisTestBlu) {
     tgocassis2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -133,9 +133,9 @@ TEST(TgoCassis2Isis, TgoCassis2IsisTestRed) {
     tgocassis2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -207,9 +207,9 @@ TEST(TgoCassis2Isis, TgoCassis2IsisTestNir) {
     tgocassis2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -281,9 +281,9 @@ TEST(TgoCassis2Isis, TgoCassis2IsisTestPan) {
     tgocassis2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -403,9 +403,9 @@ TEST(TgoCassis2Isis, TgoCassis2IsisTestReingestedUnproj) {
     tgocassis2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -460,9 +460,9 @@ TEST(TgoCassis2Isis, TgoCassis2IsisTestReingestedProj) {
     tgocassis2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -518,9 +518,9 @@ TEST(TgoCassis2Isis, TgoCassis2IsisTestPSALabel) {
     tgocassis2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group

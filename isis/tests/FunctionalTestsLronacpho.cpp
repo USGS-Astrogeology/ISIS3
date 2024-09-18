@@ -26,7 +26,7 @@ using namespace testing;
   *                                      cub since fx is not yet callable
   */
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lronacpho.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lronacpho.xml").expanded());
 
 TEST(LronacphoNoDemAlgo3, FunctionalTestsLronacpho) {
   QTemporaryDir prefix;
@@ -43,7 +43,7 @@ TEST(LronacphoNoDemAlgo3, FunctionalTestsLronacpho) {
     lronacpho(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to apply photometry algorithm to LRO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to apply photometry algorithm to LRO image: " <<e.toString().c_str() << std::endl;
   }
   try{
     // open output cube to test al algorithm was applied correctly
@@ -65,7 +65,7 @@ TEST(LronacphoNoDemAlgo3, FunctionalTestsLronacpho) {
     outputCube.close();
   }
   catch(IException &e){
-    FAIL() << "Unable to open output cube: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to open output cube: " <<e.toString().c_str() << std::endl;
   }
 }
 
@@ -84,7 +84,7 @@ TEST(LronacphoNoDemAlgo2, FunctionalTestsLronacpho) {
     lronacpho(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to apply photometry algorithm to LRO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to apply photometry algorithm to LRO image: " <<e.toString().c_str() << std::endl;
   }
   try{
     // open output cube to test al algorithm was applied correctly
@@ -103,7 +103,7 @@ TEST(LronacphoNoDemAlgo2, FunctionalTestsLronacpho) {
     outputCube.close();
   }
   catch(IException &e){
-    FAIL() << "Unable to open output cube: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to open output cube: " <<e.toString().c_str() << std::endl;
   }
 }
 
@@ -122,7 +122,7 @@ TEST(LronacphoNoDemAlgoDefault, FunctionalTestsLronacpho) {
     lronacpho(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to apply photometry algorithm to LRO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to apply photometry algorithm to LRO image: " <<e.toString().c_str() << std::endl;
   }
   try{
     // open output cube to test al algorithm was applied correctly
@@ -140,6 +140,6 @@ TEST(LronacphoNoDemAlgoDefault, FunctionalTestsLronacpho) {
     outputCube.close();
   }
   catch(IException &e){
-    FAIL() << "Unable to open output cube: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to open output cube: " <<e.toString().c_str() << std::endl;
   }
 }

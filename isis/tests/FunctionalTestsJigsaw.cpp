@@ -33,7 +33,7 @@ using namespace Isis;
 using namespace testing;
 
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/jigsaw.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/jigsaw.xml").expanded());
 
 TEST_F(ApolloNetwork, FunctionalTestJigsawApollo) {
   QVector<QString> args = {"radius=yes",
@@ -520,8 +520,8 @@ TEST_F(ObservationPair, FunctionalTestJigsawCamSolveAll) {
   }
 
   // images were updated
-  cubeL = new Cube(cubeLPath, "r");
-  cubeR = new Cube(cubeRPath, "r");
+  cubeL = new Cube(cubeLPath.toStdString(), "r");
+  cubeR = new Cube(cubeRPath.toStdString(), "r");
 
   ControlNet oNet;
   oNet.ReadControl(outCnetFileName);
@@ -643,8 +643,8 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawHeldList) {
 
   QString heldlistpath = prefix.path() + "/heldlist.lis";
   FileList heldList;
-  heldList.append(cubes[5]->fileName());
-  heldList.write(heldlistpath);
+  heldList.append(cubes[5]->fileName().toStdString());
+  heldList.write(heldlistpath.toStdString());
 
   QString outCnetFileName = prefix.path() + "/outTemp.net";
   QVector<QString> args = {"fromlist="+cubeListFile, "cnet="+controlNetPath, "onet="+outCnetFileName, "heldlist="+heldlistpath,
@@ -1374,7 +1374,7 @@ TEST_F(VikThmNetwork, FunctionalTestJigsawScconfigHeld) {
    QString heldListPath = prefix.path() + "/heldlist.lis";
    FileList heldList;
    heldList.append("data/vikingThemisNetwork/I28234014RDR_crop.cub");
-   heldList.write(heldListPath);
+   heldList.write(heldListPath.toStdString());
 
    QString outCnetFileName = prefix.path() + "/outTemp.net";
    QString scconfigPath = "data/vikingThemisNetwork/themis_vo.pvl";
@@ -1692,31 +1692,31 @@ TEST_F(CSMNetwork, FunctionalTestJigsawCSM) {
                  "Test_J.cub, 2.76E-12,	9.95E-14,	1.96E-12,	-0.0625,	0.0625,"
                  "-2.63E-17,	0.016650391, 0,	-0.03125,	0.03125, 6.23E-15,	0.016650391", 1);
 
-  Cube testB(tempDir.path() + "/Test_B.cub");
+  Cube testB(tempDir.path().toStdString() + "/Test_B.cub");
   CSMCamera *camB = dynamic_cast<CSMCamera*>(testB.camera());
   EXPECT_NEAR(camB->getParameterValue(0), 3.0, 0.00000001);
   EXPECT_NEAR(camB->getParameterValue(1), 0.0, 0.00000001);
   EXPECT_NEAR(camB->getParameterValue(2), 256.0, 0.00000001);
 
-  Cube testD(tempDir.path() + "/Test_D.cub");
+  Cube testD(tempDir.path().toStdString() + "/Test_D.cub");
   CSMCamera *camD = dynamic_cast<CSMCamera*>(testD.camera());
   EXPECT_NEAR(camD->getParameterValue(0), 0.0, 0.00000001);
   EXPECT_NEAR(camD->getParameterValue(1), -3.0, 0.00000001);
   EXPECT_NEAR(camD->getParameterValue(2), 256.0, 0.00000001);
 
-  Cube testF(tempDir.path() + "/Test_F.cub");
+  Cube testF(tempDir.path().toStdString() + "/Test_F.cub");
   CSMCamera *camF = dynamic_cast<CSMCamera*>(testF.camera());
   EXPECT_NEAR(camF->getParameterValue(0), 0.0, 0.00000001);
   EXPECT_NEAR(camF->getParameterValue(1), 3.0, 0.00000001);
   EXPECT_NEAR(camF->getParameterValue(2), 256.0, 0.00000001);
 
-  Cube testH(tempDir.path() + "/Test_H.cub");
+  Cube testH(tempDir.path().toStdString() + "/Test_H.cub");
   CSMCamera *camH = dynamic_cast<CSMCamera*>(testH.camera());
   EXPECT_NEAR(camH->getParameterValue(0), -3.0, 0.00000001);
   EXPECT_NEAR(camH->getParameterValue(1), 0.0, 0.00000001);
   EXPECT_NEAR(camH->getParameterValue(2), 256.0, 0.00000001);
 
-  Cube testJ(tempDir.path() + "/Test_J.cub");
+  Cube testJ(tempDir.path().toStdString() + "/Test_J.cub");
   CSMCamera *camJ = dynamic_cast<CSMCamera*>(testJ.camera());
   EXPECT_NEAR(camJ->getParameterValue(0), 0.0, 0.00000001);
   EXPECT_NEAR(camJ->getParameterValue(1), 0.0, 0.00000001);
@@ -1730,13 +1730,13 @@ TEST_F(LidarNetwork, FunctionalTestJigsawLidar) {
   QString cube2fname = tempDir.path() + "/lidarObservationPair2Copy.cub";
   cube1->reopen("rw");
   cube2->reopen("rw");
-  QScopedPointer<Cube> cube1Copy( cube1->copy(cube1fname, CubeAttributeOutput()) );
-  QScopedPointer<Cube> cube2Copy( cube2->copy(cube2fname, CubeAttributeOutput()) );
+  QScopedPointer<Cube> cube1Copy( cube1->copy(cube1fname.toStdString(), CubeAttributeOutput()) );
+  QScopedPointer<Cube> cube2Copy( cube2->copy(cube2fname.toStdString(), CubeAttributeOutput()) );
 
 
   FileList cubeListCopy;
-  cubeListCopy.append(cube1Copy->fileName());
-  cubeListCopy.append(cube2Copy->fileName());
+  cubeListCopy.append(cube1Copy->fileName().toStdString());
+  cubeListCopy.append(cube2Copy->fileName().toStdString());
 
   cube1->close();
   cube2->close();
@@ -1744,7 +1744,7 @@ TEST_F(LidarNetwork, FunctionalTestJigsawLidar) {
   cube2Copy->close();
 
   QString cubeListFileCopy = tempDir.path() + "/cubesCopy.lis";
-  cubeListCopy.write(cubeListFileCopy);
+  cubeListCopy.write(cubeListFileCopy.toStdString());
 
   // call jigsaw w/o lidar options & apply=true on copy of images
   QVector<QString> args1 = {"radius=yes",
@@ -1791,10 +1791,10 @@ TEST_F(LidarNetwork, FunctionalTestJigsawLidar) {
 
   // re-open all cubes
   // Make a new cube object to get the updated camera models after bundle adjust
-  Cube bundledCube1(cube1Path);
-  Cube bundledCube2(cube2Path);
-  Cube bundledCube1Copy(cube1fname);
-  Cube bundledCube2Copy(cube2fname);
+  Cube bundledCube1(cube1Path.toStdString());
+  Cube bundledCube2(cube2Path.toStdString());
+  Cube bundledCube1Copy(cube1fname.toStdString());
+  Cube bundledCube2Copy(cube2fname.toStdString());
 
   std::map<QString, Camera*> noLidarCameras;
   std::map<QString, Camera*> lidarCameras;
@@ -1834,9 +1834,9 @@ TEST_F(LidarNetwork, FunctionalTestJigsawLidar) {
   }
 
   LidarData lidarDataIn;
-  lidarDataIn.read(lidarDataPath);
+  lidarDataIn.read(lidarDataPath.toStdString());
   LidarData lidarDataOut;
-  lidarDataOut.read(tempDir.path() + "/lidar_out.json");
+  lidarDataOut.read(tempDir.path().toStdString() + "/lidar_out.json");
 
   QFile bo(tempDir.path() + "/lidar_bundleout.txt");
   QString contents;

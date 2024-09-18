@@ -9,7 +9,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/cnetpvl2bin.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cnetpvl2bin.xml").expanded());
 
 TEST_F(ThreeImageNetwork, FunctionalTestCnetpvl2binDefault) {
   QString binOut = tempDir.path()+"/cnetbin2Network.net";

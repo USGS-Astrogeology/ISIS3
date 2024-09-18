@@ -14,7 +14,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/crism2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/crism2isis.xml").expanded());
 
 TEST(Crism2isis, Crism2IsisTestDdr) {
   QTemporaryDir prefix;
@@ -28,9 +28,9 @@ TEST(Crism2isis, Crism2IsisTestDdr) {
     crism2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest CRISM image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest CRISM image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -97,9 +97,9 @@ TEST(Crism2isis, Crism2IsisTestMrdr) {
     crism2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest CRISM image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest CRISM image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -156,9 +156,9 @@ TEST(Crism2isis, Crism2IsisTestTrdr) {
     crism2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest CRISM image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest CRISM image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -195,9 +195,9 @@ TEST(Crism2isis, Crism2IsisTestMrral) {
     crism2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest CRISM image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest CRISM image: " <<  e.toString().c_str() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group

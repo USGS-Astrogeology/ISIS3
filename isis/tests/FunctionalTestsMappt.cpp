@@ -14,7 +14,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/mappt.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/mappt.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestMapptImageTest) {
   QVector<QString> args = {"append=false", "type=image", "sample=1", "line=1"};
@@ -354,8 +354,8 @@ TEST_F(DefaultCube, FunctionalTestMapptBadColumnError) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Coordinate file formatted incorrectly."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Coordinate file formatted incorrectly.") != std::string::npos)
+      <<  e.toString();
   }
   catch(...) {
     FAIL() << "Expected an IException with message: \"Coordinate file formatted incorrectly.\n"

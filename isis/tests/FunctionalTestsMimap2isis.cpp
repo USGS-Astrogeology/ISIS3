@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/mimap2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/mimap2isis.xml").expanded());
 
 TEST(FunctionalTestMimap2Isis, Default) {
    QTemporaryDir prefix;
@@ -23,10 +23,10 @@ TEST(FunctionalTestMimap2Isis, Default) {
    mimap2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest MI MAP image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest MI MAP image: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -326,10 +326,10 @@ TEST(FunctionalTestMimap2Isis, L3C) {
    mimap2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest MI MAP image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest MI MAP image: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Archive Group
@@ -554,10 +554,10 @@ TEST(FunctionalTestMimap2Isis, MAPv3) {
    mimap2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest MI MAP image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest MI MAP image: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Archive Group
@@ -782,10 +782,10 @@ TEST(FunctionalTestMimap2Isis, SpecialPixels) {
    mimap2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest MI MAP image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest MI MAP image: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   std::unique_ptr<Histogram> hist(outCube.histogram());
 
   EXPECT_EQ(hist->LrsPixels(), 2);

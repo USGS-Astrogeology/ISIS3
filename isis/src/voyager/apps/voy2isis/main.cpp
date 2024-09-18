@@ -48,18 +48,18 @@ void IsisMain() {
   // We should be processing a PDS file
   ProcessImportPds p;
   UserInterface &ui = Application::GetUserInterface();
-  FileName in = ui.GetFileName("FROM");
+  FileName in = ui.GetFileName("FROM").toStdString();
 
-  QString tempName = "$TEMPORARY/" + in.baseName() + ".img";
-  FileName temp(tempName);
+  QString tempName = "$TEMPORARY/" + QString::fromStdString(in.baseName()) + ".img";
+  FileName temp(tempName.toStdString());
 
   bool tempFile = false;
 
   // input files are compressed, use vdcomp to decompress
-  QString ext = in.extension().toUpper();
+  QString ext = QString::fromStdString(in.extension()).toUpper();
   if (ext == "IMQ") {
     try {
-      QString command = "$ISISROOT/bin/vdcomp " + in.expanded() + " " + temp.expanded();
+      QString command = QString::fromStdString("$ISISROOT/bin/vdcomp " + in.expanded() + " " + temp.expanded());
       // don't pretend vdcomp is a standard Isis program, just run it
       ProgramLauncher::RunSystemCommand(command);
       in = temp.expanded();
@@ -79,7 +79,7 @@ void IsisMain() {
   // Preparse the IMG to fix messed up labels
 
   History *hist = new History();
-  QByteArray pdsData = fixLabels(in.expanded(), hist);
+  QByteArray pdsData = fixLabels(QString::fromStdString(in.expanded()), hist);
 
   QTextStream pdsTextStream(&pdsData);
   istringstream pdsStream(pdsTextStream.readAll().toStdString());
@@ -99,7 +99,7 @@ void IsisMain() {
   }
 
   try {
-    p.SetPdsFile(*pdsLabel, in.expanded());
+    p.SetPdsFile(*pdsLabel, QString::fromStdString(in.expanded()));
   }
   catch (IException &e) {
     std::string msg = "Unable to set PDS file. Decompressed input file ["
@@ -121,7 +121,7 @@ void IsisMain() {
   p.EndProcess();
 
   delete pdsLabel;
-  if (tempFile) QFile::remove(temp.expanded());
+  if (tempFile) QFile::remove(QString::fromStdString(temp.expanded()));
 }
 
 /**
@@ -137,7 +137,7 @@ void ConvertComments(FileName file) {
 
   unsigned int lineStartPos = 0;
   fstream stream;
-  QString filename = file.expanded();
+  QString filename = QString::fromStdString(file.expanded());
   stream.open(filename.toLatin1().data(), fstream::in | fstream::out | fstream::binary);
 
   lineStartPos = stream.tellg();
@@ -174,11 +174,11 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   Pvl inputLabel(inputLab);
 
   // Get the directory where the Voyager translation tables are
-  QString missionDir = "$ISISROOT/appdata";
+  std::string missionDir = "$ISISROOT/appdata";
   FileName transFile(missionDir + "/translations/voyager.trn");
 
   // Get the translation manager ready
-  PvlToPvlTranslationManager labelXlater(inputLabel, transFile.expanded());
+  PvlToPvlTranslationManager labelXlater(inputLabel, QString::fromStdString(transFile.expanded()));
 
   // Pvl output label
   Pvl *outputLabel = ocube->label();
@@ -207,12 +207,12 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   // Translate the band bin group information
   if(QString::fromStdString(inst["InstrumentId"]) == "WIDE_ANGLE_CAMERA") {
     FileName bandBinTransFile(missionDir + "/translations/voyager_wa_bandbin.trn");
-    PvlToPvlTranslationManager labelXlater(inputLabel, bandBinTransFile.expanded());
+    PvlToPvlTranslationManager labelXlater(inputLabel, QString::fromStdString(bandBinTransFile.expanded()));
     labelXlater.Auto(*(outputLabel));
   }
   else {
     FileName bandBinTransFile(missionDir + "/translations/voyager_na_bandbin.trn");
-    PvlToPvlTranslationManager labelXlater(inputLabel, bandBinTransFile.expanded());
+    PvlToPvlTranslationManager labelXlater(inputLabel, QString::fromStdString(bandBinTransFile.expanded()));
     labelXlater.Auto(*(outputLabel));
   }
 
@@ -243,7 +243,7 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
       instId = "isswa";
     }
     else {
-      std::string msg = "Instrument ID [" + instId + "] does not match Narrow or " +
+      std::string msg = "Instrument ID [" + instId.toStdString() + "] does not match Narrow or " +
                     "Wide angle camera. The cube was created, but the labels were not translated. "
                     "To create a cube with translated labels, re-run this application with "
                     "INSTRUMENT set to NAC or WAC.";
@@ -263,7 +263,7 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
       instId = "isswa";
     }
     else {
-      std::string msg = "Instrument ID [" + instId + "] does not match Narrow or " +
+      std::string msg = "Instrument ID [" + instId.toStdString() + "] does not match Narrow or " +
                     "Wide angle camera. The cube was created, but the labels were not translated. "
                     "To create a cube with translated labels, re-run this application with "
                     "INSTRUMENT set to NAC or WAC.";
@@ -271,7 +271,7 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
     }
   }
   else {
-    std::string msg = "Spacecraft name [" + QString::fromStdString(inst.findKeyword("SpacecraftName")) +
+    std::string msg = "Spacecraft name [" + (std::string)inst.findKeyword("SpacecraftName") +
                  "] does not match Voyager1 or Voyager2 spacecraft";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -304,8 +304,8 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
       inst["ShutterModeId"][0] == "BOTSIM") &&
       inst["InstrumentId"][0] == "WIDE_ANGLE_CAMERA") {
     QString scanId = QString::fromStdString(inst["ScanModeId"][0]);
-    int scanNum = toInt(scanId.mid(0, 1));
-    int imgNum = toInt(imgNumber);
+    int scanNum = scanId.mid(0, 1).toInt();
+    int imgNum = imgNumber.toInt();
 
     // We'll use this later, however, we do not write it to the labels.
     // if we didn't get in here, we'll be using the original image number,
@@ -359,9 +359,9 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   //* 3 *//
   // Leapsecond kernel
   QString lsk = "$base/kernels/lsk/naif????.tls";
-  FileName lskName(lsk);
+  FileName lskName(lsk.toStdString());
   lskName = lskName.highestVersion();
-  furnsh_c(lskName.expanded().toLatin1().data());
+  furnsh_c(lskName.expanded().c_str());
 
   // Spacecraft clock kernel
   QString sclk = "$ISISDATA/voyager";
@@ -369,9 +369,9 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   sclk.append("/kernels/sclk/vg");
   sclk.append(spacecraftNumber);
   sclk.append("?????.tsc");
-  FileName sclkName(sclk);
+  FileName sclkName(sclk.toStdString());
   sclkName = sclkName.highestVersion();
-  furnsh_c(sclkName.expanded().toLatin1().data());
+  furnsh_c(sclkName.expanded().c_str());
 
   // The purpose of the next two steps, getting the spacecraft clock count,
   // are simply to get the partition, the very first number 1/...
@@ -382,7 +382,7 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
   // sce2s_c requires the spacecraft number, not the instrument number as
   // we've found elsewhere, either -31 or -32 in this case.
   int spacecraftClockNumber = -30;
-  spacecraftClockNumber -= toInt(spacecraftNumber);
+  spacecraftClockNumber -= spacecraftNumber.toInt();
   sce2s_c(spacecraftClockNumber, approxEphemeris, 80, approxSpacecraftClock);
 
   /*

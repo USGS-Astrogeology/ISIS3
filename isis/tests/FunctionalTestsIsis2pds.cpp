@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isis2pds.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isis2pds.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestIsis2pdsDefault) {
   QTemporaryDir prefix;
@@ -411,7 +411,7 @@ TEST(isis2pdsTest, FunctionalTestIsis2pdsPds4) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  FileName xmlTransFile(prefix.path() + "/outTemp.xml");
+  FileName xmlTransFile(prefix.path().toStdString() + "/outTemp.xml");
   XmlToPvlTranslationManager outputLabel(xmlTransFile, "data/isis2pds/isis2pds4.trn");
 
   EXPECT_EQ(outputLabel.Translate("Target_Name"), "Vesta");

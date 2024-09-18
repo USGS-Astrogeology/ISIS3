@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/gllssical.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/gllssical.xml").expanded());
 
 TEST_F(GalileoSsiCube, FunctionalTestGllssicalDefault) {
   // tempDir exists if the fixture subclasses TempTestingFiles, which most do
@@ -25,7 +25,7 @@ TEST_F(GalileoSsiCube, FunctionalTestGllssicalDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   PvlGroup radGroup = oCube.label()->findObject("IsisCube").findGroup("RadiometricCalibration");
 
@@ -78,7 +78,7 @@ TEST_F(GalileoSsiCube, FunctionalTestGllssicalClear) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   PvlGroup radGroup = oCube.label()->findObject("IsisCube").findGroup("RadiometricCalibration");
 
@@ -117,7 +117,7 @@ TEST_F(GalileoSsiCube, FunctionalTestGllssicalRadiance) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   PvlGroup radGroup = oCube.label()->findObject("IsisCube").findGroup("RadiometricCalibration");
 

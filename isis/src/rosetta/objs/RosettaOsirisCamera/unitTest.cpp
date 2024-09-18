@@ -33,7 +33,7 @@ int main(void) {
 
   cout << "Unit Test for RosettaOsirisCameraDistortionMap..." << endl;
   try {
-    Cube c(testNACFile, "r");
+    Cube c(testNACFile.toStdString(), "r");
     Camera *cam = c.camera();
     RosettaOsirisCameraDistortionMap *testMap = new RosettaOsirisCameraDistortionMap(cam);
     cout << "Create default distortion map" << endl;
@@ -156,9 +156,9 @@ int main(void) {
     double knownLat = 66.7031631205829569;
     double knownLon = 95.7688045622462880;
 
-    Cube c(testNACFile, "r");
+    Cube c(testNACFile.toStdString(), "r");
     RosettaOsirisCamera *cam = (RosettaOsirisCamera *) CameraFactory::Create(c);
-    cout << "FileName: " << FileName(c.fileName()).name() << endl;
+    cout << "FileName: " << FileName(c.fileName().toStdString()).name() << endl;
     cout << "CK Frame: " << cam->instrumentRotation()->Frame() << endl << endl;
     cout.setf(std::ios::fixed);
     cout << setprecision(9);
@@ -171,10 +171,10 @@ int main(void) {
     cout << "SPK Reference ID = " << cam->SpkReferenceId() << endl << endl;
 
     // Test name methods
-    cout << "Spacecraft Name Long: " << cam->spacecraftNameLong() << endl;
-    cout << "Spacecraft Name Short: " << cam->spacecraftNameShort() << endl;
-    cout << "Instrument Name Long: " << cam->instrumentNameLong() << endl;
-    cout << "Instrument Name Short: " << cam->instrumentNameShort() << endl << endl;
+    cout << "Spacecraft Name Long: " << cam->spacecraftNameLong().toStdString() << endl;
+    cout << "Spacecraft Name Short: " << cam->spacecraftNameShort().toStdString() << endl;
+    cout << "Instrument Name Long: " << cam->instrumentNameLong().toStdString() << endl;
+    cout << "Instrument Name Short: " << cam->instrumentNameShort().toStdString() << endl << endl;
 
     // Test four pixels to make sure the conversions are right
 
@@ -217,7 +217,7 @@ int main(void) {
 
     cout << endl << "Test WAC with subwindowing..." << endl << endl;
 
-    Cube wacCube(testWACFile, "r");
+    Cube wacCube(testWACFile.toStdString(), "r");
     RosettaOsirisCamera *wideAngleCam = (RosettaOsirisCamera *) CameraFactory::Create(wacCube);
 
     cout << "For upper left corner of asteroid ..." << endl;

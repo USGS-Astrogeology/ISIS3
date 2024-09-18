@@ -20,7 +20,7 @@ using namespace Isis;
 using ::testing::Return;
 using ::testing::AtLeast;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/cam2map.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cam2map.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestCam2mapDefault) {
   std::istringstream labelStrm(R"(
@@ -56,7 +56,7 @@ TEST_F(DefaultCube, FunctionalTestCam2mapDefault) {
   Pvl log;
 
   cam2map(testCube, userMap, userGrp, ui, &log);
-  Cube ocube(tempDir.path()+"/level2.cub");
+  Cube ocube(tempDir.path().toStdString()+ "/level2.cub");
 
   PvlGroup cubeMapGroup = ocube.label()->findGroup("Mapping", Pvl::Traverse);
 
@@ -156,7 +156,7 @@ TEST_F(DefaultCube, FunctionalTestCam2mapUserLatlon) {
   Pvl log;
 
   cam2map(testCube, userMap, userGrp, ui, &log);
-  Cube ocube(tempDir.path()+"/level2.cub");
+  Cube ocube(tempDir.path().toStdString()+ "/level2.cub");
 
   ASSERT_EQ(userGrp.findKeyword("PixelResolution")[0], "100000.0");
   ASSERT_EQ(userGrp.findKeyword("Scale")[0], "0.59274697523306");
@@ -204,7 +204,7 @@ TEST_F(LineScannerCube, FunctionalTestCam2mapMapLatlon) {
   Pvl log;
 
   cam2map(testCube, userMap, userGrp, ui, &log);
-  Cube ocube(tempDir.path()+"/level2.cub");
+  Cube ocube(tempDir.path().toStdString()+ "/level2.cub");
 
   ASSERT_EQ(userGrp.findKeyword("PixelResolution")[0], "9.0084341025159");
   ASSERT_EQ(userGrp.findKeyword("Scale")[0], "6579.9113196323");
@@ -320,11 +320,11 @@ TEST_F(DefaultCube, FunctionalTestCam2mapFramerMock) {
 
   Pvl log;
   MockProcessRubberSheet rs;
-  FileName fn(tempDir.path() + "/level2.cub");
+  FileName fn(tempDir.path().toStdString() + "/level2.cub");
   CubeAttributeOutput  outputAttr(fn);
   Cube outputCube;
   outputCube.setDimensions(1, 1, 1);
-  outputCube.create(fn.expanded(), outputAttr);
+  outputCube.create(QString::fromStdString(fn.expanded()), outputAttr);
   outputCube.reopen("rw");
 
   EXPECT_CALL(rs, SetInputCube(testCube, 0)).Times(AtLeast(1));
@@ -368,11 +368,11 @@ TEST_F(LineScannerCube, FunctionalTestCam2mapLineScanMock){
 
   Pvl log;
   MockProcessRubberSheet rs;
-  FileName fn(tempDir.path() + "/level2.cub");
+  FileName fn(tempDir.path().toStdString() + "/level2.cub");
   CubeAttributeOutput outputAttr(fn);
   Cube outputCube;
   outputCube.setDimensions(1, 1, 1);
-  outputCube.create(fn.expanded(), outputAttr);
+  outputCube.create(QString::fromStdString(fn.expanded()), outputAttr);
   outputCube.reopen("rw");
 
   EXPECT_CALL(rs, SetInputCube(testCube, 0)).Times(AtLeast(1));
@@ -419,11 +419,11 @@ TEST_F(DefaultCube, FunctionalTestCam2mapForwardMock) {
 
   Pvl log;
   MockProcessRubberSheet rs;
-  FileName fn(tempDir.path() + "/level2.cub");
+  FileName fn(tempDir.path().toStdString() + "/level2.cub");
   CubeAttributeOutput  outputAttr(fn);
   Cube outputCube;
   outputCube.setDimensions(1, 1, 1);
-  outputCube.create(fn.expanded(), outputAttr);
+  outputCube.create(QString::fromStdString(fn.expanded()), outputAttr);
   outputCube.reopen("rw");
 
   EXPECT_CALL(rs, SetInputCube(testCube, 0)).Times(AtLeast(1));
@@ -470,11 +470,11 @@ TEST_F(DefaultCube, FunctionalTestCam2mapReverseMock) {
 
   Pvl log;
   MockProcessRubberSheet rs;
-  FileName fn(tempDir.path() + "/level2.cub");
+  FileName fn(tempDir.path().toStdString() + "/level2.cub");
   CubeAttributeOutput  outputAttr(fn);
   Cube outputCube;
   outputCube.setDimensions(1, 1, 1);
-  outputCube.create(fn.expanded(), outputAttr);
+  outputCube.create(QString::fromStdString(fn.expanded()), outputAttr);
   outputCube.reopen("rw");
 
   EXPECT_CALL(rs, SetInputCube(testCube, 0)).Times(AtLeast(1));

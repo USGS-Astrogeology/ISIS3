@@ -49,18 +49,18 @@ namespace Isis {
     // temperature. The NAIF code, set in the ISIS labels, will be used to read a single focal
     // length from the SPICE kernels. Version 100 of the Lorri IK uses meters for focal length,
     // units, version 200 uses mm, and has a units keyword.
-    QString unitsKey = "INS" + toString(naifIkCode()) + "_FOCAL_LENGTH_UNITS";
+    QString unitsKey = "INS" + QString::number(naifIkCode()) + "_FOCAL_LENGTH_UNITS";
     QString focalLengthUnits = Spice::getString(unitsKey);
     if (focalLengthUnits != "mm") {
-      std::string msg = QObject::tr("SPICE keyword [%1] is expected to be mm. [%2] was found instead").
+      QString msg = QObject::tr("SPICE keyword [%1] is expected to be mm. [%2] was found instead").
                     arg(unitsKey).arg(focalLengthUnits);
-       throw IException(IException::User, msg, _FILEINFO_);
+       throw IException(IException::User, msg.toStdString(), _FILEINFO_);
     }
-    SetFocalLength(Spice::getDouble("INS" + toString(naifIkCode()) + "_FOCAL_LENGTH"));
+    SetFocalLength(Spice::getDouble("INS" + QString::number(naifIkCode()) + "_FOCAL_LENGTH"));
 
     // For setting the pixel pitch, the Naif keyword PIXEL_SIZE is used instead of the ISIS
     // default of PIXEL_PITCH, so set the value directly.
-    QString pp = "INS" + toString(naifIkCode()) + "_PIXEL_SIZE";
+    QString pp = "INS" + QString::number(naifIkCode()) + "_PIXEL_SIZE";
     double pixelPitch = Spice::getDouble(pp);
     pixelPitch /= 1000.0;
     SetPixelPitch(pixelPitch);
@@ -77,8 +77,8 @@ namespace Isis {
 
     // The boresight position recorded in the IK is zero-based and therefore needs to be adjusted
     // for ISIS
-    double boresightSample = Spice::getDouble("INS" + toString(naifIkCode()) + "_CCD_CENTER",0) + 1.0;
-    double boresightLine = Spice::getDouble("INS" + toString(naifIkCode()) + "_CCD_CENTER",1) + 1.0;
+    double boresightSample = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_CCD_CENTER",0) + 1.0;
+    double boresightLine = Spice::getDouble("INS" + QString::number(naifIkCode()) + "_CCD_CENTER",1) + 1.0;
     focalMap->SetDetectorOrigin(boresightSample,boresightLine);
 
     // Setup distortion map. Start by reading the distortion coefficient from the instrument kernel.
@@ -88,9 +88,9 @@ namespace Isis {
     //    CameraDistortionMap *distortionMap = new CameraDistortionMap(this, -1);
     //    distortionMap->SetDistortion(naifIkCode());
     // Changed the SPICE keyword names to work with LORRI IK version 200
-    QString e2("INS" + toString(naifIkCode()) + "_OOC_EM");
-    QString e5("INS" + toString(naifIkCode()) + "_OOC_EM");
-    QString e6("INS" + toString(naifIkCode()) + "_OOC_EM");
+    QString e2("INS" + QString::number(naifIkCode()) + "_OOC_EM");
+    QString e5("INS" + QString::number(naifIkCode()) + "_OOC_EM");
+    QString e6("INS" + QString::number(naifIkCode()) + "_OOC_EM");
     new NewHorizonsLorriDistortionMap(this, getDouble(e2, 0), getDouble(e5, 1),
                                       getDouble(e6, 2), -1);
 

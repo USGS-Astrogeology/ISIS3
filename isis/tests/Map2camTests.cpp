@@ -18,14 +18,14 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/map2cam.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/map2cam.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestMap2camTest) {
   QVector<QString> args = {"from="+projTestCube->fileName(), "match="+testCube->fileName(), "to="+tempDir.path()+"/level1.cub"};
   UserInterface ui(APP_XML, args);
 
   map2cam_f(ui);
-  Cube ocube(tempDir.path()+"/level1.cub");
+  Cube ocube(tempDir.path().toStdString()+"/level1.cub");
 
   ASSERT_TRUE(ocube.label()->findObject("IsisCube").hasGroup("Kernels"));
   ASSERT_FALSE(ocube.label()->findObject("IsisCube").hasGroup("Mapping"));

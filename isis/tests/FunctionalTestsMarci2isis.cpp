@@ -9,7 +9,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/marci2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/marci2isis.xml").expanded());
 
 TEST(Marci2Isis, Marci2isisTestDefault) {
   Pvl appLog;
@@ -22,8 +22,8 @@ TEST(Marci2Isis, Marci2isisTestDefault) {
   QString cubeFileNameEven = prefix.path() + "/marci2isis_out.even.cub";
   QString cubeFileNameOdd = prefix.path() + "/marci2isis_out.odd.cub";
 
-  Cube cubeEven(cubeFileNameEven);
-  Cube cubeOdd(cubeFileNameOdd);
+  Cube cubeEven(cubeFileNameEven.toStdString());
+  Cube cubeOdd(cubeFileNameOdd.toStdString());
   Pvl *evenLabel = cubeEven.label();
   Pvl *oddLabel = cubeOdd.label();
 
@@ -153,7 +153,7 @@ TEST(Marci2Isis, Marci2isisTestDefaultUnFlipped) {
   marci2isis(options, &appLog);
 
   QString cubeFileNameEven = prefix.path() + "/marci2isis_out.even.cub";
-  Cube cubeEven(cubeFileNameEven);
+  Cube cubeEven(cubeFileNameEven.toStdString());
   Pvl *evenLabel = cubeEven.label();
 
   PvlGroup &evenInst = evenLabel->findGroup("Instrument", Pvl::Traverse);
@@ -170,7 +170,7 @@ TEST(Marci2Isis, Marci2isisTestColorOffset) {
   marci2isis(options, &appLog);
 
   QString cubeFileNameEven = prefix.path() + "/marci2isis_out.even.cub";
-  Cube cubeEven(cubeFileNameEven);
+  Cube cubeEven(cubeFileNameEven.toStdString());
   Pvl *evenLabel = cubeEven.label();
 
   ASSERT_EQ((int)evenLabel->findKeyword("TileLines", Pvl::Traverse), 86);
@@ -204,12 +204,12 @@ TEST(Marci2Isis, Marci2isisTestVarExp) {
 
   // get output from each call
   QString outFileNameFlipped = prefix.path() + "/marci2isis_out.even.cub";
-  Cube cubeFlipped(outFileNameFlipped);
+  Cube cubeFlipped(outFileNameFlipped.toStdString());
   Pvl *labelFlipped = cubeFlipped.label();
   PvlGroup instFlipped = labelFlipped->findGroup("Instrument", Pvl::Traverse);
 
   QString outFileNameUnflipped = prefix.path() + "/marci2isis_out_unflipped.even.cub";
-  Cube cubeUnflipped(outFileNameUnflipped);
+  Cube cubeUnflipped(outFileNameUnflipped.toStdString());
   Pvl *labelUnflipped = cubeUnflipped.label();
   PvlGroup instUnflipped = labelUnflipped->findGroup("Instrument", Pvl::Traverse);
 

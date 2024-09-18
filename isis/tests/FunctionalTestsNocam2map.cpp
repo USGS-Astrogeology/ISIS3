@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/nocam2map.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/nocam2map.xml").expanded());
 
 TEST_F(MroHiriseCube, FunctionalTestNocam2mapDefault) {
 
@@ -60,7 +60,7 @@ TEST_F(MroHiriseCube, FunctionalTestNocam2mapDefault) {
     FAIL() << "Unable to project image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
 
   PvlGroup &mapping = oCube.label()->findObject("IsisCube").findGroup("Mapping");
   EXPECT_NEAR((double)mapping.findKeyword("MinimumLatitude"), -60, 0.01);
@@ -123,7 +123,7 @@ TEST_F(SmallCube, FunctionalTestNocam2mapSmall) {
     FAIL() << "Unable to project image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
 
   PvlGroup &mapping = oCube.label()->findObject("IsisCube").findGroup("Mapping");
   EXPECT_NEAR((double)mapping.findKeyword("MinimumLatitude"), -60, 0.01);

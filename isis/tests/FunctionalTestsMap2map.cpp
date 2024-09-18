@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/map2map.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/map2map.xml").expanded());
 
 
 TEST_F(ThreeImageNetwork, FunctionalTestMap2mapDefault) {
@@ -32,7 +32,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestMap2mapDefault) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube ocube(outCubeFileName);
+  Cube ocube(outCubeFileName.toStdString());
 
   PvlGroup &mapping = ocube.label()->findObject("IsisCube").findGroup("Mapping");
 
@@ -83,7 +83,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestMap2mapKeywords) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube ocube(outCubeFileName);
+  Cube ocube(outCubeFileName.toStdString());
 
   PvlGroup &mapping = ocube.label()->findObject("IsisCube").findGroup("Mapping");
 
@@ -135,7 +135,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestMap2mapKeywords) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube ocubeNoScale(noScaleFile);
+  Cube ocubeNoScale(noScaleFile.toStdString());
 
   PvlGroup &mapNoScale = ocubeNoScale.label()->findObject("IsisCube").findGroup("Mapping");
 
@@ -186,7 +186,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestMap2mapUnits) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube ocube(outCubeFileName);
+  Cube ocube(outCubeFileName.toStdString());
 
   PvlGroup &mapping = ocube.label()->findObject("IsisCube").findGroup("Mapping");
 
@@ -237,7 +237,7 @@ TEST(Map2mapTest, FunctionalTestMap2mapProjection) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube ocube(outCubeFileName);
+  Cube ocube(outCubeFileName.toStdString());
 
   PvlGroup &mapping = ocube.label()->findObject("IsisCube").findGroup("Mapping");
 

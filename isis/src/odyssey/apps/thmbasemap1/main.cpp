@@ -40,7 +40,7 @@ void IsisMain(){
   }
   QString outFile;
   if (ui.WasEntered("FROMLIST")) {
-    cubes.read(ui.GetFileName("FROMLIST"));
+    cubes.read(ui.GetFileName("FROMLIST").toStdString());
   }
   else {
     std::string msg = "Error: FROMLIST file must be specified";
@@ -68,7 +68,7 @@ void IsisMain(){
   // LOG_STATS is true will create a flat file of statistics.
   ofstream logFileos;
   if (logCamStats) {
-    FileName logFile(logFileName);
+    FileName logFile(logFileName.toStdString());
     if (logFile.fileExists()) {
       logFileos.open(logFileName.toLatin1().data(),ios::app);
     }
@@ -88,7 +88,7 @@ void IsisMain(){
   FileName hiIncList;
   ofstream hiIncListos;
   if (rmHiIncInput && reportHiInc) {
-    hiIncList = ui.GetFileName("HIGHINCLIST");
+    hiIncList = ui.GetFileName("HIGHINCLIST").toStdString();
     IString hiIncListStr = hiIncList.expanded();
     if (hiIncList.fileExists()) {
       hiIncListos.open(hiIncListStr.c_str(),ios::app);
@@ -103,7 +103,7 @@ void IsisMain(){
   FileName noFileList;
   ofstream noFileListos;
   if (reportNoFile) {
-    noFileList = ui.GetFileName("NOFILELIST");
+    noFileList = ui.GetFileName("NOFILELIST").toStdString();
     IString noFileListStr = noFileList.expanded();
     if (noFileList.fileExists()) {
       noFileListos.open(noFileListStr.c_str(),ios::app);
@@ -118,7 +118,7 @@ void IsisMain(){
   FileName nadirSpcList;
   ofstream nadirSpcListos;
   if (reportNadirSpc) {
-    nadirSpcList = ui.GetFileName("NADIRSPCLIST");
+    nadirSpcList = ui.GetFileName("NADIRSPCLIST").toStdString();
     IString nadirSpcListStr = nadirSpcList.expanded();
     if (nadirSpcList.fileExists()) {
       nadirSpcListos.open(nadirSpcListStr.c_str(),ios::app);
@@ -133,7 +133,7 @@ void IsisMain(){
   FileName imageGapList;
   ofstream imageGapListos;
   if (reportImageGap) {
-    imageGapList = ui.GetFileName("IMAGEGAPLIST");
+    imageGapList = ui.GetFileName("IMAGEGAPLIST").toStdString();
     IString imageGapListStr = imageGapList.expanded();
     if (imageGapList.fileExists()) {
       imageGapListos.open(imageGapListStr.c_str(),ios::app);
@@ -152,7 +152,7 @@ void IsisMain(){
 
     // Open the input file
     FileName infile = cubes[i];
-    QString inFileStr = infile.expanded();
+    QString inFileStr = QString::fromStdString(infile.expanded());
 
     if (!infile.fileExists()) {
       if (reportNoFile) {
@@ -211,13 +211,13 @@ void IsisMain(){
       if (reportNoFile) {
         noFileListos << infile.baseName() << " not processed because is missing filter 12.57" << endl;
       }
-      std::string msg = "Filter 12.57 not found in input file [" + inFileStr + "]";
+      std::string msg = "Filter 12.57 not found in input file [" + inFileStr.toStdString() + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
     // Run thm2isis
-    QString output = (infile.baseName()) + ".cub";
-    QString parameters = "FROM=" + cubes[i].toString() + " TO=" + output;
+    QString output = QString::fromStdString(infile.baseName()) + ".cub";
+    QString parameters = "FROM=" + QString::fromStdString(cubes[i].toString()) + " TO=" + output;
     ProgramLauncher::RunIsisProgram("thm2isis", parameters);
 
     //Run spiceinit
@@ -240,9 +240,9 @@ void IsisMain(){
 
     // Create a temporary pvl and fill with camstats used to test incedence
     FileName tstat1;
-    QString tmpcamstats1 = infile.baseName() + "_tmpcamstats1";
+    std::string tmpcamstats1 = infile.baseName() + "_tmpcamstats1";
     tstat1 = FileName::createTempFile("$TEMPORARY/" + tmpcamstats1 + ".pvl");
-    QString tempstat1 = tstat1.expanded();
+    QString tempstat1 = QString::fromStdString(tstat1.expanded());
 
     parameters = "FROM=" + input + " TO=" + tempstat1 + " linc = 100 sinc = 100";
     ProgramLauncher::RunIsisProgram("camstats", parameters);
@@ -252,7 +252,7 @@ void IsisMain(){
 
     // if do not process night and incidence angle > 90, then exit
     if (!processNight && incAngle >= 90) {
-      remove (tstat1.expanded().toLatin1().data());
+      remove (tstat1.expanded().c_str());
       if (rmHiIncInput) {
         if (reportHiInc) {
           hiIncListos << infile.baseName() << endl;
@@ -272,7 +272,7 @@ void IsisMain(){
 
     // if process night and incidence angle < 90, then exit
     if (processNight && incAngle < 90) {
-      remove (tstat1.expanded().toLatin1().data());
+      remove (tstat1.expanded().c_str());
       if (rmHiIncInput) {
         if (reportHiInc) {
           hiIncListos << infile.baseName() << endl;
@@ -294,15 +294,15 @@ void IsisMain(){
     // Perform atmospheric correction using filter 10 or 14.88um wavelength.
     // Note we use wavelength 12.57um in geologic mosaics.
     if (band14_88 && incAngle < 90 && !ignoreAtmCorr)  {
-      output = (infile.baseName()) + "_driftcorr.cub";
-      parameters = "FROM=" + input + "+" + toString(procBand) +
-                   " ATM=" + input + "+" + toString(atmosBand) + " TO=" + output;
+      output = (QString::fromStdString(infile.baseName()) + "_driftcorr.cub");
+      parameters = "FROM=" + input + "+" + QString::number(procBand) +
+                   " ATM=" + input + "+" + QString::number(atmosBand) + " TO=" + output;
       ProgramLauncher::RunIsisProgram("thmdriftcor", parameters);
       remove (input.toLatin1().data());
     }
     else {
-      output = (infile.baseName()) + "_no_driftcorr.cub";
-      parameters = "FROM=" + input + "+" + toString(procBand) + " TO=" + output;
+      output = QString::fromStdString(infile.baseName()) + "_no_driftcorr.cub";
+      parameters = "FROM=" + input + "+" + QString::number(procBand) + " TO=" + output;
       ProgramLauncher::RunIsisProgram("stretch", parameters);
       remove (input.toLatin1().data());
     }
@@ -311,7 +311,7 @@ void IsisMain(){
     // if night is true then skip cosi
     if (incAngle < 90) {
       input = output;
-      output = (infile.baseName()) + "_cosi.cub";
+      output = QString::fromStdString(infile.baseName()) + "_cosi.cub";
       parameters = "FROM=" + input + " TO=" + output;
       ProgramLauncher::RunIsisProgram("cosi", parameters);
       remove (input.toLatin1().data());
@@ -319,28 +319,28 @@ void IsisMain(){
 
     // Run cubenorm
     input = output;
-    output = (infile.baseName()) + "cubenorm.cub";
+    output = QString::fromStdString(infile.baseName()) + "cubenorm.cub";
     parameters = "FROM=" + input + " TO=" + output;
     ProgramLauncher::RunIsisProgram("cubenorm", parameters);
     remove (input.toLatin1().data());
 
     //Run lineeq
     input=output;
-    outFile = pathName + infile.baseName() + ".lev1.cub";
+    outFile = pathName + QString::fromStdString(infile.baseName()) + ".lev1.cub";
     parameters ="FROM=" + input + " TO=" + outFile;
     ProgramLauncher::RunIsisProgram("lineeq", parameters);
     remove (input.toLatin1().data());
 
-    remove (tstat1.expanded().toLatin1().data());
+    remove (tstat1.expanded().c_str());
 
     //************************************
     // Run findgaps
     // Create temporary pvl for gaps
     QString sgap = "no";
     FileName tgaps;
-    QString tmpstats1 = infile.baseName() + "_tmpstats1";
+    std::string tmpstats1 = infile.baseName() + "_tmpstats1";
     tgaps = FileName::createTempFile("$TEMPORARY/" + tmpstats1 + ".pvl");
-    QString tempgaps = tgaps.expanded();
+    QString tempgaps = QString::fromStdString(tgaps.expanded());
 
     //parameters = "FROM=" + IString(ui.GetFileName("TO")) +
     //             " TO=" + tempgaps + " CORTOL=.3";
@@ -353,20 +353,20 @@ void IsisMain(){
     QString totalpixels = QString::fromStdString(tg.findGroup("Results",Pvl::Traverse)["TotalPixels"]);
     QString validpixels = QString::fromStdString(tg.findGroup("Results",Pvl::Traverse)["ValidPixels"]);
     //if (tg.hasGroup("Gap")) {
-    if (IString(totalpixels).ToInteger() != IString(validpixels).ToInteger()) {
+    if (totalpixels.toInt() != validpixels.toInt()) {
       cout << tg << endl;
       sgap = "yes";
       if (reportImageGap) {
         imageGapListos << infile.baseName() << endl;
       }
     }
-    remove (tgaps.expanded().toLatin1().data());
+    remove (tgaps.expanded().c_str());
 
     // Create temporary pvl and fill with camstats
     FileName tstat2;
-    QString tmpcamstats2 = infile.baseName() + "_tmpcamstats2";
+    std::string tmpcamstats2 = infile.baseName() + "_tmpcamstats2";
     tstat2 = FileName::createTempFile("$TEMPORARY/" + tmpcamstats2 + ".pvl");
-    QString tempstat2 = tstat2.expanded();
+    QString tempstat2 = QString::fromStdString(tstat2.expanded());
 
     parameters = "FROM=" + outFile +
                  " TO=" + tempstat2 + " linc = 100 sinc = 100";
@@ -378,10 +378,10 @@ void IsisMain(){
     QString  resavg = QString::fromStdString(p2.findGroup("Resolution",Pvl::Traverse)["ResolutionAverage"]);
     QString incmin = QString::fromStdString(p2.findGroup("IncidenceAngle",Pvl::Traverse)["IncidenceMinimum"]);
     QString incmax = QString::fromStdString(p2.findGroup("IncidenceAngle",Pvl::Traverse)["IncidenceMaximum"]);
-    remove (tstat2.expanded().toLatin1().data());
+    remove (tstat2.expanded().c_str());
 
     double summing = 1;
-    FileName tosum = FileName(outFile);
+    FileName tosum = FileName(outFile.toStdString());
     Pvl sumlab(tosum.expanded());
     PvlGroup InstGrp = sumlab.findGroup("Instrument",Pvl::Traverse);
     if (InstGrp.hasKeyword("SpatialSumming")) {
@@ -391,15 +391,15 @@ void IsisMain(){
     // do stuff to build the file that will go into the spreadsheet
     // Add statistics to flat file.
     if (logCamStats) {
-      logFileos << infile.baseName() << "," << duration << "," << summing << "," <<
-        incavg << "," << resavg << "," << incmin << "," << incmax << "," << sgap << "," <<endl;
+      logFileos << infile.baseName() << "," << duration.toStdString() << "," << summing << "," <<
+        incavg.toStdString() << "," << resavg.toStdString() << "," << incmin.toStdString() << "," << incmax.toStdString() << "," << sgap.toStdString() << "," <<endl;
     }
 
     // Run footprint stuff if requested for GIS input
     if (footPrintInit) {
       parameters = "FROM=" + outFile +
-                   " TO=" + (QString)(infile.baseName()) + ".gml" +
-                   " LABEL=" + (QString)(infile.baseName());
+                   " TO=" + QString::fromStdString(infile.baseName()) + ".gml" +
+                   " LABEL=" + QString::fromStdString(infile.baseName());
       ProgramLauncher::RunIsisProgram("isis2gml", parameters);
     }
 

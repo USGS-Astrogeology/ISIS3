@@ -18,7 +18,7 @@
 using namespace Isis;
 using json = nlohmann::json;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isisimport.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isisimport.xml").expanded());
 
 TEST_F(TempTestingFiles, FunctionalTestIsisImportKaguyaTC) {
   std::istringstream PvlInput(R"(

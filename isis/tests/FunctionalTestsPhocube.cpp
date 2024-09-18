@@ -16,7 +16,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/phocube.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/phocube.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestPhocubeDefault) {
   QString cubeFileName = tempDir.path() + "/phocubeTEMP.cub";
@@ -25,7 +25,7 @@ TEST_F(DefaultCube, FunctionalTestPhocubeDefault) {
   resizeCube(5, 5, 1);
   phocube(testCube, options);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   ASSERT_EQ(cube.sampleCount(), testCube->sampleCount());
@@ -71,7 +71,7 @@ TEST_F(DefaultCube, FunctionalTestPhocubeAllBands) {
   resizeCube(5, 5, 1);
   phocube(testCube, options);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   ASSERT_EQ(cube.sampleCount(), testCube->sampleCount());
@@ -188,7 +188,7 @@ TEST_F(DefaultCube, FunctionalTestPhocubeSpecialPixels) {
 
   phocube(testCube, options);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   ASSERT_EQ(cube.sampleCount(), testCube->sampleCount());
@@ -239,7 +239,7 @@ TEST_F(OffBodyCube, FunctionalTestPhocubeOffBody) {
   UserInterface options(APP_XML, args);
   phocube(testCube, options);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   ASSERT_EQ(cube.sampleCount(), testCube->sampleCount());
@@ -292,7 +292,7 @@ TEST_F(DefaultCube, FunctionalTestPhocubeMosaic) {
   resizeCube(5, 5, 1);
   phocube(projTestCube, options);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   ASSERT_EQ(cube.sampleCount(), testCube->sampleCount());
@@ -324,7 +324,7 @@ TEST_F(MiniRFCube, FunctionalTestPhocubeMiniRF) {
   UserInterface options(APP_XML, args);
   phocube(testCube, options);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   ASSERT_EQ(cube.sampleCount(), testCube->sampleCount());
@@ -369,7 +369,7 @@ TEST_F(DefaultCube, FunctionalTestPhocubeNoBandBin) {
   phocube(testCube, options);
 
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   ASSERT_EQ(cube.sampleCount(), testCube->sampleCount());
@@ -401,7 +401,7 @@ TEST_F(DefaultCube, FunctionalTestPhocubeAllDnBands) {
 
   phocube(testCube, options);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   ASSERT_EQ(cube.sampleCount(), testCube->sampleCount());
@@ -478,7 +478,7 @@ TEST(Phocube, FunctionalTestPhocubeSunIlluminationMask) {
   phocube(&testCube, options);
 
   // open output cube and retrieve label
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // verify sample, line, and band counts
@@ -535,7 +535,7 @@ TEST(Phocube, FunctionalTestPhocubeSurfaceObliqueDetectorResolution) {
   phocube(&testCube, options);
 
   // open output cube and retrieve label
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // verify sample, line, and band counts

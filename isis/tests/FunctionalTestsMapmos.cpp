@@ -13,7 +13,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/mapmos.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/mapmos.xml").expanded());
 
 TEST_F(ThreeImageNetwork, FunctionalTestMapmosOntop) {
   QTemporaryDir prefix;
@@ -43,10 +43,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosOntop) {
     mapmos(cube3options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube mosaic(mosPath);
+  Cube mosaic(mosPath.toStdString());
 
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup dimensions = mosaicLabel.findObject("Core").findGroup("Dimensions");
@@ -95,10 +95,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosBeneath) {
     mapmos(cube3options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube mosaic(mosPath);
+  Cube mosaic(mosPath.toStdString());
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup dimensions = mosaicLabel.findObject("Core").findGroup("Dimensions");
 
@@ -134,10 +134,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosAverage) {
     mapmos(cube3options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube mosaic(mosPath);
+  Cube mosaic(mosPath.toStdString());
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup dimensions = mosaicLabel.findObject("Core").findGroup("Dimensions");
 
@@ -166,10 +166,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmos720deg) {
     mapmos(cube1map, options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube mosaic(mosPath);
+  Cube mosaic(mosPath.toStdString());
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup mapping = mosaicLabel.findGroup("Mapping");
 
@@ -196,10 +196,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosExtents) {
     mapmos(cube1map, options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube mosaic(mosPath);
+  Cube mosaic(mosPath.toStdString());
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup dimensions = mosaicLabel.findObject("Core").findGroup("Dimensions");
 
@@ -222,17 +222,17 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosTracking) {
     mapmos(cube1map, options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube mosaic(mosPath);
+  Cube mosaic(mosPath.toStdString());
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup bandbin = mosaicLabel.findGroup("BandBin");
   PvlGroup tracking = mosaicLabel.findGroup("Tracking");
   QString trackPath = prefix.path() + "/" + QString::fromStdString(tracking["FileName"][0]);
 
   try {
-    Cube trackCube(trackPath);
+    Cube trackCube(trackPath.toStdString());
     PvlObject trackLabel = trackCube.label()->findObject("IsisCube");
     PvlGroup dimensions = trackLabel.findObject("Core").findGroup("Dimensions");
 
@@ -241,7 +241,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosTracking) {
     EXPECT_EQ(int(dimensions["Bands"]), 1);
   }
   catch (IException &e) {
-    FAIL() << "Invalid FileName for tracking cube: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Invalid FileName for tracking cube: " <<  e.toString().c_str() << std::endl;
   }
 }
 
@@ -260,10 +260,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosMatchBandBin) {
     mapmos(cube1map, options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube mosaic(mosPath);
+  Cube mosaic(mosPath.toStdString());
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup dimensions = mosaicLabel.findObject("Core").findGroup("Dimensions");
 
@@ -288,10 +288,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosBandNumber) {
     mapmos(cube1map, options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube mosaic(mosPath);
+  Cube mosaic(mosPath.toStdString());
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup dimensions = mosaicLabel.findObject("Core").findGroup("Dimensions");
 
@@ -317,10 +317,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosKeyword) {
     mapmos(cube1map, options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube mosaic(mosPath);
+  Cube mosaic(mosPath.toStdString());
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup dimensions = mosaicLabel.findObject("Core").findGroup("Dimensions");
 
@@ -344,10 +344,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosMatchDEM) {
     mapmos(cube1map, options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube mosaic(mosPath);
+  Cube mosaic(mosPath.toStdString());
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup dimensions = mosaicLabel.findObject("Core").findGroup("Dimensions");
 
@@ -371,7 +371,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestMapmosAppLog) {
     mapmos(cube1map, options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   PvlGroup location = appLog.findGroup("ImageLocation");

@@ -12,7 +12,7 @@
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/apolloremrx.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/apolloremrx.xml").expanded());
 
 TEST_F(ApolloCube, FunctionalTestApolloremrxDefault) {
 
@@ -31,7 +31,7 @@ TEST_F(ApolloCube, FunctionalTestApolloremrxDefault) {
     FAIL() << "Call failed, Unable to process cube: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   PvlGroup reseausGroup = isisLabel->findObject("IsisCube").findGroup("Reseaus");
@@ -86,7 +86,7 @@ TEST_F(ApolloCube, FunctionalTestApolloremrxPatch) {
     FAIL() << "Call failed, Unable to process cube: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
 
   Brick brick(reseauSize,reseauSize,1,cube.pixelType());
 

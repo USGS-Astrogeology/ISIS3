@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/camrange.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/camrange.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestCamrangeMeta) {
   QVector<QString> args = { "FROM=" + testCube->fileName() };

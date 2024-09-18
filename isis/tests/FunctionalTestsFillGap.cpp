@@ -13,7 +13,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/fillgap.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/fillgap.xml").expanded());
 
 
 // First 9 test cases are checking for EXPECTed output depending on
@@ -32,10 +32,10 @@ TEST_F( SmallGapCube, FillGapTestBandAkima )
     fillgap(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -71,10 +71,10 @@ TEST_F( SmallGapCube, FillGapTestBandCubic )
     fillgap(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -110,10 +110,10 @@ TEST_F( SmallGapCube, FillGapTestBandLinear )
     fillgap(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -149,10 +149,10 @@ TEST_F( SmallGapCube, FillGapTestHorzAkima )
     fillgap(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -188,10 +188,10 @@ TEST_F( SmallGapCube, FillGapTestHorzCubic )
     fillgap(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -227,10 +227,10 @@ TEST_F( SmallGapCube, FillGapTestHorzLinear )
     fillgap(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -266,10 +266,10 @@ TEST_F( SmallGapCube, FillGapTestVertAkima )
     fillgap(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -305,10 +305,10 @@ TEST_F( SmallGapCube, FillGapTestVertCubic )
     fillgap(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -344,10 +344,10 @@ TEST_F( SmallGapCube, FillGapTestVertLinear )
     fillgap(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *label = outCube.label();
 
   PvlGroup &dims = label->findGroup("Dimensions", Pvl::Traverse);
@@ -403,7 +403,7 @@ TEST_F( SmallGapCube, FillGapTestGapsOnEdge )
     fillgap(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   PvlGroup &mess = log.findGroup("Messages", Pvl::Traverse);

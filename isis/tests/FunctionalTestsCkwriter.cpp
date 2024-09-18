@@ -15,7 +15,7 @@
 using namespace Isis;
 using namespace testing;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/ckwriter.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/ckwriter.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestCkwriterDefault) {
   Pvl appLog;
@@ -27,11 +27,11 @@ TEST_F(DefaultCube, FunctionalTestCkwriterDefault) {
    ckwriter(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to write kernel file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to write kernel file: " <<  e.toString().c_str() << std::endl;
   }
 
   Cube newKernelCube;
-  newKernelCube.fromLabel(tempDir.path() + "/newKernelCube.cub", label, "rw");
+  newKernelCube.fromLabel(tempDir.path().toStdString() + "/newKernelCube.cub", label, "rw");
 
   PvlGroup &kernels = newKernelCube.label()->findObject("IsisCube").findGroup("Kernels");
   PvlKeyword targetPosition("TargetPosition");
@@ -55,7 +55,7 @@ TEST_F(DefaultCube, FunctionalTestCkwriterDefault) {
   try {
     newCamera = newKernelCube.camera();
   } catch(IException &e) {
-    FAIL() << "Unable to generate camera with new ck kernel: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to generate camera with new ck kernel: " <<  e.toString().c_str() << std::endl;
   }
 
   SpiceRotation *newKernelRotation = newCamera->instrumentRotation();
@@ -83,10 +83,10 @@ TEST_F(DefaultCube, FunctionalTestCkwriterDefault) {
 TEST_F(DefaultCube, FunctionalTestCkwriterFromlist) {
   Pvl appLog;
   FileList cubeList;
-  cubeList.append(testCube->fileName());
+  cubeList.append(testCube->fileName().toStdString());
 
   QString cubeListFile = tempDir.path() + "/cubes.lis";
-  cubeList.write(cubeListFile);
+  cubeList.write(cubeListFile.toStdString());
   QVector<QString> args = {"fromlist=" + cubeListFile,
                            "to=" + tempDir.path() + "/newKernel.bc"};
 
@@ -95,11 +95,11 @@ TEST_F(DefaultCube, FunctionalTestCkwriterFromlist) {
    ckwriter(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to write kernel file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to write kernel file: " <<  e.toString().c_str() << std::endl;
   }
 
   Cube newKernelCube;
-  newKernelCube.fromLabel(tempDir.path() + "/newKernelCube.cub", label, "rw");
+  newKernelCube.fromLabel(tempDir.path().toStdString() + "/newKernelCube.cub", label, "rw");
 
   PvlGroup &kernels = newKernelCube.label()->findObject("IsisCube").findGroup("Kernels");
   PvlKeyword targetPosition("TargetPosition");
@@ -124,7 +124,7 @@ TEST_F(DefaultCube, FunctionalTestCkwriterFromlist) {
   try {
     newCamera = newKernelCube.camera();
   } catch(IException &e) {
-    FAIL() << "Unable to generate camera with new ck kernel: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to generate camera with new ck kernel: " <<  e.toString().c_str() << std::endl;
   }
 
   SpiceRotation *newKernelRotation = newCamera->instrumentRotation();
@@ -175,7 +175,7 @@ TEST_F(ObservationPair, FunctionalTestCkwriterWarnValidate) {
    ckwriter(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to write kernel file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to write kernel file: " <<  e.toString().c_str() << std::endl;
   }
 
   EXPECT_TRUE(appLog.hasGroup("Overlaps"));
@@ -199,7 +199,7 @@ TEST_F(DefaultCube, FunctionalTestCkwriterComSum) {
    ckwriter(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to write kernel file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to write kernel file: " <<  e.toString().c_str() << std::endl;
   }
 
   TextFile kernelFile(options.GetFileName("summary"));
@@ -226,7 +226,7 @@ TEST(Ckwriter, FunctionalTestCkwriterOffsets) {
    ckwriter(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to write kernel file: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to write kernel file: " <<  e.toString().c_str() << std::endl;
   }
   QString tmp = options.GetFileName("TO");
   furnsh_c(tmp.toLatin1().data());

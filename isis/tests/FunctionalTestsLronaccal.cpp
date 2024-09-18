@@ -30,7 +30,7 @@ using namespace testing;
   *                                      cub since fx is not yet callable
   */
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lronaccal.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lronaccal.xml").expanded());
 
 TEST(LronaccalDefault, FunctionalTestsLronaccal) {
   QTemporaryDir outputDir;
@@ -53,16 +53,16 @@ TEST(LronaccalDefault, FunctionalTestsLronaccal) {
     lronaccal(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().c_str() << std::endl;
   }
   try{
-    static QString CROP_XML = FileName("$ISISROOT/bin/xml/crop.xml").expanded();
+    static QString CROP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/crop.xml").expanded());
     QVector<QString> argsCrop = {"from=" + oCubeFile, "to=" + oCubeCropFile, "sample=80", "nsamples=80", "line=80", "nlines=80"};
     UserInterface options2(CROP_XML, argsCrop);
     crop(options2);
 
-    Cube oCube(oCubeCropFile, "r");
-    Cube tCube(tCubeFile, "r");
+    Cube oCube(oCubeCropFile.toStdString(), "r");
+    Cube tCube(tCubeFile.toStdString(), "r");
 
     Histogram *oCubeStats = oCube.histogram();
     Histogram *tCubeStats = tCube.histogram();
@@ -76,7 +76,7 @@ TEST(LronaccalDefault, FunctionalTestsLronaccal) {
     oCube.close();
   }
   catch(IException &e){
-    FAIL() << "Unable to compare stats: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to compare stats: " <<e.toString().c_str() << std::endl;
   }
 }
 
@@ -101,16 +101,16 @@ TEST(LronaccalNear, FunctionalTestsLronaccal) {
     lronaccal(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().c_str() << std::endl;
   }
   try{
-    static QString CROP_XML = FileName("$ISISROOT/bin/xml/crop.xml").expanded();
+    static QString CROP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/crop.xml").expanded());
     QVector<QString> argsCrop = {"from=" + oCubeFile, "to=" + oCubeCropFile, "sample=80", "nsamples=80", "line=80", "nlines=80"};
     UserInterface options2(CROP_XML, argsCrop);
     crop(options2);
 
-    Cube oCube(oCubeCropFile, "r");
-    Cube tCube(tCubeFile, "r");
+    Cube oCube(oCubeCropFile.toStdString(), "r");
+    Cube tCube(tCubeFile.toStdString(), "r");
 
     Histogram *oCubeStats = oCube.histogram();
     Histogram *tCubeStats = tCube.histogram();
@@ -124,7 +124,7 @@ TEST(LronaccalNear, FunctionalTestsLronaccal) {
     oCube.close();
   }
   catch(IException &e){
-    FAIL() << "Unable to open output cube: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to open output cube: " <<e.toString().c_str() << std::endl;
   }
 }
 
@@ -145,16 +145,16 @@ TEST(LronaccalPair, FunctionalTestsLronaccal) {
     lronaccal(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().c_str() << std::endl;
   }
   try{
-    static QString CROP_XML = FileName("$ISISROOT/bin/xml/crop.xml").expanded();
+    static QString CROP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/crop.xml").expanded());
     QVector<QString> argsCrop = {"from=" + oCubeFile, "to=" + oCubeCropFile, "sample=80", "nsamples=80", "line=80", "nlines=80"};
     UserInterface options2(CROP_XML, argsCrop);
     crop(options2);
 
-    Cube oCube(oCubeCropFile, "r");
-    Cube tCube(tCubeFile, "r");
+    Cube oCube(oCubeCropFile.toStdString(), "r");
+    Cube tCube(tCubeFile.toStdString(), "r");
 
     Histogram *oCubeStats = oCube.histogram();
     Histogram *tCubeStats = tCube.histogram();
@@ -168,7 +168,7 @@ TEST(LronaccalPair, FunctionalTestsLronaccal) {
     oCube.close();
   }
   catch(IException &e){
-    FAIL() << "Unable to open output cube: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to open output cube: " <<e.toString().c_str() << std::endl;
   }
 }
 
@@ -187,10 +187,10 @@ TEST_F(TempTestingFiles, FunctionalTestsLronaccalNacLFull) {
     lronaccal(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(oCubeFile);
+  Cube outCube(oCubeFile.toStdString());
   Pvl *outLabel = outCube.label();
 
   std::istringstream radIS(R"(
@@ -244,10 +244,10 @@ TEST_F(TempTestingFiles, FunctionalTestsLronaccalNacLSummed) {
     lronaccal(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(oCubeFile);
+  Cube outCube(oCubeFile.toStdString());
   Pvl *outLabel = outCube.label();
 
   std::istringstream radIS(R"(
@@ -299,10 +299,10 @@ TEST_F(TempTestingFiles, FunctionalTestsLronaccalNacRFull) {
     lronaccal(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(oCubeFile);
+  Cube outCube(oCubeFile.toStdString());
   Pvl *outLabel = outCube.label();
 
   std::istringstream radIS(R"(
@@ -357,10 +357,10 @@ TEST_F(TempTestingFiles, FunctionalTestsLronaccalNacRSummed) {
     lronaccal(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to calibrate the LRO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(oCubeFile);
+  Cube outCube(oCubeFile.toStdString());
   Pvl *outLabel = outCube.label();
 
   std::istringstream radIS(R"(

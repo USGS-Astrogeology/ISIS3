@@ -144,8 +144,9 @@ TEST(AngleExceptions, LessThanNullAngle){
     }
    }
    catch(Isis::IException &e) {
-     EXPECT_TRUE(e.toString().contains("Cannot compare a invalid angles with the < operator"))
-       << e.toString().toStdString();
+    
+     EXPECT_TRUE(e.toString().find("Cannot compare a invalid angles with the < operator") != std::string::npos)
+       << e.toString();
    }
    catch(...) {
      FAIL() << "Expected IException";
@@ -161,8 +162,8 @@ TEST(AngleExceptions, NullAngleLessThan){
     }
    }
    catch(Isis::IException &e) {
-     EXPECT_TRUE(e.toString().contains("Cannot compare a invalid angles with the < operator"))
-          << e.toString().toStdString();
+     EXPECT_TRUE(e.toString().find("Cannot compare a invalid angles with the < operator") != std::string::npos)
+          << e.toString();
    }
    catch(...) {
      FAIL() << "Expected IException";
@@ -178,8 +179,8 @@ TEST(AngleExceptions, NullAngleLessThanOrEqual){
     }
    }
    catch(Isis::IException &e) {
-     EXPECT_TRUE(e.toString().contains("Cannot compare a invalid angles with the < operator"))
-       << e.toString().toStdString();
+     EXPECT_TRUE(e.toString().find("Cannot compare a invalid angles with the < operator") != std::string::npos)
+       << e.toString();
    }
    catch(...) {
      FAIL() << "Expected IException";
@@ -196,8 +197,8 @@ TEST(AngleExceptions, GreaterThanNullAngle){
     }
    }
    catch(Isis::IException &e) {
-     EXPECT_TRUE(e.toString().contains("Cannot compare a invalid angles with the > operator"))
-       << e.toString().toStdString();
+     EXPECT_TRUE(e.toString().find("Cannot compare a invalid angles with the > operator") != std::string::npos)
+       <<  e.toString();
    }
    catch(...) {
      FAIL() << "Expected IException";
@@ -214,8 +215,8 @@ TEST(AngleExceptions, GreaterThanOrEqualToNullAngle){
     }
    }
    catch(Isis::IException &e) {
-     EXPECT_TRUE(e.toString().contains("Cannot compare a invalid angles with the > operator"))
-       << e.toString().toStdString();
+     EXPECT_TRUE(e.toString().find("Cannot compare a invalid angles with the > operator") != std::string::npos)
+       <<  e.toString();
    }
    catch(...) {
      FAIL() << "Expected IException";
@@ -269,9 +270,9 @@ TEST(AngleExceptions, InvalidInput){
     FAIL() << "Expected an error";
    }
    catch(Isis::IException &e) {
-     EXPECT_TRUE(e.toString().contains(
-         "[100] is not a vaid input to Angle. It needs to be of the form: \"dd mm ss.ss\""))
-         << e.toString().toStdString();
+     EXPECT_TRUE(e.toString().find(
+         "[100] is not a vaid input to Angle. It needs to be of the form: \"dd mm ss.ss\"") != std::string::npos)
+         <<  e.toString();
    }
    catch(...) {
      FAIL() << "Expected IException."; 
@@ -287,9 +288,9 @@ TEST(AngleExceptions, InvalidInput2){
     FAIL() << "Expected an error";
    }
    catch(Isis::IException &e) {
-     EXPECT_TRUE(e.toString().contains(
-         "[70 11] is not a vaid input to Angle. It needs to be of the form: \"dd mm ss.ss\""))
-         << e.toString().toStdString();
+     EXPECT_TRUE(e.toString().find(
+         "[70 11] is not a vaid input to Angle. It needs to be of the form: \"dd mm ss.ss\"") != std::string::npos)
+         <<  e.toString();
    }
    catch(...) {
      FAIL() << "Expected IException."; 
@@ -305,9 +306,9 @@ TEST(AngleExceptions, InvalidInput3){
     FAIL() << "Expected an error";
    }
    catch(Isis::IException &e) {
-     EXPECT_TRUE(e.toString().contains(
-         "[this 79 should 00 fail 0.111] is not a vaid input to Angle. It needs to be of the form: \"dd mm ss.ss\""))
-         << e.toString().toStdString();
+     EXPECT_TRUE(e.toString().find(
+         "[this 79 should 00 fail 0.111] is not a vaid input to Angle. It needs to be of the form: \"dd mm ss.ss\"") != std::string::npos)
+         <<  e.toString();
    } 
    catch(...) {
      FAIL() << "Expected IException."; 

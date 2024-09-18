@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lo2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lo2isis.xml").expanded());
 
 TEST(lo2isisTest, lo2isisTestDefault) {
   QTemporaryDir prefix;
@@ -24,10 +24,10 @@ TEST(lo2isisTest, lo2isisTestDefault) {
     lo2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -104,10 +104,10 @@ TEST(lo2isisTest, lo2isisMirrored) {
     lo2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -145,10 +145,10 @@ TEST(lo2isisTest, lo2isisMedToHi) {
     lo2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -189,10 +189,10 @@ TEST(lo2isisTest, lo2isisMed) {
     lo2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group
@@ -231,10 +231,10 @@ TEST(lo2isisTest, lo2isisReingest) {
     lo2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest LO image: " <<e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest LO image: " <<e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions group

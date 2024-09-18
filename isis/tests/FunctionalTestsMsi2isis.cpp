@@ -13,7 +13,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/msi2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/msi2isis.xml").expanded());
 
 TEST_F(TempTestingFiles, Msi2isisTestGblIngestDefault) {
   Pvl appLog;
@@ -26,9 +26,9 @@ TEST_F(TempTestingFiles, Msi2isisTestGblIngestDefault) {
     msi2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest NEAR/MSI GBL file: " << e.toString().toStdString() << std::endl;
+    FAIL() << "Unable to ingest NEAR/MSI GBL file: " <<  e.toString() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -138,9 +138,9 @@ TEST_F(TempTestingFiles, Msi2isisTestGblIngestNoTrim) {
    msi2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest NEAR/MSI GBL file: " << e.toString().toStdString() << std::endl;
+    FAIL() << "Unable to ingest NEAR/MSI GBL file: " <<  e.toString() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   // Dimensions Group
   ASSERT_EQ(cube.sampleCount(), 537);
@@ -211,9 +211,9 @@ TEST_F(TempTestingFiles, Msi2isisTestCubicConvolution) {
    msi2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest NEAR/MSI file: " << e.toString().toStdString() << std::endl;
+    FAIL() << "Unable to ingest NEAR/MSI file: " <<  e.toString() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -276,9 +276,9 @@ TEST_F(TempTestingFiles, Msi2isisTestNearestNeighbor) {
    msi2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest NEAR/MSI file: " << e.toString().toStdString() << std::endl;
+    FAIL() << "Unable to ingest NEAR/MSI file: " <<  e.toString() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   // Dimensions Group
   ASSERT_EQ(cube.sampleCount(), 537);
@@ -308,9 +308,9 @@ TEST_F(TempTestingFiles, Msi2isisTestBilinear) {
    msi2isis(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest NEAR/MSI file: " << e.toString().toStdString() << std::endl;
+    FAIL() << "Unable to ingest NEAR/MSI file: " <<  e.toString() << std::endl;
   }
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   // Dimensions Group
   ASSERT_EQ(cube.sampleCount(), 537);

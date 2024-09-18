@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/thm2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/thm2isis.xml").expanded());
 
 TEST_F(TempTestingFiles, FunctionalTestThm2isisVis) {
   // tempDir exists if the fixture subclasses TempTestingFiles, which most do
@@ -26,7 +26,7 @@ TEST_F(TempTestingFiles, FunctionalTestThm2isisVis) {
   }
 
   // open even cube
-  Cube evenCube( tempDir.path() + "/test.even.cub");
+  Cube evenCube( tempDir.path().toStdString() + "/test.even.cub");
   Pvl *isisLabel = evenCube.label();
 
   // Dimensions Group
@@ -79,7 +79,7 @@ TEST_F(TempTestingFiles, FunctionalTestThm2isisVis) {
   EXPECT_NEAR(hist->StandardDeviation(), 2.241887e-05, .00001);
 
   // open odd cube
-  Cube oddCube( tempDir.path() + "/test.odd.cub");
+  Cube oddCube( tempDir.path().toStdString() + "/test.odd.cub");
   isisLabel = oddCube.label();
 
   // Dimensions Group
@@ -148,7 +148,7 @@ TEST_F(TempTestingFiles, FunctionalTestThm2isisIr) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName);
+  Cube oCube(outCubeFileName.toStdString());
   Pvl *isisLabel = oCube.label();
 
   // Dimensions Group
@@ -212,7 +212,7 @@ TEST_F(TempTestingFiles, FunctionalTestThm2isisOutAttributes) {
   }
 
   // open even cube
-  Cube evenCube( tempDir.path() + "/test.even.cub");
+  Cube evenCube( tempDir.path().toStdString() + "/test.even.cub");
 
   // Pixels Group
   EXPECT_EQ(PixelTypeName(evenCube.pixelType()), "UnsignedByte");

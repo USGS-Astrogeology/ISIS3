@@ -72,14 +72,14 @@ void IsisMain() {
 
   // Verify Voyager1 spacecraft
   if (inst["SpacecraftName"][0] != "VOYAGER_1") {
-    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] does not appear" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM").toStdString() + "] does not appear" +
                   " to be a Voyager1 image";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
   // Verify has been radiometrically calibrated
   if (!isiscube.hasGroup("Radiometry")) {
-    std::string msg = "The cube [" + ui.GetCubeName("FROM") + "] has not been" +
+    std::string msg = "The cube [" + ui.GetCubeName("FROM").toStdString() + "] has not been" +
                   "radiometrically corrected, run voycal first";
   }
 
@@ -92,9 +92,9 @@ void IsisMain() {
 
   // From Isis2, the time range is day 64, hours 1-16, inclusive.
   if (time < min || time >= max) {
-    std::string message = "The cube [" + ui.GetCubeName("FROM") + "] has image" +
-                      " time [" + time.UTC() + "] outside of allowable" +
-                      "range [" + min.UTC() + "] to [" + max.UTC() + "]";
+    std::string message = "The cube [" + ui.GetCubeName("FROM").toStdString() + "] has image" +
+                      " time [" + time.UTC().toStdString() + "] outside of allowable" +
+                      "range [" + min.UTC().toStdString() + "] to [" + max.UTC().toStdString() + "]";
     throw IException(IException::User, message, _FILEINFO_);
   }
 

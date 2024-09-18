@@ -16,7 +16,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/cnetwinnow.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cnetwinnow.xml").expanded());
 
 TEST_F(ThreeImageNetwork, FunctionalTestCnetwinnowDefault) {
   QString onetPath = tempDir.path()+"/winnowedNetwork.net";

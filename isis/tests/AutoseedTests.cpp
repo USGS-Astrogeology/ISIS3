@@ -32,7 +32,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/autoseed.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/autoseed.xml").expanded());
 
 TEST_F(ThreeImageNetwork, FunctionalTestAutoseedDefault) {
   Pvl *log = NULL;
@@ -56,7 +56,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedDefault) {
   QVector<QString> autoseedArgs = {"fromlist="+cubeListFile,
                                     "onet="+outnet,
                                     "deffile="+defFile,
-                                    "overlaplist="+threeImageOverlapFile->original(),
+                                    "overlaplist="+QString::fromStdString(threeImageOverlapFile->original()),
                                     "networkid=1",
                                     "pointid=??",
                                     "description=autoseed test network"};
@@ -88,12 +88,12 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedCnetInput) {
   autoseedDef.write(defFile.toStdString());
 
   cubeList->removeLast();
-  cubeList->write(cubeListFile);
+  cubeList->write(cubeListFile.toStdString());
 
   QVector<QString> autoseedArgs = {"fromlist="+cubeListFile,
                                     "onet="+outnet1,
                                     "deffile="+defFile,
-                                    "overlaplist="+twoImageOverlapFile->original(),
+                                    "overlaplist="+QString::fromStdString(twoImageOverlapFile->original()),
                                     "networkid=1",
                                     "pointid=??",
                                     "description=autoseed test network"};
@@ -103,13 +103,13 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedCnetInput) {
   ControlNet onet(outnet1);
   ASSERT_EQ(onet.GetNumPoints(), 18);
 
-  cubeList->append(cube3->fileName());
-  cubeList->write(cubeListFile);
+  cubeList->append(cube3->fileName().toStdString());
+  cubeList->write(cubeListFile.toStdString());
   SerialNumberList serialNumList(cubeListFile);
 
   autoseedArgs.removeAt(0);
   autoseedArgs.replace(1, "onet="+outnet2);
-  autoseedArgs.replace(3, "overlaplist="+threeImageOverlapFile->original());
+  autoseedArgs.replace(3, "overlaplist="+QString::fromStdString(threeImageOverlapFile->original()));
   autoseedUi = UserInterface(APP_XML, autoseedArgs);
   autoseed(autoseedUi, serialNumList, &onet, log);
   onet = ControlNet(outnet2);
@@ -124,7 +124,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestAutoseedDeffiles) {
   QVector<QString> autoseedArgs = {"fromlist="+cubeListFile,
                                     "onet="+outnet,
                                     "deffile="+defFile,
-                                    "overlaplist="+threeImageOverlapFile->original(),
+                                    "overlaplist="+QString::fromStdString(threeImageOverlapFile->original()),
                                     "networkid=1",
                                     "pointid=???",
                                     "description=autoseed test network"};

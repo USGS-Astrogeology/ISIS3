@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/hicubeit.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/hicubeit.xml").expanded());
 
 TEST(Hicubeit, Default) {
   QTemporaryDir prefix;
@@ -26,10 +26,10 @@ TEST(Hicubeit, Default) {
     hicubeit(options);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
-  Cube outCube(outFileName);
+  Cube outCube(outFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup dimensions = outLabel->findGroup("Dimensions", Pvl::Traverse);

@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/enlarge.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/enlarge.xml").expanded());
 
 TEST_F(SmallCube, FunctionalTestEnlargeDefaultParameters) {
   QVector<QString> args = {"to=" + tempDir.path()+"/output.cub"};
@@ -67,7 +67,7 @@ TEST_F(SmallCube, FunctionalTestEnlargeSmallDimensions) {
   UserInterface options(APP_XML, args);
   Pvl appLog;
 
-  std::string message = "Number of output samples/lines must be greater than or equal";
+  QString message = "Number of output samples/lines must be greater than or equal";
   try {
     enlarge(testCube, options, &appLog);
     FAIL() << "Expected an exception to be thrown";

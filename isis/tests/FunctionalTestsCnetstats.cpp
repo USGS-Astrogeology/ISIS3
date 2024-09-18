@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/cnetstats.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cnetstats.xml").expanded());
 
 TEST_F(ThreeImageNetwork, FunctionalTestCnetstatsDefault) {
   QVector<QString> args = {};
@@ -218,7 +218,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetstatsInvalidDefFile) {
   Pvl log;
   QString serialNumList = tempDir.path() + "/cubes.lis";
 
-  std::string message = "Invalid Deffile";
+  QString message = "Invalid Deffile";
   try {
     cnetstats(*network, serialNumList, options, &log);
     FAIL() << "Expected an exception to be thrown";

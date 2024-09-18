@@ -14,7 +14,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isis2ascii.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isis2ascii.xml").expanded());
 
 TEST_F(SmallCube, FunctionalTestIsis2asciiDefaultParameters) {
   QString outputFile = tempDir.path()+"/output.txt";

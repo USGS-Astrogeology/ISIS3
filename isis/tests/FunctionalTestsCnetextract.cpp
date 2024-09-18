@@ -13,7 +13,7 @@
 using namespace Isis;
 using testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/cnetextract.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cnetextract.xml").expanded());
 
 TEST_F(ThreeImageNetwork, FunctionalTestCnetextractExclusiveNoFromlist) {
   QVector<QString> args = {"prefix=" + tempDir.path() + "/",
@@ -90,7 +90,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractExclusiveNoIgnore) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 1);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 2);
 
-  FileName ignoredPointsFile(options.GetAsString("prefix") + "IgnoredPoints.txt");
+  FileName ignoredPointsFile(options.GetAsString("prefix").toStdString() + "IgnoredPoints.txt");
   EXPECT_TRUE(ignoredPointsFile.fileExists());
 }
 
@@ -120,7 +120,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractExclusiveNoSingleMeasure) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 1);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 1);
 
-  FileName measurePointsFile(options.GetAsString("prefix") + "SingleMeasurePoints.txt");
+  FileName measurePointsFile(options.GetAsString("prefix").toStdString() + "SingleMeasurePoints.txt");
   EXPECT_TRUE(measurePointsFile.fileExists());
 }
 
@@ -149,7 +149,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractExclusiveNoMeasureless) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 1);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 0);
 
-  FileName measurelessPointsFile(options.GetAsString("prefix") + "MeasurelessPoints.txt");
+  FileName measurelessPointsFile(options.GetAsString("prefix").toStdString() + "MeasurelessPoints.txt");
   EXPECT_TRUE(measurelessPointsFile.fileExists());
 }
 
@@ -171,7 +171,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractInclusiveReference) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 0);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 25);
 
-  FileName referencePointsFile(options.GetAsString("prefix") + "NonReferenceMeasures.txt");
+  FileName referencePointsFile(options.GetAsString("prefix").toStdString() + "NonReferenceMeasures.txt");
   EXPECT_TRUE(referencePointsFile.fileExists());
 }
 
@@ -199,7 +199,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractInclusiveFixed) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 13);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 35);
 
-  FileName fixedPointsFile(options.GetAsString("prefix") + "NonFixedPoints.txt");
+  FileName fixedPointsFile(options.GetAsString("prefix").toStdString() + "NonFixedPoints.txt");
   EXPECT_TRUE(fixedPointsFile.fileExists());
 }
 
@@ -274,7 +274,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractInclusivePixeltolerence) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 9);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 23);
 
-  FileName tolerancePointsFile(options.GetAsString("prefix") + "TolerancePoints.txt");
+  FileName tolerancePointsFile(options.GetAsString("prefix").toStdString() + "TolerancePoints.txt");
   EXPECT_TRUE(tolerancePointsFile.fileExists());
 }
 
@@ -292,7 +292,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractInclusivePointlist) {
   pointList.append("test0003");
   pointList.append("test0004");
   pointList.append("test0005");
-  pointList.write(pointListFile);
+  pointList.write(pointListFile.toStdString());
 
   UserInterface options(APP_XML, args);
   Pvl appLog;
@@ -306,7 +306,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractInclusivePointlist) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 11);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 30);
 
-  FileName nonListedPointsFile(options.GetAsString("prefix") + "NonListedPoints.txt");
+  FileName nonListedPointsFile(options.GetAsString("prefix").toStdString() + "NonListedPoints.txt");
   EXPECT_TRUE(nonListedPointsFile.fileExists());
 }
 
@@ -314,7 +314,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractCubeCubelist) {
   QString reducedCubeList = tempDir.path() + "/reducedCubes.lis";
   cubeList->pop_back();
   cubeList->pop_back();
-  cubeList->write(reducedCubeList);
+  cubeList->write(reducedCubeList.toStdString());
 
   QVector<QString> args = {"fromlist=" + cubeListFile,
                            "prefix=" + tempDir.path() + "/",
@@ -335,7 +335,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractCubeCubelist) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 3);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 6);
 
-  FileName nonCubePointsFile(options.GetAsString("prefix") + "NonCubePoints.txt");
+  FileName nonCubePointsFile(options.GetAsString("prefix").toStdString() + "NonCubePoints.txt");
   EXPECT_TRUE(nonCubePointsFile.fileExists());
 }
 
@@ -343,7 +343,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractCubeCubemeasures) {
   QString reducedCubeList = tempDir.path() + "/reducedCubes.lis";
   cubeList->pop_back();
   cubeList->pop_back();
-  cubeList->write(reducedCubeList);
+  cubeList->write(reducedCubeList.toStdString());
 
   QVector<QString> args = {"fromlist=" + cubeListFile,
                            "prefix=" + tempDir.path() + "/",
@@ -366,10 +366,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractCubeCubemeasures) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 3);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 28);
 
-  FileName nonCubePointsFile(options.GetAsString("prefix") + "NonCubePoints.txt");
+  FileName nonCubePointsFile(options.GetAsString("prefix").toStdString() + "NonCubePoints.txt");
   EXPECT_TRUE(nonCubePointsFile.fileExists());
 
-  FileName nonCubeMeasuresFile(options.GetAsString("prefix") + "NonCubeMeasures.txt");
+  FileName nonCubeMeasuresFile(options.GetAsString("prefix").toStdString() + "NonCubeMeasures.txt");
   EXPECT_TRUE(nonCubeMeasuresFile.fileExists());
 }
 
@@ -377,7 +377,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractCubeRetainreference) {
   QString reducedCubeList = tempDir.path() + "/reducedCubes.lis";
   cubeList->pop_back();
   cubeList->pop_back();
-  cubeList->write(reducedCubeList);
+  cubeList->write(reducedCubeList.toStdString());
 
   QVector<QString> args = {"fromlist=" + cubeListFile,
                            "prefix=" + tempDir.path() + "/",
@@ -405,10 +405,10 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractCubeRetainreference) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 3);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 27);
 
-  FileName nonCubePointsFile(options.GetAsString("prefix") + "NonCubePoints.txt");
+  FileName nonCubePointsFile(options.GetAsString("prefix").toStdString() + "NonCubePoints.txt");
   EXPECT_TRUE(nonCubePointsFile.fileExists());
 
-  FileName nonCubeMeasuresFile(options.GetAsString("prefix") + "NonCubeMeasures.txt");
+  FileName nonCubeMeasuresFile(options.GetAsString("prefix").toStdString() + "NonCubeMeasures.txt");
   EXPECT_TRUE(nonCubeMeasuresFile.fileExists());
 }
 
@@ -434,9 +434,9 @@ TEST_F(ThreeImageNetwork, FunctionalTestCnetextractLatlon) {
   ASSERT_EQ(network->GetNumPoints() - outputNet.GetNumPoints(), 10);
   ASSERT_EQ(network->GetNumMeasures() - outputNet.GetNumMeasures(), 25);
 
-  FileName outOfRangeFile(options.GetAsString("prefix") + "LatLonOutOfRange.txt");
+  FileName outOfRangeFile(options.GetAsString("prefix").toStdString() + "LatLonOutOfRange.txt");
   EXPECT_TRUE(outOfRangeFile.fileExists());
 
-  FileName noLatLonPointsFile(options.GetAsString("prefix") + "NoLatLonPoints.txt");
+  FileName noLatLonPointsFile(options.GetAsString("prefix").toStdString() + "NoLatLonPoints.txt");
   EXPECT_FALSE(noLatLonPointsFile.fileExists());
 }

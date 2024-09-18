@@ -14,11 +14,11 @@
 namespace Isis {
 
   QString IsisDataInventory::system_isisdata() const {
-    return ( m_system_isisdata.expanded() );
+    return ( QString::fromStdString(m_system_isisdata.expanded()) );
   }
 
   QString IsisDataInventory::isisdatadir() const {
-    return ( m_isisdatadir.expanded() );
+    return ( QString::fromStdString(m_isisdatadir.expanded()) );
   }
 
   QString IsisDataInventory::isisdata_path() const {
@@ -40,7 +40,7 @@ namespace Isis {
 
   json_t IsisDataInventory::get_real_file_info( const QString &fname ) const {
 
-    FileName v_fname = FileName( fname );
+    FileName v_fname = FileName( fname.toStdString() );
     QFileInfo qinfo( fname );
     json_t file_json;
     try {

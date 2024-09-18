@@ -16,7 +16,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/hical.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/hical.xml").expanded());
 
 TEST(HicalTest, Default) {
   QTemporaryDir prefix;
@@ -30,11 +30,11 @@ TEST(HicalTest, Default) {
     hical(options);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check calibrated cube
-  Cube outCube(outFileName);
+  Cube outCube(outFileName.toStdString());
 
   ASSERT_TRUE(outCube.hasGroup("RadiometricCalibration"));
 
@@ -379,11 +379,11 @@ TEST(HicalTest, Dns) {
     hical(options);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check calibrated cube
-  Cube outCube(outFileName);
+  Cube outCube(outFileName.toStdString());
 
   std::unique_ptr<Statistics> stats (outCube.statistics());
   EXPECT_NEAR(stats->Average(), 800.43395004272, .00001);
@@ -421,11 +421,11 @@ TEST(HicalTest, DnsPerMicrosecond) {
     hical(options);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check calibrated cube
-  Cube outCube(outFileName);
+  Cube outCube(outFileName.toStdString());
 
   std::unique_ptr<Statistics> stats (outCube.statistics());
   EXPECT_NEAR(stats->Average(), 9.2871234171093, .00001);
@@ -484,11 +484,11 @@ TEST(HicalTest, DarkRate) {
     hical(options);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check calibrated cube
-  Cube outCube(outFileName);
+  Cube outCube(outFileName.toStdString());
 
   std::unique_ptr<Statistics> stats (outCube.statistics());
   EXPECT_NEAR(stats->Average(), 0.029009951796252, .00001);
@@ -547,11 +547,11 @@ TEST(HicalTest, DarkRateFallback) {
     hical(options);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check calibrated cube
-  Cube outCube(outFileName);
+  Cube outCube(outFileName.toStdString());
 
   std::unique_ptr<Statistics> stats (outCube.statistics());
   EXPECT_NEAR(stats->Average(), 0.066949089371337325, .00001);

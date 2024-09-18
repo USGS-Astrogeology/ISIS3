@@ -68,7 +68,7 @@ namespace Isis {
 
     // Load in the fullframe cube
     QString from = ui.GetAsString("FROM");
-    CubeAttributeInput inAtt(from);
+    CubeAttributeInput inAtt(from.toStdString());
     cube = new Cube();
     cube->setVirtualBands(inAtt.bands());
     from = ui.GetCubeName("FROM");
@@ -103,7 +103,7 @@ namespace Isis {
     QList<Blob> inputBlobs;
     for(int i = 0; i < inputLabel->objects(); i++) {
       if(inputLabel->object(i).isNamed("Table")) {
-        Blob table(QString::fromStdString(inputLabel->object(i)["Name"]), inputLabel->object(i).name());
+        Blob table(inputLabel->object(i)["Name"], inputLabel->object(i).name());
         cube->read(table);
         inputBlobs.append(table);
       }
@@ -117,19 +117,19 @@ namespace Isis {
     // Determine sizes of framelets in input fullframe images
 
     // Allocate this number of total cubes of the correct size
-    FileName outputFileName(ui.GetCubeName("OUTPUTPREFIX"));
+    FileName outputFileName(ui.GetCubeName("OUTPUTPREFIX").toStdString());
 
     // Sometimes there will be '.'s in an OUTPUT prefix that could
     // be confused with a file extension
-    QString outputBaseName = outputFileName.expanded();
+    QString outputBaseName = QString::fromStdString(outputFileName.expanded());
     if (outputFileName.extension() == "cub") {
-     outputBaseName = outputFileName.removeExtension().expanded();
+     outputBaseName = QString::fromStdString(outputFileName.removeExtension().expanded());
     }
 
     // Create and output a list of
     QFile allCubesListFile(outputBaseName + ".lis");
     if (!allCubesListFile.open(QFile::WriteOnly | QFile::Text)) {
-      std::string msg = "Unable to write file [" + allCubesListFile.fileName() + "]";
+      std::string msg = "Unable to write file [" + allCubesListFile.fileName().toStdString() + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -144,12 +144,12 @@ namespace Isis {
       Cube *frameletCube = new Cube();
 
       frameletCube->setDimensions(g_frameletInfoList[i].m_samples, g_frameletInfoList[i].m_lines, 1);
-      FileName frameletCubeFileName(outputBaseName
-                                    + "_" + g_frameletInfoList[i].m_filterName
+      FileName frameletCubeFileName(outputBaseName.toStdString()
+                                    + "_" + g_frameletInfoList[i].m_filterName.toStdString()
                                     + ".cub");
-      frameletCube->create(frameletCubeFileName.expanded());
+      frameletCube->create(QString::fromStdString(frameletCubeFileName.expanded()));
       g_outputCubes.append(frameletCube);
-      allCubesListWriter << frameletCubeFileName.baseName() << ".cub\n";
+      allCubesListWriter << QString::fromStdString(frameletCubeFileName.baseName()) << ".cub\n";
     }
 
     // Unstitch

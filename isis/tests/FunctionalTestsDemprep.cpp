@@ -16,7 +16,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/demprep.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/demprep.xml").expanded());
 
 TEST(Demprep, DemprepDefault){
   Pvl appLog;
@@ -29,10 +29,10 @@ TEST(Demprep, DemprepDefault){
    demprep(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to prep DEM: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to prep DEM: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   ASSERT_EQ(cube.sampleCount(), 439);
@@ -100,10 +100,10 @@ TEST(Demprep, DemprepInside){
    demprep(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to prep DEM: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to prep DEM: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
   ASSERT_EQ(cube.sampleCount(), 250);
   ASSERT_EQ(cube.lineCount(), 250);
@@ -131,10 +131,10 @@ TEST(Demprep, DemprepSpecialPixels){
    demprep(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to prep DEM: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to prep DEM: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
   ASSERT_EQ(cube.sampleCount(), 366);
   ASSERT_EQ(cube.lineCount(), 184);
@@ -174,10 +174,10 @@ TEST(Demprep, DemprepSouthPole){
    demprep(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to prep DEM: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to prep DEM: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   ASSERT_EQ(cube.sampleCount(), 250);
   ASSERT_EQ(cube.lineCount(), 251);
   ASSERT_EQ(cube.bandCount(), 1);
@@ -204,10 +204,10 @@ TEST(Demprep, DemprepNorthPole){
    demprep(options, &appLog);
   }
   catch (IException &e) {
-    FAIL() << "Unable to prep DEM: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to prep DEM: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   ASSERT_EQ(cube.sampleCount(), 250);
   ASSERT_EQ(cube.lineCount(), 251);
   ASSERT_EQ(cube.bandCount(), 1);

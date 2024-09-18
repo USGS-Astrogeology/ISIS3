@@ -63,7 +63,7 @@ namespace Isis {
     Pvl &lab = *cube.label();
     PvlGroup inst = lab.findGroup("Instrument", Pvl::Traverse);
 
-    QString ikCode = toString(frameCode);
+    QString ikCode = QString::number(frameCode);
     if (inst.hasKeyword("PolyCamFocusPositionNaifId") && frameCode == -64360) {
       if (QString::compare("NONE", QString::fromStdString(inst["PolyCamFocusPositionNaifId"]),
                            Qt::CaseInsensitive) != 0) {

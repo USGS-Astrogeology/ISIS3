@@ -25,7 +25,7 @@ using namespace Isis;
 using namespace testing;
 using json = nlohmann::json;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isisimport.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isisimport.xml").expanded());
 
 TEST_F(TempTestingFiles, FunctionalTestIsisImportEisNacFrame){
   std::istringstream PvlInput(R"(
@@ -150,7 +150,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportEisNacFrame){
   Pvl truthLabel;
   PvlInput >> truthLabel;
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup truthGroup = truthLabel.findGroup("Dimensions", Pvl::Traverse);
@@ -178,7 +178,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportEisNacFrame){
   UserInterface optionsNoTemp(APP_XML, argsNoTemp);
   isisimport(optionsNoTemp);
 
-  Cube outCubeNoTemp(cubeFileName);
+  Cube outCubeNoTemp(cubeFileName.toStdString());
   Pvl *outLabelNoTemp = outCubeNoTemp.label();
 
   truthGroup = truthLabel.findGroup("Dimensions", Pvl::Traverse);
@@ -326,7 +326,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportEisWacFrame){
   Pvl truthLabel;
   PvlInput >> truthLabel;
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup truthGroup = truthLabel.findGroup("Dimensions", Pvl::Traverse);
@@ -354,7 +354,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportEisWacFrame){
   UserInterface optionsNoTemp(APP_XML, argsNoTemp);
   isisimport(optionsNoTemp);
 
-  Cube outCubeNoTemp(cubeFileName);
+  Cube outCubeNoTemp(cubeFileName.toStdString());
   Pvl *outLabelNoTemp = outCubeNoTemp.label();
 
   truthGroup = truthLabel.findGroup("Dimensions", Pvl::Traverse);
@@ -529,7 +529,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportEisWacPb){
   Pvl truthLabel;
   PvlInput >> truthLabel;
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup truthGroup = truthLabel.findGroup("Dimensions", Pvl::Traverse);
@@ -557,7 +557,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportEisWacPb){
   UserInterface optionsNoTemp(APP_XML, argsNoTemp);
   isisimport(optionsNoTemp);
 
-  Cube outCubeNoTemp(cubeFileName);
+  Cube outCubeNoTemp(cubeFileName.toStdString());
   Pvl *outLabelNoTemp = outCubeNoTemp.label();
 
   truthGroup = truthLabel.findGroup("Dimensions", Pvl::Traverse);

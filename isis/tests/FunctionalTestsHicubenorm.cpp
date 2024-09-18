@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/hicubenorm.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/hicubenorm.xml").expanded());
 
 TEST_F(MroHiriseCube, FunctionalTestHicubenormSubtract) {
   QTemporaryDir prefix;
@@ -52,7 +52,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicubenormSubtract) {
   ASSERT_DOUBLE_EQ((double)res[9630], 1204);
   ASSERT_DOUBLE_EQ((double)res[9631], 1204);
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 
@@ -80,7 +80,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicubenormDivide) {
     FAIL() << "Unable to process HRISE image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 
@@ -107,7 +107,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicubenormAverage) {
     FAIL() << "Unable to process HRISE image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 
@@ -154,7 +154,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicubenormNewVersion) {
     FAIL() << "Unable to process HRISE image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 
@@ -193,7 +193,7 @@ TEST_F(MroHiriseCube, FunctionalTestHicubenormPreserve) {
     FAIL() << "Unable to process HRISE image: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   Histogram *oCubeStats = oCube.histogram();
 

@@ -103,8 +103,8 @@ TEST(DistanceTests, SetNegativeDistance) {
 		FAIL() << "Expected error message: Negative distances are not supported";
 	}
 	catch(IException &e) {
-	    EXPECT_TRUE(e.toString().contains("Negative distances are not supported")) 
-	    									<< e.toString().toStdString();
+	    EXPECT_TRUE(e.toString().find("Negative distances are not supported") != std::string::npos) 
+	    									<<  e.toString();
 	}
 	catch(...) {
 	   	FAIL() << "Expected error message: Negative distances are not supported";
@@ -153,8 +153,8 @@ TEST(DistanceTests, GreaterThanNull) {
 		FAIL() << "Expected error message: Distance has not been initialized";
 	}
 	catch(IException &e) {
-	    EXPECT_TRUE(e.toString().contains("Distance has not been initialized")) 
-	    									<< e.toString().toStdString();
+	    EXPECT_TRUE(e.toString().find("Distance has not been initialized") != std::string::npos) 
+	    									<<  e.toString();
 	}
 	catch(...) {
 	   	FAIL() << "Expected error message: Distance has not been initialized";
@@ -185,8 +185,8 @@ TEST(DistanceTests, LessThanNull) {
 		FAIL() << "Expected error message: Distance has not been initialized";
 	}
 	catch(IException &e) {
-	    EXPECT_TRUE(e.toString().contains("Distance has not been initialized")) 
-	    									<< e.toString().toStdString();
+	    EXPECT_TRUE(e.toString().find("Distance has not been initialized") != std::string::npos) 
+	    									<<  e.toString();
 	}
 	catch(...) {
 	   	FAIL() << "Expected error message: Distance has not been initialized";
@@ -271,8 +271,8 @@ TEST(DistanceTests, SubtractAssignNegative) {
 		FAIL() << "Expected error message: Negative distances are not supported";
 	}
 	catch(IException &e) {
-	    EXPECT_TRUE(e.toString().contains("Negative distances are not supported")) 
-	    									<< e.toString().toStdString();
+	    EXPECT_TRUE(e.toString().find("Negative distances are not supported") != std::string::npos) 
+	    									<<  e.toString();
 	}
 	catch(...) {
 	   	FAIL() << "Expected error message: Negative distances are not supported";

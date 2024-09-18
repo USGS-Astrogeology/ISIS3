@@ -14,7 +14,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/lronac2pds.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/lronac2pds.xml").expanded());
 
 TEST_F(ObservationPair, FunctionalTestLronac2pdsIof) {
   QVector<QString> args = {"from=" + cubeLPath,

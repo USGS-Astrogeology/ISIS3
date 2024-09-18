@@ -1,7 +1,5 @@
 #include "FileName.h"
 
-#include <QString>
-
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -38,110 +36,110 @@ TEST(FileName, CopyConstructor) {
 }
 
 TEST(FileName, OriginalPath) {
-  QString test = "/testy/mc/test/face/test.cub";
+  std::string test = "/testy/mc/test/face/test.cub";
   FileName file(test);
 
   EXPECT_EQ("/testy/mc/test/face", file.originalPath());
 }
 
 TEST(FileName, Path) {
-  QString test = "/testy/mc/test/face/test.cub";
+  std::string test = "/testy/mc/test/face/test.cub";
   FileName file(test);
 
   EXPECT_EQ("/testy/mc/test/face", file.path());
 }
 
 TEST(FileName, Attributes) {
-  QString test = "/testy/mc/test/face/test.cub";
+  std::string test = "/testy/mc/test/face/test.cub";
   FileName file(test);
 
   EXPECT_EQ("", file.attributes());
 
-  QString testAtt = "/testy/mc/test/face/test.cub+Bsq";
+  std::string testAtt = "/testy/mc/test/face/test.cub+Bsq";
   FileName fileAtt(testAtt);
 
   EXPECT_EQ("Bsq", fileAtt.attributes());
 }
 
 TEST(FileName, BaseName) {
-  QString test = "/testy/mc/test/face/test.cub";
+  std::string test = "/testy/mc/test/face/test.cub";
   FileName file(test);
 
   EXPECT_EQ("test", file.baseName());
 }
 
 TEST(FileName, Name) {
-  QString test = "/testy/mc/test/face/test.cub";
+  std::string test = "/testy/mc/test/face/test.cub";
   FileName file(test);
 
   EXPECT_EQ("test.cub", file.name());
 }
 
 TEST(FileName, Extension) {
-  QString test = "/testy/mc/test/face/test.cub";
+  std::string test = "/testy/mc/test/face/test.cub";
   FileName file(test);
 
   EXPECT_EQ("cub", file.extension());
 }
 
 TEST(FileName, ExpandedDefault) {
-  QString relativeFileName("test.cub");
+  std::string relativeFileName("test.cub");
   FileName file("$ISISROOT/" + relativeFileName);
-  QString isisRoot(getenv("ISISROOT"));
+  std::string isisRoot(getenv("ISISROOT"));
   EXPECT_EQ(isisRoot + "/" + relativeFileName, file.expanded());
 }
 
 TEST(FileName, ExpandedUnderscore) {
-  QString relativeFileName("test.cub");
+  std::string relativeFileName("test.cub");
   setenv("SOME_FILE_PATH", getenv("ISISROOT"), 1);
   FileName file("$SOME_FILE_PATH/" + relativeFileName);
-  QString someFilePath(getenv("ISISROOT"));
+  std::string someFilePath(getenv("ISISROOT"));
   EXPECT_EQ(someFilePath + "/" + relativeFileName, file.expanded());
 }
 
 TEST(FileName, Original) {
-  QString test = "$ISISROOT/testy/mc/test/face/test.cub";
+  std::string test = "$ISISROOT/testy/mc/test/face/test.cub";
   FileName file(test);
 
   EXPECT_EQ("$ISISROOT/testy/mc/test/face/test.cub", file.original());
 }
 
 TEST(FileName, AddExtension) {
-  QString test = "/testy/mc/test/face/test.cub";
+  std::string test = "/testy/mc/test/face/test.cub";
   FileName file(test);
 
   EXPECT_EQ("txt", file.addExtension(".txt").extension());
 }
 
 TEST(FileName, RemoveExtension) {
-  QString test = "/testy/mc/test/face/test.cub";
+  std::string test = "/testy/mc/test/face/test.cub";
   FileName file(test);
   EXPECT_EQ("", file.removeExtension().extension());
 }
 
 TEST(FileName, SetExtension) {
-  QString test = "/testy/mc/test/face/test.cub";
+  std::string test = "/testy/mc/test/face/test.cub";
   FileName file(test);
 
   EXPECT_EQ("log", file.setExtension("log").extension());
 }
 
 TEST(FileName, isQuestionMarksNoExtensionVersioned) {
-  QString test = "/testy/mc/test/face/test??????";
+  std::string test = "/testy/mc/test/face/test??????";
   FileName file(test);
 
   EXPECT_TRUE(file.isVersioned());
 }
 
 TEST(FileName, isQuestionMarksExtensionVersioned) {
-  QString test = "/testy/mc/test/face/test??????.cub";
+  std::string test = "/testy/mc/test/face/test??????.cub";
   FileName file(test);
 
   EXPECT_TRUE(file.isVersioned());
 }
 
 TEST(FileName, isDDMMMYYYVersioned) {
-  QString test = "/testy/mc/test/face/test{ddMMMyyyy}..cub";
+  std::string test = "/testy/mc/test/face/test{ddMMMyyyy}..cub";
   FileName file(test);
 
   EXPECT_TRUE(file.isVersioned());
@@ -202,13 +200,13 @@ TEST(FileName, CreateTempFile) {
   EXPECT_EQ("cub", temp.extension());
   EXPECT_TRUE(temp.fileExists());
 
-  remove(temp.expanded().toLatin1());
+  remove(temp.expanded().c_str());
 }
 
 TEST(FileName, ToString) {
-  QString relativeFileName("test.cub");
+  std::string relativeFileName("test.cub");
   FileName file("$ISISROOT/" + relativeFileName);
-  QString isisRoot(getenv("ISISROOT"));
+  std::string isisRoot(getenv("ISISROOT"));
   EXPECT_EQ(isisRoot + "/" + relativeFileName, file.toString());
 }
 

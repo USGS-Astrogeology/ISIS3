@@ -97,12 +97,12 @@ void IsisMain() {
   try {
     if(evenCube->group("Instrument")["InstrumentID"][0] != "THEMIS_VIS") {
       std::string msg = "This program is intended for use on THEMIS VIS images only";
-      msg += " [" + ui.GetCubeName("INEVEN") + "] does not appear to be a ";
+      msg += " [" + ui.GetCubeName("INEVEN").toStdString() + "] does not appear to be a ";
       msg += "THEMIS VIS image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     if (evenCube->group("Instrument")["Framelets"][0] != "Even") {
-      std::string msg = "The image [" + ui.GetCubeName("INEVEN") + "] does not appear "
+      std::string msg = "The image [" + ui.GetCubeName("INEVEN").toStdString() + "] does not appear "
           "to contain the EVEN framelets of a Themis VIS cube";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -115,12 +115,12 @@ void IsisMain() {
   try {
     if(oddCube->group("Instrument")["InstrumentID"][0] != "THEMIS_VIS") {
       std::string msg = "This program is intended for use on THEMIS VIS images only";
-      msg += " [" + ui.GetCubeName("INODD") + "] does not appear to be a ";
+      msg += " [" + ui.GetCubeName("INODD").toStdString() + "] does not appear to be a ";
       msg += "THEMIS VIS image.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     if (oddCube->group("Instrument")["Framelets"][0] != "Odd") {
-      std::string msg = "The image [" + ui.GetCubeName("INODD") + "] does not appear "
+      std::string msg = "The image [" + ui.GetCubeName("INODD").toStdString() + "] does not appear "
           "to contain the ODD framelets of a Themis VIS cube";
       throw IException(IException::User, msg, _FILEINFO_);
     }

@@ -218,7 +218,7 @@ TEST(Area3D, Operators) {
 }
 
 TEST(Area3D, InvertedXError) {
-  std::string message = "Cannot have a 3D area with inverted X";
+  QString message = "Cannot have a 3D area with inverted X";
   Isis::Displacement d1(-1, Isis::Displacement::Meters);
   Isis::Displacement d2(1, Isis::Displacement::Meters);
   try {
@@ -234,7 +234,7 @@ TEST(Area3D, InvertedXError) {
 }
 
 TEST(Area3D, InvertedYError) {
-  std::string message = "Cannot have a 3D area with inverted Y";
+  QString message = "Cannot have a 3D area with inverted Y";
   Isis::Displacement d1(-1, Isis::Displacement::Meters);
   Isis::Displacement d2(1, Isis::Displacement::Meters);
   try {
@@ -250,7 +250,7 @@ TEST(Area3D, InvertedYError) {
 }
 
 TEST(Area3D, InvertedZError) {
-  std::string message = "Cannot have a 3D area with inverted Z";
+  QString message = "Cannot have a 3D area with inverted Z";
   Isis::Displacement d1(-1, Isis::Displacement::Meters);
   Isis::Displacement d2(1, Isis::Displacement::Meters);
   try {

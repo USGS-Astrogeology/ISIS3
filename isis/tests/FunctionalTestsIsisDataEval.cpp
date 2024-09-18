@@ -37,7 +37,7 @@ inline QStringList get_header( const CSVReader &csv  ) {
   return ( row_from_csv( csv.getHeader() ) );
 }
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isisdataeval.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isisdataeval.xml").expanded());
 
 TEST_F( IsisDataInventory, ConfirmIsisDataInventory ) {
   Pvl appLog;
@@ -82,7 +82,7 @@ TEST_F( IsisDataInventory, ConfirmIsisDataInventory ) {
                  (int) results["ExternalKernelFiles"] +
                  (int) results["SymlinkKernelFiles"];
 
-  FileName issues( isisissuesfile );
+  FileName issues( isisissuesfile.toStdString() );
   if ( issues.fileExists() ) {
     CSVReader  csv_issues = load_isisdata_csv( isisissuesfile );
     EXPECT_EQ( csv_issues.rows() ,n_issues );
@@ -108,9 +108,9 @@ TEST_F( IsisDataInventory, ConfirmIsisDataInventory ) {
       const QString status      = rowdata[status_t];
       QString isisdata_filename = rowdata[filespec_t];
 
-      FileName  fnFile( isisdata_filename );
+      FileName  fnFile( isisdata_filename.toStdString() );
       // if ( fnFile.isVersioned() ) fnFile.highestVersion();
-      QFileInfo qfFile( fnFile.expanded() );
+      QFileInfo qfFile( QString::fromStdString(fnFile.expanded()) );
 
       if ( "empty" == status ) {
         n_empty_found++;
@@ -145,7 +145,7 @@ TEST_F( IsisDataInventory, ConfirmIsisDataInventory ) {
   }
 
   // There are no errors for this case
-  FileName errors( isiserrorsfile );
+  FileName errors( isiserrorsfile.toStdString() );
   EXPECT_EQ( errors.fileExists() , true );
   if ( errors.fileExists() ) {
     CSVReader  csv_errors = load_isisdata_csv( isiserrorsfile );

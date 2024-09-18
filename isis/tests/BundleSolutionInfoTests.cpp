@@ -39,12 +39,12 @@ namespace Isis {
   class BundleSolutionInfoXmlHandlerTester : public BundleSolutionInfo {
     public:
       BundleSolutionInfoXmlHandlerTester(QXmlStreamReader *reader, FileName xmlFile) : BundleSolutionInfo() {
-        QString xmlPath(xmlFile.expanded());
+        QString xmlPath(QString::fromStdString(xmlFile.expanded()));
         QFile file(xmlPath);
 
         if (!file.open(QFile::ReadOnly) ) {
           throw IException(IException::Io,
-                           QString("Unable to open xml file, [%1],  with read access").arg(xmlFile.expanded()),
+                           "Unable to open xml file, ["+xmlFile.expanded()+"],  with read access",
                            _FILEINFO_);
         }
         if (reader->readNextStartElement()) {
@@ -68,7 +68,7 @@ TEST_F(ThreeImageNetwork, BundleSolutionInfoConstructors) {
   BundleResults results;
   results.setNumberObservations(1000);
   QList<ImageList *> imageList;
-  BundleSolutionInfo solution(settings, networkFile, results, imageList);
+  BundleSolutionInfo solution(settings, networkFile.toStdString(), results, imageList);
 
   EXPECT_TRUE(solution.adjustedImages().empty());
   EXPECT_EQ(solution.bundleResults().numberObservations(), results.numberObservations());
@@ -82,7 +82,7 @@ TEST_F(ThreeImageNetwork, BundleSolutionInfoSerialization) {
   BundleSettingsQsp settings(new BundleSettings());
   BundleResults results;
   QList<ImageList *> imageList;
-  BundleSolutionInfo solution(settings, networkFile, results, imageList);
+  BundleSolutionInfo solution(settings, networkFile.toStdString(), results, imageList);
 
   QString saveFile = tempDir.path() + "/BundleSolutionInfoTestData.xml";
   QFile qXmlFile(saveFile);
@@ -97,12 +97,12 @@ TEST_F(ThreeImageNetwork, BundleSolutionInfoSerialization) {
   QFile xml(saveFile);
   if(!xml.open(QFile::ReadOnly | QFile::Text)){
     throw IException(IException::Unknown,
-                      QString("Failed to parse xml file, [%1]").arg(xml.fileName()),
+                      "Failed to parse xml file, ["+xml.fileName().toStdString()+"]",
                       _FILEINFO_);
   }
 
   QXmlStreamReader reader(&xml);
-  BundleSolutionInfoXmlHandlerTester newSolution(&reader, saveFile);
+  BundleSolutionInfoXmlHandlerTester newSolution(&reader, saveFile.toStdString());
 
   EXPECT_EQ(solution.adjustedImages().size(), newSolution.adjustedImages().size());
   EXPECT_EQ(solution.bundleResults().numberObservations(), newSolution.bundleResults().numberObservations());
@@ -116,7 +116,7 @@ TEST_F(ThreeImageNetwork, BundleSolutionInfoMutators) {
   BundleSettingsQsp settings(new BundleSettings());
   BundleResults results;
   QList<ImageList *> imageList;
-  BundleSolutionInfo solution(settings, networkFile, results, imageList);
+  BundleSolutionInfo solution(settings, networkFile.toStdString(), results, imageList);
 
   solution.addAdjustedImages(NULL);
 
@@ -262,7 +262,7 @@ TEST_F(ThreeImageNetwork, BundleSolutionInfoOutputFiles) {
   results.setOutputControlNet(ControlNetQsp(new ControlNet(outNet)));
   results.setObservations(observationVector);
 
-  BundleSolutionInfo solution(settings, networkFile, results, imageList);
+  BundleSolutionInfo solution(settings, networkFile.toStdString(), results, imageList);
 
   solution.outputText();
   solution.outputImagesCSV();

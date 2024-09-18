@@ -18,7 +18,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/spiceserver.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/spiceserver.xml").expanded());
 
 class TestPayload : public DefaultCube {
     protected:
@@ -92,7 +92,7 @@ TEST_F(TestPayload, FunctionalTestSpiceserverDefaultParameters) {
   QString xml( QByteArray::fromHex( QByteArray( hexCode.toLatin1() ) ).constData() );
 
   QDomDocument document;
-  std::string error;
+  QString error;
   Pvl kernelsLabel;
   Pvl instrumentPositionTable;
 
@@ -107,7 +107,7 @@ TEST_F(TestPayload, FunctionalTestSpiceserverDefaultParameters) {
       if (element.tagName() == "kernels_label") {
         QString encoded = element.firstChild().toText().data();
         std::stringstream labStream;
-        labStream << QString( QByteArray::fromHex( encoded.toLatin1() ).constData() );
+        labStream << QString( QByteArray::fromHex( encoded.toLatin1() ).constData() ).toStdString();
         labStream >> kernelsLabel;
       }
       else if (element.tagName() == "tables") {
@@ -117,7 +117,7 @@ TEST_F(TestPayload, FunctionalTestSpiceserverDefaultParameters) {
           if (table.tagName() == "instrument_position") {
              QString encoded = table.firstChild().toText().data();
              std::stringstream labStream;
-             labStream << QString( QByteArray::fromHex( encoded.toLatin1() ).constData() );
+             labStream << QString( QByteArray::fromHex( encoded.toLatin1() ).constData() ).toStdString();
              labStream >> instrumentPositionTable;
           }
         }

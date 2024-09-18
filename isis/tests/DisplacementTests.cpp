@@ -176,8 +176,8 @@ TEST(Displacement, UninitializedComparison)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Displacement has not been"
-     " initialized")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Displacement has not been"
+     " initialized") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {
@@ -194,8 +194,8 @@ TEST(Displacement, UninitializedComparison)
   }
   catch(Isis::IException &e)
   {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Displacement has not been"
-     " initialized")) << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Displacement has not been"
+     " initialized") != std::string::npos) <<  e.toString();
   }
   catch(...)
   {

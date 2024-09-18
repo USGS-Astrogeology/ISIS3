@@ -64,7 +64,7 @@ namespace Isis {
 
     Pvl &lab = *cube.label();
     PvlGroup inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString ikCode = toString(frameCode);
+    QString ikCode = QString::number(frameCode);
 
     // Kernel values are in meters so convert to millimeters
     QString focalLength = "INS" + ikCode + "_FOCAL_LENGTH";

@@ -13,7 +13,7 @@
 using namespace Isis;
 
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/eis2isis.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/eis2isis.xml").expanded());
 
 TEST(Eis2Isis, Eis2IsisTestNacDefault) {
   /*
@@ -36,10 +36,10 @@ TEST(Eis2Isis, Eis2IsisTestNacDefault) {
     eis2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest image: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -101,10 +101,10 @@ TEST(Eis2Isis, Eis2IsisTestNacCheckline)
     eis2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest image: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group
@@ -169,7 +169,7 @@ TEST(Eis2Isis, Eis2IsisTestNacChecklineError)
     FAIL();
   }
   catch (IException &e) {
-    ASSERT_TRUE(e.toString().contains("as the [CHECKLINEREADOUT] parameter"));
+    ASSERT_TRUE(e.toString().find("as the [CHECKLINEREADOUT] parameter") != std::string::npos);
   }
 
 }
@@ -194,10 +194,10 @@ TEST(Eis2Isis, Eis2IsisTestWacDefault) {
     eis2isis(options);
   }
   catch (IException &e) {
-    FAIL() << "Unable to ingest image: " << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << "Unable to ingest image: " <<  e.toString().c_str() << std::endl;
   }
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
   Pvl *isisLabel = cube.label();
 
   // Dimensions Group

@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/cubeatt.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/cubeatt.xml").expanded());
 
 // Tests setting output attributes: bit type and range
 TEST_F(SmallCube, FunctionalTestCubeattBitttypeAndRange) {
@@ -20,7 +20,7 @@ TEST_F(SmallCube, FunctionalTestCubeattBitttypeAndRange) {
   UserInterface options(APP_XML, args);
   cubeatt(options);
 
-  Cube outputCube(cubePath);
+  Cube outputCube(cubePath.toStdString());
 
   // Check attributes: pixel type, storage format, label format, storage order, pixel range, bands
   EXPECT_EQ(outputCube.pixelType(), PixelType::UnsignedByte);
@@ -41,7 +41,7 @@ TEST_F(SmallCube, FunctionalTestCubeattNoChange) {
   UserInterface options(APP_XML, args);
   cubeatt(options);
 
-  Cube outputCube(cubePath);
+  Cube outputCube(cubePath.toStdString());
 
   // Check attributes: pixel type, storage format, label format, storage order, pixel range, bands
   EXPECT_EQ(outputCube.pixelType(), PixelType::Real);
@@ -67,7 +67,7 @@ TEST_F(SmallCube, FunctionalTestCubeattVirtualBands) {
   QVector<QString> args = {"from=" + testCube->fileName() + "+3,2,4,2,1,5,7,6,4", "to=" + cubePath};
   UserInterface options(APP_XML, args);
   cubeatt(options);
-  Cube outputCube(cubePath);
+  Cube outputCube(cubePath.toStdString());
   EXPECT_EQ(outputCube.bandCount(), 9);
 
   // Do need to check the label for this one, since outputCube.physicalBand() will not work
@@ -105,7 +105,7 @@ TEST_F(SmallCube, FunctionalTestCubeattInputCube) {
   UserInterface options(APP_XML, args);
 
   cubeatt(testCube, options);
-  Cube outputCube(outputCubePath);
+  Cube outputCube(outputCubePath.toStdString());
 
   EXPECT_EQ(outputCube.pixelType(), PixelType::UnsignedByte);
   // Setting the pixel range modifies the base/multiplier, so check those.
@@ -125,7 +125,7 @@ TEST_F(SmallCube, FunctionalTestCubeattInputCubeOutputPath) {
   CubeAttributeOutput attributeOutput("+8bit+0.0:1.0");
 
   cubeatt(testCube, outputCubePath, attributeOutput);
-  Cube outputCube(outputCubePath);
+  Cube outputCube(outputCubePath.toStdString());
 
   // Setting the pixel range modifies the base/multiplier, so check those.
   EXPECT_NE(outputCube.base(), 0);
@@ -146,7 +146,7 @@ TEST_F(SmallCube, FunctionalTestCubeattInputAndOutputAttributes) {
 
   cubeatt(inputCubePath, attributeInput, outputCubePath, attributeOutput);
 
-  Cube outputCube(outputCubePath);
+  Cube outputCube(outputCubePath.toStdString());
 
   Statistics *outputStats = outputCube.statistics();
   EXPECT_GE(outputStats->Minimum(), 200);

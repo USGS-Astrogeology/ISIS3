@@ -27,7 +27,7 @@ using json = nlohmann::json;
 using namespace Isis;
 using ::testing::HasSubstr;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/spiceinit.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/spiceinit.xml").expanded());
 
 TEST(Spiceinit, TestSpiceinitPredictAndReconCk) {
 
@@ -93,7 +93,7 @@ TEST(Spiceinit, TestSpiceinitPredictAndReconCk) {
   tempFile.open();
   Cube testCube;
 
-  testCube.fromLabel(tempFile.fileName() + ".cub", label, "rw");
+  testCube.fromLabel(tempFile.fileName().toStdString() + ".cub", label, "rw");
 
   QVector<QString> args = {"ckrecon=True", "cksmithed=True", "attach=false"};
   UserInterface options(APP_XML, args);
@@ -184,7 +184,7 @@ TEST(Spiceinit, TestSpiceinitCkConfigFile) {
   tempFile.open();
   Cube testCube;
 
-  testCube.fromLabel(tempFile.fileName() + ".cub", label, "rw");
+  testCube.fromLabel(tempFile.fileName().toStdString() + ".cub", label, "rw");
 
   QVector<QString> args(0);
   UserInterface options(APP_XML, args);
@@ -302,7 +302,7 @@ TEST(Spiceinit, TestSpiceinitDefault) {
   tempFile.open();
   Cube testCube;
 
-  testCube.fromLabel(tempFile.fileName() + ".cub", label, "rw");
+  testCube.fromLabel(tempFile.fileName().toStdString() + ".cub", label, "rw");
 
   QVector<QString> args(0);
   UserInterface options(APP_XML, args);
@@ -408,7 +408,7 @@ TEST(Spiceinit, TestSpiceinitNadir) {
   tempFile.open();
   Cube testCube;
 
-  testCube.fromLabel(tempFile.fileName() + ".cub", label, "rw");
+  testCube.fromLabel(tempFile.fileName().toStdString() + ".cub", label, "rw");
 
   QVector<QString> args = {"ckrecon=False", "cknadir=True", "tspk=$base/kernels/spk/de405.bsp", "attach=false"};
   UserInterface options(APP_XML, args);
@@ -507,7 +507,7 @@ TEST(Spiceinit, TestSpiceinitPadding) {
   tempFile.open();
   Cube testCube;
 
-  testCube.fromLabel(tempFile.fileName() + ".cub", label, "rw");
+  testCube.fromLabel(tempFile.fileName().toStdString() + ".cub", label, "rw");
 
   QVector<QString> args = {"startpad=1.1", "endpad=0.5", "fk=$cassini/kernels/fk/cas_v40_usgs.tf", "attach=false"};
   UserInterface options(APP_XML, args);
@@ -654,7 +654,7 @@ TEST_F(DemCube, FunctionalTestSpiceinitWebAndShapeModel) {
   tempFile.open();
   Cube testCube;
 
-  testCube.fromLabel(tempFile.fileName() + ".cub", label, "rw");
+  testCube.fromLabel(tempFile.fileName().toStdString() + ".cub", label, "rw");
 
   QVector<QString> args = {"web=true", "shape=user", "model=" + demCube->fileName()};
   UserInterface options(APP_XML, args);
@@ -688,7 +688,7 @@ TEST_F(SmallCube, FunctionalTestSpiceinitCsminitRestorationOnFail) {
     "from="+cubeFile,
     "isd="+isdPath};
 
-  QString CSMINIT_APP_XML = FileName("$ISISROOT/bin/xml/csminit.xml").expanded();
+  QString CSMINIT_APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/csminit.xml").expanded());
   UserInterface csmOptions(CSMINIT_APP_XML, csmArgs);
   testCube->close();
 
@@ -703,7 +703,7 @@ TEST_F(SmallCube, FunctionalTestSpiceinitCsminitRestorationOnFail) {
   UserInterface spiceinitOptions(APP_XML, spiceinitArgs);
   ASSERT_ANY_THROW(spiceinit(spiceinitOptions));
 
-  Cube outputCube(cubeFile);
+  Cube outputCube(cubeFile.toStdString());
 
   ASSERT_NO_THROW(outputCube.camera());
   EXPECT_TRUE(outputCube.hasBlob("CSMState", "String"));
@@ -778,7 +778,7 @@ TEST(Spiceinit, TestSpiceinitHrscWebError) {
   tempFile.open();
   Cube testCube;
 
-  testCube.fromLabel(tempFile.fileName() + ".cub", label, "rw");
+  testCube.fromLabel(tempFile.fileName().toStdString() + ".cub", label, "rw");
 
   QVector<QString> args = {"web=true"};
   UserInterface options(APP_XML, args);

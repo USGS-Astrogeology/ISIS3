@@ -45,7 +45,7 @@ void IsisMain ()
   ProcessImportPds p;
   UserInterface &ui = Application::GetUserInterface();
 
-  FileName inFile = ui.GetFileName("FROM");
+  FileName inFile = ui.GetFileName("FROM").toStdString();
 
   Pvl pdsLabel;
   try {
@@ -53,7 +53,7 @@ void IsisMain ()
   }
   catch (IException &e) {
     // Try to fix the PVL before reading it in
-    QByteArray pvlData = pvlFix(inFile.expanded());
+    QByteArray pvlData = pvlFix(QString::fromStdString(inFile.expanded()));
     QTextStream pvlTextStream(&pvlData);
     istringstream pvlStream(pvlTextStream.readAll().toStdString());
 
@@ -67,7 +67,7 @@ void IsisMain ()
     }
   }
 
-  p.SetPdsFile(pdsLabel, inFile.expanded());
+  p.SetPdsFile(pdsLabel, QString::fromStdString(inFile.expanded()));
   p.SetOrganization(Isis::ProcessImport::BIP);
 
   // Processing level 2 = uncalibrated
@@ -125,7 +125,7 @@ void IsisMain ()
   p.StartProcess();
 
   // Get the directory where the Rosetta translation tables are.
-  QString transDir = "$ISISROOT/appdata/translations/";
+  std::string transDir = "$ISISROOT/appdata/translations/";
 
   if (procLevel == 2) {
 
@@ -133,11 +133,11 @@ void IsisMain ()
     QList<VirtisHK> hk;
 
     FileName hkTranslationFile = transDir + "RosettaVirtisMHousekeeping.def";
-    QFile hkFile(hkTranslationFile.toString());
+    QFile hkFile(QString::fromStdString(hkTranslationFile.toString()));
 
     if(!hkFile.open(QIODevice::ReadOnly)) {
       std::string msg = "Unable to open Virtis Housekeeping information file [" +
-                   hkFile.fileName() + "]";
+                   hkFile.fileName().toStdString() + "]";
       throw IException(IException::Io,msg, _FILEINFO_);
     }
 
@@ -390,12 +390,12 @@ void IsisMain ()
 
   // Translate the Archive group
   FileName transFile = transDir + "RosettaVirtisArchive.trn";
-  PvlToPvlTranslationManager archiveXlater (pdsLabel, transFile.expanded());
+  PvlToPvlTranslationManager archiveXlater (pdsLabel, QString::fromStdString(transFile.expanded()));
   archiveXlater.Auto(outLabel);
 
   // Translate the Instrument group
   transFile = transDir + "RosettaVirtisInstruments.trn";
-  PvlToPvlTranslationManager instrumentXlater (pdsLabel, transFile.expanded());
+  PvlToPvlTranslationManager instrumentXlater (pdsLabel, QString::fromStdString(transFile.expanded()));
   instrumentXlater.Auto(outLabel);
 
   if (procLevel == 3) {
@@ -405,14 +405,14 @@ void IsisMain ()
     // Pass the Start/Stop SCET values to naif to get the utc time.
     QString sclk = "$ISISDATA/rosetta/kernels/sclk/ROS_??????_STEP.TSC";
     QString lsk  = "$ISISDATA/base/kernels/lsk/naif????.tls";
-    FileName sclkName(sclk);
-    FileName lskName(lsk);
+    FileName sclkName(sclk.toStdString());
+    FileName lskName(lsk.toStdString());
 
     sclkName = sclkName.highestVersion();
     lskName = lskName.highestVersion();
 
-    furnsh_c(lskName.expanded().toLatin1().data());
-    furnsh_c(sclkName.expanded().toLatin1().data());
+    furnsh_c(lskName.expanded().c_str());
+    furnsh_c(sclkName.expanded().c_str());
 
     SpiceDouble etStart;
     SpiceDouble etEnd;

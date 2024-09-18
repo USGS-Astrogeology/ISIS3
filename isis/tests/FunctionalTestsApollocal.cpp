@@ -11,7 +11,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/apollocal.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/apollocal.xml").expanded());
 
 TEST_F(ApolloCube, FunctionalTestApollocalDefault) {
   QTemporaryDir prefix;
@@ -28,7 +28,7 @@ TEST_F(ApolloCube, FunctionalTestApollocalDefault) {
     FAIL() << "Call failed, Unable to process cube: " << e.what() << std::endl;
   }
 
-  Cube oCube(outCubeFileName, "r");
+  Cube oCube(outCubeFileName.toStdString(), "r");
 
   // Check a region with both Null and non-Null data
   Brick brick(reseauSize + 10,reseauSize + 10,1,oCube.pixelType());

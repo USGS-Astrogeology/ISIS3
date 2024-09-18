@@ -85,7 +85,7 @@ namespace Isis {
       }
       else {
         std::string msg = "File does not appear to be a Voyager image. InstrumentId ["
-            + instId + "] is invalid Voyager value.";
+            + instId.toStdString() + "] is invalid Voyager value.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
@@ -109,13 +109,13 @@ namespace Isis {
       }
       else {
         std::string msg = "File does not appear to be a Voyager image. InstrumentId ["
-            + instId + "] is invalid Voyager value.";
+            + instId.toStdString() + "] is invalid Voyager value.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
     }
     else {
       std::string msg = "File does not appear to be a Voyager image. SpacecraftName ["
-          + spacecraft + "] is invalid Voyager value.";
+          + spacecraft.toStdString() + "] is invalid Voyager value.";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -127,9 +127,9 @@ namespace Isis {
 
     // Master reseau location file
     reseauFileName = "$voyager" + reseauFileName + "MasterReseaus.pvl";
-    FileName masterReseaus(reseauFileName);
+    FileName masterReseaus(reseauFileName.toStdString());
     try {
-      new ReseauDistortionMap(this, lab, masterReseaus.expanded());
+      new ReseauDistortionMap(this, lab, QString::fromStdString(masterReseaus.expanded()));
     } catch (IException &e) {
       e.print();
     }

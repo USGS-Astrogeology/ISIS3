@@ -19,21 +19,21 @@ using namespace Isis;
 using namespace testing;
 
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/framestitch.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/framestitch.xml").expanded());
 
 TEST_F(PushFramePair, FunctionalTestFramestitchManualHeight) {
   QString outCubePath = tempDir.path() + "/stitched.cub";
   QVector<QString> args = {
         "EVEN="+evenCube->fileName(),
         "ODD="+oddCube->fileName(),
-        "FRAMEHEIGHT="+toString(frameHeight),
+        "FRAMEHEIGHT="+QString::number(frameHeight),
         "TO="+outCubePath};
 
   UserInterface ui(APP_XML, args);
 
   framestitch(ui);
 
-  Cube outCube(outCubePath);
+  Cube outCube(outCubePath.toStdString());
   std::shared_ptr<Statistics> bandStats(outCube.statistics());
   EXPECT_EQ(bandStats->Minimum(), 1);
   EXPECT_EQ(bandStats->Maximum(), numFrames);
@@ -77,7 +77,7 @@ TEST_F(PushFramePair, FunctionalTestFramestitchAutoHeight) {
   QVector<QString> manualArgs = {
         "EVEN="+evenCube->fileName(),
         "ODD="+oddCube->fileName(),
-        "FRAMEHEIGHT="+toString(frameHeight),
+        "FRAMEHEIGHT="+QString::number(frameHeight),
         "TO="+manualCubePath};
 
   UserInterface manualUI(APP_XML, manualArgs);
@@ -94,8 +94,8 @@ TEST_F(PushFramePair, FunctionalTestFramestitchAutoHeight) {
 
   framestitch(autoUI);
 
-  Cube manualCube(manualCubePath);
-  Cube autoCube(autoCubePath);
+  Cube manualCube(manualCubePath.toStdString());
+  Cube autoCube(autoCubePath.toStdString());
 
   std::shared_ptr<Statistics> manualStats(manualCube.statistics());
   std::shared_ptr<Statistics> autoStats(autoCube.statistics());
@@ -120,7 +120,7 @@ TEST_F(PushFramePair, FunctionalTestFramestitchFlip) {
   QVector<QString> args = {
         "EVEN="+evenCube->fileName(),
         "ODD="+oddCube->fileName(),
-        "FRAMEHEIGHT="+toString(frameHeight),
+        "FRAMEHEIGHT="+QString::number(frameHeight),
         "TO="+outCubePath,
         "FLIP=YES"};
 
@@ -128,7 +128,7 @@ TEST_F(PushFramePair, FunctionalTestFramestitchFlip) {
 
   framestitch(ui);
 
-  Cube outCube(outCubePath);
+  Cube outCube(outCubePath.toStdString());
 
   // Check the order on the first two and last two frames
   Brick outBrick(numSamps, frameHeight, numBands, outCube.pixelType());
@@ -171,14 +171,14 @@ TEST_F(FlippedPushFramePair, FunctionalTestFramestitchNoFlip) {
   QVector<QString> args = {
         "EVEN="+evenCube->fileName(),
         "ODD="+oddCube->fileName(),
-        "FRAMEHEIGHT="+toString(frameHeight),
+        "FRAMEHEIGHT="+QString::number(frameHeight),
         "TO="+outCubePath};
 
   UserInterface ui(APP_XML, args);
 
   framestitch(ui);
 
-  Cube outCube(outCubePath);
+  Cube outCube(outCubePath.toStdString());
 
   // Check the order on the first two and last two frames
   Brick outBrick(numSamps, frameHeight, numBands, outCube.pixelType());
@@ -221,7 +221,7 @@ TEST_F(FlippedPushFramePair, FunctionalTestFramestitchFlip) {
   QVector<QString> args = {
         "EVEN="+evenCube->fileName(),
         "ODD="+oddCube->fileName(),
-        "FRAMEHEIGHT="+toString(frameHeight),
+        "FRAMEHEIGHT="+QString::number(frameHeight),
         "TO="+outCubePath,
         "FLIP=YES"};
 
@@ -229,7 +229,7 @@ TEST_F(FlippedPushFramePair, FunctionalTestFramestitchFlip) {
 
   framestitch(ui);
 
-  Cube outCube(outCubePath);
+  Cube outCube(outCubePath.toStdString());
 
   // Check the order on the first two and last two frames
   Brick outBrick(numSamps, frameHeight, numBands, outCube.pixelType());
@@ -274,7 +274,7 @@ TEST_F(PushFramePair, FunctionalTestFramestitchDifferentObservations) {
   QVector<QString> args = {
         "EVEN="+evenCube->fileName(),
         "ODD="+oddCube->fileName(),
-        "FRAMEHEIGHT="+toString(frameHeight),
+        "FRAMEHEIGHT="+QString::number(frameHeight),
         "TO="+tempDir.path() + "/stitched.cub"};
 
   UserInterface ui(APP_XML, args);
@@ -298,7 +298,7 @@ TEST_F(FlippedPushFramePair, FunctionalTestFramestitchDifferentFlipping) {
   QVector<QString> args = {
         "EVEN="+evenCube->fileName(),
         "ODD="+oddCube->fileName(),
-        "FRAMEHEIGHT="+toString(frameHeight),
+        "FRAMEHEIGHT="+QString::number(frameHeight),
         "TO="+tempDir.path() + "/stitched.cub"};
 
   UserInterface ui(APP_XML, args);
@@ -429,15 +429,15 @@ TEST_F(PushFramePair, FunctionalTestFramestitchRemoveOverlap) {
   QVector<QString> args = {
         "EVEN="+evenCube->fileName(),
         "ODD="+oddCube->fileName(),
-        "FRAMEHEIGHT="+toString(frameHeight),
-        "NUM_LINES_OVERLAP=" + toString(numLinesOverlap),
+        "FRAMEHEIGHT="+QString::number(frameHeight),
+        "NUM_LINES_OVERLAP=" + QString::number(numLinesOverlap),
         "TO="+outCubePath};
 
   UserInterface ui(APP_XML, args);
 
   framestitch(ui);
 
-  Cube outCube(outCubePath);
+  Cube outCube(outCubePath.toStdString());
   std::shared_ptr<Statistics> bandStats(outCube.statistics());
   EXPECT_EQ(bandStats->Minimum(), 1);
   EXPECT_EQ(bandStats->Maximum(), numFrames);

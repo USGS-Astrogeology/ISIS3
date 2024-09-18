@@ -375,22 +375,22 @@ TEST(BundleObservationSolveSettings, SaveSettings){
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     pointingOptionsAtts.namedItem("numberCoefSolved").nodeValue(),
-    toString(boss.numberCameraAngleCoefficientsSolved()));
+    QString::number(boss.numberCameraAngleCoefficientsSolved()));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
-    pointingOptionsAtts.namedItem("degree").nodeValue(), toString(boss.ckDegree()));
+    pointingOptionsAtts.namedItem("degree").nodeValue(), QString::number(boss.ckDegree()));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     pointingOptionsAtts.namedItem("solveDegree").nodeValue(),
-    toString(boss.ckSolveDegree()));
+    QString::number(boss.ckSolveDegree()));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     pointingOptionsAtts.namedItem("solveTwist").nodeValue(),
-    toString(boss.solveTwist()));
+    QString::number(boss.solveTwist()));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     pointingOptionsAtts.namedItem("solveOverExisting").nodeValue(),
-    toString(boss.solvePolyOverPointing()));
+    QString::number(boss.solvePolyOverPointing()));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     pointingOptionsAtts.namedItem("interpolationType").nodeValue(), "3");
@@ -415,23 +415,23 @@ TEST(BundleObservationSolveSettings, SaveSettings){
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     positionOptionsAtts.namedItem("numberCoefSolved").nodeValue(),
-    toString(boss.numberCameraPositionCoefficientsSolved()));
+    QString::number(boss.numberCameraPositionCoefficientsSolved()));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     positionOptionsAtts.namedItem("degree").nodeValue(),
-    toString(boss.spkDegree()));
+    QString::number(boss.spkDegree()));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     positionOptionsAtts.namedItem("degree").nodeValue(),
-    toString(boss.spkDegree()));
+    QString::number(boss.spkDegree()));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     positionOptionsAtts.namedItem("solveDegree").nodeValue(),
-    toString(boss.spkSolveDegree()));
+    QString::number(boss.spkSolveDegree()));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     positionOptionsAtts.namedItem("solveOverHermiteSpline").nodeValue(),
-    toString(boss.solvePositionOverHermite()));
+    QString::number(boss.solvePositionOverHermite()));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     positionOptionsAtts.namedItem("interpolationType").nodeValue(), "3");
@@ -529,7 +529,7 @@ INSTANTIATE_TEST_SUITE_P(BundleObservationSolveSettings, PositionSolveOptionStri
             QString("AllPolynomialCoefficients"))));
 
 TEST(BundleObservationSolveSettings, GroupConstructorBadOverhermite) {
-  std::string message = "The OVERHERMITE parameter must be set to TRUE or FALSE; YES or NO";
+  QString message = "The OVERHERMITE parameter must be set to TRUE or FALSE; YES or NO";
 
   PvlGroup settingsGroup("VO1/VISA");
   PvlKeyword camsolve("CamSolve");
@@ -555,7 +555,7 @@ TEST(BundleObservationSolveSettings, GroupConstructorBadOverhermite) {
 }
 
 TEST(BundleObservationSolveSettings, GroupConstructorBadTwist) {
-  std::string message = "The TWIST parameter must be set to TRUE or FALSE; YES or NO";
+  QString message = "The TWIST parameter must be set to TRUE or FALSE; YES or NO";
 
   PvlGroup settingsGroup("VO1/VISA");
   PvlKeyword camsolve("CamSolve");
@@ -581,7 +581,7 @@ TEST(BundleObservationSolveSettings, GroupConstructorBadTwist) {
 }
 
 TEST(BundleObservationSolveSettings, GroupConstructorBadOverExisting) {
-  std::string message = "The OVEREXISTING parameter must be set to TRUE or FALSE; YES or NO";
+  QString message = "The OVEREXISTING parameter must be set to TRUE or FALSE; YES or NO";
 
   PvlGroup settingsGroup("VO1/VISA");
   PvlKeyword camsolve("CamSolve");
@@ -608,7 +608,7 @@ TEST(BundleObservationSolveSettings, GroupConstructorBadOverExisting) {
 
 TEST(BundleObservationSolveSettings, PositionStringToOptionBadValue)
 {
-  std::string message = "Unknown bundle instrument position solve option foo.";
+  QString message = "Unknown bundle instrument position solve option foo.";
 
   try {
     BundleObservationSolveSettings::stringToInstrumentPositionSolveOption(
@@ -625,7 +625,7 @@ TEST(BundleObservationSolveSettings, PositionStringToOptionBadValue)
 
 TEST(BundleObservationSolveSettings, PointingStringToOptionBadValue)
 {
-  std::string message = "Unknown bundle instrument pointing solve option foo.";
+  QString message = "Unknown bundle instrument pointing solve option foo.";
 
   try {
     BundleObservationSolveSettings::stringToInstrumentPointingSolveOption(

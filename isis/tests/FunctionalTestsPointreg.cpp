@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/pointreg.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/pointreg.xml").expanded());
 
 TEST_F(ThreeImageNetwork, FunctionalTestPointregDefault) {
   Pvl log;
@@ -28,7 +28,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestPointregDefault) {
     pointreg(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check app log
@@ -67,7 +67,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestPointregFailOptions) {
     pointreg(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check app log
@@ -105,7 +105,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestPointregOutputOptionsA) {
     pointreg(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check app log
@@ -145,7 +145,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestPointregOutputOptionsB) {
     pointreg(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check app log
@@ -185,7 +185,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestPointregOutputOptionsC) {
     pointreg(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check app log
@@ -225,7 +225,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestPointregRegisterOptionsIgnored) {
     pointreg(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check app log
@@ -254,7 +254,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestPointregRegisterOptionsValid) {
     pointreg(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check app log
@@ -288,7 +288,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestPointregValidation) {
     pointreg(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check app log
@@ -328,7 +328,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestPointregValidationRevert) {
     pointreg(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check app log
@@ -369,7 +369,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestPointregValidationSkipped) {
     pointreg(options, &log);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() <<  e.toString().c_str() << std::endl;
   }
 
   // Check app log
