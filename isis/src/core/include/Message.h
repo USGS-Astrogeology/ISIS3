@@ -6,6 +6,7 @@ The authors of ISIS do not claim copyright on the contents of this file.
 For more details about the LICENSE terms and the AUTHORS, you will
 find files of those names at the top level of this repository. **/
 #include <vector>
+#include <string>
 
 namespace Isis {
   /* Documentation for this namespace is in:

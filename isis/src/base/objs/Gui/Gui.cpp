@@ -875,7 +875,7 @@ namespace Isis {
   void Gui::AboutIsis() {
     Isis::PvlGroup &uig = Isis::Preference::Preferences().findGroup("UserInterface");
 #if defined(__linux__)
-    QString command = (QString) uig["GuiHelpBrowser"] +
+    QString command = QString::fromStdString(uig["GuiHelpBrowser"]) +
                           " http://isis.astrogeology.usgs.gov >> /dev/null &";
 #elif defined(__APPLE__)
     QString command = "open -a" + QString::fromStdString(uig["GuiHelpBrowser"]) +
@@ -888,7 +888,7 @@ namespace Isis {
   void Gui::AboutProgram() {
     Isis::PvlGroup &uig = Isis::Preference::Preferences().findGroup("UserInterface");
 #if defined(__linux__)
-    QString command = (QString) uig["GuiHelpBrowser"] +
+    QString command = QString::fromStdString(uig["GuiHelpBrowser"]) +
                       " http://isis.astrogeology.usgs.gov/Application/presentation/Tabbed/" +
                       Isis::Application::GetUserInterface().ProgramName() + "/" +
                       Isis::Application::GetUserInterface().ProgramName() + ".html";

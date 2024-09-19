@@ -8,6 +8,7 @@ find files of those names at the top level of this repository. **/
 #include <cmath>
 #include <iomanip>
 #include <iostream>
+#include <climits>
 
 #include "Constants.h"
 #include "IException.h"
