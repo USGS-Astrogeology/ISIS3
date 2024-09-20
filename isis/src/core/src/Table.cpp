@@ -44,7 +44,7 @@ namespace Isis {
   Table::Table(const std::string &tableName, Isis::TableRecord &rec) {
     p_name = tableName;
     p_assoc = Table::None;
-    p_label += Isis::PvlKeyword("Records", 0);
+    p_label += Isis::PvlKeyword("Records", "0");
     p_label += Isis::PvlKeyword("ByteOrder", "NULL");
     for (int f = 0; f < rec.Fields(); f++) {
       p_label.addGroup(rec[f].pvlGroup());
