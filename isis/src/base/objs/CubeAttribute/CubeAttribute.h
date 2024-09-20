@@ -218,7 +218,7 @@ namespace Isis {
        *                         FileName("out.cub+Bsq")
        */
       void addAttributes(const FileName &fileNameWithAtts) {
-        addAttributes(fileNameWithAtts.attributes());
+        addAttributes(QString::fromStdString(fileNameWithAtts.attributes()));
       }
 
 
@@ -231,7 +231,7 @@ namespace Isis {
        *                         "+Bsq+Real" or "Bsq+Real"
        */
       void addAttributes(const char *attributesString) {
-        addAttributes(std::string(attributesString));
+        addAttributes(QString(attributesString));
       }
 
 
