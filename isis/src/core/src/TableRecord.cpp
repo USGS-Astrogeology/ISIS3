@@ -32,7 +32,7 @@ namespace Isis {
   * @param numOfFieldValues Number of fields (rows)
   */
   TableRecord::TableRecord(std::string tableRecordStr, char fieldDelimiter, 
-                            std::vector<QString> fieldNames, int numOfFieldValues) {
+                            std::vector<std::string> fieldNames, int numOfFieldValues) {
     std::stringstream tableRecordStream;
     tableRecordStream << tableRecordStr;
 

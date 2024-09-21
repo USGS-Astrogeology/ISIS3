@@ -79,7 +79,7 @@ namespace Isis {
       Table(const std::string &tableName, const std::string &file,
             const Pvl &fileHeader);
       Table(const Table &other);
-      Table(const QString &tableName, const std::string &tableString, const char &fieldDelimiter);
+      Table(const std::string &tableName, const std::string &tableString, const char &fieldDelimiter);
       Table &operator=(const Isis::Table &other);
 
       ~Table();

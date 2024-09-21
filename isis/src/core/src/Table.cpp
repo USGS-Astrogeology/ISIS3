@@ -145,7 +145,7 @@ namespace Isis {
    * @param tableStr The table string
    * @param fieldDelimiter The delimiter to separate fields with
   */
-  Table::Table(const QString &tableName, const std::string &tableString, const char &fieldDelimiter) {
+  Table::Table(const std::string &tableName, const std::string &tableString, const char &fieldDelimiter) {
     p_name = tableName;
 
     std::stringstream tableStream;
@@ -163,10 +163,10 @@ namespace Isis {
     std::stringstream fieldNamesStringStream;
     fieldNamesStringStream << fieldNamesLineString;
 
-    std::vector<QString> fieldNames;
+    std::vector<std::string> fieldNames;
     std::string fieldNameString;
     while(std::getline(fieldNamesStringStream, fieldNameString, fieldDelimiter)) {
-      fieldNames.push_back(QString::fromStdString(fieldNameString));
+      fieldNames.push_back(fieldNameString);
     }
 
     // Clear error flags and set pointer back to beginning

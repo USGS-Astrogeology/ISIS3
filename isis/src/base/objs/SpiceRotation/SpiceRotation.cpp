@@ -1881,7 +1881,7 @@ namespace Isis {
                                     const Source type) {
 
     if (type == PolyFunctionOverSpice && !m_orientation) {
-      QString msg = "The quaternion SPICE tables are no longer available. " 
+      std::string msg = "The quaternion SPICE tables are no longer available. " 
                     "Either re-run spiceinit or set OVEREXISTING to False.";
       throw IException(IException::User, msg, _FILEINFO_);
     }                             

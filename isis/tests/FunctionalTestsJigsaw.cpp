@@ -1908,10 +1908,10 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawSaveApplyValues) {
   HighFive::File file(bundleOutput.toStdString(), HighFive::File::ReadOnly);
 
   std::string datasetName = "/APOLLO15/METRIC/1971-08-01T15:37:39.428";
-  QString cmatrixName = "InstrumentPointing";
-  QString spvectorName = "InstrumentPosition";
-  std::string cmatrixKey = datasetName + "/" + cmatrixName.toStdString();
-  std::string spvectorKey = datasetName + "/" + spvectorName.toStdString();
+  std::string cmatrixName = "InstrumentPointing";
+  std::string spvectorName = "InstrumentPosition";
+  std::string cmatrixKey = datasetName + "/" + cmatrixName;
+  std::string spvectorKey = datasetName + "/" + spvectorName;
 
   HighFive::DataSet datasetRead = file.getDataSet(cmatrixKey);
   auto cmatrixData = datasetRead.read<std::string>();
@@ -1921,7 +1921,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawSaveApplyValues) {
   datasetRead = file.getDataSet(spvectorKey);
   auto spvectorData = datasetRead.read<std::string>();
   Table spvectorTable(spvectorName, spvectorData, ',');
-  std::string spvectorTableStr = Table::toString(spvectorTable).toStdString();
+  std::string spvectorTableStr = Table::toString(spvectorTable);
 
   EXPECT_EQ(cmatrixTable.RecordFields(), 8);
   EXPECT_EQ(spvectorTable.RecordFields(), 7);

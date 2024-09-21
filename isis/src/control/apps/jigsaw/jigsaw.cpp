@@ -82,7 +82,7 @@ namespace Isis {
           Cube *c = p.SetInputCube(snList->fileName(i), inAtt, ReadWrite);
 
           if (c->hasBlob("CSMState", "String")) {
-            QString msg = "Unable to apply bundle adjustment values to cubes with CSMState blobs.";
+            std::string msg = "Unable to apply bundle adjustment values to cubes with CSMState blobs.";
             throw IException(IException::User, msg, _FILEINFO_);
           }
 
@@ -96,16 +96,16 @@ namespace Isis {
           // Read h5 into table
           DataSet datasetRead = fileRead.getDataSet(cmatrixKey);
           auto cmatrixData = datasetRead.read<std::string>();
-          Table cmatrixTable(cmatrixName, cmatrixData, ',');
+          Table cmatrixTable(cmatrixName.toStdString(), cmatrixData, ',');
 
           datasetRead = fileRead.getDataSet(spvectorKey);
           auto spvectorData = datasetRead.read<std::string>();
-          Table spvectorTable(spvectorName, spvectorData, ',');
+          Table spvectorTable(spvectorName.toStdString(), spvectorData, ',');
 
           // Write bundle adjustment values out
-          cmatrixTable.Label().addComment(jigApplied);
+          cmatrixTable.Label().addComment(jigApplied.toStdString());
           c->write(cmatrixTable);
-          spvectorTable.Label().addComment(jigApplied);
+          spvectorTable.Label().addComment(jigApplied.toStdString());
           c->write(spvectorTable);
 
           p.WriteHistory(*c);
@@ -122,7 +122,7 @@ namespace Isis {
         return;
       }
     } catch (IException &e) {
-      QString msg = "Unable to apply bundle adjustment values from [" + ui.GetFileName("ADJUSTMENT_INPUT") + "]";
+      std::string msg = "Unable to apply bundle adjustment values from [" + ui.GetFileName("ADJUSTMENT_INPUT").toStdString() + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
     }
 
@@ -247,16 +247,16 @@ namespace Isis {
             Table spvector = bundleAdjustment->spVector(i);
 
             QString serialNumber = bundleAdjustment->serialNumberList()->serialNumber(i);
-            QString cmatrixName = cmatrix.Name();
-            QString spvectorName = spvector.Name();
+            std::string cmatrixName = cmatrix.Name();
+            std::string spvectorName = spvector.Name();
 
-            std::string cmatrixKey = serialNumber.toStdString() + "/" + cmatrixName.toStdString();
-            std::string spvectorKey = serialNumber.toStdString() + "/" + spvectorName.toStdString();
+            std::string cmatrixKey = serialNumber.toStdString() + "/" + cmatrixName;
+            std::string spvectorKey = serialNumber.toStdString() + "/" + spvectorName;
 
             // Save bundle adjustment values to HDF5 file
-            std::string cmatrixTableStr = Table::toString(cmatrix).toStdString();
+            std::string cmatrixTableStr = Table::toString(cmatrix);
             DataSet dataset = file.createDataSet<std::string>(cmatrixKey, cmatrixTableStr);
-            std::string spvectorTableStr = Table::toString(spvector).toStdString();
+            std::string spvectorTableStr = Table::toString(spvector);
             dataset = file.createDataSet<std::string>(spvectorKey, spvectorTableStr);
           }
         }

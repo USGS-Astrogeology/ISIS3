@@ -327,23 +327,23 @@ TEST(TableTests, FromString) {
 
   std::cout << "tableStr=" << tableStr << std::endl;
 
-  QString tableName = QString::fromStdString("TestTableName");
+  std::string tableName = "TestTableName";
 
   std::stringstream tableStrStream;
   tableStrStream << tableStr;
   
   Table table(tableName, tableStr, ',');
   std::cout << "Created table with table string" << std::endl;
-  std::cout << "Table name=" << table.Name().toStdString() << std::endl;
+  std::cout << "Table name=" << table.Name() << std::endl;
   std::cout << "Table recordFields=" << static_cast<int>(table.RecordFields()) << std::endl;
   std::cout << "Table recordSize=" << static_cast<int>(table.RecordSize()) << std::endl;
 
   for (int i = 0; i < table.Records(); i++) {
-    std::cout << "Table[" << i << "] record=" << TableRecord::toString(table[i]).toStdString() << std::endl;
+    std::cout << "Table[" << i << "] record=" << TableRecord::toString(table[i]) << std::endl;
   }
 
-  QString tableToString = Table::toString(table);
-  std::cout << "tableToString=" << tableToString.toStdString() << std::endl;
+  std::string tableToString = Table::toString(table);
+  std::cout << "tableToString=" << tableToString << std::endl;
 
-  EXPECT_EQ(tableStr, tableToString.toStdString());
+  EXPECT_EQ(tableStr, tableToString);
 }
