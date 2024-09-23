@@ -696,7 +696,7 @@ namespace Isis {
 
     if(argument == "") {
       throw IException(IException::User,
-                       "Argument " + toString(argNum + 1) + " in function " + funcName.toStdString() + " must not be empty.",
+                       "Argument " + Isis::toString(argNum + 1) + " in function " + funcName.toStdString() + " must not be empty.",
                        _FILEINFO_);
     }
   }

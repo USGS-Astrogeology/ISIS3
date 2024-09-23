@@ -123,16 +123,16 @@ namespace Isis {
           bytesPerPixel /= 8;
 
           unsigned int axis1 = 1;
-          axis1 = IString::ToInteger((*fitsLabel)["NAXIS1"]);
+          axis1 = Isis::toInt((*fitsLabel)["NAXIS1"]);
 
           unsigned int axis2 = 1;
           if (fitsLabel->hasKeyword("NAXIS2")) {
-            axis2 = IString::ToInteger((*fitsLabel)["NAXIS2"]);
+            axis2 = Isis::toInt((*fitsLabel)["NAXIS2"]);
           }
 
           unsigned int axis3 = 1;
           if (fitsLabel->hasKeyword("NAXIS3")) {
-            axis3 = IString::ToInteger((*fitsLabel)["NAXIS3"]);
+            axis3 = Isis::toInt((*fitsLabel)["NAXIS3"]);
           }
 
           jump = (int)(ceil(bytesPerPixel * axis1 * axis2 * axis3 / 2880.0) * 2880.0);

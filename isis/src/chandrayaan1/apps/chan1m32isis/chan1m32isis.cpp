@@ -207,11 +207,11 @@ namespace Isis {
       }
       else {
         importPds.StartProcess(writeCubeWithDroppedLines);
-        g_results += PvlKeyword("LinesFlipped", toString(linesNeedFlipped));
-        g_results += PvlKeyword("SamplesFlipped", toString(samplesNeedFlipped));
-        g_results += PvlKeyword("LinesAdded", toString(g_totalLinesAdded));
-        g_results += PvlKeyword("OutputLines", toString(outputLines));
-        g_results += PvlKeyword("CalculatedOutputLines", toString(calcOutputLines));
+        g_results += PvlKeyword("LinesFlipped", Isis::toString(linesNeedFlipped));
+        g_results += PvlKeyword("SamplesFlipped", Isis::toString(samplesNeedFlipped));
+        g_results += PvlKeyword("LinesAdded", Isis::toString(g_totalLinesAdded));
+        g_results += PvlKeyword("OutputLines", Isis::toString(outputLines));
+        g_results += PvlKeyword("CalculatedOutputLines", Isis::toString(calcOutputLines));
       }
 
       delete g_oBuff;
@@ -423,7 +423,7 @@ namespace Isis {
       }
       PvlKeyword originalBand("OriginalBand");
       for (int i = 1; i <= numBands; i++) {
-        originalBand.addValue(toString(i));
+        originalBand.addValue(Isis::toString(i));
       }
       bandGroup += originalBand;
       ocube->putGroup(bandGroup);
@@ -433,8 +433,8 @@ namespace Isis {
         PvlGroup calib("RadiometricCalibration");
         PvlKeyword solar = pdsLabel["SOLAR_DISTANCE"];
         calib += PvlKeyword("Units", "W/m2/um/sr");
-        calib += PvlKeyword("SolarDistance", toString((double)solar), solar.unit());
-        calib += PvlKeyword("DetectorTemperature", toString((double)pdsLabel["DETECTOR_TEMPERATURE"]));
+        calib += PvlKeyword("SolarDistance", Isis::toString((double)solar), solar.unit());
+        calib += PvlKeyword("DetectorTemperature", Isis::toString((double)pdsLabel["DETECTOR_TEMPERATURE"]));
         calib += PvlKeyword("SpectralCalibrationFileName",
                             pdsLabel["CH1:SPECTRAL_CALIBRATION_FILE_NAME"]);
         calib += PvlKeyword("RadGainFactorFileName",

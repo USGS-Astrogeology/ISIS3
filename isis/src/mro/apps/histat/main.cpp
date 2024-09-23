@@ -314,19 +314,19 @@ PvlGroup PvlStats(Statistics &stats, const QString &name) {
   // Construct a label with the results
   PvlGroup results(name.toStdString());
   if(stats.ValidPixels() != 0) {
-    results += PvlKeyword("Average", toString(stats.Average()));
-    results += PvlKeyword("StandardDeviation", toString(stats.StandardDeviation()));
-    results += PvlKeyword("Variance", toString(stats.Variance()));
-    results += PvlKeyword("Minimum", toString(stats.Minimum()));
-    results += PvlKeyword("Maximum", toString(stats.Maximum()));
+    results += PvlKeyword("Average", Isis::toString(stats.Average()));
+    results += PvlKeyword("StandardDeviation", Isis::toString(stats.StandardDeviation()));
+    results += PvlKeyword("Variance", Isis::toString(stats.Variance()));
+    results += PvlKeyword("Minimum", Isis::toString(stats.Minimum()));
+    results += PvlKeyword("Maximum", Isis::toString(stats.Maximum()));
   }
-  results += PvlKeyword("TotalPixels", toString(stats.TotalPixels()));
-  results += PvlKeyword("ValidPixels", toString(stats.ValidPixels()));
-  results += PvlKeyword("NullPixels", toString(stats.NullPixels()));
-  results += PvlKeyword("LisPixels", toString(stats.LisPixels()));
-  results += PvlKeyword("LrsPixels", toString(stats.LrsPixels()));
-  results += PvlKeyword("HisPixels", toString(stats.HisPixels()));
-  results += PvlKeyword("HrsPixels", toString(stats.HrsPixels()));
+  results += PvlKeyword("TotalPixels", Isis::toString(stats.TotalPixels()));
+  results += PvlKeyword("ValidPixels", Isis::toString(stats.ValidPixels()));
+  results += PvlKeyword("NullPixels", Isis::toString(stats.NullPixels()));
+  results += PvlKeyword("LisPixels", Isis::toString(stats.LisPixels()));
+  results += PvlKeyword("LrsPixels", Isis::toString(stats.LrsPixels()));
+  results += PvlKeyword("HisPixels", Isis::toString(stats.HisPixels()));
+  results += PvlKeyword("HrsPixels", Isis::toString(stats.HrsPixels()));
   return results;
 }
 

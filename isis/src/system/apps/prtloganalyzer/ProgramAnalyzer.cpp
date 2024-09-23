@@ -202,16 +202,16 @@ void ProgramAnalyzer::add(PvlObject &program) {
 PvlGroup ProgramAnalyzer::review(const QString &name) const {
   PvlGroup pvl(name.toStdString());
 
-  pvl += PvlKeyword("Programs", toString(size()));
-  pvl += PvlKeyword("Unique", toString(Programs()));
-  pvl += PvlKeyword("Included", toString(LimitTotals(_includes)));
-  pvl += PvlKeyword("Excluded", toString(LimitTotals(_excludes)));
-  pvl += PvlKeyword("Valid", toString(valid()));
-  pvl += PvlKeyword("Errors", toString(errors()));
-  pvl += PvlKeyword("ZeroTime", toString(zerotime()));
-  pvl += PvlKeyword("NoData", toString(nodata()));
-  pvl += PvlKeyword("BadData", toString(baddata()));
-  pvl += PvlKeyword("Total", toString(count()));
+  pvl += PvlKeyword("Programs", Isis::toString(size()));
+  pvl += PvlKeyword("Unique", Isis::toString(Programs()));
+  pvl += PvlKeyword("Included", Isis::toString(LimitTotals(_includes)));
+  pvl += PvlKeyword("Excluded", Isis::toString(LimitTotals(_excludes)));
+  pvl += PvlKeyword("Valid", Isis::toString(valid()));
+  pvl += PvlKeyword("Errors", Isis::toString(errors()));
+  pvl += PvlKeyword("ZeroTime", Isis::toString(zerotime()));
+  pvl += PvlKeyword("NoData", Isis::toString(nodata()));
+  pvl += PvlKeyword("BadData", Isis::toString(baddata()));
+  pvl += PvlKeyword("Total", Isis::toString(count()));
   return (pvl);
 }
 
@@ -490,7 +490,7 @@ PvlGroup ProgramAnalyzer::toPvl(const RunTimeStats &stats,
                                 const QString &name) const {
   PvlGroup pvl((name.isEmpty() ? stats.pname.toStdString() : name.toStdString()));
 
-  pvl += PvlKeyword("Hits", toString(stats.contime.TotalPixels()));
+  pvl += PvlKeyword("Hits", Isis::toString(stats.contime.TotalPixels()));
   pvl += PvlKeyword("ConnectTimeMinimum", DblToStr(stats.contime.Minimum(), 2).toStdString());
   pvl += PvlKeyword("ConnectTimeMaximum", DblToStr(stats.contime.Maximum(), 2).toStdString());
   pvl += PvlKeyword("ConnectTimeAverage", DblToStr(stats.contime.Average(), 2).toStdString());

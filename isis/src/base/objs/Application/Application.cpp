@@ -530,7 +530,7 @@ namespace Isis {
           "process. A communication channel was established with the parent "
           "(launcher) process, but when we tried to send data to the parent "
           "process an error occurred. The parent process has a PID of [" +
-          std::to_string(iApp->GetUserInterface().ParentId()) + "]";
+          Isis::toString(iApp->GetUserInterface().ParentId()) + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 

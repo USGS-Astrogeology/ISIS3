@@ -134,49 +134,49 @@ namespace Isis {
     PvlGroup shadowStats("ShadowStatistics");
 
     shadowStats += PvlKeyword("NumComputedAzimuthElevations",
-                              toString(m_azimuthStats->ValidPixels()));
+                              Isis::toString(m_azimuthStats->ValidPixels()));
 
     if (m_azimuthStats->ValidPixels() > 0) {
       PvlKeyword averageAzimuth("AverageAzimuth",
-                                toString(m_azimuthStats->Average()));
+                                Isis::toString(m_azimuthStats->Average()));
       averageAzimuth.addCommentWrapped("The azimuth is measured from three o'clock, going "
                                        "clockwise, in degrees");
       shadowStats += averageAzimuth;
 
-      shadowStats += PvlKeyword("MinimumAzimuth", toString(m_azimuthStats->Minimum()));
-      shadowStats += PvlKeyword("MaximumAzimuth", toString(m_azimuthStats->Maximum()));
+      shadowStats += PvlKeyword("MinimumAzimuth", Isis::toString(m_azimuthStats->Minimum()));
+      shadowStats += PvlKeyword("MaximumAzimuth", Isis::toString(m_azimuthStats->Maximum()));
 
-      PvlKeyword averageElevation("AverageElevation", toString(m_elevationStats->Average()));
+      PvlKeyword averageElevation("AverageElevation", Isis::toString(m_elevationStats->Average()));
       averageElevation.addCommentWrapped("The elevation is measured from the normal, with directly "
           "overhead being 0 degrees and the horizon 90 degrees. Elevations are prevented from "
           "going below the horizon.");
       shadowStats += averageElevation;
 
-      shadowStats += PvlKeyword("MinimumElevation", toString(m_elevationStats->Minimum()));
-      shadowStats += PvlKeyword("MaximumElevation", toString(m_elevationStats->Maximum()));
+      shadowStats += PvlKeyword("MinimumElevation", Isis::toString(m_elevationStats->Minimum()));
+      shadowStats += PvlKeyword("MaximumElevation", Isis::toString(m_elevationStats->Maximum()));
     }
 
-    PvlKeyword numRays("NumRays", toString(m_rayLengthStats->ValidPixels()));
+    PvlKeyword numRays("NumRays", Isis::toString(m_rayLengthStats->ValidPixels()));
     numRays.addCommentWrapped("This is the total number of rays traced from the surface towards "
                               "the sun in order to detect if any given pixel is in shadow");
     shadowStats += numRays;
 
     shadowStats += PvlKeyword("NumRayDemIntersections",
-                              toString(qRound(m_rayLengthStats->Sum())));
+                              Isis::toString(qRound(m_rayLengthStats->Sum())));
 
     if (m_rayLengthStats->ValidPixels() > 0) {
       shadowStats += PvlKeyword("AverageRayDemIntersectionsPerRay",
-                                toString(m_rayLengthStats->Average()));
+                                Isis::toString(m_rayLengthStats->Average()));
     }
 
     shadowStats += PvlKeyword("NumLightedPixels",
-        toString(qRound((1.0 - m_shadowedStats->Average()) * m_shadowedStats->ValidPixels())));
+        Isis::toString(qRound((1.0 - m_shadowedStats->Average()) * m_shadowedStats->ValidPixels())));
     shadowStats += PvlKeyword("NumShadowedPixels",
-        toString(qRound(m_shadowedStats->Average() * m_shadowedStats->ValidPixels())));
+        Isis::toString(qRound(m_shadowedStats->Average() * m_shadowedStats->ValidPixels())));
     shadowStats += PvlKeyword("NumSpecialPixels",
-        toString(m_shadowedStats->TotalPixels() - m_shadowedStats->ValidPixels()));
+        Isis::toString(m_shadowedStats->TotalPixels() - m_shadowedStats->ValidPixels()));
     shadowStats += PvlKeyword("NumPixelsShadowedByRays",
-        toString(qRound(m_shadowedByRayStats->Sum())));
+        Isis::toString(qRound(m_shadowedByRayStats->Sum())));
 
     return shadowStats;
   }

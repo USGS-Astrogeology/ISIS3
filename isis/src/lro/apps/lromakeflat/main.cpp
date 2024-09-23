@@ -361,8 +361,8 @@ void getCubeListNormalization(Matrix2d &matrix, int cubeWidth, int frameHeight, 
       double normalizationAverage = hist.Average();
       matrix[listIndex][frame] = normalizationAverage;
       normResults += PvlKeyword("FileName", g_list[listIndex].toString());
-      normResults += PvlKeyword("Frame", toString(frame));
-      normResults += PvlKeyword("Frame_MeanAverage", toString(normalizationAverage));
+      normResults += PvlKeyword("Frame", Isis::toString(frame));
+      normResults += PvlKeyword("Frame_MeanAverage", Isis::toString(normalizationAverage));
       Application::Log(normResults);
     }
     tmp.close();
@@ -504,7 +504,7 @@ void exclude(int listIndex, int frame, string reason){
     PvlObject exclusion("Excluded_Items");
     PvlGroup excludedFiles("Excluded_Frames");
     excludedFiles += PvlKeyword("Frame_from_cube", g_list[listIndex].toString());
-    excludedFiles += PvlKeyword("Frame_number", toString(frame));
+    excludedFiles += PvlKeyword("Frame_number", Isis::toString(frame));
     excludedFiles += PvlKeyword("Exclusion_reason", reason);
     Application::Log(excludedFiles);
     exclusion.addGroup(excludedFiles);

@@ -153,7 +153,7 @@ void compareKeywords(PvlKeyword &pvl1, PvlKeyword &pvl2) {
         double difference = abs(val1.toDouble() - val2.toDouble());
 
         if ( tolerances.hasKeyword(pvl1.name()) ) {
-          tolerance = IString::ToDouble(
+          tolerance = Isis::toDouble(
               (tolerances[pvl1.name()].size() == 1) ?
                  tolerances[pvl1.name()][0] : tolerances[pvl1.name()][i]);
         }

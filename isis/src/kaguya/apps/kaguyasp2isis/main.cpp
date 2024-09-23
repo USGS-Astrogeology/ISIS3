@@ -58,19 +58,19 @@ void IsisMain() {
   int qaptr = 0;
 
   if (lab.hasKeyword("^SP_SPECTRUM_WAV")) {
-    wavptr = IString::ToInteger(lab.findKeyword("^SP_SPECTRUM_WAV")[0]) - 1;
+    wavptr = Isis::toInt(lab.findKeyword("^SP_SPECTRUM_WAV")[0]) - 1;
   }
   if (lab.hasKeyword("^SP_SPECTRUM_RAW")) {
-    rawptr = IString::ToInteger(lab.findKeyword("^SP_SPECTRUM_RAW")[0]) - 1;
+    rawptr = Isis::toInt(lab.findKeyword("^SP_SPECTRUM_RAW")[0]) - 1;
   }
   if (lab.hasKeyword("^SP_SPECTRUM_RAD")) {
-    radptr = IString::ToInteger(lab.findKeyword("^SP_SPECTRUM_RAD")[0]) - 1;
+    radptr = Isis::toInt(lab.findKeyword("^SP_SPECTRUM_RAD")[0]) - 1;
   }
   if (lab.hasKeyword("^SP_SPECTRUM_REF")) {
-    refptr = IString::ToInteger(lab.findKeyword("^SP_SPECTRUM_REF")[0]) - 1;
+    refptr = Isis::toInt(lab.findKeyword("^SP_SPECTRUM_REF")[0]) - 1;
   }
   if (lab.hasKeyword("^SP_SPECTRUM_QA")) {
-    qaptr = IString::ToInteger(lab.findKeyword("^SP_SPECTRUM_REF")[0]) - 1;
+    qaptr = Isis::toInt(lab.findKeyword("^SP_SPECTRUM_REF")[0]) - 1;
   }
 
   FILE *spcptr;
@@ -97,10 +97,10 @@ void IsisMain() {
   }
 
   PvlObject wavobj = lab.findObject("SP_SPECTRUM_WAV");
-  int wavlines = IString::ToInteger(wavobj.findKeyword("LINES")[0]);
-  int wavsamps = IString::ToInteger(wavobj.findKeyword("LINE_SAMPLES")[0]);
+  int wavlines = Isis::toInt(wavobj.findKeyword("LINES")[0]);
+  int wavsamps = Isis::toInt(wavobj.findKeyword("LINE_SAMPLES")[0]);
   QString wavtype = QString::fromStdString(wavobj.findKeyword("SAMPLE_TYPE"));
-  int wavbits = IString::ToInteger(wavobj.findKeyword("SAMPLE_BITS")[0]);
+  int wavbits = Isis::toInt(wavobj.findKeyword("SAMPLE_BITS")[0]);
   if (wavlines != 1 || wavsamps != 296 || wavtype != "MSB_UNSIGNED_INTEGER" ||
       wavbits != 16) {
     std::string msg = "Wavelength data in input file does not meet the following ";
@@ -136,10 +136,10 @@ void IsisMain() {
   }
 
   PvlObject rawobj = lab.findObject("SP_SPECTRUM_RAW");
-  int rawlines = IString::ToInteger(rawobj.findKeyword("LINES")[0]);
-  int rawsamps = IString::ToInteger(rawobj.findKeyword("LINE_SAMPLES")[0]);
+  int rawlines = Isis::toInt(rawobj.findKeyword("LINES")[0]);
+  int rawsamps = Isis::toInt(rawobj.findKeyword("LINE_SAMPLES")[0]);
   QString rawtype = QString::fromStdString(rawobj.findKeyword("SAMPLE_TYPE"));
-  int rawbits = IString::ToInteger(rawobj.findKeyword("SAMPLE_BITS")[0]);
+  int rawbits = Isis::toInt(rawobj.findKeyword("SAMPLE_BITS")[0]);
   if (rawsamps != 296 || rawtype != "MSB_UNSIGNED_INTEGER" ||
       rawbits != 16) {
     std::string msg = "Raw data in input file does not meet the following ";
@@ -174,10 +174,10 @@ void IsisMain() {
   }
 
   PvlObject qaobj = lab.findObject("SP_SPECTRUM_QA");
-  int qalines = IString::ToInteger(qaobj.findKeyword("LINES")[0]);
-  int qasamps = IString::ToInteger(qaobj.findKeyword("LINE_SAMPLES")[0]);
+  int qalines = Isis::toInt(qaobj.findKeyword("LINES")[0]);
+  int qasamps = Isis::toInt(qaobj.findKeyword("LINE_SAMPLES")[0]);
   QString qatype = QString::fromStdString(qaobj.findKeyword("SAMPLE_TYPE"));
-  int qabits = IString::ToInteger(qaobj.findKeyword("SAMPLE_BITS")[0]);
+  int qabits = Isis::toInt(qaobj.findKeyword("SAMPLE_BITS")[0]);
   if (qalines != rawlines || qasamps != 296 || qatype != "MSB_UNSIGNED_INTEGER" ||
       qabits != 16) {
     std::string msg = "Quality Assessment data in input file does not meet the ";
@@ -212,10 +212,10 @@ void IsisMain() {
   }
 
   PvlObject radobj = lab.findObject("SP_SPECTRUM_RAD");
-  int radlines = IString::ToInteger(radobj.findKeyword("LINES")[0]);
-  int radsamps = IString::ToInteger(radobj.findKeyword("LINE_SAMPLES")[0]);
+  int radlines = Isis::toInt(radobj.findKeyword("LINES")[0]);
+  int radsamps = Isis::toInt(radobj.findKeyword("LINE_SAMPLES")[0]);
   QString radtype = QString::fromStdString(radobj.findKeyword("SAMPLE_TYPE"));
-  int radbits = IString::ToInteger(radobj.findKeyword("SAMPLE_BITS")[0]);
+  int radbits = Isis::toInt(radobj.findKeyword("SAMPLE_BITS")[0]);
   if (radlines != qalines || radsamps != 296 || radtype != "MSB_UNSIGNED_INTEGER" ||
       radbits != 16) {
     std::string msg = "Radiance data in input file does not meet the following ";
@@ -250,10 +250,10 @@ void IsisMain() {
   }
 
   PvlObject refobj = lab.findObject("SP_SPECTRUM_REF");
-  int reflines = IString::ToInteger(refobj.findKeyword("LINES")[0]);
-  int refsamps = IString::ToInteger(refobj.findKeyword("LINE_SAMPLES")[0]);
+  int reflines = Isis::toInt(refobj.findKeyword("LINES")[0]);
+  int refsamps = Isis::toInt(refobj.findKeyword("LINE_SAMPLES")[0]);
   QString reftype = QString::fromStdString(refobj.findKeyword("SAMPLE_TYPE"));
-  int refbits = IString::ToInteger(refobj.findKeyword("SAMPLE_BITS")[0]);
+  int refbits = Isis::toInt(refobj.findKeyword("SAMPLE_BITS")[0]);
   if (reflines != radlines || refsamps != 296 || reftype != "MSB_UNSIGNED_INTEGER" ||
       refbits != 16) {
     std::string msg = "Reflectance data in input file does not meet the following ";

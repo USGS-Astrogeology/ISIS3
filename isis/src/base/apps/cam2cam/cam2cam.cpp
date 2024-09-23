@@ -70,7 +70,7 @@ namespace Isis {
     // Set the reference band we want to match
     PvlGroup instgrp = mcube->group("Instrument");
     if (!outcam->IsBandIndependent()) {
-      PvlKeyword rBand("ReferenceBand", toString(referenceBand));
+      PvlKeyword rBand("ReferenceBand", Isis::toString(referenceBand));
       rBand.addComment("# All bands are aligned to reference band");
       instgrp += rBand;
       mcube->putGroup(instgrp);

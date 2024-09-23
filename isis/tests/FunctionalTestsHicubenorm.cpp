@@ -130,10 +130,10 @@ TEST_F(MroHiriseCube, FunctionalTestHicubenormNewVersion) {
   PvlGroup stats("Results");
   for(int i = 1; i <= 1204; i++) {
     stats += PvlKeyword("Band", "1");
-    stats += PvlKeyword("RowCol", toString(i));
-    stats += PvlKeyword("ValidPixels", toString(1056));
-    stats += PvlKeyword("Mean", toString(i));
-    stats += PvlKeyword("Median", toString(i/2));
+    stats += PvlKeyword("RowCol", Isis::toString(i));
+    stats += PvlKeyword("ValidPixels", Isis::toString(1056));
+    stats += PvlKeyword("Mean", Isis::toString(i));
+    stats += PvlKeyword("Median", Isis::toString(i/2));
     // the rest shouldn't matter
     stats += PvlKeyword("Std", "0.0");
     stats += PvlKeyword("Minimum", "0.0");

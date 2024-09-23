@@ -121,7 +121,7 @@ void IsisMain() {
 
   //  Create YearDoy keyword in Archive group
   iTime stime( QString::fromStdString(outLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]));
-  PvlKeyword yeardoy("YearDoy", toString(stime.Year()*1000 + stime.DayOfYear()));
+  PvlKeyword yeardoy("YearDoy", Isis::toString(stime.Year()*1000 + stime.DayOfYear()));
   (void) outLabel.findGroup("Archive", Pvl::Traverse).addKeyword(yeardoy);
 
   if(ui.GetBoolean("UNLUT") == false || !needsUnlut) {
@@ -133,7 +133,7 @@ void IsisMain() {
     // Write the Instrument, BandBin, Archive, and Kernels groups to the output
     // cube label
     PvlGroup &group =  outLabel.findGroup("Instrument", Pvl::Traverse);
-    group.addKeyword(PvlKeyword("Unlutted", toString((int)!needsUnlut)));
+    group.addKeyword(PvlKeyword("Unlutted", Isis::toString((int)!needsUnlut)));
     outCube->putGroup(group);
     outCube->putGroup(outLabel.findGroup("BandBin", Pvl::Traverse));
 
@@ -162,7 +162,7 @@ void IsisMain() {
     outCube->create(ui.GetCubeName("TO"));
 
     PvlGroup &group =  outLabel.findGroup("Instrument", Pvl::Traverse);
-    group.addKeyword(PvlKeyword("Unlutted", toString((int)true)));
+    group.addKeyword(PvlKeyword("Unlutted", Isis::toString((int)true)));
     group.addKeyword(PvlKeyword("LutInversionTable", lutfile.toStdString()));
     outCube->label()->findObject("IsisCube").addGroup(group);
 
@@ -237,7 +237,7 @@ Pvl TranslateMdisEdrLabels(FileName &labelFile, const QString &target) {
 //  Compute the gimble pivot angle and write to the label
   double pivotCounter = (double) instGrp["PivotPosition"];
   double pivotAngle   = pivotCounter / ((double)(2 << 15)) * 180.0;
-  instGrp += PvlKeyword("PivotAngle", toString(pivotAngle), "Degrees");
+  instGrp += PvlKeyword("PivotAngle", Isis::toString(pivotAngle), "Degrees");
 
   return outLabel;
 }
@@ -304,7 +304,7 @@ int CreateFilterSpecs(const QString &instId, int filter_code,
 
     naifCode =  "-236800";
     for(int filterTry = 1; filterTry <= 12 ; filterTry++) {
-      int idealPosition = confgrp["EncoderPosition" + toString(filterTry)];
+      int idealPosition = confgrp["EncoderPosition" + Isis::toString(filterTry)];
       if((filter_code <= (idealPosition + tolerance)) &&
           (filter_code >= (idealPosition - tolerance))) {
         int fno = filterTry - 1;
@@ -324,7 +324,7 @@ int CreateFilterSpecs(const QString &instId, int filter_code,
   }
 
   if(!name.isEmpty()) {
-    bandbin.addKeyword(PvlKeyword("Number", toString(filter)), PvlContainer::Replace);
+    bandbin.addKeyword(PvlKeyword("Number", Isis::toString(filter)), PvlContainer::Replace);
     bandbin.addKeyword(PvlKeyword("Name", name.toStdString()), PvlContainer::Replace);
     bandbin.addKeyword(PvlKeyword("Center", center.toStdString(), "NM"), PvlContainer::Replace);
     bandbin.addKeyword(PvlKeyword("Width", width.toStdString(), "NM"), PvlContainer::Replace);

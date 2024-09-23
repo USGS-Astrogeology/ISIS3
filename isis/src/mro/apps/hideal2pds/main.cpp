@@ -194,7 +194,7 @@ void IsisMain() {
 
   // change SAMPLE_BIT_MASK value according to BITS input
   PvlObject &image = pdsLabel.findObject("IMAGE");
-  image.addKeyword(PvlKeyword("SAMPLE_BIT_MASK", toString((int)pow(2.0, (double)nbits) - 1)),
+  image.addKeyword(PvlKeyword("SAMPLE_BIT_MASK", Isis::toString((int)pow(2.0, (double)nbits) - 1)),
                    Pvl::Replace);
 
   Camera *cam = inputCube->camera();
@@ -273,7 +273,7 @@ void IsisMain() {
   }
   else {
     tableKeyword = PvlKeyword("SOLAR_LONGITUDE",
-                              toString(cam->solarLongitude().force360Domain()
+                              Isis::toString(cam->solarLongitude().force360Domain()
                                    .positiveEast(Angle::Degrees)),
                               "DEGREES");
   }
@@ -419,10 +419,10 @@ void updatePdsLabelImageObject(PvlObject *isisCubeLab, Pvl &pdsLabel) {
     firstSample = alphaStartingSample;
     firstLine = alphaStartingLine;
   }
-  image += PvlKeyword("SOURCE_LINE_SAMPLES", toString(sourceSamples));
-  image += PvlKeyword("SOURCE_LINES", toString(sourceLines));
-  image += PvlKeyword("FIRST_LINE_SAMPLE", toString(firstSample));
-  image += PvlKeyword("FIRST_LINE", toString(firstLine));
+  image += PvlKeyword("SOURCE_LINE_SAMPLES", Isis::toString(sourceSamples));
+  image += PvlKeyword("SOURCE_LINES", Isis::toString(sourceLines));
+  image += PvlKeyword("FIRST_LINE_SAMPLE", Isis::toString(firstSample));
+  image += PvlKeyword("FIRST_LINE", Isis::toString(firstLine));
 
 
   // Add center wavelength and bandwidth with correct units to the IMAGE object
@@ -503,7 +503,7 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
   pdsLabel += PvlKeyword("PRODUCT_VERSION_ID", ui.GetString("VERSION").toStdString());
 
   // Add the N/A constant keyword to the ROOT object
-  pdsLabel += PvlKeyword("NOT_APPLICABLE_CONSTANT", toString(-9998));
+  pdsLabel += PvlKeyword("NOT_APPLICABLE_CONSTANT", Isis::toString(-9998));
 
   // Compute and add SOFTWARE_NAME to the ROOT object
   QString sfname;
@@ -520,9 +520,9 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
   bool jitter = false;
   if (isisCubeLab->findObject("IsisCube").findGroup("Instrument")
                  .hasKeyword("ImageJitterCorrected")) {
-    jitter = IString::ToInteger(isisCubeLab->findObject("IsisCube")
+    jitter = Isis::toInt(isisCubeLab->findObject("IsisCube")
                             .findGroup("Instrument")["ImageJitterCorrected"][0]);
-    pdsLabel += PvlKeyword("IMAGE_JITTER_CORRECTED", toString((int)jitter));
+    pdsLabel += PvlKeyword("IMAGE_JITTER_CORRECTED", Isis::toString((int)jitter));
   }
   else {
     pdsLabel += PvlKeyword("IMAGE_JITTER_CORRECTED", "UNK");
@@ -550,30 +550,30 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
   else {
     Distance naifBodyRadii[3];
     cam->radii(naifBodyRadii);
-    pdsLabel += PvlKeyword("A_AXIS_RADIUS", toString(naifBodyRadii[0].kilometers()), "KILOMETERS");
-    pdsLabel += PvlKeyword("B_AXIS_RADIUS", toString(naifBodyRadii[1].kilometers()), "KILOMETERS");
-    pdsLabel += PvlKeyword("C_AXIS_RADIUS", toString(naifBodyRadii[2].kilometers()), "KILOMETERS");
+    pdsLabel += PvlKeyword("A_AXIS_RADIUS", Isis::toString(naifBodyRadii[0].kilometers()), "KILOMETERS");
+    pdsLabel += PvlKeyword("B_AXIS_RADIUS", Isis::toString(naifBodyRadii[1].kilometers()), "KILOMETERS");
+    pdsLabel += PvlKeyword("C_AXIS_RADIUS", Isis::toString(naifBodyRadii[2].kilometers()), "KILOMETERS");
   }
 
   if (naifKeywordGroup.hasKeyword("BODY_FRAME_CODE")) {
     pdsLabel += naifKeywordGroup.findKeyword("BODY_FRAME_CODE");
   }
   else {
-    pdsLabel += PvlKeyword("BODY_FRAME_CODE", toString(cam->naifBodyFrameCode()));
+    pdsLabel += PvlKeyword("BODY_FRAME_CODE", Isis::toString(cam->naifBodyFrameCode()));
   }
 
   if (naifKeywordGroup.hasKeyword("IDEAL_FOCAL_LENGTH")) {
     pdsLabel += naifKeywordGroup.findKeyword("IDEAL_FOCAL_LENGTH");
   }
   else {
-    pdsLabel += PvlKeyword("IDEAL_FOCAL_LENGTH", toString(cam->FocalLength()));
+    pdsLabel += PvlKeyword("IDEAL_FOCAL_LENGTH", Isis::toString(cam->FocalLength()));
   }
 
   if (naifKeywordGroup.hasKeyword("IDEAL_PIXEL_PITCH")) {
     pdsLabel += naifKeywordGroup.findKeyword("IDEAL_PIXEL_PITCH");
   }
   else {
-    pdsLabel += PvlKeyword("IDEAL_PIXEL_PITCH", toString(cam->PixelPitch()));
+    pdsLabel += PvlKeyword("IDEAL_PIXEL_PITCH", Isis::toString(cam->PixelPitch()));
   }
 
   if (naifKeywordGroup.hasKeyword("IDEAL_TRANSX")) {
@@ -583,7 +583,7 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
     const double *transXValues = cam->FocalPlaneMap()->TransX();
     PvlKeyword transX("IDEAL_TRANSX");
     for (int i = 0; i < 3; i++) {
-      transX += toString(transXValues[i]);
+      transX += Isis::toString(transXValues[i]);
     }
     pdsLabel += transX;
   }
@@ -595,7 +595,7 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
     const double *transYValues = cam->FocalPlaneMap()->TransY();
     PvlKeyword transY("IDEAL_TRANSY");
     for (int i = 0; i < 3; i++) {
-      transY += toString(transYValues[i]);
+      transY += Isis::toString(transYValues[i]);
     }
     pdsLabel += transY;
   }
@@ -607,7 +607,7 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
     const double *transSValues = cam->FocalPlaneMap()->TransS();
     PvlKeyword transS("IDEAL_TRANSS");
     for (int i = 0; i < 3; i++) {
-      transS += toString(transSValues[i]);
+      transS += Isis::toString(transSValues[i]);
     }
     pdsLabel += transS;
   }
@@ -619,7 +619,7 @@ void updatePdsLabelRootObject(PvlObject *isisCubeLab, Pvl &pdsLabel,
     const double *transLValues = cam->FocalPlaneMap()->TransL();
     PvlKeyword transL("IDEAL_TRANSL");
     for (int i = 0; i < 3; i++) {
-      transL += toString(transLValues[i]);
+      transL += Isis::toString(transLValues[i]);
     }
     pdsLabel += transL;
   }

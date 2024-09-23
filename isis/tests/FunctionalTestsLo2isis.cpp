@@ -56,25 +56,25 @@ TEST(lo2isisTest, lo2isisTestDefault) {
   ASSERT_EQ(inst["FiducialID"][14], "144b");
   ASSERT_EQ(inst["FiducialID"][29], "283b");
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialSamples"][0]), 32162.0);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialSamples"][6]), 24295.0);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialSamples"][14]), 16593.0);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialSamples"][29]), 1248.0);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialSamples"][0]), 32162.0);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialSamples"][6]), 24295.0);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialSamples"][14]), 16593.0);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialSamples"][29]), 1248.0);
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialLines"][0]), 8510.0);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialLines"][6]), 8504.0);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialLines"][14]), 584.0);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialLines"][29]), 8496.0);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialLines"][0]), 8510.0);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialLines"][6]), 8504.0);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialLines"][14]), 584.0);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialLines"][29]), 8496.0);
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialXCoordinates"][0]), -108.168);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialXCoordinates"][6]), -53.474);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialXCoordinates"][14]), 0.122);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialXCoordinates"][29]), 106.844);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialXCoordinates"][0]), -108.168);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialXCoordinates"][6]), -53.474);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialXCoordinates"][14]), 0.122);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialXCoordinates"][29]), 106.844);
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialYCoordinates"][0]), 27.476);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialYCoordinates"][6]), 27.5);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialYCoordinates"][14]), -27.493);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(inst["FiducialYCoordinates"][29]), 27.479);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialYCoordinates"][0]), 27.476);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialYCoordinates"][6]), 27.5);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialYCoordinates"][14]), -27.493);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(inst["FiducialYCoordinates"][29]), 27.479);
 
   // Bandbin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);

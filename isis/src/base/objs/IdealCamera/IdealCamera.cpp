@@ -223,7 +223,7 @@ namespace Isis {
       NaifStatus::CheckErrors();
     }
     else {
-      std::string msg = "Unknown InstrumentType [" + toString((int)inst["InstrumentType"]) + "]";
+      std::string msg = "Unknown InstrumentType [" + Isis::toString((int)inst["InstrumentType"]) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }

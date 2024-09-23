@@ -411,12 +411,12 @@ namespace Isis {
       QVector<double> threshold;
       try {
         for ( nval = 0 ; nval < key.size() ; nval++ ) {
-          threshold.push_back(IString::ToDouble(key[nval]));
+          threshold.push_back(Isis::toDouble(key[nval]));
         }
       }
       catch (IException &ie) {
         // Traps float conversion errors
-        std::string mess = "Error converting value [" + toString(nval+1) + 
+        std::string mess = "Error converting value [" + Isis::toString(nval+1) + 
                        "] in keyword [" + key.name() + "] to double.";
         throw IException(ie, IException::User, mess, _FILEINFO_);
       }

@@ -104,9 +104,9 @@ namespace Isis {
 
     // convert milliseconds to seconds
 
-    m_exposureTime = IString::ToDouble(frameParam[0]) * 0.001;
-    m_summing  = IString::ToDouble(frameParam[1]);
-    m_scanRate = IString::ToDouble(frameParam[2]);
+    m_exposureTime = Isis::toDouble(frameParam[0]) * 0.001;
+    m_summing  = Isis::toDouble(frameParam[1]);
+    m_scanRate = Isis::toDouble(frameParam[2]);
 
     // Setup detector map
     //  Get the line scan rates/times
@@ -527,21 +527,21 @@ namespace Isis {
     }
 
     // Add some necessary keywords
-    quats.Label() += PvlKeyword("CkTableStartTime", toString(startTime()));
-    quats.Label() += PvlKeyword("CkTableEndTime", toString(endTime()));
-    quats.Label() += PvlKeyword("CkTableOriginalSize", toString(quats.Records()));
+    quats.Label() += PvlKeyword("CkTableStartTime", Isis::toString(startTime()));
+    quats.Label() += PvlKeyword("CkTableEndTime", Isis::toString(endTime()));
+    quats.Label() += PvlKeyword("CkTableOriginalSize", Isis::toString(quats.Records()));
 
     // Create the time dependant frames keyword
     int virZeroId = getInteger("FRAME_" + virZero);
-    PvlKeyword tdf("TimeDependentFrames", toString(virZeroId)); // ROS_VIRTIS_M_{ID}_ZERO
+    PvlKeyword tdf("TimeDependentFrames", Isis::toString(virZeroId)); // ROS_VIRTIS_M_{ID}_ZERO
     tdf.addValue("-226200");  //  ROS_VIRTIS
     tdf.addValue("-226000");  //  ROSETTA_SPACECRAFT
     tdf.addValue("1");        // J2000
     quats.Label() += tdf;
 
     //  Create constant rotation frames
-    PvlKeyword cf("ConstantFrames", toString(virZeroId));
-    cf.addValue(toString(virZeroId));
+    PvlKeyword cf("ConstantFrames", Isis::toString(virZeroId));
+    cf.addValue(Isis::toString(virZeroId));
     quats.Label() += cf;
 
     SpiceDouble identity[3][3];
@@ -551,7 +551,7 @@ namespace Isis {
     PvlKeyword crot("ConstantRotation");
     for (int i = 0 ; i < 3 ; i++) {
       for (int j = 0 ; j < 3 ; j++) {
-        crot.addValue(toString(identity[i][j]));
+        crot.addValue(Isis::toString(identity[i][j]));
       }
     }
 

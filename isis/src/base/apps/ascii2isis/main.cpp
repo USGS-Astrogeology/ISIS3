@@ -128,7 +128,7 @@ void ascii2isis(Buffer &out) {
     if (!fin) {
       // Clean stream to get the position and invalid data that broke the stream
       fin.clear();
-      std::string msg = "Could not extract non-numerical data [" + std::to_string(fin.peek()) + "] ";
+      std::string msg = "Could not extract non-numerical data [" + Isis::toString(fin.peek()) + "] ";
       msg += "at byte position [" + std::to_string(fin.tellg()) + "]. ";
       msg += "Please make sure to skip any header data in [" + from.toStdString() + "].";
       throw IException(IException::User, msg, _FILEINFO_);

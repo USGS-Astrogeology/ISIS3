@@ -86,7 +86,7 @@ namespace Isis {
       phaseangle = strlist.Token(",");
       if (phaseangle < 0.0 || phaseangle > 180.0) {
         std::string msg = "Invalid value of empirical Lunar Lambert phase angle list value [" +
-                          std::to_string(phaseangle) + "]";
+                          Isis::toString(phaseangle) + "]";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       p_photoPhaseList.push_back(phaseangle);
@@ -115,7 +115,7 @@ namespace Isis {
     p_photoPhaseList.clear();
 
     for (int i=0; i< phaseList.size(); i++) {
-      phaseAngle = IString::ToDouble(phaseList[i]);
+      phaseAngle = Isis::toDouble(phaseList[i]);
 
       if (phaseAngle < 0.0 || phaseAngle > 180.0) {
         std::string msg = "Invalid value of empirical Lunar Lambert phase angle list value [" +
@@ -169,7 +169,7 @@ namespace Isis {
 
     p_photoLList.clear();
     for (int i=0; i<lstrList.size(); i++) {
-      p_photoLList.push_back(IString::ToDouble(lstrList[i]));
+      p_photoLList.push_back(Isis::toDouble(lstrList[i]));
     }
   }
 
@@ -211,7 +211,7 @@ namespace Isis {
 
     p_photoPhaseCurveList.clear();
     for (int i=0; i<photocurvestrList.size(); i++) {
-      p_photoPhaseCurveList.push_back(IString::ToDouble(photocurvestrList[i]));
+      p_photoPhaseCurveList.push_back(Isis::toDouble(photocurvestrList[i]));
     }
   }
 

@@ -254,22 +254,22 @@ namespace Isis {
     void pvlOut(const QString &StatFile) {
     PvlGroup results("Results");
     for(unsigned int i = 0; i < band.size(); i++) {
-        results += PvlKeyword("Band", toString(band[i]));
-        results += PvlKeyword("RowCol", toString(element[i]));
-        results += PvlKeyword("ValidPixels", toString(validpixels[i]));
+        results += PvlKeyword("Band", Isis::toString(band[i]));
+        results += PvlKeyword("RowCol", Isis::toString(element[i]));
+        results += PvlKeyword("ValidPixels", Isis::toString(validpixels[i]));
         if(validpixels[i] > 0) {
-        results += PvlKeyword("Mean", toString(average[i]));
-        results += PvlKeyword("Median", toString(median[i]));
-        results += PvlKeyword("Std", toString(stddev[i]));
-        results += PvlKeyword("Minimum", toString(minimum[i]));
-        results += PvlKeyword("Maximum", toString(maximum[i]));
+        results += PvlKeyword("Mean", Isis::toString(average[i]));
+        results += PvlKeyword("Median", Isis::toString(median[i]));
+        results += PvlKeyword("Std", Isis::toString(stddev[i]));
+        results += PvlKeyword("Minimum", Isis::toString(minimum[i]));
+        results += PvlKeyword("Maximum", Isis::toString(maximum[i]));
         }
         else {
-        results += PvlKeyword("Mean", toString(0.0));
-        results += PvlKeyword("Median", toString(0.0));
-        results += PvlKeyword("Std", toString(0.0));
-        results += PvlKeyword("Minimum", toString(0.0));
-        results += PvlKeyword("Maximum", toString(0.0));
+        results += PvlKeyword("Mean", Isis::toString(0.0));
+        results += PvlKeyword("Median", Isis::toString(0.0));
+        results += PvlKeyword("Std", Isis::toString(0.0));
+        results += PvlKeyword("Minimum", Isis::toString(0.0));
+        results += PvlKeyword("Maximum", Isis::toString(0.0));
         }
     }
 
@@ -338,21 +338,21 @@ namespace Isis {
     PvlObject::PvlKeywordIterator itr = results.begin();
 
     while(itr != results.end()) {
-        band.push_back(IString::ToInteger((*itr)[0]));
+        band.push_back(Isis::toInt((*itr)[0]));
         itr++;
-        element.push_back(IString::ToInteger((*itr)[0]));
+        element.push_back(Isis::toInt((*itr)[0]));
         itr++;
-        validpixels.push_back(IString::ToInteger((*itr)[0]));
+        validpixels.push_back(Isis::toInt((*itr)[0]));
         itr++;
-        average.push_back(IString::ToDouble((*itr)[0]));
+        average.push_back(Isis::toDouble((*itr)[0]));
         itr++;
-        median.push_back(IString::ToDouble((*itr)[0]));
+        median.push_back(Isis::toDouble((*itr)[0]));
         itr++;
-        stddev.push_back(IString::ToDouble((*itr)[0]));
+        stddev.push_back(Isis::toDouble((*itr)[0]));
         itr++;
-        minimum.push_back(IString::ToDouble((*itr)[0]));
+        minimum.push_back(Isis::toDouble((*itr)[0]));
         itr++;
-        maximum.push_back(IString::ToDouble((*itr)[0]));
+        maximum.push_back(Isis::toDouble((*itr)[0]));
         itr++;
     }
     }

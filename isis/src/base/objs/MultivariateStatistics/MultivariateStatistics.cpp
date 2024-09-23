@@ -295,19 +295,19 @@ namespace Isis {
       name = "MultivariateStatistics";
     }
     PvlObject mStats(name.toStdString()); 
-    mStats += PvlKeyword("Covariance" , toString(Covariance()));
-    mStats += PvlKeyword("Correlation", toString(Correlation()));
-    mStats += PvlKeyword("SumXY", toString(SumXY()));
-    mStats += PvlKeyword("ValidPixels", toString(ValidPixels()));
-    mStats += PvlKeyword("InvalidPixels", toString(InvalidPixels()));
-    mStats += PvlKeyword("TotalPixels", toString(TotalPixels()));
+    mStats += PvlKeyword("Covariance" , Isis::toString(Covariance()));
+    mStats += PvlKeyword("Correlation", Isis::toString(Correlation()));
+    mStats += PvlKeyword("SumXY", Isis::toString(SumXY()));
+    mStats += PvlKeyword("ValidPixels", Isis::toString(ValidPixels()));
+    mStats += PvlKeyword("InvalidPixels", Isis::toString(InvalidPixels()));
+    mStats += PvlKeyword("TotalPixels", Isis::toString(TotalPixels()));
 
     PvlKeyword linReg("LinearRegression");
     double a, b;
     try {
       LinearRegression(a, b);
-      linReg += toString(a);
-      linReg += toString(b);
+      linReg += Isis::toString(a);
+      linReg += Isis::toString(b);
     } catch (IException &e) {
       // It is possible one of the overlaps was constant and therefore
       // the regression would be a vertical line (x=c instead of y=ax+b)

@@ -154,23 +154,23 @@ namespace Isis {
     if (pointObject.hasKeyword("AprioriCovarianceMatrix")) {
       PvlKeyword &matrix = pointObject["AprioriCovarianceMatrix"];
 
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[0]));
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[1]));
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[2]));
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[3]));
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[4]));
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[5]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[0]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[1]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[2]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[3]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[4]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[5]));
     }
 
     if (pointObject.hasKeyword("AdjustedCovarianceMatrix")) {
       PvlKeyword &matrix = pointObject["AdjustedCovarianceMatrix"];
 
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[0]));
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[1]));
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[2]));
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[3]));
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[4]));
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[5]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[0]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[1]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[2]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[3]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[4]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[5]));
     }
 
     //  Process Measures
@@ -205,22 +205,22 @@ namespace Isis {
       // The sample, line, sample residual, and line residual are nested in another structure
       // inside the measure, so they cannot be copied with the conenience methods.
       if (group.hasKeyword("Sample")) {
-        double value = IString::ToDouble(group["Sample"][0]);
+        double value = Isis::toDouble(group["Sample"][0]);
         measure.mutable_measurement()->set_sample(value);
         group.deleteKeyword("Sample");
       }
       if (group.hasKeyword("Line")) {
-        double value = IString::ToDouble(group["Line"][0]);
+        double value = Isis::toDouble(group["Line"][0]);
         measure.mutable_measurement()->set_line(value);
         group.deleteKeyword("Line");
       }
       if (group.hasKeyword("SampleResidual")) {
-        double value = IString::ToDouble(group["SampleResidual"][0]);
+        double value = Isis::toDouble(group["SampleResidual"][0]);
         measure.mutable_measurement()->set_sampleresidual(value);
         group.deleteKeyword("SampleResidual");
       }
       if (group.hasKeyword("LineResidual")) {
-        double value = IString::ToDouble(group["LineResidual"][0]);
+        double value = Isis::toDouble(group["LineResidual"][0]);
         measure.mutable_measurement()->set_lineresidual(value);
         group.deleteKeyword("LineResidual");
       }
@@ -302,7 +302,7 @@ namespace Isis {
         }
 
         try {
-          value = IString::ToDouble(dataKeyword[0]);
+          value = Isis::toDouble(dataKeyword[0]);
         }
         catch (IException &e) {
           std::string msg = "Invalid control measure log data value [" + dataKeyword[0] + "]";
@@ -422,7 +422,7 @@ namespace Isis {
       return;
     }
 
-    double value = IString::ToDouble(container[keyName.toStdString()][0]);
+    double value = Isis::toDouble(container[keyName.toStdString()][0]);
     container.deleteKeyword(keyName.toStdString());
     (point.data()->*setter)(value);
   }
@@ -513,7 +513,7 @@ namespace Isis {
       return;
     }
 
-    double value = IString::ToDouble(container[keyName.toStdString()][0]);
+    double value = Isis::toDouble(container[keyName.toStdString()][0]);
     container.deleteKeyword(keyName.toStdString());
     (measure.*setter)(value);
   }

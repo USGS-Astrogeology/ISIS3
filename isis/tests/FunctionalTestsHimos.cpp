@@ -61,13 +61,13 @@ TEST_F(MroHiriseCube, FunctionalTestHimosDefault) {
   EXPECT_EQ(mos["StopTime"][0], "2006-09-29T15:16:35.036");
   EXPECT_EQ(mos["SpacecraftClockStopCount"][0], "844010213:55196");
 
-  EXPECT_NEAR(IString::ToDouble(mos["IncidenceAngle"][0]), 59.687930340662, 1e-6);
-  EXPECT_NEAR(IString::ToDouble(mos["EmissionAngle"][0]), 0.091672512439956, 1e-6);
-  EXPECT_NEAR(IString::ToDouble(mos["PhaseAngle"][0]), 59.597812369363, 1e-6);
-  EXPECT_NEAR(IString::ToDouble(mos["LocalTime"][0]), 15.486088288555, 1e-6);
-  EXPECT_NEAR(IString::ToDouble(mos["SolarLongitude"][0]), 113.54746578654, 1e-6);
-  EXPECT_NEAR(IString::ToDouble(mos["SubSolarAzimuth"][0]), 212.41484032558 , 1e-6);
-  EXPECT_NEAR(IString::ToDouble(mos["NorthAzimuth"][0]), 270.00024569628, 1e-6);
+  EXPECT_NEAR(Isis::toDouble(mos["IncidenceAngle"][0]), 59.687930340662, 1e-6);
+  EXPECT_NEAR(Isis::toDouble(mos["EmissionAngle"][0]), 0.091672512439956, 1e-6);
+  EXPECT_NEAR(Isis::toDouble(mos["PhaseAngle"][0]), 59.597812369363, 1e-6);
+  EXPECT_NEAR(Isis::toDouble(mos["LocalTime"][0]), 15.486088288555, 1e-6);
+  EXPECT_NEAR(Isis::toDouble(mos["SolarLongitude"][0]), 113.54746578654, 1e-6);
+  EXPECT_NEAR(Isis::toDouble(mos["SubSolarAzimuth"][0]), 212.41484032558 , 1e-6);
+  EXPECT_NEAR(Isis::toDouble(mos["NorthAzimuth"][0]), 270.00024569628, 1e-6);
 
   EXPECT_EQ(mos["cpmmTdiFlag"][5], "128");
   EXPECT_EQ(mos["cpmmSummingFlag"][5], "1");

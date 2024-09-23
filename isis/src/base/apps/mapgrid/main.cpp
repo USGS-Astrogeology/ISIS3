@@ -52,10 +52,10 @@ void IsisMain() {
     mapping.deleteKeyword("MaximumLongitude");
   }
 
-  mapping += PvlKeyword("MinimumLatitude", toString(latStart));
-  mapping += PvlKeyword("MaximumLatitude", toString(latEnd));
-  mapping += PvlKeyword("MinimumLongitude", toString(lonStart));
-  mapping += PvlKeyword("MaximumLongitude", toString(lonEnd));
+  mapping += PvlKeyword("MinimumLatitude", Isis::toString(latStart));
+  mapping += PvlKeyword("MaximumLatitude", Isis::toString(latEnd));
+  mapping += PvlKeyword("MinimumLongitude", Isis::toString(lonStart));
+  mapping += PvlKeyword("MaximumLongitude", Isis::toString(lonEnd));
 
   TProjection *proj;
   try {

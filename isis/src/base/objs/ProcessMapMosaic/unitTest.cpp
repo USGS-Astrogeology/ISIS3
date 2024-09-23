@@ -116,10 +116,10 @@ void IsisMain() {
   inCube.open(QString::fromStdString(inputFile));
   PvlGroup mapGroup = inCube.label()->findGroup("Mapping", Pvl::Traverse);
 
-  mapGroup.addKeyword(PvlKeyword("MinimumLatitude",  toString(-4.9)), Pvl::Replace);
-  mapGroup.addKeyword(PvlKeyword("MaximumLatitude",  toString(-4.7)), Pvl::Replace);
-  mapGroup.addKeyword(PvlKeyword("MinimumLongitude", toString(30.7)), Pvl::Replace);
-  mapGroup.addKeyword(PvlKeyword("MaximumLongitude", toString(31)), Pvl::Replace);
+  mapGroup.addKeyword(PvlKeyword("MinimumLatitude",  Isis::toString(-4.9)), Pvl::Replace);
+  mapGroup.addKeyword(PvlKeyword("MaximumLatitude",  Isis::toString(-4.7)), Pvl::Replace);
+  mapGroup.addKeyword(PvlKeyword("MinimumLongitude", Isis::toString(30.7)), Pvl::Replace);
+  mapGroup.addKeyword(PvlKeyword("MaximumLongitude", Isis::toString(31)), Pvl::Replace);
   
   inCube.close();
   CubeAttributeOutput oAtt2( FileName("./unitTest3.cub") );

@@ -48,7 +48,7 @@ namespace Isis {
        */
       if ((allowDefaults) && (!mapGroup.hasKeyword("CenterLongitude"))) {
         double lon = (m_minimumLongitude + m_maximumLongitude) / 2.0;
-        mapGroup += PvlKeyword("CenterLongitude", toString(lon));
+        mapGroup += PvlKeyword("CenterLongitude", Isis::toString(lon));
       }
 
       /*
@@ -57,7 +57,7 @@ namespace Isis {
        */
       if ((allowDefaults) && (!mapGroup.hasKeyword("CenterLatitude"))) {
         double lat = (m_minimumLatitude + m_maximumLatitude) / 2.0;
-        mapGroup += PvlKeyword("CenterLatitude", toString(lat));
+        mapGroup += PvlKeyword("CenterLatitude", Isis::toString(lat));
       }
 
       // Get the center longitude  & latitude

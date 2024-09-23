@@ -112,7 +112,7 @@ namespace Isis {
 
         //  Create YearDoy keyword in Archive group
         iTime stime(QString::fromStdString(outputLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]));
-        PvlKeyword yeardoy("YearDoy", toString(stime.Year()*1000 + stime.DayOfYear()));
+        PvlKeyword yeardoy("YearDoy", Isis::toString(stime.Year()*1000 + stime.DayOfYear()));
         archGrp.addKeyword(yeardoy);
         outputCube->putGroup(archGrp);
 

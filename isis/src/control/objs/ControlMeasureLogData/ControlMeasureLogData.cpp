@@ -60,7 +60,7 @@ namespace Isis {
     QString name = QString::fromStdString(keywordRep.name());
     p_dataType = NameToDataType(name);
     if (p_dataType != InvalidNumericLogDataType)
-      p_numericalValue = IString::ToDouble(keywordRep[0]);
+      p_numericalValue = Isis::toDouble(keywordRep[0]);
   }
 
   /**
@@ -165,7 +165,7 @@ namespace Isis {
    */
   PvlKeyword ControlMeasureLogData::ToKeyword() const {
     if(IsValid())
-      return PvlKeyword(DataTypeToName(p_dataType).toStdString(), toString(p_numericalValue));
+      return PvlKeyword(DataTypeToName(p_dataType).toStdString(), Isis::toString(p_numericalValue));
     else
       return PvlKeyword();
   }
@@ -235,7 +235,7 @@ namespace Isis {
         return "Obsolete_AverageResidual";
     }
 
-    std::string msg = "Unknown data type [" + toString(type) + "]";
+    std::string msg = "Unknown data type [" + Isis::toString(type) + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 }

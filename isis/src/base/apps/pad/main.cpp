@@ -49,14 +49,14 @@ void IsisMain() {
 
   // Construct a label with the results
   PvlGroup results("Results");
-  results += PvlKeyword("InputLines", toString(inl));
-  results += PvlKeyword("InputSamples", toString(ins));
-  results += PvlKeyword("LeftPad", toString(leftPad));
-  results += PvlKeyword("RightPad", toString(rightPad));
-  results += PvlKeyword("TopPad", toString(topPad));
-  results += PvlKeyword("BottomPad", toString(bottomPad));
-  results += PvlKeyword("OutputLines", toString(nl));
-  results += PvlKeyword("OutputSamples", toString(ns));
+  results += PvlKeyword("InputLines", Isis::toString(inl));
+  results += PvlKeyword("InputSamples", Isis::toString(ins));
+  results += PvlKeyword("LeftPad", Isis::toString(leftPad));
+  results += PvlKeyword("RightPad", Isis::toString(rightPad));
+  results += PvlKeyword("TopPad", Isis::toString(topPad));
+  results += PvlKeyword("BottomPad", Isis::toString(bottomPad));
+  results += PvlKeyword("OutputLines", Isis::toString(nl));
+  results += PvlKeyword("OutputSamples", Isis::toString(ns));
 
   // Update the Mapping, Instrument, and AlphaCube groups in the
   // output cube label

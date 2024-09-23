@@ -26,19 +26,19 @@ int main() {
   try {
     PvlGroup op("Operator");
     op += PvlKeyword("Name", "StandardDeviation");
-    op += PvlKeyword("DeltaLine", toString(100));
-    op += PvlKeyword("DeltaSamp", toString(100));
-    op += PvlKeyword("Samples", toString(15));
-    op += PvlKeyword("Lines", toString(15));
-    op += PvlKeyword("MinimumInterest", toString(0.01));
+    op += PvlKeyword("DeltaLine", Isis::toString(100));
+    op += PvlKeyword("DeltaSamp", Isis::toString(100));
+    op += PvlKeyword("Samples", Isis::toString(15));
+    op += PvlKeyword("Lines", Isis::toString(15));
+    op += PvlKeyword("MinimumInterest", Isis::toString(0.01));
 
     PvlGroup opv("ValidMeasure");
-    opv += PvlKeyword("MinDN", toString(0.0));
-    opv += PvlKeyword("MaxDN", toString(1.0));
-    opv += PvlKeyword("MinEmission", toString(15.0));
-    opv += PvlKeyword("MaxEmission", toString(25.0));
-    opv += PvlKeyword("MinIncidence", toString(0.0));
-    opv += PvlKeyword("MaxIncidence", toString(135.0));
+    opv += PvlKeyword("MinDN", Isis::toString(0.0));
+    opv += PvlKeyword("MaxDN", Isis::toString(1.0));
+    opv += PvlKeyword("MinEmission", Isis::toString(15.0));
+    opv += PvlKeyword("MaxEmission", Isis::toString(25.0));
+    opv += PvlKeyword("MinIncidence", Isis::toString(0.0));
+    opv += PvlKeyword("MaxIncidence", Isis::toString(135.0));
     //op += PvlKeyword("MinResolution", 100);
     //op += PvlKeyword("MaxResolution", 300);
 

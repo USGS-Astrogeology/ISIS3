@@ -422,7 +422,7 @@ namespace Isis {
         errGroup += PvlKeyword("File", *exception.m_fileName);
 
         if (exception.m_lineNumber != -1)
-          errGroup += PvlKeyword("Line", std::to_string(exception.m_lineNumber));
+          errGroup += PvlKeyword("Line", Isis::toString(exception.m_lineNumber));
       }
 
       if (!exceptionIsBlank)

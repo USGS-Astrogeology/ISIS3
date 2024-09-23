@@ -349,7 +349,7 @@ namespace Isis {
       throw IException(IException::User, msg, _FILEINFO_);
     }
     for(int i = 0; i < inputs.size(); i++) {
-      AddPair(IString::ToDouble(inputs[i]), IString::ToDouble(outputs[i]));
+      AddPair(Isis::toDouble(inputs[i]), Isis::toDouble(outputs[i]));
     }
   }
 
@@ -375,8 +375,8 @@ namespace Isis {
     PvlKeyword inputs("Input");
     PvlKeyword outputs("Output");
     for(int i = 0; i < Pairs(); i++) {
-      inputs.addValue(toString(Input(i)));
-      outputs.addValue(toString(Output(i)));
+      inputs.addValue(Isis::toString(Input(i)));
+      outputs.addValue(Isis::toString(Output(i)));
     }
     grp->addKeyword(inputs);
     grp->addKeyword(outputs);

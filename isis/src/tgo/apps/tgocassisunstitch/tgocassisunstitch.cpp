@@ -89,14 +89,14 @@ namespace Isis {
     PvlKeyword filterWidth = inputLabel->findKeyword("FilterWidths", PvlObject::Traverse);
 
     for (int i = 0; i < filterKey.size(); i++) {
-      g_frameletInfoList.append(FilterInfo(IString::ToInteger(filterIkCodes[i]),
+      g_frameletInfoList.append(FilterInfo(Isis::toInt(filterIkCodes[i]),
                                 QString::fromStdString(filterKey[i]),
-                               IString::ToDouble(filterStartSamples[i]),
-                               IString::ToDouble(filterStartLines[i]),
-                               IString::ToDouble(filterSamples[i]),
-                               IString::ToDouble(filterLines[i]),
-                               IString::ToDouble(filterWavelength[i]),
-                               IString::ToDouble(filterWidth[i])));
+                                Isis::toDouble(filterStartSamples[i]),
+                                Isis::toDouble(filterStartLines[i]),
+                                Isis::toDouble(filterSamples[i]),
+                                Isis::toDouble(filterLines[i]),
+                                Isis::toDouble(filterWavelength[i]),
+                                Isis::toDouble(filterWidth[i])));
     }
 
     // Collect the tables and history from the input stitched cube
@@ -188,9 +188,9 @@ namespace Isis {
 
       bandBin.addKeyword(PvlKeyword("FilterName", g_frameletInfoList[i].m_filterName.toStdString()),
                                                   PvlObject::Replace);
-      bandBin.addKeyword(PvlKeyword("Center", toString(g_frameletInfoList[i].m_wavelength)));
-      bandBin.addKeyword(PvlKeyword("Width", toString(g_frameletInfoList[i].m_width)));
-      bandBin.addKeyword(PvlKeyword("NaifIkCode", toString(g_frameletInfoList[i].m_frameId)));
+      bandBin.addKeyword(PvlKeyword("Center", Isis::toString(g_frameletInfoList[i].m_wavelength)));
+      bandBin.addKeyword(PvlKeyword("Width", Isis::toString(g_frameletInfoList[i].m_width)));
+      bandBin.addKeyword(PvlKeyword("NaifIkCode", Isis::toString(g_frameletInfoList[i].m_frameId)));
 
       // Add the alpha cube
       AlphaCube frameletArea(cube->sampleCount(), cube->lineCount(),

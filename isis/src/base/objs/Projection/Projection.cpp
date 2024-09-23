@@ -1372,8 +1372,8 @@ namespace Isis {
    */
   void Projection::SetUpperLeftCorner(const Displacement &x,
                                       const Displacement &y) {
-    PvlKeyword xKeyword("UpperLeftCornerX", toString(x.meters()), "meters");
-    PvlKeyword yKeyword("UpperLeftCornerY", toString(y.meters()), "meters");
+    PvlKeyword xKeyword("UpperLeftCornerX", Isis::toString(x.meters()), "meters");
+    PvlKeyword yKeyword("UpperLeftCornerY", Isis::toString(y.meters()), "meters");
     m_mappingGrp.addKeyword(xKeyword,Pvl::Replace);
     m_mappingGrp.addKeyword(yKeyword,Pvl::Replace);
   }

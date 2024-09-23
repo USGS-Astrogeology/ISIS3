@@ -70,7 +70,7 @@ namespace Isis {
     PvlKeyword &origBand = bandBin["OriginalBand"];
     PvlKeyword &utcTime = bandBin["UtcTime"];
     for(int i = 0; i < origBand.size(); i++) {
-      m_originalBand.push_back(IString::ToInteger(origBand[i]));
+      m_originalBand.push_back(Isis::toInt(origBand[i]));
       m_utcTime.push_back(QString::fromStdString(utcTime[i]));
     }
 

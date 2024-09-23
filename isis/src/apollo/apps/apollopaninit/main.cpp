@@ -181,7 +181,7 @@ void IsisMain() {
 
   keyword.setName("LineExposureDuration");
   //converted led to msec/mm--negative sign to account for the anti-parallel time and line axes
-  keyword.setValue(toString(-led),"sec/mm");
+  keyword.setValue(Isis::toString(-led),"sec/mm");
   inst_pvlG.addKeyword(keyword);
 
   panCube.putGroup(inst_pvlG);
@@ -191,7 +191,7 @@ void IsisMain() {
   kernels_pvlG.clear();
 
   keyword.setName("NaifFrameCode");
-  keyword.setValue(toString(insCode));
+  keyword.setValue(Isis::toString(insCode));
   kernels_pvlG.addKeyword(keyword);
 
   keyword.setName("LeapSecond");
@@ -404,7 +404,7 @@ void IsisMain() {
   recordPos[2] = posJ20[2];
   recordPos[3] = temp;  //temp = et (right now anyway)
   tablePos += recordPos;
-  tablePos.Label() += PvlKeyword("SpkTableStartTime",toString(temp));
+  tablePos.Label() += PvlKeyword("SpkTableStartTime",Isis::toString(temp));
   //now the other node
   temp = 0.515*(time1-time0);      //3% extension
   posSel[0] = pos0[0] + temp*vel[0];    //selenocentric coordinate calculation
@@ -424,7 +424,7 @@ void IsisMain() {
   recordPos[2] = posJ20[2];
   recordPos[3] = temp;  //temp = et (right now anyway)
   tablePos += recordPos;
-  tablePos.Label() += PvlKeyword("SpkTableEndTime",toString(temp));
+  tablePos.Label() += PvlKeyword("SpkTableEndTime",Isis::toString(temp));
   tablePos.Label() += PvlKeyword("CacheType","Linear");
   tablePos.Label() += PvlKeyword("Description","Created by apollopaninit");
   panCube.write(tablePos);  //now attach it to the table
@@ -547,18 +547,18 @@ void IsisMain() {
     recordRot[4] = Q[i][4];
     tableRot += recordRot;
   }
-  tableRot.Label() += PvlKeyword("CkTableStartTime", toString(Q[0][4]));
-  tableRot.Label() += PvlKeyword("CkTableEndTime", toString(Q[NODES-1][4]));
+  tableRot.Label() += PvlKeyword("CkTableStartTime", Isis::toString(Q[0][4]));
+  tableRot.Label() += PvlKeyword("CkTableEndTime", Isis::toString(Q[NODES-1][4]));
   tableRot.Label() += PvlKeyword("Description", "Created by appollopan2isis");
 
   keyword.setName("TimeDependentFrames");
-  keyword.setValue(toString(scFrameCode));
+  keyword.setValue(Isis::toString(scFrameCode));
   keyword.addValue("1");
   tableRot.Label() += keyword;
 
   keyword.setName("ConstantFrames");
-  keyword.setValue(toString(insCode));
-  keyword.addValue(toString(scFrameCode));
+  keyword.setValue(Isis::toString(insCode));
+  keyword.addValue(Isis::toString(scFrameCode));
   tableRot.Label() += keyword;
 
   keyword.setName("ConstantRotation");
@@ -777,10 +777,10 @@ void IsisMain() {
   ApolloPanoramicCamera* cam = (ApolloPanoramicCamera*)(panCube.camera());
   //log the residual report from interior orientation
   PvlGroup residualStats("InteriorOrientationStats");
-  residualStats += PvlKeyword("FiducialsFound",  toString(tableFid.Records()));
-  residualStats += PvlKeyword("ResidualMax",  toString(cam->intOriResidualMax()),"pixels");
-  residualStats += PvlKeyword("ResidualMean", toString(cam->intOriResidualMean()),"pixels");
-  residualStats += PvlKeyword("ResidualStdev", toString(cam->intOriResidualStdev()),"pixels");
+  residualStats += PvlKeyword("FiducialsFound",  Isis::toString(tableFid.Records()));
+  residualStats += PvlKeyword("ResidualMax",  Isis::toString(cam->intOriResidualMax()),"pixels");
+  residualStats += PvlKeyword("ResidualMean", Isis::toString(cam->intOriResidualMean()),"pixels");
+  residualStats += PvlKeyword("ResidualStdev", Isis::toString(cam->intOriResidualStdev()),"pixels");
 
   Application::Log( residualStats );
 

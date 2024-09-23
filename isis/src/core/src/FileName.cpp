@@ -410,12 +410,12 @@ namespace Isis {
     int width = std::count(file.begin(), file.end(), '?');
 
     if (versionNumber < 0) {
-      std::string msg = "FileName does not support negative version numbers in the file name, tried to get version [" + std::to_string(versionNumber) + "] in file named " + originalPath() + "/" + file;
+      std::string msg = "FileName does not support negative version numbers in the file name, tried to get version [" + Isis::toString(versionNumber) + "] in file named " + originalPath() + "/" + file;
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
     if (versionNumber >= pow(10.0, width)) {
-      std::string msg = "FileName does not support version numbers greater than what would fit in the file name, tried to get version [" + std::to_string(versionNumber) + "] in file named [" + originalPath() + "/" + file + "]";
+      std::string msg = "FileName does not support version numbers greater than what would fit in the file name, tried to get version [" + Isis::toString(versionNumber) + "] in file named [" + originalPath() + "/" + file + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -746,7 +746,7 @@ namespace Isis {
 
     for (std::string foundFile : files) {
       try {
-        foundValue = IString::ToInteger(foundFile.substr(before.length(), width));
+        foundValue = Isis::toInt(foundFile.substr(before.length(), width));
         success = true;
       }
       catch (...) {

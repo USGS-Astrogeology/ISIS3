@@ -210,7 +210,7 @@ namespace Isis {
       PvlGroup calgrp("Radiometry");
 
       calgrp += PvlKeyword("FlatFile", flatFile.fileName().toStdString());
-      calgrp += PvlKeyword("iof", toString(iof));
+      calgrp += PvlKeyword("iof", Isis::toString(iof));
 
 
       ocube->putGroup(calgrp);

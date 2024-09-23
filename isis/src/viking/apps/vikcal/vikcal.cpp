@@ -77,24 +77,24 @@ namespace Isis {
     calgrp.addComment("DI(l,s) = (1.0/(exp*w1))*G(l,s)*(gain*DR(l,s)+DC(l,s)+offt+offc)");
     calgrp.addComment("with  w1 = w0*((dist0*dist0) / (dist1*dist1))");
     calgrp.addComment("and  offt(l,s) = A*l + B*l*l + C*s + D*l*s + E");
-    calgrp += PvlKeyword("offc", toString(calParam->Offset()));
-    calgrp += PvlKeyword("exp", toString(calParam->Exposure()));
-    calgrp += PvlKeyword("gain", toString(calParam->Gain()));
+    calgrp += PvlKeyword("offc", Isis::toString(calParam->Offset()));
+    calgrp += PvlKeyword("exp", Isis::toString(calParam->Exposure()));
+    calgrp += PvlKeyword("gain", Isis::toString(calParam->Gain()));
     calgrp += PvlKeyword("DR", in.toStdString());
     calgrp += PvlKeyword("DC", calParam->OffsetFile().toStdString());
     calgrp += PvlKeyword("G", calParam->GainFile().toStdString());
   
-    calgrp += PvlKeyword("w0", toString(calParam->Omega0()));
-    calgrp += PvlKeyword("w1", toString(calParam->Omega1()));
-    calgrp += PvlKeyword("dist0", toString(calParam->Distance()));
-    calgrp += PvlKeyword("dist1", toString(calParam->Dist1()));
-    calgrp += PvlKeyword("1.0/exp*w1", toString(1.0 / (calParam->Exposure() * calParam->Omega1())));
+    calgrp += PvlKeyword("w0", Isis::toString(calParam->Omega0()));
+    calgrp += PvlKeyword("w1", Isis::toString(calParam->Omega1()));
+    calgrp += PvlKeyword("dist0", Isis::toString(calParam->Distance()));
+    calgrp += PvlKeyword("dist1", Isis::toString(calParam->Dist1()));
+    calgrp += PvlKeyword("1.0/exp*w1", Isis::toString(1.0 / (calParam->Exposure() * calParam->Omega1())));
   
-    calgrp += PvlKeyword("Acoeff", toString(calParam->Acoeff()));
-    calgrp += PvlKeyword("Bcoeff", toString(calParam->Bcoeff()));
-    calgrp += PvlKeyword("Ccoeff", toString(calParam->Ccoeff()));
-    calgrp += PvlKeyword("Dcoeff", toString(calParam->Dcoeff()));
-    calgrp += PvlKeyword("Ecoeff", toString(calParam->Ecoeff()));
+    calgrp += PvlKeyword("Acoeff", Isis::toString(calParam->Acoeff()));
+    calgrp += PvlKeyword("Bcoeff", Isis::toString(calParam->Bcoeff()));
+    calgrp += PvlKeyword("Ccoeff", Isis::toString(calParam->Ccoeff()));
+    calgrp += PvlKeyword("Dcoeff", Isis::toString(calParam->Dcoeff()));
+    calgrp += PvlKeyword("Ecoeff", Isis::toString(calParam->Ecoeff()));
   
     ocube->putGroup(calgrp);
   

@@ -161,21 +161,21 @@ void IsisMain() {
 
   if(ui.WasEntered("IAKCODE")) {
     PvlKeyword naifFormatX("INS" + ui.GetString("IAKCODE").toStdString() + "_TRANSX");
-    naifFormatX += toString(eq1[0]);
-    naifFormatX += toString(eq1[1]);
-    naifFormatX += toString(eq1[2]);
+    naifFormatX += Isis::toString(eq1[0]);
+    naifFormatX += Isis::toString(eq1[1]);
+    naifFormatX += Isis::toString(eq1[2]);
     PvlKeyword naifFormatY("INS" + ui.GetString("IAKCODE").toStdString() + "_TRANSY");
-    naifFormatY += toString(eq2[0]);
-    naifFormatY += toString(eq2[1]);
-    naifFormatY += toString(eq2[2]);
+    naifFormatY += Isis::toString(eq2[0]);
+    naifFormatY += Isis::toString(eq2[1]);
+    naifFormatY += Isis::toString(eq2[2]);
     PvlKeyword naifFormatS("INS" + ui.GetString("IAKCODE").toStdString() + "_ITRANSS");
-    naifFormatS += toString(res1[0]);
-    naifFormatS += toString(res1[1]);
-    naifFormatS += toString(res1[2]);
+    naifFormatS += Isis::toString(res1[0]);
+    naifFormatS += Isis::toString(res1[1]);
+    naifFormatS += Isis::toString(res1[2]);
     PvlKeyword naifFormatL("INS" + ui.GetString("IAKCODE").toStdString() + "_ITRANSL");
-    naifFormatL += toString(res2[0]);
-    naifFormatL += toString(res2[1]);
-    naifFormatL += toString(res2[2]);
+    naifFormatL += Isis::toString(res2[0]);
+    naifFormatL += Isis::toString(res2[1]);
+    naifFormatL += Isis::toString(res2[2]);
 
     res += naifFormatX;
     res += naifFormatY;

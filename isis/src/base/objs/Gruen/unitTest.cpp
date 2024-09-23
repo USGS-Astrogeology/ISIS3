@@ -23,18 +23,18 @@ int main() {
   try {
     PvlGroup alg("Algorithm");
     alg += PvlKeyword("Name", "Gruen");
-    alg += PvlKeyword("Tolerance", toString(100.0));
-    alg += PvlKeyword("AffineTranslationTolerance", toString(0.15));
-    alg += PvlKeyword("AffineScaleTolerance", toString(0.3));
-    alg += PvlKeyword("MaximumIterations", toString(30));
+    alg += PvlKeyword("Tolerance", Isis::toString(100.0));
+    alg += PvlKeyword("AffineTranslationTolerance", Isis::toString(0.15));
+    alg += PvlKeyword("AffineScaleTolerance", Isis::toString(0.3));
+    alg += PvlKeyword("MaximumIterations", Isis::toString(30));
 
     PvlGroup pchip("PatternChip");
-    pchip += PvlKeyword("Samples", toString(19));
-    pchip += PvlKeyword("Lines", toString(19));
+    pchip += PvlKeyword("Samples", Isis::toString(19));
+    pchip += PvlKeyword("Lines", Isis::toString(19));
 
     PvlGroup schip("SearchChip");
-    schip += PvlKeyword("Samples", toString(25));
-    schip += PvlKeyword("Lines", toString(25));
+    schip += PvlKeyword("Samples", Isis::toString(25));
+    schip += PvlKeyword("Lines", Isis::toString(25));
 
     PvlObject o("AutoRegistration");
     o.addGroup(alg);

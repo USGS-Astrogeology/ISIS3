@@ -78,7 +78,7 @@ namespace Isis {
     if(numSpecPixKept > 0) {
       PvlGroup mLog("Messages");
       mLog += PvlKeyword("Warning",
-                        "Unable to fill " + toString(numSpecPixKept) + " special pixels.");
+                        "Unable to fill " + Isis::toString(numSpecPixKept) + " special pixels.");
       Application::AppendAndLog(mLog, log);
     }
     return;

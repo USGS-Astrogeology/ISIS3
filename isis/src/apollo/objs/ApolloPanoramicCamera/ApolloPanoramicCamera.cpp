@@ -135,7 +135,7 @@ namespace Isis {
     new LineScanCameraSkyMap(this);
 
     PvlGroup &instP = lab.findGroup("Kernels", Pvl::Traverse);
-    m_CkFrameId = IString::ToInteger(instP["NaifFrameCode"][0]);
+    m_CkFrameId = Isis::toInt(instP["NaifFrameCode"][0]);
     m_CkFrameId = -int(-m_CkFrameId/1000)*1000;
 
     LoadCache();

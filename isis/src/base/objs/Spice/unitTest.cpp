@@ -121,8 +121,8 @@ int main(int argc, char *argv[]) {
   double endTime = -69382512.0;
   double slope = (endTime - startTime) / (10 - 1);
 
-  kernelsGroup += PvlKeyword("StartPadding", toString(slope));
-  kernelsGroup += PvlKeyword("EndPadding", toString(slope));
+  kernelsGroup += PvlKeyword("StartPadding", Isis::toString(slope));
+  kernelsGroup += PvlKeyword("EndPadding", Isis::toString(slope));
 
   Pvl &lab = *dummyCube.label();
   PvlObject &isisCubeObj = lab.findObject("IsisCube");

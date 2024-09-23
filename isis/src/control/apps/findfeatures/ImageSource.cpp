@@ -342,7 +342,7 @@ cv::Mat ImageSource::getGeometryMapping(ImageSource &match,
   // Compute homography if enough point
   if ( (int) source.size() < v_minpts ) {
     std::string mess = "Failed to get geometry mapping for " + match.name().toStdString() +
-                   " to " + name().toStdString() + " needing " + std::to_string(v_minpts) +
+                   " to " + name().toStdString() + " needing " + Isis::toString(v_minpts) +
                    " but only could get " + std::to_string(source.size()) +".";
     throw IException(IException::Programmer, mess, _FILEINFO_);
   }

@@ -129,7 +129,7 @@ void IsisMain() {
   // Brief
   if(mode == "BRIEF") {
     PvlGroup results("Results");
-    results += PvlKeyword("NumberOfIslands", toString((int)islandPolys.size()));
+    results += PvlKeyword("NumberOfIslands", Isis::toString((int)islandPolys.size()));
     Application::Log(results);
   }
   else if(mode == "FULL") {
@@ -139,7 +139,7 @@ void IsisMain() {
       int numFiles = islands[p].size();
       QString isle = "FootprintIsland_" + QString::number((int)p + 1);
       PvlGroup island(isle.toStdString());
-      island += PvlKeyword("NumberFiles", toString(numFiles));
+      island += PvlKeyword("NumberFiles", Isis::toString(numFiles));
       PvlKeyword files("Files");
       for(int f = 0; f < numFiles; f++) {
         files.addValue(islands[p][f].toStdString());

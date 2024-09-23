@@ -158,17 +158,17 @@ namespace Isis {
                    "FilterNumber. The FilterNumber must fall in the range 1 to 8.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
-    bbGrp.addKeyword(PvlKeyword("Center", toString(center)));
-    bbGrp.addKeyword(PvlKeyword("Width", toString(width)));
+    bbGrp.addKeyword(PvlKeyword("Center", Isis::toString(center)));
+    bbGrp.addKeyword(PvlKeyword("Width", Isis::toString(width)));
     bbGrp.addKeyword(PvlKeyword("FilterName", filtname.toStdString()));
     outcube->putGroup(bbGrp);
 
     PvlGroup kerns("Kernels");
     if(instid == "FC1") {
-      kerns += PvlKeyword("NaifFrameCode", toString(-203110-filtno));
+      kerns += PvlKeyword("NaifFrameCode", Isis::toString(-203110-filtno));
     }
     else if(instid == "FC2") {
-      kerns += PvlKeyword("NaifFrameCode", toString(-203120-filtno));
+      kerns += PvlKeyword("NaifFrameCode", Isis::toString(-203120-filtno));
     }
     else {
       std::string msg = "Input file [" + inFile.expanded() + "] has an invalid " +

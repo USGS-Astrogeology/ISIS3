@@ -489,15 +489,15 @@ namespace Isis{
     // Write out a report
     int pMerged = validPoints - vPoints;
     PvlGroup summary("Summary");
-    summary += PvlKeyword("TotalCubes",        toString(cube_measures_size));
-    summary += PvlKeyword("TotalInputPoints",  toString(all_points.size()));
-    summary += PvlKeyword("TotalOutputPoints", toString(oPoints));
-    summary += PvlKeyword("PointsMerged",      toString(pMerged));
-    summary += PvlKeyword("PointsEvaluated",   toString(nfound));
-    summary += PvlKeyword("TotalMeasures",     toString(allPoints));
-    summary += PvlKeyword("MeasuresMerged",    toString(nMerged));
-    summary += PvlKeyword("MeasuresDeleted",   toString(nRemoved));
-    summary += PvlKeyword("MinimumMeasures",   toString(nMinMeasures));
+    summary += PvlKeyword("TotalCubes",        Isis::toString(cube_measures_size));
+    summary += PvlKeyword("TotalInputPoints",  Isis::toString(all_points.size()));
+    summary += PvlKeyword("TotalOutputPoints", Isis::toString(oPoints));
+    summary += PvlKeyword("PointsMerged",      Isis::toString(pMerged));
+    summary += PvlKeyword("PointsEvaluated",   Isis::toString(nfound));
+    summary += PvlKeyword("TotalMeasures",     Isis::toString(allPoints));
+    summary += PvlKeyword("MeasuresMerged",    Isis::toString(nMerged));
+    summary += PvlKeyword("MeasuresDeleted",   Isis::toString(nRemoved));
+    summary += PvlKeyword("MinimumMeasures",   Isis::toString(nMinMeasures));
     Application::Log(summary);
 
     pbl.EndProcess();

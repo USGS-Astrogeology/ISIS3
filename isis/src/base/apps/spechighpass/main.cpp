@@ -28,9 +28,9 @@ void IsisMain() {
 
   //Check for cases of too many bands
   if(bands >= (2 * cubeBands)) {
-    std::string msg = "Parameter bands [" + toString(bands) + "] "
+    std::string msg = "Parameter bands [" + Isis::toString(bands) + "] "
                   "exceeds maximum allowable size of ["
-                  + toString((cubeBands * 2) - 1) + "] for cube ["
+                  + Isis::toString((cubeBands * 2) - 1) + "] for cube ["
                   + icube->fileName().toStdString() + "]";
     throw IException(IException::User, msg, _FILEINFO_);
   }

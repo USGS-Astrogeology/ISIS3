@@ -68,7 +68,7 @@ namespace Isis {
       PvlGroup tolerances = diffFile.findGroup("Tolerances");
       for (int i = 0; i < tolerances.keywords(); i++)
         m_tolerances->insert(QString::fromStdString(tolerances[i].name()),
-            IString::ToDouble(tolerances[i][0]));
+            Isis::toDouble(tolerances[i][0]));
     }
 
     if (diffFile.hasGroup("IgnoreKeys")) {
@@ -264,7 +264,7 @@ namespace Isis {
   void ControlNetDiff::compare(PvlKeyword &k1, PvlKeyword &k2, PvlContainer &report) {
     QString name = QString::fromStdString(k1.name());
     if (m_tolerances->contains(name))
-      diff(name, IString::ToDouble(k1[0]), IString::ToDouble(k2[0]), (*m_tolerances)[name], report);
+      diff(name, Isis::toDouble(k1[0]), Isis::toDouble(k2[0]), (*m_tolerances)[name], report);
     else
       diff(name, QString::fromStdString(k1[0]), QString::fromStdString(k2[0]), report);
   }
@@ -355,10 +355,10 @@ namespace Isis {
    */
   PvlKeyword ControlNetDiff::makeKeyword(QString name, double v1, double v2, double tol) {
     PvlKeyword keyword(name.toStdString());
-    keyword.addValue(toString(v1));
+    keyword.addValue(Isis::toString(v1));
     if (fabs(v1 - v2) > tol) {
-      keyword.addValue(toString(v2));
-      keyword.addValue(toString(tol));
+      keyword.addValue(Isis::toString(v2));
+      keyword.addValue(Isis::toString(tol));
     }
     return keyword;
   }

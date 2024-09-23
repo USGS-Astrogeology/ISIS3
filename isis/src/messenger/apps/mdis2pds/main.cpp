@@ -47,7 +47,7 @@ inline void validateUnit(PvlKeyword &key, const QString &kunit) {
   for (int i = 0; i < temp.size(); i++) {
     try {
       //  If this works, check unit, otherwise an exception is thrown
-     IString::ToDouble(temp[i]);
+      Isis::toDouble(temp[i]);
       QString unit = QString::fromStdString(temp.unit(i));
       if (unit.isEmpty()) unit = kunit;
       key.addValue(temp[i], unit.toStdString());
@@ -230,12 +230,12 @@ void IsisMain() {
   p.CheckStatus();
 
   // Creates keywords from the input's hist above
-  PvlKeyword minDn("MINIMUM", toString(setRound(hist->Minimum(), 16)));
-  PvlKeyword maxDn("MAXIMUM", toString(setRound(hist->Maximum(), 16)));
-  PvlKeyword meanDn("MEAN", toString(setRound(hist->Average(), 16)));
-  PvlKeyword stddev("STANDARD_DEVIATION", toString(setRound(hist->StandardDeviation(), 16)));
+  PvlKeyword minDn("MINIMUM", Isis::toString(setRound(hist->Minimum(), 16)));
+  PvlKeyword maxDn("MAXIMUM", Isis::toString(setRound(hist->Maximum(), 16)));
+  PvlKeyword meanDn("MEAN", Isis::toString(setRound(hist->Average(), 16)));
+  PvlKeyword stddev("STANDARD_DEVIATION", Isis::toString(setRound(hist->StandardDeviation(), 16)));
 
-  PvlKeyword saturated("SATURATED_PIXEL_COUNT", toString(hist->HisPixels()));
+  PvlKeyword saturated("SATURATED_PIXEL_COUNT", Isis::toString(hist->HisPixels()));
 
   PvlObject &imageObj = pdsLabel.findObject("IMAGE");
 
@@ -252,7 +252,7 @@ void IsisMain() {
   PvlKeyword &darkStripMean = imageObj.findKeyword("DARK_STRIP_MEAN");
 
   try {
-    darkStripMean[0] = toString(setRound(IString::ToDouble(darkStripMean[0]), 16));
+    darkStripMean[0] = Isis::toString(setRound(Isis::toDouble(darkStripMean[0]), 16));
   }
   catch (IException &) {
     // If we fail to convert this keyword to a number, then preserve

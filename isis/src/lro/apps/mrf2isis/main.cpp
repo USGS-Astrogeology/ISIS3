@@ -149,15 +149,15 @@ void IsisMain() {
       else {   // BASELINE_X or ZOOM_X
         frequency = 7140000000.0;
       }
-      instGrp.addKeyword(PvlKeyword("Frequency", toString(frequency)));
+      instGrp.addKeyword(PvlKeyword("Frequency", Isis::toString(frequency)));
       outcube->putGroup(instGrp);
     }
     PvlGroup kerns("Kernels");
     if(id.startsWith("CHAN1") || id.startsWith("CH1")) {
-      kerns += PvlKeyword("NaifFrameCode", toString(-86001));
+      kerns += PvlKeyword("NaifFrameCode", Isis::toString(-86001));
     }
     else {   // LRO
-      kerns += PvlKeyword("NaifFrameCode", toString(-85700));
+      kerns += PvlKeyword("NaifFrameCode", Isis::toString(-85700));
     }
     outcube->putGroup(kerns);
   }

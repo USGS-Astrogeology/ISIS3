@@ -99,16 +99,16 @@ void IsisMain(){
 
     //!Write bit2bit summary to print.prt logfile
     PvlGroup results("bit2bit_Results");
-    results += PvlKeyword ("INPUT_LRS",toString(iLrs));
-    results += PvlKeyword ("INPUT_HRS",toString(iHrs));
-    results += PvlKeyword ("INPUT_NULL",toString(iNull));
-    results += PvlKeyword ("INPUT_INVALID_PERCENT",toString(invalid_pi));
-    results += PvlKeyword ("OUTPUT_MIN",toString(validMin));
-    results += PvlKeyword ("OUTPUT_MAX",toString(validMax));
-    results += PvlKeyword ("OUTPUT_LRS",toString(oLrs));
-    results += PvlKeyword ("OUTPUT_HRS",toString(oHrs));
-    results += PvlKeyword ("OUTPUT_NULL",toString(oNull));
-    results += PvlKeyword ("OUTPUT_INVALID_PERCENT",toString(invalid_po));
+    results += PvlKeyword ("INPUT_LRS",Isis::toString(iLrs));
+    results += PvlKeyword ("INPUT_HRS",Isis::toString(iHrs));
+    results += PvlKeyword ("INPUT_NULL",Isis::toString(iNull));
+    results += PvlKeyword ("INPUT_INVALID_PERCENT",Isis::toString(invalid_pi));
+    results += PvlKeyword ("OUTPUT_MIN",Isis::toString(validMin));
+    results += PvlKeyword ("OUTPUT_MAX",Isis::toString(validMax));
+    results += PvlKeyword ("OUTPUT_LRS",Isis::toString(oLrs));
+    results += PvlKeyword ("OUTPUT_HRS",Isis::toString(oHrs));
+    results += PvlKeyword ("OUTPUT_NULL",Isis::toString(oNull));
+    results += PvlKeyword ("OUTPUT_INVALID_PERCENT",Isis::toString(invalid_po));
     Application::Log(results);
 
     delete histptr;
@@ -135,12 +135,12 @@ void IsisMain(){
 
     //!Write bit2bit summary to print.prt logfile
     PvlGroup results("bit2bit_Results");
-    results += PvlKeyword ("INPUT_LRS",toString(iLrs));
-    results += PvlKeyword ("INPUT_HRS",toString(iHrs));
-    results += PvlKeyword ("INPUT_NULL",toString(iNull));
-    results += PvlKeyword ("INPUT_INVALID_PERCENT",toString(invalid_pi));
-    results += PvlKeyword ("OUTPUT_MIN",toString(validMin));
-    results += PvlKeyword ("OUTPUT_MAX",toString(validMax));
+    results += PvlKeyword ("INPUT_LRS",Isis::toString(iLrs));
+    results += PvlKeyword ("INPUT_HRS",Isis::toString(iHrs));
+    results += PvlKeyword ("INPUT_NULL",Isis::toString(iNull));
+    results += PvlKeyword ("INPUT_INVALID_PERCENT",Isis::toString(invalid_pi));
+    results += PvlKeyword ("OUTPUT_MIN",Isis::toString(validMin));
+    results += PvlKeyword ("OUTPUT_MAX",Isis::toString(validMax));
     Application::Log(results);
 
     delete histptr;

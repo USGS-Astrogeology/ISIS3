@@ -62,7 +62,7 @@ namespace Isis {
     if (name().toUpper() == "SKY") {
       m_radii[0] = m_radii[1] = m_radii[2] = Distance(1000.0, Distance::Meters);
       m_sky = true;
-      int ikCode = IString::ToInteger(kernels[trykey.toStdString()][0]);
+      int ikCode = Isis::toInt(kernels[trykey.toStdString()][0]);
       *m_bodyCode  = ikCode / 1000;
       // Check for override in kernel group
       if (kernels.hasKeyword("NaifSpkCode")) {
@@ -133,7 +133,7 @@ namespace Isis {
     if (name().toUpper() == "SKY" && kernels.hasKeyword(trykey)) {
       m_radii[0] = m_radii[1] = m_radii[2] = Distance(1000.0, Distance::Meters);
       m_sky = true;
-      int ikCode = IString::ToInteger(kernels[trykey][0]);
+      int ikCode = Isis::toInt(kernels[trykey][0]);
       *m_bodyCode  = ikCode / 1000;
       // Check for override in kernel group
       if (kernels.hasKeyword("NaifSpkCode")) {
@@ -368,15 +368,15 @@ namespace Isis {
           catch (IException &e2) {
             throw IException(e, IException::Unknown, e2.what(), _FILEINFO_);
           }
-          std::string radiiKeyword = "BODY" + toString(int(bodyCode)) + "_RADII";
+          std::string radiiKeyword = "BODY" + Isis::toString(int(bodyCode)) + "_RADII";
 
           if (naifKeywords.hasKeyword(radiiKeyword)) {
             PvlKeyword radii =  naifKeywords.findKeyword(radiiKeyword);
             mapping.addKeyword( PvlKeyword("EquatorialRadius",
-                                           toString(IString::ToDouble(radii[0]) * 1000.0), "meters"),
+                                           Isis::toString(Isis::toDouble(radii[0]) * 1000.0), "meters"),
                                 PvlContainer::Replace);
             mapping.addKeyword( PvlKeyword("PolarRadius",
-                                           toString(IString::ToDouble(radii[2]) * 1000.0), "meters"),
+                                           Isis::toString(Isis::toDouble(radii[2]) * 1000.0), "meters"),
                                 PvlContainer::Replace);
             return mapping;
           }
@@ -391,11 +391,11 @@ namespace Isis {
             if (naifKeywords.hasKeyword(radiiKeyword.toStdString())) {
               PvlKeyword radii =  naifKeywords.findKeyword(radiiKeyword.toStdString());
               mapping.addKeyword( PvlKeyword("EquatorialRadius",
-                                             toString(IString::ToDouble(radii[0]) * 1000.0),
+                                             Isis::toString(Isis::toDouble(radii[0]) * 1000.0),
                                              "meters"),
                                   PvlContainer::Replace);
               mapping.addKeyword( PvlKeyword("PolarRadius",
-                                             toString(IString::ToDouble(radii[2]) * 1000.0),
+                                             Isis::toString(Isis::toDouble(radii[2]) * 1000.0),
                                              "meters"),
                                   PvlContainer::Replace);
               return mapping;
@@ -498,15 +498,15 @@ namespace Isis {
       NaifStatus::CheckErrors();
     }
     catch (IException &e) {
-      std::string msg = "Unable to find radii for target code [" + toString(bodyCode)
+      std::string msg = "Unable to find radii for target code [" + Isis::toString(bodyCode)
                     + "]. Target code was not found in furnished kernels.";
 
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
 
     PvlGroup radiiGroup;
-    radiiGroup += PvlKeyword("EquatorialRadius", toString(radii[0] * 1000.0), "meters");
-    radiiGroup += PvlKeyword("PolarRadius", toString(radii[2] * 1000.0), "meters");
+    radiiGroup += PvlKeyword("EquatorialRadius", Isis::toString(radii[0] * 1000.0), "meters");
+    radiiGroup += PvlKeyword("PolarRadius", Isis::toString(radii[2] * 1000.0), "meters");
 
     return radiiGroup;
 

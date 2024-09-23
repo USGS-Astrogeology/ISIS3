@@ -45,15 +45,15 @@ int main() {
 
 void LowerPrecision(PvlKeyword &keyword) {
   if (keyword.name() != "LookDirectionCamera") {
-    double value = IString::ToDouble(keyword[0]);
+    double value = Isis::toDouble(keyword[0]);
     value = round(value * 1000) / 1000.0;
-    keyword[0] = toString(value);
+    keyword[0] = Isis::toString(value);
   }
   else {
     for (int i = 0; i < 3; i++) {
-      double value = IString::ToDouble(keyword[i]);
+      double value = Isis::toDouble(keyword[i]);
       value = round(value * 10000000000) / 10000000000.0;
-      keyword[i] = toString(value);
+      keyword[i] = Isis::toString(value);
     }
   }
 }

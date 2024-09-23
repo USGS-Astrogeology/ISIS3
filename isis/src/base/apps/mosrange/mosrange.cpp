@@ -143,8 +143,8 @@ namespace Isis {
 
           PvlObject fmap("File");
           fmap += PvlKeyword("Name", cubeFileList[i].toString());
-          fmap += PvlKeyword("Lines", toString(lines));
-          fmap += PvlKeyword("Samples", toString(samples));
+          fmap += PvlKeyword("Lines", Isis::toString(lines));
+          fmap += PvlKeyword("Samples", Isis::toString(samples));
 
           Camera *cam = cube.camera();
           Pvl mapping;
@@ -182,20 +182,20 @@ namespace Isis {
           double pixres = (lowres + hires) / 2.0;
           double scale = Scale(pixres, poleRad, eqRad);
 
-          mapgrp.addKeyword(PvlKeyword("PixelResolution", toString(pixres)), Pvl::Replace);
-          mapgrp.addKeyword(PvlKeyword("Scale", toString(scale), "pixels/degree"), Pvl::Replace);
-          mapgrp += PvlKeyword("MinPixelResolution", toString(lowres), "meters/pixel");
-          mapgrp += PvlKeyword("MaxPixelResolution", toString(hires), "meters/pixel");
-          mapgrp += PvlKeyword("MinObliquePixelResolution", toString(lowObliqueRes), "meters/pixel");
-          mapgrp += PvlKeyword("MaxObliquePixelResolution", toString(hiObliqueRes), "meters/pixel");
+          mapgrp.addKeyword(PvlKeyword("PixelResolution", Isis::toString(pixres)), Pvl::Replace);
+          mapgrp.addKeyword(PvlKeyword("Scale", Isis::toString(scale), "pixels/degree"), Pvl::Replace);
+          mapgrp += PvlKeyword("MinPixelResolution", Isis::toString(lowres), "meters/pixel");
+          mapgrp += PvlKeyword("MaxPixelResolution", Isis::toString(hires), "meters/pixel");
+          mapgrp += PvlKeyword("MinObliquePixelResolution", Isis::toString(lowObliqueRes), "meters/pixel");
+          mapgrp += PvlKeyword("MaxObliquePixelResolution", Isis::toString(hiObliqueRes), "meters/pixel");
 
           // Get the universal ground range
           double minlat, maxlat, minlon, maxlon;
           cam->GroundRange(minlat, maxlat, minlon, maxlon, mapping);
-          mapgrp.addKeyword(PvlKeyword("MinimumLatitude", toString(minlat)), Pvl::Replace);
-          mapgrp.addKeyword(PvlKeyword("MaximumLatitude", toString(maxlat)), Pvl::Replace);
-          mapgrp.addKeyword(PvlKeyword("MinimumLongitude", toString(minlon)), Pvl::Replace);
-          mapgrp.addKeyword(PvlKeyword("MaximumLongitude", toString(maxlon)), Pvl::Replace);
+          mapgrp.addKeyword(PvlKeyword("MinimumLatitude", Isis::toString(minlat)), Pvl::Replace);
+          mapgrp.addKeyword(PvlKeyword("MaximumLatitude", Isis::toString(maxlat)), Pvl::Replace);
+          mapgrp.addKeyword(PvlKeyword("MinimumLongitude", Isis::toString(minlon)), Pvl::Replace);
+          mapgrp.addKeyword(PvlKeyword("MaximumLongitude", Isis::toString(maxlon)), Pvl::Replace);
 
           fmap.addGroup(mapgrp);
           fileset.addObject(fmap);
@@ -263,38 +263,38 @@ namespace Isis {
 
     mapping += PvlKeyword("ProjectionName", projection.toStdString());
     mapping += PvlKeyword("TargetName", target.toStdString());
-    mapping += PvlKeyword("EquatorialRadius", toString(eqRad), "meters");
-    mapping += PvlKeyword("PolarRadius", toString(poleRad), "meters");
+    mapping += PvlKeyword("EquatorialRadius", Isis::toString(eqRad), "meters");
+    mapping += PvlKeyword("PolarRadius", Isis::toString(poleRad), "meters");
     mapping += PvlKeyword("LatitudeType", lattype.toStdString());
     mapping += PvlKeyword("LongitudeDirection", londir.toStdString());
     mapping += PvlKeyword("LongitudeDomain", londom.toStdString());
-    mapping += PvlKeyword("PixelResolution", toString(SetRound(avgPixRes, digits)), "meters/pixel");
-    mapping += PvlKeyword("Scale", toString(SetRound(scale, digits)), "pixels/degree");
-    mapping += PvlKeyword("MinPixelResolution", toString(scaleStat.Minimum()), "meters/pixel");
-    mapping += PvlKeyword("MaxPixelResolution", toString(scaleStat.Maximum()), "meters/pixel");
-    mapping += PvlKeyword("MinObliquePixelResolution", toString(obliqueScaleStat.Minimum()),
+    mapping += PvlKeyword("PixelResolution", Isis::toString(SetRound(avgPixRes, digits)), "meters/pixel");
+    mapping += PvlKeyword("Scale", Isis::toString(SetRound(scale, digits)), "pixels/degree");
+    mapping += PvlKeyword("MinPixelResolution", Isis::toString(scaleStat.Minimum()), "meters/pixel");
+    mapping += PvlKeyword("MaxPixelResolution", Isis::toString(scaleStat.Maximum()), "meters/pixel");
+    mapping += PvlKeyword("MinObliquePixelResolution", Isis::toString(obliqueScaleStat.Minimum()),
                           "meters/pixel");
-    mapping += PvlKeyword("MaxObliquePixelResolution", toString(obliqueScaleStat.Maximum()),
+    mapping += PvlKeyword("MaxObliquePixelResolution", Isis::toString(obliqueScaleStat.Maximum()),
                           "meters/pixel");
-    mapping += PvlKeyword("CenterLongitude", toString(SetRound(avgLon, digits)));
-    mapping += PvlKeyword("CenterLatitude",  toString(SetRound(avgLat, digits)));
-    mapping += PvlKeyword("MinimumLatitude", toString(std::max(SetFloor(latitudeStat.Minimum(),
+    mapping += PvlKeyword("CenterLongitude", Isis::toString(SetRound(avgLon, digits)));
+    mapping += PvlKeyword("CenterLatitude",  Isis::toString(SetRound(avgLat, digits)));
+    mapping += PvlKeyword("MinimumLatitude", Isis::toString(std::max(SetFloor(latitudeStat.Minimum(),
                                                                    digits), -90.0)));
-    mapping += PvlKeyword("MaximumLatitude", toString(std::min(SetCeil(latitudeStat.Maximum(),
+    mapping += PvlKeyword("MaximumLatitude", Isis::toString(std::min(SetCeil(latitudeStat.Maximum(),
                                                                    digits), 90.0)));
-    mapping += PvlKeyword("MinimumLongitude", toString(std::max(SetFloor(longitudeStat.Minimum(),
+    mapping += PvlKeyword("MinimumLongitude", Isis::toString(std::max(SetFloor(longitudeStat.Minimum(),
                                                                     digits), -180.0)));
-    mapping += PvlKeyword("MaximumLongitude", toString(std::min(SetCeil(longitudeStat.Maximum(),
+    mapping += PvlKeyword("MaximumLongitude", Isis::toString(std::min(SetCeil(longitudeStat.Maximum(),
                                                                    digits), 360.0)));
 
-    PvlKeyword clat("PreciseCenterLongitude", toString(avgLon));
+    PvlKeyword clat("PreciseCenterLongitude", Isis::toString(avgLon));
     clat.addComment("Actual Parameters without precision applied");
     mapping += clat;
-    mapping += PvlKeyword("PreciseCenterLatitude",  toString(avgLat));
-    mapping += PvlKeyword("PreciseMinimumLatitude", toString(latitudeStat.Minimum()));
-    mapping += PvlKeyword("PreciseMaximumLatitude", toString(latitudeStat.Maximum()));
-    mapping += PvlKeyword("PreciseMinimumLongitude", toString(longitudeStat.Minimum()));
-    mapping += PvlKeyword("PreciseMaximumLongitude", toString(longitudeStat.Maximum()));
+    mapping += PvlKeyword("PreciseCenterLatitude",  Isis::toString(avgLat));
+    mapping += PvlKeyword("PreciseMinimumLatitude", Isis::toString(latitudeStat.Minimum()));
+    mapping += PvlKeyword("PreciseMaximumLatitude", Isis::toString(latitudeStat.Maximum()));
+    mapping += PvlKeyword("PreciseMinimumLongitude", Isis::toString(longitudeStat.Minimum()));
+    mapping += PvlKeyword("PreciseMaximumLongitude", Isis::toString(longitudeStat.Maximum()));
 
     Application::AppendAndLog(mapping, &log);
 

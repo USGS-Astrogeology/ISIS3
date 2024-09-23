@@ -199,28 +199,28 @@ void IsisMain() {
 void pvlOut(Statistics stats1, Statistics stats2, QString name, int start,
             int end, PvlObject *one, PvlObject *two) {
   PvlGroup left(name.toStdString());
-  left += PvlKeyword("StartLine", toString(start + 1));
-  left += PvlKeyword("EndLine", toString(end));
-  left += PvlKeyword("TotalPixels", toString(stats1.TotalPixels()));
-  left += PvlKeyword("ValidPixels", toString(stats1.ValidPixels()));
+  left += PvlKeyword("StartLine", Isis::toString(start + 1));
+  left += PvlKeyword("EndLine", Isis::toString(end));
+  left += PvlKeyword("TotalPixels", Isis::toString(stats1.TotalPixels()));
+  left += PvlKeyword("ValidPixels", Isis::toString(stats1.ValidPixels()));
   if(stats1.ValidPixels() > 0) {
-    left += PvlKeyword("Mean", toString(stats1.Average()));
-    left += PvlKeyword("StandardDeviation", toString(stats1.StandardDeviation()));
-    left += PvlKeyword("Minimum", toString(stats1.Minimum()));
-    left += PvlKeyword("Maximum", toString(stats1.Maximum()));
+    left += PvlKeyword("Mean", Isis::toString(stats1.Average()));
+    left += PvlKeyword("StandardDeviation", Isis::toString(stats1.StandardDeviation()));
+    left += PvlKeyword("Minimum", Isis::toString(stats1.Minimum()));
+    left += PvlKeyword("Maximum", Isis::toString(stats1.Maximum()));
   }
   one->addGroup(left);
 
   PvlGroup right(name.toStdString());
-  right += PvlKeyword("StartLine", toString(start + 1));
-  right += PvlKeyword("EndLine", toString(end));
-  right += PvlKeyword("TotalPixels", toString(stats2.TotalPixels()));
-  right += PvlKeyword("ValidPixels", toString(stats2.ValidPixels()));
+  right += PvlKeyword("StartLine", Isis::toString(start + 1));
+  right += PvlKeyword("EndLine", Isis::toString(end));
+  right += PvlKeyword("TotalPixels", Isis::toString(stats2.TotalPixels()));
+  right += PvlKeyword("ValidPixels", Isis::toString(stats2.ValidPixels()));
   if(stats2.ValidPixels() > 0) {
-    right += PvlKeyword("Mean", toString(stats2.Average()));
-    right += PvlKeyword("StandardDeviation", toString(stats2.StandardDeviation()));
-    right += PvlKeyword("Minimum", toString(stats2.Minimum()));
-    right += PvlKeyword("Maximum", toString(stats2.Maximum()));
+    right += PvlKeyword("Mean", Isis::toString(stats2.Average()));
+    right += PvlKeyword("StandardDeviation", Isis::toString(stats2.StandardDeviation()));
+    right += PvlKeyword("Minimum", Isis::toString(stats2.Minimum()));
+    right += PvlKeyword("Maximum", Isis::toString(stats2.Maximum()));
   }
   two->addGroup(right);
 }

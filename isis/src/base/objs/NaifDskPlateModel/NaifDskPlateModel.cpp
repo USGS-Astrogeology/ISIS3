@@ -294,7 +294,7 @@ namespace Isis {
   
     // Sanity check on plateid
     if ( !isPlateIdValid(plateid) ) {
-      std::string mess = "Plateid = " + toString(plateid) + " is invalid";
+      std::string mess = "Plateid = " + Isis::toString(plateid) + " is invalid";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
   

@@ -244,12 +244,12 @@ void TranslateMroCtxLabels(FileName &labelFile, Cube *ocube) {
   // Set up the BandBin groups
   PvlGroup bbin("BandBin");
   bbin += PvlKeyword("FilterName", "BroadBand");
-  bbin += PvlKeyword("Center", toString(0.650), "micrometers");
-  bbin += PvlKeyword("Width", toString(0.150), "micrometers");
+  bbin += PvlKeyword("Center", Isis::toString(0.650), "micrometers");
+  bbin += PvlKeyword("Width", Isis::toString(0.150), "micrometers");
 
   //Set up the Kernels group
   PvlGroup kern("Kernels");
-  kern += PvlKeyword("NaifFrameCode", toString(-74021));
+  kern += PvlKeyword("NaifFrameCode", Isis::toString(-74021));
 
   Pvl lab(labelFile.expanded());
   int sumMode, startSamp;
@@ -266,8 +266,8 @@ void TranslateMroCtxLabels(FileName &labelFile, Cube *ocube) {
     startSamp = (int)lab.findKeyword("SAMPLE_FIRST_PIXEL");
   }
   PvlGroup inst = outLabel.findGroup("Instrument", Pvl::Traverse);
-  inst += PvlKeyword("SpatialSumming", toString(sumMode));
-  inst += PvlKeyword("SampleFirstPixel", toString(startSamp));
+  inst += PvlKeyword("SpatialSumming", Isis::toString(sumMode));
+  inst += PvlKeyword("SampleFirstPixel", Isis::toString(startSamp));
 
   //Add all groups to the output cube
   ocube->putGroup(inst);

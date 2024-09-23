@@ -164,7 +164,7 @@ namespace Isis {
     if (input.SampleDimension() != 3 ||
         input.LineDimension() != 3 ||
         input.BandDimension() != 1) {
-      throw IException(IException::Programmer,"Hillshade requires a 3x3x1 portal of data, but a " + std::to_string(input.SampleDimension()) + "x" + std::to_string(input.LineDimension()) + "x" + std::to_string(input.BandDimension()) + " portal of data was provided instead",
+      throw IException(IException::Programmer,"Hillshade requires a 3x3x1 portal of data, but a " + Isis::toString(input.SampleDimension()) + "x" + Isis::toString(input.LineDimension()) + "x" + Isis::toString(input.BandDimension()) + " portal of data was provided instead",
                        _FILEINFO_);
     }
 

@@ -23,15 +23,15 @@ int main(int argc, char *argv[]) {
   Pvl lab;
   lab.addGroup(PvlGroup("Mapping"));
   PvlGroup &mapGrp = lab.findGroup("Mapping");
-  mapGrp += PvlKeyword("EquatorialRadius", toString(1.0));
-  mapGrp += PvlKeyword("PolarRadius", toString(1.0));
+  mapGrp += PvlKeyword("EquatorialRadius", Isis::toString(1.0));
+  mapGrp += PvlKeyword("PolarRadius", Isis::toString(1.0));
   mapGrp += PvlKeyword("LatitudeType", "Planetocentric");
   mapGrp += PvlKeyword("LongitudeDirection", "PositiveEast");
-  mapGrp += PvlKeyword("LongitudeDomain", toString(180));
-  mapGrp += PvlKeyword("MinimumLatitude", toString(-90.0));
-  mapGrp += PvlKeyword("MaximumLatitude", toString(90.0));
-  mapGrp += PvlKeyword("MinimumLongitude", toString(-180.0));
-  mapGrp += PvlKeyword("MaximumLongitude", toString(180.0));
+  mapGrp += PvlKeyword("LongitudeDomain", Isis::toString(180));
+  mapGrp += PvlKeyword("MinimumLatitude", Isis::toString(-90.0));
+  mapGrp += PvlKeyword("MaximumLatitude", Isis::toString(90.0));
+  mapGrp += PvlKeyword("MinimumLongitude", Isis::toString(-180.0));
+  mapGrp += PvlKeyword("MaximumLongitude", Isis::toString(180.0));
   mapGrp += PvlKeyword("ProjectionName", "SimpleCylindrical");
 
   cout << "Test missing center longitude keyword ..." << endl;
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
   cout << endl;
 
   try {
-    mapGrp += PvlKeyword("CenterLongitude", toString(-90.0));
+    mapGrp += PvlKeyword("CenterLongitude", Isis::toString(-90.0));
     TProjection *p = (TProjection *) ProjectionFactory::Create(lab);
 
     cout << "Test SetGround method ... " << endl;

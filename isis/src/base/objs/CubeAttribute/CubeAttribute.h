@@ -54,7 +54,7 @@ namespace Isis {
     if(labelType == DetachedLabel) return "Detached";
     if(labelType == ExternalLabel) return "External";
 
-    std::string msg = "Invalid label attachment type [" + toString(labelType) + "]";
+    std::string msg = "Invalid label attachment type [" + Isis::toString(labelType) + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
   }
 

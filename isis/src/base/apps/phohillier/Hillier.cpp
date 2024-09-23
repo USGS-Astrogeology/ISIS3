@@ -107,7 +107,7 @@ namespace Isis {
   double Hillier::photometry(double i, double e, double g, int band) const {
     // Test for valid band
     if((band <= 0) || (band > (int) _bandpho.size())) {
-      std::string mess = "Provided band " + toString(band) + " out of range.";
+      std::string mess = "Provided band " + Isis::toString(band) + " out of range.";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
     double ph = photometry(_bandpho[band-1], i, e, g);
@@ -170,9 +170,9 @@ namespace Isis {
    */
   void Hillier::Report(PvlContainer &pvl) {
     pvl += PvlKeyword("Algorithm", "Hillier");
-    pvl += PvlKeyword("IncRef", toString(_iRef), "degrees");
-    pvl += PvlKeyword("EmaRef", toString(_eRef), "degrees");
-    pvl += PvlKeyword("PhaRef", toString(_gRef), "degrees");
+    pvl += PvlKeyword("IncRef", Isis::toString(_iRef), "degrees");
+    pvl += PvlKeyword("EmaRef", Isis::toString(_eRef), "degrees");
+    pvl += PvlKeyword("PhaRef", Isis::toString(_gRef), "degrees");
     PvlKeyword units("HillierUnits");
     PvlKeyword phostd("PhotometricStandard");
     PvlKeyword bbc("BandBinCenter");
@@ -188,17 +188,17 @@ namespace Isis {
     for(unsigned int i = 0 ; i < _bandpho.size() ; i++) {
       Parameters &p = _bandpho[i];
       units.addValue(p.units.toStdString());
-      phostd.addValue(toString(p.phoStd));
-      bbc.addValue(toString(p.wavelength));
-      bbct.addValue(toString(p.tolerance));
-      bbn.addValue(toString(p.band));
-      b0.addValue(toString(p.b0));
-      b1.addValue(toString(p.b1));
-      a0.addValue(toString(p.a0));
-      a1.addValue(toString(p.a1));
-      a2.addValue(toString(p.a2));
-      a3.addValue(toString(p.a3));
-      a4.addValue(toString(p.a4));
+      phostd.addValue(Isis::toString(p.phoStd));
+      bbc.addValue(Isis::toString(p.wavelength));
+      bbct.addValue(Isis::toString(p.tolerance));
+      bbn.addValue(Isis::toString(p.band));
+      b0.addValue(Isis::toString(p.b0));
+      b1.addValue(Isis::toString(p.b1));
+      a0.addValue(Isis::toString(p.a0));
+      a1.addValue(Isis::toString(p.a1));
+      a2.addValue(Isis::toString(p.a2));
+      a3.addValue(Isis::toString(p.a3));
+      a4.addValue(Isis::toString(p.a4));
     }
     pvl += units;
     pvl += phostd;
@@ -335,7 +335,7 @@ namespace Isis {
     PvlKeyword center = label->findGroup("BandBin", Pvl::Traverse)["Center"];
     std::string errs("");
     for(int i = 0; i < cube.bandCount() ; i++) {
-      Parameters parms = findParameters(IString::ToDouble(center[i]));
+      Parameters parms = findParameters(Isis::toDouble(center[i]));
       if(parms.IsValid()) {
         parms.band = i + 1;
         _camera->SetBand(i + 1);

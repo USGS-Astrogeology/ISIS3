@@ -113,7 +113,7 @@ namespace Isis {
      if ( !m_originalLabel.setContent(&xmlFile, false, &errmsg, &errline, &errcol) ) {
        xmlFile.close();
        std::string msg = "XML read/parse error in file [" + xmlFileName.expanded()
-            + "] at line [" + std::to_string(errline) + "], column [" + std::to_string(errcol)
+            + "] at line [" + Isis::toString(errline) + "], column [" + Isis::toString(errcol)
             + "], message: " + errmsg.toStdString();
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }

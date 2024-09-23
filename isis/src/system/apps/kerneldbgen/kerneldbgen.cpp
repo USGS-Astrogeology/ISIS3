@@ -234,7 +234,7 @@ namespace Isis {
                       throw IException(IException::Unknown,
                                        "Expected the keyword File in ["+ kernelFileName.original() +"] to have two "
                                                    "values, a mission data directory and a path into "
-                                                   "that directory. The keyword has ["+ toString(key.size()) +"] values.",
+                                                   "that directory. The keyword has ["+ Isis::toString(key.size()) +"] values.",
                                        _FILEINFO_);
                     }
                   }
@@ -247,9 +247,9 @@ namespace Isis {
                   }
                 }
                 else {
-                  throw IException(IException::Unknown, "Expected Pvl Group [" + primaryGroup.name() + "] in the first Pvl Object [" + primaryObject.name() + "] "
-                                               "in the DB file [" + kernelFileName.original() + "] to have a single keyword (named "
-                                               "File), but found [" + toString(primaryGroup.keywords()) + "] keywords",
+                  throw IException(IException::Unknown, "Expected Pvl Group " + primaryGroup.name() + " in the first Pvl Object " + primaryObject.name() + " "
+                                               "in the DB file " + kernelFileName.original() + " to have a single keyword (named "
+                                               "File), but found " + Isis::toString(primaryGroup.keywords()) + " keywords",
                                    _FILEINFO_);
                 }
               }
@@ -260,14 +260,14 @@ namespace Isis {
               }
             }
             else {
-              throw IException(IException::Unknown,"Expected one Pvl Group in the first Pvl Object [" + primaryObject.name() + "] in "
-                                           "the DB file [" + kernelFileName.original() + "] but found [" + toString(primaryObject.groups()) + "]", _FILEINFO_);
+              throw IException(IException::Unknown,"Expected one Pvl Group in the first Pvl Object " + primaryObject.name() + " in "
+                                           "the DB file " + kernelFileName.original() + " but found " + Isis::toString(primaryObject.groups()), _FILEINFO_);
             }
           }
           else {
             throw IException(IException::Unknown,
                              "Expected one Pvl Object in the DB file ["+kernelFileName.original()+"] but "
-                                         "found ["+ toString(kernelDbPvl.objects()) +"]",
+                                         "found ["+ Isis::toString(kernelDbPvl.objects()) +"]",
                              _FILEINFO_);
           }
         }

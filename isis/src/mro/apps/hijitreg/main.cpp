@@ -355,9 +355,9 @@ void IsisMain() {
   if (jparms.sStats.ValidPixels() > 0) {
     double sTrans = (int)(jparms.sStats.Average() * 100.0) / 100.0;
     double lTrans = (int)(jparms.lStats.Average() * 100.0) / 100.0;
-    results += PvlKeyword("Sample", toString(sTrans));
-    results += PvlKeyword("Line", toString(lTrans));
-    results += PvlKeyword("NSuspects", toString(jparms.nSuspects));
+    results += PvlKeyword("Sample", Isis::toString(sTrans));
+    results += PvlKeyword("Line", Isis::toString(lTrans));
+    results += PvlKeyword("NSuspects", Isis::toString(jparms.nSuspects));
   }
   else {
     results += PvlKeyword("Sample", "NULL");

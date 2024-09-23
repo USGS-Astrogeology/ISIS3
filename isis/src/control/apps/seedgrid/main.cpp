@@ -79,7 +79,7 @@ void IsisMain() {
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
-  double equatorialRadius = IString::ToDouble(mapGroup.findKeyword("EquatorialRadius")[0]);
+  double equatorialRadius = Isis::toDouble(mapGroup.findKeyword("EquatorialRadius")[0]);
 
   QString networkId;
   if (ui.WasEntered("NETWORKID")) {
@@ -102,7 +102,7 @@ void IsisMain() {
   checkLatitude(minLat, maxLat);
   int lonDomain =
       (mapGroup.hasKeyword("LongitudeDomain") ?
-          IString::ToInteger(mapGroup.findKeyword("LongitudeDomain")[0]) :
+          Isis::toInt(mapGroup.findKeyword("LongitudeDomain")[0]) :
           360);
   checkLongitude(minLon, maxLon, lonDomain);
 
@@ -120,10 +120,10 @@ void IsisMain() {
       mapGroup += PvlKeyword("CenterLongitude", "0.0");
     }
 
-    mapGroup.addKeyword(PvlKeyword("MinimumLatitude", toString(minLat)), Pvl::Replace);
-    mapGroup.addKeyword(PvlKeyword("MaximumLatitude", toString(maxLat)), Pvl::Replace);
-    mapGroup.addKeyword(PvlKeyword("MinimumLongitude", toString(minLon)), Pvl::Replace);
-    mapGroup.addKeyword(PvlKeyword("MaximumLongitude", toString(maxLon)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MinimumLatitude", Isis::toString(minLat)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MaximumLatitude", Isis::toString(maxLat)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MinimumLongitude", Isis::toString(minLon)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MaximumLongitude", Isis::toString(maxLon)), Pvl::Replace);
 
     // create the projection from the editted map
     TProjection *proj = (TProjection *) ProjectionFactory::Create(userMap);
@@ -228,8 +228,8 @@ void IsisMain() {
   }
 
   PvlGroup results("Results");
-  results += PvlKeyword("EquatorialRadius", toString(equatorialRadius));
-  results += PvlKeyword("NumberControlPoints", toString(cnet.GetNumPoints()));
+  results += PvlKeyword("EquatorialRadius", Isis::toString(equatorialRadius));
+  results += PvlKeyword("NumberControlPoints", Isis::toString(cnet.GetNumPoints()));
   Application::Log(results);
 
   cnet.Write(ui.GetFileName("ONET"));

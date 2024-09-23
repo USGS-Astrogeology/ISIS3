@@ -140,7 +140,7 @@ namespace Isis {
   void CSVReader::read(const QString &csvfile) {
     ifstream ifile(csvfile.toLatin1().data(), ios::in);
     if(!ifile) {
-      std::string mess = "Unable to open file [" + csvfile.toStdString() + "]";
+      IString mess = "Unable to open file [" + csvfile.toStdString() + "]";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 

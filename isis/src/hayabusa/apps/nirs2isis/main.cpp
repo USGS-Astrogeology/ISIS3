@@ -156,8 +156,8 @@ void IsisMain() {
   PvlKeyword filterNumber("FilterNumber");
   PvlKeyword center("Center");
   for (int channelNumber = 1; channelNumber <= 64; channelNumber++) {
-    filterNumber += toString( channelNumber );
-    center += toString( 2.27144 - 0.02356 * (65 - channelNumber) );
+    filterNumber += Isis::toString( channelNumber );
+    center += Isis::toString( 2.27144 - 0.02356 * (65 - channelNumber) );
   }
   newLabel.findGroup("BandBin", Pvl::Traverse).addKeyword(filterNumber);
   newLabel.findGroup("BandBin", Pvl::Traverse).addKeyword(center);
@@ -165,7 +165,7 @@ void IsisMain() {
 
   //  Create YearDoy keyword in Archive group
   iTime stime(QString::fromStdString(newLabel.findGroup("Instrument", Pvl::Traverse)["StartTime"][0]));
-  PvlKeyword yeardoy("YearDoy", toString(stime.Year()*1000 + stime.DayOfYear()));
+  PvlKeyword yeardoy("YearDoy", Isis::toString(stime.Year()*1000 + stime.DayOfYear()));
   newLabel.findGroup("Archive", Pvl::Traverse).addKeyword(yeardoy);
 
   // Add the instrument, band bin, archive, mission data, and kernels

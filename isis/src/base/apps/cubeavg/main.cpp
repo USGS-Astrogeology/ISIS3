@@ -40,9 +40,9 @@ void IsisMain() {
         std::vector<double> widths;
         widths.resize(icube->bandCount());
         for(int i = 0; i < pvlCenter.size(); i++) {
-          centers[i] = IString::ToDouble(pvlCenter[i]);
+          centers[i] = Isis::toDouble(pvlCenter[i]);
           if(hasWidth)
-            widths[i] = IString::ToDouble((*pvlWidth)[i]);
+            widths[i] = Isis::toDouble((*pvlWidth)[i]);
           else
             widths[i] = 0.0;
         }
@@ -145,14 +145,14 @@ void compute(vector<double> centers, vector<double> widths,
       small = (double)centers[i] - (double)widths[i] / 2.0;
     }
   }
-  pvlCenter.setValue(toString((large - small) / 2 + small), centerUnit.toStdString());
+  pvlCenter.setValue(Isis::toString((large - small) / 2 + small), centerUnit.toStdString());
   if(hasWidth) {
     PvlKeyword &pvlWidth  = pvlg.findKeyword("Width");
-    pvlWidth.setValue(toString(large - small), pvlWidth.unit());
+    pvlWidth.setValue(Isis::toString(large - small), pvlWidth.unit());
   }
   else {
     PvlKeyword pvlWidth = PvlKeyword("Width");
-    pvlWidth.setValue(toString(large - small), centerUnit.toStdString());
+    pvlWidth.setValue(Isis::toString(large - small), centerUnit.toStdString());
     pvlg.addKeyword(pvlWidth);
   }
 

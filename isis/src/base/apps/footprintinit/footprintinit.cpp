@@ -142,8 +142,8 @@ namespace Isis {
 
     if (precision) {
       PvlGroup results("Results");
-      results.addKeyword(PvlKeyword("SINC", toString(sinc)));
-      results.addKeyword(PvlKeyword("LINC", toString(linc)));
+      results.addKeyword(PvlKeyword("SINC", Isis::toString(sinc)));
+      results.addKeyword(PvlKeyword("LINC", Isis::toString(linc)));
       Application::AppendAndLog(results, log);
     }
 

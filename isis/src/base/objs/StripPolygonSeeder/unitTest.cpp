@@ -38,10 +38,10 @@ int main() {
     if(!alg.hasKeyword("Name")) {
       cout << "Test without subgrid" << endl;
       alg += PvlKeyword("Name", "Strip");
-      alg += PvlKeyword("MinimumThickness", toString(0.3));
-      alg += PvlKeyword("MinimumArea", toString(10));
-      alg += PvlKeyword("XSpacing", toString(1500));
-      alg += PvlKeyword("YSpacing", toString(1500));
+      alg += PvlKeyword("MinimumThickness", Isis::toString(0.3));
+      alg += PvlKeyword("MinimumArea", Isis::toString(10));
+      alg += PvlKeyword("XSpacing", Isis::toString(1500));
+      alg += PvlKeyword("YSpacing", Isis::toString(1500));
     }
 
     PvlObject o("AutoSeed");
@@ -85,7 +85,7 @@ int main() {
       mapGroup += Isis::PvlKeyword("PolarRadius", (std::string)radii["PolarRadius"]);
       mapGroup += Isis::PvlKeyword("LatitudeType", "Planetocentric");
       mapGroup += Isis::PvlKeyword("LongitudeDirection", "PositiveEast");
-      mapGroup += Isis::PvlKeyword("LongitudeDomain", toString(360));
+      mapGroup += Isis::PvlKeyword("LongitudeDomain", Isis::toString(360));
       mapGroup += Isis::PvlKeyword("CenterLatitude", "0");
       mapGroup += Isis::PvlKeyword("CenterLongitude", "0");
       mapGroup += Isis::PvlKeyword("ProjectionName", "Sinusoidal");
@@ -161,9 +161,9 @@ int main() {
       mapGroup += Isis::PvlKeyword("PolarRadius", (std::string)radii["PolarRadius"]);
       mapGroup += Isis::PvlKeyword("LatitudeType", "Planetocentric");
       mapGroup += Isis::PvlKeyword("LongitudeDirection", "PositiveEast");
-      mapGroup += Isis::PvlKeyword("LongitudeDomain", toString(360));
-      mapGroup += Isis::PvlKeyword("CenterLatitude", toString(0));
-      mapGroup += Isis::PvlKeyword("CenterLongitude", toString(0));
+      mapGroup += Isis::PvlKeyword("LongitudeDomain", Isis::toString(360));
+      mapGroup += Isis::PvlKeyword("CenterLatitude", Isis::toString(0));
+      mapGroup += Isis::PvlKeyword("CenterLongitude", Isis::toString(0));
       mapGroup += Isis::PvlKeyword("ProjectionName", "Sinusoidal");
       TProjection *proj = (TProjection *) Isis::ProjectionFactory::Create(maplab);
 

@@ -68,7 +68,7 @@ int main() {
     QString dir = QString::fromStdString(f.expanded()) + "/";
     QString dir2 = QString::fromStdString(f2.expanded()) + "/";
     QString dir3 = QString::fromStdString(f3.expanded()) + "/";
-    kern1 += PvlKeyword("NaifFrameCode", toString(-94031));
+    kern1 += PvlKeyword("NaifFrameCode", Isis::toString(-94031));
     kern1 += PvlKeyword("LeapSecond", dir.toStdString() + "naif0007.tls");
     kern1 += PvlKeyword("SpacecraftClock", dir.toStdString() + "MGS_SCLKSCET.00045.tsc");
     kern1 += PvlKeyword("TargetPosition", dir.toStdString() + "de405.bsp");
@@ -78,14 +78,14 @@ int main() {
     kern1 += PvlKeyword("InstrumentPosition", dir.toStdString() + "moc.bsp");
     kern1 += PvlKeyword("InstrumentPointing", dir.toStdString() + "moc.bc");
     kern1 += PvlKeyword("Frame", "");
-    kern1 += PvlKeyword("NaifBodyCode", toString(499));
+    kern1 += PvlKeyword("NaifBodyCode", Isis::toString(499));
     // Time Setup
     double startTime = -69382819.0;
     double endTime = -69382512.0;
     double slope = (endTime - startTime) / (10 - 1);
 
-    kern1 += PvlKeyword("StartPadding", toString(slope));
-    kern1 += PvlKeyword("EndPadding", toString(slope));
+    kern1 += PvlKeyword("StartPadding", Isis::toString(slope));
+    kern1 += PvlKeyword("EndPadding", Isis::toString(slope));
 
     Pvl lab1;
     lab1.addGroup(inst1);

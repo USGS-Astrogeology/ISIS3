@@ -436,13 +436,13 @@ namespace Isis {
 
     // Load the full cache time information from the label if available
     if(table.Label().hasKeyword("SpkTableStartTime")) {
-      p_fullCacheStartTime = IString::ToDouble(table.Label().findKeyword("SpkTableStartTime")[0]);
+      p_fullCacheStartTime = Isis::toDouble(table.Label().findKeyword("SpkTableStartTime")[0]);
     }
     if(table.Label().hasKeyword("SpkTableEndTime")) {
-      p_fullCacheEndTime = IString::ToDouble(table.Label().findKeyword("SpkTableEndTime")[0]);
+      p_fullCacheEndTime = Isis::toDouble(table.Label().findKeyword("SpkTableEndTime")[0]);
     }
     if(table.Label().hasKeyword("SpkTableOriginalSize")) {
-      p_fullCacheSize = IString::ToDouble(table.Label().findKeyword("SpkTableOriginalSize")[0]);
+      p_fullCacheSize = Isis::toDouble(table.Label().findKeyword("SpkTableOriginalSize")[0]);
     }
 
 
@@ -674,15 +674,15 @@ namespace Isis {
     // Write original time coverage
     if(p_fullCacheStartTime != 0) {
       table.Label() += PvlKeyword("SpkTableStartTime");
-      table.Label()["SpkTableStartTime"].addValue(toString(p_fullCacheStartTime));
+      table.Label()["SpkTableStartTime"].addValue(Isis::toString(p_fullCacheStartTime));
     }
     if(p_fullCacheEndTime != 0) {
       table.Label() += PvlKeyword("SpkTableEndTime");
-      table.Label()["SpkTableEndTime"].addValue(toString(p_fullCacheEndTime));
+      table.Label()["SpkTableEndTime"].addValue(Isis::toString(p_fullCacheEndTime));
     }
     if(p_fullCacheSize != 0) {
       table.Label() += PvlKeyword("SpkTableOriginalSize");
-      table.Label()["SpkTableOriginalSize"].addValue(toString(p_fullCacheSize));
+      table.Label()["SpkTableOriginalSize"].addValue(Isis::toString(p_fullCacheSize));
     }
   }
 

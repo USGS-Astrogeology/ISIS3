@@ -549,7 +549,7 @@ namespace Isis {
         upcase = true;
       }
       else if (upcase) {
-        std::string valueUpper = std::to_string(value[i]);
+        std::string valueUpper = Isis::toString(value[i]);
         std::transform(valueUpper.begin(), valueUpper.end(), valueUpper.begin(), ::toupper);
         out += valueUpper;
         lastlower = false;
@@ -581,7 +581,7 @@ namespace Isis {
         lastlower = false;
       }
       else {
-        std::string valueUpper = std::to_string(value[i]);
+        std::string valueUpper = Isis::toString(value[i]);
         std::transform(valueUpper.begin(), valueUpper.end(), valueUpper.begin(), ::toupper);
         out += valueUpper;
         if (islower(value[i])) lastlower = true;
@@ -2003,8 +2003,8 @@ namespace Isis {
 
       // Check for Range
       if (sValueName.find("__Range") != std::string::npos) {
-        dRangeMin = IString::ToDouble((*pvlKwrdValue)[0]);
-        dRangeMax = IString::ToDouble((*pvlKwrdValue)[1]);
+        dRangeMin = Isis::toDouble((*pvlKwrdValue)[0]);
+        dRangeMax = Isis::toDouble((*pvlKwrdValue)[1]);
         bRange = true;
       }
       else if (sValueName.find("__Value") != std::string::npos) {
@@ -2020,7 +2020,7 @@ namespace Isis {
         if (sValue != "null"){
           int iValue=0;
           try {
-            iValue = IString::ToInteger(sValue);
+            iValue = Isis::toInt(sValue);
           } catch (IException & e) {
             std::string sErrMsg = "\"" +pvlKwrd.name() +"\" expects an Integer value";
             throw IException(e, IException::User, sErrMsg, _FILEINFO_);
@@ -2032,7 +2032,7 @@ namespace Isis {
           if (bValue) {
             bool bFound = false;
             for (int j=0; j<pvlKwrdValue->size(); j++) {
-              if (iValue == IString::ToInteger((*pvlKwrdValue)[j])) {
+              if (iValue == Isis::toInt((*pvlKwrdValue)[j])) {
                 bFound = true;
                 break;
               }
@@ -2060,7 +2060,7 @@ namespace Isis {
         std::string sValue = pvlKwrd[i];
         std::transform(sValue.begin(), sValue.end(), sValue.begin(), ::tolower);
         if (sValue != "null"){
-          double dValue = IString::ToDouble(sValue);
+          double dValue = Isis::toDouble(sValue);
           if (bRange && (dValue < dRangeMin || dValue > dRangeMax)) {
             std::string sErrMsg = "\"" +pvlKwrd.name() +"\" is not in the specified Range";
             throw IException(IException::User, sErrMsg, _FILEINFO_);
@@ -2068,7 +2068,7 @@ namespace Isis {
           if (bValue) {
             bool bFound = false;
             for (int j=0; j<pvlKwrdValue->size(); j++) {
-              if (dValue == IString::ToDouble((*pvlKwrdValue)[j])) {
+              if (dValue == Isis::toDouble((*pvlKwrdValue)[j])) {
                 bFound = true;
                 break;
               }

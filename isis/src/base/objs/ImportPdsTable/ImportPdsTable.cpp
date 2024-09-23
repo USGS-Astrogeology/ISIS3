@@ -142,7 +142,7 @@ namespace Isis {
     //  check here.
     FileName tableFile(tempTblFile.toStdString());
     try {
-      int tableStartRecord = IString::ToInteger(tableFile.baseName());
+      int tableStartRecord = Isis::toInt(tableFile.baseName());
       tempTblFile = pdsLabFile;
       m_pdsTableStart = tableStartRecord;
     }
@@ -215,8 +215,8 @@ namespace Isis {
     if ((int) index >= columns() - 1) {
       std::string msg = "Unable to import the binary PDS table [" + m_tableName.toStdString()
                     + "] into Isis. The requested column index ["
-                    + toString((int) index) + "] exceeds the last column index ["
-                    + toString(columns() - 1) + "]";
+                    + Isis::toString((int) index) + "] exceeds the last column index ["
+                    + Isis::toString(columns() - 1) + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     QString name = m_coldesc[index].m_name;
@@ -617,8 +617,8 @@ namespace Isis {
 
     // Ensure the nrequested column is valid
     if ( (nth >= columns()) || ( nth < 0) ) {
-      std::string mess = "Index (" + toString(nth) +
-      ") into Columns invalid (max: " + toString(columns()) + ")";
+      std::string mess = "Index (" + Isis::toString(nth) +
+      ") into Columns invalid (max: " + Isis::toString(columns()) + ")";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
 
@@ -958,7 +958,7 @@ namespace Isis {
           table += extract(m_rows[i], cols, record);
         }
         catch (IException &e) {
-          std::string msg = "Failed to convert data in row [" + toString((int) i) + "]";
+          std::string msg = "Failed to convert data in row [" + Isis::toString((int) i) + "]";
           throw IException(e, IException::Programmer, msg, _FILEINFO_);
         }
       }
@@ -1111,7 +1111,7 @@ namespace Isis {
         std::string msg = "Only 4 byte integer values are supported in Isis. "
                       "PDS Column [" + cdesc.m_name.toStdString()
                       + "] has an integer DATA_TYPE with [BYTES = "
-                      + toString(cdesc.m_numBytes) + "].";
+                      + Isis::toString(cdesc.m_numBytes) + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       setPdsByteOrder("MSB");
@@ -1123,7 +1123,7 @@ namespace Isis {
         std::string msg = "Only 4 byte integer values are supported in Isis. "
                       "PDS Column [" + cdesc.m_name.toStdString()
                       + "] has an integer DATA_TYPE with [BYTES = "
-                      + toString(cdesc.m_numBytes) + "].";
+                      + Isis::toString(cdesc.m_numBytes) + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
       setPdsByteOrder("LSB");
@@ -1145,7 +1145,7 @@ namespace Isis {
         IString msg = "Only 4 byte or 8 byte real values are supported in Isis. "
                       "PDS Column [" + cdesc.m_name.toStdString()
                       + "] has a real DATA_TYPE with [BYTES = "
-                      + toString(cdesc.m_numBytes) + "].";
+                      + Isis::toString(cdesc.m_numBytes) + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }
@@ -1161,7 +1161,7 @@ namespace Isis {
         std::string msg = "Only 4 byte or 8 byte real values are supported in Isis. "
                       "PDS Column [" + cdesc.m_name.toStdString()
                       + "] has a real DATA_TYPE with [BYTES = "
-                      + toString(cdesc.m_numBytes) + "].";
+                      + Isis::toString(cdesc.m_numBytes) + "].";
         throw IException(IException::Unknown, msg, _FILEINFO_);
       }
     }

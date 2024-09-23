@@ -98,14 +98,14 @@ void IsisMain() {
   //  Print out number of values changed
   PvlGroup results("Results");
   results.addComment("The number and type of pixels created");
-  results += PvlKeyword("Null", toString(nnull));
-  results += PvlKeyword("Lrs", toString(nlrs));
-  results += PvlKeyword("Lis", toString(nlis));
-  results += PvlKeyword("Hrs", toString(nhrs));
-  results += PvlKeyword("His", toString(nhis));
+  results += PvlKeyword("Null", Isis::toString(nnull));
+  results += PvlKeyword("Lrs", Isis::toString(nlrs));
+  results += PvlKeyword("Lis", Isis::toString(nlis));
+  results += PvlKeyword("Hrs", Isis::toString(nhrs));
+  results += PvlKeyword("His", Isis::toString(nhis));
   //tjw:  int total -> BigInt total
   BigInt total = nnull + nlrs + nhrs + nlis + nhis;
-  results += PvlKeyword("Total", toString(total));
+  results += PvlKeyword("Total", Isis::toString(total));
 
   Application::Log(results);
 

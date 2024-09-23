@@ -195,7 +195,7 @@ void translateLabels(Pvl &pdsLabel, Cube *ocube) {
   //change exposure duration to seconds
   double expDur = inst.findKeyword("exposureDuration");
   double expDurOut = expDur / 1000.0;
-  inst.findKeyword("exposureDuration").setValue(toString(expDurOut), "seconds");
+  inst.findKeyword("exposureDuration").setValue(Isis::toString(expDurOut), "seconds");
   inst.addKeyword(PvlKeyword("FrameDuration", pdsLabel["frameDuration"], "seconds"));
 
   //Calculate the Frame_Rate_Id keyword
@@ -207,7 +207,7 @@ void translateLabels(Pvl &pdsLabel, Cube *ocube) {
     summingMode = 2;
   }
 
-  inst.addKeyword(PvlKeyword("Summing", toString(summingMode)));
+  inst.addKeyword(PvlKeyword("Summing", Isis::toString(summingMode)));
   inst.addKeyword(PvlKeyword("FrameModeId", frameModeId.toStdString()));
 
   // Create the Band bin Group

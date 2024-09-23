@@ -192,10 +192,10 @@ namespace Isis {
       }
 
       for(int i = 0; i < maskedPixels.size(); i++)
-        if((g_isLeftNac && IString::ToInteger(maskedPixels[i]) < cutoff) || (!g_isLeftNac && IString::ToInteger(maskedPixels[i]) > cutoff))
-          g_maskedPixelsLeft.push_back(IString::ToInteger(maskedPixels[i]));
+        if((g_isLeftNac && Isis::toInt(maskedPixels[i]) < cutoff) || (!g_isLeftNac && Isis::toInt(maskedPixels[i]) > cutoff))
+          g_maskedPixelsLeft.push_back(Isis::toInt(maskedPixels[i]));
         else
-          g_maskedPixelsRight.push_back(IString::ToInteger(maskedPixels[i]));
+          g_maskedPixelsRight.push_back(Isis::toInt(maskedPixels[i]));
     }
     
     vector <QString> darkFiles;
@@ -363,9 +363,9 @@ namespace Isis {
     if(g_masked) {
       PvlKeyword darkColumns("DarkColumns");
       for(unsigned int i = 0; i < g_maskedPixelsLeft.size(); i++)
-        darkColumns += toString(g_maskedPixelsLeft[i]);
+        darkColumns += Isis::toString(g_maskedPixelsLeft[i]);
       for(unsigned int i = 0; i < g_maskedPixelsRight.size(); i++)
-        darkColumns += toString(g_maskedPixelsRight[i]);
+        darkColumns += Isis::toString(g_maskedPixelsRight[i]);
       calgrp += darkColumns;
     }
 
@@ -395,18 +395,18 @@ namespace Isis {
       if(g_iof) {
         calgrp += PvlKeyword("RadiometricType", "IOF");
         if(g_isLeftNac)
-          calgrp += PvlKeyword("ResponsivityValue", toString(g_iofLeft));
+          calgrp += PvlKeyword("ResponsivityValue", Isis::toString(g_iofLeft));
         else
-          calgrp += PvlKeyword("ResponsivityValue", toString(g_iofRight));
+          calgrp += PvlKeyword("ResponsivityValue", Isis::toString(g_iofRight));
       }
       else {
         calgrp += PvlKeyword("RadiometricType", "AbsoluteRadiance");
         if(g_isLeftNac)
-          calgrp += PvlKeyword("ResponsivityValue", toString(g_radianceLeft));
+          calgrp += PvlKeyword("ResponsivityValue", Isis::toString(g_radianceLeft));
         else
-          calgrp += PvlKeyword("ResponsivityValue", toString(g_radianceRight));
+          calgrp += PvlKeyword("ResponsivityValue", Isis::toString(g_radianceRight));
       }
-      calgrp += PvlKeyword("SolarDistance", toString(g_solarDistance));
+      calgrp += PvlKeyword("SolarDistance", Isis::toString(g_solarDistance));
     }
 
     oCube->putGroup(calgrp);

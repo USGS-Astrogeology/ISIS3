@@ -59,7 +59,7 @@ namespace Isis {
     QString stime = QString::fromStdString(inst["SpacecraftClockStartCount"]);
     et = getClockTime(stime).Et();
 
-    p_exposureDur = IString::ToDouble(inst["ExposureDuration"]);
+    p_exposureDur = Isis::toDouble(inst["ExposureDuration"]);
     // TODO:  Changed et - exposure to et + exposure.
     //   Think about if this is correct
     p_etStart = et + ((p_exposureDur / 1000.0) / 2.0);
@@ -148,15 +148,15 @@ namespace Isis {
     //  Now map the actual filters that exist in cube to camera components or
     // storage vectors for later band selection (see SetBand(vband))
     for (int i = 0; i < filtNames.size(); i++) {
-      if (!filterToDetectorOffset.exists(IString::ToInteger(filtNames[i]))) {
+      if (!filterToDetectorOffset.exists(Isis::toInt(filtNames[i]))) {
         std::string msg = "Unrecognized filter name [" + filtNames[i] + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
-      p_detectorStartLines.push_back(filterToDetectorOffset.get(IString::ToInteger(filtNames[i])));
-      p_frameletOffsets.push_back(filterToFrameletOffset.get(IString::ToInteger(filtNames[i])));
+      p_detectorStartLines.push_back(filterToDetectorOffset.get(Isis::toInt(filtNames[i])));
+      p_frameletOffsets.push_back(filterToFrameletOffset.get(Isis::toInt(filtNames[i])));
 
-      QString kBase = "INS" + QString::number(filterIKCode.get(IString::ToInteger(filtNames[i])));
+      QString kBase = "INS" + QString::number(filterIKCode.get(Isis::toInt(filtNames[i])));
       p_focalLength.push_back(getDouble(kBase+"_FOCAL_LENGTH"));
       p_boreSightSample.push_back(getDouble(kBase+"_BORESIGHT_SAMPLE"));
       p_boreSightLine.push_back(getDouble(kBase+"_BORESIGHT_LINE"));
@@ -194,8 +194,8 @@ namespace Isis {
     LroWideAngleCameraDistortionMap *distort = new LroWideAngleCameraDistortionMap(this, naifIkCode());
 
     for ( int i = 0 ; i < filtNames.size() ; i++ ) {
-      fplane->addFilter(filterIKCode.get(IString::ToInteger(filtNames[i])));
-      distort->addFilter(filterIKCode.get(IString::ToInteger(filtNames[i])));
+      fplane->addFilter(filterIKCode.get(Isis::toInt(filtNames[i])));
+      distort->addFilter(filterIKCode.get(Isis::toInt(filtNames[i])));
     }
 
     // Setup the ground and sky map
@@ -307,7 +307,7 @@ namespace Isis {
       PvlKeyword kw = NaifKeywords[key.toStdString()];
       IntParameterList parms;
       for (int i = 0; i<kw.size(); i++){
-        parms.push_back(IString::ToInteger(kw[i]));
+        parms.push_back(Isis::toInt(kw[i]));
       }
       return parms;
     }

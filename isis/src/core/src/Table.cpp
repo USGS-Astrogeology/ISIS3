@@ -420,9 +420,9 @@ namespace Isis {
 
      if (RecordSize() != rec.RecordSize()) {
        std::string msg = "Unable to add the given record with size = ["
-                     + std::to_string(rec.RecordSize()) + " bytes] to to Isis Table ["
+                     + Isis::toString(rec.RecordSize()) + " bytes] to to Isis Table ["
                      + p_name + "] with record size = ["
-                     + std::to_string(RecordSize()) + " bytes]. Record sizes must match.";
+                     + Isis::toString(RecordSize()) + " bytes]. Record sizes must match.";
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }
     char *newbuf = new char[RecordSize()];
@@ -474,7 +474,7 @@ namespace Isis {
     PvlObject &blobLabel = tableBlob.Label();
 
     // Label setup
-    blobLabel += PvlKeyword("Records", std::to_string(Records()));
+    blobLabel += PvlKeyword("Records", Isis::toString(Records()));
     int nbytes = Records() * RecordSize();
 
     if (Isis::IsLsb()) {

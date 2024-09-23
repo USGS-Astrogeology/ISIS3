@@ -164,16 +164,16 @@ namespace Isis {
 
     obj += PvlKeyword("FileName", m_controlNetFile.toStdString());
     obj += PvlKeyword("Visible",
-        std::to_string((int)(m_controlNetGraphics && m_controlNetGraphics->isVisible())));
-    obj += PvlKeyword("Movement", std::to_string(m_movementArrowColorSource));
+        Isis::toString((int)(m_controlNetGraphics && m_controlNetGraphics->isVisible())));
+    obj += PvlKeyword("Movement", Isis::toString(m_movementArrowColorSource));
 
     if (maxMovementColorMeasureCount() != -1) {
-      obj += PvlKeyword("MovementColorMaxMeasureCount", std::to_string(m_measureCount));
+      obj += PvlKeyword("MovementColorMaxMeasureCount", Isis::toString(m_measureCount));
     }
 
     if (maxMovementColorResidualMagnitude() != Null) {
       obj += PvlKeyword("MovementColorMaxResidualMagnitude",
-                        std::to_string(m_residualMagnitude));
+                        Isis::toString(m_residualMagnitude));
     }
 
     return obj;
@@ -190,11 +190,11 @@ namespace Isis {
     }
 
     if (obj.hasKeyword("MovementColorMaxMeasureCount")) {
-      m_measureCount = IString::ToInteger(obj["MovementColorMaxMeasureCount"][0]);
+      m_measureCount = Isis::toInt(obj["MovementColorMaxMeasureCount"][0]);
     }
 
     if (obj.hasKeyword("MovementColorMaxResidualMagnitude")) {
-      m_residualMagnitude = IString::ToDouble(obj["MovementColorMaxResidualMagnitude"][0]);
+      m_residualMagnitude = Isis::toDouble(obj["MovementColorMaxResidualMagnitude"][0]);
     }
 
     loadNetwork();

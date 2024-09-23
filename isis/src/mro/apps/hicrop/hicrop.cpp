@@ -355,11 +355,11 @@ namespace Isis {
 
       // Construct a label with the results
       PvlGroup results("Results");
-      results += PvlKeyword("InputLines", toString(inputLineCount));
-      results += PvlKeyword("NumberOfLinesCropped", toString(inputLineCount-g_cropLineCount));
-      results += PvlKeyword("OututStartingLine", toString(g_cropStartLine));
-      results += PvlKeyword("OututEndingLine", toString(g_cropEndLine));
-      results += PvlKeyword("OututLineCount", toString(g_cropLineCount));
+      results += PvlKeyword("InputLines", Isis::toString(inputLineCount));
+      results += PvlKeyword("NumberOfLinesCropped", Isis::toString(inputLineCount-g_cropLineCount));
+      results += PvlKeyword("OututStartingLine", Isis::toString(g_cropStartLine));
+      results += PvlKeyword("OututEndingLine", Isis::toString(g_cropEndLine));
+      results += PvlKeyword("OututLineCount", Isis::toString(g_cropLineCount));
       results += PvlKeyword("OututStartTime", cropStartTime.UTC().toStdString());
       results += PvlKeyword("OututStopTime", cropStopTime.UTC().toStdString()); //??? adjustedCropStopTime
       results += PvlKeyword("OututStartClock", adjustedCropStartClockCount.toStdString());

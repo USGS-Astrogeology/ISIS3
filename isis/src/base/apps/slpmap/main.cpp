@@ -139,7 +139,7 @@ void createSlpCubeAutomatic(Buffer &in, double &v) {
   }
   catch (IException &e) {
     std::string msg = "The input cube contains a negative DN at (sample,line,band) "
-        "[("+toString(in.Sample(4))+","+toString(in.Line(4))+","+toString(in.Band(4))+")]. The automatic pixel resolution option requires the input cube contain "
+        "[("+Isis::toString(in.Sample(4))+","+Isis::toString(in.Line(4))+","+Isis::toString(in.Band(4))+")]. The automatic pixel resolution option requires the input cube contain "
         "raduis values. It is possible the input cube contains elevation or other data.";
     throw IException(e, IException::User, msg, _FILEINFO_);
   }

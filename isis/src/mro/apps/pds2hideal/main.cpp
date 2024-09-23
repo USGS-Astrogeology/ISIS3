@@ -59,7 +59,7 @@ void IsisMain() {
   outputCube->putGroup(otherGroups.findGroup("Archive"));
 
   PvlGroup kernelGroup("Kernels");
-  kernelGroup += PvlKeyword("NaifIkCode", toString(-74699));
+  kernelGroup += PvlKeyword("NaifIkCode", Isis::toString(-74699));
   kernelGroup += PvlKeyword("TargetPosition", "Table");
   kernelGroup += PvlKeyword("InstrumentPointing", "Table");
   kernelGroup += PvlKeyword("InstrumentPosition", "Table");
@@ -101,14 +101,14 @@ void IsisMain() {
   if (sourceLines != lines) {
     // this image is cropped, create an AlphaCube group
     PvlGroup alphaCube("AlphaCube");
-    alphaCube += PvlKeyword("AlphaSamples", toString(sourceSamps));
-    alphaCube += PvlKeyword("AlphaLines", toString(sourceLines));
-    alphaCube += PvlKeyword("AlphaStartingSample", toString(firstSamp));
-    alphaCube += PvlKeyword("AlphaEndingSample", toString((double) firstSamp + samples));
-    alphaCube += PvlKeyword("AlphaStartingLine", toString(firstLine));
-    alphaCube += PvlKeyword("AlphaEndingLine", toString((double) firstLine + lines));
-    alphaCube += PvlKeyword("BetaSamples", toString(samples));
-    alphaCube += PvlKeyword("BetaLines", toString(lines));
+    alphaCube += PvlKeyword("AlphaSamples", Isis::toString(sourceSamps));
+    alphaCube += PvlKeyword("AlphaLines", Isis::toString(sourceLines));
+    alphaCube += PvlKeyword("AlphaStartingSample", Isis::toString(firstSamp));
+    alphaCube += PvlKeyword("AlphaEndingSample", Isis::toString((double) firstSamp + samples));
+    alphaCube += PvlKeyword("AlphaStartingLine", Isis::toString(firstLine));
+    alphaCube += PvlKeyword("AlphaEndingLine", Isis::toString((double) firstLine + lines));
+    alphaCube += PvlKeyword("BetaSamples", Isis::toString(samples));
+    alphaCube += PvlKeyword("BetaLines", Isis::toString(lines));
     isisCubeObject += alphaCube;
   }
 

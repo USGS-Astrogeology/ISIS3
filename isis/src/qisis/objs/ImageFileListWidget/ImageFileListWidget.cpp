@@ -189,11 +189,11 @@ namespace Isis {
       key = key.Convert(" ", '_');
       bool visible = !m_tree->isColumnHidden(col);
 
-      output += PvlKeyword(key, toString((int)visible));
+      output += PvlKeyword(key, Isis::toString((int)visible));
       col = (ImageTreeWidgetItem::TreeColumn)(col + 1);
     }
 
-    output += PvlKeyword("SortColumn", toString(m_tree->sortColumn()));
+    output += PvlKeyword("SortColumn", Isis::toString(m_tree->sortColumn()));
 
     // Now store groups and the cubes that are in those groups
     for (int i = 0; i < m_tree->topLevelItemCount(); i++) {
@@ -633,7 +633,7 @@ namespace Isis {
 //  stream.writeEndElement();
 //
 //  stream.writeStartElement("position");
-//  //qDebug()<<"ImageFileListWidget::save   Position = "<<QVariant(pos()).toString();
+//  //qDebug()<<"ImageFileListWidget::save   Position = "<<QVariant(pos()).Isis::toString();
 //  stream.writeAttribute("x", QString::number(pos().x()));
 //  stream.writeAttribute("y", QString::number(pos().y()));
 //  stream.writeEndElement();

@@ -365,10 +365,10 @@ namespace Isis {
     // range. If the current values for the latitude and longitude range are out of
     // order or equal, then we don't write them to the labels.
     if (slat < elat && slon < elon) {
-      mGroup.addKeyword(PvlKeyword("MinimumLatitude", toString(slat)), Pvl::Replace);
-      mGroup.addKeyword(PvlKeyword("MaximumLatitude", toString(elat)), Pvl::Replace);
-      mGroup.addKeyword(PvlKeyword("MinimumLongitude", toString(slon)), Pvl::Replace);
-      mGroup.addKeyword(PvlKeyword("MaximumLongitude", toString(elon)), Pvl::Replace);
+      mGroup.addKeyword(PvlKeyword("MinimumLatitude", Isis::toString(slat)), Pvl::Replace);
+      mGroup.addKeyword(PvlKeyword("MaximumLatitude", Isis::toString(elat)), Pvl::Replace);
+      mGroup.addKeyword(PvlKeyword("MinimumLongitude", Isis::toString(slon)), Pvl::Replace);
+      mGroup.addKeyword(PvlKeyword("MaximumLongitude", Isis::toString(elon)), Pvl::Replace);
     }
 
     if (mGroup.hasKeyword("UpperLeftCornerX"))
@@ -445,10 +445,10 @@ namespace Isis {
     Pvl label;
     label.read(propagationCubes[0].toString());
     PvlGroup mGroup = label.findGroup("Mapping", Pvl::Traverse);
-    mGroup.addKeyword(PvlKeyword("MinimumRingRadius", toString(srad)), Pvl::Replace);
-    mGroup.addKeyword(PvlKeyword("MaximumRingRadius", toString(erad)), Pvl::Replace);
-    mGroup.addKeyword(PvlKeyword("MinimumRingLongitude", toString(saz)), Pvl::Replace);
-    mGroup.addKeyword(PvlKeyword("MaximumRingLongitude", toString(eaz)), Pvl::Replace);
+    mGroup.addKeyword(PvlKeyword("MinimumRingRadius", Isis::toString(srad)), Pvl::Replace);
+    mGroup.addKeyword(PvlKeyword("MaximumRingRadius", Isis::toString(erad)), Pvl::Replace);
+    mGroup.addKeyword(PvlKeyword("MinimumRingLongitude", Isis::toString(saz)), Pvl::Replace);
+    mGroup.addKeyword(PvlKeyword("MaximumRingLongitude", Isis::toString(eaz)), Pvl::Replace);
 
     if (mGroup.hasKeyword("UpperLeftCornerX"))
       mGroup.deleteKeyword("UpperLeftCornerX");
@@ -519,10 +519,10 @@ namespace Isis {
     // range. If the current values for the latitude and longitude range are out of
     // order or equal, then we don't write them to the labels.
     if (latlonflag && slat < elat && slon < elon) {
-      mapping.addKeyword(PvlKeyword("MinimumLatitude", toString(slat)), Pvl::Replace);
-      mapping.addKeyword(PvlKeyword("MaximumLatitude", toString(elat)), Pvl::Replace);
-      mapping.addKeyword(PvlKeyword("MinimumLongitude", toString(slon)), Pvl::Replace);
-      mapping.addKeyword(PvlKeyword("MaximumLongitude", toString(elon)), Pvl::Replace);
+      mapping.addKeyword(PvlKeyword("MinimumLatitude", Isis::toString(slat)), Pvl::Replace);
+      mapping.addKeyword(PvlKeyword("MaximumLatitude", Isis::toString(elat)), Pvl::Replace);
+      mapping.addKeyword(PvlKeyword("MinimumLongitude", Isis::toString(slon)), Pvl::Replace);
+      mapping.addKeyword(PvlKeyword("MaximumLongitude", Isis::toString(elon)), Pvl::Replace);
     }
     else {
       if (mapping.hasKeyword("MinimumLatitude")) {
@@ -613,12 +613,12 @@ namespace Isis {
     Pvl fileLab(inputFile.toStdString());
     PvlGroup &mapping = fileLab.findGroup("Mapping", Pvl::Traverse);
 
-    mapping["UpperLeftCornerX"] = toString(xmin);
-    mapping["UpperLeftCornerY"] = toString(ymax);
-    mapping.addKeyword(PvlKeyword("MinimumRingRadius", toString(srad)), Pvl::Replace);
-    mapping.addKeyword(PvlKeyword("MaximumRingRadius", toString(erad)), Pvl::Replace);
-    mapping.addKeyword(PvlKeyword("MinimumRingLongitude", toString(saz)), Pvl::Replace);
-    mapping.addKeyword(PvlKeyword("MaximumRingLongitude", toString(eaz)), Pvl::Replace);
+    mapping["UpperLeftCornerX"] = Isis::toString(xmin);
+    mapping["UpperLeftCornerY"] = Isis::toString(ymax);
+    mapping.addKeyword(PvlKeyword("MinimumRingRadius", Isis::toString(srad)), Pvl::Replace);
+    mapping.addKeyword(PvlKeyword("MaximumRingRadius", Isis::toString(erad)), Pvl::Replace);
+    mapping.addKeyword(PvlKeyword("MinimumRingLongitude", Isis::toString(saz)), Pvl::Replace);
+    mapping.addKeyword(PvlKeyword("MaximumRingLongitude", Isis::toString(eaz)), Pvl::Replace);
 
     Projection *firstProj = ProjectionFactory::RingsCreateFromCube(fileLab);
     int samps = (int)(ceil(firstProj->ToWorldX(xmax) - firstProj->ToWorldX(xmin)) + 0.5);

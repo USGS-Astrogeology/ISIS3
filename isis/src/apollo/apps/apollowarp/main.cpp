@@ -43,14 +43,14 @@ void IsisMain() {
   vector<double> inputLine,inputSample,outputLine,outputSample;
   // Setup the parameters for the transform
   for (int i=0; i<reseaus["Sample"].size(); i++) {
-    inputLine.push_back(IString::ToDouble(reseaus["Line"][i]));
-    inputSample.push_back(IString::ToDouble(reseaus["Sample"][i]));
-    outputLine.push_back(IString::ToDouble(master["Line"][i]));
-    outputSample.push_back(IString::ToDouble(master["Sample"][i]));
+    inputLine.push_back(Isis::toDouble(reseaus["Line"][i]));
+    inputSample.push_back(Isis::toDouble(reseaus["Sample"][i]));
+    outputLine.push_back(Isis::toDouble(master["Line"][i]));
+    outputSample.push_back(Isis::toDouble(master["Sample"][i]));
 
     // Update the cube's reseau information
-    reseaus["Line"][i] = toString(outputLine[i]);
-    reseaus["Sample"][i] = toString(outputSample[i]);
+    reseaus["Line"][i] = Isis::toString(outputLine[i]);
+    reseaus["Sample"][i] = Isis::toString(outputSample[i]);
   }
 
   // Get the final output image dimensions

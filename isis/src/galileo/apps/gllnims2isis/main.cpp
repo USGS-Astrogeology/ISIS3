@@ -368,8 +368,8 @@ PvlGroup originalMappingGroup = qube.findGroup("IMAGE_MAP_PROJECTION", Pvl::Trav
       double lineOffset = -(double)(importPds.Lines()+1) / 2;
       double sampleOffset = -(double)(importPds.Samples()+1) / 2;
       double resolution = mappingGroup["PixelResolution"][0].toDouble();
-      mappingGroup["UpperLeftCornerY"] = toString(-lineOffset * resolution);
-      mappingGroup["UpperLeftCornerX"] = toString(sampleOffset * resolution);
+      mappingGroup["UpperLeftCornerY"] = Isis::toString(-lineOffset * resolution);
+      mappingGroup["UpperLeftCornerX"] = Isis::toString(sampleOffset * resolution);
       if (originalMappingGroup["COORDINATE_SYSTEM_NAME"][0] == "PLANETOCENTRIC") {
         mappingGroup["LatitudeType"] = "Planetocentric";
       }
@@ -387,11 +387,11 @@ PvlGroup originalMappingGroup = qube.findGroup("IMAGE_MAP_PROJECTION", Pvl::Trav
     }
     else {
       if (mappingGroup.hasKeyword("CenterLatitude")) {
-        mappingGroup["CenterLatitude"].setValue(toString(centerLatitude),
+        mappingGroup["CenterLatitude"].setValue(Isis::toString(centerLatitude),
                                                 "degrees");
       }
       else {
-        PvlKeyword clat("CenterLatitude", toString(centerLatitude), "degrees" );
+        PvlKeyword clat("CenterLatitude", Isis::toString(centerLatitude), "degrees" );
         mappingGroup.addKeyword(clat);
       }
     }
@@ -400,7 +400,7 @@ PvlGroup originalMappingGroup = qube.findGroup("IMAGE_MAP_PROJECTION", Pvl::Trav
                                                "degrees");
     }
     else {
-      mappingGroup["CenterLongitude"].setValue(toString(centerLongitude),
+      mappingGroup["CenterLongitude"].setValue(Isis::toString(centerLongitude),
                                                "degrees");
     }
     mappingGroup["LongitudeDomain"].setUnits("degrees");

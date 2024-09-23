@@ -176,9 +176,9 @@ void TranslateVikingLabels(Pvl &pdsLabel, Cube *ocube) {
     filterCenter = 0.590000;
     filterWidth = 0.150000;
   }
-  bandBin += PvlKeyword("FilterId", toString(filterId));
-  bandBin += PvlKeyword("Center", toString(filterCenter), "micrometers");
-  bandBin += PvlKeyword("Width", toString(filterWidth), "micrometers");
+  bandBin += PvlKeyword("FilterId", Isis::toString(filterId));
+  bandBin += PvlKeyword("Center", Isis::toString(filterCenter), "micrometers");
+  bandBin += PvlKeyword("Width", Isis::toString(filterWidth), "micrometers");
   ocube->putGroup(bandBin);
 
   // Setup the kernel group
@@ -208,7 +208,7 @@ void TranslateVikingLabels(Pvl &pdsLabel, Cube *ocube) {
 
   // Set up the nominal reseaus group
   PvlGroup res("Reseaus");
-  Pvl nomRes("$viking" + toString(spn) + "/reseaus/nominal.pvl");
+  Pvl nomRes("$viking" + Isis::toString(spn) + "/reseaus/nominal.pvl");
   PvlKeyword samps, lines, type, valid;
   lines = PvlKeyword("Line");
   samps = PvlKeyword("Sample");

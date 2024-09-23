@@ -246,7 +246,7 @@ namespace Isis {
 
     if (*m_numErrors != 0) {
       result.append(
-          IException(IException::Unknown,"Failed to export [" + std::to_string(*m_numErrors) + "] images",
+          IException(IException::Unknown,"Failed to export [" + Isis::toString(*m_numErrors) + "] images",
                      _FILEINFO_));
     }
 

@@ -1063,7 +1063,7 @@ namespace Isis {
       if (FileName(fileList[i].toStdString()).baseName().substr(0, 3) != instrument.toStdString()){
         continue;
       }
-      double currentEpoch = IString::ToDouble(FileName(fileList[i].toStdString()).baseName().substr(10, 6));
+      double currentEpoch = Isis::toDouble(FileName(fileList[i].toStdString()).baseName().substr(10, 6));
       if (abs(currentEpoch - imgTime) < abs(closestEpochFileNum - imgTime)) { // find closest epoch
           closestEpochFileNum = currentEpoch;
           p_hotpixfile = FileName(fileList[i].toStdString());

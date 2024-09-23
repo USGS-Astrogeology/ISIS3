@@ -368,9 +368,9 @@ namespace Isis {
     GProperties g = getGeometrySummary();
 
 //geometry keywords for band output
-    pband += PvlKeyword("BandsUsed", toString(size()));
-    pband += PvlKeyword("ReferenceBand", toString(g.band));
-    pband += PvlKeyword("OriginalBand", toString(g.realBand));
+    pband += PvlKeyword("BandsUsed", Isis::toString(size()));
+    pband += PvlKeyword("ReferenceBand", Isis::toString(g.band));
+    pband += PvlKeyword("OriginalBand", Isis::toString(g.realBand));
 
     pband += PvlKeyword("Target", g.target.toStdString());
 
@@ -600,7 +600,7 @@ namespace Isis {
       }
     }
 
-    mapping += PvlKeyword("CenterLongitude", toString(clon));
+    mapping += PvlKeyword("CenterLongitude", Isis::toString(clon));
 
     TProjection *sinu = (TProjection *) ProjectionFactory::Create(sinuMap, true);
     geos::geom::MultiPolygon *sPoly = PolygonTools::LatLonToXY(*poly, sinu);
@@ -647,8 +647,8 @@ namespace Isis {
     pband += ValidateKey("SurfaceArea", _summary.surfaceArea, "km^2");
     pband += ValidateKey("GlobalCoverage", globalCoverage, "percent");
     if(_combined != 0) {
-      pband += PvlKeyword("SampleIncrement", toString(_sampleInc));
-      pband += PvlKeyword("LineIncrement", toString(_lineInc));
+      pband += PvlKeyword("SampleIncrement", Isis::toString(_sampleInc));
+      pband += PvlKeyword("LineIncrement", Isis::toString(_lineInc));
       if(_combined->getGeometryTypeId() != geos::geom::GEOS_MULTIPOLYGON) {
         geos::geom::MultiPolygon *geom = makeMultiPolygon(_combined);
         pband += PvlKeyword("GisFootprint", geom->toString());

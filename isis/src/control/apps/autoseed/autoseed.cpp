@@ -474,8 +474,8 @@ namespace Isis {
 
     // create SeedDef group and add to print.prt
     PvlGroup pluginInfo = seeder->PluginParameters("SeedDefinition");
-    pluginInfo.addKeyword(PvlKeyword("MaxIncidence", toString(maxIncidence)));
-    pluginInfo.addKeyword(PvlKeyword("MaxEmission", toString(maxEmission)));
+    pluginInfo.addKeyword(PvlKeyword("MaxIncidence", Isis::toString(maxIncidence)));
+    pluginInfo.addKeyword(PvlKeyword("MaxEmission", Isis::toString(maxEmission)));
     Application::Log(pluginInfo);
 
     // inform user of any unused (invalid) keywords found in the def file
@@ -493,10 +493,10 @@ namespace Isis {
     }
 
     // create Results group and add to print.prt
-    PvlKeyword cpCountKeyword("ControlPointCount", toString(cpCount));
-    PvlKeyword msCountKeyword("ControlMeasureCount", toString(msCount));
-    PvlKeyword cpIgnoredCountKeyword("ControlPointsIgnored", toString(cpIgnoredCount));
-    PvlKeyword cmIgnoredCountKeyword("ControlMeasuresIgnored", toString(cmIgnoredCount));
+    PvlKeyword cpCountKeyword("ControlPointCount", Isis::toString(cpCount));
+    PvlKeyword msCountKeyword("ControlMeasureCount", Isis::toString(msCount));
+    PvlKeyword cpIgnoredCountKeyword("ControlPointsIgnored", Isis::toString(cpIgnoredCount));
+    PvlKeyword cmIgnoredCountKeyword("ControlMeasuresIgnored", Isis::toString(cmIgnoredCount));
 
     PvlGroup resultsGrp("Results");
     resultsGrp.addKeyword(cpCountKeyword);

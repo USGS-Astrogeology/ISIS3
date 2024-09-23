@@ -568,52 +568,52 @@ namespace Isis {
           tproj->PolarRadius(), Distance::Meters);
 
       if (obj["BaseLatitude"][0] != "Null")
-        m_baseLat = Latitude(IString::ToDouble(obj["BaseLatitude"][0]), equatorialRadius, polarRadius,
+        m_baseLat = Latitude(Isis::toDouble(obj["BaseLatitude"][0]), equatorialRadius, polarRadius,
             Latitude::Planetocentric, Angle::Degrees);
 
       if (obj["BaseLongitude"][0] != "Null")
-        m_baseLon = Longitude(IString::ToDouble(obj["BaseLongitude"][0]), Angle::Degrees);
+        m_baseLon = Longitude(Isis::toDouble(obj["BaseLongitude"][0]), Angle::Degrees);
 
       if (obj["LatitudeIncrement"][0] != "Null")
-        m_latInc = Angle(IString::ToDouble(obj["LatitudeIncrement"][0]), Angle::Degrees);
+        m_latInc = Angle(Isis::toDouble(obj["LatitudeIncrement"][0]), Angle::Degrees);
 
       if (obj["LongitudeIncrement"][0] != "Null")
-        m_lonInc = Angle(IString::ToDouble(obj["LongitudeIncrement"][0]), Angle::Degrees);
+        m_lonInc = Angle(Isis::toDouble(obj["LongitudeIncrement"][0]), Angle::Degrees);
 
       if (obj.hasKeyword("LatitudeExtentType")) {
         if (obj["LatitudeExtentType"][0] != "Null")
-          m_latExtents = (GridExtentSource)IString::ToInteger(obj["LatitudeExtentType"][0]);
+          m_latExtents = (GridExtentSource)Isis::toInt(obj["LatitudeExtentType"][0]);
       }
 
       if (obj.hasKeyword("MinimumLatitude")) {
         if (obj["MinimumLatitude"][0] != "Null")
-          m_minLat = Latitude(IString::ToDouble(obj["MinimumLatitude"][0]), equatorialRadius, polarRadius,
+          m_minLat = Latitude(Isis::toDouble(obj["MinimumLatitude"][0]), equatorialRadius, polarRadius,
                               Latitude::Planetocentric, Angle::Degrees);
       }
 
       if (obj.hasKeyword("MaximumLatitude")) {
         if (obj["MaximumLatitude"][0] != "Null")
-          m_maxLat = Latitude(IString::ToDouble(obj["MaximumLatitude"][0]), equatorialRadius, polarRadius,
+          m_maxLat = Latitude(Isis::toDouble(obj["MaximumLatitude"][0]), equatorialRadius, polarRadius,
                               Latitude::Planetocentric, Angle::Degrees);
       }
 
       if (obj.hasKeyword("LongitudeExtentType")) {
         if (obj["LongitudeExtentType"][0] != "Null")
-          m_lonExtents = (GridExtentSource)IString::ToInteger(obj["LongitudeExtentType"][0]);
+          m_lonExtents = (GridExtentSource)Isis::toInt(obj["LongitudeExtentType"][0]);
       }
 
       if (obj.hasKeyword("MinimumLongitude")) {
         if (obj["MinimumLongitude"][0] != "Null")
-          m_minLon = Longitude(IString::ToDouble(obj["MinimumLongitude"][0]), Angle::Degrees);
+          m_minLon = Longitude(Isis::toDouble(obj["MinimumLongitude"][0]), Angle::Degrees);
       }
 
       if (obj.hasKeyword("MaximumLongitude")) {
         if (obj["MaximumLongitude"][0] != "Null")
-          m_maxLon = Longitude(IString::ToDouble(obj["MaximumLongitude"][0]), Angle::Degrees);
+          m_maxLon = Longitude(Isis::toDouble(obj["MaximumLongitude"][0]), Angle::Degrees);
       }
 
       if (obj["Density"][0] != "Null")
-        m_density = IString::ToDouble(obj["Density"][0]);
+        m_density = Isis::toDouble(obj["Density"][0]);
 
 
       if (obj.hasKeyword("CheckTheBoxes")) {
@@ -647,24 +647,24 @@ namespace Isis {
   PvlObject MosaicGridTool::toPvl() const {
     PvlObject obj(projectPvlObjectName().toStdString());
 
-    obj += PvlKeyword("ShouldCheckBoxes", toString((int)m_shouldCheckBoxes));
+    obj += PvlKeyword("ShouldCheckBoxes", Isis::toString((int)m_shouldCheckBoxes));
 
-    obj += PvlKeyword("BaseLatitude", toString(m_baseLat.degrees()));
-    obj += PvlKeyword("BaseLongitude", toString(m_baseLon.degrees()));
+    obj += PvlKeyword("BaseLatitude", Isis::toString(m_baseLat.degrees()));
+    obj += PvlKeyword("BaseLongitude", Isis::toString(m_baseLon.degrees()));
 
-    obj += PvlKeyword("LatitudeIncrement", toString(m_latInc.degrees()));
-    obj += PvlKeyword("LongitudeIncrement", toString(m_lonInc.degrees()));
+    obj += PvlKeyword("LatitudeIncrement", Isis::toString(m_latInc.degrees()));
+    obj += PvlKeyword("LongitudeIncrement", Isis::toString(m_lonInc.degrees()));
 
-    obj += PvlKeyword("LatitudeExtentType", toString(m_latExtents));
-    obj += PvlKeyword("MaximumLatitude", toString(m_maxLat.degrees()));
-    obj += PvlKeyword("MinimumLongitude", toString(m_minLon.degrees()));
+    obj += PvlKeyword("LatitudeExtentType", Isis::toString(m_latExtents));
+    obj += PvlKeyword("MaximumLatitude", Isis::toString(m_maxLat.degrees()));
+    obj += PvlKeyword("MinimumLongitude", Isis::toString(m_minLon.degrees()));
 
-    obj += PvlKeyword("LongitudeExtentType", toString(m_lonExtents));
-    obj += PvlKeyword("MinimumLatitude", toString(m_minLat.degrees()));
-    obj += PvlKeyword("MaximumLongitude", toString(m_maxLon.degrees()));
+    obj += PvlKeyword("LongitudeExtentType", Isis::toString(m_lonExtents));
+    obj += PvlKeyword("MinimumLatitude", Isis::toString(m_minLat.degrees()));
+    obj += PvlKeyword("MaximumLongitude", Isis::toString(m_maxLon.degrees()));
 
-    obj += PvlKeyword("Density", toString(m_density));
-    obj += PvlKeyword("Visible", toString((int)(m_gridItem != NULL)));
+    obj += PvlKeyword("Density", Isis::toString(m_density));
+    obj += PvlKeyword("Visible", Isis::toString((int)(m_gridItem != NULL)));
 
     return obj;
   }

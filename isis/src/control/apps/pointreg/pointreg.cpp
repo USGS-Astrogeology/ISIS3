@@ -467,15 +467,15 @@ namespace Isis {
     }
 
     PvlGroup pLog("Points");
-    pLog += PvlKeyword("Total", toString(outNet.GetNumPoints()));
-    pLog += PvlKeyword("Ignored", toString(ignored));
+    pLog += PvlKeyword("Total", Isis::toString(outNet.GetNumPoints()));
+    pLog += PvlKeyword("Ignored", Isis::toString(ignored));
     Application::AppendAndLog(pLog, appLog);
 
     PvlGroup mLog("Measures");
-    mLog += PvlKeyword("Locked", toString(locked));
-    mLog += PvlKeyword("Registered", toString(registered));
-    mLog += PvlKeyword("NotIntersected", toString(notintersected));
-    mLog += PvlKeyword("Unregistered", toString(unregistered));
+    mLog += PvlKeyword("Locked", Isis::toString(locked));
+    mLog += PvlKeyword("Registered", Isis::toString(registered));
+    mLog += PvlKeyword("NotIntersected", Isis::toString(notintersected));
+    mLog += PvlKeyword("Unregistered", Isis::toString(unregistered));
     Application::AppendAndLog(mLog, appLog);
 
     // Log Registration Statistics

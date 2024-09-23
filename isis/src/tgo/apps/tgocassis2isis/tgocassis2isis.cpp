@@ -400,7 +400,7 @@ namespace Isis {
     PvlKeyword summingMode("SummingMode", sumMode.toStdString());
     outputLabel->findGroup("Instrument", Pvl::Traverse).addKeyword(summingMode);
 
-    PvlKeyword yeardoy("YearDoy", toString(stime.Year()*1000 + stime.DayOfYear()));
+    PvlKeyword yeardoy("YearDoy", Isis::toString(stime.Year()*1000 + stime.DayOfYear()));
     archive.addKeyword(yeardoy);
 
     // Set units on optional archived keywords
@@ -444,7 +444,7 @@ namespace Isis {
 
       int spacecraftCode = -143400;
 
-      kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
+      kern += PvlKeyword("NaifFrameCode", Isis::toString(spacecraftCode));
 
       if (filter.compare("PAN", Qt::CaseInsensitive) == 0) {
         spacecraftCode = -143421;
@@ -466,7 +466,7 @@ namespace Isis {
 
       }
       // Add Kernel to BandBin Group
-      bandBin.addKeyword(PvlKeyword("NaifIkCode", toString(spacecraftCode)));
+      bandBin.addKeyword(PvlKeyword("NaifIkCode", Isis::toString(spacecraftCode)));
     }
     else {
       std::string msg = "Unrecognized Spacecraft name ["

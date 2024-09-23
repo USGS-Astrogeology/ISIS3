@@ -162,16 +162,16 @@ namespace Isis {
           bytesPerPixel /= 8;
           
           unsigned int axis1 = 1;
-          axis1 = IString::ToInteger((*fitsLabel)["NAXIS1"]);
+          axis1 = Isis::toInt((*fitsLabel)["NAXIS1"]);
           
           unsigned int axis2 = 1;
           if (fitsLabel->hasKeyword("NAXIS2")) {
-            axis2 = IString::ToInteger((*fitsLabel)["NAXIS2"]);
+            axis2 = Isis::toInt((*fitsLabel)["NAXIS2"]);
           }
           
           unsigned int axis3 = 1;
           if (fitsLabel->hasKeyword("NAXIS3")) {
-            axis3 = IString::ToInteger((*fitsLabel)["NAXIS3"]);
+            axis3 = Isis::toInt((*fitsLabel)["NAXIS3"]);
           }
           
           jump = (int)(ceil(bytesPerPixel * axis1 * axis2 * axis3 / 2880.0) * 2880.0);
@@ -223,9 +223,9 @@ namespace Isis {
    */
   PvlGroup ProcessImportFits::extraFitsLabel(int labelNumber) const {
     if (labelNumber >= m_extraFitsLabels->size()) {
-      std::string msg = "The requested label number [" + toString(labelNumber) + "], from file [" + m_name.expanded() + "] is "
+      std::string msg = "The requested label number [" + Isis::toString(labelNumber) + "], from file [" + m_name.expanded() + "] is "
                                 "past the last extra group found in this FITS file. "
-                                "Extra label count is [" + toString(m_extraFitsLabels->size()-1) + "]";
+                                "Extra label count is [" + Isis::toString(m_extraFitsLabels->size()-1) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -257,9 +257,9 @@ namespace Isis {
   PvlGroup ProcessImportFits::fitsImageLabel(int labelNumber) const {
 
     if (labelNumber >= m_fitsImageLabels->size()) {
-      std::string msg = "The requested label number [" + toString(labelNumber) + "], from file [" + m_name.expanded() + "] is "
+      std::string msg = "The requested label number [" + Isis::toString(labelNumber) + "], from file [" + m_name.expanded() + "] is "
                                 "past the last image group found in this FITS file. "
-                                "Image label count is [" + toString(m_fitsImageLabels->size()-1) + "]";
+                                "Image label count is [" + Isis::toString(m_fitsImageLabels->size()-1) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -356,8 +356,8 @@ namespace Isis {
   void ProcessImportFits::setProcessFileStructure(int labelNumber) {
 
     if (labelNumber >= m_fitsImageLabels->size()) {
-      std::string msg = "The requested label number [" + toString(labelNumber) + "], from file [" + InputFile().toStdString() + "] is "
-                                "past the last image in this FITS file [" + toString(m_fitsImageLabels->size()-1) + "].";
+      std::string msg = "The requested label number [" + Isis::toString(labelNumber) + "], from file [" + InputFile().toStdString() + "] is "
+                                "past the last image in this FITS file [" + Isis::toString(m_fitsImageLabels->size()-1) + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -370,7 +370,7 @@ namespace Isis {
     // Find pixel type. NOTE: There are several unsupported possiblites
     Isis::PixelType type;
     std::string msg = "";
-    switch (IString::ToInteger(label["BITPIX"][0])) {
+    switch (Isis::toInt(label["BITPIX"][0])) {
       case 8:
         type = Isis::UnsignedByte;
         break;
@@ -406,15 +406,15 @@ namespace Isis {
     // considered part of the DNs. So, use the parent class' prefix/suffix byte count to reduce
     // the number of samples.
     if (Organization() == BSQ) {
-      if (IString::ToInteger(label["NAXIS"][0]) == 2) {
-        SetDimensions(IString::ToInteger(label["NAXIS1"][0])
+      if (Isis::toInt(label["NAXIS"][0]) == 2) {
+        SetDimensions(Isis::toInt(label["NAXIS1"][0])
                       - (DataPrefixBytes()+DataSuffixBytes())/SizeOf(type),
-                      IString::ToInteger(label["NAXIS2"][0]), 1);
+                      Isis::toInt(label["NAXIS2"][0]), 1);
       }
-      else if (IString::ToInteger(label["NAXIS"][0]) == 3) {
-        SetDimensions(IString::ToInteger(label["NAXIS1"][0]) 
+      else if (Isis::toInt(label["NAXIS"][0]) == 3) {
+        SetDimensions(Isis::toInt(label["NAXIS1"][0]) 
                       - (DataPrefixBytes()+DataSuffixBytes())/SizeOf(type),
-                      IString::ToInteger(label["NAXIS2"][0]), IString::ToInteger(label["NAXIS3"][0]));
+                      Isis::toInt(label["NAXIS2"][0]), Isis::toInt(label["NAXIS3"][0]));
       }
       else {
         std::string msg = "NAXIS count of [" 
@@ -424,15 +424,15 @@ namespace Isis {
       }
     }
     else if (Organization() == BIL) {
-      if (IString::ToInteger(label["NAXIS"][0]) == 2) {
-        SetDimensions(IString::ToInteger(label["NAXIS1"][0]) 
+      if (Isis::toInt(label["NAXIS"][0]) == 2) {
+        SetDimensions(Isis::toInt(label["NAXIS1"][0]) 
                       - (DataPrefixBytes()+DataSuffixBytes())/SizeOf(type),
-                      1, IString::ToInteger(label["NAXIS2"][0]));
+                      1, Isis::toInt(label["NAXIS2"][0]));
       }
-      else if (IString::ToInteger(label["NAXIS"][0]) == 3) {
-        SetDimensions(IString::ToInteger(label["NAXIS1"][0]) 
+      else if (Isis::toInt(label["NAXIS"][0]) == 3) {
+        SetDimensions(Isis::toInt(label["NAXIS1"][0]) 
                       - (DataPrefixBytes()+DataSuffixBytes())/SizeOf(type),
-                      IString::ToInteger(label["NAXIS3"][0]), IString::ToInteger(label["NAXIS2"][0]));
+                      Isis::toInt(label["NAXIS3"][0]), Isis::toInt(label["NAXIS2"][0]));
       }
       else {
         std::string msg = "NAXIS count of [" 
@@ -453,13 +453,13 @@ namespace Isis {
 
     // Base and multiplier
     if (label.hasKeyword("BZERO")) {
-      SetBase(IString::ToDouble(label["BZERO"][0]));
+      SetBase(Isis::toDouble(label["BZERO"][0]));
     }
     else {
       SetBase(0.0);
     }
     if (label.hasKeyword("BSCALE")) {
-      SetMultiplier(IString::ToDouble(label["BSCALE"][0]));
+      SetMultiplier(Isis::toDouble(label["BSCALE"][0]));
     }
     else {
       SetMultiplier(1.0);

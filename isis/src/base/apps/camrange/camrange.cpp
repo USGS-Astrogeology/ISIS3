@@ -35,16 +35,16 @@ namespace Isis {
     PvlGroup target("Target");
     target += PvlKeyword("From", ui.GetCubeName("FROM").toStdString());
     target += PvlKeyword("TargetName", camTarget->name().toStdString());
-    target += PvlKeyword("RadiusA", toString(radii[0].meters()), "meters");
-    target += PvlKeyword("RadiusB", toString(radii[1].meters()), "meters");
-    target += PvlKeyword("RadiusC", toString(radii[2].meters()), "meters");
+    target += PvlKeyword("RadiusA", Isis::toString(radii[0].meters()), "meters");
+    target += PvlKeyword("RadiusB", Isis::toString(radii[1].meters()), "meters");
+    target += PvlKeyword("RadiusC", Isis::toString(radii[2].meters()), "meters");
 
     // Get resolution
     PvlGroup res("PixelResolution");
     double lowres = cam->LowestImageResolution();
     double hires = cam->HighestImageResolution();
-    res += PvlKeyword("Lowest", toString(lowres), "meters");
-    res += PvlKeyword("Highest", toString(hires), "meters");
+    res += PvlKeyword("Lowest", Isis::toString(lowres), "meters");
+    res += PvlKeyword("Highest", Isis::toString(hires), "meters");
 
     // Get the universal ground range
     PvlGroup ugr("UniversalGroundRange");
@@ -53,10 +53,10 @@ namespace Isis {
     ugr += PvlKeyword("LatitudeType", "Planetocentric");
     ugr += PvlKeyword("LongitudeDirection", "PositiveEast");
     ugr += PvlKeyword("LongitudeDomain", "360");
-    ugr += PvlKeyword("MinimumLatitude", toString(minlat));
-    ugr += PvlKeyword("MaximumLatitude", toString(maxlat));
-    ugr += PvlKeyword("MinimumLongitude", toString(minlon));
-    ugr += PvlKeyword("MaximumLongitude", toString(maxlon));
+    ugr += PvlKeyword("MinimumLatitude", Isis::toString(minlat));
+    ugr += PvlKeyword("MaximumLatitude", Isis::toString(maxlat));
+    ugr += PvlKeyword("MinimumLongitude", Isis::toString(minlon));
+    ugr += PvlKeyword("MaximumLongitude", Isis::toString(maxlon));
 
     // Get the ographic latitude range
     mapgrp.addKeyword(PvlKeyword("LatitudeType", "Planetographic"),
@@ -64,8 +64,8 @@ namespace Isis {
     cam->GroundRange(minlat, maxlat, minlon, maxlon, mapping);
     PvlGroup ogr("LatitudeRange");
     ogr += PvlKeyword("LatitudeType", "Planetographic");
-    ogr += PvlKeyword("MinimumLatitude", toString(minlat));
-    ogr += PvlKeyword("MaximumLatitude", toString(maxlat));
+    ogr += PvlKeyword("MinimumLatitude", Isis::toString(minlat));
+    ogr += PvlKeyword("MaximumLatitude", Isis::toString(maxlat));
 
     // Get positive west longitude coordinates in 360 domain
     mapgrp.addKeyword(PvlKeyword("LongitudeDirection", "PositiveWest"),
@@ -74,8 +74,8 @@ namespace Isis {
     PvlGroup pos360("PositiveWest360");
     pos360 += PvlKeyword("LongitudeDirection", "PositiveWest");
     pos360 += PvlKeyword("LongitudeDomain", "360");
-    pos360 += PvlKeyword("MinimumLongitude", toString(minlon));
-    pos360 += PvlKeyword("MaximumLongitude", toString(maxlon));
+    pos360 += PvlKeyword("MinimumLongitude", Isis::toString(minlon));
+    pos360 += PvlKeyword("MaximumLongitude", Isis::toString(maxlon));
 
     // Get positive east longitude coordinates in 180 domain
     mapgrp.addKeyword(PvlKeyword("LongitudeDirection", "PositiveEast"),
@@ -86,8 +86,8 @@ namespace Isis {
     PvlGroup pos180("PositiveEast180");
     pos180 += PvlKeyword("LongitudeDirection", "PositiveEast");
     pos180 += PvlKeyword("LongitudeDomain", "180");
-    pos180 += PvlKeyword("MinimumLongitude", toString(minlon));
-    pos180 += PvlKeyword("MaximumLongitude", toString(maxlon));
+    pos180 += PvlKeyword("MinimumLongitude", Isis::toString(minlon));
+    pos180 += PvlKeyword("MaximumLongitude", Isis::toString(maxlon));
 
     // Get positive west longitude coordinates in 180 domain
     mapgrp.addKeyword(PvlKeyword("LongitudeDirection", "PositiveWest"),
@@ -96,8 +96,8 @@ namespace Isis {
     PvlGroup neg180("PositiveWest180");
     neg180 += PvlKeyword("LongitudeDirection", "PositiveWest");
     neg180 += PvlKeyword("LongitudeDomain", "180");
-    neg180 += PvlKeyword("MinimumLongitude", toString(minlon));
-    neg180 += PvlKeyword("MaximumLongitude", toString(maxlon));
+    neg180 += PvlKeyword("MinimumLongitude", Isis::toString(minlon));
+    neg180 += PvlKeyword("MaximumLongitude", Isis::toString(maxlon));
 
     Application::AppendAndLog(target, log);
     Application::AppendAndLog(res, log);

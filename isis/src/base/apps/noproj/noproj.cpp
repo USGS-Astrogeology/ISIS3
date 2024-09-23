@@ -234,11 +234,11 @@ namespace Isis {
     inst.addKeyword(key);
 
     key.setName("SampleDetectors");
-    key.setValue(toString(detectorSamples));
+    key.setValue(Isis::toString(detectorSamples));
     inst.addKeyword(key);
 
     key.setName("LineDetectors");
-    key.setValue(toString(detectorLines));
+    key.setValue(Isis::toString(detectorLines));
     inst.addKeyword(key);
 
     key.setName("InstrumentType");
@@ -287,24 +287,24 @@ namespace Isis {
     }
 
     if (naifKeywordsObject) {
-      naifKeywordsObject->addKeyword(PvlKeyword("IDEAL_FOCAL_LENGTH", toString(incam->FocalLength())),
+      naifKeywordsObject->addKeyword(PvlKeyword("IDEAL_FOCAL_LENGTH", Isis::toString(incam->FocalLength())),
                                      Pvl::Replace);
     }
     else {
-      inst.addKeyword(PvlKeyword("FocalLength", toString(incam->FocalLength()), "millimeters"));
+      inst.addKeyword(PvlKeyword("FocalLength", Isis::toString(incam->FocalLength()), "millimeters"));
     }
 
     double newPixelPitch = incam->PixelPitch() * summingMode;
     if (naifKeywordsObject) {
-      naifKeywordsObject->addKeyword(PvlKeyword("IDEAL_PIXEL_PITCH", toString(newPixelPitch)),
+      naifKeywordsObject->addKeyword(PvlKeyword("IDEAL_PIXEL_PITCH", Isis::toString(newPixelPitch)),
                                      Pvl::Replace);
     }
     else {
-      inst.addKeyword(PvlKeyword("PixelPitch", toString(newPixelPitch), "millimeters"));
+      inst.addKeyword(PvlKeyword("PixelPitch", Isis::toString(newPixelPitch), "millimeters"));
     }
 
     key.setName("EphemerisTime");
-    key.setValue(toString(et), "seconds");
+    key.setValue(Isis::toString(et), "seconds");
     inst.addKeyword(key);
 
     key.setName("StartTime");
@@ -318,16 +318,16 @@ namespace Isis {
     }
 
     key.setName("FocalPlaneXDependency");
-    key.setValue(toString((int)incam->FocalPlaneMap()->FocalPlaneXDependency()));
+    key.setValue(Isis::toString((int)incam->FocalPlaneMap()->FocalPlaneXDependency()));
     inst.addKeyword(key);
 
     int xDependency = incam->FocalPlaneMap()->FocalPlaneXDependency();
 
     double newInstrumentTransX = incam->FocalPlaneMap()->SignMostSigX();
-    inst.addKeyword(PvlKeyword("TransX", toString(newInstrumentTransX)));
+    inst.addKeyword(PvlKeyword("TransX", Isis::toString(newInstrumentTransX)));
 
     double newInstrumentTransY = incam->FocalPlaneMap()->SignMostSigY();
-    inst.addKeyword(PvlKeyword("TransY", toString(newInstrumentTransY)));
+    inst.addKeyword(PvlKeyword("TransY", Isis::toString(newInstrumentTransY)));
 
     storeSpice(&inst, naifKeywordsObject, "TransX0", "IDEAL_TRANSX", transx,
                newPixelPitch * newInstrumentTransX, (xDependency == CameraFocalPlaneMap::Sample));
@@ -349,7 +349,7 @@ namespace Isis {
 
     if(instType == "LINESCAN") {
       key.setName("ExposureDuration");
-      key.setValue(toString(incam->DetectorMap()->LineRate() * 1000.), "milliseconds");
+      key.setValue(Isis::toString(incam->DetectorMap()->LineRate() * 1000.), "milliseconds");
       inst.addKeyword(key);
     }
 
@@ -367,9 +367,9 @@ namespace Isis {
     QString matchLbl = matchCubeFileNoExt + ".lbl";
     label.read(matchLbl.toStdString());
     PvlGroup &dims = label.findGroup("Dimensions", Pvl::Traverse);
-    dims["Lines"] = toString(numberLines);
-    dims["Samples"] = toString(detectorSamples);
-    dims["Bands"] = toString(numberBands);
+    dims["Lines"] = Isis::toString(numberLines);
+    dims["Samples"] = Isis::toString(detectorSamples);
+    dims["Bands"] = Isis::toString(numberBands);
     label.write(matchLbl.toStdString());
 
     // And run cam2cam to apply the transformation
@@ -413,19 +413,19 @@ namespace Isis {
                   QString oldName, QString spiceName,
                   double constantCoeff, double multiplierCoeff, bool putMultiplierInX) {
     if(constantCoeff != 0 && !naifKeywordsObject && instrumentGroup) {
-      instrumentGroup->addKeyword(PvlKeyword(oldName.toStdString(), toString(constantCoeff)));
+      instrumentGroup->addKeyword(PvlKeyword(oldName.toStdString(), Isis::toString(constantCoeff)));
     }
     else if (naifKeywordsObject) {
       PvlKeyword spiceKeyword(spiceName.toStdString());
-      spiceKeyword += toString(constantCoeff);
+      spiceKeyword += Isis::toString(constantCoeff);
 
       if (putMultiplierInX) {
-        spiceKeyword += toString(multiplierCoeff);
-        spiceKeyword += toString(0.0);
+        spiceKeyword += Isis::toString(multiplierCoeff);
+        spiceKeyword += Isis::toString(0.0);
       }
       else {
-        spiceKeyword += toString(0.0);
-        spiceKeyword += toString(multiplierCoeff);
+        spiceKeyword += Isis::toString(0.0);
+        spiceKeyword += Isis::toString(multiplierCoeff);
       }
 
       naifKeywordsObject->addKeyword(spiceKeyword, Pvl::Replace);

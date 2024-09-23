@@ -199,7 +199,7 @@ void createMosaicCube(QString inputName, QString outputName, QVector<QString> ba
 void createTrackCube(QString inputName, QString ouputName, int trackBand) {
   ProcessByLine p;
 
-  CubeAttributeInput inAtt = CubeAttributeInput("+" + toString(trackBand));
+  CubeAttributeInput inAtt = CubeAttributeInput("+" + Isis::toString(trackBand));
   p.SetInputCube(inputName, inAtt);
 
   FileName cubeName = FileName(ouputName.toStdString());

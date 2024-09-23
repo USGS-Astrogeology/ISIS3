@@ -157,7 +157,7 @@ namespace Isis {
 
     // Create YearDoy keyword in Archive group
     iTime stime(QString::fromStdString(instGrp["StartTime"][0]));
-    PvlKeyword yeardoy("YearDoy", toString(stime.Year()*1000 + stime.DayOfYear()));
+    PvlKeyword yeardoy("YearDoy", Isis::toString(stime.Year()*1000 + stime.DayOfYear()));
     archiveGrp.addKeyword(yeardoy);
 
     output->putGroup(archiveGrp);
@@ -181,7 +181,7 @@ namespace Isis {
     if ( "NFT" == instId ) b = -273.43;
 
     double camHeadTempC = a * ((double)rawcamT) + b;
-    instGrp.addKeyword(PvlKeyword("CameraHeadTemperature", toString(camHeadTempC), "celsius"));
+    instGrp.addKeyword(PvlKeyword("CameraHeadTemperature", Isis::toString(camHeadTempC), "celsius"));
     output->putGroup(instGrp);
 
     // Create a Band Bin group

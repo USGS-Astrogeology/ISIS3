@@ -295,10 +295,10 @@ namespace Isis {
     p_sampleProjectionOffset = str.toDouble();
     p_upperLeftX = xmult * (p_sampleProjectionOffset + xoff) * p_pixelResolution;
 
-    p_projectionOffsetGroup.addKeyword(PvlKeyword("xOffset", toString(xoff)));
-    p_projectionOffsetGroup.addKeyword(PvlKeyword("yOffset", toString(yoff)));
-    p_projectionOffsetGroup.addKeyword(PvlKeyword("xMultiplier", toString(xmult)));
-    p_projectionOffsetGroup.addKeyword(PvlKeyword("yMultiplier", toString(ymult)));
+    p_projectionOffsetGroup.addKeyword(PvlKeyword("xOffset", Isis::toString(xoff)));
+    p_projectionOffsetGroup.addKeyword(PvlKeyword("yOffset", Isis::toString(yoff)));
+    p_projectionOffsetGroup.addKeyword(PvlKeyword("xMultiplier", Isis::toString(xmult)));
+    p_projectionOffsetGroup.addKeyword(PvlKeyword("yMultiplier", Isis::toString(ymult)));
 
   }
 
@@ -1153,7 +1153,7 @@ namespace Isis {
 
     else {
       std::string msg = "Invalid PixelType and BitsPerPixel combination [" + str.toStdString() +
-                   ", " + toString(bitsPerPixel) + "]";
+                   ", " + Isis::toString(bitsPerPixel) + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -1604,44 +1604,44 @@ namespace Isis {
     Isis::PvlGroup mapGroup("Mapping");
     mapGroup += Isis::PvlKeyword("ProjectionName", p_projection.toStdString());
     mapGroup += Isis::PvlKeyword("TargetName", p_targetName.toStdString());
-    mapGroup += Isis::PvlKeyword("EquatorialRadius", toString(p_equatorialRadius), "meters");
-    mapGroup += Isis::PvlKeyword("PolarRadius", toString(p_polarRadius), "meters");
+    mapGroup += Isis::PvlKeyword("EquatorialRadius", Isis::toString(p_equatorialRadius), "meters");
+    mapGroup += Isis::PvlKeyword("PolarRadius", Isis::toString(p_polarRadius), "meters");
     mapGroup += Isis::PvlKeyword("LongitudeDirection", p_longitudeDirection.toStdString());
-    mapGroup += Isis::PvlKeyword("LongitudeDomain", toString(p_longitudeDomain));
+    mapGroup += Isis::PvlKeyword("LongitudeDomain", Isis::toString(p_longitudeDomain));
     mapGroup += Isis::PvlKeyword("LatitudeType", p_latitudeType.toStdString());
     if (p_minimumLatitude != Isis::NULL8) {
-      mapGroup += Isis::PvlKeyword("MinimumLatitude", toString(p_minimumLatitude));
+      mapGroup += Isis::PvlKeyword("MinimumLatitude", Isis::toString(p_minimumLatitude));
     }
     if (p_maximumLatitude != Isis::NULL8) {
-      mapGroup += Isis::PvlKeyword("MaximumLatitude", toString(p_maximumLatitude));
+      mapGroup += Isis::PvlKeyword("MaximumLatitude", Isis::toString(p_maximumLatitude));
     }
     if (p_minimumLongitude != Isis::NULL8) {
-      mapGroup += Isis::PvlKeyword("MinimumLongitude", toString(p_minimumLongitude));
+      mapGroup += Isis::PvlKeyword("MinimumLongitude", Isis::toString(p_minimumLongitude));
     }
     if (p_maximumLongitude != Isis::NULL8) {
-      mapGroup += Isis::PvlKeyword("MaximumLongitude", toString(p_maximumLongitude));
+      mapGroup += Isis::PvlKeyword("MaximumLongitude", Isis::toString(p_maximumLongitude));
     }
 
     // if both longitudes exist, verify they are ordered correctly
     if (p_minimumLongitude != Isis::NULL8 && p_maximumLongitude != Isis::NULL8) {
       if (p_maximumLongitude <= p_minimumLongitude) {
         if (p_longitudeDomain == 180) {
-          mapGroup["MinimumLongitude"] = toString(-180);
-          mapGroup["MaximumLongitude"] = toString(180);
+          mapGroup["MinimumLongitude"] = Isis::toString(-180);
+          mapGroup["MaximumLongitude"] = Isis::toString(180);
         }
         else {
-          mapGroup["MinimumLongitude"] = toString(0);
-          mapGroup["MaximumLongitude"] = toString(360);
+          mapGroup["MinimumLongitude"] = Isis::toString(0);
+          mapGroup["MaximumLongitude"] = Isis::toString(360);
         }
       }
     }
 
-    mapGroup += Isis::PvlKeyword("PixelResolution", toString(p_pixelResolution), "meters/pixel");
-    mapGroup += Isis::PvlKeyword("Scale", toString(p_scaleFactor), "pixels/degree");
-    mapGroup += Isis::PvlKeyword("UpperLeftCornerX", toString(p_upperLeftX), "meters");
-    mapGroup += Isis::PvlKeyword("UpperLeftCornerY", toString(p_upperLeftY), "meters");
+    mapGroup += Isis::PvlKeyword("PixelResolution", Isis::toString(p_pixelResolution), "meters/pixel");
+    mapGroup += Isis::PvlKeyword("Scale", Isis::toString(p_scaleFactor), "pixels/degree");
+    mapGroup += Isis::PvlKeyword("UpperLeftCornerX", Isis::toString(p_upperLeftX), "meters");
+    mapGroup += Isis::PvlKeyword("UpperLeftCornerY", Isis::toString(p_upperLeftY), "meters");
     if (p_rotation != 0.0) {
-      mapGroup += Isis::PvlKeyword("Rotation", toString(p_rotation));
+      mapGroup += Isis::PvlKeyword("Rotation", Isis::toString(p_rotation));
     }
 
     // To handle new projections without the need to modify source code
@@ -1659,17 +1659,17 @@ namespace Isis {
     if (lab.findGroup("Mapping").hasKeyword("CenterLongitude")) {
       PvlKeyword &centerLon = lab.findGroup("Mapping")["CenterLongitude"];
       if (p_longitudeDomain == 180)
-        centerLon = toString(TProjection::To180Domain((double)centerLon));
+        centerLon = Isis::toString(TProjection::To180Domain((double)centerLon));
       else
-        centerLon = toString(TProjection::To360Domain((double)centerLon));
+        centerLon = Isis::toString(TProjection::To360Domain((double)centerLon));
     }
 
     if (lab.findGroup("Mapping").hasKeyword("PoleLongitude")) {
       PvlKeyword &poleLon = lab.findGroup("Mapping")["PoleLongitude"];
       if (p_longitudeDomain == 180)
-        poleLon = toString(TProjection::To180Domain((double)poleLon));
+        poleLon = Isis::toString(TProjection::To180Domain((double)poleLon));
       else
-        poleLon = toString(TProjection::To360Domain((double)poleLon));
+        poleLon = Isis::toString(TProjection::To360Domain((double)poleLon));
     }
 
     OutputCubes[0]->putGroup(lab.findGroup("Mapping"));

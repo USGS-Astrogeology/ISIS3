@@ -356,7 +356,7 @@ namespace Isis {
     }
     if (m_size > 1) {
       std::string msg = "Unable to set field to the given int value. "
-                    "Field [" + m_name + "] has [" + std::to_string(m_size) + "] "
+                    "Field [" + m_name + "] has [" + Isis::toString(m_size) + "] "
                     "Integer values. Use operator=(vector<int>).";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -380,7 +380,7 @@ namespace Isis {
     }
     if (m_size > 1) {
       std::string msg = "Unable to set field to the given double value. "
-                    "Field [" + m_name + "] has [" + std::to_string(m_size) + "] "
+                    "Field [" + m_name + "] has [" + Isis::toString(m_size) + "] "
                     "Double values. Use operator=(vector<double>).";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -404,7 +404,7 @@ namespace Isis {
     }
     if (m_size > 1) {
       std::string msg = "Unable to set field to the given float value. "
-                    "Field [" + m_name + "] has [" + std::to_string(m_size) + "] "
+                    "Field [" + m_name + "] has [" + Isis::toString(m_size) + "] "
                     "Real values. Use operator=(vector<float>).";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -431,7 +431,7 @@ namespace Isis {
         if (val[i] != ' ' && val[i] != '\0') {
           std::string msg = "Unable to set the Text TableField to the given string. "
                         "The number of bytes allowed for this field value [" 
-                        + std::to_string(m_size) + "] is less than the length of the "
+                        + Isis::toString(m_size) + "] is less than the length of the "
                         "given string [" + value + "].";
           throw IException(IException::Unknown, msg, _FILEINFO_);
         }
@@ -460,7 +460,7 @@ namespace Isis {
     else if ((int) values.size() != m_size) {
       std::string msg = "Unable to set field to the given vector of int values. "
                     "Field [" + m_name + "] values has size [" 
-                    + std::to_string(m_size) + "].";
+                    + Isis::toString(m_size) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     m_ivalues = values;
@@ -484,7 +484,7 @@ namespace Isis {
     else if ((int) values.size() != m_size) {
       std::string msg = "Unable to set field to the given vector of double values. "
                     "Field [" + m_name + "] values has size [" 
-                    + std::to_string(m_size) + "].";
+                    + Isis::toString(m_size) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     m_dvalues = values;
@@ -509,7 +509,7 @@ namespace Isis {
     else if ((int) values.size() != m_size) {
       std::string msg = "Unable to set field to the given vector of float values. "
                     "Field [" + m_name + "] values has size [" 
-                    + std::to_string(m_size) + "].";
+                    + Isis::toString(m_size) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     m_rvalues = values;
@@ -602,7 +602,7 @@ namespace Isis {
     else if (m_type == TableField::Real) {
       group += PvlKeyword("Type", "Real");
     }
-    group += PvlKeyword("Size", std::to_string(m_size));
+    group += PvlKeyword("Size", Isis::toString(m_size));
 
     return group;
   }
@@ -632,7 +632,7 @@ namespace Isis {
       else if (field.isInteger()){
         vector< int > currField = field;
         for (int i = 0;i <(int)currField.size();i++){
-          fieldValues += std::to_string(currField[i]);
+          fieldValues += Isis::toString(currField[i]);
           if (i <(int)currField.size()- 1){
             // add delimiter for all but the last element of the field
             fieldValues += delimiter;
@@ -642,7 +642,7 @@ namespace Isis {
       else if (field.isDouble()){
         vector< double > currField = field;
         for (int i = 0;i <(int)currField.size();i++){
-          fieldValues += std::to_string(currField[i]);
+          fieldValues += Isis::toString(currField[i]);
           if (i <(int)currField.size()- 1){
             fieldValues += delimiter;
           }
@@ -651,7 +651,7 @@ namespace Isis {
       else { //if (field.isReal()) {
         vector< float > currField = field;
         for (int i = 0;i <(int)currField.size();i++){
-          fieldValues += std::to_string(currField[i]);
+          fieldValues += Isis::toString(currField[i]);
           if (i <(int)currField.size()- 1){
             fieldValues += delimiter;
           }

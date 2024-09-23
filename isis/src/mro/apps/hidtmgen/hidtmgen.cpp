@@ -499,7 +499,7 @@ namespace Isis{
 
     PvlObject viewingParameters("VIEWING_PARAMETERS");
     if (northAzimuth != Isis::Null) {
-      viewingParameters.addKeyword(PvlKeyword("NORTH_AZIMUTH", toString(northAzimuth), "DEG"));
+      viewingParameters.addKeyword(PvlKeyword("NORTH_AZIMUTH", Isis::toString(northAzimuth), "DEG"));
     }
     else {
       viewingParameters.addKeyword(PvlKeyword("NORTH_AZIMUTH", "N/A"));
@@ -513,11 +513,11 @@ namespace Isis{
     TProjection *proj = (TProjection *) ProjectionFactory::CreateFromCube(*inCube);
     double newRadius = proj->LocalRadius((double)mappingObject["CENTER_LATITUDE"]);
     newRadius /= 1000;
-    mappingObject.findKeyword("A_AXIS_RADIUS").setValue(toString(newRadius));
+    mappingObject.findKeyword("A_AXIS_RADIUS").setValue(Isis::toString(newRadius));
     mappingObject.findKeyword("A_AXIS_RADIUS").setUnits("KM");
-    mappingObject.findKeyword("B_AXIS_RADIUS").setValue(toString(newRadius));
+    mappingObject.findKeyword("B_AXIS_RADIUS").setValue(Isis::toString(newRadius));
     mappingObject.findKeyword("B_AXIS_RADIUS").setUnits("KM");
-    mappingObject.findKeyword("C_AXIS_RADIUS").setValue(toString(newRadius));
+    mappingObject.findKeyword("C_AXIS_RADIUS").setValue(Isis::toString(newRadius));
     mappingObject.findKeyword("C_AXIS_RADIUS").setUnits("KM");
   }
 
@@ -532,14 +532,14 @@ namespace Isis{
 
       // find the center latitude of this set of images
       // (not the same as the center lat for the projection)
-      double clat = ((IString::ToDouble(mappingObject["MAXIMUM_LATITUDE"][0]) -
-                     IString::ToDouble(mappingObject["MINIMUM_LATITUDE"][0])) / 2) +
-                   IString::ToDouble(mappingObject["MINIMUM_LATITUDE"][0]);
+      double clat = ((Isis::toDouble(mappingObject["MAXIMUM_LATITUDE"][0]) -
+                      Isis::toDouble(mappingObject["MINIMUM_LATITUDE"][0])) / 2) +
+                    Isis::toDouble(mappingObject["MINIMUM_LATITUDE"][0]);
       // find the center longitude of this set of images
       // (not the same as the center lon for the projection)
-      double clon = ((IString::ToDouble(mappingObject["EASTERNMOST_LONGITUDE"][0]) -
-                     IString::ToDouble(mappingObject["WESTERNMOST_LONGITUDE"][0])) / 2) +
-                   IString::ToDouble(mappingObject["WESTERNMOST_LONGITUDE"][0]);
+      double clon = ((Isis::toDouble(mappingObject["EASTERNMOST_LONGITUDE"][0]) -
+                      Isis::toDouble(mappingObject["WESTERNMOST_LONGITUDE"][0])) / 2) +
+                    Isis::toDouble(mappingObject["WESTERNMOST_LONGITUDE"][0]);
 
       if (clat > 0.0 && clon < 270.0) { // Northern Hemisphere, 0 to 270 lon
         northAzimuth = 270.00 - clon;
@@ -603,7 +603,7 @@ namespace Isis{
 
 
   QString versionNumber(const Pvl &paramsPvl, const UserInterface &ui) {
-    double version = IString::ToDouble(paramsPvl["PRODUCT_VERSION_ID"]);
+    double version = Isis::toDouble(paramsPvl["PRODUCT_VERSION_ID"]);
 
     // Format the version for the output name:
     // Only important thing to note is that a #.0 number is converted to 0#
@@ -777,8 +777,8 @@ namespace Isis{
 
     // Create statistics and add to image group
     Statistics *stat = inCube->statistics();
-    image.addKeyword(PvlKeyword("VALID_MINIMUM", toString(stat->Minimum())));
-    image.addKeyword(PvlKeyword("VALID_MAXIMUM", toString(stat->Maximum())));
+    image.addKeyword(PvlKeyword("VALID_MINIMUM", Isis::toString(stat->Minimum())));
+    image.addKeyword(PvlKeyword("VALID_MAXIMUM", Isis::toString(stat->Maximum())));
 
     // delete unneeded keywords in map object
     mappingObject.deleteKeyword("FIRST_STANDARD_PARALLEL");

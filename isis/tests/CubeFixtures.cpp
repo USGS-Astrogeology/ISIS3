@@ -308,13 +308,13 @@ namespace Isis {
     }
 
     PvlGroup reseausGroup("Reseaus");
-    PvlKeyword samples = PvlKeyword("Sample", toString(reseaus[0].first));
-    PvlKeyword lines = PvlKeyword("Line", toString(reseaus[0].second));
+    PvlKeyword samples = PvlKeyword("Sample", Isis::toString(reseaus[0].first));
+    PvlKeyword lines = PvlKeyword("Line", Isis::toString(reseaus[0].second));
     PvlKeyword types = PvlKeyword("Type", "5");
     PvlKeyword valid = PvlKeyword("Valid", "1");
     for (size_t i = 1; i < reseaus.size(); i++) {
-      samples += toString(reseaus[i].first);
-      lines += toString(reseaus[i].second);
+      samples += Isis::toString(reseaus[i].first);
+      lines += Isis::toString(reseaus[i].second);
       types += "5";
       valid += "1";
     }

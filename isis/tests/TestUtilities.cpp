@@ -34,8 +34,8 @@ namespace Isis {
     if (e.errorType() == errorType) return ::testing::AssertionSuccess();
 
     return ::testing::AssertionFailure() << "IExeption "<< e_expr << "\'s error type ("
-        << std::to_string(e.errorType()) << ") does not match expected error type ("
-        << std::to_string(errorType) << ").";
+        << Isis::toString(e.errorType()) << ") does not match expected error type ("
+        << Isis::toString(errorType) << ").";
   }
 
 
@@ -303,8 +303,8 @@ namespace Isis {
         if (numDiff > tolerance) {
           differences.push_back(
                 "Values [" + json1.dump() + "] and [" + json2.dump() + "] differ by ["
-                + std::to_string(numDiff) + "] which is greater than tolerance ["
-                + std::to_string(tolerance) + "] at [" + jsonPointer + "]");
+                + Isis::toString(numDiff) + "] which is greater than tolerance ["
+                + Isis::toString(tolerance) + "] at [" + jsonPointer + "]");
         }
 
         break;

@@ -259,11 +259,11 @@ namespace Isis {
     int iGreater = 0;
 
     if (pvlGrp.hasKeyword("LessThan")) {
-      iLesser = IString::ToInteger(pvlGrp["LessThan"][0]);
+      iLesser = Isis::toInt(pvlGrp["LessThan"][0]);
     }
 
     if (pvlGrp.hasKeyword("GreaterThan")) {
-      iGreater = IString::ToInteger(pvlGrp["GreaterThan"][0]);
+      iGreater = Isis::toInt(pvlGrp["GreaterThan"][0]);
     }
 
     if (iLesser < 0 || iGreater < 0 || iLesser < iGreater) {
@@ -501,13 +501,13 @@ namespace Isis {
 
     if (pvlGrp.hasKeyword("LessThan")) {
       if (pvlGrp["LessThan"][0] != "") {
-        iLesser = IString::ToInteger(pvlGrp["LessThan"][0]);
+        iLesser = Isis::toInt(pvlGrp["LessThan"][0]);
       }
     }
 
     if (pvlGrp.hasKeyword("GreaterThan")) {
       if (pvlGrp["GreaterThan"][0] != "") {
-        iGreater = IString::ToInteger(pvlGrp["GreaterThan"][0]);
+        iGreater = Isis::toInt(pvlGrp["GreaterThan"][0]);
       }
     }
 
@@ -1242,12 +1242,12 @@ namespace Isis {
     int iLessPoints = VALID_MAX2, iGreaterPoints = 0;
     if (pvlGrp.hasKeyword("LessThan")) {
       if (pvlGrp["LessThan"][0] != "") {
-        iLessPoints = IString::ToInteger(pvlGrp["LessThan"][0]);
+        iLessPoints = Isis::toInt(pvlGrp["LessThan"][0]);
       }
     }
     if (pvlGrp.hasKeyword("GreaterThan")) {
       if (pvlGrp["GreaterThan"][0] != "") {
-        iGreaterPoints = IString::ToInteger(pvlGrp["GreaterThan"][0]);
+        iGreaterPoints = Isis::toInt(pvlGrp["GreaterThan"][0]);
       }
     }
 

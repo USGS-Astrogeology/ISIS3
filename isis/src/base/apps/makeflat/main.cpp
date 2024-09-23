@@ -396,13 +396,13 @@ void IsisMain() {
 
     PvlObject currFile("Exclusions");
     currFile += PvlKeyword("FileName", inList[currImage].toString());
-    currFile += PvlKeyword("Tolerance", toString(maxStdev));
+    currFile += PvlKeyword("Tolerance", Isis::toString(maxStdev));
 
     if(cameraType == LineScan) {
-      currFile += PvlKeyword("FrameLines", toString(numFrameLines));
+      currFile += PvlKeyword("FrameLines", Isis::toString(numFrameLines));
     }
     else if(cameraType == PushFrame) {
-      currFile += PvlKeyword("FrameletLines", toString(numFrameLines));
+      currFile += PvlKeyword("FrameletLines", Isis::toString(numFrameLines));
     }
 
     excludedDetails.push_back(currFile);
@@ -663,11 +663,11 @@ void CreateTemporaryData(Buffer &in) {
 
         // Record the exclusion
         PvlGroup currExclusion("ExcludedLines");
-        currExclusion += PvlKeyword("FrameStartLine", toString(in.Line()));
-        currExclusion += PvlKeyword("ValidPixels", toString(inputFrameStats.ValidPixels()));
+        currExclusion += PvlKeyword("FrameStartLine", Isis::toString(in.Line()));
+        currExclusion += PvlKeyword("ValidPixels", Isis::toString(inputFrameStats.ValidPixels()));
 
         if(!IsSpecial(inputFrameStats.StandardDeviation()))
-          currExclusion += PvlKeyword("StandardDeviation", toString(inputFrameStats.StandardDeviation()));
+          currExclusion += PvlKeyword("StandardDeviation", Isis::toString(inputFrameStats.StandardDeviation()));
         else
           currExclusion += PvlKeyword("StandardDeviation", "N/A");
 
@@ -711,12 +711,12 @@ void CreateTemporaryData(Buffer &in) {
 
     if(excluded && ((in.Line() - 1) % numFrameLines == 0)) {
       PvlGroup currExclusion("ExcludedFramelet");
-      currExclusion += PvlKeyword("FrameletStartLine", toString(in.Line()));
-      currExclusion += PvlKeyword("FrameletNumber", toString((in.Line() - 1) / numFrameLines));
+      currExclusion += PvlKeyword("FrameletStartLine", Isis::toString(in.Line()));
+      currExclusion += PvlKeyword("FrameletNumber", Isis::toString((in.Line() - 1) / numFrameLines));
 
       if(!IsSpecial(stdev)) {
         currExclusion += PvlKeyword("StandardDeviation",
-                                    toString(stdev));
+                                    Isis::toString(stdev));
       }
       else {
         currExclusion += PvlKeyword("StandardDeviation",

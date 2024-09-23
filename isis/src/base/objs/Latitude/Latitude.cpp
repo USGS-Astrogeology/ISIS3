@@ -94,17 +94,17 @@ namespace Isis {
     m_polarRadius = NULL;
 
     if (mapping.hasKeyword("EquatorialRadius") && mapping.hasKeyword("PolarRadius")) {
-      m_equatorialRadius = new Distance(IString::ToDouble(mapping["EquatorialRadius"][0]),
+      m_equatorialRadius = new Distance(Isis::toDouble(mapping["EquatorialRadius"][0]),
                                         Distance::Meters);
-      m_polarRadius = new Distance(IString::ToDouble(mapping["PolarRadius"][0]),
+      m_polarRadius = new Distance(Isis::toDouble(mapping["PolarRadius"][0]),
                                    Distance::Meters);
     }
     else {
       try {
         PvlGroup radiiGrp = Target::radiiGroup(QString::fromStdString(mapping["TargetName"][0]));
-        m_equatorialRadius = new Distance(IString::ToDouble(radiiGrp["EquatorialRadius"][0]),
+        m_equatorialRadius = new Distance(Isis::toDouble(radiiGrp["EquatorialRadius"][0]),
                                           Distance::Meters);
-        m_polarRadius = new Distance(IString::ToDouble(radiiGrp["PolarRadius"][0]),
+        m_polarRadius = new Distance(Isis::toDouble(radiiGrp["PolarRadius"][0]),
                                      Distance::Meters);
       }
       catch (IException &e) {
@@ -154,17 +154,17 @@ namespace Isis {
     m_polarRadius = NULL;
 
     if (mapping.hasKeyword("EquatorialRadius") && mapping.hasKeyword("PolarRadius")) {
-      m_equatorialRadius = new Distance(IString::ToDouble(mapping["EquatorialRadius"][0]),
+      m_equatorialRadius = new Distance(Isis::toDouble(mapping["EquatorialRadius"][0]),
                                         Distance::Meters);
-      m_polarRadius = new Distance(IString::ToDouble(mapping["PolarRadius"][0]),
+      m_polarRadius = new Distance(Isis::toDouble(mapping["PolarRadius"][0]),
                                    Distance::Meters);
     }
     else {
       try {
         PvlGroup radiiGrp = Target::radiiGroup(QString::fromStdString(mapping["TargetName"][0]));
-        m_equatorialRadius = new Distance(IString::ToDouble(radiiGrp["EquatorialRadius"][0]),
+        m_equatorialRadius = new Distance(Isis::toDouble(radiiGrp["EquatorialRadius"][0]),
                                           Distance::Meters);
-        m_polarRadius = new Distance(IString::ToDouble(radiiGrp["PolarRadius"][0]),
+        m_polarRadius = new Distance(Isis::toDouble(radiiGrp["PolarRadius"][0]),
                                      Distance::Meters);
       }
       catch (IException &e) {
@@ -226,7 +226,7 @@ namespace Isis {
       setPlanetographic(latitude, latitudeUnits);
     }
     else {
-      std::string msg = "Enumeration value [" + std::to_string(latType) + "] is not a valid CoordinateType";
+      std::string msg = "Enumeration value [" + Isis::toString(latType) + "] is not a valid CoordinateType";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -315,7 +315,7 @@ namespace Isis {
   double Latitude::planetographic(Angle::Units units) const {
     
     if (m_equatorialRadius == NULL || m_polarRadius == NULL) {
-      std::string msg = "Latitude [" + std::to_string(true) + "] cannot "
+      std::string msg = "Latitude [" + Isis::toString(true) + "] cannot "
           "be converted to Planetographic without the planetary radii, please "
           "use the other Latitude constructor.";
       throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -507,17 +507,17 @@ namespace Isis {
     Distance equatorialRadius;
     Distance polarRadius;
     if (mapping.hasKeyword("EquatorialRadius") && mapping.hasKeyword("PolarRadius")) {
-      equatorialRadius = Distance(IString::ToDouble(mapping["EquatorialRadius"][0]),
+      equatorialRadius = Distance(Isis::toDouble(mapping["EquatorialRadius"][0]),
                                   Distance::Meters);
-      polarRadius = Distance(IString::ToDouble(mapping["PolarRadius"][0]),
+      polarRadius = Distance(Isis::toDouble(mapping["PolarRadius"][0]),
                              Distance::Meters);
     }
     else {
       try {
         PvlGroup radiiGrp = Target::radiiGroup(QString::fromStdString(mapping["TargetName"][0]));
-        equatorialRadius = Distance(IString::ToDouble(radiiGrp["EquatorialRadius"][0]),
+        equatorialRadius = Distance(Isis::toDouble(radiiGrp["EquatorialRadius"][0]),
                                     Distance::Meters);
-        polarRadius = Distance(IString::ToDouble(radiiGrp["PolarRadius"][0]),
+        polarRadius = Distance(Isis::toDouble(radiiGrp["PolarRadius"][0]),
                                Distance::Meters);
       }
       catch (IException &e) {

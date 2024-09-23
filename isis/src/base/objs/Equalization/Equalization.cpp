@@ -332,16 +332,16 @@ namespace Isis {
 
     PvlObject equ("EqualizationInformation");
     PvlGroup gen("General");
-    gen += PvlKeyword("TotalOverlaps", std::to_string(m_validCnt + m_invalidCnt));
-    gen += PvlKeyword("ValidOverlaps", std::to_string(m_validCnt));
-    gen += PvlKeyword("InvalidOverlaps", std::to_string(m_invalidCnt));
-    gen += PvlKeyword("MinCount", std::to_string(m_mincnt));
-    gen += PvlKeyword("SamplingPercent", std::to_string(m_samplingPercent));
+    gen += PvlKeyword("TotalOverlaps", Isis::toString(m_validCnt + m_invalidCnt));
+    gen += PvlKeyword("ValidOverlaps", Isis::toString(m_validCnt));
+    gen += PvlKeyword("InvalidOverlaps", Isis::toString(m_invalidCnt));
+    gen += PvlKeyword("MinCount", Isis::toString(m_mincnt));
+    gen += PvlKeyword("SamplingPercent", Isis::toString(m_samplingPercent));
     gen += PvlKeyword("Weighted", (m_wtopt) ? "true" : "false");
     int solType = m_sType;
     int lsqMethod = m_lsqMethod;
-    gen += PvlKeyword("SolutionType", std::to_string(solType));
-    gen += PvlKeyword("SolveMethod" , std::to_string(lsqMethod));
+    gen += PvlKeyword("SolutionType", Isis::toString(solType));
+    gen += PvlKeyword("SolveMethod" , Isis::toString(lsqMethod));
     PvlKeyword nonOverlaps("NonOverlaps");
     for (int img = 0; img < m_badFiles.size(); img++) {
       nonOverlaps += m_badFiles[img].toStdString();
@@ -386,18 +386,18 @@ namespace Isis {
           if (m_sType == OverlapNormalization::Both ||
               m_sType == OverlapNormalization::Gains ||
               m_sType == OverlapNormalization::GainsWithoutNormalization) {
-            bandStats += std::to_string(m_adjustments[img]->getGain(band - 1));
+            bandStats += Isis::toString(m_adjustments[img]->getGain(band - 1));
           }
           // OFFSET
           if (m_sType == OverlapNormalization::Both ||
               m_sType == OverlapNormalization::Offsets) {
-            bandStats += std::to_string(m_adjustments[img]->getOffset(band - 1));
+            bandStats += Isis::toString(m_adjustments[img]->getOffset(band - 1));
           }
           // AVERAGE
           if (m_sType == OverlapNormalization::Both ||
               m_sType == OverlapNormalization::Gains ||
               m_sType == OverlapNormalization::Offsets) {
-            bandStats += std::to_string(m_adjustments[img]->getAverage(band - 1));
+            bandStats += Isis::toString(m_adjustments[img]->getAverage(band - 1));
           }
           norm += bandStats;
         }
@@ -468,9 +468,9 @@ namespace Isis {
 
         // Get and store the modifiers for each band
         for (int band = 1; band < normalization.keywords(); band++) {
-          adjustment->addGain(IString::ToDouble(normalization[band][0]));
-          adjustment->addOffset(IString::ToDouble(normalization[band][1]));
-          adjustment->addAverage(IString::ToDouble(normalization[band][2]));
+          adjustment->addGain(Isis::toDouble(normalization[band][0]));
+          adjustment->addOffset(Isis::toDouble(normalization[band][1]));
+          adjustment->addAverage(Isis::toDouble(normalization[band][2]));
         }
 
         addAdjustment(adjustment);
@@ -815,7 +815,7 @@ namespace Isis {
     m_mincnt = eqGen["MinCount"];
     m_wtopt = (eqGen["Weighted"][0] == "true") ? true : false;
     m_sType = static_cast<OverlapNormalization::SolutionType>((int)eqGen["SolutionType"]);
-    m_lsqMethod = static_cast<LeastSquares::SolveMethod>(IString::ToInteger(eqGen["SolveMethod"][0]));
+    m_lsqMethod = static_cast<LeastSquares::SolveMethod>(Isis::toInt(eqGen["SolveMethod"][0]));
 
     // Unserialize previous overlap statistics
     PvlObject::ConstPvlObjectIterator curObj = inStats.beginObject();

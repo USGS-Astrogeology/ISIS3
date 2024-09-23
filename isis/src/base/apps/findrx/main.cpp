@@ -35,20 +35,20 @@ void IsisMain() {
   int nres = reseaus["Line"].size();
   if (nres != reseaus["Sample"].size()) {
     std::string msg = "Sample size incorrect [Sample size " +
-                 toString(reseaus["Sample"].size()) + " != " + " Line size " +
-                 toString(reseaus["Line"].size()) + "]";
+                 Isis::toString(reseaus["Sample"].size()) + " != " + " Line size " +
+                 Isis::toString(reseaus["Line"].size()) + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
   if (nres != reseaus["Type"].size()) {
     std::string msg = "Type size incorrect [Type size " +
-                 toString(reseaus["Type"].size()) + " != " + " Line size " +
-                 toString(reseaus["Line"].size()) + "]";
+                 Isis::toString(reseaus["Type"].size()) + " != " + " Line size " +
+                 Isis::toString(reseaus["Line"].size()) + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
   if (nres != reseaus["Valid"].size()) {
     std::string msg = "Valid size incorrect [Valid size " +
-                 toString(reseaus["Valid"].size()) + " != " + " Line size " +
-                 toString(reseaus["Line"].size()) + "]";
+                 Isis::toString(reseaus["Valid"].size()) + " != " + " Line size " +
+                 Isis::toString(reseaus["Line"].size()) + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
 
@@ -77,10 +77,10 @@ void IsisMain() {
   // And the loop...
   for (int res = 0; res < nres; ++res) {
     // Output chips
-    ar->SearchChip()->TackCube(IString::ToDouble(reseaus["Sample"][res]), IString::ToDouble(reseaus["Line"][res]));
+    ar->SearchChip()->TackCube(Isis::toDouble(reseaus["Sample"][res]), Isis::toDouble(reseaus["Line"][res]));
     ar->SearchChip()->Load(*cube);
     ar->PatternChip()->Load(pattern, 0, 1.0, res + 1);
-    int type = IString::ToInteger(reseaus["Type"][res]);
+    int type = Isis::toInt(reseaus["Type"][res]);
     // If the reseaus is in the center (type 5) use full percent value
     if (type == 5) {
       ar->SetPatternValidPercent(patternValidPercent);
@@ -100,8 +100,8 @@ void IsisMain() {
     ar->Register();
 
     if (ar->Success()) {
-      reseaus["Sample"][res] = toString(ar->CubeSample());
-      reseaus["Line"][res] = toString(ar->CubeLine());
+      reseaus["Sample"][res] = Isis::toString(ar->CubeSample());
+      reseaus["Line"][res] = Isis::toString(ar->CubeLine());
       reseaus["Valid"][res] = "1";
     }
     else {
@@ -110,8 +110,8 @@ void IsisMain() {
 
     // And if the reseaus are to be marked...mark em
     if (white != NULL) {
-      double line = IString::ToDouble(reseaus["Line"][res]);
-      double sample = IString::ToDouble(reseaus["Sample"][res]);
+      double line = Isis::toDouble(reseaus["Line"][res]);
+      double sample = Isis::toDouble(reseaus["Sample"][res]);
       white->SetBasePosition(int(sample), int(line), 1);
       cube->write(*white);
     }

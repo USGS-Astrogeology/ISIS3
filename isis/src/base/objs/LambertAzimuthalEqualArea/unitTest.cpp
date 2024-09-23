@@ -1170,7 +1170,7 @@ int main(int argc, char *argv[]) {
     mapGroup.findKeyword("LongitudeDirection").setValue("PositiveEast");
     mapGroup.deleteKeyword("EquatorialRadius");
     mapGroup += PvlKeyword("EquatorialRadius", "6378388.0");
-    mapGroup.findKeyword("PolarRadius").setValue(toString(6378388.0*sqrt(1-.00672267)));
+    mapGroup.findKeyword("PolarRadius").setValue(Isis::toString(6378388.0*sqrt(1-.00672267)));
     mapGroup.findKeyword("MinimumLatitude").setValue("-89.99999");
     mapGroup.findKeyword("CenterLongitude").setValue("-100.0");
     mapGroup.findKeyword("MinimumLongitude").setValue("-100.0");        
@@ -1621,7 +1621,7 @@ int main(int argc, char *argv[]) {
     //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     mapGroup.deleteKeyword("EquatorialRadius");
     mapGroup += PvlKeyword("EquatorialRadius", "6378206.4");
-    mapGroup.findKeyword("PolarRadius").setValue(toString(6378206.4*sqrt(1-.00676866)));  
+    mapGroup.findKeyword("PolarRadius").setValue(Isis::toString(6378206.4*sqrt(1-.00676866)));  
     mapGroup.findKeyword("CenterLatitude").setValue("40.0");                      
     mapGroup.findKeyword("CenterLongitude").setValue("-100.0");                   
     mapGroup.findKeyword("MinimumLatitude").setValue("-50");
@@ -2002,7 +2002,7 @@ int main(int argc, char *argv[]) {
     cout << "\t\t\t\t\t TESTING OTHER METHODS          " << endl;
     cout << border << endl << endl;
     //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    mapGroup.findKeyword("PolarRadius").setValue(toString(p8->EquatorialRadius()));
+    mapGroup.findKeyword("PolarRadius").setValue(Isis::toString(p8->EquatorialRadius()));
     TProjection *p9 = (TProjection *) ProjectionFactory::Create(lab);
     TProjection *s = p1;
     cout << "Name:                       " << s->Name().toStdString() << endl;

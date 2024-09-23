@@ -201,18 +201,18 @@ namespace Isis {
       // Update the "IMAGE" Object
       PvlObject &imageObject = labelPvl.findObject("IMAGE");
       imageObject.clear();
-      imageObject += PvlKeyword("LINES", toString(cube->lineCount()));
-      imageObject += PvlKeyword("LINE_SAMPLES", toString(cube->sampleCount()));
+      imageObject += PvlKeyword("LINES", Isis::toString(cube->lineCount()));
+      imageObject += PvlKeyword("LINE_SAMPLES", Isis::toString(cube->sampleCount()));
       if (g_isIof) {
-          imageObject += PvlKeyword("SAMPLE_BITS", toString(16));
+          imageObject += PvlKeyword("SAMPLE_BITS", Isis::toString(16));
           imageObject += PvlKeyword("SAMPLE_TYPE", "LSB_INTEGER");
-          imageObject += PvlKeyword("SCALING_FACTOR", toString(1.0 / SCALING_FACTOR));
-          imageObject += PvlKeyword("VALID_MINIMUM", toString(Isis::VALID_MIN2));
-          imageObject += PvlKeyword("NULL", toString(Isis::NULL2));
-          imageObject += PvlKeyword("LOW_REPR_SATURATION", toString(Isis::LOW_REPR_SAT2));
-          imageObject += PvlKeyword("LOW_INSTR_SATURATION", toString(Isis::LOW_INSTR_SAT2));
-          imageObject += PvlKeyword("HIGH_INSTR_SATURATION", toString(Isis::HIGH_INSTR_SAT2));
-          imageObject += PvlKeyword("HIGH_REPR_SATURATION", toString(Isis::HIGH_REPR_SAT2));
+          imageObject += PvlKeyword("SCALING_FACTOR", Isis::toString(1.0 / SCALING_FACTOR));
+          imageObject += PvlKeyword("VALID_MINIMUM", Isis::toString(Isis::VALID_MIN2));
+          imageObject += PvlKeyword("NULL", Isis::toString(Isis::NULL2));
+          imageObject += PvlKeyword("LOW_REPR_SATURATION", Isis::toString(Isis::LOW_REPR_SAT2));
+          imageObject += PvlKeyword("LOW_INSTR_SATURATION", Isis::toString(Isis::LOW_INSTR_SAT2));
+          imageObject += PvlKeyword("HIGH_INSTR_SATURATION", Isis::toString(Isis::HIGH_INSTR_SAT2));
+          imageObject += PvlKeyword("HIGH_REPR_SATURATION", Isis::toString(Isis::HIGH_REPR_SAT2));
           imageObject += PvlKeyword("UNIT", "Scaled I/F");
       }
       else {
@@ -233,13 +233,13 @@ namespace Isis {
       int recordBytes = cube->sampleCount();
       int labelRecords = (int) ((stream.str().length()) / recordBytes) + 1;
 
-      labelPvl["RECORD_BYTES"] = toString(recordBytes);
+      labelPvl["RECORD_BYTES"] = Isis::toString(recordBytes);
       if (g_isIof)
-          labelPvl["FILE_RECORDS"] = toString((int) (cube->lineCount() * 2 + labelRecords));
+          labelPvl["FILE_RECORDS"] = Isis::toString((int) (cube->lineCount() * 2 + labelRecords));
       else
-          labelPvl["FILE_RECORDS"] = toString((int) (cube->lineCount() * 4 + labelRecords));
-      labelPvl["LABEL_RECORDS"] = toString(labelRecords);
-      labelPvl["^IMAGE"] = toString((int) (labelRecords + 1));
+          labelPvl["FILE_RECORDS"] = Isis::toString((int) (cube->lineCount() * 4 + labelRecords));
+      labelPvl["LABEL_RECORDS"] = Isis::toString(labelRecords);
+      labelPvl["^IMAGE"] = Isis::toString((int) (labelRecords + 1));
 
       stream.str(std::string());
 
@@ -251,9 +251,9 @@ namespace Isis {
       while ((int)pdsLabel.length() + 2 > (int)(labelRecords * recordBytes)) {
           labelRecords++;
           // Refresh the label content
-          labelPvl["FILE_RECORDS"] = toString((int) (cube->lineCount() * 4 + labelRecords));
-          labelPvl["LABEL_RECORDS"] = toString(labelRecords);
-          labelPvl["^IMAGE"] = toString((int) (labelRecords + 1));
+          labelPvl["FILE_RECORDS"] = Isis::toString((int) (cube->lineCount() * 4 + labelRecords));
+          labelPvl["LABEL_RECORDS"] = Isis::toString(labelRecords);
+          labelPvl["^IMAGE"] = Isis::toString((int) (labelRecords + 1));
           stream.str(std::string());
           stream << labelPvl;
           pdsLabel = stream.str().c_str();

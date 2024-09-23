@@ -75,26 +75,26 @@ TEST(Chan1m32Isis, Chan1m32IsisTestFowardAscending) {
   ASSERT_EQ(bandbin["FilterNumber"].size(), 256);
   ASSERT_EQ(bandbin["OriginalBand"].size(), 256);
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][0]), 446.02);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][64]), 1084.8);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][128]), 1723.5899999999999);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][255]), 2991.17);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Center"][0]), 446.02);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Center"][64]), 1084.8);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Center"][128]), 1723.5899999999999);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Center"][255]), 2991.17);
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][0]), 12.31);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][64]), 12.29);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][128]), 12.61);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][255]), 12.18);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Width"][0]), 12.31);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Width"][64]), 12.29);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Width"][128]), 12.61);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Width"][255]), 12.18);
 
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["FilterNumber"][0]), 5);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["FilterNumber"][64]), 69);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["FilterNumber"][128]), 133);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["FilterNumber"][255]), 260);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["FilterNumber"][0]), 5);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["FilterNumber"][64]), 69);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["FilterNumber"][128]), 133);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["FilterNumber"][255]), 260);
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][0]), 1);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][64]), 65);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][128]), 129);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][255]), 256);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["OriginalBand"][0]), 1);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["OriginalBand"][64]), 65);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["OriginalBand"][128]), 129);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["OriginalBand"][255]), 256);
 
   // Kernels Group
   PvlGroup &kernel = isisLabel->findGroup("Kernels", Pvl::Traverse);
@@ -359,20 +359,20 @@ TEST(Chan1m32Isis, Chan1m32IsisTestL0) {
   ASSERT_EQ(bandbin["FilterNumber"].size(), 85);
   ASSERT_EQ(bandbin["OriginalBand"].size(), 85);
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][0]), 460.990);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][21]), 1009.95);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][42]), 1429.15);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][84]), 2976.20);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Center"][0]), 460.990);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Center"][21]), 1009.95);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Center"][42]), 1429.15);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["Center"][84]), 2976.20);
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["FilterNumber"][0]), 5);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["FilterNumber"][21]), 57);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["FilterNumber"][42]), 99);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["FilterNumber"][84]), 253);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["FilterNumber"][0]), 5);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["FilterNumber"][21]), 57);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["FilterNumber"][42]), 99);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["FilterNumber"][84]), 253);
 
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][0]), 1);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][21]), 22);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][42]), 43);
-  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][84]), 85);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["OriginalBand"][0]), 1);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["OriginalBand"][21]), 22);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["OriginalBand"][42]), 43);
+  ASSERT_DOUBLE_EQ(Isis::toDouble(bandbin["OriginalBand"][84]), 85);
 
   // Kernels Group
   PvlGroup &kernel = isisLabel->findGroup("Kernels", Pvl::Traverse);

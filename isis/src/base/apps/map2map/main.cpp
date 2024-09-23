@@ -88,12 +88,12 @@ if((QString::fromStdString(userMapping["LongitudeDirection"])).compare(QString::
   }
 
   if(QString::fromStdString(userMapping["LongitudeDirection"]) == "PositiveEast") {
-    fromMapping["MaximumLongitude"] = toString(TProjection::ToPositiveEast(minLon, domain));
-    fromMapping["MinimumLongitude"] = toString(TProjection::ToPositiveEast(maxLon, domain));
+    fromMapping["MaximumLongitude"] = Isis::toString(TProjection::ToPositiveEast(minLon, domain));
+    fromMapping["MinimumLongitude"] = Isis::toString(TProjection::ToPositiveEast(maxLon, domain));
   }
   else if(QString::fromStdString(userMapping["LongitudeDirection"]) == "PositiveWest") {
-    fromMapping["MaximumLongitude"] = toString(TProjection::ToPositiveWest(minLon, domain));
-    fromMapping["MinimumLongitude"] = toString(TProjection::ToPositiveWest(maxLon, domain));
+    fromMapping["MaximumLongitude"] = Isis::toString(TProjection::ToPositiveWest(minLon, domain));
+    fromMapping["MinimumLongitude"] = Isis::toString(TProjection::ToPositiveWest(maxLon, domain));
   }
 }
 }
@@ -102,21 +102,21 @@ if((QString::fromStdString(userMapping["LongitudeDirection"])).compare(QString::
 if(userMapping.hasKeyword("LatitudeType")) { // user set a new domain?
 if((QString::fromStdString(userMapping["LatitudeType"])).compare(QString::fromStdString(fromMapping["LatitudeType"])) != 0) { // new lat type different?
   if((QString::fromStdString(userMapping["LatitudeType"])).compare("Planetographic") == 0) {
-    fromMapping["MinimumLatitude"] = toString(TProjection::ToPlanetographic(
+    fromMapping["MinimumLatitude"] = Isis::toString(TProjection::ToPlanetographic(
                                        (double)fromMapping["MinimumLatitude"],
                                        (double)fromMapping["EquatorialRadius"],
                                        (double)fromMapping["PolarRadius"]));
-    fromMapping["MaximumLatitude"] = toString(TProjection::ToPlanetographic(
+    fromMapping["MaximumLatitude"] = Isis::toString(TProjection::ToPlanetographic(
                                        (double)fromMapping["MaximumLatitude"],
                                        (double)fromMapping["EquatorialRadius"],
                                        (double)fromMapping["PolarRadius"]));
   }
   else {
-    fromMapping["MinimumLatitude"] = toString(TProjection::ToPlanetocentric(
+    fromMapping["MinimumLatitude"] = Isis::toString(TProjection::ToPlanetocentric(
                                        (double)fromMapping["MinimumLatitude"],
                                        (double)fromMapping["EquatorialRadius"],
                                        (double)fromMapping["PolarRadius"]));
-    fromMapping["MaximumLatitude"] = toString(TProjection::ToPlanetocentric(
+    fromMapping["MaximumLatitude"] = Isis::toString(TProjection::ToPlanetocentric(
                                        (double)fromMapping["MaximumLatitude"],
                                        (double)fromMapping["EquatorialRadius"],
                                        (double)fromMapping["PolarRadius"]));

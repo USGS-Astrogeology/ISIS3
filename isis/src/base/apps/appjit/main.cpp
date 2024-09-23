@@ -160,7 +160,7 @@ void IsisMain() {
         }
         cube.putGroup(kernels);
         cube.close();
-        gp += PvlKeyword("Status" + toString(ifile), list[ifile].toString() + ":  camera pointing updated");
+        gp += PvlKeyword("Status" + Isis::toString(ifile), list[ifile].toString() + ":  camera pointing updated");
       }
     }
     Application::Log(gp);

@@ -449,10 +449,10 @@ void IsisMain() {
 
     //  Report Stereo separation angles
     PvlGroup stresultsPvl("StereoSeparationAngle");
-    stresultsPvl += PvlKeyword("Minimum", toString(stAng.Minimum()), "deg");
-    stresultsPvl += PvlKeyword("Average", toString(stAng.Average()), "deg");
-    stresultsPvl += PvlKeyword("Maximum", toString(stAng.Maximum()), "deg");
-    stresultsPvl += PvlKeyword("StandardDeviation", toString(stAng.StandardDeviation()), "deg");
+    stresultsPvl += PvlKeyword("Minimum", Isis::toString(stAng.Minimum()), "deg");
+    stresultsPvl += PvlKeyword("Average", Isis::toString(stAng.Average()), "deg");
+    stresultsPvl += PvlKeyword("Maximum", Isis::toString(stAng.Maximum()), "deg");
+    stresultsPvl += PvlKeyword("StandardDeviation", Isis::toString(stAng.StandardDeviation()), "deg");
     Application::Log(stresultsPvl);
 
     // Update the label with BandBin keywords
@@ -481,17 +481,17 @@ void IsisMain() {
 
   // Create output data
   PvlGroup totalPointsPvl("Totals");
-  totalPointsPvl += PvlKeyword("AttemptedPoints", toString(numAttemptedInitialPoints));
-  totalPointsPvl += PvlKeyword("InitialSuccesses", toString(numOrigPoints));
-  totalPointsPvl += PvlKeyword("GrowSuccesses", toString(passpix2));
-  totalPointsPvl += PvlKeyword("ResultingPoints", toString(bmf.size()));
+  totalPointsPvl += PvlKeyword("AttemptedPoints", Isis::toString(numAttemptedInitialPoints));
+  totalPointsPvl += PvlKeyword("InitialSuccesses", Isis::toString(numOrigPoints));
+  totalPointsPvl += PvlKeyword("GrowSuccesses", Isis::toString(passpix2));
+  totalPointsPvl += PvlKeyword("ResultingPoints", Isis::toString(bmf.size()));
 
   Application::Log(totalPointsPvl);
 
   Pvl arPvl = matcher.RegistrationStatistics();
   PvlGroup smtkresultsPvl("SmtkResults");
-  smtkresultsPvl += PvlKeyword("SpiceOffImage", toString(matcher.OffImageErrorCount()));
-  smtkresultsPvl += PvlKeyword("SpiceDistanceError", toString(matcher.SpiceErrorCount()));
+  smtkresultsPvl += PvlKeyword("SpiceOffImage", Isis::toString(matcher.OffImageErrorCount()));
+  smtkresultsPvl += PvlKeyword("SpiceDistanceError", Isis::toString(matcher.SpiceErrorCount()));
   arPvl.addGroup(smtkresultsPvl);
 
   for (int i = 0; i < arPvl.groups(); i++) {

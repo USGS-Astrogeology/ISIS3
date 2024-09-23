@@ -341,7 +341,7 @@ namespace Isis {
     PvlGroup &instGrp = cubeLabels->findGroup("Instrument", Pvl::Traverse);
     PvlKeyword exptime = instGrp["ExposureDuration"];
     QString units = QString::fromStdString(exptime.unit(0)).toLower();
-    double etime = IString::ToDouble(exptime[0]);
+    double etime = Isis::toDouble(exptime[0]);
 
     // Convert to seconds if indicated
     if ( "milliseconds" == units) etime /= 1000.0;

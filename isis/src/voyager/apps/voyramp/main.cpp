@@ -155,10 +155,10 @@ void IsisMain() {
   plasmaC = detb3/deta;
 
   // Create data to go in Radiometry group
-  PvlKeyword top = PvlKeyword("TopCorrectiveDN", toString(y1));
+  PvlKeyword top = PvlKeyword("TopCorrectiveDN", Isis::toString(y1));
   top.addComment("Voyramp plasma torus corrective DN values:");
-  PvlKeyword mid = PvlKeyword("MiddleCorrectiveDN", toString(y2));
-  PvlKeyword bot = PvlKeyword("BottomCorrectiveDN", toString(y3));
+  PvlKeyword mid = PvlKeyword("MiddleCorrectiveDN", Isis::toString(y2));
+  PvlKeyword bot = PvlKeyword("BottomCorrectiveDN", Isis::toString(y3));
 
   // Add it
   radio += top;

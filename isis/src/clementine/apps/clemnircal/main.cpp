@@ -129,7 +129,7 @@ void IsisMain() {
 
     if(!gainFactorData.hasGroup(group.toStdString())) {
       std::string err = "The Gain Factor for Gain Mode ID [";
-      err += toString(gainModeID);
+      err += Isis::toString(gainModeID);
       err += "] could not be found in clemnircal.def";
       throw IException(IException::Programmer, err, _FILEINFO_);
     }
@@ -138,7 +138,7 @@ void IsisMain() {
 
     if(abs(gainFactor) < DBL_EPSILON) {
       std::string err = "The Gain Factor for Gain Mode ID [";
-      err += toString(gainModeID);
+      err += Isis::toString(gainModeID);
       err += "] can not be zero.";
       throw IException(IException::Programmer, err, _FILEINFO_);
     }
@@ -250,15 +250,15 @@ void IsisMain() {
   calgrp += PvlKeyword("ThermalCorrectionTable", thermTbl.toStdString());
   calgrp += PvlKeyword("AdditiveFileTable", afFileTableLoc.toStdString());
 
-  calgrp += PvlKeyword("DigitalOffset", toString(digitalOffset));
-  calgrp += PvlKeyword("GlobalBias", toString(globalBias));
-  calgrp += PvlKeyword("GlobalDarkCoefficient", toString(globalDarkCoefficient));
-  calgrp += PvlKeyword("V", toString(vConstant));
+  calgrp += PvlKeyword("DigitalOffset", Isis::toString(digitalOffset));
+  calgrp += PvlKeyword("GlobalBias", Isis::toString(globalBias));
+  calgrp += PvlKeyword("GlobalDarkCoefficient", Isis::toString(globalDarkCoefficient));
+  calgrp += PvlKeyword("V", Isis::toString(vConstant));
   //Calculated in processing routine
-  calgrp += PvlKeyword("GainFactor", toString(gainFactor));
-  calgrp += PvlKeyword("AbsoluteCoefficient", toString(absoluteCoefficient));
-  calgrp += PvlKeyword("CryoNorm", toString(cryonorm));
-  calgrp += PvlKeyword("OptimalExposureDuration", toString(optimalExposureDuration));
+  calgrp += PvlKeyword("GainFactor", Isis::toString(gainFactor));
+  calgrp += PvlKeyword("AbsoluteCoefficient", Isis::toString(absoluteCoefficient));
+  calgrp += PvlKeyword("CryoNorm", Isis::toString(cryonorm));
+  calgrp += PvlKeyword("OptimalExposureDuration", Isis::toString(optimalExposureDuration));
 
   ocube->putGroup(calgrp);
   p.EndProcess();

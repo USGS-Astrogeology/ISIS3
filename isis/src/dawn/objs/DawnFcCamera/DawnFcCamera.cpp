@@ -55,7 +55,7 @@ namespace Isis {
     }
     else {
       std::string msg = "File does not appear to be a Dawn Framing Camera image. ";
-      msg += "(" + toString(ikCode) + " is not a Dawn FC instrument code)";
+      msg += "(" + Isis::toString(ikCode) + " is not a Dawn FC instrument code)";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 

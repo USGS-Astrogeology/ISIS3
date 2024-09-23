@@ -511,13 +511,13 @@ namespace Isis {
       }
       else {
         std::vector<PvlKeyword> keywordValueRed;
-        keywordValueRed.push_back(PvlKeyword("BandNumber",  toString(cvp->redBand())));
+        keywordValueRed.push_back(PvlKeyword("BandNumber",  Isis::toString(cvp->redBand())));
 
         std::vector<PvlKeyword> keywordValueGreen;
-        keywordValueGreen.push_back(PvlKeyword("BandNumber", toString(cvp->greenBand())));
+        keywordValueGreen.push_back(PvlKeyword("BandNumber", Isis::toString(cvp->greenBand())));
 
         std::vector<PvlKeyword> keywordValueBlue;
-        keywordValueBlue.push_back(PvlKeyword("BandNumber", toString(cvp->blueBand())));
+        keywordValueBlue.push_back(PvlKeyword("BandNumber", Isis::toString(cvp->blueBand())));
 
         CubeStretch redStretch = icube->readCubeStretch(stretchName, keywordValueRed);
         CubeStretch greenStretch = icube->readCubeStretch(stretchName, keywordValueGreen);

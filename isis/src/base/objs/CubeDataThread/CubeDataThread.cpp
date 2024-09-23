@@ -197,7 +197,7 @@ namespace Isis {
     if (i == p_managedCubes->end()) {
       p_threadSafeMutex->unlock();
       std::string msg = "CubeDataThread::RemoveCube failed because cube ID [";
-      msg += std::to_string(cubeId);
+      msg += Isis::toString(cubeId);
       msg += "] not found";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -205,7 +205,7 @@ namespace Isis {
     if (p_managedDataSources->contains(cubeId)) {
       p_threadSafeMutex->unlock();
       std::string msg = "CubeDataThread::RemoveCube failed cube ID [";
-      msg += std::to_string(cubeId);
+      msg += Isis::toString(cubeId);
       msg += "] has requested Bricks";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

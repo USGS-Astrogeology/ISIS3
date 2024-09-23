@@ -66,9 +66,9 @@ End)";
   PvlGroup dimensionsGroup = label->findObject("IsisCube").findObject("Core").findGroup("Dimensions");
 
 
-  EXPECT_EQ(IString::ToInteger(dimensionsGroup["Samples"][0]), 3);
-  EXPECT_EQ(IString::ToInteger(dimensionsGroup["Lines"][0]), 2);
-  EXPECT_EQ(IString::ToInteger(dimensionsGroup["Bands"][0]), 1);
+  EXPECT_EQ(Isis::toInt(dimensionsGroup["Samples"][0]), 3);
+  EXPECT_EQ(Isis::toInt(dimensionsGroup["Lines"][0]), 2);
+  EXPECT_EQ(Isis::toInt(dimensionsGroup["Bands"][0]), 1);
 
   EXPECT_EQ(cube.sampleCount(), 3);
   EXPECT_EQ(cube.lineCount(), 2);

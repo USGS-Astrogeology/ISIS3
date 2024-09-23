@@ -61,7 +61,7 @@ int main() {
 
     cout << "    Shape  name is " << shape.name().toStdString() << endl;
     cout << "    Shape2  name is " << shape2.name().toStdString() << endl;
-    cout << "    Shape is DEM type?" << toString(shape.isDEM()) << endl;
+    cout << "    Shape is DEM type?" << Isis::toString((bool)shape.isDEM()) << endl;
 
     std::vector<double> sB(3);
     sB[0] = -2399.54;

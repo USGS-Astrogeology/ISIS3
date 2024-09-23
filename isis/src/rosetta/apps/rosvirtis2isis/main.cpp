@@ -420,7 +420,7 @@ void IsisMain ()
     scs2e_c( (SpiceInt) -226, stopScet.toLatin1().data(), &etEnd);
 
     PvlKeyword &frameParam = inst["FrameParameter"];
-    double exposureTime = IString::ToDouble(frameParam[0]);
+    double exposureTime = Isis::toDouble(frameParam[0]);
 
     QString startTime = iTime(etStart-exposureTime).UTC();
     QString stopTime = iTime(etEnd-exposureTime).UTC();
@@ -451,13 +451,13 @@ void IsisMain ()
   // VIRTIS_H is also supported.
   PvlGroup kerns("Kernels");
   if (channelid == "VIRTIS_M_IR") {
-    kerns += PvlKeyword("NaifFrameCode", toString(-226213));
+    kerns += PvlKeyword("NaifFrameCode", Isis::toString(-226213));
   }
   else if (channelid == "VIRTIS_M_VIS") {
-    kerns += PvlKeyword("NaifFrameCode", toString(-226211));
+    kerns += PvlKeyword("NaifFrameCode", Isis::toString(-226211));
   }
   else if (channelid == "VIRTIS_H") {
-    kerns += PvlKeyword("NaifFrameCode", toString(-226220));
+    kerns += PvlKeyword("NaifFrameCode", Isis::toString(-226220));
   }
   else {
     std::string msg = "Input file [" + inFile.expanded() + "] has an invalid " +
@@ -471,7 +471,7 @@ void IsisMain ()
     const PvlKeyword &frameKey = outcube->group("Instrument").findKeyword("FrameParameter");
     // The third frame key is always the number of scans in between dark current scans.
     // So, we need to add one to that in order to get the number of lines to next dark current.
-    int darkRate = IString::ToInteger(frameKey[3]) + 1;
+    int darkRate = Isis::toInt(frameKey[3]) + 1;
     LineManager darkLineManager(*outcube);
 
     for (int band = 1; band <= outcube->bandCount(); band++) {

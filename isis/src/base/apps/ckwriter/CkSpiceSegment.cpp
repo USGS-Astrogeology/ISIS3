@@ -360,7 +360,7 @@ bool CkSpiceSegment::getTimeDependentFrameIds(Table &table, int &toId, int &from
   if ( table.Label().hasKeyword("TimeDependentFrames") ) {
     PvlKeyword labelTimeFrames = table.Label()["TimeDependentFrames"];
     for (int i=0; i<labelTimeFrames.size(); i++) {
-      tdfids.push_back(IString::ToInteger(labelTimeFrames[i]));
+      tdfids.push_back(Isis::toInt(labelTimeFrames[i]));
     }
   }
   else {
@@ -413,7 +413,7 @@ bool CkSpiceSegment::getFrameChains(Table &table, const int &leftBase,
   if ( table.Label().hasKeyword("TimeDependentFrames") ) {
     PvlKeyword labelTimeFrames = table.Label()["TimeDependentFrames"];
     for (int i = 0 ; i < labelTimeFrames.size() ; i++) {
-      tdfids.push_back(IString::ToInteger(labelTimeFrames[i]));
+      tdfids.push_back(Isis::toInt(labelTimeFrames[i]));
     }
   }
   else {
@@ -432,7 +432,7 @@ bool CkSpiceSegment::getFrameChains(Table &table, const int &leftBase,
     ostringstream mess;
     mess << "Left/Right CK frame ids invalid in TimeDependentFrames label keyword."
          <<  " Must have at least 1 and no more than 2 ids but have "
-         << toString(nfound);
+         << Isis::toString(nfound);
     throw IException(IException::User, mess.str(), _FILEINFO_);
   }
 
@@ -482,7 +482,7 @@ CkSpiceSegment::SMatrix CkSpiceSegment::getConstantRotation(Table &table) const 
     PvlKeyword conrot = table.Label()["ConstantRotation"];
     SVector rot(9, crot[0]);
     for (int i=0; i < 9 ; i++) {  //  Loop count ensures valid matrices
-      rot[i] = IString::ToDouble(conrot[i]);
+      rot[i] = Isis::toDouble(conrot[i]);
     }
   } catch ( IException &ie ) {
     ostringstream mess;

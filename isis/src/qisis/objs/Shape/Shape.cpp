@@ -748,27 +748,27 @@ namespace Isis {
             m_projectionName = QString::fromStdString(obj.findGroup("Mapping")["ProjectionName"][0]);
 
           if (mapGroup.hasKeyword("CenterLongitude"))
-            m_centerLongitude = Longitude(IString::ToDouble(obj.findGroup("Mapping")["CenterLongitude"][0]),
+            m_centerLongitude = Longitude(Isis::toDouble(obj.findGroup("Mapping")["CenterLongitude"][0]),
                                           mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("CenterLatitude"))
-            m_centerLatitude = Latitude(IString::ToDouble(obj.findGroup("Mapping")["CenterLatitude"][0]),
+            m_centerLatitude = Latitude(Isis::toDouble(obj.findGroup("Mapping")["CenterLatitude"][0]),
                                         mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("MinimumLatitude"))
-            m_minimumLatitude = Latitude(IString::ToDouble(obj.findGroup("Mapping")["MinimumLatitude"][0]),
+            m_minimumLatitude = Latitude(Isis::toDouble(obj.findGroup("Mapping")["MinimumLatitude"][0]),
                                          mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("MaximumLatitude"))
-            m_maximumLatitude = Latitude(IString::ToDouble(obj.findGroup("Mapping")["MaximumLatitude"][0]),
+            m_maximumLatitude = Latitude(Isis::toDouble(obj.findGroup("Mapping")["MaximumLatitude"][0]),
                                          mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("MinimumLongitude"))
-            m_minimumLongitude = Longitude(IString::ToDouble(obj.findGroup("Mapping")["MinimumLongitude"][0]),
+            m_minimumLongitude = Longitude(Isis::toDouble(obj.findGroup("Mapping")["MinimumLongitude"][0]),
                                            mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("MaximumLongitude"))
-            m_maximumLongitude = Longitude(IString::ToDouble(obj.findGroup("Mapping")["MaximumLongitude"][0]),
+            m_maximumLongitude = Longitude(Isis::toDouble(obj.findGroup("Mapping")["MaximumLongitude"][0]),
                                            mapGroup, Angle::Degrees);
 
           if (mapGroup.hasKeyword("PixelResolution"))

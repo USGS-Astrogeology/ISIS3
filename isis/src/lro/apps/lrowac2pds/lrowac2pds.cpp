@@ -418,9 +418,9 @@ namespace Isis {
       // Update the "IMAGE" Object
       PvlObject &imageObject = labelPvl.findObject("IMAGE");
       imageObject.clear();
-      imageObject += PvlKeyword("LINES", toString(cube->lineCount()));
-      imageObject += PvlKeyword("LINE_SAMPLES", toString(cube->sampleCount()));
-      imageObject += PvlKeyword("SAMPLE_BITS", toString(32));
+      imageObject += PvlKeyword("LINES", Isis::toString(cube->lineCount()));
+      imageObject += PvlKeyword("LINE_SAMPLES", Isis::toString(cube->sampleCount()));
+      imageObject += PvlKeyword("SAMPLE_BITS", Isis::toString(32));
       imageObject += PvlKeyword("SAMPLE_TYPE", "PC_REAL");
       imageObject += PvlKeyword("VALID_MINIMUM", "16#FF7FFFFA#");
       imageObject += PvlKeyword("NULL", "16#FF7FFFFB#");
@@ -439,10 +439,10 @@ namespace Isis {
       int recordBytes = cube->sampleCount();
       int labelRecords = (int) ((stream.str().length()) / recordBytes) + 1;
 
-      labelPvl["RECORD_BYTES"] = toString(recordBytes);
-      labelPvl["FILE_RECORDS"] = toString((int) (cube->lineCount() * 4 + labelRecords));
-      labelPvl["LABEL_RECORDS"] = toString(labelRecords);
-      labelPvl["^IMAGE"] = toString((int) (labelRecords + 1));
+      labelPvl["RECORD_BYTES"] = Isis::toString(recordBytes);
+      labelPvl["FILE_RECORDS"] = Isis::toString((int) (cube->lineCount() * 4 + labelRecords));
+      labelPvl["LABEL_RECORDS"] = Isis::toString(labelRecords);
+      labelPvl["^IMAGE"] = Isis::toString((int) (labelRecords + 1));
 
       stream.str(std::string());
 
@@ -455,9 +455,9 @@ namespace Isis {
       while ((int)pdsLabel.length() + 2 > (int)(labelRecords * recordBytes)) {
           labelRecords++;
           // Refresh the label content
-          labelPvl["FILE_RECORDS"] = toString((int) (cube->lineCount() * 4 + labelRecords));
-          labelPvl["LABEL_RECORDS"] = toString(labelRecords);
-          labelPvl["^IMAGE"] = toString((int) (labelRecords + 1));
+          labelPvl["FILE_RECORDS"] = Isis::toString((int) (cube->lineCount() * 4 + labelRecords));
+          labelPvl["LABEL_RECORDS"] = Isis::toString(labelRecords);
+          labelPvl["^IMAGE"] = Isis::toString((int) (labelRecords + 1));
           stream.str(std::string());
           stream << labelPvl;
           pdsLabel = stream.str().c_str();

@@ -36,19 +36,19 @@ TEST_F(ApolloCube, FunctionalTestApolloremrxDefault) {
 
   PvlGroup reseausGroup = isisLabel->findObject("IsisCube").findGroup("Reseaus");
   PvlKeyword lineKey = reseausGroup.findKeyword("Line");
-  EXPECT_NEAR(IString::ToDouble(lineKey[0]), 200, 0.0001);
-  EXPECT_NEAR(IString::ToDouble(lineKey[1]), 400, 0.0001);
-  EXPECT_NEAR(IString::ToDouble(lineKey[2]), 600, 0.0001);
+  EXPECT_NEAR(Isis::toDouble(lineKey[0]), 200, 0.0001);
+  EXPECT_NEAR(Isis::toDouble(lineKey[1]), 400, 0.0001);
+  EXPECT_NEAR(Isis::toDouble(lineKey[2]), 600, 0.0001);
 
   PvlKeyword sampleKey = reseausGroup.findKeyword("Sample");
-  EXPECT_NEAR(IString::ToDouble(sampleKey[0]), 200, 0.0001);
-  EXPECT_NEAR(IString::ToDouble(sampleKey[1]), 400, 0.0001);
-  EXPECT_NEAR(IString::ToDouble(sampleKey[2]), 600, 0.0001);
+  EXPECT_NEAR(Isis::toDouble(sampleKey[0]), 200, 0.0001);
+  EXPECT_NEAR(Isis::toDouble(sampleKey[1]), 400, 0.0001);
+  EXPECT_NEAR(Isis::toDouble(sampleKey[2]), 600, 0.0001);
 
   PvlKeyword validKey = reseausGroup.findKeyword("Valid");
-  EXPECT_EQ(IString::ToInteger(validKey[0]), 1);
-  EXPECT_EQ(IString::ToInteger(validKey[1]), 1);
-  EXPECT_EQ(IString::ToInteger(validKey[2]), 1);
+  EXPECT_EQ(Isis::toInt(validKey[0]), 1);
+  EXPECT_EQ(Isis::toInt(validKey[1]), 1);
+  EXPECT_EQ(Isis::toInt(validKey[2]), 1);
 
   EXPECT_PRED_FORMAT2(AssertStringsEqual, reseausGroup.findKeyword("Status"), "Removed");
 

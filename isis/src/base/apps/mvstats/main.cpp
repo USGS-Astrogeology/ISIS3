@@ -64,8 +64,8 @@ void IsisMain() {
 
       //Set CubeAttributeInputs to tell the ProcessByLine which
       //bands to compare
-      CubeAttributeInput band_a("d+" + toString(icube->physicalBand(i)));
-      CubeAttributeInput band_b("d+" + toString(icube->physicalBand(j)));
+      CubeAttributeInput band_a("d+" + Isis::toString(icube->physicalBand(i)));
+      CubeAttributeInput band_b("d+" + Isis::toString(icube->physicalBand(j)));
 
       //Set Input files and process, to accumulate the statistics
       p.SetInputCube(file, band_a);

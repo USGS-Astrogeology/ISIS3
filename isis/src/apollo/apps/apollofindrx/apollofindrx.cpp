@@ -66,20 +66,20 @@ namespace Isis {
         int nres = reseaus["Line"].size();
         if (nres != reseaus["Sample"].size()) {
             std::string msg = "Sample size incorrect [Sample size " +
-                            toString(reseaus["Sample"].size()) + " != " + " Line size " +
-                            toString(reseaus["Line"].size()) + "]";
+                            Isis::toString(reseaus["Sample"].size()) + " != " + " Line size " +
+                            Isis::toString(reseaus["Line"].size()) + "]";
             throw IException(IException::Unknown, msg, _FILEINFO_);
         }
         if (nres != reseaus["Type"].size()) {
             std::string msg = "Type size incorrect [Type size " +
-                            toString(reseaus["Type"].size()) + " != " + " Line size " +
-                            toString(reseaus["Line"].size()) + "]";
+                            Isis::toString(reseaus["Type"].size()) + " != " + " Line size " +
+                            Isis::toString(reseaus["Line"].size()) + "]";
             throw IException(IException::Unknown, msg, _FILEINFO_);
         }
         if (nres != reseaus["Valid"].size()) {
             std::string msg = "Valid size incorrect [Valid size " +
-                            toString(reseaus["Valid"].size()) + " != " + " Line size " +
-                            toString(reseaus["Line"].size()) + "]";
+                            Isis::toString(reseaus["Valid"].size()) + " != " + " Line size " +
+                            Isis::toString(reseaus["Line"].size()) + "]";
             throw IException(IException::Unknown, msg, _FILEINFO_);
         }
 
@@ -106,8 +106,8 @@ namespace Isis {
         int validReseaus = 0;
         // for (int res=0; res<nres; res++)
         for (int res=0; res<nres; res++) {
-            currentLine = (int)(IString::ToDouble(reseaus["Line"][res])+0.5);
-            currentSample = (int)(IString::ToDouble(reseaus["Sample"][res])+0.5);
+            currentLine = (int)(Isis::toDouble(reseaus["Line"][res])+0.5);
+            currentSample = (int)(Isis::toDouble(reseaus["Sample"][res])+0.5);
 
             // Output chips
             chip.SetSize(patternSize + 2*ds , patternSize + 2*dl);
@@ -117,13 +117,13 @@ namespace Isis {
             if  (Walk() ) {
                 double dx = 0,
                             dy = 0;
-                if (res%dim > 0 && reseaus["Valid"][res-1] == "1") dy = currentLine - patternSize/2 - dl + bestLine-1 - IString::ToDouble(reseaus["Line"][res]);
-                if (res/dim > 0 && reseaus["Valid"][res - dim] == "1") dx = currentSample - patternSize/2 - ds + bestSample-1 - IString::ToDouble(reseaus["Sample"][res]);
-                double horizontalShift = currentSample - patternSize/2 - ds + bestSample-1 - IString::ToDouble(reseaus["Sample"][res]) - dx,
-                            verticalShift = currentLine - patternSize/2 - dl + bestLine-1 - IString::ToDouble(reseaus["Line"][res]) - dy;
+                if (res%dim > 0 && reseaus["Valid"][res-1] == "1") dy = currentLine - patternSize/2 - dl + bestLine-1 - Isis::toDouble(reseaus["Line"][res]);
+                if (res/dim > 0 && reseaus["Valid"][res - dim] == "1") dx = currentSample - patternSize/2 - ds + bestSample-1 - Isis::toDouble(reseaus["Sample"][res]);
+                double horizontalShift = currentSample - patternSize/2 - ds + bestSample-1 - Isis::toDouble(reseaus["Sample"][res]) - dx,
+                            verticalShift = currentLine - patternSize/2 - dl + bestLine-1 - Isis::toDouble(reseaus["Line"][res]) - dy;
                 for (int i=res; i<nres; i++) {
-                    reseaus["Sample"][i] = toString(IString::ToDouble(reseaus["Sample"][i]) + horizontalShift + ((i/dim) - (res/dim) + 1)*dx);
-                    reseaus["Line"][i] = toString(IString::ToDouble(reseaus["Line"][i]) + verticalShift + ((i%dim) - (res%dim) + 1)*dy);
+                    reseaus["Sample"][i] = Isis::toString(Isis::toDouble(reseaus["Sample"][i]) + horizontalShift + ((i/dim) - (res/dim) + 1)*dx);
+                    reseaus["Line"][i] = Isis::toString(Isis::toDouble(reseaus["Line"][i]) + verticalShift + ((i%dim) - (res%dim) + 1)*dy);
                 }
                 reseaus["Valid"][res] = "1";
                 validReseaus++;
@@ -131,8 +131,8 @@ namespace Isis {
                 std::vector< double > xy;
                 xy.push_back(res%(int)sqrt(nres));
                 xy.push_back(res/(int)sqrt(nres));
-                sampFunc.AddKnown(xy, IString::ToDouble(reseaus["Sample"][res]));
-                lineFunc.AddKnown(xy, IString::ToDouble(reseaus["Line"][res]));
+                sampFunc.AddKnown(xy, Isis::toDouble(reseaus["Sample"][res]));
+                lineFunc.AddKnown(xy, Isis::toDouble(reseaus["Line"][res]));
 
                 ds = (int)(MIN_DISP+ abs(dx) + abs(horizontalShift));
                 dl = (int)(MIN_DISP + abs(dy) + abs(verticalShift));
@@ -150,12 +150,12 @@ namespace Isis {
 
             // for invalid reseaus, refine the estimated locations
             for (int res=0; res<nres; res++) {
-                if (IString::ToInteger(reseaus["Valid"][res])==0) {
+                if (Isis::toInt(reseaus["Valid"][res])==0) {
                     std::vector< double > xy;
                     xy.push_back(res%(int)sqrt(nres));
                     xy.push_back(res/(int)sqrt(nres));
-                    reseaus["Sample"][res] = toString(sampFunc.Evaluate(xy));
-                    reseaus["Line"][res] = toString(lineFunc.Evaluate(xy));
+                    reseaus["Sample"][res] = Isis::toString(sampFunc.Evaluate(xy));
+                    reseaus["Line"][res] = Isis::toString(lineFunc.Evaluate(xy));
                 }
             }
 

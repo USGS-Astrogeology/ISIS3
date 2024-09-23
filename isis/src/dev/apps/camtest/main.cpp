@@ -92,14 +92,14 @@ void IsisMain() {
 
   // Collect results
   PvlGroup results = PvlGroup("CamTestResults");
-  results += PvlKeyword("FailedConversionsToLatLong", toString(resultsStats.LrsPixels()));
-  results += PvlKeyword("FailedConversionsToSampleLine", toString(resultsStats.HrsPixels()));
-  results += PvlKeyword("SuccessfulConversions", toString(resultsStats.ValidPixels()));
+  results += PvlKeyword("FailedConversionsToLatLong", Isis::toString(resultsStats.LrsPixels()));
+  results += PvlKeyword("FailedConversionsToSampleLine", Isis::toString(resultsStats.HrsPixels()));
+  results += PvlKeyword("SuccessfulConversions", Isis::toString(resultsStats.ValidPixels()));
   if (outFormat == Err) {
-    results += PvlKeyword("Average", toString(resultsStats.Average()));
-    results += PvlKeyword("StandardDeviation", toString(resultsStats.StandardDeviation()));
-    results += PvlKeyword("Minimum", toString(resultsStats.Minimum()));
-    results += PvlKeyword("Maximum", toString(resultsStats.Maximum()));
+    results += PvlKeyword("Average", Isis::toString(resultsStats.Average()));
+    results += PvlKeyword("StandardDeviation", Isis::toString(resultsStats.StandardDeviation()));
+    results += PvlKeyword("Minimum", Isis::toString(resultsStats.Minimum()));
+    results += PvlKeyword("Maximum", Isis::toString(resultsStats.Maximum()));
   }
 
   // Log output results

@@ -90,8 +90,8 @@ namespace Isis {
     if(!success) {
       IString msg = "Reading from the file [" + dataFile->fileName().toStdString() + "] "
           "failed with reading [" +
-          toString(chunkToFill.getByteCount()) +
-          "] bytes at position [" + toString(startByte) + "]";
+          Isis::toString(chunkToFill.getByteCount()) +
+          "] bytes at position [" + Isis::toString(startByte) + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -114,8 +114,8 @@ namespace Isis {
     if(!success) {
       IString msg = "Writing to the file [" + dataFile->fileName().toStdString() + "] "
           "failed with writing [" +
-          toString(chunkToWrite.getByteCount()) +
-          "] bytes at position [" + toString(startByte) + "]";
+          Isis::toString(chunkToWrite.getByteCount()) +
+          "] bytes at position [" + Isis::toString(startByte) + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }

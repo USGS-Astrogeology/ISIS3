@@ -396,7 +396,7 @@ namespace Isis {
     if ( matcher.size() <= 0 ) {
       logger->dbugout() << "\n\n###   No valid files loaded - aborting...\n";
       logger->dbugout() <<     "Time: " << Application::DateTime() << "\n";
-      std::string msg = "Input cubes (" + toString(badgeom.size()) + ") failed to load. " +
+      std::string msg = "Input cubes (" + Isis::toString(badgeom.size()) + ") failed to load. " +
                     "Must provide valid FROM/FROMLIST and MATCH cube or image filenames";
       throw IException(IException::User, msg,  _FILEINFO_);
     }
@@ -438,7 +438,7 @@ namespace Isis {
       logger->dbugout() << "Shucks! Insufficient matches were found ("
                         << best->size() << ")\n";
       std::string mess = "Shucks! Insufficient matches were found (" +
-                      toString(best->size()) + ")";
+                      Isis::toString(best->size()) + ")";
       throw IException(IException::User, mess, _FILEINFO_);
     }
 
@@ -446,12 +446,12 @@ namespace Isis {
     Statistics quality = best->qualityStatistics();
     PvlGroup bestinfo("MatchSolution");
     bestinfo += PvlKeyword("Matcher", best->matcher()->name().toStdString());
-    bestinfo += PvlKeyword("MatchedPairs", toString(best->size()));
-    bestinfo += PvlKeyword("ValidPairs", toString(quality.ValidPixels()));
-    bestinfo += PvlKeyword("Efficiency",  toString(quality.Average()));
+    bestinfo += PvlKeyword("MatchedPairs", Isis::toString(best->size()));
+    bestinfo += PvlKeyword("ValidPairs", Isis::toString(quality.ValidPixels()));
+    bestinfo += PvlKeyword("Efficiency",  Isis::toString(quality.Average()));
     if ( quality.ValidPixels() > 1 ) {
       bestinfo += PvlKeyword("StdDevEfficiency",
-                              toString(quality.StandardDeviation()));
+                              Isis::toString(quality.StandardDeviation()));
     }
 
     Application::Log(bestinfo);

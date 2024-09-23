@@ -132,7 +132,7 @@ namespace Isis {
       QStringList modelSpec = possibleModels.front();
 
       if (modelSpec.size() != 3) {
-        std::string message = "Model specification [" + modelSpec.join(" ").toStdString() + "] has [" + std::to_string(modelSpec.size()) + "] elements "
+        std::string message = "Model specification [" + modelSpec.join(" ").toStdString() + "] has [" + Isis::toString(modelSpec.size()) + "] elements "
           "when it should have 3 elements.";
         throw IException(IException::Programmer, message, _FILEINFO_);
       }

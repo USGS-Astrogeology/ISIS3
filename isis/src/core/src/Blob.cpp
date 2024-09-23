@@ -424,8 +424,8 @@ namespace Isis {
       os.seekp(0, std::ios::end);
       BigInt nbytes = (BigInt) os.tellp() + (BigInt) 64;
       p_startByte = nbytes + 1 + 1; // 1-based;
-      pvl.findObject(p_type)["StartByte"] = std::to_string(p_startByte);
-      pvl.findObject(p_type)["Bytes"] = std::to_string(p_nbytes);
+      pvl.findObject(p_type)["StartByte"] = Isis::toString(p_startByte);
+      pvl.findObject(p_type)["Bytes"] = Isis::toString(p_nbytes);
       pvl.write(file);
 
       // Prepare and write the binary data
@@ -482,8 +482,8 @@ namespace Isis {
     }
 
 
-    p_blobPvl["StartByte"] = std::to_string((BigInt)sbyte);
-    p_blobPvl["Bytes"] = std::to_string(p_nbytes);
+    p_blobPvl["StartByte"] = Isis::toString((BigInt)sbyte);
+    p_blobPvl["Bytes"] = Isis::toString(p_nbytes);
 
 
     // See if the blob is already in the file

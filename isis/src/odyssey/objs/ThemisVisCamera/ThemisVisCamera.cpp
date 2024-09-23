@@ -79,7 +79,7 @@ namespace Isis {
 
     PvlKeyword &filterNumbers = bandBin["FilterNumber"];
     for (int i = 0; i < filterNumbers.size(); i++) {
-      p_filterNumber.append(IString::ToInteger(filterNumbers[i]));
+      p_filterNumber.append(Isis::toInt(filterNumbers[i]));
     }
 
 

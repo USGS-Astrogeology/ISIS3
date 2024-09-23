@@ -149,7 +149,7 @@ namespace Isis {
     }
 
     PvlGroup snGroup = outLabel.findGroup("SerialNumberKeywords");
-    snGroup += PvlKeyword("ObservationKeys", toString(snGroup.keywords()));
+    snGroup += PvlKeyword("ObservationKeys", Isis::toString(snGroup.keywords()));
 
     return snGroup;
   }

@@ -93,7 +93,7 @@ namespace Isis {
     std::string errs("");
 
     for (int i = 0; i < cube.bandCount(); i++) {
-      Parameters parms = findParameters(IString::ToDouble(center[i]));
+      Parameters parms = findParameters(Isis::toDouble(center[i]));
       if (parms.IsValid()) {
         parms.band = i + 1;
         parms.phoStd = photometry(parms, m_iRef, m_eRef, m_gRef);
@@ -236,10 +236,10 @@ namespace Isis {
     }
 
     pvl += PvlKeyword("Algorithm", "LROC_Empirical");
-    pvl += PvlKeyword("AlgorithmVersion", toString(m_bandpho[0].algoVersion), "" );
-    pvl += PvlKeyword("IncRef", toString(m_iRef), "degrees");
-    pvl += PvlKeyword("EmaRef", toString(m_eRef), "degrees");
-    pvl += PvlKeyword("PhaRef", toString(m_gRef), "degrees");
+    pvl += PvlKeyword("AlgorithmVersion", Isis::toString(m_bandpho[0].algoVersion), "" );
+    pvl += PvlKeyword("IncRef", Isis::toString(m_iRef), "degrees");
+    pvl += PvlKeyword("EmaRef", Isis::toString(m_eRef), "degrees");
+    pvl += PvlKeyword("PhaRef", Isis::toString(m_gRef), "degrees");
 
     PvlKeyword units("FunctionUnits");
     PvlKeyword phostd("PhotometricStandard");
@@ -250,21 +250,21 @@ namespace Isis {
     std::vector<PvlKeyword> aTermKeywords;
     std::vector<PvlKeyword> bTermKeywords;
     for (unsigned int i = 0; i < m_bandpho[0].aTerms.size(); i++)
-        aTermKeywords.push_back(PvlKeyword("A" + toString((int) i)));
+        aTermKeywords.push_back(PvlKeyword("A" + Isis::toString((int) i)));
     for (unsigned int i = 0; i < m_bandpho[0].bTerms.size(); i++)
-        bTermKeywords.push_back(PvlKeyword("B" + toString((int) i)));
+        bTermKeywords.push_back(PvlKeyword("B" + Isis::toString((int) i)));
 
     for (unsigned int i = 0; i < m_bandpho.size(); i++) {
         Parameters &p = m_bandpho[i];
         units.addValue(p.units.toStdString());
-        phostd.addValue(toString(p.phoStd));
-        bbc.addValue(toString(p.wavelength));
-        bbct.addValue(toString(p.tolerance));
-        bbn.addValue(toString(p.band));
+        phostd.addValue(Isis::toString(p.phoStd));
+        bbc.addValue(Isis::toString(p.wavelength));
+        bbct.addValue(Isis::toString(p.tolerance));
+        bbn.addValue(Isis::toString(p.band));
         for (unsigned int j = 0; j < aTermKeywords.size(); j++)
-          aTermKeywords[j].addValue(toString(p.aTerms[j]));
+          aTermKeywords[j].addValue(Isis::toString(p.aTerms[j]));
         for (unsigned int j = 0; j < bTermKeywords.size(); j++)
-          bTermKeywords[j].addValue(toString(p.bTerms[j]));
+          bTermKeywords[j].addValue(Isis::toString(p.bTerms[j]));
     }
 
     pvl += units;

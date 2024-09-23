@@ -231,7 +231,7 @@ int main() {
     pixRes2 *= 10000000;
     pixRes2 = round(pixRes2);
     pixRes2 /= 10000000;
-    pvl.findGroup("Mapping")["PixelResolution"] = toString(pixRes2);
+    pvl.findGroup("Mapping")["PixelResolution"] = Isis::toString(pixRes2);
 
     cout << "BasicMapping PVL: " << endl << pvl << endl << endl;
     cout << "FocalLength: " << c->FocalLength() << endl;
@@ -327,19 +327,19 @@ int main() {
     minLat *= 100;
     minLat = round(minLat);
     minLat /= 100;
-    camMap.findGroup("Mapping")["MinimumLatitude"] = toString(minLat);
+    camMap.findGroup("Mapping")["MinimumLatitude"] = Isis::toString(minLat);
 
     double pixRes = camMap.findGroup("Mapping")["PixelResolution"];
     pixRes *= 100;
     pixRes = round(pixRes);
     pixRes /= 100;
-    camMap.findGroup("Mapping")["PixelResolution"] = toString(pixRes);
+    camMap.findGroup("Mapping")["PixelResolution"] = Isis::toString(pixRes);
 
     double minLon = camMap.findGroup("Mapping")["MinimumLongitude"];
     minLon *= 100000000000.0;
     minLon = round(minLon);
     minLon /= 100000000000.0;
-    camMap.findGroup("Mapping")["MinimumLongitude"] = toString(minLon);
+    camMap.findGroup("Mapping")["MinimumLongitude"] = Isis::toString(minLon);
 
     cout << camMap << endl;
 

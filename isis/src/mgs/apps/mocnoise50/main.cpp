@@ -142,11 +142,11 @@ void IsisMain() {
   p.SetOutputCube("TO");
 
   PvlGroup results("Results");
-  results += PvlKeyword("DeltaSample", toString(gbl::delta));
-  results += PvlKeyword("StartingSample", toString(gbl::ssFirst));
-  results += PvlKeyword("Coefficient1", toString(gbl::avg1));
-  results += PvlKeyword("Coefficient2", toString(gbl::avg2));
-  results += PvlKeyword("Coefficient3", toString(gbl::avg3));
+  results += PvlKeyword("DeltaSample", Isis::toString(gbl::delta));
+  results += PvlKeyword("StartingSample", Isis::toString(gbl::ssFirst));
+  results += PvlKeyword("Coefficient1", Isis::toString(gbl::avg1));
+  results += PvlKeyword("Coefficient2", Isis::toString(gbl::avg2));
+  results += PvlKeyword("Coefficient3", Isis::toString(gbl::avg3));
 
   // If less than 50% of the lines do not agree on a delta then
   // we will assume no noise so just make a copy

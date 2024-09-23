@@ -157,23 +157,23 @@ namespace Isis {
     if (pointObject.hasKeyword("AprioriCovarianceMatrix")) {
       PvlKeyword &matrix = pointObject["AprioriCovarianceMatrix"];
 
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[0]));
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[1]));
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[2]));
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[3]));
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[4]));
-      m_pointData->add_aprioricovar(IString::ToDouble(matrix[5]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[0]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[1]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[2]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[3]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[4]));
+      m_pointData->add_aprioricovar(Isis::toDouble(matrix[5]));
     }
 
     if (pointObject.hasKeyword("AdjustedCovarianceMatrix")) {
       PvlKeyword &matrix = pointObject["AdjustedCovarianceMatrix"];
 
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[0]));
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[1]));
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[2]));
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[3]));
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[4]));
-      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[5]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[0]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[1]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[2]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[3]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[4]));
+      m_pointData->add_adjustedcovar(Isis::toDouble(matrix[5]));
     }
 
     //  Process Measures
@@ -623,7 +623,7 @@ namespace Isis {
       return;
     }
 
-    double value = IString::ToDouble(container[keyName.toStdString()][0]);
+    double value = Isis::toDouble(container[keyName.toStdString()][0]);
     container.deleteKeyword(keyName.toStdString());
     (point.data()->*setter)(value);
   }
@@ -714,7 +714,7 @@ namespace Isis {
       return;
     }
 
-    double value = IString::ToDouble(container[keyName.toStdString()][0]);
+    double value = Isis::toDouble(container[keyName.toStdString()][0]);
     container.deleteKeyword(keyName.toStdString());
     (measure.*setter)(value);
   }

@@ -151,8 +151,8 @@ void IsisMain() {
       // Calculate statistics on the cube to be processed and place
       // its MINIMUM and MAXIMUM into the output label
       p.CalculateStatistics();
-      pdsLabel.findObject("IMAGE").addKeyword(PvlKeyword("MINIMUM", toString(p.CubeStatistics(0)->Minimum())), Pvl::Replace);
-      pdsLabel.findObject("IMAGE").addKeyword(PvlKeyword("MAXIMUM", toString(p.CubeStatistics(0)->Maximum())), Pvl::Replace);
+      pdsLabel.findObject("IMAGE").addKeyword(PvlKeyword("MINIMUM", Isis::toString(p.CubeStatistics(0)->Minimum())), Pvl::Replace);
+      pdsLabel.findObject("IMAGE").addKeyword(PvlKeyword("MAXIMUM", Isis::toString(p.CubeStatistics(0)->Maximum())), Pvl::Replace);
     }
     else {
       FileName inputFile(ui.GetCubeName("FROM").toStdString());

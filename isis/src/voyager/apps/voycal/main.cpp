@@ -199,11 +199,11 @@ void IsisMain() {
   calgrp.addKeyword(calib[4]);
   calgrp.addKeyword(calib[5]);
   calgrp.addKeyword(calib[6]);
-  calgrp.addKeyword(PvlKeyword("CalcSunDistance",toString(dist1)));
+  calgrp.addKeyword(PvlKeyword("CalcSunDistance",Isis::toString(dist1)));
   calgrp.addKeyword(instrument["ExposureDuration"]);
-  calgrp.addKeyword(PvlKeyword("XMLT",toString(XMLT)));
-  calgrp.addKeyword(PvlKeyword("Omega_W1",toString(w1)));
-  calgrp.addKeyword(PvlKeyword("CalcExpoDuration",toString(newExpo)));
+  calgrp.addKeyword(PvlKeyword("XMLT",Isis::toString(XMLT)));
+  calgrp.addKeyword(PvlKeyword("Omega_W1",Isis::toString(w1)));
+  calgrp.addKeyword(PvlKeyword("CalcExpoDuration",Isis::toString(newExpo)));
 
   // Linear correction equation and constants
   if (linear) {
@@ -215,10 +215,10 @@ void IsisMain() {
     linearity.addComment("XNORM = NormalizingPower");
     linearity.addComment("KPOWER = K_PowerOfNon-Linearity");
     calgrp.addKeyword(linearity);
-    calgrp.addKeyword(PvlKeyword("ACoefficient",toString(aCoef)));
-    calgrp.addKeyword(PvlKeyword("B_HighEndNon-LinearityCorrection",toString(bHighEnd)));
-    calgrp.addKeyword(PvlKeyword("K_PowerOfNon-Linearity",toString(kPowerOf)));
-    calgrp.addKeyword(PvlKeyword("NormalizingPower",toString(normalizingPower)));
+    calgrp.addKeyword(PvlKeyword("ACoefficient",Isis::toString(aCoef)));
+    calgrp.addKeyword(PvlKeyword("B_HighEndNon-LinearityCorrection",Isis::toString(bHighEnd)));
+    calgrp.addKeyword(PvlKeyword("K_PowerOfNon-Linearity",Isis::toString(kPowerOf)));
+    calgrp.addKeyword(PvlKeyword("NormalizingPower",Isis::toString(normalizingPower)));
   }
   else {
     calgrp.addKeyword(PvlKeyword("LinearityCorrection","False"));

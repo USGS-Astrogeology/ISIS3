@@ -105,13 +105,13 @@ void IsisMain() {
   // Records what output values were used, then sends it to the print.prt file
   // as well as the terminal.
   PvlGroup results("DNs Used");
-  results += PvlKeyword("Null", toString(p.OutputNull()));
-  results += PvlKeyword("LRS", toString(p.OutputLrs()));
-  results += PvlKeyword("LIS", toString(p.OutputLis()));
-  results += PvlKeyword("HIS", toString(p.OutputHis()));
-  results += PvlKeyword("HRS", toString(p.OutputHrs()));
-  results += PvlKeyword("ValidMin", toString(min));
-  results += PvlKeyword("ValidMax", toString(max));
+  results += PvlKeyword("Null", Isis::toString(p.OutputNull()));
+  results += PvlKeyword("LRS", Isis::toString(p.OutputLrs()));
+  results += PvlKeyword("LIS", Isis::toString(p.OutputLis()));
+  results += PvlKeyword("HIS", Isis::toString(p.OutputHis()));
+  results += PvlKeyword("HRS", Isis::toString(p.OutputHrs()));
+  results += PvlKeyword("ValidMin", Isis::toString(min));
+  results += PvlKeyword("ValidMax", Isis::toString(max));
   Application::Log(results);
 
   return;

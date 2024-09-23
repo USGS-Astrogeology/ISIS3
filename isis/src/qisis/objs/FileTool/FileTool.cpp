@@ -703,16 +703,16 @@ namespace Isis {
     int iNumBands   = pInCube->bandCount();
 
     PvlGroup results("Results");
-    results += PvlKeyword("InputLines",      toString(pInCube->lineCount()));
-    results += PvlKeyword("InputSamples",    toString(pInCube->sampleCount()));
-    results += PvlKeyword("StartingLine",    toString(dStartLine));
-    results += PvlKeyword("StartingSample",  toString(dStartSample));
-    results += PvlKeyword("EndingLine",      toString(dEndLine));
-    results += PvlKeyword("EndingSample",    toString(dEndSample));
-    results += PvlKeyword("LineIncrement",   toString(1));
-    results += PvlKeyword("SampleIncrement", toString(1));
-    results += PvlKeyword("OutputLines",     toString(pNumLines));
-    results += PvlKeyword("OutputSamples",   toString(pNumSamples));
+    results += PvlKeyword("InputLines",      Isis::toString(pInCube->lineCount()));
+    results += PvlKeyword("InputSamples",    Isis::toString(pInCube->sampleCount()));
+    results += PvlKeyword("StartingLine",    Isis::toString(dStartLine));
+    results += PvlKeyword("StartingSample",  Isis::toString(dStartSample));
+    results += PvlKeyword("EndingLine",      Isis::toString(dEndLine));
+    results += PvlKeyword("EndingSample",    Isis::toString(dEndSample));
+    results += PvlKeyword("LineIncrement",   Isis::toString(1));
+    results += PvlKeyword("SampleIncrement", Isis::toString(1));
+    results += PvlKeyword("OutputLines",     Isis::toString(pNumLines));
+    results += PvlKeyword("OutputSamples",   Isis::toString(pNumSamples));
     SubArea subArea;
     subArea.SetSubArea(pInCube->lineCount(), pInCube->sampleCount(), dStartLine, dStartSample,
                        dEndLine, dEndSample, 1.0, 1.0);

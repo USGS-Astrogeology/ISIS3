@@ -175,16 +175,16 @@ namespace Isis {
   
     //Records the error to the log
     PvlGroup error("Error");
-    error += PvlKeyword("Degree", toString(degree));
-    error += PvlKeyword("NumberOfPoints", toString((int)sampResiduals.size()));
-    error += PvlKeyword("SampleMinimumError", toString(sampErr.Minimum()));
-    error += PvlKeyword("SampleAverageError", toString(sampErr.Average()));
-    error += PvlKeyword("SampleMaximumError", toString(sampErr.Maximum()));
-    error += PvlKeyword("SampleStdDeviationError", toString(sampErr.StandardDeviation()));
-    error += PvlKeyword("LineMinimumError", toString(lineErr.Minimum()));
-    error += PvlKeyword("LineAverageError", toString(lineErr.Average()));
-    error += PvlKeyword("LineMaximumError", toString(lineErr.Maximum()));
-    error += PvlKeyword("LineStdDeviationError", toString(lineErr.StandardDeviation()));
+    error += PvlKeyword("Degree", Isis::toString(degree));
+    error += PvlKeyword("NumberOfPoints", Isis::toString((int)sampResiduals.size()));
+    error += PvlKeyword("SampleMinimumError", Isis::toString(sampErr.Minimum()));
+    error += PvlKeyword("SampleAverageError", Isis::toString(sampErr.Average()));
+    error += PvlKeyword("SampleMaximumError", Isis::toString(sampErr.Maximum()));
+    error += PvlKeyword("SampleStdDeviationError", Isis::toString(sampErr.StandardDeviation()));
+    error += PvlKeyword("LineMinimumError", Isis::toString(lineErr.Minimum()));
+    error += PvlKeyword("LineAverageError", Isis::toString(lineErr.Average()));
+    error += PvlKeyword("LineMaximumError", Isis::toString(lineErr.Maximum()));
+    error += PvlKeyword("LineStdDeviationError", Isis::toString(lineErr.StandardDeviation()));
 
     Application::Log(error);
 
@@ -226,8 +226,8 @@ namespace Isis {
       PvlKeyword polRadius;
       //If the user entered the equatorial and polar radii
       if (ui.WasEntered("EQURADIUS") && ui.WasEntered("POLRADIUS")) {
-        equRadius = PvlKeyword("EquatorialRadius", toString(ui.GetDouble("EQURADIUS")));
-        polRadius = PvlKeyword("PolarRadius", toString(ui.GetDouble("POLRADIUS")));
+        equRadius = PvlKeyword("EquatorialRadius", Isis::toString(ui.GetDouble("EQURADIUS")));
+        polRadius = PvlKeyword("PolarRadius", Isis::toString(ui.GetDouble("POLRADIUS")));
       }
       //Else read them from the pck
       else {
@@ -319,31 +319,31 @@ namespace Isis {
           maxLon = temp;
         }
   
-        mapGrp.addKeyword(PvlKeyword("MinimumLatitude", toString(minLat)), Pvl::Replace);
-        mapGrp.addKeyword(PvlKeyword("MaximumLatitude", toString(maxLat)), Pvl::Replace);
-        mapGrp.addKeyword(PvlKeyword("MinimumLongitude", toString(minLon)), Pvl::Replace);
-        mapGrp.addKeyword(PvlKeyword("MaximumLongitude", toString(maxLon)), Pvl::Replace);
+        mapGrp.addKeyword(PvlKeyword("MinimumLatitude", Isis::toString(minLat)), Pvl::Replace);
+        mapGrp.addKeyword(PvlKeyword("MaximumLatitude", Isis::toString(maxLat)), Pvl::Replace);
+        mapGrp.addKeyword(PvlKeyword("MinimumLongitude", Isis::toString(minLon)), Pvl::Replace);
+        mapGrp.addKeyword(PvlKeyword("MaximumLongitude", Isis::toString(maxLon)), Pvl::Replace);
       }
   
       //If the user decided to enter a ground range then override
       if (ui.WasEntered("MINLAT")) {
         mapGrp.addKeyword(PvlKeyword("MinimumLatitude",
-                                     toString(ui.GetDouble("MINLAT"))), Pvl::Replace);
+                                     Isis::toString(ui.GetDouble("MINLAT"))), Pvl::Replace);
       }
   
       if (ui.WasEntered("MAXLAT")) {
         mapGrp.addKeyword(PvlKeyword("MaximumLatitude",
-                                     toString(ui.GetDouble("MAXLAT"))), Pvl::Replace);
+                                     Isis::toString(ui.GetDouble("MAXLAT"))), Pvl::Replace);
       }
   
       if (ui.WasEntered("MINLON")) {
         mapGrp.addKeyword(PvlKeyword("MinimumLongitude",
-                                     toString(ui.GetDouble("MINLON"))), Pvl::Replace);
+                                     Isis::toString(ui.GetDouble("MINLON"))), Pvl::Replace);
       }
   
       if (ui.WasEntered("MAXLON")) {
         mapGrp.addKeyword(PvlKeyword("MaximumLongitude",
-                                     toString(ui.GetDouble("MAXLON"))), Pvl::Replace);
+                                     Isis::toString(ui.GetDouble("MAXLON"))), Pvl::Replace);
       }
   
       //If the pixel resolution is to be computed, compute the pixels/degree from the input
@@ -378,7 +378,7 @@ namespace Isis {
   
         //Add the scale in pixels/degree to the mapping group
         mapGrp.addKeyword(PvlKeyword("Scale",
-                                     toString(pixels / angle), "pixels/degree"),
+                                     Isis::toString(pixels / angle), "pixels/degree"),
                           Pvl::Replace);
         if (mapGrp.hasKeyword("PixelResolution")) {
           mapGrp.deleteKeyword("PixelResolution");
@@ -389,7 +389,7 @@ namespace Isis {
       // If the user decided to enter a resolution then override
       if (ui.GetString("PIXRES") == "MPP") {
         mapGrp.addKeyword(PvlKeyword("PixelResolution",
-                                     toString(ui.GetDouble("RESOLUTION")), "meters/pixel"),
+                                     Isis::toString(ui.GetDouble("RESOLUTION")), "meters/pixel"),
                           Pvl::Replace);
         if (mapGrp.hasKeyword("Scale")) {
           mapGrp.deleteKeyword("Scale");
@@ -397,7 +397,7 @@ namespace Isis {
       }
       else if (ui.GetString("PIXRES") == "PPD") {
         mapGrp.addKeyword(PvlKeyword("Scale",
-                                     toString(ui.GetDouble("RESOLUTION")), "pixels/degree"),
+                                     Isis::toString(ui.GetDouble("RESOLUTION")), "pixels/degree"),
                           Pvl::Replace);
         if (mapGrp.hasKeyword("PixelResolution")) {
           mapGrp.deleteKeyword("PixelResolution");

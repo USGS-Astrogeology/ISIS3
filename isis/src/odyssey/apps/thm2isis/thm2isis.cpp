@@ -109,7 +109,7 @@ namespace Isis {
         if(outputCubes.size() != 1) {
           int numFramelets = p.Lines() / frameletLines;
           isis3Lab.findGroup("Instrument").addKeyword(
-            PvlKeyword("NumFramelets", toString(numFramelets)), Pvl::Replace
+            PvlKeyword("NumFramelets", Isis::toString(numFramelets)), Pvl::Replace
           );
 
           QString frameletType = ((i == 0) ? "Odd" : "Even");
@@ -189,7 +189,7 @@ namespace Isis {
     // Add at time offset to the Instrument group
     
     double spacecraftClockOffset = ui.GetDouble("TIMEOFFSET");
-    inst += PvlKeyword("SpacecraftClockOffset", toString(spacecraftClockOffset), "seconds");
+    inst += PvlKeyword("SpacecraftClockOffset", Isis::toString(spacecraftClockOffset), "seconds");
 
     isis3.addGroup(inst);
 
@@ -199,7 +199,7 @@ namespace Isis {
     // The original band is the original ISIS cube band number upon ingestion
     PvlKeyword originalBand("OriginalBand");
     for(int i = 1; i <= numBands; i++) {
-      originalBand.addValue(toString(i));
+      originalBand.addValue(Isis::toString(i));
     }
     bandBin += originalBand;
 
@@ -253,10 +253,10 @@ namespace Isis {
     // Create the Kernel Group
     PvlGroup kerns("Kernels");
     if(instId == "THEMIS_IR") {
-      kerns += PvlKeyword("NaifFrameCode", toString(-53031));
+      kerns += PvlKeyword("NaifFrameCode", Isis::toString(-53031));
     }
     else {
-      kerns += PvlKeyword("NaifFrameCode", toString(-53032));
+      kerns += PvlKeyword("NaifFrameCode", Isis::toString(-53032));
     }
     isis3.addGroup(kerns);
   }

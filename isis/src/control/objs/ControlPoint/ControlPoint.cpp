@@ -362,7 +362,7 @@ namespace Isis {
    */
   int ControlPoint::Delete(int index) {
     if (index < 0 || index >= cubeSerials->size()) {
-      std::string msg = "index [" + toString(index) + "] out of bounds";
+      std::string msg = "index [" + Isis::toString(index) + "] out of bounds";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
@@ -704,7 +704,7 @@ namespace Isis {
    */
   ControlPoint::Status ControlPoint::SetType(PointType newType) {
     if (type != Fixed && type != Free && type != Constrained) {
-      std::string msg = "Invalid Point Enumeration, [" + toString(type) + "], for "
+      std::string msg = "Invalid Point Enumeration, [" + Isis::toString(type) + "], for "
           "Control Point [" + GetId().toStdString() + "]";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }

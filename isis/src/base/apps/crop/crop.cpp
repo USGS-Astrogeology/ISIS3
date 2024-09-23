@@ -203,16 +203,16 @@ namespace Isis {
 
     // Construct a label with the results
     PvlGroup results("Results");
-    results += PvlKeyword("InputLines", toString(orignl));
-    results += PvlKeyword("InputSamples", toString(origns));
-    results += PvlKeyword("StartingLine", toString(sl));
-    results += PvlKeyword("StartingSample", toString(ss));
-    results += PvlKeyword("EndingLine", toString(el));
-    results += PvlKeyword("EndingSample", toString(es));
-    results += PvlKeyword("LineIncrement", toString(linc));
-    results += PvlKeyword("SampleIncrement", toString(sinc));
-    results += PvlKeyword("OutputLines", toString(nl));
-    results += PvlKeyword("OutputSamples", toString(ns));
+    results += PvlKeyword("InputLines", Isis::toString(orignl));
+    results += PvlKeyword("InputSamples", Isis::toString(origns));
+    results += PvlKeyword("StartingLine", Isis::toString(sl));
+    results += PvlKeyword("StartingSample", Isis::toString(ss));
+    results += PvlKeyword("EndingLine", Isis::toString(el));
+    results += PvlKeyword("EndingSample", Isis::toString(es));
+    results += PvlKeyword("LineIncrement", Isis::toString(linc));
+    results += PvlKeyword("SampleIncrement", Isis::toString(sinc));
+    results += PvlKeyword("OutputLines", Isis::toString(nl));
+    results += PvlKeyword("OutputSamples", Isis::toString(ns));
 
     // Update the Mapping, Instrument, and AlphaCube groups in the output
     // cube label

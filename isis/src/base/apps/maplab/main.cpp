@@ -90,14 +90,14 @@ void IsisMain() {
   y = y + res * (line - 0.5);
 
   //add origen values to Mapping Group
-  mapGrp.addKeyword(PvlKeyword("UpperLeftCornerX", toString(x), "meters"), Pvl::Replace);
-  mapGrp.addKeyword(PvlKeyword("UpperLeftCornerY", toString(y), "meters"), Pvl::Replace);
+  mapGrp.addKeyword(PvlKeyword("UpperLeftCornerX", Isis::toString(x), "meters"), Pvl::Replace);
+  mapGrp.addKeyword(PvlKeyword("UpperLeftCornerY", Isis::toString(y), "meters"), Pvl::Replace);
 
   if(!mapGrp.hasKeyword("PixelResolution")) {
-    mapGrp.addKeyword(PvlKeyword("PixelResolution", toString(res), "meters"));
+    mapGrp.addKeyword(PvlKeyword("PixelResolution", Isis::toString(res), "meters"));
   }
   if(!mapGrp.hasKeyword("Scale")) {
-    mapGrp.addKeyword(PvlKeyword("Scale", toString(scale), "pixels/degree"));
+    mapGrp.addKeyword(PvlKeyword("Scale", Isis::toString(scale), "pixels/degree"));
   }
 
 

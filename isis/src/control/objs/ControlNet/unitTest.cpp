@@ -486,17 +486,17 @@ int main() {
 
   cout << "\nTesting take() functionality to take owernship of the points in a ControlNet:" << endl;
 
-  cout << "Original control net number of points: " << toString(net.GetNumPoints()) << endl;
+  cout << "Original control net number of points: " << Isis::toString(net.GetNumPoints()) << endl;
 
   QList<ControlPoint*> points = net.take();
 
-  cout << "Number of points taken out: " << toString(points.length()) << endl;
+  cout << "Number of points taken out: " << Isis::toString(points.length()) << endl;
 
   cout << "Now there should be zero points in the original control net. There are: "
-       << toString(net.GetNumPoints()) << endl;
+       << Isis::toString(net.GetNumPoints()) << endl;
 
   cout << "And zero pointIDs in the original control net. There are: "
-       << toString(net.GetPointIds().length()) << endl;
+       << Isis::toString(net.GetPointIds().length()) << endl;
 
     //system("cat unitTest.output | grep -v DateTime > temp.output; mv temp.output unitTest.output");
   //system("cat unitTest.output | sed -r s/`date +%Y-%m-%dT`\\[0-9:\\]\\{8\\}/2010-08-27T17:10:06/g > temp.output; mv temp.output unitTest.output");

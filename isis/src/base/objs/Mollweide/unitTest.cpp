@@ -27,15 +27,15 @@ int main(int argc, char *argv[]) {
   Pvl lab;
   lab.addGroup(PvlGroup("Mapping"));
   PvlGroup &mapGroup = lab.findGroup("Mapping");
-  mapGroup += PvlKeyword("EquatorialRadius", toString(0.7071067811865475));
-  mapGroup += PvlKeyword("PolarRadius", toString(0.7071067811865475));
+  mapGroup += PvlKeyword("EquatorialRadius", Isis::toString(0.7071067811865475));
+  mapGroup += PvlKeyword("PolarRadius", Isis::toString(0.7071067811865475));
   mapGroup += PvlKeyword("LatitudeType", "Planetocentric");
   mapGroup += PvlKeyword("LongitudeDirection", "PositiveEast");
-  mapGroup += PvlKeyword("LongitudeDomain", toString(180));
-  mapGroup += PvlKeyword("MinimumLatitude", toString(-90.0));
-  mapGroup += PvlKeyword("MaximumLatitude", toString(90.0));
-  mapGroup += PvlKeyword("MinimumLongitude", toString(-180.0));
-  mapGroup += PvlKeyword("MaximumLongitude", toString(180.0));
+  mapGroup += PvlKeyword("LongitudeDomain", Isis::toString(180));
+  mapGroup += PvlKeyword("MinimumLatitude", Isis::toString(-90.0));
+  mapGroup += PvlKeyword("MaximumLatitude", Isis::toString(90.0));
+  mapGroup += PvlKeyword("MinimumLongitude", Isis::toString(-180.0));
+  mapGroup += PvlKeyword("MaximumLongitude", Isis::toString(180.0));
   mapGroup += PvlKeyword("ProjectionName", "Mollweide");
 
 
@@ -50,7 +50,7 @@ try {
 
   cout << endl;
 
-  mapGroup += PvlKeyword("CenterLongitude", toString(0.0));
+  mapGroup += PvlKeyword("CenterLongitude", Isis::toString(0.0));
   try {
     TProjection *p = (TProjection *) ProjectionFactory::Create(lab);
 

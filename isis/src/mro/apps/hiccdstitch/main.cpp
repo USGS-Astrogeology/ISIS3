@@ -377,14 +377,14 @@ void IsisMain() {
     PvlGroup ccdGroup(CCDlist[CCDindex].ccdName.toStdString());
 
     ccdGroup += PvlKeyword("File", CCDlist[CCDindex].filename.toStdString());
-    ccdGroup += PvlKeyword("FocalPlaneSample", toString(CCDlist[CCDindex].fpsamp));
-    ccdGroup += PvlKeyword("FocalPlaneLine", toString(CCDlist[CCDindex].fpline));
-    ccdGroup += PvlKeyword("ImageSample", toString(CCDlist[CCDindex].outss));
-    ccdGroup += PvlKeyword("ImageLine", toString(CCDlist[CCDindex].outsl));
+    ccdGroup += PvlKeyword("FocalPlaneSample", Isis::toString(CCDlist[CCDindex].fpsamp));
+    ccdGroup += PvlKeyword("FocalPlaneLine", Isis::toString(CCDlist[CCDindex].fpline));
+    ccdGroup += PvlKeyword("ImageSample", Isis::toString(CCDlist[CCDindex].outss));
+    ccdGroup += PvlKeyword("ImageLine", Isis::toString(CCDlist[CCDindex].outsl));
 
     int ccd =  CCDlist[CCDindex].ccdNumber;
-    ccdGroup += PvlKeyword("SampleOffset", toString(CCDlist[CCDindex].fpsamp - xoffset[ccd]));
-    ccdGroup += PvlKeyword("LineOffset", toString(CCDlist[CCDindex].fpline - yoffset[ccd]));
+    ccdGroup += PvlKeyword("SampleOffset", Isis::toString(CCDlist[CCDindex].fpsamp - xoffset[ccd]));
+    ccdGroup += PvlKeyword("LineOffset", Isis::toString(CCDlist[CCDindex].fpline - yoffset[ccd]));
 
     results.addGroup(ccdGroup);
   }

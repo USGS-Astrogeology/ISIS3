@@ -82,7 +82,7 @@ void IsisMain() {
   Pvl pdsLab(in.expanded());
 
   // It's VIMS, let's figure out if it has the suffix data or not
-  if(IString::ToInteger(lab.findObject("QUBE")["SUFFIX_ITEMS"][0]) == 0) {
+  if(Isis::toInt(lab.findObject("QUBE")["SUFFIX_ITEMS"][0]) == 0) {
     // No suffix data, we can use processimportpds
     ProcessImportPds p;
 
@@ -339,10 +339,10 @@ void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outF
       out.SetBasePosition(1, line + 1, band + 1);
       outCube.write(out);
 
-      if(IString::ToInteger(suffixItems[0]) != 0) {
+      if(Isis::toInt(suffixItems[0]) != 0) {
         pos = fin.tellg();
-        char *sideplaneData = new char[4*IString::ToInteger(suffixItems[0])];
-        fin.read(sideplaneData, 4 * IString::ToInteger(suffixItems[0]));
+        char *sideplaneData = new char[4*Isis::toInt(suffixItems[0])];
+        fin.read(sideplaneData, 4 * Isis::toInt(suffixItems[0]));
         int suffixData = (int)swapper.Int((int *)sideplaneData);
         record[0] = line + 1;
         record[1] = band + 1;
@@ -382,7 +382,7 @@ void ReadVimsBIL(QString inFileName, const PvlKeyword &suffixItems, QString outF
       }
     } // End band loop
 
-    int backplaneSize = IString::ToInteger(suffixItems[1]) * (4 * (ns + IString::ToInteger(suffixItems[0])));
+    int backplaneSize = Isis::toInt(suffixItems[1]) * (4 * (ns + Isis::toInt(suffixItems[0])));
     fin.seekg(backplaneSize, ios_base::cur);
 
     // Check the last io
@@ -454,7 +454,7 @@ void ProcessBands(Pvl &pdsLab, Cube *vimsCube, VimsType vtype) {
   PvlGroup bandbin("BandBin");
   PvlKeyword originalBand("OriginalBand");
   for(int i = vims.mi32OrigBandStart; i <= vims.mi32OrigBinEnd; i++) {
-    originalBand.addValue(toString(i));
+    originalBand.addValue(Isis::toString(i));
   }
   bandbin += originalBand;
   PvlKeyword center("Center");
@@ -468,7 +468,7 @@ void ProcessBands(Pvl &pdsLab, Cube *vimsCube, VimsType vtype) {
 
   //Create the Kernels Group
   PvlGroup kern("Kernels");
-  kern += PvlKeyword("NaifFrameCode", toString(vims.mi32NaifFrameCode));
+  kern += PvlKeyword("NaifFrameCode", Isis::toString(vims.mi32NaifFrameCode));
   vimsCube->putGroup(kern);
 }
 

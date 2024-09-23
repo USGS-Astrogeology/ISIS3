@@ -169,7 +169,7 @@ void IsisMain() {
     calgrp += PvlKeyword("BlemishRemovalCube", blemCube->fileName().toStdString());
   }
   calgrp += PvlKeyword("CoefficientCube", coCube.fileName().toStdString());
-  calgrp += PvlKeyword("AbsoluteCoefficient", toString(absCoef));
+  calgrp += PvlKeyword("AbsoluteCoefficient", Isis::toString(absCoef));
 
   ocube->putGroup(calgrp);
 

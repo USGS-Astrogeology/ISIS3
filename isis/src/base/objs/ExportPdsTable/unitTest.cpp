@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
   FileName lsbLabelFile("$temporary/lsbPdsTable.lbl");
   ofstream outputLsbLabel((lsbLabelFile.expanded()).c_str());
   outputLsbLabel << PvlKeyword("RECORD_TYPE", "FIXED_LENGTH") << endl;
-  outputLsbLabel << PvlKeyword("RECORD_BYTES", toString(tableRecBytes)) << endl;
+  outputLsbLabel << PvlKeyword("RECORD_BYTES", Isis::toString(tableRecBytes)) << endl;
   QString tableName = ExportPdsTable::formatPdsTableName(QString::fromStdString(table.Name()));
   outputLsbLabel << PvlKeyword("^" + tableName.toStdString(), "lsbPdsTable.dat") << endl;
   outputLsbLabel << endl;
@@ -76,10 +76,10 @@ int main(int argc, char *argv[]) {
   cout << reimportedLsbTable[0][2].name() << "\t";
   cout << reimportedLsbTable[0][3].name() << "\n";
   for (int i = 0; i < reimportedLsbTable.Records(); i++) {
-    cout << toString((double) reimportedLsbTable[i][0]) << "\t\t\t";
-    cout << toString((int)    reimportedLsbTable[i][1]) << "\t\t\t\t";
+    cout << Isis::toString((double) reimportedLsbTable[i][0]) << "\t\t\t";
+    cout << Isis::toString((int)    reimportedLsbTable[i][1]) << "\t\t\t\t";
     cout <<         (std::string) reimportedLsbTable[i][2]  << "\t\t\t";
-    cout << toString((float)  reimportedLsbTable[i][3]) << "\n";
+    cout << Isis::toString((float)  reimportedLsbTable[i][3]) << "\n";
   }
   // remove files and reset buffer
   QFile::remove(QString::fromStdString(lsbLabelFile.expanded()));
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
   FileName msbLabelFile("$temporary/msbPdsTable.lbl");
   ofstream outputMsbLabel((msbLabelFile.expanded()).c_str());
   outputMsbLabel << PvlKeyword("RECORD_TYPE", "FIXED_LENGTH") << endl;
-  outputMsbLabel << PvlKeyword("RECORD_BYTES", toString(tableRecBytes)) << endl;
+  outputMsbLabel << PvlKeyword("RECORD_BYTES", Isis::toString(tableRecBytes)) << endl;
   outputMsbLabel << PvlKeyword("^" + tableName.toStdString(), "msbPdsTable.dat") << endl;
   outputMsbLabel << endl;
   // Add table object to label keywords

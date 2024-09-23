@@ -287,7 +287,7 @@ namespace Isis {
         bandBin.findKeyword("Name").addValue(name.toStdString());
         bandBin.findKeyword("Center").addValue(center.toStdString(), "nanometers");
         bandBin.findKeyword("Width").addValue(width.toStdString(), "nanometers");
-        bandBin.findKeyword("OriginalBand").addValue(toString(i+1));
+        bandBin.findKeyword("OriginalBand").addValue(Isis::toString(i+1));
         QString fitsKey = QString("UTCMID%1").arg(i, 2, 10, QChar('0'));
         QString fitsVal = QString::fromStdString(fitslabel.findKeyword(fitsKey.toStdString(), Pvl::Traverse));
         bandBin.findKeyword("UtcTime").addValue(fitsVal.toStdString());

@@ -85,9 +85,9 @@ void IsisMain() {
   }
   else {
     results += PvlKeyword("Compare", "Different");
-    results += PvlKeyword("Sample", toString(sample));
-    results += PvlKeyword("Line", toString(line));
-    results += PvlKeyword("Band", toString(band));
+    results += PvlKeyword("Sample", Isis::toString(sample));
+    results += PvlKeyword("Line", Isis::toString(line));
+    results += PvlKeyword("Band", Isis::toString(band));
     if(stats.TotalPixels() < 1) {
       results += PvlKeyword("AverageDifference", "0");
       results += PvlKeyword("StandardDeviation", "0");
@@ -96,21 +96,21 @@ void IsisMain() {
       results += PvlKeyword("MaximumDifference", "0");
     }
     else {
-      results += PvlKeyword("AverageDifference", toString(stats.Average()));
-      results += PvlKeyword("StandardDeviation", toString(stats.StandardDeviation()));
-      results += PvlKeyword("Variance", toString(stats.Variance()));
-      results += PvlKeyword("MinimumDifference", toString(stats.Minimum()));
-      results += PvlKeyword("MaximumDifference", toString(stats.Maximum()));
-      results += PvlKeyword("MaxDifferenceSample", toString(gMaxDiffSample));
-      results += PvlKeyword("MaxDifferenceLine", toString(gMaxDiffLine));
-      results += PvlKeyword("MaxDifferenceBand", toString(gMaxDiffBand));
+      results += PvlKeyword("AverageDifference", Isis::toString(stats.Average()));
+      results += PvlKeyword("StandardDeviation", Isis::toString(stats.StandardDeviation()));
+      results += PvlKeyword("Variance", Isis::toString(stats.Variance()));
+      results += PvlKeyword("MinimumDifference", Isis::toString(stats.Minimum()));
+      results += PvlKeyword("MaximumDifference", Isis::toString(stats.Maximum()));
+      results += PvlKeyword("MaxDifferenceSample", Isis::toString(gMaxDiffSample));
+      results += PvlKeyword("MaxDifferenceLine", Isis::toString(gMaxDiffLine));
+      results += PvlKeyword("MaxDifferenceBand", Isis::toString(gMaxDiffBand));
     }
-    results += PvlKeyword("ValidPixelDifferences", toString(stats.TotalPixels()));
-    results += PvlKeyword("SpecialPixelDifferences", toString(spCount));
-    results += PvlKeyword("SigFigAccuracy", toString(sigFigAccuracy));
-    results += PvlKeyword("SigFigMaxDifferenceSample", toString(sigFigSample));
-    results += PvlKeyword("SigFigMaxDifferenceLine", toString(sigFigLine));
-    results += PvlKeyword("SigFigMaxDifferenceBand", toString(sigFigBand));
+    results += PvlKeyword("ValidPixelDifferences", Isis::toString(stats.TotalPixels()));
+    results += PvlKeyword("SpecialPixelDifferences", Isis::toString(spCount));
+    results += PvlKeyword("SigFigAccuracy", Isis::toString(sigFigAccuracy));
+    results += PvlKeyword("SigFigMaxDifferenceSample", Isis::toString(sigFigSample));
+    results += PvlKeyword("SigFigMaxDifferenceLine", Isis::toString(sigFigLine));
+    results += PvlKeyword("SigFigMaxDifferenceBand", Isis::toString(sigFigBand));
   }
   Application::Log(results);
 
@@ -278,7 +278,7 @@ void diffTable(std::ofstream &target, int precision) {
   for(unsigned int i = 0; i < samps.size(); i++) {
     Column currCol;
     //Prepare and add the first file's column
-    currCol.SetName(QString::fromStdString("File1_" + toString(samps[i])));
+    currCol.SetName(QString::fromStdString("File1_" + Isis::toString(samps[i])));
     if((int)(colWidth + precision + 1) < (int)currCol.Name().length()) {
       currCol.SetWidth(currCol.Name().length() + 1);
     }
@@ -290,7 +290,7 @@ void diffTable(std::ofstream &target, int precision) {
     cols.push_back(currCol);
 
     //Prepare and add the second file's column
-    currCol.SetName(QString::fromStdString("File2_" + toString(samps[i])));
+    currCol.SetName(QString::fromStdString("File2_" + Isis::toString(samps[i])));
     cols.push_back(currCol);
   }
 
