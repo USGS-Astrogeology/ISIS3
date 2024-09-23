@@ -58,8 +58,8 @@ TEST(Lorri2Isis, Lorri2IsisTestDefault) {
 
   // BandBin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
-  EXPECT_DOUBLE_EQ(std::stod(bandbin["Center"][0]), 600);
-  EXPECT_DOUBLE_EQ(std::stod(bandbin["Width"][0]), 500);
+  EXPECT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][0]), 600);
+  EXPECT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][0]), 500);
 
   // Kernels Group
   PvlGroup &kernel = isisLabel->findGroup("Kernels", Pvl::Traverse);
@@ -123,8 +123,8 @@ TEST(Lorri2Isis, Lorri2IsisTestRaw) {
 
    // BandBin Group
    PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
-   EXPECT_DOUBLE_EQ(std::stod(bandbin["Center"][0]), 600);
-   EXPECT_DOUBLE_EQ(std::stod(bandbin["Width"][0]), 500);
+   EXPECT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][0]), 600);
+   EXPECT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][0]), 500);
 
    // Kernels Group
    PvlGroup &kernel = isisLabel->findGroup("Kernels", Pvl::Traverse);

@@ -62,19 +62,19 @@ namespace Isis {
       inCube->close();
       
       if ( ui.WasEntered("MINLAT") ) { 
-        mapGroup.addKeyword(PvlKeyword( "MinimumLatitude",  std::to_string( ui.GetDouble("MINLAT") ) ),
+        mapGroup.addKeyword(PvlKeyword( "MinimumLatitude",  toString( ui.GetDouble("MINLAT") ) ),
                             Pvl::Replace);
       }
       if ( ui.WasEntered("MAXLAT") ) {
-        mapGroup.addKeyword(PvlKeyword( "MaximumLatitude",  std::to_string( ui.GetDouble("MAXLAT") ) ),
+        mapGroup.addKeyword(PvlKeyword( "MaximumLatitude",  toString( ui.GetDouble("MAXLAT") ) ),
                             Pvl::Replace);
       }
       if ( ui.WasEntered("MINLON") ) {
-        mapGroup.addKeyword(PvlKeyword( "MinimumLongitude", std::to_string( ui.GetDouble("MINLON") ) ),
+        mapGroup.addKeyword(PvlKeyword( "MinimumLongitude", toString( ui.GetDouble("MINLON") ) ),
                             Pvl::Replace);
       }
       if ( ui.WasEntered("MAXLON") ) {
-        mapGroup.addKeyword(PvlKeyword( "MaximumLongitude", std::to_string( ui.GetDouble("MAXLON") ) ),
+        mapGroup.addKeyword(PvlKeyword( "MaximumLongitude", toString( ui.GetDouble("MAXLON") ) ),
                             Pvl::Replace);
       }
       //check to make sure they're all there. If not, throw error, need to enter all.

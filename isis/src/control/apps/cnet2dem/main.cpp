@@ -381,7 +381,7 @@ void IsisMain() {
   PvlKeyword cnumber("Number");
   for (int i = 0 ; i < functors.size() ; i++) {
     fname.addValue(functors[i]->name().toStdString());
-    cnumber.addValue(std::to_string(i+1));
+    cnumber.addValue(toString(i+1));
   }
 
   // Create the BandBin group

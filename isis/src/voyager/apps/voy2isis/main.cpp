@@ -234,12 +234,12 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
     spacecraftNumber = "1";
     if(instId == "NARROW_ANGLE_CAMERA") {
       spacecraftCode = -31101;
-      kern += PvlKeyword("NaifFrameCode", std::to_string(spacecraftCode));
+      kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
       instId = "issna";
     }
     else if (instId == "WIDE_ANGLE_CAMERA") {
       spacecraftCode = -31102;
-      kern += PvlKeyword("NaifFrameCode", std::to_string(spacecraftCode));
+      kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
       instId = "isswa";
     }
     else {
@@ -254,12 +254,12 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
     spacecraftNumber = "2";
     if(instId == "NARROW_ANGLE_CAMERA") {
       spacecraftCode = -32101;
-      kern += PvlKeyword("NaifFrameCode", std::to_string(spacecraftCode));
+      kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
       instId = "issna";
     }
     else if (instId == "WIDE_ANGLE_CAMERA") {
       spacecraftCode = -32102;
-      kern += PvlKeyword("NaifFrameCode", std::to_string(spacecraftCode));
+      kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
       instId = "isswa";
     }
     else {

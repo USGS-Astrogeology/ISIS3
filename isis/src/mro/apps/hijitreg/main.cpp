@@ -355,9 +355,9 @@ void IsisMain() {
   if (jparms.sStats.ValidPixels() > 0) {
     double sTrans = (int)(jparms.sStats.Average() * 100.0) / 100.0;
     double lTrans = (int)(jparms.lStats.Average() * 100.0) / 100.0;
-    results += PvlKeyword("Sample", std::to_string(sTrans));
-    results += PvlKeyword("Line", std::to_string(lTrans));
-    results += PvlKeyword("NSuspects", std::to_string(jparms.nSuspects));
+    results += PvlKeyword("Sample", toString(sTrans));
+    results += PvlKeyword("Line", toString(lTrans));
+    results += PvlKeyword("NSuspects", toString(jparms.nSuspects));
   }
   else {
     results += PvlKeyword("Sample", "NULL");

@@ -396,13 +396,13 @@ void IsisMain() {
 
     PvlObject currFile("Exclusions");
     currFile += PvlKeyword("FileName", inList[currImage].toString());
-    currFile += PvlKeyword("Tolerance", std::to_string(maxStdev));
+    currFile += PvlKeyword("Tolerance", toString(maxStdev));
 
     if(cameraType == LineScan) {
-      currFile += PvlKeyword("FrameLines", std::to_string(numFrameLines));
+      currFile += PvlKeyword("FrameLines", toString(numFrameLines));
     }
     else if(cameraType == PushFrame) {
-      currFile += PvlKeyword("FrameletLines", std::to_string(numFrameLines));
+      currFile += PvlKeyword("FrameletLines", toString(numFrameLines));
     }
 
     excludedDetails.push_back(currFile);
@@ -663,11 +663,11 @@ void CreateTemporaryData(Buffer &in) {
 
         // Record the exclusion
         PvlGroup currExclusion("ExcludedLines");
-        currExclusion += PvlKeyword("FrameStartLine", std::to_string(in.Line()));
-        currExclusion += PvlKeyword("ValidPixels", std::to_string(inputFrameStats.ValidPixels()));
+        currExclusion += PvlKeyword("FrameStartLine", toString(in.Line()));
+        currExclusion += PvlKeyword("ValidPixels", toString(inputFrameStats.ValidPixels()));
 
         if(!IsSpecial(inputFrameStats.StandardDeviation()))
-          currExclusion += PvlKeyword("StandardDeviation", std::to_string(inputFrameStats.StandardDeviation()));
+          currExclusion += PvlKeyword("StandardDeviation", toString(inputFrameStats.StandardDeviation()));
         else
           currExclusion += PvlKeyword("StandardDeviation", "N/A");
 
@@ -711,12 +711,12 @@ void CreateTemporaryData(Buffer &in) {
 
     if(excluded && ((in.Line() - 1) % numFrameLines == 0)) {
       PvlGroup currExclusion("ExcludedFramelet");
-      currExclusion += PvlKeyword("FrameletStartLine", std::to_string(in.Line()));
-      currExclusion += PvlKeyword("FrameletNumber", std::to_string((in.Line() - 1) / numFrameLines));
+      currExclusion += PvlKeyword("FrameletStartLine", toString(in.Line()));
+      currExclusion += PvlKeyword("FrameletNumber", toString((in.Line() - 1) / numFrameLines));
 
       if(!IsSpecial(stdev)) {
         currExclusion += PvlKeyword("StandardDeviation",
-                                    std::to_string(stdev));
+                                    toString(stdev));
       }
       else {
         currExclusion += PvlKeyword("StandardDeviation",

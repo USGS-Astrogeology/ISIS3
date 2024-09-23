@@ -616,19 +616,19 @@ namespace Isis {
     else {
       if(startXValid && endXValid && startX > endX) {
         std::string msg = "Cannot have a 3D area with inverted X coordinates of "
-                                  "[" + std::to_string(startX.meters()) + " meters] to [" + std::to_string(endX.meters()) + " meters]";
+                                  "[" + toString(startX.meters()) + " meters] to [" + toString(endX.meters()) + " meters]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
       if(startYValid && endYValid && startY > endY) {
         std::string msg = "Cannot have a 3D area with inverted Y coordinates of "
-                                  "[" + std::to_string(startY.meters()) + " meters] to [" + std::to_string(endY.meters()) + " meters]";
+                                  "[" + toString(startY.meters()) + " meters] to [" + toString(endY.meters()) + " meters]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
       if(startZValid && endZValid && startZ > endZ) {
         std::string msg = "Cannot have a 3D area with inverted Z coordinates of "
-                                  "[" + std::to_string(startZ.meters()) + " meters] to [" + std::to_string(endZ.meters()) + " meters]";
+                                  "[" + toString(startZ.meters()) + " meters] to [" + toString(endZ.meters()) + " meters]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 

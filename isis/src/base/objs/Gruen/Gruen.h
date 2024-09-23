@@ -171,7 +171,7 @@ namespace Isis {
         inline int  Errno() const {  return (m_gerrno); }
         inline BigInt Count() const { return (m_count); }
         inline void BumpIt() { m_count++; }
-        PvlKeyword LogIt() const { return (PvlKeyword(m_keyname.toStdString(), std::to_string(m_count))); }
+        PvlKeyword LogIt() const { return (PvlKeyword(m_keyname.toStdString(), toString(m_count))); }
 
         int         m_gerrno;
         QString m_keyname;
@@ -325,7 +325,7 @@ namespace Isis {
           return (PvlKeyword(keyname.toStdString(), "NULL"));
         }
         else {
-          return (PvlKeyword(keyname.toStdString(), std::to_string(value), unit.toStdString()));
+          return (PvlKeyword(keyname.toStdString(), toString(value), unit.toStdString()));
         }
       }
 

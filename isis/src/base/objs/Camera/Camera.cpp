@@ -1206,10 +1206,10 @@ namespace Isis {
     PvlGroup map = pvl.findGroup("Mapping", Pvl::Traverse);
 
     if(map.hasKeyword("EquatorialRadius"))
-      a = Distance(std::stod(map["EquatorialRadius"][0]), Distance::Meters);
+      a = Distance(IString::ToDouble(map["EquatorialRadius"][0]), Distance::Meters);
 
     if(map.hasKeyword("PolarRadius"))
-      b = Distance(std::stod(map["PolarRadius"][0]), Distance::Meters);
+      b = Distance(IString::ToDouble(map["PolarRadius"][0]), Distance::Meters);
 
     // Convert to planetographic if necessary
     minlat = p_minlat;

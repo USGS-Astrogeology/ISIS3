@@ -460,7 +460,7 @@ int main(int argc, char *argv[]) {
   cout << endl;
 
   cout << "Test == operator with pixel resolutions not matching, but names do" << endl;
-  mg += PvlKeyword("PixelResolution", std::to_string(2.0));
+  mg += PvlKeyword("PixelResolution", toString(2.0));
   MyProjection pMy3(lab);
   pMy3.SetWorldMapper(new MyMapper());
   cout << "Projection 1 resolution = " << p.Resolution() << endl;
@@ -529,18 +529,18 @@ int main(int argc, char *argv[]) {
   Isis::PvlGroup &latTestGroup = latRangeTest.findGroup("Mapping");
   latTestGroup += Isis::PvlKeyword("TargetName", "Moon");
   latTestGroup += Isis::PvlKeyword("ProjectionName", "PolarStereographic");
-  latTestGroup += Isis::PvlKeyword("EquatorialRadius", std::to_string(1737400.0));
-  latTestGroup += Isis::PvlKeyword("PolarRadius", std::to_string(1737400.0));
+  latTestGroup += Isis::PvlKeyword("EquatorialRadius", toString(1737400.0));
+  latTestGroup += Isis::PvlKeyword("PolarRadius", toString(1737400.0));
   latTestGroup += Isis::PvlKeyword("LatitudeType", "Planetocentric");
   latTestGroup += Isis::PvlKeyword("LongitudeDirection", "PositiveEast");
-  latTestGroup += Isis::PvlKeyword("LongitudeDomain", std::to_string(360));
-  latTestGroup += Isis::PvlKeyword("Scale", std::to_string(5.0));
-  latTestGroup += Isis::PvlKeyword("MinimumLatitude", std::to_string(-90.0));
-  latTestGroup += Isis::PvlKeyword("MaximumLatitude", std::to_string(-45.0));
-  latTestGroup += Isis::PvlKeyword("MinimumLongitude", std::to_string(0.0));
-  latTestGroup += Isis::PvlKeyword("MaximumLongitude", std::to_string(360.0));
-  latTestGroup += Isis::PvlKeyword("CenterLatitude", std::to_string(-90.0));
-  latTestGroup += Isis::PvlKeyword("CenterLongitude", std::to_string(0.0));
+  latTestGroup += Isis::PvlKeyword("LongitudeDomain", toString(360));
+  latTestGroup += Isis::PvlKeyword("Scale", toString(5.0));
+  latTestGroup += Isis::PvlKeyword("MinimumLatitude", toString(-90.0));
+  latTestGroup += Isis::PvlKeyword("MaximumLatitude", toString(-45.0));
+  latTestGroup += Isis::PvlKeyword("MinimumLongitude", toString(0.0));
+  latTestGroup += Isis::PvlKeyword("MaximumLongitude", toString(360.0));
+  latTestGroup += Isis::PvlKeyword("CenterLatitude", toString(-90.0));
+  latTestGroup += Isis::PvlKeyword("CenterLongitude", toString(0.0));
   Isis::Projection &latTestProjection = *Isis::ProjectionFactory::Create(latRangeTest);
   
  cout << "PolarStereographic Projection Specifications" << endl;
@@ -654,7 +654,7 @@ int main(int argc, char *argv[]) {
   cout << endl;
 
   cout << "Rotation Tests" << endl;
-  mg += PvlKeyword("Rotation", std::to_string(90.0));
+  mg += PvlKeyword("Rotation", toString(90.0));
   mg["LongitudeDirection"] = "PositiveEast";
   mg.deleteKeyword("EquatorialRadius");
   mg.deleteKeyword("PolarRadius");

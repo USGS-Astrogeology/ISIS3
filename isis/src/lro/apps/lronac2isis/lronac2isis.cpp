@@ -70,9 +70,9 @@ namespace Isis {
       }
 
       for(int i = 0; i < xtermKeyword.size(); i++) {
-        g_xterm.push_back(std::stod(xtermKeyword[i]));
-        g_mterm.push_back(std::stod(mtermKeyword[i]));
-        g_bterm.push_back(std::stod(btermKeyword[i]));
+        g_xterm.push_back(IString::ToDouble(xtermKeyword[i]));
+        g_mterm.push_back(IString::ToDouble(mtermKeyword[i]));
+        g_bterm.push_back(IString::ToDouble(btermKeyword[i]));
       }
 
       double versionId = QString::fromStdString(lab.findKeyword("PRODUCT_VERSION_ID")[0]).remove(QRegExp("^v")).toDouble();

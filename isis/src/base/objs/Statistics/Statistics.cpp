@@ -408,8 +408,8 @@ namespace Isis {
 
     if (m_validMaximum < m_validMinimum) {
       // get the min and max DN values in the chosen range
-      std::string msg = "Invalid Range: Minimum [" + std::to_string(minimum) 
-                    + "] must be less than the Maximum [" + std::to_string(maximum) + "].";
+      std::string msg = "Invalid Range: Minimum [" + toString(minimum) 
+                    + "] must be less than the Maximum [" + toString(maximum) + "].";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     //??? throw exception if data has already been added???
@@ -801,7 +801,7 @@ namespace Isis {
       if (value == Maximum()) return 0;
       else {
         std::string msg = "Undefined Z-score. Standard deviation is zero and the input value[" 
-                      + std::to_string(value) + "] is out of range [" + std::to_string(Maximum()) + "].";
+                      + toString(value) + "] is out of range [" + toString(Maximum()) + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
     }
@@ -848,26 +848,26 @@ namespace Isis {
     }
     // Construct a label with the results
     PvlGroup results(name.toStdString());  
-    results += PvlKeyword("Sum", std::to_string(Sum()));
-    results += PvlKeyword("SumSquare", std::to_string(SumSquare()));
-    results += PvlKeyword("Minimum", std::to_string(Minimum()));
-    results += PvlKeyword("Maximum", std::to_string(Maximum()));
-    results += PvlKeyword("ValidMinimum", std::to_string(ValidMinimum()));
-    results += PvlKeyword("ValidMaximum", std::to_string(ValidMaximum()));
+    results += PvlKeyword("Sum", toString(Sum()));
+    results += PvlKeyword("SumSquare", toString(SumSquare()));
+    results += PvlKeyword("Minimum", toString(Minimum()));
+    results += PvlKeyword("Maximum", toString(Maximum()));
+    results += PvlKeyword("ValidMinimum", toString(ValidMinimum()));
+    results += PvlKeyword("ValidMaximum", toString(ValidMaximum()));
     if (ValidPixels() != 0) {
-      results += PvlKeyword("Average", std::to_string(Average()));
-      results += PvlKeyword("StandardDeviation", std::to_string(StandardDeviation()));
-      results += PvlKeyword("Variance", std::to_string(Variance()));
+      results += PvlKeyword("Average", toString(Average()));
+      results += PvlKeyword("StandardDeviation", toString(StandardDeviation()));
+      results += PvlKeyword("Variance", toString(Variance()));
     }
-    results += PvlKeyword("TotalPixels", std::to_string(TotalPixels()));
-    results += PvlKeyword("ValidPixels", std::to_string(ValidPixels()));
-    results += PvlKeyword("OverValidMaximumPixels", std::to_string(OverRangePixels()));
-    results += PvlKeyword("UnderValidMinimumPixels", std::to_string(UnderRangePixels()));
-    results += PvlKeyword("NullPixels", std::to_string(NullPixels()));
-    results += PvlKeyword("LisPixels", std::to_string(LisPixels()));
-    results += PvlKeyword("LrsPixels", std::to_string(LrsPixels()));
-    results += PvlKeyword("HisPixels", std::to_string(HisPixels()));
-    results += PvlKeyword("HrsPixels", std::to_string(HrsPixels()));
+    results += PvlKeyword("TotalPixels", toString(TotalPixels()));
+    results += PvlKeyword("ValidPixels", toString(ValidPixels()));
+    results += PvlKeyword("OverValidMaximumPixels", toString(OverRangePixels()));
+    results += PvlKeyword("UnderValidMinimumPixels", toString(UnderRangePixels()));
+    results += PvlKeyword("NullPixels", toString(NullPixels()));
+    results += PvlKeyword("LisPixels", toString(LisPixels()));
+    results += PvlKeyword("LrsPixels", toString(LrsPixels()));
+    results += PvlKeyword("HisPixels", toString(HisPixels()));
+    results += PvlKeyword("HrsPixels", toString(HrsPixels()));
 
     return results;
   }
@@ -876,7 +876,7 @@ namespace Isis {
   void Statistics::save(QXmlStreamWriter &stream, const Project *project) const {   // TODO: does xml stuff need project???
 
     stream.writeStartElement("statistics");
-//    stream.writeTextElement("id", m_id->std::to_string());
+//    stream.writeTextElement("id", m_id->toString());
  
     stream.writeTextElement("sum", QString::number(m_sum));
     stream.writeTextElement("sumSquares", QString::number(m_sumsum));

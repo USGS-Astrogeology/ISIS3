@@ -436,13 +436,13 @@ void loadCalibrationValues() {
 
   calVersion = QString::fromStdString(multipliers["version"]);
 
-  g_solar = std::stod(multipliers["solar"][0]);
+  g_solar = IString::ToDouble(multipliers["solar"][0]);
 
-  g_ir = std::stod(multipliers["IR"][0]);
+  g_ir = IString::ToDouble(multipliers["IR"][0]);
 
-  g_vis = std::stod(multipliers["VIS"][0]);
+  g_vis = IString::ToDouble(multipliers["VIS"][0]);
 
-  g_wavecal = std::stod(multipliers["wave-cal"][0]);
+  g_wavecal = IString::ToDouble(multipliers["wave-cal"][0]);
 
 
 
@@ -571,7 +571,7 @@ void calculateSpecificEnergy(Cube *icube) {
   }
 
   if(g_visBool) {
-    coefficient /= std::stod(inst["ExposureDuration"][1]) / 1000.0;
+    coefficient /= IString::ToDouble(inst["ExposureDuration"][1]) / 1000.0;
   }
   else {
 
@@ -608,7 +608,7 @@ void calculateSpecificEnergy(Cube *icube) {
     */
 
     //USGS
-    coefficient /= (std::stod(inst["ExposureDuration"][0]) * 1.01725) / 1000.0 - 0.004;
+    coefficient /= (IString::ToDouble(inst["ExposureDuration"][0]) * 1.01725) / 1000.0 - 0.004;
 
 
     //University of Arizona
@@ -773,7 +773,7 @@ void calculateVisDarkCurrent(Cube *icube) {
 
   FILE *calFilePtr = fopen(calFile.toLatin1().data(), "r");
 
-  double visExposure = std::stod(inst["ExposureDuration"][1]);
+  double visExposure = IString::ToDouble(inst["ExposureDuration"][1]);
 
   int sampleOffset, lineOffset;
   GetOffsets(*icube->label(), sampleOffset, lineOffset);

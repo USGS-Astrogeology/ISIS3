@@ -440,16 +440,16 @@ namespace Isis {
     // Add any time padding the user specified to the spice group
     if (ui.GetDouble("STARTPAD") > DBL_EPSILON) {
       currentKernels.addKeyword(PvlKeyword("StartPadding",
-                                           std::to_string(ui.GetDouble("STARTPAD")), "seconds"));
+                                           toString(ui.GetDouble("STARTPAD")), "seconds"));
     }
 
     if (ui.GetDouble("ENDPAD") > DBL_EPSILON) {
       currentKernels.addKeyword(PvlKeyword("EndPadding",
-                                           std::to_string(ui.GetDouble("ENDPAD")), "seconds"));
+                                           toString(ui.GetDouble("ENDPAD")), "seconds"));
     }
 
     currentKernels.addKeyword(
-        PvlKeyword("CameraVersion", std::to_string(CameraFactory::CameraVersion(*icube))),
+        PvlKeyword("CameraVersion", toString(CameraFactory::CameraVersion(*icube))),
         Pvl::Replace);
 
     // Add the modified Kernels group to the input cube labels
@@ -518,7 +518,7 @@ namespace Isis {
           bodyTable.Label()["Kernels"].addValue(pckKeyword[i]);
 
         bodyTable.Label() += PvlKeyword("SolarLongitude",
-            std::to_string(cam->solarLongitude().degrees()));
+            toString(cam->solarLongitude().degrees()));
         icube->write(bodyTable);
 
         Table sunTable = cam->sunPosition()->Cache("SunPosition");

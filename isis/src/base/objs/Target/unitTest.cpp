@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
   FileName f2("$base/dems");
   std::string dir = f.expanded() + "/";
   std::string dir2 = f2.expanded() + "/";
-  kern1 += PvlKeyword("NaifFrameCode", std::to_string(-94031));
+  kern1 += PvlKeyword("NaifFrameCode", toString(-94031));
   kern1 += PvlKeyword("LeapSecond", dir + "naif0007.tls");
   kern1 += PvlKeyword("SpacecraftClock", dir + "MGS_SCLKSCET.00045.tsc");
   kern1 += PvlKeyword("TargetPosition", dir + "de405.bsp");
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
   kern1 += PvlKeyword("Frame", "");
 
   PvlGroup kern2("Kernels");
-  kern2 += PvlKeyword("NaifIkCode", std::to_string(-94031));
+  kern2 += PvlKeyword("NaifIkCode", toString(-94031));
   kern2 += PvlKeyword("LeapSecond", dir + "naif0007.tls");
   kern2 += PvlKeyword("SpacecraftClock", dir + "MGS_SCLKSCET.00045.tsc");
   kern2 += PvlKeyword("TargetPosition", dir + "de405.bsp");
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
   kern2 += PvlKeyword("InstrumentPosition", dir + "moc.bsp");
   kern2 += PvlKeyword("InstrumentPointing", dir + "moc.bc");
   kern2 += PvlKeyword("Frame", "");
-  kern2 += PvlKeyword("NaifBodyCode", std::to_string(499));
+  kern2 += PvlKeyword("NaifBodyCode", toString(499));
 
   PvlGroup kern3 = kern2;
   kern3 += PvlKeyword("ShapeModel", dir2  + "molaMarsPlanetaryRadius0005.cub");
@@ -82,8 +82,8 @@ int main(int argc, char *argv[]) {
   double endTime = -69382512.0;
   double slope = (endTime - startTime) / (10 - 1);
 
-  kern1 += PvlKeyword("StartPadding", std::to_string(slope));
-  kern1 += PvlKeyword("EndPadding", std::to_string(slope));
+  kern1 += PvlKeyword("StartPadding", toString(slope));
+  kern1 += PvlKeyword("EndPadding", toString(slope));
 
   Pvl lab1;
   lab1.addGroup(inst1);

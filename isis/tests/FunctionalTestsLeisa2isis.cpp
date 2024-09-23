@@ -68,20 +68,20 @@ TEST(Leisa2Isis, Leisa2IsisTestDefault) {
   ASSERT_EQ(bandbin["Width"].size(), 256);
   ASSERT_EQ(bandbin["OriginalBand"].size(), 256);
 
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["Center"][0]), 2.4892);
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["Center"][64]), 1.9784);
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["Center"][128]), 1.572);
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["Center"][255]), 2.0898);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][0]), 2.4892);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][64]), 1.9784);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][128]), 1.572);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][255]), 2.0898);
 
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["Width"][0]), 0.011228);
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["Width"][64]), 0.008924);
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["Width"][128]), 0.007091);
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["Width"][255]), 0.004915);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][0]), 0.011228);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][64]), 0.008924);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][128]), 0.007091);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][255]), 0.004915);
 
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["OriginalBand"][0]), 1);
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["OriginalBand"][64]), 65);
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["OriginalBand"][128]), 129);
-  ASSERT_DOUBLE_EQ(std::stod(bandbin["OriginalBand"][255]), 256);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][0]), 1);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][64]), 65);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][128]), 129);
+  ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][255]), 256);
 
   // Kernels Group
   PvlGroup &kernel = isisLabel->findGroup("Kernels", Pvl::Traverse);
@@ -304,20 +304,20 @@ TEST(Leisa2Isis, Leisa2IsisTestRaw) {
    ASSERT_EQ(bandbin["Width"].size(), 256);
    ASSERT_EQ(bandbin["OriginalBand"].size(), 256);
 
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["Center"][0]), 2.4892);
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["Center"][64]), 1.9784);
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["Center"][128]), 1.572);
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["Center"][255]), 2.0898);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][0]), 2.4892);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][64]), 1.9784);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][128]), 1.572);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Center"][255]), 2.0898);
 
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["Width"][0]), 0.011228);
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["Width"][64]), 0.008924);
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["Width"][128]), 0.007091);
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["Width"][255]), 0.004915);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][0]), 0.011228);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][64]), 0.008924);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][128]), 0.007091);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["Width"][255]), 0.004915);
 
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["OriginalBand"][0]), 1);
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["OriginalBand"][64]), 65);
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["OriginalBand"][128]), 129);
-   ASSERT_DOUBLE_EQ(std::stod(bandbin["OriginalBand"][255]), 256);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][0]), 1);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][64]), 65);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][128]), 129);
+   ASSERT_DOUBLE_EQ(IString::ToDouble(bandbin["OriginalBand"][255]), 256);
  }
 
 

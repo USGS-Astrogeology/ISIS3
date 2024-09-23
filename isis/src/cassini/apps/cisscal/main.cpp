@@ -647,7 +647,7 @@ void gbl::ComputeBias() {
     gbl::bias.resize(1);
     gbl::bias[0] = gbl::cissLab->BiasStripMean();
   }
-  gbl::calgrp += PvlKeyword("NumberOfOverclocks", std::to_string(gbl::numberOfOverclocks));
+  gbl::calgrp += PvlKeyword("NumberOfOverclocks", toString(gbl::numberOfOverclocks));
   return;
 }
 
@@ -884,14 +884,14 @@ void gbl::FindDustRingParameters() {
   long largestEpochFileNum = 0;
   QStringList fileList = QDir(gbl::GetCalibrationDirectory("dustring")).entryList();
   for(int i = 0; i < fileList.count(); i++){
-    long currentEpoch = std::stoi(FileName(fileList[i].toStdString()).baseName().substr(13, 10));
+    long currentEpoch = IString::ToInteger(FileName(fileList[i].toStdString()).baseName().substr(13, 10));
     if (currentEpoch > largestEpochFileNum && currentEpoch <= imgNumber) {
         largestEpochFileNum = currentEpoch;
     }
   }
 
   // get name of dust file
-  gbl::dustFile = (gbl::GetCalibrationDirectory("dustring").toStdString() + "nac_dustring_" + std::to_string(largestEpochFileNum)
+  gbl::dustFile = (gbl::GetCalibrationDirectory("dustring").toStdString() + "nac_dustring_" + toString(largestEpochFileNum)
                    + "." + gbl::cissLab->InstrumentModeId().toStdString() + ".cub");
   if(!gbl::dustFile.fileExists()) { // dustring file not found, assume file uses old dustring files
     gbl::dustFile = (gbl::GetCalibrationDirectory("dustring").toStdString() + "nac_dustring_venus."
@@ -982,7 +982,7 @@ void gbl::FindDustRingParameters() {
           }
           else {
             effwl = col5.toDouble();
-            gbl::calgrp += PvlKeyword("EffectiveWavelength", std::to_string(effwl));
+            gbl::calgrp += PvlKeyword("EffectiveWavelength", toString(effwl));
             gbl::strengthFactor = 1.30280 - 0.000717552 * effwl;
           }
           break;
@@ -1067,7 +1067,7 @@ void gbl::FindDustRingParameters() {
         }
     }
   }
-  gbl::calgrp += PvlKeyword("StrengthFactor", std::to_string(gbl::strengthFactor));
+  gbl::calgrp += PvlKeyword("StrengthFactor", toString(gbl::strengthFactor));
   return;
 }
 
@@ -1259,7 +1259,7 @@ void gbl::DNtoElectrons() {
                          _FILEINFO_);
     }
   }
-  gbl::calgrp += PvlKeyword("TrueGain", std::to_string(gbl::trueGain));
+  gbl::calgrp += PvlKeyword("TrueGain", toString(gbl::trueGain));
   return;
 }
 
@@ -1364,9 +1364,9 @@ void gbl::DivideByAreaPixel() {
   // it was expressed in IDL as the following:
   //       [gbl::sumFactor = (gbl::incube->sampleCount()/1024.0)*(gbl::incube->lineCount()/1024.0);]
   gbl::sumFactor = 1 / pow(gbl::cissLab->SummingMode(), 2.0);
-  gbl::calgrp += PvlKeyword("SolidAngle", std::to_string(gbl::solidAngle));
-  gbl::calgrp += PvlKeyword("OpticsArea", std::to_string(gbl::opticsArea));
-  gbl::calgrp += PvlKeyword("SumFactor", std::to_string(gbl::sumFactor));
+  gbl::calgrp += PvlKeyword("SolidAngle", toString(gbl::solidAngle));
+  gbl::calgrp += PvlKeyword("OpticsArea", toString(gbl::opticsArea));
+  gbl::calgrp += PvlKeyword("SumFactor", toString(gbl::sumFactor));
   return;
 }
 
@@ -1605,7 +1605,7 @@ void gbl::FindEfficiencyFactor(QString fluxunits) {
                        "Unable to calibrate image using I/F. Solar Distance calculated is less than or equal to 0.",
                        _FILEINFO_);
     }
-    gbl::calgrp += PvlKeyword("SolarDistance", std::to_string(distFromSun));
+    gbl::calgrp += PvlKeyword("SolarDistance", toString(distFromSun));
 
     // read spectral file to find wavelength and flux
     CisscalFile *spectral = new CisscalFile(QString::fromStdString(specfile.original()));
@@ -1673,8 +1673,8 @@ void gbl::FindEfficiencyFactor(QString fluxunits) {
   spline2.AddData(lambda, fluxproduct2);
   gbl::efficiencyFactor = spline1.BoolesRule(spline1.DomainMinimum(), spline1.DomainMaximum());
   double efficiency = spline2.BoolesRule(spline2.DomainMinimum(), spline2.DomainMaximum());
-  gbl::calgrp += PvlKeyword("EfficiencyFactor", std::to_string(gbl::efficiencyFactor), units.toStdString());
-  gbl::calgrp += PvlKeyword("TotalEfficiency", std::to_string(efficiency));
+  gbl::calgrp += PvlKeyword("EfficiencyFactor", toString(gbl::efficiencyFactor), units.toStdString());
+  gbl::calgrp += PvlKeyword("TotalEfficiency", toString(efficiency));
 
   // Cannot divide by 0.0
   if(gbl::efficiencyFactor == 0) {
@@ -1787,7 +1787,7 @@ void gbl::FindCorrectionFactors() {
     gbl::calgrp.findKeyword("CorrectionFactorPerformed").addComment("Correction Factor Parameters");
 
   }
-  gbl::calgrp += PvlKeyword("CorrectionFactor", std::to_string(gbl::correctionFactor));
+  gbl::calgrp += PvlKeyword("CorrectionFactor", toString(gbl::correctionFactor));
   return;
 }
 
@@ -1840,7 +1840,7 @@ void gbl::FindSensitivityCorrection() {
   gbl::calgrp += PvlKeyword("SensitivityCorrectionPerformed", "Yes");
   gbl::calgrp.findKeyword("SensitivityCorrectionPerformed").addComment("Sensitivity vs Time Correction Parameters");
   gbl::sensCorrection = true;
-  gbl::calgrp += PvlKeyword("SensVsTimeCorr", std::to_string(gbl::sensVsTimeCorr));
+  gbl::calgrp += PvlKeyword("SensVsTimeCorr", toString(gbl::sensVsTimeCorr));
 }
 
 

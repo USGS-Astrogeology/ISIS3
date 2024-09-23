@@ -45,14 +45,14 @@ void IsisMain() {
   // Create a label and log it
   PvlGroup results("Results");
   results += PvlKeyword("Map", ui.GetFileName("MAP").toStdString());
-  results += PvlKeyword("Scale", std::to_string(scale));
-  results += PvlKeyword("Width", std::to_string(width), "inches");
-  results += PvlKeyword("Height", std::to_string(height), "inches");
-  results += PvlKeyword("Samples", std::to_string(samples));
-  results += PvlKeyword("Lines", std::to_string(lines));
-  results += PvlKeyword("RealSize", std::to_string(((Isis::BigInt)lines * samples * 4) / 1024.0), "KB");
-  results += PvlKeyword("SignedWordSize", std::to_string(((Isis::BigInt)lines * samples * 2) / 1024.0), "KB");
-  results += PvlKeyword("UnsignedByteSize", std::to_string(((Isis::BigInt)lines * samples) / 1024.0), "KB");
+  results += PvlKeyword("Scale", toString(scale));
+  results += PvlKeyword("Width", toString(width), "inches");
+  results += PvlKeyword("Height", toString(height), "inches");
+  results += PvlKeyword("Samples", toString(samples));
+  results += PvlKeyword("Lines", toString(lines));
+  results += PvlKeyword("RealSize", toString(((Isis::BigInt)lines * samples * 4) / 1024.0), "KB");
+  results += PvlKeyword("SignedWordSize", toString(((Isis::BigInt)lines * samples * 2) / 1024.0), "KB");
+  results += PvlKeyword("UnsignedByteSize", toString(((Isis::BigInt)lines * samples) / 1024.0), "KB");
   Application::Log(results);
 
   // Write the output file if requested

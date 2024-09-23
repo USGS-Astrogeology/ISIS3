@@ -41,16 +41,16 @@ void IsisMain() {
 
   // Set the tolerance
   double tol = ui.GetDouble("TOLERANCE");
-  algorithm += PvlKeyword("Tolerance", std::to_string(tol));
+  algorithm += PvlKeyword("Tolerance", toString(tol));
 
   // Set the reduction factor if the user entered it
   if(ui.WasEntered("REDUCTIONFACTOR")) {
     int reduction = ui.GetInteger("REDUCTIONFACTOR");
-    algorithm += PvlKeyword("ReductionFactor", std::to_string(reduction));
+    algorithm += PvlKeyword("ReductionFactor", toString(reduction));
 
     if(reduction < 1) {
       std::string msg = "Invalid value for [REDUCTIONFACTOR] entered ["
-        + std::to_string(reduction) + "].  Must be greater than or equal to 1 (Default = 1)";
+        + toString(reduction) + "].  Must be greater than or equal to 1 (Default = 1)";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -95,21 +95,21 @@ void IsisMain() {
 
   // Set up the pattern chip group
   PvlGroup patternChip("PatternChip");
-  patternChip += PvlKeyword("Samples", std::to_string(psamp));
-  patternChip += PvlKeyword("Lines", std::to_string(pline));
+  patternChip += PvlKeyword("Samples", toString(psamp));
+  patternChip += PvlKeyword("Lines", toString(pline));
   if(ui.WasEntered("PMIN")) {
-    patternChip += PvlKeyword("ValidMinimum", std::to_string(ui.GetInteger("PMIN")));
+    patternChip += PvlKeyword("ValidMinimum", toString(ui.GetInteger("PMIN")));
   }
   if(ui.WasEntered("PMAX")) {
-    patternChip += PvlKeyword("ValidMaximum", std::to_string(ui.GetInteger("PMAX")));
+    patternChip += PvlKeyword("ValidMaximum", toString(ui.GetInteger("PMAX")));
   }
   if(ui.WasEntered("MINIMUMZSCORE")) {
     double minimum = ui.GetDouble("MINIMUMZSCORE");
-    patternChip += PvlKeyword("MinimumZScore", std::to_string(minimum));
+    patternChip += PvlKeyword("MinimumZScore", toString(minimum));
 
     if(minimum <= 0.0) {
       std::string msg = "Invalid value for [MINIMUMZSCORE] entered ["
-        + std::to_string(minimum) + "].  Must be greater than 0.0 (Default = 1.0)";
+        + toString(minimum) + "].  Must be greater than 0.0 (Default = 1.0)";
       throw IException(IException::User, msg, _FILEINFO_);
     }
   }
@@ -117,30 +117,30 @@ void IsisMain() {
     double percent = ui.GetDouble("PVALIDPERCENT");
     if((percent <= 0.0) || (percent > 100.0)) {
       std::string msg = "Invalid value for [PVALIDPERCENT] entered ["
-        + std::to_string(percent) + "].  Must be greater than 0.0 and less than or equal to 100.0 (Default = 50.0)";
+        + toString(percent) + "].  Must be greater than 0.0 and less than or equal to 100.0 (Default = 50.0)";
       throw IException(IException::User, msg, _FILEINFO_);
     }
-    patternChip += PvlKeyword("ValidPercent", std::to_string(percent));
+    patternChip += PvlKeyword("ValidPercent", toString(percent));
   }
 
   // Set up the search chip group
   PvlGroup searchChip("SearchChip");
-  searchChip += PvlKeyword("Samples", std::to_string(ssamp));
-  searchChip += PvlKeyword("Lines", std::to_string(sline));
+  searchChip += PvlKeyword("Samples", toString(ssamp));
+  searchChip += PvlKeyword("Lines", toString(sline));
   if(ui.WasEntered("SMIN")) {
-    searchChip += PvlKeyword("ValidMinimum", std::to_string(ui.GetInteger("SMIN")));
+    searchChip += PvlKeyword("ValidMinimum", toString(ui.GetInteger("SMIN")));
   }
   if(ui.WasEntered("SMAX")) {
-    searchChip += PvlKeyword("ValidMaximum", std::to_string(ui.GetInteger("SMAX")));
+    searchChip += PvlKeyword("ValidMaximum", toString(ui.GetInteger("SMAX")));
   }
   if(ui.WasEntered("SSUBCHIPVALIDPERCENT")) {
     double percent = ui.GetDouble("SSUBCHIPVALIDPERCENT");
     if((percent <= 0.0) || (percent > 100.0)) {
       std::string msg = "Invalid value for [SSUBCHIPVALIDPERCENT] entered ["
-        + std::to_string(percent) + "].  Must be greater than 0.0 and less than or equal to 100.0 (Default = 50.0)";
+        + toString(percent) + "].  Must be greater than 0.0 and less than or equal to 100.0 (Default = 50.0)";
       throw IException(IException::User, msg, _FILEINFO_);
     }
-    searchChip += PvlKeyword("SubchipValidPercent", std::to_string(percent));
+    searchChip += PvlKeyword("SubchipValidPercent", toString(percent));
   }
 
   // Add groups to the autoreg object
@@ -152,21 +152,21 @@ void IsisMain() {
     PvlGroup surfaceModel("SurfaceModel");
 
     double distanceTol = ui.GetDouble("DISTANCETOLERANCE");
-    surfaceModel += PvlKeyword("DistanceTolerance", std::to_string(distanceTol));
+    surfaceModel += PvlKeyword("DistanceTolerance", toString(distanceTol));
 
     if(distanceTol <= 0.0) {
       std::string msg = "Invalid value for [DISTANCETOLERANCE] entered ["
-        + std::to_string(distanceTol) + "].  Must be greater than 0.0 (Default = 1.5)";
+        + toString(distanceTol) + "].  Must be greater than 0.0 (Default = 1.5)";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
     int winSize = ui.GetInteger("WINDOWSIZE");
-    surfaceModel += PvlKeyword("WindowSize", std::to_string(winSize));
+    surfaceModel += PvlKeyword("WindowSize", toString(winSize));
 
     // Make sure the window size is odd
     if(winSize % 2 == 0) {
       std::string msg = "Invalid value for [WINDOWSIZE] entered ["
-        + std::to_string(winSize) + "].  Must be an odd number (Default = 5)";
+        + toString(winSize) + "].  Must be an odd number (Default = 5)";
       throw IException(IException::User, msg, _FILEINFO_);
     }
     autoreg.addGroup(surfaceModel);

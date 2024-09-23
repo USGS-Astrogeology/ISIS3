@@ -50,7 +50,7 @@ void IsisMain() {
 
   p.SetOutputCube("TO");
 
-  frameletSize = 192 / std::stoi(icube->group("Instrument")["SpatialSumming"][0]);
+  frameletSize = 192 / IString::ToInteger(icube->group("Instrument")["SpatialSumming"][0]);
   frameletTopTrimSize = ui.GetInteger("TOPTRIM");
   frameletLeftTrimSize = ui.GetInteger("LEFTTRIM");
   frameletRightTrimSize = ui.GetInteger("RIGHTTRIM");

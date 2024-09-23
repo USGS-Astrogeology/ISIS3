@@ -219,15 +219,15 @@ void getStats(Buffer &in) {
 void pvlOut(const QString &StatFile) {
   PvlGroup results("Results");
   for(unsigned int i = 0; i < st.size(); i++) {
-    results += PvlKeyword("Band", std::to_string(band[i]));
-    results += PvlKeyword("RowCol", std::to_string(element[i]));
-    results += PvlKeyword("ValidPixels", std::to_string(st[i].ValidPixels()));
+    results += PvlKeyword("Band", toString(band[i]));
+    results += PvlKeyword("RowCol", toString(element[i]));
+    results += PvlKeyword("ValidPixels", toString(st[i].ValidPixels()));
     if(st[i].ValidPixels() > 0) {
-      results += PvlKeyword("Mean", std::to_string(st[i].Average()));
-      results += PvlKeyword("Median", std::to_string(median[i]));
-      results += PvlKeyword("Std", std::to_string(st[i].StandardDeviation()));
-      results += PvlKeyword("Minimum", std::to_string(st[i].Minimum()));
-      results += PvlKeyword("Maximum", std::to_string(st[i].Maximum()));
+      results += PvlKeyword("Mean", toString(st[i].Average()));
+      results += PvlKeyword("Median", toString(median[i]));
+      results += PvlKeyword("Std", toString(st[i].StandardDeviation()));
+      results += PvlKeyword("Minimum", toString(st[i].Minimum()));
+      results += PvlKeyword("Maximum", toString(st[i].Maximum()));
     }
     else {
       results += PvlKeyword("Mean", "0.0");
@@ -304,21 +304,21 @@ void PVLIn(const Isis::FileName &filename) {
 
   while(itr != results.end()) {
     StaticStats newStat;
-    band.push_back(std::stoi((*itr)[0]));
+    band.push_back(IString::ToInteger((*itr)[0]));
     itr++;
-    element.push_back(std::stoi((*itr)[0]));
+    element.push_back(IString::ToInteger((*itr)[0]));
     itr++;
-    newStat.setValidPixels(std::stoi((*itr)[0]));
+    newStat.setValidPixels(IString::ToInteger((*itr)[0]));
     itr++;
-    newStat.setMean(std::stod((*itr)[0]));
+    newStat.setMean(IString::ToDouble((*itr)[0]));
     itr++;
-    median.push_back(std::stod((*itr)[0]));
+    median.push_back(IString::ToDouble((*itr)[0]));
     itr++;
-    newStat.setStandardDeviation(std::stod((*itr)[0]));
+    newStat.setStandardDeviation(IString::ToDouble((*itr)[0]));
     itr++;
-    newStat.setMinimum(std::stod((*itr)[0]));
+    newStat.setMinimum(IString::ToDouble((*itr)[0]));
     itr++;
-    newStat.setMaximum(std::stod((*itr)[0]));
+    newStat.setMaximum(IString::ToDouble((*itr)[0]));
     itr++;
     st.push_back(newStat);
 

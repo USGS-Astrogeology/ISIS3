@@ -144,12 +144,12 @@ void IsisMain() {
 
     calgrp += PvlKeyword("ReferencePixelValueSource", "ERPImage");
     calgrp += PvlKeyword("ReferencePixelValueImage", ui.GetCubeName("REFPIXIMAGE").toStdString());
-    calgrp += PvlKeyword("ReferencePixelValue", std::to_string(gbl::ReferencePixelValue));
+    calgrp += PvlKeyword("ReferencePixelValue", toString(gbl::ReferencePixelValue));
   }
   else {
     gbl::ReferencePixelValue = gbl::mi->ReferencePixelModel();
     calgrp += PvlKeyword("ReferencePixelValueSource", "ERPModel");
-    calgrp += PvlKeyword("ReferenceModel", std::to_string(gbl::ReferencePixelValue));
+    calgrp += PvlKeyword("ReferenceModel", toString(gbl::ReferencePixelValue));
   }
   // if user wants NO zero exposure or if shutter effect correction is true
   // set the user value to zero and set label output to reflect no correction
@@ -159,7 +159,7 @@ void IsisMain() {
     calgrp += PvlKeyword("ZeroExposureImage", "NoCorrection");
   }
   else {
-    calgrp += PvlKeyword("ZeroExposureValue", std::to_string(gbl::mi->ZeroExposureValue()));
+    calgrp += PvlKeyword("ZeroExposureValue", toString(gbl::mi->ZeroExposureValue()));
     calgrp += PvlKeyword("ZeroExposureImage", gbl::mi->ZeroExposureImage().toStdString());
   }
   // If user wants NO active area set user value to zero and set the label
@@ -170,7 +170,7 @@ void IsisMain() {
     calgrp += PvlKeyword("ActiveAreaImage", "NoCorrection");
   }
   else {
-    calgrp += PvlKeyword("ActiveAreaValue", std::to_string(gbl::mi->ActiveAreaValue()));
+    calgrp += PvlKeyword("ActiveAreaValue", toString(gbl::mi->ActiveAreaValue()));
     calgrp += PvlKeyword("ActiveAreaImage", gbl::mi->ActiveAreaImage().toStdString());
   }
 
@@ -211,14 +211,14 @@ void IsisMain() {
   double fullModel = gbl::mi->ReferencePixelModel() +
                      gbl::mi->ZeroExposureValue() +
                      gbl::mi->ActiveAreaValue();
-  calgrp += PvlKeyword("DarkCurrentFullModel", std::to_string(fullModel));
+  calgrp += PvlKeyword("DarkCurrentFullModel", toString(fullModel));
 
   //Add temperature values to the radiometry group
-  calgrp += PvlKeyword("CCDTemperture", std::to_string(gbl::mi->CCDTemperatureCorrect()));
-  calgrp += PvlKeyword("PCBTemperature", std::to_string(gbl::mi->PCBTemperature()));
+  calgrp += PvlKeyword("CCDTemperture", toString(gbl::mi->CCDTemperatureCorrect()));
+  calgrp += PvlKeyword("PCBTemperature", toString(gbl::mi->PCBTemperature()));
   if(stagestop == "IOF") {
-    calgrp += PvlKeyword("OmegaNaught", std::to_string(gbl::mi->OmegaNaught()));
-    calgrp += PvlKeyword("SunAU", std::to_string(gbl::sunAU));
+    calgrp += PvlKeyword("OmegaNaught", toString(gbl::mi->OmegaNaught()));
+    calgrp += PvlKeyword("SunAU", toString(gbl::sunAU));
   }
 
 //write Radiometry group to the output cube.

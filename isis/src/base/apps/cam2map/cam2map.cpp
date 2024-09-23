@@ -66,10 +66,10 @@ namespace Isis {
     // Make the target info match the user mapfile
     double minlat, maxlat, minlon, maxlon;
     incam->GroundRange(minlat, maxlat, minlon, maxlon, userMap);
-    camGrp.addKeyword(PvlKeyword("MinimumLatitude", std::to_string(minlat)), Pvl::Replace);
-    camGrp.addKeyword(PvlKeyword("MaximumLatitude", std::to_string(maxlat)), Pvl::Replace);
-    camGrp.addKeyword(PvlKeyword("MinimumLongitude", std::to_string(minlon)), Pvl::Replace);
-    camGrp.addKeyword(PvlKeyword("MaximumLongitude", std::to_string(maxlon)), Pvl::Replace);
+    camGrp.addKeyword(PvlKeyword("MinimumLatitude", toString(minlat)), Pvl::Replace);
+    camGrp.addKeyword(PvlKeyword("MaximumLatitude", toString(maxlat)), Pvl::Replace);
+    camGrp.addKeyword(PvlKeyword("MinimumLongitude", toString(minlon)), Pvl::Replace);
+    camGrp.addKeyword(PvlKeyword("MaximumLongitude", toString(maxlon)), Pvl::Replace);
 
 
     // We want to delete the keywords we just added if the user wants the range
@@ -119,22 +119,22 @@ namespace Isis {
       // If the user decided to enter a ground range then override
       if ( ui.WasEntered("MINLON") ) {
         userGrp.addKeyword(PvlKeyword("MinimumLongitude",
-                                      std::to_string(ui.GetDouble("MINLON"))), Pvl::Replace);
+                                      toString(ui.GetDouble("MINLON"))), Pvl::Replace);
       }
 
       if ( ui.WasEntered("MAXLON") ) {
         userGrp.addKeyword(PvlKeyword("MaximumLongitude",
-                                      std::to_string(ui.GetDouble("MAXLON"))), Pvl::Replace);
+                                      toString(ui.GetDouble("MAXLON"))), Pvl::Replace);
       }
 
       if ( ui.WasEntered("MINLAT") ) {
         userGrp.addKeyword(PvlKeyword("MinimumLatitude",
-                                      std::to_string(ui.GetDouble("MINLAT"))), Pvl::Replace);
+                                      toString(ui.GetDouble("MINLAT"))), Pvl::Replace);
       }
 
       if ( ui.WasEntered("MAXLAT") ) {
         userGrp.addKeyword(PvlKeyword("MaximumLatitude",
-                                      std::to_string(ui.GetDouble("MAXLAT"))), Pvl::Replace);
+                                      toString(ui.GetDouble("MAXLAT"))), Pvl::Replace);
       }
 
       // If they want the res. from the mapfile, delete it from the camera so
@@ -164,7 +164,7 @@ namespace Isis {
       if (ui.WasEntered("PIXRES")) {
         if (ui.GetString("PIXRES") == "MPP") {
           userGrp.addKeyword(PvlKeyword("PixelResolution",
-                                        std::to_string(ui.GetDouble("RESOLUTION"))),
+                                        toString(ui.GetDouble("RESOLUTION"))),
                             Pvl::Replace);
           if (userGrp.hasKeyword("Scale")) {
             userGrp.deleteKeyword("Scale");
@@ -172,7 +172,7 @@ namespace Isis {
         }
         else if (ui.GetString("PIXRES") == "PPD") {
           userGrp.addKeyword(PvlKeyword("Scale",
-                                        std::to_string(ui.GetDouble("RESOLUTION"))),
+                                        toString(ui.GetDouble("RESOLUTION"))),
                             Pvl::Replace);
           if (userGrp.hasKeyword("PixelResolution")) {
             userGrp.deleteKeyword("PixelResolution");
@@ -205,16 +205,16 @@ namespace Isis {
             double minlat, maxlat, minlon, maxlon;
             incam->GroundRange(minlat, maxlat, minlon, maxlon, userMap);
             if (!ui.WasEntered("MINLAT")) {
-              userGrp.addKeyword(PvlKeyword("MinimumLatitude", std::to_string(minlat)), Pvl::Replace);
+              userGrp.addKeyword(PvlKeyword("MinimumLatitude", toString(minlat)), Pvl::Replace);
             }
             if (!ui.WasEntered("MAXLAT")) {
-              userGrp.addKeyword(PvlKeyword("MaximumLatitude", std::to_string(maxlat)), Pvl::Replace);
+              userGrp.addKeyword(PvlKeyword("MaximumLatitude", toString(maxlat)), Pvl::Replace);
             }
             if (!ui.WasEntered("MINLON")) {
-              userGrp.addKeyword(PvlKeyword("MinimumLongitude", std::to_string(minlon)), Pvl::Replace);
+              userGrp.addKeyword(PvlKeyword("MinimumLongitude", toString(minlon)), Pvl::Replace);
             }
             if (!ui.WasEntered("MAXLON")) {
-              userGrp.addKeyword(PvlKeyword("MaximumLongitude", std::to_string(maxlon)), Pvl::Replace);
+              userGrp.addKeyword(PvlKeyword("MaximumLongitude", toString(maxlon)), Pvl::Replace);
             }
           }
 
@@ -294,14 +294,14 @@ namespace Isis {
     // Create an alpha cube group for the output cube
     if (!ocube->hasGroup("AlphaCube")) {
       PvlGroup alpha("AlphaCube");
-      alpha += PvlKeyword("AlphaSamples", std::to_string(icube->sampleCount()));
-      alpha += PvlKeyword("AlphaLines", std::to_string(icube->lineCount()));
-      alpha += PvlKeyword("AlphaStartingSample", std::to_string(0.5));
-      alpha += PvlKeyword("AlphaStartingLine", std::to_string(0.5));
-      alpha += PvlKeyword("AlphaEndingSample", std::to_string(icube->sampleCount() + 0.5));
-      alpha += PvlKeyword("AlphaEndingLine", std::to_string(icube->lineCount() + 0.5));
-      alpha += PvlKeyword("BetaSamples", std::to_string(icube->sampleCount()));
-      alpha += PvlKeyword("BetaLines", std::to_string(icube->lineCount()));
+      alpha += PvlKeyword("AlphaSamples", toString(icube->sampleCount()));
+      alpha += PvlKeyword("AlphaLines", toString(icube->lineCount()));
+      alpha += PvlKeyword("AlphaStartingSample", toString(0.5));
+      alpha += PvlKeyword("AlphaStartingLine", toString(0.5));
+      alpha += PvlKeyword("AlphaEndingSample", toString(icube->sampleCount() + 0.5));
+      alpha += PvlKeyword("AlphaEndingLine", toString(icube->lineCount() + 0.5));
+      alpha += PvlKeyword("BetaSamples", toString(icube->sampleCount()));
+      alpha += PvlKeyword("BetaLines", toString(icube->lineCount()));
       ocube->putGroup(alpha);
     }
 

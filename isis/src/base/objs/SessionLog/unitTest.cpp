@@ -23,17 +23,17 @@ int main(int argc, char *argv[]) {
   try {
     PvlGroup results("Results");;
     results.addComment("// This is an example of the results group");
-    results += PvlKeyword("Average", std::to_string(13.5), "Meters");
+    results += PvlKeyword("Average", toString(13.5), "Meters");
     results[0].addComment("// Average size of a rock");
 
     Pvl error;
     PvlGroup temp("Error");
     temp += PvlKeyword("Program", "ratio");
     temp += PvlKeyword("Class", "I/O ERROR");
-    temp += PvlKeyword("Status", std::to_string(-1));
+    temp += PvlKeyword("Status", toString(-1));
     temp += PvlKeyword("Message", "Unable to open file");
     temp += PvlKeyword("File", "unitTest.cpp");
-    temp += PvlKeyword("Line", std::to_string(501));
+    temp += PvlKeyword("Line", toString(501));
     error.addGroup(temp);
     char **s_argv;
     s_argv = new char*[10];

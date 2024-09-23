@@ -65,7 +65,7 @@ namespace Isis {
     setName(QString::fromStdString(blob.Label()["Name"][0]));
     setType(QString::fromStdString(blob.Label()["StretchType"][0]));
     Parse(QString::fromStdString(stringFromBuffer));
-    setBandNumber(std::stoi(blob.Label()["BandNumber"][0]));
+    setBandNumber(IString::ToInteger(blob.Label()["BandNumber"][0]));
   }
 
 
@@ -86,7 +86,7 @@ namespace Isis {
 
     blob.Label()["Name"] = getName().toStdString();
     blob.Label() += PvlKeyword("StretchType", getType().toStdString());
-    blob.Label() += PvlKeyword("BandNumber", std::to_string(getBandNumber()));
+    blob.Label() += PvlKeyword("BandNumber", toString(getBandNumber()));
     std::string blobString = Text().toStdString();
     blob.setData(blobString.c_str(), blobString.size());
     return blob;

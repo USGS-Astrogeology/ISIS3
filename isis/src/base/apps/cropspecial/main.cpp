@@ -87,14 +87,14 @@ void IsisMain() {
 
   // Construct a label with the results
   PvlGroup results("Results");
-  results += PvlKeyword("InputLines", std::to_string(cube.lineCount()));
-  results += PvlKeyword("InputSamples", std::to_string(cube.sampleCount()));
-  results += PvlKeyword("StartingLine", std::to_string(g_minLine));
-  results += PvlKeyword("StartingSample", std::to_string(g_minSample));
-  results += PvlKeyword("EndingLine", std::to_string(g_maxLine));
-  results += PvlKeyword("EndingSample", std::to_string(g_maxSample));
-  results += PvlKeyword("OutputLines", std::to_string(g_numLines));
-  results += PvlKeyword("OutputSamples", std::to_string(g_numSamples));
+  results += PvlKeyword("InputLines", toString(cube.lineCount()));
+  results += PvlKeyword("InputSamples", toString(cube.sampleCount()));
+  results += PvlKeyword("StartingLine", toString(g_minLine));
+  results += PvlKeyword("StartingSample", toString(g_minSample));
+  results += PvlKeyword("EndingLine", toString(g_maxLine));
+  results += PvlKeyword("EndingSample", toString(g_maxSample));
+  results += PvlKeyword("OutputLines", toString(g_numLines));
+  results += PvlKeyword("OutputSamples", toString(g_numSamples));
 
   // Create a buffer for reading the input cube
   in = new LineManager(cube);

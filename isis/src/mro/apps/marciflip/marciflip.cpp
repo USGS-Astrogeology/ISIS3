@@ -52,7 +52,7 @@ namespace Isis {
             PvlGroup inst = icube->group("Instrument");
 
             // change flipped keyword
-            inst["DataFlipped"] = std::to_string(((int)inst["DataFlipped"] + 1) % 2);
+            inst["DataFlipped"] = toString(((int)inst["DataFlipped"] + 1) % 2);
 
             outputCube->label()->findObject("IsisCube").addGroup(inst);
         }

@@ -669,7 +669,7 @@ namespace Isis {
           if (bandBin.hasKeyword("Center")) {
             PvlKeyword &wavelength = bandBin.findKeyword("Center");
             if (wavelength.size() > (band - 1)) {
-              labels.push_back(std::stod(wavelength[band-1]));
+              labels.push_back(IString::ToDouble(wavelength[band-1]));
             }
           }
         }

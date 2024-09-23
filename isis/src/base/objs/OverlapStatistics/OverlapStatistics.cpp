@@ -200,26 +200,26 @@ namespace Isis {
       PvlObject o(name.toStdString());
       o += PvlKeyword("File1", FileNameX().name());
       o += PvlKeyword("File2", FileNameY().name());
-      o += PvlKeyword("Width", std::to_string(Samples()));
-      o += PvlKeyword("Height", std::to_string(Lines()));
-      o += PvlKeyword("Bands", std::to_string(Bands()));
-      o += PvlKeyword("SamplingPercent", std::to_string(SampPercent()));
-      o += PvlKeyword("MinCount", std::to_string(MinCount())); // Do we need this if EqInfo has this?
+      o += PvlKeyword("Width", toString(Samples()));
+      o += PvlKeyword("Height", toString(Lines()));
+      o += PvlKeyword("Bands", toString(Bands()));
+      o += PvlKeyword("SamplingPercent", toString(SampPercent()));
+      o += PvlKeyword("MinCount", toString(MinCount())); // Do we need this if EqInfo has this?
 
       // Create group for first file of overlap
       PvlGroup gX("File1");
-      PvlKeyword stsX("StartSample", std::to_string(StartSampleX()));
-      PvlKeyword ensX("EndSample", std::to_string(EndSampleX()));
-      PvlKeyword stlX("StartLine", std::to_string(StartLineX()));
-      PvlKeyword enlX("EndLine", std::to_string(EndLineX()));
+      PvlKeyword stsX("StartSample", toString(StartSampleX()));
+      PvlKeyword ensX("EndSample", toString(EndSampleX()));
+      PvlKeyword stlX("StartLine", toString(StartLineX()));
+      PvlKeyword enlX("EndLine", toString(EndLineX()));
       PvlKeyword avgX("Average");
       PvlKeyword stdX("StandardDeviation");
       PvlKeyword varX("Variance");
       for (int band = 1; band <= Bands(); band++) {
         if (HasOverlap(band)) {
-          avgX += std::to_string(GetMStats(band).X().Average());
-          stdX += std::to_string(GetMStats(band).X().StandardDeviation());
-          varX += std::to_string(GetMStats(band).X().Variance());
+          avgX += toString(GetMStats(band).X().Average());
+          stdX += toString(GetMStats(band).X().StandardDeviation());
+          varX += toString(GetMStats(band).X().Variance());
         }
       }
       gX += stsX;
@@ -232,18 +232,18 @@ namespace Isis {
 
       // Create group for second file of overlap
       PvlGroup gY("File2");
-      PvlKeyword stsY("StartSample", std::to_string(StartSampleY()));
-      PvlKeyword ensY("EndSample", std::to_string(EndSampleY()));
-      PvlKeyword stlY("StartLine", std::to_string(StartLineY()));
-      PvlKeyword enlY("EndLine", std::to_string(EndLineY()));
+      PvlKeyword stsY("StartSample", toString(StartSampleY()));
+      PvlKeyword ensY("EndSample", toString(EndSampleY()));
+      PvlKeyword stlY("StartLine", toString(StartLineY()));
+      PvlKeyword enlY("EndLine", toString(EndLineY()));
       PvlKeyword avgY("Average");
       PvlKeyword stdY("StandardDeviation");
       PvlKeyword varY("Variance");
       for (int band = 1; band <= Bands(); band++) {
         if (HasOverlap(band)) {
-          avgY += std::to_string(GetMStats(band).Y().Average());
-          stdY += std::to_string(GetMStats(band).Y().StandardDeviation());
-          varY += std::to_string(GetMStats(band).Y().Variance());
+          avgY += toString(GetMStats(band).Y().Average());
+          stdY += toString(GetMStats(band).Y().StandardDeviation());
+          varY += toString(GetMStats(band).Y().Variance());
         }
       }
       gY += stsY;

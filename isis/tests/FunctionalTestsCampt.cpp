@@ -88,9 +88,9 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
   EXPECT_NEAR( (double) groundPoint.findKeyword("PositiveWest360Longitude"), 104.10707141824, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("PositiveWest180Longitude"), 104.10707141824, 1e-8);
 
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("BodyFixedCoordinate")[0]), -818.59644749774, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("BodyFixedCoordinate")[1]), -3257.2675597135, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("BodyFixedCoordinate")[2]),  603.17640797124, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("BodyFixedCoordinate")[0]), -818.59644749774, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("BodyFixedCoordinate")[1]), -3257.2675597135, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("BodyFixedCoordinate")[2]),  603.17640797124, 1e-8);
 
   EXPECT_NEAR( (double) groundPoint.findKeyword("LocalRadius"), 3412288.6569795, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SampleResolution"), 18.904248467739, 1e-8);
@@ -100,9 +100,9 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
   EXPECT_NEAR( (double) groundPoint.findKeyword("ObliqueLineResolution"), 19.589652452595999, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("ObliqueSampleResolution"), 19.589652452595999, 1e-8);
 
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SpacecraftPosition")[0]), -1152.8979327717, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SpacecraftPosition")[1]), -3930.9421518203, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SpacecraftPosition")[2]),  728.14118380775, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("SpacecraftPosition")[0]), -1152.8979327717, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("SpacecraftPosition")[1]), -3930.9421518203, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("SpacecraftPosition")[2]),  728.14118380775, 1e-8);
 
   EXPECT_NEAR( (double) groundPoint.findKeyword("SpacecraftAzimuth"), 240.08514246657, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SlantDistance"), 762.37204454685, 1e-8);
@@ -113,9 +113,9 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
   EXPECT_NEAR( (double) groundPoint.findKeyword("OffNadirAngle"), 9.9273765143684, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SubSpacecraftGroundAzimuth"), 267.5318718687, 1e-8);
 
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SunPosition")[0]),  147591102.63158, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SunPosition")[1]), -127854342.1274, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("SunPosition")[2]), -81844199.02275, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("SunPosition")[0]),  147591102.63158, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("SunPosition")[1]), -127854342.1274, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("SunPosition")[2]), -81844199.02275, 1e-8);
 
   EXPECT_NEAR( (double) groundPoint.findKeyword("SubSolarAzimuth"), 92.033828156965, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SolarDistance"), 1.4153000672557, 1e-8);
@@ -133,17 +133,17 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
   EXPECT_NEAR( (double) groundPoint.findKeyword("LocalSolarTime"), 7.7862975330952, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SolarLongitude"), 294.73518830594998, 1e-8);
 
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionBodyFixed")[0]),  0.43850176257802, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionBodyFixed")[1]),  0.88365594846443, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionBodyFixed")[2]), -0.16391573737569, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("LookDirectionBodyFixed")[0]),  0.43850176257802, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("LookDirectionBodyFixed")[1]),  0.88365594846443, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("LookDirectionBodyFixed")[2]), -0.16391573737569, 1e-8);
 
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionJ2000")[0]),  0.44577814515745, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionJ2000")[1]), -0.52737586689974, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionJ2000")[2]), -0.72329561059897, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("LookDirectionJ2000")[0]),  0.44577814515745, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("LookDirectionJ2000")[1]), -0.52737586689974, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("LookDirectionJ2000")[2]), -0.72329561059897, 1e-8);
 
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionCamera")[0]), -1.27447324380581e-04, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionCamera")[1]),  2.5816511718707e-05, 1e-8);
-  EXPECT_NEAR( std::stod(groundPoint.findKeyword("LookDirectionCamera")[2]),  0.99999999154535, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("LookDirectionCamera")[0]), -1.27447324380581e-04, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("LookDirectionCamera")[1]),  2.5816511718707e-05, 1e-8);
+  EXPECT_NEAR(IString::ToDouble(groundPoint.findKeyword("LookDirectionCamera")[2]),  0.99999999154535, 1e-8);
 }
 
 TEST_F(DefaultCube, FunctionalTestCamptSetSL) {

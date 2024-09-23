@@ -468,9 +468,9 @@ namespace Isis {
 
         // Get and store the modifiers for each band
         for (int band = 1; band < normalization.keywords(); band++) {
-          adjustment->addGain(std::stod(normalization[band][0]));
-          adjustment->addOffset(std::stod(normalization[band][1]));
-          adjustment->addAverage(std::stod(normalization[band][2]));
+          adjustment->addGain(IString::ToDouble(normalization[band][0]));
+          adjustment->addOffset(IString::ToDouble(normalization[band][1]));
+          adjustment->addAverage(IString::ToDouble(normalization[band][2]));
         }
 
         addAdjustment(adjustment);
@@ -815,7 +815,7 @@ namespace Isis {
     m_mincnt = eqGen["MinCount"];
     m_wtopt = (eqGen["Weighted"][0] == "true") ? true : false;
     m_sType = static_cast<OverlapNormalization::SolutionType>((int)eqGen["SolutionType"]);
-    m_lsqMethod = static_cast<LeastSquares::SolveMethod>(std::stoi(eqGen["SolveMethod"][0]));
+    m_lsqMethod = static_cast<LeastSquares::SolveMethod>(IString::ToInteger(eqGen["SolveMethod"][0]));
 
     // Unserialize previous overlap statistics
     PvlObject::ConstPvlObjectIterator curObj = inStats.beginObject();

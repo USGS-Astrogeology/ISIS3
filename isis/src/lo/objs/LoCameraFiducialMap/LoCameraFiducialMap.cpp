@@ -61,10 +61,10 @@ namespace Isis {
       PvlKeyword &fYs = inst["FiducialYCoordinates"];
 
       for(int i = 0; i < fSamps.size(); i++) {
-        p_fidSamples.push_back(std::stod(fSamps[i]));
-        p_fidLines.push_back(std::stod(fLines[i]));
-        p_fidXCoords.push_back(std::stod(fXs[i]));
-        p_fidYCoords.push_back(std::stod(fYs[i]));
+        p_fidSamples.push_back(IString::ToDouble(fSamps[i]));
+        p_fidLines.push_back(IString::ToDouble(fLines[i]));
+        p_fidXCoords.push_back(IString::ToDouble(fXs[i]));
+        p_fidYCoords.push_back(IString::ToDouble(fYs[i]));
       }
     }
     catch(IException &e) {

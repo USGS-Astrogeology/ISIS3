@@ -219,9 +219,9 @@ namespace Isis {
     label.addObject(isisCube);
 
     PvlGroup &dim = label.findObject("IsisCube").findObject("Core").findGroup("Dimensions");
-    dim.findKeyword("Samples").setValue(std::to_string(samples));
-    dim.findKeyword("Lines").setValue(std::to_string(lines));
-    dim.findKeyword("Bands").setValue(std::to_string(bands));
+    dim.findKeyword("Samples").setValue(toString(samples));
+    dim.findKeyword("Lines").setValue(toString(lines));
+    dim.findKeyword("Bands").setValue(toString(bands));
 
     delete testCube;
     testCube = new Cube();
@@ -245,9 +245,9 @@ namespace Isis {
     projLabel.addObject(isisProjCube);
 
     PvlGroup &projDim = projLabel.findObject("IsisCube").findObject("Core").findGroup("Dimensions");
-    projDim.findKeyword("Samples").setValue(std::to_string(samples));
-    projDim.findKeyword("Lines").setValue(std::to_string(lines));
-    projDim.findKeyword("Bands").setValue(std::to_string(bands));
+    projDim.findKeyword("Samples").setValue(toString(samples));
+    projDim.findKeyword("Lines").setValue(toString(lines));
+    projDim.findKeyword("Bands").setValue(toString(bands));
 
     delete projTestCube;
     projTestCube = new Cube();

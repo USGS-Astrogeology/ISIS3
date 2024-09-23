@@ -57,8 +57,8 @@ void IsisMain() {
 
   // determine core base and multiplier, set up the stretch
   PvlGroup pix = icube->label()->findObject("IsisCube").findObject("Core").findGroup("Pixels");
-  double scale = std::stod(pix["Multiplier"][0]);
-  double base = std::stod(pix["Base"][0]);
+  double scale = IString::ToDouble(pix["Multiplier"][0]);
+  double base = IString::ToDouble(pix["Base"][0]);
 
   if (ui.GetString("STRETCH") != "NONE" && bitpix != "-32") {
     if (ui.GetString("STRETCH") == "LINEAR") {

@@ -85,7 +85,7 @@ namespace Isis{
               st = st.simplified().trimmed();
               QStringList cols = st.split(",");
 
-              origBand += std::to_string(band);
+              origBand += toString(band);
               widths += cols[2].toStdString();
               band++;
             }
@@ -111,7 +111,7 @@ namespace Isis{
         PvlKeyword bandName = PvlKeyword("BandName");
         PvlKeyword bandNames = labelPvl.findObject("IMAGE").findKeyword("BAND_NAME");
         for (int i = 0; i < bandNames.size(); i++) {
-          origBand += std::to_string(i + 1);
+          origBand += toString(i + 1);
           bandName += bandNames[i];
         }
         bandBin.addKeyword(origBand);
@@ -139,7 +139,7 @@ namespace Isis{
       PvlKeyword bandName = PvlKeyword("BandName");
       PvlKeyword bandNames = labelPvl.findObject("FILE").findObject("IMAGE").findKeyword("BAND_NAME");
       for (int i = 0; i < bandNames.size(); i++) {
-        origBand += std::to_string(i + 1);
+        origBand += toString(i + 1);
         bandName += bandNames[i];
       }
       bandBin.addKeyword(origBand);

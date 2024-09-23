@@ -94,7 +94,7 @@ namespace Isis{
       //Adjust Table-encoded values from 8 bit back to 12 bit.
       PvlGroup &inst = outputLabel->findGroup("Instrument", Pvl::Traverse);
       double biasStripMean = inst.findKeyword("BiasStripMean");
-      inst.findKeyword("BiasStripMean").setValue(std::to_string(stretch.Map(biasStripMean)));
+      inst.findKeyword("BiasStripMean").setValue(toString(stretch.Map(biasStripMean)));
       inst.findKeyword("BiasStripMean").addComment("BiasStripMean value converted back to 12 bit.");
       p.Progress()->SetText("Image was converted using 12-to-8 bit table. \nConverting prefix pixels back to 12 bit and saving line prefix data...");
     }
@@ -103,7 +103,7 @@ namespace Isis{
     if (inputLabel.hasKeyword("VALID_MAXIMUM")) {
       PvlKeyword labelValidMax = inputLabel.findKeyword("VALID_MAXIMUM");
       if (labelValidMax[1] != "UNK") {
-        validMax = std::stoi(labelValidMax[1]);
+        validMax = IString::ToInteger(labelValidMax[1]);
       }
     }
 
@@ -120,7 +120,7 @@ namespace Isis{
     int roo = *(header + 50 + vicarLabelBytes) / 32 % 2; //**** THIS MAY NEED TO BE CHANGED,
     // SEE BOTTOM OF THIS FILE FOR IN DEPTH COMMENTS ON READOUTORDER
     PvlGroup &inst = ocube->label()->findGroup("Instrument", Pvl::Traverse);
-    inst.addKeyword(PvlKeyword("ReadoutOrder", std::to_string(roo)));
+    inst.addKeyword(PvlKeyword("ReadoutOrder", toString(roo)));
     p.EndProcess();
 
     // PROCESS 2 : Do 8 bit to 12 bit conversion for image ==============================================//
@@ -291,17 +291,17 @@ namespace Isis{
 
     //Add units of measurement to keywords from translation table
     double exposureDuration = inst.findKeyword("ExposureDuration");
-    inst.findKeyword("ExposureDuration").setValue(std::to_string(exposureDuration), "Milliseconds");
+    inst.findKeyword("ExposureDuration").setValue(toString(exposureDuration), "Milliseconds");
 
     int gainModeId = inst.findKeyword("GainModeId");
-    inst.findKeyword("GainModeId").setValue(std::to_string(gainModeId), "ElectronsPerDN");
+    inst.findKeyword("GainModeId").setValue(toString(gainModeId), "ElectronsPerDN");
 
     PvlKeyword opticsTemp = inst.findKeyword("OpticsTemperature");
     inst.findKeyword("OpticsTemperature").setValue(opticsTemp[0]);
     inst.findKeyword("OpticsTemperature").addValue(opticsTemp[1], "DegreesCelcius");
 
     double instDataRate = inst.findKeyword("InstrumentDataRate");
-    inst.findKeyword("InstrumentDataRate").setValue(std::to_string(instDataRate), "KilobitsPerSecond");
+    inst.findKeyword("InstrumentDataRate").setValue(toString(instDataRate), "KilobitsPerSecond");
 
     //  initialize global variables
     dataConversionType = QString::fromStdString(inst.findKeyword("DataConversionType"));
@@ -365,8 +365,8 @@ namespace Isis{
     bandBin += PvlKeyword("OriginalBand", "1");
 
     if(foundfilter) {
-      bandBin += PvlKeyword("Center", std::to_string(center));
-      bandBin += PvlKeyword("Width", std::to_string(width));
+      bandBin += PvlKeyword("Center", toString(center));
+      bandBin += PvlKeyword("Width", toString(width));
     }
     else {
       PvlGroup msgGrp("Warnings");

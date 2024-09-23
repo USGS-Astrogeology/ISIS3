@@ -410,8 +410,8 @@ void IsisMain() {
     calibrationLog.addKeyword(PvlKeyword("DarkCurrentFile", darkCurrentFile.toStdString()));
   }
 
-  calibrationLog.addKeyword(PvlKeyword("BinnedImage", std::to_string((int)g_isBinnedData)));
-  calibrationLog.addKeyword(PvlKeyword("FilterNumber", std::to_string(g_filterNumber + 1)));
+  calibrationLog.addKeyword(PvlKeyword("BinnedImage", toString((int)g_isBinnedData)));
+  calibrationLog.addKeyword(PvlKeyword("FilterNumber", toString(g_filterNumber + 1)));
   if (g_applyFlatfield) {
     calibrationLog.addKeyword(PvlKeyword("FlatFieldFile",
                                          flatfield.originalPath() + "/" + flatfield.name()));
@@ -423,20 +423,20 @@ void IsisMain() {
                                        calibFile.originalPath() + "/" + calibFile.name()));
   calibrationLog.addKeyword(PvlKeyword("ResponsivityFile", respfile.toStdString()));
   calibrationLog.addKeyword(PvlKeyword("SmearCompFile", smearfile.toStdString()));
-  PvlKeyword rspKey("Response", std::to_string(rsp[0]));
+  PvlKeyword rspKey("Response", toString(rsp[0]));
   for (unsigned int i = 1; i < rsp.size(); i++) {
-    rspKey.addValue(std::to_string(rsp[i]));
+    rspKey.addValue(toString(rsp[i]));
   }
   calibrationLog.addKeyword(rspKey);
-  calibrationLog.addKeyword(PvlKeyword("SmearComponent", std::to_string(g_smearComponent)));
+  calibrationLog.addKeyword(PvlKeyword("SmearComponent", toString(g_smearComponent)));
 
   QString calibType;
   if (applyIOF  && validIOF) {
     calibrationLog.addKeyword(PvlKeyword("Units", "I over F"));
-    calibrationLog.addKeyword(PvlKeyword("SolarDistance", std::to_string(g_solarDist), "AU"));
+    calibrationLog.addKeyword(PvlKeyword("SolarDistance", toString(g_solarDist), "AU"));
     calibrationLog.addKeyword(PvlKeyword("SolarIrrFile", solirrfile.toStdString()));
-    calibrationLog.addKeyword(PvlKeyword("FilterIrradianceFactor", std::to_string(g_Ff)));
-    calibrationLog.addKeyword(PvlKeyword("IOFFactor", std::to_string(g_iof)));
+    calibrationLog.addKeyword(PvlKeyword("FilterIrradianceFactor", toString(g_Ff)));
+    calibrationLog.addKeyword(PvlKeyword("IOFFactor", toString(g_iof)));
     calibType = "IF";
   }
   else if (g_applyRadiometric) {
@@ -453,18 +453,18 @@ void IsisMain() {
   calibrationLog.addKeyword(PvlKeyword("EmpiricalCorrectionFactor", empiricalCorrectionFactor.toStdString()));
 
 
-  calibrationLog.addKeyword(PvlKeyword("DarkStripColumns", std::to_string(g_nDarkColumns)),
+  calibrationLog.addKeyword(PvlKeyword("DarkStripColumns", toString(g_nDarkColumns)),
                             Pvl::Replace);
-  calibrationLog.addKeyword(PvlKeyword("ValidDarkColumns", std::to_string(g_nValidDark)),
+  calibrationLog.addKeyword(PvlKeyword("ValidDarkColumns", toString(g_nValidDark)),
                             Pvl::Replace);
   if (g_darkStrip.TotalPixels() > 0) {
     double avgDark = (g_darkStrip.ValidPixels() > 0) ? g_darkStrip.Average() : 0.0;
-    calibrationLog.addKeyword(PvlKeyword("DarkStripMean", std::to_string(avgDark)),
+    calibrationLog.addKeyword(PvlKeyword("DarkStripMean", toString(avgDark)),
                                          Pvl::Replace);
   }
 
   // Report nulled sample count
-  calibrationLog.addKeyword(PvlKeyword("LeftSamplesNulled", std::to_string(g_nSampsToNull)));
+  calibrationLog.addKeyword(PvlKeyword("LeftSamplesNulled", toString(g_nSampsToNull)));
 
   // Handle updates of ProductId and SourceProduct Id keywords
   PvlGroup& archive = ocube->group("Archive");

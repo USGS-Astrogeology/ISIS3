@@ -297,7 +297,7 @@ namespace Isis {
     hist.addGroup( cmdLine.findGroup("UserParameters") );
 
     // See if we have exceeded history length
-    while( hist.groups() > std::stoi(grp["HistoryLength"][0]) ) {
+    while( hist.groups() > IString::ToInteger(grp["HistoryLength"][0]) ) {
       hist.deleteGroup("UserParameters");
     }
 

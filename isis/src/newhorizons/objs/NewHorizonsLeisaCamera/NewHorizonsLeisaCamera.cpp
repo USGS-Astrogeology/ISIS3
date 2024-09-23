@@ -91,7 +91,7 @@ namespace Isis {
     PvlGroup &bandBin = lab.findGroup("BandBin", Pvl::Traverse);
     PvlKeyword &orgBand = bandBin["OriginalBand"];
     for (int i = 0; i < orgBand.size(); i++) {
-      m_originalBand.append(std::stoi(orgBand[i]));
+      m_originalBand.append(IString::ToInteger(orgBand[i]));
     }
 
     // Use the defualt no correction distortion map.

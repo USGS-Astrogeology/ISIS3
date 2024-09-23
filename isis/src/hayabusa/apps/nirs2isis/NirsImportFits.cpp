@@ -129,16 +129,16 @@ namespace Isis {
     m_label = parseLabel(input, fitsLabelName);
 
     //  Get data dimensions
-    int naxis = std::stoi(m_label["NAXIS"][0]);
+    int naxis = IString::ToInteger(m_label["NAXIS"][0]);
     if (naxis == 2) {
-      m_samples = std::stoi(m_label["NAXIS1"][0]);
-      m_lines = std::stoi(m_label["NAXIS2"][0]);
+      m_samples = IString::ToInteger(m_label["NAXIS1"][0]);
+      m_lines = IString::ToInteger(m_label["NAXIS2"][0]);
       m_bands = 1;
     }
     else if (naxis == 3) {
-      m_samples = std::stoi(m_label["NAXIS1"][0]);
-      m_lines = std::stoi(m_label["NAXIS2"][0]);
-      m_bands = std::stoi(m_label["NAXIS3"][0]);
+      m_samples = IString::ToInteger(m_label["NAXIS1"][0]);
+      m_lines = IString::ToInteger(m_label["NAXIS2"][0]);
+      m_bands = IString::ToInteger(m_label["NAXIS3"][0]);
     }
     else {
       std::string msg = "NAXIS count of [" + m_label["NAXIS"][0] +

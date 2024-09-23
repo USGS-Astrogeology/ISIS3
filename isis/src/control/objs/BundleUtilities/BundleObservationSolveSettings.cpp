@@ -202,7 +202,7 @@ namespace Isis {
       if (scParameterGroup.hasKeyword("ADDITIONAL_CAMERA_POINTING_SIGMAS")) {
         PvlKeyword additionalSigmas = scParameterGroup.findKeyword("ADDITIONAL_CAMERA_POINTING_SIGMAS");
         for (int i = 0; i < additionalSigmas.size(); i++ ) {
-          m_anglesAprioriSigma.append(std::stod(additionalSigmas[i]));
+          m_anglesAprioriSigma.append(IString::ToDouble(additionalSigmas[i]));
         }
       }
     }
@@ -229,7 +229,7 @@ namespace Isis {
       if (scParameterGroup.hasKeyword("ADDITIONAL_SPACECRAFT_POSITION_SIGMAS")) {
         PvlKeyword additionalSigmas = scParameterGroup.findKeyword("ADDITIONAL_SPACECRAFT_POSITION_SIGMAS");
         for (int i = 0; i < additionalSigmas.size(); i++ ) {
-          m_positionAprioriSigma.append(std::stod(additionalSigmas[i]));
+          m_positionAprioriSigma.append(IString::ToDouble(additionalSigmas[i]));
         }
       }
     }

@@ -65,7 +65,7 @@ namespace Isis {
 
         if (threadsPreference != "optimized") {
           // We need a no-iException conversion here
-          int threads = std::stoi(threadsPreference);
+          int threads = IString::ToInteger(threadsPreference);
 
           if (threads > 0) {
             QThreadPool::globalInstance()->setMaxThreadCount(threads);

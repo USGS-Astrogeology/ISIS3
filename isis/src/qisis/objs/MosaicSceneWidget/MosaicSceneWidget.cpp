@@ -357,9 +357,9 @@ namespace Isis {
         cam->radii(radii);
 
         mappingGrp += PvlKeyword("TargetName", cam->target()->name().toStdString());
-        mappingGrp += PvlKeyword("EquatorialRadius", std::to_string(radii[0].meters()),
+        mappingGrp += PvlKeyword("EquatorialRadius", toString(radii[0].meters()),
                                  "meters");
-        mappingGrp += PvlKeyword("PolarRadius", std::to_string(radii[2].meters()),
+        mappingGrp += PvlKeyword("PolarRadius", toString(radii[2].meters()),
                                  "meters");
 
       }
@@ -535,8 +535,8 @@ namespace Isis {
       mosaicScenePosition += PvlKeyword("ViewTransform",
                                         std::string(dataBuffer.data().toHex()));
       PvlKeyword scrollPos("ScrollPosition");
-      scrollPos += std::to_string(getView()->horizontalScrollBar()->value());
-      scrollPos += std::to_string(getView()->verticalScrollBar()->value());
+      scrollPos += toString(getView()->horizontalScrollBar()->value());
+      scrollPos += toString(getView()->verticalScrollBar()->value());
       mosaicScenePosition += scrollPos;
 
       output += mosaicScenePosition;
@@ -554,7 +554,7 @@ namespace Isis {
       foreach(MosaicSceneItem * mosaicSceneItem, *m_mosaicSceneItems) {
         PvlKeyword zValue("ZValue");
         zValue += mosaicSceneItem->image()->id().toStdString();
-        zValue += std::to_string(mosaicSceneItem->zValue());
+        zValue += toString(mosaicSceneItem->zValue());
         zOrders += zValue;
       }
 
@@ -601,7 +601,7 @@ namespace Isis {
              zOrderIndex ++) {
           const PvlKeyword &zOrder = zOrders[zOrderIndex];
 
-          (*m_projectImageZOrders)[QString::fromStdString(zOrder[0])] = std::stod(zOrder[1]);
+          (*m_projectImageZOrders)[QString::fromStdString(zOrder[0])] = IString::ToDouble(zOrder[1]);
         }
       }
 
@@ -1377,8 +1377,8 @@ namespace Isis {
       transformStream >> viewTransform;
       getView()->setTransform(viewTransform);
 
-      QPoint projectScrollPos(std::stoi(positionInfo["ScrollPosition"][0]),
-                              std::stoi(positionInfo["ScrollPosition"][1]));
+      QPoint projectScrollPos(IString::ToInteger(positionInfo["ScrollPosition"][0]),
+                              IString::ToInteger(positionInfo["ScrollPosition"][1]));
 
       getView()->horizontalScrollBar()->setValue(projectScrollPos.x());
       getView()->verticalScrollBar()->setValue(projectScrollPos.y());

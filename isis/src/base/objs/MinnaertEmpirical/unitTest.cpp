@@ -81,9 +81,9 @@ int main() {
   PvlKeyword phaseCurveList("PhaseCurveList");
 
   for (int i=0; i < 15; i++) {
-    phaseList += std::to_string(i*10);
-    kList += std::to_string(i*0.1); 
-    phaseCurveList += std::to_string(i*0.3);
+    phaseList += toString(i*10);
+    kList += toString(i*0.1); 
+    phaseCurveList += toString(i*0.3);
   }
 
   algOtherFormat += phaseList; 

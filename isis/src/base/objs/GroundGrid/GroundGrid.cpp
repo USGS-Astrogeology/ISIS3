@@ -98,7 +98,7 @@ namespace Isis {
         Distance::Meters);
 
     if (p_mapping->hasKeyword("MinimumLatitude")) {
-      p_minLat = new Latitude(std::stod((*p_mapping)["MinimumLatitude"][0]), 
+      p_minLat = new Latitude(IString::ToDouble((*p_mapping)["MinimumLatitude"][0]), 
                               *p_mapping,
                               Angle::Degrees, 
                               Latitude::AllowPastPole);
@@ -108,7 +108,7 @@ namespace Isis {
     }
 
     if (p_mapping->hasKeyword("MaximumLatitude")) {
-      p_maxLat = new Latitude(std::stod((*p_mapping)["MaximumLatitude"][0]), 
+      p_maxLat = new Latitude(IString::ToDouble((*p_mapping)["MaximumLatitude"][0]), 
                               *p_mapping,
                               Angle::Degrees);
     }
@@ -117,7 +117,7 @@ namespace Isis {
     }
 
     if (p_mapping->hasKeyword("MinimumLongitude")) {
-      p_minLon = new Longitude(std::stod((*p_mapping)["MinimumLongitude"][0]), 
+      p_minLon = new Longitude(IString::ToDouble((*p_mapping)["MinimumLongitude"][0]), 
                                *p_mapping,
                                Angle::Degrees);
     }
@@ -126,7 +126,7 @@ namespace Isis {
     }
 
     if (p_mapping->hasKeyword("MaximumLongitude")) {
-      p_maxLon = new Longitude(std::stod((*p_mapping)["MaximumLongitude"][0]), 
+      p_maxLon = new Longitude(IString::ToDouble((*p_mapping)["MaximumLongitude"][0]), 
                                *p_mapping,
                                Angle::Degrees);
     }

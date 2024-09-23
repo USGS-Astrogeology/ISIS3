@@ -29,7 +29,7 @@ void IsisMain() {
       numErrors++;
     }
   }
-  PvlKeyword errors("TotalErrors", std::to_string(numErrors));
+  PvlKeyword errors("TotalErrors", toString(numErrors));
   output.addKeyword(errors);
   // write output to file
   if(!append) {

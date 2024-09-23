@@ -29,25 +29,25 @@ void IsisMain() {
 
   // Setup and log results
   PvlGroup results("Range");
-  results += PvlKeyword("MinimumRightAscension", std::to_string(minRa), "degrees");
-  results += PvlKeyword("MaximumRightAscension", std::to_string(maxRa), "degrees");
-  results += PvlKeyword("MinimumDeclination", std::to_string(minDec), "degrees");
-  results += PvlKeyword("MaximumDeclination", std::to_string(maxDec), "degrees");
+  results += PvlKeyword("MinimumRightAscension", toString(minRa), "degrees");
+  results += PvlKeyword("MaximumRightAscension", toString(maxRa), "degrees");
+  results += PvlKeyword("MinimumDeclination", toString(minDec), "degrees");
+  results += PvlKeyword("MaximumDeclination", toString(maxDec), "degrees");
   results += PvlKeyword("MinimumRightAscension", Projection::ToHMS(minRa).toStdString(), "hms");
   results += PvlKeyword("MaximumRightAscension", Projection::ToHMS(maxRa).toStdString(), "hms");
   results += PvlKeyword("MinimumDeclination", Projection::ToDMS(minDec).toStdString(), "dms");
   results += PvlKeyword("MaximumDeclination", Projection::ToDMS(maxDec).toStdString(), "dms");
-  results += PvlKeyword("Resolution", std::to_string(res), "degrees/pixel");
+  results += PvlKeyword("Resolution", toString(res), "degrees/pixel");
   Application::Log(results);
 
   // Setup and log orientation
   PvlGroup orient("Orientation");
-  orient += PvlKeyword("CenterSample", std::to_string(icube->sampleCount() / 2.0));
-  orient += PvlKeyword("CenterLine", std::to_string(icube->lineCount() / 2.0));
-  orient += PvlKeyword("CenterRightAscension", std::to_string(centerRa), "degrees");
-  orient += PvlKeyword("CenterDeclination", std::to_string(centerDec), "degrees");
-  orient += PvlKeyword("CelestialNorthClockAngle", std::to_string(rot), "degrees");
-  orient += PvlKeyword("Resolution", std::to_string(res), "degrees/pixel");
+  orient += PvlKeyword("CenterSample", toString(icube->sampleCount() / 2.0));
+  orient += PvlKeyword("CenterLine", toString(icube->lineCount() / 2.0));
+  orient += PvlKeyword("CenterRightAscension", toString(centerRa), "degrees");
+  orient += PvlKeyword("CenterDeclination", toString(centerDec), "degrees");
+  orient += PvlKeyword("CelestialNorthClockAngle", toString(rot), "degrees");
+  orient += PvlKeyword("Resolution", toString(res), "degrees/pixel");
   Application::Log(orient);
 
   // Write the output file if requested

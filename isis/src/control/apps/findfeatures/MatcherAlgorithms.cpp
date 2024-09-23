@@ -132,7 +132,7 @@ namespace Isis {
 
     //  Shall we throw an exception to report the issues?
     if ( (0 < nerrors) && (true == throwOnErrors)) {
-      std::string mess = "There were " + std::to_string(nerrors) +
+      std::string mess = "There were " + toString(nerrors) +
                      " errors found in this matcher algorithm set";
       ie.append(IException(IException::Programmer, mess, _FILEINFO_));
       throw ie;

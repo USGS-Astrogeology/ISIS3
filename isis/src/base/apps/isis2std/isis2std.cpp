@@ -138,8 +138,8 @@ namespace Isis  {
   void addResults(PvlGroup &results, ImageExporter *exporter,
       QString channel, int index) {
 
-    results += PvlKeyword(channel.toStdString() + "InputMinimum", std::to_string(exporter->inputMinimum(index)));
-    results += PvlKeyword(channel.toStdString() + "InputMaximum", std::to_string(exporter->inputMaximum(index)));
+    results += PvlKeyword(channel.toStdString() + "InputMinimum", toString(exporter->inputMinimum(index)));
+    results += PvlKeyword(channel.toStdString() + "InputMaximum", toString(exporter->inputMaximum(index)));
   }
 
 }

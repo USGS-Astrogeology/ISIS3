@@ -99,9 +99,9 @@ namespace Isis {
     Brick brick(dim,dim,1,cube.pixelType());
     int width = ui.GetInteger("WIDTH");
     for (int res=0; res<numres; res++) {
-      if ((resvalid == 0 || std::stoi(valid[res]) == 1)) {
-        int baseSamp = (int)(std::stod(samps[res])+0.5) - (dim/2);
-        int baseLine = (int)(std::stod(lines[res])+0.5) - (dim/2);
+      if ((resvalid == 0 || IString::ToInteger(valid[res]) == 1)) {
+        int baseSamp = (int)(IString::ToDouble(samps[res])+0.5) - (dim/2);
+        int baseLine = (int)(IString::ToDouble(lines[res])+0.5) - (dim/2);
         brick.SetBasePosition(baseSamp,baseLine,1);
         cube.read(brick);
         if (action == "NULL") {

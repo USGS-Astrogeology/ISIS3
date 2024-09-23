@@ -116,9 +116,9 @@ namespace Isis {
         pvl.addComment("  F(phase) =  A0*exp(B0*phase) + A1*exp(B1*phase) + ... + An*exp(Bn*phase)");
 
         pvl += PvlKeyword("Algorithm", "Exponential");
-        pvl += PvlKeyword("IncRef", std::to_string(m_iRef), "degrees");
-        pvl += PvlKeyword("EmaRef", std::to_string(m_eRef), "degrees");
-        pvl += PvlKeyword("PhaRef", std::to_string(m_gRef), "degrees");
+        pvl += PvlKeyword("IncRef", toString(m_iRef), "degrees");
+        pvl += PvlKeyword("EmaRef", toString(m_eRef), "degrees");
+        pvl += PvlKeyword("PhaRef", toString(m_gRef), "degrees");
         PvlKeyword units("ExponentialUnits");
         PvlKeyword phostd("PhotometricStandard");
         PvlKeyword bbc("BandBinCenter");
@@ -128,21 +128,21 @@ namespace Isis {
         std::vector < PvlKeyword > aTermKeywords;
         std::vector < PvlKeyword > bTermKeywords;
         for (unsigned int i = 0; i < m_bandpho[0].aTerms.size(); i++)
-            aTermKeywords.push_back(PvlKeyword("A" + std::to_string((int) i)));
+            aTermKeywords.push_back(PvlKeyword("A" + toString((int) i)));
         for (unsigned int i = 0; i < m_bandpho[0].bTerms.size(); i++)
-            bTermKeywords.push_back(PvlKeyword("B" + std::to_string((int) i)));
+            bTermKeywords.push_back(PvlKeyword("B" + toString((int) i)));
 
         for (unsigned int i = 0; i < m_bandpho.size(); i++) {
             Parameters &p = m_bandpho[i];
             units.addValue(p.units.toStdString());
-            phostd.addValue(std::to_string(p.phoStd));
-            bbc.addValue(std::to_string(p.wavelength));
-            bbct.addValue(std::to_string(p.tolerance));
-            bbn.addValue(std::to_string(p.band));
+            phostd.addValue(toString(p.phoStd));
+            bbc.addValue(toString(p.wavelength));
+            bbct.addValue(toString(p.tolerance));
+            bbn.addValue(toString(p.band));
             for (unsigned int j = 0; j < aTermKeywords.size(); j++)
-                aTermKeywords[j].addValue(std::to_string(p.aTerms[j]));
+                aTermKeywords[j].addValue(toString(p.aTerms[j]));
             for (unsigned int j = 0; j < bTermKeywords.size(); j++)
-                bTermKeywords[j].addValue(std::to_string(p.bTerms[j]));
+                bTermKeywords[j].addValue(toString(p.bTerms[j]));
         }
         pvl += units;
         pvl += phostd;
@@ -268,7 +268,7 @@ namespace Isis {
         PvlKeyword center = label->findGroup("BandBin", Pvl::Traverse)["Center"];
         std::string errs("");
         for (int i = 0; i < cube.bandCount(); i++) {
-            Parameters parms = findParameters(std::stod(center[i]));
+            Parameters parms = findParameters(IString::ToDouble(center[i]));
             if (parms.IsValid()) {
                 parms.band = i + 1;
                 //_camera->SetBand(i + 1);

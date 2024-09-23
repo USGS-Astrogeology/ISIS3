@@ -53,7 +53,7 @@ inline void validateUnit(PvlKeyword &key, const QString &kunit) {
   for (int i = 0; i < temp.size(); i++) {
     try {
       //  If this works, check unit, otherwise an exception is thrown
-      (void) std::stod(temp[i]);
+      (void)IString::ToDouble(temp[i]);
       QString unit =  QString::fromStdString(temp.unit(i));
       if (unit.isEmpty()) unit = kunit;
       key.addValue(temp[i], unit.toStdString());

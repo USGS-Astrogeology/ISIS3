@@ -117,18 +117,18 @@ namespace Isis {
       // Construct a label with the results
       PvlGroup results("Results");
       results += PvlKeyword("From", cube->fileName().toStdString());
-      results += PvlKeyword("Band", std::to_string(cube->physicalBand(i)));
+      results += PvlKeyword("Band", toString(cube->physicalBand(i)));
       if ( stats->ValidPixels() != 0 ) {
-        results += PvlKeyword("Average", std::to_string(stats->Average()));
-        results += PvlKeyword("StandardDeviation", std::to_string(stats->StandardDeviation()));
-        results += PvlKeyword("Variance", std::to_string(stats->Variance()));
+        results += PvlKeyword("Average", toString(stats->Average()));
+        results += PvlKeyword("StandardDeviation", toString(stats->StandardDeviation()));
+        results += PvlKeyword("Variance", toString(stats->Variance()));
         // These statistics only worked on a histogram
-        results += PvlKeyword("Median", std::to_string(stats->Median()));
-        results += PvlKeyword("Mode", std::to_string(stats->Mode()));
-        results += PvlKeyword("Skew", std::to_string(stats->Skew()));
-        results += PvlKeyword("Minimum", std::to_string(stats->Minimum()));
-        results += PvlKeyword("Maximum", std::to_string(stats->Maximum()));
-        results += PvlKeyword("Sum", std::to_string(stats->Sum()));
+        results += PvlKeyword("Median", toString(stats->Median()));
+        results += PvlKeyword("Mode", toString(stats->Mode()));
+        results += PvlKeyword("Skew", toString(stats->Skew()));
+        results += PvlKeyword("Minimum", toString(stats->Minimum()));
+        results += PvlKeyword("Maximum", toString(stats->Maximum()));
+        results += PvlKeyword("Sum", toString(stats->Sum()));
       }
       else {
         results += PvlKeyword("Average", "N/A");
@@ -141,15 +141,15 @@ namespace Isis {
         results += PvlKeyword("Maximum", "N/A");
         results += PvlKeyword("Sum", "N/A");
       }
-      results += PvlKeyword("TotalPixels", std::to_string(stats->TotalPixels()));
-      results += PvlKeyword("ValidPixels", std::to_string(stats->ValidPixels()));
-      results += PvlKeyword("OverValidMaximumPixels", std::to_string(stats->OverRangePixels()));
-      results += PvlKeyword("UnderValidMinimumPixels", std::to_string(stats->UnderRangePixels()));
-      results += PvlKeyword("NullPixels", std::to_string(stats->NullPixels()));
-      results += PvlKeyword("LisPixels", std::to_string(stats->LisPixels()));
-      results += PvlKeyword("LrsPixels", std::to_string(stats->LrsPixels()));
-      results += PvlKeyword("HisPixels", std::to_string(stats->HisPixels()));
-      results += PvlKeyword("HrsPixels", std::to_string(stats->HrsPixels()));
+      results += PvlKeyword("TotalPixels", toString(stats->TotalPixels()));
+      results += PvlKeyword("ValidPixels", toString(stats->ValidPixels()));
+      results += PvlKeyword("OverValidMaximumPixels", toString(stats->OverRangePixels()));
+      results += PvlKeyword("UnderValidMinimumPixels", toString(stats->UnderRangePixels()));
+      results += PvlKeyword("NullPixels", toString(stats->NullPixels()));
+      results += PvlKeyword("LisPixels", toString(stats->LisPixels()));
+      results += PvlKeyword("LrsPixels", toString(stats->LrsPixels()));
+      results += PvlKeyword("HisPixels", toString(stats->HisPixels()));
+      results += PvlKeyword("HrsPixels", toString(stats->HrsPixels()));
 
       statsPvl.addGroup(results);
 

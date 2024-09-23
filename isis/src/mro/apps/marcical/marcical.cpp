@@ -256,9 +256,9 @@ namespace Isis {
 
     vector<Cube *> flatcubes;
     vector<LineManager *> fcubeMgrs;
-    int summing = std::stoi(icube.group("Instrument")["SummingMode"][0]);
-    double ifdelay = std::stod(icube.group("Instrument")["InterframeDelay"][0]) * 1000.0;
-    int flipped = std::stoi(icube.group("Instrument")["DataFlipped"][0]);
+    int summing = IString::ToInteger(icube.group("Instrument")["SummingMode"][0]);
+    double ifdelay = IString::ToDouble(icube.group("Instrument")["InterframeDelay"][0]) * 1000.0;
+    int flipped = IString::ToInteger(icube.group("Instrument")["DataFlipped"][0]);
 
     // Read in the flat files
     for (int band = 0; band < 7; band++) {
@@ -330,12 +330,12 @@ namespace Isis {
     }
 
     PvlKeyword &sumMode = icube.label()->findGroup("Instrument", Pvl::Traverse)["SummingMode"];
-    int summingMode = std::stoi(sumMode[0]);
+    int summingMode = IString::ToInteger(sumMode[0]);
     int filterHeight = 16 / summingMode;
     std::vector<int> padding;
     padding.resize(numFilters);
     PvlKeyword &colOff = icube.label()->findGroup("Instrument", Pvl::Traverse)["ColorOffset"];
-    int colorOffset = std::stoi(colOff[0]);
+    int colorOffset = IString::ToInteger(colOff[0]);
 
     for (int i = 0; i < numFilters; i++) {
       if (colorOffset > 0) {
@@ -377,9 +377,9 @@ namespace Isis {
     PvlKeyword expTimesKey = inst["VariableExposureDuration"];
     PvlKeyword frameNumbersKey = inst["FrameNumber"];
     for (int i=0; i<expTimesKey.size(); i++) {
-      if (std::stoi(frameNumbersKey[i]) != 0) {
-        exptime.push_back(std::stod(expTimesKey[i]));
-        frameseq.push_back(std::stoi(frameNumbersKey[i]));
+      if (IString::ToInteger(frameNumbersKey[i]) != 0) {
+        exptime.push_back(IString::ToDouble(expTimesKey[i]));
+        frameseq.push_back(IString::ToInteger(frameNumbersKey[i]));
       }
     }
 

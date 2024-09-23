@@ -692,8 +692,8 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   Distance targetRadii[3];
   if (input->label()->hasGroup("Mapping")) {
     PvlGroup &mappingGroup = input->label()->findGroup("Mapping");
-    targetRadii[0].setMeters(std::stod(mappingGroup["EquatorialRadius"][0]));
-    targetRadii[2].setMeters(std::stod(mappingGroup["PolarRadius"][0]));
+    targetRadii[0].setMeters(IString::ToDouble(mappingGroup["EquatorialRadius"][0]));
+    targetRadii[2].setMeters(IString::ToDouble(mappingGroup["PolarRadius"][0]));
   }
   else {
     try {

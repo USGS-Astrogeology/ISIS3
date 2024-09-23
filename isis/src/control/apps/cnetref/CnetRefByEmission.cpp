@@ -197,24 +197,24 @@ namespace Isis {
         int iComment = 0;
         if (numMeasures == 0) {
           std::string sComment = "Comment";
-          sComment += std::to_string(++iComment);
+          sComment += toString(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "No Measures in the Point");
         }
 
         if (newPnt->IsIgnored()) {
           std::string sComment = "Comment";
-          sComment += std::to_string(++iComment);
+          sComment += toString(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Point was originally Ignored");
         }
 
         if (origPnt.GetType() == ControlPoint::Fixed) {
           std::string sComment = "Comment";
-          sComment += std::to_string(++iComment);
+          sComment += toString(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Fixed Point");
         }
         else if (newPnt->GetType() == ControlPoint::Constrained) {
           std::string sComment = "Comment";
-          sComment += std::to_string(++iComment);
+          sComment += toString(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Constrained Point");
         }
 
@@ -246,7 +246,7 @@ namespace Isis {
           pvlRefChangeGrp += Isis::PvlKeyword("PrevSerialNumber",
               origPnt.GetReferenceSN().toStdString());
           pvlRefChangeGrp += Isis::PvlKeyword("PrevEmAngle",
-              std::to_string(bestEmissionAngle[iRefIndex]));
+              toString(bestEmissionAngle[iRefIndex]));
 
           istrTemp = QString::number((int)origPnt.GetMeasure(iRefIndex)->GetSample());
           istrTemp += ",";
@@ -260,7 +260,7 @@ namespace Isis {
         pvlRefChangeGrp += Isis::PvlKeyword("NewSerialNumber",
             newPnt->GetMeasure(iBestIndex)->GetCubeSerialNumber().toStdString());
         pvlRefChangeGrp += Isis::PvlKeyword("NewLeastEmAngle",
-            std::to_string(bestEmissionAngle[iBestIndex]));
+            toString(bestEmissionAngle[iBestIndex]));
 
         istrTemp = QString::number((int)newPnt->GetMeasure(iBestIndex)->GetSample());
         istrTemp += ",";
@@ -278,9 +278,9 @@ namespace Isis {
     }// end Point
 
     // CnetRef Change Statistics
-    mStatisticsGrp += Isis::PvlKeyword("PointsModified",   std::to_string(iPointsModified));
-    mStatisticsGrp += Isis::PvlKeyword("ReferenceChanged", std::to_string(iRefChanged));
-    mStatisticsGrp += Isis::PvlKeyword("MeasuresModified", std::to_string(iMeasuresModified));
+    mStatisticsGrp += Isis::PvlKeyword("PointsModified",   toString(iPointsModified));
+    mStatisticsGrp += Isis::PvlKeyword("ReferenceChanged", toString(iRefChanged));
+    mStatisticsGrp += Isis::PvlKeyword("MeasuresModified", toString(iMeasuresModified));
 
     mPvlLog += mStatisticsGrp;
   }

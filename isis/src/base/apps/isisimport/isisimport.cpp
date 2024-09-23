@@ -386,9 +386,9 @@ namespace Isis {
 
     // Set everything needed by ProcessImport
     PvlGroup dimensions = newLabel.findObject("IsisCube").findObject("Core").findGroup("Dimensions");
-    int ns = std::stoi(dimensions["Samples"]);
-    int nl = std::stoi(dimensions["Lines"]);
-    int nb = std::stoi(dimensions["Bands"]);
+    int ns = IString::ToInteger(dimensions["Samples"]);
+    int nl = IString::ToInteger(dimensions["Lines"]);
+    int nb = IString::ToInteger(dimensions["Bands"]);
     importer.SetDimensions(ns, nl, nb);
 
     PvlGroup pixels = newLabel.findObject("IsisCube").findObject("Core").findGroup("Pixels");
@@ -417,7 +417,7 @@ namespace Isis {
 
       if (dataFilePointer.size() == 1) {
         try {
-          offset = std::stoi(dataFilePointer) - 1;
+          offset = IString::ToInteger(dataFilePointer) - 1;
           units = QString::fromStdString(dataFilePointer.unit());
         }
         catch(IException &e) {
@@ -428,7 +428,7 @@ namespace Isis {
         }
       }
       else if (dataFilePointer.size() == 2) {
-        offset = std::stoi(dataFilePointer[1]) - 1;
+        offset = IString::ToInteger(dataFilePointer[1]) - 1;
         units = QString::fromStdString(dataFilePointer.unit(1));
       }
       else {
@@ -445,7 +445,7 @@ namespace Isis {
       }
       else {
         if (translation.hasKeyword("DataFileRecordBytes")) {
-          recSize = std::stoi(translation["DataFileRecordBytes"]);
+          recSize = IString::ToInteger(translation["DataFileRecordBytes"]);
         }
       }
       importer.SetFileHeaderBytes(offset * recSize);
@@ -471,14 +471,14 @@ namespace Isis {
     // Processing unique to mroctx
     if (translation.hasKeyword("DataPrefixBytes")) {
       importer.SetDataPrefixBytes(translation["DataPrefixBytes"]);
-      if (std::stoi(translation["DataPrefixBytes"]) > 0) {
+      if (IString::ToInteger(translation["DataPrefixBytes"]) > 0) {
         importer.SaveDataPrefix();
       }
     }
 
     if (translation.hasKeyword("DataSuffixBytes")) {
       importer.SetDataSuffixBytes(translation["DataSuffixBytes"]);
-      if (std::stoi(translation["DataSuffixBytes"]) > 0) {
+      if (IString::ToInteger(translation["DataSuffixBytes"]) > 0) {
         importer.SaveDataSuffix();
       }
     }

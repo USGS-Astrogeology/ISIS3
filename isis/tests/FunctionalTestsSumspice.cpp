@@ -42,8 +42,8 @@ TEST(Sumspice, FunctionalTestSumspiceTimeUpdate) {
   // SumTimeHistory Group
   PvlGroup &sumTime = isisLabel->findGroup("SumTimeHistory", Pvl::Traverse);
   EXPECT_EQ(sumTime["SUMFILE"][0], "N2395699394");
-  EXPECT_EQ(std::stod(sumTime["SpacecraftClockStartCount"][0]), 2395694888);
-  EXPECT_EQ(std::stod(sumTime["SpacecraftClockStopCount"][0]), 2395695365);
+  EXPECT_EQ(IString::ToDouble(sumTime["SpacecraftClockStartCount"][0]), 2395694888);
+  EXPECT_EQ(IString::ToDouble(sumTime["SpacecraftClockStopCount"][0]), 2395695365);
   EXPECT_EQ(sumTime["StartTime"][0], "2005-09-21T10:44:07");
   EXPECT_EQ(sumTime["StopTime"][0], "2005-09-21T10:44:07");
 

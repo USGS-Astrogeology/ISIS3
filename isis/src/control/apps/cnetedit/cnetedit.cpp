@@ -141,7 +141,7 @@ namespace Isis {
             QString line = in.readLine();
             QStringList results = line.split(",");
             if (results.size() < 2) {
-                std::string msg = "Line " + std::to_string(lineNumber) + " in the MEASURELIST does "
+                std::string msg = "Line " + toString(lineNumber) + " in the MEASURELIST does "
                                                                       "not contain a Point ID and a cube filename separated by a comma";
                 throw IException(IException::User, msg, _FILEINFO_);
             }
@@ -370,8 +370,8 @@ namespace Isis {
     if (keepLog) {
         Pvl outputLog;
 
-        outputLog.addKeyword(PvlKeyword("PointsDeleted", std::to_string(numPointsDeleted)));
-        outputLog.addKeyword(PvlKeyword("MeasuresDeleted", std::to_string(numMeasuresDeleted)));
+        outputLog.addKeyword(PvlKeyword("PointsDeleted", toString(numPointsDeleted)));
+        outputLog.addKeyword(PvlKeyword("MeasuresDeleted", toString(numMeasuresDeleted)));
 
         PvlObject lockedLog = createLog(
             "EditLocked", editLockedPoints, editLockedMeasures);

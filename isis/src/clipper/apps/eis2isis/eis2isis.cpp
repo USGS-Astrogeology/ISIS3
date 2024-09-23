@@ -97,10 +97,10 @@ namespace Isis {
       if (instrumentNameString == "EIS-NAC-RS") {
         // This ID will need to be updated. It is temporarily used for testing but is NOT the actual
         // NAC ID.
-        kerns += PvlKeyword("NaifFrameCode", std::to_string(-159101));
+        kerns += PvlKeyword("NaifFrameCode", toString(-159101));
       }
       else if (instrumentNameString == "EIS-WAC-FC") {
-        kerns += PvlKeyword("NaifFrameCode", std::to_string(-159102));
+        kerns += PvlKeyword("NaifFrameCode", toString(-159102));
       }
       else {
         std::string msg = "Input file [" + xmlFileName.expanded() + "] has an invalid " +
@@ -229,14 +229,14 @@ namespace Isis {
 
     // Set a default value for the JitterSampleCoefficients and the JitterLineCoefficient keywords in the Instrument group.
     // These values are overwritten with a call to the jitterfit application.
-    PvlKeyword jitterLineCoefficients = PvlKeyword("JitterLineCoefficients", (std::to_string(0.0)));
-    jitterLineCoefficients += std::to_string(0.0);
-    jitterLineCoefficients += std::to_string(0.0);
+    PvlKeyword jitterLineCoefficients = PvlKeyword("JitterLineCoefficients", (toString(0.0)));
+    jitterLineCoefficients += toString(0.0);
+    jitterLineCoefficients += toString(0.0);
     outputLabel->findGroup("Instrument", PvlObject::Traverse).addKeyword(jitterLineCoefficients);
 
-    PvlKeyword jitterSampleCoefficients = PvlKeyword("JitterSampleCoefficients", (std::to_string(0.0)));
-    jitterSampleCoefficients += std::to_string(0.0);
-    jitterSampleCoefficients += std::to_string(0.0);
+    PvlKeyword jitterSampleCoefficients = PvlKeyword("JitterSampleCoefficients", (toString(0.0)));
+    jitterSampleCoefficients += toString(0.0);
+    jitterSampleCoefficients += toString(0.0);
     outputLabel->findGroup("Instrument", PvlObject::Traverse).addKeyword(jitterSampleCoefficients);
 
 

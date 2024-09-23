@@ -83,7 +83,7 @@ namespace Isis {
     p_shutterModeId         = QString::fromStdString( inst["ShutterModeId"]);            //valid values: BothSim, NacOnly, WacOnly
     p_shutterStateId        = QString::fromStdString( inst["ShutterStateId"]);           //valid values: Enabled or Disabled
     p_summingMode           = (int)    inst["SummingMode"];               //valid values: 1, 2, 4
-    p_frontOpticsTemp       = std::stod(inst["OpticsTemperature"][0]);     //valid values: real numbers
+    p_frontOpticsTemp       = IString::ToDouble(inst["OpticsTemperature"][0]);     //valid values: real numbers
     p_imageTime             = QString::fromStdString( inst["ImageTime"]);
     p_targetName            = QString::fromStdString( inst["TargetName"]);               //valid values: may change overtime, any subject of a Cassini image
     // Get values out of the archive group

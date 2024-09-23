@@ -161,11 +161,11 @@ void IsisMain() {
   // Write results to Logs
   // Summary group is created with the counts of successes and failures
   PvlGroup summaryGroup = PvlGroup("Summary");
-  summaryGroup.addKeyword(PvlKeyword("Successes", std::to_string(numSuccesses)));
-  summaryGroup.addKeyword(PvlKeyword("Failures", std::to_string(numFailures)));
+  summaryGroup.addKeyword(PvlKeyword("Successes", toString(numSuccesses)));
+  summaryGroup.addKeyword(PvlKeyword("Failures", toString(numFailures)));
   summaryGroup.addKeyword(PvlKeyword("NumberFixedConstrainedPoints",
-                                      std::to_string(numConstrainedFixed)));
-  summaryGroup.addKeyword(PvlKeyword("NumberEditLockedPoints", std::to_string(numLocked)));
+                                      toString(numConstrainedFixed)));
+  summaryGroup.addKeyword(PvlKeyword("NumberEditLockedPoints", toString(numLocked)));
 
   bool errorlog;
   FileName errorlogFile;

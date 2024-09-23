@@ -144,7 +144,7 @@ namespace Isis {
     // The user wants it unlutted
     else if(ui.GetBoolean("UNLUT")) {
       for(int i = 0; i < lutSeq.Size(); i++) {
-        stretch.AddPair(i, ((std::stod(lutSeq[i][0]) + std::stod(lutSeq[i][1])) / 2.0));
+        stretch.AddPair(i, ((IString::ToDouble(lutSeq[i][0]) +IString::ToDouble(lutSeq[i][1])) / 2.0));
       }
       instgrp.addKeyword(PvlKeyword("Unlutted", "TRUE"));
       instgrp.deleteKeyword("LookupTable");
@@ -187,47 +187,47 @@ namespace Isis {
     PvlGroup results("Results");
     results += PvlKeyword("From", inFile.expanded());
 
-    results += PvlKeyword("CalibrationBufferGaps", std::to_string(gapCount[0]));
-    results += PvlKeyword("CalibrationBufferLIS", std::to_string(lisCount[0]));
-    results += PvlKeyword("CalibrationBufferHIS", std::to_string(hisCount[0]));
-    results += PvlKeyword("CalibrationBufferPossibleGaps", std::to_string(suspectGapCount[0]));
-    results += PvlKeyword("CalibrationBufferInvalid", std::to_string(invalidCount[0]));
-    results += PvlKeyword("CalibrationBufferValid", std::to_string(validCount[0]));
+    results += PvlKeyword("CalibrationBufferGaps", toString(gapCount[0]));
+    results += PvlKeyword("CalibrationBufferLIS", toString(lisCount[0]));
+    results += PvlKeyword("CalibrationBufferHIS", toString(hisCount[0]));
+    results += PvlKeyword("CalibrationBufferPossibleGaps", toString(suspectGapCount[0]));
+    results += PvlKeyword("CalibrationBufferInvalid", toString(invalidCount[0]));
+    results += PvlKeyword("CalibrationBufferValid", toString(validCount[0]));
 
-    results += PvlKeyword("CalibrationImageGaps", std::to_string(gapCount[1]));
-    results += PvlKeyword("CalibrationImageLIS", std::to_string(lisCount[1]));
-    results += PvlKeyword("CalibrationImageHIS", std::to_string(hisCount[1]));
-    results += PvlKeyword("CalibrationImagePossibleGaps", std::to_string(suspectGapCount[1]));
-    results += PvlKeyword("CalibrationImageInvalid", std::to_string(invalidCount[1]));
-    results += PvlKeyword("CalibrationImageValid", std::to_string(validCount[1]));
+    results += PvlKeyword("CalibrationImageGaps", toString(gapCount[1]));
+    results += PvlKeyword("CalibrationImageLIS", toString(lisCount[1]));
+    results += PvlKeyword("CalibrationImageHIS", toString(hisCount[1]));
+    results += PvlKeyword("CalibrationImagePossibleGaps", toString(suspectGapCount[1]));
+    results += PvlKeyword("CalibrationImageInvalid", toString(invalidCount[1]));
+    results += PvlKeyword("CalibrationImageValid", toString(validCount[1]));
 
-    results += PvlKeyword("CalibrationDarkGaps", std::to_string(gapCount[2]));
-    results += PvlKeyword("CalibrationDarkLIS", std::to_string(lisCount[2]));
-    results += PvlKeyword("CalibrationDarkHIS", std::to_string(hisCount[2]));
-    results += PvlKeyword("CalibrationDarkPossibleGaps", std::to_string(suspectGapCount[2]));
-    results += PvlKeyword("CalibrationDarkInvalid", std::to_string(invalidCount[2]));
-    results += PvlKeyword("CalibrationDarkValid", std::to_string(validCount[2]));
+    results += PvlKeyword("CalibrationDarkGaps", toString(gapCount[2]));
+    results += PvlKeyword("CalibrationDarkLIS", toString(lisCount[2]));
+    results += PvlKeyword("CalibrationDarkHIS", toString(hisCount[2]));
+    results += PvlKeyword("CalibrationDarkPossibleGaps", toString(suspectGapCount[2]));
+    results += PvlKeyword("CalibrationDarkInvalid", toString(invalidCount[2]));
+    results += PvlKeyword("CalibrationDarkValid", toString(validCount[2]));
 
-    results += PvlKeyword("ObservationBufferGaps", std::to_string(gapCount[3]));
-    results += PvlKeyword("ObservationBufferLIS", std::to_string(lisCount[3]));
-    results += PvlKeyword("ObservationBufferHIS", std::to_string(hisCount[3]));
-    results += PvlKeyword("ObservationBufferPossibleGaps", std::to_string(suspectGapCount[3]));
-    results += PvlKeyword("ObservationBufferInvalid", std::to_string(invalidCount[3]));
-    results += PvlKeyword("ObservationBufferValid", std::to_string(validCount[3]));
+    results += PvlKeyword("ObservationBufferGaps", toString(gapCount[3]));
+    results += PvlKeyword("ObservationBufferLIS", toString(lisCount[3]));
+    results += PvlKeyword("ObservationBufferHIS", toString(hisCount[3]));
+    results += PvlKeyword("ObservationBufferPossibleGaps", toString(suspectGapCount[3]));
+    results += PvlKeyword("ObservationBufferInvalid", toString(invalidCount[3]));
+    results += PvlKeyword("ObservationBufferValid", toString(validCount[3]));
 
-    results += PvlKeyword("ObservationImageGaps", std::to_string(gapCount[4]));
-    results += PvlKeyword("ObservationImageLIS", std::to_string(lisCount[4]));
-    results += PvlKeyword("ObservationImageHIS", std::to_string(hisCount[4]));
-    results += PvlKeyword("ObservationImagePossibleGaps", std::to_string(suspectGapCount[4]));
-    results += PvlKeyword("ObservationImageInvalid", std::to_string(invalidCount[4]));
-    results += PvlKeyword("ObservationImageValid", std::to_string(validCount[4]));
+    results += PvlKeyword("ObservationImageGaps", toString(gapCount[4]));
+    results += PvlKeyword("ObservationImageLIS", toString(lisCount[4]));
+    results += PvlKeyword("ObservationImageHIS", toString(hisCount[4]));
+    results += PvlKeyword("ObservationImagePossibleGaps", toString(suspectGapCount[4]));
+    results += PvlKeyword("ObservationImageInvalid", toString(invalidCount[4]));
+    results += PvlKeyword("ObservationImageValid", toString(validCount[4]));
 
-    results += PvlKeyword("ObservationDarkGaps", std::to_string(gapCount[5]));
-    results += PvlKeyword("ObservationDarkLIS", std::to_string(lisCount[5]));
-    results += PvlKeyword("ObservationDarkHIS", std::to_string(hisCount[5]));
-    results += PvlKeyword("ObservationDarkPossibleGaps", std::to_string(suspectGapCount[5]));
-    results += PvlKeyword("ObservationDarkInvalid", std::to_string(invalidCount[5]));
-    results += PvlKeyword("ObservationDarkValid", std::to_string(validCount[5]));
+    results += PvlKeyword("ObservationDarkGaps", toString(gapCount[5]));
+    results += PvlKeyword("ObservationDarkLIS", toString(lisCount[5]));
+    results += PvlKeyword("ObservationDarkHIS", toString(hisCount[5]));
+    results += PvlKeyword("ObservationDarkPossibleGaps", toString(suspectGapCount[5]));
+    results += PvlKeyword("ObservationDarkInvalid", toString(invalidCount[5]));
+    results += PvlKeyword("ObservationDarkValid", toString(validCount[5]));
 
     // Write the results to the log
     Application::Log(results);

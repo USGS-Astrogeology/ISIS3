@@ -76,13 +76,13 @@ namespace Isis{
     PvlGroup sp("SkyPoint");
      {
         sp += PvlKeyword("Filename", FileName(channel.toStdString()).expanded());
-        sp += PvlKeyword("Sample", std::to_string(cam->Sample()));
-        sp += PvlKeyword("Line", std::to_string(cam->Line()));
-        sp += PvlKeyword("RightAscension", std::to_string(cam->RightAscension()));
-        sp += PvlKeyword("Declination", std::to_string(cam->Declination()));
-        sp += PvlKeyword("EphemerisTime", std::to_string(cam->time().Et()));
+        sp += PvlKeyword("Sample", toString(cam->Sample()));
+        sp += PvlKeyword("Line", toString(cam->Line()));
+        sp += PvlKeyword("RightAscension", toString(cam->RightAscension()));
+        sp += PvlKeyword("Declination", toString(cam->Declination()));
+        sp += PvlKeyword("EphemerisTime", toString(cam->time().Et()));
         sp += PvlKeyword("PixelValue", PixelToString(b[0]));
-        sp += PvlKeyword("CelestialNorthClockAngle", std::to_string(rot), "degrees");
+        sp += PvlKeyword("CelestialNorthClockAngle", toString(rot), "degrees");
      }
 
     //Write the group to the screen

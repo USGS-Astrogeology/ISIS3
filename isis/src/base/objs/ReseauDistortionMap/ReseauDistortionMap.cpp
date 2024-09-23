@@ -44,8 +44,8 @@ namespace Isis {
       throw IException(IException::User, msg, _FILEINFO_);
     }
     for(int i = 0; i < p_numRes; i++) {
-      p_mlines.push_back(std::stod(mline[i]));
-      p_msamps.push_back(std::stod(msamp[i]));
+      p_mlines.push_back(IString::ToDouble(mline[i]));
+      p_msamps.push_back(IString::ToDouble(msamp[i]));
     }
     p_pixelPitch = parent->PixelPitch();
 
@@ -58,8 +58,8 @@ namespace Isis {
       throw IException(IException::User, msg, _FILEINFO_);
     }
     for(int i = 0; i < p_numRes; i++) {
-      p_rlines.push_back(std::stod(rline[i]));
-      p_rsamps.push_back(std::stod(rsamp[i]));
+      p_rlines.push_back(IString::ToDouble(rline[i]));
+      p_rsamps.push_back(IString::ToDouble(rsamp[i]));
     }
     if(p_mlines.size() != p_rlines.size()) {
       string msg = "The number of master reseaus and refined reseaus";

@@ -45,14 +45,14 @@ namespace Isis {
       // Compute the default value if allowed and needed
       if ((allowDefaults) && (!mapGroup.hasKeyword("CenterRingLongitude"))) {
         double az = (m_minimumRingLongitude + m_maximumRingLongitude) / 2.0;
-        mapGroup += PvlKeyword("CenterRingLongitude", std::to_string(az));
+        mapGroup += PvlKeyword("CenterRingLongitude", toString(az));
       }
 
       // Compute and write the default center radius if allowed and
       // necessary
       if ((allowDefaults) && (!mapGroup.hasKeyword("CenterRingRadius"))) {
         double radius = (m_minimumRingRadius + m_maximumRingRadius) / 2.0;
-        mapGroup += PvlKeyword("CenterRingRadius", std::to_string(radius));
+        mapGroup += PvlKeyword("CenterRingRadius", toString(radius));
       }
 
       // Get the center ring radius and center ring longitude.
@@ -274,11 +274,11 @@ namespace Isis {
   PvlGroup RingCylindrical::Mapping() {
     PvlGroup mapping = RingPlaneProjection::Mapping();
 
-    mapping += PvlKeyword("CenterRingRadius", std::to_string(m_centerRingRadius));
+    mapping += PvlKeyword("CenterRingRadius", toString(m_centerRingRadius));
     double dir = 1.0;
     if (m_ringLongitudeDirection == Clockwise) dir = -1.0;
     double lonDegrees = m_centerRingLongitude*RAD2DEG*dir;
-    mapping += PvlKeyword("CenterRingLongitude", std::to_string(lonDegrees));
+    mapping += PvlKeyword("CenterRingLongitude", toString(lonDegrees));
 
     return mapping;
   }

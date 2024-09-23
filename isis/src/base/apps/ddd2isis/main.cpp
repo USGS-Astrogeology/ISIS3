@@ -140,14 +140,14 @@ void IsisMain() {
   fin.close();
 
   PvlGroup results("FileInfo");
-  results += PvlKeyword( "NumberOfLines", std::to_string(nLines) );
-  results += PvlKeyword( "NumberOfBytesPerLine", std::to_string(nBytes) );
-  results += PvlKeyword( "BitType", std::to_string(bitType) );
+  results += PvlKeyword( "NumberOfLines", toString(nLines) );
+  results += PvlKeyword( "NumberOfBytesPerLine", toString(nBytes) );
+  results += PvlKeyword( "BitType", toString(bitType) );
   int nSamples = nBytes / (totalBandBits / 8);
-  results += PvlKeyword( "NumberOfSamples", std::to_string(nSamples) );
+  results += PvlKeyword( "NumberOfSamples", toString(nSamples) );
   int nBands = (totalBandBits / 8) / dataTypeBytes;
-  results += PvlKeyword( "NumberOfBands", std::to_string(nBands) );
-  results += PvlKeyword( "LabelBytes", std::to_string(nOffset) );
+  results += PvlKeyword( "NumberOfBands", toString(nBands) );
+  results += PvlKeyword( "LabelBytes", toString(nOffset) );
   Application::Log(results);
 
   ProcessImport p;

@@ -175,25 +175,25 @@ void IsisMain() {
     calgrp += PvlKeyword("DarkCurrentFile", dccube->fileName().toStdString());
   }
   else {
-    calgrp += PvlKeyword("DarkCurrentConstant", std::to_string(dcconst));
+    calgrp += PvlKeyword("DarkCurrentConstant", toString(dcconst));
   }
 
-  calgrp += PvlKeyword("CorrectedFocalPlaneTemp", std::to_string(focalPlaneTemp));
-  calgrp += PvlKeyword("C1", std::to_string(avgFF));
-  calgrp += PvlKeyword("C2", std::to_string(C2));
-  calgrp += PvlKeyword("C3", std::to_string(C3));
-  calgrp += PvlKeyword("C4", std::to_string(C4));
-  calgrp += PvlKeyword("C5", std::to_string(C5));
-  calgrp += PvlKeyword("CR", std::to_string(cr));
-  calgrp += PvlKeyword("FrameTransferTimePerRow", std::to_string(cr));
-  calgrp += PvlKeyword("Gain", std::to_string(gain));
-  calgrp += PvlKeyword("CorrectedExposureDuration", std::to_string(correctedExposureDuration));
-  calgrp += PvlKeyword("ConvertToRadiance", std::to_string(conv));
+  calgrp += PvlKeyword("CorrectedFocalPlaneTemp", toString(focalPlaneTemp));
+  calgrp += PvlKeyword("C1", toString(avgFF));
+  calgrp += PvlKeyword("C2", toString(C2));
+  calgrp += PvlKeyword("C3", toString(C3));
+  calgrp += PvlKeyword("C4", toString(C4));
+  calgrp += PvlKeyword("C5", toString(C5));
+  calgrp += PvlKeyword("CR", toString(cr));
+  calgrp += PvlKeyword("FrameTransferTimePerRow", toString(cr));
+  calgrp += PvlKeyword("Gain", toString(gain));
+  calgrp += PvlKeyword("CorrectedExposureDuration", toString(correctedExposureDuration));
+  calgrp += PvlKeyword("ConvertToRadiance", toString(conv));
 
-  calgrp += PvlKeyword("ACO", std::to_string(ACO));
-  calgrp += PvlKeyword("BCO", std::to_string(BCO));
-  calgrp += PvlKeyword("CCO", std::to_string(CCO));
-  calgrp += PvlKeyword("DCO", std::to_string(DCO));
+  calgrp += PvlKeyword("ACO", toString(ACO));
+  calgrp += PvlKeyword("BCO", toString(BCO));
+  calgrp += PvlKeyword("CCO", toString(CCO));
+  calgrp += PvlKeyword("DCO", toString(DCO));
 
   ocube->putGroup(calgrp);
   p.EndProcess();

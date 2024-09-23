@@ -57,19 +57,19 @@ namespace Isis {
     // Deal with user overrides entered in the GUI. Do this by changing the user's mapping group, which
     // will then overlay anything in the output mapping group.
     if(ui.WasEntered("MINLAT") && !ui.GetBoolean("MATCHMAP")) {
-      userMappingGrp.addKeyword(PvlKeyword("MinimumLatitude", std::to_string(ui.GetDouble("MINLAT"))), Pvl::Replace);
+      userMappingGrp.addKeyword(PvlKeyword("MinimumLatitude", toString(ui.GetDouble("MINLAT"))), Pvl::Replace);
     }
 
     if(ui.WasEntered("MAXLAT") && !ui.GetBoolean("MATCHMAP")) {
-      userMappingGrp.addKeyword(PvlKeyword("MaximumLatitude", std::to_string(ui.GetDouble("MAXLAT"))), Pvl::Replace);
+      userMappingGrp.addKeyword(PvlKeyword("MaximumLatitude", toString(ui.GetDouble("MAXLAT"))), Pvl::Replace);
     }
 
     if(ui.WasEntered("MINLON") && !ui.GetBoolean("MATCHMAP")) {
-      userMappingGrp.addKeyword(PvlKeyword("MinimumLongitude", std::to_string(ui.GetDouble("MINLON"))), Pvl::Replace);
+      userMappingGrp.addKeyword(PvlKeyword("MinimumLongitude", toString(ui.GetDouble("MINLON"))), Pvl::Replace);
     }
 
     if(ui.WasEntered("MAXLON") && !ui.GetBoolean("MATCHMAP")) {
-      userMappingGrp.addKeyword(PvlKeyword("MaximumLongitude", std::to_string(ui.GetDouble("MAXLON"))), Pvl::Replace);
+      userMappingGrp.addKeyword(PvlKeyword("MaximumLongitude", toString(ui.GetDouble("MAXLON"))), Pvl::Replace);
     }
 
     /**
@@ -92,8 +92,8 @@ namespace Isis {
       double minLon = outMappingGrp["MinimumLongitude"];
       double maxLon = outMappingGrp["MaximumLongitude"];
 
-      outMappingGrp["MaximumLongitude"] = std::to_string(minLon);
-      outMappingGrp["MinimumLongitude"] = std::to_string(maxLon);
+      outMappingGrp["MaximumLongitude"] = toString(minLon);
+      outMappingGrp["MinimumLongitude"] = toString(maxLon);
     }
 
     if(ui.GetString("PIXRES").compare("FROM") == 0 && !ui.GetBoolean("MATCHMAP")) {
@@ -151,7 +151,7 @@ namespace Isis {
         userMappingGrp.deleteKeyword("PixelResolution");
       }
 
-      outMappingGrp.addKeyword(PvlKeyword("PixelResolution", std::to_string(ui.GetDouble("RESOLUTION")), "meters/pixel"), Pvl::Replace);
+      outMappingGrp.addKeyword(PvlKeyword("PixelResolution", toString(ui.GetDouble("RESOLUTION")), "meters/pixel"), Pvl::Replace);
     }
     else if(ui.GetString("PIXRES").compare("PPD") == 0) {
       // Resolution specified - delete all and add to outMappingGrp
@@ -179,7 +179,7 @@ namespace Isis {
         userMappingGrp.deleteKeyword("PixelResolution");
       }
 
-      outMappingGrp.addKeyword(PvlKeyword("Scale", std::to_string(ui.GetDouble("RESOLUTION")), "pixels/degree"), Pvl::Replace);
+      outMappingGrp.addKeyword(PvlKeyword("Scale", toString(ui.GetDouble("RESOLUTION")), "pixels/degree"), Pvl::Replace);
     }
 
     // Rotation will NOT Propagate
@@ -217,12 +217,12 @@ namespace Isis {
         if(!userMappingGrp.hasKeyword(longitudes[index].name())) {
           // use the from domain because that's where our values are coming from
           if(((std::string)userMappingGrp["LongitudeDirection"]).compare("PositiveEast") == 0) {
-            outMappingGrp[longitudes[index].name()] = std::to_string(
+            outMappingGrp[longitudes[index].name()] = toString(
               TProjection::ToPositiveEast(outMappingGrp[longitudes[index].name()],
                                           outMappingGrp["LongitudeDomain"]));
           }
           else {
-            outMappingGrp[longitudes[index].name()] = std::to_string(
+            outMappingGrp[longitudes[index].name()] = toString(
                 TProjection::ToPositiveWest(outMappingGrp[longitudes[index].name()],
                                             outMappingGrp["LongitudeDomain"]));
           }
@@ -238,11 +238,11 @@ namespace Isis {
         for(int index = 0; index < longitudes.keywords(); index ++) {
           if(!userMappingGrp.hasKeyword(longitudes[index].name())) {
             if((int)userMappingGrp["LongitudeDomain"] == 180) {
-              outMappingGrp[longitudes[index].name()] = std::to_string(
+              outMappingGrp[longitudes[index].name()] = toString(
                   TProjection::To180Domain(outMappingGrp[longitudes[index].name()]));
             }
             else {
-              outMappingGrp[longitudes[index].name()] = std::to_string(
+              outMappingGrp[longitudes[index].name()] = toString(
                   TProjection::To360Domain(outMappingGrp[longitudes[index].name()]));
             }
           }
@@ -259,13 +259,13 @@ namespace Isis {
         for(int index = 0; index < latitudes.keywords(); index ++) {
           if(!userMappingGrp.hasKeyword(latitudes[index].name())) {
             if(((std::string)userMappingGrp["LatitudeType"]).compare("Planetographic") == 0) {
-              outMappingGrp[latitudes[index].name()] = std::to_string(TProjection::ToPlanetographic(
+              outMappingGrp[latitudes[index].name()] = toString(TProjection::ToPlanetographic(
                     (double)fromMappingGrp[latitudes[index].name()],
                     (double)fromMappingGrp["EquatorialRadius"],
                     (double)fromMappingGrp["PolarRadius"]));
             }
             else {
-              outMappingGrp[latitudes[index].name()] = std::to_string(TProjection::ToPlanetocentric(
+              outMappingGrp[latitudes[index].name()] = toString(TProjection::ToPlanetocentric(
                     (double)fromMappingGrp[latitudes[index].name()],
                     (double)fromMappingGrp["EquatorialRadius"],
                     (double)fromMappingGrp["PolarRadius"]));

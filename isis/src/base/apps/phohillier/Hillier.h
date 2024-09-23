@@ -146,13 +146,13 @@ namespace Isis {
             return qValue;
         } else if constexpr (std::is_same_v<T, int>) {
             try {
-                return std::stoi(iValue);
+                return IString::ToInteger(iValue);
             } catch (...) {
                 return defval;
             }
         } else if constexpr (std::is_same_v<T, double>) {
             try {
-                return std::stod(iValue);
+                return IString::ToDouble(iValue);
             } catch (...) {
                 return defval;
             }

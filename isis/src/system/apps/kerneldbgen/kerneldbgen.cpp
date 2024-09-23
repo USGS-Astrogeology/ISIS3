@@ -234,7 +234,7 @@ namespace Isis {
                       throw IException(IException::Unknown,
                                        "Expected the keyword File in ["+ kernelFileName.original() +"] to have two "
                                                    "values, a mission data directory and a path into "
-                                                   "that directory. The keyword has ["+ std::to_string(key.size()) +"] values.",
+                                                   "that directory. The keyword has ["+ toString(key.size()) +"] values.",
                                        _FILEINFO_);
                     }
                   }
@@ -249,7 +249,7 @@ namespace Isis {
                 else {
                   throw IException(IException::Unknown, "Expected Pvl Group " + primaryGroup.name() + " in the first Pvl Object " + primaryObject.name() + " "
                                                "in the DB file " + kernelFileName.original() + " to have a single keyword (named "
-                                               "File), but found " + std::to_string(primaryGroup.keywords()) + " keywords",
+                                               "File), but found " + toString(primaryGroup.keywords()) + " keywords",
                                    _FILEINFO_);
                 }
               }
@@ -261,13 +261,13 @@ namespace Isis {
             }
             else {
               throw IException(IException::Unknown,"Expected one Pvl Group in the first Pvl Object " + primaryObject.name() + " in "
-                                           "the DB file " + kernelFileName.original() + " but found " + std::to_string(primaryObject.groups()), _FILEINFO_);
+                                           "the DB file " + kernelFileName.original() + " but found " + toString(primaryObject.groups()), _FILEINFO_);
             }
           }
           else {
             throw IException(IException::Unknown,
                              "Expected one Pvl Object in the DB file ["+kernelFileName.original()+"] but "
-                                         "found ["+ std::to_string(kernelDbPvl.objects()) +"]",
+                                         "found ["+ toString(kernelDbPvl.objects()) +"]",
                              _FILEINFO_);
           }
         }

@@ -373,13 +373,13 @@ QString loadCalibrationVariables(const QString &config)  {
   // g_Tvct = Smear["Tvct"];
 
   // Load DarkCurrent variables
-  g_d0 = std::stod(DarkCurrent["D"][0]);
-  g_d1 = std::stod(DarkCurrent["D"][1]);
+  g_d0 = IString::ToDouble(DarkCurrent["D"][0]);
+  g_d1 = IString::ToDouble(DarkCurrent["D"][1]);
 
   // Load Bias variables
-  g_b0 = std::stod(Bias["B"][0]);
-  g_b1 = std::stod(Bias["B"][1]);
-  g_b2 = std::stod(Bias["B"][2]);
+  g_b0 = IString::ToDouble(Bias["B"][0]);
+  g_b1 = IString::ToDouble(Bias["B"][1]);
+  g_b2 = IString::ToDouble(Bias["B"][2]);
 
   // Compute BIAS correction factor (it's a constant so do it once!)
   g_bias = g_b0 + g_b1 * g_AEtemperature + g_b2 * (g_AEtemperature * g_AEtemperature);

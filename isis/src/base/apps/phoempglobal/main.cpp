@@ -247,16 +247,16 @@ void IsisMain() {
     if (!iord) {
       // Fit with no additive offset:  output multiplier normalized to
       // zero phase, which is the desired phase curve B, and unnormalized
-      phaseAngle.addValue(std::to_string(lFitParams.phase));
-      limbValue.addValue(std::to_string(rmsmin));
-      phaseCurve.addValue(std::to_string(c1/c1_0));
+      phaseAngle.addValue(toString(lFitParams.phase));
+      limbValue.addValue(toString(rmsmin));
+      phaseCurve.addValue(toString(c1/c1_0));
     }
     else {
       // Fit with additive offset:  normalizing would make no sense, just
       // output additive offset and multiplier from fit
-      phaseAngle.addValue(std::to_string(lFitParams.phase));
-      limbValue.addValue(std::to_string(rmsmin));
-      phaseCurve.addValue(std::to_string(c1));
+      phaseAngle.addValue(toString(lFitParams.phase));
+      limbValue.addValue(toString(rmsmin));
+      phaseCurve.addValue(toString(c1));
     }
   }
 

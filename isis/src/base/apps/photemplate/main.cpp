@@ -56,11 +56,11 @@ void OutputKeyValue(PvlKeyword & key, QString val){
   key.clear();
   int found = val.indexOf(",");
   while(found != -1) {
-    key += std::to_string((val.mid(0, found)).toDouble());
+    key += toString((val.mid(0, found)).toDouble());
     val = val.mid(found+1);
     found = val.indexOf(",");
   }
-  key += std::to_string((val).toDouble());
+  key += toString((val).toDouble());
 }
 
 // Helper function to load the input pvl file into the GUI

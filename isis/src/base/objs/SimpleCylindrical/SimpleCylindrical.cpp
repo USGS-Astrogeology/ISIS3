@@ -44,7 +44,7 @@ namespace Isis {
       // Compute the default value if allowed and needed
       if ((allowDefaults) && (!mapGroup.hasKeyword("CenterLongitude"))) {
         double lon = (m_minimumLongitude + m_maximumLongitude) / 2.0;
-        mapGroup += PvlKeyword("CenterLongitude", std::to_string(lon));
+        mapGroup += PvlKeyword("CenterLongitude", toString(lon));
       }
 
       // Get the center longitude, convert to radians, adjust for longitude

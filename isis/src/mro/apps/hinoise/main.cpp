@@ -87,8 +87,8 @@ void IsisMain() {
 
     // Get Summing, CcdId and Channel Number from the cube label
     Pvl cubeLabel = Pvl(sInputFile.toStdString());
-    int iSumming  = std::stoi(cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("Summing")[0]);
-    int iChannel  = std::stoi(cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("ChannelNumber")[0]);
+    int iSumming  = IString::ToInteger(cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("Summing")[0]);
+    int iChannel  = IString::ToInteger(cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("ChannelNumber")[0]);
     QString sCcdId = QString::fromStdString(cubeLabel.findObject("IsisCube").findGroup("Instrument").findKeyword("CcdId"));
 
     // Get the image histogram

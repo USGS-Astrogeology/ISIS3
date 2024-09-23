@@ -28,9 +28,9 @@ namespace Isis {
   // keyword value in their labels. The following code creates a temporary
   // detached PDS label with the correct (negated) keyword value.
   PvlObject obj = label.findObject("IMAGE_MAP_PROJECTION");
-  double soff = std::stod(obj.findKeyword("SAMPLE_PROJECTION_OFFSET")[0]);
+  double soff = IString::ToDouble(obj.findKeyword("SAMPLE_PROJECTION_OFFSET")[0]);
   soff = -soff;
-  label.findObject("IMAGE_MAP_PROJECTION").addKeyword(PvlKeyword("SAMPLE_PROJECTION_OFFSET",std::to_string(soff)),Pvl::Replace);
+  label.findObject("IMAGE_MAP_PROJECTION").addKeyword(PvlKeyword("SAMPLE_PROJECTION_OFFSET",toString(soff)),Pvl::Replace);
   FileName tempFileName = FileName::createTempFile("TEMPORARYlabel.pvl").name();
   QString fn(QString::fromStdString(tempFileName.expanded()));
   label.write(fn.toStdString());

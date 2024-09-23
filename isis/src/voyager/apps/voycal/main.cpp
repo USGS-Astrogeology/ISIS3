@@ -199,11 +199,11 @@ void IsisMain() {
   calgrp.addKeyword(calib[4]);
   calgrp.addKeyword(calib[5]);
   calgrp.addKeyword(calib[6]);
-  calgrp.addKeyword(PvlKeyword("CalcSunDistance",std::to_string(dist1)));
+  calgrp.addKeyword(PvlKeyword("CalcSunDistance",toString(dist1)));
   calgrp.addKeyword(instrument["ExposureDuration"]);
-  calgrp.addKeyword(PvlKeyword("XMLT",std::to_string(XMLT)));
-  calgrp.addKeyword(PvlKeyword("Omega_W1",std::to_string(w1)));
-  calgrp.addKeyword(PvlKeyword("CalcExpoDuration",std::to_string(newExpo)));
+  calgrp.addKeyword(PvlKeyword("XMLT",toString(XMLT)));
+  calgrp.addKeyword(PvlKeyword("Omega_W1",toString(w1)));
+  calgrp.addKeyword(PvlKeyword("CalcExpoDuration",toString(newExpo)));
 
   // Linear correction equation and constants
   if (linear) {
@@ -215,10 +215,10 @@ void IsisMain() {
     linearity.addComment("XNORM = NormalizingPower");
     linearity.addComment("KPOWER = K_PowerOfNon-Linearity");
     calgrp.addKeyword(linearity);
-    calgrp.addKeyword(PvlKeyword("ACoefficient",std::to_string(aCoef)));
-    calgrp.addKeyword(PvlKeyword("B_HighEndNon-LinearityCorrection",std::to_string(bHighEnd)));
-    calgrp.addKeyword(PvlKeyword("K_PowerOfNon-Linearity",std::to_string(kPowerOf)));
-    calgrp.addKeyword(PvlKeyword("NormalizingPower",std::to_string(normalizingPower)));
+    calgrp.addKeyword(PvlKeyword("ACoefficient",toString(aCoef)));
+    calgrp.addKeyword(PvlKeyword("B_HighEndNon-LinearityCorrection",toString(bHighEnd)));
+    calgrp.addKeyword(PvlKeyword("K_PowerOfNon-Linearity",toString(kPowerOf)));
+    calgrp.addKeyword(PvlKeyword("NormalizingPower",toString(normalizingPower)));
   }
   else {
     calgrp.addKeyword(PvlKeyword("LinearityCorrection","False"));

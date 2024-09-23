@@ -746,7 +746,7 @@ namespace Isis {
 
     for (std::string foundFile : files) {
       try {
-        foundValue = std::stoi(foundFile.substr(before.length(), width));
+        foundValue = IString::ToInteger(foundFile.substr(before.length(), width));
         success = true;
       }
       catch (...) {

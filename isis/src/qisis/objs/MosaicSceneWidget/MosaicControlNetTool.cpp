@@ -190,11 +190,11 @@ namespace Isis {
     }
 
     if (obj.hasKeyword("MovementColorMaxMeasureCount")) {
-      m_measureCount = std::stoi(obj["MovementColorMaxMeasureCount"][0]);
+      m_measureCount = IString::ToInteger(obj["MovementColorMaxMeasureCount"][0]);
     }
 
     if (obj.hasKeyword("MovementColorMaxResidualMagnitude")) {
-      m_residualMagnitude = std::stod(obj["MovementColorMaxResidualMagnitude"][0]);
+      m_residualMagnitude = IString::ToDouble(obj["MovementColorMaxResidualMagnitude"][0]);
     }
 
     loadNetwork();

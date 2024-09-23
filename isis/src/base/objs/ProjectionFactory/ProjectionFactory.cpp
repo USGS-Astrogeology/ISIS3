@@ -212,9 +212,9 @@ namespace Isis {
         pixelResolution = (2.0 * Isis::PI * localRadius) / (360.0 * scale);
       }
       // Write out the scale and resolution with units and truescale latitude
-      mapGroup.addKeyword(Isis::PvlKeyword("PixelResolution", std::to_string(pixelResolution), "meters/pixel"),
+      mapGroup.addKeyword(Isis::PvlKeyword("PixelResolution", toString(pixelResolution), "meters/pixel"),
                           Isis::Pvl::Replace);
-      mapGroup.addKeyword(Isis::PvlKeyword("Scale", std::to_string(scale), "pixels/degree"), Isis::Pvl::Replace);
+      mapGroup.addKeyword(Isis::PvlKeyword("Scale", toString(scale), "pixels/degree"), Isis::Pvl::Replace);
       //mapGroup.addKeyword(Isis::PvlKeyword ("TrueScaleLatitude", trueScaleLat),
       //                                    Isis::Pvl::Replace);
 
@@ -334,7 +334,7 @@ namespace Isis {
         else {
             upperLeftX = minXFlipped;
         }
-        mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerX", std::to_string(upperLeftX)),
+        mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerX", toString(upperLeftX)),
                             Isis::Pvl::Replace);
 
         if (flipY)  {
@@ -346,7 +346,7 @@ namespace Isis {
 
         }
 
-        mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerY", std::to_string(upperLeftY)),
+        mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerY", toString(upperLeftY)),
                             Isis::Pvl::Replace);
 
         // Write it in pixel units as well
@@ -457,10 +457,10 @@ namespace Isis {
       }
 
       // Write out the scale and resolution with units and truescale radius
-      mapGroup.addKeyword(Isis::PvlKeyword("PixelResolution", std::to_string(pixelResolution),
+      mapGroup.addKeyword(Isis::PvlKeyword("PixelResolution", toString(pixelResolution),
                                            "meters/pixel"),
                           Isis::Pvl::Replace);
-      mapGroup.addKeyword(Isis::PvlKeyword("Scale", std::to_string(scale), "pixels/degree"),
+      mapGroup.addKeyword(Isis::PvlKeyword("Scale", toString(scale), "pixels/degree"),
                           Isis::Pvl::Replace);
 
       //mapGroup.AddKeyword(Isis::PvlKeyword ("TrueScaleRadius", trueScaleRadius),
@@ -539,11 +539,11 @@ namespace Isis {
 
         // Set the upper left corner and add to the labels
         upperLeftX = minX;
-        mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerX", std::to_string(upperLeftX)),
+        mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerX", toString(upperLeftX)),
                             Isis::Pvl::Replace);
 
         upperLeftY = maxY;
-        mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerY", std::to_string(upperLeftY)),
+        mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerY", toString(upperLeftY)),
                             Isis::Pvl::Replace);
 
         // Write it in pixel units as well
@@ -642,9 +642,9 @@ namespace Isis {
         pixelResolution = (2.0 * Isis::PI * localRadius) / (360.0 * scale);
       }
       // Write out the scale and resolution with units and truescale latitude
-      mapGroup.addKeyword(Isis::PvlKeyword("PixelResolution", std::to_string(pixelResolution), "meters/pixel"),
+      mapGroup.addKeyword(Isis::PvlKeyword("PixelResolution", toString(pixelResolution), "meters/pixel"),
                           Isis::Pvl::Replace);
-      mapGroup.addKeyword(Isis::PvlKeyword("Scale", std::to_string(scale), "pixels/degree"), Isis::Pvl::Replace);
+      mapGroup.addKeyword(Isis::PvlKeyword("Scale", toString(scale), "pixels/degree"), Isis::Pvl::Replace);
       //mapGroup.AddKeyword(Isis::PvlKeyword ("TrueScaleLatitude", trueScaleLatitude),
       //                                    Isis::Pvl::Replace);
 
@@ -797,11 +797,11 @@ namespace Isis {
 
       // Set the upper left corner and add to the labels
       double upperLeftX = minX;
-      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerX", std::to_string(upperLeftX)),
+      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerX", toString(upperLeftX)),
                           Isis::Pvl::Replace);
 
       double upperLeftY = maxY;
-      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerY", std::to_string(upperLeftY)),
+      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerY", toString(upperLeftY)),
                           Isis::Pvl::Replace);
 
       // Make sure labels have good units
@@ -895,9 +895,9 @@ namespace Isis {
         pixelResolution = (2.0 * Isis::PI * localRadius) / (360.0 * scale);
       }
       // Write out the scale and resolution with units and truescale radius
-      mapGroup.addKeyword(Isis::PvlKeyword("PixelResolution", std::to_string(pixelResolution),
+      mapGroup.addKeyword(Isis::PvlKeyword("PixelResolution", toString(pixelResolution),
                                            "meters/pixel"), Isis::Pvl::Replace);
-      mapGroup.addKeyword(Isis::PvlKeyword("Scale", std::to_string(scale), "pixels/degree"),
+      mapGroup.addKeyword(Isis::PvlKeyword("Scale", toString(scale), "pixels/degree"),
                           Isis::Pvl::Replace);
 
       // Initialize the rest of the projection
@@ -1019,11 +1019,11 @@ namespace Isis {
 
       // Set the upper left corner and add to the labels
       double upperLeftX = minX;
-      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerX", std::to_string(upperLeftX)),
+      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerX", toString(upperLeftX)),
                           Isis::Pvl::Replace);
 
       double upperLeftY = maxY;
-      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerY", std::to_string(upperLeftY)),
+      mapGroup.addKeyword(Isis::PvlKeyword("UpperLeftCornerY", toString(upperLeftY)),
                           Isis::Pvl::Replace);
 
       // Make sure labels have good units

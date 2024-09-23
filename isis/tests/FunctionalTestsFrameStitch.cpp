@@ -163,7 +163,7 @@ TEST_F(PushFramePair, FunctionalTestFramestitchFlip) {
 
   ASSERT_TRUE(outCube.hasGroup("Instrument"));
   ASSERT_TRUE(outCube.group("Instrument").hasKeyword("DataFlipped"));
-  EXPECT_TRUE(std::stoi(outCube.group("Instrument")["DataFlipped"]));
+  EXPECT_TRUE(IString::ToInteger(outCube.group("Instrument")["DataFlipped"]));
 }
 
 TEST_F(FlippedPushFramePair, FunctionalTestFramestitchNoFlip) {
@@ -213,7 +213,7 @@ TEST_F(FlippedPushFramePair, FunctionalTestFramestitchNoFlip) {
 
   ASSERT_TRUE(outCube.hasGroup("Instrument"));
   ASSERT_TRUE(outCube.group("Instrument").hasKeyword("DataFlipped"));
-  EXPECT_TRUE(std::stoi(outCube.group("Instrument")["DataFlipped"]));
+  EXPECT_TRUE(toBool(outCube.group("Instrument")["DataFlipped"]));
 }
 
 TEST_F(FlippedPushFramePair, FunctionalTestFramestitchFlip) {
@@ -264,7 +264,7 @@ TEST_F(FlippedPushFramePair, FunctionalTestFramestitchFlip) {
 
   ASSERT_TRUE(outCube.hasGroup("Instrument"));
   ASSERT_TRUE(outCube.group("Instrument").hasKeyword("DataFlipped"));
-  EXPECT_FALSE(std::stoi(outCube.group("Instrument")["DataFlipped"]));
+  EXPECT_FALSE(toBool(outCube.group("Instrument")["DataFlipped"]));
 }
 
 TEST_F(PushFramePair, FunctionalTestFramestitchDifferentObservations) {

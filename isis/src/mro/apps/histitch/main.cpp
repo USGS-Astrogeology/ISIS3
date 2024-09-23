@@ -245,7 +245,7 @@ void IsisMain() {
     InstrumentOut += PvlKeyword("StitchedProductIds", stitchedProductIds.toStdString());
   }
   else {
-    InstrumentOut += PvlKeyword("StitchedChannels", std::to_string(fromData[0].ChnNumber));
+    InstrumentOut += PvlKeyword("StitchedChannels", toString(fromData[0].ChnNumber));
     InstrumentOut += PvlKeyword("StitchedProductIds", stitchedProductIds.toStdString());
   }
 
@@ -293,15 +293,15 @@ void IsisMain() {
             fromData[ch0Index].mult = coeff;
           }
         }
-        results += PvlKeyword("TruthChannel", std::to_string(hiChannel));
-        results += PvlKeyword("BalanceRatio", std::to_string(coeff));
+        results += PvlKeyword("TruthChannel", toString(hiChannel));
+        results += PvlKeyword("BalanceRatio", toString(coeff));
       }
       else {
         //  Store off original averages for table
         HiVector ch0_org = f0LineAvg;
         HiVector ch1_org = f1LineAvg;
 
-        results += PvlKeyword("FilterWidth", std::to_string(filterWidth));
+        results += PvlKeyword("FilterWidth", toString(filterWidth));
         if(filterWidth > 0) {
           f0LineAvg = filter(f0LineAvg, filterWidth);
           f1LineAvg = filter(f1LineAvg, filterWidth);
@@ -311,12 +311,12 @@ void IsisMain() {
         if(fillNull) {
           int nfilled;
           f0LineAvg = filler(f0LineAvg, nfilled);
-          results += PvlKeyword("Channel0Filled", std::to_string(nfilled));
+          results += PvlKeyword("Channel0Filled", toString(nfilled));
           f1LineAvg = filler(f1LineAvg, nfilled);
-          results += PvlKeyword("Channel1Filled", std::to_string(nfilled));
+          results += PvlKeyword("Channel1Filled", toString(nfilled));
         }
 
-        results += PvlKeyword("TruthChannel", std::to_string(hiChannel));
+        results += PvlKeyword("TruthChannel", toString(hiChannel));
         results += PvlKeyword("Operator", fixop.toStdString());
         int nunfilled(0);
         HiVector ch0_fixed(icube1->lineCount(), 1.0);
@@ -343,7 +343,7 @@ void IsisMain() {
             ch1_fixed = 0.0;
           }
         }
-        results += PvlKeyword("UnFilled", std::to_string(nunfilled));
+        results += PvlKeyword("UnFilled", toString(nunfilled));
 
         //  Add a table to the output file of the data values
         TableField f1("Channel1Original", Isis::TableField::Double);

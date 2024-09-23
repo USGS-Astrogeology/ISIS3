@@ -57,7 +57,7 @@ namespace Isis {
     PvlGroup &bandBin = lab.findGroup("BandBin", Pvl::Traverse);
     PvlKeyword &orgBand = bandBin["FilterNumber"];
     for(int i = 0; i < orgBand.size(); i++) {
-      p_originalBand.push_back(std::stoi(orgBand[i]));
+      p_originalBand.push_back(IString::ToInteger(orgBand[i]));
     }
 
     // Themis IR had a summing mode added.  This directly affects the line

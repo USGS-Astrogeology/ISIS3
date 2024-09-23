@@ -173,7 +173,7 @@ namespace Isis{
     // Populate with first values
     Pvl *isisLabelInitial = outputCubes[0]->label();
     PvlGroup &instInitial = isisLabelInitial->findGroup("Instrument", Pvl::Traverse);
-    double exposure = std::stod(instInitial["ExposureDuration"][0]) * 1000.0;
+    double exposure = IString::ToDouble(instInitial["ExposureDuration"][0]) * 1000.0;
 
     frameseq.push_back(0);
     exptime.push_back(exposure);
@@ -240,8 +240,8 @@ namespace Isis{
           PvlKeyword frameNumber("FrameNumber");
 
           for (unsigned int i=0; i < exptime.size(); i++) {
-            varExposure.addValue(std::to_string(exptime[i]), "ms" );
-            frameNumber.addValue(std::to_string(frameseq[i]));
+            varExposure.addValue(toString(exptime[i]), "ms" );
+            frameNumber.addValue(toString(frameseq[i]));
           }
         inst.addKeyword(frameNumber);
         inst.addKeyword(varExposure);
@@ -395,17 +395,17 @@ namespace Isis{
     inst += PvlKeyword("StartTime", pdsLabel["START_TIME"]);
     inst += PvlKeyword("StopTime", pdsLabel["STOP_TIME"]);
     inst += PvlKeyword("SpacecraftClockCount", pdsLabel["SPACECRAFT_CLOCK_START_COUNT"]);
-    inst += PvlKeyword("DataFlipped", std::to_string((int)(flip == 1)));
-    inst += PvlKeyword("ColorOffset", std::to_string(colorOffset));
-    inst += PvlKeyword("InterframeDelay", std::to_string((double)pdsLabel["INTERFRAME_DELAY"]), "seconds");
-    inst += PvlKeyword("ExposureDuration", std::to_string((double)pdsLabel["LINE_EXPOSURE_DURATION"] / 1000.0), "seconds");
+    inst += PvlKeyword("DataFlipped", toString((int)(flip == 1)));
+    inst += PvlKeyword("ColorOffset", toString(colorOffset));
+    inst += PvlKeyword("InterframeDelay", toString((double)pdsLabel["INTERFRAME_DELAY"]), "seconds");
+    inst += PvlKeyword("ExposureDuration", toString((double)pdsLabel["LINE_EXPOSURE_DURATION"] / 1000.0), "seconds");
 
     PvlGroup bandBin("BandBin");
     PvlKeyword filterName("FilterName");
     PvlKeyword origBands("OriginalBand");
     for(int filter = 0; filter < pdsLabel["FILTER_NAME"].size(); filter++) {
       filterName += pdsLabel["FILTER_NAME"][filter];
-      origBands += std::to_string(filter + 1);
+      origBands += toString(filter + 1);
     }
 
     bandBin += filterName;
@@ -435,7 +435,7 @@ namespace Isis{
     PvlGroup kerns("Kernels");
     QString uvvis = bandUvVis.find(QString::fromStdString(bandBin["FilterName"][0]))->second;
     int iakCode = naifIkCodes.find(uvvis)->second;
-    kerns += PvlKeyword("NaifIkCode", std::to_string(iakCode));
+    kerns += PvlKeyword("NaifIkCode", toString(iakCode));
 
     isisCube.addGroup(kerns);
   }

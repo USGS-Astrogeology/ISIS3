@@ -113,7 +113,7 @@ namespace Isis {
     p_photoPhaseList.clear();
 
     for (int i=0; i< phaseList.size(); i++) {
-      phaseAngle = std::stod(phaseList[i]);
+      phaseAngle = IString::ToDouble(phaseList[i]);
 
       if (phaseAngle < 0.0 || phaseAngle > 180.0) {
         std::string msg = "Invalid value of empirical Minnaert phase angle list value [" +
@@ -168,7 +168,7 @@ namespace Isis {
 
     p_photoKList.clear();
     for (int i=0; i<kstrList.size(); i++) {
-      p_photoKList.push_back(std::stod(kstrList[i]));
+      p_photoKList.push_back(IString::ToDouble(kstrList[i]));
     }
   }
 
@@ -208,7 +208,7 @@ namespace Isis {
 
     p_photoPhaseCurveList.clear();
     for (int i=0; i<photocurvestrList.size(); i++) {
-      p_photoPhaseCurveList.push_back(std::stod(photocurvestrList[i]));
+      p_photoPhaseCurveList.push_back(IString::ToDouble(photocurvestrList[i]));
     }
   }
 

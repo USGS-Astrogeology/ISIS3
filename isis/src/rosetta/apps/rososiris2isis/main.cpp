@@ -138,21 +138,21 @@ void IsisMain() {
       throw IException(e, IException::Io, msg, _FILEINFO_);
     }
   }
-  // bandBin += PvlKeyword("FilterId", std::to_string(filterId));
+  // bandBin += PvlKeyword("FilterId", toString(filterId));
   bbGrp.addKeyword(PvlKeyword("FilterOneName", filterNames[0].toStdString()));
-  bbGrp.addKeyword(PvlKeyword("FilterOneCenter", std::to_string(filterCenters[0]), "nanometers"));
-  bbGrp.addKeyword(PvlKeyword("FilterOneWidth", std::to_string(filterWidths[0]), "nanometers"));
+  bbGrp.addKeyword(PvlKeyword("FilterOneCenter", toString(filterCenters[0]), "nanometers"));
+  bbGrp.addKeyword(PvlKeyword("FilterOneWidth", toString(filterWidths[0]), "nanometers"));
   bbGrp.addKeyword(PvlKeyword("FilterTwoName", filterNames[1].toStdString()));
-  bbGrp.addKeyword(PvlKeyword("FilterTwoCenter", std::to_string(filterCenters[1]), "nanometers"));
-  bbGrp.addKeyword(PvlKeyword("FilterTwoWidth", std::to_string(filterWidths[1]), "nanometers"));
+  bbGrp.addKeyword(PvlKeyword("FilterTwoCenter", toString(filterCenters[1]), "nanometers"));
+  bbGrp.addKeyword(PvlKeyword("FilterTwoWidth", toString(filterWidths[1]), "nanometers"));
   outcube->putGroup(bbGrp);
 
   PvlGroup kerns("Kernels");
   if (instId.compare("OSINAC", Qt::CaseInsensitive) == 0) {
-    kerns += PvlKeyword("NaifFrameCode", std::to_string(-226111)); //should I add [-filtno] directly after the number?  That's what Dawn did
+    kerns += PvlKeyword("NaifFrameCode", toString(-226111)); //should I add [-filtno] directly after the number?  That's what Dawn did
   }
   else if (instId.compare("OSIWAC", Qt::CaseInsensitive) == 0) {
-    kerns += PvlKeyword("NaifFrameCode", std::to_string(-226112));  //should I add [-filtno] directly after the number?  That's what Dawn did
+    kerns += PvlKeyword("NaifFrameCode", toString(-226112));  //should I add [-filtno] directly after the number?  That's what Dawn did
   }
   else {
     std::string msg = "Input file [" + inFile.expanded() + "] has an invalid " +

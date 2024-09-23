@@ -201,14 +201,14 @@ void IsisMain() {
   double lMax = (int)(lStats.Maximum() * 100.0) / 100.0;
   double lDev = (int)(lStats.StandardDeviation() * 100.0) / 100.0;
 
-  results += PvlKeyword("SampleMinimum", std::to_string(sMin));
-  results += PvlKeyword("SampleAverage", std::to_string(sTrans));
-  results += PvlKeyword("SampleMaximum", std::to_string(sMax));
-  results += PvlKeyword("SampleStandardDeviation", std::to_string(sDev));
-  results += PvlKeyword("LineMinimum", std::to_string(lMin));
-  results += PvlKeyword("LineAverage", std::to_string(lTrans));
-  results += PvlKeyword("LineMaximum", std::to_string(lMax));
-  results += PvlKeyword("LineStandardDeviation", std::to_string(lDev));
+  results += PvlKeyword("SampleMinimum", toString(sMin));
+  results += PvlKeyword("SampleAverage", toString(sTrans));
+  results += PvlKeyword("SampleMaximum", toString(sMax));
+  results += PvlKeyword("SampleStandardDeviation", toString(sDev));
+  results += PvlKeyword("LineMinimum", toString(lMin));
+  results += PvlKeyword("LineAverage", toString(lTrans));
+  results += PvlKeyword("LineMaximum", toString(lMax));
+  results += PvlKeyword("LineStandardDeviation", toString(lDev));
   Application::Log(results);
 
   Pvl arPvl = ar->RegistrationStatistics();

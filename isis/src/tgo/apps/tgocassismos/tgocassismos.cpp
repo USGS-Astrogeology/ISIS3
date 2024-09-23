@@ -250,13 +250,13 @@ namespace Isis {
       mos += PvlKeyword("StartTime ", firstStartTime.toStdString());
       mos += PvlKeyword("StopTime ", stopTime.toStdString());
       mos += PvlKeyword("SpacecraftClockStartCount ", startClock.toStdString());
-      mos += PvlKeyword("IncidenceAngle ", std::to_string(incidenceAngle), "degrees");
-      mos += PvlKeyword("EmissionAngle ", std::to_string(emissionAngle), "degrees");
-      mos += PvlKeyword("PhaseAngle ", std::to_string(phaseAngle), "degrees");
-      mos += PvlKeyword("LocalTime ", std::to_string(localSolarTime));
-      mos += PvlKeyword("SolarLongitude ", std::to_string(solarLongitude), "degrees");
-      mos += PvlKeyword("SubSolarAzimuth ", std::to_string(sunAzimuth), "degrees");
-      mos += PvlKeyword("NorthAzimuth ", std::to_string(northAzimuth), "degrees");
+      mos += PvlKeyword("IncidenceAngle ", toString(incidenceAngle), "degrees");
+      mos += PvlKeyword("EmissionAngle ", toString(emissionAngle), "degrees");
+      mos += PvlKeyword("PhaseAngle ", toString(phaseAngle), "degrees");
+      mos += PvlKeyword("LocalTime ", toString(localSolarTime));
+      mos += PvlKeyword("SolarLongitude ", toString(solarLongitude), "degrees");
+      mos += PvlKeyword("SubSolarAzimuth ", toString(sunAzimuth), "degrees");
+      mos += PvlKeyword("NorthAzimuth ", toString(northAzimuth), "degrees");
 
       Cube mosCube;
       mosCube.open(ui.GetCubeName("TO"), "rw");

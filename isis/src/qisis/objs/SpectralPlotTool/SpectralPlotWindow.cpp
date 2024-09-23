@@ -121,7 +121,7 @@ namespace Isis {
       /*This is were we need to set the x value to the band number.*/
       if (grayBand > 0) {
         if (xAxisUnits() == PlotCurve::Wavelength) {
-          m_grayBandLine->setXValue(std::stod(wavelengths[grayBand-1]));
+          m_grayBandLine->setXValue(IString::ToDouble(wavelengths[grayBand-1]));
         }
         else {
           m_grayBandLine->setXValue(grayBand);
@@ -136,7 +136,7 @@ namespace Isis {
 
       if (redBand > 0) {
         if (xAxisUnits() == PlotCurve::Wavelength) {
-          m_redBandLine->setXValue(std::stod(wavelengths[redBand-1]));
+          m_redBandLine->setXValue(IString::ToDouble(wavelengths[redBand-1]));
         }
         else {
           m_redBandLine->setXValue(redBand);
@@ -150,7 +150,7 @@ namespace Isis {
       }
       if (greenBand > 0) {
         if (xAxisUnits() == PlotCurve::Wavelength) {
-          m_greenBandLine->setXValue(std::stod(wavelengths[greenBand-1]));
+          m_greenBandLine->setXValue(IString::ToDouble(wavelengths[greenBand-1]));
         }
         else {
           m_greenBandLine->setXValue(greenBand);
@@ -165,7 +165,7 @@ namespace Isis {
 
       if (blueBand > 0) {
         if (xAxisUnits() == PlotCurve::Wavelength) {
-          m_blueBandLine->setXValue(std::stod(wavelengths[blueBand-1]));
+          m_blueBandLine->setXValue(IString::ToDouble(wavelengths[blueBand-1]));
         }
         else {
           m_blueBandLine->setXValue(blueBand);

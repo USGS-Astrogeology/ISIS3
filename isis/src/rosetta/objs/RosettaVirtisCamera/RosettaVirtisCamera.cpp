@@ -104,9 +104,9 @@ namespace Isis {
 
     // convert milliseconds to seconds
 
-    m_exposureTime = std::stod(frameParam[0]) * 0.001;
-    m_summing  = std::stod(frameParam[1]);
-    m_scanRate = std::stod(frameParam[2]);
+    m_exposureTime = IString::ToDouble(frameParam[0]) * 0.001;
+    m_summing  = IString::ToDouble(frameParam[1]);
+    m_scanRate = IString::ToDouble(frameParam[2]);
 
     // Setup detector map
     //  Get the line scan rates/times
@@ -527,21 +527,21 @@ namespace Isis {
     }
 
     // Add some necessary keywords
-    quats.Label() += PvlKeyword("CkTableStartTime", std::to_string(startTime()));
-    quats.Label() += PvlKeyword("CkTableEndTime", std::to_string(endTime()));
-    quats.Label() += PvlKeyword("CkTableOriginalSize", std::to_string(quats.Records()));
+    quats.Label() += PvlKeyword("CkTableStartTime", toString(startTime()));
+    quats.Label() += PvlKeyword("CkTableEndTime", toString(endTime()));
+    quats.Label() += PvlKeyword("CkTableOriginalSize", toString(quats.Records()));
 
     // Create the time dependant frames keyword
     int virZeroId = getInteger("FRAME_" + virZero);
-    PvlKeyword tdf("TimeDependentFrames", std::to_string(virZeroId)); // ROS_VIRTIS_M_{ID}_ZERO
+    PvlKeyword tdf("TimeDependentFrames", toString(virZeroId)); // ROS_VIRTIS_M_{ID}_ZERO
     tdf.addValue("-226200");  //  ROS_VIRTIS
     tdf.addValue("-226000");  //  ROSETTA_SPACECRAFT
     tdf.addValue("1");        // J2000
     quats.Label() += tdf;
 
     //  Create constant rotation frames
-    PvlKeyword cf("ConstantFrames", std::to_string(virZeroId));
-    cf.addValue(std::to_string(virZeroId));
+    PvlKeyword cf("ConstantFrames", toString(virZeroId));
+    cf.addValue(toString(virZeroId));
     quats.Label() += cf;
 
     SpiceDouble identity[3][3];
@@ -551,7 +551,7 @@ namespace Isis {
     PvlKeyword crot("ConstantRotation");
     for (int i = 0 ; i < 3 ; i++) {
       for (int j = 0 ; j < 3 ; j++) {
-        crot.addValue(std::to_string(identity[i][j]));
+        crot.addValue(toString(identity[i][j]));
       }
     }
 

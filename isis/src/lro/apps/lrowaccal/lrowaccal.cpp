@@ -653,7 +653,7 @@ namespace Isis {
         responsivity = radPvl["IOF"];
 
         for (int i = 0; i < bands.size(); i++) {
-          g_iofResponsivity.push_back(std::stod(responsivity[std::stoi(bands[i]) - 1]));
+          g_iofResponsivity.push_back(IString::ToDouble(responsivity[IString::ToInteger(bands[i]) - 1]));
         }
 
         try {
@@ -704,7 +704,7 @@ namespace Isis {
       else {
         responsivity = radPvl["Radiance"];
         for (int i = 0; i < bands.size(); i++)
-          g_radianceResponsivity.push_back(std::stod(responsivity[std::stoi(bands[i]) - 1]));
+          g_radianceResponsivity.push_back(IString::ToDouble(responsivity[IString::ToInteger(bands[i]) - 1]));
       }
     }
 
@@ -738,8 +738,8 @@ namespace Isis {
       Pvl tempPvl(tempFileName.expanded());
       temperaturePvl.addValue(tempFileName.expanded());
       for (int b = 0; b < bands.size(); b++){
-        g_TempratureConstants[g_bands[b]][0]=std::stod(tempPvl[bands[b]][0]);
-        g_TempratureConstants[g_bands[b]][1]=std::stod(tempPvl[bands[b]][1]);
+        g_TempratureConstants[g_bands[b]][0]=IString::ToDouble(tempPvl[bands[b]][0]);
+        g_TempratureConstants[g_bands[b]][1]=IString::ToDouble(tempPvl[bands[b]][1]);
       }
     }
 
@@ -781,15 +781,15 @@ namespace Isis {
       if (g_iof) {
         calgrp += PvlKeyword("RadiometricType", "IOF");
         for (unsigned int i=0; i< g_iofResponsivity.size(); i++)
-          vals.addValue(std::to_string(g_iofResponsivity[i]));
+          vals.addValue(toString(g_iofResponsivity[i]));
       }
       else {
         calgrp += PvlKeyword("RadiometricType", "AbsoluteRadiance", "W/m2/sr/um");
         for (unsigned int i=0; i< g_radianceResponsivity.size(); i++)
-          vals.addValue(std::to_string(g_radianceResponsivity[i]));
+          vals.addValue(toString(g_radianceResponsivity[i]));
       }
       calgrp += vals;
-      calgrp += PvlKeyword("SolarDistance", std::to_string(g_solarDistance));
+      calgrp += PvlKeyword("SolarDistance", toString(g_solarDistance));
     }
     if (g_specpix)
       calgrp += PvlKeyword("SpecialPixelsFile", specpixFile.toStdString());

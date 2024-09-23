@@ -141,7 +141,7 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
     // Make sure we have a valid latitude value
     if(fabs(lat) > 90.0) {
       std::string msg = "Invalid value for LATITUDE ["
-                   + std::to_string(lat) + "] outside range of ";
+                   + toString(lat) + "] outside range of ";
       msg += "[-90,90]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -255,36 +255,36 @@ PvlGroup getProjPointInfo(Cube *icube, QPair<double, double> point, UserInterfac
   if(proj->IsGood()) {
     results += PvlKeyword("Filename",
                           FileName(icube->fileName().toStdString()).expanded());
-    results += PvlKeyword("Sample", std::to_string(proj->WorldX()));
-    results += PvlKeyword("Line", std::to_string(proj->WorldY()));
-    results += PvlKeyword("Band", std::to_string(icube->physicalBand(1)));
+    results += PvlKeyword("Sample", toString(proj->WorldX()));
+    results += PvlKeyword("Line", toString(proj->WorldY()));
+    results += PvlKeyword("Band", toString(icube->physicalBand(1)));
     results += PvlKeyword("FilterName", filterName.toStdString());
     results += PvlKeyword("PixelValue", PixelToString(b[0]));
-    results += PvlKeyword("X", std::to_string(proj->XCoord()));
-    results += PvlKeyword("Y", std::to_string(proj->YCoord()));
+    results += PvlKeyword("X", toString(proj->XCoord()));
+    results += PvlKeyword("Y", toString(proj->YCoord()));
 
     // Put together all the keywords for different coordinate systems.
     PvlKeyword centLat =
-      PvlKeyword("PlanetocentricLatitude", std::to_string(proj->UniversalLatitude()));
+      PvlKeyword("PlanetocentricLatitude", toString(proj->UniversalLatitude()));
 
     PvlKeyword graphLat =
       PvlKeyword("PlanetographicLatitude",
-                 std::to_string(proj->ToPlanetographic(proj->UniversalLatitude())));
+                 toString(proj->ToPlanetographic(proj->UniversalLatitude())));
 
     PvlKeyword pE360 =
-      PvlKeyword("PositiveEast360Longitude", std::to_string(proj->UniversalLongitude()));
+      PvlKeyword("PositiveEast360Longitude", toString(proj->UniversalLongitude()));
 
     PvlKeyword pW360 =
       PvlKeyword("PositiveWest360Longitude",
-                 std::to_string(proj->ToPositiveWest(proj->UniversalLongitude(), 360)));
+                 toString(proj->ToPositiveWest(proj->UniversalLongitude(), 360)));
 
     PvlKeyword pE180 =
       PvlKeyword("PositiveEast180Longitude",
-                 std::to_string(proj->To180Domain(proj->UniversalLongitude())));
+                 toString(proj->To180Domain(proj->UniversalLongitude())));
 
     PvlKeyword pW180 =
       PvlKeyword("PositiveWest180Longitude",
-                 std::to_string(proj->To180Domain(proj->ToPositiveEast(
+                 toString(proj->To180Domain(proj->ToPositiveEast(
                             proj->UniversalLongitude(), 360))));
 
 

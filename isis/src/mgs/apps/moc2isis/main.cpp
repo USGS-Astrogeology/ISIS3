@@ -195,7 +195,7 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
     QString str = instrumentXlater.Translate("FirstLineSample");
     int num = str.toInt();
     num++;
-    inst += PvlKeyword("FirstLineSample", std::to_string(num));
+    inst += PvlKeyword("FirstLineSample", toString(num));
   }
 
   // Add the instrument specific info to the output file
@@ -288,16 +288,16 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
 
     if(str == "BLUE") {
       bandBin += PvlKeyword("FilterName", str.toStdString());
-      bandBin += PvlKeyword("OriginalBand", std::to_string(1));
-      bandBin += PvlKeyword("Center", std::to_string(0.4346), "micrometers");
-      bandBin += PvlKeyword("Width", std::to_string(0.050), "micrometers");
+      bandBin += PvlKeyword("OriginalBand", toString(1));
+      bandBin += PvlKeyword("Center", toString(0.4346), "micrometers");
+      bandBin += PvlKeyword("Width", toString(0.050), "micrometers");
       frameCode = "-94033";
     }
     else if(str == "RED") {
       bandBin += PvlKeyword("FilterName", str.toStdString());
-      bandBin += PvlKeyword("OriginalBand", std::to_string(1));
-      bandBin += PvlKeyword("Center", std::to_string(0.6134), "micrometers");
-      bandBin += PvlKeyword("Width", std::to_string(0.050), "micrometers");
+      bandBin += PvlKeyword("OriginalBand", toString(1));
+      bandBin += PvlKeyword("Center", toString(0.6134), "micrometers");
+      bandBin += PvlKeyword("Width", toString(0.050), "micrometers");
       frameCode = "-94032";
     }
     else {
@@ -306,9 +306,9 @@ void TranslateMocEdrLabels(FileName &labelFile, Cube *ocube) {
   }
   else {
     bandBin += PvlKeyword("FilterName", "BROAD_BAND");
-    bandBin += PvlKeyword("OriginalBand", std::to_string(1));
-    bandBin += PvlKeyword("Center", std::to_string(0.700), "micrometers");
-    bandBin += PvlKeyword("Width", std::to_string(0.400), "micrometers");
+    bandBin += PvlKeyword("OriginalBand", toString(1));
+    bandBin += PvlKeyword("Center", toString(0.700), "micrometers");
+    bandBin += PvlKeyword("Width", toString(0.400), "micrometers");
     frameCode = "-94031";
   }
 

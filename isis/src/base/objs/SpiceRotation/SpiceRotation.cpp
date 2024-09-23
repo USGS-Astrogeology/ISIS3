@@ -551,7 +551,7 @@ namespace Isis {
     if (table.Label().hasKeyword("TimeDependentFrames")) {
       PvlKeyword labelTimeFrames = table.Label()["TimeDependentFrames"];
       for (int i = 0; i < labelTimeFrames.size(); i++) {
-        p_timeFrames.push_back(std::stoi(labelTimeFrames[i]));
+        p_timeFrames.push_back(IString::ToInteger(labelTimeFrames[i]));
       }
     }
     else {
@@ -564,12 +564,12 @@ namespace Isis {
       p_constantFrames.clear();
 
       for (int i = 0; i < labelConstantFrames.size(); i++) {
-        p_constantFrames.push_back(std::stoi(labelConstantFrames[i]));
+        p_constantFrames.push_back(IString::ToInteger(labelConstantFrames[i]));
       }
       PvlKeyword labelConstantRotation = table.Label()["ConstantRotation"];
 
       for (int i = 0; i < labelConstantRotation.size(); i++) {
-        p_TC.push_back(std::stod(labelConstantRotation[i]));
+        p_TC.push_back(IString::ToDouble(labelConstantRotation[i]));
       }
     }
     else {
@@ -579,18 +579,18 @@ namespace Isis {
 
     // Load the full cache time information from the label if available
     if (table.Label().hasKeyword("CkTableStartTime")) {
-      p_fullCacheStartTime = std::stod(table.Label().findKeyword("CkTableStartTime")[0]);
+      p_fullCacheStartTime = IString::ToDouble(table.Label().findKeyword("CkTableStartTime")[0]);
     }
     if (table.Label().hasKeyword("CkTableEndTime")) {
-      p_fullCacheEndTime = std::stod(table.Label().findKeyword("CkTableEndTime")[0]);
+      p_fullCacheEndTime = IString::ToDouble(table.Label().findKeyword("CkTableEndTime")[0]);
     }
     if (table.Label().hasKeyword("CkTableOriginalSize")) {
-      p_fullCacheSize = std::stoi(table.Label().findKeyword("CkTableOriginalSize")[0]);
+      p_fullCacheSize = IString::ToInteger(table.Label().findKeyword("CkTableOriginalSize")[0]);
     }
 
     // Load FrameTypeCode from labels if available and the planetary constants keywords
     if (table.Label().hasKeyword("FrameTypeCode")) {
-      m_frameType = (FrameType) std::stoi(table.Label().findKeyword("FrameTypeCode")[0]);
+      m_frameType = (FrameType) IString::ToInteger(table.Label().findKeyword("FrameTypeCode")[0]);
     }
     else {
       m_frameType = UNKNOWN;
@@ -1104,21 +1104,21 @@ namespace Isis {
     if (label.hasKeyword("PoleRa")) {
       PvlKeyword labelCoeffs = label["PoleRa"];
       for (int i = 0; i < labelCoeffs.size(); i++){
-        m_raPole.push_back(Angle(std::stod(labelCoeffs[i]), Angle::Degrees));
+        m_raPole.push_back(Angle(IString::ToDouble(labelCoeffs[i]), Angle::Degrees));
       }
       numLoaded += 1;
     }
     if (label.hasKeyword("PoleDec")) {
       PvlKeyword labelCoeffs = label["PoleDec"];
       for (int i = 0; i < labelCoeffs.size(); i++){
-        m_decPole.push_back(Angle(std::stod(labelCoeffs[i]), Angle::Degrees));
+        m_decPole.push_back(Angle(IString::ToDouble(labelCoeffs[i]), Angle::Degrees));
       }
       numLoaded += 1;
     }
     if (label.hasKeyword("PrimeMeridian")) {
       PvlKeyword labelCoeffs = label["PrimeMeridian"];
       for (int i = 0; i < labelCoeffs.size(); i++){
-        m_pm.push_back(Angle(std::stod(labelCoeffs[i]), Angle::Degrees));
+        m_pm.push_back(Angle(IString::ToDouble(labelCoeffs[i]), Angle::Degrees));
       }
       numLoaded += 1;
     }
@@ -1127,31 +1127,31 @@ namespace Isis {
     if (label.hasKeyword("PoleRaNutPrec")) {
       PvlKeyword labelCoeffs = label["PoleRaNutPrec"];
       for (int i = 0; i < labelCoeffs.size(); i++){
-        m_raNutPrec.push_back(std::stod(labelCoeffs[i]));
+        m_raNutPrec.push_back(IString::ToDouble(labelCoeffs[i]));
       }
     }
     if (label.hasKeyword("PoleDecNutPrec")) {
       PvlKeyword labelCoeffs = label["PoleDecNutPrec"];
       for (int i = 0; i < labelCoeffs.size(); i++){
-        m_decNutPrec.push_back(std::stod(labelCoeffs[i]));
+        m_decNutPrec.push_back(IString::ToDouble(labelCoeffs[i]));
       }
     }
     if (label.hasKeyword("PmNutPrec")) {
       PvlKeyword labelCoeffs = label["PmNutPrec"];
       for (int i = 0; i < labelCoeffs.size(); i++){
-        m_pmNutPrec.push_back(std::stod(labelCoeffs[i]));
+        m_pmNutPrec.push_back(IString::ToDouble(labelCoeffs[i]));
       }
     }
     if (label.hasKeyword("SysNutPrec0")) {
       PvlKeyword labelCoeffs = label["SysNutPrec0"];
       for (int i = 0; i < labelCoeffs.size(); i++){
-        m_sysNutPrec0.push_back(Angle(std::stod(labelCoeffs[i]), Angle::Degrees));
+        m_sysNutPrec0.push_back(Angle(IString::ToDouble(labelCoeffs[i]), Angle::Degrees));
       }
     }
     if (label.hasKeyword("SysNutPrec1")) {
       PvlKeyword labelCoeffs = label["SysNutPrec1"];
       for (int i = 0; i < labelCoeffs.size(); i++){
-        m_sysNutPrec1.push_back(Angle(std::stod(labelCoeffs[i]), Angle::Degrees));
+        m_sysNutPrec1.push_back(Angle(IString::ToDouble(labelCoeffs[i]), Angle::Degrees));
       }
     }
 
@@ -1174,7 +1174,7 @@ namespace Isis {
       table.Label() += PvlKeyword("TimeDependentFrames");
 
       for (int i = 0; i < (int) p_timeFrames.size(); i++) {
-        table.Label()["TimeDependentFrames"].addValue(std::to_string(p_timeFrames[i]));
+        table.Label()["TimeDependentFrames"].addValue(toString(p_timeFrames[i]));
       }
     }
 
@@ -1182,33 +1182,33 @@ namespace Isis {
       table.Label() += PvlKeyword("ConstantFrames");
 
       for (int i = 0; i < (int) p_constantFrames.size(); i++) {
-        table.Label()["ConstantFrames"].addValue(std::to_string(p_constantFrames[i]));
+        table.Label()["ConstantFrames"].addValue(toString(p_constantFrames[i]));
       }
 
       table.Label() += PvlKeyword("ConstantRotation");
 
       for (int i = 0; i < (int) p_TC.size(); i++) {
-        table.Label()["ConstantRotation"].addValue(std::to_string(p_TC[i]));
+        table.Label()["ConstantRotation"].addValue(toString(p_TC[i]));
       }
     }
 
     // Write original time coverage
     if (p_fullCacheStartTime != 0) {
       table.Label() += PvlKeyword("CkTableStartTime");
-      table.Label()["CkTableStartTime"].addValue(std::to_string(p_fullCacheStartTime));
+      table.Label()["CkTableStartTime"].addValue(toString(p_fullCacheStartTime));
     }
     if (p_fullCacheEndTime != 0) {
       table.Label() += PvlKeyword("CkTableEndTime");
-      table.Label()["CkTableEndTime"].addValue(std::to_string(p_fullCacheEndTime));
+      table.Label()["CkTableEndTime"].addValue(toString(p_fullCacheEndTime));
     }
     if (p_fullCacheSize != 0) {
       table.Label() += PvlKeyword("CkTableOriginalSize");
-      table.Label()["CkTableOriginalSize"].addValue(std::to_string(p_fullCacheSize));
+      table.Label()["CkTableOriginalSize"].addValue(toString(p_fullCacheSize));
     }
 
  // Begin section added 06-20-2015 DAC
     table.Label() += PvlKeyword("FrameTypeCode");
-    table.Label()["FrameTypeCode"].addValue(std::to_string(m_frameType));
+    table.Label()["FrameTypeCode"].addValue(toString(m_frameType));
 
     if (m_frameType == PCK) {
       // Write out all the body orientation constants
@@ -1216,50 +1216,50 @@ namespace Isis {
       table.Label() += PvlKeyword("PoleRa");
 
       for (int i = 0; i < (int) m_raPole.size(); i++) {
-        table.Label()["PoleRa"].addValue(std::to_string(m_raPole[i].degrees()));
+        table.Label()["PoleRa"].addValue(toString(m_raPole[i].degrees()));
       }
 
       // Pole right ascension, declination coefficients for a quadratic equation
       table.Label() += PvlKeyword("PoleDec");
       for (int i = 0; i < (int) m_decPole.size(); i++) {
-        table.Label()["PoleDec"].addValue(std::to_string(m_decPole[i].degrees()));
+        table.Label()["PoleDec"].addValue(toString(m_decPole[i].degrees()));
       }
 
       // Prime meridian coefficients for a quadratic equation
       table.Label() += PvlKeyword("PrimeMeridian");
       for (int i = 0; i < (int) m_pm.size(); i++) {
-        table.Label()["PrimeMeridian"].addValue(std::to_string(m_pm[i].degrees()));
+        table.Label()["PrimeMeridian"].addValue(toString(m_pm[i].degrees()));
       }
 
       if (m_raNutPrec.size() > 0) {
         // Pole right ascension nutation precision coefficients to the trig terms
         table.Label() += PvlKeyword("PoleRaNutPrec");
         for (int i = 0; i < (int) m_raNutPrec.size(); i++) {
-          table.Label()["PoleRaNutPrec"].addValue(std::to_string(m_raNutPrec[i]));
+          table.Label()["PoleRaNutPrec"].addValue(toString(m_raNutPrec[i]));
         }
 
         // Pole declination nutation precision coefficients to the trig terms
         table.Label() += PvlKeyword("PoleDecNutPrec");
         for (int i = 0; i < (int) m_decNutPrec.size(); i++) {
-          table.Label()["PoleDecNutPrec"].addValue(std::to_string(m_decNutPrec[i]));
+          table.Label()["PoleDecNutPrec"].addValue(toString(m_decNutPrec[i]));
         }
 
         // Prime meridian nutation precision coefficients to the trig terms
         table.Label() += PvlKeyword("PmNutPrec");
         for (int i = 0; i < (int) m_pmNutPrec.size(); i++) {
-          table.Label()["PmNutPrec"].addValue(std::to_string(m_pmNutPrec[i]));
+          table.Label()["PmNutPrec"].addValue(toString(m_pmNutPrec[i]));
         }
 
         // System nutation precision constant terms of linear model of periods
         table.Label() += PvlKeyword("SysNutPrec0");
         for (int i = 0; i < (int) m_sysNutPrec0.size(); i++) {
-          table.Label()["SysNutPrec0"].addValue(std::to_string(m_sysNutPrec0[i].degrees()));
+          table.Label()["SysNutPrec0"].addValue(toString(m_sysNutPrec0[i].degrees()));
         }
 
         // System nutation precision linear terms of linear model of periods
         table.Label() += PvlKeyword("SysNutPrec1");
         for (int i = 0; i < (int) m_sysNutPrec1.size(); i++) {
-          table.Label()["SysNutPrec1"].addValue(std::to_string(m_sysNutPrec1[i].degrees()));
+          table.Label()["SysNutPrec1"].addValue(toString(m_sysNutPrec1[i].degrees()));
         }
       }
     }

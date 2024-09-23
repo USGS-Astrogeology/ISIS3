@@ -461,21 +461,21 @@ void IsisMain() {
 
         // Add PSF parameter to the calibration reporting
         key = PvlKeyword("PSF_KernelSize");
-        key.addValue(std::to_string(g_size));
-        key.addValue(std::to_string(g_size));
+        key.addValue(toString(g_size));
+        key.addValue(toString(g_size));
         calibrationLog.addKeyword(key);
 
-        calibrationLog.addKeyword(PvlKeyword("PSF_Focused", std::to_string(g_alpha, 6)));
+        calibrationLog.addKeyword(PvlKeyword("PSF_Focused", toString(g_alpha, 6)));
 
         key = PvlKeyword("PSF_Sigma");
         for (int i = 0 ; i < g_N ; i++ ) {
-          key.addValue(std::to_string(g_sigma[i]));
+          key.addValue(toString(g_sigma[i]));
         }
         calibrationLog.addKeyword(key);
 
         key = PvlKeyword("PSF_Diffuse");
         for (int i = 0 ; i < g_N ; i++ ) {
-          key.addValue(std::to_string(g_A[i]));
+          key.addValue(toString(g_A[i]));
         }
 
       }
@@ -629,8 +629,8 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
   // Load the hot pixels into a vector
   for (int i = 0; i< hotPixelsGroup.keywords(); i++ ){
 
-    int samp(std::stoi(hotPixelsGroup[i][0]));
-    int line (std::stoi(hotPixelsGroup[i][1]));
+    int samp(IString::ToInteger(hotPixelsGroup[i][0]));
+    int line (IString::ToInteger(hotPixelsGroup[i][1]));
 
     hotPixelVector.append( Pixel(alpha->BetaSample(samp), alpha->BetaLine(line), 1, 0));
   }
@@ -639,20 +639,20 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
   g_gamma = linearityGroup["Gamma"];
   g_gamma = 1.0 - g_gamma;
 
-  g_L0 = std::stod(linearityGroup["L"][0]);
-  g_L1 = std::stod(linearityGroup["L"][1]);
+  g_L0 = IString::ToDouble(linearityGroup["L"][0]);
+  g_L1 = IString::ToDouble(linearityGroup["L"][1]);
 
   // Load Smear Removal Variables
   g_tvct = smearGroup["tvct"];
 
   // Load DarkCurrent variables
-  g_d0 = std::stod(darkCurrentGroup["D"][0]);
-  g_d1 = std::stod(darkCurrentGroup["D"][1]);
+  g_d0 = IString::ToDouble(darkCurrentGroup["D"][0]);
+  g_d1 = IString::ToDouble(darkCurrentGroup["D"][1]);
 
   // Load Bias variables
-  g_b0 = std::stod(biasGroup["B"][0]);
-  g_b1 = std::stod(biasGroup["B"][1]);
-  g_b2 = std::stod(biasGroup["B"][2]);
+  g_b0 = IString::ToDouble(biasGroup["B"][0]);
+  g_b1 = IString::ToDouble(biasGroup["B"][1]);
+  g_b2 = IString::ToDouble(biasGroup["B"][2]);
 
 
   g_launchTimeStr = QString::fromStdString(biasGroup["launchTime"]);

@@ -222,7 +222,7 @@ namespace Isis {
     OriginalLabel origLabel(pdsLab);
 
     int numFramelets = padding.size();
-    PvlKeyword numFrameletsKeyword("NumFramelets", std::to_string(numFramelets));
+    PvlKeyword numFrameletsKeyword("NumFramelets", toString(numFramelets));
 
     if(uveven) {
       for(int grp = 0; grp < isis3UvEvenLab.groups(); grp++) {
@@ -495,10 +495,10 @@ namespace Isis {
 
     // color offset doesn't apply to BW mode (single band cubes)
     if(colorOffset && viseven && viseven->bandCount() == 1) {
-      genericInstrument.push_back(PvlKeyword("ColorOffset", std::to_string(0)));
+      genericInstrument.push_back(PvlKeyword("ColorOffset", toString(0)));
     }
     else {
-      genericInstrument.push_back(PvlKeyword("ColorOffset", std::to_string(colorOffset)));
+      genericInstrument.push_back(PvlKeyword("ColorOffset", toString(colorOffset)));
     }
 
     genericInstrument.push_back(PvlKeyword("Decompanded", (ui.GetBoolean("UNLUT") ? "Yes" : "No")));
@@ -520,14 +520,14 @@ namespace Isis {
     // add labels unique to particular files
     if(viseven) {
       visEvenInst.addKeyword(PvlKeyword("Framelets", "Even"));
-      visEvenInst.addKeyword(PvlKeyword("NumFramelets", std::to_string(viseven->lineCount() / 14)));
+      visEvenInst.addKeyword(PvlKeyword("NumFramelets", toString(viseven->lineCount() / 14)));
       visEvenInst.addKeyword(PvlKeyword("InstrumentId", "WAC-VIS"), Pvl::Replace);
       visEvenInst.addKeyword(PvlKeyword("InstrumentModeId", pdsLab["INSTRUMENT_MODE_ID"]));
     }
 
     if(visodd) {
       visOddInst.addKeyword(PvlKeyword("Framelets", "Odd"));
-      visOddInst.addKeyword(PvlKeyword("NumFramelets", std::to_string(visodd->lineCount() / 14)));
+      visOddInst.addKeyword(PvlKeyword("NumFramelets", toString(visodd->lineCount() / 14)));
       visOddInst.addKeyword(PvlKeyword("InstrumentId", "WAC-VIS"), Pvl::Replace);
       visOddInst.addKeyword(PvlKeyword("InstrumentModeId", pdsLab["INSTRUMENT_MODE_ID"]));
     }
@@ -549,7 +549,7 @@ namespace Isis {
     }
     else {
       for(int i = 0; i < pdsLab["FILTER_NUMBER"].size(); i++) {
-        if(std::stoi(pdsLab["FILTER_NUMBER"][i]) > 2) {
+        if(IString::ToInteger(pdsLab["FILTER_NUMBER"][i]) > 2) {
           visWavelength += pdsLab["CENTER_FILTER_WAVELENGTH"][i];
           visFilterNum += pdsLab["FILTER_NUMBER"][i];
 
@@ -577,14 +577,14 @@ namespace Isis {
 
     if(uveven) {
       uvEvenInst.addKeyword(PvlKeyword("Framelets", "Even"));
-      uvEvenInst.addKeyword(PvlKeyword("NumFramelets", std::to_string(uveven->lineCount() / 4)));
+      uvEvenInst.addKeyword(PvlKeyword("NumFramelets", toString(uveven->lineCount() / 4)));
       uvEvenInst.addKeyword(PvlKeyword("InstrumentId", "WAC-UV"), Pvl::Replace);
       uvEvenInst.addKeyword(PvlKeyword("InstrumentModeId", pdsLab["INSTRUMENT_MODE_ID"]));
     }
 
     if(uvodd) {
       uvOddInst.addKeyword(PvlKeyword("Framelets", "Odd"));
-      uvOddInst.addKeyword(PvlKeyword("NumFramelets", std::to_string(uvodd->lineCount() / 4)));
+      uvOddInst.addKeyword(PvlKeyword("NumFramelets", toString(uvodd->lineCount() / 4)));
       uvOddInst.addKeyword(PvlKeyword("InstrumentId", "WAC-UV"), Pvl::Replace);
       uvOddInst.addKeyword(PvlKeyword("InstrumentModeId", pdsLab["INSTRUMENT_MODE_ID"]));
     }
@@ -596,7 +596,7 @@ namespace Isis {
     PvlKeyword uvBandwidth("Width");
 
     for(int i = 0; i < pdsLab["FILTER_NUMBER"].size(); i++) {
-      if(std::stoi(pdsLab["FILTER_NUMBER"][i]) <= 2) {
+      if(IString::ToInteger(pdsLab["FILTER_NUMBER"][i]) <= 2) {
         uvWavelength += pdsLab["CENTER_FILTER_WAVELENGTH"][i];
         uvFilterNum += pdsLab["FILTER_NUMBER"][i];
 
@@ -742,7 +742,7 @@ namespace Isis {
         bool found = false;
         bool match = false;
         for(int j = 0; !found && j < (int) filters.size(); j++) {
-          if(std::stoi(pdsLab["FILTER_NUMBER"][i]) == filters[j].first) {
+          if(IString::ToInteger(pdsLab["FILTER_NUMBER"][i]) == filters[j].first) {
             found = true;
 
             match = (pdsLab["CENTER_FILTER_WAVELENGTH"][i] == filters[j].second.toStdString());

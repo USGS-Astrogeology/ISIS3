@@ -305,19 +305,19 @@ namespace Isis {
       // add surface point x/y/z, convert to lat,lon,radius and output as comment
       SurfacePoint aprioriSurfacePoint = controlPoint->GetAprioriSurfacePoint();
       if ( aprioriSurfacePoint.Valid() ) {
-        PvlKeyword aprioriX("AprioriX", std::to_string(aprioriSurfacePoint.GetX().meters()), "meters");
-        PvlKeyword aprioriY("AprioriY", std::to_string(aprioriSurfacePoint.GetY().meters()), "meters");
-        PvlKeyword aprioriZ("AprioriZ", std::to_string(aprioriSurfacePoint.GetZ().meters()), "meters");
+        PvlKeyword aprioriX("AprioriX", toString(aprioriSurfacePoint.GetX().meters()), "meters");
+        PvlKeyword aprioriY("AprioriY", toString(aprioriSurfacePoint.GetY().meters()), "meters");
+        PvlKeyword aprioriZ("AprioriZ", toString(aprioriSurfacePoint.GetZ().meters()), "meters");
 
         aprioriX.addComment("AprioriLatitude = "
-                            + std::to_string(aprioriSurfacePoint.GetLatitude().degrees())
+                            + toString(aprioriSurfacePoint.GetLatitude().degrees())
                             + " <degrees>");
         aprioriY.addComment("AprioriLongitude = "
-                            + std::to_string(aprioriSurfacePoint.GetLongitude().degrees())
+                            + toString(aprioriSurfacePoint.GetLongitude().degrees())
                             + " <degrees>");
 
         aprioriZ.addComment("AprioriRadius = "
-                            + std::to_string(aprioriSurfacePoint.GetLocalRadius().meters())
+                            + toString(aprioriSurfacePoint.GetLocalRadius().meters())
                             + " <meters>");
 
         pvlPoint += aprioriX;
@@ -331,12 +331,12 @@ namespace Isis {
 
           // Matrix units are meters squared
           PvlKeyword matrix("AprioriCovarianceMatrix");
-          matrix += std::to_string(aprioriCovarianceMatrix(0, 0));
-          matrix += std::to_string(aprioriCovarianceMatrix(0, 1));
-          matrix += std::to_string(aprioriCovarianceMatrix(0, 2));
-          matrix += std::to_string(aprioriCovarianceMatrix(1, 1));
-          matrix += std::to_string(aprioriCovarianceMatrix(1, 2));
-          matrix += std::to_string(aprioriCovarianceMatrix(2, 2));
+          matrix += toString(aprioriCovarianceMatrix(0, 0));
+          matrix += toString(aprioriCovarianceMatrix(0, 1));
+          matrix += toString(aprioriCovarianceMatrix(0, 2));
+          matrix += toString(aprioriCovarianceMatrix(1, 1));
+          matrix += toString(aprioriCovarianceMatrix(1, 2));
+          matrix += toString(aprioriCovarianceMatrix(2, 2));
 
           // *** TODO *** What do we do in the case of bundled in rectangular coordinates?
           // For now we do nothing.
@@ -385,20 +385,20 @@ namespace Isis {
       SurfacePoint adjustedSurfacePoint = controlPoint->GetAdjustedSurfacePoint();
       if ( adjustedSurfacePoint.Valid() ) {
         PvlKeyword adjustedX("AdjustedX",
-                             std::to_string(adjustedSurfacePoint.GetX().meters()), "meters");
+                             toString(adjustedSurfacePoint.GetX().meters()), "meters");
         PvlKeyword adjustedY("AdjustedY",
-                             std::to_string(adjustedSurfacePoint.GetY().meters()), "meters");
+                             toString(adjustedSurfacePoint.GetY().meters()), "meters");
         PvlKeyword adjustedZ("AdjustedZ",
-                             std::to_string(adjustedSurfacePoint.GetZ().meters()), "meters");
+                             toString(adjustedSurfacePoint.GetZ().meters()), "meters");
 
         adjustedX.addComment("AdjustedLatitude = "
-                             + std::to_string(adjustedSurfacePoint.GetLatitude().degrees())
+                             + toString(adjustedSurfacePoint.GetLatitude().degrees())
                              + " <degrees>");
         adjustedY.addComment("AdjustedLongitude = "
-                             + std::to_string(adjustedSurfacePoint.GetLongitude().degrees())
+                             + toString(adjustedSurfacePoint.GetLongitude().degrees())
                              + " <degrees>");
         adjustedZ.addComment("AdjustedRadius = "
-                             + std::to_string(adjustedSurfacePoint.GetLocalRadius().meters())
+                             + toString(adjustedSurfacePoint.GetLocalRadius().meters())
                              + " <meters>");
 
         pvlPoint += adjustedX;
@@ -411,12 +411,12 @@ namespace Isis {
         if ( adjustedCovarianceMatrix.size1() > 0 ) {
 
           PvlKeyword matrix("AdjustedCovarianceMatrix");
-          matrix += std::to_string(adjustedCovarianceMatrix(0, 0));
-          matrix += std::to_string(adjustedCovarianceMatrix(0, 1));
-          matrix += std::to_string(adjustedCovarianceMatrix(0, 2));
-          matrix += std::to_string(adjustedCovarianceMatrix(1, 1));
-          matrix += std::to_string(adjustedCovarianceMatrix(1, 2));
-          matrix += std::to_string(adjustedCovarianceMatrix(2, 2));
+          matrix += toString(adjustedCovarianceMatrix(0, 0));
+          matrix += toString(adjustedCovarianceMatrix(0, 1));
+          matrix += toString(adjustedCovarianceMatrix(0, 2));
+          matrix += toString(adjustedCovarianceMatrix(1, 1));
+          matrix += toString(adjustedCovarianceMatrix(1, 2));
+          matrix += toString(adjustedCovarianceMatrix(2, 2));
 
           if ( adjustedSurfacePoint.GetLatSigmaDistance().meters() != Isis::Null
                && adjustedSurfacePoint.GetLonSigmaDistance().meters() != Isis::Null
@@ -480,50 +480,50 @@ namespace Isis {
         }
 
         if ( controlMeasure.GetSample() != Isis::Null) {
-          pvlMeasure += PvlKeyword("Sample", std::to_string(controlMeasure.GetSample()));
+          pvlMeasure += PvlKeyword("Sample", toString(controlMeasure.GetSample()));
 
         }
 
         if ( controlMeasure.GetLine() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("Line", std::to_string(controlMeasure.GetLine()));
+          pvlMeasure += PvlKeyword("Line", toString(controlMeasure.GetLine()));
         }
 
         if ( controlMeasure.GetDiameter() != Isis::Null
              && controlMeasure.GetDiameter() != 0. ) {
-          pvlMeasure += PvlKeyword("Diameter", std::to_string(controlMeasure.GetDiameter()));
+          pvlMeasure += PvlKeyword("Diameter", toString(controlMeasure.GetDiameter()));
         }
 
         if ( controlMeasure.GetAprioriSample() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("AprioriSample", std::to_string(controlMeasure.GetAprioriSample()));
+          pvlMeasure += PvlKeyword("AprioriSample", toString(controlMeasure.GetAprioriSample()));
         }
 
         if ( controlMeasure.GetAprioriLine() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("AprioriLine", std::to_string(controlMeasure.GetAprioriLine()));
+          pvlMeasure += PvlKeyword("AprioriLine", toString(controlMeasure.GetAprioriLine()));
         }
 
         if ( controlMeasure.GetSampleSigma() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("SampleSigma", std::to_string(controlMeasure.GetSampleSigma()),
+          pvlMeasure += PvlKeyword("SampleSigma", toString(controlMeasure.GetSampleSigma()),
                                    "pixels");
         }
 
         if ( controlMeasure.GetLineSigma() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("LineSigma", std::to_string(controlMeasure.GetLineSigma()),
+          pvlMeasure += PvlKeyword("LineSigma", toString(controlMeasure.GetLineSigma()),
                                    "pixels");
         }
 
         if ( controlMeasure.GetSampleResidual() != Isis::Null ) {
           pvlMeasure += PvlKeyword("SampleResidual",
-                                   std::to_string(controlMeasure.GetSampleResidual()),
+                                   toString(controlMeasure.GetSampleResidual()),
                                    "pixels");
         }
 
         if ( controlMeasure.GetLineResidual() != Isis::Null ) {
-          pvlMeasure += PvlKeyword("LineResidual", std::to_string(controlMeasure.GetLineResidual()),
+          pvlMeasure += PvlKeyword("LineResidual", toString(controlMeasure.GetLineResidual()),
                                    "pixels");
         }
 
         if ( controlMeasure.IsRejected() ) {
-          pvlMeasure += PvlKeyword("JigsawRejected", std::to_string(controlMeasure.IsRejected()));
+          pvlMeasure += PvlKeyword("JigsawRejected", toString(controlMeasure.IsRejected()));
         }
 
         foreach (ControlMeasureLogData log, controlMeasure.GetLogDataEntries()) {
@@ -587,7 +587,7 @@ namespace Isis {
     int version = 1;
 
     if ( controlNetwork.hasKeyword("Version") ) {
-      version = std::stoi(controlNetwork["Version"][0]);
+      version = IString::ToInteger(controlNetwork["Version"][0]);
     }
 
     switch ( version ) {
@@ -607,7 +607,7 @@ namespace Isis {
         readPvlV0005(controlNetwork, progress);
         break;
       default:
-        std::string msg = "The Pvl file version [" + std::to_string(version)
+        std::string msg = "The Pvl file version [" + toString(version)
                       + "] is not supported";
         throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -660,7 +660,7 @@ namespace Isis {
       }
       catch (IException &e) {
         std::string msg = "Failed to initialize control point at index ["
-                      + std::to_string(objectIndex) + "].";
+                      + toString(objectIndex) + "].";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -711,7 +711,7 @@ namespace Isis {
       }
       catch (IException &e) {
         std::string msg = "Failed to initialize control point at index ["
-                      + std::to_string(objectIndex) + "].";
+                      + toString(objectIndex) + "].";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -761,7 +761,7 @@ namespace Isis {
       }
       catch (IException &e) {
         std::string msg = "Failed to initialize control point at index ["
-                      + std::to_string(objectIndex) + "].";
+                      + toString(objectIndex) + "].";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -810,7 +810,7 @@ namespace Isis {
       }
       catch (IException &e) {
         std::string msg = "Failed to initialize control point at index ["
-                      + std::to_string(objectIndex) + "].";
+                      + toString(objectIndex) + "].";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -859,7 +859,7 @@ namespace Isis {
       }
       catch (IException &e) {
         std::string msg = "Failed to initialize control point at index ["
-                      + std::to_string(objectIndex) + "].";
+                      + toString(objectIndex) + "].";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -883,7 +883,7 @@ namespace Isis {
     const PvlGroup &netInfo = protoBuf.findGroup("ControlNetworkInfo");
 
     if ( netInfo.hasKeyword("Version") ) {
-      version = std::stoi(netInfo["Version"][0]);
+      version = IString::ToInteger(netInfo["Version"][0]);
     }
     switch ( version ) {
       case 1:
@@ -896,7 +896,7 @@ namespace Isis {
         readProtobufV0005(header, netFile, progress);
         break;
       default:
-        std::string msg = "The Protobuf file version [" + std::to_string(version)
+        std::string msg = "The Protobuf file version [" + toString(version)
                       + "] is not supported";
         throw IException(IException::Io, msg, _FILEINFO_);
     }
@@ -1019,7 +1019,7 @@ namespace Isis {
       }
       catch (IException &e) {
         std::string msg = "Failed to convert version 1 protobuf control point at index ["
-                      + std::to_string(i) + "] into a ControlPoint.";
+                      + toString(i) + "] into a ControlPoint.";
         throw IException(e, IException::User, msg, _FILEINFO_);
       }
     }
@@ -1121,7 +1121,7 @@ namespace Isis {
       }
       catch (...) {
         std::string msg = "Failed to read protobuf version 2 control point at index ["
-                      + std::to_string(pointIndex) + "].";
+                      + toString(pointIndex) + "].";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -1136,7 +1136,7 @@ namespace Isis {
       }
       catch (IException &e) {
         std::string msg = "Failed to convert protobuf version 2 control point at index ["
-                      + std::to_string(pointIndex) + "] into a ControlPoint.";
+                      + toString(pointIndex) + "] into a ControlPoint.";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -1270,7 +1270,7 @@ namespace Isis {
       }
       catch (...) {
         std::string msg = "Failed to read protobuf version 2 control point at index ["
-                      + std::to_string(pointIndex) + "].";
+                      + toString(pointIndex) + "].";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
@@ -1285,7 +1285,7 @@ namespace Isis {
       }
       catch (IException &e) {
         std::string msg = "Failed to convert protobuf version 2 control point at index ["
-                      + std::to_string(pointIndex) + "] into a ControlPoint.";
+                      + toString(pointIndex) + "] into a ControlPoint.";
         throw IException(e, IException::Io, msg, _FILEINFO_);
       }
     }
@@ -1367,7 +1367,7 @@ namespace Isis {
         break;
       default:
         std::string msg = "Unable to create ControlPoint [" + protoPoint.id()
-                      + "] from file. Type enumeration [" + std::to_string((int)(protoPoint.type()))
+                      + "] from file. Type enumeration [" + toString((int)(protoPoint.type()))
                       + "] is invalid.";
         throw IException(IException::Programmer, msg, _FILEINFO_);
         break;
@@ -1697,15 +1697,15 @@ namespace Isis {
 
       PvlObject protoCore("Core");
       protoCore.addKeyword(PvlKeyword("HeaderStartByte",
-                           std::to_string(((BigInt) startCoreHeaderPos))));
-      protoCore.addKeyword(PvlKeyword("HeaderBytes", std::to_string(((BigInt) coreHeaderSize))));
+                           toString(((BigInt) startCoreHeaderPos))));
+      protoCore.addKeyword(PvlKeyword("HeaderBytes", toString(((BigInt) coreHeaderSize))));
 
       BigInt pointsStartByte = (BigInt) (startCoreHeaderPos + coreHeaderSize);
 
-      protoCore.addKeyword(PvlKeyword("PointsStartByte", std::to_string((pointsStartByte))));
+      protoCore.addKeyword(PvlKeyword("PointsStartByte", toString((pointsStartByte))));
 
       protoCore.addKeyword(PvlKeyword("PointsBytes",
-                           std::to_string(pointByteTotal)));
+                           toString(pointByteTotal)));
       protoObj.addObject(protoCore);
 
       PvlGroup netInfo("ControlNetworkInfo");
@@ -1716,8 +1716,8 @@ namespace Isis {
       netInfo += PvlKeyword("Created", protobufHeader.created());
       netInfo += PvlKeyword("LastModified", protobufHeader.lastmodified());
       netInfo += PvlKeyword("Description", protobufHeader.description());
-      netInfo += PvlKeyword("NumberOfPoints", std::to_string(numPoints));
-      netInfo += PvlKeyword("NumberOfMeasures", std::to_string(numMeasures));
+      netInfo += PvlKeyword("NumberOfPoints", toString(numPoints));
+      netInfo += PvlKeyword("NumberOfMeasures", toString(numMeasures));
       netInfo += PvlKeyword("Version", "5");
       protoObj.addGroup(netInfo);
 

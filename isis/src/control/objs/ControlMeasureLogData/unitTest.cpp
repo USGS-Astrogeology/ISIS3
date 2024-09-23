@@ -42,7 +42,7 @@ int main() {
 
   cout << "Testing PvlKeyword constructor..." << endl;
   {
-    ControlMeasureLogData logData(PvlKeyword("GoodnessOfFit", std::to_string(3.14159)));
+    ControlMeasureLogData logData(PvlKeyword("GoodnessOfFit", toString(3.14159)));
 
     cout << "Valid? " << logData.IsValid() << "\n"
          << "Type?  " << logData.GetDataType() << "\n"

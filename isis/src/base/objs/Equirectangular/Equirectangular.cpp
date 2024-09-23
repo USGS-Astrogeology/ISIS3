@@ -56,7 +56,7 @@ namespace Isis {
       if (!mapGroup.hasKeyword("CenterLongitude")) {
         if (allowDefaults) {
           double lon = (m_minimumLongitude + m_maximumLongitude) / 2.0;
-          mapGroup += PvlKeyword("CenterLongitude", std::to_string(lon));
+          mapGroup += PvlKeyword("CenterLongitude", toString(lon));
         }
         else {
           std::string message = "Cannot project using Equirectangular Cylindrical";
@@ -69,7 +69,7 @@ namespace Isis {
       if (!mapGroup.hasKeyword("CenterLatitude")) {
         if (allowDefaults) {
           double lat = (m_minimumLatitude + m_maximumLatitude) / 2.0;
-          mapGroup += PvlKeyword("CenterLatitude", std::to_string(lat));
+          mapGroup += PvlKeyword("CenterLatitude", toString(lat));
         }
         else {
           std::string message = "Cannot project using Equirectangular Cylindrical";
@@ -95,7 +95,7 @@ namespace Isis {
         mapGroup += PvlKeyword("CenterLatitudeRadius");
       }
 
-      mapGroup["CenterLatitudeRadius"] = std::to_string(m_clatRadius);
+      mapGroup["CenterLatitudeRadius"] = toString(m_clatRadius);
 
       // Compute cos of the center latitude and make sure it is valid as
       // we will be dividing with it later on

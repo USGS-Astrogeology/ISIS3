@@ -176,7 +176,7 @@ namespace Isis {
   void AlbedoAtm::SetNormPharef(const double pharef) {
     if(pharef < 0.0 || pharef >= 180.0) {
       std::string msg = "Invalid value of normalization pharef [" +
-                        std::to_string(pharef) + "]";
+                        toString(pharef) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -195,7 +195,7 @@ namespace Isis {
   void AlbedoAtm::SetNormIncref(const double incref) {
     if(incref < 0.0 || incref >= 90.0) {
       std::string msg = "Invalid value of normalization incref [" +
-                        std::to_string(incref) + "]";
+                        toString(incref) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 
@@ -214,7 +214,7 @@ namespace Isis {
   void AlbedoAtm::SetNormEmaref(const double emaref) {
     if(emaref < 0.0 || emaref >= 90.0) {
       std::string msg = "Invalid value of normalization emaref [" +
-                        std::to_string(emaref) + "]";
+                        toString(emaref) + "]";
       throw IException(IException::User, msg, _FILEINFO_);
     }
 

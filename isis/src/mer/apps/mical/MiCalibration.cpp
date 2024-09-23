@@ -36,8 +36,8 @@ namespace Isis {
           image.label()->findGroup("Instrument", Pvl::Traverse);
       p_exposureDuration = labelgrp["ExposureDuration"];
       p_instrumentSerialNumber = labelgrp["InstrumentSerialNumber"];
-      p_CCDTemperature = std::stod(labelgrp["InstrumentTemperature"][6]);
-      p_PCBTemperature = std::stod(labelgrp["InstrumentTemperature"][7]);
+      p_CCDTemperature = IString::ToDouble(labelgrp["InstrumentTemperature"][6]);
+      p_PCBTemperature = IString::ToDouble(labelgrp["InstrumentTemperature"][7]);
       p_OffsetModeId = labelgrp["OffsetModeID"];
       p_shuttereffectcorrectionflag =  QString::fromStdString(labelgrp["ShutterEffectCorrectionFlag"]);
       p_filterName =  QString::fromStdString(labelgrp["FilterName"]);

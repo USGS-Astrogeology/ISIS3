@@ -234,13 +234,13 @@ namespace Isis {
       if (!outInst.hasKeyword("DataFlipped")) {
         outInst.addKeyword(PvlKeyword("DataFlipped"));
       }
-      outInst["DataFlipped"].setValue(std::to_string(!inputFlipped));
+      outInst["DataFlipped"].setValue(toString(!inputFlipped));
     }
 
     // Record numLinesOverlap
     if (!outInst.hasKeyword("NumLinesOverlap"))
       outInst.addKeyword(PvlKeyword("NumLinesOverlap"));
-    outInst["numLinesOverlap"].setValue(std::to_string(numLinesOverlap));
+    outInst["numLinesOverlap"].setValue(toString(numLinesOverlap));
 
     process.EndProcess();
 

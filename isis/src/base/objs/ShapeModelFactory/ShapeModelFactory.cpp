@@ -183,7 +183,7 @@ namespace Isis {
             // Do this here, otherwise default behavior will ensue from here on out
             kernelsPvlGroup.addKeyword(PvlKeyword("RayTraceEngine", preferred.toStdString()), PvlContainer::Replace);
             kernelsPvlGroup.addKeyword(PvlKeyword("OnError", onerror.toStdString()), PvlContainer::Replace);
-            kernelsPvlGroup.addKeyword(PvlKeyword("Tolerance", std::to_string(tolerance)),
+            kernelsPvlGroup.addKeyword(PvlKeyword("Tolerance", toString(tolerance)),
                                                   PvlContainer::Replace);
 
             return ( b_model );
@@ -220,7 +220,7 @@ namespace Isis {
           // Do this here, otherwise default behavior will ensue from here on out
           kernelsPvlGroup.addKeyword(PvlKeyword("RayTraceEngine", preferred.toStdString()), PvlContainer::Replace);
           kernelsPvlGroup.addKeyword(PvlKeyword("OnError", onerror.toStdString()), PvlContainer::Replace);
-          kernelsPvlGroup.addKeyword(PvlKeyword("Tolerance", std::to_string(tolerance)),
+          kernelsPvlGroup.addKeyword(PvlKeyword("Tolerance", toString(tolerance)),
                                                 PvlContainer::Replace);
 
           return ( embreeModel );

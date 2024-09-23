@@ -585,7 +585,7 @@ int main(int argc, char *argv[]) {
     cout << "\t\t\t TESTING OTHER METHODS" << endl;
     cout << border << endl << endl;
     //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-    mapGroup.findKeyword("PolarRadius").setValue(std::to_string(p2a->EquatorialRadius()));
+    mapGroup.findKeyword("PolarRadius").setValue(toString(p2a->EquatorialRadius()));
     TProjection *p9 = (TProjection *) ProjectionFactory::Create(lab);
     TProjection *s = p1;
     cout << "Name:                       " << s->Name().toStdString() << endl;

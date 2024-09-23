@@ -67,10 +67,10 @@ void IsisMain() {
   // Make the target info match the user mapfile
   double minrad, maxrad, minaz, maxaz;
   incam->ringRange(minrad, maxrad, minaz, maxaz, userMap);
-  camGrp.addKeyword(PvlKeyword("MinimumRingRadius", std::to_string(minrad)), Pvl::Replace);
-  camGrp.addKeyword(PvlKeyword("MaximumRingRadius", std::to_string(maxrad)), Pvl::Replace);
-  camGrp.addKeyword(PvlKeyword("MinimumRingLongitude", std::to_string(minaz)), Pvl::Replace);
-  camGrp.addKeyword(PvlKeyword("MaximumRingLongitude", std::to_string(maxaz)), Pvl::Replace);
+  camGrp.addKeyword(PvlKeyword("MinimumRingRadius", toString(minrad)), Pvl::Replace);
+  camGrp.addKeyword(PvlKeyword("MaximumRingRadius", toString(maxrad)), Pvl::Replace);
+  camGrp.addKeyword(PvlKeyword("MinimumRingLongitude", toString(minaz)), Pvl::Replace);
+  camGrp.addKeyword(PvlKeyword("MaximumRingLongitude", toString(maxaz)), Pvl::Replace);
 
   // We want to delete the keywords we just added if the user wants the range
   // out of the mapfile, otherwise they will replace any keywords not in the
@@ -101,22 +101,22 @@ void IsisMain() {
   // If the user decided to enter a ground range then override
   if(ui.WasEntered("MINRINGLON")) {
     userGrp.addKeyword(PvlKeyword("MinimumRingLongitude",
-                                  std::to_string(ui.GetDouble("MINRINGLON"))), Pvl::Replace);
+                                  toString(ui.GetDouble("MINRINGLON"))), Pvl::Replace);
   }
 
   if(ui.WasEntered("MAXRINGLON")) {
     userGrp.addKeyword(PvlKeyword("MaximumRingLongitude",
-                                  std::to_string(ui.GetDouble("MAXRINGLON"))), Pvl::Replace);
+                                  toString(ui.GetDouble("MAXRINGLON"))), Pvl::Replace);
   }
 
   if(ui.WasEntered("MINRINGRAD")) {
     userGrp.addKeyword(PvlKeyword("MinimumRingRadius",
-                                  std::to_string(ui.GetDouble("MINRINGRAD"))), Pvl::Replace);
+                                  toString(ui.GetDouble("MINRINGRAD"))), Pvl::Replace);
   }
 
   if(ui.WasEntered("MAXRINGRAD")) {
     userGrp.addKeyword(PvlKeyword("MaximumRingRadius",
-                                  std::to_string(ui.GetDouble("MAXRINGRAD"))), Pvl::Replace);
+                                  toString(ui.GetDouble("MAXRINGRAD"))), Pvl::Replace);
   }
 
   // If they want the res. from the mapfile, delete it from the camera so
@@ -146,7 +146,7 @@ void IsisMain() {
   if (!ui.GetBoolean("MATCHMAP")) {
     if(ui.GetString("PIXRES") == "MPP") {
       userGrp.addKeyword(PvlKeyword("PixelResolution",
-                                    std::to_string(ui.GetDouble("RESOLUTION"))),
+                                    toString(ui.GetDouble("RESOLUTION"))),
                          Pvl::Replace);
       if(userGrp.hasKeyword("Scale")) {
         userGrp.deleteKeyword("Scale");
@@ -154,7 +154,7 @@ void IsisMain() {
     }
     else if(ui.GetString("PIXRES") == "PPD") {
       userGrp.addKeyword(PvlKeyword("Scale",
-                                    std::to_string(ui.GetDouble("RESOLUTION"))),
+                                    toString(ui.GetDouble("RESOLUTION"))),
                          Pvl::Replace);
       if(userGrp.hasKeyword("PixelResolution")) {
         userGrp.deleteKeyword("PixelResolution");
@@ -196,16 +196,16 @@ void IsisMain() {
           double minrad, maxrad, minaz, maxaz;
           incam->ringRange(minrad, maxrad, minaz, maxaz, userMap);
           if(!ui.WasEntered("MINRINGRAD")) {
-            userGrp.addKeyword(PvlKeyword("MinimumRingRadius", std::to_string(minrad)), Pvl::Replace);
+            userGrp.addKeyword(PvlKeyword("MinimumRingRadius", toString(minrad)), Pvl::Replace);
           }
           if(!ui.WasEntered("MAXRINGRAD")) {
-            userGrp.addKeyword(PvlKeyword("MaximumRingRadius", std::to_string(maxrad)), Pvl::Replace);
+            userGrp.addKeyword(PvlKeyword("MaximumRingRadius", toString(maxrad)), Pvl::Replace);
           }
           if(!ui.WasEntered("MINRINGLON")) {
-            userGrp.addKeyword(PvlKeyword("MinimumRingLongitude", std::to_string(minaz)), Pvl::Replace);
+            userGrp.addKeyword(PvlKeyword("MinimumRingLongitude", toString(minaz)), Pvl::Replace);
           }
           if(!ui.WasEntered("MAXRINGLON")) {
-            userGrp.addKeyword(PvlKeyword("MaximumRingLongitude", std::to_string(maxaz)), Pvl::Replace);
+            userGrp.addKeyword(PvlKeyword("MaximumRingLongitude", toString(maxaz)), Pvl::Replace);
           }
         }
         else if(ui.GetString("RINGLONSEAM") == "ERROR") {
@@ -281,14 +281,14 @@ void IsisMain() {
   // Create an alpha cube group for the output cube
   if(!ocube->hasGroup("AlphaCube")) {
     PvlGroup alpha("AlphaCube");
-    alpha += PvlKeyword("AlphaSamples", std::to_string(icube->sampleCount()));
-    alpha += PvlKeyword("AlphaLines", std::to_string(icube->lineCount()));
-    alpha += PvlKeyword("AlphaStartingSample", std::to_string(0.5));
-    alpha += PvlKeyword("AlphaStartingLine", std::to_string(0.5));
-    alpha += PvlKeyword("AlphaEndingSample", std::to_string(icube->sampleCount() + 0.5));
-    alpha += PvlKeyword("AlphaEndingLine", std::to_string(icube->lineCount() + 0.5));
-    alpha += PvlKeyword("BetaSamples", std::to_string(icube->sampleCount()));
-    alpha += PvlKeyword("BetaLines", std::to_string(icube->lineCount()));
+    alpha += PvlKeyword("AlphaSamples", toString(icube->sampleCount()));
+    alpha += PvlKeyword("AlphaLines", toString(icube->lineCount()));
+    alpha += PvlKeyword("AlphaStartingSample", toString(0.5));
+    alpha += PvlKeyword("AlphaStartingLine", toString(0.5));
+    alpha += PvlKeyword("AlphaEndingSample", toString(icube->sampleCount() + 0.5));
+    alpha += PvlKeyword("AlphaEndingLine", toString(icube->lineCount() + 0.5));
+    alpha += PvlKeyword("BetaSamples", toString(icube->sampleCount()));
+    alpha += PvlKeyword("BetaLines", toString(icube->lineCount()));
     ocube->putGroup(alpha);
   }
 

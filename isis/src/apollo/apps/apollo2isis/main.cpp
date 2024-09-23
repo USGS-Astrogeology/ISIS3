@@ -239,9 +239,9 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
     PvlGroup error("ERROR");
     error.addComment("The decrypted code is invalid.");
     for (int i=0; i<4; i++) {
-      PvlKeyword keyword("Column"+std::to_string(i+1));
+      PvlKeyword keyword("Column"+toString(i+1));
       for (int j=0; j<32; j++) {
-        keyword += std::to_string((int)code[i][j]);
+        keyword += toString((int)code[i][j]);
       }
       error.addKeyword(keyword);
       codeGroup += keyword;
@@ -250,17 +250,17 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
   }
   else {
     codeGroup += PvlKeyword("StartTime", FrameTime().toStdString());
-    codeGroup += PvlKeyword("SpacecraftAltitude", std::to_string(Altitude()),"meters");
+    codeGroup += PvlKeyword("SpacecraftAltitude", toString(Altitude()),"meters");
 
     if (apollo->IsMetric()){
-      codeGroup += PvlKeyword("ExposureDuration", std::to_string(ShutterInterval()), "milliseconds");
+      codeGroup += PvlKeyword("ExposureDuration", toString(ShutterInterval()), "milliseconds");
       codeGroup += PvlKeyword("ForwardMotionCompensation", FMC().toStdString());
     }
 
     for (int i=0; i<4; i++) {
-      PvlKeyword keyword("Column"+ std::to_string(i+1));
+      PvlKeyword keyword("Column"+ toString(i+1));
       for (int j=0; j<32; j++) {
-        keyword += std::to_string((int)code[i][j]);
+        keyword += toString((int)code[i][j]);
       }
       codeGroup += keyword;
     }
@@ -284,17 +284,17 @@ void TranslateApolloLabels (IString filename, Cube *opack) {
 
   // Update reseau locations based on refined code location
   for (int i=0; i<(reseaus->findKeyword("Type")).size(); i++) {
-    double x = std::stod(reseaus->findKeyword("Sample")[i]) + sampleTranslation + 2278,
-           y = std::stod(reseaus->findKeyword("Line")[i]) + lineTranslation - 20231;
+    double x = IString::ToDouble(reseaus->findKeyword("Sample")[i]) + sampleTranslation + 2278,
+           y = IString::ToDouble(reseaus->findKeyword("Line")[i]) + lineTranslation - 20231;
 
     if (apollo->IsApollo17()) {
         x += 50;
         y += 20;
     }
 
-    reseaus->findKeyword("Sample")[i] = std::to_string(
+    reseaus->findKeyword("Sample")[i] = toString(
         cos(rotation)*(x-sampleTranslation) - sin(rotation)*(y-lineTranslation) + sampleTranslation);
-    reseaus->findKeyword("Line")[i] = std::to_string(
+    reseaus->findKeyword("Line")[i] = toString(
         sin(rotation)*(x-sampleTranslation) + cos(rotation)*(y-lineTranslation) + lineTranslation);
   }
   inst += PvlKeyword("StartTime", utcTime.toStdString());

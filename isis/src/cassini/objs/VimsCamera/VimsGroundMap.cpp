@@ -130,9 +130,9 @@ namespace Isis {
     //  Because of inaccuracy with the 15 Mhz clock, the IR exposure and
     //  interline delay need to be adjusted.
     //----------------------------------------------------------------------
-    p_irExp = (std::stod(inst ["ExposureDuration"][0]) * 1.01725) / 1000.;
-    p_visExp = (std::stod(inst ["ExposureDuration"][1])) / 1000.;
-    p_interlineDelay = (std::stod(inst ["InterlineDelayDuration"]) * 1.01725) / 1000.;
+    p_irExp = (IString::ToDouble(inst ["ExposureDuration"][0]) * 1.01725) / 1000.;
+    p_visExp = (IString::ToDouble(inst ["ExposureDuration"][1])) / 1000.;
+    p_interlineDelay = (IString::ToDouble(inst ["InterlineDelayDuration"]) * 1.01725) / 1000.;
 
     // Get summation mode
     QString sampMode = QString::fromStdString(inst ["SamplingMode"]).toUpper();

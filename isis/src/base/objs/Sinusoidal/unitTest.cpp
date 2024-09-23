@@ -23,15 +23,15 @@ int main(int argc, char *argv[]) {
   Pvl lab;
   lab.addGroup(PvlGroup("Mapping"));
   PvlGroup &mapGroup = lab.findGroup("Mapping");
-  mapGroup += PvlKeyword("EquatorialRadius", std::to_string(1.0));
-  mapGroup += PvlKeyword("PolarRadius", std::to_string(1.0));
+  mapGroup += PvlKeyword("EquatorialRadius", toString(1.0));
+  mapGroup += PvlKeyword("PolarRadius", toString(1.0));
   mapGroup += PvlKeyword("LatitudeType", "Planetocentric");
   mapGroup += PvlKeyword("LongitudeDirection", "PositiveEast");
-  mapGroup += PvlKeyword("LongitudeDomain", std::to_string(180));
-  mapGroup += PvlKeyword("MinimumLatitude", std::to_string(-90.0));
-  mapGroup += PvlKeyword("MaximumLatitude", std::to_string(90.0));
-  mapGroup += PvlKeyword("MinimumLongitude", std::to_string(-180.0));
-  mapGroup += PvlKeyword("MaximumLongitude", std::to_string(180.0));
+  mapGroup += PvlKeyword("LongitudeDomain", toString(180));
+  mapGroup += PvlKeyword("MinimumLatitude", toString(-90.0));
+  mapGroup += PvlKeyword("MaximumLatitude", toString(90.0));
+  mapGroup += PvlKeyword("MinimumLongitude", toString(-180.0));
+  mapGroup += PvlKeyword("MaximumLongitude", toString(180.0));
   mapGroup += PvlKeyword("ProjectionName", "Sinusoidal");
 
   cout << "Test missing center longitude keyword ..." << endl;
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
   }
   cout << endl;
 
-  mapGroup += PvlKeyword("CenterLongitude", std::to_string(-90.0));
+  mapGroup += PvlKeyword("CenterLongitude", toString(-90.0));
 
   try {
     TProjection *p = (TProjection *) ProjectionFactory::Create(lab);

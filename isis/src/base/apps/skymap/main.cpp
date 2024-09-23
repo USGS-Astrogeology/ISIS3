@@ -85,8 +85,8 @@ void IsisMain() {
 
   // Add the default mapping info to the user entered mapping group
   userGrp.addKeyword(PvlKeyword("TargetName", "Sky"), Pvl::Replace);
-  userGrp.addKeyword(PvlKeyword("EquatorialRadius", std::to_string(1.0)), Pvl::Replace);
-  userGrp.addKeyword(PvlKeyword("PolarRadius", std::to_string(1.0)), Pvl::Replace);
+  userGrp.addKeyword(PvlKeyword("EquatorialRadius", toString(1.0)), Pvl::Replace);
+  userGrp.addKeyword(PvlKeyword("PolarRadius", toString(1.0)), Pvl::Replace);
   userGrp.addKeyword(PvlKeyword("LatitudeType", "Planetocentric"), Pvl::Replace);
   if (!userGrp.hasKeyword("LongitudeDirection")) {
     userGrp.addKeyword(PvlKeyword("LongitudeDirection", "PositiveWest"), Pvl::Replace);
@@ -100,36 +100,36 @@ void IsisMain() {
     // Get the default ra/dec range
     double minRa, maxRa, minDec, maxDec;
     incam->RaDecRange(minRa, maxRa, minDec, maxDec);
-    userGrp.addKeyword(PvlKeyword("MinimumLongitude", std::to_string(minRa)), Pvl::Replace);
-    userGrp.addKeyword(PvlKeyword("MaximumLongitude", std::to_string(maxRa)), Pvl::Replace);
-    userGrp.addKeyword(PvlKeyword("MinimumLatitude", std::to_string(minDec)), Pvl::Replace);
-    userGrp.addKeyword(PvlKeyword("MaximumLatitude", std::to_string(maxDec)), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("MinimumLongitude", toString(minRa)), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("MaximumLongitude", toString(maxRa)), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("MinimumLatitude", toString(minDec)), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("MaximumLatitude", toString(maxDec)), Pvl::Replace);
     incam->SetImage(icube->sampleCount() / 2.0, icube->lineCount() / 2.0);
     double centerRa = incam->RightAscension();
-    userGrp.addKeyword(PvlKeyword("CenterLongitude", std::to_string(centerRa)), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("CenterLongitude", toString(centerRa)), Pvl::Replace);
   }
   if(ui.GetString("DEFAULTSCALE") == "CAMERA") {
     double res = incam->RaDecResolution();
-    userGrp.addKeyword(PvlKeyword("Scale", std::to_string(1.0 / res)), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("Scale", toString(1.0 / res)), Pvl::Replace);
   }
 
   // Override computed range with the users request
   if(ui.WasEntered("SRA")) {
-    userGrp.addKeyword(PvlKeyword("MinimumLongitude", std::to_string(ui.GetDouble("SRA"))), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("MinimumLongitude", toString(ui.GetDouble("SRA"))), Pvl::Replace);
   }
   if(ui.WasEntered("ERA")) {
-    userGrp.addKeyword(PvlKeyword("MaximumLongitude", std::to_string(ui.GetDouble("ERA"))), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("MaximumLongitude", toString(ui.GetDouble("ERA"))), Pvl::Replace);
   }
   if(ui.WasEntered("SDEC")) {
-    userGrp.addKeyword(PvlKeyword("MinimumLatitude", std::to_string(ui.GetDouble("SDEC"))), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("MinimumLatitude", toString(ui.GetDouble("SDEC"))), Pvl::Replace);
   }
   if(ui.WasEntered("EDEC")) {
-    userGrp.addKeyword(PvlKeyword("MaximumLatitude", std::to_string(ui.GetDouble("EDEC"))), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("MaximumLatitude", toString(ui.GetDouble("EDEC"))), Pvl::Replace);
   }
 
   // Get the resolution from the user if they decided to enter it
   if(ui.GetString("DEFAULTSCALE") == "USER") {
-    userGrp.addKeyword(PvlKeyword("Scale", std::to_string(ui.GetDouble("SCALE"))), Pvl::Replace);
+    userGrp.addKeyword(PvlKeyword("Scale", toString(ui.GetDouble("SCALE"))), Pvl::Replace);
   }
 
   // Create the projection
@@ -183,14 +183,14 @@ void IsisMain() {
   // Create an alpha cube group for the output cube
   if(!ocube->hasGroup("AlphaCube")) {
     PvlGroup alpha("AlphaCube");
-    alpha += PvlKeyword("AlphaSamples", std::to_string(icube->sampleCount()));
-    alpha += PvlKeyword("AlphaLines", std::to_string(icube->lineCount()));
-    alpha += PvlKeyword("AlphaStartingSample", std::to_string(0.5));
-    alpha += PvlKeyword("AlphaStartingLine", std::to_string(0.5));
-    alpha += PvlKeyword("AlphaEndingSample", std::to_string(icube->sampleCount() + 0.5));
-    alpha += PvlKeyword("AlphaEndingLine", std::to_string(icube->lineCount() + 0.5));
-    alpha += PvlKeyword("BetaSamples", std::to_string(icube->sampleCount()));
-    alpha += PvlKeyword("BetaLines", std::to_string(icube->lineCount()));
+    alpha += PvlKeyword("AlphaSamples", toString(icube->sampleCount()));
+    alpha += PvlKeyword("AlphaLines", toString(icube->lineCount()));
+    alpha += PvlKeyword("AlphaStartingSample", toString(0.5));
+    alpha += PvlKeyword("AlphaStartingLine", toString(0.5));
+    alpha += PvlKeyword("AlphaEndingSample", toString(icube->sampleCount() + 0.5));
+    alpha += PvlKeyword("AlphaEndingLine", toString(icube->lineCount() + 0.5));
+    alpha += PvlKeyword("BetaSamples", toString(icube->sampleCount()));
+    alpha += PvlKeyword("BetaLines", toString(icube->lineCount()));
     ocube->putGroup(alpha);
   }
 

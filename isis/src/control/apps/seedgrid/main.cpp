@@ -79,7 +79,7 @@ void IsisMain() {
       throw IException(e, IException::Unknown, msg, _FILEINFO_);
     }
   }
-  double equatorialRadius = std::stod(mapGroup.findKeyword("EquatorialRadius")[0]);
+  double equatorialRadius = IString::ToDouble(mapGroup.findKeyword("EquatorialRadius")[0]);
 
   QString networkId;
   if (ui.WasEntered("NETWORKID")) {
@@ -102,7 +102,7 @@ void IsisMain() {
   checkLatitude(minLat, maxLat);
   int lonDomain =
       (mapGroup.hasKeyword("LongitudeDomain") ?
-          std::stoi(mapGroup.findKeyword("LongitudeDomain")[0]) :
+          IString::ToInteger(mapGroup.findKeyword("LongitudeDomain")[0]) :
           360);
   checkLongitude(minLon, maxLon, lonDomain);
 
@@ -120,10 +120,10 @@ void IsisMain() {
       mapGroup += PvlKeyword("CenterLongitude", "0.0");
     }
 
-    mapGroup.addKeyword(PvlKeyword("MinimumLatitude", std::to_string(minLat)), Pvl::Replace);
-    mapGroup.addKeyword(PvlKeyword("MaximumLatitude", std::to_string(maxLat)), Pvl::Replace);
-    mapGroup.addKeyword(PvlKeyword("MinimumLongitude", std::to_string(minLon)), Pvl::Replace);
-    mapGroup.addKeyword(PvlKeyword("MaximumLongitude", std::to_string(maxLon)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MinimumLatitude", toString(minLat)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MaximumLatitude", toString(maxLat)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MinimumLongitude", toString(minLon)), Pvl::Replace);
+    mapGroup.addKeyword(PvlKeyword("MaximumLongitude", toString(maxLon)), Pvl::Replace);
 
     // create the projection from the editted map
     TProjection *proj = (TProjection *) ProjectionFactory::Create(userMap);
@@ -228,8 +228,8 @@ void IsisMain() {
   }
 
   PvlGroup results("Results");
-  results += PvlKeyword("EquatorialRadius", std::to_string(equatorialRadius));
-  results += PvlKeyword("NumberControlPoints", std::to_string(cnet.GetNumPoints()));
+  results += PvlKeyword("EquatorialRadius", toString(equatorialRadius));
+  results += PvlKeyword("NumberControlPoints", toString(cnet.GetNumPoints()));
   Application::Log(results);
 
   cnet.Write(ui.GetFileName("ONET"));

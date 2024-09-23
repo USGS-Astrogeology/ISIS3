@@ -40,7 +40,7 @@ namespace Isis {
     int i = 0;
     while(std::getline(tableRecordStream, fieldStr, fieldDelimiter)) {
       TableField tableField(fieldNames[i], TableField::Double);
-      tableField = std::stod(fieldStr); // convert string to double
+      tableField = IString::ToDouble(fieldStr); // convert string to double
       this->operator+=(tableField);
       i++;
     }

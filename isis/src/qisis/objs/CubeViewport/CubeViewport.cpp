@@ -1375,15 +1375,15 @@ namespace Isis {
     whatsThisObj += PvlKeyword("Cube", p_cube->fileName().toStdString());
 
     PvlGroup cubeGrp("CubeDimensions");
-    cubeGrp += PvlKeyword("Samples", std::to_string(p_cube->sampleCount()));
-    cubeGrp += PvlKeyword("Lines",   std::to_string(p_cube->lineCount()));
-    cubeGrp += PvlKeyword("Bands",   std::to_string(p_cube->bandCount()));
+    cubeGrp += PvlKeyword("Samples", toString(p_cube->sampleCount()));
+    cubeGrp += PvlKeyword("Lines",   toString(p_cube->lineCount()));
+    cubeGrp += PvlKeyword("Bands",   toString(p_cube->bandCount()));
     whatsThisObj += cubeGrp;
 
     // Get Viewport Info
     PvlGroup viewportGrp("ViewportDimensions");
-    viewportGrp += PvlKeyword("Samples", std::to_string(viewport()->width()));
-    viewportGrp += PvlKeyword("Lines",   std::to_string(viewport()->height()));
+    viewportGrp += PvlKeyword("Samples", toString(viewport()->width()));
+    viewportGrp += PvlKeyword("Lines",   toString(viewport()->height()));
     whatsThisObj += viewportGrp;
 
     // Get Cube area Info
@@ -1403,14 +1403,14 @@ namespace Isis {
 
       bandGrp += PvlKeyword("Color", "RGB");
 
-      virtualKey = std::to_string(iRedBand);
-      virtualKey += std::to_string(iGreenBand);
-      virtualKey += std::to_string(iBlueBand);
+      virtualKey = toString(iRedBand);
+      virtualKey += toString(iGreenBand);
+      virtualKey += toString(iBlueBand);
       bandGrp   += virtualKey;
 
-      physicalKey =  std::to_string(p_cube->physicalBand(iRedBand));
-      physicalKey += std::to_string(p_cube->physicalBand(iGreenBand));
-      physicalKey += std::to_string(p_cube->physicalBand(iBlueBand));
+      physicalKey =  toString(p_cube->physicalBand(iRedBand));
+      physicalKey += toString(p_cube->physicalBand(iGreenBand));
+      physicalKey += toString(p_cube->physicalBand(iBlueBand));
       bandGrp += physicalKey;
 
       if(iFilterSize) {
@@ -1442,8 +1442,8 @@ namespace Isis {
 
       bandGrp  += PvlKeyword("Color", "Gray");
 
-      bandGrp  += PvlKeyword("Virtual", std::to_string(iGrayBand));
-      bandGrp  += PvlKeyword("Physical", std::to_string(p_cube->physicalBand(iGrayBand)));
+      bandGrp  += PvlKeyword("Virtual", toString(iGrayBand));
+      bandGrp  += PvlKeyword("Physical", toString(p_cube->physicalBand(iGrayBand)));
 
       if(iFilterSize && iGrayBand <= iFilterSize) {
         bandGrp  += PvlKeyword("FilterName", filterName[iGrayBand-1]);
@@ -1453,10 +1453,10 @@ namespace Isis {
     //start, end  line and sample
     double sl, ss, es, el;
     getCubeArea(ss, es, sl, el);
-    cubeAreaPvl += PvlKeyword("StartSample", std::to_string(int(ss + 0.5)));
-    cubeAreaPvl += PvlKeyword("EndSample",   std::to_string(int(es + 0.5)));
-    cubeAreaPvl += PvlKeyword("StartLine",   std::to_string(int(sl + 0.5)));
-    cubeAreaPvl += PvlKeyword("EndLine",     std::to_string(int(el + 0.5)));
+    cubeAreaPvl += PvlKeyword("StartSample", toString(int(ss + 0.5)));
+    cubeAreaPvl += PvlKeyword("EndSample",   toString(int(es + 0.5)));
+    cubeAreaPvl += PvlKeyword("StartLine",   toString(int(sl + 0.5)));
+    cubeAreaPvl += PvlKeyword("EndLine",     toString(int(el + 0.5)));
     cubeAreaPvl += bandGrp;
     whatsThisObj += cubeAreaPvl;
     pWhatsThisPvl += whatsThisObj;

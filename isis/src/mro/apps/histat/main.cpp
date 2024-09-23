@@ -314,19 +314,19 @@ PvlGroup PvlStats(Statistics &stats, const QString &name) {
   // Construct a label with the results
   PvlGroup results(name.toStdString());
   if(stats.ValidPixels() != 0) {
-    results += PvlKeyword("Average", std::to_string(stats.Average()));
-    results += PvlKeyword("StandardDeviation", std::to_string(stats.StandardDeviation()));
-    results += PvlKeyword("Variance", std::to_string(stats.Variance()));
-    results += PvlKeyword("Minimum", std::to_string(stats.Minimum()));
-    results += PvlKeyword("Maximum", std::to_string(stats.Maximum()));
+    results += PvlKeyword("Average", toString(stats.Average()));
+    results += PvlKeyword("StandardDeviation", toString(stats.StandardDeviation()));
+    results += PvlKeyword("Variance", toString(stats.Variance()));
+    results += PvlKeyword("Minimum", toString(stats.Minimum()));
+    results += PvlKeyword("Maximum", toString(stats.Maximum()));
   }
-  results += PvlKeyword("TotalPixels", std::to_string(stats.TotalPixels()));
-  results += PvlKeyword("ValidPixels", std::to_string(stats.ValidPixels()));
-  results += PvlKeyword("NullPixels", std::to_string(stats.NullPixels()));
-  results += PvlKeyword("LisPixels", std::to_string(stats.LisPixels()));
-  results += PvlKeyword("LrsPixels", std::to_string(stats.LrsPixels()));
-  results += PvlKeyword("HisPixels", std::to_string(stats.HisPixels()));
-  results += PvlKeyword("HrsPixels", std::to_string(stats.HrsPixels()));
+  results += PvlKeyword("TotalPixels", toString(stats.TotalPixels()));
+  results += PvlKeyword("ValidPixels", toString(stats.ValidPixels()));
+  results += PvlKeyword("NullPixels", toString(stats.NullPixels()));
+  results += PvlKeyword("LisPixels", toString(stats.LisPixels()));
+  results += PvlKeyword("LrsPixels", toString(stats.LrsPixels()));
+  results += PvlKeyword("HisPixels", toString(stats.HisPixels()));
+  results += PvlKeyword("HrsPixels", toString(stats.HrsPixels()));
   return results;
 }
 

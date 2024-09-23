@@ -150,14 +150,14 @@ void IsisMain() {
   }
 
   PvlGroup results("Results");
-  results += PvlKeyword("PixelPitch", std::to_string(pp), "millimeters");
-  results += PvlKeyword("TotalPoints", std::to_string(cn.GetNumPoints()));
-  results += PvlKeyword("ValidPoints", std::to_string((BigInt) coords.size()));
-  results += PvlKeyword("InvalidPoints", std::to_string(badPoint));
-  if (checkForNulls) results += PvlKeyword("NullDNs", std::to_string(nulls));
-  results += PvlKeyword("OldPointNotInImage", std::to_string(oldNotInImage));
-  results += PvlKeyword("NewPointNotInImage", std::to_string(newNotInImage));
-  results += PvlKeyword("ToleranceExceeded", std::to_string(badTol));
+  results += PvlKeyword("PixelPitch", toString(pp), "millimeters");
+  results += PvlKeyword("TotalPoints", toString(cn.GetNumPoints()));
+  results += PvlKeyword("ValidPoints", toString((BigInt) coords.size()));
+  results += PvlKeyword("InvalidPoints", toString(badPoint));
+  if (checkForNulls) results += PvlKeyword("NullDNs", toString(nulls));
+  results += PvlKeyword("OldPointNotInImage", toString(oldNotInImage));
+  results += PvlKeyword("NewPointNotInImage", toString(newNotInImage));
+  results += PvlKeyword("ToleranceExceeded", toString(badTol));
 
   // Log it
   Application::Log(results);

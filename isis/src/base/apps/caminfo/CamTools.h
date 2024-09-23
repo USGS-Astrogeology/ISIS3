@@ -56,7 +56,7 @@ namespace Isis {
       return (PvlKeyword(keyname.toStdString(), "NULL"));
     }
     else {
-      return (PvlKeyword(keyname.toStdString(), std::to_string(value), unit.toStdString()));
+      return (PvlKeyword(keyname.toStdString(), toString(value), unit.toStdString()));
     }
   }
 

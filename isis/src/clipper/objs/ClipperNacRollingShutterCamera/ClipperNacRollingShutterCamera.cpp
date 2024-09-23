@@ -67,12 +67,12 @@ namespace Isis {
         && cube.hasTable("Normalized Main Readout Line Times")) {
       PvlKeyword sampleCoefficients = inst.findKeyword("JitterSampleCoefficients");
       for (int i = 0; i < sampleCoefficients.size(); i++) {
-        sampleCoeffs.push_back(std::stod(sampleCoefficients[i]));
+        sampleCoeffs.push_back(IString::ToDouble(sampleCoefficients[i]));
       }
 
       PvlKeyword lineCoefficients = inst.findKeyword("JitterLineCoefficients");
       for (int i = 0; i < lineCoefficients.size(); i++) {
-        lineCoeffs.push_back(std::stod(lineCoefficients[i]));
+        lineCoeffs.push_back(IString::ToDouble(lineCoefficients[i]));
       }
 
       Table normalizedReadoutTimes("Normalized Main Readout Line Times", lab.fileName(), lab);

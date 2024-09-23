@@ -121,8 +121,8 @@ namespace Isis {
         else {
           std::string err = "Unable to read XML. The reason given was [";
           err += error.toStdString();
-          err += "] on line [" + std::to_string(errorLine) + "] column [";
-          err += std::to_string(errorCol) + "]";
+          err += "] on line [" + toString(errorLine) + "] column [";
+          err += toString(errorCol) + "]";
           throw IException(IException::Io, err, _FILEINFO_);
         }
       }
@@ -410,14 +410,14 @@ namespace Isis {
 
     // Add any time padding the user specified to the spice group
     if (g_startPad > DBL_EPSILON)
-      currentKernels.addKeyword( PvlKeyword("StartPadding", std::to_string(g_startPad), "seconds") );
+      currentKernels.addKeyword( PvlKeyword("StartPadding", toString(g_startPad), "seconds") );
 
     if (g_endPad > DBL_EPSILON)
-      currentKernels.addKeyword( PvlKeyword("EndPadding", std::to_string(g_endPad), "seconds") );
+      currentKernels.addKeyword( PvlKeyword("EndPadding", toString(g_endPad), "seconds") );
 
 
     currentKernels.addKeyword(
-        PvlKeyword( "CameraVersion", std::to_string( CameraFactory::CameraVersion(cube) ) ), Pvl::Replace);
+        PvlKeyword( "CameraVersion", toString( CameraFactory::CameraVersion(cube) ) ), Pvl::Replace);
 
     // Add the modified Kernels group to the input cube labels
     cube.putGroup(currentKernels);
@@ -468,7 +468,7 @@ namespace Isis {
       for (int i = 0; i < pckKeyword.size(); i++)
         bodyTable.Label()["Kernels"].addValue(pckKeyword[i]);
 
-      bodyTable.Label() += PvlKeyword( "SolarLongitude", std::to_string( cam->solarLongitude().degrees() ) );
+      bodyTable.Label() += PvlKeyword( "SolarLongitude", toString( cam->solarLongitude().degrees() ) );
       bodyTable.toBlob().Write(ui.GetFileName("TO").toStdString() + ".bodyrot");
 
       Table sunTable = cam->sunPosition()->Cache("SunPosition");

@@ -46,7 +46,7 @@ void IsisMain() {
 
   vector<Cube *> flatcubes;
   vector<LineManager *> fcubeMgrs;
-  int summing = std::stoi(icube.group("Instrument")["SpatialSumming"][0]);
+  int summing = IString::ToInteger(icube.group("Instrument")["SpatialSumming"][0]);
 
   for(int filt = 0; filt < 5; filt++) {
     QString filePattern = "$odyssey/calibration/flat_filter_";
@@ -79,7 +79,7 @@ void IsisMain() {
   PvlKeyword &filtNums =
       icube.label()->findGroup("BandBin", Pvl::Traverse)["FilterNumber"];
   for(int i = 0; i < filtNums.size(); i++) {
-    filter.push_back(std::stoi(filtNums[i]));
+    filter.push_back(IString::ToInteger(filtNums[i]));
   }
 
   LineManager ocubeMgr(ocube);

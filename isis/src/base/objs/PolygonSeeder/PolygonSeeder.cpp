@@ -147,7 +147,7 @@ namespace Isis {
       const geos::geom::Envelope *xyBoundBox) {
     if(xymp->getArea() < MinimumArea()) {
       std::string msg = "Polygon did not meet the minimum area of [";
-      msg += std::to_string(MinimumArea()) + "]";
+      msg += toString(MinimumArea()) + "]";
       return QString::fromStdString(msg);
     }
 
@@ -156,7 +156,7 @@ namespace Isis {
       pow(std::max(xyBoundBox->getWidth(), xyBoundBox->getHeight()), 2.0);
     if(thickness < MinimumThickness()) {
       std::string msg = "Polygon did not meet the minimum thickness ratio of [";
-      msg += std::to_string(MinimumThickness()) + "]";
+      msg += toString(MinimumThickness()) + "]";
       return QString::fromStdString(msg);
     }
 
@@ -211,8 +211,8 @@ namespace Isis {
     PvlGroup pluginInfo(grpName.toStdString());
 
     PvlKeyword name("Name", p_algorithmName.toStdString());
-    PvlKeyword minThickness("MinimumThickness", std::to_string(p_minimumThickness));
-    PvlKeyword minArea("MinimumArea", std::to_string(p_minimumArea));
+    PvlKeyword minThickness("MinimumThickness", toString(p_minimumThickness));
+    PvlKeyword minArea("MinimumArea", toString(p_minimumArea));
 
     pluginInfo.addKeyword(name);
     pluginInfo.addKeyword(minThickness);

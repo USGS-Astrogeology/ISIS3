@@ -204,7 +204,7 @@ namespace Isis {
 
     QString exposureTime = QString::fromStdString(inst["ExposureDuration"]);
     double frameRate = 1.0/exposureTime.toDouble();
-    inst.addKeyword(PvlKeyword("FrameRate", std::to_string(frameRate)), PvlGroup::Replace);
+    inst.addKeyword(PvlKeyword("FrameRate", toString(frameRate)), PvlGroup::Replace);
     inst.findKeyword("FrameRate").setUnits("Hz");
 
     // Save the input FITS label in the Cube original labels

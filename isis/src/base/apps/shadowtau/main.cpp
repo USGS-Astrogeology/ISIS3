@@ -94,25 +94,25 @@ void IsisMain() {
       QString keyval = ui.GetString("WH");
       double wh = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
-               addKeyword(PvlKeyword("WH",std::to_string(wh)),Pvl::Replace);
+               addKeyword(PvlKeyword("WH",toString(wh)),Pvl::Replace);
     }
     if (ui.WasEntered("HH")) {
       QString keyval = ui.GetString("HH");
       double hh = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
-               addKeyword(PvlKeyword("HH",std::to_string(hh)),Pvl::Replace);
+               addKeyword(PvlKeyword("HH",toString(hh)),Pvl::Replace);
     }
     if (ui.WasEntered("B0")) {
       QString keyval = ui.GetString("B0");
       double b0 = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
-               addKeyword(PvlKeyword("B0",std::to_string(b0)),Pvl::Replace);
+               addKeyword(PvlKeyword("B0",toString(b0)),Pvl::Replace);
     }
     if (ui.WasEntered("THETA")) {
       QString keyval = ui.GetString("THETA");
       double theta = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
-               addKeyword(PvlKeyword("THETA",std::to_string(theta)),Pvl::Replace);
+               addKeyword(PvlKeyword("THETA",toString(theta)),Pvl::Replace);
     }
     if (ui.WasEntered("ZEROB0STANDARD")) {
       QString keyval = ui.GetString("ZEROB0STANDARD");
@@ -125,13 +125,13 @@ void IsisMain() {
         QString keyval = ui.GetString("HG1");
         double hg1 = keyval.toDouble();
         photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
-                 addKeyword(PvlKeyword("HG1",std::to_string(hg1)),Pvl::Replace);
+                 addKeyword(PvlKeyword("HG1",toString(hg1)),Pvl::Replace);
       }
       if (ui.WasEntered("HG2")) {
         QString keyval = ui.GetString("HG2");
         double hg2 = keyval.toDouble();
         photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
-                 addKeyword(PvlKeyword("HG2",std::to_string(hg2)),Pvl::Replace);
+                 addKeyword(PvlKeyword("HG2",toString(hg2)),Pvl::Replace);
       }
     }
     else {
@@ -139,13 +139,13 @@ void IsisMain() {
         QString keyval = ui.GetString("BH");
         double bh = keyval.toDouble();
         photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
-                 addKeyword(PvlKeyword("BH",std::to_string(bh)),Pvl::Replace);
+                 addKeyword(PvlKeyword("BH",toString(bh)),Pvl::Replace);
       }
       if (ui.WasEntered("CH")) {
         QString keyval = ui.GetString("CH");
         double ch = keyval.toDouble();
         photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
-                 addKeyword(PvlKeyword("CH",std::to_string(ch)),Pvl::Replace);
+                 addKeyword(PvlKeyword("CH",toString(ch)),Pvl::Replace);
       }
     }
   }
@@ -154,7 +154,7 @@ void IsisMain() {
       QString keyval = ui.GetString("L");
       double l = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
-               addKeyword(PvlKeyword("L",std::to_string(l)),Pvl::Replace);
+               addKeyword(PvlKeyword("L",toString(l)),Pvl::Replace);
     }
   }
   else if (sPhotoFunc == "MINNAERT") {
@@ -162,7 +162,7 @@ void IsisMain() {
       QString keyval = ui.GetString("K");
       double k = keyval.toDouble();
       photoPvl.findObject("PhotometricModel").findGroup("Algorithm").
-               addKeyword(PvlKeyword("K",std::to_string(k)),Pvl::Replace);
+               addKeyword(PvlKeyword("K",toString(k)),Pvl::Replace);
     }
   }
 
@@ -193,13 +193,13 @@ void IsisMain() {
     QString keyval = ui.GetString("WHA");
     double wha = keyval.toDouble();
     asmPvl.findObject("AtmosphericModel").findGroup("Algorithm").
-           addKeyword(PvlKeyword("WHA",std::to_string(wha)),Pvl::Replace);
+           addKeyword(PvlKeyword("WHA",toString(wha)),Pvl::Replace);
   }
   if (ui.WasEntered("HNORM")) {
     QString keyval = ui.GetString("HNORM");
     double hnorm = keyval.toDouble();
     asmPvl.findObject("AtmosphericModel").findGroup("Algorithm").
-           addKeyword(PvlKeyword("HNORM",std::to_string(hnorm)),Pvl::Replace);
+           addKeyword(PvlKeyword("HNORM",toString(hnorm)),Pvl::Replace);
   }
 
   if (sAsmType=="ANISOTROPIC1" || sAsmType=="ANISOTROPIC2" ){
@@ -207,7 +207,7 @@ void IsisMain() {
       QString keyval = ui.GetString("BHA");
       double bha = keyval.toDouble();
       asmPvl.findObject("AtmosphericModel").findGroup("Algorithm").
-             addKeyword(PvlKeyword("BHA",std::to_string(bha)),Pvl::Replace);
+             addKeyword(PvlKeyword("BHA",toString(bha)),Pvl::Replace);
     }
   }
   else if (sAsmType=="HAPKEATM1" || sAsmType=="HAPKEATM2" ) {
@@ -215,7 +215,7 @@ void IsisMain() {
       QString keyval = ui.GetString("HGA");
       double hga = keyval.toDouble();
       asmPvl.findObject("AtmosphericModel").findGroup("Algorithm").
-             addKeyword(PvlKeyword("HGA",std::to_string(hga)),Pvl::Replace);
+             addKeyword(PvlKeyword("HGA",toString(hga)),Pvl::Replace);
     }
   }
 

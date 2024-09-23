@@ -75,8 +75,8 @@ namespace Isis {
                       + "]. The msi2isis program requires INSTRUMENT_ID = [MSI].",
                       _FILEINFO_);
     }
-    int lines = std::stoi(inputLabelPvl.findObject("IMAGE")["LINES"][0]);
-    int samples = std::stoi(inputLabelPvl.findObject("IMAGE")["LINE_SAMPLES"][0]);
+    int lines = IString::ToInteger(inputLabelPvl.findObject("IMAGE")["LINES"][0]);
+    int samples = IString::ToInteger(inputLabelPvl.findObject("IMAGE")["LINE_SAMPLES"][0]);
     if ( (  (lines != 244) && (lines != 412) ) || samples != 537) {
       std::string msg = "The given file [" + from.expanded() + "] does not contain "
                     "a full MSI image. Full NEAR Shoemaker MSI images have "

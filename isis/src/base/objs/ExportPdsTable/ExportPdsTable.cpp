@@ -126,16 +126,16 @@ namespace Isis {
     // NOTE: this class is currently only exporting BINARY format PDS tables.
     //       implementation may be added later to export ASCII PDS tables.
     pdsTableLabelInfo.addKeyword(PvlKeyword("INTERCHANGE_FORMAT", "BINARY"));
-    pdsTableLabelInfo.addKeyword(PvlKeyword("ROWS", std::to_string(m_isisTable->Records())));
-    pdsTableLabelInfo.addKeyword(PvlKeyword("COLUMNS", std::to_string(m_isisTable->RecordFields())));
-    pdsTableLabelInfo.addKeyword(PvlKeyword("ROW_BYTES", std::to_string(m_rowBytes)));
-    pdsTableLabelInfo.addKeyword(PvlKeyword("ROW_SUFFIX_BYTES", std::to_string(m_outputRecordBytes - m_rowBytes)));
+    pdsTableLabelInfo.addKeyword(PvlKeyword("ROWS", toString(m_isisTable->Records())));
+    pdsTableLabelInfo.addKeyword(PvlKeyword("COLUMNS", toString(m_isisTable->RecordFields())));
+    pdsTableLabelInfo.addKeyword(PvlKeyword("ROW_BYTES", toString(m_rowBytes)));
+    pdsTableLabelInfo.addKeyword(PvlKeyword("ROW_SUFFIX_BYTES", toString(m_outputRecordBytes - m_rowBytes)));
     int startByte = 1;  // PDS begins indexing at 1
     for(int fieldIndex = 0; fieldIndex < m_isisTable->RecordFields(); fieldIndex++) {
       int columnBytes = 0;
       TableField field = (*m_isisTable)[0][fieldIndex];
       PvlObject columnObj("COLUMN");
-      columnObj.addKeyword(PvlKeyword("COLUMN_NUMBER", std::to_string(fieldIndex + 1)));
+      columnObj.addKeyword(PvlKeyword("COLUMN_NUMBER", toString(fieldIndex + 1)));
       columnObj.addKeyword(PvlKeyword("NAME", field.name()));
 
 
@@ -185,9 +185,9 @@ namespace Isis {
                       "field type found for [" + field.name() + "].";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
-      columnObj.addKeyword(PvlKeyword("START_BYTE", std::to_string(startByte)));
+      columnObj.addKeyword(PvlKeyword("START_BYTE", toString(startByte)));
       startByte += columnBytes;
-      columnObj.addKeyword(PvlKeyword("BYTES", std::to_string(columnBytes)));
+      columnObj.addKeyword(PvlKeyword("BYTES", toString(columnBytes)));
       pdsTableLabelInfo.addObject(columnObj);
     }
     return pdsTableLabelInfo;

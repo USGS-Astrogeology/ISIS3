@@ -120,7 +120,7 @@ namespace Isis {
       if (baseBand.contains("MV")) {
         kern += PvlKeyword("NaifFrameCode", (toString(-13133) + QString(baseBand[2]).toStdString()));
       }
-      kern += PvlKeyword("NaifCkCode", std::to_string(-131330));
+      kern += PvlKeyword("NaifCkCode", toString(-131330));
     }
     else if (lab.findKeyword("INSTRUMENT_ID")[0] == "MI-NIR") {
       if (baseBand.contains("MN")) {

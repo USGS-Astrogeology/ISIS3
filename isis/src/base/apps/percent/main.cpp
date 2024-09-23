@@ -34,8 +34,8 @@ void IsisMain() {
     // Obtain the Histogram and the value at the percentage
     Histogram *hist = icube->histogram();
     double value = hist->Percent(percentage);
-    kwPercent += std::to_string(percentage);
-    kwValue += std::to_string(value);
+    kwPercent += toString(percentage);
+    kwValue += toString(value);
   }
   results += kwPercent;
   results += kwValue;

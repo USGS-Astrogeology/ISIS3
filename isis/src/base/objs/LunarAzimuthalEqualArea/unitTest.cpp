@@ -27,16 +27,16 @@ int main(int argc, char *argv[]) {
   Pvl lab;
   lab.addGroup(PvlGroup("Mapping"));
   PvlGroup &mapGroup = lab.findGroup("Mapping");
-  mapGroup += PvlKeyword("EquatorialRadius", std::to_string(6378206.4));
-  mapGroup += PvlKeyword("PolarRadius", std::to_string(6378206.4));
+  mapGroup += PvlKeyword("EquatorialRadius", toString(6378206.4));
+  mapGroup += PvlKeyword("PolarRadius", toString(6378206.4));
   mapGroup += PvlKeyword("LatitudeType", "Planetographic");
   mapGroup += PvlKeyword("LongitudeDirection", "PositiveEast");
-  mapGroup += PvlKeyword("LongitudeDomain", std::to_string(180));
-  mapGroup += PvlKeyword("MinimumLatitude", std::to_string(-30.0));
-  mapGroup += PvlKeyword("MaximumLatitude", std::to_string(-15.0));
-  mapGroup += PvlKeyword("MinimumLongitude", std::to_string(-30.0));
-  mapGroup += PvlKeyword("MaximumLongitude", std::to_string(-15.0));
-  mapGroup += PvlKeyword("MaximumLibration", std::to_string(1));
+  mapGroup += PvlKeyword("LongitudeDomain", toString(180));
+  mapGroup += PvlKeyword("MinimumLatitude", toString(-30.0));
+  mapGroup += PvlKeyword("MaximumLatitude", toString(-15.0));
+  mapGroup += PvlKeyword("MinimumLongitude", toString(-30.0));
+  mapGroup += PvlKeyword("MaximumLongitude", toString(-15.0));
+  mapGroup += PvlKeyword("MaximumLibration", toString(1));
   mapGroup += PvlKeyword("ProjectionName",
                                "LunarAzimuthalEqualArea");
 
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
       cout << "true! ..................................... [   OK   ]\n";
     else
       cout << "false! .................................... [ FAILED ]\n";
-    mapGroup["PolarRadius"].setValue(std::to_string(42));
+    mapGroup["PolarRadius"].setValue(toString(42));
     Pvl tmp1;
     TProjection *p2 = (TProjection *) ProjectionFactory::Create(lab);
     tmp1.addGroup(p2->Mapping());

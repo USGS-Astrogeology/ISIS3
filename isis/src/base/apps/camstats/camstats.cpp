@@ -195,7 +195,7 @@ namespace Isis {
         record[entry] = group.name();
         entry++;
         for (int j = 0; j < group.keywords(); j++) {
-          record[entry] = std::stod(group[j][0]);
+          record[entry] = IString::ToDouble(group[j][0]);
           entry++;
         }
         table += record;

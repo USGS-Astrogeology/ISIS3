@@ -262,10 +262,10 @@ namespace Isis {
       double et;
       utc2et_c(array[0].c_str(), &et);
       p_time.push_back(et);
-      p_a0.push_back(std::stod(array[1]));
-      p_a1.push_back(std::stod(array[2]));
-      p_a2.push_back(std::stod(array[3]));
-      p_a3.push_back(std::stod(array[4]));
+      p_a0.push_back(IString::ToDouble(array[1]));
+      p_a1.push_back(IString::ToDouble(array[2]));
+      p_a2.push_back(IString::ToDouble(array[3]));
+      p_a3.push_back(IString::ToDouble(array[4]));
       // TODO:  Test that times are ordered if not throw error
       // Make the mrf2isis program sort them if necessary
     }

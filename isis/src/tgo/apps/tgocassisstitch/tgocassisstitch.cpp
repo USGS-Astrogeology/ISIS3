@@ -224,10 +224,10 @@ namespace Isis {
       frameCube.putGroup(archiveGroup);
 
       AlphaCube frameletAlphaCube(*frameletCube);
-      stitchGroup["FilterStartSamples"] += std::to_string(frameletAlphaCube.AlphaSample(0.0));
-      stitchGroup["FilterSamples"]      += std::to_string(frameletAlphaCube.BetaSamples());
-      stitchGroup["FilterStartLines"]   += std::to_string(frameletAlphaCube.AlphaLine(0.0));
-      stitchGroup["FilterLines"]        += std::to_string(frameletAlphaCube.BetaLines());
+      stitchGroup["FilterStartSamples"] += toString(frameletAlphaCube.AlphaSample(0.0));
+      stitchGroup["FilterSamples"]      += toString(frameletAlphaCube.BetaSamples());
+      stitchGroup["FilterStartLines"]   += toString(frameletAlphaCube.AlphaLine(0.0));
+      stitchGroup["FilterLines"]        += toString(frameletAlphaCube.BetaLines());
 
       PvlGroup frameletArchGroup = frameletCube->group("Archive");
       stitchGroup["FilterFileNames"]  += frameletArchGroup["FileName"];

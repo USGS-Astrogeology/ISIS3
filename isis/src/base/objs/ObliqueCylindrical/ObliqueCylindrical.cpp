@@ -89,17 +89,17 @@ namespace Isis {
 
       if (!calculateVectors) {
         // Read in vectors
-        m_xAxisVector.push_back(std::stod(mapGroup["XAxisVector"][0]));
-        m_xAxisVector.push_back(std::stod(mapGroup["XAxisVector"][1]));
-        m_xAxisVector.push_back(std::stod(mapGroup["XAxisVector"][2]));
+        m_xAxisVector.push_back(IString::ToDouble(mapGroup["XAxisVector"][0]));
+        m_xAxisVector.push_back(IString::ToDouble(mapGroup["XAxisVector"][1]));
+        m_xAxisVector.push_back(IString::ToDouble(mapGroup["XAxisVector"][2]));
 
-        m_yAxisVector.push_back(std::stod(mapGroup["YAxisVector"][0]));
-        m_yAxisVector.push_back(std::stod(mapGroup["YAxisVector"][1]));
-        m_yAxisVector.push_back(std::stod(mapGroup["YAxisVector"][2]));
+        m_yAxisVector.push_back(IString::ToDouble(mapGroup["YAxisVector"][0]));
+        m_yAxisVector.push_back(IString::ToDouble(mapGroup["YAxisVector"][1]));
+        m_yAxisVector.push_back(IString::ToDouble(mapGroup["YAxisVector"][2]));
 
-        m_zAxisVector.push_back(std::stod(mapGroup["ZAxisVector"][0]));
-        m_zAxisVector.push_back(std::stod(mapGroup["ZAxisVector"][1]));
-        m_zAxisVector.push_back(std::stod(mapGroup["ZAxisVector"][2]));
+        m_zAxisVector.push_back(IString::ToDouble(mapGroup["ZAxisVector"][0]));
+        m_zAxisVector.push_back(IString::ToDouble(mapGroup["ZAxisVector"][1]));
+        m_zAxisVector.push_back(IString::ToDouble(mapGroup["ZAxisVector"][2]));
       }
       else {
         // Calculate the vectors and store them in the labels

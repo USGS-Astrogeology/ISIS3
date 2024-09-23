@@ -149,7 +149,7 @@ namespace Isis {
     }
 
     PvlGroup snGroup = outLabel.findGroup("SerialNumberKeywords");
-    snGroup += PvlKeyword("ObservationKeys", std::to_string(snGroup.keywords()));
+    snGroup += PvlKeyword("ObservationKeys", toString(snGroup.keywords()));
 
     return snGroup;
   }

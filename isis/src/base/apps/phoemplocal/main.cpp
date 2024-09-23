@@ -293,10 +293,10 @@ void IsisMain() {
     os << "BEST_FIT_MULTIPLIER = " << lFitParams.c1 << endl;
     os << "RMS_ERROR_OF_FIT = " << parmin << endl;
     PvlGroup fitParams("Results");
-    fitParams += PvlKeyword("PhaseAngle", std::to_string(datum.m_phase), "degrees");
-    fitParams += PvlKeyword("LimbDarkeningParameter", std::to_string(xb));
-    fitParams += PvlKeyword("BestFitMultiplier", std::to_string(lFitParams.c1));
-    fitParams += PvlKeyword("RMSErrorOfFit", std::to_string(parmin));
+    fitParams += PvlKeyword("PhaseAngle", toString(datum.m_phase), "degrees");
+    fitParams += PvlKeyword("LimbDarkeningParameter", toString(xb));
+    fitParams += PvlKeyword("BestFitMultiplier", toString(lFitParams.c1));
+    fitParams += PvlKeyword("RMSErrorOfFit", toString(parmin));
     Application::Log(fitParams);
   }
   else {
@@ -305,11 +305,11 @@ void IsisMain() {
     os << "BEST_FIT_MULTIPLIER = " << lFitParams.c1 << endl;
     os << "RMS_ERROR_OF_FIT = " << parmin << endl;
     PvlGroup fitParams("Results");
-    fitParams += PvlKeyword("PhaseAngle", std::to_string(datum.m_phase), "degrees");
-    fitParams += PvlKeyword("LimbDarkeningParameter", std::to_string(xb));
-    fitParams += PvlKeyword("BestFitAdditiveTerm", std::to_string(lFitParams.c0));
-    fitParams += PvlKeyword("BestFitMultiplier", std::to_string(lFitParams.c1));
-    fitParams += PvlKeyword("RMSErrorOfFit", std::to_string(parmin));
+    fitParams += PvlKeyword("PhaseAngle", toString(datum.m_phase), "degrees");
+    fitParams += PvlKeyword("LimbDarkeningParameter", toString(xb));
+    fitParams += PvlKeyword("BestFitAdditiveTerm", toString(lFitParams.c0));
+    fitParams += PvlKeyword("BestFitMultiplier", toString(lFitParams.c1));
+    fitParams += PvlKeyword("RMSErrorOfFit", toString(parmin));
     Application::Log(fitParams);
   }
 

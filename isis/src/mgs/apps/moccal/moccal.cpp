@@ -179,19 +179,19 @@ namespace Isis {
     calgrp += PvlKeyword("CalibrationKernel", calKernelFile.toStdString());
     calgrp += PvlKeyword("CoefficientFile", coefFile.toStdString());
 
-    calgrp += PvlKeyword("a", std::to_string(gbl::a));
+    calgrp += PvlKeyword("a", toString(gbl::a));
     calgrp["a"].addComment("Radiometric equation in moccal");
     calgrp["a"].addComment("r = (pixel - z + off) / a - g / ex - dc");
-    calgrp += PvlKeyword("off", std::to_string(gbl::off));
-    calgrp += PvlKeyword("ex", std::to_string(gbl::ex));
-    calgrp += PvlKeyword("z", std::to_string(gbl::z));
-    calgrp += PvlKeyword("dc", std::to_string(gbl::dc));
-    calgrp += PvlKeyword("g", std::to_string(gbl::g));
+    calgrp += PvlKeyword("off", toString(gbl::off));
+    calgrp += PvlKeyword("ex", toString(gbl::ex));
+    calgrp += PvlKeyword("z", toString(gbl::z));
+    calgrp += PvlKeyword("dc", toString(gbl::dc));
+    calgrp += PvlKeyword("g", toString(gbl::g));
 
-    calgrp += PvlKeyword("w0", std::to_string(gbl::w0));
+    calgrp += PvlKeyword("w0", toString(gbl::w0));
     calgrp["w0"].addComment("Reflectance = r * iof, where iof = (s * s) / w0");
-    calgrp += PvlKeyword("s", std::to_string(sunAU));
-    calgrp += PvlKeyword("iof", std::to_string(gbl::iof));
+    calgrp += PvlKeyword("s", toString(sunAU));
+    calgrp += PvlKeyword("iof", toString(gbl::iof));
 
     ocube->putGroup(calgrp);
 

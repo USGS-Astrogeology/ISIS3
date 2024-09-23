@@ -57,9 +57,9 @@ namespace Isis {
     m_currentMapIndex = 0;
 
     PvlObject phoModel = pvl.findObject("PhotometricModel");
-    m_iRef = std::stod(phoModel.findKeyword("Incref")[0]); //  Incidence refernce angle
-    m_eRef = std::stod(phoModel.findKeyword("EmiRef")[0]); //  Emission  reference angle
-    m_gRef = std::stod(phoModel.findKeyword("Pharef")[0]); //  Phase     reference angle
+    m_iRef = IString::ToDouble(phoModel.findKeyword("Incref")[0]); //  Incidence refernce angle
+    m_eRef = IString::ToDouble(phoModel.findKeyword("EmiRef")[0]); //  Emission  reference angle
+    m_gRef = IString::ToDouble(phoModel.findKeyword("Pharef")[0]); //  Phase     reference angle
     
     if (QString::fromStdString(phoModel.findKeyword("Units")[0]).toUpper() == "DEGREES") {
       m_isDegrees = true;
@@ -78,7 +78,7 @@ namespace Isis {
         PvlGroup paramGroup = phoModel.group(i);
         HapkeLROC::Parameters parms;
 
-        parms.bandBinCenter = std::stod(paramGroup.findKeyword("BandBinCenter")[0]);
+        parms.bandBinCenter = IString::ToDouble(paramGroup.findKeyword("BandBinCenter")[0]);
         for (int j = 0; j < center.size(); j++) {
           if (center[j] == paramGroup.findKeyword("BandBinCenter")[0]) {
             parms.band = j + 1;
@@ -87,8 +87,8 @@ namespace Isis {
 
         PvlKeyword bands = paramGroup.findKeyword("Bands");
         for (int j = 0; j < bands.size(); j++) {
-          parms.mapBands.push_back(std::stoi(bands[j]) - 1);
-          parms.names.push_back(QString::fromStdString(paramBandNames[std::stoi(bands[j]) - 1]).toUpper());
+          parms.mapBands.push_back(IString::ToInteger(bands[j]) - 1);
+          parms.names.push_back(QString::fromStdString(paramBandNames[IString::ToInteger(bands[j]) - 1]).toUpper());
           parms.values.push_back(0.0);
         }
 
@@ -616,9 +616,9 @@ namespace Isis {
   void HapkeLROC::report(PvlContainer &pvl) {
     pvl += PvlKeyword("Algorithm", "HapkeLROC");
     pvl += PvlKeyword("ParameterMapCube", m_paramMap->fileName().toStdString());
-    pvl += PvlKeyword("IncRef", std::to_string(m_iRef), "degrees");
-    pvl += PvlKeyword("EmiRef", std::to_string(m_eRef), "degrees");
-    pvl += PvlKeyword("PhaRef", std::to_string(m_gRef), "degrees");
+    pvl += PvlKeyword("IncRef", toString(m_iRef), "degrees");
+    pvl += PvlKeyword("EmiRef", toString(m_eRef), "degrees");
+    pvl += PvlKeyword("PhaRef", toString(m_gRef), "degrees");
     
     PvlKeyword units("Units");
     if (m_isDegrees) {

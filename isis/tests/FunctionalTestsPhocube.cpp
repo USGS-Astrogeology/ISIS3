@@ -42,8 +42,8 @@ TEST_F(DefaultCube, FunctionalTestPhocubeDefault) {
   EXPECT_EQ((int) bandBin.findKeyword("FilterId"), 4);
 
   for (int i = 0; i < cube.bandCount(); i++) {
-    EXPECT_DOUBLE_EQ(std::stod(bandBin.findKeyword("Center")[i]), 1.0);
-    EXPECT_DOUBLE_EQ(std::stod(bandBin.findKeyword("Width")[i]), 1.0);
+    EXPECT_DOUBLE_EQ(IString::ToDouble(bandBin.findKeyword("Center")[i]), 1.0);
+    EXPECT_DOUBLE_EQ(IString::ToDouble(bandBin.findKeyword("Width")[i]), 1.0);
   }
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
@@ -493,8 +493,8 @@ TEST(Phocube, FunctionalTestPhocubeSunIlluminationMask) {
 
   // verify center and width entries in BandBin group
   for (int i = 0; i < cube.bandCount(); i++) {
-    EXPECT_DOUBLE_EQ(std::stod(bandBin.findKeyword("Center")[i]), 650.0);
-    EXPECT_DOUBLE_EQ(std::stod(bandBin.findKeyword("Width")[i]), 1.0);
+    EXPECT_DOUBLE_EQ(IString::ToDouble(bandBin.findKeyword("Center")[i]), 650.0);
+    EXPECT_DOUBLE_EQ(IString::ToDouble(bandBin.findKeyword("Width")[i]), 1.0);
   }
 
   // verify statistics of SunIlluminationMask band
@@ -550,8 +550,8 @@ TEST(Phocube, FunctionalTestPhocubeSurfaceObliqueDetectorResolution) {
 
   // verify center and width entries in BandBin group
   for (int i = 0; i < cube.bandCount(); i++) {
-    EXPECT_DOUBLE_EQ(std::stod(bandBin.findKeyword("Center")[i]), 650.0);
-    EXPECT_DOUBLE_EQ(std::stod(bandBin.findKeyword("Width")[i]), 1.0);
+    EXPECT_DOUBLE_EQ(IString::ToDouble(bandBin.findKeyword("Center")[i]), 650.0);
+    EXPECT_DOUBLE_EQ(IString::ToDouble(bandBin.findKeyword("Width")[i]), 1.0);
   }
 
   // verify statistics of SurfaceObliqueDetectorResolution band

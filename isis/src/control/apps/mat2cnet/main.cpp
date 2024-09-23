@@ -469,7 +469,7 @@ void IsisMain() {
     // Write results to Logs
     // Summary group is created with the counts of RAND PPP only points
     PvlGroup summaryGroup = PvlGroup("Summary");
-    summaryGroup.addKeyword(PvlKeyword("RandOnlyPoints", std::to_string(numRandOnly)));
+    summaryGroup.addKeyword(PvlKeyword("RandOnlyPoints", toString(numRandOnly)));
 
     bool log;
     FileName logFile;

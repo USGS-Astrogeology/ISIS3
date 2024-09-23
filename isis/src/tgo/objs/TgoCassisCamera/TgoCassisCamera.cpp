@@ -69,7 +69,7 @@ namespace Isis {
     //   0 = 1x1 (No summing)
     //   1 = 2x2
     //   2 = 4x4
-    int sumMode = std::stoi(inst["SummingMode"][0]);
+    int sumMode = IString::ToInteger(inst["SummingMode"][0]);
     int summing = sumMode * 2;
 
     //  Setup camera detector map
@@ -103,7 +103,7 @@ namespace Isis {
 
     // Set start time to center of exposure time to ensure
     // the proper SPICE data is cached.
-    double p_exposureDur = std::stod(inst["ExposureDuration"]);
+    double p_exposureDur = IString::ToDouble(inst["ExposureDuration"]);
     iTime p_etStart = et + ( p_exposureDur / 2.0);
 
     setTime(p_etStart);

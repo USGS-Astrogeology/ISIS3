@@ -45,8 +45,8 @@ void IsisMain() {
   }
 
   PvlGroup data("lineeq");
-  data += PvlKeyword("BoxcarSize", std::to_string(boxcarSize), "lines");
-  data += PvlKeyword("OutputCsv", std::to_string((int)ui.GetBoolean("AVERAGES")));
+  data += PvlKeyword("BoxcarSize", toString(boxcarSize), "lines");
+  data += PvlKeyword("OutputCsv", toString((int)ui.GetBoolean("AVERAGES")));
 
   TextFile *csvOutput = NULL;
   if(ui.GetBoolean("AVERAGES")) {

@@ -202,16 +202,16 @@ void ProgramAnalyzer::add(PvlObject &program) {
 PvlGroup ProgramAnalyzer::review(const QString &name) const {
   PvlGroup pvl(name.toStdString());
 
-  pvl += PvlKeyword("Programs", std::to_string(size()));
-  pvl += PvlKeyword("Unique", std::to_string(Programs()));
-  pvl += PvlKeyword("Included", std::to_string(LimitTotals(_includes)));
-  pvl += PvlKeyword("Excluded", std::to_string(LimitTotals(_excludes)));
-  pvl += PvlKeyword("Valid", std::to_string(valid()));
-  pvl += PvlKeyword("Errors", std::to_string(errors()));
-  pvl += PvlKeyword("ZeroTime", std::to_string(zerotime()));
-  pvl += PvlKeyword("NoData", std::to_string(nodata()));
-  pvl += PvlKeyword("BadData", std::to_string(baddata()));
-  pvl += PvlKeyword("Total", std::to_string(count()));
+  pvl += PvlKeyword("Programs", toString(size()));
+  pvl += PvlKeyword("Unique", toString(Programs()));
+  pvl += PvlKeyword("Included", toString(LimitTotals(_includes)));
+  pvl += PvlKeyword("Excluded", toString(LimitTotals(_excludes)));
+  pvl += PvlKeyword("Valid", toString(valid()));
+  pvl += PvlKeyword("Errors", toString(errors()));
+  pvl += PvlKeyword("ZeroTime", toString(zerotime()));
+  pvl += PvlKeyword("NoData", toString(nodata()));
+  pvl += PvlKeyword("BadData", toString(baddata()));
+  pvl += PvlKeyword("Total", toString(count()));
   return (pvl);
 }
 
@@ -490,7 +490,7 @@ PvlGroup ProgramAnalyzer::toPvl(const RunTimeStats &stats,
                                 const QString &name) const {
   PvlGroup pvl((name.isEmpty() ? stats.pname.toStdString() : name.toStdString()));
 
-  pvl += PvlKeyword("Hits", std::to_string(stats.contime.TotalPixels()));
+  pvl += PvlKeyword("Hits", toString(stats.contime.TotalPixels()));
   pvl += PvlKeyword("ConnectTimeMinimum", DblToStr(stats.contime.Minimum(), 2).toStdString());
   pvl += PvlKeyword("ConnectTimeMaximum", DblToStr(stats.contime.Maximum(), 2).toStdString());
   pvl += PvlKeyword("ConnectTimeAverage", DblToStr(stats.contime.Average(), 2).toStdString());

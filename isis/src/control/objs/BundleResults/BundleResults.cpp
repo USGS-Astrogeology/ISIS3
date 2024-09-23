@@ -1254,7 +1254,7 @@ namespace Isis {
       m_sigma0 = dvtpv;
     }
     else {
-      std::string msg = "Computed degrees of freedom [" + std::to_string(m_degreesOfFreedom)
+      std::string msg = "Computed degrees of freedom [" + toString(m_degreesOfFreedom)
                     + "] is invalid.";
       throw IException(IException::Io, msg, _FILEINFO_);
     }

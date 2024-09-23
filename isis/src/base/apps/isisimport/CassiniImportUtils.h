@@ -40,8 +40,8 @@ namespace Isis {
       CassiniIssFixDnFunctor(PvlKeyword &stretchPairs, QString dataConversionType, int validMax) {
         m_stretch = Stretch();
         for (size_t i = 0; i < (size_t)stretchPairs.size(); i+=2) {
-          m_stretch.AddPair(std::stod(stretchPairs[i]),
-                             std::stod(stretchPairs[i + 1]));
+          m_stretch.AddPair(IString::ToDouble(stretchPairs[i]),
+                             IString::ToDouble(stretchPairs[i + 1]));
         }
         m_validMax = validMax;
         m_dataConversionType = dataConversionType;
@@ -76,7 +76,7 @@ namespace Isis {
   void cassiniIssFixDnPostProcess(QString ioFile, PvlObject postProcessObj) {
     PvlKeyword stretchPairsKeyword = postProcessObj["stretchPairs"];
     QString dataConversionType = QString::fromStdString(postProcessObj["DataConversionType"]);
-    int validMax = std::stoi(postProcessObj["ValidMaximum"]);
+    int validMax = IString::ToInteger(postProcessObj["ValidMaximum"]);
     CassiniIssFixDnFunctor cassiniIssFixDnFunctor(stretchPairsKeyword, dataConversionType, validMax);
 
     ProcessByLine postProcess;
@@ -102,12 +102,12 @@ namespace Isis {
     double flightSoftware = 0.0;
 
     if (translation["flightSoftwareVersionId"] != std::string("Unknown")) {
-      flightSoftware = std::stod(translation["flightSoftwareVersionId"]);
+      flightSoftware = IString::ToDouble(translation["flightSoftwareVersionId"]);
     }
 
     PvlKeyword stretchPairsKeyword = translation["stretchPairs"];
     QString dataConversionType = QString::fromStdString(translation["DataConversionType"]);
-    int validMax = std::stoi(translation["ValidMaximum"]);
+    int validMax = IString::ToInteger(translation["ValidMaximum"]);
     CassiniIssFixDnFunctor cassiniIssFixDnFunctor(stretchPairsKeyword, dataConversionType, validMax);
 
     TableField overclockPixels("OverclockPixels", TableField::Double, 3);
@@ -193,8 +193,8 @@ namespace Isis {
     PvlKeyword stretchPairs = translation["stretchPairs"];
     Stretch stretch;
     for (size_t i = 0; i < (size_t)stretchPairs.size(); i+=2) {
-      stretch.AddPair(std::stod(stretchPairs[i]),
-                         std::stod(stretchPairs[i + 1]));
+      stretch.AddPair(IString::ToDouble(stretchPairs[i]),
+                         IString::ToDouble(stretchPairs[i + 1]));
     }
     PvlGroup &inst = outputLabel->findGroup("Instrument", Pvl::Traverse);
     QString dataConversionType = QString::fromStdString(translation["DataConversionType"]);
@@ -208,7 +208,7 @@ namespace Isis {
     }
     else {
       double biasStripMean = inst.findKeyword("BiasStripMean");
-      inst.findKeyword("BiasStripMean").setValue(std::to_string(stretch.Map(biasStripMean)));
+      inst.findKeyword("BiasStripMean").setValue(toString(stretch.Map(biasStripMean)));
       inst.findKeyword("BiasStripMean").addComment("BiasStripMean value converted back to 12 bit.");
       importer->Progress()->SetText("Image was converted using 12-to-8 bit table. \nConverting prefix pixels back to 12 bit and saving line prefix data...");
     }
@@ -217,7 +217,7 @@ namespace Isis {
     int vicarLabelBytes = translation.findKeyword("VicarLabelBytes");
     int roo = *(header + 50 + vicarLabelBytes) / 32 % 2; //**** THIS MAY NEED TO BE CHANGED,
     // SEE BOTTOM OF THIS FILE FOR IN DEPTH COMMENTS ON READOUTORDER
-    inst.addKeyword(PvlKeyword("ReadoutOrder", std::to_string(roo)));
+    inst.addKeyword(PvlKeyword("ReadoutOrder", toString(roo)));
   };
 }
 

@@ -322,10 +322,10 @@ namespace Isis {
     PvlGroup summary("ResultSummary");
     PvlGroup results("Results");
 
-    summary.addKeyword(PvlKeyword("InputPoints", std::to_string(inputPoints)));
-    summary.addKeyword(PvlKeyword("InputMeasures", std::to_string(inputMeasures)));
-    summary.addKeyword(PvlKeyword("OutputPoints", std::to_string(outputPoints)));
-    summary.addKeyword(PvlKeyword("OutputMeasures", std::to_string(outputMeasures)));
+    summary.addKeyword(PvlKeyword("InputPoints", toString(inputPoints)));
+    summary.addKeyword(PvlKeyword("InputMeasures", toString(inputMeasures)));
+    summary.addKeyword(PvlKeyword("OutputPoints", toString(outputPoints)));
+    summary.addKeyword(PvlKeyword("OutputMeasures", toString(outputMeasures)));
 
     if (outputPoints != 0) {
       // Write the filenames associated with outNet
@@ -357,43 +357,43 @@ namespace Isis {
 
 
     if(noIgnore) {
-      summary.addKeyword(PvlKeyword("IgnoredPoints", std::to_string((int)ignoredPoints.size())));
-      summary.addKeyword(PvlKeyword("IgnoredMeasures", std::to_string((int)ignoredMeasures.size())));
+      summary.addKeyword(PvlKeyword("IgnoredPoints", toString((int)ignoredPoints.size())));
+      summary.addKeyword(PvlKeyword("IgnoredMeasures", toString((int)ignoredMeasures.size())));
     }
     if(noSingleMeasure) {
-      summary.addKeyword(PvlKeyword("SingleMeasurePoints", std::to_string((int)singleMeasurePoints.size())));
+      summary.addKeyword(PvlKeyword("SingleMeasurePoints", toString((int)singleMeasurePoints.size())));
     }
     if(noMeasureless) {
-      summary.addKeyword(PvlKeyword("MeasurelessPoints", std::to_string((int)measurelessPoints.size())));
+      summary.addKeyword(PvlKeyword("MeasurelessPoints", toString((int)measurelessPoints.size())));
     }
     if(noTolerancePoints) {
-      summary.addKeyword(PvlKeyword("TolerancePoints", std::to_string((int)tolerancePoints.size())));
+      summary.addKeyword(PvlKeyword("TolerancePoints", toString((int)tolerancePoints.size())));
     }
     if(reference) {
-      summary.addKeyword(PvlKeyword("NonReferenceMeasures", std::to_string((int)nonReferenceMeasures.size())));
+      summary.addKeyword(PvlKeyword("NonReferenceMeasures", toString((int)nonReferenceMeasures.size())));
     }
     if(fixed) {
-      summary.addKeyword(PvlKeyword("NonFixedPoints", std::to_string((int)nonFixedPoints.size())));
+      summary.addKeyword(PvlKeyword("NonFixedPoints", toString((int)nonFixedPoints.size())));
     }
     if(cubePoints) {
-      summary.addKeyword(PvlKeyword("NonCubePoints", std::to_string((int)nonCubePoints.size())));
+      summary.addKeyword(PvlKeyword("NonCubePoints", toString((int)nonCubePoints.size())));
     }
   // This is commented out since this does not correspond to any filters or the
   //  documentation of this application. I did not delete the code in case we find
   //  that we need it later. J.Backer 2012-06-22
   //
   //  if(noMeasurePoints.size() != 0) {
-  //    summary.addKeyword(PvlKeyword("NoCubeMeasure", std::to_string((int)noMeasurePoints.size())));
+  //    summary.addKeyword(PvlKeyword("NoCubeMeasure", toString((int)noMeasurePoints.size())));
   //  }
     if(cubeMeasures) {
-      summary.addKeyword(PvlKeyword("NonCubeMeasures", std::to_string((int)noCubeMeasures.size())));
+      summary.addKeyword(PvlKeyword("NonCubeMeasures", toString((int)noCubeMeasures.size())));
     }
     if(pointsEntered) {
-      summary.addKeyword(PvlKeyword("NonListedPoints", std::to_string((int)nonListedPoints.size())));
+      summary.addKeyword(PvlKeyword("NonListedPoints", toString((int)nonListedPoints.size())));
     }
     if(latLon) {
-      summary.addKeyword(PvlKeyword("LatLonOutOfRange", std::to_string((int)nonLatLonPoints.size())));
-      summary.addKeyword(PvlKeyword("NoLatLonPoints", std::to_string((int)cannotGenerateLatLonPoints.size())));
+      summary.addKeyword(PvlKeyword("LatLonOutOfRange", toString((int)nonLatLonPoints.size())));
+      summary.addKeyword(PvlKeyword("NoLatLonPoints", toString((int)cannotGenerateLatLonPoints.size())));
     }
 
     outProgress.CheckStatus();

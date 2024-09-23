@@ -161,14 +161,14 @@ void IsisMain() {
       // Update the labels
       Pvl *fullFrameLabel = g_outputCubes[i]->label();
       fullFrameLabel->findGroup("Instrument", PvlObject::Traverse)
-                              .addKeyword(PvlKeyword("FrameNumber", std::to_string(i+1)));
+                              .addKeyword(PvlKeyword("FrameNumber", toString(i+1)));
 
       PvlGroup &bandBin = fullFrameLabel->findGroup("BandBin", PvlObject::Traverse);
       bandBin.addKeyword(PvlKeyword("FilterName", "FULLCCD"),
                          PvlObject::Replace);
 
       // Add filter-specific code to band bin Group
-      bandBin.addKeyword(PvlKeyword("NaifIkCode", std::to_string(spacecraftCode)));
+      bandBin.addKeyword(PvlKeyword("NaifIkCode", toString(spacecraftCode)));
 
       importPds.WriteHistory(*g_outputCubes[i]);
       g_outputCubes[i]->write(origLabels);
@@ -182,7 +182,7 @@ void IsisMain() {
     int numSubimages = importPds.Lines() / g_frameletLines;
     int frameletsPerFilter = numSubimages / g_filterList.size();
     outputLabel.findGroup("Instrument", PvlObject::Traverse)
-                         .addKeyword(PvlKeyword("NumberFramelets", std::to_string(frameletsPerFilter)));
+                         .addKeyword(PvlKeyword("NumberFramelets", toString(frameletsPerFilter)));
 
     // get output file name and remove cube extension, if entered
     FileName outputFileName(ui.GetCubeName("TO").toStdString());
@@ -255,7 +255,7 @@ void IsisMain() {
       int frameNumber = (i / g_filterList.size()) + 1;
       Pvl *frameletLabel = g_outputCubes[i]->label();
       frameletLabel->findGroup("Instrument", PvlObject::Traverse)
-                              .addKeyword(PvlKeyword("FrameNumber", std::to_string(frameNumber)));
+                              .addKeyword(PvlKeyword("FrameNumber", toString(frameNumber)));
 
       int filterIndex = i % g_filterList.size();
       QString filterName = g_filterList[filterIndex];
@@ -276,7 +276,7 @@ void IsisMain() {
         spacecraftCode = -61504;
       }
       // Add filter-specific code to band bin Group
-      bandBin.addKeyword(PvlKeyword("NaifIkCode", std::to_string(spacecraftCode)));
+      bandBin.addKeyword(PvlKeyword("NaifIkCode", toString(spacecraftCode)));
 
       importPds.WriteHistory(*g_outputCubes[i]);
       g_outputCubes[i]->write(origLabels);
@@ -353,7 +353,7 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
   archiveXlater.Auto(outputLabel);
   PvlGroup &archive = outputLabel.findGroup("Archive", PvlObject::Traverse);
   iTime startTime(QString::fromStdString(inst["StartTime"][0]));
-  PvlKeyword yeardoy("YearDoy", std::to_string(startTime.Year()*1000 + startTime.DayOfYear()));
+  PvlKeyword yeardoy("YearDoy", toString(startTime.Year()*1000 + startTime.DayOfYear()));
   archive.addKeyword(yeardoy);
   UserInterface &ui = Application::GetUserInterface();
 
@@ -366,7 +366,7 @@ void translateLabel(Pvl &inputLabel, Pvl &outputLabel) {
   // Setup the kernel group
   PvlGroup kern("Kernels");
   int spacecraftCode = -61500;
-  kern += PvlKeyword("NaifFrameCode", std::to_string(spacecraftCode));
+  kern += PvlKeyword("NaifFrameCode", toString(spacecraftCode));
   outputLabel.findObject("IsisCube").addGroup(kern);
 
 }

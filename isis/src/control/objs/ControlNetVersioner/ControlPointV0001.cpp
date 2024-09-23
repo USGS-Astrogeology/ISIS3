@@ -87,9 +87,9 @@ namespace Isis {
          && pointObject.hasKeyword("Longitude")
          && pointObject.hasKeyword("Radius") ) {
       SurfacePoint adjustedPoint(
-          Latitude(std::stod(pointObject["Latitude"][0]), Angle::Degrees),
-          Longitude(std::stod(pointObject["Longitude"][0]), Angle::Degrees),
-          Distance(std::stod(pointObject["Radius"][0]), Distance::Meters));
+          Latitude(IString::ToDouble(pointObject["Latitude"][0]), Angle::Degrees),
+          Longitude(IString::ToDouble(pointObject["Longitude"][0]), Angle::Degrees),
+          Distance(IString::ToDouble(pointObject["Radius"][0]), Distance::Meters));
 
       m_pointData->set_adjustedx( adjustedPoint.GetX().meters() );
       m_pointData->set_adjustedy( adjustedPoint.GetY().meters() );
@@ -98,9 +98,9 @@ namespace Isis {
     else if ( pointObject.hasKeyword("X")
               && pointObject.hasKeyword("Y")
               && pointObject.hasKeyword("Z") ) {
-      m_pointData->set_adjustedx( std::stod(pointObject["X"][0]) );
-      m_pointData->set_adjustedy( std::stod(pointObject["Y"][0]) );
-      m_pointData->set_adjustedz( std::stod(pointObject["Z"][0]) );
+      m_pointData->set_adjustedx( IString::ToDouble(pointObject["X"][0]) );
+      m_pointData->set_adjustedy( IString::ToDouble(pointObject["Y"][0]) );
+      m_pointData->set_adjustedz( IString::ToDouble(pointObject["Z"][0]) );
     }
 
     // copy over the apriori surface point
@@ -108,9 +108,9 @@ namespace Isis {
          && pointObject.hasKeyword("AprioriLongitude")
          && pointObject.hasKeyword("AprioriRadius") ) {
       SurfacePoint aprioriPoint(
-          Latitude(std::stod(pointObject["AprioriLatitude"][0]), Angle::Degrees),
-          Longitude(std::stod(pointObject["AprioriLongitude"][0]), Angle::Degrees),
-          Distance(std::stod(pointObject["AprioriRadius"][0]), Distance::Meters));
+          Latitude(IString::ToDouble(pointObject["AprioriLatitude"][0]), Angle::Degrees),
+          Longitude(IString::ToDouble(pointObject["AprioriLongitude"][0]), Angle::Degrees),
+          Distance(IString::ToDouble(pointObject["AprioriRadius"][0]), Distance::Meters));
 
       m_pointData->set_apriorix( aprioriPoint.GetX().meters() );
       m_pointData->set_aprioriy( aprioriPoint.GetY().meters() );
@@ -119,9 +119,9 @@ namespace Isis {
     else if ( pointObject.hasKeyword("AprioriX")
               && pointObject.hasKeyword("AprioriY")
               && pointObject.hasKeyword("AprioriZ") ) {
-      m_pointData->set_apriorix( std::stod(pointObject["AprioriX"][0]) );
-      m_pointData->set_aprioriy( std::stod(pointObject["AprioriY"][0]) );
-      m_pointData->set_aprioriz( std::stod(pointObject["AprioriZ"][0]) );
+      m_pointData->set_apriorix( IString::ToDouble(pointObject["AprioriX"][0]) );
+      m_pointData->set_aprioriy( IString::ToDouble(pointObject["AprioriY"][0]) );
+      m_pointData->set_aprioriz( IString::ToDouble(pointObject["AprioriZ"][0]) );
     }
     // If the apriori values are missing, copy them from the adjusted.
     else if ( m_pointData->has_adjustedx()
@@ -242,12 +242,12 @@ namespace Isis {
     if ( pointObject.hasKeyword("AprioriCovarianceMatrix") ) {
       PvlKeyword &matrix = pointObject["AprioriCovarianceMatrix"];
 
-      m_pointData->add_aprioricovar(std::stod(matrix[0]));
-      m_pointData->add_aprioricovar(std::stod(matrix[1]));
-      m_pointData->add_aprioricovar(std::stod(matrix[2]));
-      m_pointData->add_aprioricovar(std::stod(matrix[3]));
-      m_pointData->add_aprioricovar(std::stod(matrix[4]));
-      m_pointData->add_aprioricovar(std::stod(matrix[5]));
+      m_pointData->add_aprioricovar(IString::ToDouble(matrix[0]));
+      m_pointData->add_aprioricovar(IString::ToDouble(matrix[1]));
+      m_pointData->add_aprioricovar(IString::ToDouble(matrix[2]));
+      m_pointData->add_aprioricovar(IString::ToDouble(matrix[3]));
+      m_pointData->add_aprioricovar(IString::ToDouble(matrix[4]));
+      m_pointData->add_aprioricovar(IString::ToDouble(matrix[5]));
 
       m_pointData->set_latitudeconstrained(true);
       m_pointData->set_longitudeconstrained(true);
@@ -262,25 +262,25 @@ namespace Isis {
       double sigmaRad = 10000.0;
 
       if ( pointObject.hasKeyword("AprioriSigmaLatitude") ) {
-        if (std::stod(pointObject["AprioriSigmaLatitude"][0]) > 0
-            && std::stod(pointObject["AprioriSigmaLatitude"][0]) < sigmaLat) {
-          sigmaLat = std::stod(pointObject["AprioriSigmaLatitude"][0]);
+        if (IString::ToDouble(pointObject["AprioriSigmaLatitude"][0]) > 0
+            && IString::ToDouble(pointObject["AprioriSigmaLatitude"][0]) < sigmaLat) {
+          sigmaLat = IString::ToDouble(pointObject["AprioriSigmaLatitude"][0]);
         }
         m_pointData->set_latitudeconstrained(true);
       }
 
       if ( pointObject.hasKeyword("AprioriSigmaLongitude") ) {
-        if (std::stod(pointObject["AprioriSigmaLongitude"][0]) > 0
-            && std::stod(pointObject["AprioriSigmaLongitude"][0]) < sigmaLon) {
-          sigmaLon = std::stod(pointObject["AprioriSigmaLongitude"][0]);
+        if (IString::ToDouble(pointObject["AprioriSigmaLongitude"][0]) > 0
+            && IString::ToDouble(pointObject["AprioriSigmaLongitude"][0]) < sigmaLon) {
+          sigmaLon = IString::ToDouble(pointObject["AprioriSigmaLongitude"][0]);
         }
         m_pointData->set_longitudeconstrained(true);
       }
 
       if ( pointObject.hasKeyword("AprioriSigmaRadius") ) {
-        if (std::stod(pointObject["AprioriSigmaRadius"][0]) > 0
-            && std::stod(pointObject["AprioriSigmaRadius"][0]) < sigmaRad) {
-          sigmaRad = std::stod(pointObject["AprioriSigmaRadius"][0]);
+        if (IString::ToDouble(pointObject["AprioriSigmaRadius"][0]) > 0
+            && IString::ToDouble(pointObject["AprioriSigmaRadius"][0]) < sigmaRad) {
+          sigmaRad = IString::ToDouble(pointObject["AprioriSigmaRadius"][0]);
         }
         m_pointData->set_radiusconstrained(true);
       }
@@ -304,12 +304,12 @@ namespace Isis {
     if ( pointObject.hasKeyword("ApostCovarianceMatrix") ) {
       PvlKeyword &matrix = pointObject["ApostCovarianceMatrix"];
 
-      m_pointData->add_adjustedcovar(std::stod(matrix[0]));
-      m_pointData->add_adjustedcovar(std::stod(matrix[1]));
-      m_pointData->add_adjustedcovar(std::stod(matrix[2]));
-      m_pointData->add_adjustedcovar(std::stod(matrix[3]));
-      m_pointData->add_adjustedcovar(std::stod(matrix[4]));
-      m_pointData->add_adjustedcovar(std::stod(matrix[5]));
+      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[0]));
+      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[1]));
+      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[2]));
+      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[3]));
+      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[4]));
+      m_pointData->add_adjustedcovar(IString::ToDouble(matrix[5]));
 
       m_pointData->set_latitudeconstrained(true);
       m_pointData->set_longitudeconstrained(true);
@@ -324,23 +324,23 @@ namespace Isis {
       double sigmaRad = 10000.0;
 
       if ( pointObject.hasKeyword("AdjustedSigmaLatitude") ) {
-        if (std::stod(pointObject["AdjustedSigmaLatitude"][0]) > 0
-            && std::stod(pointObject["AdjustedSigmaLatitude"][0]) < sigmaLat) {
-          sigmaLat = std::stod(pointObject["AdjustedSigmaLatitude"][0]);
+        if (IString::ToDouble(pointObject["AdjustedSigmaLatitude"][0]) > 0
+            && IString::ToDouble(pointObject["AdjustedSigmaLatitude"][0]) < sigmaLat) {
+          sigmaLat = IString::ToDouble(pointObject["AdjustedSigmaLatitude"][0]);
         }
       }
 
       if ( pointObject.hasKeyword("AdjustedSigmaLongitude") ) {
-        if (std::stod(pointObject["AdjustedSigmaLongitude"][0]) > 0
-            && std::stod(pointObject["AdjustedSigmaLongitude"][0]) < sigmaLon) {
-          sigmaLon = std::stod(pointObject["AdjustedSigmaLongitude"][0]);
+        if (IString::ToDouble(pointObject["AdjustedSigmaLongitude"][0]) > 0
+            && IString::ToDouble(pointObject["AdjustedSigmaLongitude"][0]) < sigmaLon) {
+          sigmaLon = IString::ToDouble(pointObject["AdjustedSigmaLongitude"][0]);
         }
       }
 
       if ( pointObject.hasKeyword("AdjustedSigmaRadius") ) {
-        if (std::stod(pointObject["AdjustedSigmaRadius"][0]) > 0
-            && std::stod(pointObject["AdjustedSigmaRadius"][0]) < sigmaRad) {
-          sigmaRad = std::stod(pointObject["AdjustedSigmaRadius"][0]);
+        if (IString::ToDouble(pointObject["AdjustedSigmaRadius"][0]) > 0
+            && IString::ToDouble(pointObject["AdjustedSigmaRadius"][0]) < sigmaRad) {
+          sigmaRad = IString::ToDouble(pointObject["AdjustedSigmaRadius"][0]);
         }
       }
 
@@ -395,7 +395,7 @@ namespace Isis {
         // in this case set it to 0 and ignore the measure
         double value;
         try {
-          value = std::stod(group["Sample"][0]);
+          value = IString::ToDouble(group["Sample"][0]);
         }
         catch (...) {
           value = 0;
@@ -409,7 +409,7 @@ namespace Isis {
         // in this case set it to 0 and ignore the measure
         double value;
         try {
-          value = std::stod(group["Line"][0]);
+          value = IString::ToDouble(group["Line"][0]);
         }
         catch (...) {
           value = 0;
@@ -422,24 +422,24 @@ namespace Isis {
       // Some old networks use ErrorSample and ErrorLine,
       // others use SampleResidual and LineResidual so check for both
       if (group.hasKeyword("ErrorSample")) {
-        double value = std::stod(group["ErrorSample"][0]);
+        double value = IString::ToDouble(group["ErrorSample"][0]);
         measure.mutable_measurement()->set_sampleresidual(value);
         group.deleteKeyword("ErrorSample");
       }
       if (group.hasKeyword("ErrorLine")) {
-        double value = std::stod(group["ErrorLine"][0]);
+        double value = IString::ToDouble(group["ErrorLine"][0]);
         measure.mutable_measurement()->set_lineresidual(value);
         group.deleteKeyword("ErrorLine");
       }
 
       if (group.hasKeyword("SampleResidual")) {
-        double value = std::stod(group["SampleResidual"][0]);
+        double value = IString::ToDouble(group["SampleResidual"][0]);
         measure.mutable_measurement()->set_sampleresidual(value);
         group.deleteKeyword("SampleResidual");
       }
 
       if (group.hasKeyword("LineResidual")) {
-        double value = std::stod(group["LineResidual"][0]);
+        double value = IString::ToDouble(group["LineResidual"][0]);
         measure.mutable_measurement()->set_lineresidual(value);
         group.deleteKeyword("LineResidual");
       }
@@ -528,7 +528,7 @@ namespace Isis {
         }
 
         try {
-          value = std::stod(dataKeyword[0]);
+          value = IString::ToDouble(dataKeyword[0]);
         }
         catch (IException &e) {
           std::string msg = "Invalid control measure log data value [" + dataKeyword[0] + "]";
@@ -633,7 +633,7 @@ namespace Isis {
       return;
     }
 
-    double value = std::stod(container[keyName.toStdString()][0]);
+    double value = IString::ToDouble(container[keyName.toStdString()][0]);
     container.deleteKeyword(keyName.toStdString());
     (point.data()->*setter)(value);
   }
@@ -726,7 +726,7 @@ namespace Isis {
 
     double value = Isis::Null;
     if ( container.hasKeyword(keyName.toStdString()) ) {
-      value = std::stod(container[keyName.toStdString()][0]);
+      value = IString::ToDouble(container[keyName.toStdString()][0]);
       container.deleteKeyword(keyName.toStdString());
 
     }

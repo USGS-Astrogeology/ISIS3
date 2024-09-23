@@ -24,15 +24,15 @@ int main(int argc, char *argv[]) {
   Pvl lab;
   lab.addGroup(PvlGroup("Mapping"));
   PvlGroup &mg = lab.findGroup("Mapping");
-  mg += PvlKeyword("EquatorialRadius", std::to_string(6378388.0));
-  mg += PvlKeyword("PolarRadius", std::to_string(6356911.9));
+  mg += PvlKeyword("EquatorialRadius", toString(6378388.0));
+  mg += PvlKeyword("PolarRadius", toString(6356911.9));
   mg += PvlKeyword("LatitudeType", "Planetographic");
   mg += PvlKeyword("LongitudeDirection", "PositiveEast");
-  mg += PvlKeyword("LongitudeDomain", std::to_string(180));
-  mg += PvlKeyword("MinimumLatitude", std::to_string(-90.0));
-  mg += PvlKeyword("MaximumLatitude", std::to_string(0.0));
-  mg += PvlKeyword("MinimumLongitude", std::to_string(-180.0));
-  mg += PvlKeyword("MaximumLongitude", std::to_string(180.0));
+  mg += PvlKeyword("LongitudeDomain", toString(180));
+  mg += PvlKeyword("MinimumLatitude", toString(-90.0));
+  mg += PvlKeyword("MaximumLatitude", toString(0.0));
+  mg += PvlKeyword("MinimumLongitude", toString(-180.0));
+  mg += PvlKeyword("MaximumLongitude", toString(180.0));
   mg += PvlKeyword("ProjectionName", "PolarStereographic");
 
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     e.print();
   }
   cout << endl;
-  mg += PvlKeyword("CenterLongitude", std::to_string(-100.0));
+  mg += PvlKeyword("CenterLongitude", toString(-100.0));
 
   cout << "Test missing center latitude keyword ..." << endl;
   try {
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
   }
   cout << endl;
   cout << "Test invalid center latitude keyword ..." << endl;
-  mg += PvlKeyword("CenterLatitude", std::to_string(0.0));
+  mg += PvlKeyword("CenterLatitude", toString(0.0));
   try {
     PolarStereographic p(lab);
   }
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     e.print();
   }
   cout << endl;
-  mg.addKeyword(PvlKeyword("CenterLatitude", std::to_string(-71.0)), PvlGroup::Replace);
+  mg.addKeyword(PvlKeyword("CenterLatitude", toString(-71.0)), PvlGroup::Replace);
 
   try {
     TProjection *p = (TProjection *) ProjectionFactory::Create(lab);

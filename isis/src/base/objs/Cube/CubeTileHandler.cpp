@@ -67,9 +67,9 @@ namespace Isis {
     PvlObject &core = labels.findObject("IsisCube").findObject("Core");
     core.addKeyword(PvlKeyword("Format", "Tile"),
                     PvlContainer::Replace);
-    core.addKeyword(PvlKeyword("TileSamples", std::to_string(getSampleCountInChunk())),
+    core.addKeyword(PvlKeyword("TileSamples", toString(getSampleCountInChunk())),
                     PvlContainer::Replace);
-    core.addKeyword(PvlKeyword("TileLines", std::to_string(getLineCountInChunk())),
+    core.addKeyword(PvlKeyword("TileLines", toString(getLineCountInChunk())),
                     PvlContainer::Replace);
   }
 
@@ -92,8 +92,8 @@ namespace Isis {
     if(!success) {
       IString msg = "Reading from the file [" + dataFile->fileName().toStdString() + "] "
           "failed with reading [" +
-          std::to_string(chunkToFill.getByteCount()) +
-          "] bytes at position [" + std::to_string(startByte) + "]";
+          toString(chunkToFill.getByteCount()) +
+          "] bytes at position [" + toString(startByte) + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
@@ -115,8 +115,8 @@ namespace Isis {
     if(!success) {
       IString msg = "Writing to the file [" + dataFile->fileName().toStdString() + "] "
           "failed with writing [" +
-          std::to_string(chunkToWrite.getByteCount()) +
-          "] bytes at position [" + std::to_string(startByte) + "]";
+          toString(chunkToWrite.getByteCount()) +
+          "] bytes at position [" + toString(startByte) + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }

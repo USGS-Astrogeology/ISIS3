@@ -391,39 +391,39 @@ void addProject(PvlGroup &mapping) {
   mapping += PvlKeyword("ProjectionName", projLUT[projName].toStdString());
   if(ui.WasEntered("CLON")) {
     double clonOut = ui.GetDouble("CLON");
-    mapping += PvlKeyword("CenterLongitude", std::to_string(clonOut));
+    mapping += PvlKeyword("CenterLongitude", toString(clonOut));
   }
   if(ui.WasEntered("CLAT")) {
     double clatOut = ui.GetDouble("CLAT");
-    mapping += PvlKeyword("CenterLatitude", std::to_string(clatOut));
+    mapping += PvlKeyword("CenterLatitude", toString(clatOut));
   }
   if(ui.WasEntered("SCALEFACTOR")) {
     double scaleFactorOut = ui.GetDouble("SCALEFACTOR");
-    mapping += PvlKeyword("ScaleFactor", std::to_string(scaleFactorOut));
+    mapping += PvlKeyword("ScaleFactor", toString(scaleFactorOut));
   }
   if(ui.WasEntered("PAR1")) {
     double par1 = ui.GetDouble("PAR1");
-    mapping += PvlKeyword("FirstStandardParallel", std::to_string(par1));
+    mapping += PvlKeyword("FirstStandardParallel", toString(par1));
   }
   if(ui.WasEntered("PAR2")) {
     double par2 = ui.GetDouble("PAR2");
-    mapping += PvlKeyword("SecondStandardParallel", std::to_string(par2));
+    mapping += PvlKeyword("SecondStandardParallel", toString(par2));
   }
   if(ui.WasEntered("PLAT")) {
     double plat = ui.GetDouble("PLAT");
-    mapping += PvlKeyword("PoleLatitude", std::to_string(plat));
+    mapping += PvlKeyword("PoleLatitude", toString(plat));
   }
   if(ui.WasEntered("PLON")) {
     double plon = ui.GetDouble("PLON");
-    mapping += PvlKeyword("PoleLongitude", std::to_string(plon));
+    mapping += PvlKeyword("PoleLongitude", toString(plon));
   }
   if(ui.WasEntered("PROT")) {
     double prot = ui.GetDouble("PROT");
-    mapping += PvlKeyword("PoleRotation", std::to_string(prot));
+    mapping += PvlKeyword("PoleRotation", toString(prot));
   }
   if(ui.WasEntered("DIST")) {
     double dist = ui.GetDouble("DIST");
-    mapping += PvlKeyword("Distance", std::to_string(dist));
+    mapping += PvlKeyword("Distance", toString(dist));
   }
 }
 
@@ -511,13 +511,13 @@ void addRange(PvlGroup &mapping) {
   // Use the values that have been entered in the GUI
   if(ui.GetString("RNGOPT") == "USER") {
     double minLat = ui.GetDouble("MINLAT");
-    mapping += PvlKeyword("MinimumLatitude", std::to_string(minLat));
+    mapping += PvlKeyword("MinimumLatitude", toString(minLat));
     double maxLat = ui.GetDouble("MAXLAT");
-    mapping += PvlKeyword("MaximumLatitude", std::to_string(maxLat));
+    mapping += PvlKeyword("MaximumLatitude", toString(maxLat));
     double minLon = ui.GetDouble("MINLON");
-    mapping += PvlKeyword("MinimumLongitude", std::to_string(minLon));
+    mapping += PvlKeyword("MinimumLongitude", toString(minLon));
     double maxLon = ui.GetDouble("MAXLON");
-    mapping += PvlKeyword("MaximumLongitude", std::to_string(maxLon));
+    mapping += PvlKeyword("MaximumLongitude", toString(maxLon));
   }
   else if(ui.GetString("RNGOPT") == "CALC") {
     // calculate range values using function calcRange and fromlist
@@ -527,10 +527,10 @@ void addRange(PvlGroup &mapping) {
     double maxLon;
     // Call calcRange to calculate min and max ground range values
     calcRange(minLat, maxLat, minLon, maxLon);
-    mapping += PvlKeyword("MinimumLatitude", std::to_string(minLat));
-    mapping += PvlKeyword("MaximumLatitude", std::to_string(maxLat));
-    mapping += PvlKeyword("MinimumLongitude", std::to_string(minLon));
-    mapping += PvlKeyword("MaximumLongitude", std::to_string(maxLon));
+    mapping += PvlKeyword("MinimumLatitude", toString(minLat));
+    mapping += PvlKeyword("MaximumLatitude", toString(maxLat));
+    mapping += PvlKeyword("MinimumLongitude", toString(minLon));
+    mapping += PvlKeyword("MaximumLongitude", toString(maxLon));
   }
 }
 
@@ -540,16 +540,16 @@ void addResolution(PvlGroup &mapping) {
   UserInterface &ui = Application::GetUserInterface();
   if(ui.GetString("RESOPT") == "PPD") {
     double res = ui.GetDouble("RESOLUTION");
-    mapping += PvlKeyword("Scale", std::to_string(res), "pixels/degree");
+    mapping += PvlKeyword("Scale", toString(res), "pixels/degree");
   }
   else if(ui.GetString("RESOPT") == "MPP") {
     double res = ui.GetDouble("RESOLUTION");
-    mapping += PvlKeyword("PixelResolution", std::to_string(res), "meters/pixel");
+    mapping += PvlKeyword("PixelResolution", toString(res), "meters/pixel");
   }
   else if(ui.GetString("RESOPT") == "CALC") {
     // run the function to calculate the resolution
     double Res = calcResolution();
-    mapping += PvlKeyword("PixelResolution", std::to_string(Res), "meters/pixel");
+    mapping += PvlKeyword("PixelResolution", toString(Res), "meters/pixel");
   }
 }
 

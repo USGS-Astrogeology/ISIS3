@@ -76,15 +76,15 @@ int main(int argc, char *argv[]) {
     TProjection *p = (TProjection *) ProjectionFactory::Create(lab);
 
     cout << "Test X,Y,Z Axis Vector Calculations ... " << endl;
-    cout << "Map Group Data (X[0]):      " << std::stod(mapGrp["XAxisVector"][0]) << endl;
-    cout << "Map Group Data (X[1]):      " << std::stod(mapGrp["XAxisVector"][1]) << endl;
-    cout << "Map Group Data (X[2]):      " << std::stod(mapGrp["XAxisVector"][2]) << endl;
-    cout << "Map Group Data (Y[0]):      " << std::stod(mapGrp["YAxisVector"][0]) << endl;
-    cout << "Map Group Data (Y[1]):      " << std::stod(mapGrp["YAxisVector"][1]) << endl;
-    cout << "Map Group Data (Y[2]):      " << std::stod(mapGrp["YAxisVector"][2]) << endl;
-    cout << "Map Group Data (Z[0]):      " << std::stod(mapGrp["ZAxisVector"][0]) << endl;
-    cout << "Map Group Data (Z[1]):      " << std::stod(mapGrp["ZAxisVector"][1]) << endl;
-    cout << "Map Group Data (Z[2]):      " << std::stod(mapGrp["ZAxisVector"][2]) << endl;
+    cout << "Map Group Data (X[0]):      " << IString::ToDouble(mapGrp["XAxisVector"][0]) << endl;
+    cout << "Map Group Data (X[1]):      " << IString::ToDouble(mapGrp["XAxisVector"][1]) << endl;
+    cout << "Map Group Data (X[2]):      " << IString::ToDouble(mapGrp["XAxisVector"][2]) << endl;
+    cout << "Map Group Data (Y[0]):      " << IString::ToDouble(mapGrp["YAxisVector"][0]) << endl;
+    cout << "Map Group Data (Y[1]):      " << IString::ToDouble(mapGrp["YAxisVector"][1]) << endl;
+    cout << "Map Group Data (Y[2]):      " << IString::ToDouble(mapGrp["YAxisVector"][2]) << endl;
+    cout << "Map Group Data (Z[0]):      " << IString::ToDouble(mapGrp["ZAxisVector"][0]) << endl;
+    cout << "Map Group Data (Z[1]):      " << IString::ToDouble(mapGrp["ZAxisVector"][1]) << endl;
+    cout << "Map Group Data (Z[2]):      " << IString::ToDouble(mapGrp["ZAxisVector"][2]) << endl;
     cout << endl;
 
     const double X = -2646.237039, Y = -537.814519;

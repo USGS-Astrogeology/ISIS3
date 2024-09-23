@@ -162,10 +162,10 @@ namespace Isis {
     PvlGroup pluginInfo(grpName.toStdString());
 
     PvlKeyword name("Name", Algorithm().toStdString());
-    PvlKeyword minThickness("MinimumThickness", std::to_string(MinimumThickness()));
-    PvlKeyword minArea("MinimumArea", std::to_string(MinimumArea()));
-    PvlKeyword xSpac("XSpacing", std::to_string(p_Xspacing));
-    PvlKeyword ySpac("YSpacing", std::to_string(p_Yspacing));
+    PvlKeyword minThickness("MinimumThickness", toString(MinimumThickness()));
+    PvlKeyword minArea("MinimumArea", toString(MinimumArea()));
+    PvlKeyword xSpac("XSpacing", toString(p_Xspacing));
+    PvlKeyword ySpac("YSpacing", toString(p_Yspacing));
 
     pluginInfo.addKeyword(name);
     pluginInfo.addKeyword(minThickness);

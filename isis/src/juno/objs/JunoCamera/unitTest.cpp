@@ -61,7 +61,7 @@ int main(void) {
 
     // Test Shutter Open/Close
     const PvlGroup &inst = c.label()->findGroup("Instrument", Pvl::Traverse);
-    double exposureDuration = std::stod( inst["ExposureDuration"][0] );
+    double exposureDuration = IString::ToDouble( inst["ExposureDuration"][0] );
     QString stime = QString::fromStdString(inst["StartTime"]);
     double et;
     str2et_c(stime.toLatin1().data(), &et);

@@ -265,7 +265,7 @@ namespace Isis {
         break;
       default:
         throw IException(IException::Programmer,
-            "Cannot export an image with [" + std::to_string(m_exportDescription->channelCount()) +
+            "Cannot export an image with [" + toString(m_exportDescription->channelCount()) +
             "] channels",
             _FILEINFO_);
     }

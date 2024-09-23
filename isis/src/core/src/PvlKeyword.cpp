@@ -2005,8 +2005,8 @@ namespace Isis {
 
       // Check for Range
       if (sValueName.find("__Range") != std::string::npos) {
-        dRangeMin = std::stod((*pvlKwrdValue)[0]);
-        dRangeMax = std::stod((*pvlKwrdValue)[1]);
+        dRangeMin = IString::ToDouble((*pvlKwrdValue)[0]);
+        dRangeMax = IString::ToDouble((*pvlKwrdValue)[1]);
         bRange = true;
       }
       else if (sValueName.find("__Value") != std::string::npos) {
@@ -2022,7 +2022,7 @@ namespace Isis {
         if (sValue != "null"){
           int iValue=0;
           try {
-            iValue = std::stoi(sValue);
+            iValue = IString::ToInteger(sValue);
           } catch (IException & e) {
             std::string sErrMsg = "\"" +pvlKwrd.name() +"\" expects an Integer value";
             throw IException(e, IException::User, sErrMsg, _FILEINFO_);
@@ -2034,7 +2034,7 @@ namespace Isis {
           if (bValue) {
             bool bFound = false;
             for (int j=0; j<pvlKwrdValue->size(); j++) {
-              if (iValue == std::stoi((*pvlKwrdValue)[j])) {
+              if (iValue == IString::ToInteger((*pvlKwrdValue)[j])) {
                 bFound = true;
                 break;
               }
@@ -2062,7 +2062,7 @@ namespace Isis {
         std::string sValue = pvlKwrd[i];
         std::transform(sValue.begin(), sValue.end(), sValue.begin(), ::tolower);
         if (sValue != "null"){
-          double dValue = std::stod(sValue);
+          double dValue = IString::ToDouble(sValue);
           if (bRange && (dValue < dRangeMin || dValue > dRangeMax)) {
             std::string sErrMsg = "\"" +pvlKwrd.name() +"\" is not in the specified Range";
             throw IException(IException::User, sErrMsg, _FILEINFO_);
@@ -2070,7 +2070,7 @@ namespace Isis {
           if (bValue) {
             bool bFound = false;
             for (int j=0; j<pvlKwrdValue->size(); j++) {
-              if (dValue == std::stod((*pvlKwrdValue)[j])) {
+              if (dValue == IString::ToDouble((*pvlKwrdValue)[j])) {
                 bFound = true;
                 break;
               }

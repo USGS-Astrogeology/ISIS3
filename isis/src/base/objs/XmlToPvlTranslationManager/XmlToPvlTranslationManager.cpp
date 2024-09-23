@@ -474,7 +474,7 @@ namespace Isis {
      if ( !m_xmlLabel.setContent(&xmlFile, false, &errmsg, &errline, &errcol) ) {
        xmlFile.close();
        std::string msg = "XML read/parse error in file [" + xmlFileName.expanded()
-            + "] at line [" + std::to_string(errline) + "], column [" + std::to_string(errcol)
+            + "] at line [" + toString(errline) + "], column [" + toString(errcol)
             + "], message: " + errmsg.toStdString();
        throw IException(IException::Unknown, msg, _FILEINFO_);
      }

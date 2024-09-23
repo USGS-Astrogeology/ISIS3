@@ -296,7 +296,7 @@ namespace Isis {
       obj += PvlKeyword("Latitude", m_latLineEdit->text().toStdString());
       obj += PvlKeyword("Longitude", m_lonLineEdit->text().toStdString());
       obj += PvlKeyword("Area", m_areaLineEdit->text().toStdString());
-      obj += PvlKeyword("Visible", std::to_string((int)(m_box != NULL)));
+      obj += PvlKeyword("Visible", toString((int)(m_box != NULL)));
     }
 
     return obj;

@@ -182,17 +182,17 @@ namespace Isis {
     PvlGroup results("Results");
     results.addKeyword( PvlKeyword( "ISISDATA",            isisdata.expanded() ) );
     results.addKeyword( PvlKeyword( "DATADIR",             datadir.toStdString() ) );
-    results.addKeyword( PvlKeyword( "EmptyKernelDBs",      std::to_string( inventory_counts.m_empty ) ) );
-    results.addKeyword( PvlKeyword( "MissingKernelDBs",    std::to_string( inventory_counts.m_missing ) ) );
-    results.addKeyword( PvlKeyword( "SymlinkKernelFiles",  std::to_string( inventory_counts.m_symlinks ) ) );
-    results.addKeyword( PvlKeyword( "ExternalKernelFiles", std::to_string( inventory_counts.m_externals ) ) );
-    results.addKeyword( PvlKeyword( "ErrorKernelFiles",    std::to_string( inventory_counts.m_errors ) ) );
-    results.addKeyword( PvlKeyword( "TotalDBConfigFiles",  std::to_string( t_configs ), "conf" ) );
-    results.addKeyword( PvlKeyword( "TotalKernelDBFiles",  std::to_string( t_kerneldbs ), "db" ) );
-    results.addKeyword( PvlKeyword( "TotalDirectories",    std::to_string( t_dirs ) ) );
-    results.addKeyword( PvlKeyword( "TotalDataFiles",      std::to_string( t_files ) ) );
-    results.addKeyword( PvlKeyword( "TotalInstallSize",    std::to_string( t_install_size ), "bytes" ) );
-    results.addKeyword( PvlKeyword( "TotalVolumeSize",     std::to_string( t_volume_size ), "GB" ) );
+    results.addKeyword( PvlKeyword( "EmptyKernelDBs",      toString( inventory_counts.m_empty ) ) );
+    results.addKeyword( PvlKeyword( "MissingKernelDBs",    toString( inventory_counts.m_missing ) ) );
+    results.addKeyword( PvlKeyword( "SymlinkKernelFiles",  toString( inventory_counts.m_symlinks ) ) );
+    results.addKeyword( PvlKeyword( "ExternalKernelFiles", toString( inventory_counts.m_externals ) ) );
+    results.addKeyword( PvlKeyword( "ErrorKernelFiles",    toString( inventory_counts.m_errors ) ) );
+    results.addKeyword( PvlKeyword( "TotalDBConfigFiles",  toString( t_configs ), "conf" ) );
+    results.addKeyword( PvlKeyword( "TotalKernelDBFiles",  toString( t_kerneldbs ), "db" ) );
+    results.addKeyword( PvlKeyword( "TotalDirectories",    toString( t_dirs ) ) );
+    results.addKeyword( PvlKeyword( "TotalDataFiles",      toString( t_files ) ) );
+    results.addKeyword( PvlKeyword( "TotalInstallSize",    toString( t_install_size ), "bytes" ) );
+    results.addKeyword( PvlKeyword( "TotalVolumeSize",     toString( t_volume_size ), "GB" ) );
 
     // If users wants kernel issues reported, write it out here
     if ( ui.WasEntered( "TOISSUES" ) ) {
@@ -390,17 +390,17 @@ namespace Isis {
         }
 
         // Report results
-        results.addKeyword( PvlKeyword( "MissingInInventory",  std::to_string( error_counts_t.m_missing ) ) );
-        results.addKeyword( PvlKeyword( "SymlinkInInventory",  std::to_string( error_counts_t.m_symlinks ) ) );
-        results.addKeyword( PvlKeyword( "ExternalToInventory", std::to_string( error_counts_t.m_externals ) ) );
-        results.addKeyword( PvlKeyword( "ErrorInInventory",    std::to_string( error_counts_t.m_errors ) ) );
+        results.addKeyword( PvlKeyword( "MissingInInventory",  toString( error_counts_t.m_missing ) ) );
+        results.addKeyword( PvlKeyword( "SymlinkInInventory",  toString( error_counts_t.m_symlinks ) ) );
+        results.addKeyword( PvlKeyword( "ExternalToInventory", toString( error_counts_t.m_externals ) ) );
+        results.addKeyword( PvlKeyword( "ErrorInInventory",    toString( error_counts_t.m_errors ) ) );
 
         if ( needHash ) {
           QByteArray v_hash_data = volume_hash.result();
           QString volume_hash_str = QString::fromUtf8( v_hash_data.toHex() );
           BigInt hbsize = HashBufferSizeBytes;
 
-          results.addKeyword( PvlKeyword( "HashBufferSize",  std::to_string(hbsize), "bytes" ) );
+          results.addKeyword( PvlKeyword( "HashBufferSize",  toString(hbsize), "bytes" ) );
           results.addKeyword( PvlKeyword( "TotalVolumeHash", volume_hash_str.toStdString(), hashtype.toStdString() ) );
         }
 

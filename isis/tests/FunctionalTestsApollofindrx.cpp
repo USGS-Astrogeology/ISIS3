@@ -69,19 +69,19 @@ TEST_F(LargeCube, FunctionalTestApollofindrxDefault) {
 
   PvlGroup newReseaus = newLab.findObject("IsisCube").findGroup("Reseaus");
   PvlKeyword testKeyword = newReseaus.findKeyword("Line");
-  EXPECT_NEAR(std::stod(testKeyword[0]), 100.8141, 0.0001);
-  EXPECT_NEAR(std::stod(testKeyword[1]), 192.8, 0.0001);
-  EXPECT_NEAR(std::stod(testKeyword[2]), 275.8, 0.0001);
+  EXPECT_NEAR(IString::ToDouble(testKeyword[0]), 100.8141, 0.0001);
+  EXPECT_NEAR(IString::ToDouble(testKeyword[1]), 192.8, 0.0001);
+  EXPECT_NEAR(IString::ToDouble(testKeyword[2]), 275.8, 0.0001);
 
   testKeyword = newReseaus.findKeyword("Sample");
-  EXPECT_NEAR(std::stod(testKeyword[0]), 100.8141, 0.0001);
-  EXPECT_NEAR(std::stod(testKeyword[1]), 192.8, 0.0001);
-  EXPECT_NEAR(std::stod(testKeyword[2]), 167.8, 0.0001);
+  EXPECT_NEAR(IString::ToDouble(testKeyword[0]), 100.8141, 0.0001);
+  EXPECT_NEAR(IString::ToDouble(testKeyword[1]), 192.8, 0.0001);
+  EXPECT_NEAR(IString::ToDouble(testKeyword[2]), 167.8, 0.0001);
 
   testKeyword = newReseaus.findKeyword("Valid");
-  EXPECT_EQ(std::stoi(testKeyword[0]), 1);
-  EXPECT_EQ(std::stoi(testKeyword[1]), 1);
-  EXPECT_EQ(std::stoi(testKeyword[2]), 1);
+  EXPECT_EQ(IString::ToInteger(testKeyword[0]), 1);
+  EXPECT_EQ(IString::ToInteger(testKeyword[1]), 1);
+  EXPECT_EQ(IString::ToInteger(testKeyword[2]), 1);
 
   EXPECT_PRED_FORMAT2(AssertStringsEqual, newReseaus.findKeyword("Status"), "Refined");
 

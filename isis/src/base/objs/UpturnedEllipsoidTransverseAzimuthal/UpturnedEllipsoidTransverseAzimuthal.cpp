@@ -62,7 +62,7 @@ namespace Isis {
       if (!mapGroup.hasKeyword("CenterLongitude")) {
         if (allowDefaults) {
           // centerLongitude still 0.0 here
-          mapGroup += PvlKeyword("CenterLongitude", std::to_string(centerLongitude), "Degrees");
+          mapGroup += PvlKeyword("CenterLongitude", toString(centerLongitude), "Degrees");
         }
         else {
           std::string message = "Cannot project using upturned ellipsoid Transverse Azimuthal";
@@ -77,16 +77,16 @@ namespace Isis {
 
       if (MinimumLongitude() < centerLongitude - 90.0) {
         std::string message = "MinimumLongitude ["  
-                          + std::to_string(MinimumLongitude()) 
+                          + toString(MinimumLongitude()) 
                           + "] is invalid. Must be within -90 degrees of the CenterLongitude ["
-                          + std::to_string(centerLongitude) + "].";
+                          + toString(centerLongitude) + "].";
         throw IException(IException::Unknown, message, _FILEINFO_);
       }
       if (MaximumLongitude() > centerLongitude + 90.0) {
         std::string message = "MaximumLongitude ["  
-                          + std::to_string(MaximumLongitude()) 
+                          + toString(MaximumLongitude()) 
                           + "] is invalid. Must be within +90 degrees of the CenterLongitude ["
-                          + std::to_string(centerLongitude) + "].";
+                          + toString(centerLongitude) + "].";
         throw IException(IException::Unknown, message, _FILEINFO_);
       }
 
@@ -682,7 +682,7 @@ namespace Isis {
    */
   PvlGroup UpturnedEllipsoidTransverseAzimuthal::Mapping() {
     PvlGroup mapping = TProjection::Mapping();
-    mapping += PvlKeyword("CenterLongitude", std::to_string(m_lambda0 * RAD2DEG));
+    mapping += PvlKeyword("CenterLongitude", toString(m_lambda0 * RAD2DEG));
     return mapping;
   }
 
@@ -723,7 +723,7 @@ namespace Isis {
    */
   PvlGroup UpturnedEllipsoidTransverseAzimuthal::MappingLongitudes() {
     PvlGroup mapping = TProjection::MappingLongitudes();
-    mapping += PvlKeyword("CenterLongitude", std::to_string(m_lambda0 * RAD2DEG));
+    mapping += PvlKeyword("CenterLongitude", toString(m_lambda0 * RAD2DEG));
     return mapping;
   }
 

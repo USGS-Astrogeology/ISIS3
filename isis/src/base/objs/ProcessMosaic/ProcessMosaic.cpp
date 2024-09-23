@@ -165,8 +165,8 @@ namespace Isis {
 
     PvlGroup imgPosition("ImageLocation");
     imgPosition += PvlKeyword("File", InputCubes[0]->fileName().toStdString());
-    imgPosition += PvlKeyword("StartSample", std::to_string(m_oss));
-    imgPosition += PvlKeyword("StartLine", std::to_string(m_osl));
+    imgPosition += PvlKeyword("StartSample", toString(m_oss));
+    imgPosition += PvlKeyword("StartLine", toString(m_osl));
     m_imagePositions += imgPosition;
 
     // Tests for completly off the mosaic
@@ -919,7 +919,7 @@ namespace Isis {
 
     if (result == "") {
       throw IException(IException::Unknown,
-                       "Cannot convert overlay [" + std::to_string((int)imageOverlay) + "] to a string",
+                       "Cannot convert overlay [" + toString((int)imageOverlay) + "] to a string",
                        _FILEINFO_);
     }
 
@@ -1117,8 +1117,8 @@ namespace Isis {
           else if (outKey[j] != inKey[k]) {
             std::string msg = "The input cube [" + inLab->fileName() + "] and the base mosaic values "
                            "of the Pvl Group [BandBin] for Keyword [" + outKey.name() + "] do not "
-                           "match. Base mosaic value at index [" + std::to_string(j) + "] = " +
-                           outKey[j] + ". Input cube value at index [" + std::to_string(k) + "] = "
+                           "match. Base mosaic value at index [" + toString(j) + "] = " +
+                           outKey[j] + ". Input cube value at index [" + toString(k) + "] = "
                            + inKey[k] + ". **Note: use mapmos/automos MatchBandBin = false to "
                            "override this check**";
             //std::string msg = "Pvl Group [BandBin] in Key[" + outKey.name() + "] In value" + inKey[k] +

@@ -170,7 +170,7 @@ namespace Isis{
     QString imgNumber = QString::fromStdString(inst.findKeyword("ImageNumber"));
     int subFrame = imgNumber.mid(5).toInt();
 
-    inst.addKeyword(PvlKeyword("SubFrame", std::to_string(subFrame)));
+    inst.addKeyword(PvlKeyword("SubFrame", toString(subFrame)));
     //ImageNumber is auto translated, and no longer needed
     inst.deleteKeyword("ImageNumber");
 

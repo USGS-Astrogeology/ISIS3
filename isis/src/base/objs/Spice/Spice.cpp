@@ -171,14 +171,14 @@ namespace Isis {
 
     // Get the time padding first
     if (kernels.hasKeyword("StartPadding")) {
-      *m_startTimePadding = std::stod(kernels["StartPadding"][0]);
+      *m_startTimePadding = IString::ToDouble(kernels["StartPadding"][0]);
     }
     else {
       *m_startTimePadding = 0.0;
     }
 
     if (kernels.hasKeyword("EndPadding")) {
-      *m_endTimePadding  = std::stod(kernels["EndPadding"][0]);
+      *m_endTimePadding  = IString::ToDouble(kernels["EndPadding"][0]);
     }
     else {
       *m_endTimePadding = 0.0;
@@ -297,7 +297,7 @@ namespace Isis {
 
     QString trykey = "NaifIkCode";
     if (kernels.hasKeyword("NaifFrameCode")) trykey = "NaifFrameCode";
-    *m_ikCode = std::stoi(kernels[trykey.toStdString()][0]);
+    *m_ikCode = IString::ToInteger(kernels[trykey.toStdString()][0]);
 
     *m_spkCode  = *m_ikCode / 1000;
     *m_sclkCode = *m_spkCode;
@@ -1217,10 +1217,10 @@ namespace Isis {
       storedKey[index] = value.toString().toStdString();
     }
     else if (type == SpiceDoubleType) {
-      storedKey[index] = std::to_string(value.toDouble());
+      storedKey[index] = toString(value.toDouble());
     }
     else if (type == SpiceIntType) {
-      storedKey[index] = std::to_string(value.toInt());
+      storedKey[index] = toString(value.toInt());
     }
     else {
       std::string msg = "Unable to store variant in labels for key [" + key.toStdString() + "]";
@@ -1239,7 +1239,7 @@ namespace Isis {
 
       try {
         if (type == SpiceDoubleType) {
-          result = std::stod(storedKeyword[index]);
+          result = IString::ToDouble(storedKeyword[index]);
         }
         else if (type == SpiceStringType) {
           result = QString::fromStdString(storedKeyword[index]);
@@ -1248,7 +1248,7 @@ namespace Isis {
           result = QString::fromStdString(storedKeyword[index]);
         }
         else if (type == SpiceIntType) {
-          result = std::stoi(storedKeyword[index]);
+          result = IString::ToInteger(storedKeyword[index]);
         }
       }
       catch(IException &e) {

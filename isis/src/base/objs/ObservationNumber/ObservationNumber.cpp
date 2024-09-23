@@ -133,7 +133,7 @@ namespace Isis {
       snGroup += translationIterator->second.second;
     }
     else {
-      snGroup += PvlKeyword("ObservationKeys", std::to_string(snGroup.keywords()));
+      snGroup += PvlKeyword("ObservationKeys", toString(snGroup.keywords()));
     }
 
     return snGroup;

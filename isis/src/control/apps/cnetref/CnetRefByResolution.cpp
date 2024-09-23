@@ -212,24 +212,24 @@ namespace Isis {
         int iComment = 0;
         if (numMeasures == 0) {
           std::string sComment = "Comment";
-          sComment += std::to_string(++iComment);
+          sComment += toString(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "No Measures in the Point");
         }
 
         if (newPnt->IsIgnored()) {
           std::string sComment = "Comment";
-          sComment += std::to_string(++iComment);
+          sComment += toString(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Point was originally Ignored");
         }
 
         if (newPnt->GetType() == ControlPoint::Fixed) {
           std::string sComment = "Comment";
-          sComment += std::to_string(++iComment);
+          sComment += toString(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Fixed Point");
         }
         else if (newPnt->GetType() == ControlPoint::Constrained) {
           std::string sComment = "Comment";
-          sComment += std::to_string(++iComment);
+          sComment += toString(++iComment);
           pvlPointObj += Isis::PvlKeyword(sComment, "Constrained Point");
         }
 
@@ -259,7 +259,7 @@ namespace Isis {
         if (iRefIndex >= 0) {
           pvlRefChangeGrp += Isis::PvlKeyword("PrevSerialNumber",
               origPnt.GetMeasure(iRefIndex)->GetCubeSerialNumber().toStdString());
-          pvlRefChangeGrp += Isis::PvlKeyword("PrevResolution",   std::to_string(mdResVector[iRefIndex]));
+          pvlRefChangeGrp += Isis::PvlKeyword("PrevResolution",   toString(mdResVector[iRefIndex]));
 
           istrTemp = QString((int)origPnt.GetMeasure(iRefIndex)->GetSample());
           istrTemp += ",";
@@ -277,7 +277,7 @@ namespace Isis {
           sKeyName = "NewLeastResolution";
         }
         else if (meType == Mean) {
-          pvlRefChangeGrp += Isis::PvlKeyword("MeanResolution",  std::to_string(GetMeanResolution()));
+          pvlRefChangeGrp += Isis::PvlKeyword("MeanResolution",  toString(GetMeanResolution()));
           sKeyName = "NewResolutionNeartoMean";
         }
         else if (meType == Nearest) {
@@ -286,7 +286,7 @@ namespace Isis {
         else if (meType == Range) {
           sKeyName = "NewResolutionInRange";
         }
-        pvlRefChangeGrp += Isis::PvlKeyword(sKeyName.toStdString(),  std::to_string(mdResVector[iBestIndex]));
+        pvlRefChangeGrp += Isis::PvlKeyword(sKeyName.toStdString(),  toString(mdResVector[iBestIndex]));
 
         istrTemp = QString((int)newPnt->GetMeasure(iBestIndex)->GetSample());
         istrTemp += ",";
@@ -305,9 +305,9 @@ namespace Isis {
     }// end Point
 
     // CnetRef Change Statistics
-    mStatisticsGrp += Isis::PvlKeyword("PointsModified",   std::to_string(iPointsModified));
-    mStatisticsGrp += Isis::PvlKeyword("ReferenceChanged", std::to_string(iRefChanged));
-    mStatisticsGrp += Isis::PvlKeyword("MeasuresModified", std::to_string(iMeasuresModified));
+    mStatisticsGrp += Isis::PvlKeyword("PointsModified",   toString(iPointsModified));
+    mStatisticsGrp += Isis::PvlKeyword("ReferenceChanged", toString(iRefChanged));
+    mStatisticsGrp += Isis::PvlKeyword("MeasuresModified", toString(iMeasuresModified));
 
     mPvlLog += mStatisticsGrp;
   }
