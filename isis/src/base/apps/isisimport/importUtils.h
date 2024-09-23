@@ -15,6 +15,7 @@
 #include "Stretch.h"
 
 #include "CassiniImportUtils.h"
+#include "ClipperImportUtils.h"
 
 using namespace std;
 
@@ -24,7 +25,8 @@ std::map<std::string, int> processMap = {
 
 std::map<std::string, int> ancillaryProcessMap = {
   {"cassiniIssCreateLinePrefixTable", 1},
-  {"cassiniIssFixLabel", 2}
+  {"cassiniIssFixLabel", 2},
+  {"clipperEisPBCreateLineTable", 3}
 };
 
 namespace Isis {
@@ -48,14 +50,16 @@ namespace Isis {
                              QString processFunction,
                              PvlObject translation,
                              ProcessImport *process) {
-    vector<vector<char *>> prefixData = process->DataPrefix();
     switch (ancillaryProcessMap[processFunction.toStdString()]) {
       case 1:
         return cassiniIssCreateLinePrefixTable(cube,
-                                               prefixData.at(0),
-                                               translation);
+                                               translation,
+                                               process);
       case 2:
         return cassiniIssFixLabel(cube, translation, process);
+
+      case 3:
+        return clipperEisPBCreateLineTable(cube);
     }
 
     throw IException(IException::Programmer, "Unable to find prefix/suffix function [" + processFunction.toStdString() + "]", _FILEINFO_);

@@ -96,7 +96,8 @@ namespace Isis {
     postProcess.EndProcess();
   };
 
-  void cassiniIssCreateLinePrefixTable(Cube *cube, vector<char *> prefixData, PvlObject translation) {
+  void cassiniIssCreateLinePrefixTable(Cube *cube, PvlObject translation, ProcessImport *importer) {
+    vector<char *> prefixData = importer->DataPrefix().at(0);
     int sumMode = translation["SummingMode"];
     QString compressionType = translation["CompressionType"];
     double flightSoftware = 0.0;
