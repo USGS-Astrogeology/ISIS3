@@ -254,4 +254,34 @@ TEST(XmlToJson, TestXMLEverythingTogether) {
   EXPECT_EQ(result["TagLevel0"]["TagLevel1B"]["Third"]["Greek"]["AnotherLevel"]["Gamma"]["_text"], "GammaValue");
 }
 
+// This tests that all the sub-pieces tested above work together in a single XMl document
+TEST(XmlToJson, TestXMLWithNamespace) {
+  QString xmlInput = R"(
+  <Discipline_Area>
+    <disp:Display_Settings>
+      <Local_Internal_Reference>
+        <local_identifier_reference>eis000xxx_2032116t234928_0000c35f-wac-pushb-img_raw</local_identifier_reference>
+        <local_reference_type>display_settings_to_array</local_reference_type>
+      </Local_Internal_Reference>
+      <disp:Display_Direction>
+        <disp:horizontal_display_axis>Sample</disp:horizontal_display_axis>
+        <disp:horizontal_display_direction>Left to Right</disp:horizontal_display_direction>
+        <disp:vertical_display_axis>Line</disp:vertical_display_axis>
+        <disp:vertical_display_direction>Top to Bottom</disp:vertical_display_direction>
+      </disp:Display_Direction>
+    </disp:Display_Settings>
+    <img:Exposure>
+      <img:exposure_duration unit="ms">27.54</img:exposure_duration>
+    </img:Exposure>
+  </Discipline_Area>
+  )";
+
+  QDomDocument xmlDocument("TestDocument");
+  xmlDocument.setContent(xmlInput);
+  json result = xmlToJson(xmlDocument);
+
+  // Test deeply nested value retrieval
+  std::cout << result.dump(2) << std::endl;
+}
+
 
