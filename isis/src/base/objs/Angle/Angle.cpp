@@ -244,7 +244,7 @@ namespace Isis {
     QString textResult = "";
 
     if (isValid()) {
-      textResult = toString(degrees());
+      textResult = QString::fromStdString(Isis::toString(degrees()));
 
       if (includeUnits)
         textResult += " degrees";

@@ -439,7 +439,7 @@ namespace Isis {
     // Create a list of existing Stretch names
     if (cvp->isGray()) {
       PvlObject::PvlObjectIterator objIter;
-      for (objIter=lab->beginObject(); objIter<lab->endObject(); objIter++) {
+      for (objIter = lab->beginObject(); objIter != lab->endObject(); objIter++) {
         if (objIter->name() == "Stretch") {
           PvlKeyword tempKeyword = objIter->findKeyword("Name");
           int bandNumber = int(objIter->findKeyword("BandNumber"));
@@ -457,7 +457,7 @@ namespace Isis {
 
       QMap<QString, QList<int>> tempNameMap;
       PvlObject::PvlObjectIterator objIter;
-      for (objIter=lab->beginObject(); objIter<lab->endObject(); objIter++) {
+      for (objIter = lab->beginObject(); objIter != lab->endObject(); objIter++) {
         if (objIter->name() == "Stretch") {
           PvlKeyword tempKeyword = objIter->findKeyword("Name");
           int bandNumber = int(objIter->findKeyword("BandNumber"));
@@ -557,7 +557,7 @@ namespace Isis {
     // Create a list of existing Stretch names
     QStringList namelist;
     PvlObject::PvlObjectIterator objIter;
-    for (objIter=lab->beginObject(); objIter<lab->endObject(); objIter++) {
+    for (objIter = lab->beginObject(); objIter != lab->endObject(); objIter++){
       if (objIter->name() == "Stretch") {
         PvlKeyword tempKeyword = objIter->findKeyword("Name");
         int bandNumber = int(objIter->findKeyword("BandNumber"));
@@ -623,7 +623,7 @@ namespace Isis {
     // Create a list of existing Stretch names
     QStringList namelist;
     PvlObject::PvlObjectIterator objIter;
-    for (objIter=lab->beginObject(); objIter<lab->endObject(); objIter++) {
+    for (objIter = lab->beginObject(); objIter != lab->endObject(); objIter++) {
       if (objIter->name() == "Stretch") {
         PvlKeyword tempKeyword = objIter->findKeyword("Name");
         QString tempName = QString::fromStdString(tempKeyword[0]);

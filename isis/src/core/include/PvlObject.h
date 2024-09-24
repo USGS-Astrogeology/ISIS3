@@ -80,8 +80,8 @@ namespace Isis {
       const PvlGroup &group(const int index) const;
 
       //! The counter for groups.
-      typedef std::vector<Isis::PvlGroup>::iterator PvlGroupIterator;
-      typedef std::vector<Isis::PvlGroup>::const_iterator ConstPvlGroupIterator;
+      typedef std::list<Isis::PvlGroup>::iterator PvlGroupIterator;
+      typedef std::list<Isis::PvlGroup>::const_iterator ConstPvlGroupIterator;
 
 
       /**
@@ -224,8 +224,8 @@ namespace Isis {
       const PvlObject &object(const int index) const;
 
       //! The counter for objects.
-      typedef std::vector<PvlObject>::iterator PvlObjectIterator;
-      typedef std::vector<PvlObject>::const_iterator ConstPvlObjectIterator;
+      typedef std::list<PvlObject>::iterator PvlObjectIterator;
+      typedef std::list<PvlObject>::const_iterator ConstPvlObjectIterator;
 
 
       /**
@@ -306,7 +306,7 @@ namespace Isis {
        */
       void addObject(const PvlObject &object) {
         m_objects.push_back(object);
-        m_objects[m_objects.size()-1].setFileName(fileName());
+        m_objects.back().setFileName(fileName());
       }
 
       void deleteObject(const std::string &name);
@@ -350,9 +350,9 @@ namespace Isis {
       void validateObject(PvlObject & pPvlObj);
 
     private:
-      std::vector<PvlObject> m_objects;    /**<A vector of PvlObjects contained
+      std::list<PvlObject> m_objects;    /**<A vector of PvlObjects contained
                                                 in the current PvlObject. */
-      std::vector<PvlGroup> m_groups;/**<A vector of PvlGroups contained
+      std::list<PvlGroup> m_groups;/**<A vector of PvlGroups contained
                                                 in the current PvlObject. */
   };
 }

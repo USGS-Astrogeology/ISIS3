@@ -819,7 +819,7 @@ namespace Isis {
 
     // Unserialize previous overlap statistics
     PvlObject::ConstPvlObjectIterator curObj = inStats.beginObject();
-    while (curObj < inStats.endObject()) {
+    while (curObj != inStats.endObject()) {
       if (curObj->isNamed("OverlapStatistics")) {
         OverlapStatistics *o = new OverlapStatistics(*curObj);
         m_overlapStats.push_back(o);

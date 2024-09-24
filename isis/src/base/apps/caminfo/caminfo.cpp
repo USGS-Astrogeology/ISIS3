@@ -440,7 +440,7 @@ namespace Isis{
             PvlObject::PvlObjectIterator objIter;
             bool found = false;
             PvlGroup fpgrp;
-            for (objIter=pvl.endObject()-1; objIter>=pvl.beginObject(); objIter--) {
+            for (objIter = pvl.beginObject(); objIter != pvl.endObject(); objIter++) {
               if (QString::fromStdString(objIter->name()).toUpper() == "FOOTPRINTINIT") {
                 found = true;
                 fpgrp = objIter->findGroup("UserParameters");

@@ -445,7 +445,9 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    return m_groups[index];
+    auto it = m_groups.begin();
+    std::advance(it, index); 
+    return *it;
   }
 
 
@@ -464,7 +466,9 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    return m_groups[index];
+    auto it = m_groups.begin();
+    std::advance(it, index);  
+    return *it;
   }
 
   /**
@@ -482,7 +486,9 @@ namespace Isis {
       throw IException(Isis::IException::Programmer, msg, _FILEINFO_);
     }
 
-    return m_objects[index];
+    auto it = m_objects.begin();
+    std::advance(it, index);  
+    return *it;
   }
 
   /**
@@ -500,7 +506,9 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    return m_objects[index];
+    auto it = m_objects.begin();
+    std::advance(it, index);  
+    return *it;
   }
 
 

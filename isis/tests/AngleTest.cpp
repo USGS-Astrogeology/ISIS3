@@ -2,6 +2,7 @@
 #include "SpecialPixel.h"
 #include "Constants.h" 
 #include "IException.h"
+#include "TestUtilities.h"
 
 #include <QString>
 #include <QDebug> 
@@ -30,14 +31,14 @@ TEST(AngleTest, DegreeInput_RadianOutput) {
   Isis::Angle angle(30., Isis::Angle::Degrees );
   EXPECT_DOUBLE_EQ(angle.radians(), 30 * Isis::PI/180.0);
   EXPECT_TRUE(angle.isValid()); 
-  EXPECT_STREQ(angle.toString().toLatin1(), "30.0 degrees");  
+  EXPECT_PRED_FORMAT2(Isis::AssertQStringsEqual, angle.toString(), "30.0 degrees");
 }
 
 
 TEST(AngleTest, RadianInput_DegreeOutput) {
   Isis::Angle angle(30. * Isis::PI / 180.0, Isis::Angle::Radians );
   EXPECT_DOUBLE_EQ(angle.degrees(), 30.0);
-  EXPECT_STREQ(angle.toString(false).toLatin1(), "30.0");  
+  EXPECT_PRED_FORMAT2(Isis::AssertQStringsEqual, angle.toString(false), "30.0");
 }
 
 
