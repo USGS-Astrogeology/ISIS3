@@ -269,7 +269,7 @@ namespace Isis {
             }
             else {
               // if the field is multivalued, write the index of the field
-              recordValues += "(" + std::to_string(fieldValueIndex) + ")";
+              recordValues += "(" + Isis::toString(fieldValueIndex) + ")";
             }
             if (fieldValueIndex != record[fieldIndex].size() - 1) {
               // add a delimiter to all but the last value in this field

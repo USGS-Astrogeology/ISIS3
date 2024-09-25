@@ -127,7 +127,7 @@ TEST(PvlKeyword, CheckParsing) {
 
 	comparePvlKeywords(keyZ, keyZRead);
 
-	Isis::PvlKeyword keyU("ARRAY_TEST", std::to_string(5.87), "lightyears");
+	Isis::PvlKeyword keyU("ARRAY_TEST", toString(5.87), "lightyears");
 	keyU.addValue("5465.6", "lightyears");
 	keyU.addValue("574.6", "lightyears");
 
@@ -230,7 +230,7 @@ TEST(PvlKeyword, IndexSetValue)
 	key.addValue("3.3", "feet");
 	key.addValue("Hello World!");
 
-	key[1] = std::to_string(88);
+	key[1] = toString(88);
 	EXPECT_EQ(key[1], "88");
 }
 
@@ -328,7 +328,7 @@ TEST(PvlKeyword, KeywordValidationNull)
 TEST(PvlKeyword, KeywordValidationFail) {
   try {
     PvlKeyword pvlTmplKwrd("KeyName", "integer");
-		PvlKeyword pvlKwrd("KeyName", std::to_string(3.5));
+		PvlKeyword pvlKwrd("KeyName", toString(3.5));
     pvlTmplKwrd.validateKeyword(pvlKwrd);
   } 
   catch(Isis::IException &e) {
@@ -339,7 +339,7 @@ TEST(PvlKeyword, KeywordValidationFail) {
 TEST(PvlKeyword, KeywordValidationPositive) {
   try {
 		PvlKeyword pvlTmplKwrd("KeyName", "integer");
-		PvlKeyword pvlKwrd("KeyName", std::to_string(-3));
+		PvlKeyword pvlKwrd("KeyName", toString(-3));
 		pvlTmplKwrd.validateKeyword(pvlKwrd, "positive");
 	} 
   catch(Isis::IException &e) {
@@ -350,9 +350,9 @@ TEST(PvlKeyword, KeywordValidationPositive) {
 TEST(PvlKeyword, KeywordValidationRange) {
   try {
 		PvlKeyword pvlTmplKwrd("KeyName", "integer");
-		PvlKeyword pvlTmplKwrdRange("KeyName__Range", std::to_string(0));
-		pvlTmplKwrdRange.addValue(std::to_string(10));
-		PvlKeyword pvlKwrd("KeyName", std::to_string(11));
+		PvlKeyword pvlTmplKwrdRange("KeyName__Range", toString(0));
+		pvlTmplKwrdRange.addValue(toString(10));
+		PvlKeyword pvlKwrd("KeyName", toString(11));
 		pvlTmplKwrd.validateKeyword(pvlKwrd, "", &pvlTmplKwrdRange);
 	} 
   catch(Isis::IException &e) {
@@ -385,8 +385,8 @@ TEST(PvlKeyword, testJsonAddInt) {
 		keyword.addJsonValue(jsonobj["Key1"]);
 		keyword.addJsonValue(jsonobj["Key2"]);
 
-		EXPECT_EQ(keyword[0], "1");
-		EXPECT_EQ(keyword[1], "2");
+		EXPECT_EQ(keyword[0], "1.0");
+		EXPECT_EQ(keyword[1], "2.0");
 }
 
 TEST(PvlKeyword, testJsonAddDouble) {
@@ -427,7 +427,7 @@ TEST(PvlKeyword, testJsonSet) {
 
 		keyword.setJsonValue(jsonobj["Key"]);
 
-		EXPECT_EQ(keyword[0], "2");
+		EXPECT_EQ(keyword[0], "2.0");
 }
 
 void comparePvlKeywords(PvlKeyword pvlKeyword1, PvlKeyword pvlKeyword2)

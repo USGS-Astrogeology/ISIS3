@@ -107,7 +107,7 @@ TEST_F(CSMPluginFixture, CSMInitDefault) {
   EXPECT_TRUE(plugin->canModelBeConstructedFromState(modelName, modelState));
 
   // Check blob label ModelName and Plugin Name
-  EXPECT_EQ(blobPvl.findKeyword("PluginName"), plugin->getPluginName());
+  EXPECT_EQ(blobPvl.findKeyword("PluginName")[0], plugin->getPluginName());
   EXPECT_EQ(modelName, TestCsmModel::SENSOR_MODEL_NAME);
 
   // Check the Instrument group
@@ -173,8 +173,8 @@ TEST_F(CSMPluginFixture, CSMInitRunTwice) {
   PvlObject blobPvl = stateString.Label();
 
   // Check blob label ModelName and Plugin Name
-  EXPECT_EQ(blobPvl.findKeyword("PluginName"), plugin->getPluginName());
-  EXPECT_EQ(blobPvl.findKeyword("ModelName"), AlternativeTestCsmModel::SENSOR_MODEL_NAME);
+  EXPECT_EQ(blobPvl.findKeyword("PluginName")[0], plugin->getPluginName());
+  EXPECT_EQ(blobPvl.findKeyword("ModelName")[0], AlternativeTestCsmModel::SENSOR_MODEL_NAME);
 
   // Check that the plugin can create a model from the state string
   std::string modelName = blobPvl.findKeyword("ModelName");
@@ -238,8 +238,8 @@ TEST_F(CSMPluginFixture, CSMInitMultiplePossibleModels) {
   EXPECT_TRUE(plugin->canModelBeConstructedFromState(modelName, modelState));
 
   // check blob label ModelName and Plugin Name
-  EXPECT_EQ(blobPvl.findKeyword("PluginName"), plugin->getPluginName());
-  EXPECT_EQ(blobPvl.findKeyword("ModelName"), AlternativeTestCsmModel::SENSOR_MODEL_NAME);
+  EXPECT_EQ(blobPvl.findKeyword("PluginName")[0], plugin->getPluginName());
+  EXPECT_EQ(blobPvl.findKeyword("ModelName")[0], AlternativeTestCsmModel::SENSOR_MODEL_NAME);
 
   // Check the CsmInfo group
   ASSERT_TRUE(testCube->hasGroup("CsmInfo"));

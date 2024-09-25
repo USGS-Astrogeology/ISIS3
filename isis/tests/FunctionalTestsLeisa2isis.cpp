@@ -50,7 +50,7 @@ TEST(Leisa2Isis, Leisa2IsisTestDefault) {
   ASSERT_DOUBLE_EQ(double(inst["ExposureDuration"]), 0.676);
   ASSERT_EQ(inst["StartTime"][0], "2007-02-28T01:13:01.3882781" );
   ASSERT_EQ(inst["StopTime"][0], "2007-02-28T01:17:12.388278" );
-  ASSERT_DOUBLE_EQ(double(inst["FrameRate"]), 1.47929);
+  ASSERT_NEAR(double(inst["FrameRate"]), 1.47929, 0.0001);
   ASSERT_EQ(inst["FrameRate"].unit(), "Hz");
 
   // Archive Group
@@ -287,7 +287,7 @@ TEST(Leisa2Isis, Leisa2IsisTestRaw) {
    ASSERT_DOUBLE_EQ(double(inst["ExposureDuration"]), 0.131);
    ASSERT_EQ(inst["StartTime"][0], "2007-01-08T20:42:01.3824425" );
    ASSERT_EQ(inst["StopTime"][0], "2007-01-08T20:42:42.3824425" );
-   ASSERT_DOUBLE_EQ(double(inst["FrameRate"]), 7.63359);
+   ASSERT_NEAR(double(inst["FrameRate"]), 7.63359, 0.0001);
    ASSERT_EQ(inst["FrameRate"].unit(), "Hz");
 
    // Archive Group

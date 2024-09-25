@@ -479,7 +479,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestFindfeaturesFastGeomGridDefault) {
   ASSERT_EQ( keyvalues.get( "FastGeomGridStartIteration",   "null"), "0");
   ASSERT_EQ( keyvalues.get( "FastGeomGridStopIteration",    "null"), "239");
   ASSERT_EQ( keyvalues.get( "FastGeomGridIterationStep",    "null"), "1");
-  ASSERT_EQ( keyvalues.get( "FastGeomGridSaveAllPoints",    "null"), "No");
+  ASSERT_EQ( keyvalues.get( "FastGeomGridSaveAllPoints",    "null"), "0");
   ASSERT_EQ( keyvalues.get( "FastGeomPointIncrement",       "null"), "5");
   ASSERT_EQ( keyvalues.get( "FastGeomTotalGridIterations",  "null"), "2");
 }
@@ -546,7 +546,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestFindfeaturesFastGeomGridConfig) {
   ASSERT_EQ( keyvalues.get( "FastGeomGridStartIteration",   "null"), "5");
   ASSERT_EQ( keyvalues.get( "FastGeomGridStopIteration",    "null"), "10");
   ASSERT_EQ( keyvalues.get( "FastGeomGridIterationStep",    "null"), "2");
-  ASSERT_EQ( keyvalues.get( "FastGeomGridSaveAllPoints",    "null"), "No");
+  ASSERT_EQ( keyvalues.get( "FastGeomGridSaveAllPoints",    "null"), "0");
   ASSERT_EQ( keyvalues.get( "FastGeomPointIncrement",       "null"), "5");
   ASSERT_EQ( keyvalues.get( "FastGeomTotalGridIterations",  "null"), "1");
 }

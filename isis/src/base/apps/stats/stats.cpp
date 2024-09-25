@@ -181,7 +181,7 @@ namespace Isis {
 
     for (int i = 0; i < statsPvl.groups(); i++) {
       for (int j = 0; j < statsPvl.group(i).keywords(); j++) {
-        *stream << statsPvl.group(i)[j];
+        *stream << statsPvl.group(i)[j][0];
         if ( j < statsPvl.group(i).keywords() - 1 ) {
           *stream << ",";
         }

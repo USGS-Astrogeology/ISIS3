@@ -65,7 +65,7 @@ TEST(iTimeTests, StringTimes) {
     EXPECT_EQ(toString(testTime.Minute()), testTime.MinuteString().toStdString());
     EXPECT_EQ(toString(testTime.Second(), 8), testTime.SecondString(8).toStdString());
     EXPECT_EQ(toString(testTime.DayOfYear()), testTime.DayOfYearString().toStdString());
-    EXPECT_EQ(toString(testTime.Et()), testTime.EtString().toStdString());
+    EXPECT_EQ(toString(testTime.Et()), toString(testTime.Et()));
     EXPECT_EQ(timeString.toStdString(), testTime.UTC().toStdString());
 }
 

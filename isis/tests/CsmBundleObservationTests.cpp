@@ -129,9 +129,9 @@ TEST_F(CSMCameraFixture, CsmBundleOutputCSVString) {
   EXPECT_TRUE(observation.setSolveSettings(bundleSolSetting));
   QString csvString = observation.bundleOutputCSV(false);
   EXPECT_EQ(csvString.toStdString(),
-            "234.2,0.0,234.2,0.112,N/A,"
-            "0.0,0.0,0.0,0.0123,N/A,"
-            "100.0,0.0,100.0,0.342,N/A,");
+            "234.2,0,234.2,0.112,N/A,"
+            "0,0,0,0.0123,N/A,"
+            "100,0,100,0.342,N/A,");
 
   csvString = observation.bundleOutputCSV(true);
   EXPECT_FALSE(csvString.contains("N/A"));

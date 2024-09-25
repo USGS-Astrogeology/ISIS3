@@ -135,7 +135,7 @@ namespace Isis{
         }
 
         for(int i = 0; i < sp.keywords(); i++) {
-          os << sp[i];
+          os << sp[i][0];
           if (i < sp.keywords() - 1) {
             os << ",";
           }

@@ -89,7 +89,7 @@ namespace Isis {
           Pvl tempPvl;
           tempPvl.read(list[i].toString());
 
-          OriginalLabel origLab(list[i].toString());
+          OriginalLabel origLab(QString::fromStdString(list[i].toString()));
           pdsLab = origLab.ReturnLabels();
 
           QString prodId = QString::fromStdString(pdsLab["PRODUCT_ID"][0]);

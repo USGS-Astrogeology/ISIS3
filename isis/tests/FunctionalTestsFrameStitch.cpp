@@ -163,7 +163,7 @@ TEST_F(PushFramePair, FunctionalTestFramestitchFlip) {
 
   ASSERT_TRUE(outCube.hasGroup("Instrument"));
   ASSERT_TRUE(outCube.group("Instrument").hasKeyword("DataFlipped"));
-  EXPECT_TRUE(IString::ToInteger(outCube.group("Instrument")["DataFlipped"]));
+  EXPECT_TRUE(toBool(outCube.group("Instrument")["DataFlipped"]));
 }
 
 TEST_F(FlippedPushFramePair, FunctionalTestFramestitchNoFlip) {

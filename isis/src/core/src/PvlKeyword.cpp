@@ -310,9 +310,7 @@ namespace Isis {
     }
     else if (jsonobj.is_number())
     {
-      std::ostringstream stream;
-      stream << std::setprecision(16) << std::fixed << jsonobj.get<double>();
-      value = stream.str();
+      value = toString(jsonobj.get<double>(), 16);
     }
     else if (jsonobj.is_boolean())
     {

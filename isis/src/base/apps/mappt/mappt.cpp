@@ -95,7 +95,7 @@ void mappt(Cube *icube, UserInterface &ui, Pvl *log, CubeAttributeInput* inAtt) 
       for(int i = 0; i < log->groups(); i++) {
         PvlGroup group = log->group(i);
         for(int j = 0; j < group.keywords(); j++) {
-          os << group[j];
+          os << group[j][0];
           if(j < group.keywords() - 1) {
             os << ",";
           }

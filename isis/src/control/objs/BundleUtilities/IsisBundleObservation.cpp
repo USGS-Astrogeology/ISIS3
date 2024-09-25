@@ -572,7 +572,7 @@ QStringList IsisBundleObservation::parameterList() {
       paramList.push_back("X");
     }
     else {
-      QString str = "X(t" + QString::number(i) + ")";
+      QString str = "X(t" + QString::fromStdString(toString(i)) + ")";
       paramList.push_back(str);
     }
   }
@@ -581,7 +581,7 @@ QStringList IsisBundleObservation::parameterList() {
       paramList.push_back("Y");
     }
     else {
-      QString str = "Y(t" + QString::number(i) + ")";
+      QString str = "Y(t" + QString::fromStdString(toString(i)) + ")";
       paramList.push_back(str);
     }
   }
@@ -590,7 +590,7 @@ QStringList IsisBundleObservation::parameterList() {
       paramList.push_back("Z");
     }
     else {
-      QString str = "Z(t" + QString::number(i) + ")";
+      QString str = "Z(t" + QString::fromStdString(toString(i)) + ")";
       paramList.push_back(str);
     }
   }
@@ -605,7 +605,7 @@ QStringList IsisBundleObservation::parameterList() {
       paramList.push_back("RA");
     }
     else {
-      QString str = "RA(t" + QString::number(i) + ")";
+      QString str = "RA(t" + QString::fromStdString(toString(i)) + ")";
       paramList.push_back(str);
     }
   }
@@ -614,7 +614,7 @@ QStringList IsisBundleObservation::parameterList() {
       paramList.push_back("DEC");
     }
     else {
-      QString str = "DEC(t" + QString::number(i) + ")";
+      QString str = "DEC(t" + QString::fromStdString(toString(i)) + ")";
       paramList.push_back(str);
     }
   }
@@ -623,7 +623,7 @@ QStringList IsisBundleObservation::parameterList() {
       paramList.push_back("TWIST");
     }
     else {
-      QString str = "TWIST(t" + QString::number(i) + ")";
+      QString str = "TWIST(t" + QString::fromStdString(toString(i)) + ")";
       paramList.push_back(str);
     }
   }
@@ -791,12 +791,12 @@ QStringList IsisBundleObservation::parameterList() {
         }
         else {
           QString str("%1(%2)");
-          parameterNamesListX.append(strN.arg("   ").arg("km/s^" + QString::number(j) ) );
-          parameterNamesListY.append(strN.arg("   ").arg("km/s^" + QString::number(j) ) );
-          parameterNamesListZ.append(strN.arg("   ").arg("km/s^" + QString::number(j) ) );
-          correctionUnitListX.append("m/s^" + QString::number(j));
-          correctionUnitListY.append("m/s^" + QString::number(j));
-          correctionUnitListZ.append("m/s^" + QString::number(j));
+          parameterNamesListX.append(strN.arg("   ").arg("km/s^" + QString::fromStdString(toString(j) ) ));
+          parameterNamesListY.append(strN.arg("   ").arg("km/s^" + QString::fromStdString(toString(j) ) ));
+          parameterNamesListZ.append(strN.arg("   ").arg("km/s^" + QString::fromStdString(toString(j) ) ));
+          correctionUnitListX.append("m/s^" + QString::fromStdString(toString(j)));
+          correctionUnitListY.append("m/s^" + QString::fromStdString(toString(j)));
+          correctionUnitListZ.append("m/s^" + QString::fromStdString(toString(j)));
         }
       }//end for
     }//end outer-if
@@ -821,12 +821,12 @@ QStringList IsisBundleObservation::parameterList() {
           correctionUnitListTWI.append("dd/s");
         }
         else {
-          parameterNamesListRA.append(strN.arg("   ").arg("dd/s^" + QString::number(j) ) );
-          parameterNamesListDEC.append(strN.arg("   ").arg("dd/s^" + QString::number(j) ) );
-          parameterNamesListTWI.append(strN.arg("   ").arg("dd/s^" + QString::number(j) ) );
-          correctionUnitListRA.append("dd/s^" + QString::number(j));
-          correctionUnitListDEC.append("dd/s^" + QString::number(j));
-          correctionUnitListTWI.append("dd/s^" + QString::number(j));
+          parameterNamesListRA.append(strN.arg("   ").arg("dd/s^" + QString::fromStdString(toString(j) )) );
+          parameterNamesListDEC.append(strN.arg("   ").arg("dd/s^" + QString::fromStdString(toString(j) )) );
+          parameterNamesListTWI.append(strN.arg("   ").arg("dd/s^" + QString::fromStdString(toString(j) ) ));
+          correctionUnitListRA.append("dd/s^" + QString::fromStdString(toString(j)));
+          correctionUnitListDEC.append("dd/s^" + QString::fromStdString(toString(j)));
+          correctionUnitListTWI.append("dd/s^" + QString::fromStdString(toString(j)));
         }
       }//end for
     }// end outer-if
@@ -858,8 +858,8 @@ QStringList IsisBundleObservation::parameterList() {
       // members
       if (!useDefaultPosition) {
         correction = m_corrections(i);
-        adjustedSigma = QString::number(m_adjustedSigmas[i], 'f', 8);
-        sigma = ( IsSpecial(m_aprioriSigmas[i]) ? "FREE" : QString::number(m_aprioriSigmas[i], 'g', 8) );
+        adjustedSigma = QString::fromStdString(toString(m_adjustedSigmas[i],  8));
+        sigma = ( IsSpecial(m_aprioriSigmas[i]) ? "FREE" : QString::fromStdString(toString(m_aprioriSigmas[i], 8)) );
       }
 
       snprintf(buf, sizeof(buf),"%s", parameterNamesList.at(i).toStdString().c_str() );
@@ -911,9 +911,9 @@ QStringList IsisBundleObservation::parameterList() {
         }
         else {
           correction = m_corrections(i - offset);
-          adjustedSigma = QString::number(m_adjustedSigmas(i-offset) * RAD2DEG, 'f', 8);
+          adjustedSigma = QString::fromStdString(toString(m_adjustedSigmas(i-offset) * RAD2DEG, 8));
           sigma = ( IsSpecial(m_aprioriSigmas[i - offset]) ? "FREE" :
-                  QString::number(m_aprioriSigmas[i-offset], 'g', 8) );
+                  QString::fromStdString(toString(m_aprioriSigmas[i-offset], 8) ));
         }
       }
       // We are using default pointing, so provide default correction and sigma values to output
@@ -987,8 +987,8 @@ QStringList IsisBundleObservation::parameterList() {
     for (int i = 0; i < nPositionParameters; i++) {
       if (!useDefaultPosition) {
         correction = m_corrections(i);
-        adjustedSigma = QString::number(m_adjustedSigmas[i], 'f', 8);
-        sigma = ( IsSpecial(m_aprioriSigmas[i]) ? "FREE" : QString::number(m_aprioriSigmas[i], 'g', 8) );
+        adjustedSigma = QString::fromStdString(toString(m_adjustedSigmas[i],  8));
+        sigma = ( IsSpecial(m_aprioriSigmas[i]) ? "FREE" : QString::fromStdString(toString(m_aprioriSigmas[i],  8) ));
       }
       // Provide default values for position if not solving position
       else {
@@ -997,9 +997,9 @@ QStringList IsisBundleObservation::parameterList() {
         sigma = "N/A";
       }
 
-      finalqStr += QString::number(finalParameterValues[i] - correction) + ",";
-      finalqStr += QString::number(correction) + ",";
-      finalqStr += QString::number(finalParameterValues[i]) + ",";
+      finalqStr += QString::fromStdString(toString(finalParameterValues[i] - correction)) + ",";
+      finalqStr += QString::fromStdString(toString(correction)) + ",";
+      finalqStr += QString::fromStdString(toString(finalParameterValues[i])) + ",";
       finalqStr += sigma + ",";
       if (errorPropagation) {
         finalqStr += adjustedSigma + ",";
@@ -1029,9 +1029,9 @@ QStringList IsisBundleObservation::parameterList() {
         }
         else {
           correction = m_corrections(i - offset);
-          adjustedSigma = QString::number(m_adjustedSigmas(i-offset) * RAD2DEG, 'f', 8);
+          adjustedSigma = QString::fromStdString(toString(m_adjustedSigmas(i-offset) * RAD2DEG, 8));
           sigma = ( IsSpecial(m_aprioriSigmas[i-offset]) ? "FREE" :
-              QString::number(m_aprioriSigmas[i-offset], 'g', 8) );
+              QString::fromStdString(toString(m_aprioriSigmas[i-offset],  8) ));
         }
       }
       // Provide default values for pointing if not solving pointing
@@ -1041,9 +1041,9 @@ QStringList IsisBundleObservation::parameterList() {
         sigma = "N/A";
       }
 
-      finalqStr += QString::number(finalParameterValues[i]*RAD2DEG - correction * RAD2DEG) + ",";
-      finalqStr += QString::number(correction * RAD2DEG) + ",";
-      finalqStr += QString::number(finalParameterValues[i]*RAD2DEG) + ",";
+      finalqStr += QString::fromStdString(toString(finalParameterValues[i]*RAD2DEG - correction * RAD2DEG)) + ",";
+      finalqStr += QString::fromStdString(toString(correction * RAD2DEG)) + ",";
+      finalqStr += QString::fromStdString(toString(finalParameterValues[i]*RAD2DEG)) + ",";
       finalqStr += sigma + ",";
       if (errorPropagation) {
         finalqStr += adjustedSigma + ",";

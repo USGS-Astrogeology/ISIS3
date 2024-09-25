@@ -68,7 +68,7 @@ TEST(Marci2Isis, Marci2isisTestDefault) {
   ASSERT_DOUBLE_EQ(double(evenInst["InterframeDelay"]), 3.2);
   ASSERT_DOUBLE_EQ(double(evenInst["ExposureDuration"]), 3.112237);
   ASSERT_EQ((int)evenInst["FrameNumber"], 0);
-  ASSERT_DOUBLE_EQ(double(evenInst["VariableExposureDuration"]), 3112.24);
+  ASSERT_DOUBLE_EQ(double(evenInst["VariableExposureDuration"]), 3112.237);
 
   ASSERT_EQ(evenInst["SpacecraftName"][0], oddInst["SpacecraftName"][0]);
   ASSERT_EQ(evenInst["InstrumentId"][0], oddInst["InstrumentId"][0]);
@@ -219,7 +219,7 @@ TEST(Marci2Isis, Marci2isisTestVarExp) {
   ASSERT_EQ(instFlipped["FrameNumber"][1], "64");
   ASSERT_EQ(instFlipped["FrameNumber"][2], "0");
   ASSERT_EQ(instFlipped["VariableExposureDuration"][0], "17.5");
-  ASSERT_EQ(instFlipped["VariableExposureDuration"][1], "15");
+  ASSERT_EQ(instFlipped["VariableExposureDuration"][1], "15.0");
   ASSERT_EQ(instFlipped["VariableExposureDuration"][2], "17.5");
 
   ASSERT_EQ((int)instUnflipped["DataFlipped"], 0);
@@ -227,6 +227,6 @@ TEST(Marci2Isis, Marci2isisTestVarExp) {
   ASSERT_EQ(instUnflipped["FrameNumber"][1], "64");
   ASSERT_EQ(instUnflipped["FrameNumber"][2], "400");
   ASSERT_EQ(instUnflipped["VariableExposureDuration"][0], "17.5");
-  ASSERT_EQ(instUnflipped["VariableExposureDuration"][1], "15");
+  ASSERT_EQ(instUnflipped["VariableExposureDuration"][1], "15.0");
   ASSERT_EQ(instUnflipped["VariableExposureDuration"][2], "17.5");
 }

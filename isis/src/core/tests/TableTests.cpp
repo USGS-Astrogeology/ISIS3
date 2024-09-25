@@ -58,7 +58,7 @@ TEST(TableTests, Association) {
 TEST(TableTests, UpdatingRecords) {
   TableField f1("Column1", TableField::Integer);
   TableField f2("Column2", TableField::Double);
-  TableField f3("Column3", TableField::Text, 10);
+  TableField f3("Column3", TableField::Text, 2);
   TableField f4("Column4", TableField::Double);
   TableRecord rec;
   rec += f1;
@@ -75,6 +75,7 @@ TEST(TableTests, UpdatingRecords) {
 
   ASSERT_EQ(t.Records(), 1);
   EXPECT_EQ(TableRecord::toString(t[0]), TableRecord::toString(rec));
+  EXPECT_EQ(TableRecord::toString(t[0]), "5,3.14,PI,3.14159\n");
 
   rec[0] = -1;
   rec[1] = 0.5;
@@ -90,7 +91,7 @@ TEST(TableTests, UpdatingRecords) {
 TEST(TableTests, AddingRecords) {
   TableField f1("Column1", TableField::Integer);
   TableField f2("Column2", TableField::Double);
-  TableField f3("Column3", TableField::Text, 10);
+  TableField f3("Column3", TableField::Text, 2);
   TableField f4("Column4", TableField::Double);
   TableRecord rec;
   rec += f1;
