@@ -117,11 +117,11 @@ namespace Isis {
        _triggered= false;
        if (triggers.profileExists(tprofName)) {
          DbProfile tprof(prof, triggers.getProfile(tprofName), tprofName);
-         double revmean = ConfKey(tprof,"RevMeanTrigger", QString::number(_stats.Average())).toDouble();
-         double revstddev = ConfKey(tprof,"RevStdDevTrigger", QString::number(DBL_MAX)).toDouble();
-         int lisTol = ConfKey(tprof, "RevLisTolerance", QString::number(1)).toInt();
-         int hisTol = ConfKey(tprof, "RevHisTolerance", QString::number(1)).toInt();
-         int nulTol = ConfKey(tprof, "RevNulTolerance", QString::number(1)).toInt();
+         double revmean = ConfKey(tprof,"RevMeanTrigger", QString::fromStdString(toString(_stats.Average()))).toDouble();
+         double revstddev = ConfKey(tprof,"RevStdDevTrigger", QString::fromStdString(toString(DBL_MAX))).toDouble();
+         int lisTol = ConfKey(tprof, "RevLisTolerance", QString::fromStdString(toString(1))).toInt();
+         int hisTol = ConfKey(tprof, "RevHisTolerance", QString::fromStdString(toString(1))).toInt();
+         int nulTol = ConfKey(tprof, "RevNulTolerance", QString::fromStdString(toString(1))).toInt();
 
          _history.add("TriggerLimits(RevMeanTrigger["+ToString(revmean) +
                       "],RevStdDevTrigger["+ToString(revstddev)+

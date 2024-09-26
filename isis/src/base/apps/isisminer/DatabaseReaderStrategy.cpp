@@ -255,7 +255,7 @@ namespace Isis {
     // flat keyword interface.
     int row = 0;
     for (row = 0 ;  finder.next() ; row++ ) {
-      QString rowId = rowBase + QString::number(row);
+      QString rowId = rowBase + QString::fromStdString(toString(row));
       SqlRecord record = finder.getRecord();
       SharedResource newsrc(importQuery(rowId, &record, globals));
   

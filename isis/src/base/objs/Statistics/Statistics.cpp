@@ -878,29 +878,29 @@ namespace Isis {
     stream.writeStartElement("statistics");
 //    stream.writeTextElement("id", m_id->toString());
  
-    stream.writeTextElement("sum", QString::number(m_sum));
-    stream.writeTextElement("sumSquares", QString::number(m_sumsum));
+    stream.writeTextElement("sum",QString::fromStdString(toString(m_sum)));
+    stream.writeTextElement("sumSquares",QString::fromStdString(toString(m_sumsum)));
 
     stream.writeStartElement("range");
-    stream.writeTextElement("minimum", QString::number(m_minimum));
-    stream.writeTextElement("maximum", QString::number(m_maximum));
-    stream.writeTextElement("validMinimum", QString::number(m_validMinimum));
-    stream.writeTextElement("validMaximum", QString::number(m_validMaximum));
+    stream.writeTextElement("minimum",QString::fromStdString(toString(m_minimum)));
+    stream.writeTextElement("maximum",QString::fromStdString(toString(m_maximum)));
+    stream.writeTextElement("validMinimum",QString::fromStdString(toString(m_validMinimum)));
+    stream.writeTextElement("validMaximum",QString::fromStdString(toString(m_validMaximum)));
     stream.writeEndElement(); // end range
     
     stream.writeStartElement("pixelCounts");
-    stream.writeTextElement("totalPixels", QString::number(m_totalPixels));
-    stream.writeTextElement("validPixels", QString::number(m_validPixels));
-    stream.writeTextElement("nullPixels", QString::number(m_nullPixels));
-    stream.writeTextElement("lisPixels", QString::number(m_lisPixels));
-    stream.writeTextElement("lrsPixels", QString::number(m_lrsPixels));
-    stream.writeTextElement("hisPixels", QString::number(m_hisPixels));
-    stream.writeTextElement("hrsPixels", QString::number(m_hrsPixels));
-    stream.writeTextElement("underRangePixels", QString::number(m_underRangePixels));
-    stream.writeTextElement("overRangePixels", QString::number(m_overRangePixels));
+    stream.writeTextElement("totalPixels",QString::fromStdString(toString(m_totalPixels)));
+    stream.writeTextElement("validPixels",QString::fromStdString(toString(m_validPixels)));
+    stream.writeTextElement("nullPixels",QString::fromStdString(toString(m_nullPixels)));
+    stream.writeTextElement("lisPixels",QString::fromStdString(toString(m_lisPixels)));
+    stream.writeTextElement("lrsPixels",QString::fromStdString(toString(m_lrsPixels)));
+    stream.writeTextElement("hisPixels",QString::fromStdString(toString(m_hisPixels)));
+    stream.writeTextElement("hrsPixels",QString::fromStdString(toString(m_hrsPixels)));
+    stream.writeTextElement("underRangePixels",QString::fromStdString(toString(m_underRangePixels)));
+    stream.writeTextElement("overRangePixels",QString::fromStdString(toString(m_overRangePixels)));
     stream.writeEndElement(); // end pixelCounts
     
-    stream.writeTextElement("removedData", QString::number(m_removedData));
+    stream.writeTextElement("removedData",QString::fromStdString(toString(m_removedData)));
     stream.writeEndElement(); // end statistics
 
   }

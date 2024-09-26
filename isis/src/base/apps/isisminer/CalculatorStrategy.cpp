@@ -140,7 +140,7 @@ namespace Isis {
         m_calculator = eqn.calculator;
         m_result = calculate(variables);
         if ( !eqn.store.isEmpty() ) {
-          resource->add(eqn.store, QString::number(m_result));
+          resource->add(eqn.store, QString::fromStdString(toString(m_result)));
         }
         ntotal++;
       }

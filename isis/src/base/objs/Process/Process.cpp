@@ -867,8 +867,8 @@ Isis::Cube *Process::SetOutputCubeStretch(const QString &parameter, const int ns
       int bandStop = cube->bandCount();
       int maxSteps = cube->lineCount() * cube->bandCount();
 
-      QString cubeNumStr = QString::number(cubeNum + 1);
-      QString totalCubes = QString::number((int)InputCubes.size());
+      QString cubeNumStr = QString::fromStdString(toString(cubeNum + 1));
+      QString totalCubes = QString::fromStdString(toString((int)InputCubes.size()));
       QString msg = "Calculating statistics for cube " + cubeNumStr + " of " + totalCubes;
 
       Isis::Progress progress;

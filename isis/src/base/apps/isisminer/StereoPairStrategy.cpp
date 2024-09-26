@@ -301,12 +301,12 @@ namespace Isis {
     (void) rankConstraints(resourceA, m_imageStrength, rankA, stereo, "Rank"+suffixA());
     (void) rankConstraints(resourceB, m_imageStrength, rankB, stereo, "Rank"+suffixB());
 
-    stereo->add("ImageStrengthRank"+suffixA(), QString::number(rankA));
-    stereo->add("ImageStrengthRank"+suffixB(), QString::number(rankB));
+    stereo->add("ImageStrengthRank"+suffixA(), QString::fromStdString(toString(rankA)));
+    stereo->add("ImageStrengthRank"+suffixB(), QString::fromStdString(toString(rankB)));
   
     //  Level1 constraints rank is the average of the two level1 constraints
     double rank = (rankA + rankB) / 2.0;
-    stereo->add("ImageStrengthRank", QString::number(rank));
+    stereo->add("ImageStrengthRank", QString::fromStdString(toString(rank)));
   
     // Now compute parallax height ratio
     QString plx = m_keywordMap.get("ParallaxX", "ParallaxX");
@@ -318,7 +318,7 @@ namespace Isis {
     double pxdiff = px1 - px2;
     double pydiff = py1 - py2;
     double dp = sqrt( pxdiff*pxdiff + pydiff*pydiff );
-    stereo->add("ParallaxHeightRatio", QString::number(dp));
+    stereo->add("ParallaxHeightRatio", QString::fromStdString(toString(dp)));
   
   
     // Now compute shadow tip distance 
@@ -331,7 +331,7 @@ namespace Isis {
     double shxdiff = shx1 - shx2;
     double shydiff = shy1 - shy2;
     double dsh = sqrt( shxdiff*shxdiff + shydiff*shydiff );
-    stereo->add("ShadowTipDistance", QString::number(dsh));
+    stereo->add("ShadowTipDistance", QString::fromStdString(toString(dsh)));
   
   
     // Now compute Resolution 
@@ -340,7 +340,7 @@ namespace Isis {
     double pxlresB = resourceB->value(reskey).toDouble();
     double resratio = pxlresA / pxlresB;
     if ( resratio < 1.0 ) { resratio = 1.0 / resratio; }
-    stereo->add("ResolutionRatio", QString::number(resratio));
+    stereo->add("ResolutionRatio", QString::fromStdString(toString(resratio)));
   
     // Now compute DeltaSunAzimuth
     (void) computeDelta(resourceA, resourceB, "DeltaSolarAzimuth", 
@@ -366,7 +366,7 @@ namespace Isis {
     // Ensure we have a valid stereo angle
     if ( qFuzzyCompare(stAngle+1.0, 1.0) ) { stAngle = 0.1E-6; }
     double evp = rho * gsd / stAngle; 
-    stereo->add("VerticalPrecision", QString::number(evp));
+    stereo->add("VerticalPrecision", QString::fromStdString(toString(evp)));
   
     //  Now compute the stereo rank
     // m_myDebug = true;
@@ -380,7 +380,7 @@ namespace Isis {
     // Good, compute rank values
     double rankS;
     (void) rankConstraints(stereo, m_stereoStrength, rankS, stereo);
-    stereo->add("StereoStrengthRank", QString::number(rankS));
+    stereo->add("StereoStrengthRank", QString::fromStdString(toString(rankS)));
 
 
     // Evaluate the rank
@@ -501,7 +501,7 @@ namespace Isis {
         QVector<double> thresholds = constraint.value();
         double myrank = computeRank(value, thresholds);
         if ( !out.isNull() ) { 
-          out->add(constraint.key()+suffix, QString::number(myrank)); 
+          out->add(constraint.key()+suffix, QString::fromStdString(toString(myrank))); 
         }
         rank += myrank;
       }
@@ -593,7 +593,7 @@ bool StereoPairStrategy::computeDelta(const SharedResource &resourceA,
     double dsc1 = resourceA->value(dsckey).toDouble(); 
     double dsc2 = resourceB->value(dsckey).toDouble();
     double dscaz = acos( cos((dsc2 - dsc1) * rpd_c()) ) * dpr_c();
-    composite->add(parameter, QString::number(dscaz));
+    composite->add(parameter, QString::fromStdString(toString(dscaz)));
     return (true);
   }
 
@@ -701,7 +701,7 @@ bool StereoPairStrategy::computeStereoAngle(const SharedResource &resourceA,
 
     // Convert to degrees
     convang = acos ( convang ) * dpr_c();
-    stereo->add("StereoAngle", QString::number(convang));
+    stereo->add("StereoAngle", QString::fromStdString(toString(convang)));
 
     if ( isDebug() ) {
       cout << "StereoAngle = " << convang << "\n";

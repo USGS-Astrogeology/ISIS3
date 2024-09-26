@@ -247,14 +247,14 @@ namespace Isis {
 
       QLabel *label;
       if(hist->ValidPixels() != 0) {
-        label = new QLabel("  Average = " + QString::number(hist->Average()) + '\n' +
-               "\n  Minimum = " + QString::number(hist->Minimum()) + '\n' +
-               "\n  Maximum = " + QString::number(hist->Maximum()) + '\n' +
-               "\n  Stand. Dev.= " + QString::number(hist->StandardDeviation()) + '\n' +
-               "\n  Variance = " + QString::number(hist->Variance()) + '\n' +
-               "\n  Median = " + QString::number(hist->Median()) + '\n' +
-               "\n  Mode = " + QString::number(hist->Mode()) + '\n' +
-               "\n  Skew = " + QString::number(hist->Skew()), plot);
+        label = new QLabel("  Average = " + QString::fromStdString(toString(hist->Average())) + '\n' +
+               "\n  Minimum = " + QString::fromStdString(toString(hist->Minimum())) + '\n' +
+               "\n  Maximum = " + QString::fromStdString(toString(hist->Maximum())) + '\n' +
+               "\n  Stand. Dev.= " + QString::fromStdString(toString(hist->StandardDeviation())) + '\n' +
+               "\n  Variance = " + QString::fromStdString(toString(hist->Variance())) + '\n' +
+               "\n  Median = " + QString::fromStdString(toString(hist->Median())) + '\n' +
+               "\n  Mode = " + QString::fromStdString(toString(hist->Mode())) + '\n' +
+               "\n  Skew = " + QString::fromStdString(toString(hist->Skew())), plot);
       }
       else {
         label = new QLabel("  Average = N/A"

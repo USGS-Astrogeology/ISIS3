@@ -240,28 +240,28 @@ namespace Isis {
                   }
                   else {
                     throw IException(IException::Unknown,
-                                     "Expected Pvl Group " + primaryGroup.name() + " in the first Pvl Object "
-                                                 " " + primaryObject.name() + " in the DB file " + kernelFileName.original() + " to have a single keyword "
-                                                 "named File, but the keyword was named " + key.name() + "instead",
+                                     "Expected Pvl Group [" + primaryGroup.name() + "] in the first Pvl Object ["
+                                                 + primaryObject.name() + "] in the DB file [" + kernelFileName.original() + "] to have a single keyword "
+                                                 "named File, but the keyword was named [" + key.name() + "] instead",
                                      _FILEINFO_);
                   }
                 }
                 else {
-                  throw IException(IException::Unknown, "Expected Pvl Group " + primaryGroup.name() + " in the first Pvl Object " + primaryObject.name() + " "
-                                               "in the DB file " + kernelFileName.original() + " to have a single keyword (named "
-                                               "File), but found " + toString(primaryGroup.keywords()) + " keywords",
+                  throw IException(IException::Unknown, "Expected Pvl Group [" + primaryGroup.name() + "] in the first Pvl Object [" + primaryObject.name() + "] "
+                                               "in the DB file [" + kernelFileName.original() + "] to have a single keyword (named "
+                                               "File), but found [" + toString(primaryGroup.keywords()) + "] keywords",
                                    _FILEINFO_);
                 }
               }
               else {
-                throw IException(IException::Unknown, "Expected Pvl Group in the first Pvl Object " + primaryObject.name() + " in "
-                                             "the DB file " + kernelFileName.original() + " to be named Selection but found " + primaryGroup.name(),
+                throw IException(IException::Unknown, "Expected Pvl Group in the first Pvl Object [" + primaryObject.name() + "] in "
+                                             "the DB file [" + kernelFileName.original() + "] to be named Selection but found [" + primaryGroup.name() + "]",
                                  _FILEINFO_);
               }
             }
             else {
-              throw IException(IException::Unknown,"Expected one Pvl Group in the first Pvl Object " + primaryObject.name() + " in "
-                                           "the DB file " + kernelFileName.original() + " but found " + toString(primaryObject.groups()), _FILEINFO_);
+              throw IException(IException::Unknown,"Expected one Pvl Group in the first Pvl Object [" + primaryObject.name() + "] in "
+                                           "the DB file [" + kernelFileName.original() + "] but found [" + toString(primaryObject.groups()) + "]", _FILEINFO_);
             }
           }
           else {

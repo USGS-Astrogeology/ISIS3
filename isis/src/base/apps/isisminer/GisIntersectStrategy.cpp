@@ -188,7 +188,7 @@ namespace Isis {
     else {
       if ( m_computeOverlap ) {
         double ratio = resource->geometry()->intersectRatio(*m_geom);
-        resource->add(m_ratioKey, QString::number(ratio));
+        resource->add(m_ratioKey, QString::fromStdString(toString(ratio)));
       }
     }
     return (1);

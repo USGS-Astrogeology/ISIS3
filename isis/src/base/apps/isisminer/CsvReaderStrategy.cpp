@@ -133,7 +133,7 @@ namespace Isis {
       CSVReader::CSVAxis csvrow = csv.getRow(row);
   
       // Create new Resource
-      QString rowId(m_rowBase + QString::number(row));
+      QString rowId(m_rowBase + QString::fromStdString(toString(row)));
       SharedResource rowsrc(new Resource(rowId));
   
       // Populate resource
@@ -263,7 +263,7 @@ namespace Isis {
      // No header in CSV, must create column header/keyword names
       QString base = keys.get("ColumnBaseName", "Column");
       for ( int i = 0 ;  i < ncols ; i++) {
-        header.push_back(qMakePair(base + QString::number(i), i));
+        header.push_back(qMakePair(base + QString::fromStdString(toString(i)), i));
       }
     }
   

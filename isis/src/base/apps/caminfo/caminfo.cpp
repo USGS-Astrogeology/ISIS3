@@ -249,9 +249,9 @@ namespace Isis{
         general->append(MakePair("RunDate",     iTime::CurrentGMT()));
         general->append(MakePair("IsisId",      SerialNumber::Compose(*incube)));
         general->append(MakePair("From",        QString::fromStdString(FileName(incube->fileName().toStdString()).baseName() + ".cub")));
-        general->append(MakePair("Lines",       QString::number(incube->lineCount())));
-        general->append(MakePair("Samples",     QString::number(incube->sampleCount())));
-        general->append(MakePair("Bands",       QString::number(incube->bandCount())));
+        general->append(MakePair("Lines",       QString::fromStdString(toString(incube->lineCount()))));
+        general->append(MakePair("Samples",     QString::fromStdString(toString(incube->sampleCount()))));
+        general->append(MakePair("Bands",       QString::fromStdString(toString(incube->bandCount()))));
 
 
         // Extracts camstat data from existing CameraStatistics Table in cube label
@@ -377,16 +377,16 @@ namespace Isis{
           double lrspercent  = (stats.LrsPixels() / (nPixels)) * 100;
 
           // Statistics output for band
-          statistics->append(MakePair("MeanValue", QString::number(stats.Average())));
-          statistics->append(MakePair("StandardDeviation", QString::number(stats.StandardDeviation())));
-          statistics->append(MakePair("MinimumValue", QString::number(stats.Minimum())));
-          statistics->append(MakePair("MaximumValue", QString::number(stats.Maximum())));
-          statistics->append(MakePair("PercentHIS", QString::number(hispercent)));
-          statistics->append(MakePair("PercentHRS", QString::number(hrspercent)));
-          statistics->append(MakePair("PercentLIS", QString::number(lispercent)));
-          statistics->append(MakePair("PercentLRS", QString::number(lrspercent)));
-          statistics->append(MakePair("PercentNull", QString::number(nullpercent)));
-          statistics->append(MakePair("TotalPixels", QString::number(stats.TotalPixels())));
+          statistics->append(MakePair("MeanValue", QString::fromStdString(toString(stats.Average()))));
+          statistics->append(MakePair("StandardDeviation", QString::fromStdString(toString(stats.StandardDeviation()))));
+          statistics->append(MakePair("MinimumValue", QString::fromStdString(toString(stats.Minimum()))));
+          statistics->append(MakePair("MaximumValue", QString::fromStdString(toString(stats.Maximum()))));
+          statistics->append(MakePair("PercentHIS", QString::fromStdString(toString(hispercent))));
+          statistics->append(MakePair("PercentHRS", QString::fromStdString(toString(hrspercent))));
+          statistics->append(MakePair("PercentLIS", QString::fromStdString(toString(lispercent))));
+          statistics->append(MakePair("PercentLRS", QString::fromStdString(toString(lrspercent))));
+          statistics->append(MakePair("PercentNull", QString::fromStdString(toString(nullpercent))));
+          statistics->append(MakePair("TotalPixels", QString::fromStdString(toString(stats.TotalPixels()))));
         }
 
         bool getFootBlob = ui.GetBoolean("USELABEL");

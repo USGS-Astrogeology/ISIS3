@@ -441,9 +441,9 @@ namespace Isis {
 
     // Get the geom
     SharedResource rmerged = composite(resourceA, resourceB);
-    rmerged->add(m_ratioKey+m_suffixA, QString::number(ovrRatioA));
-    rmerged->add(m_ratioKey+m_suffixB, QString::number(ovrRatioB));
-    rmerged->add(m_ratioKey, QString::number(ovrRatioA));
+    rmerged->add(m_ratioKey+m_suffixA, QString::fromStdString(toString(ovrRatioA)));
+    rmerged->add(m_ratioKey+m_suffixB, QString::fromStdString(toString(ovrRatioB)));
+    rmerged->add(m_ratioKey, QString::fromStdString(toString(ovrRatioA)));
 
     if ( isDebug() ) {
       cout << "Merging " << resourceA->name().toStdString() << " and "
@@ -456,8 +456,8 @@ namespace Isis {
       rmerged->add(geom);
       double x, y;
       if ( geom->centroid(x, y) ) {
-        rmerged->add( "GisOverlapCentroidX", QString::number(x));
-        rmerged->add( "GisOverlapCentroidY", QString::number(y));
+        rmerged->add( "GisOverlapCentroidX", QString::fromStdString(toString(x)));
+        rmerged->add( "GisOverlapCentroidY", QString::fromStdString(toString(y)));
       }
     }
     else if ( Union == m_merge ) {
@@ -465,8 +465,8 @@ namespace Isis {
       rmerged->add(geom);
       double x, y;
       if ( geom->centroid(x, y) ) {
-        rmerged->add( "GisOverlapCentroidX", QString::number(x));
-        rmerged->add( "GisOverlapCentroidY", QString::number(y));
+        rmerged->add( "GisOverlapCentroidX", QString::fromStdString(toString(x)));
+        rmerged->add( "GisOverlapCentroidY", QString::fromStdString(toString(y)));
       }
     }
     else if ( Centroid == m_merge ) {
@@ -474,8 +474,8 @@ namespace Isis {
       double x, y;
       // Only works if the centroid value is defined
       if ( geom->centroid(x, y) ) {
-        rmerged->add( "GisOverlapCentroidX", QString::number(x));
-        rmerged->add( "GisOverlapCentroidY", QString::number(y));
+        rmerged->add( "GisOverlapCentroidX", QString::fromStdString(toString(x)));
+        rmerged->add( "GisOverlapCentroidY", QString::fromStdString(toString(y)));
         SharedGisGeometry centroid(geom->centroid());
         rmerged->add(centroid);
       }
@@ -484,8 +484,8 @@ namespace Isis {
       SharedGisGeometry geom(resourceA->geometry());
       double x, y;
       if ( geom->centroid(x, y) ) {
-        rmerged->add( "GisOverlapCentroidX", QString::number(x));
-        rmerged->add( "GisOverlapCentroidY", QString::number(y));
+        rmerged->add( "GisOverlapCentroidX", QString::fromStdString(toString(x)));
+        rmerged->add( "GisOverlapCentroidY", QString::fromStdString(toString(y)));
       }
       rmerged->add(geom);
     }
@@ -493,8 +493,8 @@ namespace Isis {
       SharedGisGeometry geom(resourceB->geometry());
       double x, y;
       if ( geom->centroid(x, y) ) {
-        rmerged->add( "GisOverlapCentroidX", QString::number(x));
-        rmerged->add( "GisOverlapCentroidY", QString::number(y));
+        rmerged->add( "GisOverlapCentroidX", QString::fromStdString(toString(x)));
+        rmerged->add( "GisOverlapCentroidY", QString::fromStdString(toString(y)));
       }
       rmerged->add(geom);
     }

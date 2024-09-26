@@ -91,11 +91,11 @@ namespace Isis {
         _intercept = loadCsv("DarkIntercept", conf, prof, 256);
 
         // Get temperation normalization factor
-        _refTemp = ConfKey(prof, "FpaReferenceTemperature", QString::number(21.0)).toDouble();
+        _refTemp = ConfKey(prof, "FpaReferenceTemperature", QString::fromStdString(toString(21.0))).toDouble();
 
         //  Smooth/filter if requested
-        int width =  ConfKey(prof,"ZeroDarkFilterWidth",QString::number(3)).toInt();
-        int iters =  ConfKey(prof,"ZerDarkFilterIterations",QString::number(0)).toInt();
+        int width =  ConfKey(prof,"ZeroDarkFilterWidth",QString::fromStdString(toString(3))).toInt();
+        int iters =  ConfKey(prof,"ZerDarkFilterIterations",QString::fromStdString(toString(0))).toInt();
         LowPassFilter smooth(width, iters);
         _history.add("Smooth(Width["+ToString(width)+"],Iters["+ToString(iters)+"])");
 

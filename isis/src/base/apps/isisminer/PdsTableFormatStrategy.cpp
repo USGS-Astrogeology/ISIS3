@@ -204,7 +204,7 @@ namespace Isis {
     for ( int i = 0 ; i < nColumns ; i++) {
       QString name = definition->value("Column", i);
       SharedResource column(new PdsColumn(name));
-      column->add("COLUMN_NUMBER", QString::number(i+1));
+      column->add("COLUMN_NUMBER", QString::fromStdString(toString(i+1)));
   
       column->add("NAME", name);
   

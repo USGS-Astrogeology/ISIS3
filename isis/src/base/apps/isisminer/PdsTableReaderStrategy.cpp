@@ -167,7 +167,7 @@ bool PdsTableReaderStrategy::processRow(const int &row,
     columns = parms.allValues("Columns");
   }
 
-  QString crow = QString::number(row);
+  QString crow = QString::fromStdString(toString(row));
   SharedResource resource(new Resource(crow));
   resource->add("Row", crow);
   BOOST_FOREACH (QString column, columns ) {

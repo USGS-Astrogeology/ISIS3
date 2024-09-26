@@ -135,7 +135,7 @@ namespace Isis {
 
           if ( "controlmeasure" == QString::fromStdString(measure.name()).toLower() ) {
             PvlFlatMap netmeasure(netpoint, loadkeys(measure));
-            QString rowId = QString::number(nrows++);
+            QString rowId = QString::fromStdString(toString(nrows++));
             SharedResource rowmeasure(new Resource(rowId, netmeasure));
 
             // Make the unique identifier (set default identity or set to specified)

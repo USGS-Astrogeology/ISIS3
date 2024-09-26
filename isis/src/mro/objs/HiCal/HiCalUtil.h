@@ -234,7 +234,7 @@ template <typename T> double ToDouble(const T &value) {
  * @return string Converted value
  */
 template <typename T> QString ToString(const T &value) {
-    return (QString::number(value).trimmed());
+    return (QString::fromStdString(toString(value)).trimmed());
 }
 
 /**

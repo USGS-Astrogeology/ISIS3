@@ -67,7 +67,7 @@ namespace Isis {
       int   _filled;         //!< Number values replaced
 
       QString formHistory() {
-        QString cfilled(QString::number(_filled));
+        QString cfilled(QString::fromStdString(toString(_filled)));
         return (QString("SplineFill(Cubic,Filled[" + cfilled + "])"));
       }
 

@@ -47,7 +47,7 @@ namespace Isis {
     if ( IsSpecial(d) ) {
       return ( defValue );
     }
-    return (QString::number(d, 'g', precision));
+    return (QString::fromStdString(Isis::toString(d, precision)));
   }
 
 

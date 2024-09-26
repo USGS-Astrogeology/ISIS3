@@ -159,7 +159,7 @@ namespace Isis {
     // Make assets out of them
     PvlFlatMap keys(getDefinitionMap());
     QString rowBase(keys.get("PvlBaseName","Pvl"));
-    QString rowId = rowBase + QString::number(nth);
+    QString rowId = rowBase + QString::fromStdString(toString(nth));
   
     Pvl pvl(pvlfile.toStdString());
     PvlFlatMap pvlImports(pvl, m_pvlparms);

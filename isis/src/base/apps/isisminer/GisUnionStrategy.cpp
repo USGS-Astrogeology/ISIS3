@@ -80,7 +80,7 @@ namespace Isis {
       if ( !m_union.isNull() ) {
         // Union geometry is present and good
         double ratio = geom->intersectRatio(*m_union);
-        resource->add(m_ratioKey, QString::number(ratio));
+        resource->add(m_ratioKey, QString::fromStdString(toString(ratio)));
         if ( (ratio >= m_overlapMin) && (ratio <= m_overlapMax) ) {
            m_union = SharedGisGeometry(m_union->g_union(*geom));
         }

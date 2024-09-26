@@ -552,19 +552,19 @@ namespace Isis {
   void StatCumProbDistDynCalc::save(QXmlStreamWriter &stream, const Project *project) const {   // TODO: does xml stuff need project???
 
     stream.writeStartElement("statCumProbDistDynCalc");
-    stream.writeTextElement("numberCells", QString::number(m_numberCells));
-    stream.writeTextElement("numberQuantiles", QString::number(m_numberQuantiles));
-    stream.writeTextElement("numberObservations", QString::number(m_numberObservations));
+    stream.writeTextElement("numberCells", QString::fromStdString(toString(m_numberCells)));
+    stream.writeTextElement("numberQuantiles", QString::fromStdString(toString(m_numberQuantiles)));
+    stream.writeTextElement("numberObservations", QString::fromStdString(toString(m_numberObservations)));
 
     stream.writeStartElement("distributionData");
     for (unsigned int i = 0; i < m_numberQuantiles; i++) {
       stream.writeStartElement("quantileInfo");
        // we need to write out high precision for minDistance calculations in value() and cumProb()
-      stream.writeAttribute("quantile", QString::number(m_quantiles[i], 'g', 17));
-      stream.writeAttribute("dataValue", QString::number(m_observationValues[i], 'g', 17));
+      stream.writeAttribute("quantile", QString::fromStdString(toString(m_quantiles[i], 17)));
+      stream.writeAttribute("dataValue", QString::fromStdString(toString(m_observationValues[i], 17)));
       stream.writeAttribute("idealNumObsBelowQuantile", 
-                            QString::number(m_idealNumObsBelowQuantile[i]));
-      stream.writeAttribute("actualNumObsBelowQuantile", QString::number(m_numObsBelowQuantile[i]));
+                            QString::fromStdString(toString(m_idealNumObsBelowQuantile[i])));
+      stream.writeAttribute("actualNumObsBelowQuantile", QString::fromStdString(toString(m_numObsBelowQuantile[i])));
       stream.writeEndElement(); // end observation
     }
     stream.writeEndElement(); // end observationData

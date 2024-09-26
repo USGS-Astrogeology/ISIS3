@@ -403,7 +403,7 @@ TEST(HicalTest, Dns) {
   EXPECT_TRUE(logText[36].startsWith("GainUnitConversion")) << logText[36].toStdString();
   QStringList gainUnitConversionParams = logText[36].split(";", Qt::SkipEmptyParts);
   ASSERT_EQ(gainUnitConversionParams.size(), 4);
-  EXPECT_EQ(gainUnitConversionParams[1].toStdString(), " DN_Factor[1]");
+  EXPECT_EQ(gainUnitConversionParams[1].toStdString(), " DN_Factor[1.0]");
   EXPECT_EQ(gainUnitConversionParams[2].toStdString(), " Units[DN]");
 }
 

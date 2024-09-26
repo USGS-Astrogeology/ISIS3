@@ -684,7 +684,7 @@ namespace Isis {
       axisBinSetElement.appendChild(bin);
 
       QDomElement binSequenceNumber = m_domDoc->createElement("sp:bin_sequence_number");
-      PvlToXmlTranslationManager::setElementValue(binSequenceNumber, QString::number(i+1));
+      PvlToXmlTranslationManager::setElementValue(binSequenceNumber, QString::fromStdString(toString(i+1)));
       bin.appendChild(binSequenceNumber);
 
 
@@ -895,12 +895,12 @@ namespace Isis {
 
         QDomElement scalingFactorElement = m_domDoc->createElement("scaling_factor");
         PvlToXmlTranslationManager::setElementValue(scalingFactorElement,
-                                                    QString::number(multiplier));
+                                                    QString::fromStdString(toString(multiplier)));
         elementArrayElement.appendChild(scalingFactorElement);
 
         QDomElement offsetElement = m_domDoc->createElement("value_offset");
         PvlToXmlTranslationManager::setElementValue(offsetElement,
-                                                    QString::number(base));
+                                                    QString::fromStdString(toString(base)));
         elementArrayElement.appendChild(offsetElement);
       }
 
@@ -912,89 +912,89 @@ namespace Isis {
       switch (p_pixelType) {
         case Real:
           { QDomElement nullElement = m_domDoc->createElement("missing_constant");
-          PvlToXmlTranslationManager::setElementValue(nullElement, QString::number(NULL4, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(nullElement, QString::fromStdString(toString(NULL4, 18)));
           specialConstantElement.appendChild(nullElement);
 
           QDomElement highInstrumentSatElement = m_domDoc->createElement("high_instrument_saturation");
-          PvlToXmlTranslationManager::setElementValue(highInstrumentSatElement, QString::number(HIGH_INSTR_SAT4, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(highInstrumentSatElement, QString::fromStdString(toString(HIGH_INSTR_SAT4, 18)));
           specialConstantElement.appendChild(highInstrumentSatElement);
 
           QDomElement highRepresentationSatElement = m_domDoc->createElement("high_representation_saturation");
-          PvlToXmlTranslationManager::setElementValue(highRepresentationSatElement, QString::number(HIGH_REPR_SAT4, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(highRepresentationSatElement, QString::fromStdString(toString(HIGH_REPR_SAT4, 18)));
           specialConstantElement.appendChild(highRepresentationSatElement);
 
           QDomElement lowInstrumentSatElement = m_domDoc->createElement("low_instrument_saturation");
-          PvlToXmlTranslationManager::setElementValue(lowInstrumentSatElement, QString::number(LOW_INSTR_SAT4, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(lowInstrumentSatElement, QString::fromStdString(toString(LOW_INSTR_SAT4, 18)));
           specialConstantElement.appendChild(lowInstrumentSatElement);
 
           QDomElement lowRepresentationSatElement = m_domDoc->createElement("low_representation_saturation");
-          PvlToXmlTranslationManager::setElementValue(lowRepresentationSatElement, QString::number(LOW_REPR_SAT4, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(lowRepresentationSatElement, QString::fromStdString(toString(LOW_REPR_SAT4, 18)));
           specialConstantElement.appendChild(lowRepresentationSatElement);
           break;}
 
         case UnsignedByte:
           { QDomElement nullElement = m_domDoc->createElement("missing_constant");
-          PvlToXmlTranslationManager::setElementValue(nullElement, QString::number(NULL1, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(nullElement, QString::fromStdString(toString(NULL1, 18)));
           specialConstantElement.appendChild(nullElement);
 
           QDomElement highInstrumentSatElement = m_domDoc->createElement("high_instrument_saturation");
-          PvlToXmlTranslationManager::setElementValue(highInstrumentSatElement, QString::number(HIGH_INSTR_SAT1, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(highInstrumentSatElement, QString::fromStdString(toString(HIGH_INSTR_SAT1, 18)));
           specialConstantElement.appendChild(highInstrumentSatElement);
 
           QDomElement highRepresentationSatElement = m_domDoc->createElement("high_representation_saturation");
-          PvlToXmlTranslationManager::setElementValue(highRepresentationSatElement, QString::number(HIGH_REPR_SAT1, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(highRepresentationSatElement, QString::fromStdString(toString(HIGH_REPR_SAT1, 18)));
           specialConstantElement.appendChild(highRepresentationSatElement);
 
           QDomElement lowInstrumentSatElement = m_domDoc->createElement("low_instrument_saturation");
-          PvlToXmlTranslationManager::setElementValue(lowInstrumentSatElement, QString::number(LOW_INSTR_SAT1, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(lowInstrumentSatElement, QString::fromStdString(toString(LOW_INSTR_SAT1, 18)));
           specialConstantElement.appendChild(lowInstrumentSatElement);
 
           QDomElement lowRepresentationSatElement = m_domDoc->createElement("low_representation_saturation");
-          PvlToXmlTranslationManager::setElementValue(lowRepresentationSatElement, QString::number(LOW_REPR_SAT1, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(lowRepresentationSatElement, QString::fromStdString(toString(LOW_REPR_SAT1, 18)));
           specialConstantElement.appendChild(lowRepresentationSatElement);
           break; }
 
         case SignedWord:
           { QDomElement nullElement = m_domDoc->createElement("missing_constant");
-          PvlToXmlTranslationManager::setElementValue(nullElement, QString::number(NULL2, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(nullElement, QString::fromStdString(toString(NULL2, 18)));
           specialConstantElement.appendChild(nullElement);
 
           QDomElement highInstrumentSatElement = m_domDoc->createElement("high_instrument_saturation");
-          PvlToXmlTranslationManager::setElementValue(highInstrumentSatElement, QString::number(HIGH_INSTR_SAT2, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(highInstrumentSatElement, QString::fromStdString(toString(HIGH_INSTR_SAT2, 18)));
           specialConstantElement.appendChild(highInstrumentSatElement);
 
           QDomElement highRepresentationSatElement = m_domDoc->createElement("high_representation_saturation");
-          PvlToXmlTranslationManager::setElementValue(highRepresentationSatElement, QString::number(HIGH_REPR_SAT2, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(highRepresentationSatElement, QString::fromStdString(toString(HIGH_REPR_SAT2, 18)));
           specialConstantElement.appendChild(highRepresentationSatElement);
 
           QDomElement lowInstrumentSatElement = m_domDoc->createElement("low_instrument_saturation");
-          PvlToXmlTranslationManager::setElementValue(lowInstrumentSatElement, QString::number(LOW_INSTR_SAT2, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(lowInstrumentSatElement, QString::fromStdString(toString(LOW_INSTR_SAT2, 18)));
           specialConstantElement.appendChild(lowInstrumentSatElement);
 
           QDomElement lowRepresentationSatElement = m_domDoc->createElement("low_representation_saturation");
-          PvlToXmlTranslationManager::setElementValue(lowRepresentationSatElement, QString::number(LOW_REPR_SAT2, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(lowRepresentationSatElement, QString::fromStdString(toString(LOW_REPR_SAT2, 18)));
           specialConstantElement.appendChild(lowRepresentationSatElement);
           break; }
 
         case UnsignedWord:
           { QDomElement nullElement = m_domDoc->createElement("missing_constant");
-          PvlToXmlTranslationManager::setElementValue(nullElement, QString::number(NULLU2, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(nullElement, QString::fromStdString(toString(NULLU2, 18)));
           specialConstantElement.appendChild(nullElement);
 
           QDomElement highInstrumentSatElement = m_domDoc->createElement("high_instrument_saturation");
-          PvlToXmlTranslationManager::setElementValue(highInstrumentSatElement, QString::number(HIGH_INSTR_SATU2, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(highInstrumentSatElement, QString::fromStdString(toString(HIGH_INSTR_SATU2, 18)));
           specialConstantElement.appendChild(highInstrumentSatElement);
 
           QDomElement highRepresentationSatElement = m_domDoc->createElement("high_representation_saturation");
-          PvlToXmlTranslationManager::setElementValue(highRepresentationSatElement, QString::number(HIGH_REPR_SATU2, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(highRepresentationSatElement, QString::fromStdString(toString(HIGH_REPR_SATU2, 18)));
           specialConstantElement.appendChild(highRepresentationSatElement);
 
           QDomElement lowInstrumentSatElement = m_domDoc->createElement("low_instrument_saturation");
-          PvlToXmlTranslationManager::setElementValue(lowInstrumentSatElement, QString::number(LOW_INSTR_SATU2, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(lowInstrumentSatElement, QString::fromStdString(toString(LOW_INSTR_SATU2, 18)));
           specialConstantElement.appendChild(lowInstrumentSatElement);
 
           QDomElement lowRepresentationSatElement = m_domDoc->createElement("low_representation_saturation");
-          PvlToXmlTranslationManager::setElementValue(lowRepresentationSatElement, QString::number(LOW_REPR_SATU2, 'g', 18));
+          PvlToXmlTranslationManager::setElementValue(lowRepresentationSatElement, QString::fromStdString(toString(LOW_REPR_SATU2, 18)));
           specialConstantElement.appendChild(lowRepresentationSatElement);
           break; }
 
@@ -1218,7 +1218,7 @@ namespace Isis {
         //if no units, assume in meters
         double dValue = toDouble(semiMajorRadElement.text().toStdString());
         dValue /= 1000.0;
-        PvlToXmlTranslationManager::resetElementValue(semiMajorRadElement, QString::number(dValue), "km");
+        PvlToXmlTranslationManager::resetElementValue(semiMajorRadElement, QString::fromStdString(toString(dValue)), "km");
       }
     }
 
@@ -1230,7 +1230,7 @@ namespace Isis {
         // If no units, assume in meters
         double dValue = toDouble(semiMinorRadElement.text().toStdString());
         dValue /= 1000.0;
-        PvlToXmlTranslationManager::resetElementValue(semiMinorRadElement, QString::number(dValue), "km");
+        PvlToXmlTranslationManager::resetElementValue(semiMinorRadElement, QString::fromStdString(toString(dValue)), "km");
       }
     }
 
@@ -1241,7 +1241,7 @@ namespace Isis {
         // If no units, assume in meters
         double dValue = toDouble(polarRadElement.text().toStdString());
         dValue /= 1000.0;
-        PvlToXmlTranslationManager::resetElementValue(polarRadElement, QString::number(dValue), "km");
+        PvlToXmlTranslationManager::resetElementValue(polarRadElement, QString::fromStdString(toString(dValue)), "km");
       }
     }
 
@@ -1270,16 +1270,16 @@ namespace Isis {
     // so if positive east, swap min/max
     if(QString::compare(lonDir, "PositiveEast", Qt::CaseInsensitive) == 0) {
       // west min, east max
-      PvlToXmlTranslationManager::resetElementValue(eastElement, QString::number(maxLon), "deg");
-      PvlToXmlTranslationManager::resetElementValue(westElement, QString::number(minLon), "deg");
+      PvlToXmlTranslationManager::resetElementValue(eastElement, QString::fromStdString(toString(maxLon)), "deg");
+      PvlToXmlTranslationManager::resetElementValue(westElement, QString::fromStdString(toString(minLon)), "deg");
     }
     else {
-      PvlToXmlTranslationManager::resetElementValue(eastElement, QString::number(minLon), "deg");
-      PvlToXmlTranslationManager::resetElementValue(westElement, QString::number(maxLon), "deg");
+      PvlToXmlTranslationManager::resetElementValue(eastElement, QString::fromStdString(toString(minLon)), "deg");
+      PvlToXmlTranslationManager::resetElementValue(westElement, QString::fromStdString(toString(maxLon)), "deg");
     }
 
-    PvlToXmlTranslationManager::resetElementValue(northElement, QString::number(maxLat), "deg");
-    PvlToXmlTranslationManager::resetElementValue(southElement, QString::number(minLat), "deg");
+    PvlToXmlTranslationManager::resetElementValue(northElement, QString::fromStdString(toString(maxLat)), "deg");
+    PvlToXmlTranslationManager::resetElementValue(southElement, QString::fromStdString(toString(minLat)), "deg");
 
     // longitude_of_central_meridian and latitude_of_projection_origin need to be converted to floats.
     xmlPath.clear();
@@ -1305,12 +1305,12 @@ namespace Isis {
 
     // Only update the ouput formatting if there are no digits after the decimal point.
     if (!longitudeElement.text().contains('.')) {
-      QString toset1 = QString::number(longitudeElementValue, 'f', 1);
+      QString toset1 = QString::fromStdString(toString(longitudeElementValue, 1));
       PvlToXmlTranslationManager::resetElementValue(longitudeElement, toset1, "deg");
     }
 
     if (!originElement.text().contains('.')) {
-      QString toset2 = QString::number(originElementValue, 'f', 1);
+      QString toset2 = QString::fromStdString(toString(originElementValue, 1));
       PvlToXmlTranslationManager::resetElementValue(originElement, toset2, "deg");
     }
   }

@@ -136,7 +136,7 @@ namespace Isis {
    *              column.
    */  
   void PdsColumn::setBytes(const int &bytes) {
-    add("BYTES", QString::number(bytes));
+    add("BYTES", QString::fromStdString(toString(bytes)));
     return;
   }
   
@@ -220,7 +220,7 @@ namespace Isis {
    *              PDS column resource.
    */  
   void PdsColumn::setStartByte(const int &bytes) {
-    add("START_BYTE", QString::number(bytes));
+    add("START_BYTE", QString::fromStdString(toString(bytes)));
     return;
   }
   
