@@ -1,7 +1,7 @@
 Group = GroundPoint
   Sample                     = 1.0
   Line                       = 1.0
-  PixelValue                 = 21
+  PixelValue                 = 21.0
   RightAscension             = 254.44877411829 <DEGREE>
   Declination                = 67.288137235407 <DEGREE>
   PlanetocentricLatitude     = -85.539935681585 <DEGREE>
@@ -64,7 +64,7 @@ End_Group
 Group = GroundPoint
   Sample                     = 155.47884244269
   Line                       = 184.71817081965
-  PixelValue                 = 29
+  PixelValue                 = 29.0
   RightAscension             = 262.28855950942 <DEGREE>
   Declination                = 65.693319737566 <DEGREE>
   PlanetocentricLatitude     = -84.5 <DEGREE>

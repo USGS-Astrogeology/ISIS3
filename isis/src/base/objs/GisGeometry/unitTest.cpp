@@ -290,13 +290,13 @@ void printBasicInfo(GisGeometry geom, QString description) {
  */
 void printTargetInfo(GisGeometry geom,  GisGeometry target, QString description) {
   qDebug() << description;
-  qDebug() << "    distance?        " << QString::number(geom.distance(target));
-  qDebug() << "    intersects?      " << QString::number(geom.intersects(target));
-  qDebug() << "    contains?        " << QString::number(geom.contains(target));
-  qDebug() << "    disjoint?        " << QString::number(geom.disjoint(target));
-  qDebug() << "    overlaps?        " << QString::number(geom.overlaps(target));
-  qDebug() << "    equals?          " << QString::number(geom.equals(target));
-  qDebug() << "    intersect ratio? " << QString::number(geom.intersectRatio(target));
+  qDebug() << "    distance?        " << QString::fromStdString(Isis::toString(geom.distance(target)));
+  qDebug() << "    intersects?      " << QString::fromStdString(Isis::toString(geom.intersects(target)));
+  qDebug() << "    contains?        " << QString::fromStdString(Isis::toString(geom.contains(target)));
+  qDebug() << "    disjoint?        " << QString::fromStdString(Isis::toString(geom.disjoint(target)));
+  qDebug() << "    overlaps?        " << QString::fromStdString(Isis::toString(geom.overlaps(target)));
+  qDebug() << "    equals?          " << QString::fromStdString(Isis::toString(geom.equals(target)));
+  qDebug() << "    intersect ratio? " << QString::fromStdString(Isis::toString(geom.intersectRatio(target)));
   qDebug() << "";
 }
 

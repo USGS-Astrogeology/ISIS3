@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
     Latitude lat(0.0, Angle::Degrees);
     Longitude lon(0.0, Angle::Degrees);
     SurfacePoint *sp = naifPlateModelFromDSK.point(lat, lon);
-    qDebug() << "Surface point at pole is null?     " << QString::number(sp == NULL);
+    qDebug() << "Surface point at pole is null?     " << QString::fromStdString(Isis::toString(sp == NULL));
     qDebug() << "Surface point: " << sp->GetX().meters()
                                   << sp->GetY().meters()
                                   << sp->GetZ().meters()
@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
     Intercept *intercept = naifPlateModelFromDSK.intercept(obsPos, rayDir);
     qDebug() << "Ray Dir:            " << rayDir;
     qDebug() << "Observer:           " << obsPos;
-    qDebug() << "Intercept is null?  " << QString::number(intercept == NULL);
+    qDebug() << "Intercept is null?  " << QString::fromStdString(Isis::toString(intercept == NULL));
     qDebug() << "intercept plateID?  "
              << naifPlateModelFromDSK.plateIdOfIntercept(obsPos, rayDir, xpoint);
 
@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
     intercept = naifPlateModelFromDSK.intercept(obsPos, rayDir);
     qDebug() << "Ray Dir:            " << rayDir;
     qDebug() << "Observer:           " << obsPos;
-    qDebug() << "Intercept is null?  " << QString::number(intercept == NULL);
+    qDebug() << "Intercept is null?  " << QString::fromStdString(Isis::toString(intercept == NULL));
     qDebug() << "intercept plate name                 = " << intercept->shape()->name();
     qDebug() << "intercept vertex (obsPos position) = " << intercept->observer();
     qDebug() << "intercept vector (look direction)    = " << intercept->lookDirectionRay();

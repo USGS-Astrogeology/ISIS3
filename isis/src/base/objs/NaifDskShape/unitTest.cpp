@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Default constructor.";
     NaifDskShape shapeModel;
     qDebug() << "Shape name is " << shapeModel.name();
-    qDebug() << "Shape is DEM type? " << QString::number(shapeModel.isDEM());
+    qDebug() << "Shape is DEM type? " << QString::fromStdString(Isis::toString(shapeModel.isDEM()));
 
     qDebug() << "";
 
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
     obsPos.push_back(0.0);   obsPos.push_back(0.0);   obsPos.push_back(0.0);
     lookDir.push_back(1.0);  lookDir.push_back(1.0);  lookDir.push_back(1.0);
     bool success = shapeModelFromPlate.intersectSurface(obsPos, lookDir);
-    qDebug() << "Intersection successful? " << QString::number(success);
+    qDebug() << "Intersection successful? " << QString::fromStdString(Isis::toString(success));
     qDebug() << "";
      
     qDebug() << "Construct NaifDskShape object from cube labels with ShapeModel=DSK file.";
@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
     obsPos[0]  = 0.0;  obsPos[1]  = 0.0;   obsPos[2]  = 1000.0;
     lookDir[0] = 0.0;  lookDir[1] = -1.0;  lookDir[2] = -1.0;
     success = shapeModelFromPvlShape.intersectSurface(obsPos, lookDir);
-    qDebug() << "Intersection successful?     " << QString::number(success);
+    qDebug() << "Intersection successful?     " << QString::fromStdString(Isis::toString(success));
 
     qDebug() << "Try to intersect surface at obsPos (1000,0,0) and ground point (1,0,0)";
     Displacement x(1.0, Displacement::Meters);
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
       qDebug() << "Intercept Y = " << point->DisplacementToDouble(point->GetY(), SurfacePoint::Kilometers);
       qDebug() << "Intercept Z = " << point->DisplacementToDouble(point->GetZ(), SurfacePoint::Kilometers);
     }
-    qDebug() << "Intersection successful?     " << QString::number(success);
+    qDebug() << "Intersection successful?     " << QString::fromStdString(Isis::toString(success));
 
     qDebug() << "";
     qDebug() << "Construct NaifDskShape object from cube labels with ElevationModel=DSK file.";    
@@ -111,11 +111,11 @@ int main(int argc, char *argv[]) {
     obsPos[0]  = 1000.0;  obsPos[1]  = 0.0;   obsPos[2]  = 0.0;
     lookDir[0] = -1.0;  lookDir[1] = 0.0;  lookDir[2] = 0.0;
     success = shapeModelFromPvlElevation.intersectSurface(obsPos, lookDir);
-    qDebug() << "Intersection successful?     " << QString::number(success);
+    qDebug() << "Intersection successful?     " << QString::fromStdString(Isis::toString(success));
     qDebug() << "Intersection valid? " << shapeModelFromPvlElevation.surfaceIntersection()->Valid();
 
     const Intercept *intercept = shapeModelFromPvlElevation.intercept();
-    qDebug() << "Intercept is null?  " << QString::number(intercept == NULL);
+    qDebug() << "Intercept is null?  " << QString::fromStdString(Isis::toString(intercept == NULL));
     SurfacePoint xp = intercept->location();
     NaifVertex xpoint(3);
     xpoint[0] = xp.GetX().meters();

@@ -2,9 +2,9 @@ Default constructed: Hillshade[ azimuth =  zenith =  resolution = Null ]
 Empty constructed: Hillshade[ azimuth =  zenith =  resolution = Null ]
 Copied empty: Hillshade[ azimuth =  zenith =  resolution = Null ]
 Assigned empty: Hillshade[ azimuth =  zenith =  resolution = Null ]
-Valid: Hillshade[ azimuth = 0.0 degrees zenith = 15.0 degrees resolution = 5.0 ]
-Copied valid: Hillshade[ azimuth = 0.0 degrees zenith = 15.0 degrees resolution = 5.0 ]
-Assigned valid: Hillshade[ azimuth = 0.0 degrees zenith = 15.0 degrees resolution = 5.0 ]
+Valid: Hillshade[ azimuth = 0.0 degrees zenith = 15.0 degrees resolution = 5 ]
+Copied valid: Hillshade[ azimuth = 0.0 degrees zenith = 15.0 degrees resolution = 5 ]
+Assigned valid: Hillshade[ azimuth = 0.0 degrees zenith = 15.0 degrees resolution = 5 ]
 
 
 Test computations

@@ -76,6 +76,6 @@ Area3D 1 = Area3D 2... Area3D 1 = -1.7976931348623e+308,0,-1.7976931348623e+308 
 
 ----- Testing Error Checking -----
 
-**PROGRAMMER ERROR** Cannot have a 3D area with inverted X coordinates of [1 meters] to [0 meters].
-**PROGRAMMER ERROR** Cannot have a 3D area with inverted Y coordinates of [1 meters] to [0 meters].
-**PROGRAMMER ERROR** Cannot have a 3D area with inverted Z coordinates of [1 meters] to [0 meters].
+**PROGRAMMER ERROR** Cannot have a 3D area with inverted X coordinates of [1.0 meters] to [0.0 meters].
+**PROGRAMMER ERROR** Cannot have a 3D area with inverted Y coordinates of [1.0 meters] to [0.0 meters].
+**PROGRAMMER ERROR** Cannot have a 3D area with inverted Z coordinates of [1.0 meters] to [0.0 meters].

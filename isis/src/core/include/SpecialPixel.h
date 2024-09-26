@@ -376,9 +376,12 @@ namespace Isis {
       return "Invalid";
     }
 
+    /*
     std::ostringstream result;
     result << std::setprecision(precision) << std::scientific << d;
     return result.str();
+    */
+    return Isis::toString(d);
   }
 
 

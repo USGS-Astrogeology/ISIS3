@@ -1221,8 +1221,8 @@ namespace Isis {
     stream.writeAttribute("numberCoefSolved", QString::number(m_numberCamAngleCoefSolved));
     stream.writeAttribute("degree", QString::number(m_ckDegree));
     stream.writeAttribute("solveDegree", QString::number(m_ckSolveDegree));
-    stream.writeAttribute("solveTwist", QString::number(m_solveTwist));
-    stream.writeAttribute("solveOverExisting", QString::number(m_solvePointingPolynomialOverExisting));
+    stream.writeAttribute("solveTwist", QString::fromStdString(Isis::toString(m_solveTwist)));
+    stream.writeAttribute("solveOverExisting", QString::fromStdString(Isis::toString(m_solvePointingPolynomialOverExisting)));
     stream.writeAttribute("interpolationType", QString::number(m_pointingInterpolationType));
 
     stream.writeStartElement("aprioriPointingSigmas");
@@ -1244,7 +1244,7 @@ namespace Isis {
     stream.writeAttribute("numberCoefSolved", QString::number(m_numberCamPosCoefSolved));
     stream.writeAttribute("degree", QString::number(m_spkDegree));
     stream.writeAttribute("solveDegree", QString::number(m_spkSolveDegree));
-    stream.writeAttribute("solveOverHermiteSpline", QString::number(m_solvePositionOverHermiteSpline));
+    stream.writeAttribute("solveOverHermiteSpline", QString::fromStdString(Isis::toString(m_solvePositionOverHermiteSpline)));
     stream.writeAttribute("interpolationType", QString::number(m_positionInterpolationType));
 
     stream.writeStartElement("aprioriPositionSigmas");

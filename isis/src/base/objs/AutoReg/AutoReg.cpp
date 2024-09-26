@@ -201,7 +201,7 @@ namespace Isis {
       }
 
       if(algo.hasKeyword("SubpixelAccuracy")) {
-        SetSubPixelAccuracy(Isis::toString((int)algo["SubpixelAccuracy"]) == "True");
+        SetSubPixelAccuracy(Isis::toBool(algo["SubpixelAccuracy"]) == true);
       }
 
       if(algo.hasKeyword("ReductionFactor")) {

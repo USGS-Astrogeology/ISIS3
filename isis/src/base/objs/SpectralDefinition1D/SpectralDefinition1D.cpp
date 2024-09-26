@@ -97,13 +97,13 @@ namespace Isis {
     QString temp;
     for (int i=0; i<m_spectelList->length(); i++){
       temp +="----Section ";
-      temp +=QString::number(i);
+      temp += QString::fromStdString(Isis::toString(i));
       temp +="----\n";
       for(int j=0; j<m_spectelList->at(i)->length(); j++){
         temp+="Wavelength= ";
-        temp+=QString::number(m_spectelList->at(i)->at(j).centerWavelength());
+        temp+=QString::fromStdString(Isis::toString(m_spectelList->at(i)->at(j).centerWavelength()));
         temp+=", Width= ";
-        temp+=QString::number(m_spectelList->at(i)->at(j).filterWidth());
+        temp+=QString::fromStdString(Isis::toString(m_spectelList->at(i)->at(j).filterWidth()));
         temp+="\n";
       }
     }

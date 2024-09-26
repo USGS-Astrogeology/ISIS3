@@ -265,6 +265,6 @@ TEST(Statistics,XMLReadWrite) {
     EXPECT_DOUBLE_EQ(hrsPixels.text().toDouble(), 0.0);
     EXPECT_DOUBLE_EQ(underRangePixels.text().toDouble(), 0.0);
     EXPECT_DOUBLE_EQ(overRangePixels.text().toDouble(), 0.0);
-    EXPECT_STREQ(removedData.text().toStdString().c_str(), "No");
+    EXPECT_STREQ(removedData.text().toStdString().c_str(), "0");
 
 }

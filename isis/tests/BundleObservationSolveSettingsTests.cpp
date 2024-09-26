@@ -386,11 +386,11 @@ TEST(BundleObservationSolveSettings, SaveSettings){
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     pointingOptionsAtts.namedItem("solveTwist").nodeValue(),
-    QString::number(boss.solveTwist()));
+    QString::fromStdString(Isis::toString(boss.solveTwist())));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     pointingOptionsAtts.namedItem("solveOverExisting").nodeValue(),
-    QString::number(boss.solvePolyOverPointing()));
+    QString::fromStdString(Isis::toString(boss.solvePolyOverPointing())));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     pointingOptionsAtts.namedItem("interpolationType").nodeValue(), "3");
@@ -431,7 +431,7 @@ TEST(BundleObservationSolveSettings, SaveSettings){
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     positionOptionsAtts.namedItem("solveOverHermiteSpline").nodeValue(),
-    QString::number(boss.solvePositionOverHermite()));
+    QString::fromStdString(Isis::toString(boss.solvePositionOverHermite())));
 
   EXPECT_PRED_FORMAT2(AssertQStringsEqual,
     positionOptionsAtts.namedItem("interpolationType").nodeValue(), "3");

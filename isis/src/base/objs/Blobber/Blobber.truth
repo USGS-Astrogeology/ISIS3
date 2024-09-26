@@ -11,9 +11,9 @@ Number Blob Samples: 16
 Total Pixels:        2688
 
 ** Blob Values...
-Pixel[0][0] = 1008
-Pixel[84][8] = 1115
-Pixel[167][15] = 1259
+Pixel[0][0] = 1008.0
+Pixel[84][8] = 1115.0
+Pixel[167][15] = 1259.0
 
 ** Test Blobber direct access (via filename)...
 

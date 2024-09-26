@@ -230,11 +230,7 @@ TEST(PvlKeyword, IndexSetValue)
 	key.addValue("3.3", "feet");
 	key.addValue("Hello World!");
 
-<<<<<<< HEAD
 	key[1] = toString(88);
-=======
-	key[1] = Isis::toString(88);
->>>>>>> e6eff8ddd (Update std::tostring, stoi, stod to IString functions)
 	EXPECT_EQ(key[1], "88");
 }
 
@@ -332,11 +328,7 @@ TEST(PvlKeyword, KeywordValidationNull)
 TEST(PvlKeyword, KeywordValidationFail) {
   try {
     PvlKeyword pvlTmplKwrd("KeyName", "integer");
-<<<<<<< HEAD
 		PvlKeyword pvlKwrd("KeyName", toString(3.5));
-=======
-		PvlKeyword pvlKwrd("KeyName", Isis::toString(3.5));
->>>>>>> e6eff8ddd (Update std::tostring, stoi, stod to IString functions)
     pvlTmplKwrd.validateKeyword(pvlKwrd);
   } 
   catch(Isis::IException &e) {
@@ -347,11 +339,7 @@ TEST(PvlKeyword, KeywordValidationFail) {
 TEST(PvlKeyword, KeywordValidationPositive) {
   try {
 		PvlKeyword pvlTmplKwrd("KeyName", "integer");
-<<<<<<< HEAD
 		PvlKeyword pvlKwrd("KeyName", toString(-3));
-=======
-		PvlKeyword pvlKwrd("KeyName", Isis::toString(-3));
->>>>>>> e6eff8ddd (Update std::tostring, stoi, stod to IString functions)
 		pvlTmplKwrd.validateKeyword(pvlKwrd, "positive");
 	} 
   catch(Isis::IException &e) {
@@ -362,15 +350,9 @@ TEST(PvlKeyword, KeywordValidationPositive) {
 TEST(PvlKeyword, KeywordValidationRange) {
   try {
 		PvlKeyword pvlTmplKwrd("KeyName", "integer");
-<<<<<<< HEAD
 		PvlKeyword pvlTmplKwrdRange("KeyName__Range", toString(0));
 		pvlTmplKwrdRange.addValue(toString(10));
 		PvlKeyword pvlKwrd("KeyName", toString(11));
-=======
-		PvlKeyword pvlTmplKwrdRange("KeyName__Range", Isis::toString(0));
-		pvlTmplKwrdRange.addValue(Isis::toString(10));
-		PvlKeyword pvlKwrd("KeyName", Isis::toString(11));
->>>>>>> e6eff8ddd (Update std::tostring, stoi, stod to IString functions)
 		pvlTmplKwrd.validateKeyword(pvlKwrd, "", &pvlTmplKwrdRange);
 	} 
   catch(Isis::IException &e) {

@@ -71,37 +71,37 @@ Section number is: 1
 ----- Testing multiple sections in opposite order-----
 
 ----Section 0----
-Wavelength= 8, Width= 0.308
-Wavelength= 7, Width= 0.307
-Wavelength= 6, Width= 0.306
-Wavelength= 5, Width= 0.305
-Wavelength= 4, Width= 0.304
-Wavelength= 3, Width= 0.303
-Wavelength= 2, Width= 0.302
-Wavelength= 1, Width= 0.301
+Wavelength= 8.0, Width= 0.308
+Wavelength= 7.0, Width= 0.307
+Wavelength= 6.0, Width= 0.306
+Wavelength= 5.0, Width= 0.305
+Wavelength= 4.0, Width= 0.304
+Wavelength= 3.0, Width= 0.303
+Wavelength= 2.0, Width= 0.302
+Wavelength= 1.0, Width= 0.301
 ----Section 1----
-Wavelength= 6, Width= 0.1511
+Wavelength= 6.0, Width= 0.1511
 Wavelength= 5.5, Width= 0.151
-Wavelength= 5, Width= 0.1509
+Wavelength= 5.0, Width= 0.1509
 Wavelength= 4.5, Width= 0.1508
-Wavelength= 4, Width= 0.1507
+Wavelength= 4.0, Width= 0.1507
 Wavelength= 3.5, Width= 0.1506
-Wavelength= 3, Width= 0.1505
+Wavelength= 3.0, Width= 0.1505
 Wavelength= 2.5, Width= 0.1504
-Wavelength= 2, Width= 0.1503
+Wavelength= 2.0, Width= 0.1503
 Wavelength= 1.5, Width= 0.1502
-Wavelength= 1, Width= 0.1501
+Wavelength= 1.0, Width= 0.1501
 ----Section 2----
 Wavelength= 6.25, Width= 0.078
-Wavelength= 6, Width= 0.076
+Wavelength= 6.0, Width= 0.076
 Wavelength= 5.75, Width= 0.075
 Wavelength= 5.5, Width= 0.074
 Wavelength= 5.25, Width= 0.073
-Wavelength= 5, Width= 0.072
+Wavelength= 5.0, Width= 0.072
 Wavelength= 4.75, Width= 0.071
 Wavelength= 4.5, Width= 0.07
 ----Section 3----
-Wavelength= 10, Width= 4
+Wavelength= 10.0, Width= 4.0
 The number of sections is : 4
 Spectel at band: 28 : Wavelength=10 Width=4
 Spectel at band: 28 : Wavelength=10 Width=4
@@ -143,37 +143,37 @@ Section number is: 1
 ---- Testing toString --- 
 
 ----Section 0----
-Wavelength= 8, Width= 0.308
-Wavelength= 7, Width= 0.307
-Wavelength= 6, Width= 0.306
-Wavelength= 5, Width= 0.305
-Wavelength= 4, Width= 0.304
-Wavelength= 3, Width= 0.303
-Wavelength= 2, Width= 0.302
-Wavelength= 1, Width= 0.301
+Wavelength= 8.0, Width= 0.308
+Wavelength= 7.0, Width= 0.307
+Wavelength= 6.0, Width= 0.306
+Wavelength= 5.0, Width= 0.305
+Wavelength= 4.0, Width= 0.304
+Wavelength= 3.0, Width= 0.303
+Wavelength= 2.0, Width= 0.302
+Wavelength= 1.0, Width= 0.301
 ----Section 1----
-Wavelength= 6, Width= 0.1511
+Wavelength= 6.0, Width= 0.1511
 Wavelength= 5.5, Width= 0.151
-Wavelength= 5, Width= 0.1509
+Wavelength= 5.0, Width= 0.1509
 Wavelength= 4.5, Width= 0.1508
-Wavelength= 4, Width= 0.1507
+Wavelength= 4.0, Width= 0.1507
 Wavelength= 3.5, Width= 0.1506
-Wavelength= 3, Width= 0.1505
+Wavelength= 3.0, Width= 0.1505
 Wavelength= 2.5, Width= 0.1504
-Wavelength= 2, Width= 0.1503
+Wavelength= 2.0, Width= 0.1503
 Wavelength= 1.5, Width= 0.1502
-Wavelength= 1, Width= 0.1501
+Wavelength= 1.0, Width= 0.1501
 ----Section 2----
 Wavelength= 6.25, Width= 0.078
-Wavelength= 6, Width= 0.076
+Wavelength= 6.0, Width= 0.076
 Wavelength= 5.75, Width= 0.075
 Wavelength= 5.5, Width= 0.074
 Wavelength= 5.25, Width= 0.073
-Wavelength= 5, Width= 0.072
+Wavelength= 5.0, Width= 0.072
 Wavelength= 4.75, Width= 0.071
 Wavelength= 4.5, Width= 0.07
 ----Section 3----
-Wavelength= 10, Width= 4
+Wavelength= 10.0, Width= 4.0
 
 ---- Testing for errors --- 
 
