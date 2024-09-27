@@ -155,7 +155,7 @@ namespace Isis {
     // if (InfixToPostfix::isKnownSymbol(token)) return (false);
 
     try {
-      token.toDouble();
+      Isis::toDouble(token.toStdString());
       return (true);
     }
     catch (IException &) {
