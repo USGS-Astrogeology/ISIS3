@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Observer:           " << vertex;
     qDebug() << "Has intercept?      " << tp.hasIntercept(vertex, raydir);
     Intercept *i = tp.intercept(vertex, raydir);
-    qDebug() << "Intercept is null?     " << QString::number(i == NULL);
+    qDebug() << "Intercept is null?     " << QString::fromStdString(Isis::toString(i == NULL));
     qDebug() << "";
     // No Plate Intercept - Case (en < 0 && tdot12 > 0)
     raydir[0] = 0.0;    raydir[1] = 0.0;    raydir[2] = 1.0;
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Observer:           " << vertex;
     qDebug() << "Has intercept?      " << tp.hasIntercept(vertex, raydir);
     i = tp.intercept(vertex, raydir);
-    qDebug() << "Intercept is null?     " << QString::number(i == NULL);
+    qDebug() << "Intercept is null?     " << QString::fromStdString(Isis::toString(i == NULL));
     qDebug() << "";
     // No Plate Intercept - Case (en < 0, tdot12 == 0, && tdot23 > 0)
     raydir[0] = -1.0;    raydir[1] = 1.0;    raydir[2] = 0.0;
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Observer:           " << vertex;
     qDebug() << "Has intercept?      " << tp.hasIntercept(vertex, raydir);
     i = tp.intercept(vertex, raydir);
-    qDebug() << "Intercept is null?     " << QString::number(i == NULL);
+    qDebug() << "Intercept is null?     " << QString::fromStdString(Isis::toString(i == NULL));
     qDebug() << "";
     // No Plate Intercept - Case (en < 0, tdot12 == 0, tdot23 < 0, && tdot31 > 0)
     raydir[0] = 1.0;    raydir[1] = -1.0;    raydir[2] = 0.0;
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Observer:           " << vertex;
     qDebug() << "Has intercept?      " << tp.hasIntercept(vertex, raydir);
     i = tp.intercept(vertex, raydir);
-    qDebug() << "Intercept is null?     " << QString::number(i == NULL);
+    qDebug() << "Intercept is null?     " << QString::fromStdString(Isis::toString(i == NULL));
     qDebug() << "";
     // No Plate Intercept - Case (en > 0 && tdot12 < 0)
     raydir[0] = 0.0;    raydir[1] = 0.0;    raydir[2] = -1.0;
@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Observer:           " << vertex;
     qDebug() << "Has intercept?      " << tp.hasIntercept(vertex, raydir);
     i = tp.intercept(vertex, raydir);
-    qDebug() << "Intercept is null?     " << QString::number(i == NULL);
+    qDebug() << "Intercept is null?     " << QString::fromStdString(Isis::toString(i == NULL));
     qDebug() << "";
     // No Plate Intercept - Case (en > 0, tdot12 == 0, && tdot23 < 0)
     raydir[0] = -1.0;    raydir[1] = 0.0;    raydir[2] = 0.0;
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Observer:           " << vertex;
     qDebug() << "Has intercept?      " << tp.hasIntercept(vertex, raydir);
     i = tp.intercept(vertex, raydir);
-    qDebug() << "Intercept is null?     " << QString::number(i == NULL);
+    qDebug() << "Intercept is null?     " << QString::fromStdString(Isis::toString(i == NULL));
     qDebug() << "";
     // No Plate Intercept - Case (en > 0, tdot12 == tdot23 == 0, && tdot31 < 0)
     raydir[0] = 0.0;    raydir[1] = -1.0;    raydir[2] = 0.0;
@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Observer:           " << vertex;
     qDebug() << "Has intercept?      " << tp.hasIntercept(vertex, raydir);
     i = tp.intercept(vertex, raydir);
-    qDebug() << "Intercept is null?     " << QString::number(i == NULL);
+    qDebug() << "Intercept is null?     " << QString::fromStdString(Isis::toString(i == NULL));
     qDebug() << "";
     // No Plate Intercept - Case (en != 0 && tdot12 == tdot23 == tdot31 == 0)
     raydir[0] = 0.0;    raydir[1] = 0.0;    raydir[2] = 0.0;
@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Observer:           " << vertex;
     qDebug() << "Has intercept?      " << tp.hasIntercept(vertex, raydir);
     i = tp.intercept(vertex, raydir);
-    qDebug() << "Intercept is null?     " << QString::number(i == NULL);
+    qDebug() << "Intercept is null?     " << QString::fromStdString(Isis::toString(i == NULL));
     qDebug() << "";
     // Plate Intercept = true 
     raydir[0] = 1.0;    raydir[1] = 1.0;    raydir[2] = 1.0;
@@ -159,7 +159,7 @@ int main(int argc, char *argv[]) {
     qDebug() << "Longitude:     " << lon;
     qDebug() << "Has point?     " << tp.hasPoint(pole, lon);
     SurfacePoint *spPole = tp.point(pole, lon);
-    qDebug() << "Surface point at pole is null?     " << QString::number(spPole == NULL);
+    qDebug() << "Surface point at pole is null?     " << QString::fromStdString(Isis::toString(spPole == NULL));
     qDebug() << "";
     Latitude equator(0.0, Angle::Degrees);
     qDebug() << "Look for surface point using equator";

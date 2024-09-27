@@ -1223,7 +1223,7 @@ namespace Isis {
     stream.writeAttribute("solveDegree", QString::number(m_ckSolveDegree));
     stream.writeAttribute("solveTwist", QString::fromStdString(Isis::toString(m_solveTwist)));
     stream.writeAttribute("solveOverExisting", QString::fromStdString(Isis::toString(m_solvePointingPolynomialOverExisting)));
-    stream.writeAttribute("interpolationType", QString::number(m_pointingInterpolationType));
+    stream.writeAttribute("interpolationType", QString::fromStdString(Isis::toString(m_pointingInterpolationType)));
 
     stream.writeStartElement("aprioriPointingSigmas");
     for (int i = 0; i < m_anglesAprioriSigma.size(); i++) {
@@ -1231,7 +1231,7 @@ namespace Isis {
         stream.writeTextElement("sigma", "N/A");
       }
       else {
-        stream.writeTextElement("sigma", QString::number(m_anglesAprioriSigma[i]));
+        stream.writeTextElement("sigma", QString::fromStdString(Isis::toString(m_anglesAprioriSigma[i])));
       }
     }
     stream.writeEndElement();// end aprioriPointingSigmas
@@ -1253,7 +1253,7 @@ namespace Isis {
         stream.writeTextElement("sigma", "N/A");
       }
       else {
-        stream.writeTextElement("sigma", QString::number(m_positionAprioriSigma[i]));
+        stream.writeTextElement("sigma", QString::fromStdString(Isis::toString(m_positionAprioriSigma[i])));
       }
     }
     stream.writeEndElement();// end aprioriPositionSigmas

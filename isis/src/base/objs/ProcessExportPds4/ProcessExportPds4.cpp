@@ -895,12 +895,12 @@ namespace Isis {
 
         QDomElement scalingFactorElement = m_domDoc->createElement("scaling_factor");
         PvlToXmlTranslationManager::setElementValue(scalingFactorElement,
-                                                    QString::fromStdString(toString(multiplier)));
+                                                    QString::fromStdString(Isis::toString(multiplier)));
         elementArrayElement.appendChild(scalingFactorElement);
 
         QDomElement offsetElement = m_domDoc->createElement("value_offset");
         PvlToXmlTranslationManager::setElementValue(offsetElement,
-                                                    QString::fromStdString(toString(base)));
+                                                    QString::fromStdString(Isis::toString(base)));
         elementArrayElement.appendChild(offsetElement);
       }
 

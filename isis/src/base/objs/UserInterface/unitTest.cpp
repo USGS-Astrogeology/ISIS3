@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
       Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
       Isis::UserInterface ui(QString::fromStdString(highpass), myArgc, myArgv);
       cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
       Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgcQ, myArgv);
       cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
         cout << vals[i].toStdString();
       }
       cout << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
         cout << " >> '" << vals[i].toStdString() << "'" << endl;
       }
       cout << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) {
         cout << " >> " << vals[i].toStdString() << endl;
       }
       cout << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -213,7 +213,7 @@ int main(int argc, char *argv[]) {
       Isis::UserInterface ui(QString::fromStdString(highpass), myArgc, myArgv);
       cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -228,7 +228,7 @@ int main(int argc, char *argv[]) {
       Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -358,7 +358,7 @@ int main(int argc, char *argv[]) {
       Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -384,7 +384,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "unitTest");
 
       Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -393,7 +393,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "./unitTest");
 
       Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -432,7 +432,7 @@ int main(int argc, char *argv[]) {
       strcpy(myArgv[myArgc++], "-nogui");
 
       Isis::UserInterface ui(QString::fromStdString(highpass), myArgc, myArgv);
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -450,7 +450,7 @@ int main(int argc, char *argv[]) {
         ui.SetBatchList(i);
         cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
         cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-        cout << "GUI:     " << ui.IsInteractive() << endl;
+        cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
         cout << endl;
       }
       cout << "Finished Batchlist Test" << endl;
@@ -814,7 +814,7 @@ int main(int argc, char *argv[]) {
       Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -829,7 +829,7 @@ int main(int argc, char *argv[]) {
       Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -871,7 +871,7 @@ int main(int argc, char *argv[]) {
       Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
     }
 
@@ -956,7 +956,7 @@ int main(int argc, char *argv[]) {
       Isis::UserInterface ui(QString::fromStdString(unitTestXml), myArgc, myArgv);
       cout << "FROM:    " << ui.GetAsString("FROM").toStdString() << endl;
       cout << "TO:      " << ui.GetAsString("TO").toStdString() << endl;
-      cout << "GUI:     " << ui.IsInteractive() << endl;
+      cout << "GUI:     " << Isis::toString(ui.IsInteractive()) << endl;
       cout << endl;
       ui.SaveHistory();
 

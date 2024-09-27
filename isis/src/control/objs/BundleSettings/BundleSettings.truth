@@ -261,9 +261,9 @@ Now get BundleObservationSolveSettings at index 1
 
 
 "Huber" "0.27"
-"Welsch" "28.0"
-"HuberModified" "29.0"
-"Chen" "30.0"
+"Welsch" "28"
+"HuberModified" "29"
+"Chen" "30"
 
 Testing static enum-to-string and string-to-enum methods...
 "Sigma0"

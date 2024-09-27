@@ -398,8 +398,8 @@ namespace Isis {
    */
   QString MaximumLikelihoodWFunctions::weightedResidualCutoff() {
     if (m_model == Huber || m_model == HuberModified) return "N/A";
-    else if (m_model == Welsch) return QString::number(m_tweakingConstant * 1.5);
-    else if (m_model == Chen) return QString::number(m_tweakingConstant);
+    else if (m_model == Welsch) return QString::fromStdString(Isis::toString(m_tweakingConstant * 1.5));
+    else if (m_model == Chen) return QString::fromStdString(Isis::toString(m_tweakingConstant));
     else throw IException(IException::Programmer, "Estimation model has not been set.", _FILEINFO_);
   }
 

@@ -86,8 +86,8 @@ int main(int argc, char *argv[]) {
     qDebug() << "ChebyShev Max:       " << s.ChebyshevMaximum();
     qDebug() << "Best Minimum:        " << s.BestMinimum();
     qDebug() << "Best Maximum:        " << s.BestMaximum();
-    qDebug() << "Valid Minimum:       " << s.ValidMinimum();
-    qDebug() << "Valid Maximum:       " << s.ValidMaximum();
+    qDebug() << "Valid Minimum:       " << QString::fromStdString(Isis::toString(s.ValidMinimum()));
+    qDebug() << "Valid Maximum:       " << QString::fromStdString(Isis::toString(s.ValidMaximum()));
     qDebug() << "Total Pixels:        " << s.TotalPixels();
     qDebug() << "Valid Pixels:        " << s.ValidPixels();
     qDebug() << "Null Pixels:         " << s.NullPixels();

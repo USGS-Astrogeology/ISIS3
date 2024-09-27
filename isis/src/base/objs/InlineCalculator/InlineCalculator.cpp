@@ -255,7 +255,7 @@ namespace Isis {
   bool InlineCalculator::isScalar(const QString &scalar) {
     if (scalar.isEmpty())  return (false);
     try {
-      scalar.toDouble();
+      Isis::toDouble(scalar.toStdString());
       return (true);
     }
     catch (IException &e) {

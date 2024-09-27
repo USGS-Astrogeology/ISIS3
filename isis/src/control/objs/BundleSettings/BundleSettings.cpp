@@ -1027,16 +1027,16 @@ namespace Isis {
 
     stream.writeStartElement("globalSettings");
 
-    stream.writeTextElement("validateNetwork", QString::fromStdString(toString(validateNetwork())));
+    stream.writeTextElement("validateNetwork", QString::fromStdString(Isis::toString(validateNetwork())));
 
     stream.writeStartElement("solveOptions");
-    stream.writeAttribute("solveObservationMode", QString::fromStdString(toString(solveObservationMode())));
-    stream.writeAttribute("solveRadius", QString::fromStdString(toString(solveRadius())));
-    stream.writeAttribute("controlPointCoordTypeReports", QString::fromStdString(toString(controlPointCoordTypeReports())));
-    stream.writeAttribute("controlPointCoordTypeBundle", QString::fromStdString(toString(controlPointCoordTypeBundle())));
-    stream.writeAttribute("updateCubeLabel", QString::fromStdString(toString(updateCubeLabel())));
-    stream.writeAttribute("errorPropagation", QString::fromStdString(toString(errorPropagation())));
-    stream.writeAttribute("createInverseMatrix", QString::fromStdString(toString(createInverseMatrix())));
+    stream.writeAttribute("solveObservationMode", QString::fromStdString(Isis::toString(solveObservationMode())));
+    stream.writeAttribute("solveRadius", QString::fromStdString(Isis::toString(solveRadius())));
+    stream.writeAttribute("controlPointCoordTypeReports", QString::number(controlPointCoordTypeReports()));
+    stream.writeAttribute("controlPointCoordTypeBundle", QString::number(controlPointCoordTypeBundle()));
+    stream.writeAttribute("updateCubeLabel", QString::fromStdString(Isis::toString(updateCubeLabel())));
+    stream.writeAttribute("errorPropagation", QString::fromStdString(Isis::toString(errorPropagation())));
+    stream.writeAttribute("createInverseMatrix", QString::fromStdString(Isis::toString(createInverseMatrix())));
     stream.writeEndElement();
 
     stream.writeStartElement("aprioriSigmas");
@@ -1044,26 +1044,26 @@ namespace Isis {
       stream.writeAttribute("pointCoord1", "N/A");
     }
     else {
-      stream.writeAttribute("pointCoord1", QString::fromStdString(toString(globalPointCoord1AprioriSigma())));
+      stream.writeAttribute("pointCoord1", QString::fromStdString(Isis::toString(globalPointCoord1AprioriSigma())));
     }
     if (IsSpecial(globalPointCoord2AprioriSigma())) {
       stream.writeAttribute("pointCoord2", "N/A");
     }
     else {
-      stream.writeAttribute("pointCoord2", QString::fromStdString(toString(globalPointCoord2AprioriSigma())));
+      stream.writeAttribute("pointCoord2", QString::fromStdString(Isis::toString(globalPointCoord2AprioriSigma())));
     }
     if (IsSpecial(globalPointCoord3AprioriSigma())) {
       stream.writeAttribute("pointCoord3", "N/A");
     }
     else {
-      stream.writeAttribute("pointCoord3", QString::fromStdString(toString(globalPointCoord3AprioriSigma())));
+      stream.writeAttribute("pointCoord3", QString::fromStdString(Isis::toString(globalPointCoord3AprioriSigma())));
     }
     stream.writeEndElement();
 
     stream.writeStartElement("outlierRejectionOptions");
-    stream.writeAttribute("rejection", QString::fromStdString(toString(outlierRejection())));
+    stream.writeAttribute("rejection", QString::fromStdString(Isis::toString(outlierRejection())));
     if (outlierRejection()) {
-      stream.writeAttribute("multiplier", QString::fromStdString(toString(outlierRejectionMultiplier())));
+      stream.writeAttribute("multiplier", QString::fromStdString(Isis::toString(outlierRejectionMultiplier())));
     }
     else {
       stream.writeAttribute("multiplier", "N/A");
@@ -1074,7 +1074,7 @@ namespace Isis {
     stream.writeAttribute("convergenceCriteria",
                           convergenceCriteriaToString(convergenceCriteria()));
     stream.writeAttribute("threshold",
-                          QString::fromStdString(toString(convergenceCriteriaThreshold())));
+                          QString::fromStdString(Isis::toString(convergenceCriteriaThreshold())));
     stream.writeAttribute("maximumIterations",
                           QString::fromStdString(toString(convergenceCriteriaMaximumIterations())));
     stream.writeEndElement();
@@ -1084,7 +1084,7 @@ namespace Isis {
       stream.writeStartElement("model");
       stream.writeAttribute("type",
                           MaximumLikelihoodWFunctions::modelToString(m_maximumLikelihood[i].first));
-      stream.writeAttribute("quantile", QString::fromStdString(toString(m_maximumLikelihood[i].second)));
+      stream.writeAttribute("quantile", QString::fromStdString(Isis::toString(m_maximumLikelihood[i].second)));
       stream.writeEndElement();
     }
     stream.writeEndElement();
