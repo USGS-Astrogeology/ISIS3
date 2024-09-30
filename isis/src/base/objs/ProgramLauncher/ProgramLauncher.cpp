@@ -58,7 +58,7 @@ namespace Isis {
     }
 
     QString serverName = "isis_" + Application::UserName() +
-        "_" + QString::number(getpid());
+        "_" + QString::fromStdString(toString(getpid()));
 
     QLocalServer server;
     server.listen(serverName);

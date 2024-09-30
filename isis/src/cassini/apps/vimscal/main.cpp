@@ -155,7 +155,7 @@ void IsisMain() {
 
   iTime startTime(timeString);
   //Determine the year string to access the appropriate calibration file
-  yearString= QString::number(startTime.Year() );
+  yearString= QString::fromStdString(toString(startTime.Year() ));
 
 
   if(!isVims) {
@@ -447,10 +447,10 @@ void loadCalibrationValues() {
 
 
   calibInfo += PvlKeyword("CalibrationVersion", calVersion.toStdString());
-  calibInfo += PvlKeyword("SolarMultiplier",QString::number(g_solar,'f',2).toStdString());
-  calibInfo += PvlKeyword("IR_Multiplier",QString::number(g_ir,'f',2).toStdString());
-  calibInfo += PvlKeyword("VIS_Multiplier",QString::number(g_vis,'f',2).toStdString());
-  calibInfo += PvlKeyword("Wave-CalMultiplier",QString::number(g_wavecal,'f',2).toStdString());
+  calibInfo += PvlKeyword("SolarMultiplier", toString(g_solar, 2));
+  calibInfo += PvlKeyword("IR_Multiplier", toString(g_ir, 2));
+  calibInfo += PvlKeyword("VIS_Multiplier", toString(g_vis, 2));
+  calibInfo += PvlKeyword("Wave-CalMultiplier", toString(g_wavecal, 2));
 
 
 }
@@ -525,17 +525,17 @@ void updateWavelengths(Cube *icube) {
   QString averageBandbinString("(");
 
   for (unsigned int i =0; i < bandwidthVector.size()-1; i++) {
-    bandbinCenterString+=QString::number(bandwidthVector[i]);
+    bandbinCenterString+=QString::fromStdString(toString(bandwidthVector[i]));
     bandbinCenterString+=",";
 
-    averageBandbinString+=QString::number(averageBandwidthVector[i]);
+    averageBandbinString+=QString::fromStdString(toString(averageBandwidthVector[i]));
     averageBandbinString+=",";
   }
 
-  bandbinCenterString+=QString::number(bandwidthVector[bandwidthVector.size()-1]);
+  bandbinCenterString+=QString::fromStdString(toString(bandwidthVector[bandwidthVector.size()-1]));
   bandbinCenterString+=")";
 
-  averageBandbinString+=QString::number(averageBandwidthVector[averageBandwidthVector.size()-1]);
+  averageBandbinString+=QString::fromStdString(toString(averageBandwidthVector[averageBandwidthVector.size()-1]));
   averageBandbinString+=")";
 
 
@@ -1063,10 +1063,10 @@ QString createCroppedFile(Cube *icube, QString cubeFileName, bool flatFile) {
 
 
   QString appArgs = "from=" + cubeFileName + " ";
-  appArgs += "sample=" + QString::number(sampOffset) + " ";
-  appArgs += "line=" + QString::number(lineOffset) + " ";
-  appArgs += "nsamples=" + QString::number(icube->sampleCount()) + " ";
-  appArgs += "nlines=" + QString::number(icube->lineCount()) + " ";
+  appArgs += "sample=" + QString::fromStdString(toString(sampOffset)) + " ";
+  appArgs += "line=" + QString::fromStdString(toString(lineOffset)) + " ";
+  appArgs += "nsamples=" + QString::fromStdString(toString(icube->sampleCount())) + " ";
+  appArgs += "nlines=" + QString::fromStdString(toString(icube->lineCount())) + " ";
 
   FileName tempFile("$TEMPORARY/tmp_" + FileName(cubeFileName.toStdString()).baseName() +
                     "_" + FileName(icube->fileName().toStdString()).name());

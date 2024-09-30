@@ -298,7 +298,7 @@ namespace Isis {
     QString resolution = "Null";
 
     if (!IsSpecial(hillshade.resolution()))
-      resolution = QString::number(hillshade.resolution());
+      resolution = QString::fromStdString(toString(hillshade.resolution()));
 
     debug << "Hillshade[ azimuth =" << hillshade.azimuth().toString().toLatin1().data()
           << "zenith =" << hillshade.zenith().toString().toLatin1().data()

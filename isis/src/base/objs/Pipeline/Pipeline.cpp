@@ -376,7 +376,7 @@ namespace Isis {
       filename = filelist.front();
       filelist.erase(filelist.begin());
       p_originalInput.push_back(QString::fromStdString(filename.expanded()));
-      p_inputBranches.push_back(QString::fromStdString(inputFileName.name()) + QString::number(branch));
+      p_inputBranches.push_back(QString::fromStdString(inputFileName.name()) + QString::fromStdString(toString(branch)));
       p_virtualBands.push_back("");
       p_finalOutput.push_back(QString::fromStdString(filename.name()));
 

@@ -326,7 +326,7 @@ void IsisAml::PutInteger(const QString &paramName,
   }
 
   param->values.clear();
-  param->values.push_back(QString::number(value));
+  param->values.push_back(QString::fromStdString(Isis::toString(value)));
 
   Verify(param);
 }
@@ -368,7 +368,7 @@ void IsisAml::PutInteger(const QString &paramName,
 
   param->values.resize(value.size());
   for(unsigned int i = 0; i < value.size(); i++) {
-    param->values[i] = QString::number(value[i]);
+    param->values[i] = QString::fromStdString(Isis::toString(value[i]));
   }
 
   Verify(param);
@@ -410,7 +410,7 @@ void IsisAml::PutDouble(const QString &paramName,
   }
 
   param->values.clear();
-  param->values.push_back(QString::number(value));
+  param->values.push_back(QString::fromStdString(Isis::toString(value)));
 
   Verify(param);
 }
@@ -452,7 +452,7 @@ void IsisAml::PutDouble(const QString &paramName,
 
   param->values.resize(value.size());
   for(unsigned int i = 0; i < value.size(); i++) {
-    param->values[i] = QString::number(value[i]);
+    param->values[i] = QString::fromStdString(Isis::toString(value[i]));
   }
 
   Verify(param);

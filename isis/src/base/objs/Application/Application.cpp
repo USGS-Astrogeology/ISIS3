@@ -143,7 +143,7 @@ namespace Isis {
       p_connectionToParent = new QLocalSocket;
 
       QString serverName = "isis_" + UserName() +
-          "_" + QString::number(iApp->GetUserInterface().ParentId());
+          "_" + QString::fromStdString(toString(iApp->GetUserInterface().ParentId()));
 
       p_connectionToParent->connectToServer(serverName);
       if (!p_connectionToParent->waitForConnected()) {
@@ -800,7 +800,7 @@ namespace Isis {
    */
   void Application::UpdateProgress(int percent, bool print) {
     if (HasParent() && print) {
-      QString data = QString::number(percent);
+      QString data = QString::fromStdString(toString(percent));
       iApp->SendParentData(QString("PROGRESS"), data);
     }
     else if (p_ui->IsInteractive()) {

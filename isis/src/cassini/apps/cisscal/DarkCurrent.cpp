@@ -45,7 +45,7 @@ namespace Isis {
     p_flightSoftware = cissLab.FlightSoftwareVersion();
     p_gainMode = cissLab.GainModeId();
     p_narrow = cissLab.NarrowAngle();
-    p_sum = QString::number(cissLab.SummingMode());
+    p_sum = QString::fromStdString(toString(cissLab.SummingMode()));
     p_imageTime = cissLab.ImageTime();
 
     if(cissLab.ReadoutCycleIndex() == "Unknown") {

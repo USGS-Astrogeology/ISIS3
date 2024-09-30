@@ -574,7 +574,7 @@ namespace Isis {
     QString result = value;
     int i = argKeys.size();
     BOOST_REVERSE_FOREACH ( QString arg, argKeys ) {
-      QString target("%"+QString::number(i));
+      QString target("%"+QString::fromStdString(toString(i)));
       result = scanAndReplace(result, target, findReplacement(arg,globals,0,defValue));
       i--;
     } 
@@ -833,9 +833,9 @@ namespace Isis {
                                                  getGlobals(resource, globals), 
                                                  ""); 
         if ( !pointsKey.isEmpty() ) {
-          resource->add(pointsKey, QString::number(npoints));
-          resource->add(pointsKey+"Original", QString::number(npointsOrg));
-          resource->add(pointsKey+"Tolerance", QString::number(tolerance));
+          resource->add(pointsKey, QString::fromStdString(toString(npoints)));
+          resource->add(pointsKey+"Original", QString::fromStdString(toString(npointsOrg)));
+          resource->add(pointsKey+"Tolerance", QString::fromStdString(toString(tolerance)));
         }
 
         //  Status if requested

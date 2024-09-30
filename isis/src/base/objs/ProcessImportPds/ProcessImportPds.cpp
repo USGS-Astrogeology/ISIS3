@@ -495,7 +495,7 @@ namespace Isis {
     if (dataFilePointer.size() == 1) {
       try {
         str = pdsXlater.Translate("DataFilePointer");
-        offset = str.toInt();
+        offset = toInt(str.toStdString());
         units = QString::fromStdString(dataFilePointer.unit());
         // Successful? we have an offset, means current, p_labelFile
         // is the location of the data as well
@@ -563,7 +563,7 @@ namespace Isis {
         }
       }
     }
-
+    
     // Now, to handle the offset
     units = units.trimmed();
     if (units == "BYTES" || units == "B") {

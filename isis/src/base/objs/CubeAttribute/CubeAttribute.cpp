@@ -95,9 +95,9 @@ namespace Isis {
         direction = (start <= end) ? 1 : -1;
         // Save the entire range of bands
         for (int band = start; band != end; band += direction) {
-          result.push_back(QString::number(band));
+          result.push_back(QString::fromStdString(Isis::toString(band)));
         }
-        result.push_back(QString::number(end));
+        result.push_back(QString::fromStdString(Isis::toString(end)));
       }
       // This token is a single band specification
       else {

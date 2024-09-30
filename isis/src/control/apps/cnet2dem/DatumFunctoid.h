@@ -411,7 +411,7 @@ namespace Isis {
                      const PvlFlatMap &parameters = PvlFlatMap(),
                      const int power = 2) :
                      DatumFunctoid(name, parameters), m_power(power) {
-        m_power = parameters.get("Power", QString::number(m_power)).toInt();
+        m_power = parameters.get("Power", QString::fromStdString(toString(m_power))).toInt();
       }
 
       virtual ~ShepardsRadius() { }

@@ -65,7 +65,7 @@ void IsisMain() {
   QString compressionType = QString::fromStdString((icube->group("Instrument"))["EncodingFormat"]);
   offsetModeID = (icube->group("Instrument"))["OffsetModeID"];
   int gainModeID = (icube->group("Instrument"))["GainModeID"];
-  QString gainModeIDStr = QString::number(gainModeID);
+  QString gainModeIDStr = QString::fromStdString(toString(gainModeID));
   double exposureDuration = (double)(icube->group("Instrument"))["ExposureDuration"];
   optimalExposureDuration = (exposureDuration * 0.984675) + 0.233398;
   cryocoolerDuration = (icube->group("Instrument"))["CryocoolerDuration"];
@@ -125,7 +125,7 @@ void IsisMain() {
     gainFactorDef += "clemnircal.def";
     Pvl gainFactorData(gainFactorDef.toStdString());
     QString group = "GainModeID";
-    group += QString::number(gainModeID);
+    group += QString::fromStdString(toString(gainModeID));
 
     if(!gainFactorData.hasGroup(group.toStdString())) {
       std::string err = "The Gain Factor for Gain Mode ID [";

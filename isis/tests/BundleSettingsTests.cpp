@@ -402,11 +402,11 @@ TEST_P(BoolTest, saveCoordinateTypes) {
   ASSERT_FALSE(solveOptions.isNull());
   QDomNamedNodeMap solveOptionAtts = solveOptions.attributes();
   EXPECT_EQ(
-        QString::number(testSettings.controlPointCoordTypeReports()),
+        QString::fromStdString(toString(testSettings.controlPointCoordTypeReports())),
         solveOptionAtts.namedItem("controlPointCoordTypeReports").nodeValue()
   );
   EXPECT_EQ(
-        QString::number(testSettings.controlPointCoordTypeBundle()),
+        QString::fromStdString(toString(testSettings.controlPointCoordTypeBundle())),
         solveOptionAtts.namedItem("controlPointCoordTypeBundle").nodeValue()
   );
 }

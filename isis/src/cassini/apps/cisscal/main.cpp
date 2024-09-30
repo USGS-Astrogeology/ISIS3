@@ -542,7 +542,7 @@ FileName gbl::FindBitweightFile() {
   else {
     bitweightName += "wac";
   }
-  QString gainState(QString::number(gbl::cissLab->GainState()));
+  QString gainState(QString::fromStdString(toString(gbl::cissLab->GainState())));
   bitweightName = bitweightName + "g" + gainState;
 
   if(gbl::cissLab->FrontOpticsTemp() < -5.0) {

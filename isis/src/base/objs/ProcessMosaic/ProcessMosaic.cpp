@@ -1204,12 +1204,12 @@ namespace Isis {
               cOutKey += cInKey[isb++] + "_Count";
             }
             else {
-              cOutKey += 0;
+              cOutKey += "0";
               isb++;
             }
           }
           else {
-            cOutKey += 0;
+            cOutKey += "0";
           }
         }
       }

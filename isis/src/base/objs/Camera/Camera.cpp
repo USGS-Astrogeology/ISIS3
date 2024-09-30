@@ -1421,14 +1421,14 @@ namespace Isis {
   //! Reads the focal length from the instrument kernel
   void Camera::SetFocalLength() {
     int code = naifIkCode();
-    QString key = "INS" + QString::number(code) + "_FOCAL_LENGTH";
+    QString key = "INS" + QString::fromStdString(toString(code)) + "_FOCAL_LENGTH";
     SetFocalLength(Spice::getDouble(key));
   }
 
   //! Reads the Pixel Pitch from the instrument kernel
   void Camera::SetPixelPitch() {
     int code = naifIkCode();
-    QString key = "INS" + QString::number(code) + "_PIXEL_PITCH";
+    QString key = "INS" + QString::fromStdString(toString(code)) + "_PIXEL_PITCH";
     SetPixelPitch(Spice::getDouble(key));
   }
 

@@ -147,7 +147,7 @@ namespace Isis {
   
   #if 0
     if ( !isPlateIdValid(plateId) ) {
-      std::string mess = "Plateid = " + QString::number(plateId) + " is invalid";
+      std::string mess = "Plateid = " + QString::fromStdString(Isis::toString(plateId)) + " is invalid";
       throw IException(IException::Programmer, mess, _FILEINFO_);
     }
   #endif

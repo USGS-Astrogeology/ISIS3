@@ -71,7 +71,7 @@ namespace Isis {
    * @return @b int The number of samples in the CCD.
    */
   int PushFrameCameraCcdLayout::ccdSamples() const {
-    QString var = "INS" + QString::number(m_ccdId) + "_FILTER_SAMPLES";
+    QString var = "INS" + QString::fromStdString(toString(m_ccdId)) + "_FILTER_SAMPLES";
     return (getSpiceInt(var));
   }
 
@@ -83,7 +83,7 @@ namespace Isis {
    * @return @b int The number of lines in the CCD.
    */
   int PushFrameCameraCcdLayout::ccdLines() const {
-    QString var = "INS" + QString::number(m_ccdId) + "_FILTER_LINES";
+    QString var = "INS" + QString::fromStdString(toString(m_ccdId)) + "_FILTER_LINES";
     return (getSpiceInt(var));
   }
 
@@ -103,7 +103,7 @@ namespace Isis {
     FrameletInfo finfo(frameId);
     finfo.m_filterName = name;
 
-    QString base = "INS" + QString::number(frameId);
+    QString base = "INS" + QString::fromStdString(toString(frameId));
     try {
       finfo.m_samples = getSpiceInt(base + "_FILTER_SAMPLES");
       finfo.m_lines = getSpiceInt(base + "_FILTER_LINES");
