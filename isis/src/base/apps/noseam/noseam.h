@@ -6,15 +6,15 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include "Isis.h"
+#ifndef noseam_h
+#define noseam_h
 
-#include "noseam.h"
+#include "FileName.h"
+#include "UserInterface.h"
 
-#include "Application.h"
-
-using namespace Isis;
-
-void IsisMain() {
-  UserInterface &ui = Application::GetUserInterface();
-  noseam(ui);
+namespace Isis{
+  extern void noseam(UserInterface &ui);
+  extern void noseam(FileName &cubeListFileName, UserInterface &ui);
 }
+
+#endif
