@@ -38,7 +38,6 @@ namespace Isis {
 
       QString startTime = QString(instGroup.findKeyword("StartTime"));
       iTime time(startTime);
-      int lines = dimGroup.findKeyword("Lines");
       PvlKeyword exposureDuration = instGroup.findKeyword("ExposureDuration");
       double lineDuration = (double)exposureDuration;
       if (exposureDuration.unit() == "ms") {
