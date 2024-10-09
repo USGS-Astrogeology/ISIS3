@@ -21,71 +21,75 @@ namespace Isis {
    *
    * @param Cube &cube Clipper EIS image.
    */
-   ClipperPushBroomCamera::ClipperPushBroomCamera(Cube &cube) : LineScanCamera(cube) {
+  ClipperPushBroomCamera::ClipperPushBroomCamera(Cube &cube) : LineScanCamera(cube) {
 
-     m_spacecraftNameLong = "Europa Clipper";
-     m_spacecraftNameShort = "Clipper";
+    m_spacecraftNameLong = "Europa Clipper";
+    m_spacecraftNameShort = "Clipper";
 
-     int frameCode = naifIkCode();
+    int frameCode = naifIkCode();
 
-     if (frameCode == -159103) {
-       m_instrumentNameLong  = "Europa Imaging System Push Broom Narrow Angle Camera";
-       m_instrumentNameShort = "EIS-PBNAC";
-     }
-     else if (frameCode == -159104) {
-       m_instrumentNameLong  = "Europa Imaging System Push Broom Wide Angle Camera";
-       m_instrumentNameShort = "EIS-PBWAC";
-     }
-     else {
-       QString msg = "Unable to construct Clipper Push Broom camera model. "
-                     "Unrecognized NaifFrameCode [" + toString(frameCode) + "].";
-       throw IException(IException::User, msg, _FILEINFO_);
-     }
+    if (frameCode == -159103) {
+      m_instrumentNameLong  = "Europa Imaging System Push Broom Narrow Angle Camera";
+      m_instrumentNameShort = "EIS-PBNAC";
+    }
+    else if (frameCode == -159104) {
+      m_instrumentNameLong  = "Europa Imaging System Push Broom Wide Angle Camera";
+      m_instrumentNameShort = "EIS-PBWAC";
+    }
+    else {
+      QString msg = "Unable to construct Clipper Push Broom camera model. "
+                    "Unrecognized NaifFrameCode [" + toString(frameCode) + "].";
+      throw IException(IException::User, msg, _FILEINFO_);
+    }
 
-     NaifStatus::CheckErrors();
+    NaifStatus::CheckErrors();
 
-     Pvl &lab = *cube.label();
+    Pvl &lab = *cube.label();
 
-     PvlGroup &bandBin = lab.findGroup("BandBin", Pvl::Traverse);
-     QString key = "INS" + toString(naifIkCode()) + "_" + bandBin["FilterName"][0] + "_FOCAL_LENGTH";
-     SetFocalLength(Spice::getDouble(key));
+    PvlGroup &bandBin = lab.findGroup("BandBin", Pvl::Traverse);
+    QString key = "INS" + toString(naifIkCode()) + "_" + bandBin["FilterName"][0] + "_FOCAL_LENGTH";
+    SetFocalLength(Spice::getDouble(key));
 
-     SetPixelPitch();
+    SetPixelPitch();
 
-     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-     QString startTime = inst["StartTime"];
-     iTime etStart(startTime);
+    PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
+    QString startTime = inst["StartTime"];
+    iTime etStart(startTime);
 
-     ReadLineRates(lab.fileName());
+    ReadLineRates(lab.fileName());
 
-     // set up detector map
-     new VariableLineScanCameraDetectorMap(this, p_lineRates);
+    // set up detector map
+    new VariableLineScanCameraDetectorMap(this, p_lineRates);
 
-     // Set up focal plane map
-     CameraFocalPlaneMap *focalMap = new CameraFocalPlaneMap(this, naifIkCode());
-     // center of array (same for WAC and NAC based on XY origin in EIS_Sensor_summary.xlsx)
-     focalMap->SetDetectorOrigin(2048.5, 1024.5);
+    // Turn off the aberration corrections for the instrument position object
+    instrumentPosition()->SetAberrationCorrection("NONE");
 
-     // Set up distortion map
-     CameraDistortionMap *distMap = new CameraDistortionMap(this);
-     distMap->SetDistortion(naifIkCode());
+    // Set up focal plane map
+    CameraFocalPlaneMap *focalMap = new CameraFocalPlaneMap(this, naifIkCode());
+    // center of array (same for WAC and NAC based on XY origin in EIS_Sensor_summary.xlsx)
+    focalMap->SetDetectorOrigin(2048.5, 0.5);
+    focalMap->SetDetectorOffset(0.0, 0.0);
 
-     // Set up the ground and sky map
-     new LineScanCameraGroundMap(this);
-     new LineScanCameraSkyMap(this);
+    // Set up distortion map
+    CameraDistortionMap *distMap = new CameraDistortionMap(this);
+    distMap->SetDistortion(naifIkCode());
 
-     setTime(etStart.Et());
+    // Set up the ground and sky map
+    new LineScanCameraGroundMap(this);
+    new LineScanCameraSkyMap(this);
 
-     LoadCache();
-     NaifStatus::CheckErrors();
-   }
+    setTime(etStart.Et());
+
+    LoadCache();
+    NaifStatus::CheckErrors();
+  }
 
 
-   /**
-    * Destructor for a ClipperPushBroomCamera object.
-    */
-   ClipperPushBroomCamera::~ClipperPushBroomCamera() {
-   }
+  /**
+  * Destructor for a ClipperPushBroomCamera object.
+  */
+  ClipperPushBroomCamera::~ClipperPushBroomCamera() {
+  }
 
 
    /**
