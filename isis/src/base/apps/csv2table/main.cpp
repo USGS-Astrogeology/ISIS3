@@ -60,6 +60,49 @@ void IsisMain() {
                   "] rows and [" + toString(numColumns) +"] columns.";
     throw IException(IException::User, msg, _FILEINFO_);
   }
+
+  std::vector<QString> fieldTypes;
+  ui.GetAsString("coltypes", fieldTypes);
+
+  std::vector<TableField::Type> tableTypes;
+  if (fieldTypes.size() == 1 && fieldTypes[0] == "") {
+      for (int i = 0; i < numColumns; i++) {
+        tableTypes.push_back(TableField::Double);
+      }
+  }
+  else {
+    if (fieldTypes.size() == numColumns) {
+      for (QString type: fieldTypes) {
+        QString upper_type = type.toUpper();
+        if (upper_type == "INTEGER") {
+          tableTypes.push_back(TableField::Type::Integer);
+        }
+        else if (upper_type == "DOUBLE") {
+          tableTypes.push_back(TableField::Type::Double);
+        }
+        else if (upper_type == "TEXT") {
+          tableTypes.push_back(TableField::Type::Text);
+        }
+        else if (upper_type == "REAL") {
+          tableTypes.push_back(TableField::Type::Real);
+        }
+        else {
+          QString msg = "Field [" + type + "] cannot be translated. Accepted types are "
+                        "Integer, Double, Text, and Real";
+          throw IException(IException::User, msg, _FILEINFO_);
+        }
+      }
+    }
+    else {
+      int numFields = fieldTypes.size();
+      QString msg = "Number of fields provided does not equal the number of columns in the CSV. "
+                    "Number of fields [" + toString(numFields) + 
+                    "] vs Number of Columns [" + toString(numColumns) + "]";
+      throw IException(IException::User, msg, _FILEINFO_);
+    }
+  }
+
+
   CSVReader::CSVAxis header = reader.getHeader();
 
   // Construct an empty table with the CSV header as field names
@@ -76,7 +119,7 @@ void IsisMain() {
       // If the next column header is different, create a field for this one
       QRegularExpressionMatch nextMatch = (columnIndex<numColumns-1)?rex.match(header[columnIndex+1]):QRegularExpressionMatch();
       if ((columnIndex == numColumns-1) || (nextMatch.hasMatch() && (name != nextMatch.captured("name")))) {
-        TableField columnField(name, TableField::Double, (index.length()>0)?(index.toInt()+1):1);
+        TableField columnField(name, tableTypes[columnIndex], (index.length()>0)?(index.toInt()+1):1);
         tableRow += columnField;
       }
     }
@@ -90,14 +133,52 @@ void IsisMain() {
     CSVReader::CSVAxis csvRow = reader.getRow(rowIndex);
     for (int columnIndex = 0, fieldIndex = 0; columnIndex < numColumns; ) {
       if (tableRow[fieldIndex].size() == 1) {
-        tableRow[fieldIndex] = toDouble(csvRow[columnIndex++]);
+        switch(tableTypes[columnIndex]) {
+          case TableField::Type::Integer:
+            tableRow[fieldIndex] = toInt(csvRow[columnIndex++]);
+            break;
+          case TableField::Type::Double:
+            tableRow[fieldIndex] = toDouble(csvRow[columnIndex++]);
+            break;
+          case TableField::Type::Text:
+            tableRow[fieldIndex] = csvRow[columnIndex++];
+            break;
+          case TableField::Type::Real:
+            tableRow[fieldIndex] = toDouble(csvRow[columnIndex++]);
+            break;
+        }
       }
       else {
+        std::vector<int> intVector;
         std::vector<double> dblVector;
-        for (int arrayLen = 0; arrayLen < tableRow[fieldIndex].size(); arrayLen++) {
-          dblVector.push_back(toDouble(csvRow[columnIndex++]));
+        std::vector<double> realVector;
+        QString strMsg = "TableRecord can't handle list of Strings";
+        switch(tableTypes[columnIndex]) {
+          case TableField::Type::Integer:
+            for (int arrayLen = 0; arrayLen < tableRow[fieldIndex].size(); arrayLen++) {
+              intVector.push_back(toInt(csvRow[columnIndex++]));
+            }
+            tableRow[fieldIndex] = intVector;
+            break;
+          case TableField::Type::Double:
+            for (int arrayLen = 0; arrayLen < tableRow[fieldIndex].size(); arrayLen++) {
+              dblVector.push_back(toDouble(csvRow[columnIndex++]));
+            }
+            tableRow[fieldIndex] = dblVector;
+            break;
+          case TableField::Type::Text:
+            throw IException(IException::User, strMsg, _FILEINFO_);
+            break;
+          case TableField::Type::Real:
+            for (int arrayLen = 0; arrayLen < tableRow[fieldIndex].size(); arrayLen++) {
+              realVector.push_back(toDouble(csvRow[columnIndex++]));
+            }
+            tableRow[fieldIndex] = realVector;
+            break;
         }
-        tableRow[fieldIndex] = dblVector;
+        intVector.clear();
+        dblVector.clear();
+        realVector.clear();
       }
       fieldIndex++;
     }
