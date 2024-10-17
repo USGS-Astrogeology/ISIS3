@@ -725,7 +725,19 @@ namespace Isis {
   
     // Got a geometry.
     if ( !geom.isEmpty() ) {
-  
+
+        // Get decision keys
+        bool repairGeom = toBool(keys.get("RepairInvalidGeometry", "true"));
+
+        QString geomAction = keys.get("InvalidGeometryAction", "disable").toLower();
+        if ( !QString("disable error continue").contains(geomAction) ) {
+            if ( isDebug() ) {
+              cout << "  Invalid value for InvalidGeometryAction (" << geomAction 
+                   << ") - set to disable!\n";
+            }
+            geomAction = "disable";
+        }
+        
       //  Process arguments  Allows creation specialized geometry as well
       if ( keys.exists("GisGeometryArgs") ) {
         QStringList args = keys.allValues("GisGeometryArgs");
@@ -743,7 +755,65 @@ namespace Isis {
       if ( !geom.isEmpty() ) {
         
         QScopedPointer<GisGeometry> geosgeom(new GisGeometry(geom, GisGeometry::type(gisType)));
-        if ( geosgeom.isNull() || !geosgeom->isValid() ) return (false);
+        if ( geosgeom.isNull() ) {
+            if ( isDebug() ) {
+                cout << resource->name() << " geometry failed to construct\n";
+            }
+            if ("continue" == geomAction) return (false);
+            if ( "disable" == geomAction ) {
+                resource->discard();
+                return ( false );
+            }
+
+            // Throw an error
+            QString mess = resource->name() + " failed to construct geometry!";
+            throw IException(IException::Programmer, mess, _FILEINFO_);
+        }
+            
+        // Check validity and take appropriate action
+        if ( !geosgeom->isValid() ) {
+          
+          QString geomError = geosgeom->isValidReason();
+          if ( isDebug() ) {
+              cout << "  Geometry error: " << geomError << "\n";
+          }
+          
+          // Attempt repair if requested
+          if ( repairGeom ) {
+            if (isDebug()) {
+              cout << "  " << resource->name() << " geometry is invalid..."
+                    << "attempting buffer(0) to fix it!\n";
+            }
+            geosgeom.reset( geosgeom->buffer(0) );
+            if ( isDebug() ) {
+              if (geosgeom.isNull() || !geosgeom->isValid() ) {
+                 cout << "  Geometry could not be repaired!\n";
+              }
+              else {
+                cout << "  Geometry was successfully repaired!\n";
+              }
+            }
+          }
+
+          // Now check state and take final action regarding a failed
+          // geometry 
+
+          if (geosgeom.isNull() || !geosgeom->isValid() ) {
+            if ( isDebug() ) {
+                cout << "  All efforts to convert geometry failed!\n";
+            }
+            if ("continue" == geomAction) return (false);
+            if ( "disable" == geomAction ) {
+              resource->discard();
+              return ( false );
+            }
+
+            // Throw an error
+            QString mess = resource->name() + " failed to construct geometry - Error: " +
+                            geomError;
+            throw IException(IException::Programmer, mess, _FILEINFO_);
+          }
+        }
 
         npointsOrg =  npoints = geosgeom->points();
         QString gisTolerance  = translateKeywordArgs("GisSimplifyTolerance", 
