@@ -273,8 +273,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawBundleXYZ) {
 
 
   // Rectangular Bundle, Latitudinal output
-  QVector<QString> args3 = {"radius=yes",
-                           "errorpropagation=yes",
+  QVector<QString> args3 = {"errorpropagation=yes",
                            "spsolve=position",
                            "spacecraft_position_sigma=1000.0",
                            "camsolve=angles",
@@ -292,7 +291,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawBundleXYZ) {
   UserInterface ui3(APP_XML, args3);
   jigsaw(ui3);
 
-  // Compare newtwork and images.csv against the latitude, latitude bundle
+  // Compare network and images.csv against the latitude, latitude bundle
 
   // Compare network against the latitude/latitude network
   ControlNet latLatNet(tempDir.path()+"/latlat_out.net");
@@ -358,6 +357,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawBundleXYZ) {
   bundleFile2.close();
   lines = bundleOut2.split("\n");
 
+  EXPECT_THAT(lines[20].toStdString(), HasSubstr("N/A")); // radius is N/A in XYZ solution
   EXPECT_THAT(lines[24].toStdString(), HasSubstr("RECTANGULAR"));
   EXPECT_THAT(lines[58].toStdString(), HasSubstr("X"));
   EXPECT_THAT(lines[59].toStdString(), HasSubstr("Y"));
@@ -372,7 +372,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawBundleXYZ) {
   EXPECT_THAT(lines[670].toStdString(), HasSubstr("BODY-FIXED-Z"));
 
 
-  // Compare newtwork and images.csv against the rectangular, latitude bundle
+  // Compare network and images.csv against the rectangular, latitude bundle
 
   // Compare network against the rect/lat network
   ControlNet rectRectNet(tempDir.path()+"/rectlat_out.net");
@@ -451,7 +451,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawBundleXYZ) {
 
   bundleFile4.close();
 
-  // Compare newtwork and images.csv against the latitude, latitude bundle
+  // Compare network and images.csv against the latitude, latitude bundle
 
   // Compare network against the lat/lat network
   ControlNet latRectNet(tempDir.path()+"/rectlat_out.net");

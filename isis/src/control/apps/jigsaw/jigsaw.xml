@@ -677,6 +677,11 @@
       Fixed measure residual reporting in bundleout.txt file to match the residuals
       reported in the residuals CSV file.
     </change>
+    <change name="Ken Edmundson" date="2024-10-21">
+      Modified xml so that the RADIUS on/off radio button is excluded when the
+      solution coordinate type is set to Rectangular. Originally added to UofA
+      code on 2019-07-30.
+    </change>
   </history>
 
   <groups>
@@ -1601,6 +1606,7 @@
               and reported in body-fixed rectangular coordinates (X, Y, and Z).
             </description>
             <exclusions>
+              <item>RADIUS</item>
               <item>POINT_LATITUDE_SIGMA</item>
               <item>POINT_LONGITUDE_SIGMA</item>
               <item>POINT_RADIUS_SIGMA</item>
