@@ -3264,7 +3264,17 @@ namespace Isis {
       Statistics sigmaCoord3Stats;
 
       Distance sigmaCoord1Dist, sigmaCoord2Dist, sigmaCoord3Dist;
-      SurfacePoint::CoordinateType type = m_bundleSettings->controlPointCoordTypeReports();
+      SurfacePoint::CoordinateType reportType = m_bundleSettings->controlPointCoordTypeReports();
+      SurfacePoint::CoordinateType bundleType = m_bundleSettings->controlPointCoordTypeBundle();
+
+      // we report statistics on coordinate 3 (Radius or Z) UNLESS
+      // bundle and report types are BOTH Latitudinal AND Radius is OFF
+      bool reportCoord3Stats = true;
+      if (bundleType == SurfacePoint::Latitudinal &&
+          reportType == SurfacePoint::Latitudinal &&
+          m_bundleSettings->solveRadius() == false) {
+        reportCoord3Stats = false;
+      }
 
       int numPoints = m_bundleControlPoints.size();
       // initialize max and min values to those from first valid point
@@ -3272,11 +3282,11 @@ namespace Isis {
 
         const BundleControlPointQsp point = m_bundleControlPoints.at(i);
 
-        maxSigmaCoord1Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        maxSigmaCoord1Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                             SurfacePoint::One);
         minSigmaCoord1Dist = maxSigmaCoord1Dist;
 
-        maxSigmaCoord2Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        maxSigmaCoord2Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                             SurfacePoint::Two);
         minSigmaCoord2Dist = maxSigmaCoord2Dist;
 
@@ -3286,8 +3296,8 @@ namespace Isis {
         minSigmaCoord2PointId = maxSigmaCoord1PointId;
 
         // Get stats for coordinate 3 if used
-        if (m_bundleSettings->solveRadius() || type == SurfacePoint::Rectangular) {
-          maxSigmaCoord3Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        if (reportCoord3Stats) {
+          maxSigmaCoord3Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                               SurfacePoint::Three);
           minSigmaCoord3Dist = maxSigmaCoord3Dist;
 
@@ -3301,11 +3311,11 @@ namespace Isis {
 
         const BundleControlPointQsp point = m_bundleControlPoints.at(i);
 
-        sigmaCoord1Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        sigmaCoord1Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                          SurfacePoint::One);
-        sigmaCoord2Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        sigmaCoord2Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                          SurfacePoint::Two);
-        sigmaCoord3Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        sigmaCoord3Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                          SurfacePoint::Three);
 
         sigmaCoord1Stats.AddData(sigmaCoord1Dist.meters());
@@ -3320,7 +3330,7 @@ namespace Isis {
           maxSigmaCoord2Dist = sigmaCoord2Dist;
           maxSigmaCoord2PointId = point->id();
         }
-        if (m_bundleSettings->solveRadius() || type == SurfacePoint::Rectangular) {
+        if (reportCoord3Stats) {
           if (sigmaCoord3Dist > maxSigmaCoord3Dist) {
             maxSigmaCoord3Dist = sigmaCoord3Dist;
             maxSigmaCoord3PointId = point->id();
@@ -3334,7 +3344,7 @@ namespace Isis {
           minSigmaCoord2Dist = sigmaCoord2Dist;
           minSigmaCoord2PointId = point->id();
         }
-        if (m_bundleSettings->solveRadius() || type == SurfacePoint::Rectangular) {
+        if (reportCoord3Stats) {
           if (sigmaCoord3Dist < minSigmaCoord3Dist) {
             minSigmaCoord3Dist = sigmaCoord3Dist;
             minSigmaCoord3PointId = point->id();
