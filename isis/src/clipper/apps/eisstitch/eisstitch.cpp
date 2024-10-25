@@ -41,13 +41,14 @@ using namespace std;
 // framelets but is just a linescanner for now
 struct eisTiming {
   double start;
-  double lines;
+  int line_start;
+  int lines;
   double exposureDuration;
   // Should be the start + (lineCounts * exposureTimes)
   double stop;
 
-  eisTiming(double start, double lines, double exposureDuration) : 
-            start(start), lines(lines), exposureDuration(exposureDuration)
+  eisTiming(double start, int line_start, int lines, double exposureDuration) : 
+            start(start), line_start(line_start), lines(lines), exposureDuration(exposureDuration) 
   {
     stop = start + (lines * exposureDuration);
   }
@@ -77,8 +78,10 @@ namespace Isis {
     }
 
     std::vector<struct eisTiming> eisTimes = {};
+    QString filterName = "";
+    int naifFrameCode = 0;
 
-    for (auto file : fileList) {
+    for (FileName file : fileList) {
       Pvl inputCubeLabel = Pvl(file.expanded());
 
       PvlGroup instGroup;
@@ -90,6 +93,46 @@ namespace Isis {
         throw IException(e, IException::User, msg, _FILEINFO_); 
       }
 
+      PvlGroup kernelGroup;
+      try {
+        kernelGroup = inputCubeLabel.findGroup("Kernels", PvlObject::FindOptions::Traverse);
+      }
+      catch(IException &e) {
+        QString msg = "Unable to find kernels group in [" + file.name() + "]";
+        throw IException(e, IException::User, msg, _FILEINFO_); 
+      }
+
+      if (naifFrameCode == 0) {
+        naifFrameCode = kernelGroup.findKeyword("NaifFrameCode");
+      }
+      else {
+        if (naifFrameCode != toInt(kernelGroup.findKeyword("NaifFrameCode"))) {
+          QString msg = "NaifFrameCode [" + kernelGroup.findKeyword("NaifFrameCode")[0] + "] from image [" + file.name() + "] does "
+                        "not match recorded frame code " + toString(naifFrameCode);
+          throw IException(IException::User, msg, _FILEINFO_); 
+        }
+      }
+
+      PvlGroup bandBinGroup;
+      try {
+        bandBinGroup = inputCubeLabel.findGroup("BandBin", PvlObject::FindOptions::Traverse);
+      }
+      catch(IException &e) {
+        QString msg = "Unable to find kernels group in [" + file.name() + "]";
+        throw IException(e, IException::User, msg, _FILEINFO_); 
+      }
+      
+      if (filterName == "") {
+        filterName = bandBinGroup.findKeyword("FilterName")[0];
+      }
+      else {
+        if (filterName != bandBinGroup.findKeyword("FilterName")[0]) {
+          QString msg = "FilterName [" + kernelGroup.findKeyword("FilterName")[0] + "] from image [" + file.name() + "] does "
+                        "not match recorded filter name " + filterName;
+          throw IException(IException::User, msg, _FILEINFO_); 
+        }
+      }
+
       PvlGroup dimGroup;
       try {
         dimGroup = inputCubeLabel.findGroup("Dimensions", PvlObject::FindOptions::Traverse);
@@ -98,17 +141,26 @@ namespace Isis {
         QString msg = "Unable to find instrument group in [" + file.name() + "]";
         throw IException(e, IException::User, msg, _FILEINFO_); 
       }
-      QString startTime = QString(instGroup.findKeyword("StartTime"));
-      iTime time(startTime);
-      int lines = dimGroup.findKeyword("Lines");
-      double exposureDuration = instGroup.findKeyword("LineExposureDuration");
-      exposureDuration /= 1000;
-      eisTimes.push_back(eisTiming(time.Et(), lines, exposureDuration));
+      Table timesTable("LineScanTimes", file.expanded());
+
+      if(timesTable.Records() <= 0) {
+        QString msg = "Table [LineScanTimes] in [";
+        msg += file.expanded() + "] must not be empty";
+        throw IException(IException::Unknown, msg, _FILEINFO_);
+      }
+
+      for(int i = 0; i < timesTable.Records(); i++) {
+        double startTime = (double)timesTable[i][0];
+        int line_start = timesTable[i][2];
+        int lines = int(dimGroup.findKeyword("Lines")) - (line_start - 1);
+        double exposureDuration = timesTable[i][1];
+        eisTimes.push_back(eisTiming(startTime, line_start, lines, exposureDuration));
+      }
     }
 
     // Likely need to re-order the cubes in the fileList if the eisTimes
     // are moved around
-    sort(eisTimes.begin(), eisTimes.end(), compareByStartTime);
+    // sort(eisTimes.begin(), eisTimes.end(), compareByStartTime);
 
     // Check for overlap
     for (int i = 0; i < eisTimes.size() - 1; i++) {
@@ -199,6 +251,60 @@ namespace Isis {
     }
 
     // Still need to write the Time table and other label data
+    outCube->write(timesTable);
+
+
+    // Group = Instrument
+    //   SpacecraftName   = Clipper
+    //   InstrumentId     = WAC-PUSHBROOM
+    //   TargetName       = Mars
+    //   StartTime        = "2020 APR 25 23:50:28.1879999637604"
+    //   ExposureDuration = 27.547366730736318 <s>
+    // End_Group
+
+    Pvl *outLabel = outCube->label();
+    PvlObject &outputIsisObject = outLabel->findObject("IsisCube");
+
+    Pvl inputCubeLabel = Pvl(fileList[0].expanded());
+    PvlGroup inputInstGroup;
+    try {
+      inputInstGroup = inputCubeLabel.findGroup("Instrument", PvlObject::FindOptions::Traverse);
+    }
+    catch(IException &e) {
+      QString msg = "Unable to find instrument group in [" + fileList[0].name() + "]";
+      throw IException(e, IException::User, msg, _FILEINFO_); 
+    }
+
+    PvlGroup instGroup("Instrument");
+    instGroup.addKeyword(PvlKeyword("SpacecraftName", inputInstGroup["SpacecraftName"]));
+    instGroup.addKeyword(PvlKeyword("InstrumentId", inputInstGroup["InstrumentId"]));
+    instGroup.addKeyword(PvlKeyword("TargetName", inputInstGroup["TargetName"]));
+    instGroup.addKeyword(PvlKeyword("StartTime", inputInstGroup["StartTime"]));
+    outputIsisObject.addGroup(instGroup);
+
+
+    PvlGroup inputKernelsGroup;
+    try {
+      inputKernelsGroup = inputCubeLabel.findGroup("Kernels", PvlObject::FindOptions::Traverse);
+    }
+    catch(IException &e) {
+      QString msg = "Unable to find instrument group in [" + fileList[0].name() + "]";
+      throw IException(e, IException::User, msg, _FILEINFO_); 
+    }
+
+    PvlGroup kernelsGroup("Kernels");
+    kernelsGroup.addKeyword(PvlKeyword("NaifFrameCode", inputKernelsGroup["NaifFrameCode"]));
+    outputIsisObject.addGroup(kernelsGroup);
+
+    PvlGroup bandBinGroup;
+    try {
+      bandBinGroup = inputCubeLabel.findGroup("BandBin", PvlObject::FindOptions::Traverse);
+    }
+    catch(IException &e) {
+      QString msg = "Unable to find instrument group in [" + fileList[0].name() + "]";
+      throw IException(e, IException::User, msg, _FILEINFO_); 
+    }
+    outputIsisObject.addGroup(bandBinGroup);
 
     process.EndProcess();
   }
