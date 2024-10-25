@@ -319,12 +319,16 @@ namespace Isis {
    *   @history 2018-11-29 Ken Edmundson - Modifed init, initializeNormalEquationsMatrix, and
    *                           computePartials methods.
    *   @history 2019-04-29 Ken Edmundson - Modifications for bundle with lidar.
-   *  @history 2019-05-15 Debbie A. Cook - The call to CameraGroundMap::GetXY in method
+   *   @history 2019-05-15 Debbie A. Cook - The call to CameraGroundMap::GetXY in method
    *                            ComputePartials was modified to not check for points on the back side
    *                            of the planet when computing instrument coordinates during the bundle
    *                            adjustment.  In the future a control net diagnostic program might be
    *                            useful to detect any points not visible on an image based on the exterior
    *                            orientation of the image.  References #2591.
+   *   @history 2024-10-21 Ken Edmundson - Simplified the computation of statistics for coordinate 3
+   *                           (Radius or Z), to ensure correct output in the bundleout.txt file. We
+   *                           report statistics on coordinate 3 UNLESS bundle and report types are
+   *                           BOTH Latitudinal AND Radius is OFF.
    */
   class BundleAdjust : public QObject {
       Q_OBJECT
