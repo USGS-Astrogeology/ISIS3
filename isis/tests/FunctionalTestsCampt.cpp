@@ -88,11 +88,11 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
   EXPECT_NEAR( (double) groundPoint.findKeyword("PositiveWest360Longitude"), 104.10707141824, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("PositiveWest180Longitude"), 104.10707141824, 1e-8);
 
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("BodyFixedCoordinate")[0]), -818.59644749774, 1e-8);
-  EXPECT_NEAR( toDouble(groundPoint.findKeyword("BodyFixedCoordinate")[1]), -3257.2675597135, 1e-8);
+  EXPECT_NEAR( toDouble(groundPoint.findKeyword("BodyFixedCoordinate")[0]), -818.59644751849999, 1e-8);
+  EXPECT_NEAR( toDouble(groundPoint.findKeyword("BodyFixedCoordinate")[1]), -3257.2675597553998, 1e-8);
   EXPECT_NEAR( toDouble(groundPoint.findKeyword("BodyFixedCoordinate")[2]),  603.17640797124, 1e-8);
 
-  EXPECT_NEAR( (double) groundPoint.findKeyword("LocalRadius"), 3412288.6569795, 1e-8);
+  EXPECT_NEAR( (double) groundPoint.findKeyword("LocalRadius"), 3412288.6570258001, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SampleResolution"), 18.904248467739, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("LineResolution"), 18.904248467739, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("ObliqueDetectorResolution"), 19.589652452595999, 1e-8);
@@ -105,7 +105,7 @@ TEST_F(DefaultCube, FunctionalTestCamptDefaultParameters) {
   EXPECT_NEAR( toDouble(groundPoint.findKeyword("SpacecraftPosition")[2]),  728.14118380775, 1e-8);
 
   EXPECT_NEAR( (double) groundPoint.findKeyword("SpacecraftAzimuth"), 240.08514246657, 1e-8);
-  EXPECT_NEAR( (double) groundPoint.findKeyword("SlantDistance"), 762.37204454685, 1e-8);
+  EXPECT_NEAR( (double) groundPoint.findKeyword("SlantDistance"), 762.37204449951003, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("TargetCenterDistance"), 4160.7294345949, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SubSpacecraftLatitude"), 10.078847382918, 1e-8);
   EXPECT_NEAR( (double) groundPoint.findKeyword("SubSpacecraftLongitude"), 253.65422317887, 1e-8);

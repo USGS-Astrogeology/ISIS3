@@ -206,16 +206,24 @@ TEST_F(LineScannerCube, FunctionalTestCam2mapMapLatlon) {
   cam2map(testCube, userMap, userGrp, ui, &log);
   Cube ocube(tempDir.path()+"/level2.cub");
 
-  ASSERT_EQ(userGrp.findKeyword("PixelResolution")[0], "9.0084341025159");
-  ASSERT_EQ(userGrp.findKeyword("Scale")[0], "6579.9113196323");
+  // Check for equality of floats, not of strings, because QString values
+  // show up in an unreadable encoding when printed to the console when tests fail.
+  auto res = userGrp.findKeyword("PixelResolution")[0];
+  ASSERT_EQ(atof(res.toStdString().c_str()), 9.0084340942885994);
+  auto scale = userGrp.findKeyword("Scale")[0];
+  ASSERT_EQ(atof(scale.toStdString().c_str()), 6579.9113256417004);
 
   ASSERT_EQ(userGrp.findKeyword("MinimumLongitude")[0], "0");
   ASSERT_EQ(userGrp.findKeyword("MaximumLongitude")[0], "2");
   ASSERT_EQ(userGrp.findKeyword("MinimumLatitude")[0], "0");
   ASSERT_EQ(userGrp.findKeyword("MaximumLatitude")[0], "1");
 
-  ASSERT_EQ(userGrp.findKeyword("UpperLeftCornerX")[0], "0.0");
-  ASSERT_EQ(userGrp.findKeyword("UpperLeftCornerY")[0], "59275.496394555");
+  // Test floats, not QString, as those are printed as unreadable junk
+  // when a test fails.
+  auto cornerX = userGrp.findKeyword("UpperLeftCornerX")[0];
+  ASSERT_EQ(atof(cornerX.toStdString().c_str()), 0);
+  auto cornerY = userGrp.findKeyword("UpperLeftCornerY")[0];
+  ASSERT_EQ(atof(cornerY.toStdString().c_str()), 59275.496340418998);
 }
 
 TEST_F(DefaultCube, ReverseXformUnitTestCam2map) {

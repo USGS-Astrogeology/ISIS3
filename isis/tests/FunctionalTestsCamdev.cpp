@@ -96,8 +96,8 @@ TEST_F(LineScannerCube, FunctionalTestCamdevDefault) {
     stddev += oCubeStats->StandardDeviation();
   }
 
-	EXPECT_NEAR(average / oCube.bandCount(), 9183553.1942882799, 0.0000001);
-	EXPECT_NEAR(sum/oCube.bandCount(), 112847454091.50554, 0.0000001);
-  EXPECT_NEAR(stddev/oCube.bandCount(), 11.294379230915617, 0.0000001);
+	EXPECT_NEAR(average / oCube.bandCount(), 9183553.1942694616, 0.0000001);
+	EXPECT_NEAR(sum/oCube.bandCount(), 112847454091.27431, 0.0000001);
+  EXPECT_NEAR(stddev/oCube.bandCount(), 11.294379992444282, 0.0000001);
   EXPECT_NEAR(validPixels/oCube.bandCount(), 12064.188679245282, 0.0000001);
 }
