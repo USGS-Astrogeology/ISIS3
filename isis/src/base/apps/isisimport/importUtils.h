@@ -50,11 +50,13 @@ namespace Isis {
                              QString processFunction,
                              PvlObject translation,
                              ProcessImport *process) {
+    vector<vector<char *>> prefixData;
     switch (ancillaryProcessMap[processFunction.toStdString()]) {
       case 1:
+        prefixData = process->DataPrefix();
         return cassiniIssCreateLinePrefixTable(cube,
-                                               translation,
-                                               process);
+                                               prefixData.at(0),
+                                               translation);
       case 2:
         return cassiniIssFixLabel(cube, translation, process);
 
