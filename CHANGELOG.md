@@ -39,6 +39,7 @@ release.
 - Added TOVECT output parameter which generate a geospatial CSV file with a VRT metadata sidecar file [#5571](https://github.com/DOI-USGS/ISIS3/issues/5571)  
 - Added Vectorize to ProcessGroundPolygon library
 - Added gtest files for the app and unit test 
+- Added Chandrayaan2 template for isisimport
 
 ### Changed
 - Refactored the pixel2map app

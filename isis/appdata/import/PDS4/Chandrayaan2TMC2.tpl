@@ -70,7 +70,7 @@ Object = IsisCube
     SpacecraftName            = {{ Product_Observational.Observation_Area.Investigation_Area.name }}
     {% set inst_name = Product_Observational.Observation_Area.Observing_System.Observing_System_Component.1.name %}
     {% if inst_name == "terrain mapping camera" %}
-    InstrumentId              = TMC2
+    InstrumentId              = TMC-2
     {% endif %}
     TargetName                = {{ Product_Observational.Observation_Area.Target_Identification.name }}
     StartTime                 = {{ RemoveStartTimeZ(Product_Observational.Observation_Area.Time_Coordinates.start_date_time) }}
