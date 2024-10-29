@@ -902,20 +902,6 @@
   <xsl:variable name="lower" select="'abcdefghijklmnopqrstuvwxyz'"/>
   <xsl:variable name="upper" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
 
-  <xsl:template name="Pascalize">
-    <xsl:param name="text"/>
-
-    <xsl:if test="$text">
-      <xsl:value-of select="translate(substring($text, 1, 1), $lower, $upper)"/>
-      <xsl:value-of select="substring-before(substring($text, 2), ' ')"/>
-
-      <xsl:call-template name="Pascalize">
-        <xsl:with-param name="text"
-          select="substring-after(substring($text, 2), ' ')"/>
-      </xsl:call-template>
-    </xsl:if>
-  </xsl:template>
-
   <xsl:template match="def" mode="copyContents">
     <xsl:variable name="text">
       <xsl:choose>
@@ -929,16 +915,10 @@
     </xsl:variable>
 
     <xsl:variable name="anchor">
-      <xsl:variable name="formatted">
-        <xsl:call-template name="Pascalize">
-          <xsl:with-param name="text" select="concat($text, ' ')"/>
-        </xsl:call-template>
-      </xsl:variable>
-
-      <xsl:value-of select="translate(normalize-space($formatted), ' ', '')" />
+      <xsl:value-of select="translate(translate($text, ' ', '-'), $upper, $lower)" />
     </xsl:variable>
 
-    <a href="../../../../documents/Glossary/Glossary.html#{$anchor}">
+    <a href="https://astrogeology.usgs.gov/docs/concepts/glossary/#{$anchor}">
       <xsl:apply-templates mode="copyContents"/>
     </a>
   </xsl:template>
