@@ -252,16 +252,7 @@ namespace Isis {
 
     // Still need to write the Time table and other label data
     outCube->write(timesTable);
-
-
-    // Group = Instrument
-    //   SpacecraftName   = Clipper
-    //   InstrumentId     = WAC-PUSHBROOM
-    //   TargetName       = Mars
-    //   StartTime        = "2020 APR 25 23:50:28.1879999637604"
-    //   ExposureDuration = 27.547366730736318 <s>
-    // End_Group
-
+    
     Pvl *outLabel = outCube->label();
     PvlObject &outputIsisObject = outLabel->findObject("IsisCube");
 
