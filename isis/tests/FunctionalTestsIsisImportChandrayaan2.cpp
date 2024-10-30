@@ -91,8 +91,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2MinimalLabel){
   QString dataFilePath= "data/isisimport/chan2/ch2_tmc_nca_20191128T0035389755_b_brw_d18.xml";
   QString dataFileName = "ch2_tmc_nca_20191128T0035389755_b_brw_d18.xml";
   QString imageFileName = "ch2_tmc_nca_20191128T0035389755_b_brw_d18.img";
-  // QString cubeFileName = tempDir.path() + "/output.cub";
-  QString cubeFileName = "/Users/astamile/testData/chandrayaan2/images/ch2_tmc_nca_20191128T0035389755_b_brw_d18.cub";
+  QString cubeFileName = tempDir.path() + "/output.cub";
 
   int samples = 400;
   int lines = 17891;
@@ -255,8 +254,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2FullLabel){
   QString dataFilePath= "data/isisimport/chan2/ch2_tmc_ncn_20240808T0532596974_d_img_d18.xml";
   QString dataFileName = "ch2_tmc_ncn_20240808T0532596974_d_img_d18.xml";
   QString imageFileName = "ch2_tmc_ncn_20240808T0532596974_d_img_d18.img";
-  // QString cubeFileName = tempDir.path() + "/output.cub";
-  QString cubeFileName = "/Users/astamile/testData/chandrayaan2/images/ch2_tmc_ncn_20240808T0532596974_d_img_d18.cub";
+  QString cubeFileName = tempDir.path() + "/output.cub";
 
   int samples = 4000;
   int lines = 180093;
