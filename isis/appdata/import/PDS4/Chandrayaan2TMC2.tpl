@@ -1,5 +1,5 @@
 {% set file_name = Product_Observational.File_Area_Observational.File.file_name %}
-{% set sensor = FindCH2Sensor(file_name) %}
+{% set sensor = CharAt(file_name, 10) %}
 
 {% set ImageArray = Product_Observational.File_Area_Observational.Array_2D_Image %}
 
@@ -76,7 +76,9 @@ Object = IsisCube
     StartTime                 = {{ RemoveStartTimeZ(Product_Observational.Observation_Area.Time_Coordinates.start_date_time) }}
     StopTime                  = {{ RemoveStartTimeZ(Product_Observational.Observation_Area.Time_Coordinates.stop_date_time) }}
     {% if exists("Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_line_exposure_duration") %}
-    LineExposureDuration      = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_line_exposure_duration._text }} <milliseconds>
+    LineExposureDuration      = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_line_exposure_duration._text }} <ms>
+    {% else %}
+    LineExposureDuration      = 3.236 <ms>
     {% endif %}
   End_Group
 
@@ -87,12 +89,12 @@ Object = IsisCube
     GainType                = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_gain }}
     ExposureType            = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_exposure }}
     DetectorPixelWidth      = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_detector_pixel_width._text }} <micrometers>
-    FocalLength             = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_focal_length._text }} <millimeters>
+    FocalLength             = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_focal_length._text }} <mm>
     ReferenceData           = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_reference_data_used }}
     OrbitLimbDirection      = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_orbit_limb_direction }}
     SpacecraftYawDirection  = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_spacecraft_yaw_direction }}
-    SpacecraftAltitude      = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_spacecraft_altitude._text }} <kilometers>
-    PixelResolution         = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_pixel_resolution._text }} <meter/pixel>
+    SpacecraftAltitude      = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_spacecraft_altitude._text }} <km>
+    PixelResolution         = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_pixel_resolution._text }} <meters/pixel>
     Roll                    = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_roll._text }} <degrees>
     Pitch                   = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_pitch._text }} <degrees>
     Yaw                     = {{ Product_Observational.Observation_Area.Mission_Area.isda_Product_Parameters.isda_yaw._text }} <degrees>

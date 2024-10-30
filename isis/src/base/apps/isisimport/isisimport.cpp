@@ -16,6 +16,7 @@
 #include "ProcessImport.h"
 #include "TextFile.h"
 #include "XmlToJson.h"
+#include "Spice.h"
 
 #include "isisimport.h"
 
@@ -340,18 +341,6 @@ namespace Isis {
       int index = args.at(1)->get<int>();
 
       return inputString.substr(index, 1);
-    });
-
-
-   /**
-    * Find sensor type from Chandrayaan2 label's file_name
-    */
-    env.add_callback("FindCH2Sensor", 1, [](Arguments& args) {
-      std::string fileName = args.at(0)->get<string>();
-
-      char sensor = fileName[10];
-
-      return std::string(1, sensor);
     });
      // end of inja callbacks
 

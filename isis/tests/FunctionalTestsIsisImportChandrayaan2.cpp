@@ -57,6 +57,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2MinimalLabel){
         TargetName     = Moon
         StartTime      = 2019-11-28T00:35:38.9755
         StopTime       = 2019-11-28T00:45:17.9161
+        LineExposureDuration = 3.236 <ms>
       End_Group
 
       Group = BandBin
@@ -90,7 +91,8 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2MinimalLabel){
   QString dataFilePath= "data/isisimport/chan2/ch2_tmc_nca_20191128T0035389755_b_brw_d18.xml";
   QString dataFileName = "ch2_tmc_nca_20191128T0035389755_b_brw_d18.xml";
   QString imageFileName = "ch2_tmc_nca_20191128T0035389755_b_brw_d18.img";
-  QString cubeFileName = tempDir.path() + "/output.cub";
+  // QString cubeFileName = tempDir.path() + "/output.cub";
+  QString cubeFileName = "/Users/astamile/testData/chandrayaan2/images/ch2_tmc_nca_20191128T0035389755_b_brw_d18.cub";
 
   int samples = 400;
   int lines = 17891;
@@ -203,7 +205,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2FullLabel){
       TargetName           = Moon
       StartTime            = 2024-08-08T05:32:59.6974
       StopTime             = 2024-08-08T05:42:42.4783
-      LineExposureDuration = 3.236 <milliseconds>
+      LineExposureDuration = 3.236 <ms>
     End_Group
 
     Group = Archive
@@ -212,12 +214,12 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2FullLabel){
       GainType               = g1
       ExposureType           = e1
       DetectorPixelWidth     = 7 <micrometers>
-      FocalLength            = 140 <millimeters>
+      FocalLength            = 140 <mm>
       ReferenceData          = SELENE
       OrbitLimbDirection     = Descending
       SpacecraftYawDirection = False
-      SpacecraftAltitude     = 89.53 <kilometers>
-      PixelResolution        = 4.48 <meter/pixel>
+      SpacecraftAltitude     = 89.53 <km>
+      PixelResolution        = 4.48 <meters/pixel>
       Roll                   = 0.009365 <degrees>
       Pitch                  = 0.066417 <degrees>
       Yaw                    = -0.017284 <degrees>
@@ -253,7 +255,8 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2FullLabel){
   QString dataFilePath= "data/isisimport/chan2/ch2_tmc_ncn_20240808T0532596974_d_img_d18.xml";
   QString dataFileName = "ch2_tmc_ncn_20240808T0532596974_d_img_d18.xml";
   QString imageFileName = "ch2_tmc_ncn_20240808T0532596974_d_img_d18.img";
-  QString cubeFileName = tempDir.path() + "/output.cub";
+  // QString cubeFileName = tempDir.path() + "/output.cub";
+  QString cubeFileName = "/Users/astamile/testData/chandrayaan2/images/ch2_tmc_ncn_20240808T0532596974_d_img_d18.cub";
 
   int samples = 4000;
   int lines = 180093;
