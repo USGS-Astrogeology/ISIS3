@@ -22,6 +22,12 @@ namespace Isis {
    json convertLastChildNodeToJson(QDomElement& element);
    json convertXmlToJson(QDomElement& element, json& output);
 
+    std::string replaceColonsWithUnderscores(const std::string& str) {
+        std::string result = str;
+        std::replace(result.begin(), result.end(), ':', '_');
+        return result;
+    }
+
   /**
    * Converts an XML file to a json object. 
    *  
@@ -61,7 +67,7 @@ namespace Isis {
    *  
    * @param doc A QDomDocument with an XML file loaded into it.
    * 
-   * @return json The XMl file converted to a json object.
+     * @return json The XML file converted to a json object.
    */
   json xmlToJson(QDomDocument& doc) {
     QDomElement docElem = doc.documentElement();
@@ -95,17 +101,17 @@ namespace Isis {
   json convertLastChildNodeToJson(QDomElement& element){
     std::string cleanTagName = element.tagName().replace(":", "_").toStdString();
     json newJson;
+        std::string tagName = replaceColonsWithUnderscores(element.tagName().toStdString());
+
     if (element.hasAttributes()) {
       // If there are attributes, add them
-      // <tag attributeName="attributeValue">textValue</tag>
       json attributeSection;
       QDomNamedNodeMap attrMap = element.attributes();
-      for (int i=0; i < attrMap.size(); i++) {
+            for (int i = 0; i < attrMap.size(); i++) {
         QDomAttr attr = attrMap.item(i).toAttr(); 
-        attributeSection["attrib_"+attr.name().toStdString()] = attr.value().toStdString();
+                attributeSection["attrib_" + attr.name().toStdString()] = attr.value().toStdString();
       }
       // If there is no textValue, don't include it
-      // <tag attributeName="attributeValue" />
       if (!element.text().isEmpty()) {
         attributeSection["_text"] = element.text().toStdString(); 
       }
@@ -113,7 +119,6 @@ namespace Isis {
     }
     else {
       // Just add element and its value
-      // <tag>value</tag>
       if (!element.text().isEmpty()) {
         newJson[cleanTagName] = element.text().toStdString();
       }
@@ -150,7 +155,9 @@ namespace Isis {
     while (!element.isNull()) {
       std::string cleanTagName = element.tagName().replace(":", "_").toStdString();
       QDomElement next = element.firstChildElement();
-      if (next.isNull()){
+            std::string tagName = replaceColonsWithUnderscores(element.tagName().toStdString());
+
+            if (next.isNull()) {
         json converted = convertLastChildNodeToJson(element);
         // Simple case with no repeated tags at the same level
         if (!output.contains(cleanTagName)){
@@ -189,9 +196,9 @@ namespace Isis {
           if (element.hasAttributes()) {
             json tempArea;
             QDomNamedNodeMap attrMap = element.attributes();
-            for (int j=0; j < attrMap.size(); j++) {
+                        for (int j = 0; j < attrMap.size(); j++) {
               QDomAttr attr = attrMap.item(j).toAttr(); 
-              tempArea["attrib_"+attr.name().toStdString()] = attr.value().toStdString();
+                            tempArea["attrib_" + attr.name().toStdString()] = attr.value().toStdString();
             }
             tempArea.update(
                 convertXmlToJson(next, output[cleanTagName]));
