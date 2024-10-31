@@ -93,6 +93,7 @@ namespace Isis {
    * @param element A QDomElement to be converted to JSON and added to the JSON object.
    */
   json convertLastChildNodeToJson(QDomElement& element){
+    std::string cleanTagName = element.tagName().replace(":", "_").toStdString();
     json newJson;
     if (element.hasAttributes()) {
       // If there are attributes, add them
@@ -108,17 +109,17 @@ namespace Isis {
       if (!element.text().isEmpty()) {
         attributeSection["_text"] = element.text().toStdString(); 
       }
-      newJson[element.tagName().replace(":", "_").toStdString()] = attributeSection;
+      newJson[cleanTagName] = attributeSection;
     }
     else {
       // Just add element and its value
       // <tag>value</tag>
       if (!element.text().isEmpty()) {
-        newJson[element.tagName().replace(":", "_").toStdString()] = element.text().toStdString();
+        newJson[cleanTagName] = element.text().toStdString();
       }
       else {
         // <tag /> no value case
-        newJson[element.tagName().replace(":", "_").toStdString()];
+        newJson[cleanTagName];
       }
     }
     return newJson;
@@ -147,23 +148,24 @@ namespace Isis {
    */
   json convertXmlToJson(QDomElement& element, json& output) {
     while (!element.isNull()) {
+      std::string cleanTagName = element.tagName().replace(":", "_").toStdString();
       QDomElement next = element.firstChildElement();
       if (next.isNull()){
         json converted = convertLastChildNodeToJson(element);
         // Simple case with no repeated tags at the same level
-        if (!output.contains(element.tagName().toStdString())){
+        if (!output.contains(cleanTagName)){
           output.update(converted);
         }
         else {
           // There is a repeated tag at the same level in the XML, i.e: <a>val1</a><a>val2</a>
           // Translated json goal: a:[val1, val2]
           // If the converted json has an array already, append, else make it an array
-          if (!output[element.tagName().toStdString()].is_array()) {
+          if (!output[cleanTagName].is_array()) {
             json repeatedArray;
             repeatedArray.push_back(output[element.tagName().toStdString()]);
-            output[element.tagName().replace(":", "_").toStdString()] = repeatedArray;
+            output[cleanTagName] = repeatedArray;
           }
-          output[element.tagName().replace(":", "_").toStdString()].push_back(converted[element.tagName().toStdString()]);
+          output[cleanTagName].push_back(converted[cleanTagName]);
         }
       }
       else {
@@ -172,16 +174,16 @@ namespace Isis {
         // overwriting. This is the following situation:
         // XML: <a> <first>value1</first> </a> <a> <second>value2</second></a>
         // JSON: a: [ {first:value1, second:value2} ]
-        if (output.contains(element.tagName().toStdString())) {
+        if (output.contains(cleanTagName)) {
           // If it's an array already, append, else make it an array
           json temporaryJson;
           convertXmlToJson(next, temporaryJson);
-          if (!output[element.tagName().toStdString()].is_array()) {
+          if (!output[cleanTagName].is_array()) {
             json repeatedArray;
             repeatedArray.push_back(output[element.tagName().toStdString()]);
-            output[element.tagName().replace(":", "_").toStdString()] = repeatedArray;
+            output[cleanTagName] = repeatedArray;
           }
-          output[element.tagName().replace(":", "_").toStdString()].push_back(temporaryJson);
+          output[cleanTagName].push_back(temporaryJson);
         }
         else {
           if (element.hasAttributes()) {
@@ -192,12 +194,12 @@ namespace Isis {
               tempArea["attrib_"+attr.name().toStdString()] = attr.value().toStdString();
             }
             tempArea.update(
-                convertXmlToJson(next, output[element.tagName().toStdString()]));
-            output[element.tagName().replace(":", "_").toStdString()] = tempArea;
+                convertXmlToJson(next, output[cleanTagName]));
+            output[cleanTagName] = tempArea;
           }
           else {
-            output[element.tagName().toStdString()] = 
-              convertXmlToJson(next, output[element.tagName().replace(":", "_").toStdString()]);
+            output[cleanTagName] = 
+              convertXmlToJson(next, output[cleanTagName]);
           }
         }
       }
