@@ -22,7 +22,7 @@ TEST_F(ClipperPbCube, ClipperPushBroomCameraNacTest) {
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->spacecraftNameShort(), "Clipper");
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentNameLong(), "Europa Imaging System Push Broom Narrow Angle Camera");
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentNameShort(), "EIS-PBNAC");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentId(), "EIS-NAC-PB");
+  EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentId(), "NAC-PUSHBROOM");
 
   // Upper Left
   EXPECT_TRUE(cam->SetImage(1, 1));
@@ -73,7 +73,7 @@ TEST_F(ClipperPbCube, ClipperPushBroomCameraWacTest) {
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->spacecraftNameShort(), "Clipper");
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentNameLong(), "Europa Imaging System Push Broom Wide Angle Camera");
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentNameShort(), "EIS-PBWAC");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentId(), "EIS-WAC-PB");
+  EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentId(), "WAC-PUSHBROOM");
 
   // Top
   EXPECT_TRUE(cam->SetImage(2130, 30));
