@@ -208,4 +208,3 @@ namespace Isis {
     return output;
   }
 }
-

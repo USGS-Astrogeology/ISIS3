@@ -93,7 +93,7 @@
   {%- if InstrumentId == "OSINAC" or InstrumentId == "OSIWAC"-%}
     {%- set InstrumentId="Osiris" -%}
   {%- endif -%}
-{%- else if SpacecraftName == "Chandrayaan-2"-%}
+{%- else if SpacecraftName == "Chandrayaan-2" or SpacecraftName == "chandrayaan-2"-%}
   {%- set SpacecraftId="Chandrayaan2" -%}
   {%- if InstrumentId == "terrain mapping camera"-%}
     {%- set InstrumentId="TMC2" -%}
