@@ -73,7 +73,7 @@ namespace Isis {
     // Detector offset from label is 0 - 2047 but ISIS is zero based
     // with the detector offset being +/- 1024 pixels (2048/2)
     // Double check this against the SIS
-    double detectorOffset = toDouble(inst["DetectorOffset"]) - 1023.0;
+    double detectorOffset = -(toDouble(inst["DetectorOffset"]) - 1023.0);
     focalMap->SetDetectorOffset(0.0, detectorOffset);
 
     // Set up distortion map
