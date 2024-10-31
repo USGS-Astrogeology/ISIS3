@@ -280,8 +280,16 @@ TEST(XmlToJson, TestXMLWithNamespace) {
   xmlDocument.setContent(xmlInput);
   json result = xmlToJson(xmlDocument);
 
-  // Test deeply nested value retrieval
-  std::cout << result.dump(2) << std::endl;
+  EXPECT_EQ(result["Discipline_Area"]["disp_Display_Settings"]["Local_Internal_Reference"]["local_identifier_reference"], "eis000xxx_2032116t234928_0000c35f-wac-pushb-img_raw");
+  EXPECT_EQ(result["Discipline_Area"]["disp_Display_Settings"]["Local_Internal_Reference"]["local_reference_type"], "display_settings_to_array");
+
+  EXPECT_EQ(result["Discipline_Area"]["disp_Display_Settings"]["disp_Display_Direction"]["disp_horizontal_display_axis"], "Sample");
+  EXPECT_EQ(result["Discipline_Area"]["disp_Display_Settings"]["disp_Display_Direction"]["disp_horizontal_display_direction"], "Left to Right");
+  EXPECT_EQ(result["Discipline_Area"]["disp_Display_Settings"]["disp_Display_Direction"]["disp_vertical_display_axis"], "Line");
+  EXPECT_EQ(result["Discipline_Area"]["disp_Display_Settings"]["disp_Display_Direction"]["disp_vertical_display_direction"], "Top to Bottom");
+
+  EXPECT_EQ(result["Discipline_Area"]["img_Exposure"]["img_exposure_duration"]["_text"], "27.54");
+  EXPECT_EQ(result["Discipline_Area"]["img_Exposure"]["img_exposure_duration"]["attrib_unit"], "ms");
 }
 
 
