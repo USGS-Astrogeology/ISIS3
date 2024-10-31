@@ -16,7 +16,6 @@
 #include "ProcessImport.h"
 #include "TextFile.h"
 #include "XmlToJson.h"
-#include "Spice.h"
 
 #include "isisimport.h"
 
