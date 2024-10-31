@@ -67,7 +67,7 @@ namespace Isis {
     // Set up focal plane map
     CameraFocalPlaneMap *focalMap = new CameraFocalPlaneMap(this, naifIkCode());
     // center of array (same for WAC and NAC based on XY origin in EIS_Sensor_summary.xlsx)
-    focalMap->SetDetectorOrigin(2048.5, 0.5);
+    focalMap->SetDetectorOrigin(2048.5, 1024.5);
 
     // Can be +/- 1024 pixel offset
     // Detector offset from label is 0 - 2047 but ISIS is zero based
