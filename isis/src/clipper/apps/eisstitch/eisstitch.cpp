@@ -80,6 +80,7 @@ namespace Isis {
     std::vector<struct eisTiming> eisTimes = {};
     QString filterName = "";
     int naifFrameCode = 0;
+    int detectorOffset = -1;
 
     for (FileName file : fileList) {
       Pvl inputCubeLabel = Pvl(file.expanded());
@@ -91,6 +92,16 @@ namespace Isis {
       catch(IException &e) {
         QString msg = "Unable to find instrument group in [" + file.name() + "]";
         throw IException(e, IException::User, msg, _FILEINFO_); 
+      }
+      if (detectorOffset == -1) {
+        detectorOffset = instGroup.findKeyword("DetectorOffset");
+      }
+      else {
+        if (detectorOffset != toInt(instGroup.findKeyword("DetectorOffset"))) {
+          QString msg = "DetectorOffset [" + instGroup.findKeyword("DetectorOffset")[0] + "] from image [" + file.name() + "] does "
+                        "not match recorded detector offset " + toString(detectorOffset);
+          throw IException(IException::User, msg, _FILEINFO_); 
+        }
       }
 
       PvlGroup kernelGroup;
@@ -271,6 +282,7 @@ namespace Isis {
     instGroup.addKeyword(PvlKeyword("InstrumentId", inputInstGroup["InstrumentId"]));
     instGroup.addKeyword(PvlKeyword("TargetName", inputInstGroup["TargetName"]));
     instGroup.addKeyword(PvlKeyword("StartTime", inputInstGroup["StartTime"]));
+    instGroup.addKeyword(PvlKeyword("DetectorOffset", inputInstGroup["DetectorOffset"]));
     outputIsisObject.addGroup(instGroup);
 
 
