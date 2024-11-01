@@ -6,8 +6,8 @@
 Object = IsisCube
   Object = Core
     Group = Dimensions
-      Samples = {{ ImageArray.Axis_Array.0.elements }}
-      Lines   = {{ ImageArray.Axis_Array.1.elements }}
+      Samples = {{ ImageArray.Axis_Array.1.elements }}
+      Lines   = {{ ImageArray.Axis_Array.0.elements }}
       Bands   = 1
     End_Group
 

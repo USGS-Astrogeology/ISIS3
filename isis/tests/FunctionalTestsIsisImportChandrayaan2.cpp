@@ -38,8 +38,8 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2MinimalLabel){
         TileLines   = 400
 
         Group = Dimensions
-          Samples = 17891
-          Lines   = 400
+          Samples = 400
+          Lines   = 17891
           Bands   = 1
         End_Group
 
@@ -185,8 +185,8 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2FullLabel){
       TileLines   = 1000
 
       Group = Dimensions
-        Samples = 180093
-        Lines   = 4000
+        Samples = 4000
+        Lines   = 180093
         Bands   = 1
       End_Group
 
