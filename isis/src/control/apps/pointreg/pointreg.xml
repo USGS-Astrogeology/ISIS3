@@ -109,8 +109,7 @@
         <document>
           <title>Pattern Matching in ISIS</title>
           <source>
-            <filename>PatternMatch.html</filename>
-            <path>../../../../documents/PatternMatch/</path>
+            <path>https://astrogeology.usgs.gov/docs/concepts/control-networks/pattern-matching/</path>
           </source>
         </document>
       </documents>
