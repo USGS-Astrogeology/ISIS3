@@ -1807,7 +1807,7 @@ void IsisMain() {
     CubeAttributeInput emissionCai;
     if (ui.WasEntered("PHASE_ANGLE_FILE")) {
       phaseCai = ui.GetInputAttribute("PHASE_ANGLE_FILE");
-      p.SetInputCube(ui.GetFileName("PHASE_ANGLE_FILE"), phaseCai);
+      p.SetInputCube(ui.GetCubeName("PHASE_ANGLE_FILE"), phaseCai);
       usePhasefile = true;
     }
     else {
@@ -1815,7 +1815,7 @@ void IsisMain() {
     }
     if (ui.WasEntered("INCIDENCE_ANGLE_FILE")) {
       incidenceCai = ui.GetInputAttribute("INCIDENCE_ANGLE_FILE");
-      p.SetInputCube(ui.GetFileName("INCIDENCE_ANGLE_FILE"), incidenceCai);
+      p.SetInputCube(ui.GetCubeName("INCIDENCE_ANGLE_FILE"), incidenceCai);
       useIncidencefile = true;
     }
     else {
@@ -1823,7 +1823,7 @@ void IsisMain() {
     }
     if (ui.WasEntered("EMISSION_ANGLE_FILE")) {
       emissionCai = ui.GetInputAttribute("EMISSION_ANGLE_FILE");
-      p.SetInputCube(ui.GetFileName("EMISSION_ANGLE_FILE"), emissionCai);
+      p.SetInputCube(ui.GetCubeName("EMISSION_ANGLE_FILE"), emissionCai);
       useEmissionfile = true;
     }
     else {
