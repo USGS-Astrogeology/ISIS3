@@ -28,6 +28,10 @@ namespace Isis {
 
 void photomet(UserInterface &ui, Pvl *appLog) {
   Cube icube;
+  CubeAttributeInput inAtt = ui.GetInputAttribute("FROM");
+  if (inAtt.bands().size() != 0) {
+    icube.setVirtualBands(inAtt.bands());
+  }
   icube.open(ui.GetCubeName("FROM"));
   photomet(&icube, ui, appLog);
 }
