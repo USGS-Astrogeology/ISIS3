@@ -32,7 +32,7 @@ namespace Isis {
 
     // Get Filename with list of cubes to mosaic
     FileName cubeListFileName(ui.GetFileName("FROMLIST"));
-    std::cout << "***going to run 2nd noseam method\n";
+
     return noseam(cubeListFileName, ui);
   }
 
