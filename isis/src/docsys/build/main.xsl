@@ -75,7 +75,6 @@ Deborah Lee Soltesz
         <xsl:call-template name="writeHeader"/>
 
         <div id="isis-banner">
-          <div class="isis-logo"></div>
           <p><em>Integrated Software for Imagers and Spectrometers</em></p>
         </div>
 
