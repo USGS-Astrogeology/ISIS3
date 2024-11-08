@@ -4,9 +4,9 @@ For more details about the LICENSE terms and the AUTHORS, you will
 find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
-#include "dstripe.h"
-
 #include "Isis.h"
+
+#include "dstripe.h"
 #include "Application.h"
 
 using namespace Isis;
