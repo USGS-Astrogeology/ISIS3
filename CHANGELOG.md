@@ -52,6 +52,7 @@ file. Slightly modified the FunctionalTestJigsawBundleXYZ ctest accordingly. Iss
 - Fixed a bug in kaguyasp2isis that doesn't work for data with a detached label.
 - Fixed FunctionalTestCamstatsDefaultParameters test by increasing the runtime speed [#5459](https://github.com/DOI-USGS/ISIS3/issues/5459)
 - Fixed XmlToJson namespaced key conversion [#5652](https://github.com/DOI-USGS/ISIS3/pull/5652)
+- Fixed dstripe parallel test failing by converting tests to gtests [#5613](https://github.com/DOI-USGS/ISIS3/issues/5613)
 
 ## [8.3.0] - 2024-09-30
 
