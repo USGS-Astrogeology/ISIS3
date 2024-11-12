@@ -1,0 +1,20 @@
+Object = PhotometricModel
+  Group = Algorithm
+    Name = LunarLambertMcEwen
+  EndGroup
+EndObject
+Object = NormalizationModel
+  Group = Algorithm
+    Name = MoonAlbedo
+    D = 0.0
+    E = -0.218
+    F = 0.5
+    G2 = 0.4
+    H = 0.054
+    Bsh1 = 1.6
+    Wl = 1.0
+    Xmul = 1.0
+    Xb1 = -.0817
+    Xb2 = .0081
+  EndGroup
+EndObject
