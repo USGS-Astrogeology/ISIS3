@@ -1,11 +1,15 @@
+#include "socetlinescankeywords.h"
+
+#include <math.h>
+#include <stdlib.h>
+#include <QTemporaryDir>
+
 #include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <math.h>
-#include <sstream>
-#include <stdlib.h>
-#include <string>
 #include <memory>
+#include <sstream>
+#include <string>
 
 #include "Camera.h"
 #include "CameraDetectorMap.h"
@@ -17,45 +21,42 @@
 #include "FileName.h"
 #include "IException.h"
 #include "IString.h"
-#include "iTime.h"
 #include "LineScanCameraDetectorMap.h"
 #include "NaifStatus.h"
 #include "Process.h"
 #include "Pvl.h"
 #include "Spice.h"
-#include "Table.h"
 #include "TProjection.h"
+#include "Table.h"
 #include "VariableLineScanCameraDetectorMap.h"
-
-#include "socetlinescankeywords.h"
+#include "iTime.h"
 
 using namespace std;
 
 namespace Isis {
     
-//TO DO: UNCOMMENT THESE LINES ONCE HRSC IS WORKING IN SS
-//int GetHRSCLineRates(Cube *cube, vector<LineRateChange> &lineRates, int &totalLines,
-//                     double &HRSCNadirCenterTime);
-//
-//double GetHRSCScanDuration(vector<LineRateChange> &lineRates, int &totalLines);
+  int GetHRSCLineRates(Cube *cube, vector<LineRateChange> &lineRates,
+                      int &totalLines, double &HRSCNadirCenterTime);
 
-void socetlinescankeywords (UserInterface &ui) {  
+  double GetHRSCScanDuration(vector<LineRateChange> &lineRates, int &totalLines);
+
+  void socetlinescankeywords(UserInterface &ui) {
   // Get user parameters and error check
   Cube input(ui.GetCubeName("FROM"), "rw");    
   socetlinescankeywords(&input, ui);
 }
-
 
 void socetlinescankeywords(Cube *input, UserInterface &ui) {
   // Use a regular Process
   Process p;
 
   QString to = FileName(ui.GetFileName("TO")).expanded();
-  //TO DO: UNCOMMENT THIS LINE ONCE HRSC IS WORKING IN SS
-  //  double HRSCNadirCenterTime = ui.GetDouble("HRSC_NADIRCENTERTIME");
+
+  double HRSCNadirCenterTime = ui.GetDouble("HRSC_NADIRCENTERTIME");
 
   if (input->isProjected()) {
-    QString msg = "Input images is a map projected cube ... not a level 1 image";
+      QString msg =
+          "Input images is a map projected cube ... not a level 1 image";
     throw IException(IException::User, msg, _FILEINFO_);
   }
 
@@ -137,8 +138,9 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   else if (instrumentId == "NACR") {
     isLroNACR = true;
   }
-//TO DO: UNCOMMENT THIS LINE ONCE HRSC IS WORKING IN SS
-//  else if (instrumentId == "HRSC") isHRSC = true;
+  else if (instrumentId == "HRSC") {
+    isHRSC = true;
+  } 
   else {
     QString msg = "Unsupported instrument: " + instrumentId;
     throw IException(IException::User, msg, _FILEINFO_);
@@ -162,43 +164,42 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 
   double focal = cam->FocalLength();  // focal length returned in mm
 
-//TO DO: UNCOMMENT THESE LINES ONCE HRSC and MOC IS WORKING IN SS
-//  if (isMocWARed)
-//    focal = focal * 0.007;  // pixel to mm conversion
-//  else if (isHRSC)
-//  {
-//    switch (ikCode) {
-//      case -41219:                   //S1: fwd stereo
-//        focal = 184.88;
-//        break;
-//      case -41218:                   //IR: infra-red
-//        focal = 181.57;
-//        break;
-//      case -41217:                   //P1: fwd photo
-//        focal = 179.16;
-//        break;
-//      case -41216:                   // GREEN
-//        focal = 175.31;
-//        break;
-//      case -41215:                   // NADIR
-//        focal = 175.01;
-//        break;
-//      case -41214:                   // BLUE
-//        focal = 175.53;
-//        break;
-//      case -41213:                   // P2: aft photo
-//        focal = 179.19;
-//        break;
-//      case -41212:                   // RED
-//        focal = 181.77;
-//        break;
-//      case -41211:                   // S2: aft stereo
-//        focal = 184.88;
-//        break;
-//      default:
-//        break;
-//    }
-//  }
+    // TO DO: UNCOMMENT THESE LINES ONCE MOC IS WORKING IN SS
+    //   if (isMocWARed)
+    //     focal = focal * 0.007;  // pixel to mm conversion
+    if (isHRSC) {
+      switch (ikCode) {
+        case -41219:  // S1: fwd stereo
+          focal = 184.88;
+          break;
+        case -41218:  // IR: infra-red
+          focal = 181.57;
+          break;
+        case -41217:  // P1: fwd photo
+          focal = 179.16;
+          break;
+        case -41216:  // GREEN
+          focal = 175.31;
+          break;
+        case -41215:  // NADIR
+          focal = 175.01;
+          break;
+        case -41214:  // BLUE
+          focal = 175.53;
+          break;
+        case -41213:  // P2: aft photo
+          focal = 179.19;
+          break;
+        case -41212:  // RED
+          focal = 181.77;
+          break;
+        case -41211:  // S2: aft stereo
+          focal = 184.88;
+          break;
+        default:
+          break;
+      }
+    }
 
   // Get instrument summing modes
   int csum = (int) detectorMap->SampleScaleFactor();
@@ -236,29 +237,23 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   double scanDuration = 0.0;
   double intTime = 0.0;
 
-//TO DO: UNCOMMENT THESE LINES ONCE HRSC IS WORKING IN SS
-//  int numIntTimes = 0.0;
-//  vector<LineRateChange> lineRates;
-//  if (isHRSC) {
-//    numIntTimes = GetHRSCLineRates(&cube, lineRates, totalLines, HRSCNadirCenterTime);
-//    if (numIntTimes == 1) {
-//      LineRateChange lrc = lineRates.at(0);
-//      intTime = lrc.GetLineScanRate();
-//    }
-//    if (numIntTimes <= 0) {
-//      QString msg = "HRSC: Invalid number of scan times";
-//      throw IException(IException::Programmer, msg, _FILEINFO_);
-//    }
-//    else
-//      scanDuration = GetHRSCScanDuration(lineRates, totalLines);
-//  }
-//  else {
-//
-//  TO DO: indent the following two lines when HRSC is working in SS
-  intTime = detectorMap->LineRate();  //LineRate is in seconds
+    int numIntTimes = 0.0;
+    vector<LineRateChange> lineRates;
+    if (isHRSC) {
+      numIntTimes = GetHRSCLineRates(input, lineRates, totalLines, HRSCNadirCenterTime);
+      if (numIntTimes == 1) {
+        LineRateChange lrc = lineRates.at(0);
+        intTime = lrc.GetLineScanRate();
+      }
+      if (numIntTimes <= 0) {
+        QString msg = "HRSC: Invalid number of scan times";
+        throw IException(IException::Programmer, msg, _FILEINFO_);
+      } else
+        scanDuration = GetHRSCScanDuration(lineRates, totalLines);
+    } else {
+      intTime = detectorMap->LineRate();  // LineRate is in seconds
   scanDuration = intTime * totalLines;
-//TO DO: UNCOMMENT THIS LINE ONCE HRSC IS WORKING IN SS
-//  }
+    }
 
     // For reference, this is the code if calculating interval time
     // via LineExposureDuration keyword off image labels:
@@ -275,14 +270,13 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   //     2) For others, cam->PixelPitch() returns the pixel pitch (size) in mm.
   double alongScanPxSize = 0.0;
   double crossScanPxSize = 0.0;
-//TO DO: UNCOMMENT THESE LINES ONCE MOC IS WORKING IN SS
-//  if (isMocWARed || isHRSC) {
-//    alongScanPxSize = csum * 0.007;
-//    crossScanPxSize = dsum * 0.007;
-//  }
-//  else {
-//
-//  TO DO: indent the following 24 lines when HRSC is working in SS
+    // TO DO: UNCOMMENT THESE LINES ONCE MOC IS WORKING IN SS
+    //   if (isMocWARed || isHRSC) {
+    if (isHRSC) {
+      alongScanPxSize = csum * 0.007;
+      crossScanPxSize = dsum * 0.007;
+    } 
+    else {
   crossScanPxSize = dsum * cam->PixelPitch();
 
   // Get the ephemeris time, ground position and undistorted focal plane X
@@ -307,9 +301,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 
   // the along scan pixel size is the difference in focal plane X coordinates
   alongScanPxSize = abs(uXCenter - uX);
-
-//TO DO: UNCOMMENT THIS LINE ONCE MOC and HRSC IS WORKING IN SS
-//  }
+    }
 
   // Now that we have totalLines, totalSamples, alongScanPxSize and
   // crossScanPxSize, fill the Interior Orientation Coefficient arrays
@@ -747,25 +739,25 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 
   toStrm << setprecision(25) << "T_CENTER  ";
   double tCenter = 0.0;
-//TO DO: UNCOMMENT THESE LINES ONCE HRSC IS WORKING IN SS
-//  if (isHRSC) {
-//    tCenter = etCenter - HRSCNadirCenterTime;
-//    toStrm << tCenter << endl;
-//  }
-//  else
-    toStrm << tCenter << endl;
 
+    if (isHRSC) {
+      tCenter = etCenter - HRSCNadirCenterTime;
+      toStrm << tCenter << endl;
+    } 
+    else {
+    toStrm << tCenter << endl;
+    }
   toStrm << "DT_EPHEM  " << dtEphem << endl;
 
   toStrm << "T0_EPHEM  ";
-//TO DO: UNCOMMENT THESE LINES ONCE HRSC IS WORKING IN SS
-//  if (isHRSC) {
-//    double t = tCenter + t0Ephem;
-//    toStrm << t << endl;
-//  }
-//  else
-    toStrm << t0Ephem << endl;
 
+    if (isHRSC) {
+      double t = tCenter + t0Ephem;
+      toStrm << t << endl;
+    } 
+    else {
+    toStrm << t0Ephem << endl;
+    }
   toStrm << "NUMBER_OF_EPHEM   " << numEphem << endl;
 
   toStrm << "EPHEM_PTS" << endl;
@@ -798,19 +790,20 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 
   toStrm << "\n\nSCAN_DURATION " << scanDuration << endl;
 
-  //  UNCOMMENT toStrm << "\nNUMBER_OF_INT_TIMES " << numIntTimes << endl;
-  //
-  //  if (isHRSC) {
-  //    toStrm  << "INT_TIMES" << endl;
-  //    for (int i = 0; i < numIntTimes; i++) {
-  //      LineRateChange lr = lineRates.at(i);
-  //      toStrm << " " << lr.GetStartEt();
-  //      toStrm << " " << lr.GetLineScanRate();
-  //      toStrm << " " << lr.GetStartLine() << endl;
-  //    }
-  //  }
-  //  else
+  toStrm << "\nNUMBER_OF_INT_TIMES " << numIntTimes << endl;
+
+  if (isHRSC) {
+    toStrm << "INT_TIMES" << endl;
+    for (int i = 0; i < numIntTimes; i++) {
+      LineRateChange lr = lineRates.at(i);
+      toStrm << " " << lr.GetStartEt();
+      toStrm << " " << lr.GetLineScanRate();
+      toStrm << " " << lr.GetStartLine() << endl;
+    }
+  } 
+  else {
   toStrm << "INT_TIME " << intTime << endl;
+  }
 
   toStrm << "\nALONG_SCAN_PIXEL_SIZE  " << alongScanPxSize << endl;
   toStrm << "CROSS_SCAN_PIXEL_SIZE  " << crossScanPxSize << endl;
@@ -859,142 +852,137 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 
 } // end main
 
-//TO DO: UNCOMMENT THESE LINES ONCE HRSC IS WORKING IN SS
-//int GetHRSCLineRates(Cube *cube, vector<LineRateChange> &lineRates,
-//                     int &dtotalLines, double &HRSCNadirCenterTime) {
-//
-//  FileName cubefname = cube->fileName();
-//  FileName tablefname = FileName(cubefname.path() + "/tabledump.txt");
-//
-//  // system call to ISIS function tabledump to dump LineScanTimes
-//  char syscmd[1056];
-//  sprintf(syscmd, "tabledump from=%s to=%s name=LineScanTimes",
-//          cubefname.expanded().toLatin1().data(), tablefname.expanded().toAscii().data());
-//
-//  int n = system(syscmd);
-//  if (n != 0)
-//    return -1;
-//
-//  // read table back in. This whole mess is necessary since
-//  // HrscCamera::ReadLineRates(IString filename) is private
-//
-//  // open tabledump.txt for reading
-//  ifstream fpIn(tablefname.expanded().toLatin1().data(), ifstream::in);
-//  if (!fpIn)
-//    return -1;
-//
-//  Camera *cam = cube->camera();
-//
-//  char buf[512];
-//
-//  // read and discard header line
-//  if (!fpIn.getline(buf, 512))
-//    return -1;
-//
-//  double ephemerisTime, exposureTime;
-//  int lineStart;
-//
-//  // read and store all line rate data
-//  while (fpIn.getline(buf, 512)) {
-//    sscanf(buf, "%lf,%lf,%d", &ephemerisTime, &exposureTime, &lineStart);
-//    lineRates.push_back(LineRateChange(lineStart, ephemerisTime, exposureTime));
-//  }
-//
-//  // close file pointer
-//  fpIn.close();
-//
-//  // if cube has not been cropped, we're done (if AlphaCube group is
-//  // present, cube has been cropped)
-// bool bIsCropped = cube->hasGroup("AlphaCube");
-//
-// if (!bIsCropped)
-//   return lineRates.size();
-//
-// // if cube is cropped, we need to trim the lineRates and map the line
-// // numbers to match the cropped image. This is because the lineRates table
-// // stores data for the original (alpha) image
-//
-// // get alpha cube start line
-// PvlGroup alphacube = cube->group("AlphaCube");
-// QString str = (QString) alphacube["AlphaStartingLine"];
-// double dAlphaStartLine = atof(str.toLatin1().data());
-// double dAlphaLastLine = dAlphaStartLine + dtotalLines;
-// cam->SetImage(1, 0.5);
-// double dStartETime = cam->time().Et();
-// double dFirstLineTime = dStartETime - HRSCNadirCenterTime;
-//
-// if (lineRates.size() == 1) {
-//   LineRateChange lrc = lineRates.at(0);
-//   double lsr = lrc.GetLineScanRate();
-//   lineRates.erase(lineRates.begin());
-//   lineRates.push_back(LineRateChange(1, dFirstLineTime, lsr));
-//   return lineRates.size();
-// }
-//
-// LineRateChange firstlrc(0, 0, 0);
-// for (int i = 0; i < int(lineRates.size()); i++) {
-//   LineRateChange lrc = lineRates.at(i);
-//
-//   int nRateStartLine =  lrc.GetStartLine();
-//
-//   // Line rate is within cropped boundaries, keep it and set the line
-//   // number to match the cropped image
-//   if (nRateStartLine >= dAlphaStartLine && nRateStartLine <= dAlphaLastLine) {
-//     double et = lrc.GetStartEt();
-//     double lsr = lrc.GetLineScanRate();
-//     int rsl = nRateStartLine - dAlphaStartLine + 1;
-//     lineRates.erase(lineRates.begin() + i);
-//
-//     lineRates.insert(lineRates.begin() + i, LineRateChange(rsl, et - HRSCNadirCenterTime, lsr));
-//     continue;
-//   }
-//
-//   if (nRateStartLine < dAlphaStartLine)
-//     firstlrc = lrc;
-//
-//   lineRates.erase(lineRates.begin() + i);
-//   i--;
-// }
-//
-// // insert first line
-// double secondtime = lineRates.at(0).GetStartEt();
-// int secondstartline = lineRates.at(0).GetStartLine();
-// double lsr = firstlrc.GetLineScanRate();
-// double et = secondtime - (secondstartline - 1) * lsr;
-// lineRates.insert(lineRates.begin(), LineRateChange(1, et, lsr));
-//
-// return lineRates.size();
-//
-//}  // end GetHRSCLineRates
-//
-//double GetHRSCScanDuration(vector<LineRateChange> &lineRates, int &ntotalLines) {
-//
-//  int nLineRates = lineRates.size();
-//  if (nLineRates == 1)
-//    return lineRates.at(0).GetLineScanRate() * ntotalLines;
-//
-//  int nLines;
-//  double scanTime = 0.0;
-//  int i = 0;
-//  int nLastLine = lineRates.at(0).GetStartLine() + ntotalLines - 1;
-//  do {
-//    LineRateChange lrc1 = lineRates.at(i);
-//    LineRateChange lrc2 = lineRates.at(i + 1);
-//
-//    nLines = lrc2.GetStartLine() - lrc1.GetStartLine();
-//    scanTime += lrc1.GetLineScanRate() * (double)nLines;
-//
-//    i++;
-//
-//  } while (int i < (nLineRates - 1));
-//
-//  // add in last interval
-//  LineRateChange lrc = lineRates.at(nLineRates - 1);
-//  nLines = nLastLine - lrc.GetStartLine() + 1;
-//
-//  scanTime += lrc.GetLineScanRate() * (double)nLines;
-//
-//  return scanTime;
-//
-//} // end GetHRSCScanDuration
-}
+  int GetHRSCLineRates(Cube *cube, vector<LineRateChange> &lineRates,
+                      int &dtotalLines, double &HRSCNadirCenterTime) {
+    FileName cubefname = cube->fileName();
+    QTemporaryDir prefix;
+    FileName tablefname = FileName(prefix.path() + "/tabledump.txt");
+
+    // system call to ISIS function tabledump to dump LineScanTimes
+    char syscmd[1056];
+    snprintf(syscmd, sizeof(syscmd), "tabledump from=%s to=%s name=LineScanTimes",
+         cubefname.expanded().toLatin1().data(), tablefname.expanded().toLatin1().data());
+
+
+    int n = system(syscmd);
+    if (n != 0) return -1;
+
+    // read table back in. This whole mess is necessary since
+    // HrscCamera::ReadLineRates(IString filename) is private
+
+    // open tabledump.txt for reading
+    ifstream fpIn(tablefname.expanded().toLatin1().data(), ifstream::in);
+    if (!fpIn) return -1;
+
+    Camera *cam = cube->camera();
+
+    char buf[512];
+
+    // read and discard header line
+    if (!fpIn.getline(buf, 512)) return -1;
+
+    double ephemerisTime, exposureTime;
+    int lineStart;
+
+    // read and store all line rate data
+    while (fpIn.getline(buf, 512)) {
+      sscanf(buf, "%lf,%lf,%d", &ephemerisTime, &exposureTime, &lineStart);
+      lineRates.push_back(LineRateChange(lineStart, ephemerisTime, exposureTime));
+    }
+
+    // close file pointer
+    fpIn.close();
+
+    // if cube has not been cropped, we're done (if AlphaCube group is
+    // present, cube has been cropped)
+    bool bIsCropped = cube->hasGroup("AlphaCube");
+
+    if (!bIsCropped) return lineRates.size();
+
+    // if cube is cropped, we need to trim the lineRates and map the line
+    // numbers to match the cropped image. This is because the lineRates table
+    // stores data for the original (alpha) image
+
+    // get alpha cube start line
+    PvlGroup alphacube = cube->group("AlphaCube");
+    QString str = (QString)alphacube["AlphaStartingLine"];
+    double dAlphaStartLine = atof(str.toLatin1().data());
+    double dAlphaLastLine = dAlphaStartLine + dtotalLines;
+    cam->SetImage(1, 0.5);
+    double dStartETime = cam->time().Et();
+    double dFirstLineTime = dStartETime - HRSCNadirCenterTime;
+
+    if (lineRates.size() == 1) {
+      LineRateChange lrc = lineRates.at(0);
+      double lsr = lrc.GetLineScanRate();
+      lineRates.erase(lineRates.begin());
+      lineRates.push_back(LineRateChange(1, dFirstLineTime, lsr));
+      return lineRates.size();
+    }
+
+    LineRateChange firstlrc(0, 0, 0);
+    for (int i = 0; i < int(lineRates.size()); i++) {
+      LineRateChange lrc = lineRates.at(i);
+
+      int nRateStartLine = lrc.GetStartLine();
+
+      // Line rate is within cropped boundaries, keep it and set the line
+      // number to match the cropped image
+      if (nRateStartLine >= dAlphaStartLine && nRateStartLine <= dAlphaLastLine) {
+        double et = lrc.GetStartEt();
+        double lsr = lrc.GetLineScanRate();
+        int rsl = nRateStartLine - dAlphaStartLine + 1;
+        lineRates.erase(lineRates.begin() + i);
+
+        lineRates.insert(lineRates.begin() + i,
+                        LineRateChange(rsl, et - HRSCNadirCenterTime, lsr));
+        continue;
+      }
+
+      if (nRateStartLine < dAlphaStartLine) firstlrc = lrc;
+
+      lineRates.erase(lineRates.begin() + i);
+      i--;
+    }
+
+    // insert first line
+    double secondtime = lineRates.at(0).GetStartEt();
+    int secondstartline = lineRates.at(0).GetStartLine();
+    double lsr = firstlrc.GetLineScanRate();
+    double et = secondtime - (secondstartline - 1) * lsr;
+    lineRates.insert(lineRates.begin(), LineRateChange(1, et, lsr));
+
+    return lineRates.size();
+
+  }  // end GetHRSCLineRates
+
+  double GetHRSCScanDuration(vector<LineRateChange> &lineRates,
+                            int &ntotalLines) {
+    int nLineRates = lineRates.size();
+    if (nLineRates == 1) return lineRates.at(0).GetLineScanRate() * ntotalLines;
+
+    int nLines;
+    double scanTime = 0.0;
+    int i = 0;
+    int nLastLine = lineRates.at(0).GetStartLine() + ntotalLines - 1;
+    do {
+      LineRateChange lrc1 = lineRates.at(i);
+      LineRateChange lrc2 = lineRates.at(i + 1);
+
+      nLines = lrc2.GetStartLine() - lrc1.GetStartLine();
+      scanTime += lrc1.GetLineScanRate() * (double)nLines;
+
+      i++;
+
+    } while (i < (nLineRates - 1));
+
+    // add in last interval
+    LineRateChange lrc = lineRates.at(nLineRates - 1);
+    nLines = nLastLine - lrc.GetStartLine() + 1;
+
+    scanTime += lrc.GetLineScanRate() * (double)nLines;
+
+    return scanTime;
+
+  }  // end GetHRSCScanDuration
+}  // namespace Isis
