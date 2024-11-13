@@ -790,8 +790,6 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 
   toStrm << "\n\nSCAN_DURATION " << scanDuration << endl;
 
-  toStrm << "\nNUMBER_OF_INT_TIMES " << numIntTimes << endl;
-
   if (isHRSC) {
     toStrm << "INT_TIMES" << endl;
     for (int i = 0; i < numIntTimes; i++) {

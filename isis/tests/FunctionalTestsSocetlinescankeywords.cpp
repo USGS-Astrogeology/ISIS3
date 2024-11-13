@@ -208,34 +208,34 @@ TEST(Socetlinescankeywords, FunctionalTestSocetlinescankeywordsHRSC) {
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, line[0], "NUMBER_OF_QUATERNIONS");
   EXPECT_EQ(line[1].toInt(), 19199);
 
-  line = lines[19377].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+  line = lines[19375].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, line[0], "CENTER_GP");
   EXPECT_NEAR(line[1].toDouble(), -1.2327019107652188445456432, 0.0001);
   EXPECT_NEAR(line[2].toDouble(), 8.6656098246432888831947139e-01, 0.0001);
   EXPECT_NEAR(line[3].toDouble(), 0, 0.0001);
 
   // check some interior orientation stuff
-  line = lines[19387].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+  line = lines[19385].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, line[0], "IKCODE");
   EXPECT_EQ(line[1].toInt(), -41219);
 
-  line = lines[19388].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+  line = lines[19386].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, line[0], "ISIS_Z_DIRECTION");
   EXPECT_NEAR(line[1].toDouble(), 1, 0.0001);
 
-  line = lines[19390].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+  line = lines[19388].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, line[0], "ITRANSS");
   EXPECT_NEAR(line[1].toDouble(), -6.8139200054785997728856728e-01, 0.001);
   EXPECT_NEAR(line[2].toDouble(), -1.4285712640235999515425647e+02, 0.001);
   EXPECT_NEAR(line[3].toDouble(), 6.8566503695772995641277703e-02, 0.001);
 
-  line = lines[19391].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+  line = lines[19389].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, line[0], "ITRANSL");
   EXPECT_NEAR(line[1].toDouble(), -8.5695561557859000458847731e+03, 0.001);
   EXPECT_NEAR(line[2].toDouble(), 6.8566503695772995641277703e-02, 0.001);
   EXPECT_NEAR(line[3].toDouble(), 1.4285712640235999515425647e+02, 0.001);
 
-  line = lines[19398].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+  line = lines[19396].split(QRegExp("\\s+"), Qt::SkipEmptyParts);
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, line[0], "STARTING_EPHEMERIS_TIME");
   EXPECT_NEAR(line[1].toDouble(), 1.8268123294718480110168457e+08, 0.0001);
 }
