@@ -15,7 +15,6 @@ find files of those names at the top level of this repository. **/
 #include "iTime.h"
 
 #include "CubeAttribute.h"
-#include "EisStitchFunctor.h"
 #include "ProcessByBrick.h"
 #include "Pvl.h"
 #include "PvlKeyword.h"
