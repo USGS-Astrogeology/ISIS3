@@ -4,16 +4,16 @@ For more details about the LICENSE terms and the AUTHORS, you will
 find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
-#include "Isis.h"
 
-#include "dstripe.h"
-#include "Application.h"
+#ifndef dstripe_h
+#define dstripe_h
 
-using namespace Isis;
+#include "Cube.h"
+#include "UserInterface.h"
 
-void IsisMain() {
-  UserInterface &ui = Application::GetUserInterface();
-  dstripe(ui);
+namespace Isis {
+  extern void dstripe(Cube *icube, UserInterface &ui);
+  extern void dstripe(UserInterface &ui);
 }
 
-
+#endif
