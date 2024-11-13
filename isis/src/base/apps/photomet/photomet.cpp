@@ -13,6 +13,7 @@ find files of those names at the top level of this repository. **/
 #include <sstream>
 
 #include "Angle.h"
+#include "Application.h"
 #include "Camera.h"
 #include "Cube.h"
 #include "IException.h"
@@ -808,7 +809,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
                    .findGroup("Algorithm")
                    .findKeyword("ALBEDO");
   }
-  appLog->addLogGroup(normLog);
+  Application::AppendAndLog(normLog, appLog);
 
   Pvl toAtmPvl;
   PvlGroup atmLog("AtmosphericModelParametersUsed");
@@ -1116,7 +1117,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
                     .findKeyword("HGA");
     }
   }
-  appLog->addLogGroup(atmLog);
+  Application::AppendAndLog(atmLog, appLog);
 
   Pvl toPhtPvl;
   PvlGroup phtLog("PhotometricModelParametersUsed");
@@ -1620,7 +1621,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
                   .findGroup("Algorithm")
                   .findKeyword("K");
   }
-  appLog->addLogGroup(phtLog);
+  Application::AppendAndLog(phtLog, appLog);
 
   PvlObject normObj = toNormPvl.findObject("NormalizationModel");
   PvlObject phtObj = toPhtPvl.findObject("PhotometricModel");
@@ -1652,7 +1653,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
                       angleSource + " Angle Source option";
     PvlGroup warning("Warnings");
     warning.addKeyword(PvlKeyword("Warning", message));
-    appLog->addLogGroup(warning);
+    Application::AppendAndLog(warning, appLog);
   }
   // Get camera information if needed
   if (angleSource == "ELLIPSOID" || angleSource == "DEM" ||

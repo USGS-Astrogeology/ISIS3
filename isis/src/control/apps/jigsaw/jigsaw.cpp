@@ -116,7 +116,7 @@ namespace Isis {
           
           gp += PvlKeyword("Status", "Bundle adjustment values from [" + ui.GetFileName("ADJUSTMENT_INPUT") 
                             + "] were applied to the cubes in [" + cubeList+ "]");
-          log->addLogGroup(gp);
+          Application::AppendAndLog(gp, log);
         }
 
         return;
