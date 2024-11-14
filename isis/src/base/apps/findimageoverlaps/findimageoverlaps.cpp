@@ -86,8 +86,6 @@ namespace Isis {
     PvlGroup results("Results");
     results += PvlKeyword("ErrorCount", toString((BigInt)overlaps.Errors().size()));
 
-    if (log) {
-      log->addLogGroup(results);
-    }
+    Application::Log(results);
   }
 }

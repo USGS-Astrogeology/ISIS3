@@ -10,6 +10,7 @@ find files of those names at the top level of this repository. **/
 
 #include "pointreg.h"
 
+#include "Application.h"
 #include "AutoReg.h"
 #include "AutoRegFactory.h"
 #include "Camera.h"
@@ -24,7 +25,6 @@ find files of those names at the top level of this repository. **/
 #include "Progress.h"
 #include "SerialNumberList.h"
 #include "UserInterface.h"
-#include "Application.h"
 #include "IException.h"
 #include "iTime.h"
 
@@ -469,25 +469,25 @@ namespace Isis {
     PvlGroup pLog("Points");
     pLog += PvlKeyword("Total", toString(outNet.GetNumPoints()));
     pLog += PvlKeyword("Ignored", toString(ignored));
-    appLog->addLogGroup(pLog);
+    Application::AppendAndLog(pLog, appLog);
 
     PvlGroup mLog("Measures");
     mLog += PvlKeyword("Locked", toString(locked));
     mLog += PvlKeyword("Registered", toString(registered));
     mLog += PvlKeyword("NotIntersected", toString(notintersected));
     mLog += PvlKeyword("Unregistered", toString(unregistered));
-    appLog->addLogGroup(mLog);
+    Application::AppendAndLog(mLog, appLog);
 
     // Log Registration Statistics
     Pvl arPvl = ar->RegistrationStatistics();
 
     for (int i = 0; i < arPvl.groups(); i++) {
-      appLog->addLogGroup(arPvl.group(i));
+      Application::AppendAndLog(arPvl.group(i), appLog);
     }
 
     // add the auto registration information to print.prt
     PvlGroup autoRegTemplate = ar->RegTemplate();
-    appLog->addLogGroup(autoRegTemplate);
+    Application::AppendAndLog(autoRegTemplate, appLog);
 
     if (validator) {
       PvlGroup validationGroup("ValidationStatistics");
@@ -502,11 +502,11 @@ namespace Isis {
         }
       }
 
-      appLog->addLogGroup(validationGroup);
+      Application::AppendAndLog(validationGroup, appLog);
 
       PvlGroup validationTemplate = validator->UpdatedTemplate();
       validationTemplate.setName("ValidationTemplate");
-      appLog->addLogGroup(validationTemplate);
+      Application::AppendAndLog(validationTemplate, appLog);
     }
 
     outNet.Write(ui.GetFileName("ONET"));

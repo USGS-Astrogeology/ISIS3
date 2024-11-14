@@ -533,18 +533,7 @@ namespace Isis {
    * @return a string representation of this exception
    */
   QString IException::toString() const {
-    bool reportFileLine = true;
-
-    if (Preference::Preferences().hasGroup("ErrorFacility")) {
-      PvlGroup &errorFacility =
-          Preference::Preferences().findGroup("ErrorFacility");
-      if (errorFacility.hasKeyword("FileLine")) {
-        QString fileLine = errorFacility["FileLine"][0];
-        reportFileLine = (fileLine.toUpper() == "ON");
-      }
-    }
-
-    return toString(reportFileLine);
+    return toString(Preference::Preferences().reportFileLine());
   }
 
 
@@ -562,18 +551,7 @@ namespace Isis {
   QString IException::toString(bool includeFileInfo) const {
     QString result;
 
-    bool usePvlFormat = false;
-
-    if (Preference::Preferences().hasGroup("ErrorFacility")) {
-      PvlGroup &errorFacility =
-          Preference::Preferences().findGroup("ErrorFacility");
-      if (errorFacility.hasKeyword("Format")) {
-        QString format = errorFacility["Format"][0];
-        usePvlFormat = (format.toUpper() == "PVL");
-      }
-    }
-
-    if (usePvlFormat) {
+    if (Preference::Preferences().outputErrorAsPvl()) {
       Pvl errors = toPvl();
 
       if (errors.groups() != 0) {

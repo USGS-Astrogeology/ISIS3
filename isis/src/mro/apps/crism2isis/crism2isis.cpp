@@ -7,6 +7,7 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 
 #include "crism2isis.h"
+#include "Application.h"
 #include "ProcessImportPds.h"
 #include "UserInterface.h"
 #include "Pvl.h"
@@ -173,9 +174,8 @@ namespace Isis{
                           "Isis using crism2isis should only be interpolated "
                           "using the nearest-neighbor algorithm due to gimble "
                           "jitter of the MRO CRISM instrument.");
-    if (log){
-      log->addLogGroup(results);
-    }
+
+    Application::Log(results);
     return;
   }
 }

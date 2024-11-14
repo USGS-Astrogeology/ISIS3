@@ -25,6 +25,7 @@ find files of those names at the top level of this repository. **/
 #include <geos/geom/GeometryFactory.h>
 #include <geos/geom/Polygon.h>
 
+#include "Application.h"
 #include "Camera.h"
 #include "CameraFactory.h"
 #include "ControlMeasure.h"
@@ -457,9 +458,7 @@ namespace Isis {
        "----------------------------------------" << endl << endl;
     QString logstr = ss.str().c_str();
 
-    if (log){
-      log->addLogGroup(results);
-    }
+    Application::AppendAndLog(results, log);
 
     if (!ui.IsInteractive()) {
       std::cout << ss.str();

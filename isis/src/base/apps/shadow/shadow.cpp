@@ -128,9 +128,7 @@ namespace Isis {
       functorLogData += kernelsUsed;
     }
 
-    if (log) {
-      log->addLogGroup(functorLogData);
-    }
+    Application::AppendAndLog(functorLogData, log);
 
     // Look for shape model object and remove it from output
     Pvl &outputCubeLabel = *outputCube->label();

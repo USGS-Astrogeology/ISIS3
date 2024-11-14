@@ -12,7 +12,6 @@ find files of those names at the top level of this repository. **/
 #include "IString.h"
 #include "Message.h"
 #include "PvlFormat.h"
-#include "Application.h"
 
 #include <QList>
 
@@ -150,19 +149,6 @@ namespace Isis {
     if(m_filename.size() > 0) msg += " in file [" + m_filename + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
-
-  /**
-   * Add a group to the object and report it to the log/terminal. 
-   *
-   * @param group The PvlGroup object to add.
-   */
-  void PvlObject::addLogGroup(Isis::PvlGroup &group) {
-    addGroup(group);
-    Application::Log(group);
-    QString msg = "This function(PvlObject::addLogGroup) will be depreciated in ISIS3 v9.0 in "
-                  "favor of Application::appendLogGroup";
-    std::cerr << msg << std::endl;
-  };
 
   /**
    * Finds a keyword in the current PvlObject, or deeper inside

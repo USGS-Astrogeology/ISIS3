@@ -14,6 +14,7 @@ find files of those names at the top level of this repository. **/
 #include <QString>
 #include <QTextStream>
 
+#include "Application.h"
 #include "ControlMeasure.h"
 #include "ControlNet.h"
 #include "ControlNetValidMeasure.h"
@@ -335,7 +336,7 @@ namespace Isis {
             Pvl pvlResults;
             pvlTemplate.validatePvl(defFile, pvlResults);
             if (pvlResults.groups() > 0 || pvlResults.keywords() > 0) {
-                results.addLogGroup(pvlResults.group(0));
+                Application::AppendAndLog(pvlResults.group(0), &results);
 
                 QString sErrMsg = "Invalid Deffile\n";
                 throw IException(IException::User, sErrMsg, _FILEINFO_);
@@ -355,7 +356,7 @@ namespace Isis {
             }
 
             // Log the DEFFILE to the print file
-            results.addLogGroup(defFile.findGroup("ValidMeasure", Pvl::Traverse));
+            Application::AppendAndLog(defFile.findGroup("ValidMeasure", Pvl::Traverse), &results);
         }
     }
 
