@@ -40,6 +40,7 @@ release.
 - Added Vectorize to ProcessGroundPolygon library
 - Added gtest files for the app and unit test 
 - Added Chandrayaan2 template for isisimport
+- Added majority replacement for reduce app [#5101](https://github.com/DOI-USGS/ISIS3/issues/5101).
 
 ### Changed
 - Refactored the pixel2map app
