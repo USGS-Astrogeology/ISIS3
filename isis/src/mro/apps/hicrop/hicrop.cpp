@@ -397,7 +397,6 @@ namespace Isis {
   void crop(Buffer &out) {
     // Read the input line
     int iline = g_cropStartLine + (out.Line() - 1);
-    int band = 1;
     g_in->SetLine(iline, 1);
     g_cube->read(*g_in);
 
@@ -405,8 +404,6 @@ namespace Isis {
     for (int i = 0; i < out.size(); i++) {
       out[i] = (*g_in)[i];
     }
-
-    if (out.Line() == g_cropLineCount) band++;
   }
 
   /**

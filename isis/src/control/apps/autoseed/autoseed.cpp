@@ -201,8 +201,6 @@ namespace Isis {
     overlaps.ReadImageOverlaps(ui.GetFileName("OVERLAPLIST"));
 
     // Create a Universal Ground Map (UGM) for each image in the list
-    int stats_noOverlap = 0;
-    int stats_tolerance = 0;
 
     map<QString, UniversalGroundMap *> gMaps;
     for (int sn = 0; sn < serialNumbers.size(); ++sn) {
@@ -258,11 +256,6 @@ namespace Isis {
     for (int ov = 0; ov < overlaps.Size(); ++ov) {
       progress.CheckStatus();
 
-      if (overlaps[ov]->Size() == 1) {
-        stats_noOverlap++;
-        continue;
-      }
-
       // Checks if this overlap was already seeded
       if (precnet) {
 
@@ -317,12 +310,6 @@ namespace Isis {
           }
         }
 
-        continue;
-      }
-
-      // No points were seeded in this polygon, so collect some stats and move on
-      if (points.size() == 0) {
-        stats_tolerance++;
         continue;
       }
 

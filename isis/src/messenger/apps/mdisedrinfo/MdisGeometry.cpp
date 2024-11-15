@@ -737,9 +737,7 @@ namespace Isis {
     //  Determine instrument ID (inst)
     PvlKeyword &key = _label.findKeyword("NaifIkCode", PvlObject::Traverse);
     QString iCode = key[0];
-    SpiceInt inst = (int) key;
     key = _label.findKeyword("Number", PvlObject::Traverse);
-    inst -= (int) key;
 
     // Get CK time tolerance (tol)
     SpiceDouble tol;

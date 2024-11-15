@@ -492,10 +492,8 @@ namespace Isis {
     }
     TextFile file(filename.expanded());
     QString lineString;
-    unsigned int line = 0;
     while(file.GetLine(lineString)) {
       data.push_back(toDouble(lineString.split(QRegExp("[ ,;]")).first()));
-      line++;
     }
     fileString = filename.original();
   }

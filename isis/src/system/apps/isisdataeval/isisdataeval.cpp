@@ -276,7 +276,6 @@ namespace Isis {
         v_progress.SetText("inventory+"+hashtag);
         v_progress.SetMaximumSteps( v_isisdatadir.size() );
         v_progress.CheckStatus();
-        BigInt n_symlinks = 0;
         QCryptographicHash volume_hash( hash_algorithm );
 
         // Determine size (MB) of file buffer for hashing only if requested
@@ -297,7 +296,6 @@ namespace Isis {
 
             // Check for symbolic links
             if ( dbfile.isSymbolicLink() ) {
-              n_symlinks++;
 
               QString symtarget = dbfile.info().symLinkTarget();
               DBFileStatus symfile( symtarget );

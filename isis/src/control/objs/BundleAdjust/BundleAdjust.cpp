@@ -1228,7 +1228,6 @@ namespace Isis {
     // loop over 3D points
     int numObservations = 0;
     int numGood3DPoints = 0;
-    int numRejected3DPoints = 0;
     int numConstrainedCoordinates = 0;
     int num3DPoints = m_bundleControlPoints.size();
 
@@ -1237,11 +1236,6 @@ namespace Isis {
     for (int i = 0; i < num3DPoints; i++) {
       emit(pointUpdate(i+1));
       BundleControlPointQsp point = m_bundleControlPoints.at(i);
-
-      if (point->isRejected()) {
-        numRejected3DPoints++;
-        continue;
-      }
 
       if ( i != 0 ) {
         N22.clear();
@@ -1285,8 +1279,6 @@ namespace Isis {
     m_bundleResults.setNumberConstrainedPointParameters(numConstrainedCoordinates);
     m_bundleResults.setNumberImageObservations(numObservations);
 
-    int numRejectedLidarPoints = 0.0;
-    int numGoodLidarPoints = 0.0;
     numObservations = 0;
     numConstrainedCoordinates = 0;
 
@@ -1298,11 +1290,6 @@ namespace Isis {
     for (int i = 0; i < numLidarPoints; i++) {
       emit(pointUpdate(i+1));
       BundleLidarControlPointQsp point = m_bundleLidarControlPoints.at(i);
-
-      if (point->isRejected()) {
-        numRejectedLidarPoints++;
-        continue;
-      }
 
       N22.clear();
       N12.wipe();
@@ -1336,8 +1323,6 @@ namespace Isis {
       m_numLidarConstraints += point->applyLidarRangeConstraints(m_sparseNormals, N22, N12, n1, n2);
 
       numConstrainedCoordinates += formLidarPointNormals(N22, N12, n2, m_RHS, point);
-
-      numGoodLidarPoints++;
     } // end loop over lidar 3D points
 
     m_bundleResults.setNumberLidarRangeConstraints(m_numLidarConstraints);

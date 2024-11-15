@@ -61,7 +61,7 @@ namespace Isis {
 
     QProcess childProcess;
     childProcess.setProcessChannelMode(QProcess::ForwardedChannels);
-    childProcess.start(command);
+    childProcess.start("bash", QStringList() << "-c" << command);
     childProcess.waitForStarted();
 
     bool connected = false;

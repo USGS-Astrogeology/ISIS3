@@ -117,24 +117,10 @@ namespace Isis {
     QString intTime = stime.split(".").first();
     stime = stime.split(".").last();
 
-    double etStart = getClockTime(intTime).Et();
-
-    //  Add 2 seconds to either side of time range because the time are for IR
-    // channel, the VIS may actually start integrating before NATIVE_START_TIME.
-    //  This insures the cache is large enough.
-    etStart += toDouble(stime) / 15959.0 - 2.;
-
     // Get the end time in et
     QString etime = (QString) inst ["NativeStopTime"];
     intTime = etime.split(".").first();
     etime = etime.split(".").last();
-
-    double etStop = getClockTime(intTime).Et();
-
-    //  Add 2 seconds to either side of time range because the time are for IR
-    // channel, the VIS may actually start integrating before NATIVE_START_TIME.
-    //  This insures the cache is large enough.
-    etStop += toDouble(stime) / 15959.0 + 2.;
 
     //  Setup detector map
     new CameraDetectorMap(this);

@@ -600,11 +600,9 @@ namespace Isis {
     }
 
     //Check for non nulls instead of size ie. find last non null or use this
-    int appsSize = 0;
     QString pauseAppId = "";
 
     for (int iapp = 0; iapp < (int) p_apps.size(); iapp++)
-      if (p_apps[iapp] != NULL) appsSize++;
 
     // Add the new application
     if (p_apps.size() == 0) {
