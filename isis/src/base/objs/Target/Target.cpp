@@ -155,6 +155,9 @@ namespace Isis {
 
       setRadii(radii);
     }
+    else {
+      m_radii.resize(0);
+    }
 
     m_shape = ShapeModelFactory::create(this, label);
   }
