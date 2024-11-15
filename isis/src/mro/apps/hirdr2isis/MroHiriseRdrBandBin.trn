@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = Name
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NAME
   InputGroup     = IMAGE
   InputGroup     = QUBE
@@ -43,7 +43,7 @@ Group = Name
 End_Group
 
 Group = Center
-  Auto
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   InputGroup     = IMAGE
   InputGroup     = QUBE
@@ -63,7 +63,7 @@ Group = Center
 End_Group
 
 Group = Width
-  Auto
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   InputGroup     = IMAGE
   InputGroup     = QUBE

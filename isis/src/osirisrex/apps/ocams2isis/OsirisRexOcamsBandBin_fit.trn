@@ -5,8 +5,8 @@
 #
 
 Group = FilterName
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = FILTNAME
   InputPosition  = FITSLABELS
   OutputName     = FilterName
@@ -16,8 +16,8 @@ Group = FilterName
 End_Group
 
 Group = FilterCenter
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = FILTNAME
   InputPosition  = FITSLABELS
   OutputName     = Center

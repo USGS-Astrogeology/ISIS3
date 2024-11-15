@@ -2,7 +2,7 @@
 # ISIS cube label Kernels group
 
 Group = NaifIkCode
-  Auto
+  Auto           = 1
   InputKey       = DETECTOR_ID
   OutputName     = NaifIkCode
   OutputPosition = (Group, Kernels)

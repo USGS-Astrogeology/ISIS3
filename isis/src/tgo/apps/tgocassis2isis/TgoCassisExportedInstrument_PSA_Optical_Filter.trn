@@ -7,7 +7,7 @@
 # Consider the following translation group and xml
 #
 # Group = Samples
-#   Auto
+#   Auto                 = 1
 #   InputPosition  = (Array_2D_Image, Axis_Array)
 #   Dependencies   = "tag@axis_name|Sample"
 #   InputKey       = elements
@@ -44,7 +44,7 @@
 # history 2018-05-17 Kaitlyn Lee - Added ObservationId with a placeholder value for now.
 
 Group = SpacecraftName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Observing_System, Observing_System_Component)
   InputKeyDependencies = "tag@type|Host"
   InputKey             = name
@@ -56,7 +56,7 @@ End_Group
 
 
 Group = InstrumentId
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Observing_System, Observing_System_Component)
   InputKeyDependencies = "tag@type|Instrument"
   InputKey             = name
@@ -66,7 +66,7 @@ Group = InstrumentId
 End_Group
 
 Group = Expanded
-  Auto
+  Auto                 = 1
   InputDefault         = 1
   InputPosition        = (Observation_Area, Observing_System, Observing_System_Component)
   InputKeyDependencies = "tag@type|Host"
@@ -77,7 +77,7 @@ Group = Expanded
 End_Group
 
 Group = ObservationId
-  Auto
+  Auto                 = 1
   InputPosition      = (Identification_Area, Alias_List, Alias)
   InputKey           = alternate_id
   OutputName         = ObservationId
@@ -86,7 +86,7 @@ Group = ObservationId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Target_Identification)
   InputKey             = name
   OutputName           = TargetName
@@ -95,7 +95,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Time_Coordinates)
   InputKey             = start_date_time
   OutputName           = StartTime
@@ -104,7 +104,7 @@ Group = StartTime
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Mission_Area, em16_tgo_cas:Cassis_Data, em16_tgo_cas:PEHK_Derived_Data)
   InputKey             = em16_tgo_cas:exposure_time
   OutputName           = ExposureDuration
@@ -113,7 +113,7 @@ Group = ExposureDuration
 End_Group
 
 Group = Filter
-  Auto
+  Auto           = 1
   InputPosition        = (Observation_Area, Discipline_Area, img:Imaging, img:Optical_Filter)
   InputKey             = img:filter_name
   OutputName           = Filter
@@ -122,7 +122,7 @@ Group = Filter
 End_Group
 
 Group = FilterName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, img:Imaging, img:Optical_Filter)
   InputKey             = img:filter_name
   OutputName           = Filter
@@ -131,7 +131,7 @@ Group = FilterName
 End_Group
 
 Group = Center
-  Auto
+  Auto                 = 1
   InputPosition  = (Observation_Area, Discipline_Area, img:Imaging, img:Optical_Filter)
   InputKey       = img:filter_name
   OutputName     = Center
@@ -144,7 +144,7 @@ Group = Center
 End_Group
 
 Group = Width
-  Auto
+  Auto                 = 1
   InputPosition  = (Observation_Area, Discipline_Area, img:Imaging, img:Optical_Filter)
   InputKey       = img:filter_name
   OutputName     = Width
@@ -156,8 +156,8 @@ Group = Width
 End_Group
 
 Group = Expanded
-  Auto
-  Optional
+  Auto                 = 1
+  Optional             = 1
   InputPosition        = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey             = Expanded
   OutputName           = Expanded

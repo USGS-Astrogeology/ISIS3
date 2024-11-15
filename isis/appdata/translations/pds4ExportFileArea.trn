@@ -1,5 +1,5 @@
 Group = Samples
-  Auto
+  Auto            = 1
   InputKey        = Samples
   InputPosition   = (IsisCube, Core, Dimensions)
   OutputName      = elements
@@ -9,7 +9,7 @@ Group = Samples
 End_Group
 
 Group = Lines
-  Auto
+  Auto            = 1
   InputKey        = Lines
   InputPosition   = (IsisCube, Core, Dimensions)
   OutputName      = elements

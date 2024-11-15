@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = FileName
-  Auto
+  Auto           = 1
   InputKey       = ^HEADER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -32,7 +32,7 @@ Group = FileName
 End_Group
 
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -43,7 +43,7 @@ Group = DataSetId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -54,7 +54,7 @@ Group = ProductId
 End_Group
 
 Group = ProductName
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -65,7 +65,7 @@ Group = ProductName
 End_Group
 
 Group = ProductCreationTime
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_CREATION_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -76,7 +76,7 @@ Group = ProductCreationTime
 End_Group
 
 Group = SubImageCount
-  Auto
+  Auto           = 1
   InputKey       = NSUBIMG
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -87,7 +87,7 @@ Group = SubImageCount
 End_Group
 
 Group = ImageNumber
-  Auto
+  Auto           = 1
   InputKey       = IMG_NO_0
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -98,7 +98,7 @@ Group = ImageNumber
 End_Group
 
 Group = DataType
-  Auto
+  Auto           = 1
   InputKey       = DAT_TYPE
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -109,7 +109,7 @@ Group = DataType
 End_Group
 
 Group = OutputMode
-  Auto
+  Auto           = 1
   InputKey       = OUT_MODE
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -120,7 +120,7 @@ Group = OutputMode
 End_Group
 
 Group = OperationType
-  Auto
+  Auto           = 1
   InputKey       = IMG_OPE
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -131,7 +131,7 @@ Group = OperationType
 End_Group
 
 Group = LutNumber
-  Auto
+  Auto           = 1
   InputKey       = LUT_NO
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -142,7 +142,7 @@ Group = LutNumber
 End_Group
 
 Group = QualityFlag
-  Auto
+  Auto           = 1
   InputKey       = QF
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -153,7 +153,7 @@ Group = QualityFlag
 End_Group
 
 Group = QualityDesc
-  Auto
+  Auto           = 1
   InputKey       = QF
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel

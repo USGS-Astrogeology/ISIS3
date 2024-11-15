@@ -1,5 +1,5 @@
 Group = MissionPhaseName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   OutputName     = MissionPhaseName
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -11,7 +11,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = IMAGE_ID
   OutputName     = ProductId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -20,7 +20,7 @@ End_Group
 
 # SpacecraftClockCount used to be called FDS_COUNT
 Group = SpacecraftClockCount
-  Auto
+  Auto           = 1
   InputKey       = IMAGE_NUMBER
   OutputName     = SpacecraftClockCount
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -28,7 +28,7 @@ Group = SpacecraftClockCount
 End_Group
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_NAME
   InputKey       = INSTRUMENT_HOST_NAME
   OutputName     = SpacecraftName
@@ -40,7 +40,7 @@ Group = SpacecraftName
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   OutputName     = TargetName
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -103,7 +103,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = IMAGE_TIME
   OutputName     = StartTime
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -111,7 +111,7 @@ Group = StartTime
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputDefault   = Unknown
   OutputName     = InstrumentId
@@ -124,7 +124,7 @@ Group = InstrumentId
 End_Group
 
 Group = ScanModeId
-  Auto
+  Auto           = 1
   InputKey       = SCAN_MODE_ID
   OutputName     = ScanModeId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -137,7 +137,7 @@ Group = ScanModeId
 End_Group
 
 Group = ShutterModeId
-  Auto
+  Auto           = 1
   InputKey       = SHUTTER_MODE_ID
   OutputName     = ShutterModeId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -171,7 +171,7 @@ Group = ShutterModeId
 End_Group
 
 Group = GainModeId
-  Auto
+  Auto           = 1
   InputKey       = GAIN_MODE_ID
   OutputName     = GainModeId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -181,7 +181,7 @@ Group = GainModeId
 End_Group
 
 Group = EditModeId
-  Auto
+  Auto           = 1
   InputKey       = EDIT_MODE_ID
   OutputName     = EditModeId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -195,7 +195,7 @@ Group = EditModeId
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION
   OutputName     = ExposureDuration
   OutputPosition = (Object, IsisCube, Group, Instrument)

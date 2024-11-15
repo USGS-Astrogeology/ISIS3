@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -31,7 +31,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -42,7 +42,7 @@ End_Group
 
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -52,7 +52,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -62,7 +62,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -72,7 +72,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -82,7 +82,7 @@ Group = StopTime
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -92,7 +92,7 @@ Group = ExposureDuration
 End_Group
 
 Group = PixelAveragingWidth
-  Auto
+  Auto           = 1
   InputKey       = PIXEL_AVERAGING_WIDTH
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -103,7 +103,7 @@ Group = PixelAveragingWidth
 End_Group
 
 Group = PixelAveragingHeight
-  Auto
+  Auto           = 1
   InputKey       = PIXEL_AVERAGING_HEIGHT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -114,7 +114,7 @@ Group = PixelAveragingHeight
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -127,7 +127,7 @@ Group = TargetName
 End_Group
 
 Group = OriginalTargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -139,7 +139,7 @@ End_Group
 
 
 Group = OrbitNumber
-  Auto
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -149,7 +149,7 @@ Group = OrbitNumber
 End_Group
 
 Group = FirstLine
-  Auto
+  Auto           = 1
   InputKey       = FIRST_LINE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -159,7 +159,7 @@ Group = FirstLine
 End_Group
 
 Group = FirstLineSample
-  Auto
+  Auto           = 1
   InputKey       = FIRST_LINE_SAMPLE
   InputGroup     = IMAGE
   InputPosition  = IMAGE

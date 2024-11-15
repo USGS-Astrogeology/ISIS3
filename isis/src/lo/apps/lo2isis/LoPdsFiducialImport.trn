@@ -1,5 +1,5 @@
 Group = FiducialCoordinateMicron
-  Auto
+  Auto           = 1
   InputKey       = LO:FIDUCIAL_COORDINATE_MICRON
   InputGroup     = ROOT
   InputGroup     = "QUBE,ISIS_INSTRUMENT"
@@ -11,7 +11,7 @@ Group = FiducialCoordinateMicron
 End_Group
 
 Group = FiducialID
-  Auto
+  Auto           = 1
   InputKey       = LO:FIDUCIAL_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -21,7 +21,7 @@ Group = FiducialID
 End_Group
 
 Group = FiducialSamples
-  Auto
+  Auto           = 1
   InputKey       = LO:FIDUCIAL_SAMPLES
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -31,7 +31,7 @@ Group = FiducialSamples
 End_Group
 
 Group = FiducialLines
-  Auto
+  Auto           = 1
   InputKey       = LO:FIDUCIAL_LINES
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -41,7 +41,7 @@ Group = FiducialLines
 End_Group
 
 Group = FiducialXCoordinates
-  Auto
+  Auto           = 1
   InputKey       = LO:FIDUCIAL_X_COORDINATES
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -51,7 +51,7 @@ Group = FiducialXCoordinates
 End_Group
 
 Group = FiducialYCoordinates
-  Auto
+  Auto           = 1
   InputKey       = LO:FIDUCIAL_Y_COORDINATES
   InputGroup     = ROOT
   InputPosition  = ROOT

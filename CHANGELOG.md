@@ -44,6 +44,8 @@ release.
 ### Changed
 - Refactored the pixel2map app
 - Updated pixel2map documentation
+- Changed PVL parsing to no longer allow valueless keywords [#5573](https://github.com/DOI-USGS/ISIS3/pull/5573)
+- Changed all `.trn` files with an `Auto`, `Debug` or `Optional` keyword with no value to have a value of `1` [#5573](https://github.com/DOI-USGS/ISIS3/pull/5573)
 
 ### Fixed
 - Fixed noseam bug where a debugging output statement was inadvertently left in noseam.cpp.

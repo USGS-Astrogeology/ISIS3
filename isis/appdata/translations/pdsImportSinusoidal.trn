@@ -1,5 +1,5 @@
 Group = CenterLongitude
-  Auto
+  Auto           = 1
   InputKey       = CENTER_LONGITUDE
   InputGroup     = IMAGE_MAP_PROJECTION
   InputGroup     = IMAGE_MAP_PROJECTION_CATALOG

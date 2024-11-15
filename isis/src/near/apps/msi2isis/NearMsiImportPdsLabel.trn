@@ -1,6 +1,6 @@
 ############################# To Instrument Group #############################
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputPostion   = ROOT
   OutputName     = SpacecraftName 
@@ -9,7 +9,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputPostion   = ROOT
   OutputName     = InstrumentId 
@@ -18,7 +18,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME 
   InputPostion   = ROOT
   OutputName     = TargetName
@@ -27,7 +27,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputPosition  = ROOT
   OutputName     = StartTime
@@ -36,7 +36,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputPosition  = ROOT
   OutputName     = StopTime
@@ -45,7 +45,7 @@ Group = StopTime
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputPosition  = ROOT
   OutputName     = SpacecraftClockStartCount
@@ -54,7 +54,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputPosition  = ROOT
   OutputName     = SpacecraftClockStopCount
@@ -63,7 +63,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION
   InputPosition  = ROOT
   OutputName     = ExposureDuration
@@ -73,7 +73,7 @@ End_Group
 
 ############################## To BandBin Group ##############################
 Group = FilterNumber
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   InputPosition  = ROOT
   OutputName     = FilterNumber
@@ -95,7 +95,7 @@ End_Group
 #                       6       1000 nm
 #                       7       1050 nm
 Group = Center
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   InputPosition  = ROOT
   OutputName     = Center

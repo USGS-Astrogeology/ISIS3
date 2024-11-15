@@ -1,5 +1,5 @@
 Group = FilterCenter
-  Auto
+  Auto           = 1
   InputKey       = FILTER
   InputPosition  = FITSLABELS
   OutputName     = Center
@@ -8,7 +8,7 @@ Group = FilterCenter
 End_Group
 
 Group = FilterWidth
-  Auto
+  Auto           = 1
   InputKey       = FILTER
   InputPosition  = FITSLABELS
   OutputName     = Width
@@ -17,7 +17,7 @@ Group = FilterWidth
 End_Group
 
 Group = OriginalBand
-  Auto
+  Auto           = 1
   InputKey       = FILTER
   InputPosition  = FITSLABELS
   OutputName     = OriginalBand

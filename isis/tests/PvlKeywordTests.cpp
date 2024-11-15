@@ -48,7 +48,13 @@ TEST_F(RawPvlKeywords, ReadKeywords)
 			continue;
 		}
 
-		ASSERT_EQ(result, valid[key]);
+		EXPECT_EQ(result, valid[key]);
+
+		if (result != valid[key]) {
+			cout << "UNEXCEPTED PARSE RESULT FOR: \"" << keywordsToTry[key] << "\"" << endl;
+			cout << "EXPECTED: " << valid[key] << endl;
+			cout << "GOT: " << result << endl;
+		}
 
 		if (result)
 		{

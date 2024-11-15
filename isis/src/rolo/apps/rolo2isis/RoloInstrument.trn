@@ -1,6 +1,6 @@
 #Begin
 Group = LunarDate
-  Auto
+  Auto           = 1
   InputKey       = LUNAR_DATE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -10,7 +10,7 @@ Group = LunarDate
 End_Group
 
 Group = UniversalDate
-  Auto
+  Auto           = 1
   InputKey       = UNIVERSAL_DATE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -20,7 +20,7 @@ Group = UniversalDate
 End_Group
 
 Group = SeriesNumber
-  Auto
+  Auto           = 1
   InputKey       = SERIES_NUMBER
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -30,7 +30,7 @@ Group = SeriesNumber
 End_Group
 
 Group = ObjectType
-  Auto
+  Auto           = 1
   InputKey       = OBJECT_TYPE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -40,7 +40,7 @@ Group = ObjectType
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -50,7 +50,7 @@ Group = TargetName
 End_Group
 
 Group = ObjectId
-  Auto
+  Auto           = 1
   InputKey       = OBJECT_ID
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -60,7 +60,7 @@ Group = ObjectId
 End_Group
 
 Group = FlapPosition
-  Auto
+  Auto           = 1
   InputKey       = FLAP_POSITION
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -70,7 +70,7 @@ Group = FlapPosition
 End_Group
 
 Group = ShutterMode
-  Auto
+  Auto           = 1
   InputKey       = SHUTTER_MODE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -80,7 +80,7 @@ Group = ShutterMode
 End_Group
 
 Group = RightAscension
-  Auto
+  Auto           = 1
   InputKey       = RIGHT_ASCENSION
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -90,7 +90,7 @@ Group = RightAscension
 End_Group
 
 Group = Declination
-  Auto
+  Auto           = 1
   InputKey       = DECLINATION
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -100,7 +100,7 @@ Group = Declination
 End_Group
 
 Group = Epoch
-  Auto
+  Auto           = 1
   InputKey       = EPOCH
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -110,7 +110,7 @@ Group = Epoch
 End_Group
 
 Group = TeleHourAngle
-  Auto
+  Auto           = 1
   InputKey       = TELE_HOUR_ANGLE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -120,7 +120,7 @@ Group = TeleHourAngle
 End_Group
 
 Group = TeleRightAscension
-  Auto
+  Auto           = 1
   InputKey       = TELE_RIGHT_ASCENSION
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -130,7 +130,7 @@ Group = TeleRightAscension
 End_Group
 
 Group = TeleDeclination
-  Auto
+  Auto           = 1
   InputKey       = TELE_DECLINATION
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -140,7 +140,7 @@ Group = TeleDeclination
 End_Group
 
 Group = TeleEpoch
-  Auto
+  Auto           = 1
   InputKey       = TELE_EPOCH
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -150,7 +150,7 @@ Group = TeleEpoch
 End_Group
 
 Group = RaTrackingRate
-  Auto
+  Auto           = 1
   InputKey       = RA_TRACKING_RATE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -160,7 +160,7 @@ Group = RaTrackingRate
 End_Group
 
 Group = DecTrackingRate
-  Auto
+  Auto           = 1
   InputKey       = DEC_TRACKING_RATE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -170,7 +170,7 @@ Group = DecTrackingRate
 End_Group
 
 Group = CcdStartingRow
-  Auto
+  Auto           = 1
   InputKey       = CCD_STARTING_ROW
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -180,7 +180,7 @@ Group = CcdStartingRow
 End_Group
 
 Group = CcdStartingColumn
-  Auto
+  Auto           = 1
   InputKey       = CCD_STARTING_COLUMN
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -190,7 +190,7 @@ Group = CcdStartingColumn
 End_Group
 
 Group = Rows
-  Auto
+  Auto           = 1
   InputKey       = ROWS
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -200,7 +200,7 @@ Group = Rows
 End_Group
 
 Group = Columns
-  Auto
+  Auto           = 1
   InputKey       = COLUMNS
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -210,7 +210,7 @@ Group = Columns
 End_Group
 
 Group = AirTemperature
-  Auto
+  Auto           = 1
   InputKey       = AIR_TEMPERATURE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -220,7 +220,7 @@ Group = AirTemperature
 End_Group
 
 Group = WindSpeed
-  Auto
+  Auto           = 1
   InputKey       = WIND_SPEED
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -230,7 +230,7 @@ Group = WindSpeed
 End_Group
 
 Group = TelescopeLocationX
-  Auto
+  Auto           = 1
   InputKey       = TELESCOPE_LOCATION_X
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -240,7 +240,7 @@ Group = TelescopeLocationX
 End_Group
 
 Group = TelescopeLocationY
-  Auto
+  Auto           = 1
   InputKey       = TELESCOPE_LOCATION_Y
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -250,7 +250,7 @@ Group = TelescopeLocationY
 End_Group
 
 Group = TelescopeLocationZ
-  Auto
+  Auto           = 1
   InputKey       = TELESCOPE_LOCATION_Z
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -260,7 +260,7 @@ Group = TelescopeLocationZ
 End_Group
 
 Group = PixelResolution
-  Auto
+  Auto           = 1
   InputKey       = PIXEL_RESOLUTION
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -270,7 +270,7 @@ Group = PixelResolution
 End_Group
 
 Group = NorthOrientation
-  Auto
+  Auto           = 1
   InputKey       = NORTH_ORIENTATION
   InputGroup     = QUBE
   InputPosition  = QUBE

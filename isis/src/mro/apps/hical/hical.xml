@@ -462,7 +462,7 @@ Object = Hical
     Name = GainUnitConversion
     Module = GainUnitConversion
 
-/* I/F correction for tdi/bin - currently set at 1.0 for all tdi/bin */h
+/* I/F correction for tdi/bin - currently set at 1.0 for all tdi/bin */
 /* combinations. */
     GainUnitConversionBinFactor = 1.0
   End_Group

@@ -17,7 +17,7 @@
 # history 2021-06-07 Kristin Berry  - Added footprint information. 
 
 #Group = FileName
-#  Auto
+#  Auto            = 1
 #  InputKey        = FileName
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = title
@@ -26,8 +26,8 @@
 #End_Group
 
 #Group = DataSetId
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = DataSetId
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = logical_identifier
@@ -36,8 +36,8 @@
 #End_Group
 
 #Group = ProducerId
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ProducerId
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = Producer_id
@@ -46,8 +46,8 @@
 #End_Group
 
 #Group = ProducerName
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ProducerName
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = Producer_full_name
@@ -56,8 +56,8 @@
 #End_Group
 
 #Group = ProductVersionId
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ProductVersionId
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = version_id
@@ -66,8 +66,8 @@
 #End_Group
 
 #Group = ProductCreationTime
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ProductCreationTime
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = creation_date_time
@@ -77,8 +77,8 @@
 
 # Added for Alias_List
 Group = AliasList
-  Auto
-  Optional
+  Auto            = 1
+  Optional        = 1
   InputKey        = ObservationId
   InputPosition   = (IsisCube, Archive)
   OutputName      = alternate_id
@@ -87,8 +87,8 @@ Group = AliasList
 End_Group
 
 Group = Comment
-  Auto
-  Optional
+  Auto            = 1
+  Optional        = 1
   InputDefault    = "CaSSIS Internal Identifier"
   InputPosition   = (IsisCube, Archive)
   OutputName      = comment
@@ -99,8 +99,8 @@ End_Group
 # New Mission_Area exports
 
 #Group = SmithedCK
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = SmithedCK
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = cassis:smithedck
@@ -109,8 +109,8 @@ End_Group
 #End_Group
 
 #Group = CKKernel
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = CKKernel
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = cassis:ckkernel
@@ -122,8 +122,8 @@ End_Group
 # we want to translate these into a PDS4-compliant structure in the future.
 
 #Group = ProductId
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ProductId
 #  InputPosition   = (IsisCube, Instrument)
 #  OutputName      = product_id
@@ -132,8 +132,8 @@ End_Group
 #End_Group
 #
 #Group = ObservationId
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ObservationId
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = observation_id
@@ -142,8 +142,8 @@ End_Group
 #End_Group
 #
 #Group = PredictMaximumExposureTime
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = PredictMaximumExposureTime
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = PREDICTED_MAXIMUM_EXPOSURE_TIME
@@ -152,8 +152,8 @@ End_Group
 #End_Group
 #
 #Group = CassisOffNadirAngle
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = CassisOffNadirAngle
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = CASSIS_OFF_NADIR_ANGLE
@@ -162,8 +162,8 @@ End_Group
 #End_Group
 #
 #Group = PredictedRepetitionFrequency
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = PredictedRepetitionFrequency
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = PREDICTED_REQUIRED_REPETITION_FREQUENCY
@@ -172,8 +172,8 @@ End_Group
 #End_Group
 #
 #Group = GroundTrackVelocity
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = GroundTrackVelocity
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = TGO_GROUND_TRACK_VELOCITY
@@ -182,8 +182,8 @@ End_Group
 #End_Group
 #
 #Group = ForwardRotationAngle
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ForwardRotationAngle
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = FORWARD_ROTATION_ANGLE_REQUIRED
@@ -192,8 +192,8 @@ End_Group
 #End_Group
 #
 #Group = SpiceMisalignment
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = SpiceMisalignment
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = SPICE_KERNEL_MISALIGNMENT_PREDICT
@@ -202,8 +202,8 @@ End_Group
 #End_Group
 #
 #Group = FocalLength
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = FocalLength
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = TELESCOPE_FOCAL_LENGTH
@@ -212,8 +212,8 @@ End_Group
 #End_Group
 #
 #Group = FNumber
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = FNumber
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = TELESCOPE_F_NUMBER
@@ -222,8 +222,8 @@ End_Group
 #End_Group
 #
 #Group = ExposureTimeCommand
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ExposureTimeCommand
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = T_exp
@@ -232,8 +232,8 @@ End_Group
 #End_Group
 #
 #Group = FrameletNumber
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = FrameletNumber
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@SequenceCounter
@@ -242,8 +242,8 @@ End_Group
 #End_Group
 #
 #Group = NumberOfFramelets
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = NumberOfFramelets
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = Num_exp
@@ -252,8 +252,8 @@ End_Group
 #End_Group
 #
 #Group = ImageFrequency
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ImageFrequency
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = Step_exp
@@ -262,8 +262,8 @@ End_Group
 #End_Group
 #
 #Group = NumberOfWindows
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = NumberOfWindows
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = Num_win
@@ -272,8 +272,8 @@ End_Group
 #End_Group
 #
 #Group = UniqueIdentifier
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = UniqueIdentifier
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = Unique_Identifier
@@ -282,8 +282,8 @@ End_Group
 #End_Group
 #
 #Group = UID
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = UID
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@UID
@@ -292,8 +292,8 @@ End_Group
 #End_Group
 #
 #Group = ExposureTimestamp
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ExposureTimestamp
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@ExposureTimestamp
@@ -302,8 +302,8 @@ End_Group
 #End_Group
 #
 #Group = WindowCount
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_Count
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@WindowCounter
@@ -312,8 +312,8 @@ End_Group
 #End_Group
 #
 #Group = BinningWindow1
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_1_Binning
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Binning_window_1
@@ -322,8 +322,8 @@ End_Group
 #End_Group
 #
 #Group = BinningWindow2
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_2_Binning
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Binning_window_2
@@ -332,8 +332,8 @@ End_Group
 #End_Group
 #
 #Group = BinningWindow3
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_3_Binning
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Binning_window_3
@@ -342,8 +342,8 @@ End_Group
 #End_Group
 #
 #Group = BinningWindow4
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_4_Binning
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Binning_window_4
@@ -352,8 +352,8 @@ End_Group
 #End_Group
 #
 #Group = BinningWindow5
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_5_Binning
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Binning_window_5
@@ -362,8 +362,8 @@ End_Group
 #End_Group
 #
 #Group = BinningWindow6
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_6_Binning
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Binning_window_6
@@ -372,8 +372,8 @@ End_Group
 #End_Group
 #
 #Group = ExposureTimePEHK
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = ExposureTimePEHK
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Exposure_Time
@@ -382,8 +382,8 @@ End_Group
 #End_Group
 #
 #Group = PixelsPossiblySaturated
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey         = PixelsPossiblySaturated
 #  InputPosition    = (IsisCube, Archive)
 #  OutputName       = PixelsPossiblySaturated
@@ -392,7 +392,7 @@ End_Group
 #End_Group
 #
 #Group = Timestamp
-#  Auto
+#  Auto            = 1
 #  InputKey        = SpacecraftClockStartCount
 #  InputPosition   = (IsisCube, Instrument)
 #  OutputName      = "att@Timestamp"
@@ -401,7 +401,7 @@ End_Group
 #End_Group
 #
 #Group = ExposureDuration
-#  Auto
+#  Auto            = 1
 #  InputKey        = ExposureDuration
 #  InputPosition   = (IsisCube, Instrument)
 #  OutputName      = "att@Exposure_Time"
@@ -410,7 +410,7 @@ End_Group
 #End_Group
 #
 #Group = SummingMode
-#  Auto
+#  Auto            = 1
 #  InputKey        = SummingMode
 #  InputPosition   = (IsisCube, Instrument)
 #  InputDefault    = "0"
@@ -420,8 +420,8 @@ End_Group
 #End_Group
 #
 #Group = Expanded
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Expanded
 #  InputPosition   = (IsisCube, Instrument)
 #  OutputName      = Expanded
@@ -431,7 +431,7 @@ End_Group
 #End_Group
 #
 #Group = FilterName
-#  Auto
+#  Auto            = 1
 #  InputKey        = FilterName
 #  InputPosition   = (IsisCube, BandBin)
 #  OutputName      = Filter
@@ -441,8 +441,8 @@ End_Group
 #End_Group
 #
 #Group = Window1EndColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_1_End_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window1_End_Col
@@ -451,8 +451,8 @@ End_Group
 #End_Group
 #
 #Group = Window1EndRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_1_End_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window1_End_Row
@@ -461,8 +461,8 @@ End_Group
 #End_Group
 #
 #Group = Window1StartColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_1_Start_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window1_Start_Col
@@ -471,8 +471,8 @@ End_Group
 #End_Group
 #
 #Group = Window1StartRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_1_Start_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window1_Start_Row
@@ -481,8 +481,8 @@ End_Group
 #End_Group
 #
 #Group = Window2EndColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_2_End_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window2_End_Col
@@ -491,8 +491,8 @@ End_Group
 #End_Group
 #
 #Group = Window2EndRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_2_End_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window2_End_Row
@@ -501,8 +501,8 @@ End_Group
 #End_Group
 #
 #Group = Window2StartColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_2_Start_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window2_Start_Col
@@ -511,8 +511,8 @@ End_Group
 #End_Group
 #
 #Group = Window2StartRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_2_Start_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window2_Start_Row
@@ -521,8 +521,8 @@ End_Group
 #End_Group
 #
 #Group = Window3EndColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_3_End_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window3_End_Col
@@ -531,8 +531,8 @@ End_Group
 #End_Group
 #
 #Group = Window3EndRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_3_End_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window3_End_Row
@@ -541,8 +541,8 @@ End_Group
 #End_Group
 #
 #Group = Window3StartColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_3_Start_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window3_Start_Col
@@ -551,8 +551,8 @@ End_Group
 #End_Group
 #
 #Group = Window3StartRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_3_Start_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window3_Start_Row
@@ -561,8 +561,8 @@ End_Group
 #End_Group
 #
 #Group = Window4EndColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_4_End_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window4_End_Col
@@ -571,8 +571,8 @@ End_Group
 #End_Group
 #
 #Group = Window4EndRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_4_End_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window4_End_Row
@@ -581,8 +581,8 @@ End_Group
 #End_Group
 #
 #Group = Window4StartColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_4_Start_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window4_Start_Col
@@ -591,8 +591,8 @@ End_Group
 #End_Group
 #
 #Group = Window4StartRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_4_Start_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window4_Start_Row
@@ -601,8 +601,8 @@ End_Group
 #End_Group
 #
 #Group = Window5EndColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_5_End_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window5_End_Col
@@ -611,8 +611,8 @@ End_Group
 #End_Group
 #
 #Group = Window5EndRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_5_End_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window5_End_Row
@@ -621,8 +621,8 @@ End_Group
 #End_Group
 #
 #Group = Window5StartColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_5_Start_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window5_Start_Col
@@ -631,8 +631,8 @@ End_Group
 #End_Group
 #
 #Group = Window5StartRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_5_Start_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window5_Start_Row
@@ -641,8 +641,8 @@ End_Group
 #End_Group
 #
 #Group = Window6EndColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_6_End_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window6_End_Col
@@ -651,8 +651,8 @@ End_Group
 #End_Group
 #
 #Group = Window6EndRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_6_End_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window6_End_Row
@@ -661,8 +661,8 @@ End_Group
 #End_Group
 #
 #Group = Window6StartColumn
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_6_Start_Sample
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window6_Start_Col
@@ -671,8 +671,8 @@ End_Group
 #End_Group
 #
 #Group = Window6StartRow
-#  Auto
-#  Optional
+#  Auto            = 1
+#  Optional        = 1
 #  InputKey        = Window_6_Start_Line
 #  InputPosition   = (IsisCube, Archive)
 #  OutputName      = att@Window6_Start_Row
@@ -683,8 +683,8 @@ End_Group
 # Export Footprint Coordinates 
 
 Group = Corner1Lattiude
-  Auto
-  Optional
+  Auto            = 1
+  Optional        = 1
   InputKey        = Corner1Latitude
   InputPosition   = (IsisCube, Archive)
   OutputSiblings =  ("geom:reference_pixel_location|Lower Left Corner")
@@ -694,8 +694,8 @@ Group = Corner1Lattiude
 End_Group
 
 Group = Corner1Longitude
-  Auto
-  Optional
+  Auto            = 1
+  Optional        = 1
   InputKey        = Corner1Longitude
   InputPosition   = (IsisCube, Archive)
   OutputName      = geom:pixel_longitude
@@ -704,8 +704,8 @@ Group = Corner1Longitude
 End_Group
 
 Group = Corner2Lattiude
-  Auto
-  Optional
+  Auto            = 1
+  Optional        = 1
   InputKey        = Corner2Latitude
   InputPosition   = (IsisCube, Archive)
   OutputName      = geom:pixel_latitude
@@ -715,8 +715,8 @@ Group = Corner2Lattiude
 End_Group
 
 Group = Corner2Longitude
-  Auto
-  Optional
+  Auto            = 1
+  Optional        = 1
   InputKey        = Corner2Longitude
   InputPosition   = (IsisCube, Archive)
   OutputName      = geom:pixel_longitude
@@ -725,8 +725,8 @@ Group = Corner2Longitude
 End_Group
 
 Group = Corner3Lattiude
-  Auto
-  Optional
+  Auto            = 1
+  Optional        = 1
   InputKey        = Corner3Latitude
   InputPosition   = (IsisCube, Archive)
   OutputName      = geom:pixel_latitude
@@ -736,8 +736,8 @@ Group = Corner3Lattiude
 End_Group
 
 Group = Corner3Longitude
-  Auto
-  Optional
+  Auto            = 1
+  Optional        = 1
   InputKey        = Corner3Longitude
   InputPosition   = (IsisCube, Archive)
   OutputName      = geom:pixel_longitude
@@ -746,8 +746,8 @@ Group = Corner3Longitude
 End_Group
 
 Group = Corner4Lattiude
-  Auto
-  Optional
+  Auto            = 1
+  Optional        = 1
   InputKey        = Corner4Latitude
   InputPosition   = (IsisCube, Archive)
   OutputName      = geom:pixel_latitude
@@ -757,8 +757,8 @@ Group = Corner4Lattiude
 End_Group
 
 Group = Corner4Longitude
-  Auto
-  Optional
+  Auto            = 1
+  Optional        = 1
   InputKey        = Corner4Longitude
   InputPosition   = (IsisCube, Archive)
   OutputName      = geom:pixel_longitude

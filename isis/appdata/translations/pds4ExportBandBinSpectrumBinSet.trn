@@ -16,7 +16,7 @@
 #             Description
 #
  Group = BinWidthDescription
-  Auto
+  Auto              = 1
   InputDefault      = UNK
   OutputName        = sp:bin_width_desc
   OutputPosition    = (Product_Observational, Observation_Area, Discipline_Area, sp:Spectral_Characteristics)
@@ -30,7 +30,7 @@
 #        </sp:Local_Internal_Reference>
 
 Group = LocalIdentifierReference
-  Auto
+  Auto             = 1
   InputDefault     = Spectral_Array_Object
   OutputName       = sp:local_identifier_reference
   OutputPosition   = (Product_Observational, Observation_Area, Discipline_Area, sp:Spectral_Characteristics, sp:Local_Internal_Reference)
@@ -39,7 +39,7 @@ End_Group
 
 # enumerated value
 Group = LocalReferenceType
-  Auto
+  Auto             = 1
   InputDefault     = spectral_characteristics_to_array_object
   OutputName       = sp:local_reference_type
   OutputPosition   = (Product_Observational, Observation_Area, Discipline_Area, sp:Spectral_Characteristics, sp:Local_Internal_Reference)
@@ -47,7 +47,7 @@ Group = LocalReferenceType
 End_Group
 
 Group = BinSetLocalIdentifierReference
-  Auto
+  Auto             = 1
   InputDefault     = Band
   OutputName       = sp:local_identifier_reference
   OutputPosition   = (Product_Observational, Observation_Area, Discipline_Area, sp:Spectral_Characteristics, sp:Axis_Bin_Set, sp:Local_Internal_Reference)
@@ -56,7 +56,7 @@ End_Group
 
 # enumerated value
 Group = BinSetLocalReferenceType
-  Auto
+  Auto             = 1
   InputDefault     = spectral_characteristics_to_array_axis
   OutputName       = sp:local_reference_type
   OutputPosition   = (Product_Observational, Observation_Area, Discipline_Area, sp:Spectral_Characteristics, sp:Axis_Bin_Set, sp:Local_Internal_Reference)

@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   OutputName     = DataSetId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -29,7 +29,7 @@ Group = DataSetId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   OutputName     = ProductId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -37,7 +37,7 @@ Group = ProductId
 End_Group
 
 Group = ProductType
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_TYPE
   OutputName     = ProductType
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -45,7 +45,7 @@ Group = ProductType
 End_Group
 
 Group = ProductCreationTime
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_CREATION_TIME
   OutputName     = ProductCreationTime
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -53,7 +53,7 @@ Group = ProductCreationTime
 End_Group
 
 Group = ProductVersionId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_VERSION_ID
   OutputName     = ProductVersionId
   OutputPosition = (Object, IsisCube, Group, Archive)

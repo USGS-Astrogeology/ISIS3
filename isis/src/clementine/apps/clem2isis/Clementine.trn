@@ -1,5 +1,5 @@
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_NAME
   OutputName     = SpacecraftName
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -7,7 +7,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   OutputName     = InstrumentId
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -15,7 +15,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   OutputName     = TargetName
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -23,7 +23,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   OutputName     = StartTime
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -31,7 +31,7 @@ Group = StartTime
 End_Group
 
 Group = OrbitNumber
-  Auto
+  Auto           = 1
   InputKey       = REVOLUTION_NUMBER
   OutputName     = OrbitNumber
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -39,7 +39,7 @@ Group = OrbitNumber
 End_Group
 
 Group = FocalPlaneTemperature
-  Auto
+  Auto           = 1
   InputKey       = FOCAL_PLANE_TEMPERATURE
   OutputName     = FocalPlaneTemperature
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -47,7 +47,7 @@ Group = FocalPlaneTemperature
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION
   OutputName     = ExposureDuration
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -55,7 +55,7 @@ Group = ExposureDuration
 End_Group
 
 Group = OffsetModeID
-  Auto
+  Auto           = 1
   InputKey       = OFFSET_MODE_ID
   OutputName     = OffsetModeID
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -63,7 +63,7 @@ Group = OffsetModeID
 End_Group
 
 Group = GainModeID
-  Auto
+  Auto           = 1
   InputKey       = GAIN_MODE_ID
   OutputName     = GainModeID
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -71,7 +71,7 @@ Group = GainModeID
 End_Group
 
 Group = CryocoolerDuration
-  Auto
+  Auto           = 1
   InputKey       = CRYOCOOLER_DURATION
   OutputName     = CryocoolerDuration
   OutputPosition = (Object, IsisCube, Group, Instrument)
@@ -79,7 +79,7 @@ Group = CryocoolerDuration
 End_Group
 
 #Group = RawMaximum
-#  Auto
+#  Auto           = 1
 #  InputGroup = "IMAGE"
 #  InputKey = MAXIMUM
 #  OutputPosition = ("Object","IsisCube","Group","Instrument")
@@ -87,7 +87,7 @@ End_Group
 #  Translation = (*,*)
 #EndGroup
 #Group = RawMinimum
-#  Auto
+#  Auto           = 1
 #  InputGroup = "IMAGE"
 #  InputKey = MINIMUM
 #  OutputPosition = ("Object","IsisCube","Group","Instrument")
@@ -95,7 +95,7 @@ End_Group
 #  Translation = (*,*)
 #EndGroup
 #Group = RawMean
-#  Auto
+#  Auto           = 1
 #  InputGroup = "IMAGE"
 #  InputKey = MEAN
 #  OutputPosition = ("Object","IsisCube","Group","Instrument")
@@ -103,7 +103,7 @@ End_Group
 #  Translation = (*,*)
 #EndGroup
 #Group = RawStandardDeviation
-#  Auto
+#  Auto           = 1
 #  InputGroup = "IMAGE"
 #  InputKey = STANDARD_DEVIATION
 #  OutputPosition = ("Object","IsisCube","Group","Instrument")
@@ -111,7 +111,7 @@ End_Group
 #  Translation = (*,*)
 #EndGroup
 Group = EncodingCompressionRatio
-  Auto
+  Auto           = 1
   InputKey       = ENCODING_COMPRESSION_RATIO
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -121,7 +121,7 @@ Group = EncodingCompressionRatio
 End_Group
 
 Group = ProductID
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   OutputName     = ProductID
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -129,7 +129,7 @@ Group = ProductID
 End_Group
 
 Group = MissionPhase
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   OutputName     = MissionPhase
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -137,7 +137,7 @@ Group = MissionPhase
 End_Group
 
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NAME
   OutputName     = FilterName
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -145,7 +145,7 @@ Group = FilterName
 End_Group
 
 Group = Center
-  Auto
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   OutputName     = Center
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -153,7 +153,7 @@ Group = Center
 End_Group
 
 Group = Width
-  Auto
+  Auto           = 1
   InputKey       = BANDWIDTH
   OutputName     = Width
   OutputPosition = (Object, IsisCube, Group, BandBin)

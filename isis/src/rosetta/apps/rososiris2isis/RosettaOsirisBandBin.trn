@@ -23,7 +23,7 @@
 
 #input group changed from [ROOT]
 Group = FilterNumber
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   InputGroup     = SR_MECHANISM_STATUS
   InputPosition  = SR_MECHANISM_STATUS

@@ -1,5 +1,5 @@
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NAME
   InputDefault   = None
   OutputName     = Name
@@ -8,7 +8,7 @@ Group = FilterName
 End_Group
 
 Group = FilterCenter
-  Auto
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   InputDefault   = 600
   OutputName     = Center
@@ -17,7 +17,7 @@ Group = FilterCenter
 End_Group
 
 Group = FilterWidth
-  Auto
+  Auto           = 1
   InputKey       = BAND_WIDTH
   InputDefault   = 500
   OutputName     = Width

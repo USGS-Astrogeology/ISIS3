@@ -6,7 +6,7 @@
 # history 2018-05-16 Christopher Combs - Changed 3D_Image_Object to Array_3D_Image
 
 #Group = LocalInternalReference
-#  Auto
+#  Auto            = 1
 #  InputDefault    = ""
 #  OutputName      = Local_Internal_Reference
 ##  OutputSiblings  = ("att@local_identifier_reference|TBD", "att@local_reference_type|TBD")
@@ -15,7 +15,7 @@
 #End_Group
 
 Group = LocalIdentifierReference
-  Auto
+  Auto            = 1
   InputDefault    = Image_Array_Object
   OutputName      = local_identifier_reference
   OutputPosition  = (Product_Observational, Observation_Area, Discipline_Area, disp:Display_Settings,
@@ -24,7 +24,7 @@ Group = LocalIdentifierReference
 End_Group
 
 Group = DisplaySettingsToArray
-  Auto
+  Auto            = 1
   InputDefault    = display_settings_to_array
   OutputName      = local_reference_type
   OutputPosition  = (Product_Observational, Observation_Area, Discipline_Area, disp:Display_Settings,
@@ -33,7 +33,7 @@ Group = DisplaySettingsToArray
 End_Group
 
 Group = HorizontalDisplayAxis
-  Auto
+  Auto            = 1
   InputDefault    = Sample
   OutputName      = disp:horizontal_display_axis
 #  OutputSiblings  = ("disp:horizontal_display_direction|Left To Right",
@@ -45,7 +45,7 @@ Group = HorizontalDisplayAxis
 End_Group
 
 Group = HorizontalDisplayDirection
-  Auto
+  Auto            = 1
   InputDefault    = "Left to Right"
   OutputName      = disp:horizontal_display_direction
   OutputPosition  = (Product_Observational, Observation_Area, Discipline_Area, disp:Display_Settings,
@@ -54,7 +54,7 @@ Group = HorizontalDisplayDirection
 End_Group
 
 Group = VerticalDisplayAxis
-  Auto
+  Auto            = 1
   InputDefault    = Line
   OutputName      = disp:vertical_display_axis
   OutputPosition  = (Product_Observational, Observation_Area, Discipline_Area, disp:Display_Settings,
@@ -63,7 +63,7 @@ Group = VerticalDisplayAxis
 End_Group
 
 Group = VerticalDisplayDirection
-  Auto
+  Auto            = 1
   InputDefault    = "Top to Bottom"
   OutputName      = disp:vertical_display_direction
   OutputPosition  = (Product_Observational, Observation_Area, Discipline_Area, disp:Display_Settings,

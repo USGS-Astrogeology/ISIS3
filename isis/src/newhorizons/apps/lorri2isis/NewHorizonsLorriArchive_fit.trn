@@ -3,7 +3,7 @@
 # for the New Horizons LORRI camera.
 #
 Group = HighSpeedCompressionMode
-  Auto
+  Auto           = 1
   InputKey       = HSCOMPR
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -13,7 +13,7 @@ Group = HighSpeedCompressionMode
 End_Group
 
 Group = ObservationCompletionStatus
-  Auto
+  Auto           = 1
   InputKey       = OBSCOMPL
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -24,7 +24,7 @@ Group = ObservationCompletionStatus
 End_Group
 
 Group = SequenceDescription
-  Auto
+  Auto           = 1
   InputKey       = REQDESC
   InputPosition  = FITSLABELS
   InputDefault   = NONE

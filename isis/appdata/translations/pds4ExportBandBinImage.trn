@@ -17,7 +17,7 @@
 #    </img:local_reference_type>
 #  </img:Local_Internal_Reference>
 Group = LocalIdentifierReference
-  Auto
+  Auto             = 1
   InputDefault     = Image_Array_Object
   InputPosition    = (IsisCube, BandBin)
   OutputName       = local_identifier_reference
@@ -26,7 +26,7 @@ Group = LocalIdentifierReference
 End_Group
 
 Group = LocalReferenceType
-  Auto
+  Auto             = 1
   InputDefault     = imaging_parameters_to_image_object
   InputPosition    = (IsisCube, BandBin)
   OutputName       = local_reference_type
@@ -45,9 +45,9 @@ End_Group
 #            </img:Filter>
 
 Group = FilterName1
-  Auto
-  Debug
-  Optional
+  Auto             = 1
+  Debug            = 1
+  Optional         = 1
   InputKey         = FilterName
   InputPosition    = (IsisCube, BandBin)
   OutputName       = img:filter_name
@@ -56,9 +56,9 @@ Group = FilterName1
 End_Group
 
 Group = FilterName2
-  Auto
-  Debug
-  Optional
+  Auto             = 1
+  Debug            = 1
+  Optional         = 1
   InputKey         = Name
   InputPosition    = (IsisCube, BandBin)
   OutputName       = img:filter_name
@@ -67,9 +67,9 @@ Group = FilterName2
 End_Group
 
 Group = FilterName3
-  Auto
-  Debug
-  Optional
+  Auto             = 1
+  Debug            = 1
+  Optional         = 1
   InputKey         = FilterId
   InputPosition    = (IsisCube, BandBin)
   OutputName       = img:filter_name
@@ -78,9 +78,9 @@ Group = FilterName3
 End_Group
 
 Group = FilterId1
-  Auto
-  Debug
-  Optional
+  Auto             = 1
+  Debug            = 1
+  Optional         = 1
   InputKey         = FilterId
   InputPosition    = (IsisCube, BandBin)
   OutputName       = img:filter_id
@@ -89,9 +89,9 @@ Group = FilterId1
 End_Group
 
 Group = FilterId2
-  Auto
-  Debug
-  Optional
+  Auto             = 1
+  Debug            = 1
+  Optional         = 1
   InputKey         = FilterName
   InputPosition    = (IsisCube, BandBin)
   OutputName       = img:filter_id
@@ -100,9 +100,9 @@ Group = FilterId2
 End_Group
 
 Group = FilterId3
-  Auto
-  Debug
-  Optional
+  Auto             = 1
+  Debug            = 1
+  Optional         = 1
   InputKey         = Name
   InputPosition    = (IsisCube, BandBin)
   OutputName       = img:filter_id
@@ -111,8 +111,8 @@ Group = FilterId3
 End_Group
 
 Group = FilterNumber1
-  Auto
-  Optional
+  Auto             = 1
+  Optional         = 1
   InputKey         = OriginalBand
   InputPosition    = (IsisCube, BandBin)
   OutputName       = img:filter_number
@@ -121,8 +121,8 @@ Group = FilterNumber1
 End_Group
 
 Group = FilterNumber2
-  Auto
-  Optional
+  Auto             = 1
+  Optional         = 1
   InputKey         = FilterNumber
   InputPosition    = (IsisCube, BandBin)
   OutputName       = img:filter_number
@@ -131,8 +131,8 @@ Group = FilterNumber2
 End_Group
 
 Group = BandWidth1
-  Auto
-  Optional
+  Auto             = 1
+  Optional         = 1
   InputKey         = Width
   InputPosition    = (IsisCube, BandBin)
   OutputName       = img:bandwidth
@@ -142,8 +142,8 @@ Group = BandWidth1
 End_Group
 
 Group = BandWidth2
-  Auto
-  Optional
+  Auto             = 1
+  Optional         = 1
   InputKey         = FilterWidth
   InputPosition    = (IsisCube, BandBin)
   OutputName       = img:bandwidth
@@ -153,9 +153,9 @@ Group = BandWidth2
 End_Group
 
 Group = CenterWavelength1
-  Auto
-  Debug
-  Optional
+  Auto             = 1
+  Debug            = 1
+  Optional         = 1
   InputKey         = Center
   InputPosition    = (IsisCube,BandBin)
   OutputName       = img:center_filter_wavelength
@@ -165,9 +165,9 @@ Group = CenterWavelength1
 End_Group
 
 Group = CenterWavelength2
-  Auto
-  Debug
-  Optional
+  Auto             = 1
+  Debug            = 1
+  Optional         = 1
   InputKey         = FilterCenter
   InputPosition    = (IsisCube,BandBin)
   OutputName       = img:center_filter_wavelength
