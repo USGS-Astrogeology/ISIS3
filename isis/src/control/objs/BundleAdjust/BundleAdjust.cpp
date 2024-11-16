@@ -1237,6 +1237,10 @@ namespace Isis {
       emit(pointUpdate(i+1));
       BundleControlPointQsp point = m_bundleControlPoints.at(i);
 
+      if (point->isRejected()) {
+        continue;
+      }
+
       if ( i != 0 ) {
         N22.clear();
         N12.wipe();
@@ -1290,6 +1294,10 @@ namespace Isis {
     for (int i = 0; i < numLidarPoints; i++) {
       emit(pointUpdate(i+1));
       BundleLidarControlPointQsp point = m_bundleLidarControlPoints.at(i);
+
+      if (point->isRejected()) {
+        continue;
+      }
 
       N22.clear();
       N12.wipe();

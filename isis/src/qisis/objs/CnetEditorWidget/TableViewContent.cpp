@@ -1518,42 +1518,38 @@ namespace Isis {
     *
     * @return QList< AbstractTreeItem * > The newly selected row
     */
-QList<AbstractTreeItem *> TableViewContent::updateRowGroupSelection(int lastRow) {
-    foreach (AbstractTreeItem *row, *m_lastShiftSelection) {
-        if (row->getPointerType() == AbstractTreeItem::Point) {
-            foreach (AbstractTreeItem *child, row->getChildren()) {
-                child->setSelected(false);
-            }
-        }
+  QList< AbstractTreeItem * > TableViewContent::updateRowGroupSelection(int lastRow) {
+    foreach (AbstractTreeItem * row, *m_lastShiftSelection) {
+      if (row->getPointerType() == AbstractTreeItem::Point)
+        foreach (AbstractTreeItem * child, row->getChildren())
+        child->setSelected(false);
 
-        if (row->getPointerType() == AbstractTreeItem::Measure) {
-            row->parent()->setSelected(false);
-        }
+      if (row->getPointerType() == AbstractTreeItem::Measure)
+        row->parent()->setSelected(false);
 
-        row->setSelected(false);
+      row->setSelected(false);
     }
 
     if (m_lastDirectlySelectedRow) {
-        *m_lastShiftSelection = m_model->getItems(
-            m_lastDirectlySelectedRow, m_items->at(lastRow));
-    } else {
-        m_lastShiftSelection->clear();
+      *m_lastShiftSelection = m_model->getItems(
+          m_lastDirectlySelectedRow, m_items->at(lastRow));
+    }
+    else {
+      m_lastShiftSelection->clear();
     }
 
-    QList<AbstractTreeItem *> newlySelectedItems;
-    foreach (AbstractTreeItem *row, *m_lastShiftSelection) {
-        row->setSelected(true);
+    QList< AbstractTreeItem * > newlySelectedItems;
+    foreach (AbstractTreeItem * row, *m_lastShiftSelection) {
+      row->setSelected(true);
 
-        if (row->getPointerType() == AbstractTreeItem::Measure) {
-            row->parent()->setSelected(true);
-        }
+      if (row->getPointerType() == AbstractTreeItem::Measure)
+        row->parent()->setSelected(true);
 
-        newlySelectedItems.append(row);
+      newlySelectedItems.append(row);
     }
 
     return newlySelectedItems;
-}
-
+  }
 
 
   /**

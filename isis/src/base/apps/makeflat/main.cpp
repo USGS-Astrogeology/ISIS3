@@ -390,6 +390,9 @@ void IsisMain() {
 
   cubeInitialized = false;
   for(currImage = 0; currImage < inList.size(); currImage++) {
+    if(Excluded(currImage)) {
+      continue;
+    }
 
     PvlObject currFile("Exclusions");
     currFile += PvlKeyword("FileName", inList[currImage].toString());

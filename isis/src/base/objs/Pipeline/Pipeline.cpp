@@ -602,8 +602,6 @@ namespace Isis {
     //Check for non nulls instead of size ie. find last non null or use this
     QString pauseAppId = "";
 
-    for (int iapp = 0; iapp < (int) p_apps.size(); iapp++)
-
     // Add the new application
     if (p_apps.size() == 0) {
       p_apps.push_back(new PipelineApplication(appname, this));

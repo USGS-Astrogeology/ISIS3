@@ -256,6 +256,10 @@ namespace Isis {
     for (int ov = 0; ov < overlaps.Size(); ++ov) {
       progress.CheckStatus();
 
+      if (overlaps[ov]->Size() == 1) {
+        continue;
+      }
+
       // Checks if this overlap was already seeded
       if (precnet) {
 
@@ -310,6 +314,11 @@ namespace Isis {
           }
         }
 
+        continue;
+      }
+
+      // No points were seeded in this polygon, so collect some stats and move on
+      if (points.size() == 0) {
         continue;
       }
 
