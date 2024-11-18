@@ -40,6 +40,7 @@ release.
 - Added Vectorize to ProcessGroundPolygon library
 - Added gtest files for the app and unit test 
 - Added Chandrayaan2 template for isisimport
+- Added HRSC support in socetlinescankeywords [#5465](https://github.com/DOI-USGS/ISIS3/issues/5465)
 
 ### Changed
 - Refactored the pixel2map app
