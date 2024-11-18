@@ -322,8 +322,8 @@ namespace Isis {
    *                                       to p_inputBranches
    */
   void Pipeline::SetInputFile(const FileName &inputFile) {
-    p_originalInput.push_back(inputFile.original());
-    p_inputBranches.push_back(inputFile.original());
+    p_originalInput.push_back(inputFile.expanded());
+    p_inputBranches.push_back(inputFile.expanded());
     p_virtualBands.push_back("");
   }
 
