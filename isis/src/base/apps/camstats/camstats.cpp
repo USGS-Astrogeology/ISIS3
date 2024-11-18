@@ -187,7 +187,7 @@ namespace Isis {
       Table table(cam_name, record);
 
       // Place all the gathered camera statistics in a table and attach it to the
-      // cube. Skip "User Parameters" group.
+      // cube. Skip "UserParameters" group.
       for (int i = 1; i < statsPvl.groups(); i++) {
         PvlGroup &group = statsPvl.group(i);
 

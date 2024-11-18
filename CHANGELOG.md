@@ -46,6 +46,7 @@ release.
 - Updated pixel2map documentation
 - Changed PVL parsing to no longer allow valueless keywords [#5573](https://github.com/DOI-USGS/ISIS3/pull/5573)
 - Changed all `.trn` files with an `Auto`, `Debug` or `Optional` keyword with no value to have a value of `1` [#5573](https://github.com/DOI-USGS/ISIS3/pull/5573)
+- Changed 'User Parameters' group in camstats to UserParameters for PVL compliance [#5625](https://github.com/DOI-USGS/ISIS3/issues/5625).
 
 ### Fixed
 - Fixed noseam bug where a debugging output statement was inadvertently left in noseam.cpp.
