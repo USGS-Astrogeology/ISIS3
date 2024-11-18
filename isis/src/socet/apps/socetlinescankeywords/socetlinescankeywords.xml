@@ -24,9 +24,9 @@
        MRO-CTX
        LRO-NACL
        LRO-NACR
-<!--
        MEX-HRSC
-       MGS-MOC
+<!--        
+       MGS-MOC 
 -->
     </pre>
   </description>
@@ -110,8 +110,6 @@
         </description>
       </parameter>
 
-<!--
-Commented this parameter out until HRSC is supported in SS
       <parameter name="HRSC_NADIRCENTERTIME">
         <brief>Ephemeris time at center of HRSC nadir image
         </brief>
@@ -123,7 +121,7 @@ Commented this parameter out until HRSC is supported in SS
         <type>double</type>
         <default><item>0.0</item></default>
       </parameter>
--->
+
     </group>
   </groups>
 </application>
