@@ -3,7 +3,7 @@
 
 #### Keywords for Bounding Coordinates
 Group = north_bounding_coordinate
-  Auto
+  Auto           = 1
   InputKey       = MaximumLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -14,7 +14,7 @@ Group = north_bounding_coordinate
 End_Group
 
 Group = south_bounding_coordinate
-  Auto
+  Auto           = 1
   InputKey       = MinimumLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -25,7 +25,7 @@ Group = south_bounding_coordinate
 End_Group
 
 Group = east_bounding_coordinate
-  Auto
+  Auto           = 1
   InputKey       = MinimumLongitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -36,7 +36,7 @@ Group = east_bounding_coordinate
 End_Group
 
 Group = west_bounding_coordinate
-  Auto
+  Auto           = 1
   InputKey       = MaximumLongitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -58,7 +58,7 @@ End_Group
 #</cart:Geodetic_Model>
 
 Group = latitude_type
-  Auto
+  Auto           = 1
   InputKey       = LatitudeType
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -69,7 +69,7 @@ Group = latitude_type
 End_Group
 
 Group = semi_major_radius
-  Auto
+  Auto           = 1
   InputKey       = EquatorialRadius
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -79,7 +79,7 @@ Group = semi_major_radius
 End_Group
 
 Group = semi_minor_radius
-  Auto
+  Auto           = 1
   InputKey       = EquatorialRadius
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -89,7 +89,7 @@ Group = semi_minor_radius
 End_Group
 
 Group = polar_radius
-  Auto
+  Auto           = 1
   InputKey       = PolarRadius
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -99,7 +99,7 @@ Group = polar_radius
 End_Group
 
 Group = longitude_direction
-  Auto
+  Auto           = 1
   InputKey       = LongitudeDirection
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -113,7 +113,7 @@ End_Group
 # TODO: add units
 
 Group = map_projection_name
-  Auto
+  Auto           = 1
   InputKey       = ProjectionName
   InputGroup     = "IsisCube, Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -124,8 +124,8 @@ End_Group
 
 # TODO: is N/A a valid value? 
 Group = standard_parallel_1
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = FirstStandardParallel
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -135,8 +135,8 @@ Group = standard_parallel_1
 End_Group
 
 Group = standard_parallel_2
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = SecondStandardParallel
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -147,8 +147,8 @@ End_Group
 
 
 Group = latitude_of_projection_origin
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = CenterLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -158,8 +158,8 @@ Group = latitude_of_projection_origin
 End_Group
 
 Group = longitude_of_central_meridian
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = CenterLongitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -174,7 +174,7 @@ End_Group
 # Group = planar_coordinate_encoding_method? 
 
 Group = pixel_resolution_x
-  Auto
+  Auto           = 1
   InputKey       = Scale
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -184,7 +184,7 @@ Group = pixel_resolution_x
 End_Group
 
 Group = pixel_resolution_y
-  Auto
+  Auto           = 1
   InputKey       = Scale
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -194,7 +194,7 @@ Group = pixel_resolution_y
 End_Group
 
 Group = pixel_scale_x
-  Auto
+  Auto           = 1
   InputKey       = PixelResolution
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -204,7 +204,7 @@ Group = pixel_scale_x
 End_Group
 
 Group = pixel_scale_y
-  Auto
+  Auto           = 1
   InputKey       = PixelResolution
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -217,8 +217,8 @@ End_Group
 # TODO: add units
 
 Group = upperleft_corner_x
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = UpperLeftCornerX
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -228,8 +228,8 @@ Group = upperleft_corner_x
 End_Group
 
 Group = upperleft_corner_y
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = UpperLeftCornerY
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -242,7 +242,7 @@ End_Group
 
 # Map Rotation not supported by PDS4? 
 #Group = MAP_PROJECTION_ROTATION
-#  Auto
+#  Auto           = 1
 #  InputKey       = MapProjectionRotation
 #  InputGroup     = "IsisCube,Mapping"
 #  InputPosition  = (IsisCube, Mapping)

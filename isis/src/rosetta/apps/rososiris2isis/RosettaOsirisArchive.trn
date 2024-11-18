@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = FileName
-  Auto
+  Auto           = 1
   InputKey       = FILE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -31,7 +31,7 @@ Group = FileName
 End_Group
 
 Group = SoftwareName
-  Auto
+  Auto           = 1
   InputKey       = SOFTWARE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -41,7 +41,7 @@ Group = SoftwareName
 End_Group
 
 Group = SoftwareVersionId
-  Auto
+  Auto           = 1
   InputKey       = SOFTWARE_VERSION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -51,7 +51,7 @@ Group = SoftwareVersionId
 End_Group
 
 Group = DataSetName
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -61,7 +61,7 @@ Group = DataSetName
 End_Group
 
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -71,7 +71,7 @@ Group = DataSetId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -81,7 +81,7 @@ Group = ProductId
 End_Group
 
 Group = ProductType
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_TYPE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -91,7 +91,7 @@ Group = ProductType
 End_Group
 
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -101,7 +101,7 @@ Group = DataSetId
 End_Group
 
 Group = ProducerFullName
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_FULL_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -111,7 +111,7 @@ Group = ProducerFullName
 End_Group
 
 Group = ProducerInstitutionName
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_INSTITUTION_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -121,7 +121,7 @@ Group = ProducerInstitutionName
 End_Group
 
 Group = ProductCreationTime
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_CREATION_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -131,7 +131,7 @@ Group = ProductCreationTime
 End_Group
 
 Group = ProductVersionId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_VERSION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT

@@ -1,5 +1,5 @@
 Group = DATA_SET_ID
-  Auto
+  Auto           = 1
   InputKey       = DataSetId
   InputGroup     = "IsisCube,Archive"
   InputPosition  = (IsisCube, Archive)
@@ -10,7 +10,7 @@ Group = DATA_SET_ID
 End_Group
 
 Group = PRODUCER_ID
-  Auto
+  Auto           = 1
   InputKey       = ProducerId
   InputGroup     = "IsisCube,Archive"
   InputPosition  = (IsisCube, Archive)
@@ -21,7 +21,7 @@ Group = PRODUCER_ID
 End_Group
 
 Group = OBSERVATION_ID
-  Auto
+  Auto           = 1
   InputKey       = ObservationId
   InputGroup     = "IsisCube,Archive"
   InputPosition  = (IsisCube, Archive)
@@ -32,7 +32,7 @@ Group = OBSERVATION_ID
 End_Group
 
 Group = PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = ProductId
   InputGroup     = "IsisCube,Archive"
   InputPosition  = (IsisCube, Archive)
@@ -43,7 +43,7 @@ Group = PRODUCT_ID
 End_Group
 
 Group = PRODUCT_VERSION_ID
-  Auto
+  Auto           = 1
   InputKey       = ProductVersionId
   InputGroup     = "IsisCube,Archive"
   InputPosition  = (IsisCube, Archive)
@@ -54,7 +54,7 @@ Group = PRODUCT_VERSION_ID
 End_Group
 
 Group = INSTRUMENT_ID
-  Auto
+  Auto           = 1
   InputKey       = InstrumentId
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -65,7 +65,7 @@ Group = INSTRUMENT_ID
 End_Group
 
 Group = INSTRUMENT_NAME
-  Auto
+  Auto           = 1
   InputKey       = InstrumentName
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -76,7 +76,7 @@ Group = INSTRUMENT_NAME
 End_Group
 
 Group = MISSION_PHASE_NAME
-  Auto
+  Auto           = 1
   InputKey       = MissionPhaseName
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -87,7 +87,7 @@ Group = MISSION_PHASE_NAME
 End_Group
 
 Group = ORBIT_NUMBER
-  Auto
+  Auto           = 1
   InputKey       = OrbitNumber
   InputGroup     = "IsisCube,Archive"
   InputPosition  = (IsisCube, Archive)
@@ -98,7 +98,7 @@ Group = ORBIT_NUMBER
 End_Group
 
 Group = RATIONALE_DESC
-  Auto
+  Auto           = 1
   InputKey       = RationaleDescription
   InputGroup     = "IsisCube,Archive"
   InputPosition  = (IsisCube, Archive)
@@ -109,7 +109,7 @@ Group = RATIONALE_DESC
 End_Group
 
 Group = SOFTWARE_NAME
-  Auto
+  Auto           = 1
   InputKey       = SoftwareName
   InputGroup     = "IsisCube,Archive"
   InputPosition  = (IsisCube, Archive)

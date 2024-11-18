@@ -3,7 +3,7 @@
 # for the New Horizons LEISA camera.
 #
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = HOSTNAME
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -13,7 +13,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRU
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -23,7 +23,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -38,7 +38,7 @@ Group = TargetName
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPCSCLK0
   InputPosition  = FITSLABELS
   OutputName     = SpacecraftClockStartCount
@@ -47,7 +47,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = RALPHEXP
   InputPosition  = FITSLABELS
   OutputName     = ExposureDuration

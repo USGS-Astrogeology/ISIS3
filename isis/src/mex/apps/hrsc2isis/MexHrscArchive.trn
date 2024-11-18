@@ -2,7 +2,7 @@
 # ISIS cube label Archive group
 
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   OutputName     = DataSetId
   OutputPosition = (Group, Archive)
@@ -10,7 +10,7 @@ Group = DataSetId
 End_Group
 
 Group = DetectorId
-  Auto
+  Auto           = 1
   InputKey       = DETECTOR_ID
   OutputName     = DetectorId
   OutputPosition = (Group, Archive)
@@ -18,7 +18,7 @@ Group = DetectorId
 End_Group
 
 Group = EventType
-  Auto
+  Auto           = 1
   InputKey       = EVENT_TYPE
   OutputName     = EventType
   OutputPosition = (Group, Archive)
@@ -26,7 +26,7 @@ Group = EventType
 End_Group
 
 Group = OrbitNumber
-  Auto
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   OutputName     = OrbitNumber
   OutputPosition = (Group, Archive)
@@ -34,7 +34,7 @@ Group = OrbitNumber
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   OutputName     = ProductId
   OutputPosition = (Group, Archive)

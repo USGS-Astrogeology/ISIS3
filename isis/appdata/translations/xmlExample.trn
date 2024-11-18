@@ -124,7 +124,7 @@ End_Group
 # if LabelTranslationManager's Auto method is called.
 #
 Group = Heir
-  Auto
+  Auto                 = 1
   InputPosition        = (Ruler, Child)
   InputKey             = Name
   InputKeyDependencies = "tag@Ascension_Order:First"
@@ -143,7 +143,7 @@ End_Group
 # cannot be found, then it will not cause an error.
 #
 Group = Illegitimate_Child
-  Optional
+  Optional             = 1
   InputPosition        = (Ruler, Child)
   InputKey             = Name
   InputKeyDependencies = "tag@Mother:Unknown"
@@ -163,7 +163,7 @@ End_Group
 # will be output in the Capital group.
 #
 Group = Classification
-  Auto
+  Auto              = 1
   InputPosition     = Region
   InputKey          = Climate
   InputKeyAttribute = Biome
@@ -181,8 +181,8 @@ End_Group
 # "Era" and a value of "Ancient".
 #
 Group = Ancient_Name
-  Auto
-  Optional
+  Auto                 = 1
+  Optional             = 1
   InputPosition        = (Region, City)
   InputKey             = Name
   InputKeyDependencies = ("tag@Type:Capital", "att@Era:Ancient")
@@ -192,7 +192,7 @@ Group = Ancient_Name
 End_Group
 
 Group = Modern_Name
-  Auto
+  Auto                 = 1
   InputPosition        = (Region, City)
   InputKey             = Name
   InputKeyDependencies = ("tag@Type:Capital", "att@Era:Modern")
@@ -203,7 +203,7 @@ Group = Modern_Name
 End_Group
 
 Group = Population
-  Auto
+  Auto                 = 1
   InputPosition        = (Region, City)
   InputKey             = Population
   InputKeyDependencies = "tag@Type:Capital"
@@ -213,7 +213,7 @@ Group = Population
 End_Group
 
 Group = Size
-  Auto
+  Auto                 = 1
   InputPosition        = (Region, City)
   InputKey             = Area
   InputKeyDependencies = "tag@Type:Capital"
@@ -228,8 +228,8 @@ End_Group
 # then the output value will be km2.
 #
 Group = Size_Units
-  Auto
-  Optional
+  Auto                 = 1
+  Optional             = 1
   InputPosition        = (Region, City)
   InputKey             = Area
   InputKeyAttribute    = Units

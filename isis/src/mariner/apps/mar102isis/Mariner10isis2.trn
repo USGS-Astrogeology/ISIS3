@@ -1,5 +1,5 @@
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_NAME
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -9,7 +9,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -19,7 +19,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -29,7 +29,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -39,7 +39,7 @@ Group = StartTime
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -49,7 +49,7 @@ Group = ExposureDuration
 End_Group
 
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NAME
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -59,7 +59,7 @@ Group = FilterName
 End_Group
 
 Group = FilterNumber
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -69,7 +69,7 @@ Group = FilterNumber
 End_Group
 
 Group = OriginalBand
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_ORIGINAL_BAND
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -79,7 +79,7 @@ Group = OriginalBand
 End_Group
 
 Group = Center
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_CENTER
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -89,7 +89,7 @@ Group = Center
 End_Group
 
 Group = NaifFrameCode
-  Auto
+  Auto           = 1
   InputKey       = NAIF_FRAME_CODE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -100,7 +100,7 @@ Group = NaifFrameCode
 End_Group
 
 Group = Line
-  Auto
+  Auto           = 1
   InputKey       = RESEAU_LINE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -110,7 +110,7 @@ Group = Line
 End_Group
 
 Group = Sample
-  Auto
+  Auto           = 1
   InputKey       = RESEAU_SAMPLE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -120,7 +120,7 @@ Group = Sample
 End_Group
 
 Group = Type
-  Auto
+  Auto           = 1
   InputKey       = RESEAU_TYPE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -130,7 +130,7 @@ Group = Type
 End_Group
 
 Group = Valid
-  Auto
+  Auto           = 1
   InputKey       = RESEAU_VALID
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -140,7 +140,7 @@ Group = Valid
 End_Group
 
 Group = Template
-  Auto
+  Auto           = 1
   InputKey       = RESEAU_TEMPLATE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -151,7 +151,7 @@ Group = Template
 End_Group
 
 Group = Status
-  Auto
+  Auto           = 1
   InputKey       = RESEAU_STATUS
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -162,7 +162,7 @@ Group = Status
 End_Group
 
 Group = GMT
-  Auto
+  Auto           = 1
   InputKey       = GMT
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -172,7 +172,7 @@ Group = GMT
 End_Group
 
 Group = ImageNumber
-  Auto
+  Auto           = 1
   InputKey       = IMAGE_NUMBER
   InputGroup     = QUBE
   InputPosition  = QUBE

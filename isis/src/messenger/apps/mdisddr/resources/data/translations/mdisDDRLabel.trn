@@ -1,6 +1,6 @@
 #Base
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = SpacecraftName
   InputGroup     = "Root,IsisCube,Instrument"
   InputPosition  = (Root, IsisCube, Instrument)
@@ -11,7 +11,7 @@ Group = SpacecraftName
 End_Group
 
 Group = INSTRUMENT_HOST_NAME
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -22,7 +22,7 @@ Group = INSTRUMENT_HOST_NAME
 End_Group
 
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DataSetId
   InputGroup     = "Root,IsisCube,Archive"
   InputPosition  = (Root, IsisCube, Archive)
@@ -32,7 +32,7 @@ Group = DataSetId
 End_Group
 
 Group = DataQualityId
-  Auto
+  Auto           = 1
   InputKey       = DataQualityId
   InputGroup     = "Root,IsisCube,Archive"
   InputPosition  = (Root, IsisCube, Archive)
@@ -42,7 +42,7 @@ Group = DataQualityId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = ProductId
   InputGroup     = "Root,IsisCube,Archive"
   InputPosition  = (Root, IsisCube, Archive)
@@ -53,7 +53,7 @@ Group = ProductId
 End_Group
 
 Group = ObservationType
-  Auto
+  Auto           = 1
   InputKey       = ObservationType
   InputGroup     = "Root,IsisCube,Archive"
   InputPosition  = (Root, IsisCube, Archive)
@@ -64,7 +64,7 @@ Group = ObservationType
 End_Group
 
 Group = SiteId
-  Auto
+  Auto           = 1
   InputKey       = SiteId
   InputGroup     = "Root,IsisCube,Archive"
   InputPosition  = (Root, IsisCube, Archive)
@@ -75,7 +75,7 @@ Group = SiteId
 End_Group
 
 Group = SOURCE_PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = SOURCE_PRODUCT_ID
   InputGroup     = "Root,IsisCube,Archive"
   InputPosition  = (Root, IsisCube, Archive)
@@ -86,7 +86,7 @@ Group = SOURCE_PRODUCT_ID
 End_Group
 
 Group = ProducerId
-  Auto
+  Auto           = 1
   InputKey       = ProducerId
   InputGroup     = "Root,IsisCube,Archive"
   InputPosition  = (Root, IsisCube, Archive)
@@ -96,7 +96,7 @@ Group = ProducerId
 End_Group
 
 Group = SOFTWARE_NAME
-  Auto
+  Auto           = 1
   InputKey       = SoftwareName
   InputGroup     = "Root,IsisCube,RadiometricCalibration"
   InputPosition  = (Root, IsisCube, RadiometricCalibration)
@@ -107,7 +107,7 @@ Group = SOFTWARE_NAME
 End_Group
 
 Group = SOFTWARE_VERSION_ID
-  Auto
+  Auto           = 1
   InputKey       = SOFTWARE_VERSION_ID
   InputGroup     = "Root,IsisCube,RadiometricCalibration"
   InputPosition  = (Root, IsisCube, RadiometricCalibration)
@@ -118,7 +118,7 @@ Group = SOFTWARE_VERSION_ID
 End_Group
 
 Group = MissionPhaseName
-  Auto
+  Auto           = 1
   InputKey       = MissionPhaseName
   InputGroup     = "Root,IsisCube,Instrument"
   InputPosition  = (Root, IsisCube, Instrument)
@@ -128,7 +128,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = TARGET_NAME
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -138,7 +138,7 @@ Group = TARGET_NAME
 End_Group
 
 Group = SEQUENCE_NAME
-  Auto
+  Auto           = 1
   InputKey       = SEQUENCE_NAME
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -149,7 +149,7 @@ Group = SEQUENCE_NAME
 End_Group
 
 Group = OBSERVATION_ID
-  Auto
+  Auto           = 1
   InputKey       = OBSERVATION_ID
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -161,7 +161,7 @@ End_Group
 
 # Times
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = StartTime
   InputGroup     = "Root,IsisCube,Instrument"
   InputPosition  = (Root, IsisCube, Instrument)
@@ -171,7 +171,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = StopTime
   InputGroup     = "Root,IsisCube,Instrument"
   InputPosition  = (Root, IsisCube, Instrument)
@@ -181,7 +181,7 @@ Group = StopTime
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SpacecraftClockStartCount
   InputGroup     = "Root,IsisCube,Archive"
   InputPosition  = (Root, IsisCube, Archive)
@@ -191,7 +191,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SpacecraftClockStopCount
   InputGroup     = "Root,IsisCube,Archive"
   InputPosition  = (Root, IsisCube, Archive)
@@ -201,8 +201,8 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = ORBIT_NUMBER
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = ORBIT_NUMBER
 #  InputGroup     = OriginalLabelObject
 #  InputPosition  = OriginalLabelObject
@@ -216,7 +216,7 @@ Group = ORBIT_NUMBER
 End_Group
 
 Group = EdrProductCreationTime
-  Auto
+  Auto           = 1
   InputKey       = EdrProductCreationTime
   InputGroup     = "Root,IsisCube,Archive"
   InputPosition  = (Root, IsisCube, Archive)
@@ -227,7 +227,7 @@ End_Group
 
 # Instrument
 Group = InstrumentName
-  Auto
+  Auto           = 1
   InputKey       = InstrumentName
   InputGroup     = "Root,IsisCube,Instrument"
   InputPosition  = (Root, IsisCube, Instrument)
@@ -237,7 +237,7 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = InstrumentId
   InputGroup     = "Root,IsisCube,Instrument"
   InputPosition  = (Root, IsisCube, Instrument)
@@ -247,7 +247,7 @@ Group = InstrumentId
 End_Group
 
 Group = FILTER_NAME
-  Auto
+  Auto           = 1
   InputKey       = Name
   InputGroup     = "Root,IsisCube,BandBin"
   InputPosition  = (Root, IsisCube, BandBin)
@@ -257,7 +257,7 @@ Group = FILTER_NAME
 End_Group
 
 Group = FILTER_NUMBER
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -267,7 +267,7 @@ Group = FILTER_NUMBER
 End_Group
 
 Group = CENTER_FILTER_WAVELENGTH
-  Auto
+  Auto           = 1
   InputKey       = Center
   InputGroup     = "Root,IsisCube,BandBin"
   InputPosition  = (Root, IsisCube, BandBin)
@@ -277,7 +277,7 @@ Group = CENTER_FILTER_WAVELENGTH
 End_Group
 
 Group = FilterWidth
-  Auto
+  Auto           = 1
   InputKey       = Width
   InputGroup     = "Root,IsisCube,BandBin"
   InputPosition  = (Root, IsisCube, BandBin)
@@ -289,7 +289,7 @@ Group = FilterWidth
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = ExposureDuration
   InputGroup     = "Root,IsisCube,Instrument"
   InputPosition  = (Root, IsisCube, Instrument)
@@ -300,7 +300,7 @@ Group = ExposureDuration
 End_Group
 
 Group = ExposureType
-  Auto
+  Auto           = 1
   InputKey       = ExposureType
   InputGroup     = "Root,IsisCube,Instrument"
   InputPosition  = (Root, IsisCube, Instrument)
@@ -313,7 +313,7 @@ Group = ExposureType
 End_Group
 
 Group = Units
-  Auto
+  Auto           = 1
   InputKey       = Units
   InputGroup     = "Root,IsisCube,RadiometricCalibration"
   InputPosition  = (Root, IsisCube, RadiometricCalibration)
@@ -324,7 +324,7 @@ Group = Units
 End_Group
 
 Group = DarkStripMean
-  Auto
+  Auto           = 1
   InputKey       = DarkStripMean
   InputGroup     = "Root,IsisCube,RadiometricCalibration"
   InputPosition  = (Root, IsisCube, RadiometricCalibration)
@@ -335,7 +335,7 @@ Group = DarkStripMean
 End_Group
 
 Group = DETECTOR_TEMPERATURE
-  Auto
+  Auto           = 1
   InputKey       = DETECTOR_TEMPERATURE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -345,7 +345,7 @@ Group = DETECTOR_TEMPERATURE
 End_Group
 
 Group = FOCAL_PLANE_TEMPERATURE
-  Auto
+  Auto           = 1
   InputKey       = FOCAL_PLANE_TEMPERATURE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -355,7 +355,7 @@ Group = FOCAL_PLANE_TEMPERATURE
 End_Group
 
 Group = FILTER_TEMPERATURE
-  Auto
+  Auto           = 1
   InputKey       = FILTER_TEMPERATURE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -365,7 +365,7 @@ Group = FILTER_TEMPERATURE
 End_Group
 
 Group = OPTICS_TEMPERATURE
-  Auto
+  Auto           = 1
   InputKey       = OPTICS_TEMPERATURE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -375,7 +375,7 @@ Group = OPTICS_TEMPERATURE
 End_Group
 
 Group = MESS:MET_EXP
-  Auto
+  Auto           = 1
   InputKey       = MESS:MET_EXP
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -385,7 +385,7 @@ Group = MESS:MET_EXP
 End_Group
 
 Group = MESS:IMG_ID_LSB
-  Auto
+  Auto           = 1
   InputKey       = MESS:IMG_ID_LSB
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -396,7 +396,7 @@ Group = MESS:IMG_ID_LSB
 End_Group
 
 Group = MESS:IMG_ID_MSB
-  Auto
+  Auto           = 1
   InputKey       = MESS:IMG_ID_MSB
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -407,7 +407,7 @@ Group = MESS:IMG_ID_MSB
 End_Group
 
 Group = MESS:ATT_CLOCK_COUNT
-  Auto
+  Auto           = 1
   InputKey       = MESS:ATT_CLOCK_COUNT
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -417,7 +417,7 @@ Group = MESS:ATT_CLOCK_COUNT
 End_Group
 
 Group = MESS:ATT_Q1
-  Auto
+  Auto           = 1
   InputKey       = MESS:ATT_Q1
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -427,7 +427,7 @@ Group = MESS:ATT_Q1
 End_Group
 
 Group = MESS:ATT_Q2
-  Auto
+  Auto           = 1
   InputKey       = MESS:ATT_Q2
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -437,7 +437,7 @@ Group = MESS:ATT_Q2
 End_Group
 
 Group = MESS:ATT_Q3
-  Auto
+  Auto           = 1
   InputKey       = MESS:ATT_Q3
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -447,7 +447,7 @@ Group = MESS:ATT_Q3
 End_Group
 
 Group = MESS:ATT_Q4
-  Auto
+  Auto           = 1
   InputKey       = MESS:ATT_Q4
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -457,7 +457,7 @@ Group = MESS:ATT_Q4
 End_Group
 
 Group = MESS:ATT_FLAG
-  Auto
+  Auto           = 1
   InputKey       = MESS:ATT_FLAG
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -467,7 +467,7 @@ Group = MESS:ATT_FLAG
 End_Group
 
 Group = MESS:PIV_POS_MOTOR
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIV_POS_MOTOR
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -478,7 +478,7 @@ Group = MESS:PIV_POS_MOTOR
 End_Group
 
 Group = MESS:PIV_GOAL
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIV_GOAL
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -488,7 +488,7 @@ Group = MESS:PIV_GOAL
 End_Group
 
 Group = MESS:PIV_POS
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIV_POS
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -498,7 +498,7 @@ Group = MESS:PIV_POS
 End_Group
 
 Group = MESS:PIV_READ
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIV_READ
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -508,7 +508,7 @@ Group = MESS:PIV_READ
 End_Group
 
 Group = MESS:PIV_CAL
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIV_CAL
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -518,7 +518,7 @@ Group = MESS:PIV_CAL
 End_Group
 
 Group = MESS:FW_GOAL
-  Auto
+  Auto           = 1
   InputKey       = MESS:FW_GOAL
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -528,7 +528,7 @@ Group = MESS:FW_GOAL
 End_Group
 
 Group = MESS:FW_POS
-  Auto
+  Auto           = 1
   InputKey       = MESS:FW_POS
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -538,7 +538,7 @@ Group = MESS:FW_POS
 End_Group
 
 Group = MESS:FW_READ
-  Auto
+  Auto           = 1
   InputKey       = MESS:FW_READ
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -548,7 +548,7 @@ Group = MESS:FW_READ
 End_Group
 
 Group = MESS:CCD_TEMP
-  Auto
+  Auto           = 1
   InputKey       = MESS:CCD_TEMP
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -558,7 +558,7 @@ Group = MESS:CCD_TEMP
 End_Group
 
 Group = MESS:CAM_T1
-  Auto
+  Auto           = 1
   InputKey       = MESS:CAM_T1
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -568,7 +568,7 @@ Group = MESS:CAM_T1
 End_Group
 
 Group = MESS:CAM_T2
-  Auto
+  Auto           = 1
   InputKey       = MESS:CAM_T2
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -578,7 +578,7 @@ Group = MESS:CAM_T2
 End_Group
 
 Group = MESS:EXPOSURE
-  Auto
+  Auto           = 1
   InputKey       = MESS:EXPOSURE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -588,7 +588,7 @@ Group = MESS:EXPOSURE
 End_Group
 
 Group = MESS:DPU_ID
-  Auto
+  Auto           = 1
   InputKey       = MESS:DPU_ID
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -598,7 +598,7 @@ Group = MESS:DPU_ID
 End_Group
 
 Group = MESS:IMAGER
-  Auto
+  Auto           = 1
   InputKey       = MESS:IMAGER
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -608,7 +608,7 @@ Group = MESS:IMAGER
 End_Group
 
 Group = MESS:SOURCE
-  Auto
+  Auto           = 1
   InputKey       = MESS:SOURCE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -618,7 +618,7 @@ Group = MESS:SOURCE
 End_Group
 
 Group = MESS:FPU_BIN
-  Auto
+  Auto           = 1
   InputKey       = MESS:FPU_BIN
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -628,7 +628,7 @@ Group = MESS:FPU_BIN
 End_Group
 
 Group = MESS:COMP12_8
-  Auto
+  Auto           = 1
   InputKey       = MESS:COMP12_8
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -638,7 +638,7 @@ Group = MESS:COMP12_8
 End_Group
 
 Group = MESS:COMP_ALG
-  Auto
+  Auto           = 1
   InputKey       = MESS:COMP_ALG
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -648,7 +648,7 @@ Group = MESS:COMP_ALG
 End_Group
 
 Group = MESS:COMP_FST
-  Auto
+  Auto           = 1
   InputKey       = MESS:COMP_FST
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -658,7 +658,7 @@ Group = MESS:COMP_FST
 End_Group
 
 Group = MESS:TIME_PLS
-  Auto
+  Auto           = 1
   InputKey       = MESS:TIME_PLS
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -668,7 +668,7 @@ Group = MESS:TIME_PLS
 End_Group
 
 Group = MESS:LATCH_UP
-  Auto
+  Auto           = 1
   InputKey       = MESS:LATCH_UP
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -678,7 +678,7 @@ Group = MESS:LATCH_UP
 End_Group
 
 Group = MESS:EXP_MODE
-  Auto
+  Auto           = 1
   InputKey       = MESS:EXP_MODE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -688,7 +688,7 @@ Group = MESS:EXP_MODE
 End_Group
 
 Group = MESS:PIV_STAT
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIV_STAT
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -698,7 +698,7 @@ Group = MESS:PIV_STAT
 End_Group
 
 Group = MESS:PIV_MPEN
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIV_MPEN
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -708,7 +708,7 @@ Group = MESS:PIV_MPEN
 End_Group
 
 Group = MESS:PIV_PV
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIV_PV
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -718,7 +718,7 @@ Group = MESS:PIV_PV
 End_Group
 
 Group = MESS:PIV_RV
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIV_RV
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -728,7 +728,7 @@ Group = MESS:PIV_RV
 End_Group
 
 Group = MESS:FW_PV
-  Auto
+  Auto           = 1
   InputKey       = MESS:FW_PV
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -738,7 +738,7 @@ Group = MESS:FW_PV
 End_Group
 
 Group = MESS:FW_RV
-  Auto
+  Auto           = 1
   InputKey       = MESS:FW_RV
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -748,7 +748,7 @@ Group = MESS:FW_RV
 End_Group
 
 Group = MESS:AEX_STAT
-  Auto
+  Auto           = 1
   InputKey       = MESS:AEX_STAT
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -758,7 +758,7 @@ Group = MESS:AEX_STAT
 End_Group
 
 Group = MESS:AEX_STHR
-  Auto
+  Auto           = 1
   InputKey       = MESS:AEX_STHR
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -768,7 +768,7 @@ Group = MESS:AEX_STHR
 End_Group
 
 Group = MESS:AEX_TGTB
-  Auto
+  Auto           = 1
   InputKey       = MESS:AEX_TGTB
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -778,7 +778,7 @@ Group = MESS:AEX_TGTB
 End_Group
 
 Group = MESS:AEX_BACB
-  Auto
+  Auto           = 1
   InputKey       = MESS:AEX_BACB
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -788,7 +788,7 @@ Group = MESS:AEX_BACB
 End_Group
 
 Group = MESS:AEX_MAXE
-  Auto
+  Auto           = 1
   InputKey       = MESS:AEX_MAXE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -798,7 +798,7 @@ Group = MESS:AEX_MAXE
 End_Group
 
 Group = MESS:AEX_MINE
-  Auto
+  Auto           = 1
   InputKey       = MESS:AEX_MINE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -808,7 +808,7 @@ Group = MESS:AEX_MINE
 End_Group
 
 Group = MESS:DLNKPRIO
-  Auto
+  Auto           = 1
   InputKey       = MESS:DLNKPRIO
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -818,7 +818,7 @@ Group = MESS:DLNKPRIO
 End_Group
 
 Group = MESS:WVLRATIO
-  Auto
+  Auto           = 1
   InputKey       = MESS:WVLRATIO
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -828,7 +828,7 @@ Group = MESS:WVLRATIO
 End_Group
 
 Group = MESS:PIXELBIN
-  Auto
+  Auto           = 1
   InputKey       = MESS:PIXELBIN
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -838,7 +838,7 @@ Group = MESS:PIXELBIN
 End_Group
 
 Group = MESS:SUBFRAME
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBFRAME
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -848,7 +848,7 @@ Group = MESS:SUBFRAME
 End_Group
 
 Group = MESS:SUBF_X1
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_X1
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -858,7 +858,7 @@ Group = MESS:SUBF_X1
 End_Group
 
 Group = MESS:SUBF_Y1
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_Y1
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -868,7 +868,7 @@ Group = MESS:SUBF_Y1
 End_Group
 
 Group = MESS:SUBF_DX1
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_DX1
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -878,7 +878,7 @@ Group = MESS:SUBF_DX1
 End_Group
 
 Group = MESS:SUBF_DY1
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_DY1
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -888,7 +888,7 @@ Group = MESS:SUBF_DY1
 End_Group
 
 Group = MESS:SUBF_X2
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_X2
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -898,7 +898,7 @@ Group = MESS:SUBF_X2
 End_Group
 
 Group = MESS:SUBF_Y2
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_Y2
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -908,7 +908,7 @@ Group = MESS:SUBF_Y2
 End_Group
 
 Group = MESS:SUBF_DX2
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_DX2
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -918,7 +918,7 @@ Group = MESS:SUBF_DX2
 End_Group
 
 Group = MESS:SUBF_DY2
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_DY2
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -928,7 +928,7 @@ Group = MESS:SUBF_DY2
 End_Group
 
 Group = MESS:SUBF_X3
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_X3
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -938,7 +938,7 @@ Group = MESS:SUBF_X3
 End_Group
 
 Group = MESS:SUBF_Y3
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_Y3
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -948,7 +948,7 @@ Group = MESS:SUBF_Y3
 End_Group
 
 Group = MESS:SUBF_DX3
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_DX3
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -958,7 +958,7 @@ Group = MESS:SUBF_DX3
 End_Group
 
 Group = MESS:SUBF_DY3
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_DY3
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -968,7 +968,7 @@ Group = MESS:SUBF_DY3
 End_Group
 
 Group = MESS:SUBF_X4
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_X4
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -978,7 +978,7 @@ Group = MESS:SUBF_X4
 End_Group
 
 Group = MESS:SUBF_Y4
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_Y4
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -988,7 +988,7 @@ Group = MESS:SUBF_Y4
 End_Group
 
 Group = MESS:SUBF_DX4
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_DX4
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -998,7 +998,7 @@ Group = MESS:SUBF_DX4
 End_Group
 
 Group = MESS:SUBF_DY4
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_DY4
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1008,7 +1008,7 @@ Group = MESS:SUBF_DY4
 End_Group
 
 Group = MESS:SUBF_X5
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_X5
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1018,7 +1018,7 @@ Group = MESS:SUBF_X5
 End_Group
 
 Group = MESS:SUBF_Y5
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_Y5
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1028,7 +1028,7 @@ Group = MESS:SUBF_Y5
 End_Group
 
 Group = MESS:SUBF_DX5
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_DX5
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1038,7 +1038,7 @@ Group = MESS:SUBF_DX5
 End_Group
 
 Group = MESS:SUBF_DY5
-  Auto
+  Auto           = 1
   InputKey       = MESS:SUBF_DY5
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1048,7 +1048,7 @@ Group = MESS:SUBF_DY5
 End_Group
 
 Group = MESS:CRITOPNV
-  Auto
+  Auto           = 1
   InputKey       = MESS:CRITOPNV
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1058,7 +1058,7 @@ Group = MESS:CRITOPNV
 End_Group
 
 Group = MESS:JAILBARS
-  Auto
+  Auto           = 1
   InputKey       = MESS:JAILBARS
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1068,7 +1068,7 @@ Group = MESS:JAILBARS
 End_Group
 
 Group = MESS:JB_X0
-  Auto
+  Auto           = 1
   InputKey       = MESS:JB_X0
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1078,7 +1078,7 @@ Group = MESS:JB_X0
 End_Group
 
 Group = MESS:JB_X1
-  Auto
+  Auto           = 1
   InputKey       = MESS:JB_X1
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1088,7 +1088,7 @@ Group = MESS:JB_X1
 End_Group
 
 Group = MESS:JB_SPACE
-  Auto
+  Auto           = 1
   InputKey       = MESS:JB_SPACE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1098,7 +1098,7 @@ Group = MESS:JB_SPACE
 End_Group
 
 Group = RIGHT_ASCENSION
-  Auto
+  Auto           = 1
   InputKey       = RIGHT_ASCENSION
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1108,7 +1108,7 @@ Group = RIGHT_ASCENSION
 End_Group
 
 Group = DECLINATION
-  Auto
+  Auto           = 1
   InputKey       = DECLINATION
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1118,7 +1118,7 @@ Group = DECLINATION
 End_Group
 
 Group = TWIST_ANGLE
-  Auto
+  Auto           = 1
   InputKey       = TWIST_ANGLE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1128,7 +1128,7 @@ Group = TWIST_ANGLE
 End_Group
 
 Group = RA_DEC_REF_PIXEL
-  Auto
+  Auto           = 1
   InputKey       = RA_DEC_REF_PIXEL
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1138,7 +1138,7 @@ Group = RA_DEC_REF_PIXEL
 End_Group
 
 Group = RETICLE_POINT_RA
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_RA
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1148,7 +1148,7 @@ Group = RETICLE_POINT_RA
 End_Group
 
 Group = RETICLE_POINT_DECLINATION
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_DECLINATION
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1158,7 +1158,7 @@ Group = RETICLE_POINT_DECLINATION
 End_Group
 
 Group = SC_TARGET_POSITION_VECTOR
-  Auto
+  Auto           = 1
   InputKey       = SC_TARGET_POSITION_VECTOR
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1168,7 +1168,7 @@ Group = SC_TARGET_POSITION_VECTOR
 End_Group
 
 Group = TARGET_CENTER_DISTANCE
-  Auto
+  Auto           = 1
   InputKey       = TARGET_CENTER_DISTANCE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1178,7 +1178,7 @@ Group = TARGET_CENTER_DISTANCE
 End_Group
 
 Group = SLANT_DISTANCE
-  Auto
+  Auto           = 1
   InputKey       = SLANT_DISTANCE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1188,7 +1188,7 @@ Group = SLANT_DISTANCE
 End_Group
 
 Group = CENTER_LATITUDE
-  Auto
+  Auto           = 1
   InputKey       = CENTER_LATITUDE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1198,7 +1198,7 @@ Group = CENTER_LATITUDE
 End_Group
 
 Group = CENTER_LONGITUDE
-  Auto
+  Auto           = 1
   InputKey       = CENTER_LONGITUDE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1208,7 +1208,7 @@ Group = CENTER_LONGITUDE
 End_Group
 
 Group = HORIZONTAL_PIXEL_SCALE
-  Auto
+  Auto           = 1
   InputKey       = HORIZONTAL_PIXEL_SCALE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1218,7 +1218,7 @@ Group = HORIZONTAL_PIXEL_SCALE
 End_Group
 
 Group = VERTICAL_PIXEL_SCALE
-  Auto
+  Auto           = 1
   InputKey       = VERTICAL_PIXEL_SCALE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1228,7 +1228,7 @@ Group = VERTICAL_PIXEL_SCALE
 End_Group
 
 Group = SMEAR_MAGNITUDE
-  Auto
+  Auto           = 1
   InputKey       = SMEAR_MAGNITUDE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1238,7 +1238,7 @@ Group = SMEAR_MAGNITUDE
 End_Group
 
 Group = SMEAR_AZIMUTH
-  Auto
+  Auto           = 1
   InputKey       = SMEAR_AZIMUTH
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1248,7 +1248,7 @@ Group = SMEAR_AZIMUTH
 End_Group
 
 Group = NORTH_AZIMUTH
-  Auto
+  Auto           = 1
   InputKey       = NORTH_AZIMUTH
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1258,7 +1258,7 @@ Group = NORTH_AZIMUTH
 End_Group
 
 Group = RETICLE_POINT_LATITUDE
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LATITUDE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1268,7 +1268,7 @@ Group = RETICLE_POINT_LATITUDE
 End_Group
 
 Group = RETICLE_POINT_LONGITUDE
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LONGITUDE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1278,7 +1278,7 @@ Group = RETICLE_POINT_LONGITUDE
 End_Group
 
 Group = SUB_SPACECRAFT_LATITUDE
-  Auto
+  Auto           = 1
   InputKey       = SUB_SPACECRAFT_LATITUDE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1288,7 +1288,7 @@ Group = SUB_SPACECRAFT_LATITUDE
 End_Group
 
 Group = SUB_SPACECRAFT_LONGITUDE
-  Auto
+  Auto           = 1
   InputKey       = SUB_SPACECRAFT_LONGITUDE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1298,7 +1298,7 @@ Group = SUB_SPACECRAFT_LONGITUDE
 End_Group
 
 Group = SPACECRAFT_ALTITUDE
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_ALTITUDE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1308,7 +1308,7 @@ Group = SPACECRAFT_ALTITUDE
 End_Group
 
 Group = SUB_SPACECRAFT_AZIMUTH
-  Auto
+  Auto           = 1
   InputKey       = SUB_SPACECRAFT_AZIMUTH
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1318,7 +1318,7 @@ Group = SUB_SPACECRAFT_AZIMUTH
 End_Group
 
 Group = SPACECRAFT_SOLAR_DISTANCE
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_SOLAR_DISTANCE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1328,7 +1328,7 @@ Group = SPACECRAFT_SOLAR_DISTANCE
 End_Group
 
 Group = SC_SUN_POSITION_VECTOR
-  Auto
+  Auto           = 1
   InputKey       = SC_SUN_POSITION_VECTOR
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1338,7 +1338,7 @@ Group = SC_SUN_POSITION_VECTOR
 End_Group
 
 Group = SC_SUN_VELOCITY_VECTOR
-  Auto
+  Auto           = 1
   InputKey       = SC_SUN_VELOCITY_VECTOR
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1348,7 +1348,7 @@ Group = SC_SUN_VELOCITY_VECTOR
 End_Group
 
 Group = SOLAR_DISTANCE
-  Auto
+  Auto           = 1
   InputKey       = SOLAR_DISTANCE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1358,7 +1358,7 @@ Group = SOLAR_DISTANCE
 End_Group
 
 Group = SUB_SOLAR_AZIMUTH
-  Auto
+  Auto           = 1
   InputKey       = SUB_SOLAR_AZIMUTH
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1368,7 +1368,7 @@ Group = SUB_SOLAR_AZIMUTH
 End_Group
 
 Group = SUB_SOLAR_LATITUDE
-  Auto
+  Auto           = 1
   InputKey       = SUB_SOLAR_LATITUDE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1378,7 +1378,7 @@ Group = SUB_SOLAR_LATITUDE
 End_Group
 
 Group = SUB_SOLAR_LONGITUDE
-  Auto
+  Auto           = 1
   InputKey       = SUB_SOLAR_LONGITUDE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1388,7 +1388,7 @@ Group = SUB_SOLAR_LONGITUDE
 End_Group
 
 Group = INCIDENCE_ANGLE
-  Auto
+  Auto           = 1
   InputKey       = INCIDENCE_ANGLE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1398,7 +1398,7 @@ Group = INCIDENCE_ANGLE
 End_Group
 
 Group = PHASE_ANGLE
-  Auto
+  Auto           = 1
   InputKey       = PHASE_ANGLE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1408,7 +1408,7 @@ Group = PHASE_ANGLE
 End_Group
 
 Group = EMISSION_ANGLE
-  Auto
+  Auto           = 1
   InputKey       = EMISSION_ANGLE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1418,7 +1418,7 @@ Group = EMISSION_ANGLE
 End_Group
 
 Group = LOCAL_HOUR_ANGLE
-  Auto
+  Auto           = 1
   InputKey       = LOCAL_HOUR_ANGLE
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -1428,7 +1428,7 @@ Group = LOCAL_HOUR_ANGLE
 End_Group
 
 Group = SUBFRAME1_PARAMETERS
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LATITUDE
   InputGroup     = "OriginalLabelObject,SUBFRAME1_PARAMETERS"
   InputPosition  = (OriginalLabelObject, SUBFRAME1_PARAMETERS)
@@ -1438,7 +1438,7 @@ Group = SUBFRAME1_PARAMETERS
 End_Group
 
 Group = SUBFRAME1_PARAMETERS2
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LONGITUDE
   InputGroup     = "OriginalLabelObject,SUBFRAME1_PARAMETERS"
   InputPosition  = (OriginalLabelObject, SUBFRAME1_PARAMETERS)
@@ -1448,7 +1448,7 @@ Group = SUBFRAME1_PARAMETERS2
 End_Group
 
 Group = SUBFRAME2_PARAMETERS
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LATITUDE
   InputGroup     = "OriginalLabelObject,SUBFRAME2_PARAMETERS"
   InputPosition  = (OriginalLabelObject, SUBFRAME2_PARAMETERS)
@@ -1458,7 +1458,7 @@ Group = SUBFRAME2_PARAMETERS
 End_Group
 
 Group = SUBFRAME2_PARAMETERS2
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LONGITUDE
   InputGroup     = "OriginalLabelObject,SUBFRAME2_PARAMETERS"
   InputPosition  = (OriginalLabelObject, SUBFRAME2_PARAMETERS)
@@ -1468,7 +1468,7 @@ Group = SUBFRAME2_PARAMETERS2
 End_Group
 
 Group = SUBFRAME3_PARAMETERS
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LATITUDE
   InputGroup     = "OriginalLabelObject,SUBFRAME3_PARAMETERS"
   InputPosition  = (OriginalLabelObject, SUBFRAME3_PARAMETERS)
@@ -1478,7 +1478,7 @@ Group = SUBFRAME3_PARAMETERS
 End_Group
 
 Group = SUBFRAME3_PARAMETERS2
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LONGITUDE
   InputGroup     = "OriginalLabelObject,SUBFRAME3_PARAMETERS"
   InputPosition  = (OriginalLabelObject, SUBFRAME3_PARAMETERS)
@@ -1488,7 +1488,7 @@ Group = SUBFRAME3_PARAMETERS2
 End_Group
 
 Group = SUBFRAME4_PARAMETERS
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LATITUDE
   InputGroup     = "OriginalLabelObject,SUBFRAME4_PARAMETERS"
   InputPosition  = (OriginalLabelObject, SUBFRAME4_PARAMETERS)
@@ -1498,7 +1498,7 @@ Group = SUBFRAME4_PARAMETERS
 End_Group
 
 Group = SUBFRAME4_PARAMETERS2
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LONGITUDE
   InputGroup     = "OriginalLabelObject,SUBFRAME4_PARAMETERS"
   InputPosition  = (OriginalLabelObject, SUBFRAME4_PARAMETERS)
@@ -1508,7 +1508,7 @@ Group = SUBFRAME4_PARAMETERS2
 End_Group
 
 Group = SUBFRAME5_PARAMETERS
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LATITUDE
   InputGroup     = "OriginalLabelObject,SUBFRAME5_PARAMETERS"
   InputPosition  = (OriginalLabelObject, SUBFRAME5_PARAMETERS)
@@ -1518,7 +1518,7 @@ Group = SUBFRAME5_PARAMETERS
 End_Group
 
 Group = SUBFRAME5_PARAMETERS2
-  Auto
+  Auto           = 1
   InputKey       = RETICLE_POINT_LONGITUDE
   InputGroup     = "OriginalLabelObject,SUBFRAME5_PARAMETERS"
   InputPosition  = (OriginalLabelObject, SUBFRAME5_PARAMETERS)

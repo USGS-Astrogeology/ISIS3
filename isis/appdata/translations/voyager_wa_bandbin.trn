@@ -11,7 +11,7 @@
 # correspond directly to the filter number unless the camera is known (NA, WA).
 # Note: NAD is not listed in some references instead SODIUM is listed.
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NAME
   OutputName     = FilterName
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -29,7 +29,7 @@ End_Group
 
 # The filter numbers are different for NA and WA
 Group = FilterNumber
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   OutputName     = FilterNumber
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -47,7 +47,7 @@ End_Group
 # This translation was added because some references found refer to different
 # filter names than those listed in the labels.
 Group = FilterNameLong
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   OutputName     = FilterNameLong
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -65,7 +65,7 @@ End_Group
 # Center wavelengths are identical to documentation except for #6 (Methane-U).
 # The documentation lists the center as 0.540000 nm.
 Group = CenterFilterWavelength
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   OutputName     = Center
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -86,7 +86,7 @@ Group = CenterFilterWavelength
  End_Group
 
 Group = BandWidth
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   OutputName     = Width
   OutputPosition = (Object, IsisCube, Group, BandBin)

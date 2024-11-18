@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = MissionName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -31,7 +31,7 @@ Group = MissionName
 End_Group
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_NAME
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = ROOT
@@ -43,7 +43,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -53,7 +53,7 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -63,7 +63,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -73,7 +73,7 @@ Group = TargetName
 End_Group
 
 Group = ObservationModeId
-  Auto
+  Auto           = 1
   InputKey       = OBSERVATION_MODE_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -83,7 +83,7 @@ Group = ObservationModeId
 End_Group
 
 Group = SensorDescription
-  Auto
+  Auto           = 1
   InputKey       = SENSOR_DESCRIPTION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -93,7 +93,7 @@ Group = SensorDescription
 End_Group
 
 Group = SensorDescription2
-  Auto
+  Auto           = 1
   InputKey       = SENSOR_DESCRIPTION2
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -103,7 +103,7 @@ Group = SensorDescription2
 End_Group
 
 Group = MissionPhaseName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -113,7 +113,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = RevolutionNumber
-  Auto
+  Auto           = 1
   InputKey       = REVOLUTION_NUMBER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -123,7 +123,7 @@ Group = RevolutionNumber
 End_Group
 
 Group = StripSequenceNumber
-  Auto
+  Auto           = 1
   InputKey       = STRIP_SEQUENCE_NUMBER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -133,7 +133,7 @@ Group = StripSequenceNumber
 End_Group
 
 Group = SceneSequenceNumber
-  Auto
+  Auto           = 1
   InputKey       = SCENE_SEQUENCE_NUMBER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -143,7 +143,7 @@ Group = SceneSequenceNumber
 End_Group
 
 Group = UpperLeftDaytimeFlag
-  Auto
+  Auto           = 1
   InputKey       = UPPER_LEFT_DAYTIME_FLAG
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -153,7 +153,7 @@ Group = UpperLeftDaytimeFlag
 End_Group
 
 Group = UpperRightDaytimeFlag
-  Auto
+  Auto           = 1
   InputKey       = UPPER_RIGHT_DAYTIME_FLAG
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -163,7 +163,7 @@ Group = UpperRightDaytimeFlag
 End_Group
 
 Group = LowerLeftDaytimeFlag
-  Auto
+  Auto           = 1
   InputKey       = LOWER_LEFT_DAYTIME_FLAG
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -173,7 +173,7 @@ Group = LowerLeftDaytimeFlag
 End_Group
 
 Group = LowerRightDaytimeFlag
-  Auto
+  Auto           = 1
   InputKey       = LOWER_RIGHT_DAYTIME_FLAG
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -183,7 +183,7 @@ Group = LowerRightDaytimeFlag
 End_Group
 
 Group = DetectorStatus
-  Auto
+  Auto           = 1
   InputKey       = DETECTOR_STATUS
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -193,7 +193,7 @@ Group = DetectorStatus
 End_Group
 
 Group = ExposureModeId
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_MODE_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -203,7 +203,7 @@ Group = ExposureModeId
 End_Group
 
 Group = LineExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = LINE_EXPOSURE_DURATION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -213,7 +213,7 @@ Group = LineExposureDuration
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -223,7 +223,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -233,7 +233,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = CorrectedScClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = CORRECTED_SC_CLOCK_START_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -243,7 +243,7 @@ Group = CorrectedScClockStartCount
 End_Group
 
 Group = CorrectedScClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = CORRECTED_SC_CLOCK_STOP_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -253,7 +253,7 @@ Group = CorrectedScClockStopCount
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -263,7 +263,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -273,7 +273,7 @@ Group = StopTime
 End_Group
 
 Group = CorrectedStartTime
-  Auto
+  Auto           = 1
   InputKey       = CORRECTED_START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -283,7 +283,7 @@ Group = CorrectedStartTime
 End_Group
 
 Group = CorrectedStopTime
-  Auto
+  Auto           = 1
   InputKey       = CORRECTED_STOP_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -293,7 +293,7 @@ Group = CorrectedStopTime
 End_Group
 
 Group = LineSamplingInterval
-  Auto
+  Auto           = 1
   InputKey       = LINE_SAMPLING_INTERVAL
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -303,7 +303,7 @@ Group = LineSamplingInterval
 End_Group
 
 Group = CorrectedSamplingInterval
-  Auto
+  Auto           = 1
   InputKey       = CORRECTED_SAMPLING_INTERVAL
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -313,7 +313,7 @@ Group = CorrectedSamplingInterval
 End_Group
 
 Group = UpperLeftLatitude
-  Auto
+  Auto           = 1
   InputKey       = UPPER_LEFT_LATITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -323,7 +323,7 @@ Group = UpperLeftLatitude
 End_Group
 
 Group = UpperLeftLongitude
-  Auto
+  Auto           = 1
   InputKey       = UPPER_LEFT_LONGITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -333,7 +333,7 @@ Group = UpperLeftLongitude
 End_Group
 
 Group = UpperRightLatitude
-  Auto
+  Auto           = 1
   InputKey       = UPPER_RIGHT_LATITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -343,7 +343,7 @@ Group = UpperRightLatitude
 End_Group
 
 Group = UpperRightLongitude
-  Auto
+  Auto           = 1
   InputKey       = UPPER_RIGHT_LONGITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -353,7 +353,7 @@ Group = UpperRightLongitude
 End_Group
 
 Group = LowerLeftLatitude
-  Auto
+  Auto           = 1
   InputKey       = LOWER_LEFT_LATITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -363,7 +363,7 @@ Group = LowerLeftLatitude
 End_Group
 
 Group = LowerLeftLongitude
-  Auto
+  Auto           = 1
   InputKey       = LOWER_LEFT_LONGITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -373,7 +373,7 @@ Group = LowerLeftLongitude
 End_Group
 
 Group = LowerRightLatitude
-  Auto
+  Auto           = 1
   InputKey       = LOWER_RIGHT_LATITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -383,7 +383,7 @@ Group = LowerRightLatitude
 End_Group
 
 Group = LowerRightLongitude
-  Auto
+  Auto           = 1
   InputKey       = LOWER_RIGHT_LONGITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -393,7 +393,7 @@ Group = LowerRightLongitude
 End_Group
 
 Group = LocationFlag
-  Auto
+  Auto           = 1
   InputKey       = LOCATION_FLAG
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -403,7 +403,7 @@ Group = LocationFlag
 End_Group
 
 Group = RollCant
-  Auto
+  Auto           = 1
   InputKey       = ROLL_CANT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -413,7 +413,7 @@ Group = RollCant
 End_Group
 
 Group = SceneCenterLatitude
-  Auto
+  Auto           = 1
   InputKey       = SCENE_CENTER_LATITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -423,7 +423,7 @@ Group = SceneCenterLatitude
 End_Group
 
 Group = SceneCenterLongitude
-  Auto
+  Auto           = 1
   InputKey       = SCENE_CENTER_LONGITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -433,7 +433,7 @@ Group = SceneCenterLongitude
 End_Group
 
 Group = IncidenceAngle
-  Auto
+  Auto           = 1
   InputKey       = INCIDENCE_ANGLE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -443,7 +443,7 @@ Group = IncidenceAngle
 End_Group
 
 Group = EmissionAngle
-  Auto
+  Auto           = 1
   InputKey       = EMISSION_ANGLE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -453,7 +453,7 @@ Group = EmissionAngle
 End_Group
 
 Group = PhaseAngle
-  Auto
+  Auto           = 1
   InputKey       = PHASE_ANGLE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -463,7 +463,7 @@ Group = PhaseAngle
 End_Group
 
 Group = SolarAzimuthAngle
-  Auto
+  Auto           = 1
   InputKey       = SOLAR_AZIMUTH_ANGLE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -473,7 +473,7 @@ Group = SolarAzimuthAngle
 End_Group
 
 Group = FocalPlaneTemperature
-  Auto
+  Auto           = 1
   InputKey       = FOCAL_PLANE_TEMPERATURE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -483,7 +483,7 @@ Group = FocalPlaneTemperature
 End_Group
 
 Group = TelescopeTemperature
-  Auto
+  Auto           = 1
   InputKey       = TELESCOPE_TEMPERATURE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -493,7 +493,7 @@ Group = TelescopeTemperature
 End_Group
 
 Group = SatelliteMovingDirection
-  Auto
+  Auto           = 1
   InputKey       = SATELLITE_MOVING_DIRECTION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -503,7 +503,7 @@ Group = SatelliteMovingDirection
 End_Group
 
 Group = FirstSampledLinePosition
-  Auto
+  Auto           = 1
   InputKey       = FIRST_SAMPLED_LINE_POSITION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -513,7 +513,7 @@ Group = FirstSampledLinePosition
 End_Group
 
 Group = FirstDetectorElementPosition
-  Auto
+  Auto           = 1
   InputKey       = FIRST_DETECTOR_ELEMENT_POSITION
   InputKey       = FIRST_DETECTOR_ELEM_POSITION
   InputGroup     = ROOT
@@ -524,7 +524,7 @@ Group = FirstDetectorElementPosition
 End_Group
 
 Group = AAxisRadius
-  Auto
+  Auto           = 1
   InputKey       = A_AXIS_RADIUS
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -534,7 +534,7 @@ Group = AAxisRadius
 End_Group
 
 Group = BAxisRadius
-  Auto
+  Auto           = 1
   InputKey       = B_AXIS_RADIUS
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -544,7 +544,7 @@ Group = BAxisRadius
 End_Group
 
 Group = CAxisRadius
-  Auto
+  Auto           = 1
   InputKey       = C_AXIS_RADIUS
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -554,7 +554,7 @@ Group = CAxisRadius
 End_Group
 
 Group = DefectPixelPosition
-  Auto
+  Auto           = 1
   InputKey       = DEFECT_PIXEL_POSITION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -564,7 +564,7 @@ Group = DefectPixelPosition
 End_Group
 
 Group = SpacecraftAltitude
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_ALTITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -574,7 +574,7 @@ Group = SpacecraftAltitude
 End_Group
 
 Group = SpacecraftGroundSpeed
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_GROUND_SPEED
   InputGroup     = ROOT
   InputPosition  = ROOT

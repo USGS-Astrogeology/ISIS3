@@ -8,7 +8,7 @@
 # Consider the following translation group and xml
 #
 # Group = Samples
-#   Auto
+#   Auto           = 1
 #   InputPosition  = (Array_2D_Image, Axis_Array)
 #   Dependencies   = "tag@axis_name|Sample"
 #   InputKey       = elements
@@ -43,7 +43,7 @@
 #                               requested by mission team.
 
 Group = FilterName
-  Auto
+  Auto           = 1
   InputPosition  = (Observation_Area, Discipline_Area, img:Imaging, img:Image_Product_Information, img:Filter)
   InputKey       = img:filter_name
   OutputName     = FilterName
@@ -53,7 +53,7 @@ End_Group
 
 # Nominal filter specifications from ppt
 Group = Center
-  Auto
+  Auto           = 1
   InputPosition  = (Observation_Area, Discipline_Area, img:Imaging, img:Image_Product_Information, img:Filter)
   InputKey       = img:filter_name
   OutputName     = Center
@@ -66,7 +66,7 @@ Group = Center
 End_Group
 
 Group = Width
-  Auto
+  Auto           = 1
   InputPosition  = (Observation_Area, Discipline_Area, img:Imaging, img:Image_Product_Information, img:Filter)
   InputKey       = img:filter_name
   OutputName     = Width

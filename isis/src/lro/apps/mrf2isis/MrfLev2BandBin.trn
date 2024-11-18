@@ -21,8 +21,8 @@
 # Translation may be repeated as needed.
 #
 Group = FilterName
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = BAND_NAME
   InputGroup     = IMAGE
   InputPosition  = IMAGE

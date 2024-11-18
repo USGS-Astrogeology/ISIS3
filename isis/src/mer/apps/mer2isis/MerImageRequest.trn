@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = PIXEL_AVERAGING_HEIGHT
-  Auto
+  Auto           = 1
   InputKey       = PIXEL_AVERAGING_HEIGHT
   InputGroup     = IMAGE_REQUEST_PARMS
   InputPosition  = IMAGE_REQUEST_PARMS
@@ -32,7 +32,7 @@ Group = PIXEL_AVERAGING_HEIGHT
 End_Group
 
 Group = PIXEL_AVERAGING_WIDTH
-  Auto
+  Auto           = 1
   InputKey       = PIXEL_AVERAGING_WIDTH
   InputGroup     = IMAGE_REQUEST_PARMS
   InputPosition  = IMAGE_REQUEST_PARMS

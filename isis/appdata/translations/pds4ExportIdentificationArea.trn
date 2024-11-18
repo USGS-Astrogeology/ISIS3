@@ -8,7 +8,7 @@
 
 # Could be DataSetId for some missions
 Group = LogicalId
-  Auto
+  Auto            = 1
   InputKey        = LogicalId
   InputPosition   = (IsisCube, Archive)
   InputDefault    = urn:nasa:pds:TBD:TBD:TBD
@@ -18,7 +18,7 @@ Group = LogicalId
 End_Group
 
 Group = VersionId
-  Auto
+  Auto            = 1
   InputDefault    = 1.0
   OutputName      = version_id
   OutputPosition  = (Product_Observational, Identification_Area)
@@ -26,7 +26,7 @@ Group = VersionId
 End_Group
 
 Group = ProductTitle
-  Auto
+  Auto            = 1
   InputKey        = ProductDescription
   InputPosition   = (IsisCube, Archive)
   InputDefault    = "PDS4 product exported from ISIS cube."
@@ -36,7 +36,7 @@ Group = ProductTitle
 End_Group
 
 Group = InformationModel
-  Auto
+  Auto            = 1
   InputDefault    = 1.11.0.0
   OutputName      = information_model_version
   OutputPosition  = (Product_Observational, Identification_Area)
@@ -44,7 +44,7 @@ Group = InformationModel
 End_Group
 
 Group = ProductClass
-  Auto
+  Auto            = 1
   InputDefault    = Product_Observational
   OutputName      = product_class
   OutputPosition  = (Product_Observational, Identification_Area)

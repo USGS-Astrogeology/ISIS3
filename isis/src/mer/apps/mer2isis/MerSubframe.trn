@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = FIRST_LINE
-  Auto
+  Auto           = 1
   InputKey       = FIRST_LINE
   InputGroup     = SUBFRAME_REQUEST_PARMS
   InputPosition  = SUBFRAME_REQUEST_PARMS
@@ -32,7 +32,7 @@ Group = FIRST_LINE
 End_Group
 
 Group = FIRST_LINE_SAMPLE
-  Auto
+  Auto           = 1
   InputKey       = FIRST_LINE_SAMPLE
   InputGroup     = SUBFRAME_REQUEST_PARMS
   InputPosition  = SUBFRAME_REQUEST_PARMS

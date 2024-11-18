@@ -5,7 +5,7 @@
 #
 # history 2018-06-15 Jeannie Backer - Original version.
 Group = BinWidth  # in <micrometers>
-  Auto
+  Auto           = 1
   InputDefault   = 0.02356
   OutputName     = Width
   OutputPosition = (Group, BandBin)
@@ -13,7 +13,7 @@ Group = BinWidth  # in <micrometers>
 End_Group
 
 Group = Units
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_UNIT
   InputGroup     = ROOT
   InputPosition  = ROOT

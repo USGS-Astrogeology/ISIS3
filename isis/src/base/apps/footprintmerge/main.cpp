@@ -61,7 +61,7 @@ void IsisMain() {
 
     allPolys.push_back(PolygonTools::CopyMultiPolygon(poly.Polys()));
 
-    files.push_back(imageList[img].toString());
+    files.push_back(imageList[img].name());
 
     prog.CheckStatus();
 

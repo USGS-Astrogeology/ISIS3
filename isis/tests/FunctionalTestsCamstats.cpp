@@ -20,7 +20,7 @@ TEST(CamStats, FunctionalTestCamstatsDefaultParameters) {
 
   camstats(options, &appLog);
 
-  PvlGroup group = appLog.findGroup("User Parameters");
+  PvlGroup group = appLog.findGroup("UserParameters");
   EXPECT_DOUBLE_EQ((double) group.findKeyword("Linc"), 1.0);
   EXPECT_DOUBLE_EQ((double) group.findKeyword("Sinc"), 1.0);
 

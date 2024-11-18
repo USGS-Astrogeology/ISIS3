@@ -1,5 +1,5 @@
 Group = INTERCHANGE_FORMAT
-  Auto
+  Auto           = 1
   InputKey       = INTERCHANGE_FORMAT
   InputDefault   = BINARY
   OutputName     = INTERCHANGE_FORMAT
@@ -8,7 +8,7 @@ Group = INTERCHANGE_FORMAT
 End_Group
 
 Group = ORIGINAL_PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputGroup     = "OriginalLabelObject,QUBE"
   InputGroup     = "OriginalLabelObject,QUBE,ISIS_INSTRUMENT"
@@ -20,7 +20,7 @@ Group = ORIGINAL_PRODUCT_ID
 End_Group
 
 Group = MISSION_NAME
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   InputDefault   = "LUNAR ORBITER"
   OutputName     = MISSION_NAME
@@ -29,7 +29,7 @@ Group = MISSION_NAME
 End_Group
 
 Group = PRODUCER_INSTITUTION_NAME
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_INSTITUTION_NAME
   InputDefault   = "U.S. GEOLOGICAL SURVEY"
   OutputName     = PRODUCER_INSTITUTION_NAME
@@ -38,7 +38,7 @@ Group = PRODUCER_INSTITUTION_NAME
 End_Group
 
 Group = SPACECRAFT_NAME
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_NAME
   InputGroup     = "OriginalLabelObject,QUBE,ISIS_INSTRUMENT"
   InputPosition  = (OriginalLabelObject, QUBE, ISIS_INSTRUMENT)
@@ -50,7 +50,7 @@ Group = SPACECRAFT_NAME
 End_Group
 
 Group = DATA_SET_ID
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_NAME
   InputGroup     = "OriginalLabelObject,QUBE,ISIS_INSTRUMENT"
   InputPosition  = (OriginalLabelObject, QUBE, ISIS_INSTRUMENT)
@@ -62,7 +62,7 @@ Group = DATA_SET_ID
 End_Group
 
 Group = INSTRUMENT_NAME
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = "OriginalLabelObject,QUBE,ISIS_INSTRUMENT"
   InputPosition  = (OriginalLabelObject, QUBE, ISIS_INSTRUMENT)
@@ -73,7 +73,7 @@ Group = INSTRUMENT_NAME
 End_Group
 
 Group = INSTRUMENT_ID
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = "OriginalLabelObject,QUBE,ISIS_INSTRUMENT"
   InputPosition  = (OriginalLabelObject, QUBE, ISIS_INSTRUMENT)
@@ -84,7 +84,7 @@ Group = INSTRUMENT_ID
 End_Group
 
 Group = TARGET_NAME
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = "OriginalLabelObject,QUBE,ISIS_TARGET"
   InputPosition  = (OriginalLabelObject, QUBE, ISIS_TARGET)
@@ -94,7 +94,7 @@ Group = TARGET_NAME
 End_Group
 
 Group = FRAME_NUMBER
-  Auto
+  Auto           = 1
   InputKey       = FRAME_NUMBER
   InputGroup     = "OriginalLabelObject,QUBE,ISIS_INSTRUMENT"
   InputPosition  = (OriginalLabelObject, QUBE, ISIS_INSTRUMENT)
@@ -104,7 +104,7 @@ Group = FRAME_NUMBER
 End_Group
 
 Group = FILMSTRIP_SCAN_CREATION_DATE
-  Auto
+  Auto           = 1
   InputKey       = SCAN_CREATION_DATE
   InputGroup     = "OriginalLabelObject,QUBE,ISIS_INGESTION"
   InputPosition  = (OriginalLabelObject, QUBE, ISIS_INGESTION)

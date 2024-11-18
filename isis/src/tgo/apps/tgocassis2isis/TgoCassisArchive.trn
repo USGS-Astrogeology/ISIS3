@@ -7,7 +7,7 @@
 # Consider the following translation group and xml
 #
 # Group = CoreSamples
-#   Auto
+#   Auto           = 1
 #   InputPosition  = (Array_2D_Image, Axis_Array)
 #   Dependencies   = "tag@axis_name|Sample"
 #   InputKey       = elements
@@ -37,8 +37,8 @@
 # history 2018-06-17 Jeannie Backer - Added ObservationId.
 
 Group = DataSetId
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = Identification_Area
   InputKey       = logical_identifier
   OutputName     = DataSetId
@@ -47,8 +47,8 @@ Group = DataSetId
 End_Group
 
 Group = ProductVersionId
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = Identification_Area
   InputKey       = version_id
   OutputName     = ProductVersionId
@@ -57,8 +57,8 @@ Group = ProductVersionId
 End_Group
 
 Group = ProducerId
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (Identification_Area, Producer_data)
   InputKey       = Producer_id
   OutputName     = ProducerId
@@ -67,8 +67,8 @@ Group = ProducerId
 End_Group
 
 Group = ProducerName
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (Identification_Area, Producer_data)
   InputKey       = Producer_full_name
   OutputName     = ProducerName
@@ -77,8 +77,8 @@ Group = ProducerName
 End_Group
 
 Group = ProductId
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (Identification_Area)
   InputKey       = Product_Id
   OutputName     = ProductId
@@ -87,8 +87,8 @@ Group = ProductId
 End_Group
 
 Group = ProductCreationTime
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (File_Area_Observational, File)
   InputKey       = creation_date_time
   OutputName     = ProductCreationTime
@@ -97,8 +97,8 @@ Group = ProductCreationTime
 End_Group
 
 Group = FileName
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (File_Area_Observational, File)
   InputKey       = file_name
   OutputName     = FileName
@@ -107,8 +107,8 @@ Group = FileName
 End_Group
 
 Group = ScalingFactor
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (File_Area_Observational, Array_2D_Image, Element_Array)
   InputKey       = scaling_factor
   OutputName     = ScalingFactor
@@ -117,8 +117,8 @@ Group = ScalingFactor
 End_Group
 
 Group = Offset
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (File_Area_Observational, Array_2D_Image, Element_Array)
   InputKey       = offset
   OutputName     = Offset
@@ -127,8 +127,8 @@ Group = Offset
 End_Group
 
 Group = PredictMaximumExposureTime
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, GEOMETRIC_DATA)
   InputKey       = PREDICTED_MAXIMUM_EXPOSURE_TIME
   OutputName     = PredictMaximumExposureTime
@@ -137,8 +137,8 @@ Group = PredictMaximumExposureTime
 End_Group
 
 Group = CassisOffNadirAngle
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, GEOMETRIC_DATA)
   InputKey       = CASSIS_OFF_NADIR_ANGLE
   OutputName     = CassisOffNadirAngle
@@ -147,8 +147,8 @@ Group = CassisOffNadirAngle
 End_Group
 
 Group = PredictedRepetitionFrequency
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, GEOMETRIC_DATA)
   InputKey       = PREDICTED_REQUIRED_REPETITION_FREQUENCY
   OutputName     = PredictedRepetitionFrequency
@@ -157,8 +157,8 @@ Group = PredictedRepetitionFrequency
 End_Group
 
 Group = GroundTrackVelocity
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, GEOMETRIC_DATA)
   InputKey       = TGO_GROUND_TRACK_VELOCITY
   OutputName     = GroundTrackVelocity
@@ -167,8 +167,8 @@ Group = GroundTrackVelocity
 End_Group
 
 Group = ForwardRotationAngle
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, GEOMETRIC_DATA)
   InputKey       = FORWARD_ROTATION_ANGLE_REQUIRED
   OutputName     = ForwardRotationAngle
@@ -177,8 +177,8 @@ Group = ForwardRotationAngle
 End_Group
 
 Group = SpiceMisalignment
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, GEOMETRIC_DATA)
   InputKey       = SPICE_KERNEL_MISALIGNMENT_PREDICT
   OutputName     = SpiceMisalignment
@@ -187,8 +187,8 @@ Group = SpiceMisalignment
 End_Group
 
 Group = FocalLength
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, CaSSIS_General)
   InputKey       = TELESCOPE_FOCAL_LENGTH
   OutputName     = FocalLength
@@ -198,8 +198,8 @@ End_Group
 
 
 Group = FNumber
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, CaSSIS_General)
   InputKey       = TELESCOPE_F_NUMBER
   OutputName     = FNumber
@@ -208,8 +208,8 @@ Group = FNumber
 End_Group
 
 Group = ExposureTimeCommand
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, IMAGE_COMMAND)
   InputKey       = T_exp
   OutputName     = ExposureTimeCommand
@@ -218,8 +218,8 @@ Group = ExposureTimeCommand
 End_Group
 
 Group = FrameletNumber
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition      = CaSSIS_Header
   InputKey           = FSW_HEADER
   InputKeyAttribute  = SequenceCounter
@@ -229,8 +229,8 @@ Group = FrameletNumber
 End_Group
 
 Group = NumberOfFramelets
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, IMAGE_COMMAND)
   InputKey       = Num_exp
   OutputName     = NumberOfFramelets
@@ -239,8 +239,8 @@ Group = NumberOfFramelets
 End_Group
 
 Group = ImageFrequency
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, IMAGE_COMMAND)
   InputKey       = Step_exp
   OutputName     = ImageFrequency
@@ -249,8 +249,8 @@ Group = ImageFrequency
 End_Group
 
 Group = NumberOfWindows
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, IMAGE_COMMAND)
   InputKey       = Num_win
   OutputName     = NumberOfWindows
@@ -259,8 +259,8 @@ Group = NumberOfWindows
 End_Group
 
 Group = UniqueIdentifier
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (CaSSIS_Header, IMAGE_COMMAND)
   InputKey       = Unique_Identifier
   OutputName     = UniqueIdentifier
@@ -269,8 +269,8 @@ Group = UniqueIdentifier
 End_Group
 
 Group = UID
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition      = CaSSIS_Header
   InputKey           = FSW_HEADER
   InputKeyAttribute  = UID
@@ -280,8 +280,8 @@ Group = UID
 End_Group
 
 Group = ObservationId
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   OutputPosition     = (CaSSIS_Header, IDENTIFICATION_DATA)
   InputKey           = observation_id
   OutputName         = ObservationId
@@ -290,8 +290,8 @@ Group = ObservationId
 End_Group
 
 Group = ExposureTimestamp
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition     = CaSSIS_Header
   InputKey          = FSW_HEADER
   InputKeyAttribute = ExposureTimestamp
@@ -301,8 +301,8 @@ Group = ExposureTimestamp
 End_Group
 
 Group = ExposureTimePEHK
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = CaSSIS_Header
   InputKey            = PEHK_HEADER
   InputKeyAttribute   = Exposure_Time
@@ -312,8 +312,8 @@ Group = ExposureTimePEHK
 End_Group
 
 Group = PixelsPossiblySaturated
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey            = PixelsPossiblySaturated
   OutputName          = PixelsPossiblySaturated
@@ -322,8 +322,8 @@ Group = PixelsPossiblySaturated
 End_Group
 
 Group = IFOV
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = INSTRUMENT_IFOV
   OutputName          = InstrumentIFOV
@@ -332,8 +332,8 @@ Group = IFOV
 End_Group
 
 Group = IFOVUnit
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = INSTRUMENT_IFOV
   InputKeyAttribute   = Unit
@@ -343,8 +343,8 @@ Group = IFOVUnit
 End_Group
 
 Group = FiltersAvailable
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = FILTERS_AVAILABLE
   OutputName          = FiltersAvailable
@@ -353,8 +353,8 @@ Group = FiltersAvailable
 End_Group
 
 #Group = FocalLength
-#  Auto
-#  Optional
+#  Auto           = 1
+#  Optional       = 1
 #  InputPosition       = (CaSSIS_Header, CaSSIS_General)
 #  InputKey            = TELESCOPE_FOCAL_LENGTH
 #  OutputName          = FocalLength
@@ -363,8 +363,8 @@ End_Group
 #End_Group
 
 Group = FocalLengthUnit
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = TELESCOPE_FOCAL_LENGTH
   InputKeyAttribute   = Unit
@@ -374,8 +374,8 @@ Group = FocalLengthUnit
 End_Group
 
 #Group = TelescopFNumber
-#  Auto
-#  Optional
+#  Auto           = 1
+#  Optional       = 1
 #  InputPosition       = (CaSSIS_Header, CaSSIS_General)
 #  InputKey            = TELESCOPE_F_NUMBER
 #  OutputName          = TelescopeFNumber
@@ -384,8 +384,8 @@ End_Group
 #End_Group
 
 Group = TelescopeType
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = TELESCOPE_TYPE
   OutputName          = TelescopeType
@@ -394,8 +394,8 @@ Group = TelescopeType
 End_Group
 
 Group = DetectorDescription
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = DETECTOR_DESC
   OutputName          = DeteorDescription
@@ -404,8 +404,8 @@ Group = DetectorDescription
 End_Group
 
 Group = PixelHeight
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = DETECTOR_PIXEL_HEIGHT
   OutputName          = PixelHeight
@@ -414,8 +414,8 @@ Group = PixelHeight
 End_Group
 
 Group = PixelHeightUnit
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = DETECTOR_PIXEL_HEIGHT
   InputKeyAttribute   = Unit
@@ -425,8 +425,8 @@ Group = PixelHeightUnit
 End_Group
 
 Group = PixelWidth
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = DETECTOR_PIXEL_WIDTH
   OutputName          = PixelWidth
@@ -435,8 +435,8 @@ Group = PixelWidth
 End_Group
 
 Group = PixelWidthUnit
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = DETECTOR_PIXEL_WIDTH
   InputKeyAttribute   = Unit
@@ -446,8 +446,8 @@ Group = PixelWidthUnit
 End_Group
 
 Group = DetectorType
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = DETECTOR_TYPE
   OutputName          = DetectorType
@@ -456,8 +456,8 @@ Group = DetectorType
 End_Group
 
 Group = ReadNoise
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = DETECTOR_READ_NOISE
   OutputName          = ReadNoise
@@ -466,8 +466,8 @@ Group = ReadNoise
 End_Group
 
 Group = ReadNoiseUnit
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = DETECTOR_READ_NOISE
   InputKeyAttribute   = Unit
@@ -477,8 +477,8 @@ Group = ReadNoiseUnit
 End_Group
 
 Group = MissionPhase
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey            = MissionPhase
   OutputName          = MissionPhase
@@ -487,8 +487,8 @@ Group = MissionPhase
 End_Group
 
 Group = SubInstrumentIdentifier
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition       = (CaSSIS_Header, CaSSIS_General)
   InputKey            = DETECTOR_READ_NOISE
   OutputName          = SubInstrumentIdentifier

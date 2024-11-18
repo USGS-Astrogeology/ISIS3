@@ -28,7 +28,7 @@
 #
 # Move this to mission translation file?
  Group = BinWidthDescription
-  Auto
+  Auto              = 1
   InputDefault      = UNK
   OutputName        = sp:bin_width_desc
   OutputPosition    = (Product_Observational, Observation_Area, Discipline_Area, sp:Spectral_Characteristics)
@@ -42,7 +42,7 @@
 #        </sp:Local_Internal_Reference>
 
 Group = LocalIdentifierReference
-  Auto
+  Auto             = 1
   InputDefault     = Spectral_Array_Object
   InputPosition    = (IsisCube, BandBin)
   OutputName       = sp:local_identifier_reference
@@ -51,7 +51,7 @@ Group = LocalIdentifierReference
 End_Group
 
 Group = LocalReferenceType
-  Auto
+  Auto             = 1
   InputDefault     = spectral_characteristics_to_array_axis
   InputPosition    = (IsisCube, BandBin)
   OutputName       = sp:local_reference_type
@@ -60,7 +60,7 @@ Group = LocalReferenceType
 End_Group
 
 Group = AxisLocalIdentifierReference
-  Auto
+  Auto             = 1
   InputDefault     = Band
   InputPosition    = (IsisCube, BandBin)
   OutputName       = sp:local_identifier_reference
@@ -70,7 +70,7 @@ End_Group
 
 # Needs val from enumeration
 Group = AxisLocalReferenceType
-  Auto
+  Auto             = 1
   InputDefault     = spectral_characteristics_to_array_axis
   InputPosition    = (IsisCube, BandBin)
   OutputName       = sp:local_reference_type
@@ -89,7 +89,7 @@ End_Group
 #        </sp:Axis_Uniformly_Sampled>
 
 Group = SamplingParameterType
-  Auto
+  Auto             = 1
   InputDefault     = wavelength
   OutputName       = sp:sampling_parameter_type
   OutputPosition   = (Product_Observational, Observation_Area, Discipline_Area, sp:Spectral_Characteristics, sp:Axis_Uniformly_Sampled)
@@ -98,7 +98,7 @@ End_Group
 
 #
 #Group = SamplingInterval
-#  Auto
+#  Auto             = 1
 #  InputDefault     = 0.0
 #  OutputName       = sp:sampling_interval
 #  OutputPosition   = (Product_Observational, Observation_Area, Discipline_Area, sp:Spectral_Characteristics, sp:Axis_Uniformly_Sampled)
@@ -106,8 +106,8 @@ End_Group
 #End_Group
 
 Group = BinWidth1
-  Auto
-  Optional
+  Auto             = 1
+  Optional         = 1
   InputKey         = FilterWidth
   InputPosition    = (IsisCube, BandBin)
   OutputName       = sp:bin_width
@@ -116,8 +116,8 @@ Group = BinWidth1
 End_Group
 
 Group = BinWidth2
-  Auto
-  Optional
+  Auto             = 1
+  Optional         = 1
   InputKey         = Width
   InputPosition    = (IsisCube, BandBin)
   OutputName       = sp:bin_width
@@ -126,8 +126,8 @@ Group = BinWidth2
 End_Group
 
 Group = FirstCenterValue1
-  Auto
-  Optional
+  Auto             = 1
+  Optional         = 1
   InputKey         = FilterCenter
   InputPosition    = (IsisCube,BandBin)
   OutputName       = sp:first_center_value
@@ -136,8 +136,8 @@ Group = FirstCenterValue1
 End_Group
 
 Group = FirstCenterValue2
-  Auto
-  Optional
+  Auto             = 1
+  Optional         = 1
   InputKey         = Center
   InputPosition    = (IsisCube,BandBin)
   OutputName       = sp:first_center_value
