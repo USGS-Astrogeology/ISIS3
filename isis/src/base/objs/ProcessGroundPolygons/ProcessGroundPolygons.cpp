@@ -196,7 +196,7 @@ geos::geom::Geometry* ProcessGroundPolygons::Vectorize(std::vector<double> &lat,
 
     return singlePoly;
   }
-  
+  return nullptr;
 }
 
   /**

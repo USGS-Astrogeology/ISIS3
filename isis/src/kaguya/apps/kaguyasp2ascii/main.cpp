@@ -402,7 +402,7 @@ void IsisMain() {
       }
       os << endl;
      }
-     delete ref2;
+     delete[] ref2;
   }
   else {
     for (int i=minobs; i<=maxobs; i++) {

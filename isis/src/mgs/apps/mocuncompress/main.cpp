@@ -497,8 +497,8 @@ int main(int argc, char **argv)
     lasth = h;
     fseek(infile, total + 2048, 0);
     count = fread(&h, sizeof(h), 1, infile);
-    MAKELONG(h.len);
-    if(count && MAKELONG(h.len) == 0) {
+    int32_t h_len = MAKELONG(h.len);
+    if(count && h_len == 0) {
       // simulate the EOF even though there's padding
       count = 0;
       h = lasth;
@@ -511,7 +511,7 @@ int main(int argc, char **argv)
       total_image += len;
     }
     if(count == 0) break;
-    if(MAKELONG(h.len) == 0) break;
+    if(h_len == 0) break;
     sequence += 1;
 
     if(first && !multi) {
