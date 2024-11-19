@@ -334,6 +334,13 @@
 	      is closest to the center of the window being analyzed.
     	    </description>
     	  </option>
+        <option value="MAJORITY">
+          <brief>Majority replacement</brief>
+          <description>
+            When VALIDPER is not met, propagate the most commonly occurring special pixel
+            within the input region to the output pixel.
+          </description>
+        </option>
     	</list>
       </parameter>
     </group>
