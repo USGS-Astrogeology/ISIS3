@@ -7,6 +7,7 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 #include "Plugin.h"
+#include "csm/Model.h"
 
 namespace Isis {
   class Camera;
@@ -55,6 +56,7 @@ namespace Isis {
       static int CameraVersion(Cube &cube);
       static int CameraVersion(Pvl &lab);
       static void initPlugin();
+      static csm::Model *constructModelFromIsd(QString isd);
 
     private:
       /**

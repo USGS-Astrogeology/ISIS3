@@ -12,6 +12,7 @@ find files of those names at the top level of this repository. **/
 #include <highfive/H5DataSet.hpp>
 #include <highfive/H5Group.hpp>
 #include <vector>
+#include <cstdio>
 
 #include <QDir>
 #include <QList>
@@ -37,6 +38,12 @@ find files of those names at the top level of this repository. **/
 #include "SerialNumber.h"
 #include "SerialNumberList.h"
 #include "Table.h"
+#include "CameraFactory.h"
+
+#include <ale/Load.h>
+#include <nlohmann/json.hpp>
+#include <boost/filesystem.hpp>
+using json = nlohmann::json;
 
 #include "jigsaw.h"
 
@@ -54,6 +61,72 @@ namespace Isis {
                               const QString &imageList);
 
   void jigsaw(UserInterface &ui, Pvl *log) {
+
+    // <------- CSMState Output Testing
+    std::cout << "[jigsaw] Getting ISD via ALE" << std::endl;
+    QString fromlist = ui.GetFileName("FROMLIST");
+    SerialNumberList *snList = new SerialNumberList(fromlist);
+    QString filename0 = snList->fileName(0); // <-- testing with one file
+    
+    // Set ALESPICEROOT for now, when ALE SpiceQL Pr is merged, remove?
+    setenv("ALESPICEROOT", "/Volumes/t7-shield/isis_data", true);
+    json props;
+    props["web"] = true;
+    json isd = ale::load(filename0.toStdString(), props.dump(), "isis", true, false, false);
+    std::cout << "[jigsaw] isd = " << isd.dump() << std::endl;
+
+    // Load plugin list
+    CameraFactory::initPlugin();
+    std::string csmStateString;
+
+    // Write ISD to temp file
+    boost::filesystem::path tempPath = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
+    std::cout << "tempPath = " << tempPath << std::endl;
+    std::ofstream tempFile(tempPath.c_str());
+    if (tempFile.is_open()) {
+      tempFile << isd.dump() << std::endl;
+      tempFile.close();
+    } else {
+      std::cerr << "Error creating temporary file!!" << std::endl;
+    }
+    
+    // Check file exists
+    if(boost::filesystem::exists(tempPath)) {
+      std::cout << "File [" << tempPath << "] exists!" << std::endl;
+    } else {
+      std::cout << "File [" << tempPath << "] does NOT exist!" << std::endl;
+    }
+
+    // Generate CSMState string
+    std::cout << "tempPath.string() = " << tempPath.string() << std::endl;
+    csm::Model *csmModel = CameraFactory::constructModelFromIsd(QString::fromStdString(tempPath.string()));
+    csmStateString = csmModel->getModelState();
+    std::cout << "[jigsaw] csmStateString = " << csmStateString << std::endl;
+
+    // Remove temp file, check again
+    boost::filesystem::remove(tempPath);
+    if(boost::filesystem::exists(tempPath)) {
+      std::cout << "File [" << tempPath << "] exists!" << std::endl;
+    } else {
+      std::cout << "File [" << tempPath << "] does NOT exist!" << std::endl;
+    }
+
+    // Check, Read from file
+    // std::ifstream myfile(tempPath.c_str());
+    // std::string line;
+    // if (myfile.is_open()) {
+    //   while (std::getline(myfile, line)) {
+    //     std::cout << line << std::endl;
+    //   }
+    //   myfile.close();
+    //   boost::filesystem::remove(tempPath);
+    //   // myfile >> mystring;
+    //   // std::cout << "mystring = " << std::endl;
+    // } else {
+    //   std::cerr << "Error opening file for reading." << std::endl;
+    // }
+    return;
+    // <---------
 
     QString cubeList = ui.GetFileName("FROMLIST");
 
