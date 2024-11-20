@@ -5,8 +5,8 @@ dependencies:
   - ale =0.10.0,<1
   - aom
   - armadillo
-  - boost >=1.78.0,<1.79
-  - boost-cpp >=1.78.0,<1.79
+  - boost >=1.76.0,<1.82
+  - boost-cpp >=1.76.0,<1.82
   - blas
   - usgs-astrogeology::bullet
   - bz2file
@@ -22,7 +22,7 @@ dependencies:
   - ffmpeg
   - geos >=3.12, <3.13
   - geotiff
-  - gdal >=3.7.2,<3.8.0a0
+  - gdal >=3.5 ,<3.9.0a0
   - gmp
   - graphviz
   - conda-forge::gsl >=2.6, <2.7
@@ -35,10 +35,10 @@ dependencies:
   - kalasiris
   - krb5
   - libgdal >=3.7,<3.8
-  - libopencv >=4.7,<4.8
+  - libopencv >=4.5,<4.8
   - libpng >=1.6.34,<1.7
   - libprotobuf
-  - libtiff >=4.5,<4.6
+  - libtiff >=4.5,<4.8
   - libxml2
   - make
   - mesalib
@@ -48,17 +48,17 @@ dependencies:
   - nlohmann_json=3.11.2
   - ninja >=1.7.2,<1.8
   - nn
-  - opencv >=4.7,<4.8
+  - opencv >=4.5,<4.8
   - openssl >=3.1.2,<3.2
   - pcl >=1.13,<1.14
   - plio
   - protobuf
-  - python >=3.10
-  - python_abi >=3.10
+  - python >=3.9
+  - python_abi >=3.9
   - pytest
   - rclone
   - qhull
-  - qt-main>=5.15.8, <5.16
+  - qt-main>=5.15, <5.16
   - qwt <6.3.0
   - sqlite >=3.46.0,<3.47
   - suitesparse <7.7.0
