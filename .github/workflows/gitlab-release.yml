@@ -1,0 +1,26 @@
+name: Github to Gitlab CI - Run CodeBuild
+
+env:
+  ISIS_VERSION: ${{ steps.vars.outputs.tag }}
+  GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+  ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }} 
+
+on:
+  repository_dispatch:
+    types: [test_result]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run script
+        run: |
+          git config --global user.name "Github_CI"
+          git config --global user.email "project_14468_bot_3f7d8e1a392afd88ead5f3f3154e809d@noreply.gitlab.com"
+          git clone https://isis-codebuild-ci:$GITLAB_TOKEN@code.usgs.gov/astrogeology/isis-codebuild-ci.git
+          cd isis-codebuild-ci
+          git checkout -b RELEASE_$ISIS_VERSION
+          echo -e "\nenv: \n  shell: bash \n  variables: \n    ISIS_VERSION: $ISIS_VERSION \n    ANACONDA_API_TOKEN: $ANACONDA_TOKEN >> buildspec-release.yml
+          git commit -a -m "$ISIS_VERSION"
+          git push origin RELEASE_$ISIS_VERSION --force
