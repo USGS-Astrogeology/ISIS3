@@ -174,15 +174,9 @@ namespace Isis {
     //PolygonSeeder *seeder = PolygonSeederFactory::Create(seedDef);
 
     TProjection *proj = NULL;
-    UniversalGroundMap *ugmap = NULL;
     mapGroup = Target::radiiGroup(cubeLab, mapGroup);
     if (seedDomain == XY) {
       proj = (TProjection *) ProjectionFactory::Create(maplab);
-    }
-    else if (seedDomain == SampleLine) {
-      Cube cube;
-      cube.open(serialNumbers.fileName(0));
-      ugmap = new UniversalGroundMap(cube);
     }
 
     // Create the control net to store the points in.
@@ -514,10 +508,6 @@ namespace Isis {
     if (seedDomain == XY) {
       delete proj;
       proj = NULL;
-    }
-    else if (seedDomain == SampleLine) {
-      delete ugmap;
-      ugmap = NULL;
     }
 
     delete seeder;
