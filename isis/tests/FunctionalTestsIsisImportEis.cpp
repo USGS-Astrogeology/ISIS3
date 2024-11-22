@@ -89,8 +89,8 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportEisNacFrame){
     End_Object
     End
   )");
-  QString dataFilePath= "data/isisimport/eispds/nacFrame/EIS000XXX_2032116T151902_0000C350-NAC-FRAME-IMG_RAW_V1.xml";
-  QString dataFileName = "EIS000XXX_2032116T151902_0000C350-NAC-FRAME-IMG_RAW_V1.xml";
+  QString dataFilePath= "data/isisimport/eispds/nacFrame/EIS000XXX_2032116T151902_0000C350-NAC-FRAME-IMG_RAW_V1.XML";
+  QString dataFileName = "EIS000XXX_2032116T151902_0000C350-NAC-FRAME-IMG_RAW_V1.XML";
   QString imageFileName = "EIS000XXX_2032116T151902_0000C350-NAC-FRAME-IMG_RAW_V1.img";
   QString cubeFileName = tempDir.path() + "/nacFrame.cub";
 
@@ -265,8 +265,8 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportEisWacFrame){
   End_Object
   End
   )");
-  QString dataFilePath = "data/isisimport/eispds/wacFrame/EIS000XXX_2032116T234937_0000C360-WAC-FRAME-IMG_RAW_V1.xml";
-  QString dataFileName = "EIS000XXX_2032116T234937_0000C360-WAC-FRAME-IMG_RAW_V1.xml";
+  QString dataFilePath = "data/isisimport/eispds/wacFrame/EIS000XXX_2032116T234937_0000C360-WAC-FRAME-IMG_RAW_V1.XML";
+  QString dataFileName = "EIS000XXX_2032116T234937_0000C360-WAC-FRAME-IMG_RAW_V1.XML";
   QString imageFileName = "EIS000XXX_2032116T234937_0000C360-WAC-FRAME-IMG_RAW_V1.img";
   QString cubeFileName = tempDir.path() + "/wacFrame.cub";
 
@@ -467,8 +467,8 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportEisWacPb){
     End
   )");
 
-  QString dataFilePath = "data/isisimport/eispds/wacPushb/EIS000XXX_2032116T234928_0000C35F-WAC-PUSHB-IMG_RAW_V1.xml";
-  QString dataFileName = "EIS000XXX_2032116T234928_0000C35F-WAC-PUSHB-IMG_RAW_V1.xml";
+  QString dataFilePath = "data/isisimport/eispds/wacPushb/EIS000XXX_2032116T234928_0000C35F-WAC-PUSHB-IMG_RAW_V1.XML";
+  QString dataFileName = "EIS000XXX_2032116T234928_0000C35F-WAC-PUSHB-IMG_RAW_V1.XML";
   QString imageFileName = "EIS000XXX_2032116T234928_0000C35F-WAC-PUSHB-IMG_RAW_V1.img";
   QString cubeFileName = tempDir.path() + "/WacPb.cub";
 
