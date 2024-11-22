@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="rtd_docs/ISIS_Logo.svg" alt="ISIS" width=200> 
+  <img src="isis/src/docsys/assets/img/image-source-files/isis-logo-red.svg" alt="ISIS" width=200> 
 </p>
 
 # ISIS
@@ -13,18 +13,25 @@
 To start using ISIS, see:
 
 - [Installing ISIS](https://astrogeology.usgs.gov/docs/how-to-guides/environment-setup-and-maintenance/installing-isis-via-anaconda/)
+    - Distubuted with conda, compatible with Unix and Mac.
+- [Intro to ISIS](https://astrogeology.usgs.gov/docs/getting-started/using-isis-first-steps/introduction-to-isis/)
+    - A good primer, at the end there's an example you can try!
 - [Setting Up the ISIS Data Area](https://astrogeology.usgs.gov/docs/how-to-guides/environment-setup-and-maintenance/isis-data-area/)
+    - You'll need this to process images on your own.
 
 For more info, see:
 
 - [Tutorials and Guides](https://astrogeology.usgs.gov/docs/)
 - [FAQ](https://astrogeology.usgs.gov/docs/getting-started/using-isis-first-steps/isis-faq/)
 - [ISIS Application Manuals](https://isis.astrogeology.usgs.gov)
+
+For Development and Contributing, see:
+
 - [Building ISIS](https://astrogeology.usgs.gov/docs/how-to-guides/isis-developer-guides/developing-isis3-with-cmake/)
 - [ISIS Test Data](https://astrogeology.usgs.gov/docs/how-to-guides/isis-developer-guides/obtaining-maintaining-submitting-test-data/)
 - [Contributing](https://astrogeology.usgs.gov/docs/how-to-guides/isis-developer-guides/contributing-to-isis/)
 
-## Table of Contents
+## In this README:
 
 - [Requests for Comment](README.md#Requests-for-Comment)
 - [Citing ISIS](README.md#Citing-ISIS)
