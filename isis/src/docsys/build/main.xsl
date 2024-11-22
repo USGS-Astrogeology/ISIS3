@@ -75,13 +75,35 @@ Deborah Lee Soltesz
         <xsl:call-template name="writeHeader"/>
 
         <div id="isis-banner">
-          <div class="isis-logo"></div>
-          <p><em>Integrated Software for Imagers and Spectrometers</em></p>
-        </div>
+          <div>
+              <div class="isis-logo"></div>
+                <h3 class="title-overlay">
+                  Integrated Software for <br/>
+                  Imagers and Spectrometers
+                </h3>
+          </div>
+            <div class="usa-card__container width-tablet">
+              <div class="usa-card__header">
+                <h4 class="usa-card__heading">Documentation Update</h4>
+              </div>
+              <div class="usa-card__body">
+                <p>
+                  ISIS documentation, including tutorials, how-to guides, and software usage explanations, has been relocated to <a href="https://astrogeology.usgs.gov/docs/" target="_blank">the USGS Astrogeology Software Docs website</a>. Documentation for previous versions of ISIS remains accessible via the left navigation pane.
+                </p>
+              </div>
+              <div class="usa-card__footer">
+                <a href="https://astrogeology.usgs.gov/docs" class="usa-button">Visit USGS Astrogeology Software Docs</a>
+              </div>
+            </div>
+      </div>
+      <div class="image-credit-fixed">
+        <p>This artist's concept depicts NASA's Europa Clipper spacecraft in orbit around Jupiter.</p>
+        <p style="color: #fff">Image Credit: <a style="color: #fff" href="https://photojournal.jpl.nasa.gov/catalog/PIA26068" target="_blank">NASA/JPL-Caltech</a></p>
+    </div>
 
         <div id="page">
           <div class="isisMenu">
-            <xsl:call-template  name="writeMenu"/>
+            <xsl:call-template  name="writeFrontPageMenu"/>
           </div>
           <main class="isisContent">
             <!--xsl:copy-of select="."/-->
@@ -108,4 +130,3 @@ Deborah Lee Soltesz
   </xsl:template>
 
 </xsl:stylesheet>
-
