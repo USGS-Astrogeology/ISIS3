@@ -62,72 +62,6 @@ namespace Isis {
 
   void jigsaw(UserInterface &ui, Pvl *log) {
 
-    // <------- CSMState Output Testing
-    std::cout << "[jigsaw] Getting ISD via ALE" << std::endl;
-    QString fromlist = ui.GetFileName("FROMLIST");
-    SerialNumberList *snList = new SerialNumberList(fromlist);
-    QString filename0 = snList->fileName(0); // <-- testing with one file
-    
-    // Set ALESPICEROOT for now, when ALE SpiceQL Pr is merged, remove?
-    setenv("ALESPICEROOT", "/Volumes/t7-shield/isis_data", true);
-    json props;
-    props["web"] = true;
-    json isd = ale::load(filename0.toStdString(), props.dump(), "isis", true, false, false);
-    std::cout << "[jigsaw] isd = " << isd.dump() << std::endl;
-
-    // Load plugin list
-    CameraFactory::initPlugin();
-    std::string csmStateString;
-
-    // Write ISD to temp file
-    boost::filesystem::path tempPath = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
-    std::cout << "tempPath = " << tempPath << std::endl;
-    std::ofstream tempFile(tempPath.c_str());
-    if (tempFile.is_open()) {
-      tempFile << isd.dump() << std::endl;
-      tempFile.close();
-    } else {
-      std::cerr << "Error creating temporary file!!" << std::endl;
-    }
-    
-    // Check file exists
-    if(boost::filesystem::exists(tempPath)) {
-      std::cout << "File [" << tempPath << "] exists!" << std::endl;
-    } else {
-      std::cout << "File [" << tempPath << "] does NOT exist!" << std::endl;
-    }
-
-    // Generate CSMState string
-    std::cout << "tempPath.string() = " << tempPath.string() << std::endl;
-    csm::Model *csmModel = CameraFactory::constructModelFromIsd(QString::fromStdString(tempPath.string()));
-    csmStateString = csmModel->getModelState();
-    std::cout << "[jigsaw] csmStateString = " << csmStateString << std::endl;
-
-    // Remove temp file, check again
-    boost::filesystem::remove(tempPath);
-    if(boost::filesystem::exists(tempPath)) {
-      std::cout << "File [" << tempPath << "] exists!" << std::endl;
-    } else {
-      std::cout << "File [" << tempPath << "] does NOT exist!" << std::endl;
-    }
-
-    // Check, Read from file
-    // std::ifstream myfile(tempPath.c_str());
-    // std::string line;
-    // if (myfile.is_open()) {
-    //   while (std::getline(myfile, line)) {
-    //     std::cout << line << std::endl;
-    //   }
-    //   myfile.close();
-    //   boost::filesystem::remove(tempPath);
-    //   // myfile >> mystring;
-    //   // std::cout << "mystring = " << std::endl;
-    // } else {
-    //   std::cerr << "Error opening file for reading." << std::endl;
-    // }
-    return;
-    // <---------
-
     QString cubeList = ui.GetFileName("FROMLIST");
 
     // Check for ADJUSTMENT_INPUT file and apply
@@ -143,6 +77,7 @@ namespace Isis {
         ui.PutBoolean("RESIDUALS_CSV", false);
         ui.PutBoolean("LIDAR_CSV", false);
         ui.PutBoolean("OUTADJUSTMENTH5", false);
+        ui.PutBoolean("OUTPUT_ADJUSTED_CSMSTATE", false);
         
         File fileRead(ui.GetFileName("ADJUSTMENT_INPUT").toStdString(), File::ReadOnly);
         SerialNumberList *snList = new SerialNumberList(cubeList);
@@ -410,6 +345,53 @@ namespace Isis {
       bundleAdjustment->controlNet()->Write(ui.GetFileName("ONET"));
       QString msg = "Unable to bundle adjust network [" + cnetFile + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
+    }
+
+    if (ui.GetBoolean("OUTPUT_ADJUSTED_CSMSTATE")) {
+      
+      // Go thru each file in cubelist
+      SerialNumberList *snList = new SerialNumberList(cubeList);
+      for (int i = 0; i < snList->size(); i++) {        
+        QString filename = snList->fileName(i);
+        
+        // Generate ISD from cube
+        json props;
+        json isd = ale::load(filename.toStdString(), props.dump(), "ale", false, true, false);
+
+        // Load plugin list
+        CameraFactory::initPlugin();
+
+        // Write ISD to temp file
+        boost::filesystem::path tempIsdFilePath = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
+        tempIsdFilePath = tempIsdFilePath.replace_extension(".json");
+        std::ofstream tempIsdFile(tempIsdFilePath.c_str());
+        if (tempIsdFile.is_open()) {
+          tempIsdFile << isd.dump() << std::endl;
+          tempIsdFile.close();
+        } else {
+          std::cerr << "Error creating temporary file [" << tempIsdFilePath << "]." << std::endl;
+          boost::filesystem::remove(tempIsdFilePath);
+        }
+        
+        // Generate CSMState string
+        QString tempIsdFilePathStr = QString::fromStdString(tempIsdFilePath.string());
+        csm::Model *csmModel = CameraFactory::constructModelFromIsd(tempIsdFilePathStr);
+        std::string csmStateString = csmModel->getModelState();
+
+        // Remove temp file
+        boost::filesystem::remove(tempIsdFilePath);
+
+        // Write CSMState string to file
+        boost::filesystem::path filenamePath(filename.toStdString());
+        boost::filesystem::path csmStateFilename = filenamePath.replace_extension(".state.json");
+        ofstream csmStateFile(csmStateFilename.c_str());
+        if (csmStateFile.is_open()) {
+          csmStateFile << csmStateString << std::endl;
+          csmStateFile.close();
+        } else {
+          std::cerr << "Error creating CSMState file [" << csmStateFilename << "]." << std::endl;
+        }
+      }
     }
 
   //TODO - WHY DOES THIS MAKE VALGRIND ANGRY???

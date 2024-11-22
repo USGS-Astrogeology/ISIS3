@@ -56,7 +56,8 @@ namespace Isis {
       static int CameraVersion(Cube &cube);
       static int CameraVersion(Pvl &lab);
       static void initPlugin();
-      static csm::Model *constructModelFromIsd(QString isd);
+      static csm::Model *constructModelFromIsd(QString isdFilePath, QString pluginName = "", QString modelName = "", QString isdFormat = "");
+      static QStringList getModelSpecFromIsd(QString isdFilePath, QString pluginName = "", QString modelName = "");
 
     private:
       /**
