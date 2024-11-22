@@ -92,7 +92,7 @@ may be possible.
 
 ## Semantic Versioning
 
-Versions of ISIS now use a Major.Minor.Patch scheme (e.g., 8.3.0). 
+Versions of ISIS now use a Major.Minor.Patch scheme (e.g., 8.3.0), detailed in [RFC 2](https://github.com/DOI-USGS/ISIS3/wiki/RFC2:-Release-Process#terms). 
 
 | Major | Minor | Patch |
 |-------|-------|-------|
