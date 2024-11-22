@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model
+    href="https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_1K00.sch"
+	  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model
+    href="https://pds.nasa.gov/pds4/disp/v1/PDS4_DISP_1K00_1510.sch"
+    schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model
+    href="https://pds.nasa.gov/pds4/img/v1/PDS4_IMG_1K00_1870.sch"
+    schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model
+	  href="https://pds.nasa.gov/pds4/mission/clipper/v1/PDS4_CLIPPER_1E00_1000.sch"
+	  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<Product_Observational
+	xmlns="http://pds.nasa.gov/pds4/pds/v1"
+    xmlns:clipper="http://pds.nasa.gov/pds4/mission/clipper/v1"
+	xmlns:disp="http://pds.nasa.gov/pds4/disp/v1"
+	xmlns:img="http://pds.nasa.gov/pds4/img/v1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pds.nasa.gov/pds4/pds/v1
+                        https://pds.nasa.gov/pds4/pds/v1/PDS4_PDS_1K00.xsd
+                        http://pds.nasa.gov/pds4/mission/clipper/v1
+                        https://pds.nasa.gov/pds4/mission/clipper/v1/PDS4_CLIPPER_1E00_1000.xsd
+                        http://pds.nasa.gov/pds4/disp/v1
+                        https://pds.nasa.gov/pds4/disp/v1/PDS4_DISP_1K00_1510.xsd
+                        http://pds.nasa.gov/pds4/img/v1
+                        https://pds.nasa.gov/pds4/img/v1/PDS4_IMG_1K00_1870.xsd">
+  <Identification_Area>
+    <logical_identifier>urn:nasa:pds:clipper_eis:data_nac_raw:eis000xxx_2032116t151902_0000c350-nac-frame-img_raw</logical_identifier>
+    <version_id>1.0</version_id>
+    <title>Europa Clipper Imaging System (EIS) Narrow Angle Camera (NAC) Raw Checklines Image, eis000xxx_2032116t151902_0000c350-nac-frame-img_raw</title>
+    <information_model_version>1.20.0.0</information_model_version>
+    <product_class>Product_Observational</product_class>
+  <Modification_History>
+      <Modification_Detail>
+        <modification_date>2023-12-11</modification_date>
+        <version_id>1.0</version_id>
+        <description>Initial Version</description>
+      </Modification_Detail>
+  </Modification_History>
+  </Identification_Area>
+  <Observation_Area>
+    <Time_Coordinates>
+      <start_date_time>2032-04-25T15:19:02.191Z</start_date_time>
+      <stop_date_time>2032-04-25T23:49:19.175Z</stop_date_time>
+    </Time_Coordinates>
+    <Investigation_Area>
+      <name>Europa Clipper</name>
+      <type>Mission</type>
+      <Internal_Reference>
+        <lid_reference>urn:nasa:pds:context:investigation:mission.clipper</lid_reference>
+        <reference_type>data_to_investigation</reference_type>
+      </Internal_Reference>
+    </Investigation_Area>
+    <Observing_System>
+       <Observing_System_Component>
+        <name>Clipper</name>
+        <type>Host</type>
+        <description>Europa Clipper Spacecraft</description>
+       <Internal_Reference>
+           <lid_reference>urn:nasa:pds:context:instrument_host:spacecraft.clipper</lid_reference>
+           <reference_type>is_instrument_host</reference_type>
+        </Internal_Reference>
+      </Observing_System_Component>
+      <Observing_System_Component>
+        <name>NAC</name>
+        <type>Instrument</type>
+        <description>Europa Imaging System (EIS) Narrow-Angle Camera (NAC)</description>
+        <Internal_Reference>
+          <lid_reference>urn:nasa:pds:context:instrument:clipper.wac</lid_reference>
+          <reference_type>is_instrument</reference_type>
+        </Internal_Reference>
+      </Observing_System_Component>
+    </Observing_System>
+    <Target_Identification>
+      <name>Europa</name>
+      <type>Satellite</type>
+    </Target_Identification>
+    <Mission_Area>
+      <clipper:Observation_Information>
+        <clipper:mission_phase_name>Tour</clipper:mission_phase_name>
+        <clipper:orbit_number>0</clipper:orbit_number>
+        <clipper:encounter_id>XXX</clipper:encounter_id>
+        <clipper:product_type>Raw</clipper:product_type>
+        <clipper:product_version_id>1.0</clipper:product_version_id>
+        <clipper:producer_institution_name>Johns Hopkins University Applied Physics Laboratory</clipper:producer_institution_name>
+        <clipper:spacecraft_clock_start_count>704215145.12500</clipper:spacecraft_clock_start_count>
+        <clipper:spacecraft_clock_stop_count>704245762.11500</clipper:spacecraft_clock_stop_count>
+        <clipper:spacecraft_clock_count_partition>1</clipper:spacecraft_clock_count_partition>
+        <clipper:rationale_desc>checklines</clipper:rationale_desc>
+        <clipper:EIS_Parameters>
+            <clipper:mode>FRAMING</clipper:mode>
+            <clipper:gain>HIGH</clipper:gain>
+            <clipper:detector_temp unit="degC">122.01</clipper:detector_temp>
+            <clipper:fpm_temp1 unit="degC">12.20</clipper:fpm_temp1>
+            <clipper:fpm_temp2 unit="degC">-65.00</clipper:fpm_temp2>
+            <clipper:frame_capture_start_count>704215145.12345</clipper:frame_capture_start_count>
+            <clipper:filter_used>FRAMING_AREA</clipper:filter_used>
+            <clipper:nframes>1</clipper:nframes>
+            <clipper:gimbal_alongtrack>0</clipper:gimbal_alongtrack>
+            <clipper:gimbal_crosstrack>0</clipper:gimbal_crosstrack>
+            <clipper:Detector_Region>
+              <clipper:readout_start_row>803</clipper:readout_start_row>
+              <clipper:readout_end_row>803</clipper:readout_end_row>
+              <clipper:row_step_size>1</clipper:row_step_size>
+              <clipper:readout_start_col>0</clipper:readout_start_col>
+              <clipper:readout_end_col>4095</clipper:readout_end_col>
+            </clipper:Detector_Region>
+            <clipper:Detector_Region>
+              <clipper:readout_start_row>1196</clipper:readout_start_row>
+              <clipper:readout_end_row>1196</clipper:readout_end_row>
+              <clipper:row_step_size>1</clipper:row_step_size>
+              <clipper:readout_start_col>0</clipper:readout_start_col>
+              <clipper:readout_end_col>4095</clipper:readout_end_col>
+            </clipper:Detector_Region>
+            <clipper:Detector_Region>
+              <clipper:readout_start_row>410</clipper:readout_start_row>
+              <clipper:readout_end_row>410</clipper:readout_end_row>
+              <clipper:row_step_size>1</clipper:row_step_size>
+              <clipper:readout_start_col>0</clipper:readout_start_col>
+              <clipper:readout_end_col>4095</clipper:readout_end_col>
+            </clipper:Detector_Region>
+            <clipper:row_time_padding>1</clipper:row_time_padding>
+            <clipper:row_offset>303</clipper:row_offset>
+            <clipper:tdi_rows>0</clipper:tdi_rows>
+        </clipper:EIS_Parameters>
+      </clipper:Observation_Information>
+    </Mission_Area>
+    <Discipline_Area>
+     <disp:Display_Settings>
+        <Local_Internal_Reference>
+          <local_identifier_reference>eis000xxx_2032116t151902_0000c350-nac-frame-img_raw</local_identifier_reference>
+          <local_reference_type>display_settings_to_array</local_reference_type>
+        </Local_Internal_Reference>
+      <disp:Display_Direction>
+         <disp:horizontal_display_axis>Sample</disp:horizontal_display_axis>
+         <disp:horizontal_display_direction>Left to Right</disp:horizontal_display_direction>
+         <disp:vertical_display_axis>Line</disp:vertical_display_axis>
+         <disp:vertical_display_direction>Top to Bottom</disp:vertical_display_direction>
+      </disp:Display_Direction>
+     </disp:Display_Settings>
+     <img:Exposure>
+      <img:exposure_duration unit="ms">4.35</img:exposure_duration>
+     </img:Exposure>
+   </Discipline_Area>
+  </Observation_Area>
+  <Reference_List>
+    <Internal_Reference>
+      <lid_reference>urn:nasa:pds:clipper_eis:document:jhuapl_clipper_eis_uncalibrated_calibrated_sis</lid_reference>
+      <reference_type>data_to_document</reference_type>
+      <comment>Europa Clipper Uncalibrated to Calibrated SIS document which describes the data
+         products for the Europa Clipper EIS instrument.</comment>
+    </Internal_Reference>
+  </Reference_List>
+  <File_Area_Observational>
+    <File>
+      <file_name>EIS000XXX_2032116T151902_0000C350-NAC-FRAME-IMG_RAW_V1.IMG</file_name>
+      <comment>Europa Clipper NAC raw checklines image file</comment>
+    </File>
+    <Array_2D_Image>
+      <local_identifier>eis000xxx_2032116t151902_0000c350-nac-frame-img_raw</local_identifier>
+      <offset unit="byte">0</offset>
+      <axes>2</axes>
+      <axis_index_order>Last Index Fastest</axis_index_order>
+      <Element_Array>
+        <data_type>UnsignedLSB2</data_type>
+      </Element_Array>
+      <Axis_Array>
+        <axis_name>Line</axis_name>
+        <elements>108</elements>
+        <sequence_number>1</sequence_number>
+      </Axis_Array>
+      <Axis_Array>
+        <axis_name>Sample</axis_name>
+        <elements>4096</elements>
+        <sequence_number>2</sequence_number>
+      </Axis_Array>
+    </Array_2D_Image>
+  </File_Area_Observational>
+</Product_Observational>

@@ -150,22 +150,24 @@ namespace Isis {
     while (!element.isNull()) {
       std::string cleanTagName = element.tagName().replace(":", "_").toStdString();
       QDomElement next = element.firstChildElement();
-      if (next.isNull()){
+      if (next.isNull()) {
         json converted = convertLastChildNodeToJson(element);
-        // Simple case with no repeated tags at the same level
-        if (!output.contains(cleanTagName)){
-          output.update(converted);
-        }
-        else {
-          // There is a repeated tag at the same level in the XML, i.e: <a>val1</a><a>val2</a>
-          // Translated json goal: a:[val1, val2]
-          // If the converted json has an array already, append, else make it an array
-          if (!output[cleanTagName].is_array()) {
-            json repeatedArray;
-            repeatedArray.push_back(output[element.tagName().toStdString()]);
-            output[cleanTagName] = repeatedArray;
+        if (!converted.is_null()) {
+          // Simple case with no repeated tags at the same level
+          if (!output.contains(cleanTagName)) {
+            output[cleanTagName] = converted[cleanTagName];
           }
-          output[cleanTagName].push_back(converted[cleanTagName]);
+          else {
+            // There is a repeated tag at the same level in the XML, i.e: <a>val1</a><a>val2</a>
+            // Translated json goal: a:[val1, val2]
+            // If the converted json has an array already, append, else make it an array
+            if (!output[cleanTagName].is_array()) {
+              json repeatedArray = json::array();
+              repeatedArray.push_back(output[cleanTagName]);
+              output[cleanTagName] = repeatedArray;
+            }
+            output[cleanTagName].push_back(converted[cleanTagName]);
+          }
         }
       }
       else {
@@ -174,33 +176,27 @@ namespace Isis {
         // overwriting. This is the following situation:
         // XML: <a> <first>value1</first> </a> <a> <second>value2</second></a>
         // JSON: a: [ {first:value1, second:value2} ]
+        json temporaryJson;
+        convertXmlToJson(next, temporaryJson);
+
         if (output.contains(cleanTagName)) {
           // If it's an array already, append, else make it an array
-          json temporaryJson;
-          convertXmlToJson(next, temporaryJson);
           if (!output[cleanTagName].is_array()) {
-            json repeatedArray;
-            repeatedArray.push_back(output[element.tagName().toStdString()]);
+            json repeatedArray = json::array();
+            repeatedArray.push_back(output[cleanTagName]);
             output[cleanTagName] = repeatedArray;
           }
           output[cleanTagName].push_back(temporaryJson);
         }
         else {
           if (element.hasAttributes()) {
-            json tempArea;
             QDomNamedNodeMap attrMap = element.attributes();
             for (int j=0; j < attrMap.size(); j++) {
               QDomAttr attr = attrMap.item(j).toAttr(); 
-              tempArea["attrib_"+attr.name().toStdString()] = attr.value().toStdString();
+              temporaryJson["attrib_"+attr.name().toStdString()] = attr.value().toStdString();
             }
-            tempArea.update(
-                convertXmlToJson(next, output[cleanTagName]));
-            output[cleanTagName] = tempArea;
           }
-          else {
-            output[cleanTagName] = 
-              convertXmlToJson(next, output[cleanTagName]);
-          }
+          output[cleanTagName] = temporaryJson;
         }
       }
       element = element.nextSiblingElement();

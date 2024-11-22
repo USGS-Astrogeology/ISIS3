@@ -956,12 +956,12 @@ namespace Isis {
   void ClipperPbCube::setInstrument(QString instrumentId) {
     TempTestingFiles::SetUp();
 
-    if (instrumentId == "EIS-NAC-PB") {
+    if (instrumentId == "NAC-PUSHBROOM") {
       QString testPath = tempDir.path() + "/nacTest.cub";
       QFile::copy("data/clipper/ClipperNacPb.cub", testPath);
       testCube = new Cube(testPath, "rw");
     }
-    else if (instrumentId == "EIS-WAC-PB") {
+    else if (instrumentId == "WAC-PUSHBROOM") {
       QString testPath = tempDir.path() + "/wacTest.cub";
       QFile::copy("data/clipper/ClipperWacPb.cub", testPath);
       testCube = new Cube(testPath, "rw");

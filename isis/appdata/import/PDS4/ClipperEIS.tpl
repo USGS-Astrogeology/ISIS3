@@ -75,7 +75,11 @@ Object = IsisCube
     TargetName                = {{ Product_Observational.Observation_Area.Target_Identification.name }}
     StartTime                 = {{ RemoveStartTimeZ(Product_Observational.Observation_Area.Time_Coordinates.start_date_time) }}
     ExposureDuration          = {{ Product_Observational.Observation_Area.Discipline_Area.img_Exposure.img_exposure_duration._text }} <{{ Product_Observational.Observation_Area.Discipline_Area.img_Exposure.img_exposure_duration.attrib_unit }}>
-    DetectorLineOffset        = {{ Product_Observational.Observation_Area.Mission_Area.clipper_Observation_Information.clipper_EIS_Parameters.clipper_Detector_Region.clipper_readout_start_row }}
+    DetectorLineOffset        = {% if exists("Product_Observational.Observation_Area.Mission_Area.clipper_Observation_Information.clipper_EIS_Parameters.clipper_Detector_Region.clipper_readout_start_row") %}
+                                {{ Product_Observational.Observation_Area.Mission_Area.clipper_Observation_Information.clipper_EIS_Parameters.clipper_Detector_Region.clipper_readout_start_row }}
+                                {% else %}
+                                {{ Product_Observational.Observation_Area.Mission_Area.clipper_Observation_Information.clipper_EIS_Parameters.clipper_Detector_Region.0.clipper_readout_start_row }}
+                                {% endif %}
   End_Group
 
 {% set filter=Product_Observational.Observation_Area.Mission_Area.clipper_Observation_Information.clipper_EIS_Parameters.clipper_filter_used %}
