@@ -61,6 +61,7 @@ file. Slightly modified the FunctionalTestJigsawBundleXYZ ctest accordingly. Iss
 - Fixed XmlToJson namespaced key conversion [#5652](https://github.com/DOI-USGS/ISIS3/pull/5652)
 - Fixed PHOTOMET not accepting backplanes [#5281](https://github.com/DOI-USGS/ISIS3/issues/5281)
 - Fixed dstripe parallel test failing by converting tests to gtests [#5613](https://github.com/DOI-USGS/ISIS3/issues/5613)
+- Fixed autoseed SeedDomain = SampleLine only working for first overlap [#5673](https://github.com/DOI-USGS/ISIS3/issues/5673)
 
 ## [8.3.0] - 2024-09-30
 
