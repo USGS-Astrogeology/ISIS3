@@ -6,8 +6,8 @@ env:
   ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }} 
 
 on:
-  repository_dispatch:
-    types: [test_result]
+  release:
+    types: [published, created, prereleased, released]
 
 jobs:
   build:
