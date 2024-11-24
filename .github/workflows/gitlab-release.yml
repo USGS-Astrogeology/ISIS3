@@ -21,7 +21,7 @@ jobs:
           git config --global user.name "Github_CI"
           git config --global user.email "project_14468_bot_3f7d8e1a392afd88ead5f3f3154e809d@noreply.gitlab.com"
           git clone https://isis-codebuild-ci:$GITLAB_TOKEN@code.usgs.gov/astrogeology/isis-codebuild-ci.git
-          echo $ISIS_VERSION
+          echo ${GITHUB_REF#refs/*/}
           cd isis-codebuild-ci
           git checkout -b RELEASE_$ISIS_VERSION
           echo -e "\nenv: \n  shell: bash \n  variables: \n    ISIS_VERSION: $ISIS_VERSION \n    ANACONDA_API_TOKEN: $ANACONDA_TOKEN >> buildspec-release.yml
