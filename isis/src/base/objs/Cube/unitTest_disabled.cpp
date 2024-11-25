@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     // Test create and write methods
     cerr << "Creating 32-bit cube ... " << endl;
     out.setDimensions(150, 200, 2);
-    out.create("IsisCube_00");
+    out.create("$TMP/IsisCube_00");
     Report(out);
 
     cerr << "Write cube ... " << endl;
@@ -55,12 +55,12 @@ int main(int argc, char *argv[]) {
     }
 
     // Copy returns the resulting Cube, we don't care about it (but we need it to flush) so delete
-    delete out.copy("IsisCube_01", CubeAttributeOutput());
+    delete out.copy("$TMP/IsisCube_01", CubeAttributeOutput());
     out.close();
 
     // Test the open and read methods
     cerr << "Opening cube ... " << endl;
-    Cube in("IsisCube_01");
+    Cube in("$TMP/IsisCube_01");
     Report(in);
 
     cerr << "Comparing cube ... " << endl;
@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
     out2.setFormat(Cube::Bsq);
     out2.setLabelSize(1000);
     out2.setPixelType(UnsignedByte);
-    out2.create("IsisCube_02");
+    out2.create("$TMP/IsisCube_02");
 
     j = 0;
     LineManager oline(out2);
@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
     cerr << "Comparing cube ... " << endl;
     Cube in2;
     try {
-      in2.open("IsisCube_02");
+      in2.open("$TMP/IsisCube_02");
     }
     catch (IException &e) {
       e.print();
@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
 //  out3.SetByteOrder(Msb);
     out2.setByteOrder(ISIS_LITTLE_ENDIAN ? Msb : Lsb);
     out3.setPixelType(SignedWord);
-    out3.create("IsisCube_03");
+    out3.create("$TMP/IsisCube_03");
 
     j = 0;
     LineManager oline3(out3);
@@ -159,7 +159,7 @@ int main(int argc, char *argv[]) {
 
     cerr << "Comparing cube ... " << endl;
     Cube in3;
-    in3.open("IsisCube_03");
+    in3.open("$TMP/IsisCube_03");
     Report(in3);
     j = 0;
     LineManager inLine3(in3);
@@ -179,7 +179,7 @@ int main(int argc, char *argv[]) {
     in3.close();
 
 
-    in.open("IsisCube_01");
+    in.open("$TMP/IsisCube_01");
 
     // Test Histogram object on a single band, 1 by default
     cerr << "Testing histogram method, band 1 ... " << endl;
@@ -278,7 +278,7 @@ int main(int argc, char *argv[]) {
     QList<QString> vbands;
     vbands.push_back("2");
     in.setVirtualBands(vbands);
-    in.open("IsisCube_01");
+    in.open("$TMP/IsisCube_01");
     cerr << "Nbands = " << in.bandCount() << endl;
     cerr << "Band 1 = " << in.physicalBand(1) << endl;
     cerr << endl;
@@ -297,7 +297,7 @@ int main(int argc, char *argv[]) {
     cerr << "Constructing cube ... " << endl << endl;
     Cube boundaryTestCube;
     boundaryTestCube.setDimensions(10, 10, 4);
-    boundaryTestCube.create("IsisCube_boundary");
+    boundaryTestCube.create("$TMP/IsisCube_boundary");
     Report(boundaryTestCube);
     LineManager boundaryLine(boundaryTestCube);
 
@@ -381,7 +381,7 @@ int main(int argc, char *argv[]) {
     virtualBands.push_back("4");
     virtualBands.push_back("2");
     boundaryTestCube.setVirtualBands(virtualBands);
-    boundaryTestCube.open("IsisCube_boundary");
+    boundaryTestCube.open("$TMP/IsisCube_boundary");
 
     cerr << "Reading completely outside virtual band boundaries ... " << endl;
     readBrick.SetBasePosition(1, 1, 6);
@@ -475,7 +475,7 @@ int main(int argc, char *argv[]) {
     Cube bsqOneLineTestCube;
     bsqOneLineTestCube.setDimensions(3, 1, 3);
     bsqOneLineTestCube.setFormat(Cube::Bsq);
-    bsqOneLineTestCube.create("IsisCube_bsqOneLine");
+    bsqOneLineTestCube.create("$TMP/IsisCube_bsqOneLine");
     Report(bsqOneLineTestCube);
     LineManager oneLine(bsqOneLineTestCube);
 
@@ -501,7 +501,7 @@ int main(int argc, char *argv[]) {
     virtualBands.push_back("2");
     virtualBands.push_back("3");
     bsqOneLineTestCube.setVirtualBands(virtualBands);
-    bsqOneLineTestCube.open("IsisCube_bsqOneLine");
+    bsqOneLineTestCube.open("$TMP/IsisCube_bsqOneLine");
     for (int sb = 1; sb <= virtualBands.size(); sb++) {
       readLineBrick.SetBasePosition(1, 1, sb);
       bsqOneLineTestCube.read(readLineBrick);
@@ -523,7 +523,7 @@ int main(int argc, char *argv[]) {
     virtualBands.push_back("3");
     virtualBands.push_back("3");
     bsqOneLineTestCube.setVirtualBands(virtualBands);
-    bsqOneLineTestCube.open("IsisCube_bsqOneLine");
+    bsqOneLineTestCube.open("$TMP/IsisCube_bsqOneLine");
     for (int sb = 1; sb <= virtualBands.size(); sb++) {
       readLineBrick.SetBasePosition(1, 1, sb);
       bsqOneLineTestCube.read(readLineBrick);
@@ -544,7 +544,7 @@ int main(int argc, char *argv[]) {
     virtualBands.push_back("1");
     virtualBands.push_back("5");
     bsqOneLineTestCube.setVirtualBands(virtualBands);
-    bsqOneLineTestCube.open("IsisCube_bsqOneLine");
+    bsqOneLineTestCube.open("$TMP/IsisCube_bsqOneLine");
     for (int sb = 1; sb <= virtualBands.size(); sb++) {
       readLineBrick.SetBasePosition(1, 1, sb);
       bsqOneLineTestCube.read(readLineBrick);
@@ -574,7 +574,7 @@ int main(int argc, char *argv[]) {
     virtualBands.push_back("1");
     virtualBands.push_back("3");
     bsqOneLineTestCube.setVirtualBands(virtualBands);
-    bsqOneLineTestCube.open("IsisCube_bsqOneLine");
+    bsqOneLineTestCube.open("$TMP/IsisCube_bsqOneLine");
     for (int sb = 1; sb <= virtualBands.size(); sb++) {
       readLineBrick.SetBasePosition(1, 1, sb);
       bsqOneLineTestCube.read(readLineBrick);
@@ -598,7 +598,7 @@ int main(int argc, char *argv[]) {
     int limitExceeded = (1 << 28) + 1;
     largebsqTestCube.setDimensions(limitExceeded, 2, 1);
     largebsqTestCube.setFormat(Cube::Bsq);
-    largebsqTestCube.create("IsisCube_largebsq");
+    largebsqTestCube.create("$TMP/IsisCube_largebsq");
     Report(largebsqTestCube);
 
     cerr << endl;
@@ -613,7 +613,7 @@ int main(int argc, char *argv[]) {
     // maxLineSize = 2^30 / (4 * 15000) = 17895 < 18000
     bsqTestCube.setDimensions(15000, 18000, 1);
     bsqTestCube.setFormat(Cube::Bsq);
-    bsqTestCube.create("IsisCube_bsq");
+    bsqTestCube.create("$TMP/IsisCube_bsq");
     Report(bsqTestCube);
 
     cerr << endl;
@@ -683,7 +683,7 @@ int main(int argc, char *argv[]) {
 
     try {
       Cube out;
-      out.create("IsisCube_04");
+      out.create("$TMP/IsisCube_04");
       out.close();
     }
     catch (IException &e) {
@@ -694,7 +694,7 @@ int main(int argc, char *argv[]) {
       Cube out;
       out.setLabelSize(15);
       out.setDimensions(1, 1, 1);
-      out.create("IsisCube_04");
+      out.create("$TMP/IsisCube_04");
       out.close();
     }
     catch (IException &e) {
@@ -704,7 +704,7 @@ int main(int argc, char *argv[]) {
     try {
       Cube out;
       out.setDimensions(1000000, 1000000, 9);
-      out.create("IsisCube_05");
+      out.create("$TMP/IsisCube_05");
       out.close();
     }
     catch (IException &e) {
@@ -712,7 +712,7 @@ int main(int argc, char *argv[]) {
     }
     try {
       Cube in;
-      in.open("IsisCube_01", "a");
+      in.open("$TMP/IsisCube_01", "a");
     }
     catch (IException &e) {
       e.print();
@@ -741,7 +741,7 @@ int main(int argc, char *argv[]) {
 
     Cube in4;
     try {
-      in4.open("$ISISTESTDATA/isis/src/base/unitTestData/isisTruth.cub");
+      in4.open("$ISISTESTDATA/isis/src/base/unitTestData/$TMP/isisTruth.cub");
     }
     catch (IException &e) {
       e.print();
@@ -767,7 +767,7 @@ int main(int argc, char *argv[]) {
     try {
       Cube externalData;
       externalData.setDimensions(1024, 1024, 1);
-      externalData.create("IsisCube_06");
+      externalData.create("$TMP/IsisCube_06");
       externalData.reopen("r");
       externalData.putGroup(PvlGroup("TestGroup2"));
     }
@@ -782,8 +782,8 @@ int main(int argc, char *argv[]) {
   cerr << endl << "Test creating an ecub" << endl;
   {
     Cube externalData;
-    externalData.setExternalDnData("$ISISTESTDATA/isis/src/base/unitTestData/isisTruth.cub");
-    externalData.create("isisTruth_external.ecub");
+    externalData.setExternalDnData("$ISISTESTDATA/isis/src/base/unitTestData/$TMP/isisTruth.cub");
+    externalData.create("$TMP/isisTruth_external.ecub");
     externalData.putGroup(PvlGroup("TestGroup"));
     cerr << *externalData.label() << endl;
 
@@ -811,8 +811,8 @@ int main(int argc, char *argv[]) {
   cerr << endl << "Test creating an ecub from an ecub" << endl;
   {
     Cube externalData;
-    externalData.setExternalDnData("isisTruth_external.ecub");
-    externalData.create("isisTruth_external2.ecub");
+    externalData.setExternalDnData("$TMP/isisTruth_external.ecub");
+    externalData.create("$TMP/isisTruth_external2.ecub");
     cerr << *externalData.label() << endl;
 
     Brick readBrick(3, 3, 2, externalData.pixelType());
@@ -839,7 +839,7 @@ int main(int argc, char *argv[]) {
   cerr << endl << "Test reading an ecub" << endl;
   {
     Cube externalData;
-    externalData.open("isisTruth_external", "rw");
+    externalData.open("$TMP/isisTruth_external", "rw");
     externalData.putGroup(PvlGroup("TestGroup2"));
     externalData.reopen("r");
     cerr << *externalData.label() << endl;
@@ -868,7 +868,7 @@ int main(int argc, char *argv[]) {
   cerr << endl << "Test reading an ecub that points to another ecub" << endl;
   {
     Cube externalData;
-    externalData.open("isisTruth_external2");
+    externalData.open("$TMP/isisTruth_external2");
     cerr << *externalData.label() << endl;
 
     Brick readBrick(3, 3, 2, externalData.pixelType());
@@ -895,8 +895,8 @@ int main(int argc, char *argv[]) {
 //cerr << endl << "Test reading an ecub that points to detached lbl" << endl;
 //{
 //  Cube externalData;
-//  externalData.setExternalDnData("IsisCube_02.lbl");
-//  externalData.create("isisTruth_external3.ecub");
+//  externalData.setExternalDnData("$TMP/IsisCube_02.lbl");
+//  externalData.create("$TMP/isisTruth_external3.ecub");
 //  cerr << *externalData.label() << endl;
 //
 //  Brick readBrick(3, 3, 2, externalData.pixelType());
@@ -923,8 +923,8 @@ int main(int argc, char *argv[]) {
 //cerr << endl << "Test copying an ecub that points to detached lbl" << endl;
 //{
 //  Cube externalData;
-//  externalData.open("isisTruth_external3.ecub");
-//  Cube *copiedCube = externalData.copy("isisTruth_external3.copy.ecub",
+//  externalData.open("$TMP/isisTruth_external3.ecub");
+//  Cube *copiedCube = externalData.copy("$TMP/isisTruth_external3.copy.ecub",
 //                                       CubeAttributeOutput("+External"));
 //  cerr << *copiedCube->label() << endl;
 //
@@ -954,22 +954,22 @@ int main(int argc, char *argv[]) {
 //
 //}
 
-  remove("IsisCube_00.cub");
-  remove("IsisCube_01.cub");
-  remove("IsisCube_02.cub");
-  remove("IsisCube_02.lbl");
-  remove("IsisCube_03.cub");
-  remove("IsisCube_04.cub");
-  remove("IsisCube_05.cub");
-  remove("IsisCube_06.cub");
-  remove("IsisCube_boundary.cub");
-  remove("IsisCube_bsq.cub");
-  remove("IsisCube_bsqOneLine.cub");
-  remove("IsisCube_largebsq.cub");
-  remove("isisTruth_external.ecub");
-  remove("isisTruth_external2.ecub");
-  remove("isisTruth_external3.ecub");
-  remove("isisTruth_external3.copy.ecub");
+  remove("$TMP/IsisCube_00.cub");
+  remove("$TMP/IsisCube_01.cub");
+  remove("$TMP/IsisCube_02.cub");
+  remove("$TMP/IsisCube_02.lbl");
+  remove("$TMP/IsisCube_03.cub");
+  remove("$TMP/IsisCube_04.cub");
+  remove("$TMP/IsisCube_05.cub");
+  remove("$TMP/IsisCube_06.cub");
+  remove("$TMP/IsisCube_boundary.cub");
+  remove("$TMP/IsisCube_bsq.cub");
+  remove("$TMP/IsisCube_bsqOneLine.cub");
+  remove("$TMP/IsisCube_largebsq.cub");
+  remove("$TMP/isisTruth_external.ecub");
+  remove("$TMP/isisTruth_external2.ecub");
+  // remove("$TMP/isisTruth_external3.ecub");
+  // remove("$TMP/isisTruth_external3.copy.ecub");
 
   return 0;
 }
