@@ -7,7 +7,9 @@ env:
 on:
   release:
     types: [prereleased, released]
-
+  push:
+    tags:
+      - '*.*.*_RC*'
 jobs:
   build:
     runs-on: ubuntu-latest
