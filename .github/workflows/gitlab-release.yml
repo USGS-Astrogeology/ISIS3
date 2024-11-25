@@ -24,6 +24,6 @@ jobs:
           echo $ISIS_VERSION
           cd isis-codebuild-ci
           git checkout -b RELEASE_$ISIS_VERSION
-          echo -e "\nenv: \n  shell: bash \n  variables: \n    ISIS_VERSION: $ISIS_VERSION \n    ANACONDA_API_TOKEN: $ANACONDA_TOKEN >> buildspec-release.yml
+          echo -e "\nenv: \n  shell: bash \n  variables: \n    ISIS_VERSION: $ISIS_VERSION \n    ANACONDA_API_TOKEN: $ANACONDA_TOKEN" >> buildspec-release.yml
           git commit -a -m "$ISIS_VERSION"
           git push origin RELEASE_$ISIS_VERSION --force
