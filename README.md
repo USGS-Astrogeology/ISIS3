@@ -28,15 +28,14 @@ For more info, see:
 For Development and Contributing, see:
 
 - [Building ISIS](https://astrogeology.usgs.gov/docs/how-to-guides/isis-developer-guides/developing-isis3-with-cmake/)
-- [ISIS Test Data](https://astrogeology.usgs.gov/docs/how-to-guides/isis-developer-guides/obtaining-maintaining-submitting-test-data/)
 - [Contributing](https://astrogeology.usgs.gov/docs/how-to-guides/isis-developer-guides/contributing-to-isis/)
 
 ## In this README:
 
-- [Requests for Comment](README.md#Requests-for-Comment)
-- [Citing ISIS](README.md#Citing-ISIS)
-- [System Requirements](README.md#system-requirements)
-- [Semantic Versioning](README.md#Semantic-Versioning-and-It's-Role-in-Describing-the-Software)
+- [Requests for Comment](#Requests-for-Comment)
+- [Citing ISIS](#Citing-ISIS)
+- [System Requirements](#system-requirements)
+- [Semantic Versioning](#Semantic-Versioning-and-It's-Role-in-Describing-the-Software)
 
 
 ## Requests for Comment
