@@ -2,16 +2,65 @@
 
 <application name="cam2cam" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://isis.astrogeology.usgs.gov/Schemas/Application/application.xsd">
   <brief>
-    Convert camera image to a different camera image
+    Project a camera image to a different camera image
   </brief>
 
   <description>
-      This program will convert a input camera cube to a different camera geometry.  For example, given overlapping MGS MOC and Odyssey Themis cubes,
-      this program can convert the MOC image to have the same geometric camera characteristics as the Themis cube (or vice versa).  Another use is to align
-      bands in a camera cube which has independent bands.  For example, a raw Themis cube (after thm2isis) will not have aligned pixels.  This program can
-      be used to align the pixels without going to a map projection.  To prevent pixels from falling off the edge of the cube you can run pad on the cube prior to
-      this program.
-    </description>
+    <h3>Introduction</h3>
+    <p>
+      <i>cam2cam</i> will <i>project</i> an ISIS <def>Level0</def> or
+      <def>Level1</def> input cube into the "camera space" of a different
+      <def>Level0</def>/<def>Level1</def> camera. Pixels in the FROM cube
+      are mapped using common longitude/latitude (LON/LAT) coordinates into MATCH
+      line/sample where the output TO pixel is interpolated as in other
+      ISIS mapping applications. Technically, the only requirement is for
+      FROM and MATCH to have the same target, as in the TargetName in BOTH
+      image labels.
+    </p>
+    <p>
+      <i>cam2cam</i> uses an output-driven projection algorithm that loops
+      through every MATCH pixel and tests first for a common LON/LAT
+      target body intercept in the FROM image. Note this process includes the
+      application of both distortion models and ray traces from instrument to
+      target body in the MATCH image (at least). If the MATCH pixel does not
+      intercept the target body, and OFFBODY=true, then the 
+      right ascension/declination (RA/DEC) is used to map into the FROM image. In
+      both cases of common coordinates, the INTERP interpolation algorithm
+      is applied at the FROM pixel to compute the output TO pixel value.
+    </p>
+    <p>
+      The TO and MATCH file are essentially identical except the TO image
+      contains mapped FROM pixels rather than original MATCH data. This means
+      the geometry of TO and MATCH are also identical.
+        </p>
+        <p>
+      The OFFBODY option provides the ability to also project pixels with 
+      common right RA/DEC coordinates should the MATCH coordinate <em>not</em>
+      intersect the target body initially. It is possible for the corresponding
+      FROM RA/DEC coordinate to map onto the target body (another ray trace)
+      that should be propagated to the output pixel. Use the OFFBODYTRIM=true
+      option to prevent valid LON/LAT pixels from being projected.
+    </p>
+    <p>
+      For example, given overlapping MGS MOC and Odyssey Themis
+      cubes, <i>cam2cam</i> can convert the MOC image to have the same geometric
+      camera characteristics as the Themis cube (or vice versa).  Another use
+      is to align bands in a camera cube which has independent bands.  For
+      example, a raw Themis cube (after thm2isis) will not have aligned pixels.
+      <i>cam2cam</i> can be used to align the pixels without going to a map
+      projection.  To prevent pixels from falling off the edge of the cube you
+      can run pad on the cube prior to <i>cam2cam</i>.
+    </p>
+  </description>
+
+  <seeAlso>
+    <applications>
+      <item>cam2map</item>
+      <item>map2cam</item>
+      <item>map2map</item>
+      <item>skymap</item>
+    </applications>
+  </seeAlso>
 
   <category>
     <categoryItem>Cameras</categoryItem>
@@ -44,12 +93,25 @@
        Fixed problems with reference bands on band-dependent instruments
      </change>
     <change name="Steven Lambright" date="2008-05-12">
-          Removed references to CubeInfo
+       Removed references to CubeInfo
     </change>
     <change name="Jesse Mapel" date="2018-05-17">
-          Changed transform to use the local radius computed by the output camera instead of
-          having the input camera re-compute it (sometimes incorrectly) from the latitude and
-          longitude. Fixes #5425.
+       Changed transform to use the local radius computed by the output camera instead of
+       having the input camera re-compute it (sometimes incorrectly) from the latitude and
+       longitude. Fixes #5425.
+    </change>
+    <change name="Kris Becker" date="2019-01-16">
+       Add option to also project off-body pixels
+    </change>
+    <change name="Kris Becker" date="2019-01-28">
+	   Add option to also project off-body pixels as well as trim pixels
+       in this mode that may result in duplicate views of the target
+       body. See OFFBODY and OFFBODYTRIM.
+    </change>
+	<change name="Sarah Sutton" date="2024-01-05">
+	   Incorporated Kris Becker's keyword additions OFFBODY and OFFBODYTRIM
+	   of 1/16/2019 and 1/28/2019 from UofA codebase to Astrogeology.	Added
+     examples and updated documentation.
     </change>
   </history>
 
@@ -154,6 +216,210 @@
           </option>
         </list>
       </parameter>
+      
+      <parameter name="OFFBODY">
+        <type>boolean</type>
+        <default><item>FALSE</item></default>
+        <brief>
+          Preserve offbody data
+        </brief>
+        <description>
+          This parameter is provided to allow the user to selectively keep data
+          in the FROM image that is off the target body. Output pixels in MATCH
+          geometry are tested for target body intersection. For pixels that are
+          off the target body, the RA/DEC coordinates in MATCH are mapped to 
+          FROM. If the RA/DEC is within the FOV of FROM, the output pixel
+          is interpolated from the FROM image. See also OFFBODYTRIM.
+        </description>
+      </parameter>
+      
+      <parameter name="OFFBODYTRIM">
+        <type>boolean</type>
+        <default><item>TRUE</item></default>
+        <brief>
+          Set select pixels in OFFBODY mode to NULL
+        </brief>
+        <description>
+           When using OFFBODY mode, there are situations where the pixel in
+           the MATCH do not intersect the target body, the MATCH RA/DEC
+           coordinate is mapped into the FROM image FOV. If the RA/DEC
+           maps to a FROM sample/line and OFFBODYTRIM=TRUE, the sample/line
+           is checked for intersection with the target body. Pixels that
+           intersect the body will result in a NULL output pixel value.
+           Otherwise, the FROM pixel value is interpolated and propagated
+           to the output pixel.
+        </description>
+      </parameter>
     </group>
   </groups>
+
+  <examples>
+    <example>
+      <brief>
+          Demonstrate effects of OFFBODY and OFFBODYTRIM parameters 
+      </brief>
+      <description>
+        <h3>Overview</h3>
+        <p>
+          <i>cam2cam</i> can project off target body pixels using
+          common RA/DEC coordinates by setting OFFBODY=true. The
+          MATCH/TO geometry drives the projection
+          process by mapping each sample/line MATCH/TO pixel into the
+          FROM image FOV first with lon/lat target surface intercepts.
+          If the look vector at the pixel does not intercept the target
+          then the RA/DEC is computed and mapped into the FROM FOV. However,
+          the FROM pixel must first be checked for a target surface intercept.
+          The OFFBODYTRIM=true option is provided to inform <i>cam2cam</i>
+          how to process the FROM pixel at that location. If the FROM ray trace
+          also intercepts the target body at that pixel location, then it will
+          be trimmed - a NULL pixel is assigned that pixel value. If OFFBODYTRIM
+          is FALSE, the output pixel in TO will be interpolated from the pixel
+          location in the FROM image. Note if trimming is not selected, there is
+          a high likelyhood that a false surface will be propated into the TO
+          image. This example shows the behaviors of these options using a single
+          OSIRIS-REx OCAMS image.
+        </p>
+        <h3>Evaluation of DTMs and Ellipsoids in <i>cam2cam</i></h3>
+        <p>
+          This example uses a single OREX OCAMS image that contains a significant
+          portion of Bennu's limb. To illustrate how the OFFBODY and OFFBODYTRIM
+          parameters affect <i>cam2cam</i> mapping algorithm, two versions
+          of the same file are used where one is initialized using the ellipsoid
+          as defined in the PCK kernel and the second version uses the 80cm
+          global DTM provided in the 
+          <a href="https://arcnav.psi.edu/urn:nasa:pds:orex.spice">OREX SPICE KERNEL bundle</a>.
+        </p>
+        <p>
+          The sequence of commands used to create this scenario is shown below.
+          Note that the <i>spiceinit</i> command contains a reference to a file
+          called <em>BulletEngineSelect.pref</em>. The contents of this
+          file are specifications to prefer use the Bullet ray tracer in ISIS
+          rather than the NAIF DSK tracer, which is the default in cases of 
+          shape models with a ".bds" file extension. The main reason you want
+          to use Bullet rather than the current ISIS implementation of the
+          NAIF DSK toolkit is because the NAIF tracer does not detect
+          foreground terrain (i.e., occulsion - whereas Bullet does. Before
+          the test can be run, be sure to create this file with the contents
+          below. It is recommended that you copy of this file into $ISISROOT
+          if it does not already exist. Furthermore, this example also
+          requires download/installation of the OSIRIS-REx kernel into
+          ISISDATA. See ISIS documentation on how to download ISISDATA for
+          a specific mission.
+<PRE>
+#######################################################
+# Provide this file as -pref=BulletEngineSelect.pref
+# to spiceinit to select the Bullet Ray Tracer
+########################################################
+
+Group = ShapeModel
+  RayTraceEngine = Bullet
+  OnError = Continue
+EndGroup
+End
+</PRE>
+          Copy this file to $ISISROOT prior to running the example commands below.
+        </p>
+<PRE>
+#!/bin/sh
+
+# Get example image acquired by OREX OCAMS during "Detailed Survey" phase
+dtype="map_iofL2b"
+fbase="20190509T180552S020"
+
+# Download the OSIRIS-REx image. Note wget can be installed using the command
+# "conda install wget"
+wget -P . "https://sbnarchive.psi.edu/pds4/orex/orex.ocams/data_calibrated/detailed_survey/${fbase}_${dtype}.fits"
+
+# Import into ISIS
+ocams2isis from="${fbase}_${dtype}.fits" to="${fbase}_pck.cub"
+ocams2isis from="${fbase}_${dtype}.fits" to="${fbase}_dtm.cub"
+
+spiceinit from="${fbase}_pck.cub" shape=ellipsoid
+spiceinit from="${fbase}_dtm.cub" shape=user model='$osirisrex/kernels/dsk/g_00880mm_alt_ptm_0000n00000_v020.bds' -pref=$ISISROOT/BulletEngineSelect.pref
+
+# Run cam2cam for each set
+cam2cam from="${fbase}_pck.cub" match="${fbase}_dtm.cub" to="${fbase}_pck_to_dtm_def.cub"
+cam2cam from="${fbase}_pck.cub" match="${fbase}_dtm.cub" to="${fbase}_pck_to_dtm_off.cub" offbody=true offbodytrim=false
+cam2cam from="${fbase}_pck.cub" match="${fbase}_dtm.cub" to="${fbase}_pck_to_dtm_offtrim.cub" offbody=true offbodytrim=true
+
+cam2cam from="${fbase}_dtm.cub" match="${fbase}_pck.cub" to="${fbase}_dtm_to_pck_def.cub"
+cam2cam from="${fbase}_dtm.cub" match="${fbase}_pck.cub" to="${fbase}_dtm_to_pck_off.cub" offbody=true offbodytrim=false
+cam2cam from="${fbase}_dtm.cub" match="${fbase}_pck.cub" to="${fbase}_dtm_to_pck_offtrim.cub" offbody=true offbodytrim=true
+</PRE>
+        <p>
+          The screenshot below shows the ISIS' <i>qview</i> program that displays
+          ISIS cubes. Each file name contains a sequence of additional
+          text that provides hits as to the processing history of the image.
+          This pattern tags are indications of the source and processing
+          sequence of the file. For example, the file name
+          20190509T180552S020_pck_to_dtm_offtrim.cub indicates FROM was the
+          PCK ellipsoid ("_pck"), MATCH is the DTM ("_pck_to_dtm") and 
+          OFFBODY=true and OFFBODYTRIM=true ("_offtrim") - "trim" is excluded
+          when OFFBODYTRIM=false.
+        </p>
+
+        <br/><br/>
+        <img src='assets/cam2cam_ocams_bennu_dtm_pck.png' alt='cam2cam with PCK and DSK' width='2296'/>
+        <br/><br/>
+
+        <p>
+          There are 8 images where the first column of images,
+          A and E, are the original image where A has been initialized
+          with the tessellated plate in <i>spiceinit</i> and E specified
+          use of the PCK ellipsoid. The second column of images, B and F,
+          use the default <i>cam2cam</i> parameters, with OFFBODY=false.
+          The third column from left, images C and G, show the results
+          with OFFBODY=true and OFFBODYTRIM=false. The far right column of
+          images,  D and H, show results with OFFBODY=true and
+          OFFBODYTRIM=true. The yellow sections in these images are NULL
+          data values, Black sections are sky/background data. 
+        </p>
+        <p>
+          For completeness, the screen shot below shows some of the geometric
+          properties at all of the image pixel centers. This example
+          demonstrates different behaviors and impact of the ellipsoid and tessellated
+          plate models in <i>cam2cam</i> projection processes.
+        </p>
+
+        <br/><br/>
+        <img src='assets/cam2cam_ocams_bennu_geometry.png' alt='Geometry at center pixel' width='1528'/>
+        <br/><br/>
+        <h3>Results and Interpretation</h3>
+        <p>
+          The top row of the image panel, images A to D, FROM has the DSK
+          shape and MATCH/TO use the PCK ellipsoid. The NULL (yellow) regions
+          in these images indicate that lon/lat coordinates on the ellipsoid
+          are not visible (or are occluded) on the DSK shape model from this
+          observer-to-target configuration.
+        </p>
+        <p>
+          The bottom row, E to H, use FROM with the PCK ellipsoid shape and
+          MATCH/TO is the DSK. Note there are no NULLs in the interior
+          of images F, G or H. All lon/lats in TO come from
+          the DSK geometry and all those coordinates map directly to an
+          ellipsoid. Note, however, the strips of NULLs in image H
+          (OFFBODYTRIM=true). Those are sections of the PCK ellipsoid that
+          do not actually map to Bennu's real surface. These off-limb portions
+          of Bennu that are between the ellipsoid boundary and DSK surface shape
+          are actually sky/background data.  Specifically, the MATCH image
+          pixel sample/line coordinate in this region a) did not intersect
+          Bennu's surface in MATCH/TO, b) the RA/DEC coordinates in MATCH/TO
+          did map into FROM image FOV, and c) the look direction vector
+          from the FROM sample/line to the RA/DEC also intersects Bennu's
+          surface in the ellipsoid model so d) a NULL pixel is assigned to
+          the TO image at that sample/line.
+        </p>
+        <p>
+          Without the use of OFFBODYTRIM, some sections of FROM image surfaces
+          could be propagated to the output TO image erroneously. Under
+          many circumstances, these areas are indistinguishable and actually
+          appear to blend well resulting in errors of interpretation.
+        </p>
+        <p>
+          See noproj for a more common use for this example and how important
+          the OFFBODYTRIM parameter can be.
+        </p>
+      </description>
+    </example>          
+  </examples>
 </application>

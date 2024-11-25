@@ -1,3 +1,10 @@
+/** This is free and unencumbered software released into the public domain.
+The authors of ISIS do not claim copyright on the contents of this file.
+For more details about the LICENSE terms and the AUTHORS, you will
+find files of those names at the top level of this repository. **/
+
+/* SPDX-License-Identifier: CC0-1.0 */
+
 #include <cmath>
 
 #include "cam2cam.h"
@@ -56,10 +63,15 @@ namespace Isis {
     referenceBand += (referenceBand % 2);
     referenceBand /= 2;
 
-   // See if the user wants to override the reference band
+    // See if the user wants to override the reference band
     if (ui.WasEntered("REFBAND")) {
       referenceBand = ui.GetInteger("REFBAND");
     }
+ 
+    // Check for propagation of off-body (based upon RA/Dec) pixels as well
+    // but allow for trimming of off target intersections in FROM file.
+    bool offbody = ui.GetBoolean("OFFBODY");
+    bool trim = ui.GetBoolean("OFFBODYTRIM");
 
     // Using the Camera method out of the object opack will not work, because the
     // filename required by the Camera is not passed by the process class in this
@@ -95,7 +107,9 @@ namespace Isis {
                                             cam2camGlobal::incam,
                                             ocube->sampleCount(),
                                             ocube->lineCount(),
-                                            outcam);
+                                            outcam,
+                                            offbody,
+                                            trim);
 
     // Add the reference band to the output if necessary
     ocube->putGroup(instgrp);
@@ -130,7 +144,8 @@ namespace Isis {
   // Transform object constructor
   cam2camXform::cam2camXform(const int inputSamples, const int inputLines,
                              Camera *incam, const int outputSamples,
-                             const int outputLines, Camera *outcam) {
+                             const int outputLines, Camera *outcam,
+                             const bool offbody, const bool trim) {
     p_inputSamples = inputSamples;
     p_inputLines = inputLines;
     p_incam = incam;
@@ -138,23 +153,38 @@ namespace Isis {
     p_outputSamples = outputSamples;
     p_outputLines = outputLines;
     p_outcam = outcam;
+    p_offbody = offbody;
+    p_trim = trim;
   }
+
 
   // Transform method mapping output line/samps to lat/lons to input line/samps
   bool cam2camXform::Xform(double &inSample, double &inLine,
                            const double outSample, const double outLine) {
-    // See if the output image coordinate converts to lat/lon
-    if (!p_outcam->SetImage(outSample, outLine)) return false;
 
-    // Get the universal lat/lon and see if it can be converted to input line/samp
-    double lat = p_outcam->UniversalLatitude();
-    double lon = p_outcam->UniversalLongitude();
-    Distance rad = p_outcam->LocalRadius();
-    if (rad.isValid()) {
-      if (!p_incam->SetUniversalGround(lat, lon, rad.meters())) return false;
+    // See if the output image coordinate converts to lat/lon
+    if ( p_outcam->SetImage(outSample, outLine) )  {
+      // Get the universal lat/lon and see if it can be converted to input line/samp
+      double lat = p_outcam->UniversalLatitude();
+      double lon = p_outcam->UniversalLongitude();
+      Distance rad = p_outcam->LocalRadius();
+      if (rad.isValid()) {
+        if(!p_incam->SetUniversalGround(lat, lon, rad.meters())) return false;
+      }
+      else {
+        if(!p_incam->SetUniversalGround(lat, lon)) return false;
+      }
+    }
+    else if ( p_offbody ) {
+      double ra = p_outcam->RightAscension();
+      double dec = p_outcam->Declination();
+      if ( !p_incam->SetRightAscensionDeclination(ra,dec) ) return false;
+      if ( p_trim ) {
+        if ( p_incam->SetImage(p_incam->Sample(), p_incam->Line()) ) return (false);
+      }
     }
     else {
-      if (!p_incam->SetUniversalGround(lat, lon)) return false;
+      return false;
     }
 
     // Make sure the point is inside the input image
