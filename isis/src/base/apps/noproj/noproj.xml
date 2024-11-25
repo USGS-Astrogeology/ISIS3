@@ -84,6 +84,10 @@
     <change name="Ken Edmundson" date="2024-01-09">
           Incorporated Kris Becker's 2021-09-22 bug fix above into USGS code base.
     </change>
+    <change name="Ken Edmundson" date="2024-08-07">
+          Additional bug fix to address persistent temporary lbl file after
+          running noproj. Fixes #5577.
+    </change>
   </history>
 
   <category>
