@@ -106,7 +106,7 @@
 
     "homepageURL": "https://isis.astrogeology.usgs.gov",
     "downloadURL": "https://code.usgs.gov/astrogeology/isis/-/archive/9.0.0_rc1/isis-9.0.0_rc1.zip",
-    "disclaimerURL": "https://code.usgs.gov/astrogeology/isis/-/raw/9.0.0_rc1/DISCLAIMER.md?ref_type=heads",
+    "disclaimerURL": "https://code.usgs.gov/astrogeology/isis/-/raw/9.0.0_rc1/DISCLAIMER.md",
     "repositoryURL": "https://code.usgs.gov/astrogeology/isis.git",
     "vcs": "git",
 

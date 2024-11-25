@@ -35,7 +35,7 @@ release.
 
 ## [Unreleased]
 
-## [9.0] - 09-25-2024
+## [9.0.0] - 09-25-2024
 
 ### Added
 - Added TOVECT output parameter which generate a geospatial CSV file with a VRT metadata sidecar file [#5571](https://github.com/DOI-USGS/ISIS3/issues/5571)  
