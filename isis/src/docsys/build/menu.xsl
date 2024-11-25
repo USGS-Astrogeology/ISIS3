@@ -88,7 +88,7 @@
 
       <div id="nav-title">
         <div id="nav-title-text-box">
-          <em id="nav-title-text">ISIS<br />Documentation</em>
+          <em id="nav-title-text">ISIS Application<br />Manuals</em>
         </div>
       </div>
 
@@ -107,7 +107,7 @@
           <img id="nav-title-logo" height="65" src="{$menuPath}assets/img/isis-logo-yellow-notxt.svg"></img>
         </div>
         <div id="nav-title-text-box">
-          <em id="nav-title-text">ISIS<br />Documentation</em>
+          <em id="nav-title-text">ISIS Application<br />Manuals</em>
         </div>
       </div>
 

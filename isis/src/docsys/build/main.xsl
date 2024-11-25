@@ -88,14 +88,16 @@ Deborah Lee Soltesz
               </div>
               <div class="usa-card__body">
                 <p>
+                  ISIS documentation, including ISIS tutorials, guides, and concepts,
+                  have been moved to <a href="https://astrogeology.usgs.gov/docs/" target="_blank">USGS Astrogeology Software Docs</a>.
                   Manuals for each ISIS Application <a href="{$menuPath}Application/index.html" target="_blank">remain here</a>, 
-                  as do docs for previous ISIS versions, accessible via the left panel. 
-                  All other ISIS documentation, including tutorials and guides, 
-                  is moving to <a href="https://astrogeology.usgs.gov/docs/" target="_blank">USGS Astrogeology Software Docs</a>.
+                  as do docs for previous ISIS versions, accessible via the left panel.
+                  
                 </p>
               </div>
-              <div class="usa-card__footer">
-                <a href="https://astrogeology.usgs.gov/docs" class="usa-button">Visit USGS Astrogeology Software Docs</a>
+              <div class="usa-card__footer" style="display: flex;">
+                <a href="https://astrogeology.usgs.gov/docs" class="usa-button">Go to USGS Astrogeology Software Docs</a>
+                <a href="{$menuPath}Application/index.html" class="usa-button">Go to ISIS App Manuals</a>
               </div>
             </div>
       </div>
