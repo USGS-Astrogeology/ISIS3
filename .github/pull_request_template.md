@@ -33,7 +33,8 @@
 - [ ] My change requires a change to the documentation and I have updated the documentation accordingly.
 - [ ] I have added tests to cover my changes.
 - [ ] I have added myself to the [.zenodo.json](https://github.com/USGS-Astrogeology/ISIS3/blob/dev/.zenodo.json) document.
-- [ ] I have added any user impacting changes to the [CHANGELOG.md](https://github.com/USGS-Astrogeology/ISIS3/blob/dev/CHANGELOG.md) document.
+- [ ] I have added my user impacting change to the [CHANGELOG.md](https://github.com/USGS-Astrogeology/ISIS3/blob/dev/CHANGELOG.md) document. <!--- NOTE: You can only have one changelog entry per PR, see https://github.com/DOI-USGS/ISIS3/blob/dev/CONTRIBUTING.md -->
+
 
 ## Licensing
 This project is mostly composed of free and unencumbered software released into the public domain, and we are unlikely to accept contributions that are not also released into the public domain. Somewhere near the top of each file should have these words:

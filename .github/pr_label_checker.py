@@ -1,5 +1,6 @@
 import os
 import re as rgx
+from itertools import chain
 from requests import get, post
 from requests import Response
 from requests.exceptions import HTTPError, RequestException
@@ -8,12 +9,15 @@ import sys
 # Constants
 GITHUB_TOKEN=os.environ["GITHUB_TOKEN"]
 GITHUB_API_URL=os.environ["GITHUB_API_URL"]
+GITHUB_SERVER_URL=os.environ["GITHUB_SERVER_URL"]
 GITHUB_SHA=os.environ["GITHUB_SHA"]
 
-BASE_URL=f'{GITHUB_API_URL}/repos/DOI-USGS/ISIS3'
-PULLS_URL=f'{BASE_URL}/pulls'
-COMMITS_URL=f'{BASE_URL}/commits'
-ISSUES_URL=f'{BASE_URL}/issues'
+REPO_URL_PATH='DOI-USGS/ISIS3'
+API_BASE_URL=f'{GITHUB_API_URL}/repos/{REPO_URL_PATH}'
+API_PULLS_URL=f'{API_BASE_URL}/pulls'
+API_COMMITS_URL=f'{API_BASE_URL}/commits'
+API_ISSUES_URL=f'{API_BASE_URL}/issues'
+ISSUES_URL=f'{GITHUB_SERVER_URL}/{REPO_URL_PATH}/issues/'
 HEADERS = {
     "Accept": "application/vnd.github+json",
     "Authorization" : f"Bearer {GITHUB_TOKEN}",
@@ -25,7 +29,7 @@ def get_prs_associated_with_commit() -> Response:
     Get list of PRs associated with commit.
     """
     try:
-        response = get(f'{COMMITS_URL}/{GITHUB_SHA}/pulls', headers=HEADERS)
+        response = get(f'{API_COMMITS_URL}/{GITHUB_SHA}/pulls', headers=HEADERS)
         response.raise_for_status()
         return response
     except HTTPError as he:
@@ -52,16 +56,30 @@ def search_for_linked_issues(pull_body: str) -> list:
     Regex examples:
     '#1' - matches
     '#123456' - matches
+    'https://github.com/DOI-USGS/ISIS3/issues/25' - matches
     '# 123' - fails
     '#ABC' - fails
     '## ABC'- fails
     """
-    linked_issues = rgx.findall('#[^\D]\d*', pull_body)
-    issue_numbers = []
-    for linked_issue in linked_issues:
-        # Strip linked issue text of '#'
-        issue_numbers.append(linked_issue.replace('#',''))
-    return issue_numbers
+    # Split the PR body by heading 
+    pull_body_list = pull_body.split('##')
+    regex_pattern = rf'{ISSUES_URL}(\d)|(#[^\D]\d*)'
+    for section in pull_body_list:
+        # Find section with heading 'Related Issue'
+        if section != None and 'Related Issue' in section:
+            # Find items that match the regex pattern
+            matched_items = rgx.findall(regex_pattern, section)
+            # Convert list of tuples to list of all items
+            flattened_list = list(chain.from_iterable(matched_items))
+            # Remove items of empty values
+            filtered_list = list(filter(None, flattened_list))
+            # Remove '#' from items
+            issue_numbers = list(map(lambda item: item.replace('#', ''), filtered_list))
+            return issue_numbers
+    # No linked issues
+    print(False)
+    sys.exit(0)
+
 
 def get_linked_issues(issue_numbers: list) -> list:
     """
@@ -71,7 +89,7 @@ def get_linked_issues(issue_numbers: list) -> list:
     for issue_number in issue_numbers:
         # Get labels from issue
         try:
-            response = get(f'{ISSUES_URL}/{issue_number}', headers=HEADERS)
+            response = get(f'{API_ISSUES_URL}/{issue_number}', headers=HEADERS)
             response.raise_for_status()
             response_list.append(response)
         except HTTPError as he:
@@ -109,7 +127,7 @@ def update_pr_labels(pull_number: str, combined_issue_labels: list):
     # Convert label list into JSON-formatted dict
     labels_data = {"labels": combined_issue_labels}
     try:
-        response = post(f'{ISSUES_URL}/{pull_number}/labels', json=labels_data, headers=HEADERS)
+        response = post(f'{API_ISSUES_URL}/{pull_number}/labels', json=labels_data, headers=HEADERS)
         response.raise_for_status()
     except HTTPError as he:
         raise HTTPError("HTTPError in updating PR.", he)
@@ -121,7 +139,7 @@ def get_pr(pull_number: str) -> Response:
     Get pull request
     """
     try:
-        response = get(f'{PULLS_URL}/{pull_number}', headers=HEADERS)
+        response = get(f'{API_PULLS_URL}/{pull_number}', headers=HEADERS)
         response.raise_for_status()
         return response
     except HTTPError as he:

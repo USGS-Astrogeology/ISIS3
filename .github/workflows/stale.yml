@@ -18,8 +18,8 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         days-before-stale: 180
         days-before-close: 180
-        stale-issue-message: "Thank you for your contribution!\n\nUnfortunately, this issue hasn't received much attention lately, so it is labeled as 'stale.'\n\nIf no additional action is taken, this issue will be automatically closed in 180 days."
-        stale-pr-message: "Thank you for your contribution!\n\nUnfortunately, this pull request hasn't received much attention lately, so it is labeled as 'stale.'\n\nIf no additional action is taken, this pull request will be automatically closed in 180 days."
+        stale-issue-message: "Thank you for your contribution!\n\nUnfortunately, this issue hasn't received much attention lately, so it is labeled as 'stale.'\n\nIf no additional action is taken, this issue will be automatically closed in 180 days.\n\nIf you want to participate in our support prioritization meetings or be notified when support sprints are happening, you can sign up the support sprint notification emails [here](https://public.govdelivery.com/accounts/USDOIGS/signup/39118).\n\nRead more about our support processs [here](https://astrogeology.usgs.gov/docs/how-to-guides/software-management/software-support/)"
+        stale-pr-message: "Thank you for your contribution!\n\nUnfortunately, this pull request hasn't received much attention lately, so it is labeled as 'stale.'\n\nIf no additional action is taken, this pull request will be automatically closed in 180 days.\n\nIf you want to participate in our support prioritization meetings or be notified when support sprints are happening, you can sign up the support sprint notification emails [here](https://public.govdelivery.com/accounts/USDOIGS/signup/39118).\n\n Read more about our support processs [here](https://astrogeology.usgs.gov/docs/how-to-guides/software-management/software-support/)"
         stale-issue-label: 'inactive'
         stale-pr-label: 'inactive'
 
