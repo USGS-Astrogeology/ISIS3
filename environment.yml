@@ -47,7 +47,7 @@ dependencies:
   - nn
   - opencv>=4.5.2
   - openssl>=1.1.1k
-  - pcl >= 1.10.0
+  - pcl >=1.13,<1.14
   - protobuf
   - python >=3.10
   - python_abi >=3.10
