@@ -30,6 +30,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_API_URL: ${{ secrets.GITHUB_API_URL }}
+        GITHUB_SERVER_URL: ${{ secrets.GITHUB_SERVER_URL }}
         GITHUB_SHA: ${{ secrets.GITHUB_SHA }}
       run: |
         echo "result=$(python ./.github/pr_label_checker.py)" >> $GITHUB_OUTPUT
