@@ -8,6 +8,7 @@ find files of those names at the top level of this repository. **/
 #include "EmbreeShapeModel.h"
 
 #include <numeric>
+#include <float.h>
 
 #include <QtGlobal>
 #include <QList>
