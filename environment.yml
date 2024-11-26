@@ -5,8 +5,8 @@ channels:
 dependencies:
   - ale =0.10.0,<1
   - armadillo
-  - boost=1.72
-  - boost-cpp=1.72
+  - boost >=1.78.0,<1.79
+  - boost-cpp >=1.78.0,<1.79
   - blas
   - usgs-astrogeology::bullet
   - bz2file
@@ -32,9 +32,9 @@ dependencies:
   - jpeg
   - usgs-astrogeology::kakadu==1
   - krb5
-  - libopencv>=4.5.2
+  - libopencv >=4.7,<4.8
   - libpng>=1.6.34
-  - libprotobuf<3.20
+  - libprotobuf
   - libtiff>=4.0
   - libxml2
   - make
@@ -48,7 +48,7 @@ dependencies:
   - opencv>=4.5.2
   - openssl>=1.1.1k
   - pcl >= 1.10.0
-  - protobuf<3.20
+  - protobuf
   - python >=3.10
   - python_abi >=3.10
   - pytest
