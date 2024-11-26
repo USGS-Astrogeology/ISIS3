@@ -1,0 +1,45 @@
+name: Github to Gitlab CI - Run CodeBuild
+
+env:
+  PR_NUMBER: ${{ github.event.number }}
+  GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+
+on:
+  pull_request_target:
+    branches: 
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run script
+        run: |
+          git config --global user.name "Github_CI"
+          git config --global user.email "project_14468_bot_3f7d8e1a392afd88ead5f3f3154e809d@noreply.gitlab.com"
+          git clone https://isis-codebuild-ci:$GITLAB_TOKEN@code.usgs.gov/astrogeology/isis-codebuild-ci.git
+          cd isis-codebuild-ci
+          git checkout -b PR_$PR_NUMBER
+          echo -e "\nenv: \n  shell: bash \n  variables: \n    PR_NUMBER: $PR_NUMBER \n    MERGE_BRANCH: $GITHUB_BASE_REF" >> buildspec.yml
+          git commit -a -m "$PR_NUMBER"
+          git push origin PR_$PR_NUMBER --force
+          
+  comment-bot:
+      permissions: write-all
+      runs-on: [ubuntu-latest]
+      needs: [build]
+      steps:
+      - name: Check out code
+        uses: actions/checkout@v4 
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            The build and test suite have started for your pull request. 
+            
+            To view your [build log](https://us-west-2.codebuild.aws.amazon.com/project/eyJlbmNyeXB0ZWREYXRhIjoiNDJNZ2MxbHFKTkwxV1RyQUxJekdJY3FIanNqU29rMHB4Nk1YUzk4REIrZUZDeEtEaW9HQlZ1dTZOSHpML2VUTGVDekYydmVFcU9sUHJKN20wQzd1Q0UzSzJscnB0MElDb1M3Ti9GTlJYR1RuMWJTV3V1SkJTa3NoYmc9PSIsIml2UGFyYW1ldGVyU3BlYyI6IjF3U2NTSGlDcEtCc29YVnEiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D), please reference the build with source version: "PR_${{ github.event.number }}". 
+            
+            Additionally, check the latest "dev" source version to identify existing test failures. Please note that you are not responsible for the test failures that exist on both your PR and the dev branch.
+          
