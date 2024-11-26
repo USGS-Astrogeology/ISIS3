@@ -35,7 +35,45 @@ release.
 
 ## [Unreleased]
 
-## [8.0.3] - 2023-04-18
+## [8.0.4] - 2024-11-26
+
+### Added
+- Added HRSC support in socetlinescankeywords [#5465](https://github.com/DOI-USGS/ISIS3/issues/5465)
+
+### Changed
+- Skypt has been refactored to be callable; old Makefile tests have been removed and replaced by gtests. Issue: [#5443](https://github.com/USGS-Astrogeology/ISIS3/issues/5443)
+- Noseam has been refactored to be callable; old Makefile test has been removed and replaced by a gtest. Issue: [#5599](https://github.com/USGS-Astrogeology/ISIS3/issues/5599)
+- Explode has been refactored to be callable; old Makefile test has been removed and replaced by a gtest. Issue: [#5557](https://github.com/USGS-Astrogeology/ISIS3/issues/5557)
+- Isisminer has been refactored to be callable; old Makefile tests have been removed and replaced by gtests. Issue: [#5516](https://github.com/USGS-Astrogeology/ISIS3/issues/5516)
+- Algebra has been refactored to be callable; old Makefile tests have been removed and replaced by gtests. Issue: [#5594](https://github.com/USGS-Astrogeology/ISIS3/issues/5594)
+- Photrim has been refactored to be callable; old Makefile tests have been removed and replaced by gtests. Issue: [#5581](https://github.com/USGS-Astrogeology/ISIS3/issues/5581)
+- Bandtrim has been refactored to be callable; old Makefile tests have been removed and replaced by gtests. Issue: [#5571](https://github.com/USGS-Astrogeology/ISIS3/issues/5571)
+- Modified kaguyasp2isis to work with new (detached) data [#5436](https://github.com/DOI-USGS/ISIS3/issues/5436)
+- Added jigsaw error message for csminit'd images without csm parameters[#5486](https://github.com/DOI-USGS/ISIS3/issues/5486)
+- Changed `qwt` dependency version to 6.2.0 or below [#5498](https://github.com/DOI-USGS/ISIS3/issues/5498)
+- Pinned `suitesparse` dependency version to maximum not including 7.7.0 [#5496](https://github.com/DOI-USGS/ISIS3/issues/5496)
+- Changed 'User Parameters' group in camstats to UserParameters for PVL compliance [#5625](https://github.com/DOI-USGS/ISIS3/issues/5625).
+
+### Fixed
+- Fixed a bug in noproj.cpp which left a persisent lbl file after running noproj. [#5577](https://github.com/DOI-USGS/ISIS3/issues/5577)
+- Fixed a bug in PolygonTools in which the program exited before attempting to fix an invalid Polygon [#5520](https://github.com/DOI-USGS/ISIS3/issues/5520)
+- Fixed a bug in QVIEW where images would double load if loaded from the commandline [#5505](https://github.com/DOI-USGS/ISIS3/pull/5505)
+- Fixed qmos segfault under GEOS 3.12 [#5539](https://github.com/DOI-USGS/ISIS3/issues/5539)
+- Fixed CSMSerialNumber.trn typo [#5485](https://github.com/DOI-USGS/ISIS3/issues/5485) (PR 5561)
+- Fixed CSMSerialNumber.trn to be PVL compliant [#5484](https://github.com/DOI-USGS/ISIS3/issues/5484) (PR 5561)
+- Fixed hrsc2isis to support level 3 hrsc images [#5497](https://github.com/DOI-USGS/ISIS3/issues/5497)
+- Fixed gllssi2isis to support V1.1 data [#5396](https://github.com/DOI-USGS/ISIS3/issues/5396)
+- Fixed noseam bug where a debugging output statement was inadvertently left in noseam.cpp. Issue: [5660](https://github.com/DOI-USGS/ISIS3/issues/5660)
+- Fixed jigsaw bugs in which RADIUS is handled incorrectly in the jigsaw gui and in the bundleout.txt file. Slightly modified the FunctionalTestJigsawBundleXYZ ctest accordingly. Issue: [5642](https://github.com/DOI-USGS/ISIS3/issues/5642)
+- Fixed a bug in isisminer in which bad (e.g. self-intersecting) polygon geometries were not treated properly. Added pertinent unit tests to GisGeometry and Strategy classes. Issue: [5612](https://github.com/DOI-USGS/ISIS3/issues/5612)
+- Fixed a bug in kaguyasp2isis that doesn't work for data with a detached label. [#5568](https://github.com/DOI-USGS/ISIS3/pull/5568)
+- Fixed FunctionalTestCamstatsDefaultParameters test by increasing the runtime speed [#5459](https://github.com/DOI-USGS/ISIS3/issues/5459)
+- Fixed XmlToJson namespaced key conversion [#5652](https://github.com/DOI-USGS/ISIS3/pull/5652)
+- Fixed PHOTOMET not accepting backplanes [#5281](https://github.com/DOI-USGS/ISIS3/issues/5281)
+- Fixed dstripe parallel test failing by converting tests to gtests [#5613](https://github.com/DOI-USGS/ISIS3/issues/5613)
+- Fixed autoseed SeedDomain = SampleLine only working for first overlap [#5673](https://github.com/DOI-USGS/ISIS3/issues/5673)
+
+## [8.0.3] - 2024-04-18
 
 ### Changed
 - Disabled option to use web=true when running spiceinit with HRSC images. [#5223](https://github.com/DOI-USGS/ISIS3/issues/5223)

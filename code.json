@@ -47,6 +47,43 @@
     "name": "ISIS3",
     "organization": "U.S. Geological Survey",
     "description": "GitHub code repository for the Integrated Software for Imagers and Spectrometers (ISIS)",
+    "version": "8.0.4",
+    "status": "Production",
+    "permissions": {
+      "usageType": "openSource",
+      "licenses": [
+        {
+          "name": "Public Domain, CC0-1.0",
+          "URL": "https://code.usgs.gov/astrogeology/isis/-/raw/8.0.4/LICENSE.md"
+        }
+      ]
+    },
+    "homepageURL": "https://isis.astrogeology.usgs.gov",
+    "downloadURL": "https://code.usgs.gov/astrogeology/isis/-/archive/8.0.4/isis-8.0.4.zip",
+    "disclaimerURL": "https://code.usgs.gov/astrogeology/isis/-/raw/8.0.4/DISCLAIMER.md",
+    "repositoryURL": "https://code.usgs.gov/astrogeology/isis.git",
+    "vcs": "git",
+    "laborHours": 0,
+    "tags": [
+      "Planetary",
+      "Remote Sensing",
+      "Photogrammetry",
+      "Data Processing"
+    ],
+    "languages": [
+      "C++"
+    ],
+    "contact": {
+      "name": "Christine Kim",
+      "email": "chkim@usgs.gov"
+    },
+    "date": {
+      "metadataLastUpdated": "2024-11-26"
+    }
+  }, {
+    "name": "ISIS3",
+    "organization": "U.S. Geological Survey",
+    "description": "GitHub code repository for the Integrated Software for Imagers and Spectrometers (ISIS)",
     "version": "8.0.3",
     "status": "Production",
     "permissions": {
@@ -78,7 +115,7 @@
       "email": "acpaquette@usgs.gov"
     },
     "date": {
-      "metadataLastUpdated": "2023-04-18"
+      "metadataLastUpdated": "2024-04-18"
     }
   }, {
     "name": "ISIS3",
