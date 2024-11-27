@@ -7,7 +7,7 @@
 
 find_path(PCL_INCLUDE_DIR
   NAME pcl_base.h
-  PATH_SUFFIXES "pcl-1.8/pcl" "pcl-1.9/pcl" "pcl-1.11/pcl"
+  PATH_SUFFIXES "pcl-1.8/pcl" "pcl-1.9/pcl" "pcl-1.11/pcl" "pcl-1.12/pcl" "pcl-1.13/pcl" "pcl-1.14/pcl"
 )
 
 find_library(PCL_COMMON_LIBRARY NAMES pcl_common)
