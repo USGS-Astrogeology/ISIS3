@@ -18,7 +18,7 @@
 #       A Public Release for ISIS3.6.1:                        {% set version = "3.6.1" %}
 #       A Release Candidate for ISIS3.6.1:                     {% set version = "3.6.1_RC" %}
 #       A custom build of ISIS3.6.1 for the CaSSIS mission:    {% set version = "3.6.1_cassis" %}
-{% set version = "8.0.3" %}
+{% set version = "8.0.4" %}
 
 # This is the build number for the current version you are building. If this is the first build of
 # this version, the build number will be 0. It is incremented by 1 with every consecutive build of
@@ -45,11 +45,11 @@ build:
 # Shotgun strat on requirements until we can narrow them down
 requirements:
   build:
-   - ale=0.9.1
+   - ale=0.10.0,<1
    - aom
    - armadillo
-   - boost=1.72
-   - boost-cpp=1.72
+   - boost>=1.78.0,<1.79
+   - boost-cpp>=1.78.0,<1.79
    - blas
    - usgs-astrogeology::bullet
    - bz2file
@@ -76,9 +76,9 @@ requirements:
    - jpeg
    - usgs-astrogeology::kakadu==1
    - krb5
-   - libopencv>=4.5.2
+   - libopencv>=4.7,<4.8
    - libpng>=1.6.34
-   - libprotobuf<3.20
+   - libprotobuf
    - libtiff>=4.0
    - libxml2
    - make
@@ -91,16 +91,17 @@ requirements:
    - nn
    - opencv>=4.5.2
    - openssl>=1.1.1k
-   - pcl>=1.10.0
-   - protobuf<3.20
-   - python>=3.7.11
+   - pcl>=1.13,<1.14
+   - protobuf
+   - python>=3.10
+   - python_abi>=3.10
    - pytest
    - rclone
    - qhull
-   - qt>=5.9.6,<5.15.0
-   - qwt
-   - sqlite
-   - suitesparse
+   - qt-main>=5.15.8,<5.16
+   - qwt<6.3.0
+   - sqlite>=3.46.0,<3.47
+   - suitesparse<7.7.0
    - superlu
    - swig
    - texlive-core

@@ -35,6 +35,9 @@
     <change name="Steven Lambright" date="2008-05-12">
       Removed references to CubeInfo 
     </change>
+    <change name="Ken Edmundson" date="2024-08-15">
+      Converted to callable app and converted Makefile test to gtest. 
+    </change>
   </history>
 
   <groups>

@@ -7,7 +7,7 @@
   <description> 
     <p>
       This program imports Mars Express HRSC files. This includes both the HRSC 
-      Stereo and the SRC instruments with procesing level of "1" or "2" (not "3"). 
+      Stereo and the SRC instruments with processing level of "1", "2", or "3" (not "4"). 
       The program populates all label keywords necessary to create the corresponding camera
       models.
     </p>

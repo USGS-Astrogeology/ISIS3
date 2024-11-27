@@ -1,0 +1,33 @@
+Object = NormalizationModel 
+  Group = Algorithm 
+    Name = Albedo 
+    PhotoModel = HapkeHen 
+    AtmosModel = Anisotropic1 
+  EndGroup 
+EndObject 
+Object = PhotometricModel 
+  Group = Algorithm 
+    Name = HapkeHen 
+    W=0.244
+    H=0.07
+    B0=2.0
+    Theta=20.
+    HG1=0.4
+    HG2=0.6
+    iref=30.0
+    inc=80.
+    ema=80.
+  EndGroup 
+EndObject 
+Object = AtmosphericModel 
+  Group = Algorithm 
+    Name = Anisotropic1 
+    Bha=0.1
+    nulneg= YES
+    Tau = 0.7 
+    Wha =0.5 
+    Hga = 0.003 
+    Inc=80.
+    Phi=5.
+  EndGroup 
+EndObject 

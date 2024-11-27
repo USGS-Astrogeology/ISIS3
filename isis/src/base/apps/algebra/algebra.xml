@@ -87,6 +87,9 @@
       Updated to use the new ProcessByLine API. This program now takes
       advantage of multiple global processing threads.
     </change>
+    <change name="Ken Edmundson" date="2024-08-22">
+      Converted to callable app and converted Makefile tests to gtests.
+    </change>
   </history>
 
   <category>

@@ -105,7 +105,7 @@ namespace Isis {
         geos::geom::Polygon *newPoly = globalFactory->createPolygon(
                                          globalFactory->createLinearRing(xycoords), holes);
 
-        if(newPoly->isValid() && !newPoly->isEmpty() && newPoly->getArea() > 1.0e-14) {
+        if(!newPoly->isEmpty() && newPoly->getArea() > 1.0e-14) {
           xyPolys->push_back(newPoly);
         }
         else {
@@ -133,7 +133,6 @@ namespace Isis {
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
       }
-
     } // end else
   }
 

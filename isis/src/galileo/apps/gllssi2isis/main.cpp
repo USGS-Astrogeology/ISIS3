@@ -56,20 +56,15 @@ void IsisMain() {
     throw IException(IException::Io, msg, _FILEINFO_);
   }
 
-  // data set id value must contain "SSI-2-REDR-V1.0"(valid SSI image)
-  // or "SSI-4-REDR-V1.0"(reconstructed from garbled SSI image)
+  // data set id value must contain "SSI-2-REDR-V1.0" or "SSI-2-REDR-V1.1" (valid SSI image)
+  // or "SSI-4-REDR-V1.0" or "SSI-4-REDR-V1.1"(reconstructed from garbled SSI image)
   QString dataSetId;
   dataSetId = (QString)lab["DATA_SET_ID"];
-  try {
-    if(!dataSetId.contains("SSI-2-REDR-V1.0")
-        && !dataSetId.contains("SSI-4-REDR-V1.0") ) {
-      QString msg = "Invalid DATA_SET_ID [" + dataSetId + "]";
-      throw IException(IException::Unknown, msg, _FILEINFO_);
-    }
-  }
-  catch(IException &e) {
-    QString msg = "Unable to read [DATA_SET_ID] from input file [" +
-                 inFile.expanded() + "]";
+
+  if(!dataSetId.contains("SSI-2-REDR-V1.0") && !dataSetId.contains("SSI-2-REDR-V1.1")
+      && !dataSetId.contains("SSI-4-REDR-V1.0") && !dataSetId.contains("SSI-4-REDR-V1.1") ) {
+    QString msg = "Invalid DATA_SET_ID [" + dataSetId + "]" + 
+    " from input file [" + inFile.expanded() + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
 
@@ -79,7 +74,7 @@ void IsisMain() {
     // reconstructed images are 800x800 (i.e. not summed)
     // even though they have frame duration of 2.333
     // (which ordinarily indicates a summed image)
-    if(dataSetId.contains("SSI-4-REDR-V1.0")) {
+    if(dataSetId.contains("SSI-4-REDR-V1.0") || dataSetId.contains("SSI-4-REDR-V1.1")) {
       summed = false;
     }
     else if (frameDuration > 2.0 && frameDuration < 3.0) {
