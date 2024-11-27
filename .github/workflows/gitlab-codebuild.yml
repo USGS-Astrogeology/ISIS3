@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run script
         env: 
-          REF_NAME: ${{ github.ref }}
+          REF_NAME: ${{ github.ref_name }}
           EVENT_TYPE: ${{ github.event_name }}
         run: |
           git config --global user.name "Github_CI"
