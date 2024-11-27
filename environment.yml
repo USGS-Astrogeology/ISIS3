@@ -53,7 +53,7 @@ dependencies:
   - pytest
   - rclone
   - qhull
-  - qt>=5.9.6,<5.15.0
+  - qt-main>=5.15.8,<5.16
   - qwt
   - sqlite
   - suitesparse
