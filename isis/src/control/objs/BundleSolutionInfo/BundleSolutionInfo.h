@@ -164,7 +164,10 @@ namespace Isis {
    *                          solution. 3) Cleaned up spacing of Point Coordinate output in the
    *                          "INPUT: GLOBAL IMAGE PARAMETER UNCERTAINTIES" section. Originally
    *                          added to UofA code on 2019-07-30.
-   *
+   *   @history 2024-12-03 Ken Edmundson - Fixed bug where, when performing a rectangular (XYZ)
+   *                          bundle adjustment, the Lat/Lon/Radius point corrections written
+   *                          to the points.csv file are incorrect and do not match those written
+   *                          to the bundleout.txt file.
    */
   class BundleSolutionInfo : public QObject {
     Q_OBJECT

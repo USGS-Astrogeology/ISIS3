@@ -53,6 +53,8 @@ release.
 - Changed 'User Parameters' group in camstats to UserParameters for PVL compliance [#5625](https://github.com/DOI-USGS/ISIS3/issues/5625).
 
 ### Fixed
+- Fixed bug in the method BundleSolutionInfo::outputPointsCSV() where, when performing a rectangular (XYZ) bundle adjustment, the Lat/Lon/Radius point corrections written to points.csv are incorrect and do not match those written to bundleout.txt. Also modified the ctest FunctionalTestJigsawBundleXYZ to spot check six lines (points) in points.csv.
+Issue: [5646](https://github.com/DOI-USGS/ISIS3/issues/5646)
 - Fixed noseam bug where a debugging output statement was inadvertently left in noseam.cpp.
 Issue: [5660](https://github.com/DOI-USGS/ISIS3/issues/5660)
 - Fixed jigsaw bugs in which RADIUS is handled incorrectly in the jigsaw gui and in the bundleout.txt
