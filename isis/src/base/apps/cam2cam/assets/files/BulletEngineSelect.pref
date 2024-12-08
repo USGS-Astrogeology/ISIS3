@@ -1,0 +1,5 @@
+Group = ShapeModel
+  RayTraceEngine = Bullet
+  OnError = Continue
+EndGroup
+End
