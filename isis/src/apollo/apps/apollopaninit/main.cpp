@@ -234,12 +234,12 @@ void IsisMain() {
   std::string frameName;
   SpiceInt frameCode = 0;
   try{
-    json output = Isis::RestfulSpice::getTargetFrameInfo(301, "base", false);
+    json output = Isis::RestfulSpice::getTargetFrameInfo(301, "base");
     frameCode = output["frameCode"].get<SpiceInt>();
     frameName = output["frameName"].get<std::string>();
   }catch(std::invalid_argument){
     std::string naifTarget = "IAU_MOON";
-    frameCode = Isis::RestfulSpice::translateNameToCode(naifTarget, mission.toLower().toStdString(), false);
+    frameCode = Isis::RestfulSpice::translateNameToCode(naifTarget, mission.toLower().toStdString());
     if(frameCode == 0) {
       QString msg = "Can not find NAIF code for [" + QString::fromStdString(naifTarget) + "]";
       throw IException(IException::Io, msg, _FILEINFO_);
