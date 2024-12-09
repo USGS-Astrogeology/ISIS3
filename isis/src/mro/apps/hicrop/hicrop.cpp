@@ -81,20 +81,19 @@ namespace Isis {
       // originalStartTime() and time2clock()
       IString ckFileName = ui.GetFileName("CK");
 
-      SpiceQL::KernelPool &kPool =  SpiceQL::KernelPool::getInstance();
-      kPool.load(FileName(QString::fromStdString(ckFileName)).expanded().toLatin1().data());
+      SpiceQL::load(FileName(QString::fromStdString(ckFileName)).expanded().toLatin1().data());
 
       if (ui.WasEntered("LSK")) {
         IString lskFileName = ui.GetFileName("LSK");
-        kPool.load(FileName(QString::fromStdString(lskFileName)).expanded().toLatin1().data());
+        SpiceQL::load(FileName(QString::fromStdString(lskFileName)).expanded().toLatin1().data());
       }else{
       }
 
       if (ui.WasEntered("SCLK")) {
         IString sclkFileName = ui.GetFileName("SCLK");
-        kPool.load(FileName(QString::fromStdString(sclkFileName)).expanded().toLatin1().data());
+        SpiceQL::load(FileName(QString::fromStdString(sclkFileName)).expanded().toLatin1().data());
       }else{
-        kPool.loadClockKernels();
+        // SpiceQL::loadClockKernels();
       }
 
       // get values from the labels needed to compute the line rate and the
