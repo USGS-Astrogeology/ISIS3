@@ -8,10 +8,10 @@ find files of those names at the top level of this repository. **/
 
 #define GUIHELPERS
 
+#include "Isis.h"
 #include "Brick.h"
 #include "Histogram.h"
 #include "IException.h"
-#include "Isis.h"
 #include "iTime.h"
 #include "MiCalibration.h"
 #include "ProcessByLine.h"
