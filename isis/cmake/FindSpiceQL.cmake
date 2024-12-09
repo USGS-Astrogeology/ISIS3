@@ -7,7 +7,7 @@
 
 find_path(SPICEQL_INCLUDE_DIR
   NAME spiceql.h
-  PATH_SUFFIXES "spiceql"
+  PATH_SUFFIXES "SpiceQL"
 )
 
 find_library(SPICEQL_LIBRARY
