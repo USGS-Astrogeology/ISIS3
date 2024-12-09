@@ -93,7 +93,7 @@ namespace Isis {
         IString sclkFileName = ui.GetFileName("SCLK");
         SpiceQL::load(FileName(QString::fromStdString(sclkFileName)).expanded().toLatin1().data());
       }else{
-        // SpiceQL::loadClockKernels();
+        // kPool.loadClockKernels();
       }
 
       // get values from the labels needed to compute the line rate and the
