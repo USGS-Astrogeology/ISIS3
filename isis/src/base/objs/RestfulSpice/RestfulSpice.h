@@ -3,7 +3,7 @@
 #include <functional>
 #include <map>
 #include <QString>
-#include <SpiceQL.h>
+#include <spiceql.h>
 #include <typeinfo>
 #include <typeindex>
 #include <vector>
