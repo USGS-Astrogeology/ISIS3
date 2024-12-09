@@ -51,11 +51,9 @@ namespace Isis {
 
       NaifStatus::CheckErrors();
 
-      SpiceQL::KernelPool &kPool =  SpiceQL::KernelPool::getInstance();
-
       foreach (QString kernelFile, allKernelFiles) {
         kernelsUsed += kernelFile;
-        kPool.load(FileName(kernelFile).expanded().toLatin1().data());
+        SpiceQL::load(FileName(kernelFile).expanded().toLatin1().data());
       }
 
       // Find the NAIF target code for the DEM's target
