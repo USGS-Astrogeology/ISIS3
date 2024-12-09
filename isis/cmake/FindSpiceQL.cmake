@@ -11,7 +11,7 @@ find_path(SPICEQL_INCLUDE_DIR
 )
 
 find_library(SPICEQL_LIBRARY
-  NAMES spiceql
+  NAMES SpiceQL
 )
 
 get_filename_component(SUPERLU_ROOT_INCLUDE_DIR "${SUPERLU_INCLUDE_DIR}" DIRECTORY)
