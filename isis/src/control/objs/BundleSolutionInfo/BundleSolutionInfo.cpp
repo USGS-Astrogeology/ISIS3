@@ -1670,17 +1670,14 @@ namespace Isis {
                                                                             corrections();
 
       if (m_settings->controlPointCoordTypeBundle() == SurfacePoint::Rectangular) {
-        double x      = bundlecontrolpoint->adjustedSurfacePoint().GetX().kilometers();
         double xCor = corrections(0);  // km
-        double y      = bundlecontrolpoint->adjustedSurfacePoint().GetY().kilometers();
         double yCor = corrections(1);  // km
-        double z      = bundlecontrolpoint->adjustedSurfacePoint().GetZ().kilometers();
         double zCor = corrections(2);  // km
 
-        if (!IsSpecial(x) && !IsSpecial(y) && !IsSpecial(z)) {
-          SurfacePoint rectPoint(Displacement(x - xCor, Displacement::Kilometers),
-                                Displacement(y - yCor, Displacement::Kilometers),
-                                Displacement(z - zCor, Displacement::Kilometers));
+        if (!IsSpecial(dX) && !IsSpecial(dY) && !IsSpecial(dZ)) {
+          SurfacePoint rectPoint(Displacement(dX - xCor, Displacement::Kilometers),
+                                Displacement(dY - yCor, Displacement::Kilometers),
+                                Displacement(dZ - zCor, Displacement::Kilometers));
           
           latInit = rectPoint.GetLatitude().degrees();
           lonInit = rectPoint.GetLongitude().degrees();
