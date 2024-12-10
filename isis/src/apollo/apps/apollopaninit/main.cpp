@@ -44,6 +44,7 @@ find files of those names at the top level of this repository. **/
 #include "SpiceRotation.h"
 #include "Table.h"
 #include "UserInterface.h"
+#include "spiceql.h"
 
 
 #define FIDL  26.72093    //spacing between fiducial marks in mm
@@ -228,6 +229,11 @@ void IsisMain() {
   kernels_pvlG.addKeyword(keyword);
 
   panCube.putGroup(kernels_pvlG);
+
+  // Load kernels
+  Load_Kernel(kernels_pvlG["TargetPosition"]);
+  Load_Kernel(kernels_pvlG["TargetAttitudeShape"]);
+  Load_Kernel(kernels_pvlG["LeapSecond"]);
 
 
   //////////////////////////////////////////attach a target rotation table
@@ -808,7 +814,7 @@ void Load_Kernel(Isis::PvlKeyword &key) {
        throw IException(IException::Io, msg, _FILEINFO_);
      }
      QString fileName(file.expanded());
-     furnsh_c(fileName.toLatin1().data());
+     SpiceQL::load(fileName.toLatin1().data());
   }
 
   NaifStatus::CheckErrors();

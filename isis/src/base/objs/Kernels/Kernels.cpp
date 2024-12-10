@@ -23,6 +23,7 @@ find files of those names at the top level of this repository. **/
 #include "NaifStatus.h"
 #include "PvlKeyword.h"
 #include "Pvl.h"
+#include "spiceql.h"
 
 using namespace std;
 
@@ -776,7 +777,7 @@ namespace Isis {
       if (!kfile.loaded) {
         NaifStatus::CheckErrors();
         try {
-          furnsh_c(kfile.fullpath.toLatin1().data());
+          SpiceQL::load(kfile.fullpath.toLatin1().data());
           NaifStatus::CheckErrors();
           kfile.loaded = true;
           kfile.managed = true;

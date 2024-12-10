@@ -17,6 +17,7 @@ find files of those names at the top level of this repository. **/
 #include "iTime.h"
 #include "SpecialPixel.h"
 #include "NaifStatus.h"
+#include "spiceql.h"
 
 using namespace std;
 namespace Isis {
@@ -488,7 +489,7 @@ namespace Isis {
     }
 
     NaifStatus::CheckErrors();
-    furnsh_c(leapSecondName.toLatin1().data());
+    SpiceQL::load(leapSecondName.toLatin1().data());
     NaifStatus::CheckErrors();
 
     p_lpInitialized = true;

@@ -14,6 +14,7 @@ find files of those names at the top level of this repository. **/
 
 #include "SpiceDbGen.h"
 #include "NaifStatus.h"
+#include "spiceql.h"
 
 using namespace std;
 using namespace Isis;
@@ -229,7 +230,7 @@ PvlGroup SpiceDbGen::AddSelection(FileName fileIn, double startOffset, double en
   //finalize the filename so that it may be used in spice routines
   QString tmp = fileIn.expanded();
   //  const char* file = fileIn.expanded().c_str();
-  furnsh_c(tmp.toLatin1().data());
+  SpiceQL::load(tmp.toLatin1().data());
   SpiceChar fileType[32], source[2048];
   SpiceInt handle;
   QString instrument = "";
@@ -387,17 +388,17 @@ void SpiceDbGen::FurnishDependencies(QList<FileName> sclks, QList<FileName> lsks
 
   // furnish the lsk files
   foreach (FileName lsk, lsks) {
-    furnsh_c(lsk.expanded().toLatin1().data());
+    SpiceQL::load(lsk.expanded().toLatin1().data());
   }
 
   // furnish the sclk files
   foreach (FileName sclk, sclks) {
-    furnsh_c(sclk.expanded().toLatin1().data());
+    SpiceQL::load(sclk.expanded().toLatin1().data());
   }
 
   // furnish the extra files
   foreach (FileName extra, extras) {
-    furnsh_c(extra.expanded().toLatin1().data());
+    SpiceQL::load(extra.expanded().toLatin1().data());
   }
 
   NaifStatus::CheckErrors();

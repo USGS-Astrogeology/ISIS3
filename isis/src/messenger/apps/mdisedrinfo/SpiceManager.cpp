@@ -21,6 +21,7 @@ find files of those names at the top level of this repository. **/
 #include "Pvl.h"
 #include "SpiceManager.h"
 #include "NaifStatus.h"
+#include "spiceql.h"
 
 using namespace std;
 
@@ -216,7 +217,7 @@ namespace Isis {
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       QString fileName(file.expanded());
-      if(_furnish) furnsh_c(fileName.toLatin1().data());
+      if(_furnish) SpiceQL::load(fileName.toLatin1().data());
       addKernelName((QString)key[i]);
     }
     NaifStatus::CheckErrors();
