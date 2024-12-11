@@ -126,7 +126,6 @@ namespace Isis {
        */
       virtual void updateLabels(Pvl &labels) = 0;
 
-    protected:
       int bandCount() const;
       int getBandCountInChunk() const;
       BigInt getBytesPerChunk() const;
