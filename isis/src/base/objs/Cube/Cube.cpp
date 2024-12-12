@@ -633,9 +633,15 @@ namespace Isis {
     }
 
     if (m_dataFile) {
-      if (!m_dataFile->open(QIODevice::Truncate | QIODevice::ReadWrite)) {
+      if (labelsAttached() != ExternalLabel && !m_dataFile->open(QIODevice::Truncate | QIODevice::ReadWrite)) {
         QString msg = "Failed to create [" + m_dataFile->fileName() + "]. ";
         msg += "Verify the output path exists and you have permission to write to the path.";
+        cleanUp(false);
+        throw IException(IException::Io, msg, _FILEINFO_);
+      }
+      else if (labelsAttached() == ExternalLabel && !m_dataFile->open(QIODevice::ReadWrite)) {
+        QString msg = "Failed to open [" + m_dataFile->fileName() + "] for reading. ";
+        msg += "Verify the output path exists and you have permission to read from the path.";
         cleanUp(false);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
