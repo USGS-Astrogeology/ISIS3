@@ -20,7 +20,7 @@ namespace Isis {
       delete localBrick;
     }
     if (dbuf) {
-      delete dbuf;
+      CPLFree(dbuf);
     }
   }
 
@@ -136,6 +136,10 @@ namespace Isis {
                                               6, 1,
                                               IsisPixelToGdal(pixelType),
                                               0, 0);
+      if (err > CE_Failure) {
+        FAIL() << "Failed to write tiff";
+      }
+
       dataset->Close();
     }
   }
