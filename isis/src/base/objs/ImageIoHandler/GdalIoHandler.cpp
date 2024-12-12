@@ -86,6 +86,11 @@ namespace Isis {
                                     m_pixelType,
                                     0, 0);
 
+      if (err >= CE_Failure) {
+        QString msg = "Failure when trying to read Tiff";
+        throw IException(IException::Unknown, msg, _FILEINFO_);
+      }
+
       // Handle pixel type conversion
       char *buffersRawBuf = (char *)boundedBrick.RawBuffer();
       double *buffersDoubleBuf = boundedBrick.DoubleBuffer();
@@ -103,6 +108,10 @@ namespace Isis {
                                     sampleSize, lineSize,
                                     m_pixelType,
                                     0, 0);
+      if (err >= CE_Failure) {
+        QString msg = "Failure when trying to read Tiff";
+        throw IException(IException::Unknown, msg, _FILEINFO_);
+      }
 
       // Handle pixel type conversion
       char *buffersRawBuf = (char *)bufferToFill.RawBuffer();
@@ -147,6 +156,11 @@ namespace Isis {
                                   sampleSize, lineSize,
                                   m_pixelType,
                                   0, 0);
+    if (err >= CE_Failure) {
+      QString msg = "Failure when trying to write Tiff";
+      throw IException(IException::Unknown, msg, _FILEINFO_);
+    }
+
     poBand = m_geodataSet->GetRasterBand(band)->GetMaskBand();
     err = poBand->RasterIO(GF_Write, sampleStart, lineStart,
                            sampleSize, lineSize,
@@ -154,6 +168,12 @@ namespace Isis {
                            sampleSize, lineSize,
                            GDT_Byte,
                            0, 0);
+    
+    if (err >= CE_Failure) {
+      QString msg = "Failure when trying to write msk file";
+      throw IException(IException::Unknown, msg, _FILEINFO_);
+    }
+
     delete m_maskBuff;
     m_maskBuff = NULL;
   }

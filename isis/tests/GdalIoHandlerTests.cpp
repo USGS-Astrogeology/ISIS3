@@ -48,6 +48,9 @@ TEST_F(ReadWriteTiff, GdalIoTestsDefaulWrite) {
                                          IsisPixelToGdal(isisPixelType),
                                          0, 0);
 
+  if (err > CE_Failure) {
+    FAIL() << "Failed to read tiff";
+  }
   
   for (int i = 0; i<6*1; i++) { 
     ASSERT_EQ(((double *) dbuf)[i], 100);
@@ -223,6 +226,11 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteFloat64) {
                                          6, 1,
                                          IsisPixelToGdal(isisPixelType),
                                          0, 0);
+
+  if (err > CE_Failure) {
+    FAIL() << "Failed to read tiff";
+  }
+
   EXPECT_EQ(((double *)dbuf)[0], HIGH_INSTR_SAT8);
   EXPECT_EQ(((double *)dbuf)[1], HIGH_REPR_SAT8);
   EXPECT_EQ(((double *)dbuf)[2], LOW_INSTR_SAT8);
@@ -263,6 +271,11 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteFloat32) {
                                          6, 1,
                                          IsisPixelToGdal(isisPixelType),
                                          0, 0);
+
+  if (err > CE_Failure) {
+    FAIL() << "Failed to read tiff";
+  }
+
   EXPECT_EQ(((float *)dbuf)[0], HIGH_INSTR_SAT4);
   EXPECT_EQ(((float *)dbuf)[1], HIGH_REPR_SAT4);
   EXPECT_EQ(((float *)dbuf)[2], LOW_INSTR_SAT4);
@@ -303,6 +316,11 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteInt32) {
                                 6, 1,
                                 IsisPixelToGdal(isisPixelType),
                                 0, 0);
+  
+  if (err > CE_Failure) {
+    FAIL() << "Failed to read tiff";
+  }
+
   EXPECT_EQ(((unsigned int *)dbuf)[0], HIGH_INSTR_SATI4);
   EXPECT_EQ(((unsigned int *)dbuf)[1], HIGH_REPR_SATI4);
   EXPECT_EQ(((unsigned int *)dbuf)[2], LOW_INSTR_SATI4);
@@ -343,6 +361,11 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteUInt32) {
                                          6, 1,
                                          IsisPixelToGdal(isisPixelType),
                                          0, 0);
+ 
+  if (err > CE_Failure) {
+    FAIL() << "Failed to read tiff";
+  }
+
   EXPECT_EQ(((unsigned int *)dbuf)[0], HIGH_INSTR_SATUI4);
   EXPECT_EQ(((unsigned int *)dbuf)[1], HIGH_REPR_SATUI4);
   EXPECT_EQ(((unsigned int *)dbuf)[2], LOW_INSTR_SATUI4);
@@ -383,6 +406,11 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteInt16) {
                                          6, 1,
                                          IsisPixelToGdal(isisPixelType),
                                          0, 0);
+  
+  if (err > CE_Failure) {
+    FAIL() << "Failed to read tiff";
+  }
+
   EXPECT_EQ(((short *)dbuf)[0], HIGH_INSTR_SAT2);
   EXPECT_EQ(((short *)dbuf)[1], HIGH_REPR_SAT2);
   EXPECT_EQ(((short *)dbuf)[2], LOW_INSTR_SAT2);
@@ -423,6 +451,11 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteUInt16) {
                                          6, 1,
                                          IsisPixelToGdal(isisPixelType),
                                          0, 0);
+  
+  if (err > CE_Failure) {
+    FAIL() << "Failed to read tiff";
+  }
+
   EXPECT_EQ(((unsigned short *)dbuf)[0], HIGH_INSTR_SATU2);
   EXPECT_EQ(((unsigned short *)dbuf)[1], HIGH_REPR_SATU2);
   EXPECT_EQ(((unsigned short *)dbuf)[2], LOW_INSTR_SATU2);
@@ -463,6 +496,11 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteInt8) {
                                          6, 1,
                                          IsisPixelToGdal(isisPixelType),
                                          0, 0);
+  
+  if (err > CE_Failure) {
+    FAIL() << "Failed to read tiff";
+  }
+
   EXPECT_EQ(((char *)dbuf)[0], HIGH_INSTR_SATS1);
   EXPECT_EQ(((char *)dbuf)[1], HIGH_REPR_SATS1);
   EXPECT_EQ(((char *)dbuf)[2], LOW_INSTR_SATS1);
@@ -503,6 +541,11 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteUInt8) {
                                          6, 1,
                                          IsisPixelToGdal(isisPixelType),
                                          0, 0);
+  
+  if (err > CE_Failure) {
+    FAIL() << "Failed to read tiff";
+  }
+
   EXPECT_EQ(((unsigned char *)dbuf)[0], HIGH_INSTR_SAT1);
   EXPECT_EQ(((unsigned char *)dbuf)[1], HIGH_REPR_SAT1);
   EXPECT_EQ(((unsigned char *)dbuf)[2], LOW_INSTR_SAT1);
@@ -533,6 +576,11 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadOutside) {
                                             samples, lines,
                                             IsisPixelToGdal(isisPixelType),
                                             0, 0);
+    
+    if (err > CE_Failure) {
+      FAIL() << "Failed to write tiff";
+    }
+
     dataset->Close();
   }
 
