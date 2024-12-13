@@ -120,7 +120,7 @@ namespace Isis::RestfulSpice{
           {"spkQuality", spkQuality}
           });
       // @TODO check that json exists / contains what we're looking for
-      json out = spiceAPIQuery("getTargetStates", args, "POST");
+      json out = spiceAPIQuery("getTargetStates", args);
       return out["body"]["return"].get<std::vector<std::vector<double>>>();
     }else{
       return SpiceQL::getTargetStates(ets, target, observer, frame, abcorr, mission, ckQuality, spkQuality, true);
@@ -137,7 +137,7 @@ namespace Isis::RestfulSpice{
         {"mission", mission},
         {"ckQuality", ckQuality}
       });
-      json out = spiceAPIQuery("getTargetOrientations", args, "POST");
+      json out = spiceAPIQuery("getTargetOrientations", args);
       return out["body"]["return"].get<std::vector<std::vector<double>>>();
     }else{
       return SpiceQL::getTargetOrientations(ets, toFrame, refFrame, mission, ckQuality, true);
