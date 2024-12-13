@@ -42,7 +42,7 @@ namespace Isis {
    */
   Pvl::Pvl(const QString &file) : Isis::PvlObject("Root") {
     // This function specifically reads from GDAL-style JSON metadata.  
-    function<PvlObject(PvlObject&, json)> read_object = [&](PvlObject &pvlobj, json jdata) -> PvlObject { 
+    function<PvlObject(PvlObject&, json)> read_object = [&](PvlObject &pvlobj, json jdata) -> PvlObject {
       for(auto &[key, value] : jdata.items()) { 
         string name = key; 
         if(value.contains("_type")) { 
@@ -91,10 +91,18 @@ namespace Isis {
 
     init();
     // try to read as a geodataset 
-    try{ 
+    try{
+      CPLSetErrorHandler(CPLQuietErrorHandler);
       GDALAllRegister();
       const GDALAccess eAccess = GA_ReadOnly;
       GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen( file.toStdString().c_str(), eAccess ));
+      if (!dataset) {
+        QString msg = "Unable to read [" + file + "] as GDALDataset";
+        throw IException(IException::Unknown, msg, _FILEINFO_);
+      }
+
+      Isis::FileName temp(file);
+      m_filename = temp.expanded();
 
       char** metadata = dataset->GetMetadata("json:ISIS3");
       json jsonlabel = json::parse(metadata[0]);
@@ -105,8 +113,7 @@ namespace Isis {
 
       read_object(*this, jsonlabel);
 
-    } catch (exception &e) { 
-      cout << "failed : " << e.what() << endl;
+    } catch (exception &e) {
       read(file);
     }
   }
