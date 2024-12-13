@@ -352,8 +352,8 @@
        <description>
          To illustrate OFFBODY and OFFBODYTRIM options, <i>cam2cam</i> is used to project OSIRIS-REx
          <a href="https://link.springer.com/article/10.1007/s11214-017-0460-7"
-         target="_blank">OCAMS</a> image 20190509T180552S020_map into the geometry
-         of OCAMS image 20190509T174620S424_map. Both images were acquired by the
+         target="_blank">OCAMS</a> image 20190509T180552S020 into the geometry
+         of OCAMS image 20190509T174620S424. Both images were acquired by the
          <a href="https://www.asteroidmission.org/?attachment_id=694#main"
          target="_blank">MapCam</a> instrument in the mission's
          (<a href="https://www.asteroidmission.org/detailed-survey-bbd/"
@@ -484,8 +484,8 @@
 
         <p>
           Again, NULL DNs are yellow and sky/background is black. There are no NULLs in the
-          interior of these images as all Lat/Lons come from the DTM image geometry and map
-          directly to the ellipsoid. The NULLs in the rightmost image where OFFBODYTRIM=TRUE
+          target body interior of these images as all Lat/Lons come from the DTM image geometry
+          and map directly to the ellipsoid. The NULLs in the rightmost image where OFFBODYTRIM=TRUE
           are portions of the ellipsoid that do not map to Bennu's surface. These off-limb regions
           between the ellipsoid boundary and DTM surface are actually sky/background data. More
           specifically, the MATCH image pixel coordinates here a) <i>did not</i> intersect Bennu's
