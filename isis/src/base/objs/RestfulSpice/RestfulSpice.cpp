@@ -9,6 +9,7 @@ using json=nlohmann::json;
 
 namespace Isis::RestfulSpice{
   std::map<std::string, std::string> spiceql_mission_map = {
+    {"AMICA", "amica"},
     {"CHANDRAYAAN-1_M3", "m3"},
     {"CHANDRAYAAN-1_MRFFR", "mrffr"},
     {"CASSINI_ISS_NAC", "cassini"},
@@ -340,12 +341,13 @@ namespace Isis::RestfulSpice{
 
   json spiceAPIQuery(std::string functionName, json args, std::string method){
     restincurl::Client client;
-    //std::string queryString = "https://spiceql-slot1.prod-asc.chs.usgs.gov/" + functionName +"/?";
-    std::string queryString = "127.0.0.1:8080/" + functionName +"/";
+    // std::string queryString = "https://spiceql-slot1.prod-asc.chs.usgs.gov/" + functionName;
+    std::string queryString = "127.0.0.1:8080/" + functionName;
 
     json j;
 
     if (method == "GET"){
+      std::cout << "[RestfulSpice] spiceAPIQuery GET" << std::endl;
       queryString += "?";
       for (auto x : args.items()) {
           queryString+= x.key();
@@ -354,11 +356,15 @@ namespace Isis::RestfulSpice{
           queryString+= "&";
       }
       std::string encodedString = url_encode(queryString);
+      std::cout << "[RestfulSpice] spiceAPIQuery encodedString = " << encodedString << std::endl;
       client.Build()->Get(encodedString).Option(CURLOPT_FOLLOWLOCATION, 1L).AcceptJson().WithCompletion([&](const restincurl::Result& result) {
+        std::cout << "[RestfulSpice] spiceAPIQuery GET result = " << result.body << std::endl;
         j = json::parse(result.body);
       }).ExecuteSynchronous();
     }else{
+      std::cout << "[RestfulSpice] spiceAPIQuery POST" << std::endl;
       client.Build()->Post(queryString).Option(CURLOPT_FOLLOWLOCATION, 1L).AcceptJson().WithJson(args.dump()).WithCompletion([&](const restincurl::Result& result) {
+        std::cout << "[RestfulSpice] spiceAPIQuery POST result = " << result.body << std::endl;
         j = json::parse(result.body);
       }).ExecuteSynchronous();
     }
