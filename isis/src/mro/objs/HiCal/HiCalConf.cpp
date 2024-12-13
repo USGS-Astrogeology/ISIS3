@@ -317,7 +317,7 @@ bool HiCalConf::_naifLoaded = false;
             targetName.toLower() == "cal" ||
             targetName.toLower() == "phobos" ||
             targetName.toLower() == "deimos") {
-          targetName = "Mars";
+          targetName = "mars";
         }
         double sunv[3];
 
