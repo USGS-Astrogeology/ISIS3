@@ -359,7 +359,8 @@
          (<a href="https://www.asteroidmission.org/detailed-survey-bbd/"
          target="_blank">Detailed Survey: Baseball Diamond</a>) phase. They were initialized
          with the 80cm global DTM found in the
-         <a href="https://arcnav.psi.edu/urn:nasa:pds:orex.spice">OREX SPICE KERNEL bundle</a>.
+         <a href="https://arcnav.psi.edu/urn:nasa:pds:orex.spice"
+         target="_blank">OSIRIS-REx SPICE Kernel Archive Bundle</a>.
          
          <p>
          The images were processed with <i>cam2cam</i> three times with the following
@@ -449,7 +450,8 @@
         We further illustrate OFFBODY and OFFBODYTRIM by projecting OSIRIS-REx MapCam image
         20190509T180552S020 initialized with the Bennu ellipsoid into the same image initialized
         with the 80cm global DTM and vice versa. The ellipsoid is defined in the PCK kernel and
-        the DTM is found in the <a href="https://arcnav.psi.edu/urn:nasa:pds:orex.spice">OREX SPICE KERNEL bundle</a>.
+        the DTM is found in the <a href="https://arcnav.psi.edu/urn:nasa:pds:orex.spice"
+        target="_blank">OSIRIS-REx SPICE Kernel Archive Bundle</a>.
         As in Example 2, <i>cam2cam</i> is run three times with the following options...
 
           <ul>
