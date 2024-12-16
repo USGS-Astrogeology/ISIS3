@@ -67,7 +67,7 @@ namespace Isis {
       int m_bands;
       double m_offset;
       double m_scale;
-      char *m_maskBuff = NULL;
+      unsigned char *m_maskBuff = NULL;
   };
 }
 

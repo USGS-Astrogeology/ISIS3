@@ -8,7 +8,10 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <fstream>
+
 #include "PvlObject.h"
+
+#include <gdal_priv.h>
 
 namespace Isis {
   /**
@@ -120,6 +123,7 @@ namespace Isis {
     public:
       Pvl();
       Pvl(const QString &file);
+      Pvl(const QString &file, GDALDataset *dataset) ;
       Pvl(const Pvl &other);
 
       friend std::istream &operator>>(std::istream &is, Pvl &pvl);

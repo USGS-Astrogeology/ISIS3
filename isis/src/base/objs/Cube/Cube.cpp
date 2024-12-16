@@ -485,7 +485,16 @@ namespace Isis {
     ptype += PvlKeyword("Multiplier", toString(m_multiplier));
 
     if (labelsAttached() != LabelAttachment::ExternalLabel) {
-      cubFile = cubFile.addExtension("cub");
+      if (format() != GTiff) {
+        cubFile = cubFile.addExtension("cub");
+      }
+      else if (format() == GTiff) {
+        cubFile = cubFile.addExtension("tiff");
+      }
+      else {
+        QString msg = "Unknown format type [" + toString(format()) + "]";
+        throw IException(IException::Programmer, msg, _FILEINFO_);
+      }
 
       // See if we have attached or detached labels
       if (labelsAttached() == LabelAttachment::AttachedLabel) {
@@ -538,55 +547,10 @@ namespace Isis {
           m_dataFile = new QFile(realDataFileName().expanded());
         }
         else if (format() == GTiff) {
-          GDALAllRegister();
-          GDALDriver* driver = GetGDALDriverManager()->GetDriverByName("GTiff");
-          if (driver) {
-            cubFile = cubFile.addExtension("tiff");
-            m_dataFileName = new FileName(cubFile);
-            std::string dataFileName = m_dataFileName->expanded().toStdString();
-            char **papszOptions = NULL;
-            papszOptions = CSLSetNameValue(papszOptions, "COMPRESS", "DEFLATE");
-            double noDataValue;
-            switch (pixelType()) {
-              case UnsignedByte:
-                noDataValue = (double) NULL1;
-                break;
-              case SignedByte:
-                noDataValue = (double) NULLS1;
-                break;
-              case UnsignedWord:
-                noDataValue = (double) NULLU2;
-                break;
-              case SignedWord:
-                noDataValue = (double) NULL2;
-                break;
-              case UnsignedInteger:
-                noDataValue = (double) NULLUI4;
-                break;
-              case SignedInteger:
-                noDataValue = (double) NULLI4;
-                break;
-              case Real:
-                noDataValue = (double) NULL4;
-                break;
-
-              default:
-                noDataValue = NULL8;
-                break;
-            }
-            GDALDataset *dataset = driver->Create(dataFileName.c_str(), sampleCount(), lineCount(), bandCount(), IsisPixelToGdal(pixelType()), papszOptions);
-            for (int i = 1; i <= bandCount(); i++) {
-              GDALRasterBand *band = dataset->GetRasterBand(i);
-              band->SetScale(multiplier());
-              band->SetOffset(base());
-              band->SetNoDataValue(noDataValue);
-              band->Fill(noDataValue);
-            }
-            if (dataset) {
-              delete dataset;
-            }
-            CSLDestroy( papszOptions );
-          }
+          cubFile = cubFile.addExtension("tiff");
+          m_dataFileName = new FileName(cubFile);
+          QString dataFileName = m_dataFileName->expanded();
+          createTiff(dataFileName);
         }
         
         cubFile = cubFile.setExtension("ecub");
@@ -632,7 +596,7 @@ namespace Isis {
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
-    if (m_dataFile) {
+    if (m_dataFile && (format() != GTiff)) {
       if (labelsAttached() != ExternalLabel && !m_dataFile->open(QIODevice::Truncate | QIODevice::ReadWrite)) {
         QString msg = "Failed to create [" + m_dataFile->fileName() + "]. ";
         msg += "Verify the output path exists and you have permission to write to the path.";
@@ -659,6 +623,7 @@ namespace Isis {
     }
     else if(format() == GTiff) {
       QString dataFileName = realDataFileName().expanded();
+      createTiff(dataFileName);
       m_ioHandler = new GdalIoHandler(dataFileName, m_virtualBandList, IsisPixelToGdal(pixelType()));
     }
 
@@ -667,6 +632,57 @@ namespace Isis {
 
     // Write the labels
     writeLabels();
+  }
+
+  void Cube::createTiff(QString &dataFileName) {
+    GDALAllRegister();
+    GDALDriver* driver = GetGDALDriverManager()->GetDriverByName("GTiff");
+    if (driver) {
+      char **papszOptions = NULL;
+      papszOptions = CSLSetNameValue(papszOptions, "COMPRESS", "DEFLATE");
+      double noDataValue;
+      switch (pixelType()) {
+        case UnsignedByte:
+          noDataValue = (double) NULL1;
+          break;
+        case SignedByte:
+          noDataValue = (double) NULLS1;
+          break;
+        case UnsignedWord:
+          noDataValue = (double) NULLU2;
+          break;
+        case SignedWord:
+          noDataValue = (double) NULL2;
+          break;
+        case UnsignedInteger:
+          noDataValue = (double) NULLUI4;
+          break;
+        case SignedInteger:
+          noDataValue = (double) NULLI4;
+          break;
+        case Real:
+          noDataValue = (double) NULL4;
+          break;
+
+        default:
+          noDataValue = NULL8;
+          break;
+      }
+      GDALDataset *dataset = driver->Create(dataFileName.toStdString().c_str(), sampleCount(), lineCount(), bandCount(), IsisPixelToGdal(pixelType()), papszOptions);
+      for (int i = 1; i <= bandCount(); i++) {
+        GDALRasterBand *band = dataset->GetRasterBand(i);
+        band->SetScale(multiplier());
+        band->SetOffset(base());
+        band->SetNoDataValue(noDataValue);
+        band->Fill(noDataValue);
+      }
+      dataset->GetRasterBand(1)->CreateMaskBand(GMF_ALPHA);
+      dataset->GetRasterBand(1)->GetMaskBand()->Fill(255);
+      if (dataset) {
+        delete dataset;
+      }
+      CSLDestroy( papszOptions );
+    } 
   }
 
 
@@ -2474,6 +2490,30 @@ namespace Isis {
     try {
       if (labelFileName.fileExists()) {
         m_label = new Pvl(labelFileName.expanded());
+        if (!m_label->objects()) {
+          throw IException();
+        }
+      }
+    }
+    catch(IException &) {
+      if (m_label) {
+        delete m_label;
+        m_label = NULL;
+      }
+    }
+
+    try {
+      if (labelFileName.fileExists()) {
+        // CPLSetErrorHandler(CPLQuietErrorHandler);
+        GDALAllRegister();
+        QString file = labelFileName.expanded();
+        const GDALAccess eAccess = GA_ReadOnly;
+        GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen( file.toStdString().c_str(), eAccess ));
+        if (!dataset) {
+          QString msg = "Unable to read [" + file + "] as GDALDataset";
+          throw IException(IException::Unknown, msg, _FILEINFO_);
+        }
+        m_label = new Pvl(file, dataset);
         if (!m_label->objects()) {
           throw IException();
         }

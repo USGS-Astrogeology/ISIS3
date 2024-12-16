@@ -26,8 +26,6 @@ namespace Isis {
       QString msg = "Constructing GdalIoHandler failed";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
-    m_geodataSet->CreateMaskBand(0);
-    m_geodataSet->GetRasterBand(1)->GetMaskBand()->Fill(255);
     m_pixelType = pixelType;
     m_samples = m_geodataSet->GetRasterXSize();
     m_lines = m_geodataSet->GetRasterYSize();
@@ -124,9 +122,9 @@ namespace Isis {
 
   void GdalIoHandler::write(const Buffer &bufferToWrite) {
     GDALRasterBand  *poBand;
-    m_maskBuff = (char *) CPLMalloc(sizeof(char) * bufferToWrite.size());
+    m_maskBuff = (unsigned char *) CPLMalloc(sizeof(unsigned char) * bufferToWrite.size());
     for (int i = 0; i < bufferToWrite.size(); i++) {
-      m_maskBuff[i] = -1;
+      m_maskBuff[i] = 255;
     }
     
     int band = bufferToWrite.Band();

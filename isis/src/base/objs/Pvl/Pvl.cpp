@@ -15,7 +15,6 @@ find files of those names at the top level of this repository. **/
 
 #include <filesystem>
 #include <random>
-#include <gdal_priv.h>
 #include <nlohmann/json.hpp>
 
 #include "FileName.h"
@@ -41,6 +40,17 @@ namespace Isis {
    * @param file The file containing the pvl formatted information
    */
   Pvl::Pvl(const QString &file) : Isis::PvlObject("Root") {
+    init();
+    read(file);
+  }
+
+  /**
+   * Constructs a Pvl from a file
+   *
+   * @param file The file containing the pvl formatted information
+   */
+  
+  Pvl::Pvl(const QString &file, GDALDataset *dataset) : Isis::PvlObject("Root") {
     // This function specifically reads from GDAL-style JSON metadata.  
     function<PvlObject(PvlObject&, json)> read_object = [&](PvlObject &pvlobj, json jdata) -> PvlObject {
       for(auto &[key, value] : jdata.items()) { 
@@ -88,36 +98,25 @@ namespace Isis {
       return pvlobj;
     };
 
-
     init();
-    // try to read as a geodataset 
+    Isis::FileName temp(file);
+    m_filename = temp.expanded();
     try{
-      CPLSetErrorHandler(CPLQuietErrorHandler);
-      GDALAllRegister();
-      const GDALAccess eAccess = GA_ReadOnly;
-      GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen( file.toStdString().c_str(), eAccess ));
-      if (!dataset) {
-        QString msg = "Unable to read [" + file + "] as GDALDataset";
-        throw IException(IException::Unknown, msg, _FILEINFO_);
-      }
-
-      Isis::FileName temp(file);
-      m_filename = temp.expanded();
 
       char** metadata = dataset->GetMetadata("json:ISIS3");
       json jsonlabel = json::parse(metadata[0]);
+
       if (jsonlabel.contains("_name")) { 
         QString name = QString::fromStdString(jsonlabel["name"].get<string>());
         this->setName(name);
       }
 
       read_object(*this, jsonlabel);
-
     } catch (exception &e) {
-      read(file);
+      QString msg = "Error reading ISIS data from GdalDataset. GDAL Error: [" + QString(e.what()) + "]";
+      IException(IException::Unknown, msg, _FILEINFO_);
     }
   }
-
 
   //! Copy constructor
   Pvl::Pvl(const Pvl &other) : PvlObject::PvlObject(other) {
