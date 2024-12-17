@@ -191,7 +191,7 @@ EndGroup
 ########################################################
 
 Group = WebSpice
-  UseWebSpice = "true"
+  UseWebSpice = "false"
 EndGroup
 
 
