@@ -41,6 +41,7 @@ release.
 
 ### Fixed
 - Fixed kaguyatc2isis invalid BandBin values [#5629](https://github.com/DOI-USGS/ISIS3/issues/5629)
+- Fixed SpiceClient to handle redirect requests.
 
 ## [9.0.0] - 09-25-2024
 
