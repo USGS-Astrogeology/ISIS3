@@ -36,6 +36,8 @@ namespace Isis {
           band->SetScale(1);
           band->SetOffset(0);
         }
+        dataset->CreateMaskBand(GMF_ALPHA);
+        dataset->GetRasterBand(1)->GetMaskBand()->Fill(255);
         dataset->Close();
       }
     }
