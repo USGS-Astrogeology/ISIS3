@@ -448,8 +448,12 @@ namespace Isis {
   QString CubeAttributeOutput::toString(Cube::Format format) {
     QString result = "Tile";
 
-    if (format == Cube::Bsq)
+    if (format == Cube::Bsq) {
       result = "BandSequential";
+    }
+    else if (format == Cube::GTiff) {
+      result = "GTiff";
+    }
 
     return result;
   }
