@@ -21,6 +21,7 @@ find files of those names at the top level of this repository. **/
 
 namespace fs = std::filesystem;
 using json = nlohmann::json;
+using ordered_json = nlohmann::ordered_json;
 using namespace std;
 
 namespace Isis {
@@ -249,6 +250,31 @@ namespace Isis {
     }
   }
 
+  void Blob::ReadGdal(GDALDataset *dataset) {
+    try {
+      std::string key = QString(p_type + "_" + p_blobName).toStdString();
+      const char *jsonblobStr = dataset->GetMetadataItem(key.c_str(), "USGS");
+      ordered_json jsonblob = ordered_json::parse(jsonblobStr);
+      std::string blobData = jsonblob[key]["Data"];
+      jsonblob[key].erase("Data");
+      std::cout << jsonblob << std::endl;
+
+      Pvl pvl;
+      Pvl::readObject(pvl, jsonblob);
+
+      p_blobName = QString::fromStdString(jsonblob[key]["Name"]);
+      p_type = QString::fromStdString(jsonblob[key]["_container_name"]);
+
+      Find(pvl);
+      ReadData(blobData);
+
+      std::cout << p_blobPvl << std::endl;
+    }
+    catch(exception &e) { 
+      cout << "Failed to read blob [" + p_blobName + "]: " << e.what() << endl;
+    }
+  }
+
   /**
    * This method reads Pvl values from a specified file.
    *
@@ -410,7 +436,7 @@ namespace Isis {
     p_buffer = buffer;
   }
 
-  void Blob::WriteGdal(const string file) {
+  void Blob::WriteGdal(GDALDataset *dataset) {
     try {
       WriteInit();
       Pvl pvl;
@@ -421,9 +447,10 @@ namespace Isis {
 
       stringstream stream;
       WriteData(stream);
-      PvlObject blobObj = pvl.findObject(p_type);
+      PvlObject &blobObj = pvl.findObject(p_type);
 
-      blobObj["Bytes"] = toString(p_nbytes); 
+      blobObj["Bytes"] = toString(p_nbytes);
+      blobObj["StartByte"] = toString(1);
       if(blobObj.hasKeyword("Data")) { 
         blobObj["Data"] = QString::fromStdString(stream.str()); 
       }
@@ -439,21 +466,12 @@ namespace Isis {
       }
 
       // update metadata
-      GDALAllRegister();
-      const GDALAccess eAccess = GA_Update;
-      GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen(file.c_str(), eAccess));
-      if(!dataset) {
-        throw IException(IException::Io, "cannot read using GDAL", _FILEINFO_);
-      }
-      
       string jsonblobstr = pvl.toJson().dump();
-      cout << "NAME: " <<  this->Name().toStdString().c_str() << endl;
-      cout <<  jsonblobstr.c_str() << endl; 
-      dataset->SetMetadataItem(this->Name().toStdString().c_str(), jsonblobstr.c_str(), "json:ISIS3");
-      GDALClose(dataset);
+      string key = this->Type().toStdString() + "_" + this->Name().toStdString();
+      dataset->SetMetadataItem(key.c_str(), jsonblobstr.c_str(), "USGS");
     }
-    catch(exception &e) { 
-      cout << "failed to write: " << e.what() << endl;
+    catch(exception &e) {
+      cout << "Failed to write blob [" + p_blobName + "]: " << e.what() << endl;
     }
   }
 
@@ -652,16 +670,19 @@ namespace Isis {
    * @throws IException::Io - Error writing data to stream
    */
   void Blob::ReadData(string &hexdata) {
-   
+    // Read the binary data
+    if (p_buffer != NULL) delete [] p_buffer;
+    p_buffer = new char[p_nbytes];
+
     // Loop through the hex string and bytes, hex is two characters at a time 
     for (size_t i=0,j=0; i < p_nbytes; i++,j+=2) { 
         string byteString = hexdata.substr(j, 2); 
   
         uint8_t byteValue = static_cast<uint8_t>( 
-            stoi(byteString, nullptr, 16)); 
+            stoi(byteString, nullptr, 16));
   
         // Add the byte to the byte array 
-        p_buffer[i] = byteValue; 
+        p_buffer[i] = byteValue;
     }
   }
 

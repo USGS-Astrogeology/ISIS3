@@ -43,6 +43,8 @@ namespace Isis {
   class GdalIoHandler : public ImageIoHandler {
     public:
       GdalIoHandler(QString &dataFilePath, const QList<int> *virtualBandList, GDALDataType pixelType = GDT_Float64);
+      GdalIoHandler(GDALDataset *geodataSet, const QList<int> *virtualBandList, GDALDataType pixelType = GDT_Float64);
+      void init();
       virtual ~GdalIoHandler();
 
       virtual void read(Buffer &bufferToFill) const;
@@ -60,14 +62,16 @@ namespace Isis {
       void readPixelType(double *doubleBuff, void *rawBuff, int idx) const;
       bool writePixelType(double *doubleBuff, void *rawBuff, int idx) const;
 
-      GDALDatasetUniquePtr m_geodataSet = NULL;
+      GDALDataset *m_geodataSet = nullptr;
+      std::string m_geodataSetPath = "";
       GDALDataType m_pixelType;
       int m_lines;
       int m_samples;
       int m_bands;
       double m_offset;
       double m_scale;
-      unsigned char *m_maskBuff = NULL;
+      unsigned char *m_maskBuff = nullptr;
+      bool m_datasetOwner = false;
   };
 }
 

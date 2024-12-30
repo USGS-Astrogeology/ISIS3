@@ -357,6 +357,7 @@ namespace Isis {
 
       void construct();
       QFile *dataFile() const;
+      GDALDataset *gdalDataset() const;
 
       void initialize();
       void initCoreFromLabel(const Pvl &label);
@@ -378,12 +379,18 @@ namespace Isis {
        * If isOpen() is true, then this is allocated.
        */
       QFile *m_labelFile;
+
       /**
        * This is only sometimes allocated. This is used for when IsOpen is true
        *   and labels are detached so the QFile for the labels does not give
        *   us cube data.
        */
       QFile *m_dataFile;
+
+      /**
+       * TODO: Write description
+       */
+      GDALDataset *m_geodataSet = nullptr;
 
       /**
        * This does the heavy lifting for cube DN IO and is always allocated

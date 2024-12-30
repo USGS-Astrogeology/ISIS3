@@ -11,6 +11,8 @@ find files of those names at the top level of this repository. **/
 #include <QList>
 #include <QPair>
 
+#include "gdal_priv.h"
+
 #include "PvlObject.h"
 
 namespace Isis {
@@ -75,7 +77,8 @@ namespace Isis {
       void Write(const QString &file);
       void Write(Pvl &pvl, std::fstream &stm,
                  const QString &detachedFileName = "", bool overwrite=true, bool inline_data=true);
-      void WriteGdal(const std::string file);
+      void WriteGdal(GDALDataset *dataset);
+      void ReadGdal(GDALDataset *dataset);
 
       char *getBuffer();
       void setData(const char *buffer, int nbytes);

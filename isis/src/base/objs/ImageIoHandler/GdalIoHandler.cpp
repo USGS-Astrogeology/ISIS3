@@ -4,6 +4,8 @@
 #include "Buffer.h"
 #include "CubeCachingAlgorithm.h"
 #include "IException.h"
+#include "Pvl.h"
+#include "PvlObject.h"
 #include "SpecialPixel.h"
 
 #include <QList>
@@ -19,17 +21,30 @@ namespace Isis {
                  ImageIoHandler(virtualBandList) {
     GDALAllRegister();
     const GDALAccess eAccess = GA_Update;
-    std::string dataFilePathStr = dataFilePath.toUtf8().constData();
-    const char *charDataFilePath = dataFilePathStr.c_str();
-    m_geodataSet = GDALDatasetUniquePtr(GDALDataset::FromHandle(GDALOpen(charDataFilePath, eAccess)));
+    m_geodataSetPath = dataFilePath.toUtf8().constData();
+    m_geodataSet = GDALDataset::FromHandle(GDALOpen(m_geodataSetPath.c_str(), eAccess));
+    m_pixelType = pixelType;
+    init();
+  }
+
+  GdalIoHandler::GdalIoHandler(GDALDataset *geodataSet, const QList<int> *virtualBandList, GDALDataType pixelType) : 
+                 ImageIoHandler(virtualBandList) {
+    m_geodataSet = geodataSet;
     if (!m_geodataSet) {
-      QString msg = "Constructing GdalIoHandler failed";
+      QString msg = "Constructing GdalIoHandler failed. Null geodataSet pointer passed";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
+    m_datasetOwner = false;
     m_pixelType = pixelType;
+    init();
+  }
+
+  void GdalIoHandler::init() {
     m_samples = m_geodataSet->GetRasterXSize();
     m_lines = m_geodataSet->GetRasterYSize();
     m_bands = m_geodataSet->GetRasterCount();
+    m_geodataSet->CreateMaskBand(0);
+    m_geodataSet->GetRasterBand(1)->GetMaskBand()->Fill(255);
     GDALRasterBand *band = m_geodataSet->GetRasterBand(1);
     m_offset = band->GetOffset();
     m_scale = band->GetScale();
@@ -38,6 +53,9 @@ namespace Isis {
   GdalIoHandler::~GdalIoHandler() {
     if (m_maskBuff) {
       delete m_maskBuff;
+    }
+    if (m_geodataSet && m_datasetOwner) {
+      GDALClose(m_geodataSet);
     }
   }
 
@@ -121,6 +139,7 @@ namespace Isis {
   }
 
   void GdalIoHandler::write(const Buffer &bufferToWrite) {
+    CPLErr gdalerr;
     GDALRasterBand  *poBand;
     m_maskBuff = (unsigned char *) CPLMalloc(sizeof(unsigned char) * bufferToWrite.size());
     for (int i = 0; i < bufferToWrite.size(); i++) {
@@ -148,26 +167,26 @@ namespace Isis {
     }
 
     // silence warning
-    CPLErr err = poBand->RasterIO(GF_Write, sampleStart, lineStart,
-                                  sampleSize, lineSize,
-                                  bufferToWrite.RawBuffer(),
-                                  sampleSize, lineSize,
-                                  m_pixelType,
-                                  0, 0);
-    if (err >= CE_Failure) {
+    gdalerr = poBand->RasterIO(GF_Write, sampleStart, lineStart,
+                               sampleSize, lineSize,
+                               bufferToWrite.RawBuffer(),
+                               sampleSize, lineSize,
+                               m_pixelType,
+                               0, 0);
+    if (gdalerr >= CE_Failure) {
       QString msg = "Failure when trying to write Tiff";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
-    poBand = m_geodataSet->GetRasterBand(band)->GetMaskBand();
-    err = poBand->RasterIO(GF_Write, sampleStart, lineStart,
-                           sampleSize, lineSize,
-                           m_maskBuff,
-                           sampleSize, lineSize,
-                           GDT_Byte,
-                           0, 0);
+    // poBand = m_geodataSet->GetRasterBand(band)->GetMaskBand();
+    // err = poBand->RasterIO(GF_Write, sampleStart, lineStart,
+    //                        sampleSize, lineSize,
+    //                        m_maskBuff,
+    //                        sampleSize, lineSize,
+    //                        GDT_Byte,
+    //                        0, 0);
     
-    if (err >= CE_Failure) {
+    if (gdalerr >= CE_Failure) {
       QString msg = "Failure when trying to write msk file";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
@@ -184,7 +203,11 @@ namespace Isis {
    *
    * @param labels Pvl object to update with
    */
-  void GdalIoHandler::updateLabels(Pvl &labels) {}
+  void GdalIoHandler::updateLabels(Pvl &labels) {
+    PvlObject &core = labels.findObject("IsisCube").findObject("Core");
+    core.addKeyword(PvlKeyword("Format", "GTiff"),
+                    PvlContainer::Replace);
+  }
 
   void GdalIoHandler::readPixelType(double *doubleBuff, void *rawBuff, int idx) const {
     double &bufferVal = doubleBuff[idx];

@@ -413,7 +413,7 @@ namespace Isis {
    *      is forced). Environment variables in the filename will be
    *      automatically expanded as well.
    */
-  void Cube::create(const QString &cubeFileName) {
+  void Cube::create(const QString &imageFileName) {
     // Already opened?
     if (isOpen()) {
       string msg = "You already have a cube opened";
@@ -430,7 +430,7 @@ namespace Isis {
     if (m_pixelType == None) {
       throw IException(IException::Unknown,
           QString("Cannot create the cube [%1] with a pixel type set to None")
-            .arg(cubeFileName),
+            .arg(imageFileName),
           _FILEINFO_);
     }
 
@@ -450,7 +450,7 @@ namespace Isis {
 
       if (size > maxSizePreference) {
         QString msg;
-        msg += "The cube you are attempting to create [" + cubeFileName + "] is ["
+        msg += "The cube you are attempting to create [" + imageFileName + "] is ["
                + toString(size) + "GB]. This is larger than the current allowed "
                "size of [" + toString(maxSizePreference) + "GB]. The cube "
                "dimensions were (S,L,B) [" + toString(m_samples) + ", " +
@@ -465,7 +465,7 @@ namespace Isis {
     }
 
     // Expand output name
-    FileName cubFile(cubeFileName);
+    FileName imageFile(imageFileName);
     PvlObject isiscube("IsisCube");
     PvlObject core("Core");
 
@@ -485,32 +485,32 @@ namespace Isis {
     ptype += PvlKeyword("Multiplier", toString(m_multiplier));
 
     if (labelsAttached() != LabelAttachment::ExternalLabel) {
-      if (format() != GTiff) {
-        cubFile = cubFile.addExtension("cub");
+      if (format() !=  Format::GTiff) {
+        imageFile = imageFile.addExtension("cub");
       }
-      else if (format() == GTiff) {
-        cubFile = cubFile.addExtension("tiff");
+      else if (format() == Format::GTiff) {
+        imageFile = imageFile.addExtension("tiff");
       }
       else {
         QString msg = "Unknown format type [" + toString(format()) + "]";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       }
 
+      m_dataFileName = new FileName(imageFile);
+
       // See if we have attached or detached labels
       if (labelsAttached() == LabelAttachment::AttachedLabel) {
         // StartByte is 1-based (why!!) so we need to do + 1
         core += PvlKeyword("StartByte", toString(m_labelBytes + 1));
-        m_labelFileName = new FileName(cubFile);
-        m_dataFileName = new FileName(cubFile);
+        m_labelFileName = new FileName(imageFile);
         m_labelFile = new QFile(m_labelFileName->expanded());
       }
-      else if (labelsAttached() == LabelAttachment::DetachedLabel) {
+      else if (labelsAttached() == LabelAttachment::DetachedLabel && format() != Format::GTiff) {
         core += PvlKeyword("StartByte", toString(1));
-        core += PvlKeyword("^Core", cubFile.name());
-        m_dataFileName = new FileName(cubFile);
+        core += PvlKeyword("^Core", imageFile.name());
         m_dataFile = new QFile(realDataFileName().expanded());
 
-        FileName labelFileName(cubFile);
+        FileName labelFileName(imageFile);
         labelFileName = labelFileName.setExtension("lbl");
         m_labelFileName = new FileName(labelFileName);
         m_labelFile = new QFile(m_labelFileName->expanded());
@@ -525,7 +525,7 @@ namespace Isis {
     else if (labelsAttached() == LabelAttachment::ExternalLabel) {
       if (!m_dataFileName) {
         if (format() == Bsq || format() == Tile) {
-          cubFile = cubFile.addExtension("cub");
+          imageFile = imageFile.addExtension("cub");
 
           Pvl dnLabel;
           PvlObject isiscube("IsisCube");
@@ -540,21 +540,21 @@ namespace Isis {
           dnLabel.addObject(isiscube);
 
           Cube dnCube;
-          dnCube.fromLabel(cubFile, dnLabel, "rw");
+          dnCube.fromLabel(imageFile, dnLabel, "rw");
           dnCube.close();
 
-          m_dataFileName = new FileName(cubFile);
+          m_dataFileName = new FileName(imageFile);
           m_dataFile = new QFile(realDataFileName().expanded());
         }
-        else if (format() == GTiff) {
-          cubFile = cubFile.addExtension("tiff");
-          m_dataFileName = new FileName(cubFile);
+        else if (format() ==  Format::GTiff) {
+          imageFile = imageFile.addExtension("tiff");
+          m_dataFileName = new FileName(imageFile);
           QString dataFileName = m_dataFileName->expanded();
           createTiff(dataFileName);
         }
         
-        cubFile = cubFile.setExtension("ecub");
-        FileName labelFileName(cubFile);
+        imageFile = imageFile.setExtension("ecub");
+        FileName labelFileName(imageFile);
         m_labelFileName = new FileName(labelFileName);
         m_labelFile = new QFile(m_labelFileName->expanded());
       }
@@ -562,8 +562,8 @@ namespace Isis {
       core += PvlKeyword("^DnFile", m_dataFileName->original());
       m_dataFile = new QFile(realDataFileName().expanded());
 
-      m_labelFileName = new FileName(cubFile);
-      m_labelFile = new QFile(cubFile.expanded());
+      m_labelFileName = new FileName(imageFile);
+      m_labelFile = new QFile(imageFile.expanded());
     }
     else {
       QString msg = "Label type [" + LabelAttachmentName(labelsAttached()) + "] not supported";
@@ -596,7 +596,13 @@ namespace Isis {
       throw IException(IException::Io, msg, _FILEINFO_);
     }
 
-    if (m_dataFile && (format() != GTiff)) {
+    if (format() == Format::GTiff) {
+      QString dataFileName = realDataFileName().expanded();
+      createTiff(dataFileName);
+      m_geodataSet = GDALDataset::FromHandle(GDALOpen(dataFileName.toStdString().c_str(), GA_Update));
+    }
+    
+    if (m_dataFile) {
       if (labelsAttached() != ExternalLabel && !m_dataFile->open(QIODevice::Truncate | QIODevice::ReadWrite)) {
         QString msg = "Failed to create [" + m_dataFile->fileName() + "]. ";
         msg += "Verify the output path exists and you have permission to write to the path.";
@@ -621,10 +627,8 @@ namespace Isis {
       m_ioHandler = new CubeTileHandler(dataFile(), m_virtualBandList, realDataFileLabel(),
                                         dataAlreadyOnDisk);
     }
-    else if(format() == GTiff) {
-      QString dataFileName = realDataFileName().expanded();
-      createTiff(dataFileName);
-      m_ioHandler = new GdalIoHandler(dataFileName, m_virtualBandList, IsisPixelToGdal(pixelType()));
+    else if(format() ==  Format::GTiff) {
+      m_ioHandler = new GdalIoHandler(gdalDataset(), m_virtualBandList, IsisPixelToGdal(pixelType()));
     }
 
     if (labelsAttached() != ExternalLabel)
@@ -669,6 +673,10 @@ namespace Isis {
           break;
       }
       GDALDataset *dataset = driver->Create(dataFileName.toStdString().c_str(), sampleCount(), lineCount(), bandCount(), IsisPixelToGdal(pixelType()), papszOptions);
+      if (!dataset) {
+        QString msg = "Could not create [" + dataFileName + "] from GTiff Driver.";
+        throw IException(IException::Io, msg, _FILEINFO_);
+      }
       for (int i = 1; i <= bandCount(); i++) {
         GDALRasterBand *band = dataset->GetRasterBand(i);
         band->SetScale(multiplier());
@@ -676,11 +684,9 @@ namespace Isis {
         band->SetNoDataValue(noDataValue);
         band->Fill(noDataValue);
       }
-      dataset->GetRasterBand(1)->CreateMaskBand(GMF_ALPHA);
-      dataset->GetRasterBand(1)->GetMaskBand()->Fill(255);
-      if (dataset) {
-        delete dataset;
-      }
+      // dataset->CreateMaskBand(0);
+      // dataset->GetRasterBand(1)->GetMaskBand()->Fill(255);
+      GDALClose(dataset);
       CSLDestroy( papszOptions );
     } 
   }
@@ -794,10 +800,19 @@ namespace Isis {
     }
     catch (IException &e) {
       cleanUp(false);
-      throw;
+      throw e;
     }
 
+    if (!(access == "r" || access == "rw")) {
+      QString msg = "Unknown value for access [" + access + "]. Expected 'r' "
+                    " or 'rw'";
+      cleanUp(false);
+      throw IException(IException::Programmer, msg, _FILEINFO_);
+    }
+
+    GDALAccess eAccess;
     if (access == "r") {
+      eAccess = GA_ReadOnly;
       if (!m_labelFile->open(QIODevice::ReadOnly)) {
         QString msg = "Failed to open [" + m_labelFile->fileName() + "] with "
             "read only access";
@@ -816,6 +831,7 @@ namespace Isis {
     }
 
     else if (access == "rw") {
+      eAccess = GA_Update;
       if (!m_labelFile->open(QIODevice::ReadWrite)) {
         QString msg = "Failed to open [" + m_labelFile->fileName() + "] with "
             "read/write access";
@@ -831,12 +847,6 @@ namespace Isis {
           throw IException(IException::Io, msg, _FILEINFO_);
         }
       }
-    }
-    else {
-      QString msg = "Unknown value for access [" + access + "]. Expected 'r' "
-                    " or 'rw'";
-      cleanUp(false);
-      throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     initCoreFromLabel(*m_label);
@@ -863,9 +873,14 @@ namespace Isis {
       m_ioHandler = new CubeTileHandler(dataFile(), m_virtualBandList,
           realDataFileLabel(), true);
     }
-    else if (m_format == GTiff) {
-      QString datafile = realDataFileName().expanded();
-      m_ioHandler = new GdalIoHandler(datafile, m_virtualBandList, IsisPixelToGdal(pixelType()));
+    else if (m_format == Format::GTiff) {
+      m_geodataSet = GDALDataset::FromHandle(GDALOpen(m_labelFileName->expanded().toStdString().c_str(), eAccess));
+      if (!m_geodataSet) {
+        QString msg = "Opening GDALDataset from [" + m_labelFileName->name() + "] failed";
+        throw IException(IException::Programmer, msg, _FILEINFO_);
+      }
+      
+      m_ioHandler = new GdalIoHandler(m_geodataSet, m_virtualBandList, IsisPixelToGdal(pixelType()));
     }
 
     if (dataLabel.first) {
@@ -928,9 +943,18 @@ namespace Isis {
     if (m_tempCube)
       cubeFile = *m_tempCube;
 
-    QMutexLocker locker(m_mutex);
-    QMutexLocker locker2(m_ioHandler->dataFileMutex());
-    blob.Read(cubeFile.toString(), *label(), keywords);
+    if (format() == Format::GTiff) {
+      blob.ReadGdal(gdalDataset());
+    }
+    else if (format() == Format::Bsq || format() == Format::Tile) {
+      QMutexLocker locker(m_mutex);
+      QMutexLocker locker2(m_ioHandler->dataFileMutex());
+      blob.Read(cubeFile.toString(), *label(), keywords);
+    }
+    else {
+      QString msg = "Can't write blob to unknown format";
+      throw IException(IException::Programmer, msg, _FILEINFO_);
+    }
   }
 
 
@@ -1088,15 +1112,15 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
+    if (m_format == Format::GTiff) {  
+      // write new type of blob
+      blob.WriteGdal(gdalDataset());
+      return; // nothing else to do
+    }
+
     if (!m_labelFile->isWritable()) {
       string msg = "The cube must be opened in read/write mode, not readOnly";
       throw IException(IException::Programmer, msg, _FILEINFO_);
-    }
-
-    if (m_format == Format::GTiff) {  
-      // write new type of blob
-      blob.WriteGdal(m_labelFileName->expanded().toLatin1().data()); 
-      return; // nothing else to do  
     }
 
     // Write an attached blob
@@ -2258,6 +2282,11 @@ namespace Isis {
     delete m_dataFile;
     m_dataFile = NULL;
 
+    if (m_geodataSet) {
+      GDALClose(m_geodataSet);
+    }
+    m_geodataSet = NULL;
+
     delete m_labelFileName;
     m_labelFileName = NULL;
 
@@ -2316,6 +2345,14 @@ namespace Isis {
       return m_labelFile;
   }
 
+
+  GDALDataset *Cube::gdalDataset() const {
+    if (!m_geodataSet) {
+      QString msg = "No GDALDataset has been constructed";
+      throw IException(IException::Programmer, msg, _FILEINFO_);
+    }
+    return m_geodataSet;
+  }
 
   /**
    * This gets the file name of the file which actually contains the DN data. With ecub's, our
@@ -2439,7 +2476,7 @@ namespace Isis {
         m_format = Bsq;
       }
       else if ((QString) core["Format"] == "GTiff") {
-        m_format = GTiff;
+        m_format =  Format::GTiff;
       } else {
         m_format = Tile; 
       }
@@ -2462,22 +2499,13 @@ namespace Isis {
 
 
   void Cube::initCoreFromGdal(const QString &labelFile) {
-    GDALAllRegister();
-    GDALDataset *geodataSet = GDALDataset::FromHandle(GDALOpen(labelFile.toStdString().c_str(), GA_Update));
-    if (!geodataSet) {
-      QString msg = "GdalIoHandler died on construction";
-      throw IException(IException::Programmer, msg, _FILEINFO_);
-    }
-    setDimensions(geodataSet->GetRasterXSize(), geodataSet->GetRasterYSize(), geodataSet->GetRasterCount());
+    setDimensions(gdalDataset()->GetRasterXSize(), gdalDataset()->GetRasterYSize(), gdalDataset()->GetRasterCount());
     
     // Get the format from the driver
-    // GDALDriver *driver = GDALDriver::FromHandle(GDALIdentifyDriver(labelFile.toStdString().c_str()));
-    GDALRasterBand *band = geodataSet->GetRasterBand(1);
-    setFormat(GTiff);
+    GDALRasterBand *band = gdalDataset()->GetRasterBand(1);
+    setFormat(Format::GTiff);
     setPixelType(GdalPixelToIsis(band->GetRasterDataType()));
     setBaseMultiplier(band->GetOffset(), band->GetScale());
-    delete geodataSet;
-
   }
 
   /**
@@ -2492,31 +2520,7 @@ namespace Isis {
 
     try {
       if (labelFileName.fileExists()) {
-        m_label = new Pvl(labelFileName.expanded(), true);
-        if (!m_label->objects()) {
-          throw IException();
-        }
-      }
-    }
-    catch(IException &) {
-      if (m_label) {
-        delete m_label;
-        m_label = NULL;
-      }
-    }
-
-    try {
-      if (labelFileName.fileExists()) {
-        // CPLSetErrorHandler(CPLQuietErrorHandler);
-        GDALAllRegister();
-        QString file = labelFileName.expanded();
-        const GDALAccess eAccess = GA_ReadOnly;
-        GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen( file.toStdString().c_str(), eAccess ));
-        if (!dataset) {
-          QString msg = "Unable to read [" + file + "] as GDALDataset";
-          throw IException(IException::Unknown, msg, _FILEINFO_);
-        }
-        m_label = new Pvl(file, dataset);
+        m_label = new Pvl(labelFileName.expanded());
         if (!m_label->objects()) {
           throw IException();
         }
@@ -2784,9 +2788,15 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
     
-    if (m_format == GTiff) { 
-      // dont write label
-      return; 
+    if (m_format ==  Format::GTiff) { 
+      // update metadata
+      std::string jsonblobstr = this->label()->toJson()["Root"].dump();
+      char *jsonblobCharPtr = jsonblobstr.data();
+      char **jsonblobCharPtrPtr = new char*[2];
+      jsonblobCharPtrPtr[0] = jsonblobCharPtr;
+      jsonblobCharPtrPtr[1] = nullptr;
+      gdalDataset()->SetMetadataItem("CubeLabel", jsonblobCharPtr, "USGS");
+      return;
     }
 
     // Set the pvl's format template
