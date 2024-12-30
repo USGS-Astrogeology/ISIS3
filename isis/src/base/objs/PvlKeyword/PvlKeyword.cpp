@@ -374,7 +374,7 @@ namespace Isis {
       // it's an array 
       json jsonarr = json::array();
       for(int i = 0; i < size(); i++) { 
-        jsonarr += this->operator[](0).toStdString();
+        jsonarr += this->operator[](i).toStdString();
       }
       return jsonarr;
     } 
