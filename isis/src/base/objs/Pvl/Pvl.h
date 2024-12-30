@@ -123,13 +123,14 @@ namespace Isis {
     public:
       Pvl();
       Pvl(const QString &file);
-      Pvl(const QString &file, GDALDataset *dataset) ;
       Pvl(const Pvl &other);
 
       friend std::istream &operator>>(std::istream &is, Pvl &pvl);
       friend std::ostream &operator<<(std::ostream &os, Isis::Pvl &pvl);
       void fromString(const std::string &str);
-      nlohmann::json toJson();
+
+      static PvlObject &readObject(PvlObject &pvlobj, nlohmann::ordered_json jdata);
+      nlohmann::ordered_json toJson();
 
       ~Pvl() {
         if(m_internalTemplate) delete m_formatTemplate;

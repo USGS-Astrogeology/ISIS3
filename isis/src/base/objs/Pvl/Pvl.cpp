@@ -25,6 +25,7 @@ find files of those names at the top level of this repository. **/
 
 namespace fs = std::filesystem;
 using json = nlohmann::json;
+using ordered_json = nlohmann::ordered_json;
 
 using namespace std;
 namespace Isis {
@@ -40,85 +41,61 @@ namespace Isis {
    * @param file The file containing the pvl formatted information
    */
   Pvl::Pvl(const QString &file) : Isis::PvlObject("Root") {
-    init();
-    read(file);
-  }
+    try{
+      init();
+      // CPLSetErrorHandler(CPLQuietErrorHandler);
+      GDALAllRegister();
+      const GDALAccess eAccess = GA_ReadOnly;
+      GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen( file.toStdString().c_str(), eAccess ));
+      if (!dataset) {
+        QString msg = "Unable to read [" + file + "] as GDALDataset";
+        throw IException(IException::Io, msg, _FILEINFO_);
+      }
 
-  /**
-   * Constructs a Pvl from a file
-   *
-   * @param file The file containing the pvl formatted information
-   */
-  
-  Pvl::Pvl(const QString &file, GDALDataset *dataset) : Isis::PvlObject("Root") {
-    // This function specifically reads from GDAL-style JSON metadata.  
-    function<PvlObject(PvlObject&, json)> read_object = [&](PvlObject &pvlobj, json jdata) -> PvlObject {
-      for(auto &[key, value] : jdata.items()) { 
-        string name = key; 
-        if(value.contains("_type")) { 
-          string type = value.at("_type"); 
-          value.erase("_type"); 
-          if (value.contains("_container_name")) { 
-            name = value["_container_name"];
-            value.erase("_container_name");
-          }
-
-          if(type == "object") { 
-            PvlObject nestedObj(QString::fromStdString(name));
-            pvlobj.addObject(read_object(nestedObj, value)); 
-          }
-          if(type == "group") { 
-            // parse keys 
-            PvlGroup group(QString::fromStdString(name)); 
-            for(auto &[pvlkeyword, pvlvalue] : value.items())  { 
-              PvlKeyword keyword;
-              keyword.setName(QString::fromStdString(pvlkeyword));
-              if (pvlvalue.is_array())
-                  keyword.addJsonArrayValue(pvlvalue);
-              else 
-                keyword.setJsonValue(pvlvalue);
-              group.addKeyword(keyword);
-            }
-            pvlobj.addGroup(group);
-          } // end of group
-        } // end of _type search
-
-        // not a group or object, must be a keyword
-        else if (key != "_type" && key != "_filename") { 
-          PvlKeyword keyword;
-          keyword.setName(QString::fromStdString(key));
-          if (value.is_array()) 
-            keyword.setJsonArrayValue(value);
-          else 
-            keyword.setJsonValue(value);
-
-          pvlobj.addKeyword(keyword);
+      CPLStringList metadata = CPLStringList(dataset->GetMetadata("USGS"));
+      if(!metadata) { 
+        throw IException(IException::Io, "Could not find 'USGS' in GDAL metadata.", _FILEINFO_);
+      }
+      for (int i = 0; i < metadata.size(); i++) {
+        const char *metadataItem = CPLParseNameValue(metadata[i], nullptr);
+        ordered_json metadataAsJson = ordered_json::parse(metadataItem);
+        // std::cout << metadataAsJson << std::endl;
+        Pvl pvl;
+        Pvl::readObject(pvl, metadataAsJson);
+        for (int i = 0; i < pvl.objects(); i++) {
+           this->addObject(pvl.object(i));
+        }
+        for (int i = 0; i < pvl.groups(); i++) {
+           this->addGroup(pvl.group(i));
         }
       }
-      return pvlobj;
-    };
+      // for(auto &[key, value] : jdata.items()) {
+        // PvlObject labelObject = readObject(value);
+        // std::cout << labelObject << std::endl;
+      // }
+      // const char *json_lab = CSLFetchNameValue(metadata, "CubeLabel");
+      // if(!json_lab) { 
+      //   throw IException(IException::Io, "Could not find 'IsisCube' in GDAL metadata.", _FILEINFO_);
+      // }
+      // json jsonlabel = json::parse(json_lab);
 
-    init();
-    Isis::FileName temp(file);
-    m_filename = temp.expanded();
-    try{
+      // if (jsonlabel.contains("_name")) { 
+      //   QString name = QString::fromStdString(jsonlabel["name"].get<string>());
+      //   this->setName(name);
+      // }
 
-      char** metadata = dataset->GetMetadata("json:ISIS3");
-      if(!metadata) { 
-        throw IException(IException::Io, "Could not find 'json:ISIS3' in GDAL metadata.", _FILEINFO_);
+      // readObject(*this, jsonlabel);
+      std::cout << *this << std::endl;
+      Isis::FileName temp(file);
+      m_filename = temp.expanded();
+      CPLErr err = dataset->Close();
+      if (err > 3) {
+        QString msg = "GDAL failure on closing dataset.";
+        IException(IException::Io, msg, _FILEINFO_);
       }
-      const char *json_lab = CSLFetchNameValue(metadata, "IsisCube");
-      json jsonlabel = json::parse(json_lab);
-
-      if (jsonlabel.contains("_name")) { 
-        QString name = QString::fromStdString(jsonlabel["name"].get<string>());
-        this->setName(name);
-      }
-
-      read_object(*this, jsonlabel);
     } catch (exception &e) {
-      QString msg = "Error reading ISIS data from GdalDataset. GDAL Error: [" + QString(e.what()) + "]";
-      IException(IException::Unknown, msg, _FILEINFO_);
+      init();
+      read(file);
     }
   }
 
@@ -136,15 +113,67 @@ namespace Isis {
     m_internalTemplate = false;
   }
 
+  // This function specifically reads from GDAL-style JSON metadata.  
+  PvlObject &Pvl::readObject(PvlObject &pvlobj, nlohmann::ordered_json jdata) {
+    for(auto &[key, value] : jdata.items()) {
+      string name = key; 
+      if(value.contains("_type")) { 
+        string type = value.at("_type"); 
+        value.erase("_type"); 
+        if (value.contains("_container_name")) { 
+          name = value["_container_name"];
+          value.erase("_container_name");
+        }
 
-  json Pvl::toJson() { 
+        if(type == "object") { 
+          PvlObject nestedObj(QString::fromStdString(name));
+          pvlobj.addObject(readObject(nestedObj, value)); 
+        }
+        if(type == "group") { 
+          // parse keys 
+          PvlGroup group(QString::fromStdString(name)); 
+          for(auto &[pvlkeyword, pvlvalue] : value.items())  { 
+            PvlKeyword keyword;
+            keyword.setName(QString::fromStdString(pvlkeyword));
+            if (pvlvalue.is_array())
+                keyword.addJsonArrayValue(pvlvalue);
+            else 
+              keyword.setJsonValue(pvlvalue);
+            group.addKeyword(keyword);
+          }
+          pvlobj.addGroup(group);
+        } // end of group
+      } // end of _type search
+
+      // not a group or object, must be a keyword
+      else if (key != "_type" && key != "_filename" && key != "Data") { 
+        PvlKeyword keyword;
+        keyword.setName(QString::fromStdString(key));
+        if (value.is_array()) 
+          keyword.setJsonArrayValue(value);
+        else 
+          keyword.setJsonValue(value);
+
+        pvlobj.addKeyword(keyword);
+      }
+    }
+    return pvlobj;
+  }
+
+
+  ordered_json Pvl::toJson() { 
     // needs to be a function because recursion 
-    function<json(PvlObject&)> pvlobject_to_json = [&](PvlObject &pvlobj) -> json { 
-      json jsonobj;
-      string okey = (pvlobj.name()+"_"+(QString)pvlobj.findKeyword("Name")).toStdString();
+    function<ordered_json(PvlObject&)> pvlobject_to_json = [&](PvlObject &pvlobj) -> ordered_json { 
+      ordered_json jsonobj;
+      string okey = (pvlobj.name()).toStdString();
+      if (pvlobj.hasKeyword("Name")) {
+        okey = (pvlobj.name()+"_"+(QString)pvlobj.findKeyword("Name")).toStdString();
+      }
       jsonobj[okey] = {};
+      if (pvlobj.hasKeyword("Name")) {
+        jsonobj[okey]["_container_name"] = pvlobj.name().toStdString();
+      }
       jsonobj[okey]["_type"] = "object"; 
-      jsonobj[okey]["_container_name"] = pvlobj.name().toStdString();
       
       for (int i=0; i < pvlobj.objects(); i++) { 
         jsonobj[okey].merge_patch(pvlobject_to_json(pvlobj.object(i)));
@@ -152,14 +181,19 @@ namespace Isis {
       
       for (int i=0; i<pvlobj.groups(); i++) { 
         PvlGroup g = pvlobj.group(i);
-        string gkey = (g.name()+"_"+(QString)g.findKeyword("Name")).toStdString();
+        string gkey = (g.name()).toStdString();
+        if (g.hasKeyword("Name")) {
+          gkey = (g.name()+"_"+(QString)g.findKeyword("Name")).toStdString();
+        }
         jsonobj[okey][gkey] = {};
+        if (g.hasKeyword("Name")) {
+          jsonobj[okey][gkey]["_container_name"] = g.name().toStdString();
+        }
         jsonobj[okey][gkey]["_type"] = "group"; 
-        jsonobj[okey][gkey]["_container_name"] = g.name().toStdString();
 
         // go through keywords
         for(int j =0; j<g.keywords();j++) { 
-          PvlKeyword k=g[j]; 
+          PvlKeyword k=g[j];
           jsonobj[okey][gkey][k.name().toStdString()] = k.toJson();         
         }        
       }
