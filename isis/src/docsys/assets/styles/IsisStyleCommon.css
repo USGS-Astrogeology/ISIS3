@@ -92,7 +92,7 @@
     /* Logo/Brand */
 
     #isis-banner {
-      background: url(../img/PIA26068.jpg) no-repeat;
+      background: url(https://asc-docs.s3.us-west-2.amazonaws.com/common/img/PIA26068.jpg) no-repeat;
       background-position: 50% 75%;
       color: white;
       padding: 3rem;
