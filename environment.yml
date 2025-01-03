@@ -1,7 +1,6 @@
 channels:
   - conda-forge
-  - defaults
-
+  
 dependencies:
   - ale =0.10.0,<1
   - aom
