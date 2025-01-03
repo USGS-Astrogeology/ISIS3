@@ -68,7 +68,7 @@ namespace Isis {
       virtual int SpkReferenceId() const;
 
     private:
-      void ReadLineRates(QString filename);
+      void ReadLineRates(Cube &cube);
 
       std::vector<LineRateChange> p_lineRates; /**< Vector of the variable line rates for this
                                                     camera model.*/

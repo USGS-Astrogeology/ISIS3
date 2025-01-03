@@ -42,11 +42,11 @@ namespace Isis {
     SetPixelPitch(0.007);
     instrumentRotation()->SetFrame(-41210);
 
+    ReadLineRates(cube);
+
     // Get required keywords from instrument group
     Pvl &lab = *cube.label();
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-
-    ReadLineRates(lab.fileName());
 
     // Setup detector map for transform of image pixels to detector position
     new VariableLineScanCameraDetectorMap(this, p_lineRates);
@@ -119,14 +119,22 @@ namespace Isis {
 
 
   /**
-   * @param filename
+   * @param cube
    */
-  void HrscCamera::ReadLineRates(QString filename) {
-    Table timesTable("LineScanTimes", filename);
+  void HrscCamera::ReadLineRates(Cube &cube) {
+    Table timesTable("LineScanTimes");
+
+    // check if LineScanTimes was added from isd
+    if (cube.hasTable("LineScanTimes")) {
+      timesTable = cube.readTable("LineScanTimes");
+    }
+    else {
+      timesTable = Table("LineScanTimes", cube.fileName());
+    }
 
     if(timesTable.Records() <= 0) {
       QString msg = "Table [LineScanTimes] in [";
-      msg += filename + "] must not be empty";
+      msg += cube.fileName() + "] must not be empty";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
@@ -138,7 +146,7 @@ namespace Isis {
 
     if(p_lineRates.size() <= 0) {
       QString msg = "There is a problem with the data within the Table ";
-      msg += "[LineScanTimes] in [" + filename + "]";
+      msg += "[LineScanTimes] in [" + cube.fileName() + "]";
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
   }
