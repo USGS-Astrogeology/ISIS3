@@ -1880,7 +1880,7 @@
           </description>
           <type>boolean</type>
           <default>
-            <item>yes</item>
+            <item>no</item>
           </default>
         </parameter>
 

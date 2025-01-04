@@ -240,7 +240,7 @@ namespace Isis {
         for (int i = 0; i < bundleAdjustment->numberOfImages(); i++) {
           Process p;
           CubeAttributeInput inAtt;
-          Cube *c = p.SetInputCube(bundleAdjustment->fileName(i), inAtt, ReadWrite);
+          Cube *c = p.SetInputCube(bundleAdjustment->fileName(i), inAtt, 0); // 0 for read only
 
           // Only for ISIS adjustment values
           if (!c->hasBlob("CSMState", "String")) {
