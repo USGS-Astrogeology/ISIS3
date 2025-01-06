@@ -254,10 +254,13 @@ namespace Isis {
     try {
       std::string key = QString(p_type + "_" + p_blobName).toStdString();
       const char *jsonblobStr = dataset->GetMetadataItem(key.c_str(), "USGS");
+      if (jsonblobStr == nullptr) {
+        QString msg = "The key [" + QString::fromStdString(key) + "] does not exist on the geodata set.";
+        throw IException( IException::Io, msg, _FILEINFO_);
+      }
       ordered_json jsonblob = ordered_json::parse(jsonblobStr);
       std::string blobData = jsonblob[key]["Data"];
       jsonblob[key].erase("Data");
-      std::cout << jsonblob << std::endl;
 
       Pvl pvl;
       Pvl::readObject(pvl, jsonblob);
@@ -267,8 +270,6 @@ namespace Isis {
 
       Find(pvl);
       ReadData(blobData);
-
-      std::cout << p_blobPvl << std::endl;
     }
     catch(exception &e) { 
       cout << "Failed to read blob [" + p_blobName + "]: " << e.what() << endl;
@@ -540,7 +541,6 @@ namespace Isis {
                     
     // Handle 64-bit I/O
     WriteInit();
-    cout << "writing table: " << p_blobName << endl;
     // Find out where they wanted to write the blob
     streampos sbyte = stm.tellp();
     sbyte += 1;
@@ -558,8 +558,6 @@ namespace Isis {
     p_blobPvl["StartByte"] = toString((BigInt)sbyte);
     p_blobPvl["Bytes"] = toString(p_nbytes);
 
-    cout << "trying to write data to: " << pvl.fileName() << endl;    
-    cout << p_blobPvl << endl;
     // See if the blob is already in the file
     bool found = false;
     if (overwrite) {
@@ -652,8 +650,11 @@ namespace Isis {
    */
   void Blob::WriteData(std::stringstream &stream) {
     stream << std::hex;
-    for (int i = 0; i < p_nbytes; ++i)
-        stream << std::setw(2) << std::setfill('0') << static_cast<int>(p_buffer[i]);
+    int copy;
+    for (int i = 0; i < p_nbytes; ++i) {
+      memcpy(&copy, &p_buffer[i], 1);
+      stream << std::setw(2) << std::setfill('0') << copy;
+    }
 
     if (!stream.good()) {
       QString msg = "Error writing data to " + p_type + " [" + p_blobName + "]";
@@ -676,9 +677,9 @@ namespace Isis {
 
     // Loop through the hex string and bytes, hex is two characters at a time 
     for (size_t i=0,j=0; i < p_nbytes; i++,j+=2) { 
-        string byteString = hexdata.substr(j, 2); 
+        string byteString = hexdata.substr(j, 2);
   
-        uint8_t byteValue = static_cast<uint8_t>( 
+        int byteValue = static_cast<int>( 
             stoi(byteString, nullptr, 16));
   
         // Add the byte to the byte array 
