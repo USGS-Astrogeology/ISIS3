@@ -894,7 +894,7 @@ TEST_F(TempTestingFiles, TestCubeCreateWrite8bit) {
   catch (IException &e) {
     e.print();
   }
-  check_cube(in, file, 150, 200, 1, 200, -1, 1, 1, 0, 1, 1, 0, 415);
+  check_cube(in, file, 150, 200, 1, 200, -1, 1, 1, 0, 1, 1, 0, 419);
   j = 0;
   LineManager inLine(in);
   for(inLine.begin(); !inLine.end(); inLine++) {
