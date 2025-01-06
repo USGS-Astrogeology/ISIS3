@@ -23,6 +23,7 @@ namespace Isis {
     const GDALAccess eAccess = GA_Update;
     m_geodataSetPath = dataFilePath.toUtf8().constData();
     m_geodataSet = GDALDataset::FromHandle(GDALOpen(m_geodataSetPath.c_str(), eAccess));
+    m_datasetOwner = true;
     m_pixelType = pixelType;
     init();
   }
@@ -55,7 +56,7 @@ namespace Isis {
       delete m_maskBuff;
     }
     if (m_geodataSet && m_datasetOwner) {
-      GDALClose(m_geodataSet);
+      m_geodataSet->Close();
     }
   }
 
