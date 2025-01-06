@@ -27,7 +27,8 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
   FileName file = ui.GetCubeName("FROM");
   QString tableName = ui.GetString("NAME");
-  Table table(tableName, file.expanded());
+  Cube fromCube(file);
+  Table table = fromCube.readTable(tableName);
 
   // Set the character to separate the entries
   QString delimit;
