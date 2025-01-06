@@ -952,7 +952,7 @@ namespace Isis {
       blob.Read(cubeFile.toString(), *label(), keywords);
     }
     else {
-      QString msg = "Can't write blob to unknown format";
+      QString msg = "Can't read blob from unknown format";
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
   }
@@ -1150,7 +1150,7 @@ namespace Isis {
       blob.Write(*m_label, stream, "", overwrite);
     }
 
-    // Write a detached blob
+    // Write a detached/external blob
     else {
       FileName blobFileName = fileName();
       blobFileName = blobFileName.removeExtension();
