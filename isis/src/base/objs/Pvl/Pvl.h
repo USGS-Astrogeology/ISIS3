@@ -129,7 +129,7 @@ namespace Isis {
       friend std::ostream &operator<<(std::ostream &os, Isis::Pvl &pvl);
       void fromString(const std::string &str);
 
-      static PvlObject &readObject(PvlObject &pvlobj, nlohmann::ordered_json jdata);
+      static Isis::PvlObject &readObject(Isis::PvlObject &pvlobj, nlohmann::ordered_json jdata);
       nlohmann::ordered_json toJson();
 
       ~Pvl() {

@@ -43,7 +43,7 @@ namespace Isis {
   Pvl::Pvl(const QString &file) : Isis::PvlObject("Root") {
     try{
       init();
-      // CPLSetErrorHandler(CPLQuietErrorHandler);
+      CPLSetErrorHandler(CPLQuietErrorHandler);
       GDALAllRegister();
       const GDALAccess eAccess = GA_ReadOnly;
       GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen( file.toStdString().c_str(), eAccess ));
@@ -53,9 +53,15 @@ namespace Isis {
       }
 
       CPLStringList metadata = CPLStringList(dataset->GetMetadata("USGS"));
-      if(!metadata) { 
+      if(!metadata) {
+        CPLErr err = dataset->Close();
+        if (err > 3) {
+          QString msg = "GDAL failure on closing dataset.";
+          throw IException(IException::Io, msg, _FILEINFO_);
+        }
         throw IException(IException::Io, "Could not find 'USGS' in GDAL metadata.", _FILEINFO_);
       }
+      
       for (int i = 0; i < metadata.size(); i++) {
         const char *metadataItem = CPLParseNameValue(metadata[i], nullptr);
         ordered_json metadataAsJson = ordered_json::parse(metadataItem);
@@ -85,13 +91,12 @@ namespace Isis {
       // }
 
       // readObject(*this, jsonlabel);
-      std::cout << *this << std::endl;
       Isis::FileName temp(file);
       m_filename = temp.expanded();
       CPLErr err = dataset->Close();
       if (err > 3) {
         QString msg = "GDAL failure on closing dataset.";
-        IException(IException::Io, msg, _FILEINFO_);
+        throw IException(IException::Io, msg, _FILEINFO_);
       }
     } catch (exception &e) {
       init();
@@ -114,7 +119,7 @@ namespace Isis {
   }
 
   // This function specifically reads from GDAL-style JSON metadata.  
-  PvlObject &Pvl::readObject(PvlObject &pvlobj, nlohmann::ordered_json jdata) {
+  Isis::PvlObject &Pvl::readObject(Isis::PvlObject &pvlobj, nlohmann::ordered_json jdata) {
     for(auto &[key, value] : jdata.items()) {
       string name = key; 
       if(value.contains("_type")) { 
