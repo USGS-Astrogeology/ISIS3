@@ -921,9 +921,6 @@
         <default>
           <item>No</item>
         </default>
-        <exclusions>
-          <item>ADJUSTMENT_INPUT</item>
-        </exclusions>
       </parameter>
 
       <parameter name="OUTLIER_REJECTION">
@@ -1898,6 +1895,11 @@
           <filter>
             *.h5
           </filter>
+          <inclusions>
+            <item>
+              UPDATE
+            </item>
+          </inclusions>
           <exclusions>
             <item>ONET</item>
             <item>CNET</item>
@@ -1907,7 +1909,6 @@
             <item>SCCONFIG</item>
             <item>OBSERVATIONS</item>
             <item>RADIUS</item>
-            <item>UPDATE</item>
             <item>OUTLIER_REJECTION</item>
             <item>REJECTION_MULTIPLIER</item>
             <item>ERRORPROPAGATION</item>
