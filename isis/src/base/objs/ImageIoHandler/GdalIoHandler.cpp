@@ -93,48 +93,51 @@ namespace Isis {
       sampleSize = m_samples - sampleStart;
       outOfBounds = true;
     }
-    if (outOfBounds) {
-      Brick boundedBrick(sampleSize, lineSize, bufferToFill.BandDimension(), GdalPixelToIsis(m_pixelType));
-      boundedBrick.SetBasePosition(sampleStart + 1, lineStart + 1, bufferToFill.Band());
-      CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
-                                    sampleSize, lineSize,
-                                    boundedBrick.RawBuffer(),
-                                    sampleSize, lineSize,
-                                    m_pixelType,
-                                    0, 0);
 
-      if (err >= CE_Failure) {
-        QString msg = "Failure when trying to read Tiff";
-        throw IException(IException::Unknown, msg, _FILEINFO_);
-      }
+    bufferToFill = NULL8;
+    if (sampleSize > 0 && lineSize > 0) {
+      if (outOfBounds) {
+        Brick boundedBrick(sampleSize, lineSize, bufferToFill.BandDimension(), GdalPixelToIsis(m_pixelType));
+        boundedBrick.SetBasePosition(sampleStart + 1, lineStart + 1, bufferToFill.Band());
+        CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
+                                      sampleSize, lineSize,
+                                      boundedBrick.RawBuffer(),
+                                      sampleSize, lineSize,
+                                      m_pixelType,
+                                      0, 0);
 
-      // Handle pixel type conversion
-      char *buffersRawBuf = (char *)boundedBrick.RawBuffer();
-      double *buffersDoubleBuf = boundedBrick.DoubleBuffer();
-      for (int bufferIdx = 0; bufferIdx < boundedBrick.size(); bufferIdx++) {
-        readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
-      }
-      bufferToFill = NULL8;
-      bufferToFill.CopyOverlapFrom(boundedBrick);
-    }
-    else {
-      // silence warnings
-      CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
-                                    sampleSize, lineSize,
-                                    bufferToFill.RawBuffer(),
-                                    sampleSize, lineSize,
-                                    m_pixelType,
-                                    0, 0);
-      if (err >= CE_Failure) {
-        QString msg = "Failure when trying to read Tiff";
-        throw IException(IException::Unknown, msg, _FILEINFO_);
-      }
+        if (err >= CE_Failure) {
+          QString msg = "Failure when trying to read Tiff";
+          throw IException(IException::Unknown, msg, _FILEINFO_);
+        }
 
-      // Handle pixel type conversion
-      char *buffersRawBuf = (char *)bufferToFill.RawBuffer();
-      double *buffersDoubleBuf = bufferToFill.DoubleBuffer();
-      for (int bufferIdx = 0; bufferIdx < bufferToFill.size(); bufferIdx++) {
-        readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+        // Handle pixel type conversion
+        char *buffersRawBuf = (char *)boundedBrick.RawBuffer();
+        double *buffersDoubleBuf = boundedBrick.DoubleBuffer();
+        for (int bufferIdx = 0; bufferIdx < boundedBrick.size(); bufferIdx++) {
+          readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+        }
+        bufferToFill.CopyOverlapFrom(boundedBrick);
+      }
+      else {
+        // silence warnings
+        CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
+                                      sampleSize, lineSize,
+                                      bufferToFill.RawBuffer(),
+                                      sampleSize, lineSize,
+                                      m_pixelType,
+                                      0, 0);
+        if (err >= CE_Failure) {
+          QString msg = "Failure when trying to read Tiff";
+          throw IException(IException::Unknown, msg, _FILEINFO_);
+        }
+
+        // Handle pixel type conversion
+        char *buffersRawBuf = (char *)bufferToFill.RawBuffer();
+        double *buffersDoubleBuf = bufferToFill.DoubleBuffer();
+        for (int bufferIdx = 0; bufferIdx < bufferToFill.size(); bufferIdx++) {
+          readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+        }
       }
     }
   }
@@ -179,13 +182,13 @@ namespace Isis {
       throw IException(IException::Unknown, msg, _FILEINFO_);
     }
 
-    // poBand = m_geodataSet->GetRasterBand(band)->GetMaskBand();
-    // err = poBand->RasterIO(GF_Write, sampleStart, lineStart,
-    //                        sampleSize, lineSize,
-    //                        m_maskBuff,
-    //                        sampleSize, lineSize,
-    //                        GDT_Byte,
-    //                        0, 0);
+    poBand = m_geodataSet->GetRasterBand(band)->GetMaskBand();
+    gdalerr = poBand->RasterIO(GF_Write, sampleStart, lineStart,
+                               sampleSize, lineSize,
+                               m_maskBuff,
+                               sampleSize, lineSize,
+                               GDT_Byte,
+                               0, 0);
     
     if (gdalerr >= CE_Failure) {
       QString msg = "Failure when trying to write msk file";

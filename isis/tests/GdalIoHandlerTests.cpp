@@ -632,4 +632,41 @@ TEST_F(ReadWriteTiff, GdalIoTestsReadOutside) {
   for (short i = 0; i < 7 * 7; i++) {
     EXPECT_EQ(brickDoubleBuff[i], resultVec[i]);
   }
+
+  // Test reading completely outside of an image
+  delete localBrick;
+  localBrick = NULL;
+  localBrick = new Brick(2, 2, 1, isisPixelType);
+  
+  // Read non-NULL8 data
+  localBrick->SetBasePosition(2, 2, 1);
+  gdalHandler.read(*localBrick);
+
+  // Read over to ensure brick is updated back to NULL8s
+  localBrick->SetBasePosition(8, 8, 1);
+  gdalHandler.read(*localBrick);
+  brickDoubleBuff = localBrick->DoubleBuffer();
+  resultVec = {NULL8, NULL8,
+               NULL8, NULL8};
+  for (short i = 0; i < 2 * 2; i++) {
+    EXPECT_EQ(brickDoubleBuff[i], resultVec[i]);
+  }
+  
+  delete localBrick;
+  localBrick = NULL;
+  localBrick = new Brick(2, 2, 1, isisPixelType);
+
+  // Read non-NULL8 data
+  localBrick->SetBasePosition(2, 2, 1);
+  gdalHandler.read(*localBrick);
+
+  // Read over to ensure brick is updated back to NULL8s
+  localBrick->SetBasePosition(-4, -4, 1);
+  gdalHandler.read(*localBrick);
+  brickDoubleBuff = localBrick->DoubleBuffer();
+  resultVec = {NULL8, NULL8,
+               NULL8, NULL8};
+  for (short i = 0; i < 2 * 2; i++) {
+    EXPECT_EQ(brickDoubleBuff[i], resultVec[i]);
+  }
 }
