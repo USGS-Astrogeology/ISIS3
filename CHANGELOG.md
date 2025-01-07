@@ -53,6 +53,7 @@ release.
 - Added majority replacement for reduce app [#5101](https://github.com/DOI-USGS/ISIS3/issues/5101).
 - Added HRSC support in socetlinescankeywords [#5465](https://github.com/DOI-USGS/ISIS3/issues/5465)
 - Added option to save and apply bundle adjustment values in `jigsaw` [#4474](https://github.com/DOI-USGS/ISIS3/issues/4474)
+- Added the ability to pass column types in csv2table to set the column types in the resulting ISIS table [#5631](https://github.com/DOI-USGS/ISIS3/pull/5631)
 
 ### Changed
 - Refactored the pixel2map app
