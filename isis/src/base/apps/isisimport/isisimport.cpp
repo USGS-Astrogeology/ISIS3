@@ -202,7 +202,7 @@ namespace Isis {
         words.push_back(text.substr(0, pos));
         words.push_back(text.substr(pos + 1));
         text.erase(0, pos + delimiter.length());
-    }
+      }
       return words;
     });
 
@@ -587,7 +587,7 @@ namespace Isis {
     importer.EndProcess();
 
     if (translation.hasObject("PostProcess")) {
-      // Expand for potentially more than one prefix process
+      // Expand for potentially more than one postfix process
       // See AncillaryProcess section above
       runProcess(ui.GetCubeName("TO"), translation.findObject("PostProcess"));
     }

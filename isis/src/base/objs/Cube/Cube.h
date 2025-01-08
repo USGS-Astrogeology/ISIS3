@@ -325,7 +325,7 @@ namespace Isis {
       void putGroup(const PvlGroup &group);
       void latLonRange(double &minLatitude, double &maxLatitude, double &minLongitude,
                        double &maxLongitude);
-
+      FileName realDataFileName() const;
 
     private:
       void applyVirtualBandsToLabel();
@@ -333,7 +333,6 @@ namespace Isis {
 
       void construct();
       QFile *dataFile() const;
-      FileName realDataFileName() const;
 
       void initialize();
       void initCoreFromLabel(const Pvl &label);

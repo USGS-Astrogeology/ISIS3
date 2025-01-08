@@ -92,15 +92,49 @@
     /* Logo/Brand */
 
     #isis-banner {
-      background: 
-        linear-gradient(
-            rgba(0, 0, 0, 0.2), 
-            rgba(0, 0, 0, 0.3)
-          ),
-        url(../img/moon-cr.jpg);
+      background: url(https://asc-docs.s3.us-west-2.amazonaws.com/common/img/PIA26068.jpg) no-repeat;
+      background-position: 50% 75%;
       color: white;
-      padding: 4rem;
+      padding: 3rem;
       background-size: cover;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .title-overlay {
+      transform: translateX(-5%);
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      margin: 5px;
+    }
+
+    .title-overlay h3 {
+      margin: 0;
+    }
+
+    .image-credit-fixed {
+      width: 100%;
+      padding: 5px 45px;
+      background-color: #333;
+      color: #D1D3D4;
+      text-align: right;
+      font-size: .75rem;
+      line-height: 1.25rem;
+    }
+
+    .image-credit-fixed p {
+      margin: 5px 0;
+    }
+
+    .image-credit-fixed a {
+      color: #D1D3D4;
+      text-decoration: none;
     }
 
     .isis-logo {
