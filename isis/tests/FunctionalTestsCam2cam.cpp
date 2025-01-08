@@ -50,18 +50,10 @@ TEST_F(DefaultCube, FunctionalTestCam2CamNoChange) {
   ASSERT_EQ(icubeInstrumentGroup.findKeyword("OffsetModeId"), ocubeInstrumentGroup.findKeyword("OffsetModeId"));
 }
 
-// This test evaluates the behavior of example 1 in the cam2cam app. The pixel
-// locations are arbitrary but in the regions described in the example
-// explanation. Unfortunately, the OREX OCAMS ALE implementation is broken
-// in that the lat/lons are way off. However, the mapping behavior seems 
-// consistent as described...maybe. ALE is preferred since it does not require
-// repo storage of a complete or subsampled binary ISIS image.
-
-																							//TEST_F( OrexManyIsdCameraCubes, FunctionalTestCam2CamOffbody ) {
-																							// typedef std::unique_ptr<Cube>   LocalCubePtr;
 /**
-   * Test the behavior of OFFBODY and OFFBODYTRIM.
-  */
+   * This test evaluates the behavior of OFFBODY and OFFBODYTRIM, similar to
+   * the examples provided in the cam2cam app documentation.
+\  */
 TEST_F(DefaultCube, FunctionalTestCam2CamOffbody) {
 
   const double tolerance_d = 0.05;
@@ -72,12 +64,12 @@ TEST_F(DefaultCube, FunctionalTestCam2CamOffbody) {
   const bool OffBodyTrimTrue  = true;
   const bool OffBodyTrimFalse = false;
 
-// Use an actual cube that has been spiceinited with a high-resolution digital
-// shape kernel (DSK).
-// Cam2cam takes a FROM and a MATCH cube, which are ostensibly different.
-// At first, we will use the same cube for both the FROM and the MATCH.
-// Later, we will ignore the high resolution topography in one of the input cubes' camera
-// models to compare the vector tracing using the low resolution ellipsoid model.
+  // Use an actual cube that has been spiceinited with a high-resolution digital
+  // shape kernel (DSK).
+  // Cam2cam takes a FROM and a MATCH cube, which are ostensibly different.
+  // At first, we will use the same cube for both the FROM and the MATCH.
+  // Later, we will ignore the high resolution topography in one of the input cubes' camera
+  // models to compare the vector tracing using the low resolution ellipsoid model.
   QString fCubeName = "$ISISROOT/../isis/tests/data/osirisRexImages/20190509T180552S020_DSK_reduced.cub";
   QString mCubeName = fCubeName;
   
@@ -87,11 +79,11 @@ TEST_F(DefaultCube, FunctionalTestCam2CamOffbody) {
   cube_ell.open(fCubeName);
   cube_dsk.open(mCubeName);
 
-// Create the camera model instances from the input cube.
+  // Create the camera model instances from the input cube.
   Camera *from_ell = cube_ell.camera();
   Camera *from_dsk = cube_dsk.camera();
 
-// Vector variables.
+  // Vector variables.
   double v_match_sample;
   double v_match_line;
   double v_from_sample;
@@ -100,11 +92,11 @@ TEST_F(DefaultCube, FunctionalTestCam2CamOffbody) {
   double v_latitude;
   double v_longitude;
   
-// See how well pixel locations map to lat/lon, and back to sample/line, where
-// both cubes use the DSK (by default).
-v_match_sample = 256.0;
-v_match_line   = 256.0;
-
+  // See how well pixel locations map to lat/lon, and back to sample/line, where
+  // both cubes use the DSK (by default).
+  v_match_sample = 256.0;
+  v_match_line   = 256.0;
+  
   // Get the latitude and longitude at the specified pixel.
   EXPECT_TRUE( from_dsk->SetImage( v_match_sample, v_match_line ) );
   v_latitude  = from_dsk->UniversalLatitude( );
@@ -129,7 +121,7 @@ v_match_line   = 256.0;
   EXPECT_NEAR( from_dsk->Declination( ),   -1.9176166684378, tolerance_d );
 
 
-// Now tell the camera model to just use the ellipsoid in the referenced cube.
+  // Now tell the camera model to just use the ellipsoid in the referenced cube.
   from_ell->IgnoreElevationModel( true );
 
   // Check that the vector intersects the surface in the ellipsoid cube 
@@ -146,7 +138,7 @@ v_match_line   = 256.0;
   EXPECT_TRUE( from_dsk->UniversalLongitude() != from_ell->UniversalLongitude() );
 
 
-// Check a pixel just off the limb.
+  // Check a pixel just off the limb.
   v_match_sample = 150.0;
   v_match_line   = 485.0;
 
@@ -183,8 +175,8 @@ v_match_line   = 256.0;
   EXPECT_TRUE(  map_from_off_trim.mapit(   v_from_sample, v_from_line, v_match_sample, v_match_line) ); 
 
 
-// Check a pixel just off the limb that is off body in the DSK cube, 
-// but on the target body in the ellipsoid cube.
+  // Check a pixel just off the limb that is off body in the DSK cube, 
+  // but on the target body in the ellipsoid cube.
   v_match_sample = 150.0;
   v_match_line   = 485.0;
    
@@ -211,7 +203,7 @@ v_match_line   = 256.0;
   EXPECT_FALSE( map_from_off_trim.mapit(   v_from_sample, v_from_line, v_match_sample, v_match_line) ); 
 
  
-// Check a pixel that is on the target, but in an occluded area in the DSK.
+  // Check a pixel that is on the target, but in an occluded area in the DSK.
   v_match_sample = 220.0;
   v_match_line   =  40.0;
 
@@ -228,7 +220,7 @@ v_match_line   = 256.0;
   EXPECT_FALSE( map_from_off_trim.mapit(   v_from_sample, v_from_line, v_match_sample, v_match_line) ); 
 
 
-// Check the pixel just off the limb.
+  // Check the pixel just off the limb.
   v_match_sample = 150.0;
   v_match_line   = 475.0;  
    
@@ -261,7 +253,7 @@ v_match_line   = 256.0;
   EXPECT_FALSE( map_from_off_trim.mapit(   v_from_sample, v_from_line, v_match_sample, v_match_line) );
 
 
-// Check a pixel in the center of the image, on body and not occluded.
+  // Check a pixel in the center of the image, on body and not occluded.
   v_match_sample = 256.0;
   v_match_line   = 256.0;
  
