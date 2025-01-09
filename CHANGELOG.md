@@ -36,6 +36,7 @@ release.
 ## [Unreleased]
 
 ### Added
+- Added OFFBODY and OFFBODYTRIM parameters to cam2cam. Added tests and updated documentation. [#3602] (https://github.com/DOI-USGS/ISIS3/issues/3602)
 
 ### Changed
 
