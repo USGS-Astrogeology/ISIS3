@@ -49,6 +49,12 @@ namespace Isis {
     GDALRasterBand *band = m_geodataSet->GetRasterBand(1);
     m_offset = band->GetOffset();
     m_scale = band->GetScale();
+    int *pbSuccess = new int;
+    m_gdalNoDataValue = band->GetNoDataValue(pbSuccess);
+    if (!pbSuccess) {
+      m_gdalNoDataValue = NULL8;
+    }
+    delete pbSuccess;
   }
 
   GdalIoHandler::~GdalIoHandler() {
@@ -215,14 +221,21 @@ namespace Isis {
 
   void GdalIoHandler::readPixelType(double *doubleBuff, void *rawBuff, int idx) const {
     double &bufferVal = doubleBuff[idx];
+    
     if (m_pixelType == GDT_Float64) {
       bufferVal = ((double *)rawBuff)[idx];
+      if (bufferVal == m_gdalNoDataValue) {
+        bufferVal = NULL8;
+      }
     }
     
     else if(m_pixelType == GDT_Float32) {
       float raw = ((float *)rawBuff)[idx];
       // if(m_byteSwapper)
       //   raw = m_byteSwapper->Float(&raw);
+      if (raw == (float) m_gdalNoDataValue) {
+        raw = NULL4;
+      }
 
       if(raw >= VALID_MIN4) {
         bufferVal = (double) raw;
@@ -249,6 +262,9 @@ namespace Isis {
       int raw = ((int *)rawBuff)[idx];
       // if(m_byteSwapper)
       //   raw = m_byteSwapper->Uint32_t(&raw);
+      if (raw == (int) m_gdalNoDataValue) {
+        raw = NULLI4;
+      }
 
       if(raw >= VALID_MINI4) {
         bufferVal = (double) raw * m_scale + m_offset;
@@ -274,6 +290,9 @@ namespace Isis {
       unsigned int raw = ((unsigned int *)rawBuff)[idx];
       // if(m_byteSwapper)
       //   raw = m_byteSwapper->Uint32_t(&raw);
+      if (raw == (int) m_gdalNoDataValue) {
+        raw = NULLUI4;
+      }
 
       if(raw >= VALID_MINUI4) {
         bufferVal = (double) raw * m_scale + m_offset;
@@ -303,6 +322,9 @@ namespace Isis {
       short raw = ((short *)rawBuff)[idx];
       // if(m_byteSwapper)
       //   raw = m_byteSwapper->ShortInt(&raw);
+      if (raw == (short) m_gdalNoDataValue) {
+        raw = NULL2;
+      }
 
       if(raw >= VALID_MIN2) {
         bufferVal = (double) raw * m_scale + m_offset;
@@ -329,6 +351,9 @@ namespace Isis {
       unsigned short raw = ((unsigned short *)rawBuff)[idx];
       // if(m_byteSwapper)
       //   raw = m_byteSwapper->UnsignedShortInt(&raw);
+      if (raw == (unsigned short) m_gdalNoDataValue) {
+        raw = NULLU2;
+      }
 
       if(raw >= VALID_MINU2) {
         bufferVal = (double) raw * m_scale + m_offset;
@@ -356,6 +381,9 @@ namespace Isis {
 
     else if(m_pixelType == GDT_Int8) {
       char raw = ((char *)rawBuff)[idx];
+      if (raw == (char) m_gdalNoDataValue) {
+        raw = NULLS1;
+      }
 
       if(raw == NULLS1) {
         bufferVal = NULL8;
@@ -372,6 +400,9 @@ namespace Isis {
     
     else if(m_pixelType == GDT_Byte) {
       unsigned char raw = ((unsigned char *)rawBuff)[idx];
+      if (raw == (char) m_gdalNoDataValue) {
+        raw = NULL1;
+      }
 
       if(raw == NULL1) {
         bufferVal = NULL8;

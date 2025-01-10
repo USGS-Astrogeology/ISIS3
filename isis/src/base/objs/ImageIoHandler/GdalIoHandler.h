@@ -10,6 +10,7 @@ find files of those names at the top level of this repository. **/
 
 #include "Constants.h"
 #include "ImageIoHandler.h"
+#include "SpecialPixel.h"
 
 #include "gdal_priv.h"
 
@@ -72,6 +73,7 @@ namespace Isis {
       double m_scale;
       unsigned char *m_maskBuff = nullptr;
       bool m_datasetOwner = false;
+      double m_gdalNoDataValue = NULL8;
   };
 }
 
