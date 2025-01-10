@@ -272,7 +272,8 @@ namespace Isis {
       ReadData(blobData);
     }
     catch(exception &e) { 
-      cout << "Failed to read blob [" + p_blobName + "]: " << e.what() << endl;
+      QString msg = "Failed to read blob [" + p_blobName + "]: " + e.what();
+      throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
 
