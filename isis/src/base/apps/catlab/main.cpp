@@ -17,7 +17,8 @@ void IsisMain() {
   QString file = ui.GetCubeName("FROM");
   
   // Extract label from file
-  Pvl label(file);
+  Cube cube(file);
+  Pvl label = *cube.label();
 
   // Output to file if entered
   if(ui.WasEntered("TO")) {
