@@ -274,7 +274,10 @@ namespace Isis {
       void create(const QString &cfile);
       void create(const QString &cfile, const CubeAttributeOutput &att);
       void createTiff(QString &dataFileName);
+      void checkAccess(QString access);
       void open(const QString &cfile, QString access = "r");
+      void openCube(const QString &cubeFileName, QString access);
+      void openGdal(const QString &cubeFileName, QString access);
       void reopen(QString access = "r");
 
       void read(Blob &blob,
@@ -361,7 +364,7 @@ namespace Isis {
 
       void initialize();
       void initCoreFromLabel(const Pvl &label);
-      void initCoreFromGdal(const QString &labelFile);
+      void initCoreFromGdal(GDALDataset &dataset);
       void initLabelState(const Pvl &label);
       void initLabelFromFile(FileName labelFileName, bool readWrite);
       void openCheck();

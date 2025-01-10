@@ -41,67 +41,8 @@ namespace Isis {
    * @param file The file containing the pvl formatted information
    */
   Pvl::Pvl(const QString &file) : Isis::PvlObject("Root") {
-    try{
-      init();
-      CPLSetErrorHandler(CPLQuietErrorHandler);
-      GDALAllRegister();
-      const GDALAccess eAccess = GA_ReadOnly;
-      GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen( file.toStdString().c_str(), eAccess ));
-      if (!dataset) {
-        QString msg = "Unable to read [" + file + "] as GDALDataset";
-        throw IException(IException::Io, msg, _FILEINFO_);
-      }
-
-      CPLStringList metadata = CPLStringList(dataset->GetMetadata("USGS"));
-      if(!metadata) {
-        CPLErr err = dataset->Close();
-        if (err > 3) {
-          QString msg = "GDAL failure on closing dataset.";
-          throw IException(IException::Io, msg, _FILEINFO_);
-        }
-        throw IException(IException::Io, "Could not find 'USGS' in GDAL metadata.", _FILEINFO_);
-      }
-      
-      for (int i = 0; i < metadata.size(); i++) {
-        const char *metadataItem = CPLParseNameValue(metadata[i], nullptr);
-        ordered_json metadataAsJson = ordered_json::parse(metadataItem);
-        // std::cout << metadataAsJson << std::endl;
-        Pvl pvl;
-        Pvl::readObject(pvl, metadataAsJson);
-        for (int i = 0; i < pvl.objects(); i++) {
-           this->addObject(pvl.object(i));
-        }
-        for (int i = 0; i < pvl.groups(); i++) {
-           this->addGroup(pvl.group(i));
-        }
-      }
-      // for(auto &[key, value] : jdata.items()) {
-        // PvlObject labelObject = readObject(value);
-        // std::cout << labelObject << std::endl;
-      // }
-      // const char *json_lab = CSLFetchNameValue(metadata, "CubeLabel");
-      // if(!json_lab) { 
-      //   throw IException(IException::Io, "Could not find 'IsisCube' in GDAL metadata.", _FILEINFO_);
-      // }
-      // json jsonlabel = json::parse(json_lab);
-
-      // if (jsonlabel.contains("_name")) { 
-      //   QString name = QString::fromStdString(jsonlabel["name"].get<string>());
-      //   this->setName(name);
-      // }
-
-      // readObject(*this, jsonlabel);
-      Isis::FileName temp(file);
-      m_filename = temp.expanded();
-      CPLErr err = dataset->Close();
-      if (err > 3) {
-        QString msg = "GDAL failure on closing dataset.";
-        throw IException(IException::Io, msg, _FILEINFO_);
-      }
-    } catch (exception &e) {
-      init();
-      read(file);
-    }
+    init();
+    read(file);
   }
 
   //! Copy constructor

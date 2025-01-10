@@ -220,8 +220,18 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    if ((m_labelFile->openMode() & QIODevice::ReadWrite) != QIODevice::ReadWrite)
-      readOnly = true;
+    if (m_labelFile) {
+      if ((m_labelFile->openMode() & QIODevice::ReadWrite) != QIODevice::ReadWrite)
+        readOnly = true;
+    }
+    else if (m_geodataSet) {
+      if (m_geodataSet->GetAccess() == GA_ReadOnly)
+        readOnly = true;
+    }
+    else {
+      QString msg = "No source files open";
+      throw IException(IException::Programmer, msg, _FILEINFO_);
+    }
 
     return readOnly;
   }
@@ -727,6 +737,15 @@ namespace Isis {
     create(cubeFileName);
   }
 
+  void Cube::checkAccess(QString access) {
+    if (!(access == "r" || access == "rw")) {
+      QString msg = "Unknown value for access [" + access + "]. Expected 'r' "
+                    " or 'rw'";
+      cleanUp(false);
+      throw IException(IException::Programmer, msg, _FILEINFO_);
+    }
+  }
+
 
   /**
    * This method will open an existing isis cube for reading or 
@@ -746,7 +765,37 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
-    initLabelFromFile(cubeFileName, (access == "rw"));
+    checkAccess(access);
+
+    QString msg = "Failed to open [" + cubeFileName + "]";
+    IException exceptions(IException::Io, msg, _FILEINFO_);
+    if (!isOpen()) {
+      try {
+        openCube(cubeFileName, access);
+      }
+      catch (IException &e) {
+        cleanUp(false);
+        exceptions.append(e);
+      }
+    }
+
+    if (!isOpen()) {
+      try {
+        openGdal(cubeFileName, access);
+      }
+      catch(IException &e) {
+        cleanUp(false);
+        exceptions.append(e);
+      }
+    }
+
+    if (!isOpen()) {
+      throw exceptions;
+    }
+  }
+
+  void Cube::openCube(const QString &cubeFileName, QString access) {
+    checkAccess(access);
 
     try {
       Isis::CubeAttributeInput att(cubeFileName);
@@ -758,6 +807,8 @@ namespace Isis {
       // Either the cube is an output cube that has already been opened or 
       // there is an exception parsing and adding an attribute
     }
+
+    initLabelFromFile(cubeFileName, (access == "rw"));
 
     // Figure out the name of the data file
     try {
@@ -803,16 +854,7 @@ namespace Isis {
       throw e;
     }
 
-    if (!(access == "r" || access == "rw")) {
-      QString msg = "Unknown value for access [" + access + "]. Expected 'r' "
-                    " or 'rw'";
-      cleanUp(false);
-      throw IException(IException::Programmer, msg, _FILEINFO_);
-    }
-
-    GDALAccess eAccess;
     if (access == "r") {
-      eAccess = GA_ReadOnly;
       if (!m_labelFile->open(QIODevice::ReadOnly)) {
         QString msg = "Failed to open [" + m_labelFile->fileName() + "] with "
             "read only access";
@@ -831,7 +873,6 @@ namespace Isis {
     }
 
     else if (access == "rw") {
-      eAccess = GA_Update;
       if (!m_labelFile->open(QIODevice::ReadWrite)) {
         QString msg = "Failed to open [" + m_labelFile->fileName() + "] with "
             "read/write access";
@@ -873,14 +914,9 @@ namespace Isis {
       m_ioHandler = new CubeTileHandler(dataFile(), m_virtualBandList,
           realDataFileLabel(), true);
     }
-    else if (m_format == Format::GTiff) {
-      m_geodataSet = GDALDataset::FromHandle(GDALOpen(m_labelFileName->expanded().toStdString().c_str(), eAccess));
-      if (!m_geodataSet) {
-        QString msg = "Opening GDALDataset from [" + m_labelFileName->name() + "] failed";
-        throw IException(IException::Programmer, msg, _FILEINFO_);
-      }
-      
-      m_ioHandler = new GdalIoHandler(m_geodataSet, m_virtualBandList, IsisPixelToGdal(pixelType()));
+    else {
+      QString msg = "Unknown format [" + toString(m_format) + "]";
+      throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     if (dataLabel.first) {
@@ -889,6 +925,116 @@ namespace Isis {
     }
 
     applyVirtualBandsToLabel();
+  }
+
+  void Cube::openGdal(const QString &cubeFileName, QString access) {
+    checkAccess(access);
+
+    FileName labelFileName(cubeFileName);
+
+    // CPLSetErrorHandler(CPLQuietErrorHandler);
+    GDALAllRegister();
+
+    setLabelsAttached(LabelAttachment::AttachedLabel);
+    // m_dataFileName = new FileName(*m_labelFileName);
+
+    m_geodataSet = GDALDataset::FromHandle(GDALOpen(labelFileName.expanded().toStdString().c_str(), GA_ReadOnly));
+    if (!m_geodataSet) {
+      QString msg = "Opening GDALDataset from [" + labelFileName.name() + "]";
+      cleanUp(false);
+      throw IException(IException::Programmer, msg, _FILEINFO_);
+    }
+    initCoreFromGdal(*gdalDataset());
+    m_geodataSet->Close();
+
+    GDALAccess eAccess = GA_ReadOnly;
+    if (access == "rw") {
+      eAccess = GA_Update;
+    }
+    m_geodataSet = GDALDataset::FromHandle(GDALOpen(labelFileName.expanded().toStdString().c_str(), eAccess));
+    if (!m_geodataSet) {
+      QString msg = "Opening GDALDataset from [" + labelFileName.name() + "] failed with access [" + eAccess +"]";
+      cleanUp(false);
+      throw IException(IException::Programmer, msg, _FILEINFO_);
+    }
+
+    m_ioHandler = new GdalIoHandler(gdalDataset(), m_virtualBandList, IsisPixelToGdal(pixelType()));
+
+    CPLStringList metadata = CPLStringList(gdalDataset()->GetMetadata("USGS"));
+
+    m_label = new Pvl();
+    if (metadata) {
+      for (int i = 0; i < metadata.size(); i++) {
+        const char *metadataItem = CPLParseNameValue(metadata[i], nullptr);
+        nlohmann::ordered_json metadataAsJson = nlohmann::ordered_json::parse(metadataItem);
+        Pvl pvl;
+        Pvl::readObject(pvl, metadataAsJson);
+        for (int i = 0; i < pvl.objects(); i++) {
+          m_label->addObject(pvl.object(i));
+        }
+        for (int i = 0; i < pvl.groups(); i++) {
+          m_label->addGroup(pvl.group(i));
+        }
+      }
+    }
+    else {
+      // Setup the PVL
+      PvlObject isiscube("IsisCube");
+      PvlObject core("Core");
+
+      // Create the size of the core
+      PvlGroup dims("Dimensions");
+      dims += PvlKeyword("Samples", toString(m_samples));
+      dims += PvlKeyword("Lines", toString(m_lines));
+      dims += PvlKeyword("Bands", toString(m_bands));
+
+      // Create the pixel type
+      PvlGroup ptype("Pixels");
+      ptype += PvlKeyword("Type", PixelTypeName(m_pixelType));
+
+      // And the byte ordering
+      ptype += PvlKeyword("ByteOrder", ByteOrderName(m_byteOrder));
+      ptype += PvlKeyword("Base", toString(m_base));
+      ptype += PvlKeyword("Multiplier", toString(m_multiplier));
+      
+      core += PvlKeyword("StartByte", toString(m_labelBytes + 1));
+
+      core.addGroup(dims);
+      core.addGroup(ptype);
+
+      isiscube.addObject(core);
+
+      if (m_geodataSet->GetSpatialRef()) {
+        PvlGroup mappingGroup("Mapping");
+        mappingGroup.addKeyword(PvlKeyword("ProjectionName", "IProj"));
+
+        char ** projStr = new char*[1];
+        m_geodataSet->GetSpatialRef()->exportToProj4(projStr);
+        QString qProjStr = QString::fromStdString(std::string(projStr[0]));
+        delete[] projStr[0];
+        delete[] projStr;
+        
+        mappingGroup.addKeyword(PvlKeyword("ProjStr", qProjStr));
+        
+        // Read the GeoTransform and get the elements we care about
+        double *padfTransform = new double[6];
+        gdalDataset()->GetGeoTransform(padfTransform);
+        if (abs(padfTransform[1]) != abs(padfTransform[5])) {
+          delete[] padfTransform;
+          QString msg = "Vertical and horizontal resolution do not match";
+          throw IException(IException::Io, msg, _FILEINFO_);
+        }
+        mappingGroup.addKeyword(PvlKeyword("PixelResolution", toString(abs(padfTransform[1]))));
+        mappingGroup.addKeyword(PvlKeyword("UpperLeftCornerX", toString(padfTransform[0])));
+        mappingGroup.addKeyword(PvlKeyword("UpperLeftCornerY", toString(padfTransform[3])));
+        delete[] padfTransform;
+
+        isiscube.addGroup(mappingGroup);
+      }
+
+      m_label->addObject(isiscube);
+      m_ioHandler->updateLabels(*m_label);
+    }
   }
 
 
@@ -2490,7 +2636,7 @@ namespace Isis {
         initCoreFromLabel(Pvl(temp.toString()));
       }
       catch (IException &e) {
-        initCoreFromGdal(temp.toString());
+        initCoreFromGdal(*gdalDataset());
       }
       // Reset the label state as we recurse back out from initCoreFromLabel calls
       initLabelState(label);
@@ -2498,11 +2644,11 @@ namespace Isis {
   }
 
 
-  void Cube::initCoreFromGdal(const QString &labelFile) {
-    setDimensions(gdalDataset()->GetRasterXSize(), gdalDataset()->GetRasterYSize(), gdalDataset()->GetRasterCount());
+  void Cube::initCoreFromGdal(GDALDataset &dataset) {
+    setDimensions(dataset.GetRasterXSize(), dataset.GetRasterYSize(), dataset.GetRasterCount());
     
     // Get the format from the driver
-    GDALRasterBand *band = gdalDataset()->GetRasterBand(1);
+    GDALRasterBand *band = dataset.GetRasterBand(1);
     setFormat(Format::GTiff);
     setPixelType(GdalPixelToIsis(band->GetRasterDataType()));
     setBaseMultiplier(band->GetOffset(), band->GetScale());
@@ -2791,11 +2937,8 @@ namespace Isis {
     if (m_format ==  Format::GTiff) { 
       // update metadata
       std::string jsonblobstr = this->label()->toJson()["Root"].dump();
-      char *jsonblobCharPtr = jsonblobstr.data();
-      char **jsonblobCharPtrPtr = new char*[2];
-      jsonblobCharPtrPtr[0] = jsonblobCharPtr;
-      jsonblobCharPtrPtr[1] = nullptr;
-      gdalDataset()->SetMetadataItem("CubeLabel", jsonblobCharPtr, "USGS");
+      std::string name = "CubeLabel";
+      gdalDataset()->SetMetadataItem(name.c_str(), jsonblobstr.c_str(), "USGS");
       return;
     }
 
