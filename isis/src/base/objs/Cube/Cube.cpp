@@ -930,37 +930,23 @@ namespace Isis {
   void Cube::openGdal(const QString &cubeFileName, QString access) {
     checkAccess(access);
 
-    FileName labelFileName(cubeFileName);
+    m_labelFileName = new FileName(cubeFileName);
 
     // CPLSetErrorHandler(CPLQuietErrorHandler);
     GDALAllRegister();
 
     setLabelsAttached(LabelAttachment::AttachedLabel);
-    // m_dataFileName = new FileName(*m_labelFileName);
+    m_dataFileName = new FileName(*m_labelFileName);
 
-    m_geodataSet = GDALDataset::FromHandle(GDALOpen(labelFileName.expanded().toStdString().c_str(), GA_ReadOnly));
-    if (!m_geodataSet) {
-      QString msg = "Opening GDALDataset from [" + labelFileName.name() + "]";
+    GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen(m_labelFileName->expanded().toStdString().c_str(), GA_ReadOnly));
+    if (!dataset) {
+      QString msg = "Opening GDALDataset from [" + m_labelFileName->name() + "]";
       cleanUp(false);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
-    initCoreFromGdal(*gdalDataset());
-    m_geodataSet->Close();
+    initCoreFromGdal(*dataset);
 
-    GDALAccess eAccess = GA_ReadOnly;
-    if (access == "rw") {
-      eAccess = GA_Update;
-    }
-    m_geodataSet = GDALDataset::FromHandle(GDALOpen(labelFileName.expanded().toStdString().c_str(), eAccess));
-    if (!m_geodataSet) {
-      QString msg = "Opening GDALDataset from [" + labelFileName.name() + "] failed with access [" + eAccess +"]";
-      cleanUp(false);
-      throw IException(IException::Programmer, msg, _FILEINFO_);
-    }
-
-    m_ioHandler = new GdalIoHandler(gdalDataset(), m_virtualBandList, IsisPixelToGdal(pixelType()));
-
-    CPLStringList metadata = CPLStringList(gdalDataset()->GetMetadata("USGS"));
+    CPLStringList metadata = CPLStringList(dataset->GetMetadata("USGS"), false);
 
     m_label = new Pvl();
     if (metadata) {
@@ -1004,12 +990,12 @@ namespace Isis {
 
       isiscube.addObject(core);
 
-      if (m_geodataSet->GetSpatialRef()) {
+      if (dataset->GetSpatialRef()) {
         PvlGroup mappingGroup("Mapping");
         mappingGroup.addKeyword(PvlKeyword("ProjectionName", "IProj"));
 
         char ** projStr = new char*[1];
-        m_geodataSet->GetSpatialRef()->exportToProj4(projStr);
+        dataset->GetSpatialRef()->exportToProj4(projStr);
         QString qProjStr = QString::fromStdString(std::string(projStr[0]));
         delete[] projStr[0];
         delete[] projStr;
@@ -1018,7 +1004,7 @@ namespace Isis {
         
         // Read the GeoTransform and get the elements we care about
         double *padfTransform = new double[6];
-        gdalDataset()->GetGeoTransform(padfTransform);
+        dataset->GetGeoTransform(padfTransform);
         if (abs(padfTransform[1]) != abs(padfTransform[5])) {
           delete[] padfTransform;
           QString msg = "Vertical and horizontal resolution do not match";
@@ -1030,11 +1016,24 @@ namespace Isis {
         delete[] padfTransform;
 
         isiscube.addGroup(mappingGroup);
+        m_label->addObject(isiscube);
       }
-
-      m_label->addObject(isiscube);
-      m_ioHandler->updateLabels(*m_label);
+      GDALClose(dataset);
     }
+    
+    GDALAccess eAccess = GA_ReadOnly;
+    if (access == "rw") {
+      eAccess = GA_Update;
+    }
+    m_geodataSet = GDALDataset::FromHandle(GDALOpen(m_labelFileName->expanded().toStdString().c_str(), eAccess));
+    if (!m_geodataSet) {
+      QString msg = "Opening GDALDataset from [" + m_labelFileName->name() + "] failed with access [" + eAccess +"]";
+      cleanUp(false);
+      throw IException(IException::Programmer, msg, _FILEINFO_);
+    }
+
+    m_ioHandler = new GdalIoHandler(gdalDataset(), m_virtualBandList, IsisPixelToGdal(pixelType()));
+    m_ioHandler->updateLabels(*m_label);
   }
 
 
