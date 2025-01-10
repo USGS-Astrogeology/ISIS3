@@ -45,7 +45,7 @@ namespace Isis {
       // We will be processing by line
       ProcessByLine p;
 
-      Isis::Pvl lab(icube->fileName());
+      Isis::Pvl lab = *(icube->label());
       Isis::PvlGroup &inst =
           lab.findGroup("Instrument", Pvl::Traverse);
 
