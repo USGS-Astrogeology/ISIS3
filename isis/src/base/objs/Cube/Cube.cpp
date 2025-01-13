@@ -98,6 +98,10 @@ namespace Isis {
    */
   void Cube::fromIsd(const FileName &fileName, Pvl &label, nlohmann::json &isd, QString access) {
     fromLabel(fileName, label, access);
+
+    if (isd.contains("line_scan_rate")) {
+      attachLineScanTableFromIsd(isd);
+    }
     attachSpiceFromIsd(isd);
 
     close();
@@ -1510,26 +1514,6 @@ namespace Isis {
 
     this->write(sunTable);
 
-    if (isd.contains("line_scan_rate")) {
-      TableField ephTimeField("EphemerisTime", TableField::Double);
-      TableField expTimeField("ExposureTime", TableField::Double);
-      TableField lineStartField("LineStart", TableField::Integer);
-
-      TableRecord timesRecord;
-      timesRecord += ephTimeField;
-      timesRecord += expTimeField;
-      timesRecord += lineStartField;
-
-      Table timesTable("LineScanTimes", timesRecord);
-      for (size_t i = 0; i < isd["line_scan_rate"].size(); ++i) {
-        timesRecord[0] = isd["line_scan_rate"][i][1].get<double>();
-        timesRecord[1] = isd["line_scan_rate"][i][2].get<double>();
-        timesRecord[2] = isd["line_scan_rate"][i][0].get<int>();
-        timesTable += timesRecord;
-      }
-      this->write(timesTable);
-    }
-
     PvlGroup currentKernels = this->group("Kernels");
 
     Pvl *label = this->label();
@@ -1549,9 +1533,27 @@ namespace Isis {
     // Access the camera here while all of the kernels are still loaded.
     // This needs to be done for some cameras that need loaded spice data
     // to actually create the camera model. (KaguyaTC for example)
-    std::cout << "before_camera\n";
     this->camera();
-    std::cout << "after_camera\n";
+  }
+
+  void Cube::attachLineScanTableFromIsd(nlohmann::json isd) {
+      TableField ephTimeField("EphemerisTime", TableField::Double);
+      TableField expTimeField("ExposureTime", TableField::Double);
+      TableField lineStartField("LineStart", TableField::Integer);
+
+      TableRecord timesRecord;
+      timesRecord += ephTimeField;
+      timesRecord += expTimeField;
+      timesRecord += lineStartField;
+
+      Table timesTable("LineScanTimes", timesRecord);
+      for (size_t i = 0; i < isd["line_scan_rate"].size(); ++i) {
+        timesRecord[0] = isd["line_scan_rate"][i][1].get<double>() + isd["center_ephemeris_time"].get<double>();
+        timesRecord[1] = isd["line_scan_rate"][i][2].get<double>();
+        timesRecord[2] = (int)(isd["line_scan_rate"][i][0].get<double>() + 0.5);
+        timesTable += timesRecord;
+      }
+      this->write(timesTable);
   }
 
 

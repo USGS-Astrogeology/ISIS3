@@ -270,7 +270,7 @@ TEST(CubeTest, TestCubeAttachSpiceFromIsd) {
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentNameLong(), "Visual Imaging Subsystem Camera B");
 }
 
-TEST(CubeTest, TestCubeAttachSpiceFromHrscIsd) {
+TEST(CubeTest, TestCubeAttachLineScanTableFromIsd) {
   std::istringstream labelStrm(R"(
    Object = IsisCube
     Object = Core
