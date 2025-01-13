@@ -1875,12 +1875,13 @@ TEST_F(LidarNetwork, FunctionalTestJigsawLidar) {
 
 TEST_F(ApolloNetwork, FunctionalTestJigsawSaveApplyValues) {
   QVector<QString> args = {"spsolve=position",
-                            "update=yes",
+                            "update=no",
                             "bundleout_txt=no",
                             "cnet="+controlNetPath,
                             "fromlist="+tempDir.path() + "/cubes.lis",
                             "onet="+tempDir.path()+"/apollo_out.net",
-                            "file_prefix="+tempDir.path()+"/"};
+                            "file_prefix="+tempDir.path()+"/",
+                            "outadjustmenth5=yes"};
 
   UserInterface ui(APP_XML, args);
 
@@ -1888,7 +1889,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawSaveApplyValues) {
 
   // Check apollo_jigsaw.h5 was created
   QString bundleOutput = tempDir.path()+"/adjustment_out.h5";
-  HighFive::File file(bundleOutput.toStdString(), HighFive::File::ReadWrite);
+  HighFive::File file(bundleOutput.toStdString(), HighFive::File::ReadOnly);
 
   std::string datasetName = "/APOLLO15/METRIC/1971-08-01T15:37:39.428";
   QString cmatrixName = "InstrumentPointing";
@@ -1899,7 +1900,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawSaveApplyValues) {
   HighFive::DataSet datasetRead = file.getDataSet(cmatrixKey);
   auto cmatrixData = datasetRead.read<std::string>();
   Table cmatrixTable(cmatrixName, cmatrixData, ',');
-  std::string cmatrixTableStr = Table::toString(cmatrixTable).toStdString();  
+  std::string cmatrixTableStr = Table::toString(cmatrixTable).toStdString();
 
   datasetRead = file.getDataSet(spvectorKey);
   auto spvectorData = datasetRead.read<std::string>();
