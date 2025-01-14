@@ -99,9 +99,11 @@ namespace Isis {
   void Cube::fromIsd(const FileName &fileName, Pvl &label, nlohmann::json &isd, QString access) {
     fromLabel(fileName, label, access);
 
-    if (isd.contains("line_scan_rate")) {
+    PvlGroup &instGrp = label.findGroup("Instrument", Pvl::Traverse);
+    if (isd.contains("line_scan_rate") && (QString)instGrp["InstrumentId"] == "HRSC") {
       attachLineScanTableFromIsd(isd);
     }
+    
     attachSpiceFromIsd(isd);
 
     close();

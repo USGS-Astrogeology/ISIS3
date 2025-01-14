@@ -122,15 +122,7 @@ namespace Isis {
    * @param cube
    */
   void HrscCamera::ReadLineRates(Cube &cube) {
-    Table timesTable("LineScanTimes");
-
-    // check if LineScanTimes was added from isd
-    if (cube.hasTable("LineScanTimes")) {
-      timesTable = cube.readTable("LineScanTimes");
-    }
-    else {
-      timesTable = Table("LineScanTimes", cube.fileName());
-    }
+    Table timesTable = cube.readTable("LineScanTimes");
 
     if(timesTable.Records() <= 0) {
       QString msg = "Table [LineScanTimes] in [";
