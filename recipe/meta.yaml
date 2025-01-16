@@ -58,7 +58,7 @@ requirements:
    - cspice =67
    - csm >=3.0.3,<3.0.4
    - curl >=8.4.0,<8.5
-   - cxx-compiler=1.1.2
+   - cxx-compiler=1.7
    - doxygen
    - eigen >=3, <4
    - embree >=3, <4
@@ -69,13 +69,14 @@ requirements:
    - graphviz
    - conda-forge::gsl >=2.6, <2.7
    - hdf5
+   - highfive
    - icu
    - inja
    - jama
    - usgs-astrogeology::kakadu==1
    - kalasiris
    - krb5
-   - libgdal >=3.7.0,<3.8
+   - libgdal >=3.7,<3.8
    - libopencv >=4.7,<4.8
    - libpng >=1.6.34,<1.7
    - libprotobuf
@@ -86,7 +87,7 @@ requirements:
    - mysql
    - mysql-connector-c
    - nanoflann <1.4
-   - nlohmann_json
+   - nlohmann_json=3.11.2
    - ninja >=1.7.2,<1.8
    - nn
    - opencv >=4.7,<4.8
@@ -99,7 +100,7 @@ requirements:
    - pytest
    - rclone
    - qhull
-   - qt-main=5.15.8
+   - qt-main>=5.15.8, <5.16
    - qwt <6.3.0
    - sqlite >=3.46.0,<3.47
    - suitesparse <7.7.0
@@ -107,6 +108,7 @@ requirements:
    - swig
    - texlive-core
    - tnt
+   - usgscsm
    - x264
    - xalan-c
    - xerces-c >=3.2.4,<3.3.0a0
@@ -115,8 +117,7 @@ requirements:
    - xorg-libsm
    - xorg-libx11
    - xorg-libxi
-   - zlib >=1.3,<1.4
-
+   - zlib >=1.3,<1.4.0a0
   run:
   - {{ pin_compatible('ale', max_pin='x.x.x') }}
   - {{ pin_compatible('armadillo', max_pin='x.x.x') }}
@@ -137,6 +138,7 @@ requirements:
   - geotiff
   - {{ pin_compatible('gsl', min_pin='x.x', max_pin='x.x.x') }}
   - hdf5
+  - highfive
   - icu
   - inja
   - jama
