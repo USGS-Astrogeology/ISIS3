@@ -36,6 +36,7 @@ release.
 ## [Unreleased]
 
 ### Added
+- Added serial number translation for ideal camera [#5662](https://github.com/DOI-USGS/ISIS3/issues/5662)
 
 ### Changed
 
