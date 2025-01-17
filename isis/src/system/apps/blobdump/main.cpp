@@ -37,7 +37,9 @@ void IsisMain() {
   FileName file = ui.GetCubeName("FROM");
   QString blobname = ui.GetString("NAME");
   QString blobtype = ui.GetString("TYPE");
-  Blob blob(blobname, blobtype, file.expanded());
+  Cube cube(file);
+  Blob blob(blobname, blobtype);
+  cube.read(blob);
   FileName outfname = ui.GetFileName("TO");
   blob.Write(outfname.expanded());
 }
