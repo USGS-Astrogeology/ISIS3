@@ -748,9 +748,9 @@ namespace Isis {
 
 
   /**
-   * This method will open an existing isis cube for reading or 
-   * reading/writing. Any input cube attributes following the file
-   * name will be applied.
+   * This method will try to open a file as either a cube or 
+   * geotiff in either read or read/write. Any input cube 
+   * attributes following the file name will be applied.
    *
    * @param[in] cubeFileName Name of the cube file to open. Environment
    *     variables in the filename will be automatically expanded.
@@ -766,6 +766,17 @@ namespace Isis {
     }
 
     checkAccess(access);
+
+    try {
+      Isis::CubeAttributeInput att(cubeFileName);
+      if(att.bands().size() != 0) {
+        vector<QString> bands = att.bands();
+        setVirtualBands(bands);
+      }
+    } catch(IException& e) {
+      // Either the cube is an output cube that has already been opened or 
+      // there is an exception parsing and adding an attribute
+    }
 
     QString msg = "Failed to open [" + cubeFileName + "]";
     IException exceptions(IException::Io, msg, _FILEINFO_);
@@ -792,21 +803,21 @@ namespace Isis {
     if (!isOpen()) {
       throw exceptions;
     }
+
+    applyVirtualBandsToLabel();
   }
 
+  /**
+   * This method will open an existing isis cube for reading or 
+   * reading/writing.
+   *
+   * @param[in] cubeFileName Name of the cube file to open. Environment
+   *     variables in the filename will be automatically expanded.
+   * @param[in] access (Default value of "r") Defines how the cube will be
+   *     accessed. Either read-only "r" or read-write "rw".
+   */
   void Cube::openCube(const QString &cubeFileName, QString access) {
     checkAccess(access);
-
-    try {
-      Isis::CubeAttributeInput att(cubeFileName);
-      if(att.bands().size() != 0) {
-        vector<QString> bands = att.bands();
-        setVirtualBands(bands);
-      }
-    } catch(IException& e) {
-      // Either the cube is an output cube that has already been opened or 
-      // there is an exception parsing and adding an attribute
-    }
 
     initLabelFromFile(cubeFileName, (access == "rw"));
 
@@ -923,10 +934,17 @@ namespace Isis {
       delete dataLabel.second;
       dataLabel.second = NULL;
     }
-
-    applyVirtualBandsToLabel();
   }
 
+  /**
+   * This method will open an existing geotiff for reading or 
+   * reading/writing.
+   *
+   * @param[in] cubeFileName Name of the file to open. Environment
+   *     variables in the filename will be automatically expanded.
+   * @param[in] access (Default value of "r") Defines how the cube will be
+   *     accessed. Either read-only "r" or read-write "rw".
+   */
   void Cube::openGdal(const QString &cubeFileName, QString access) {
     checkAccess(access);
 
@@ -991,15 +1009,40 @@ namespace Isis {
       isiscube.addObject(core);
 
       if (dataset->GetSpatialRef()) {
-        PvlGroup mappingGroup("Mapping");
-        mappingGroup.addKeyword(PvlKeyword("ProjectionName", "IProj"));
-
         char ** projStr = new char*[1];
-        dataset->GetSpatialRef()->exportToProj4(projStr);
-        QString qProjStr = QString::fromStdString(std::string(projStr[0]));
+        const OGRSpatialReference &oSRS = *dataset->GetSpatialRef();
+        oSRS.exportToProj4(projStr);
+        QString qProjStr = QString::fromStdString(std::string(projStr[0]) + " +type=crs");
         delete[] projStr[0];
         delete[] projStr;
-        
+
+        char ** projJsonStr = new char*[1];
+        oSRS.exportToPROJJSON(projJsonStr, nullptr);
+        nlohmann::json projJson = nlohmann::json::parse(projJsonStr[0]);
+        CPLFree(projJsonStr);
+
+        PvlGroup mappingGroup("Mapping");
+        mappingGroup.addKeyword(PvlKeyword("ProjectionName", "IProj"));
+        mappingGroup.addKeyword(PvlKeyword("EquatorialRadius", toString(oSRS.GetSemiMajor()), "meters"));
+        mappingGroup.addKeyword(PvlKeyword("PolarRadius", toString(oSRS.GetSemiMinor()), "meters"));
+
+        if (projJson.contains("base_crs")) {
+          projJson = projJson["base_crs"];
+        }
+
+        std::string direction = projJson["coordinate_system"]["axis"][1]["direction"];
+        if (direction == "east") {
+          mappingGroup.addKeyword(PvlKeyword("LongitudeDirection", "PositiveEast"));
+        }
+        else if (direction == "west") {
+          mappingGroup.addKeyword(PvlKeyword("LongitudeDirection", "PositiveWest"));
+        }
+        else {
+          QString msg = "Unknown direction [" + QString::fromStdString(direction) + "]";
+          throw IException(IException::Programmer, msg, _FILEINFO_);
+        }
+        mappingGroup.addKeyword(PvlKeyword("LongitudeDomain", "180"));
+        mappingGroup.addKeyword(PvlKeyword("LatitudeType", "Planetocentric"));
         mappingGroup.addKeyword(PvlKeyword("ProjStr", qProjStr));
         
         // Read the GeoTransform and get the elements we care about
@@ -1010,14 +1053,35 @@ namespace Isis {
           QString msg = "Vertical and horizontal resolution do not match";
           throw IException(IException::Io, msg, _FILEINFO_);
         }
-        mappingGroup.addKeyword(PvlKeyword("PixelResolution", toString(abs(padfTransform[1]))));
-        mappingGroup.addKeyword(PvlKeyword("UpperLeftCornerX", toString(padfTransform[0])));
-        mappingGroup.addKeyword(PvlKeyword("UpperLeftCornerY", toString(padfTransform[3])));
+
+        double dfScale;
+        double dfRes;
+        double upperLeftX;
+        double upperLeftY;
+        dfRes = padfTransform[1] * oSRS.GetLinearUnits();
+        upperLeftX = padfTransform[0];
+        upperLeftY = padfTransform[3];
+        if (oSRS.IsProjected()) {
+          const double dfDegToMeter = oSRS.GetSemiMajor() * M_PI / 180.0;
+          dfScale = dfDegToMeter / dfRes;
+          mappingGroup.addKeyword(PvlKeyword("PixelResolution", toString(dfRes), "meters/pixel"));
+        }
+        else if (oSRS.IsGeographic()) {
+          dfScale = 1.0 / dfRes;
+          mappingGroup.addKeyword(PvlKeyword("PixelResolution", toString(dfRes), "degrees/pixel"));
+        }
+        else {
+          QString msg = "Gdal spatial reference is not Geographic or Projected";
+          throw IException(IException::Io, msg, _FILEINFO_);
+        }
+        mappingGroup.addKeyword(PvlKeyword("Scale", toString(dfScale), "pixels/degree"));
+        mappingGroup.addKeyword(PvlKeyword("UpperLeftCornerX", toString(upperLeftX)));
+        mappingGroup.addKeyword(PvlKeyword("UpperLeftCornerY", toString(upperLeftY)));
         delete[] padfTransform;
 
         isiscube.addGroup(mappingGroup);
-        m_label->addObject(isiscube);
       }
+      m_label->addObject(isiscube);
       GDALClose(dataset);
     }
     
@@ -2935,7 +2999,16 @@ namespace Isis {
     
     if (m_format ==  Format::GTiff) { 
       // update metadata
-      std::string jsonblobstr = this->label()->toJson()["Root"].dump();
+      nlohmann::ordered_json jsonblob = this->label()->toJson()["Root"];
+      nlohmann::ordered_json jsonOut;
+      // std::cout << jsonblob << std::endl;
+      for (auto& [key, val] : jsonblob.items()) {
+        if (!val.contains("Bytes") || key == "Label") {
+          jsonOut[key] = val;
+        }
+      }
+      std::string jsonblobstr = jsonOut.dump();
+      // std::cout << jsonblobstr << std::endl;
       std::string name = "CubeLabel";
       gdalDataset()->SetMetadataItem(name.c_str(), jsonblobstr.c_str(), "USGS");
       return;

@@ -119,7 +119,10 @@ namespace Isis {
       if (pvlobj.hasKeyword("Name")) {
         jsonobj[okey]["_container_name"] = pvlobj.name().toStdString();
       }
-      jsonobj[okey]["_type"] = "object"; 
+
+      if (okey != "Root") {
+        jsonobj[okey]["_type"] = "object";
+      }
       
       for (int i=0; i < pvlobj.objects(); i++) { 
         jsonobj[okey].merge_patch(pvlobject_to_json(pvlobj.object(i)));
@@ -152,12 +155,11 @@ namespace Isis {
       return jsonobj;
     };
 
-
     if (this->name() == "Root" && this->objects() == 1) { 
       return pvlobject_to_json(this->object(0));
     }
     else { 
-      return pvlobject_to_json(*this); 
+      return pvlobject_to_json(*this);
     }
   }
 

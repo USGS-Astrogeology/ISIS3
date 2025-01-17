@@ -44,10 +44,13 @@ namespace Isis {
     m_samples = m_geodataSet->GetRasterXSize();
     m_lines = m_geodataSet->GetRasterYSize();
     m_bands = m_geodataSet->GetRasterCount();
-    // Add check to create the mask band if it
-    // doesn't exist
-    // m_geodataSet->CreateMaskBand(0);
-    // m_geodataSet->GetRasterBand(1)->GetMaskBand()->Fill(255);
+
+    // Check if we need to create the mask band
+    if (m_geodataSet->GetAccess() == GA_Update) {
+      m_geodataSet->CreateMaskBand(0);
+      m_geodataSet->GetRasterBand(1)->GetMaskBand()->Fill(255);
+    }
+
     GDALRasterBand *band = m_geodataSet->GetRasterBand(1);
     m_offset = band->GetOffset();
     m_scale = band->GetScale();
