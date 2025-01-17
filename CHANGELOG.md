@@ -35,6 +35,17 @@ release.
 
 ## [Unreleased]
 
+### Added
+- Added serial number translation for ideal camera [#5662](https://github.com/DOI-USGS/ISIS3/issues/5662)
+
+### Changed
+
+### Fixed
+- Fixed kaguyatc2isis invalid BandBin values [#5629](https://github.com/DOI-USGS/ISIS3/issues/5629)
+- Fixed SpiceClient to handle redirect requests.
+- Fixed jigsaw to default OUTADJUSTMENTH5 option to false and allow this feature to run on read-only images [#5700](https://github.com/DOI-USGS/ISIS3/issues/5700)
+- Fixed Cube::fromIsd to add "LineScanTimes" table from HRSC isds [#5668](https://github.com/DOI-USGS/ISIS3/issues/5668)
+
 ## [9.0.0] - 09-25-2024
 
 ### Added
@@ -44,8 +55,10 @@ release.
 - Added Chandrayaan2 template for isisimport
 - Added majority replacement for reduce app [#5101](https://github.com/DOI-USGS/ISIS3/issues/5101).
 - Added HRSC support in socetlinescankeywords [#5465](https://github.com/DOI-USGS/ISIS3/issues/5465)
+- Added option to save and apply bundle adjustment values in `jigsaw` [#4474](https://github.com/DOI-USGS/ISIS3/issues/4474)
+- Added the ability to pass column types in csv2table to set the column types in the resulting ISIS table [#5631](https://github.com/DOI-USGS/ISIS3/pull/5631)
 
-### Changed
+### Changed
 - Refactored the pixel2map app
 - Updated pixel2map documentation
 - Changed PVL parsing to no longer allow valueless keywords [#5573](https://github.com/DOI-USGS/ISIS3/pull/5573)
@@ -99,7 +112,6 @@ file. Slightly modified the FunctionalTestJigsawBundleXYZ ctest accordingly. Iss
 - Fixed gllssi2isis to support V1.1 data [#5396](https://github.com/DOI-USGS/ISIS3/issues/5396)
 
 ### Added
-- Added option to save and apply bundle adjustment values in `jigsaw` [#4474](https://github.com/DOI-USGS/ISIS3/issues/4474)
 - Added versioned default values to lrowacphomap's PHOALGO and PHOPARCUBE parameters and updated lrowacphomap to handle them properly. [#5452](https://github.com/DOI-USGS/ISIS3/pull/5452)
 
 ## [8.2.0] - 2024-04-18
