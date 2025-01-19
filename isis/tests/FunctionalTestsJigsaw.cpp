@@ -69,18 +69,18 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawApollo) {
   int numColumns = line.columns();
   int numRows = line.rows();
 
-  ASSERT_EQ(numColumns, 12);
+  ASSERT_EQ(numColumns, 15);
   ASSERT_EQ(numRows, 398);
 
   // Validate the line information is correct
   csvLine = line.getRow(0);
-  compareCsvLine(csvLine, "3-d,3-d,3-d,Sigma,Sigma,Sigma,Correction,Correction,Correction,Coordinate,Coordinate,Coordinate");
+  compareCsvLine(csvLine, "3-d,3-d,3-d,Sigma,Sigma,Sigma,Correction,Correction,Correction,Coordinate,Coordinate,Coordinate,Sigma,Sigma,Sigma");
 
   csvLine = line.getRow(1);
-  compareCsvLine(csvLine, "Point,Point,Accepted,Rejected,Residual,Latitude,Longitude,Radius,Latitude,Longitude,Radius,Latitude,Longitude,Radius,X,Y,Z");
+  compareCsvLine(csvLine, "Point,Point,Accepted,Rejected,Residual,Latitude,Longitude,Radius,Latitude,Longitude,Radius,Latitude,Longitude,Radius,X,Y,Z,X,Y,Z");
 
   csvLine = line.getRow(2);
-  compareCsvLine(csvLine, "Label,Status,Measures,Measures,RMS,(dd),(dd),(km),(m),(m),(m),(m),(m),(m),(km),(km),(km)");
+  compareCsvLine(csvLine, "Label,Status,Measures,Measures,RMS,(dd),(dd),(km),(m),(m),(m),(m),(m),(m),(km),(km),(km),(m),(m),(m)");
 
   // Compare all of the values from the network against the values in the CSV
   QList<ControlPoint*> points = outputNet.GetPoints();
@@ -115,14 +115,14 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawApollo) {
 
   // Spot check a few points for hard-coded values
 // A few "Free" points:
-  compareCsvLine(line.getRow(30), "AS15_000031957,FREE,3,0,0.33,24.25013429,6.15097050,1735.93990543,270.68671676,265.71819251,500.96944842,860.25781493,-1823.63228489,-677.74533463,1573.65050943,169.59077243,712.98695596");
-  compareCsvLine(line.getRow(185), "AS15_000055107,FREE,2,0,2.22,24.26598395,6.75841991,1735.27498710,303.08885516,295.63588060,562.91712019,876.14367347,-1869.62276530,-708.50440630,1570.96622187,186.17020493,713.15150243");
-  compareCsvLine(line.getRow(396), "AS15_Tie14,FREE,4,0,0.76,23.34007344,4.52764905,1737.15233677,245.96412227,251.30260955,443.11518635,1022.08062058,-1897.32816475,-372.27330000,1590.02287614,125.90958874,688.23852695");
+  compareCsvLine(line.getRow(30), "AS15_000031957,FREE,3,0,0.33,24.25013429,6.15097050,1735.93990543,270.68671676,265.71819251,500.96944842,860.25781493,-1823.63228489,-677.74533463,1573.65050943,169.59077243,712.98695596, 465.66755434, 267.66330908, 326.12562996");
+  compareCsvLine(line.getRow(185), "AS15_000055107,FREE,2,0,2.22,24.26598395,6.75841991,1735.27498710,303.08885516,295.63588060,562.91712019,876.14367347,-1869.62276530,-708.50440630,1570.96622187,186.17020493,713.15150243, 522.79515846, 298.42172842, 365.74418181");
+  compareCsvLine(line.getRow(396), "AS15_Tie14,FREE,4,0,0.76,23.34007344,4.52764905,1737.15233677,245.96412227,251.30260955,443.11518635,1022.08062058,-1897.32816475,-372.27330000,1590.02287614,125.90958874,688.23852695, 414.98905206, 251.82613853, 290.46531976");
 
   // A few "Constrained" points:
-  compareCsvLine(line.getRow(352), "AS15_SocetPAN_01,CONSTRAINED,3,0,0.27,27.61487917,2.18951566,1735.78407271,160.95596643,162.33483092,285.90375398,103.62041173,223.18286146,306.44770820,1536.92627520,58.76110229,804.58132250", 2);
-  compareCsvLine(line.getRow(360), "AS15_SocetPAN_10,CONSTRAINED,4,0,1.14,25.96587004,3.54262524,1735.72172102,113.85794037,113.34020561,189.03901900,-54.11385318,174.35206231,4.97102217,1557.52735013,96.42556502,759.96089165", 2);
-  compareCsvLine(line.getRow(380), "AS15_SocetPAN_40,CONSTRAINED,2,0,0.42,25.77498986,1.88090884,1735.56132012,133.81392881,132.83513465,230.53187100,23.85721304,82.06385794,171.57011514,1562.04594097,51.29735448,754.68811810", 2);
+  compareCsvLine(line.getRow(352), "AS15_SocetPAN_01,CONSTRAINED,3,0,0.27,27.61487917,2.18951566,1735.78407271,160.95596643,162.33483092,285.90375398,103.62041173,223.18286146,306.44770820,1536.92627520,58.76110229,804.58132250, 265.9686138, 162.53199952, 191.94901028", 2);
+  compareCsvLine(line.getRow(360), "AS15_SocetPAN_10,CONSTRAINED,4,0,1.14,25.96587004,3.54262524,1735.72172102,113.85794037,113.34020561,189.03901900,-54.11385318,174.35206231,4.97102217,1557.52735013,96.42556502,759.96089165, 176.89344204, 113.71419, 131.61753927", 2);
+  compareCsvLine(line.getRow(380), "AS15_SocetPAN_40,CONSTRAINED,2,0,0.42,25.77498986,1.88090884,1735.56132012,133.81392881,132.83513465,230.53187100,23.85721304,82.06385794,171.57011514,1562.04594097,51.29735448,754.68811810, 214.5688998, 133.00415652, 158.00748601", 2);
 
   // Check for the correct line output format and csv file structure for the images.csv file
   line = CSVReader(imagesOutput,
