@@ -245,6 +245,7 @@ namespace Isis {
       bool labelsAttached() const;
 
       void attachSpiceFromIsd(nlohmann::json Isd);
+      void attachLineScanTableFromIsd(nlohmann::json isd);
 
       void close(bool remove = false);
       Cube *copy(FileName newFile, const CubeAttributeOutput &newFileAttributes);

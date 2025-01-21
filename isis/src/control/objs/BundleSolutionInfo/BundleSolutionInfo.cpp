@@ -1613,9 +1613,15 @@ namespace Isis {
     double dX, dY, dZ;
     double dSigmaLat, dSigmaLong, dSigmaRadius;
     QString strStatus;
-    double cor_lat_m;
-    double cor_lon_m;
-    double cor_rad_m;
+    double cor_lat_dd = 0.0;                      // lat correction, decimal degrees
+    double cor_lon_dd = 0.0;                      // lon correction, decimal degrees
+    double cor_rad_km = 0.0;                      // radius correction, kilometers
+    double cor_lat_m = 0.0;                       // lat correction, meters
+    double cor_lon_m = 0.0;                       // lon correction, meters
+    double cor_rad_m = 0.0;                       // radius correction, meters
+    double latInit = Isis::Null;
+    double lonInit = Isis::Null;
+    double radInit = Isis::Null;
     int numMeasures, numRejectedMeasures;
     double dResidualRms;
 
@@ -1655,13 +1661,63 @@ namespace Isis {
       numRejectedMeasures = bundlecontrolpoint->numberOfRejectedMeasures();
       dResidualRms      = bundlecontrolpoint->residualRms();
 
+      // Use the local radius in meters, rad*1000., to convert radians to meters now instead of the
+      // target body equatorial radius (DAC 09/17/2018; from BundleControlPoint.cpp)
+      double rtm = dRadius * 1000.;
+
       // point corrections and initial sigmas
       boost::numeric::ublas::bounded_vector< double, 3 > corrections = bundlecontrolpoint->
-                                                                           corrections();
-      // Now use the local radius to convert radians to meters instead of the target body equatorial radius
-      cor_lat_m = bundlecontrolpoint->adjustedSurfacePoint().LatitudeToMeters(corrections[0]);
-      cor_lon_m = bundlecontrolpoint->adjustedSurfacePoint().LongitudeToMeters(corrections[1]);
-      cor_rad_m  = corrections[2]*1000.0;
+                                                                            corrections();
+
+      if (m_settings->controlPointCoordTypeBundle() == SurfacePoint::Rectangular) {
+        double xCor = corrections(0);  // km
+        double yCor = corrections(1);  // km
+        double zCor = corrections(2);  // km
+
+        if (!IsSpecial(dX) && !IsSpecial(dY) && !IsSpecial(dZ)) {
+          SurfacePoint rectPoint(Displacement(dX - xCor, Displacement::Kilometers),
+                                Displacement(dY - yCor, Displacement::Kilometers),
+                                Displacement(dZ - zCor, Displacement::Kilometers));
+          
+          latInit = rectPoint.GetLatitude().degrees();
+          lonInit = rectPoint.GetLongitude().degrees();
+          radInit = rectPoint.GetLocalRadius().kilometers();
+          
+          if (!IsSpecial(dLat)) {
+            cor_lat_dd = (dLat - latInit); // degrees
+            cor_lat_m  =  cor_lat_dd * DEG2RAD * rtm;
+          }
+          if (!IsSpecial(dLon)) {
+            cor_lon_dd = (dLon - lonInit); // degrees
+            cor_lon_m  =  cor_lon_dd * DEG2RAD * rtm * cos(dLat*DEG2RAD);  // lon corrections meters
+          }
+          if (!IsSpecial(dRadius)) {
+            cor_rad_km  =  dRadius - radInit;
+            cor_rad_m  =  cor_rad_km * 1000.;
+          }
+        }
+      }
+      else if (m_settings->controlPointCoordTypeBundle() == SurfacePoint::Latitudinal) {
+        cor_lat_dd = corrections(0) * RAD2DEG;   // lat correction, decimal degs
+        cor_lon_dd = corrections(1) * RAD2DEG;   // lon correction, decimal degs
+        cor_rad_m  = corrections(2) * 1000.0;    // radius correction, meters
+
+        cor_lat_m = bundlecontrolpoint->adjustedSurfacePoint().LatitudeToMeters(corrections(0));
+        cor_lon_m = bundlecontrolpoint->adjustedSurfacePoint().LongitudeToMeters(corrections(1));
+        cor_rad_km = corrections(2);
+
+        if (!IsSpecial(dLat)) {
+          latInit = dLat - cor_lat_dd;
+        }
+
+        if (!IsSpecial(dLon)) {
+          lonInit = dLon - cor_lon_dd;
+        }
+
+        if (!IsSpecial(dRadius)) {
+          radInit = dRadius - corrections(2); // km
+        }
+      }
 
       if (bundlecontrolpoint->type() == ControlPoint::Fixed) {
         strStatus = "FIXED";
