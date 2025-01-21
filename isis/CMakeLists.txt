@@ -2,6 +2,7 @@
 #      The main build file for building ISIS using CMake.
 #===============================================================================
 # CMake initialization
+# Bugfix 1
 
 # Specify the required version of CMake.  If your machine does not
 #  have this, it should be easy to build from https://cmake.org/download/
