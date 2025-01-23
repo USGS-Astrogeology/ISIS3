@@ -12,7 +12,6 @@ find files of those names at the top level of this repository. **/
 #include "Application.h"
 #include "Camera.h"
 #include "CameraFactory.h"
-#include "Distance.h"
 #include "ProcessRubberSheet.h"
 
 using namespace std;
@@ -140,73 +139,5 @@ namespace Isis {
     delete interp;
   }
 
-
-  // Transform object constructor
-  cam2camXform::cam2camXform(const int inputSamples, const int inputLines,
-                             Camera *incam, const int outputSamples,
-                             const int outputLines, Camera *outcam,
-                             const bool offbody, const bool trim) {
-    p_inputSamples = inputSamples;
-    p_inputLines = inputLines;
-    p_incam = incam;
-
-    p_outputSamples = outputSamples;
-    p_outputLines = outputLines;
-    p_outcam = outcam;
-    p_offbody = offbody;
-    p_trim = trim;
-  }
-
-
-  // Transform method mapping output line/samps to lat/lons to input line/samps
-  bool cam2camXform::Xform(double &inSample, double &inLine,
-                           const double outSample, const double outLine) {
-
-    // See if the output image coordinate converts to lat/lon
-    if ( p_outcam->SetImage(outSample, outLine) )  {
-      // Get the universal lat/lon and see if it can be converted to input line/samp
-      double lat = p_outcam->UniversalLatitude();
-      double lon = p_outcam->UniversalLongitude();
-      Distance rad = p_outcam->LocalRadius();
-      if (rad.isValid()) {
-        if(!p_incam->SetUniversalGround(lat, lon, rad.meters())) return false;
-      }
-      else {
-        if(!p_incam->SetUniversalGround(lat, lon)) return false;
-      }
-    }
-    else if ( p_offbody ) {
-      double ra = p_outcam->RightAscension();
-      double dec = p_outcam->Declination();
-      if ( !p_incam->SetRightAscensionDeclination(ra,dec) ) return false;
-      if ( p_trim ) {
-        if ( p_incam->SetImage(p_incam->Sample(), p_incam->Line()) ) return (false);
-      }
-    }
-    else {
-      return false;
-    }
-
-    // Make sure the point is inside the input image
-    if (p_incam->Sample() < 0.5) return false;
-    if (p_incam->Line() < 0.5) return false;
-    if (p_incam->Sample() > p_inputSamples + 0.5) return false;
-    if (p_incam->Line() > p_inputLines + 0.5) return false;
-
-    // Everything is good
-    inSample = p_incam->Sample();
-    inLine = p_incam->Line();
-    return true;
-  }
-
-
-  int cam2camXform::OutputSamples() const {
-    return p_outputSamples;
-  }
-
-
-  int cam2camXform::OutputLines() const {
-    return p_outputLines;
-  }
 
 }
