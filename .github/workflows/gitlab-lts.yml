@@ -1,4 +1,9 @@
-name: Cherrypick bugfixes to release branch
+name: Github to Gitlab CI - Run CodeBuild (LTS)
+
+env:
+  GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+  ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+
 on:
   push:
     branches:
@@ -37,32 +42,30 @@ jobs:
     # Print the result to the log
     - name: See result
       run: echo "${{ steps.execute_py_script.outputs.result }}"
-  release_pull_request:
+  build:
     needs: check_labels
     # Only run this step if the code was a bugfix
     if: contains(needs.check_labels.outputs.result, 'true')
     runs-on: ubuntu-latest
-    name: release_pull_request
     steps:
-    - name: checkout
-      uses: actions/checkout@v2.2.0
-      # Fetch all info including branches + tags
-      with:
-        fetch-depth: 0
-    - name: 'Get Previous tag'
-      id: get_latest_tag
-      uses: "WyriHaximus/github-action-get-previous-tag@v1"
-    - id: get_short_version
-      # Get the major / minor version without patch info i.e. 6.0 from 6.0.1
-      run: |
-        major_minor=$(echo ${{steps.get_latest_tag.outputs.tag}} | cut -d '.' -f 1,2)
-        echo "::set-output name=major_minor::$major_minor"
-    - name: Create PR to branch
-      uses: adamtharani/github-action-cherry-pick@master
-      # PR to the latest feature release.  Merges are enabled
-      with:
-        pr_branch: ${{steps.get_short_version.outputs.major_minor}}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DRY_RUN: false
-
+      - uses: actions/checkout@v4
+      - name: Run script
+        env:
+          LTS_VERSION: 8.0.5_LTS  # formatted as x.x.x_LTS
+          BASE_LTS: 8.0
+          GITHUB_SHA: ${{ secrets.GITHUB_SHA }}
+        run: |
+          git config --global user.name "Github_CI"
+          git config --global user.email "project_14468_bot_3f7d8e1a392afd88ead5f3f3154e809d@noreply.gitlab.com"
+          git clone https://isis-codebuild-ci:$GITLAB_TOKEN@code.usgs.gov/astrogeology/isis-codebuild-ci.git
+          echo $LTS_VERSION
+          cd isis-codebuild-ci
+          if [[ "git ls-remote --exit-code origin $LTS_VERSION" == 2 ]]; then
+            git checkout -b $LTS_VERSION
+          else
+            git checkout $LTS_VERSION
+            git reset --hard origin/main
+          fi
+          echo -e "\nenv: \n  shell: bash \n  variables: \n    LTS_VERSION: $LTS_VERSION \n    BASE_LTS: $BASE_LTS \n    ANACONDA_API_TOKEN: $ANACONDA_TOKEN \n    GITHUB_SHA: $GITHUB_SHA" >> buildspec-lts.yml
+          git commit -a -m "$LTS_VERSION"
+          git push origin $LTS_VERSION --force
