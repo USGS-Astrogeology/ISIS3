@@ -1916,7 +1916,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawSaveApplyValues) {
   HighFive::DataSet datasetRead = file.getDataSet(cmatrixKey);
   auto cmatrixData = datasetRead.read<std::string>();
   Table cmatrixTable(cmatrixName, cmatrixData, ',');
-  std::string cmatrixTableStr = Table::toString(cmatrixTable).toStdString();
+  std::string cmatrixTableStr = Table::toString(cmatrixTable);
 
   datasetRead = file.getDataSet(spvectorKey);
   auto spvectorData = datasetRead.read<std::string>();

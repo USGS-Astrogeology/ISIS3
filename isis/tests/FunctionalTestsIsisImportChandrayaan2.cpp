@@ -26,7 +26,7 @@ using namespace Isis;
 using namespace testing;
 using json = nlohmann::json;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/isisimport.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/isisimport.xml").expanded());
 
 TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2MinimalLabel){
   std::istringstream PvlInput(R"(
@@ -150,7 +150,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2MinimalLabel){
   Pvl truthLabel;
   PvlInput >> truthLabel;
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup truthGroup = truthLabel.findGroup("Dimensions", Pvl::Traverse);
@@ -313,7 +313,7 @@ TEST_F(TempTestingFiles, FunctionalTestIsisImportChandrayaan2FullLabel){
   Pvl truthLabel;
   PvlInput >> truthLabel;
 
-  Cube outCube(cubeFileName);
+  Cube outCube(cubeFileName.toStdString());
   Pvl *outLabel = outCube.label();
 
   PvlGroup truthGroup = truthLabel.findGroup("Dimensions", Pvl::Traverse);

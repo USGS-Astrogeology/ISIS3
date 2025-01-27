@@ -7,7 +7,7 @@
 using namespace std;
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/noseam.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/noseam.xml").expanded());
 
 /**
    * NoseamDefault Test using ThreeImageNetwork Fixture
@@ -25,13 +25,13 @@ static QString APP_XML = FileName("$ISISROOT/bin/xml/noseam.xml").expanded();
 TEST_F(ThreeImageNetwork, FunctionalTestNoseamDefault) {
 
   // create list of input projected cube files
-  FileName cubeListFileName(tempDir.path() + "/cubes.lis");
+  FileName cubeListFileName(tempDir.path().toStdString() + "/cubes.lis");
 
   ofstream of;
-  of.open((cubeListFileName.original()).toStdString());
-  of << cube1map->fileName() << "\n";
-  of << cube2map->fileName() << "\n";
-  of << cube3map->fileName() << "\n";
+  of.open((cubeListFileName.original()));
+  of << cube1map->fileName().toStdString() << "\n";
+  of << cube2map->fileName().toStdString() << "\n";
+  of << cube3map->fileName().toStdString() << "\n";
   of.close();
 
   // run noseam
@@ -46,11 +46,11 @@ TEST_F(ThreeImageNetwork, FunctionalTestNoseamDefault) {
     noseam(cubeListFileName, ui);
   }
   catch (IException &e) {
-    FAIL() << e.toString().toStdString().c_str() << std::endl;
+    FAIL() << e.toString().c_str() << std::endl;
   }
  
   // validate output mosaic
-  Cube mosaic(tempDir.path() + "/noseamDefaultOut.cub");
+  Cube mosaic(tempDir.path().toStdString() + "/noseamDefaultOut.cub");
 
   PvlObject mosaicLabel = mosaic.label()->findObject("IsisCube");
   PvlGroup dimensions = mosaicLabel.findObject("Core").findGroup("Dimensions");
@@ -95,14 +95,14 @@ TEST_F(ThreeImageNetwork, FunctionalTestNoseamDefault) {
 TEST_F(ThreeImageNetwork, FunctionalTestNoseamEvenBoxFilterSamples) {
   
   // create list of input projected cube files
-  FileName cubeListFileName(tempDir.path() + "/cubes.lis");
+  FileName cubeListFileName(tempDir.path().toStdString() + "/cubes.lis");
 
   // create list of input cube files
   ofstream of;
-  of.open((cubeListFileName.original()).toStdString());
-  of << cube1map->fileName() << "\n";
-  of << cube2map->fileName() << "\n";
-  of << cube3map->fileName() << "\n";
+  of.open((cubeListFileName.original()));
+  of << cube1map->fileName().toStdString() << "\n";
+  of << cube2map->fileName().toStdString() << "\n";
+  of << cube3map->fileName().toStdString() << "\n";
   of.close();
 
   // run noseam
@@ -118,8 +118,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestNoseamEvenBoxFilterSamples) {
     FAIL() << "Expected Exception for boxcar even sample input";
   }
   catch (IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("[SAMPLES] must be odd"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("[SAMPLES] must be odd") != std::string::npos);
   }
 
   // remove print.prt file if it has been created
@@ -146,14 +145,14 @@ TEST_F(ThreeImageNetwork, FunctionalTestNoseamEvenBoxFilterSamples) {
 TEST_F(ThreeImageNetwork, FunctionalTestNoseamEvenBoxFilterLines) {
 
   // create list of input projected cube files
-  FileName cubeListFileName(tempDir.path() + "/cubes.lis");
+  FileName cubeListFileName(tempDir.path().toStdString() + "/cubes.lis");
 
   // create list of input cube files
   ofstream of;
-  of.open((cubeListFileName.original()).toStdString());
-  of << cube1map->fileName() << "\n";
-  of << cube2map->fileName() << "\n";
-  of << cube3map->fileName() << "\n";
+  of.open((cubeListFileName.original()));
+  of << cube1map->fileName().toStdString() << "\n";
+  of << cube2map->fileName().toStdString() << "\n";
+  of << cube3map->fileName().toStdString() << "\n";
   of.close();
 
   // run noseam
@@ -169,8 +168,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestNoseamEvenBoxFilterLines) {
     FAIL() << "Expected Exception for boxcar even line input";
   }
   catch (IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("[LINES] must be odd"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("[LINES] must be odd") != std::string::npos);
   }
 
   // remove print.prt file if it has been created
@@ -196,14 +194,14 @@ TEST_F(ThreeImageNetwork, FunctionalTestNoseamEvenBoxFilterLines) {
 TEST_F(ThreeImageNetwork, FunctionalTestNoseamNoBoxFilterSamples) {
 
   // create list of input projected cube files
-  FileName cubeListFileName(tempDir.path() + "/cubes.lis");
+  FileName cubeListFileName(tempDir.path().toStdString() + "/cubes.lis");
 
   // create list of input cube files
   ofstream of;
-  of.open((cubeListFileName.original()).toStdString());
-  of << cube1map->fileName() << "\n";
-  of << cube2map->fileName() << "\n";
-  of << cube3map->fileName() << "\n";
+  of.open((cubeListFileName.original()));
+  of << cube1map->fileName().toStdString() << "\n";
+  of << cube2map->fileName().toStdString() << "\n";
+  of << cube3map->fileName().toStdString() << "\n";
   of.close();
 
   // run noseam
@@ -218,8 +216,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestNoseamNoBoxFilterSamples) {
     FAIL() << "Expected Exception for no input for boxcar samples";
   }
   catch (IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("[SAMPLES] must be entered"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("[SAMPLES] must be entered") != std::string::npos);
   }
 
   // remove print.prt file if it has been created
@@ -245,14 +242,14 @@ TEST_F(ThreeImageNetwork, FunctionalTestNoseamNoBoxFilterSamples) {
 TEST_F(ThreeImageNetwork, FunctionalTestNoseamNoBoxFilterLines) {
 
   // create list of input projected cube files
-  FileName cubeListFileName(tempDir.path() + "/cubes.lis");
+  FileName cubeListFileName(tempDir.path().toStdString() + "/cubes.lis");
 
   // create list of input cube files
   ofstream of;
-  of.open((cubeListFileName.original()).toStdString());
-  of << cube1map->fileName() << "\n";
-  of << cube2map->fileName() << "\n";
-  of << cube3map->fileName() << "\n";
+  of.open((cubeListFileName.original()));
+  of << cube1map->fileName().toStdString() << "\n";
+  of << cube2map->fileName().toStdString() << "\n";
+  of << cube3map->fileName().toStdString() << "\n";
   of.close();
 
   // run noseam
@@ -267,8 +264,7 @@ TEST_F(ThreeImageNetwork, FunctionalTestNoseamNoBoxFilterLines) {
     FAIL() << "Expected Exception for no input for boxcar lines";
   }
   catch (IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("[LINES] must be entered"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("[LINES] must be entered") != std::string::npos);
   }
 
   // determine if print.prt has been generated and if so, remove it

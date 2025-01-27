@@ -21,7 +21,7 @@
 
 using namespace Isis;
 
-static QString PIXEL2MAP_XML = FileName("$ISISROOT/bin/xml/pixel2map.xml").expanded();
+static QString PIXEL2MAP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/pixel2map.xml").expanded());
 
 TEST_F(MroCtxCube, FunctionalTestPixel2mapVector) {
     
@@ -50,9 +50,9 @@ TEST_F(MroCtxCube, FunctionalTestPixel2mapVector) {
 
 
   // TEST 1a: Check we have both csv and vrt output files
-    FileName csvFileOut( csvFileName );
+    FileName csvFileOut( csvFileName.toStdString() );
   EXPECT_TRUE(csvFileOut.fileExists());
-  FileName vrtFileOut( vrtFileName );
+  FileName vrtFileOut( vrtFileName.toStdString() );
   EXPECT_TRUE(vrtFileOut.fileExists());
   
   // TEST 1b: Check the output csv file header  

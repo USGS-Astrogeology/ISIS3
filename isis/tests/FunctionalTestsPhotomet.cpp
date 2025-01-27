@@ -10,7 +10,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/photomet.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/photomet.xml").expanded());
 
 TEST(Photomet, FunctionalTestPhotometClementine) {
   QTemporaryDir prefix;
@@ -23,7 +23,7 @@ TEST(Photomet, FunctionalTestPhotometClementine) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), 57.865063346038504, .000001);
@@ -43,7 +43,7 @@ TEST(Photomet, FunctionalTestPhotometClemMaxemiMaxinc) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), 55.491706688909559, .000001);
@@ -64,7 +64,7 @@ TEST(Photomet, FunctionalTestPhotometClemMaxemission) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), 58.134963167604397, .000001);
@@ -86,7 +86,7 @@ TEST(Photomet, FunctionalTestPhotometMessCmdline) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(),  0.05943594115596508, .000001);
@@ -106,7 +106,7 @@ TEST(Photomet, FunctionalTestPhotometMessenger) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(),  0.12118244647528577, .000001);
@@ -127,7 +127,7 @@ TEST(Photomet, FunctionalTestPhotometMessMaxemiMaxinc) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), -1.7976931348623149e+308, .000001);
@@ -148,7 +148,7 @@ TEST(Photomet, FunctionalTestPhotometMessMaxemission) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), 0.12118244647528577, .000001);
@@ -169,7 +169,7 @@ TEST(Photomet, FunctionalTestPhotometMessMaxincidence) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), -1.7976931348623149e+308, .000001);
@@ -193,7 +193,7 @@ TEST(Photomet, FunctionalTestPhotometMessBackplane) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(),  -1.7976931348623149e+308, .000001);
@@ -215,7 +215,7 @@ TEST(Photomet, FunctionalTestPhotometTestDemWarningMixed) {
   photomet(options, &log);
 
   PvlGroup warning = log.findGroup("Warnings");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, warning["Warning"], "The MIXED Normalized model is not recommended for use with the DEM Angle Source option");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, warning["Warning"], "The MIXED Normalized model is not recommended for use with the DEM Angle Source option");
 }
 
 TEST(Photomet, FunctionalTestPhotometTestDemWarningTopo) {
@@ -231,7 +231,7 @@ TEST(Photomet, FunctionalTestPhotometTestDemWarningTopo) {
   photomet(options, &log);
 
   PvlGroup warning = log.findGroup("Warnings");
-  EXPECT_PRED_FORMAT2(AssertQStringsEqual, warning["Warning"], "The TOPO Normalized model is not recommended for use with the DEM Angle Source option");
+  EXPECT_PRED_FORMAT2(AssertStringsEqual, warning["Warning"], "The TOPO Normalized model is not recommended for use with the DEM Angle Source option");
 }
 
 TEST(Photomet, FunctionalTestPhotometTestAngleSourceDemUseDemFalse) {
@@ -246,7 +246,7 @@ TEST(Photomet, FunctionalTestPhotometTestAngleSourceDemUseDemFalse) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), 14792.765466992187, .000001);
@@ -266,7 +266,7 @@ TEST(Photomet, FunctionalTestPhotometTestAngleSourceEllipsoidUseDemFalse) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), 14749.07615234375, .000001);
@@ -286,7 +286,7 @@ TEST(Photomet, FunctionalTestPhotometTestAngleSourceEllipsoidUseDemTrue) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), 14749.07615234375, .000001);
@@ -306,7 +306,7 @@ TEST(Photomet, FunctionalTestPhotometTestAngleSourceDemUseDemTrue) {
 
   photomet(options, &log);
 
-  Cube cube(cubeFileName);
+  Cube cube(cubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), 14792.765466992187, .000001);

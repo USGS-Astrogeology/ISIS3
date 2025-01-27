@@ -12,7 +12,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/dstripe.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/dstripe.xml").expanded());
 
 TEST(Dstripe, FunctionalTestDstripeName) {
   QTemporaryDir prefix;
@@ -27,7 +27,7 @@ TEST(Dstripe, FunctionalTestDstripeName) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), 99.405224835973755, .000001);
@@ -50,7 +50,7 @@ TEST(Dstripe, FunctionalTestDstripeParallel) {
     FAIL() << "Unable to open image: " << e.what() << std::endl;
   }
 
-  Cube cube(outCubeFileName);
+  Cube cube(outCubeFileName.toStdString());
 
   std::unique_ptr<Histogram> hist (cube.histogram(0));
   EXPECT_NEAR(hist->Average(), 2.2391462548711162e-05, .000001);
