@@ -100,7 +100,7 @@ namespace Isis {
     fromLabel(fileName, label, access);
 
     PvlGroup &instGrp = label.findGroup("Instrument", Pvl::Traverse);
-    if (isd.contains("line_scan_rate") && (QString)instGrp["InstrumentId"] == "HRSC") {
+    if (isd.contains("line_scan_rate") && (std::string)instGrp["InstrumentId"] == "HRSC") {
       attachLineScanTableFromIsd(isd);
     }
     

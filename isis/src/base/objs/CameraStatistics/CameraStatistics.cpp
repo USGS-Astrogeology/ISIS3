@@ -367,7 +367,7 @@ namespace Isis {
     // Set up the Pvl groups and get min, max, avg, and sd for each statstics
     // object
     PvlGroup pUser("UserParameters");
-    if (m_filename != "") pUser += PvlKeyword("Filename", m_filename);
+    if (m_filename != "") pUser += PvlKeyword("Filename", m_filename.toStdString());
     pUser += PvlKeyword("Linc", toString(m_linc));
     pUser += PvlKeyword("Sinc", toString(m_sinc));
 

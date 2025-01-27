@@ -830,7 +830,7 @@ void IsisMain() {
     qDebug() << polygeomsNoRepairActionError.importGeometryA(poly1,polygons);
   }
   catch(IException &e){
-    qDebug() << e.toString() << Qt::endl;
+    qDebug() << QString::fromStdString(e.toString()) << Qt::endl;
   }
 
   // Reactivate polygon and rerun test with InvalidGeometryAction

@@ -31,7 +31,7 @@ namespace Isis {
   void noseam(UserInterface &ui) {
 
     // Get Filename with list of cubes to mosaic
-    FileName cubeListFileName(ui.GetFileName("FROMLIST"));
+    FileName cubeListFileName(ui.GetFileName("FROMLIST").toStdString());
 
     return noseam(cubeListFileName, ui);
   }
@@ -83,14 +83,14 @@ namespace Isis {
     // Sets up the pathName to be used for most application calls
     FileName inFile = cubes[0];
 
-    QString pathName = FileName("$TEMPORARY/").expanded();
+    QString pathName = QString::fromStdString(FileName("$TEMPORARY/").expanded());
 
     /**
      * Creates a mosaic from the original images.  It is placed here
      * so that the failure MATCHBANDBIN causes does not leave
      * highpasses cubes lying around!
     */
-    QString parameters = "FROMLIST=" + cubeListFileName.original() + 
+    QString parameters = "FROMLIST=" + QString::fromStdString(cubeListFileName.original()) + 
                         " MOSAIC=" + pathName + "OriginalMosaic.cub" +
                         " MATCHBANDBIN=" + match;
     ProgramLauncher::RunIsisProgram("automos", parameters);
@@ -100,13 +100,13 @@ namespace Isis {
     highPassList.open("HighPassList.lis");
     for(int i = 0; i < cubes.size(); i++) {
       inFile = cubes[i];
-      QString outParam = pathName + inFile.baseName() + "_highpass.cub";
-      parameters = "FROM=" + inFile.expanded() +
+      QString outParam = pathName + QString::fromStdString(inFile.baseName()) + "_highpass.cub";
+      parameters = "FROM=" + QString::fromStdString(inFile.expanded()) +
                    " TO=" + outParam
-                   + " SAMPLES=" + toString(samples) + " LINES=" + toString(lines);
+                   + " SAMPLES=" + QString::number(samples) + " LINES=" + QString::number(lines);
       ProgramLauncher::RunIsisProgram("highpass", parameters);
       // Reads the just created highpass cube into a list file for automos
-      highPassList << outParam << endl;
+      highPassList << outParam.toStdString() << endl;
     }
     highPassList.close();
 
@@ -118,7 +118,7 @@ namespace Isis {
     // Does a lowpass on the original mosaic
     parameters = "FROM=" + pathName + "OriginalMosaic.cub"
                  + " TO=" + pathName + "LowpassMosaic.cub"
-                 + " SAMPLES=" + toString(samples) + " LINES=" + toString(lines);
+                 + " SAMPLES=" + QString::number(samples) + " LINES=" + QString::number(lines);
     ProgramLauncher::RunIsisProgram("lowpass", parameters);
 
     // Finally combines the highpass and lowpass mosaics
@@ -130,19 +130,19 @@ namespace Isis {
 
     // Will remove all of the temp files by default
     if(ui.GetBoolean("REMOVETEMP")) {
-      QString file("HighPassList.lis");
-      remove(file.toLatin1().data());
-      file = pathName + "HighpassMosaic.cub";
-      remove(file.toLatin1().data());
-      file = pathName + "LowpassMosaic.cub";
-      remove(file.toLatin1().data());
-      file = pathName + "OriginalMosaic.cub";
-      remove(file.toLatin1().data());
+      std::string file("HighPassList.lis");
+      remove(file.c_str());
+      file = pathName.toStdString() + "HighpassMosaic.cub";
+      remove(file.c_str());
+      file = pathName.toStdString() + "LowpassMosaic.cub";
+      remove(file.c_str());
+      file = pathName.toStdString() + "OriginalMosaic.cub";
+      remove(file.c_str());
 
       for(int i = 0; i < cubes.size(); i++) {
         inFile = cubes[i];
-        file = pathName + inFile.baseName() + "_highpass.cub";
-        remove(file.toLatin1().data());
+        file = pathName.toStdString() + inFile.baseName() + "_highpass.cub";
+        remove(file.c_str());
       }
     }
   }

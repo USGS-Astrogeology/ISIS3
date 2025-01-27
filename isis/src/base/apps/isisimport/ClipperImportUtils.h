@@ -32,11 +32,11 @@ namespace Isis {
         instGroup = inputCubeLabel->findGroup("Instrument", PvlObject::FindOptions::Traverse);
       }
       catch(IException &e) {
-        QString msg = "Unable to find instrument group in [" + cube->fileName() + "]";
+        std::string msg = "Unable to find instrument group in [" + cube->fileName().toStdString() + "]";
         throw IException(e, IException::User, msg, _FILEINFO_); 
       }
 
-      QString startTime = QString(instGroup.findKeyword("StartTime"));
+      QString startTime = QString::fromStdString(instGroup.findKeyword("StartTime"));
       iTime time(startTime);
       PvlKeyword exposureDuration = instGroup.findKeyword("ExposureDuration");
       double lineDuration = (double)exposureDuration;

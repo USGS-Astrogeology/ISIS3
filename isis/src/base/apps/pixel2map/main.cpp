@@ -40,13 +40,10 @@ void PrintMap() {
 UserInterface &ui = Application::GetUserInterface();
 
   // Get mapping group from map file
-  Pvl userMap(ui.GetFileName("MAP"));
+  Pvl userMap(ui.GetFileName("MAP").toStdString());
   PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
   //Write map file out to the log
 //
   Isis::Application::GuiLog(userGrp);
 } // PrintMap
-
-  
-

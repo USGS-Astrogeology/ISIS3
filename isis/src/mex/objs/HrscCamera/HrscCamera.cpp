@@ -127,7 +127,7 @@ namespace Isis {
     if(timesTable.Records() <= 0) {
       QString msg = "Table [LineScanTimes] in [";
       msg += cube.fileName() + "] must not be empty";
-      throw IException(IException::Unknown, msg, _FILEINFO_);
+      throw IException(IException::Unknown, msg.toStdString(), _FILEINFO_);
     }
 
     for(int i = 0; i < timesTable.Records(); i++) {
@@ -139,7 +139,7 @@ namespace Isis {
     if(p_lineRates.size() <= 0) {
       QString msg = "There is a problem with the data within the Table ";
       msg += "[LineScanTimes] in [" + cube.fileName() + "]";
-      throw IException(IException::Unknown, msg, _FILEINFO_);
+      throw IException(IException::Unknown, msg.toStdString(), _FILEINFO_);
     }
   }
 }

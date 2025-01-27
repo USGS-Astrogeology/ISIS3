@@ -493,7 +493,7 @@ namespace Isis {
     TextFile file(QString::fromStdString(filename.expanded()));
     QString lineString;
     while(file.GetLine(lineString)) {
-      data.push_back(toDouble(lineString.split(QRegExp("[ ,;]")).first()));
+      data.push_back(lineString.split(QRegExp("[ ,;]")).first().toDouble());
     }
     fileString = QString::fromStdString(filename.original());
   }

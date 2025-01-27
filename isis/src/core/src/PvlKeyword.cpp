@@ -1414,7 +1414,7 @@ namespace Isis {
         Now check if it's a reserved keyword that is valueless
        */
       bool allowedValueless = false;
-      static const std::vector<QString> reservedKeywordNames = {"OBJECT",
+      static const std::vector<std::string> reservedKeywordNames = {"OBJECT",
                                                                 "BEGIN_OBJECT",
                                                                 "END_OBJECT",
                                                                 "ENDOBJECT",
@@ -1422,7 +1422,8 @@ namespace Isis {
                                                                 "END_GROUP",
                                                                 "ENDGROUP",
                                                                 "END"};
-      const QString keywordNameUpper = keywordName.toUpper();
+      std::string keywordNameUpper = keywordName;
+      std::transform(keywordNameUpper.begin(), keywordNameUpper.end(), keywordNameUpper.begin(), ::toupper);    
       for (const auto &reservedKeywordName : reservedKeywordNames) {
         if (keywordNameUpper == reservedKeywordName) {
           allowedValueless = true;

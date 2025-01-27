@@ -37,7 +37,7 @@ namespace Isis {
       m_instrumentNameShort = "EIS-PBWAC";
     }
     else {
-      QString msg = "Unable to construct Clipper Push Broom camera model. "
+      std::string msg = "Unable to construct Clipper Push Broom camera model. "
                     "Unrecognized NaifFrameCode [" + toString(frameCode) + "].";
       throw IException(IException::User, msg, _FILEINFO_);
     }
@@ -47,16 +47,16 @@ namespace Isis {
     Pvl &lab = *cube.label();
 
     PvlGroup &bandBin = lab.findGroup("BandBin", Pvl::Traverse);
-    QString key = "INS" + toString(naifIkCode()) + "_" + bandBin["FilterName"][0] + "_FOCAL_LENGTH";
+    QString key = "INS" + QString::number(naifIkCode()) + "_" + QString::fromStdString(bandBin["FilterName"][0]) + "_FOCAL_LENGTH";
     SetFocalLength(Spice::getDouble(key));
 
     SetPixelPitch();
 
     PvlGroup &inst = lab.findGroup("Instrument", Pvl::Traverse);
-    QString startTime = inst["StartTime"];
+    QString startTime = QString::fromStdString(inst["StartTime"]);
     iTime etStart(startTime);
 
-    ReadLineRates(lab.fileName());
+    ReadLineRates(QString::fromStdString(lab.fileName()));
 
     // set up detector map
     new VariableLineScanCameraDetectorMap(this, p_lineRates);

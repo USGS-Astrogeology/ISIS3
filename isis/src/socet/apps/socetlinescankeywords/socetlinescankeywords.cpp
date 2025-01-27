@@ -50,12 +50,12 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
   // Use a regular Process
   Process p;
 
-  QString to = FileName(ui.GetFileName("TO")).expanded();
+  QString to = QString::fromStdString(FileName(ui.GetFileName("TO").toStdString()).expanded());
 
   double HRSCNadirCenterTime = ui.GetDouble("HRSC_NADIRCENTERTIME");
 
   if (input->isProjected()) {
-      QString msg =
+      std::string msg =
           "Input images is a map projected cube ... not a level 1 image";
     throw IException(IException::User, msg, _FILEINFO_);
   }
@@ -246,7 +246,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
         intTime = lrc.GetLineScanRate();
       }
       if (numIntTimes <= 0) {
-        QString msg = "HRSC: Invalid number of scan times";
+        std::string msg = "HRSC: Invalid number of scan times";
         throw IException(IException::Programmer, msg, _FILEINFO_);
       } else
         scanDuration = GetHRSCScanDuration(lineRates, totalLines);
@@ -852,14 +852,14 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 
   int GetHRSCLineRates(Cube *cube, vector<LineRateChange> &lineRates,
                       int &dtotalLines, double &HRSCNadirCenterTime) {
-    FileName cubefname = cube->fileName();
+    FileName cubefname = cube->fileName().toStdString();
     QTemporaryDir prefix;
-    FileName tablefname = FileName(prefix.path() + "/tabledump.txt");
+    FileName tablefname = FileName(prefix.path().toStdString() + "/tabledump.txt");
 
     // system call to ISIS function tabledump to dump LineScanTimes
     char syscmd[1056];
     snprintf(syscmd, sizeof(syscmd), "tabledump from=%s to=%s name=LineScanTimes",
-         cubefname.expanded().toLatin1().data(), tablefname.expanded().toLatin1().data());
+         cubefname.expanded().c_str(), tablefname.expanded().c_str());
 
 
     int n = system(syscmd);
@@ -869,7 +869,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
     // HrscCamera::ReadLineRates(IString filename) is private
 
     // open tabledump.txt for reading
-    ifstream fpIn(tablefname.expanded().toLatin1().data(), ifstream::in);
+    ifstream fpIn(tablefname.expanded().c_str(), ifstream::in);
     if (!fpIn) return -1;
 
     Camera *cam = cube->camera();
@@ -903,7 +903,7 @@ void socetlinescankeywords(Cube *input, UserInterface &ui) {
 
     // get alpha cube start line
     PvlGroup alphacube = cube->group("AlphaCube");
-    QString str = (QString)alphacube["AlphaStartingLine"];
+    QString str = QString::fromStdString(alphacube["AlphaStartingLine"]);
     double dAlphaStartLine = atof(str.toLatin1().data());
     double dAlphaLastLine = dAlphaStartLine + dtotalLines;
     cam->SetImage(1, 0.5);

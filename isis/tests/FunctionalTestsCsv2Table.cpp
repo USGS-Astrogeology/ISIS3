@@ -13,7 +13,7 @@
 
 using namespace Isis;
 
-static QString APP_XML = FileName("$ISISROOT/bin/xml/csv2table.xml").expanded();
+static QString APP_XML = QString::fromStdString(FileName("$ISISROOT/bin/xml/csv2table.xml").expanded());
 
 TEST_F(DefaultCube, FunctionalTestCsv2TableLabel) {
   QTemporaryDir tempDir;
@@ -291,8 +291,8 @@ TEST_F(DefaultCube, FunctionalTestCsv2TableArrayTypes) {
         EXPECT_TRUE(truth_ints[i] == std::vector<int>(record[j]));
       }
       else if (j == 1) {
-        std::cout << truth_strings[i] << ", " << QString(record[j]).toStdString() << std::endl;
-        EXPECT_TRUE(truth_strings[i] == QString(record[j]).toStdString());
+        std::cout << truth_strings[i] << ", " << TableField::toString(record[j]) << std::endl;
+        EXPECT_TRUE(truth_strings[i] == TableField::toString(record[j]));
       }
       else if (j == 2) {
         EXPECT_TRUE(truth_floats[i] == std::vector<float>(record[j]));

@@ -8,6 +8,7 @@ find files of those names at the top level of this repository. **/
 #include <fstream>
 #include <thread>
 #include <vector>
+#include <sstream>
 
 #include "FileName.h"
 #include "IException.h"

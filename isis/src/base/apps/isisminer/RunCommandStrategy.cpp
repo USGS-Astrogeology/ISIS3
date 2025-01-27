@@ -245,7 +245,7 @@ namespace Isis {
       }
       else {
       if ( isDebug() ) { 
-        cout << "Command " << command.m_name << " succeeded\n"; 
+        cout << "Command " << command.m_name.toStdString() << " succeeded\n"; 
       }
       }
     }

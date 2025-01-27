@@ -46,9 +46,9 @@ namespace Isis {
     }
 
     PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
-    QString tempDir = dataDir["Temporary"];
+    QString tempDir = QString::fromStdString(dataDir["Temporary"]);
 
-    QString command = program.expanded() + " " + parameters +
+    std::string command = program.expanded() + " " + parameters.toStdString() +
         " -pid=" + toString(getpid());
 
     if(!isIsisProgram) {
@@ -69,7 +69,7 @@ namespace Isis {
     QProcess childProcess;
     childProcess.setProcessEnvironment(env);
     childProcess.setProcessChannelMode(QProcess::ForwardedChannels);
-    childProcess.start("bash", QStringList() << "-c" << command);
+    childProcess.start("bash", QStringList() << "-c" << QString::fromStdString(command));
     childProcess.waitForStarted();
 
     bool connected = false;

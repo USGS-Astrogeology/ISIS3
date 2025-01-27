@@ -727,12 +727,12 @@ namespace Isis {
     if ( !geom.isEmpty() ) {
 
         // Get decision keys
-        bool repairGeom = toBool(keys.get("RepairInvalidGeometry", "true"));
+        bool repairGeom = toBool(keys.get("RepairInvalidGeometry", "true").toStdString());
 
         QString geomAction = keys.get("InvalidGeometryAction", "disable").toLower();
         if ( !QString("disable error continue").contains(geomAction) ) {
             if ( isDebug() ) {
-              cout << "  Invalid value for InvalidGeometryAction (" << geomAction 
+              cout << "  Invalid value for InvalidGeometryAction (" << geomAction.toStdString() 
                    << ") - set to disable!\n";
             }
             geomAction = "disable";
@@ -757,7 +757,7 @@ namespace Isis {
         QScopedPointer<GisGeometry> geosgeom(new GisGeometry(geom, GisGeometry::type(gisType)));
         if ( geosgeom.isNull() ) {
             if ( isDebug() ) {
-                cout << resource->name() << " geometry failed to construct\n";
+                cout << resource->name().toStdString() << " geometry failed to construct\n";
             }
             if ("continue" == geomAction) return (false);
             if ( "disable" == geomAction ) {
@@ -766,7 +766,7 @@ namespace Isis {
             }
 
             // Throw an error
-            QString mess = resource->name() + " failed to construct geometry!";
+            std::string mess = resource->name().toStdString() + " failed to construct geometry!";
             throw IException(IException::Programmer, mess, _FILEINFO_);
         }
             
@@ -775,13 +775,13 @@ namespace Isis {
           
           QString geomError = geosgeom->isValidReason();
           if ( isDebug() ) {
-              cout << "  Geometry error: " << geomError << "\n";
+              cout << "  Geometry error: " << geomError.toStdString() << "\n";
           }
           
           // Attempt repair if requested
           if ( repairGeom ) {
             if (isDebug()) {
-              cout << "  " << resource->name() << " geometry is invalid..."
+              cout << "  " << resource->name().toStdString() << " geometry is invalid..."
                     << "attempting buffer(0) to fix it!\n";
             }
             geosgeom.reset( geosgeom->buffer(0) );
@@ -811,7 +811,7 @@ namespace Isis {
             // Throw an error
             QString mess = resource->name() + " failed to construct geometry - Error: " +
                             geomError;
-            throw IException(IException::Programmer, mess, _FILEINFO_);
+            throw IException(IException::Programmer, mess.toStdString(), _FILEINFO_);
           }
         }
 

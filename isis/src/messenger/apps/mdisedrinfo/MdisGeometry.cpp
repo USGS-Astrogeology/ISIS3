@@ -736,7 +736,7 @@ namespace Isis {
 
     //  Determine instrument ID (inst)
     PvlKeyword &key = _label.findKeyword("NaifIkCode", PvlObject::Traverse);
-    QString iCode = key[0];
+    QString iCode = QString::fromStdString(key[0]);
     key = _label.findKeyword("Number", PvlObject::Traverse);
 
     // Get CK time tolerance (tol)

@@ -788,7 +788,7 @@ TEST(CubeTest, TestCubeAttachLineScanTableFromIsd) {
 
   QTemporaryFile tempFile;
   Cube testCube;
-  testCube.fromIsd(tempFile.fileName() + ".cub", label, isd, "rw");
+  testCube.fromIsd(tempFile.fileName().toStdString() + ".cub", label, isd, "rw");
 
   PvlGroup kernels = testCube.group("Kernels");
 
@@ -839,11 +839,11 @@ TEST_F(TempTestingFiles, TestCubeCreateWriteCopy) {
 
   // Copy returns the resulting Cube, we don't care about it (but we need it to flush) so delete
   QString file2 = tempDir.path() + "/IsisCube_01.cub";
-  delete out.copy(file2, CubeAttributeOutput());
+  delete out.copy(file2.toStdString(), CubeAttributeOutput());
   out.close();
 
   // Test the open and read methods
-  Cube in(file2);
+  Cube in(file2.toStdString());
   check_cube(in, file2, 150, 200, 2, 0, 1, 7, 1, 1, 1, 1, 0, 6563);
 
   LineManager inLine(in);
@@ -997,8 +997,7 @@ TEST_F(SmallCube, TestCubeNegativeHistStatsBand) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch (IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Invalid band in [CubeInfo::Histogram]"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Invalid band in [CubeInfo::Histogram]") != std::string::npos);
   }
 
   try {
@@ -1006,8 +1005,7 @@ TEST_F(SmallCube, TestCubeNegativeHistStatsBand) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch (IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Invalid band in [CubeInfo::Statistics]"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Invalid band in [CubeInfo::Statistics]") != std::string::npos);
   }
 }
 
@@ -1018,8 +1016,7 @@ TEST(CubeTest, TestCubeNoHistStats) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch (IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Cannot create histogram object for an unopened cube"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Cannot create histogram object for an unopened cube") != std::string::npos);
   }
 
   try {
@@ -1027,8 +1024,7 @@ TEST(CubeTest, TestCubeNoHistStats) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch (IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Cannot create statistics object for an unopened cube"))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Cannot create statistics object for an unopened cube") != std::string::npos);
   }
 }
 
@@ -1071,8 +1067,7 @@ TEST_F(SmallCube, TestCubeAlreadyOpenOpen) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("You already have a cube opened."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("You already have a cube opened.") != std::string::npos);
   }
 }
 
@@ -1082,8 +1077,7 @@ TEST_F(SmallCube, TestCubeAlreadyOpenCreate) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("You already have a cube opened."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("You already have a cube opened.") != std::string::npos);
   }
 }
 
@@ -1105,8 +1099,7 @@ TEST_F(TempTestingFiles, TestCubeWriteToReadOnly) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Cannot write to the cube [IsisCube_00.cub] because it is opened read-only."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Cannot write to the cube [IsisCube_00.cub] because it is opened read-only.") != std::string::npos);
   }
 }
 
@@ -1117,8 +1110,7 @@ TEST(CubeTest, TestCubeOpenNonexistentCube) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Unable to open [blah]."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Unable to open [blah].") != std::string::npos);
   }
 }
 
@@ -1135,8 +1127,7 @@ TEST_F(SmallCube, TestCubePhyscialBandOutOfBounds) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Out of array bounds [6]."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Out of array bounds [6].") != std::string::npos);
   }
 
   try {
@@ -1144,8 +1135,7 @@ TEST_F(SmallCube, TestCubePhyscialBandOutOfBounds) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Out of array bounds [0]."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Out of array bounds [0].") != std::string::npos);
   }
 }
 
@@ -1158,8 +1148,7 @@ TEST(CubeTest, TestCubeReadBlankCube) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Try opening a file before you read it."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Try opening a file before you read it.") != std::string::npos);
   }
 }
 
@@ -1176,8 +1165,7 @@ TEST(CubeTest, TestCubeWriteBlankCube) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Tried to write to a cube before opening/creating it."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Tried to write to a cube before opening/creating it.") != std::string::npos);
   }
 }
 
@@ -1189,8 +1177,7 @@ TEST_F(TempTestingFiles, TestCubeCreateZeroDimCube) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Number of samples [0], lines [0], or bands [0] cannot be less than 1."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Number of samples [0], lines [0], or bands [0] cannot be less than 1.") != std::string::npos);
   }
 }
 
@@ -1204,8 +1191,7 @@ TEST_F(TempTestingFiles, TestCubeCreateSmallLabel) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Label space is full in [IsisCube_00.cub] unable to write labels."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Label space is full in [IsisCube_00.cub] unable to write labels.") != std::string::npos);
   }
 }
 
@@ -1218,14 +1204,13 @@ TEST_F(TempTestingFiles, TestCubeCreateTooBig) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("The cube you are attempting to create [IsisCube_00.cub] is [33527GB]. "
+    EXPECT_TRUE(e.toString().find("The cube you are attempting to create [IsisCube_00.cub] is [33527GB]. "
                                                   "This is larger than the current allowed size of [12GB]. The cube "
                                                   "dimensions were (S,L,B) [1000000, 1000000, 9] with [4] bytes per pixel. "
                                                   "If you still wish to create this cube, the maximum value can be changed "
                                                   "in your personal preference file located in [~/.Isis/IsisPreferences] "
                                                   "within the group CubeCustomization, keyword MaximumSize. If you do not have "
-                                                  "an ISISPreference file, please refer to the documentation 'Environment and Preference Setup'. Error."))
-      << e.toString().toStdString();
+                                                  "an ISISPreference file, please refer to the documentation 'Environment and Preference Setup'. Error.") != std::string::npos);
   }
 }
 
@@ -1236,8 +1221,7 @@ TEST_F(SmallCube, TestCubeOpenBadAccessor) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Unknown value for access [a]. Expected 'r'  or 'rw'."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Unknown value for access [a]. Expected 'r'  or 'rw'.") != std::string::npos);
   }
 }
 
@@ -1248,8 +1232,7 @@ TEST(CubeTest, TestCubeInvalidDimSamples) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("SetDimensions:  Invalid number of sample, lines or bands."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("SetDimensions:  Invalid number of sample, lines or bands.") != std::string::npos);
   }
 }
 
@@ -1260,8 +1243,7 @@ TEST(CubeTest, TestCubeInvalidDimLines) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("SetDimensions:  Invalid number of sample, lines or bands."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("SetDimensions:  Invalid number of sample, lines or bands.") != std::string::npos);
   }
 }
 
@@ -1272,8 +1254,7 @@ TEST(CubeTest, TestCubeInvalidDimBands) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("SetDimensions:  Invalid number of sample, lines or bands."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("SetDimensions:  Invalid number of sample, lines or bands.") != std::string::npos);
   }
 }
 
@@ -1286,8 +1267,7 @@ TEST(CubeTest, TestCubeNonePixelType) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Cannot create the cube [IsisCube_00.cub] with a pixel type set to None."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Cannot create the cube [IsisCube_00.cub] with a pixel type set to None.") != std::string::npos);
   }
 }
 
@@ -1301,18 +1281,17 @@ TEST_F(TempTestingFiles, TestCubeAddGroupReadOnly) {
     FAIL() << "Expected an exception to be thrown";
   }
   catch(IException &e) {
-    EXPECT_TRUE(e.toString().toLatin1().contains("Cannot add a group to the label of cube [IsisCube_00.cub] because it is opened read-only."))
-      << e.toString().toStdString();
+    EXPECT_TRUE(e.toString().find("Cannot add a group to the label of cube [IsisCube_00.cub] because it is opened read-only.") != std::string::npos);
   }
 }
 
 TEST_F(SmallCube, TestCubeCreateECube) {
   Cube localTestCube;
   QString path = testCube->fileName();
-  localTestCube.setExternalDnData(path);
+  localTestCube.setExternalDnData(path.toStdString());
   localTestCube.create(tempDir.path() + "/isisTruth_external.ecub");
   localTestCube.putGroup(PvlGroup("TestGroup"));
-  EXPECT_EQ(localTestCube.realDataFileName().expanded(), path);
+  EXPECT_EQ(localTestCube.realDataFileName().expanded(), path.toStdString());
   EXPECT_TRUE(localTestCube.hasGroup("TestGroup"));
 
   path = localTestCube.fileName();
@@ -1326,7 +1305,7 @@ class ECube : public SmallCube {
         void SetUp() override {
             SmallCube::SetUp();
             testECube = new Cube();
-            testECube->setExternalDnData(testCube->fileName());
+            testECube->setExternalDnData(testCube->fileName().toStdString());
             QString path = tempDir.path() + "/external.ecub";
             testECube->create(path);
 
@@ -1350,10 +1329,10 @@ TEST_F(ECube, TestCubeCreateECubeFromECube) {
   QString path1 = testECube->fileName();
 
   Cube localTestCube;
-  localTestCube.setExternalDnData(path1);
+  localTestCube.setExternalDnData(path1.toStdString());
   QString path2 = tempDir.path() + "/isisTruth_external2.ecub";
   localTestCube.create(path2);
-  EXPECT_EQ(localTestCube.realDataFileName().expanded(), testCube->fileName());
+  EXPECT_EQ(localTestCube.realDataFileName().expanded(), testCube->fileName().toStdString());
 
   check_cube(localTestCube, path2, 10, 10, 10, 0, 1, 7, 2, 1, 1, 0, 1, 65536);
 }
@@ -1379,8 +1358,7 @@ TEST_F(ECube, TestCubeECubeWrite) {
       FAIL();
     }
     catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("The cube [external.ecub] does not support storing DN data because it is using an external file for DNs."))
-        << e.toString().toStdString();
+      EXPECT_TRUE(e.toString().find("The cube [external.ecub] does not support storing DN data because it is using an external file for DNs.") != std::string::npos);
     }
 }
 
@@ -1388,7 +1366,7 @@ TEST_F(ECube, TestCubeECubeFromECubeRead) {
     QString path1 = testECube->fileName();
 
     Cube localTestCube;
-    localTestCube.setExternalDnData(path1);
+    localTestCube.setExternalDnData(path1.toStdString());
     QString path2 = tempDir.path() + "/isisTruth_external2.ecub";
     localTestCube.create(path2);
 

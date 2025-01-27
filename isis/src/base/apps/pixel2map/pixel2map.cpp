@@ -29,17 +29,17 @@ namespace Isis {
   	
   void pixel2map(UserInterface &ui, Pvl *appLog){	 
 	
-	Pvl userMap(ui.GetFileName("MAP"));
+	Pvl userMap(ui.GetFileName("MAP").toStdString());
     PvlGroup &userGrp = userMap.findGroup("Mapping", Pvl::Traverse);
 
     FileList list;
     if (ui.GetString("FROMTYPE") == "FROM") {
       // GetAsString will capture the entire string, including attributes
-      list.push_back(FileName(ui.GetAsString("FROM")));
+      list.push_back(FileName(ui.GetAsString("FROM").toStdString()));
     }
     else {
       try {
-        list.read(ui.GetFileName("FROMLIST"));
+        list.read(ui.GetFileName("FROMLIST").toStdString());
       }
       catch (IException &e) {
         throw IException(e);
@@ -72,7 +72,7 @@ namespace Isis {
         vector<QString> lame = atts0.bands();
         icube.setVirtualBands(lame);
       }
-      icube.open( list[i].toString() );
+      icube.open( QString::fromStdString(list[i].toString()) );
       bands = icube.bandCount();
       g_incam = icube.camera();
 	
@@ -81,18 +81,18 @@ namespace Isis {
 	
 	// Preparing the OGC IAU code for the vector data being generated
   	Spice spi(icube);
-  	ogc_SRS = "IAU:" + Isis::toString(spi.target()->naifBodyCode())  + "00";
+  	ogc_SRS = "IAU:" + QString::number(spi.target()->naifBodyCode()) + "00";
 
       // Make sure it is not the sky
       if (g_incam->target()->isSky()) {
-        QString msg = "The image [" + list[i].toString() +
+        std::string msg = "The image [" + list[i].toString() +
                       "] is targeting the sky, use skymap instead.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
 
       // Make sure all the bands for all the files match
       if (i >= 1 && atts0.bandsString() != lastBandString) {
-        QString msg = "The Band numbers for all the files do not match.";
+        std::string msg = "The Band numbers for all the files do not match.";
         throw IException(IException::User, msg, _FILEINFO_);
       }
       else {
@@ -230,7 +230,7 @@ namespace Isis {
         vector<QString> lame = atts0.bands();
         icube.setVirtualBands(lame);
       }
-      icube.open( list.back().toString() );
+      icube.open( QString::fromStdString(list.back().toString()) );
       g_incam = icube.camera();
 
       if (g_incam->IntersectsLongitudeDomain(userMap)) {
@@ -275,7 +275,7 @@ namespace Isis {
         else if (ui.GetString("LONSEAM") == "ERROR") {
           QString msg = "The image [" + ui.GetCubeName("FROM") + "] crosses the " +
                        "longitude seam";
-          throw IException(IException::User, msg, _FILEINFO_);
+          throw IException(IException::User, msg.toStdString(), _FILEINFO_);
         }
       }
 
@@ -328,11 +328,11 @@ namespace Isis {
       Cube cube(list[f].toString(), "r");
       // Loop through the input cube and get the all pixels values for all bands
       ProcessByBrick processBrick;
-      processBrick.Progress()->SetText("Working on file:  " + list[f].toString());
+      processBrick.Progress()->SetText("Working on file:  " + QString::fromStdString(list[f].toString()));
       processBrick.SetBrickSize(1, 1, bands);
       // Recall list[f] is a FileName, which stores the attributes
       CubeAttributeInput atts0(list[f]);
-      Cube *icube = processBrick.SetInputCube(list[f].toString(), atts0, 0);
+      Cube *icube = processBrick.SetInputCube(QString::fromStdString(list[f].toString()), atts0, 0);
       g_incam = icube->camera();
     
       if ( ui.WasEntered("TO") )  { 
@@ -343,15 +343,15 @@ namespace Isis {
 		 		
   	    ofstream fout_vrt;
     
-  	    QString outFileNameVRT = FileName( outvect.toLatin1().data() ).removeExtension().addExtension("vrt").expanded();
-  		QString layer_name = FileName( outvect.toLatin1().data() ).baseName();
-  		QString csv_fname = FileName( outvect.toLatin1().data() ).name();
+  	  std::string outFileNameVRT = FileName( outvect.toLatin1().data() ).removeExtension().addExtension("vrt").expanded();
+  		std::string layer_name = FileName( outvect.toLatin1().data() ).baseName();
+  		std::string csv_fname = FileName( outvect.toLatin1().data() ).name();
 		
-  	    fout_vrt.open( outFileNameVRT.toLatin1().data()  );
+  	    fout_vrt.open( outFileNameVRT.c_str()  );
   
   	    fout_vrt << "<OGRVRTDataSource>" << endl;
-  	    fout_vrt << "    <OGRVRTLayer name=\""<< layer_name.toLatin1().data() << "\"> " << endl;
-  	    fout_vrt << "            <SrcDataSource relativeToVRT=\"1\">" << csv_fname.toLatin1().data() << "</SrcDataSource>" << endl;
+  	    fout_vrt << "    <OGRVRTLayer name=\""<< layer_name.c_str() << "\"> " << endl;
+  	    fout_vrt << "            <SrcDataSource relativeToVRT=\"1\">" << csv_fname.c_str() << "</SrcDataSource>" << endl;
   	    fout_vrt << "            <GeometryType>wkbPolygon</GeometryType>" << endl;
   	    fout_vrt << "            <LayerSRS>"<<  ogc_SRS.toLatin1().data() << "</LayerSRS>" << endl;
   		fout_vrt << "            <Field name=\"sample\" src=\"sampleno\" type=\"Integer\"/> "<< endl;
@@ -382,12 +382,12 @@ namespace Isis {
     // When there is only one input cube, we want to propagate IsisCube labels to output cubes
     if (list.size() == 1) {
       // Note that polygons and original labels are not propagated
-      g_processGroundPolygons.PropagateLabels(list[0].toString());
+      g_processGroundPolygons.PropagateLabels(QString::fromStdString(list[0].toString()));
       // Tell Process which tables we want to propagate
       QList<QString> tablesToPropagate;
       tablesToPropagate << "InstrumentPointing" << "InstrumentPosition" << "BodyRotation"
           << "SunPosition";
-      g_processGroundPolygons.PropagateTables(list[0].toString(), tablesToPropagate);
+      g_processGroundPolygons.PropagateTables(QString::fromStdString(list[0].toString()), tablesToPropagate);
       }
     }
     g_processGroundPolygons.EndProcess();

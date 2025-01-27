@@ -63,19 +63,19 @@ void LoadPvl() {
       if (!phtObj.hasGroup("Algorithm")) {
       QString message = "The input PVL does not contain a valid photometric model so you must specify one ";
       message += "- the [Algorithm] group is missing in your [PhotometricModel]";
-      throw IException(IException::User, message, _FILEINFO_);
+      throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
       else {
       PvlObject::PvlGroupIterator phtGrp = phtObj.beginGroup();
       bool wasFound = false;
       if (phtGrp->hasKeyword("PHTNAME")) {
-          phtVal = (QString)phtGrp->findKeyword("PHTNAME");
+          phtVal = QString::fromStdString(phtGrp->findKeyword("PHTNAME"));
       } else if (phtGrp->hasKeyword("NAME")) {
-          phtVal = (QString)phtGrp->findKeyword("NAME");
+          phtVal = QString::fromStdString(phtGrp->findKeyword("NAME"));
       } else {
           QString message = "The input PVL does not contain a valid photometric model so you must specify one ";
           message += "- the [Phtname] keyword is missing in your [Algorithm] group";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
       phtVal = phtVal.toUpper();
       if (phtName == phtVal || phtName == "NONE" || phtName == "FROMPVL") {
@@ -85,13 +85,13 @@ void LoadPvl() {
           while (phtGrp != phtObj.endGroup()) {
           if (phtGrp->hasKeyword("PHTNAME") || phtGrp->hasKeyword("NAME")) {
               if (phtGrp->hasKeyword("PHTNAME")) {
-              phtVal = (QString)phtGrp->findKeyword("PHTNAME");
+              phtVal = QString::fromStdString(phtGrp->findKeyword("PHTNAME"));
               } else if (phtGrp->hasKeyword("NAME")) {
-              phtVal = (QString)phtGrp->findKeyword("NAME");
+              phtVal = QString::fromStdString(phtGrp->findKeyword("NAME"));
               } else {
               QString message = "The input PVL does not contain a valid photometric model so you must specify one ";
               message += "- the [Phtname] keyword is missing in your [Algorithm] group";
-              throw IException(IException::User, message, _FILEINFO_);
+              throw IException(IException::User, message.toStdString(), _FILEINFO_);
               }
               phtVal = phtVal.toUpper();
               if (phtName == phtVal) {
@@ -145,7 +145,7 @@ void LoadPvl() {
               ui.PutAsString("B0", os.str().c_str());
           }
           if (phtGrp->hasKeyword("ZEROB0STANDARD")) {
-              QString zerob0 = (QString)phtGrp->findKeyword("ZEROB0STANDARD");
+              QString zerob0 = QString::fromStdString(phtGrp->findKeyword("ZEROB0STANDARD"));
               QString izerob0 = zerob0;
               izerob0 = izerob0.toUpper();
               if (izerob0 == "TRUE") {
@@ -154,7 +154,7 @@ void LoadPvl() {
               ui.PutString("ZEROB0STANDARD", "FALSE");
               } else {
               QString message = "The ZEROB0STANDARD value is invalid - must be set to TRUE or FALSE";
-              throw IException(IException::User, message, _FILEINFO_);
+              throw IException(IException::User, message.toStdString(), _FILEINFO_);
               }
           }
           if (phtVal == "HAPKEHEN") {
@@ -187,22 +187,22 @@ void LoadPvl() {
           }
           } else if (phtVal == "LUNARLAMBERTEMPIRICAL" || phtVal == "MINNAERTEMPIRICAL") {
           if (phtGrp->hasKeyword("PHASELIST")) {
-              QString phaselist = (QString)phtGrp->findKeyword("PHASELIST");
+              QString phaselist =QString::fromStdString(phtGrp->findKeyword("PHASELIST"));
               ui.PutAsString("PHASELIST", phaselist);
           }
           if (phtGrp->hasKeyword("PHASECURVELIST")) {
-              QString phasecurvelist = (QString)phtGrp->findKeyword("PHASECURVELIST");
+              QString phasecurvelist = QString::fromStdString(phtGrp->findKeyword("PHASECURVELIST"));
               ui.PutAsString("PHASECURVELIST", phasecurvelist);
           }
           if (phtVal == "LUNARLAMBERTEMPIRICAL") {
               if (phtGrp->hasKeyword("LLIST")) {
-              QString llist = (QString)phtGrp->findKeyword("LLIST");
+              QString llist = QString::fromStdString(phtGrp->findKeyword("LLIST"));
               ui.PutAsString("LLIST", llist);
               }
           }
           if (phtVal == "MINNAERTEMPIRICAL") {
               if (phtGrp->hasKeyword("KLIST")) {
-              QString klist = (QString)phtGrp->findKeyword("KLIST");
+              QString klist = QString::fromStdString(phtGrp->findKeyword("KLIST"));
               ui.PutAsString("KLIST", klist);
               }
           }
@@ -223,7 +223,7 @@ void LoadPvl() {
           } else if (phtVal != "LAMBERT" && phtVal != "LOMMELSEELIGER" &&
                   phtVal != "LUNARLAMBERTMCEWEN") {
           QString message = "Unsupported photometric model [" + phtVal + "].";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
           }
           ui.PutAsString("PHTNAME", phtVal);
       }
@@ -236,19 +236,19 @@ void LoadPvl() {
       if (!nrmObj.hasGroup("Algorithm")) {
       QString message = "The input PVL does not contain a valid normalization model so you must specify one ";
       message += "- the [Algorithm] group is missing in your [NormalizationModel]";
-      throw IException(IException::User, message, _FILEINFO_);
+      throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
       else {
       PvlObject::PvlGroupIterator nrmGrp = nrmObj.beginGroup();
       bool wasFound = false;
       if (nrmGrp->hasKeyword("NORMNAME")) {
-          nrmVal = (QString)nrmGrp->findKeyword("NORMNAME");
+          nrmVal = QString::fromStdString(nrmGrp->findKeyword("NORMNAME"));
       } else if (nrmGrp->hasKeyword("NAME")) {
-          nrmVal = (QString)nrmGrp->findKeyword("NAME");
+          nrmVal = QString::fromStdString(nrmGrp->findKeyword("NAME"));
       } else {
           QString message = "The input PVL does not contain a valid normalization model so you must specify one ";
           message += "- the [Normname] keyword is missing in your [Algorithm] group";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
       nrmVal = nrmVal.toUpper();
       if (nrmName == nrmVal || nrmName == "NONE" || nrmName == "FROMPVL") {
@@ -258,13 +258,13 @@ void LoadPvl() {
           while (nrmGrp != nrmObj.endGroup()) {
           if (nrmGrp->hasKeyword("NORMNAME") || nrmGrp->hasKeyword("NAME")) {
               if (nrmGrp->hasKeyword("NORMNAME")) {
-              nrmVal = (QString)nrmGrp->findKeyword("NORMNAME");
+              nrmVal = QString::fromStdString(nrmGrp->findKeyword("NORMNAME"));
               } else if (nrmGrp->hasKeyword("NAME")) {
-              nrmVal = (QString)nrmGrp->findKeyword("NAME");
+              nrmVal = QString::fromStdString(nrmGrp->findKeyword("NAME"));
               } else {
               QString message = "The input PVL does not contain a valid normalization model so you must specify one ";
               message += "- the [Normname] keyword is missing in your [Algorithm] group";
-              throw IException(IException::User, message, _FILEINFO_);
+              throw IException(IException::User, message.toStdString(), _FILEINFO_);
               }
               nrmVal = nrmVal.toUpper();
               if (nrmName == nrmVal) {
@@ -387,7 +387,7 @@ void LoadPvl() {
               }
           } else {
               QString message = "Unsupported normalization model [" + nrmVal + "].";
-              throw IException(IException::User, message, _FILEINFO_);
+              throw IException(IException::User, message.toStdString(), _FILEINFO_);
           }
           } else {
           if (nrmGrp->hasKeyword("D")) {
@@ -470,19 +470,19 @@ void LoadPvl() {
       if (!atmObj.hasGroup("Algorithm")) {
       QString message = "The input PVL does not contain a valid atmospheric model so you must specify one ";
       message += "- the [Algorithm] group is missing in your [AtmosphericModel]";
-      throw IException(IException::User, message, _FILEINFO_);
+      throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
       else {
       PvlObject::PvlGroupIterator atmGrp = atmObj.beginGroup();
       bool wasFound = false;
       if (atmGrp->hasKeyword("ATMNAME")) {
-          atmVal = (QString)atmGrp->findKeyword("ATMNAME");
+          atmVal = QString::fromStdString(atmGrp->findKeyword("ATMNAME"));
       } else if (atmGrp->hasKeyword("NAME")) {
-          atmVal = (QString)atmGrp->findKeyword("NAME");
+          atmVal = QString::fromStdString(atmGrp->findKeyword("NAME"));
       } else {
           QString message = "The input PVL does not contain a valid atmospheric model so you must specify one ";
           message += "- the [Atmname] keyword is missing in your [Algorithm] group";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
       atmVal = atmVal.toUpper();
       if (atmName == atmVal || atmName == "NONE" || atmName == "FROMPVL") {
@@ -492,13 +492,13 @@ void LoadPvl() {
           while (atmGrp != atmObj.endGroup()) {
           if (atmGrp->hasKeyword("ATMNAME") || atmGrp->hasKeyword("NAME")) {
               if (atmGrp->hasKeyword("ATMNAME")) {
-              atmVal = (QString)atmGrp->findKeyword("ATMNAME");
+              atmVal = QString::fromStdString(atmGrp->findKeyword("ATMNAME"));
               } else if (atmGrp->hasKeyword("NAME")) {
-              atmVal = (QString)atmGrp->findKeyword("NAME");
+              atmVal = QString::fromStdString(atmGrp->findKeyword("NAME"));
               } else {
               QString message = "The input PVL does not contain a valid atmospheric model so you must specify one ";
               message += "- the [Atmname] keyword is missing in your [Algorithm] group";
-              throw IException(IException::User, message, _FILEINFO_);
+              throw IException(IException::User, message.toStdString(), _FILEINFO_);
               }
               atmVal = atmVal.toUpper();
               if (atmName == atmVal) {
@@ -546,7 +546,7 @@ void LoadPvl() {
               ui.PutAsString("WHA", os.str().c_str());
           }
           if (atmGrp->hasKeyword("NULNEG")) {
-              QString nulneg = (QString)atmGrp->findKeyword("NULNEG");
+              QString nulneg = QString::fromStdString(atmGrp->findKeyword("NULNEG"));
               QString inulneg = nulneg;
               inulneg = inulneg.toUpper();
               if (inulneg == "YES") {
@@ -554,7 +554,7 @@ void LoadPvl() {
               } else if (inulneg == "NO") {
               ui.PutString("NULNEG", "NO");
               } else {
-              QString message = "The NULNEG value is invalid - must be set to YES or NO";
+              std::string message = "The NULNEG value is invalid - must be set to YES or NO";
               throw IException(IException::User, message, _FILEINFO_);
               }
           }
@@ -580,7 +580,7 @@ void LoadPvl() {
               atmVal != "HAPKEATM1" && atmVal != "HAPKEATM2" &&
               atmVal != "ISOTROPIC1" && atmVal != "ISOTROPIC2") {
           QString message = "Unsupported atmospheric model [" + atmVal + "].";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
           }
           ui.PutAsString("ATMNAME", atmVal);
       }

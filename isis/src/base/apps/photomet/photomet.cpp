@@ -84,7 +84,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         message +=
             "data that are formatted as parname=value and each pair is "
             "separated by spaces.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
       parMap[parvalList.at(0)] = parvalList.at(1);
     }
@@ -101,15 +101,15 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     PvlObject fromNormObj;
     PvlGroup fromNormGrp;
     QString input = ui.GetFileName("FROMPVL");
-    fromNormPvl.read(input);
+    fromNormPvl.read(input.toStdString());
     if (fromNormPvl.hasObject("NormalizationModel")) {
       fromNormObj = fromNormPvl.findObject("NormalizationModel");
       if (fromNormObj.hasGroup("Algorithm")) {
         PvlObject::PvlGroupIterator fromNormGrp = fromNormObj.beginGroup();
         if (fromNormGrp->hasKeyword("NORMNAME")) {
-          normVal = (QString)fromNormGrp->findKeyword("NORMNAME");
+          normVal = QString::fromStdString(fromNormGrp->findKeyword("NORMNAME"));
         } else if (fromNormGrp->hasKeyword("NAME")) {
-          normVal = (QString)fromNormGrp->findKeyword("NAME");
+          normVal = QString::fromStdString(fromNormGrp->findKeyword("NAME"));
         } else {
           normVal = "NONE";
         }
@@ -127,9 +127,9 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             if (fromNormGrp->hasKeyword("NORMNAME") ||
                 fromNormGrp->hasKeyword("NAME")) {
               if (fromNormGrp->hasKeyword("NORMNAME")) {
-                normVal = (QString)fromNormGrp->findKeyword("NORMNAME");
+                normVal = QString::fromStdString(fromNormGrp->findKeyword("NORMNAME"));
               } else if (fromNormGrp->hasKeyword("NAME")) {
-                normVal = (QString)fromNormGrp->findKeyword("NAME");
+                normVal = QString::fromStdString(fromNormGrp->findKeyword("NAME"));
               } else {
                 normVal = "NONE";
               }
@@ -152,7 +152,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     }
     // Check to make sure that a normalization model was specified
     if (normName == "NONE" || normName == "FROMPVL") {
-      QString message =
+      std::string message =
           "A Normalization model must be specified before running this "
           "program. ";
       message +=
@@ -171,7 +171,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
           .addGroup(PvlGroup("Algorithm"));
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("NORMNAME", normName), Pvl::Replace);
+          .addKeyword(PvlKeyword("NORMNAME", normName.toStdString()), Pvl::Replace);
     }
   } else {
     // Check to make sure that a normalization model was specified
@@ -185,26 +185,26 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       message +=
           "you need to specify a Normalization model through the program "
           "interface.";
-      throw IException(IException::User, message, _FILEINFO_);
+      throw IException(IException::User, message.toStdString(), _FILEINFO_);
     }
     toNormPvl.addObject(PvlObject("NormalizationModel"));
     toNormPvl.findObject("NormalizationModel").addGroup(PvlGroup("Algorithm"));
     toNormPvl.findObject("NormalizationModel")
         .findGroup("Algorithm")
-        .addKeyword(PvlKeyword("NORMNAME", normName), Pvl::Replace);
+        .addKeyword(PvlKeyword("NORMNAME", normName.toStdString()), Pvl::Replace);
   }
-  normLog += PvlKeyword("NORMNAME", normName);
+  normLog += PvlKeyword("NORMNAME", normName.toStdString());
 
   if (normName == "ALBEDO" || normName == "MIXED") {
     if (parMap.contains("INCREF")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("INCREF", toString(toDouble(parMap["INCREF"]))),
+              PvlKeyword("INCREF", toString((parMap["INCREF"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("INCREF")) {
       QString keyval = ui.GetString("INCREF");
-      double incref = toDouble(keyval);
+      double incref = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("INCREF", toString(incref)), Pvl::Replace);
@@ -215,7 +215,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + normName +
             " Normalization model requires a value for the INCREF parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -226,11 +226,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         toNormPvl.findObject("NormalizationModel")
             .findGroup("Algorithm")
             .addKeyword(
-                PvlKeyword("INCMAT", toString(toDouble(parMap["INCMAT"]))),
+                PvlKeyword("INCMAT", toString((parMap["INCMAT"]).toDouble())),
                 Pvl::Replace);
       } else if (ui.WasEntered("INCMAT")) {
         QString keyval = ui.GetString("INCMAT");
-        double incmat = toDouble(keyval);
+        double incmat = keyval.toDouble();
         toNormPvl.findObject("NormalizationModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("INCMAT", toString(incmat)), Pvl::Replace);
@@ -242,7 +242,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + normName +
               " Normalization model requires a value for the INCMAT parameter.";
           message += "The normal range for INCMAT is: 0 <= INCMAT < 90";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       normLog += toNormPvl.findObject("NormalizationModel")
@@ -253,11 +253,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("THRESH", toString(toDouble(parMap["THRESH"]))),
+              PvlKeyword("THRESH", toString((parMap["THRESH"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("THRESH")) {
       QString keyval = ui.GetString("THRESH");
-      double thresh = toDouble(keyval);
+      double thresh = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("THRESH", toString(thresh)), Pvl::Replace);
@@ -268,7 +268,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + normName +
             " Normalization model requires a value for the THRESH parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -278,11 +278,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("ALBEDO", toString(toDouble(parMap["ALBEDO"]))),
+              PvlKeyword("ALBEDO", toString((parMap["ALBEDO"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("ALBEDO")) {
       QString keyval = ui.GetString("ALBEDO");
-      double albedo = toDouble(keyval);
+      double albedo = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("ALBEDO", toString(albedo)), Pvl::Replace);
@@ -294,7 +294,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the ALBEDO parameter.";
         message += "The ALBEDO parameter has no limited range";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -304,11 +304,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("D")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("D", toString(toDouble(parMap["D"]))),
+          .addKeyword(PvlKeyword("D", toString((parMap["D"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("D")) {
       QString keyval = ui.GetString("D");
-      double d = toDouble(keyval);
+      double d = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("D", toString(d)), Pvl::Replace);
@@ -320,7 +320,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the D parameter.";
         message += "The D parameter has no limited range";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -329,11 +329,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("E")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("E", toString(toDouble(parMap["E"]))),
+          .addKeyword(PvlKeyword("E", toString((parMap["E"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("E")) {
       QString keyval = ui.GetString("E");
-      double e = toDouble(keyval);
+      double e = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("E", toString(e)), Pvl::Replace);
@@ -345,7 +345,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the E parameter.";
         message += "The E parameter has no limited range";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -354,11 +354,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("F")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("F", toString(toDouble(parMap["F"]))),
+          .addKeyword(PvlKeyword("F", toString((parMap["F"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("F")) {
       QString keyval = ui.GetString("F");
-      double f = toDouble(keyval);
+      double f = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("F", toString(f)), Pvl::Replace);
@@ -370,7 +370,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the F parameter.";
         message += "The F parameter has no limited range";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -379,11 +379,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("G2")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("G2", toString(toDouble(parMap["G2"]))),
+          .addKeyword(PvlKeyword("G2", toString(parMap["G2"].toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("G2")) {
       QString keyval = ui.GetString("G2");
-      double g2 = toDouble(keyval);
+      double g2 = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("G2", toString(g2)), Pvl::Replace);
@@ -395,7 +395,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the G2 parameter.";
         message += "The G2 parameter has no limited range";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -404,11 +404,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("XMUL")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("XMUL", toString(toDouble(parMap["XMUL"]))),
+          .addKeyword(PvlKeyword("XMUL", toString((parMap["XMUL"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("XMUL")) {
       QString keyval = ui.GetString("XMUL");
-      double xmul = toDouble(keyval);
+      double xmul = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("XMUL", toString(xmul)), Pvl::Replace);
@@ -420,7 +420,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the XMUL parameter.";
         message += "The XMUL parameter has no range limit";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -429,11 +429,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("WL")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("WL", toString(toDouble(parMap["WL"]))),
+          .addKeyword(PvlKeyword("WL", toString((parMap["WL"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("WL")) {
       QString keyval = ui.GetString("WL");
-      double wl = toDouble(keyval);
+      double wl = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("WL", toString(wl)), Pvl::Replace);
@@ -445,7 +445,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the WL parameter.";
         message += "The WL parameter has no range limit";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -454,11 +454,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("H")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("H", toString(toDouble(parMap["H"]))),
+          .addKeyword(PvlKeyword("H", toString((parMap["H"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("H")) {
       QString keyval = ui.GetString("H");
-      double h = toDouble(keyval);
+      double h = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("H", toString(h)), Pvl::Replace);
@@ -470,7 +470,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the H parameter.";
         message += "The H parameter has no limited range";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -479,11 +479,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("BSH1")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("BSH1", toString(toDouble(parMap["BSH1"]))),
+          .addKeyword(PvlKeyword("BSH1", toString((parMap["BSH1"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("BSH1")) {
       QString keyval = ui.GetString("BSH1");
-      double bsh1 = toDouble(keyval);
+      double bsh1 = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("BSH1", toString(bsh1)), Pvl::Replace);
@@ -495,7 +495,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the BSH1 parameter.";
         message += "The normal range for BSH1 is: 0 <= BSH1";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -504,11 +504,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("XB1")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("XB1", toString(toDouble(parMap["XB1"]))),
+          .addKeyword(PvlKeyword("XB1", toString((parMap["XB1"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("XB1")) {
       QString keyval = ui.GetString("XB1");
-      double xb1 = toDouble(keyval);
+      double xb1 = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("XB1", toString(xb1)), Pvl::Replace);
@@ -520,7 +520,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the XB1 parameter.";
         message += "The XB1 parameter has no range limit";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -529,11 +529,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("XB2")) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("XB2", toString(toDouble(parMap["XB2"]))),
+          .addKeyword(PvlKeyword("XB2", toString((parMap["XB2"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("XB2")) {
       QString keyval = ui.GetString("XB2");
-      double xb2 = toDouble(keyval);
+      double xb2 = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("XB2", toString(xb2)), Pvl::Replace);
@@ -545,7 +545,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the XB2 parameter.";
         message += "The XB2 parameter has no range limit";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -556,11 +556,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("INCREF", toString(toDouble(parMap["INCREF"]))),
+              PvlKeyword("INCREF", toString((parMap["INCREF"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("INCREF")) {
       QString keyval = ui.GetString("INCREF");
-      double incref = toDouble(keyval);
+      double incref = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("INCREF", toString(incref)), Pvl::Replace);
@@ -572,7 +572,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the INCREF parameter.";
         message += "The normal range for INCREF is: 0 <= INCREF < 90";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -582,11 +582,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("ALBEDO", toString(toDouble(parMap["ALBEDO"]))),
+              PvlKeyword("ALBEDO", toString((parMap["ALBEDO"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("ALBEDO")) {
       QString keyval = ui.GetString("ALBEDO");
-      double albedo = toDouble(keyval);
+      double albedo = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("ALBEDO", toString(albedo)), Pvl::Replace);
@@ -597,7 +597,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + normName +
             " Normalization model requires a value for the ALBEDO parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -608,11 +608,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("INCREF", toString(toDouble(parMap["INCREF"]))),
+              PvlKeyword("INCREF", toString((parMap["INCREF"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("INCREF")) {
       QString keyval = ui.GetString("INCREF");
-      double incref = toDouble(keyval);
+      double incref = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("INCREF", toString(incref)), Pvl::Replace);
@@ -623,7 +623,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + normName +
             " Normalization model requires a value for the INCREF parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -633,11 +633,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("THRESH", toString(toDouble(parMap["THRESH"]))),
+              PvlKeyword("THRESH", toString((parMap["THRESH"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("THRESH")) {
       QString keyval = ui.GetString("THRESH");
-      double thresh = toDouble(keyval);
+      double thresh = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("THRESH", toString(thresh)), Pvl::Replace);
@@ -649,7 +649,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + normName +
             " Normalization model requires a value for the THRESH parameter.";
         message += "The THRESH parameter has no range limit";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -659,11 +659,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("ALBEDO", toString(toDouble(parMap["ALBEDO"]))),
+              PvlKeyword("ALBEDO", toString((parMap["ALBEDO"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("ALBEDO")) {
       QString keyval = ui.GetString("ALBEDO");
-      double albedo = toDouble(keyval);
+      double albedo = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("ALBEDO", toString(albedo)), Pvl::Replace);
@@ -674,7 +674,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + normName +
             " Normalization model requires a value for the ALBEDO parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -685,11 +685,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("INCREF", toString(toDouble(parMap["INCREF"]))),
+              PvlKeyword("INCREF", toString((parMap["INCREF"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("INCREF")) {
       QString keyval = ui.GetString("INCREF");
-      double incref = toDouble(keyval);
+      double incref = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("INCREF", toString(incref)), Pvl::Replace);
@@ -700,7 +700,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + normName +
             " Normalization model requires a value for the INCREF parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -711,11 +711,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("INCREF", toString(toDouble(parMap["INCREF"]))),
+              PvlKeyword("INCREF", toString((parMap["INCREF"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("INCREF")) {
       QString keyval = ui.GetString("INCREF");
-      double incref = toDouble(keyval);
+      double incref = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("INCREF", toString(incref)), Pvl::Replace);
@@ -726,7 +726,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + normName +
             " Normalization model requires a value for the INCREF parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -736,11 +736,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("ALBEDO", toString(toDouble(parMap["ALBEDO"]))),
+              PvlKeyword("ALBEDO", toString((parMap["ALBEDO"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("ALBEDO")) {
       QString keyval = ui.GetString("ALBEDO");
-      double albedo = toDouble(keyval);
+      double albedo = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("ALBEDO", toString(albedo)), Pvl::Replace);
@@ -751,7 +751,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + normName +
             " Normalization model requires a value for the ALBEDO parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -762,11 +762,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("INCREF", toString(toDouble(parMap["INCREF"]))),
+              PvlKeyword("INCREF", toString((parMap["INCREF"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("INCREF")) {
       QString keyval = ui.GetString("INCREF");
-      double incref = toDouble(keyval);
+      double incref = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("INCREF", toString(incref)), Pvl::Replace);
@@ -777,7 +777,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + normName +
             " Normalization model requires a value for the INCREF parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -787,11 +787,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(
-              PvlKeyword("ALBEDO", toString(toDouble(parMap["ALBEDO"]))),
+              PvlKeyword("ALBEDO", toString((parMap["ALBEDO"]).toDouble())),
               Pvl::Replace);
     } else if (ui.WasEntered("ALBEDO")) {
       QString keyval = ui.GetString("ALBEDO");
-      double albedo = toDouble(keyval);
+      double albedo = keyval.toDouble();
       toNormPvl.findObject("NormalizationModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("ALBEDO", toString(albedo)), Pvl::Replace);
@@ -802,7 +802,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + normName +
             " Normalization model requires a value for the ALBEDO parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     normLog += toNormPvl.findObject("NormalizationModel")
@@ -826,15 +826,15 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       PvlObject fromAtmObj;
       PvlGroup fromAtmGrp;
       QString input = ui.GetFileName("FROMPVL");
-      fromAtmPvl.read(input);
+      fromAtmPvl.read(input.toStdString());
       if (fromAtmPvl.hasObject("AtmosphericModel")) {
         fromAtmObj = fromAtmPvl.findObject("AtmosphericModel");
         if (fromAtmObj.hasGroup("Algorithm")) {
           PvlObject::PvlGroupIterator fromAtmGrp = fromAtmObj.beginGroup();
           if (fromAtmGrp->hasKeyword("ATMNAME")) {
-            atmVal = (QString)fromAtmGrp->findKeyword("ATMNAME");
+            atmVal = QString::fromStdString(fromAtmGrp->findKeyword("ATMNAME"));
           } else if (fromAtmGrp->hasKeyword("NAME")) {
-            atmVal = (QString)fromAtmGrp->findKeyword("NAME");
+            atmVal = QString::fromStdString(fromAtmGrp->findKeyword("NAME"));
           } else {
             atmVal = "NONE";
           }
@@ -852,9 +852,9 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               if (fromAtmGrp->hasKeyword("ATMNAME") ||
                   fromAtmGrp->hasKeyword("NAME")) {
                 if (fromAtmGrp->hasKeyword("ATMNAME")) {
-                  atmVal = (QString)fromAtmGrp->findKeyword("ATMNAME");
+                  atmVal = QString::fromStdString(fromAtmGrp->findKeyword("ATMNAME"));
                 } else if (fromAtmGrp->hasKeyword("NAME")) {
-                  atmVal = (QString)fromAtmGrp->findKeyword("NAME");
+                  atmVal = QString::fromStdString(fromAtmGrp->findKeyword("NAME"));
                 } else {
                   atmVal = "NONE";
                 }
@@ -885,7 +885,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         message +=
             "you need to specify an Atmospheric model through the program "
             "interface.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
       if (wasFound) {
         toAtmPvl.addObject(fromAtmObj);
@@ -894,7 +894,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         toAtmPvl.findObject("AtmosphericModel").addGroup(PvlGroup("Algorithm"));
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("ATMNAME", atmName), Pvl::Replace);
+            .addKeyword(PvlKeyword("ATMNAME", atmName.toStdString()), Pvl::Replace);
       }
     } else {
       if (atmName == "NONE" || atmName == "FROMPVL") {
@@ -907,15 +907,15 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         message +=
             "you need to specify an Atmospheric model through the program "
             "interface.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
       toAtmPvl.addObject(PvlObject("AtmosphericModel"));
       toAtmPvl.findObject("AtmosphericModel").addGroup(PvlGroup("Algorithm"));
       toAtmPvl.findObject("AtmosphericModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("ATMNAME", atmName), Pvl::Replace);
+          .addKeyword(PvlKeyword("ATMNAME", atmName.toStdString()), Pvl::Replace);
     }
-    atmLog += PvlKeyword("ATMNAME", atmName);
+    atmLog += PvlKeyword("ATMNAME", atmName.toStdString());
 
     if (atmName == "ANISOTROPIC1" || atmName == "ANISOTROPIC2" ||
         atmName == "HAPKEATM1" || atmName == "HAPKEATM2" ||
@@ -924,11 +924,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
             .addKeyword(
-                PvlKeyword("HNORM", toString(toDouble(parMap["HNORM"]))),
+                PvlKeyword("HNORM", toString((parMap["HNORM"]).toDouble())),
                 Pvl::Replace);
       } else if (ui.WasEntered("HNORM")) {
         QString keyval = ui.GetString("HNORM");
-        double hnorm = toDouble(keyval);
+        double hnorm = keyval.toDouble();
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("HNORM", toString(hnorm)), Pvl::Replace);
@@ -940,7 +940,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + atmName +
               " Atmospheric model requires a value for the HNORM parameter.";
           message += "The normal range for HNORM is: 0 <= HNORM";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       atmLog += toAtmPvl.findObject("AtmosphericModel")
@@ -949,11 +949,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       if (parMap.contains("TAU")) {
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("TAU", toString(toDouble(parMap["TAU"]))),
+            .addKeyword(PvlKeyword("TAU", toString((parMap["TAU"]).toDouble())),
                         Pvl::Replace);
       } else if (ui.WasEntered("TAU")) {
         QString keyval = ui.GetString("TAU");
-        double tau = toDouble(keyval);
+        double tau = keyval.toDouble();
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("TAU", toString(tau)), Pvl::Replace);
@@ -965,7 +965,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + atmName +
               " Atmospheric model requires a value for the TAU parameter.";
           message += "The normal range for TAU is: 0 <= TAU";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       atmLog += toAtmPvl.findObject("AtmosphericModel")
@@ -975,11 +975,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
             .addKeyword(
-                PvlKeyword("TAUREF", toString(toDouble(parMap["TAUREF"]))),
+                PvlKeyword("TAUREF", toString((parMap["TAUREF"]).toDouble())),
                 Pvl::Replace);
       } else if (ui.WasEntered("TAUREF")) {
         QString keyval = ui.GetString("TAUREF");
-        double tauref = toDouble(keyval);
+        double tauref = keyval.toDouble();
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("TAUREF", toString(tauref)), Pvl::Replace);
@@ -991,7 +991,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + atmName +
               " Atmospheric model requires a value for the TAUREF parameter.";
           message += "The normal range for TAUREF is: 0 <= TAUREF";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       atmLog += toAtmPvl.findObject("AtmosphericModel")
@@ -1000,11 +1000,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       if (parMap.contains("WHA")) {
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("WHA", toString(toDouble(parMap["WHA"]))),
+            .addKeyword(PvlKeyword("WHA", toString((parMap["WHA"]).toDouble())),
                         Pvl::Replace);
       } else if (ui.WasEntered("WHA")) {
         QString keyval = ui.GetString("WHA");
-        double wha = toDouble(keyval);
+        double wha = keyval.toDouble();
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("WHA", toString(wha)), Pvl::Replace);
@@ -1016,7 +1016,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + atmName +
               " Atmospheric model requires a value for the WHA parameter.";
           message += "The normal range for WHA is: 0 < WHA < 1";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       atmLog += toAtmPvl.findObject("AtmosphericModel")
@@ -1036,7 +1036,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + atmName +
               " Atmospheric model requires a value for the NULNEG parameter.";
           message += "The valid values for NULNEG are: YES, NO";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       } else if (!toAtmPvl.findObject("AtmosphericModel")
                       .findGroup("Algorithm")
@@ -1054,7 +1054,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + atmName +
               " Atmospheric model requires a value for the NULNEG parameter.";
           message += "The valid values for NULNEG are: YES, NO";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       atmLog += toAtmPvl.findObject("AtmosphericModel")
@@ -1066,11 +1066,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       if (parMap.contains("BHA")) {
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("BHA", toString(toDouble(parMap["BHA"]))),
+            .addKeyword(PvlKeyword("BHA", toString((parMap["BHA"]).toDouble())),
                         Pvl::Replace);
       } else if (ui.WasEntered("BHA")) {
         QString keyval = ui.GetString("BHA");
-        double bha = toDouble(keyval);
+        double bha = keyval.toDouble();
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("BHA", toString(bha)), Pvl::Replace);
@@ -1082,7 +1082,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + atmName +
               " Atmospheric model requires a value for the BHA parameter.";
           message += "The normal range for BHA is: -1 <= BHA <= 1";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       atmLog += toAtmPvl.findObject("AtmosphericModel")
@@ -1093,11 +1093,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       if (parMap.contains("HGA")) {
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("HGA", toString(toDouble(parMap["HGA"]))),
+            .addKeyword(PvlKeyword("HGA", toString((parMap["HGA"]).toDouble())),
                         Pvl::Replace);
       } else if (ui.WasEntered("HGA")) {
         QString keyval = ui.GetString("HGA");
-        double hga = toDouble(keyval);
+        double hga = keyval.toDouble();
         toAtmPvl.findObject("AtmosphericModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("HGA", toString(hga)), Pvl::Replace);
@@ -1109,7 +1109,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + atmName +
               " Atmospheric model requires a value for the HGA parameter.";
           message += "The normal range for HGA is: -1 < HGA < 1";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       atmLog += toAtmPvl.findObject("AtmosphericModel")
@@ -1130,15 +1130,15 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     PvlObject fromPhtObj;
     PvlGroup fromPhtGrp;
     QString input = ui.GetFileName("FROMPVL");
-    fromPhtPvl.read(input);
+    fromPhtPvl.read(input.toStdString());
     if (fromPhtPvl.hasObject("PhotometricModel")) {
       fromPhtObj = fromPhtPvl.findObject("PhotometricModel");
       if (fromPhtObj.hasGroup("Algorithm")) {
         PvlObject::PvlGroupIterator fromPhtGrp = fromPhtObj.beginGroup();
         if (fromPhtGrp->hasKeyword("PHTNAME")) {
-          phtVal = (QString)fromPhtGrp->findKeyword("PHTNAME");
+          phtVal = QString::fromStdString(fromPhtGrp->findKeyword("PHTNAME"));
         } else if (fromPhtGrp->hasKeyword("NAME")) {
-          phtVal = (QString)fromPhtGrp->findKeyword("NAME");
+          phtVal = QString::fromStdString(fromPhtGrp->findKeyword("NAME"));
         } else {
           phtVal = "NONE";
         }
@@ -1156,9 +1156,9 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             if (fromPhtGrp->hasKeyword("PHTNAME") ||
                 fromPhtGrp->hasKeyword("NAME")) {
               if (fromPhtGrp->hasKeyword("PHTNAME")) {
-                phtVal = (QString)fromPhtGrp->findKeyword("PHTNAME");
+                phtVal = QString::fromStdString(fromPhtGrp->findKeyword("PHTNAME"));
               } else if (fromPhtGrp->hasKeyword("NAME")) {
-                phtVal = (QString)fromPhtGrp->findKeyword("NAME");
+                phtVal = QString::fromStdString(fromPhtGrp->findKeyword("NAME"));
               } else {
                 phtVal = "NONE";
               }
@@ -1189,7 +1189,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       message +=
           "you need to specify a Photometric model through the program "
           "interface.";
-      throw IException(IException::User, message, _FILEINFO_);
+      throw IException(IException::User, message.toStdString(), _FILEINFO_);
     }
     if (wasFound) {
       toPhtPvl.addObject(fromPhtObj);
@@ -1198,7 +1198,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       toPhtPvl.findObject("PhotometricModel").addGroup(PvlGroup("Algorithm"));
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("PHTNAME", phtName), Pvl::Replace);
+          .addKeyword(PvlKeyword("PHTNAME", phtName.toStdString()), Pvl::Replace);
     }
   } else {
     // Check to make sure that a photometric model was specified
@@ -1211,25 +1211,25 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       message +=
           "you need to specify a Photometric model through the program "
           "interface.";
-      throw IException(IException::User, message, _FILEINFO_);
+      throw IException(IException::User, message.toStdString(), _FILEINFO_);
     }
     toPhtPvl.addObject(PvlObject("PhotometricModel"));
     toPhtPvl.findObject("PhotometricModel").addGroup(PvlGroup("Algorithm"));
     toPhtPvl.findObject("PhotometricModel")
         .findGroup("Algorithm")
-        .addKeyword(PvlKeyword("PHTNAME", phtName), Pvl::Replace);
+        .addKeyword(PvlKeyword("PHTNAME", phtName.toStdString()), Pvl::Replace);
   }
-  phtLog += PvlKeyword("PHTNAME", phtName);
+  phtLog += PvlKeyword("PHTNAME", phtName.toStdString());
 
   if (phtName == "HAPKEHEN" || phtName == "HAPKELEG") {
     if (parMap.contains("THETA")) {
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("THETA", toString(toDouble(parMap["THETA"]))),
+          .addKeyword(PvlKeyword("THETA", toString((parMap["THETA"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("THETA")) {
       QString keyval = ui.GetString("THETA");
-      double theta = toDouble(keyval);
+      double theta = keyval.toDouble();
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("THETA", toString(theta)), Pvl::Replace);
@@ -1241,7 +1241,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + phtName +
             " Photometric model requires a value for the THETA parameter.";
         message += "The normal range for THETA is: 0 <= THETA <= 90";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1250,11 +1250,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("WH")) {
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("WH", toString(toDouble(parMap["WH"]))),
+          .addKeyword(PvlKeyword("WH", toString((parMap["WH"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("WH")) {
       QString keyval = ui.GetString("WH");
-      double wh = toDouble(keyval);
+      double wh = keyval.toDouble();
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("WH", toString(wh)), Pvl::Replace);
@@ -1266,7 +1266,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + phtName +
             " Photometric model requires a value for the WH parameter.";
         message += "The normal range for WH is: 0 < WH <= 1";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1275,11 +1275,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("HH")) {
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("HH", toString(toDouble(parMap["HH"]))),
+          .addKeyword(PvlKeyword("HH", toString((parMap["HH"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("HH")) {
       QString keyval = ui.GetString("HH");
-      double hh = toDouble(keyval);
+      double hh = keyval.toDouble();
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("HH", toString(hh)), Pvl::Replace);
@@ -1291,7 +1291,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + phtName +
             " Photometric model requires a value for the HH parameter.";
         message += "The normal range for HH is: 0 <= HH";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1300,11 +1300,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("B0")) {
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("B0", toString(toDouble(parMap["B0"]))),
+          .addKeyword(PvlKeyword("B0", toString((parMap["B0"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("B0")) {
       QString keyval = ui.GetString("B0");
-      double b0 = toDouble(keyval);
+      double b0 = keyval.toDouble();
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("B0", toString(b0)), Pvl::Replace);
@@ -1316,7 +1316,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + phtName +
             " Photometric model requires a value for the B0 parameter.";
         message += "The normal range for B0 is: 0 <= B0";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1336,7 +1336,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
                           " Photometric model requires a value for the "
                           "ZEROB0STANDARD parameter.";
         message += "The valid values for ZEROB0STANDARD are: TRUE, FALSE";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     } else if (ui.GetString("ZEROB0STANDARD") != "READFROMPVL") {
       if (ui.GetString("ZEROB0STANDARD") == "TRUE") {
@@ -1355,9 +1355,9 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("ZEROB0STANDARD", "TRUE"), Pvl::Replace);
     }
-    QString zerob0 = (QString)toPhtPvl.findObject("PhotometricModel")
+    QString zerob0 = QString::fromStdString(toPhtPvl.findObject("PhotometricModel")
                          .findGroup("Algorithm")
-                         .findKeyword("ZEROB0STANDARD");
+                         .findKeyword("ZEROB0STANDARD"));
     QString izerob0 = zerob0;
     izerob0 = izerob0.toUpper();
     if (izerob0 != "TRUE" && izerob0 != "FALSE") {
@@ -1365,7 +1365,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
                         " Photometric model requires a value for the "
                         "ZEROB0STANDARD parameter.";
       message += "The valid values for ZEROB0STANDARD are: TRUE, FALSE";
-      throw IException(IException::User, message, _FILEINFO_);
+      throw IException(IException::User, message.toStdString(), _FILEINFO_);
     }
     phtLog += toPhtPvl.findObject("PhotometricModel")
                   .findGroup("Algorithm")
@@ -1374,11 +1374,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       if (parMap.contains("HG1")) {
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("HG1", toString(toDouble(parMap["HG1"]))),
+            .addKeyword(PvlKeyword("HG1", toString((parMap["HG1"]).toDouble())),
                         Pvl::Replace);
       } else if (ui.WasEntered("HG1")) {
         QString keyval = ui.GetString("HG1");
-        double hg1 = toDouble(keyval);
+        double hg1 = keyval.toDouble();
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("HG1", toString(hg1)), Pvl::Replace);
@@ -1390,7 +1390,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + phtName +
               " Photometric model requires a value for the HG1 parameter.";
           message += "The normal range for HG1 is: -1 < HG1 < 1";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1399,11 +1399,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       if (parMap.contains("HG2")) {
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("HG2", toString(toDouble(parMap["HG2"]))),
+            .addKeyword(PvlKeyword("HG2", toString((parMap["HG2"]).toDouble())),
                         Pvl::Replace);
       } else if (ui.WasEntered("HG2")) {
         QString keyval = ui.GetString("HG2");
-        double hg2 = toDouble(keyval);
+        double hg2 = keyval.toDouble();
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("HG2", toString(hg2)), Pvl::Replace);
@@ -1415,7 +1415,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + phtName +
               " Photometric model requires a value for the HG2 parameter.";
           message += "The normal range for HG2 is: 0 <= HG2 <= 1";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1425,11 +1425,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       if (parMap.contains("BH")) {
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("BH", toString(toDouble(parMap["BH"]))),
+            .addKeyword(PvlKeyword("BH", toString((parMap["BH"]).toDouble())),
                         Pvl::Replace);
       } else if (ui.WasEntered("BH")) {
         QString keyval = ui.GetString("BH");
-        double bh = toDouble(keyval);
+        double bh = keyval.toDouble();
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("BH", toString(bh)), Pvl::Replace);
@@ -1441,7 +1441,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + phtName +
               " Photometric model requires a value for the BH parameter.";
           message += "The normal range for BH is: -1 <= BH <= 1";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1450,11 +1450,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       if (parMap.contains("CH")) {
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("CH", toString(toDouble(parMap["CH"]))),
+            .addKeyword(PvlKeyword("CH", toString((parMap["CH"]).toDouble())),
                         Pvl::Replace);
       } else if (ui.WasEntered("CH")) {
         QString keyval = ui.GetString("CH");
-        double ch = toDouble(keyval);
+        double ch = keyval.toDouble();
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
             .addKeyword(PvlKeyword("CH", toString(ch)), Pvl::Replace);
@@ -1466,7 +1466,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
               "The " + phtName +
               " Photometric model requires a value for the CH parameter.";
           message += "The normal range for CH is: -1 <= CH <= 1";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1478,13 +1478,13 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("PHASELIST")) {
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("PHASELIST", parMap["PHASELIST"]),
+          .addKeyword(PvlKeyword("PHASELIST", parMap["PHASELIST"].toStdString()),
                       Pvl::Replace);
     } else if (ui.WasEntered("PHASELIST")) {
       QString keyval = ui.GetString("PHASELIST");
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("PHASELIST", keyval), Pvl::Replace);
+          .addKeyword(PvlKeyword("PHASELIST", keyval.toStdString()), Pvl::Replace);
     } else {
       if (!toPhtPvl.findObject("PhotometricModel")
                .findGroup("Algorithm")
@@ -1492,7 +1492,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message =
             "The " + phtName +
             " Photometric model requires a value for the PHASELIST parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1501,13 +1501,13 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("PHASECURVELIST")) {
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("PHASECURVELIST", parMap["PHASECURVELIST"]),
+          .addKeyword(PvlKeyword("PHASECURVELIST", parMap["PHASECURVELIST"].toStdString()),
                       Pvl::Replace);
     } else if (ui.WasEntered("PHASECURVELIST")) {
       QString keyval = ui.GetString("PHASECURVELIST");
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("PHASECURVELIST", keyval), Pvl::Replace);
+          .addKeyword(PvlKeyword("PHASECURVELIST", keyval.toStdString()), Pvl::Replace);
     } else {
       if (!toPhtPvl.findObject("PhotometricModel")
                .findGroup("Algorithm")
@@ -1515,7 +1515,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
         QString message = "The " + phtName +
                           " Photometric model requires a value for the "
                           "PHASECURVELIST parameter.";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1525,12 +1525,12 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       if (parMap.contains("LLIST")) {
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("LLIST", parMap["LLIST"]), Pvl::Replace);
+            .addKeyword(PvlKeyword("LLIST", parMap["LLIST"].toStdString()), Pvl::Replace);
       } else if (ui.WasEntered("LLIST")) {
         QString keyval = ui.GetString("LLIST");
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("LLIST", keyval), Pvl::Replace);
+            .addKeyword(PvlKeyword("LLIST", keyval.toStdString()), Pvl::Replace);
       } else {
         if (!toPhtPvl.findObject("PhotometricModel")
                  .findGroup("Algorithm")
@@ -1538,7 +1538,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
           QString message =
               "The " + phtName +
               " Photometric model requires a value for the LLIST parameter.";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1548,12 +1548,12 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
       if (parMap.contains("KLIST")) {
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("KLIST", parMap["KLIST"]), Pvl::Replace);
+            .addKeyword(PvlKeyword("KLIST", parMap["KLIST"].toStdString()), Pvl::Replace);
       } else if (ui.WasEntered("KLIST")) {
         QString keyval = ui.GetString("KLIST");
         toPhtPvl.findObject("PhotometricModel")
             .findGroup("Algorithm")
-            .addKeyword(PvlKeyword("KLIST", keyval), Pvl::Replace);
+            .addKeyword(PvlKeyword("KLIST", keyval.toStdString()), Pvl::Replace);
       } else {
         if (!toPhtPvl.findObject("PhotometricModel")
                  .findGroup("Algorithm")
@@ -1561,7 +1561,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
           QString message =
               "The " + phtName +
               " Photometric model requires a value for the KLIST parameter.";
-          throw IException(IException::User, message, _FILEINFO_);
+          throw IException(IException::User, message.toStdString(), _FILEINFO_);
         }
       }
       phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1572,11 +1572,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("L")) {
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("L", toString(toDouble(parMap["L"]))),
+          .addKeyword(PvlKeyword("L", toString((parMap["L"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("L")) {
       QString keyval = ui.GetString("L");
-      double l = toDouble(keyval);
+      double l = keyval.toDouble();
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("L", toString(l)), Pvl::Replace);
@@ -1588,7 +1588,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + phtName +
             " Photometric model requires a value for the L parameter.";
         message += "The L parameter has no limited range";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1598,11 +1598,11 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     if (parMap.contains("K")) {
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
-          .addKeyword(PvlKeyword("K", toString(toDouble(parMap["K"]))),
+          .addKeyword(PvlKeyword("K", toString((parMap["K"]).toDouble())),
                       Pvl::Replace);
     } else if (ui.WasEntered("K")) {
       QString keyval = ui.GetString("K");
-      double k = toDouble(keyval);
+      double k = keyval.toDouble();
       toPhtPvl.findObject("PhotometricModel")
           .findGroup("Algorithm")
           .addKeyword(PvlKeyword("K", toString(k)), Pvl::Replace);
@@ -1614,7 +1614,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
             "The " + phtName +
             " Photometric model requires a value for the K parameter.";
         message += "The normal range for K is: 0 <= K";
-        throw IException(IException::User, message, _FILEINFO_);
+        throw IException(IException::User, message.toStdString(), _FILEINFO_);
       }
     }
     phtLog += toPhtPvl.findObject("PhotometricModel")
@@ -1652,7 +1652,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
                       " Normalized model is not recommended for use with the " +
                       angleSource + " Angle Source option";
     PvlGroup warning("Warnings");
-    warning.addKeyword(PvlKeyword("Warning", message));
+    warning.addKeyword(PvlKeyword("Warning", message.toStdString()));
     Application::AppendAndLog(warning, appLog);
   }
   // Get camera information if needed
@@ -1670,7 +1670,7 @@ void photomet(Cube *icube, UserInterface &ui, Pvl *appLog) {
     p.SetOutputCube(ui.GetCubeName("TO"), att);
 
   Pvl inLabel;
-  inLabel.read(ui.GetCubeName("FROM"));
+  inLabel.read(ui.GetCubeName("FROM").toStdString());
 
   // If the source of photometric angles is the center of the image,
   // then get the angles at the center of the image.

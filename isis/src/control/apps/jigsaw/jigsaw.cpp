@@ -114,8 +114,8 @@ namespace Isis {
         if (log) {
           PvlGroup gp("JigsawResults");
           
-          gp += PvlKeyword("Status", "Bundle adjustment values from [" + ui.GetFileName("ADJUSTMENT_INPUT") 
-                            + "] were applied to the cubes in [" + cubeList+ "]");
+          gp += PvlKeyword("Status", "Bundle adjustment values from [" + ui.GetFileName("ADJUSTMENT_INPUT").toStdString() 
+                            + "] were applied to the cubes in [" + cubeList.toStdString() + "]");
           Application::AppendAndLog(gp, log);
         }
 

@@ -40,12 +40,12 @@ namespace Isis {
         }
         catch(IException &e) {
             QString msg = "Failed to read CSV file [" + csvFileName + "].";
-            throw IException(e, IException::Io, msg, _FILEINFO_);
+            throw IException(e, IException::Io, msg.toStdString(), _FILEINFO_);
         }
         int numColumns = reader.columns();
         int numRows = reader.rows();
         if (numColumns < 1 || numRows < 1) {
-            QString msg = "CSV file does not have data.\nFile has [" + toString(numRows) +
+            std::string msg = "CSV file does not have data.\nFile has [" + toString(numRows) +
                         "] rows and [" + toString(numColumns) +"] columns.";
             throw IException(IException::User, msg, _FILEINFO_);
         }
@@ -78,13 +78,13 @@ namespace Isis {
                 else {
                 QString msg = "Field [" + type + "] cannot be translated. Accepted types are "
                                 "Integer, Double, Text, and Real";
-                throw IException(IException::User, msg, _FILEINFO_);
+                throw IException(IException::User, msg.toStdString(), _FILEINFO_);
                 }
             }
             }
             else {
             int numFields = fieldTypes.size();
-            QString msg = "Number of fields provided does not equal the number of columns in the CSV. "
+            std::string msg = "Number of fields provided does not equal the number of columns in the CSV. "
                             "Number of fields [" + toString(numFields) + 
                             "] vs Number of Columns [" + toString(numColumns) + "]";
             throw IException(IException::User, msg, _FILEINFO_);
@@ -108,14 +108,14 @@ namespace Isis {
                 // If the next column header is different, create a field for this one
                 QRegularExpressionMatch nextMatch = (columnIndex<numColumns-1)?rex.match(header[columnIndex+1]):QRegularExpressionMatch();
                 if ((columnIndex == numColumns-1) || (nextMatch.hasMatch() && (name != nextMatch.captured("name")))) {
-                    TableField columnField(name, tableTypes[columnIndex], (index.length()>0)?(index.toInt()+1):1);
+                    TableField columnField(name.toStdString(), tableTypes[columnIndex], (index.length()>0)?(index.toInt()+1):1);
                     tableRow += columnField;
                 }
             }
         }
 
         QString tableName = ui.GetString("tablename");
-        Table table(tableName, tableRow);
+        Table table(tableName.toStdString(), tableRow);
 
         // Fill the table from the csv
         for (int rowIndex = 0; rowIndex < numRows; rowIndex++) {
@@ -125,16 +125,16 @@ namespace Isis {
                     tableRow[fieldIndex].isText()) {
                     switch(tableTypes[columnIndex]) {
                     case TableField::Type::Integer:
-                        tableRow[fieldIndex] = toInt(csvRow[columnIndex++]);
+                        tableRow[fieldIndex] = csvRow[columnIndex++].toInt();
                         break;
                     case TableField::Type::Double:
-                        tableRow[fieldIndex] = toDouble(csvRow[columnIndex++]);
+                        tableRow[fieldIndex] = csvRow[columnIndex++].toDouble();
                         break;
                     case TableField::Type::Text:
-                        tableRow[fieldIndex] = QString(csvRow[columnIndex++]);
+                        tableRow[fieldIndex] = csvRow[columnIndex++].toStdString();
                         break;
                     case TableField::Type::Real:
-                        tableRow[fieldIndex] = (float)toDouble(csvRow[columnIndex++]);
+                        tableRow[fieldIndex] = (float)csvRow[columnIndex++].toDouble();
                         break;
                     }
                 }
@@ -146,22 +146,22 @@ namespace Isis {
                     switch(tableTypes[columnIndex]) {
                     case TableField::Type::Integer:
                         for (int arrayLen = 0; arrayLen < tableRow[fieldIndex].size(); arrayLen++) {
-                        intVector.push_back(toInt(csvRow[columnIndex++]));
+                        intVector.push_back((csvRow[columnIndex++]).toInt());
                         }
                         tableRow[fieldIndex] = intVector;
                         break;
                     case TableField::Type::Double:
                         for (int arrayLen = 0; arrayLen < tableRow[fieldIndex].size(); arrayLen++) {
-                        dblVector.push_back(toDouble(csvRow[columnIndex++]));
+                        dblVector.push_back((csvRow[columnIndex++]).toDouble());
                         }
                         tableRow[fieldIndex] = dblVector;
                         break;
                     case TableField::Type::Text:
-                        throw IException(IException::User, strMsg, _FILEINFO_);
+                        throw IException(IException::User, strMsg.toStdString(), _FILEINFO_);
                         break;
                     case TableField::Type::Real:
                         for (int arrayLen = 0; arrayLen < tableRow[fieldIndex].size(); arrayLen++) {
-                        realVector.push_back((float)toDouble(csvRow[columnIndex++]));
+                        realVector.push_back((float)csvRow[columnIndex++].toDouble());
                         }
                         tableRow[fieldIndex] = realVector;
                         break;
@@ -180,11 +180,11 @@ namespace Isis {
             QString labelPvlFilename = ui.GetFileName("label");
             Pvl labelPvl;
             try {
-            labelPvl.read(labelPvlFilename);
+            labelPvl.read(labelPvlFilename.toStdString());
             }
             catch(IException &e) {
             QString msg = "Failed to read PVL label file [" + labelPvlFilename + "].";
-            throw IException(e, IException::Io, msg, _FILEINFO_);
+            throw IException(e, IException::Io, msg.toStdString(), _FILEINFO_);
             }
 
             PvlObject &tableLabel = table.Label();
@@ -201,7 +201,7 @@ namespace Isis {
         }
         catch(IException &e) {
             QString msg = "Could not open output cube [" + outCubeFileName + "].";
-            throw IException(e, IException::Io, msg, _FILEINFO_);
+            throw IException(e, IException::Io, msg.toStdString(), _FILEINFO_);
         }
 
         try {
@@ -210,7 +210,7 @@ namespace Isis {
         catch(IException &e) {
             QString msg = "Could not write output table [" + tableName +
                         "] to output cube [" + outCubeFileName + "].";
-            throw IException(e, IException::Io, msg, _FILEINFO_);
+            throw IException(e, IException::Io, msg.toStdString(), _FILEINFO_);
         }
 
         outCube.close();

@@ -295,7 +295,7 @@ namespace Isis {
           if (!std::filesystem::is_directory(filepath)) {
 
             // Check for symbolic links
-            if ( dbfile.isSymbolicLink() ) {
+            if ( dbfile.second.isSymbolicLink() ) {
 
               QString symtarget = dbfile.second.info().symLinkTarget();
               DBFileStatus symfile( symtarget );

@@ -75,13 +75,13 @@ namespace Isis {
         // Algorithm: lowpass(from, temp) -> hipass(temp, noise) -> to = from-noise
 
         // Run lowpass filter on input
-        QString tempFileName =
+        std::string tempFileName =
             FileName::createTempFile("$TEMPORARY/dstripe.temporary.cub").expanded();
         QString lowParams = "";
         lowParams += "from= " + ui.GetCubeName("FROM");
-        lowParams += " to= " + tempFileName + " ";
-        lowParams += " samples= " + toString(lowSamples);
-        lowParams += " lines= " + toString(lowLines);
+        lowParams += " to= " + QString::fromStdString(tempFileName) + " ";
+        lowParams += " samples= " + QString::number(lowSamples);
+        lowParams += " lines= " + QString::number(lowLines);
 
         ProgramLauncher::RunIsisProgram("lowpass", lowParams);
 
@@ -90,33 +90,33 @@ namespace Isis {
             QString lowParams = "";
             lowParams += "from= " + ui.GetCubeName("FROM");
             lowParams += " to= " + ui.GetCubeName("LPFNOISE");
-            lowParams += " samples= " + toString(lowSamples);
-            lowParams += " lines= " + toString(lowLines);
+            lowParams += " samples= " + QString::number(lowSamples);
+            lowParams += " lines= " + QString::number(lowLines);
             ProgramLauncher::RunIsisProgram("lowpass", lowParams);
         }
 
         // Run highpass filter after lowpass is done, i.e. highpass(lowpass(input))
-        QString tempNoiseFileName =
+        std::string tempNoiseFileName =
             FileName::createTempFile("$TEMPORARY/dstripe.noise.temporary.cub")
                 .expanded();
         QString highParams = "";
-        highParams += " from= " + tempFileName + " ";
-        highParams += " to= " + tempNoiseFileName + " ";
-        highParams += " samples= " + toString(highSamples);
-        highParams += " lines= " + toString(highLines);
+        highParams += " from= " + QString::fromStdString(tempFileName) + " ";
+        highParams += " to= " + QString::fromStdString(tempNoiseFileName) + " ";
+        highParams += " samples= " + QString::number(highSamples);
+        highParams += " lines= " + QString::number(highLines);
 
         ProgramLauncher::RunIsisProgram("highpass", highParams);
-        QFile::remove(tempFileName);
+        QFile::remove(QString::fromStdString(tempFileName));
 
         // Take the difference (FROM-NOISE) and write it to output
         CubeAttributeInput inatt;
-        p.SetInputCube(tempNoiseFileName, inatt);
+        p.SetInputCube(QString::fromStdString(tempNoiseFileName), inatt);
         CubeAttributeOutput &outatt = ui.GetOutputAttribute("TO");
         p.SetOutputCube(ui.GetCubeName("TO"), outatt);
         p.StartProcess(difference);
         p.EndProcess();
         if (ui.GetBoolean("DELETENOISE")) {
-            QFile::remove(tempNoiseFileName);
+            QFile::remove(QString::fromStdString(tempNoiseFileName));
         }
     }
 

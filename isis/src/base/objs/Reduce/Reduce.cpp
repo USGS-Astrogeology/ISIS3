@@ -209,7 +209,7 @@ namespace Isis {
             mdNpts[osamp] += 1.0;
           }
           if (IsSpecial((*m_iPortal)[isamp-1])) {
-            specialPixelCounts[osamp][PixelToString((*m_iPortal)[isamp-1])]++;
+            specialPixelCounts[osamp][QString::fromStdString(PixelToString((*m_iPortal)[isamp-1]))]++;
           } 
           isamp++;
         }
@@ -226,9 +226,9 @@ namespace Isis {
           }
         }
         if (IsSpecial((*m_iPortal)[isamp-1])) {
-          specialPixelCounts[osamp][PixelToString((*m_iPortal)[isamp-1])]++;
+          specialPixelCounts[osamp][QString::fromStdString(PixelToString((*m_iPortal)[isamp-1]))]++;
           if(osamp+1 <= miOutputSamples){
-            specialPixelCounts[osamp+1][PixelToString((*m_iPortal)[isamp-1])]++;
+            specialPixelCounts[osamp+1][QString::fromStdString(PixelToString((*m_iPortal)[isamp-1]))]++;
           }
         } 
         isamp++;
@@ -252,7 +252,7 @@ namespace Isis {
           mdNpts2[osamp] += ldel;
         }
         if (IsSpecial((*m_iPortal)[isamp-1])) {
-          specialPixelCounts[osamp][PixelToString((*m_iPortal)[isamp-1])]++;
+          specialPixelCounts[osamp][QString::fromStdString(PixelToString((*m_iPortal)[isamp-1]))]++;
         } 
         isamp++;
       }
@@ -274,9 +274,9 @@ namespace Isis {
         }
       }
       if (IsSpecial((*m_iPortal)[isamp-1])) {
-        specialPixelCounts[osamp][PixelToString((*m_iPortal)[isamp-1])]++;
+        specialPixelCounts[osamp][QString::fromStdString(PixelToString((*m_iPortal)[isamp-1]))]++;
         if(osamp+1 <= miOutputSamples){
-          specialPixelCounts[osamp+1][PixelToString((*m_iPortal)[isamp-1])]++;
+          specialPixelCounts[osamp+1][QString::fromStdString(PixelToString((*m_iPortal)[isamp-1]))]++;
         }
       } 
       isamp++;
@@ -299,7 +299,7 @@ namespace Isis {
           auto mode = std::max_element(specialPixelCounts[osamp].begin(),
                                       specialPixelCounts[osamp].end(),
                                       [](const pair<QString, int> &a, const pair<QString, int> &b) {return a.second < b.second;});
-          out[osamp] = StringToPixel(mode->first);
+          out[osamp] = StringToPixel(mode->first.toStdString());
         }
         else {
           out[osamp] = Isis::Null;
