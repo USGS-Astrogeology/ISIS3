@@ -1880,6 +1880,11 @@ namespace Isis {
                                     const std::vector<double> &coeffAng3,
                                     const Source type) {
 
+    if (type == PolyFunctionOverSpice && !m_orientation) {
+      QString msg = "The quaternion SPICE tables are no longer available. " 
+                    "Either re-run spiceinit or set OVEREXISTING to False.";
+      throw IException(IException::User, msg, _FILEINFO_);
+    }                             
     NaifStatus::CheckErrors();
     Isis::PolynomialUnivariate function1(p_degree);
     Isis::PolynomialUnivariate function2(p_degree);
@@ -3253,7 +3258,7 @@ namespace Isis {
    * @see SpiceRotation::SetEphemerisTime
    */
   void SpiceRotation::setEphemerisTimeMemcache() {
-   // If the cache has only one rotation, set it
+    // If the cache has only one rotation, set it
     NaifStatus::CheckErrors();
     if (p_cacheTime.size() == 1) {
       p_CJ = m_orientation->getRotations()[0].toRotationMatrix();
@@ -3487,23 +3492,23 @@ namespace Isis {
       p_av[index] += cacheVelocity[index];
     }
 
-   if (angles[0] <= -1 * pi_c()) {
-     angles[0] += twopi_c();
-   }
-   else if (angles[0] > pi_c()) {
-     angles[0] -= twopi_c();
-   }
+    if (angles[0] <= -1 * pi_c()) {
+      angles[0] += twopi_c();
+    }
+    else if (angles[0] > pi_c()) {
+      angles[0] -= twopi_c();
+    }
 
-   if (angles[2] <= -1 * pi_c()) {
-     angles[2] += twopi_c();
-   }
-   else if (angles[2] > pi_c()) {
-     angles[2] -= twopi_c();
-   }
+    if (angles[2] <= -1 * pi_c()) {
+      angles[2] += twopi_c();
+    }
+    else if (angles[2] > pi_c()) {
+      angles[2] -= twopi_c();
+    }
 
-   eul2m_c((SpiceDouble) angles[2], (SpiceDouble) angles[1], (SpiceDouble) angles[0],
-           p_axis3,                 p_axis2,                 p_axis1,
-           (SpiceDouble( *)[3]) &p_CJ[0]);
+    eul2m_c((SpiceDouble) angles[2], (SpiceDouble) angles[1], (SpiceDouble) angles[0],
+            p_axis3,                 p_axis2,                 p_axis1,
+            (SpiceDouble( *)[3]) &p_CJ[0]);
   }
 
 

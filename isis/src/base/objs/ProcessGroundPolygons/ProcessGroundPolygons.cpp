@@ -10,6 +10,7 @@ find files of those names at the top level of this repository. **/
 
 #include "geos/geom/CoordinateSequence.h"
 #include "geos/geom/LineString.h"
+#include "geos/io/WKTWriter.h"
 
 #include "Application.h"
 #include "BoxcarCachingAlgorithm.h"
@@ -103,6 +104,100 @@ namespace Isis {
     }
   }
 
+
+
+
+/**
+ * This method gets called from the application with the lat/lon
+ * vertices of a polygon.
+ *
+ * it returns a geos::geom::Geometry* representation of the 
+ * geometry
+ *
+ * @param lat
+ * @param lon
+ * 
+ */
+geos::geom::Geometry* ProcessGroundPolygons::Vectorize(std::vector<double> &lat,
+                                         std::vector<double> &lon)
+                                         //std::vector<double> &values) 
+										 {
+
+											 
+  
+  // Decide if we need to split the poly on the 360 boundry
+  // Yes, we can do this better. The lat and lon vectors should be passed in as polygons, but
+  // for now this is reusing older code.
+  bool crosses = false;
+  for (unsigned int i = 0; i < lon.size() - 1; i++) {
+    if (fabs(lon[i] - lon[i+1]) > 180.0) {
+      crosses = true;
+      break;
+    }
+  }
+
+
+  if (crosses) {
+    // Make a polygon from the lat/lon vectors and split it on 360
+    geos::geom::CoordinateSequence pts;
+    for (unsigned int i = 0; i < lat.size(); i++) {
+      pts.add(geos::geom::Coordinate(lon[i], lat[i]));
+    }
+    pts.add(geos::geom::Coordinate(lon[0], lat[0]));
+
+    geos::geom::Polygon *crossingPoly = Isis::globalFactory->createPolygon(
+        globalFactory->createLinearRing(pts)).release();
+
+    geos::geom::MultiPolygon *splitPoly = NULL;
+    try {
+      splitPoly = PolygonTools::SplitPolygonOn360(crossingPoly);
+    }
+    // Ignore any pixel footprints that could not be split. This should only be pixels
+    // that contain the pole.
+    catch (IException &) {
+      // See leading comment
+    }
+
+    delete crossingPoly;
+
+    if (splitPoly != NULL) {
+      // Process the polygons in the split multipolygon as if we were still using the lat/lon vectors
+      for (unsigned int g = 0; g < splitPoly->getNumGeometries(); ++g) {
+        const geos::geom::Polygon *poly =
+            dynamic_cast<const geos::geom::Polygon *>(splitPoly->getGeometryN(g));
+
+        geos::geom::CoordinateSequence *llcoords =
+            poly->getExteriorRing()->getCoordinates().release();
+
+        // Move each coordinate in the exterior ring of this lat/lon polygon to vectors
+        // Ignore any holes in the polygon
+        std::vector<double> tlat;
+        std::vector<double> tlon;
+        for (unsigned int cord = 0; cord < llcoords->getSize() - 1; ++cord) {
+          tlon.push_back(llcoords->getAt(cord).x);
+          tlat.push_back(llcoords->getAt(cord).y);
+        }
+
+      }
+      return splitPoly;
+    }
+  }
+  else { // if does not crosses
+
+    // Make a polygon from the lat/lon vectors and split it on 360
+    geos::geom::CoordinateSequence pts;
+    for (unsigned int i = 0; i < lat.size(); i++) {
+      pts.add(geos::geom::Coordinate(lon[i], lat[i]));
+    }
+    pts.add(geos::geom::Coordinate(lon[0], lat[0]));
+
+    geos::geom::Polygon *singlePoly = Isis::globalFactory->createPolygon(
+        globalFactory->createLinearRing(pts)).release();
+
+    return singlePoly;
+  }
+  return nullptr;
+}
 
   /**
    * This method gets called from the application with the lat/lon
@@ -234,7 +329,7 @@ namespace Isis {
   /**
    * This is a method that is called directly from the
    * application.  Using the "TO" parameter we also create a
-   * count cube name.  The we call the overloaded SetStatCubes
+   * count cube name.  Then we call the overloaded SetStatCubes
    * method above.
    *
    * @param parameter

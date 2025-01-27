@@ -6,7 +6,7 @@
 
 # Use the HAYABUSA_AMICA frame code rather than HAYABUSA_AMICA_IDEAL
 Group = NaifCode
-  Auto
+  Auto           = 1
   InputDefault  = -130102
   OutputName     = NaifFrameCode
   OutputPosition = (Object, IsisCube, Group, Kernels)

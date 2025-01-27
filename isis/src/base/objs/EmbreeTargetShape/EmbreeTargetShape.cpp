@@ -486,7 +486,7 @@ namespace Isis {
     rtcSetGeometryOccludedFilterFunction(rtcMesh, EmbreeTargetShape::occlusionFilter);
 
     rtcCommitGeometry(rtcMesh);
-    unsigned int geomID = rtcAttachGeometry(m_scene, rtcMesh);
+    rtcAttachGeometry(m_scene, rtcMesh);
     rtcReleaseGeometry(rtcMesh);
 
     // Done, now we can perform some ray tracing

@@ -1,0 +1,632 @@
+Object = Caminfo
+  Object = Parameters
+    Program     = caminfo
+    IsisVersion = "3.5.2.0 stable | 2018-04-06"
+    RunDate     = 2018-06-20T00:13:01
+    IsisId      = OsirisRex/PolyCam/3/0607077597.03118
+    From        = 20190328T204026S3500_pol_iofL2pan.cub
+    Lines       = 1024
+    Samples     = 1024
+    Bands       = 1
+  End_Object
+
+  Object = Camstats
+    MinimumLatitude   = -89.977543273115
+    MaximumLatitude   = -11.850340336005
+    MinimumLongitude  = 9.52423066877119e-05
+    MaximumLongitude  = 359.93420656349
+    MinimumResolution = 0.04427636192466
+    MaximumResolution = 0.048998194928801
+    MinimumPhase      = 46.232501646477
+    MaximumPhase      = 47.348685898802
+    MinimumEmission   = 47.304393766337
+    MaximumEmission   = 132.54482385131
+    MinimumIncidence  = 82.70316362766
+    MaximumIncidence  = 148.20782054406
+    LocalTimeMinimum  = 0.0026302868152612
+    LocalTimeMaximum  = 23.998897797146
+  End_Object
+
+  Object = IsisLabel
+    Object = IsisCube
+      Object = Core
+        StartByte   = 65537
+        Format      = Tile
+        TileSamples = 512
+        TileLines   = 512
+
+        Group = Dimensions
+          Samples = 1024
+          Lines   = 1024
+          Bands   = 1
+        End_Group
+
+        Group = Pixels
+          Type       = Real
+          ByteOrder  = Lsb
+          Base       = 0.0
+          Multiplier = 1.0
+        End_Group
+      End_Object
+
+      Group = Instrument
+        MissionName               = OSIRIS-REx
+        MissionPhase              = None
+        SpacecraftName            = OSIRIS-REX
+        InstrumentId              = PolyCam
+        TargetName                = Bennu
+        StartTime                 = "2019 MAR 28 20:40:26.350"
+        ExposureDuration          = 20 <ms>
+        SpacecraftClockStartCount = 3/0607077597.03118
+        FocusPosition             = 17551
+        SourceProductId           = 20190328T204026S3500_pol_iofL2pan
+      End_Group
+
+      Group = BandBin
+        FilterName = pan
+      End_Group
+
+      Group = Kernels
+        NaifFrameCode             = -64360
+        LeapSecond                = $base/kernels/lsk/naif0012.tls
+        TargetAttitudeShape       = ($osirisrex/kernels/pck/bennu.tpc,
+                                     $osirisrex/kernels/pck/pck00010.tpc)
+        TargetPosition            = (Table, $osirisrex/kernels/tspk/de424.bsp,
+                                     $osirisrex/kernels/tspk/sb-101955-76.bsp)
+        InstrumentPointing        = (Table,
+                                     $osirisrex/kernels/ck/orx_f_20190328T1810-
+                                     _20190328T2309_DS_BBD_SOPG_v01a_fb4b_1908-
+                                     7a.bc, $osirisrex/kernels/fk/orx_v09.tf)
+        Instrument                = $osirisrex/kernels/ik/orx_ocams_v06.ti
+        SpacecraftClock           = $osirisrex/kernels/sclk/ORX_SCLKSCET.0002-
+                                    7.tsc
+        InstrumentPosition        = (Table,
+                                     $osirisrex/kernels/spk/orx_190220_190608_-
+                                     DS_MPRevB.bsp)
+        InstrumentAddendum        = $osirisrex/kernels/iak/orex_ocams_addendu-
+                                    m_v04.ti
+        ShapeModel                = $osirisrex/kernels/dems/bennu512.bds
+        InstrumentPositionQuality = Reconstructed
+        InstrumentPointingQuality = Reconstructed
+        CameraVersion             = 1
+        RayTraceEngine            = embree
+        OnError                   = continue
+        Tolerance                 = 1.79769313486232e+308
+      End_Group
+    End_Object
+
+    Object = Label
+      Bytes = 65536
+    End_Object
+
+    Object = Table
+      Name                = InstrumentPointing
+      StartByte           = 4265899
+      Bytes               = 64
+      Records             = 1
+      ByteOrder           = Lsb
+      TimeDependentFrames = (-64000, 1)
+      ConstantFrames      = (-64360, -64000)
+      ConstantRotation    = (0.99999974040951, 7.11200727811218e-04,
+                             -1.15647874696325e-04, -7.11305783186799e-04,
+                             0.99999933213616, -9.10917843429873e-04,
+                             1.14999952026068e-04, 9.10999867966352e-04,
+                             0.99999957842704)
+      CkTableStartTime    = 607077698.48425
+      CkTableEndTime      = 607077698.48425
+      CkTableOriginalSize = 1
+      FrameTypeCode       = 3
+      Description         = "Created by spiceinit"
+      Kernels             = ($osirisrex/kernels/ck/orx_f_20190328T1810_201903-
+                             28T2309_DS_BBD_SOPG_v01a_fb4b_19087a.bc,
+                             $osirisrex/kernels/fk/orx_v09.tf)
+
+      Group = Field
+        Name = J2000Q0
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000Q1
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000Q2
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000Q3
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = AV1
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = AV2
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = AV3
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = ET
+        Type = Double
+        Size = 1
+      End_Group
+    End_Object
+
+    Object = Table
+      Name                 = InstrumentPosition
+      StartByte            = 4265963
+      Bytes                = 56
+      Records              = 1
+      ByteOrder            = Lsb
+      CacheType            = Linear
+      SpkTableStartTime    = 607077698.48425
+      SpkTableEndTime      = 607077698.48425
+      SpkTableOriginalSize = 1.0
+      Description          = "Created by spiceinit"
+      Kernels              = $osirisrex/kernels/spk/orx_190220_190608_DS_MPRe-
+                             vB.bsp
+
+      Group = Field
+        Name = J2000X
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000Y
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000Z
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000XV
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000YV
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000ZV
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = ET
+        Type = Double
+        Size = 1
+      End_Group
+    End_Object
+
+    Object = Table
+      Name                = BodyRotation
+      StartByte           = 4266019
+      Bytes               = 64
+      Records             = 1
+      ByteOrder           = Lsb
+      TimeDependentFrames = (10106, 1)
+      CkTableStartTime    = 607077698.48425
+      CkTableEndTime      = 607077698.48425
+      CkTableOriginalSize = 1
+      FrameTypeCode       = 2
+      PoleRa              = (86.6388, 0.0, 0.0)
+      PoleDec             = (-65.1086, 0.0, 0.0)
+      PrimeMeridian       = (89.6456, 2010.489449468, 0.0)
+      Description         = "Created by spiceinit"
+      Kernels             = ($osirisrex/kernels/tspk/de424.bsp,
+                             $osirisrex/kernels/tspk/sb-101955-76.bsp,
+                             $osirisrex/kernels/pck/bennu.tpc,
+                             $osirisrex/kernels/pck/pck00010.tpc)
+      SolarLongitude      = 135.41509366604
+
+      Group = Field
+        Name = J2000Q0
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000Q1
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000Q2
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000Q3
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = AV1
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = AV2
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = AV3
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = ET
+        Type = Double
+        Size = 1
+      End_Group
+    End_Object
+
+    Object = Table
+      Name                 = SunPosition
+      StartByte            = 4266083
+      Bytes                = 56
+      Records              = 1
+      ByteOrder            = Lsb
+      CacheType            = Linear
+      SpkTableStartTime    = 607077698.48425
+      SpkTableEndTime      = 607077698.48425
+      SpkTableOriginalSize = 1.0
+      Description          = "Created by spiceinit"
+      Kernels              = ($osirisrex/kernels/tspk/de424.bsp,
+                              $osirisrex/kernels/tspk/sb-101955-76.bsp)
+
+      Group = Field
+        Name = J2000X
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000Y
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000Z
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000XV
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000YV
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = J2000ZV
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = ET
+        Type = Double
+        Size = 1
+      End_Group
+    End_Object
+
+    Object = Table
+      Name      = CameraStatistics
+      StartByte = 4268281
+      Bytes     = 1155
+      Records   = 15
+      ByteOrder = Lsb
+
+      Group = Field
+        Name = Name
+        Type = Text
+        Size = 45
+      End_Group
+
+      Group = Field
+        Name = Minimum
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = Maximum
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = Average
+        Type = Double
+        Size = 1
+      End_Group
+
+      Group = Field
+        Name = StandardDeviation
+        Type = Double
+        Size = 1
+      End_Group
+    End_Object
+
+    Object = History
+      Name      = IsisCube
+      StartByte = 4276887
+      Bytes     = 3492
+    End_Object
+
+    Object = OriginalLabel
+      Name      = IsisCube
+      StartByte = 4260457
+      Bytes     = 5442
+    End_Object
+
+    Object = NaifKeywords
+      BODY2101955_RADII                        = (0.2825, 0.2675, 0.254)
+      BODY_FRAME_CODE                          = 10106
+      INS-64360_FOCAL_LENGTH                   = 628.7
+      INS-64360_PIXEL_SIZE                     = 8.5
+      CLOCK_ET_-64_3/0607077597.03118_COMPUTED = 46b43ca1a217c241
+      INS-64360_TRANSX                         = (0.0, 0.0, 0.0085)
+      INS-64360_TRANSY                         = (0.0, 0.0085, 0.0)
+      INS-64360_ITRANSS                        = (0.0, 0.0, 117.64705882353)
+      INS-64360_ITRANSL                        = (0.0, 117.64705882353, 0.0)
+      INS-64360_CCD_CENTER                     = (511.5, 511.5)
+    End_Object
+
+    Object = Polygon
+      Name      = Footprint
+      StartByte = 4272163
+      Bytes     = 4724
+    End_Object
+  End_Object
+
+  Object = Statistics
+    MeanValue         = 3.56102547970055e-04
+    StandardDeviation = 4.07298920685332e-04
+    MinimumValue      = 2.65281014435459e-05
+    MaximumValue      = 0.0039145527407527
+    PercentHIS        = 0.0
+    PercentHRS        = 0.0
+    PercentLIS        = 0.0
+    PercentLRS        = 0.0
+    PercentNull       = 0.0
+    TotalPixels       = 1048576.0
+  End_Object
+
+  Object = Geometry
+    BandsUsed                  = 1
+    ReferenceBand              = 1
+    OriginalBand               = 1
+    Target                     = Bennu
+    StartTime                  = 2019-03-28T20:40:29.2986046
+    EndTime                    = 2019-03-28T20:40:29.2986046
+    CenterLine                 = 512.0
+    CenterSample               = 512.0
+    CenterLatitude             = -85.806182958016
+    CenterLongitude            = 127.47342286573
+    CenterRadius               = 239.9357352421
+    RightAscension             = 167.82820817684
+    Declination                = -33.564227478217
+    UpperLeftLongitude         = 244.10368900916
+    UpperLeftLatitude          = -81.390001009948
+    LowerLeftLongitude         = 46.477188843357
+    LowerLeftLatitude          = -80.176943257946
+    LowerRightLongitude        = 104.70786485926
+    LowerRightLatitude         = -77.445765768177
+    UpperRightLongitude        = 199.15926088876
+    UpperRightLatitude         = -73.228038077218
+    PhaseAngle                 = 46.791311751759
+    EmissionAngle              = 55.059285079676
+    IncidenceAngle             = 90.610483637642
+    NorthAzimuth               = 249.47051869331
+    OffNadir                   = 3.2366160532891
+    SolarLongitude             = 135.41509366604
+    LocalTime                  = 14.815562022303
+    TargetCenterDistance       = 3.4452210459306
+    SlantDistance              = 3.3023081977663
+    SampleResolution           = 0.044647080771455
+    LineResolution             = 0.044647080771455
+    PixelResolution            = 0.044647080771455
+    MeanGroundResolution       = 0.044851487260922
+    SubSolarAzimuth            = 211.70465369529
+    SubSolarGroundAzimuth      = 317.85901102683
+    SubSolarLatitude           = 3.4331191111682
+    SubSolarLongitude          = 85.23999253118
+    SubSpacecraftAzimuth       = 166.41021496018
+    SubSpacecraftGroundAzimuth = 284.87226975325
+    SubSpacecraftLatitude      = -36.990831381959
+    SubSpacecraftLongitude     = 55.443606192391
+    ParallaxX                  = -0.36736412580346
+    ParallaxY                  = -1.3833499203943
+    ShadowX                    = 69.589064886379
+    ShadowY                    = 62.969032367659
+    HasLongitudeBoundary       = TRUE
+    HasNorthPole               = FALSE
+    HasSouthPole               = FALSE
+  End_Object
+
+  Object = Polygon
+    CentroidLine      = 895.72585973477
+    CentroidSample    = 644.84590594138
+    CentroidLatitude  = -81.190332040708
+    CentroidLongitude = 93.04921550612
+    CentroidRadius    = 237.24166349057 <meters>
+    SurfaceArea       = 0.0011505490491134 <km^2>
+    GlobalCoverage    = 0.162672 <percent>
+    SampleIncrement   = 25
+    LineIncrement     = 25
+    GisFootprint      = "MULTIPOLYGON (((45.2132126883270828
+                         -81.9710739323089825, 46.3900697482582771
+                         -82.1732702631075966, 48.3807343157982785
+                         -82.3670511637212712, 50.0930656454000953
+                         -82.5947074359128095, 51.1756734310785077
+                         -82.6916671035287578, 51.8772808116133106
+                         -82.7518749766135926, 54.9309393622864874
+                         -82.8653176657448256, 57.2770339224418663
+                         -82.9915589476465101, 59.5310618697406113
+                         -83.2361311258595009, 61.2595500632626297
+                         -83.2898729605686441, 63.7017320012995327
+                         -83.5021341230045095, 63.0849056130083667
+                         -83.4735239071116268, 67.0354940959035446
+                         -83.6108592008742875, 69.8416105902251871
+                         -83.7360048133778321, 71.1080558583340405
+                         -83.7651631090500643, 74.5062844787984488
+                         -83.8179980041393549, 75.3594077804066842
+                         -83.7725123726611685, 80.5872214656606474
+                         -83.8783588867185443, 82.6308450435663104
+                         -83.9653005954941847, 84.3841814985218832
+                         -83.9724490858453407, 87.9888080308176228
+                         -83.9693748372311006, 91.3732068287094847
+                         -83.8278900155197277, 94.3238516125568509
+                         -83.7716727857661141, 97.7252866476106448
+                         -83.7712336251120178, 97.7824068348349300
+                         -83.8388622500535803, 101.0453824236701337
+                         -83.6851030866638013, 101.8186172701891081
+                         -83.7295826719524712, 105.2087299183673110
+                         -83.6100211569625174, 108.6598590574971439
+                         -83.3248610498735331, 111.5175291674420066
+                         -83.1675290751693836, 113.1200992490602317
+                         -83.1472175883431817, 115.8329034098292567
+                         -82.9756247561356872, 116.2311021136059566
+                         -83.0117756389327610, 117.9832631377363015
+                         -82.8810739184366270, 120.2455211013516134
+                         -82.6946456741336391, 122.8108054887181027
+                         -82.3004864810328058, 124.3337072232068294
+                         -82.3002994651425155, 126.1584821539486398
+                         -81.9858046796555868, 126.6262724004373297
+                         -82.0417442536875399, 129.3092605050725297
+                         -81.6582238785159547, 129.4971208818184607
+                         -81.6732001900426212, 131.8753249468513502
+                         -81.3240683047375938, 132.1440546312125548
+                         -81.2817741781780256, 134.3353229965744902
+                         -80.8505249764275504, 135.6934000498298190
+                         -80.5480541080396648, 135.8622082524397285
+                         -80.5752126083310856, 136.8171614381602978
+                         -80.4405028401881310, 136.7545488423376412
+                         -80.4376460102974988, 134.6318603268028937
+                         -80.3208267019499260, 131.9801649528900214
+                         -80.2693908986012019, 129.6012562699511648
+                         -80.0491529582131562, 127.8824594381253661
+                         -79.9666889831492824, 125.9854935842498946
+                         -79.7966379161561292, 123.1441888973893555
+                         -79.8197098114049339, 120.7162104163665362
+                         -79.5935840103888239, 119.4375847276845946
+                         -79.2555771267408460, 117.7847742805561637
+                         -79.2178162123147018, 116.0030324051906945
+                         -79.0461863538199765, 115.0659997288763634
+                         -78.8051858790117450, 112.3390892318091829
+                         -78.4997554916940032, 110.2191560926207217
+                         -78.3815333750022347, 108.5239888835026392
+                         -78.2830304157776027, 107.3793751857314760
+                         -77.9376443459565422, 106.0005478549929592
+                         -77.8527301603652688, 105.1539743933198423
+                         -77.5184188585909055, 104.7497773698118806
+                         -77.4355821187713502, 103.5988811499352238
+                         -77.6259865114883780, 102.6376847019217990
+                         -77.7954387819884516, 101.8432243941200284
+                         -77.9452726878277957, 100.8852377364070492
+                         -78.3019529542752650, 99.9337234657647286
+                         -78.3157979884764330, 98.8657365671700319
+                         -78.4777134495422075, 97.6678699936425829
+                         -78.6667544528437759, 95.7847401634583946
+                         -78.8030720203295800, 95.1198295734679391
+                         -78.9516530643774672, 93.9319606881578295
+                         -79.1462615773065039, 92.1719250266311008
+                         -79.2500824261785368, 91.5224933744262046
+                         -79.3312127588866218, 89.9982833519602963
+                         -79.5044324330666115, 88.2631902385483613
+                         -79.6045893136236913, 87.3493923625903506
+                         -79.6656444431007031, 85.8232404352163769
+                         -79.8375851889514365, 84.0055895809480830
+                         -79.9428930820308068, 82.8691890305008627
+                         -80.0326216125934735, 81.3601094915756846
+                         -80.1142920066747166, 79.5155688970176158
+                         -80.1943407863012396, 78.2483423374156786
+                         -80.3083003960452118, 76.9464454785041170
+                         -80.3137194313287779, 74.7730281815756115
+                         -80.3071101205093356, 73.4216248118050316
+                         -80.3358441782179398, 70.9140452475345455
+                         -80.4653116945363820, 69.7305356828333487
+                         -80.4143427381125235, 68.6343747585147668
+                         -80.4501757822241501, 67.4453381083687873
+                         -80.5230273806155594, 65.6332422676785399
+                         -80.4245330567297856, 63.2968324219685385
+                         -80.4811272457823463, 62.1139495298728974
+                         -80.3605937383087365, 60.0428349095074765
+                         -80.4164480057085029, 59.2134612778791976
+                         -80.3925804140070426, 57.1490312844103912
+                         -80.3317744845099639, 55.4533483881949962
+                         -80.3625590728819645, 53.6622769715622852
+                         -80.3754730171858540, 51.8849536717882245
+                         -80.3800960621792910, 51.6461391758912356
+                         -80.3572139759018711, 49.3874071093724041
+                         -80.2353823950590197, 47.9936934918719871
+                         -80.2160953404420667, 46.5101265972988642
+                         -80.1799074343788192, 46.1331970664866802
+                         -80.4429025998344827, 45.5909752722565216
+                         -80.8070946290784065, 44.7548063270353538
+                         -81.2687564596081131, 45.2132126883270828
+                         -81.9710739323089825)))"
+
+    Group = Mapping
+      TargetName         = Bennu
+      EquatorialRadius   = 282.5 <meters>
+      PolarRadius        = 254.0 <meters>
+      LatitudeType       = Planetocentric
+      LongitudeDirection = PositiveEast
+      LongitudeDomain    = 180
+      MinimumLatitude    = -88.627936545651
+      MaximumLatitude    = -73.206145083129
+      MinimumLongitude   = -179.8585766105
+      MaximumLongitude   = 179.94426591676
+      PixelResolution    = 0.044276055740542
+      ProjectionName     = Sinusoidal
+      CenterLongitude    = 0.042844653128697
+    End_Group
+  End_Object
+End_Object
+End

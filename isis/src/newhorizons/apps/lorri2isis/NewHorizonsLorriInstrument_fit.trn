@@ -3,7 +3,7 @@
 # for the New Horizons LORRI camera.
 #
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = HOSTNAME
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -13,7 +13,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRU
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -23,7 +23,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -43,7 +43,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = SPCUTCAL
   InputPosition  = FITSLABELS
   OutputName     = StartTime
@@ -54,7 +54,7 @@ End_Group
 # Commented out until/if we have start and stop times
 # Currently there are only center of exposure times
 #Group = StopTime
-#  Auto
+#  Auto           = 1
 #  InputKey       = SPCUTCAL
 #  InputPosition  = FITSLABELS
 #  OutputName     = StopTime
@@ -63,7 +63,7 @@ End_Group
 #End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPCSCLK
   InputPosition  = FITSLABELS
   OutputName     = SpacecraftClockStartCount
@@ -74,7 +74,7 @@ End_Group
 # Commented out until/if we have start and stop times
 # Currently there are only center of exposure times
 #Group = SpacecraftClockStopCount
-#  Auto
+#  Auto           = 1
 #  InputKey       = SPCSCDP
 #  InputPosition  = FITSLABELS
 #  OutputName     = SpacecraftClockStopCount
@@ -83,7 +83,7 @@ End_Group
 #End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPTIME
   InputPosition  = FITSLABELS
   OutputName     = ExposureDuration
@@ -95,7 +95,7 @@ End_Group
 # The summing modes are handeled through two different Naif codes
 # One for 1x1 and another for 4x4 summing.
 #Group = Summing
-#  Auto
+#  Auto           = 1
 #  InputKey       = SUMMING
 #  InputPosition  = FITSLABELS
 #  OutputName     = Summing

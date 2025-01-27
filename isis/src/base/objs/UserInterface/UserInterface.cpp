@@ -1150,12 +1150,10 @@ namespace Isis {
         else if (nextElementStarted && arrayString[strPos] == ' ') {
           // Make sure there's something before the next ',' or ')'
           bool onlyWhite = true;
-          int closingPos = strPos + 1;
 
           for( int pos = strPos;
                onlyWhite && arrayString[pos] != ',' && arrayString[pos] != ')' &&
                pos < arrayString.size(); pos++) {
-            closingPos++;
             onlyWhite &= (arrayString[pos] == ' ');
           }
 

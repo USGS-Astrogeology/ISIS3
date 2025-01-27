@@ -295,3 +295,33 @@ TEST(TableTests, Clear) {
 
   EXPECT_EQ(t.Records(), 0);
 }
+
+TEST(TableTests, FromString) {
+  std::string tableStr = "J2000Ang1,J2000Ang2,J2000Ang3\n"
+    "-1.0261086365746,1.3843980236775,0.97666760713915\n"
+    "-0.026127047776247,0.034245411189199,0.0052635095732964\n"
+    "-0.005717949450684,-0.0039014897927048,2.3750859084069e-05\n"
+    "260093852.48957,46.12915199995,2.0\n";
+
+  std::cout << "tableStr=" << tableStr << std::endl;
+
+  QString tableName = QString::fromStdString("TestTableName");
+
+  std::stringstream tableStrStream;
+  tableStrStream << tableStr;
+  
+  Table table(tableName, tableStr, ',');
+  std::cout << "Created table with table string" << std::endl;
+  std::cout << "Table name=" << table.Name().toStdString() << std::endl;
+  std::cout << "Table recordFields=" << static_cast<int>(table.RecordFields()) << std::endl;
+  std::cout << "Table recordSize=" << static_cast<int>(table.RecordSize()) << std::endl;
+
+  for (int i = 0; i < table.Records(); i++) {
+    std::cout << "Table[" << i << "] record=" << TableRecord::toString(table[i]).toStdString() << std::endl;
+  }
+
+  QString tableToString = Table::toString(table);
+  std::cout << "tableToString=" << tableToString.toStdString() << std::endl;
+
+  EXPECT_EQ(tableStr, tableToString.toStdString());
+}

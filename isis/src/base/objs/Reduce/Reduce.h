@@ -111,7 +111,7 @@ namespace Isis {
               double pdValidPer, QString psReplaceMode)
       : Reduce(pInCube, pdSampleScale, pdLineScale){
         mdValidPer    = pdValidPer;
-        msReplaceMode = psReplaceMode;
+        msReplaceMode = psReplaceMode.toUpper();
       }
 
       //! Operator () overload

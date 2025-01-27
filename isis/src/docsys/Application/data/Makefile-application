@@ -7,9 +7,6 @@ include $(ISISROOT)/make/isismake.os
 
 APPSDIR = $(ISISROOT)/doc/Application
 DEST_PRES_DIR = $(APPSDIR)/presentation
-
-PFSTYLEDIR = ../../presentation/PrinterFriendly/styles
-PFDIR = $(DEST_PRES_DIR)/PrinterFriendly
 TABSTYLEDIR = ../../presentation/Tabbed/styles
 TABDIR = $(DEST_PRES_DIR)/Tabbed
 
@@ -25,28 +22,7 @@ help:
 #------
 # DOCS: generate documentation
 
-docs: printer tabbed
-
-
-printer: $(PFDIR)/$(APP)/$(APP).html 
-
-$(PFDIR)/$(APP)/$(APP).html: $(APP).xml $(PFSTYLEDIR)/IsisApplicationDocStyle.xsl 
-
-  # PRINTER FRIENDLY
-  # run style sheet for Printer Friendly presentation
-
-	echo "          [$(APP)]" ; \
-	mkdir -p $(PFDIR)/$(APP) ; \
-	if test -d assets;\
-	then \
-	  rsync -lHptr --delete --rsh=ssh assets $(PFDIR)/$(APP) ; \
-	fi 
-	$(XALAN) $(XALAN_PARAM_OPTION) menuPath "'../../../../'" $(XALAN_OUTFILE_OPTION) $(PFDIR)/$(APP)/$(APP).html $(XALAN_INFILE_OPTION) $(APP).xml $(XALAN_XSL_OPTION) $(PFSTYLEDIR)/IsisApplicationDocStyle.xsl ; \
-	touch $(APPSDIR)
-	
-
-
-
+docs: tabbed
 
 tabbed: $(TABDIR)/$(APP)/$(APP).html 
 

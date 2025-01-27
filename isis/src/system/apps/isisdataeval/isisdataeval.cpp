@@ -69,15 +69,6 @@ namespace Isis {
   };
   typedef struct validation_counts ValidationCounts;
 
-  /** Add log Group to log file and console for backward compatability */
-  inline void db_addLogGroup( Pvl *log, PvlGroup &group ) {
-    // Report translations...
-    // Emulates: pvl->addLogGroup( group );
-    log->addGroup( group );
-    Application::Log( group );
-    return;
-  }
-
   /** Report evaluation data consistently */
   inline void report_issues( std::ostream &db_os,
                              const Data::DBFileDispositionList &db_status,
@@ -154,8 +145,7 @@ namespace Isis {
     }
 
     // Report translations...
-    // pvl->addLogGroup( prefdir );
-    db_addLogGroup( log, prefdir );
+    Application::AppendAndLog( prefdir, log);
 
     //*******************************************************************
     // Process DATADIR which will collect the inventory and evaluate
@@ -286,7 +276,6 @@ namespace Isis {
         v_progress.SetText("inventory+"+hashtag);
         v_progress.SetMaximumSteps( v_isisdatadir.size() );
         v_progress.CheckStatus();
-        BigInt n_symlinks = 0;
         QCryptographicHash volume_hash( hash_algorithm );
 
         // Determine size (MB) of file buffer for hashing only if requested
@@ -307,7 +296,6 @@ namespace Isis {
 
             // Check for symbolic links
             if ( dbfile.isSymbolicLink() ) {
-              n_symlinks++;
 
               QString symtarget = dbfile.info().symLinkTarget();
               DBFileStatus symfile( symtarget );
@@ -422,8 +410,7 @@ namespace Isis {
     }
 
     // Final log
-    // pvl->addLogGroup( results );
-    db_addLogGroup( log, results );
+    Application::AppendAndLog( results, log );
 
     eval_proc.Finalize();
     return;

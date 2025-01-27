@@ -77,8 +77,8 @@ TEST(kaguyatc2isisTest, kaguyatc2isisTestDefault) {
 
   // Bandbin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
-  ASSERT_EQ(bandbin["Center"][0], "640nm");
-  ASSERT_EQ(bandbin["Width"][0], "420nm");
+  ASSERT_EQ(bandbin["Center"][0], "640");
+  ASSERT_EQ(bandbin["Width"][0], "420");
 
   // Kernels Group
   PvlGroup &kern = isisLabel->findGroup("Kernels", Pvl::Traverse);
@@ -150,8 +150,8 @@ TEST(kaguyatc2isisTest, kaguyatc2isisTestSpSupport) {
 
   // Bandbin Group
   PvlGroup &bandbin = isisLabel->findGroup("BandBin", Pvl::Traverse);
-  ASSERT_EQ(bandbin["Center"][0], "640nm");
-  ASSERT_EQ(bandbin["Width"][0], "420nm");
+  ASSERT_EQ(bandbin["Center"][0], "640");
+  ASSERT_EQ(bandbin["Width"][0], "420");
 
   // Kernels Group
   PvlGroup &kern = isisLabel->findGroup("Kernels", Pvl::Traverse);

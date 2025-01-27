@@ -22,7 +22,7 @@
 #
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -32,8 +32,8 @@ Group = SpacecraftName
 End_Group
 
 Group = MissionPhaseName
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -43,7 +43,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -53,7 +53,7 @@ Group = InstrumentId
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -63,7 +63,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -73,7 +73,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -83,7 +83,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -93,7 +93,7 @@ Group = StopTime
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME 
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -105,8 +105,8 @@ Group = TargetName
 End_Group
 
 Group = OriginalTargetName
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = TARGET_NAME 
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -116,8 +116,8 @@ Group = OriginalTargetName
 End_Group
 
 Group = OrbitNumber
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -127,8 +127,8 @@ Group = OrbitNumber
 End_Group
 
 Group = DataQualityId
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = DATA_QUALITY_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -138,7 +138,7 @@ Group = DataQualityId
 End_Group
 
 Group = ChannelId
-  Auto
+  Auto           = 1
   InputKey       = CHANNEL_ID 
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -148,7 +148,7 @@ Group = ChannelId
 End_Group
 
 Group = InstrumentModeId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -158,7 +158,7 @@ Group = InstrumentModeId
 End_Group
 
 Group = ScanModeId
-  Auto
+  Auto           = 1
   InputKey       = SCAN_MODE_ID 
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -168,8 +168,8 @@ Group = ScanModeId
 End_Group
 
 Group = ScanParameter
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = DAWN:SCAN_PARAMETER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -179,7 +179,7 @@ Group = ScanParameter
 End_Group
 
 Group = FrameParameter
-  Auto
+  Auto           = 1
   InputKey       = FRAME_PARAMETER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -189,8 +189,8 @@ Group = FrameParameter
 End_Group
 
 Group = VirIrStartXPosition
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = DAWN:VIR_IR_START_X_POSITION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -200,8 +200,8 @@ Group = VirIrStartXPosition
 End_Group
 
 Group = VirIrStartYPosition
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = DAWN:VIR_IR_START_Y_POSITION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -211,8 +211,8 @@ Group = VirIrStartYPosition
 End_Group
 
 Group = VirVisStartXPosition
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = DAWN:VIR_VIS_START_X_POSITION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -222,8 +222,8 @@ Group = VirVisStartXPosition
 End_Group
 
 Group = VirVisStartYPosition
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = DAWN:VIR_VIS_START_Y_POSITION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -233,8 +233,8 @@ Group = VirVisStartYPosition
 End_Group
 
 Group = MaximumInstrumentTemperature
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = MAXIMUM_INSTRUMENT_TEMPERATURE
   InputGroup     = ROOT
   InputPosition  = ROOT

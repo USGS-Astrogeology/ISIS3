@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
  
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -31,7 +31,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -41,7 +41,7 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -51,7 +51,7 @@ Group = InstrumentId
 End_Group
  
 Group = ChannelID
-  Auto
+  Auto           = 1
   InputKey       = ROSETTA:CHANNEL_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -61,7 +61,7 @@ Group = ChannelID
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -71,7 +71,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -81,7 +81,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -91,7 +91,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -101,7 +101,7 @@ Group = StopTime
 End_Group
  
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -115,8 +115,8 @@ Group = TargetName
 End_Group
 
 Group = OriginalTargetName
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = TARGET_NAME 
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -127,7 +127,7 @@ End_Group
 
 
 Group = TargetType
-  Auto
+  Auto           = 1
   InputKey       = TARGET_TYPE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -138,7 +138,7 @@ Group = TargetType
 End_Group
  
 Group = ProcessingLevelID
-  Auto
+  Auto           = 1
   InputKey       = PROCESSING_LEVEL_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -148,7 +148,7 @@ Group = ProcessingLevelID
 End_Group
 
 Group = InstrumentModeId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -158,8 +158,8 @@ Group = InstrumentModeId
 End_Group
 
 Group = ScanModeId
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = ROSETTA:SCAN_MODE_ID 
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -169,8 +169,8 @@ Group = ScanModeId
 End_Group
 
 Group = ScanParameter
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = SCAN_PARAMETER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -180,8 +180,8 @@ Group = ScanParameter
 End_Group
 
 Group = ScanParameterDesc
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = SCAN_PARAMETER_DESC
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -191,7 +191,7 @@ Group = ScanParameterDesc
 End_Group
 
 Group = FrameParameter
-  Auto
+  Auto           = 1
   InputKey       = FRAME_PARAMETER
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -201,7 +201,7 @@ Group = FrameParameter
 End_Group
 
 Group = FrameParameterDesc
-  Auto
+  Auto           = 1
   InputKey       = FRAME_PARAMETER_DESC
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -211,8 +211,8 @@ Group = FrameParameterDesc
 End_Group
 
 Group = VirIrStartXPosition
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = ROSETTA:VIR_IR_START_X_POSITION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -222,8 +222,8 @@ Group = VirIrStartXPosition
 End_Group
 
 Group = VirIrStartYPosition
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = ROSETTA:VIR_IR_START_Y_POSITION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -233,8 +233,8 @@ Group = VirIrStartYPosition
 End_Group
 
 Group = VirVisStartXPosition
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = ROSETTA:VIR_VIS_START_X_POSITION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -244,8 +244,8 @@ Group = VirVisStartXPosition
 End_Group
 
 Group = VirVisStartYPosition
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = ROSETTA:VIR_VIS_START_Y_POSITION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -255,8 +255,8 @@ Group = VirVisStartYPosition
 End_Group
 
 Group = MaximumInstrumentTemperature
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = MAXIMUM_INSTRUMENT_TEMPERATURE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -266,8 +266,8 @@ Group = MaximumInstrumentTemperature
 End_Group
 
 Group = DataQualityId
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = DATA_QUALITY_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -277,8 +277,8 @@ Group = DataQualityId
 End_Group
 
 Group = DataQualityDesc
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = DATA_QUALITY_DESC
   InputGroup     = ROOT
   InputPosition  = ROOT

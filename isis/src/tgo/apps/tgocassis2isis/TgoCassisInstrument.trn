@@ -7,7 +7,7 @@
 # Consider the following translation group and xml
 #
 # Group = Samples
-#   Auto
+#   Auto                 = 1
 #   InputPosition  = (Array_2D_Image, Axis_Array)
 #   Dependencies   = "tag@axis_name|Sample"
 #   InputKey       = elements
@@ -47,7 +47,7 @@
 
 
 Group = SpacecraftName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Investigation_Area)
   InputKey             = Instrument_Host_Name
   OutputName           = SpacecraftName
@@ -56,7 +56,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Observing_System, Observing_System_Component)
   InputKeyDependencies = "tag@type|Instrument"
   InputKey             = name
@@ -66,7 +66,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto                 = 1
   InputPosition        = (CaSSIS_Header,GEOMETRIC_DATA)
   InputKey             = TARGET
   OutputName           = TargetName
@@ -75,7 +75,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto                 = 1
   InputPosition        = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey             = OnboardImageAcquisitionTime
   OutputName           = StartTime
@@ -84,7 +84,7 @@ Group = StartTime
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto                 = 1
   InputPosition        = CaSSIS_Header
   InputKey             = FSW_HEADER
   InputKeyAttribute    = ExposureTimestamp
@@ -94,7 +94,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto                 = 1
   InputPosition        = CaSSIS_Header
   InputKey             = PEHK_HEADER
   InputKeyAttribute    = Exposure_Time
@@ -104,7 +104,7 @@ Group = ExposureDuration
 End_Group
 
 Group = Filter
-  Auto
+  Auto                 = 1
   InputPosition        = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey             = Filter
   OutputName           = Filter
@@ -113,8 +113,8 @@ Group = Filter
 End_Group
 
 Group = Expanded
-  Auto
-  Optional
+  Auto                 = 1
+  Optional       = 1
   InputPosition        = (CaSSIS_Header, DERIVED_HEADER_DATA)
   InputKey             = Expanded
   OutputName           = Expanded

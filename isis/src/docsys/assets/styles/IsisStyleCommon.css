@@ -7,517 +7,328 @@
    */
 
 
-    body     {
-               background-color: #FAF0D4 ;
-               background-image: URL(../banners/isis_wallpaper.jpg) ;
-               background-repeat: repeat-y ;
-               background-attachment: fixed ;
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-             }
+    /* Page Layout */
 
-    /* ----------------------------------------------------------------
-     * HEADINGS */
+    #page {
+      display: flex;
+      flex-direction: row;
+      margin: 1rem 2rem;
+    }
 
-     h1       {
-               font-family:     Arial Black, Arial, Geneva, sans-serif ;
-               font-size:       150% ;
-               font-weight:     bold ;
-               font-variant:    small-caps ;
-               text-decoration: none ;
-               margin-top:      2px;
-               margin-bottom:   3px;
-              }
+    .sidenav {
+      margin: 0rem 2rem 4rem;
+      width: 14rem;
+      flex-shrink: 0;
+    }
 
-     h1.subtitle
-              {
-               font-family:      Arial, Geneva, sans-serif ;
-               font-variant:     normal ;
-               font-size:        100% ;
-               font-style:       italic ;
-               font-weight:      normal ;
-               text-decoration:  none ;
-               color:            black ;
-               margin-top:       0px;
-               margin-bottom:    3px;
-              }
+    main {
+      margin: 0rem 2rem;
+      padding: 0.2rem 1rem;
+      flex-grow: 1;
+      overflow-x: auto;
+    }
 
-     h2       {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 110% ;
-               font-weight: bold ;
-               font-variant: small-caps ;
-               text-decoration: none ;
-               margin-top:2px;
-               margin-bottom:3px;
-               padding: 3px ;
-              }
+    
+    /* Mobile Menu */
 
-     h3       {
-               font-family: serif ;
-               font-size: 110% ;
-               font-weight: bold ;
-               font-variant:    small-caps ;
-               text-decoration: none ;
-               margin-top:10px;
-               margin-bottom:5px;
-              }
+    .logo-bar {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .nav-m-logo{
+      height: 44px;
+      margin: 3px 0px 1px 10px;
+    }
+
+    .name-bar {
+      margin: auto;
+    }
+
+    .isis-name {
+      margin-left: 13px;
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    .topnav-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      background-color: #00264c;
+      color: white;
+      border-top: 5px solid white;
+    }
+
+    .topnav-container > button {
+      cursor: pointer;
+    }
+
+    .usa-nav {
+      width: 20rem !important;
+    }
+
+    .usa-nav__close {
+      cursor: pointer;
+    }
+
+    /* Elements */
+
+    h1, h2, h3 {
+      color: #336699 ;
+    }
+
+    a {
+      color: #005ea2
+    }
+
+    pre {
+      overflow: auto;
+      background: whitesmoke;
+      border-radius: 0.2rem;
+      padding: 1rem;
+    }
+
+    /* Logo/Brand */
+
+    #isis-banner {
+      background: url(https://asc-docs.s3.us-west-2.amazonaws.com/common/img/PIA26068.jpg) no-repeat;
+      background-position: 50% 75%;
+      color: white;
+      padding: 3rem;
+      background-size: cover;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .title-overlay {
+      transform: translateX(-5%);
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      margin: 5px;
+    }
+
+    .title-overlay h3 {
+      margin: 0;
+    }
+
+    .image-credit-fixed {
+      width: 100%;
+      padding: 5px 45px;
+      background-color: #333;
+      color: #D1D3D4;
+      text-align: right;
+      font-size: .75rem;
+      line-height: 1.25rem;
+    }
+
+    .image-credit-fixed p {
+      margin: 5px 0;
+    }
+
+    .image-credit-fixed a {
+      color: #D1D3D4;
+      text-decoration: none;
+    }
+
+    .isis-logo {
+      background-image: url(../img/isis-logo-br.svg);
+      background-repeat: no-repeat;
+      background-size: contain;
+      height: 12rem;
+      width: 15rem;
+    }
+
+    #nav-title {
+      display: flex;
+      flex-wrap: nowrap;
+      padding: 13px;
+      height: 95px;
+      align-items: center;
+    }
+
+    #nav-title-logo {
+      height: 65px;
+      width: 65px;
+      max-width: unset;
+    }
+
+    #nav-title-text-box {
+      height: fit-content;
+      margin-bottom: 6px;
+      margin-left: 4px;
+    }
+
+    #nav-title-text {
+      font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+      font-weight: 700;
+      font-size: large;
+      font-style: normal;
+    }
 
 
-     h4       {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 100% ;
-               font-weight: bold ;
-               text-decoration: underline ;
-               font-style: italic;
-               margin-top:10px;
-               margin-bottom:5px;
+    /* Header Search Customization */
 
-              }
+    #usgs-header-search-button {
+      position: static;
+      margin-top: 18px;
+      height: 32px;
+      padding: 0 12px;
+      width: 45px;
+      min-width: 2rem;
+    }
 
-     h5       {
-               font-family: serif ;
-               font-size: 90% ;
-               font-weight: bold ;
-               text-decoration: none ;
-               margin-top:10px;
-               margin-bottom:5px;
-              }
-
-     h6       {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 80% ;
-               font-weight: bold ;
-               font-variant: small-caps ;
-               text-decoration: underline ;
-               margin-top:10px;
-               margin-bottom:5px;
-              }
-
-     hr       {
-               height: 1px ;
-              }
+    .usa-banner__lock-image-pd {
+      height: 1.7ex;
+      width: 2ex;
+    }
 
 
-     p        {
-                margin: 0px;
-                padding-bottom: 5px;
-                padding-top:    5px;
-              }
+    /* Card List (applications by category) */
 
-     a        {
-                font-weight: bold;
-              }
+    .card-list-sm {
+      column-count: auto;
+      column-width: 14rem;
+      gap: 1rem;
+      padding: 0;
+    }
 
-     li       {
-                padding-bottom: 5px;
-              }
+    .card-list-sm > li {
+      border: 2px solid #e6e6e6;
+      border-radius: .25rem;
+      list-style-type: none;
+      width: 14rem;
+      margin-bottom: 0.6rem;
+      display: inline-flex;
+    }
 
-     tt       {
-                font-size: 110% ;
-                font-weight: bolder ;
-              }
+    .card-list-sm > li > a {
+      display: block;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      width: calc(14rem - 4px);
+    }
+
+    .card-list-sm > li > a:hover {
+      background-color: #f0f0f0;
+    }
 
 
-     div {
-       font-weight: normal ;
-     }
+    /* Tables */
 
+    table {
+      border-collapse: collapse;
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: #D8F2FF;
+    }
+
+    tbody > tr > th {
+      text-align: left;
+      padding: 6px;
+    }
+
+    tbody > tr > td {
+      padding: 6px;
+    }
+
+    td > ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .old-name {
+      font-weight: 500;
+      font-style: italic;
+    }
 
 
     /* -------------------------------------------------------------
-     * TOC Table: style for upper level pages' tables of contents */
+     * tableFormattedInformation */
 
-     .tableTOC
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 90% ;
-                 border: 3px solid brown ;
-               }
+    table.tableFormattedInformation {
+      border-collapse: collapse;
+    }
 
-     table.tableTOC
-               {
-                 width: 100% ;
-               }
+    table.tableFormattedInformation td, table.tableFormattedInformation th {
+      border: 2px solid #1b1b1b;
+    }
 
-     table.tableTOC th
-               {
-                 padding: 3px;
-               }
-
-     table.tableTOC td
-               {
-                 padding: 3px;
-               }
-
-
-
-    /* -------------------------------------------------------------
-     * Poll Table: style for upper level pages' tables of contents */
-
-     table.tablePoll
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 80% ;
-                 width: 15em ;
-                 border: 3px solid brown ;
-               }
-
-     table.tablePoll th
-               {
-                 background-color: #DDCCAA ;
-               }
-
-     table.tablePoll td
-               {
-
-               }
-
-
-    /* -------------------------------------------------------------
-     * TOC Table: style for upper level pages' tables of contents */
-
-     table.tableTOCmulticol
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 90% ;
-                 width: 100% ;
-               }
-
-     table.tableTOCmulticol th
-               {
-                 padding: 3px;
-               }
-
-     table.tableTOCmulticol td
-               {
-                 border: 3px solid brown ;
-                 padding: 3px;
-               }
-
-
-
-    /* ------------------------------------------------------------------------------------------------
-     * General Information Table: plain style for tables of general information - no colors, borders, etc. */
-
-     .tableGeneralInformation
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 90% ;
-               }
-
-     table.tableGeneralInformation
-               {
-                 width: 80% ;
-               }
-
-     table.tableGeneralInformation th
-               {
-                 padding: 3px;
-                 padding-right: 7px;
-               }
-
-     table.tableGeneralInformation td
-               {
-                 padding: 3px;
-                 padding-right: 7px;
-               }
-
-
-    /* -------------------------------------------------------------
-     * TOC Table: style for upper level pages' tables of contents */
-
-     .tableFormattedInformation
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 90% ;
-               }
-
-     table.tableFormattedInformation
-               {
-                 width: 80% ;
-               }
-
-     table.tableFormattedInformation caption
-               {
-                 border-top: 2px solid #999966 ;
-                 background-color: #EEEECC ;
-               }
-
-     table.tableFormattedInformation th
-               {
-                 padding: 3px;
-                 border: 2px solid #999966 ;
-                 background-color: #CCCCAA ;
-                 text-align: center ;
-               }
-
-     table.tableFormattedInformation td
-               {
-                 padding: 3px;
-                 border: 1px solid gray ;
-               }
-
-     table.tableFormattedInformation col.number
-               {
-                 text-align: right ;
-               }
-
-     table.tableFormattedInformation col.center
-               {
-                 text-align: center ;
-               }
-
-     table.tableFormattedInformation col.text
-               {
-                 text-align: left ;
-               }
+    table.tableFormattedInformation th {
+      text-align: center;
+    }
 
     /* -------------------------------------------------------------
      * Image Table: style for images with caption displayed in basic table */
 
-     .imageTable
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 80% ;
-               }
+    .imageTable {
+      border: 0;
+      margin: 1rem;
+    }
 
-     table.imageTable
-               {
-               }
+    .imageTable tr {
+      vertical-align: top;
+    }
 
-     table.imageTable tr
-               {
-                 vertical-align: top ;
-               }
+    .imageTable th, .imageTable td {
+      background-color: white;
+      border: 0;
+    }
 
-     table.imageTable caption
-               {
-                 border-top: 2px solid #999966 ;
-                 background-color: #EEEECC ;
-               }
-
-     table.imageTable th
-               {
-                 padding: 3px;
-                 border: 2px solid #999966 ;
-                 background-color: #CCCCAA ;
-                 text-align: center ;
-               }
-
-     table.imageTable td
-               {
-                 padding: 3px;
-                 border: 2px solid #999966 ;
-                 background-color: #CCCCAA ;
-                 text-align: center ;
-               }
-
-     table.imageTable img
-               {
-                 border: 2px solid black ;
-               }
-
-
-    /* -------------------------------------------------------------
-     * Image Table 2: style for image with caption in separate cell
-     *                (intended for image and caption side-by-side */
-
-     .imageTable2
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 80% ;
-               }
-
-     table.imageTable2
-               {
-                 padding: 3px;
-                 border: 2px solid #999966 ;
-                 background-color: #CCCCAA ;
-               }
-
-     table.imageTable2 th
-               {
-                 text-align: center ;
-               }
-
-     table.imageTable2 td
-               {
-                 text-align: center ;
-               }
-
-     table.imageTable2 img
-               {
-                 border: 2px solid black ;
-               }
-
-
+    .imageTable img {
+      border: 2px solid black;
+    }
 
     /* ----------------------------------------------------------------
-     * TABLE CELL FORMATTING: table styles for figures; use with CAPTIONS     */
+     * History table */
 
+    .tableCellHistory_date {
+      font-style: italic ;
+    }
 
-     /* History table */
-
-
-    .tableCellHistory_date
-              {
-                font-style:   italic ;
-              }
-
-    .tableCellHistory_name
-              {
-                font-weight:  bold ;
-              }
-
-    .tableCellHistory_description
-              {
-              }
-
-
-
-    /* -------------------------------------------------------------
-     * Highlight Section: style for image with caption in separate cell
-     *                (intended for image and caption side-by-side */
-
-
-     div.highlightSection
-               {
-                 padding: 3px;
-                 border: 2px solid #999966 ;
-                 background-color: #DDDDBB ;
-                 margin-left: 30px;
-                 margin-right: 30px;
-               }
-
-     div.highlightSection h2
-               {
-                 background-color: #AAAA77 ;
-               }
-
-
+    .tableCellHistory_name {
+      font-weight: bold;
+      min-width: 18ex;
+    }
 
     /* ----------------------------------------------------------------
      * CAPTION: caption text styles */
 
     .caption /* defines style for a text caption using page's default color */
-              {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 80% ;
-              }
-
-    .captionBold /* defines style for a text caption using page's default color */
-              {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 80% ;
-               font-weight:bold;
-              }
-
-
-    /* ----------------------------------------------------------------
-     * TABLE OF CONTENTS: table of contents text styles */
-    .TOCanchors /* defines style for top-of-page table-of-contents anchor links */
-              {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 80% ;
-               margin-bottom:5px ;
-               margin-top:5px ;
-              }
-
-    .TOCtoplink /* defines style for link to top of page */
-              {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 70% ;
-               font-variant: small-caps ;
-               font-weight: bold ;
-               margin-bottom:10px ;
-               margin-top:10px ;
-              }
-
-
-    /* ----------------------------------------------------------------
-     * IMAGE FORMATTING: special formatting for linked images */
-
-    .blackBorderedImage /*  */
-              {
-               border: 2px solid black ;
-              }
-
-
-  div.code    {
-    margin: 5px;
-    margin-left: 30px;
-
-    padding: 5px;
-    padding-left: 30px;
-
-    font-family: monospace;
-
-    background-color: #EEE;
-    border: 1px solid #999;
-   }
-
-
-   div {clear: left ;}
-
-  .pageMenu {
-    width: 200px;
-
-    float: right ;
-
-    font-family: Arial, Helvetica, SANS SERIF ;
-    font-weight: bold ;
-    font-size: 80% ;
-
-    background-color: #FFC;
-    border: 1px solid #C96;
-   }
-
-  .pageMenu td {
-    padding: 5px;
-  }
-
-
-  table.cheatSheet {
-    width: 600px ;
-    margin-left: auto ;
-    margin-right: auto ;
-  }
-
-  table.cheatSheet td, table.cheatSheet th {
-    border-color: silver;
-    border-width: 2px;
-    border-style: solid;
-    padding:      5px;
-    vertical-align:   top ;
-    text-align: left ;
-  }
-
-  table.cheatSheet th {
-    background-color: #999999 ;
-    color:            white ;
-  }
-
-
-  div.isisMenu {
-    width: 155px ;
-    overflow: hidden ;
-    position: absolute ;
-    top: 5px ;
-    left: 5px ;
-  }
-
-  div.isisContent {
-    padding-left: 10px;
-    padding-right: 20px;
-    position: absolute ;
-    left: 170px;
-    top: 5px ;
-    width: 80% ;
-  }
-
-  /** Added by Ryan Raub, for use in the documentation (Warning Messages)*/
-  span.warning {
-   color: #ff0000;
-   font-weight: bold;
-  }
+    {
+      font-family: Arial, Helvetica, Geneva, sans-serif ;
+      font-size: 80% ;
+    }
  
+    /* ----------------------------------------------------------------
+     * Page format/hiding. should be at bottom of css */
+
+    .print-only {
+      display: none;
+    }
+
+    /* Wide Screens */
+    @media screen and (min-width: 801px) {
+        .narrow-only {
+            display: none;
+        }
+    }
+
+    /* Narrow Screens */
+    @media screen and (min-width: 0px) and (max-width: 800px) {
+        .wide-only {
+            display: none;
+        }
+
+        .isisMenu {
+            display: none;
+        }
+    }

@@ -6,12 +6,12 @@ Group = Accounting
 End_Group
 
 Object = unittest
-  IsisVersion       = "4.4.0  | 2021-02-19"
+  IsisVersion       = "7.2.0  | 2023-07-18"
   ProgramVersion    = 2011-08-19
-  ProgramPath       = /Users/kelvin/repos/isisbuild/unitTest
-  ExecutionDateTime = 2021-02-19T15:42:42
-  HostName          = Unknown
-  UserName          = kelvin
+  ProgramPath       = /Users/acpaquette/repos/ISIS3/pvl_build/unitTest
+  ExecutionDateTime = 2023-07-18T16:56:19
+  HostName          = x86_64-apple-darwin13.4.0
+  UserName          = acpaquette
   Description       = "Unit test for Application class"
 
   Group = UserParameters
@@ -35,13 +35,24 @@ In myFunct
 
 **PROGRAMMER ERROR** testing an error.
 
+**PROGRAMMER ERROR** local test error.
+Group = Error
+  Class   = "PROGRAMMER ERROR"
+  Code    = 3
+  Message = "local test error"
+  File    = unitTest.cpp
+  Line    = 27
+  Program = ./unitTest
+End_Group
+End
+
 Object = unittest
-  IsisVersion       = "4.4.0  | 2021-02-19"
+  IsisVersion       = "7.2.0  | 2023-07-18"
   ProgramVersion    = 2011-08-19
-  ProgramPath       = /Users/kelvin/repos/isisbuild/unitTest
-  ExecutionDateTime = 2021-02-19T15:42:42
-  HostName          = Unknown
-  UserName          = kelvin
+  ProgramPath       = /Users/acpaquette/repos/ISIS3/pvl_build/unitTest
+  ExecutionDateTime = 2023-07-18T16:56:19
+  HostName          = x86_64-apple-darwin13.4.0
+  UserName          = acpaquette
   Description       = "Unit test for Application class"
 
   Group = UserParameters
@@ -64,12 +75,12 @@ Object = unittest
 End_Object
 
 Object = unittest
-  IsisVersion       = "4.4.0  | 2021-02-19"
+  IsisVersion       = "7.2.0  | 2023-07-18"
   ProgramVersion    = 2011-08-19
-  ProgramPath       = /Users/kelvin/repos/isisbuild/unitTest
-  ExecutionDateTime = 2021-02-19T15:42:42
-  HostName          = Unknown
-  UserName          = kelvin
+  ProgramPath       = /Users/acpaquette/repos/ISIS3/pvl_build/unitTest
+  ExecutionDateTime = 2023-07-18T16:56:19
+  HostName          = x86_64-apple-darwin13.4.0
+  UserName          = acpaquette
   Description       = "Unit test for Application class"
 
   Group = UserParameters
@@ -91,12 +102,49 @@ Object = unittest
   End_Group
 
   Group = Error
-    Program = ./unitTest
     Class   = "PROGRAMMER ERROR"
     Code    = 3
     Message = "testing an error"
     File    = unitTest.cpp
     Line    = 22
+    Program = ./unitTest
+  End_Group
+End_Object
+
+Object = unittest
+  IsisVersion       = "7.2.0  | 2023-07-18"
+  ProgramVersion    = 2011-08-19
+  ProgramPath       = /Users/acpaquette/repos/ISIS3/pvl_build/unitTest
+  ExecutionDateTime = 2023-07-18T16:56:19
+  HostName          = x86_64-apple-darwin13.4.0
+  UserName          = acpaquette
+  Description       = "Unit test for Application class"
+
+  Group = UserParameters
+    FROM = unitTest.cub
+    TO   = $temporary/isisprocess_01.cub
+    TO2  = $temporary/isisprocess_02.cub
+    TO3  = $temporary/isisprocess_03.cub
+    TO4  = $temporary/isisprocess_04.cub
+  End_Group
+
+  Group = Accounting
+    ConnectTime = 00:00:00.0
+    CpuTime     = 00:00:00.0
+  End_Group
+
+  Group = Accounting
+    ConnectTime = 00:00:00.0
+    CpuTime     = 00:00:00.0
+  End_Group
+
+  Group = Error
+    Class   = "PROGRAMMER ERROR"
+    Code    = 3
+    Message = "testing an error"
+    File    = unitTest.cpp
+    Line    = 22
+    Program = ./unitTest
   End_Group
 End_Object
 End

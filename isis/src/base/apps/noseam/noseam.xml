@@ -41,6 +41,9 @@
       boxcar for the highpass and lowpass filters, have been condensed down to two 
       parameters, SAMPLES and LINES as the size of the boxcars must be the same. Fixes #258.
     </change>
+    <change name="Ken Edmundson" date="2024-8-25">
+      Converted noseam to callable app. Also converted Makefile test to gtest format.
+    </change>
   </history>
 
   <groups>

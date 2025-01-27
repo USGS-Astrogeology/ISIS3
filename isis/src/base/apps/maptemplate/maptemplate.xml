@@ -125,7 +125,7 @@ Group = Mapping
      software like <i>cam2map</i>, an error will occur. Below is a list of
      projections and the keywords that must be in the Map File Template:<br />
 
-<table class="tableFormattedInformation" border="1" style="width:700px;">
+<table class="tableFormattedInformation">
 <tr>
    <th>
       PROJECTION
@@ -182,7 +182,7 @@ Group = Mapping
 <p>
 <b>How the defaults are set for Mapping Group keywords:</b>
 
-<table class="tableFormattedInformation" border="1" style="width:700px;">
+<table class="tableFormattedInformation">
 <tr>
    <th>
       DEFAULT SOURCE
@@ -269,7 +269,7 @@ Group = Mapping
    <p>
      <b>Parameter Setting Action</b>
 
-     <table class="tableFormattedInformation" border="1" style="width:700px;">
+     <table class="tableFormattedInformation">
 
      <tr>
        <th>

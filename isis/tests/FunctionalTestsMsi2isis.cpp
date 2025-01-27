@@ -158,8 +158,6 @@ TEST_F(TempTestingFiles, Msi2isisTestGblIngestNoTrim) {
   EXPECT_NEAR(hist->StandardDeviation(), 0.017675184374796, .0001);
 
   // This section tests that the edge was not trimmed (TRIM=FALSE)
-  // Count the number of edge pixels
-  int total_edge_pixels = 0;
 
   const int trimSize = 33;
   const int expectValid = cube.sampleCount() - ( 2 * trimSize);
@@ -176,14 +174,12 @@ TEST_F(TempTestingFiles, Msi2isisTestGblIngestNoTrim) {
     const double *lbuf = line.DoubleBuffer();
     if ( (line.Line() <= trimSize) || ( line.Line() > end_l ) ) {
       trimEdge.AddData(&lbuf[0], line.size());
-      total_edge_pixels += line.size();
     }
     else {
 
       // This is past full line trimming and is on the edges only
       trimEdge.AddData(&lbuf[0], trimSize);
       trimEdge.AddData(&lbuf[end_s], trimSize);
-      total_edge_pixels += (trimSize + trimSize);
 
       // Add valid data in untrimmed area which should match the image
       // histogram data of whole trimmed image in the first test

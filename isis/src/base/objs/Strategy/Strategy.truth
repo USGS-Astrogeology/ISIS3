@@ -478,9 +478,45 @@ Testing composite(...):
 
 
 importGeometry = 
-true 
+true
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%             repairInvalidGeometry            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+
+
+
+
+importPolygonGeometry (Repair self-intersection on) = true 
+
+importPolygonGeometry (Repair self-intersection off) = false
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%             invalidGeometryAction            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+
+
+
+
+  invalidGeometryAction = disable 
+invalidGeometryDisabled = true 
+
+  invalidGeometryAction = error 
+"**PROGRAMMER ERROR** Polygon 1 failed to construct geometry - Error: Self-intersection[16.6666666666667 0]." 
+
+  invalidGeometryAction = continue 
+importPolygonGeometry (Repair off; Action continue) = false
+invalidGeometryDisabled = false 
 
 
 

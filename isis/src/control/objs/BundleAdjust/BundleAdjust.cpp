@@ -1228,7 +1228,6 @@ namespace Isis {
     // loop over 3D points
     int numObservations = 0;
     int numGood3DPoints = 0;
-    int numRejected3DPoints = 0;
     int numConstrainedCoordinates = 0;
     int num3DPoints = m_bundleControlPoints.size();
 
@@ -1239,7 +1238,6 @@ namespace Isis {
       BundleControlPointQsp point = m_bundleControlPoints.at(i);
 
       if (point->isRejected()) {
-        numRejected3DPoints++;
         continue;
       }
 
@@ -1285,8 +1283,6 @@ namespace Isis {
     m_bundleResults.setNumberConstrainedPointParameters(numConstrainedCoordinates);
     m_bundleResults.setNumberImageObservations(numObservations);
 
-    int numRejectedLidarPoints = 0.0;
-    int numGoodLidarPoints = 0.0;
     numObservations = 0;
     numConstrainedCoordinates = 0;
 
@@ -1300,7 +1296,6 @@ namespace Isis {
       BundleLidarControlPointQsp point = m_bundleLidarControlPoints.at(i);
 
       if (point->isRejected()) {
-        numRejectedLidarPoints++;
         continue;
       }
 
@@ -1336,8 +1331,6 @@ namespace Isis {
       m_numLidarConstraints += point->applyLidarRangeConstraints(m_sparseNormals, N22, N12, n1, n2);
 
       numConstrainedCoordinates += formLidarPointNormals(N22, N12, n2, m_RHS, point);
-
-      numGoodLidarPoints++;
     } // end loop over lidar 3D points
 
     m_bundleResults.setNumberLidarRangeConstraints(m_numLidarConstraints);
@@ -3264,7 +3257,17 @@ namespace Isis {
       Statistics sigmaCoord3Stats;
 
       Distance sigmaCoord1Dist, sigmaCoord2Dist, sigmaCoord3Dist;
-      SurfacePoint::CoordinateType type = m_bundleSettings->controlPointCoordTypeReports();
+      SurfacePoint::CoordinateType reportType = m_bundleSettings->controlPointCoordTypeReports();
+      SurfacePoint::CoordinateType bundleType = m_bundleSettings->controlPointCoordTypeBundle();
+
+      // we report statistics on coordinate 3 (Radius or Z) UNLESS
+      // bundle and report types are BOTH Latitudinal AND Radius is OFF
+      bool reportCoord3Stats = true;
+      if (bundleType == SurfacePoint::Latitudinal &&
+          reportType == SurfacePoint::Latitudinal &&
+          m_bundleSettings->solveRadius() == false) {
+        reportCoord3Stats = false;
+      }
 
       int numPoints = m_bundleControlPoints.size();
       // initialize max and min values to those from first valid point
@@ -3272,11 +3275,11 @@ namespace Isis {
 
         const BundleControlPointQsp point = m_bundleControlPoints.at(i);
 
-        maxSigmaCoord1Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        maxSigmaCoord1Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                             SurfacePoint::One);
         minSigmaCoord1Dist = maxSigmaCoord1Dist;
 
-        maxSigmaCoord2Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        maxSigmaCoord2Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                             SurfacePoint::Two);
         minSigmaCoord2Dist = maxSigmaCoord2Dist;
 
@@ -3286,8 +3289,8 @@ namespace Isis {
         minSigmaCoord2PointId = maxSigmaCoord1PointId;
 
         // Get stats for coordinate 3 if used
-        if (m_bundleSettings->solveRadius() || type == SurfacePoint::Rectangular) {
-          maxSigmaCoord3Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        if (reportCoord3Stats) {
+          maxSigmaCoord3Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                               SurfacePoint::Three);
           minSigmaCoord3Dist = maxSigmaCoord3Dist;
 
@@ -3301,11 +3304,11 @@ namespace Isis {
 
         const BundleControlPointQsp point = m_bundleControlPoints.at(i);
 
-        sigmaCoord1Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        sigmaCoord1Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                          SurfacePoint::One);
-        sigmaCoord2Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        sigmaCoord2Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                          SurfacePoint::Two);
-        sigmaCoord3Dist = point->adjustedSurfacePoint().GetSigmaDistance(type,
+        sigmaCoord3Dist = point->adjustedSurfacePoint().GetSigmaDistance(reportType,
                                                                          SurfacePoint::Three);
 
         sigmaCoord1Stats.AddData(sigmaCoord1Dist.meters());
@@ -3320,7 +3323,7 @@ namespace Isis {
           maxSigmaCoord2Dist = sigmaCoord2Dist;
           maxSigmaCoord2PointId = point->id();
         }
-        if (m_bundleSettings->solveRadius() || type == SurfacePoint::Rectangular) {
+        if (reportCoord3Stats) {
           if (sigmaCoord3Dist > maxSigmaCoord3Dist) {
             maxSigmaCoord3Dist = sigmaCoord3Dist;
             maxSigmaCoord3PointId = point->id();
@@ -3334,7 +3337,7 @@ namespace Isis {
           minSigmaCoord2Dist = sigmaCoord2Dist;
           minSigmaCoord2PointId = point->id();
         }
-        if (m_bundleSettings->solveRadius() || type == SurfacePoint::Rectangular) {
+        if (reportCoord3Stats) {
           if (sigmaCoord3Dist < minSigmaCoord3Dist) {
             minSigmaCoord3Dist = sigmaCoord3Dist;
             minSigmaCoord3PointId = point->id();

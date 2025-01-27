@@ -1,0 +1,928 @@
+Object = ControlNetwork
+  NetworkId    = THM_IMG_NET
+  TargetName   = Mars
+  UserName     = lweller
+  Created      = 2012-06-27T12:44:43
+  LastModified = 2012-06-27T12:44:43
+  Description  = "Themis IR IMAGE NETWORK"
+  Version      = 3
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S127E3536_UL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:20:57.148489
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:41
+      Sample       = 75.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S127E3536_UR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:20:57.148489
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:41
+      Sample       = 887.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S127E3536_LR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:20:57.148489
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:41
+      Sample       = 887.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S127E3536_LL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:20:57.148489
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:41
+      Sample       = 75.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S127E3536_CTR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:20:57.148489
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:41
+      Sample       = 481.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S127E3536_bndry_1
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:20:57.148489
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:41
+      Sample       = 481.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S127E3536_bndry_2
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:20:57.148489
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:41
+      Sample       = 887.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S127E3536_bndry_3
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:20:57.148489
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:41
+      Sample       = 481.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S127E3536_bndry_4
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:20:57.148489
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:41
+      Sample       = 75.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S120E3541_UL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:51.163454
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S120E3541_UR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:51.163454
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S120E3541_LR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:51.163454
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S120E3541_LL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:51.163454
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S120E3541_CTR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:51.163454
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S120E3541_bndry_1
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:51.163454
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S120E3541_bndry_2
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:51.163454
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S120E3541_bndry_3
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:51.163454
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S120E3541_bndry_4
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:51.163454
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S125E3541_UL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:39.931460
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S125E3541_UR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:39.931460
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S125E3541_LR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:39.931460
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S125E3541_LL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:39.931460
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S125E3541_CTR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:39.931460
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S125E3541_bndry_1
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:39.931460
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S125E3541_bndry_2
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:39.931460
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S125E3541_bndry_3
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:39.931460
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_04195S125E3541_bndry_4
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-09-17T02:04:39.931460
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S119E3542_UL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:30:52.587641
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S119E3542_UR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:30:52.587641
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S119E3542_LR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:30:52.587641
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S119E3542_LL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:30:52.587641
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S119E3542_CTR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:30:52.587641
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S119E3542_bndry_1
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:30:52.587641
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S119E3542_bndry_2
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:30:52.587641
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S119E3542_bndry_3
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:30:52.587641
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S119E3542_bndry_4
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:30:52.587641
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S125E3542_UL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:31:03.819694
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S125E3542_UR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:31:03.819694
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S125E3542_LR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:31:03.819694
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S125E3542_LL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:31:03.819694
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S125E3542_CTR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:31:03.819694
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S125E3542_bndry_1
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:31:03.819694
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S125E3542_bndry_2
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:31:03.819694
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S125E3542_bndry_3
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:31:03.819694
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_02362S125E3542_bndry_4
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-04-19T17:31:03.819694
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S121E3536_UL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:21:08.380468
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S121E3536_UR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:21:08.380468
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S121E3536_LR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:21:08.380468
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S121E3536_LL
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:21:08.380468
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S121E3536_CTR
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:21:08.380468
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S121E3536_bndry_1
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:21:08.380468
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 75.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S121E3536_bndry_2
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:21:08.380468
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 887.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S121E3536_bndry_3
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:21:08.380468
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 481.0
+      Line         = 885.0
+      Reference    = True
+    End_Group
+  End_Object
+
+  Object = ControlPoint
+    PointType   = Free
+    PointId     = MVA_2B2_01_03862S121E3536_bndry_4
+    ChooserName = cnetmerge
+    DateTime    = 2012-06-27T12:44:43
+
+    Group = ControlMeasure
+      SerialNumber = KAGUYA/MI-VIS/2008-08-20T18:21:08.380468
+      MeasureType  = Candidate
+      ChooserName  = seedgrid
+      DateTime     = 2012-06-27T12:44:42
+      Sample       = 75.0
+      Line         = 480.0
+      Reference    = True
+    End_Group
+  End_Object
+End_Object
+End

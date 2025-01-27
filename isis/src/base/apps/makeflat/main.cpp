@@ -381,7 +381,6 @@ void IsisMain() {
   oLineMgr->SetLine(1);
 
   ProcessByBrick p;
-  int excludedCnt = 0;
 
   if(cameraType == LineScan) {
     outputTmpAverages.resize(numOutputSamples);
@@ -392,7 +391,6 @@ void IsisMain() {
   cubeInitialized = false;
   for(currImage = 0; currImage < inList.size(); currImage++) {
     if(Excluded(currImage)) {
-      excludedCnt ++;
       continue;
     }
 

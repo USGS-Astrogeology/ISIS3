@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = DATA_SET_ID
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputDefault   = NULL
   OutputName     = DataSetID
@@ -30,7 +30,7 @@ Group = DATA_SET_ID
 End_Group
 
 Group = DATA_SET_NAME
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_NAME
   InputDefault   = NULL
   OutputName     = DataSetName
@@ -39,7 +39,7 @@ Group = DATA_SET_NAME
 End_Group
 
 Group = PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputDefault   = NULL
   OutputName     = ProductID

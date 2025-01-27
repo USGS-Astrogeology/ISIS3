@@ -63,7 +63,7 @@ namespace Isis {
    * This constructor will read the contents of the Polygon blob of an ISIS cube
    * file and create a geometry from its contents.
    *
-   * @param cube  Cube object to create the geomtery from
+   * @param cube  Cube object to create the geometry from
    */
   GisGeometry::GisGeometry(Cube &cube) : m_type(IsisCube), m_geom(0), m_preparedGeom(0) {
 
@@ -207,15 +207,25 @@ namespace Isis {
    *
    *  First determines if it contains a geometry and then validates with the
    *  GEOS toolkit.
-   *
-   * @return bool True if valid, false if invalid or non-existant
-   */
+   *  
+   * @return bool True if valid, false if invalid or non-existant 
+   *  
+   * @history 2018-07-29 Kris Becker - If the geometry is invalid, it throws an 
+   *                        exception. Catch all exceptions and return proper
+   *                        status.
+   */  
   bool GisGeometry::isValid() const {
     if (!isDefined()) {
       return (false);
     }
-
-    return (1 == GEOSisValid(this->m_geom));
+    
+    int valid(0);
+    try {
+        valid = GEOSisValid(this->m_geom);
+    } catch (...) {
+        valid = 0;
+    }
+    return (1  == valid);
   }
 
 
@@ -601,9 +611,35 @@ namespace Isis {
     double ratio = inCommon->area() / this->area();
     return (ratio);
   }
+  
 
-
-  /**
+/**
+ * @brief Compute a buffer around an existing geometry 
+ *  
+ * Add a buffer around a geometry with the defined enlargement factor. It is 
+ * common to use this as buffer(0) to fix geometries with self-intersections. 
+ * These cases are often identified by calling isValid() and getting a false 
+ * value returned. 
+ * 
+ * @author 2018-07-29 Kris Becker
+ * 
+ * @param width    Width to enlarge or shrink polygon 
+ * @param quadsegs Number of segments to define a circle on corners
+ * 
+ * @return GisGeometry* Pointer to new GisGeometry with buffer applied
+ */
+  GisGeometry *GisGeometry::buffer(const double width,const int quadsegs) const {
+      // If there is no geometry, return a null geometry
+      if ( !isDefined()) {
+          return (new GisGeometry());
+      }
+  
+    // Create the buffer around the geom
+    GEOSGeometry *geom = GEOSBuffer(m_geom, width, quadsegs);
+    return (new GisGeometry(geom));
+  }
+  
+  /** 
    * @brief Computes the envelope or bounding box of this geometry
    *
    * This method computes the envelope or bounding box of the geometry in this
@@ -789,7 +825,7 @@ namespace Isis {
   /**
    * Reads Polygon from ISIS Cube and returns geometry from contents
    *
-   * @param cube ISIS Cube contaning a Polygon geometry object
+   * @param cube ISIS Cube containing a Polygon geometry object
    * @return GEOSGeometry Pointer to GEOS-C type geometry from Polygon BLOB
    */
   GEOSGeometry *GisGeometry::fromCube(Cube &cube) const {

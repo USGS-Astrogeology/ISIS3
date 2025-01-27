@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "ProcessByLine.h"
 #include "LROCEmpirical.h"
 #include "PhotometricFunction.h"
@@ -140,11 +141,8 @@ namespace Isis{
     g_phoFunction->report(photo);
         
     oCube->putGroup(photo);
-    
-    if(log){
-      log->addLogGroup(photo);
-    }
-    //Application::Log(photo);
+
+    Application::Log(photo);
 
     p.EndProcess();
     p.ClearInputCubes();

@@ -7,6 +7,7 @@ find files of those names at the top level of this repository. **/
 #include "Table.h"
 
 #include <fstream>
+#include <sstream>
 #include <string>
 
 #include "Blob.h"
@@ -134,6 +135,63 @@ namespace Isis {
       }
 
       p_recbufs.push_back(data);
+    }
+  }
+
+  /**
+   * This constructor takes in a string to create a Table object.
+   * 
+   * @param tableName The name of the Table to be read
+   * @param tableStr The table string
+   * @param fieldDelimiter The delimiter to separate fields with
+  */
+  Table::Table(const QString &tableName, const std::string &tableString, const char &fieldDelimiter) {
+    p_name = tableName;
+
+    std::stringstream tableStream;
+    tableStream << tableString;
+
+    std::vector<std::string> tableLinesStringList;
+    std::string line;
+    while(std::getline(tableStream, line, '\n')) {
+      tableLinesStringList.push_back(line);
+    }
+
+    int numOfFieldValues = tableLinesStringList.size() - 1; // minus the header line 
+
+    std::string fieldNamesLineString = tableLinesStringList.front();
+    std::stringstream fieldNamesStringStream;
+    fieldNamesStringStream << fieldNamesLineString;
+
+    std::vector<QString> fieldNames;
+    std::string fieldNameString;
+    while(std::getline(fieldNamesStringStream, fieldNameString, fieldDelimiter)) {
+      fieldNames.push_back(QString::fromStdString(fieldNameString));
+    }
+
+    // Clear error flags and set pointer back to beginning
+    tableStream.clear();
+    tableStream.seekg(0, ios::beg);
+
+    // Add records to table
+    std::string recordString;
+    int index = 0;
+    while(std::getline(tableStream, recordString, '\n')) {
+      // skip first line bc that's the header line
+      if (index == 0) {
+        index++;
+        continue;
+      }
+      
+      TableRecord tableRecord(recordString, fieldDelimiter, fieldNames, numOfFieldValues);
+      p_record = tableRecord;
+      this->operator+=(tableRecord);
+      index++;
+    }
+
+    // Add fields
+    for (int f = 0; f < p_record.Fields(); f++) {
+      p_label.addGroup(p_record[f].pvlGroup());
     }
   }
 

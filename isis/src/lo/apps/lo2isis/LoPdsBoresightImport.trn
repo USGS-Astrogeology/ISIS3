@@ -1,5 +1,5 @@
 Group = BoresightSample
-  Auto
+  Auto           = 1
   InputKey       = LO:BORESIGHT_SAMPLE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -9,7 +9,7 @@ Group = BoresightSample
 End_Group
 
 Group = BoresightLine
-  Auto
+  Auto           = 1
   InputKey       = LO:BORESIGHT_LINE
   InputGroup     = ROOT
   InputPosition  = ROOT

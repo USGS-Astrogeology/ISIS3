@@ -7,6 +7,7 @@
 
 #include <SpiceUsr.h>
 
+#include "Application.h"
 #include "Cube.h"
 #include "Brick.h"
 #include "Constants.h"
@@ -184,10 +185,8 @@ namespace Isis {
     error += PvlKeyword("LineAverageError", toString(lineErr.Average()));
     error += PvlKeyword("LineMaximumError", toString(lineErr.Maximum()));
     error += PvlKeyword("LineStdDeviationError", toString(lineErr.StandardDeviation()));
-    
-    if (log) {
-        log->addLogGroup(error);
-    }
+
+    Application::Log(error);
 
     //Close the input cubes for cleanup
     p.EndProcess();
@@ -463,10 +462,8 @@ namespace Isis {
   
       // add mapping to print.prt
       PvlGroup mapping = outmap->Mapping();
-      
-      if (log) {
-        log->addLogGroup(mapping);
-      }
+
+      Application::Log(mapping);
 
       //Clean up
       delete latCube;

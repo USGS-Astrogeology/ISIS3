@@ -323,6 +323,9 @@
     <change name="Ian Humphrey" date="2017-05-23">
       Updated documentation and added examples. Fixes #4537.
     </change>
+    <change name="Alessandro Frigeri" date="2024-08-22">
+      Added Vector output 
+    </change>
   </history>
 
   <groups>
@@ -418,10 +421,13 @@
         </filter>
       </parameter>
 
+   
+
       <parameter name="TO">
         <type>cube</type>
         <fileMode>output</fileMode>
-          <pixelType>real</pixelType>
+		<pixelType>real</pixelType>
+		<default><item>Null</item></default>
         <brief>
           Newly mapped cube
         </brief>
@@ -431,10 +437,36 @@
           filename with '-count-' appended.  The DN values in this output cube indicate how many input pixels
           were included in the average calculation to create the output pixel.
         </description>
+        <exclusions>
+          <item>TOVECT</item>
+        </exclusions>
         <filter>
           *.cub
         </filter>
       </parameter>
+	  
+	  <parameter name="TOVECT">
+	    <type>filename</type>
+	        <fileMode>output</fileMode>
+			<default><item>output.csv</item></default>
+	          <brief>
+	            Geospatial CSV/BVRT Vector File   
+	          </brief>
+	          <description>
+	              The output file is a comma-delimited file (.csv). An XML VRT sidecar file with geospatial metadata will be generated automatically. The vector pixel will include the values of the first band of the input cube.  The coordinate are spherical, unprojected. This file is interoperable with <i>Open Gis Consortium (OGC)</i> compatible geospatial tools and desktop GIS.
+	          </description>
+	          <exclusions>
+	            <item>TO</item>
+				<item>MAP</item>
+				<item>FROMLIST</item>
+	          </exclusions>
+	     <filter>
+	       *.csv
+	      </filter>		  
+	  </parameter>
+	  
+	  
+	  
     </group>
 
     <group name="Output Average">

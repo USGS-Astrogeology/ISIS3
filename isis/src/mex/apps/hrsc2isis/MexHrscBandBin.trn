@@ -2,7 +2,7 @@
 # ISIS cube label BandBin group
 
 Group = FilterWidth
-  Auto
+  Auto           = 1
   InputKey       = BANDWIDTH
   OutputName     = Width
   OutputPosition = (Group, BandBin)
@@ -10,7 +10,7 @@ Group = FilterWidth
 End_Group
 
 Group = FilterCenter
-  Auto
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   OutputName     = Center
   OutputPosition = (Group, BandBin)

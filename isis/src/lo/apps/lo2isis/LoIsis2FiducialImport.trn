@@ -1,5 +1,5 @@
 Group = FiducialCoordinateMicron
-  Auto
+  Auto           = 1
   InputKey       = FIDUCIAL_COORD_MICRON
   InputGroup     = ROOT
   InputGroup     = "QUBE,ISIS_INSTRUMENT"
@@ -11,7 +11,7 @@ Group = FiducialCoordinateMicron
 End_Group
 
 Group = FiducialID
-  Auto
+  Auto           = 1
   InputKey       = FIDUCIAL_ID
   InputGroup     = ROOT
   InputGroup     = "QUBE,ISIS_INSTRUMENT"
@@ -23,7 +23,7 @@ Group = FiducialID
 End_Group
 
 Group = FiducialSamples
-  Auto
+  Auto           = 1
   InputKey       = FIDUCIAL_SAMPLES
   InputGroup     = ROOT
   InputGroup     = "QUBE,ISIS_INSTRUMENT"
@@ -35,7 +35,7 @@ Group = FiducialSamples
 End_Group
 
 Group = FiducialLines
-  Auto
+  Auto           = 1
   InputKey       = FIDUCIAL_LINES
   InputGroup     = ROOT
   InputGroup     = "QUBE,ISIS_INSTRUMENT"
@@ -47,7 +47,7 @@ Group = FiducialLines
 End_Group
 
 Group = FiducialXCoordinates
-  Auto
+  Auto           = 1
   InputKey       = FIDUCIAL_X_COORDINATES
   InputGroup     = ROOT
   InputGroup     = "QUBE,ISIS_INSTRUMENT"
@@ -59,7 +59,7 @@ Group = FiducialXCoordinates
 End_Group
 
 Group = FiducialYCoordinates
-  Auto
+  Auto           = 1
   InputKey       = FIDUCIAL_Y_COORDINATES
   InputGroup     = ROOT
   InputGroup     = "QUBE,ISIS_INSTRUMENT"
@@ -71,7 +71,7 @@ Group = FiducialYCoordinates
 End_Group
 
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_UNIT
   InputGroup     = ROOT
   InputGroup     = "QUBE,BAND_BIN"
@@ -84,7 +84,7 @@ Group = FilterName
 End_Group
 
 Group = Center
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_CENTER
   InputGroup     = ROOT
   InputGroup     = "QUBE,BAND_BIN"
@@ -96,7 +96,7 @@ Group = Center
 End_Group
 
 Group = OriginalBand
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_ORIGINAL_BAND
   InputGroup     = ROOT
   InputGroup     = "QUBE,BAND_BIN"

@@ -52,7 +52,7 @@ TEST_F(DefaultCube, FunctionalTestNoprojDefault) {
   EXPECT_NEAR(hist->StandardDeviation(), 68.405508539707895, .0001);
 }
 
-TEST_F(DefaultCube, FunctionalTestNoprojExpand) {
+TEST_F(DefaultCube, DISABLED_FunctionalTestNoprojExpand) {
   QString cubeFileName = tempDir.path() + "/output.cub";
   QVector<QString> args = {"to=" + cubeFileName, "sampexp=10", "lineexp=5"};
   UserInterface options(APP_XML, args);

@@ -8,8 +8,6 @@ include $(ISISROOT)/make/isismake.os
 
 DEST_PRES_DIR = $(ISISROOT)/doc/Application/presentation
 
-PFSTYLEDIR = ../presentation/PrinterFriendly/styles
-PFDIR = $(DEST_PRES_DIR)/PrinterFriendly
 TABSTYLEDIR = ../presentation/Tabbed/styles
 TABDIR = $(DEST_PRES_DIR)/Tabbed
 
@@ -25,21 +23,7 @@ APPSDIR = $(ISISROOT)/doc/Application
 #------
 # DOCS: generate documentation
 
-docs: printer tabbed toc
-
-
-#------
-# PRINTER FRIENDLY
-# run style sheet for Printer Friendly presentation
-printer:
-
-	echo "        Printer Friendly Version"
-
-	for dirname in $(APPLICATIONS); do \
-	  cd $$dirname ; $(MAKE) -f ../Makefile-application printer ; cd .. ; \
-	done
-	mkdir -p $(PFDIR)/styles ; \
-	rsync -lHptr --delete --rsh=ssh $(PFSTYLEDIR)/*.css $(PFDIR)/styles/ ; \
+docs: tabbed toc
 
 #------
 # TABBED
@@ -62,12 +46,12 @@ toc: ../build/toc.xml
 ../build/toc.xml: $(APPSDIR) ../build/IsisApplicationTOCbuild.xsl
 
 	echo "        Table of Contents XML"
-	cat ../build/toc_header.xml > ../build/toc.xml
+	echo "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><tableofcontents>" >> ../build/toc.xml
 	for dirname in $(APPLICATIONS); do \
 	  echo "          Adding [$$dirname]" ; \
 	  $(XALAN) $(XALAN_INFILE_OPTION) $$dirname/$$dirname.xml $(XALAN_XSL_OPTION) ../build/IsisApplicationTOCbuild.xsl >> ../build/toc.xml ; \
 	done
-	cat ../build/toc_footer.xml >> ../build/toc.xml
+	echo "</tableofcontents>" >> ../build/toc.xml
 	mkdir -p $(ISISROOT)/bin/xml/
 	cp ../build/toc.xml $(ISISROOT)/bin/xml/applicationTOC.xml
 

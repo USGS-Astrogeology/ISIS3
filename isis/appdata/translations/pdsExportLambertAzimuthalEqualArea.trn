@@ -2,7 +2,7 @@
 # Lambert Azimuthal Equal-Area to PDS IMAGE_MAP_PROJECTION labels
 #   2011-06-30 Jeannie Backer - Original Version
 Group = MAP_PROJECTION_TYPE
-  Auto
+  Auto           = 1
   InputKey       = ProjectionName
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -12,7 +12,7 @@ Group = MAP_PROJECTION_TYPE
 End_Group
 
 Group = PROJECTION_LATITUDE_TYPE
-  Auto
+  Auto           = 1
   InputKey       = LatitudeType
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -23,7 +23,7 @@ Group = PROJECTION_LATITUDE_TYPE
 End_Group
 
 Group = A_AXIS_RADIUS
-  Auto
+  Auto           = 1
   InputKey       = EquatorialRadius
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -33,7 +33,7 @@ Group = A_AXIS_RADIUS
 End_Group
 
 Group = B_AXIS_RADIUS
-  Auto
+  Auto           = 1
   InputKey       = EquatorialRadius
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -43,7 +43,7 @@ Group = B_AXIS_RADIUS
 End_Group
 
 Group = C_AXIS_RADIUS
-  Auto
+  Auto           = 1
   InputKey       = PolarRadius
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -53,7 +53,7 @@ Group = C_AXIS_RADIUS
 End_Group
 
 Group = COORDINATE_SYSTEM_NAME
-  Auto
+  Auto           = 1
   InputKey       = LatitudeType
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -64,7 +64,7 @@ Group = COORDINATE_SYSTEM_NAME
 End_Group
 
 Group = POSITIVE_LONGITUDE_DIRECTION
-  Auto
+  Auto           = 1
   InputKey       = LongitudeDirection
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -75,7 +75,7 @@ Group = POSITIVE_LONGITUDE_DIRECTION
 End_Group
 
 Group = KEYWORD_LATITUDE_TYPE
-  Auto
+  Auto           = 1
   InputKey       = LatitudeType
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -86,7 +86,7 @@ Group = KEYWORD_LATITUDE_TYPE
 End_Group
 
 Group = CENTER_LATITUDE
-  Auto
+  Auto           = 1
   InputKey       = CenterLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -96,7 +96,7 @@ Group = CENTER_LATITUDE
 End_Group
 
 Group = CENTER_LONGITUDE
-  Auto
+  Auto           = 1
   InputKey       = CenterLongitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -106,7 +106,7 @@ Group = CENTER_LONGITUDE
 End_Group
 
 Group = LINE_FIRST_PIXEL
-  Auto
+  Auto           = 1
   InputKey       = LineFirstPixel
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -117,7 +117,7 @@ Group = LINE_FIRST_PIXEL
 End_Group
 
 Group = LINE_LAST_PIXEL
-  Auto
+  Auto           = 1
   InputKey       = Lines
   InputGroup     = "IsisCube,Core,Dimensions"
   InputPosition  = (IsisCube, Core, Dimensions)
@@ -127,7 +127,7 @@ Group = LINE_LAST_PIXEL
 End_Group
 
 Group = SAMPLE_FIRST_PIXEL
-  Auto
+  Auto           = 1
   InputKey       = SampleFirstPixel
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -138,7 +138,7 @@ Group = SAMPLE_FIRST_PIXEL
 End_Group
 
 Group = SAMPLE_LAST_PIXEL
-  Auto
+  Auto           = 1
   InputKey       = Samples
   InputGroup     = "IsisCube,Core,Dimensions"
   InputPosition  = (IsisCube, Core, Dimensions)
@@ -148,7 +148,7 @@ Group = SAMPLE_LAST_PIXEL
 End_Group
 
 Group = MAP_PROJECTION_ROTATION
-  Auto
+  Auto           = 1
   InputKey       = MapProjectionRotation
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -159,7 +159,7 @@ Group = MAP_PROJECTION_ROTATION
 End_Group
 
 Group = MAP_RESOLUTION
-  Auto
+  Auto           = 1
   InputKey       = Scale
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -169,7 +169,7 @@ Group = MAP_RESOLUTION
 End_Group
 
 Group = MAP_SCALE
-  Auto
+  Auto           = 1
   InputKey       = PixelResolution
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -179,7 +179,7 @@ Group = MAP_SCALE
 End_Group
 
 Group = MAXIMUM_LATITUDE
-  Auto
+  Auto           = 1
   InputKey       = MaximumLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)
@@ -190,7 +190,7 @@ Group = MAXIMUM_LATITUDE
 End_Group
 
 Group = MINIMUM_LATITUDE
-  Auto
+  Auto           = 1
   InputKey       = MinimumLatitude
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)

@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = FilterName
-  Auto
+  Auto           = 1
   InputDefault   = BroadBand
   OutputName     = FilterName
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -29,7 +29,7 @@ Group = FilterName
 End_Group
 
 Group = Center
-  Auto
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   InputDefault   = UNKNOWN
   OutputName     = Center
@@ -38,7 +38,7 @@ Group = Center
 End_Group
 
 Group = Width
-  Auto
+  Auto           = 1
   InputKey       = BANDWIDTH
   InputDefault   = UNKNOWN
   OutputName     = Width

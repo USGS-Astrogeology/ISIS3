@@ -171,9 +171,11 @@ namespace Isis {
    */
   void Average::operator() (Isis::Buffer & out) const
   {
+    // Index of the last input line that corresponds to this output line.
     double rline = (double)out.Line() * mdLineScale;
 
     if(out.Line() == 1 && out.Band() == 1) {
+      // Index of the last input sample that corresponds to the output sample.
       mdIncTab = new double[miOutputSamples];
       mdSum    = new double[miOutputSamples];
       mdNpts   = new double[miOutputSamples];
@@ -191,7 +193,9 @@ namespace Isis {
       mdIncTab[miOutputSamples-1] = miInputSamples;
     }
 
-    while(mdLine <= rline) {
+    unordered_map<QString, int> specialPixelCounts[miOutputSamples];
+
+    while(mdLine < rline) {
       if((int)mdLine <= miInputLines) {
         m_iPortal->SetPosition(miStartSample, mdLine, miBandIndex);
         mInCube->read(*m_iPortal);
@@ -204,6 +208,9 @@ namespace Isis {
             mdSum[osamp]  += (*m_iPortal)[isamp-1];
             mdNpts[osamp] += 1.0;
           }
+          if (IsSpecial((*m_iPortal)[isamp-1])) {
+            specialPixelCounts[osamp][PixelToString((*m_iPortal)[isamp-1])]++;
+          } 
           isamp++;
         }
 
@@ -218,6 +225,12 @@ namespace Isis {
             mdNpts[osamp+1] += sdel;
           }
         }
+        if (IsSpecial((*m_iPortal)[isamp-1])) {
+          specialPixelCounts[osamp][PixelToString((*m_iPortal)[isamp-1])]++;
+          if(osamp+1 <= miOutputSamples){
+            specialPixelCounts[osamp+1][PixelToString((*m_iPortal)[isamp-1])]++;
+          }
+        } 
         isamp++;
       }
       mdLine++;
@@ -238,6 +251,9 @@ namespace Isis {
           mdSum2[osamp]  += (*m_iPortal)[isamp-1] * ldel;
           mdNpts2[osamp] += ldel;
         }
+        if (IsSpecial((*m_iPortal)[isamp-1])) {
+          specialPixelCounts[osamp][PixelToString((*m_iPortal)[isamp-1])]++;
+        } 
         isamp++;
       }
 
@@ -257,6 +273,12 @@ namespace Isis {
           mdNpts2[osamp+1] += sdel * ldel;
         }
       }
+      if (IsSpecial((*m_iPortal)[isamp-1])) {
+        specialPixelCounts[osamp][PixelToString((*m_iPortal)[isamp-1])]++;
+        if(osamp+1 <= miOutputSamples){
+          specialPixelCounts[osamp+1][PixelToString((*m_iPortal)[isamp-1])]++;
+        }
+      } 
       isamp++;
     }
 
@@ -271,6 +293,14 @@ namespace Isis {
         if(msReplaceMode == "NEAREST") {
           out[osamp] = (*m_iPortal)[(int)(mdIncTab[osamp] + 0.5) - 1];
         }
+        else if (msReplaceMode == "MAJORITY") {
+          // Iterate over the map and compare element counts
+          // Map iterator yields a pair:  pair.first == pixel names, pair.second == pixel count.
+          auto mode = std::max_element(specialPixelCounts[osamp].begin(),
+                                      specialPixelCounts[osamp].end(),
+                                      [](const pair<QString, int> &a, const pair<QString, int> &b) {return a.second < b.second;});
+          out[osamp] = StringToPixel(mode->first);
+        }
         else {
           out[osamp] = Isis::Null;
         }
@@ -281,6 +311,7 @@ namespace Isis {
       mdNpts2[osamp] = 0.0;
     }
 
+    // If this is the last line of the band, reset stats and increment band
     if(out.Line() == miOutputLines && out.Band() != miInputBands) {
       miBandIndex++;
       mdLine = 1;

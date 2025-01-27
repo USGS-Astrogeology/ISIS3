@@ -39,6 +39,9 @@
       Added ability to convert CSV files with indicies into table field arrays
       instead of individual table fields.
     </change>
+    <change name="Adam Paquette" date="2024-10-08">
+      Added the ability to pass types for each column in the CSV
+    </change>
   </history>
 
   <groups>
@@ -93,6 +96,18 @@
           data from the CSV file. If a table with this name already exists on
           the cube it will be overwritten.
         </description>
+      </parameter>
+
+      <parameter name = "coltypes">
+        <type>string</type>
+        <brief>Column types of the table</brief>
+        <description>
+          ISIS command line list of Tablefield types. Specified as such, '(type1, type2)'
+          where the allowed types are "Double", "Integer", "Float", "Text".
+        </description>
+        <default>
+          <item></item>
+        </default>
       </parameter>
     </group>
 

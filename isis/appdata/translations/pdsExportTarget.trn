@@ -1,5 +1,5 @@
 Group = TARGET_NAME
-  Auto
+  Auto           = 1
   InputKey       = TargetName
   InputGroup     = "IsisCube,Mapping"
   InputPosition  = (IsisCube, Mapping)

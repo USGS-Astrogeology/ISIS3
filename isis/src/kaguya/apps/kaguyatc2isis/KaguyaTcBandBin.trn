@@ -24,8 +24,8 @@
 #                        from tcmapArchive.trn to generalize
 #                        for all supported TC images.
 Group = FilterName
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = FILTER_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -35,8 +35,8 @@ Group = FilterName
 End_Group
 
 Group = Center
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -46,8 +46,8 @@ Group = Center
 End_Group
 
 Group = Width
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = BANDWIDTH
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -57,8 +57,8 @@ Group = Width
 End_Group
 
 Group = BaseBand
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = BASE_BAND
   InputGroup     = ROOT
   InputPosition  = ROOT

@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = FilterName
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NAME
   OutputName     = Name
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -30,7 +30,7 @@ Group = FilterName
 End_Group
 
 Group = FilterNumber
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   InputDefault   = 0
   OutputName     = Number
@@ -40,7 +40,7 @@ Group = FilterNumber
 End_Group
 
 Group = FilterCenter
-  Auto
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   OutputName     = Center
   OutputPosition = (Object, IsisCube, Group, BandBin)
@@ -49,7 +49,7 @@ Group = FilterCenter
 End_Group
 
 Group = FilterWidth
-  Auto
+  Auto           = 1
   InputKey       = BANDWIDTH
   OutputName     = Width
   OutputPosition = (Object, IsisCube, Group, BandBin)

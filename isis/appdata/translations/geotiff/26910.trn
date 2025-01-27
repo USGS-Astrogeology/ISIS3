@@ -4,7 +4,7 @@
 # translations for the other codes
 
 Group = ProjectionName
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = ProjectionName
   OutputPosition = (Group, Mapping)
@@ -12,7 +12,7 @@ Group = ProjectionName
 End_Group
 
 Group = CenterLatitude
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = CenterLatitude
   OutputPosition = (Group, Mapping)
@@ -20,7 +20,7 @@ Group = CenterLatitude
 End_Group
 
 Group = CenterLongitude
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = CenterLongitude
   OutputPosition = (Group, Mapping)
@@ -28,7 +28,7 @@ Group = CenterLongitude
 End_Group
 
 Group = ScaleFactor
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = ScaleFactor
   OutputPosition = (Group, Mapping)
@@ -38,7 +38,7 @@ End_Group
 // NOTE: This translation only fills in the False Easting
 // The remainder of the X value comes from the Tiff tiepoint tag
 Group = FalseEasting
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = FalseEasting
   OutputPosition = (Group, Mapping)
@@ -48,7 +48,7 @@ End_Group
 // NOTE: This translation only fills in the False Northing
 // The remainder of the Y value comes from the Tiff tiepoint tag
 Group = FalseNorthing
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = FalseNorthing
   OutputPosition = (Group, Mapping)
@@ -56,7 +56,7 @@ Group = FalseNorthing
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = TargetName
   OutputPosition = (Group, Mapping)
@@ -64,7 +64,7 @@ Group = TargetName
 End_Group
 
 Group = EquatorialRadius
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = EquatorialRadius
   OutputPosition = (Group, Mapping)
@@ -72,7 +72,7 @@ Group = EquatorialRadius
 End_Group
 
 Group = PolarRadius
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = PolarRadius
   OutputPosition = (Group, Mapping)
@@ -80,7 +80,7 @@ Group = PolarRadius
 End_Group
 
 Group = LatitudeType
-  Auto
+  Auto           = 1
   InputKey       = Code
   utputName     = LatitudeType
   OutputPosition = (Group, Mapping)
@@ -88,7 +88,7 @@ Group = LatitudeType
 End_Group
 
 Group = LongitudeDirection
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = LongitudeDirection
   OutputPosition = (Group, Mapping)
@@ -96,7 +96,7 @@ Group = LongitudeDirection
 End_Group
 
 Group = LongitudeDomain
-  Auto
+  Auto           = 1
   InputKey       = Code
   OutputName     = LongitudeDomain
   OutputPosition = (Group, Mapping)

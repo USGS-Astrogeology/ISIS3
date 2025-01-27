@@ -1,242 +1,181 @@
   /*  ISIS APPLICATION PROGRAMMING DOC STYLE SHEET
    *  FILENAME: IsisApplicationDocStyle.css
    *
-   *  Purpose: formatting style sheet for Isis Application
-   *           Programmer documentation presentation
+   *  Purpose: formatting style sheet for 
+   *           Isis Application documentation
    *
-   *  Author:  Deborah Lee Soltesz, USGS, 04/03/2002
+   *  Author:  Jacob Cain, USGS, 09/19/2024
    */
 
+    #overview {
+      padding-top: 1rem;
+    }
 
     /* ----------------------------------------------------------------
-     * HEADINGS */
+    Accordions for Parameter info */
 
-     h1       {
-               color: #336699 ;
-              }
+    .acc-flex-head {
+      background-position: left 1.25rem center;
+      display: flex;
+      padding: 0;
+      align-items: center;
+    }
 
-     h2       {
-               background-color: #88AACC ;
-              }
+    .acc-param-name {
+      min-width: 20ex;
+      padding: 0.5rem 0.75rem 0.5rem 3.5rem;
+    }
 
-     h3       {
-               color: #336699 ;
-              }
+    .acc-param-desc {
+      font-weight: normal;
+      padding: 0.5rem 1.25rem 0.5rem 0.75rem;
+    }
 
-     hr       {
-               color: #000099 ;
-              }
+    /* Change Expansion symbols */
+    .acc-flex-head[aria-expanded="false"], .acc-flex-head[aria-expanded="false"]:hover {
+      background-image: url(../../../../assets/img/usa-icons/expand_more.svg);
+    }
+    .acc-flex-head, .acc-flex-head:hover {
+      background-image: url(../../../../assets/img/usa-icons/expand_less.svg);
+    }
 
+    /* Every other blue*/
+    .acc-param > h4:nth-child(4n+1) > button {
+      background-color: #D8F2FF;
+    }
+    .acc-param > h4:nth-child(4n+1) > button:hover {
+      background-color: #c2e8fb;
+    }
+    .acc-param > div:nth-child(4n+2) {
+      border-bottom: 0.25rem solid #D8F2FF;
+      border-left: 0.25rem solid #D8F2FF;
+      border-right: 0.25rem solid #D8F2FF;
+    }
 
-
+    /* Different table style if within parameter info */
+    .usa-accordion__content tbody > tr:nth-child(odd) {
+      background-color: unset;
+    }
+    .usa-accordion__content table {
+      border-collapse: collapse;
+    }
+    .usa-accordion__content tbody > tr {
+      border-bottom: 2px solid lightgray;
+    }
 
     /* ----------------------------------------------------------------
-     * TABLE CELL FORMATTING: table styles for figures; use with CAPTIONS     */
+     * Text Tables */
 
-
-
-
-     /* LEVEL 1: outside level of table cells*/
-
-    .tableCellLevel1
-              {
-                border:       1px ;
-                border-color: #88AACC ;
-                border-style: solid ;
-              }
-
-    .tableCellLevel1_th
-              {
-                border:           3px ;
-                border-color:     #88AACC ;
-                border-style:     solid ;
-                background-color: #BBDDEE ;
-              }
-
-
-    .tableCellLevel1_type
-              {
-                border:       1px ;
-                border-color: #88AACC ;
-                border-style: solid ;
-                font-style:   italic ;
-              }
-
-    .tableCellLevel1_name
-              {
-                border:       1px ;
-                border-color: #88AACC ;
-                border-style: solid ;
-                font-weight:  bold ;
-              }
-
-    .tableCellLevel1_description
-              {
-                border:       1px ;
-                border-color: #88AACC ;
-                border-style: solid ;
-              }
-
-
+     /* LEVEL 1: outside level of table cells */
      /* LEVEL 2: level of table cells nested inside an outer table */
 
-    .tableCellLevel2
-              {
-                border:       1px ;
-                border-color: #CCCCCC ;
-                border-style: solid ;
-                font-size:    80%;
-                font-family: Arial, Helvetica, Geneva, sans-serif ;
-              }
+    .tableCellLevel1_type, .tableCellLevel2_type {
+      font-style: italic;
+    }
 
-    .tableCellLevel2_type
-              {
-                border:       1px ;
-                border-color: #CCCCCC ;
-                border-style: solid ;
-                font-style:   italic ;
-                font-size:    80% ;
-                font-family: Arial, Helvetica, Geneva, sans-serif ;
-              }
+    .tableCellLevel1_name, .tableCellLevel2_name {
+      font-weight: bold;
+    }
 
-    .tableCellLevel2_name
-              {
-                border:       1px ;
-                border-color: #CCCCCC ;
-                border-style: solid ;
-                font-weight:  bold ;
-                font-size:    80% ;
-                font-family: Arial, Helvetica, Geneva, sans-serif ;
-              }
+    .tableCellLevel2, .tableCellLevel2_type, .tableCellLevel2_name, .tableCellLevel2_description {
+      border: 1px solid gray;
+      font-size: 80%;
+    }
 
-    .tableCellLevel2_description
-              {
-                border:       1px ;
-                border-color: #CCCCCC ;
-                border-style: solid ;
-                font-size:    80% ;
-                font-family: Arial, Helvetica, Geneva, sans-serif ;
-              }
-
-
-
+    .tableCellLevel2_name {
+      min-width: 18ex;
+      word-wrap: break-word;
+    }
 
     /* ----------------------------------------------------------------
      * TABS: tab styles */
 
-    .tabOn
-              {
-                border:              1px ;
-                border-bottom:       0px ;
-                border-color:        #88AACC ;
-                border-style:        solid ;
-                background-color:    #88AACC ;
-                font-family: Arial,  Helvetica, Geneva, sans-serif ;
-                font-weight:         bold ;
-                padding:             5px ;
-                color:               #FFFFFF ;
-                margin:              0px;
-              }
+    .tab-line {
+      border-top: 2px solid lightgray;
+      border-bottom: 2px solid lightgray;
+      overflow-x: auto;
+    }
 
-    .tabOff
-              {
-                border:              1px ;
-                border-bottom:       0px ;
-                border-color:        #6699AA;
-                border-style:        solid ;
-                background-color:    #BBCCDD ;
-                font-family: Arial,  Helvetica, Geneva, sans-serif ;
-                font-weight:         normal ;
-                font-style:          italic ;
-                padding:             5px ;
-                color:               #666666 ;
-                margin:              0px;
-              }
+    .tab-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
 
-    .tabHighlight
-              {
-                border:              1px ;
-                border-bottom:       0px ;
-                border-color:        #3366AA;
-                border-style:        solid ;
-                background-color:    #CCDDEE ;
-                font-family: Arial,  Helvetica, Geneva, sans-serif ;
-                font-style:          italic ;
-                padding:             5px ;
-                color:               #666666 ;
-                margin:              0px;
-              }
+    .tab-list > li {
+      padding: 0 1rem;
+    }
 
+    .tab {
+      padding: 0.5rem 0;
+      cursor: pointer;
+      display: inline-block;
+      white-space: nowrap;
+    }
 
+    .tabOn {
+      color: black;
+      border-bottom: 4px solid #2672de;
+      font-weight: bold;
+    }
 
-    /* ----------------------------------------------------------------
-     * PAGE VIEW: page view styles */
+    .tabOff {
+      color: #666666;
+    }
 
-     .pageView {
-                 border:      3px;
-                 border-style:solid;
-                 border-color:#88AACC ;
-               }
-
-     .functionView {
-                      background-color: #e3e9eF;
-                      border-top:       3px;
-                      border-left:      3px;
-                      border-right:     10px;
-                      border-bottom:    10px;
-                      border-style:     solid;
-                      border-color:     #666666;
-
-                      position:         absolute;
-                      padding:          10px;
-                      top:              10px;
-                      left:             20px;
-                      width:            70%;
-
-                      visibility:       hidden;
-                   }
-
-
-
+    .tabOff:hover {
+      color: #2672de;
+      border-bottom: 4px solid #2672de;
+    }
 
 
     /* -------------------------------------------------------------
-     * TOC Table: color override style for application documentation */
+     * Command Line Examples */
 
-     table.tableFormattedInformation caption
-               {
-                 border-color: #369 ;
-                 background-color: #ACE ;
-               }
+    .cmd-line {
+      padding: 1rem;
+      border-radius: 0.3rem;
+      background-color: #444;
+      color: white;
+      display: block;
+    }
 
-     table.tableFormattedInformation th
-               {
-                 border-color: #68A ;
-                 background-color: #9BD ;
-               }
-
-    /* -------------
-     * History Table */
-
-    .tableCellHistory_date
-              {
-                font-style:   italic ;
-                vertical-align: top ;
-                padding: 3px ;
-              }
-
-    .tableCellHistory_name
-              {
-                font-weight:  bold ;
-                vertical-align: top ;
-                padding: 3px ;
-              }
-
-    .tableCellHistory_description
-              {
-                vertical-align: top ;
-                padding: 3px ;
-              }
+    .cmd-line-caption {
+      font-style: italic;
+      margin-bottom: 0.5rem;
+      color: #555;
+    }
 
 
+    /* -------------------------------------------------------------
+      * Example Images */
+
+    .ex-image-box {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border: 2px solid lightgray;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+
+    .ex-image-img-div {
+      flex: 0 0 fit-content;
+    }
+
+    .ex-image-img {
+      border: 2px solid black;
+      max-width: 250px;
+      max-height: 250px;
+      width: auto;
+      height: auto;
+    }
+
+    .ex-image-desc {
+      flex: 1 1 200px;
+    }
 

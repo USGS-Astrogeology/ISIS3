@@ -232,8 +232,7 @@ namespace Isis {
     m_templateComboBox = new QComboBox();
     m_templateComboBox->setToolTip("Choose a template file");
     m_templateComboBox->setWhatsThis("FileName of the sub-pixel "
-                  "registration template.  Refer to $ISISROOT/doc/documents/"
-                  "PatternMatch/PatternMatch.html for a description of the "
+                  "registration template.  Refer to https://astrogeology.usgs.gov/docs/concepts/control-networks/pattern-matching/ for a description of the "
                   "contents of this file.");
     m_templateComboBox->addItem(m_measureEditor->templateFileName());
     QList <TemplateList *> regTemplates = m_directory->project()->regTemplates();

@@ -98,6 +98,12 @@ namespace Isis {
    */
   void Cube::fromIsd(const FileName &fileName, Pvl &label, nlohmann::json &isd, QString access) {
     fromLabel(fileName, label, access);
+
+    PvlGroup &instGrp = label.findGroup("Instrument", Pvl::Traverse);
+    if (isd.contains("line_scan_rate") && (QString)instGrp["InstrumentId"] == "HRSC") {
+      attachLineScanTableFromIsd(isd);
+    }
+    
     attachSpiceFromIsd(isd);
 
     close();
@@ -1530,6 +1536,26 @@ namespace Isis {
     // This needs to be done for some cameras that need loaded spice data
     // to actually create the camera model. (KaguyaTC for example)
     this->camera();
+  }
+
+  void Cube::attachLineScanTableFromIsd(nlohmann::json isd) {
+      TableField ephTimeField("EphemerisTime", TableField::Double);
+      TableField expTimeField("ExposureTime", TableField::Double);
+      TableField lineStartField("LineStart", TableField::Integer);
+
+      TableRecord timesRecord;
+      timesRecord += ephTimeField;
+      timesRecord += expTimeField;
+      timesRecord += lineStartField;
+
+      Table timesTable("LineScanTimes", timesRecord);
+      for (size_t i = 0; i < isd["line_scan_rate"].size(); ++i) {
+        timesRecord[0] = isd["line_scan_rate"][i][1].get<double>() + isd["center_ephemeris_time"].get<double>();
+        timesRecord[1] = isd["line_scan_rate"][i][2].get<double>();
+        timesRecord[2] = (int)(isd["line_scan_rate"][i][0].get<double>() + 0.5);
+        timesTable += timesRecord;
+      }
+      this->write(timesTable);
   }
 
 

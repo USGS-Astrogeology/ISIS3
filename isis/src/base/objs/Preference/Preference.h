@@ -71,6 +71,9 @@ namespace Isis {
         return p_unitTest;
       }
 
+      bool outputErrorAsPvl();
+      bool reportFileLine();
+
       static Preference &Preferences(bool unitTest = false);
 
     private:

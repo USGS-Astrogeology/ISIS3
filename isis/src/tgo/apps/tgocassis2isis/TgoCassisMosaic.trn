@@ -7,7 +7,7 @@
 # Consider the following translation group and xml
 #
 # Group = Samples
-#   Auto
+#   Auto                 = 1
 #   InputPosition  = (Array_2D_Image, Axis_Array)
 #   Dependencies   = "tag@axis_name|Sample"
 #   InputKey       = elements
@@ -37,7 +37,7 @@
 #                keywords to ingest.
 
 Group = SpacecraftName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Observing_System, Observing_System_Component)
   InputKeyDependencies = "tag@type|Spacecraft"
   InputKey             = name
@@ -47,7 +47,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Observing_System, Observing_System_Component)
   InputKeyDependencies = "tag@type|Instrument"
   InputKey             = name
@@ -57,7 +57,7 @@ Group = InstrumentId
 End_Group
 
 Group = StartTime
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Time_Coordinates)
   InputKey             = start_date_time
   OutputName           = StartTime
@@ -66,7 +66,7 @@ Group = StartTime
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto                 = 1
   InputPosition        = CaSSIS_Header
   InputKey             = FSW_HEADER
   InputKeyAttribute    = Timestamp
@@ -76,7 +76,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = ObservationId
-  Auto
+  Auto                 = 1
   InputPosition        = (CaSSIS_Header, IDENTIFICATION_DATA)
   InputKey             = observation_id
   OutputName           = ObservationId
@@ -85,7 +85,7 @@ Group = ObservationId
 End_Group
 
 Group = LocalTime
-  Auto
+  Auto                 = 1
   InputKey        = local_true_solar_time
   InputPosition   = (Observation_Area, Time_Coordinates)
   OutputName      = LocalTime
@@ -94,7 +94,7 @@ Group = LocalTime
 End_Group
 
 Group = SolarLongitude
-  Auto
+  Auto                 = 1
   InputKey        = solar_longitude
   InputPosition   = (Observation_Area, Time_Coordinates)
   OutputName      = SolarLongitude
@@ -103,7 +103,7 @@ Group = SolarLongitude
 End_Group
 
 Group = IncidenceAngle
-  Auto
+  Auto                 = 1
   InputKey        = geom:incidence_angle
   InputPosition   = (Observation_Area, Discipline_Area, geom:Geometry, Derived_Geometry)
   OutputName      = IncidenceAngle
@@ -112,7 +112,7 @@ Group = IncidenceAngle
 End_Group
 
 Group = EmissionAngle
-  Auto
+  Auto                 = 1
   InputKey        = geom:emission_angle
   InputPosition   = (Observation_Area, Discipline_Area, geom:Geometry, Derived_Geometry)
   OutputName      = EmissionAngle
@@ -121,7 +121,7 @@ Group = EmissionAngle
 End_Group
 
 Group = PhaseAngle
-  Auto
+  Auto                 = 1
   InputKey        = geom:phase_angle
   InputPosition   = (Observation_Area, Discipline_Area, geom:Geometry, Derived_Geometry)
   OutputName      = PhaseAngle
@@ -130,7 +130,7 @@ Group = PhaseAngle
 End_Group
 
 Group = SubsolarAzimuth
-  Auto
+  Auto                 = 1
   InputKey        = geom:subsolar_azimuth
   InputPosition   = (Observation_Area, Discipline_Area, geom:Geometry, Surface_Geometry_Specific)
   OutputName      = SubsolarAzimuth
@@ -139,8 +139,8 @@ Group = SubsolarAzimuth
 End_Group
 
 Group = NorthAzimuth
-  Auto
-  Optional
+  Auto                 = 1
+  Optional        = 1
   InputKey        = geom:north_azimuth
   InputPosition   = (Observation_Area, Discipline_Area, geom:Geometry, Object_Orientation_North_East)
   OutputName      = NorthAzimuth

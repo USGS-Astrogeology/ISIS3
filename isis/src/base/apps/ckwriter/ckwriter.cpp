@@ -2,6 +2,7 @@
 
 #include "ckwriter.h"
 
+#include "Application.h"
 #include "Cube.h"
 #include "FileList.h"
 #include "Process.h"
@@ -50,9 +51,7 @@ namespace Isis {
         PvlGroup overlap = overrors.group(i);
         overlap.setName("Overlaps");
         overlap.addKeyword(PvlKeyword("Class", "WARNING"), PvlContainer::Replace);
-        if (log) {
-          log->addLogGroup(overlap);
-        }
+        Application::AppendAndLog(overlap, log);
       }
     }
 

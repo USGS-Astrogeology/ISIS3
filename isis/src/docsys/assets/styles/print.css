@@ -1,491 +1,68 @@
-  /*  ISIS STYLE SHEET
-   *  FILENAME: IsisStyleCommon.css
-   *
-   *  Purpose: formatting style sheet for all pages
-   *
-   *  Author:  Deborah Lee Soltesz, USGS, 04/03/2002
-   */
-
-
-    BODY     {
-               background-color: white ;
-             }
-
-    /* ----------------------------------------------------------------
-     * HEADINGS */
-
-     h1       {
-               font-family:     Arial Black, Arial, Geneva, sans-serif ;
-               font-size:       150% ;
-               font-weight:     bold ;
-               font-variant:    small-caps ;
-               text-decoration: none ;
-               margin-top:      2px;
-               margin-bottom:   3px;
-              }
-
-     h1.subtitle
-              {
-               font-family:      Arial, Geneva, sans-serif ;
-               font-variant:     normal ;
-               font-size:        100% ;
-               font-style:       italic ;
-               font-weight:      normal ;
-               text-decoration:  none ;
-               color:            black ;
-               margin-top:       0px;
-               margin-bottom:    3px;
-              }
-
-     h2       {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 110% ;
-               font-weight: bold ;
-               font-variant: small-caps ;
-               text-decoration: none ;
-               margin-top:2px;
-               margin-bottom:3px;
-               padding: 3px ;
-              }
-
-     h3       {
-               font-family: serif ;
-               font-size: 110% ;
-               font-weight: bold ;
-               font-variant:    small-caps ;
-               text-decoration: none ;
-               margin-top:10px;
-               margin-bottom:5px;
-              }
-
-
-     h4       {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 100% ;
-               font-weight: bold ;
-               text-decoration: underline ;
-               font-style: italic;
-               margin-top:10px;
-               margin-bottom:5px;
-
-              }
-
-     h5       {
-               font-family: serif ;
-               font-size: 90% ;
-               font-weight: bold ;
-               text-decoration: none ;
-               margin-top:10px;
-               margin-bottom:5px;
-              }
-
-     h6       {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 80% ;
-               font-weight: bold ;
-               font-variant: small-caps ;
-               text-decoration: underline ;
-               margin-top:10px;
-               margin-bottom:5px;
-              }
-
-     hR       {
-               height: 1px ;
-              }
-
-
-     p        {
-                margin: 0px;
-                padding-bottom: 5px;
-                padding-top:    5px;
-              }
-
-     a        {
-                font-weight: bold;
-              }
-
-     li       {
-                padding-bottom: 5px;
-              }
-
-     tt       {
-                font-size: 110% ;
-                font-weight: bolder ;
-              }
-
-
-
-
-
-    /* -------------------------------------------------------------
-     * TOC Table: style for upper level pages' tables of contents */
-
-     .tableTOC
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 90% ;
-                 border: 3px solid brown ;
-               }
-
-     table.tableTOC
-               {
-                 width: 100% ;
-               }
-
-     table.tableTOC th
-               {
-                 padding: 3px;
-               }
-
-     table.tableTOC td
-               {
-                 padding: 3px;
-               }
-
-
-
-    /* -------------------------------------------------------------
-     * Poll Table: style for upper level pages' tables of contents */
-
-     table.tablePoll
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 80% ;
-                 width: 15em ;
-                 border: 3px solid brown ;
-               }
-
-     table.tablePoll th
-               {
-                 background-color: #DDCCAA ;
-               }
-
-     table.tablePoll td
-               {
-
-               }
-
-
-    /* -------------------------------------------------------------
-     * TOC Table: style for upper level pages' tables of contents */
-
-     table.tableTOCmulticol
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 90% ;
-                 width: 100% ;
-               }
-
-     table.tableTOCmulticol th
-               {
-                 padding: 3px;
-               }
-
-     table.tableTOCmulticol td
-               {
-                 border: 3px solid brown ;
-                 padding: 3px;
-               }
-
-
-
-    /* ------------------------------------------------------------------------------------------------
-     * General Information Table: plain style for tables of general information - no colors, borders, etc. */
-
-     .tableGeneralInformation
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 90% ;
-               }
-
-     table.tableGeneralInformation
-               {
-                 width: 80% ;
-               }
-
-     table.tableGeneralInformation th
-               {
-                 padding: 3px;
-                 padding-right: 7px;
-               }
-
-     table.tableGeneralInformation td
-               {
-                 padding: 3px;
-                 padding-right: 7px;
-               }
-
-
-    /* -------------------------------------------------------------
-     * TOC Table: style for upper level pages' tables of contents */
-
-     .tableFormattedInformation
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 90% ;
-               }
-
-     table.tableFormattedInformation
-               {
-                 width: 80% ;
-               }
-
-     table.tableFormattedInformation caption
-               {
-                 border-top: 2px solid #999966 ;
-                 background-color: #EEEECC ;
-               }
-
-     table.tableFormattedInformation th
-               {
-                 padding: 3px;
-                 border: 2px solid #999966 ;
-                 background-color: #CCCCAA ;
-               }
-
-     table.tableFormattedInformation td
-               {
-                 padding: 3px;
-                 border: 1px solid gray ;
-               }
-
-
-    /* -------------------------------------------------------------
-     * Image Table: style for images with caption displayed in basic table */
-
-     .imageTable
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 80% ;
-               }
-
-     table.imageTable
-               {
-               }
-
-     table.imageTable tr
-               {
-                 vertical-align: top ;
-               }
-
-     table.imageTable caption
-               {
-                 border-top: 2px solid #999966 ;
-                 background-color: #EEEECC ;
-               }
-
-     table.imageTable th
-               {
-                 padding: 3px;
-                 border: 2px solid #999966 ;
-                 background-color: #CCCCAA ;
-                 text-align: center ;
-               }
-
-     table.imageTable td
-               {
-                 padding: 3px;
-                 border: 2px solid #999966 ;
-                 background-color: #CCCCAA ;
-                 text-align: center ;
-               }
-
-     table.imageTable img
-               {
-                 border: 2px solid black ;
-               }
-
-
-    /* -------------------------------------------------------------
-     * Image Table 2: style for image with caption in separate cell
-     *                (intended for image and caption side-by-side */
-
-     .imageTable2
-               {
-                 font-family: Arial, Helvetica, Geneva, sans-serif ;
-                 font-size: 80% ;
-               }
-
-     table.imageTable2
-               {
-                 padding: 3px;
-                 border: 2px solid #999966 ;
-                 background-color: #CCCCAA ;
-               }
-
-     table.imageTable2 th
-               {
-                 text-align: center ;
-               }
-
-     table.imageTable2 td
-               {
-                 text-align: center ;
-               }
-
-     table.imageTable2 img
-               {
-                 border: 2px solid black ;
-               }
-
-
-
-    /* ----------------------------------------------------------------
-     * TABLE CELL FORMATTING: table styles for figures; use with CAPTIONS     */
-
-
-     /* History table */
-
-
-    .tableCellHistory_date
-              {
-                font-style:   italic ;
-              }
-
-    .tableCellHistory_name
-              {
-                font-weight:  bold ;
-              }
-
-    .tableCellHistory_description
-              {
-              }
-
-
-
-    /* -------------------------------------------------------------
-     * Highlight Section: style for image with caption in separate cell
-     *                (intended for image and caption side-by-side */
-
-
-     div.highlightSection
-               {
-                 padding: 3px;
-                 border: 2px solid #999966 ;
-                 background-color: #DDDDBB ;
-                 margin-left: 30px;
-                 margin-right: 30px;
-               }
-
-     div.highlightSection h2
-               {
-                 background-color: #AAAA77 ;
-               }
-
-
-
-    /* ----------------------------------------------------------------
-     * CAPTION: caption text styles */
-
-    .caption /* defines style for a text caption using page's default color */
-              {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 80% ;
-              }
-
-    .captionBold /* defines style for a text caption using page's default color */
-              {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 80% ;
-               font-weight:bold;
-              }
-
-
-    /* ----------------------------------------------------------------
-     * TABLE OF CONTENTS: table of contents text styles */
-    .TOCanchors /* defines style for top-of-page table-of-contents anchor links */
-              {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 80% ;
-               margin-bottom:5px ;
-               margin-top:5px ;
-              }
-
-    .TOCtoplink /* defines style for link to top of page */
-              {
-               font-family: Arial, Helvetica, Geneva, sans-serif ;
-               font-size: 70% ;
-               font-variant: small-caps ;
-               font-weight: bold ;
-               margin-bottom:10px ;
-               margin-top:10px ;
-              }
-
-
-    /* ----------------------------------------------------------------
-     * IMAGE FORMATTING: special formatting for linked images */
-
-    .blackBorderedImage /*  */
-              {
-               border: 2px solid black ;
-              }
-
-
-  div.code    {
-    margin: 5px;
-    margin-left: 30px;
-
-    padding: 5px;
-    padding-left: 30px;
-
-    font-family: monospace;
-
-    background-color: #EEE;
-    border: 1px solid #999;
-   }
-
-
-   div {clear: left ;}
-
-  .pageMenu {
-    width: 200px;
-
-    float: right ;
-
-    font-family: Arial, Helvetica, SANS SERIF ;
-    font-weight: bold ;
-    font-size: 80% ;
-
-    background-color: #FFC;
-    border: 1px solid #C96;
-   }
-
-  .pageMenu td {
-    padding: 5px;
-  }
-
-
-  table.cheatSheet {
-    width: 600px ;
-    margin-left: auto ;
-    margin-right: auto ;
-  }
-
-  table.cheatSheet td, table.cheatSheet th {
-    border-color: silver;
-    border-width: 2px;
-    border-style: solid;
-    padding:      5px;
-    vertical-align:   top ;
-    text-align: left ;
-  }
-
-  table.cheatSheet th {
-    background-color: #999999 ;
-    color:            white ;
-  }
-
-
-  div.isisMenu {
-    visibility: hidden ;
-  }
-
-  div.isisContent {
-    position: relative ;
-    left: 0px;
-    top: 5px ;
-    width: 97% ;
-  }
-
-
-
+/*  ISIS STYLE SHEET
+ *  FILENAME: print.css
+ *
+ *  Purpose: Additions to css for printing.
+ *
+ *  Author: Jacob Cain, USGS, 19/09/2024
+ */
+
+body {
+  background-color: white ;
+}
+
+pre, .cmd-line {
+  white-space: pre-wrap;
+  border: 1px solid slategrey;
+  background-color: whitesmoke;
+  color: black;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: unset;
+}
+
+.acc-param > div:nth-child(2n) {
+  border: none;
+}
+
+.acc-param > h4:nth-child(2n+1) > button {
+  background-color: unset;
+  border: 2px solid black;
+}
+
+table tr {
+  border-bottom: 2px solid gray;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: black;
+}
+
+div {
+  clear: left ;
+}
+
+/* Hide Menu and Tab Controls */
+.isisMenu, .tab-line, header, footer {
+  display: none !important;
+}
+
+/* Show all tabs/expand all accordions */
+#overview, 
+#Parameters, 
+#Example1, 
+#Example2, 
+#Example3, 
+#Example4, 
+#Example5, 
+.usa-accordion__content,
+.print-only {
+  display: block !important;
+}
+
+h1.print-only {
+  margin-top: 6rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 10px dotted black;
+  margin-bottom: 3rem;
+}

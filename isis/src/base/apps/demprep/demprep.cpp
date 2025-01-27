@@ -1,5 +1,6 @@
 #include <iomanip>
 
+#include "Application.h"
 #include "Distance.h"
 #include "ProcessByLine.h"
 #include "TProjection.h"
@@ -67,9 +68,7 @@ namespace Isis{
       PvlGroup demRange("Results");
       demRange += PvlKeyword("MinimumRadius", toString(inCubeStats.Minimum()), "meters");
       demRange += PvlKeyword("MaximumRadius", toString(inCubeStats.Maximum()), "meters");
-      if (log){
-        log->addLogGroup(demRange);
-      }
+      Application::Log(demRange);
 
       // Store min/max radii values in new ShapeModelStatistics table
       QString shp_name = "ShapeModelStatistics";
@@ -267,9 +266,7 @@ namespace Isis{
     PvlGroup demRange("Results");
     demRange += PvlKeyword("MinimumRadius", toString(outCubeStats.Minimum()), "meters");
     demRange += PvlKeyword("MaximumRadius", toString(outCubeStats.Maximum()), "meters");
-    if (log){
-      log->addLogGroup(demRange);
-    }
+    Application::Log(demRange);
 
     // Store min/max radii values in new ShapeModelStatistics table
     QString shp_name = "ShapeModelStatistics";

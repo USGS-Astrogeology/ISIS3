@@ -38,6 +38,19 @@
       Updated camera information is only written to the <def>cube</def> labels if the bundle
       converges and the <b>UPDATE</b> parameter is selected.
     </p>
+    <p>
+      In order to apply bundle values using <b>ADJUSTMENT_INPUT</b>, only the option <b>FROMLIST</b> 
+      must be set. If the <b>ADJUSTMENT_INPUT</b> is set to an HDF5 file containing bundle adjustment values 
+      (usually the HDF5 output file from <b>OUTADJUSTMENTH5</b>), those values can be applied to the 
+      <def>cube</def> labels. The adjustment file entails a group of HDF5 datasets where each dataset 
+      contains the instrument pointing and position for each <def>cube</def>. The dataset key is composed 
+      of the <def>cube</def> serial number and the table name, either "InstrumentPointing" or 
+      "InstrumentPosition", separated by a forward slash "/". For example:
+    </p>
+    <pre>
+      SerialNumber: MRO/CTX/1016816309:030
+      Dataset key for instrument pointing: MRO/CTX/1016816309:030/InstrumentPointing
+    </pre>
 
     <p>
       The input control net may be created by finding each image footprint with <b>footprintinit</b>,
@@ -53,7 +66,10 @@
       file with the <b>IMAGESCSV</b> option and likewise for the point statistics with the
       <b>OUTPUT_CSV</b> option. <b>RESIDUALS_CSV</b> provides a table of the measured image
       coordinates, the final <def>sample</def>, <def>line</def>, and overall residuals
-      of every control measure in both millimeters and pixels.
+      of every control measure in both millimeters and pixels. <b>OUTADJUSTMENTH5</b> stores bundle 
+      adjustment values in an HDF5 file. Currently, only ISIS adjustment values are saved to file so
+      if all the cubes in the <b>FROMLIST</b> contain a CSM state blob then the <i>adjustment_out.h5</i> 
+      file will be created but empty.
     </p>
 
     <h3>Observation Equations</h3>
@@ -661,6 +677,11 @@
       Fixed measure residual reporting in bundleout.txt file to match the residuals
       reported in the residuals CSV file.
     </change>
+    <change name="Ken Edmundson" date="2024-10-21">
+      Modified xml so that the RADIUS on/off radio button is excluded when the
+      solution coordinate type is set to Rectangular. Originally added to UofA
+      code on 2019-07-30.
+    </change>
   </history>
 
   <groups>
@@ -711,6 +732,9 @@
           <b>autoseed</b> or <b>qnet</b>.  It contains the <def>control point</def>s
           and associated measures.
         </description>
+        <exclusions>
+          <item>ADJUSTMENT_INPUT</item>
+        </exclusions>
         <filter>
           *.net
         </filter>
@@ -727,6 +751,9 @@
           the final coordinates of the <def>control point</def>s and residuals for each
           measurement.
         </description>
+        <exclusions>
+          <item>ADJUSTMENT_INPUT</item>
+        </exclusions>
         <filter>
           *.net
         </filter>
@@ -875,6 +902,9 @@
             POINT_RADIUS_SIGMA
           </item>
         </inclusions>
+        <exclusions>
+          <item>ADJUSTMENT_INPUT</item>
+        </exclusions>
       </parameter>
 
       <parameter name="UPDATE">
@@ -1283,6 +1313,7 @@
           <item>Yes</item>
         </default>
       </parameter>
+
       <parameter name="OVEREXISTING">
         <brief> Fit polynomial over the existing pointing</brief>
         <description>
@@ -1572,6 +1603,7 @@
               and reported in body-fixed rectangular coordinates (X, Y, and Z).
             </description>
             <exclusions>
+              <item>RADIUS</item>
               <item>POINT_LATITUDE_SIGMA</item>
               <item>POINT_LONGITUDE_SIGMA</item>
               <item>POINT_RADIUS_SIGMA</item>
@@ -1769,7 +1801,7 @@
          <brief>Output file prefix</brief>
          <description>
            File prefix to prepend for the generated output files. Any prefix that is not a
-	   file path will have an underscore placed between the prefix and file name.
+	         file path will have an underscore placed between the prefix and file name.
          </description>
         </parameter>
 
@@ -1834,6 +1866,95 @@
           <default>
             <item>no</item>
           </default>
+        </parameter>
+
+        <parameter name="OUTADJUSTMENTH5">
+          <brief> Outputs bundle adjustment values to HDF5 file - adjustment_out.h5</brief>
+          <description>
+            Selection of this parameter flags output of bundle adjustment
+            values to an HDF5 file. The HDF5 file may be empty if all the cubes 
+            have CSM states.
+          </description>
+          <type>boolean</type>
+          <default>
+            <item>no</item>
+          </default>
+        </parameter>
+
+        <parameter name="ADJUSTMENT_INPUT">
+          <type>filename</type>
+          <internalDefault>none</internalDefault>
+          <fileMode>input</fileMode>
+          <brief>
+            Reads in and applies adjustment values
+          </brief>
+          <description>
+            Reads in and applies bundle adjustment values from an HDF5 file,
+            usually the outputted adjustment_out.h5 file. 
+          </description>
+          <filter>
+            *.h5
+          </filter>
+          <inclusions>
+            <item>
+              UPDATE
+            </item>
+          </inclusions>
+          <exclusions>
+            <item>ONET</item>
+            <item>CNET</item>
+            <item>LIDARDATA</item>
+            <item>OLIDARDATA</item>
+            <item>OLIDARFORMAT</item>
+            <item>SCCONFIG</item>
+            <item>OBSERVATIONS</item>
+            <item>RADIUS</item>
+            <item>OUTLIER_REJECTION</item>
+            <item>REJECTION_MULTIPLIER</item>
+            <item>ERRORPROPAGATION</item>
+            <item>MODEL1</item>
+            <item>MAX_MODEL1_C_QUANTILE</item>
+            <item>MODEL2</item>
+            <item>MAX_MODEL2_C_QUANTILE</item>
+            <item>MODEL3</item>
+            <item>MAX_MODEL3_C_QUANTILE</item>
+            <item>SIGMA0</item>
+            <item>MAXITS</item>
+            <item>CKDEGREE</item>
+            <item>CKSOLVEDEGREE</item>
+            <item>CAMSOLVE</item>
+            <!-- <item>TWIST</item> -->
+            <item>OVEREXISTING</item>
+            <item>SPKDEGREE</item>
+            <item>SPKSOLVEDEGREE</item>
+            <item>SPSOLVE</item>
+            <item>OVERHERMITE</item>
+            <item>CSMSOLVESET</item>
+            <item>CSMSOLVETYPE</item>
+            <item>CSMSOLVELIST</item>
+            <item>SOLVETARGETBODY</item>
+            <item>TBPARAMETERS</item>
+            <item>CONTROL_POINT_COORDINATE_TYPE_BUNDLE</item>
+            <item>CONTROL_POINT_COORDINATE_TYPE_REPORTS</item>
+            <item>POINT_LATITUDE_SIGMA</item>
+            <item>POINT_LONGITUDE_SIGMA</item>
+            <item>POINT_RADIUS_SIGMA</item>
+            <item>POINT_X_SIGMA</item>
+            <item>POINT_Y_SIGMA</item>
+            <item>POINT_Z_SIGMA</item>
+            <item>SPACECRAFT_POSITION_SIGMA</item>
+            <item>SPACECRAFT_VELOCITY_SIGMA</item>
+            <item>SPACECRAFT_ACCELERATION_SIGMA</item>
+            <item>CAMERA_ANGLES_SIGMA</item>
+            <item>CAMERA_ANGULAR_VELOCITY_SIGMA</item>
+            <item>CAMERA_ANGULAR_ACCELERATION_SIGMA</item>
+            <!-- <item>BUNDLEOUT_TXT</item>
+            <item>IMAGESCSV</item>
+            <item>OUTPUT_CSV</item>
+            <item>RESIDUALS_CSV</item>
+            <item>LIDAR_CSV</item>
+            <item>OUTADJUSTMENTH5</item> -->
+          </exclusions>
         </parameter>
       </group>
 

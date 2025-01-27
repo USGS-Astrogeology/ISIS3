@@ -1,5 +1,6 @@
 #include <QString>
 
+#include "Application.h"
 #include "Cube.h"
 #include "ExportDescription.h"
 #include "FileName.h"
@@ -119,9 +120,7 @@ namespace Isis{
       results += PvlKeyword("HRS", toString(p.OutputHrs()));
       results += PvlKeyword("ValidMin", toString(min));
       results += PvlKeyword("ValidMax", toString(max));
-      if (log){
-        log->addLogGroup(results);
-      }
+      Application::Log(results);
     }
     else {
       // Setup the process and set the input cube
@@ -195,9 +194,7 @@ namespace Isis{
       results += PvlKeyword("HRS", toString(process.OutputHrs()));
       results += PvlKeyword("ValidMin", toString(min));
       results += PvlKeyword("ValidMax", toString(max));
-      if (log){
-        log->addLogGroup(results);
-      }
+      Application::Log(results);
 
       process.StandardPds4Label();
       process.WritePds4(outFileName);

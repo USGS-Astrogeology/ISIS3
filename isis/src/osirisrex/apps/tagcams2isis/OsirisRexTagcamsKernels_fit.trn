@@ -6,7 +6,7 @@
 # history 2019-01-19 Kris Becker - Original version added to UofA codebase.
 
 Group = NaifCode
-  Auto
+  Auto           = 1
   InputKey       = INSTRUME
   InputPosition  = FITSLABELS
   InputDefault   = -64081

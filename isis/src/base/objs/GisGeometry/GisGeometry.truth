@@ -83,6 +83,26 @@ GisGeometry::Types:
     length?           0
     points?           0
 
+"Construct Self-Intersecting Geometry from WKT GIS source"
+    isDefined?        true
+    isValid?          false
+    isValidReason?    "Self-intersection[286.747135842881 51.2716857610475]"
+    isEmpty?          true
+    type?             "WKT"
+    area?             0
+    length?           0
+    points?           0
+
+"Repaired Self-Intersecting Geometry from WKT GIS source"
+    isDefined?        true
+    isValid?          true
+    isValidReason?    "Valid Geometry"
+    isEmpty?          false
+    type?             "GeosGis"
+    area?             26.2303
+    length?           21.0533
+    points?           5
+
 "Construct Copy Geometry from GisGeometry from Cube"
     isDefined?        true
     isValid?          true
@@ -170,6 +190,15 @@ GisGeometry::Types:
     overlaps?         "No"
     equals?           "No"
     intersect ratio?  "0.0"
+
+"Source: Repaired Self-Intersecting WKT Geometry, Target: GeomGisIsisCube Geometry"
+    distance?         "0.0"
+    intersects?       "Yes"
+    contains?         "No"
+    disjoint?         "No"
+    overlaps?         "Yes"
+    equals?           "No"
+    intersect ratio?  "0.014072849290423"
 
 "Source: GisIsisCube Geometry, Target: WKT Geometry"
     distance?         "0.0"
@@ -281,6 +310,16 @@ Simplified Geometry from Invalid Geometry is NULL.
     area?             3.89075
     length?           8.23376
     points?           187
+
+"Intersection Geometry of GeomCube and Repaired Self-Intersecting WKT Geometries"
+    isDefined?        true
+    isValid?          true
+    isValidReason?    "Valid Geometry"
+    isEmpty?          false
+    type?             "GeosGis"
+    area?             26.2303
+    length?           21.0533
+    points?           5
 
 "Union Geometry of Invalid Geometry with WKT Geometry as target"
     isDefined?        false

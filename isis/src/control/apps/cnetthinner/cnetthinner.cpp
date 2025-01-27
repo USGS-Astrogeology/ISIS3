@@ -9,6 +9,7 @@ find files of those names at the top level of this repository. **/
 
 #include <QString>
 
+#include "Application.h"
 #include "CnetManager.h"
 #include "CnetSuppression.h"
 #include "FileName.h"
@@ -106,7 +107,7 @@ namespace Isis {
     results += PvlKeyword("Saved",  toString(nsaved) );
     results += PvlKeyword("Suppressed",  toString(nremoved) );
     results += PvlKeyword("Efficiency", toString(efficiency, 4), "percent" );
-    log.addLogGroup(results);
+    Application::AppendAndLog(results, &log);
 
     p.EndProcess();
 

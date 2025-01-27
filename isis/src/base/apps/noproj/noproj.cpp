@@ -378,7 +378,8 @@ namespace Isis {
     Cube matchCube;
     matchCube.open(matchCubeFile.expanded(), "rw");
     cam2cam(icube, &matchCube, cam2camUI);
-
+    matchCube.close();
+    
     // Cleanup by deleting the match files
     QStringList detfiles = findAllDetachedFiles( label );
     detfiles.append(matchLbl);

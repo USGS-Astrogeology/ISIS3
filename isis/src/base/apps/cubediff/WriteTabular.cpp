@@ -74,7 +74,6 @@ namespace Isis {
         throw IException(IException::User, message, _FILEINFO_);
       }
 
-      int iteration = 0;
       while((int)thisTitle.length() < (int)thisCol.Width()) {
         if(thisCol.Alignment() == Column::Left) {
           thisTitle += " ";
@@ -87,7 +86,6 @@ namespace Isis {
           QString message = "Alignment is improperly set";
           throw IException(IException::User, message, _FILEINFO_);
         }
-        iteration++;
       }//end while
 
       p_cols.push_back(thisCol);

@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_NAME
   InputDefault   = UNKNOWN
   OutputName     = SpacecraftName
@@ -31,7 +31,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputDefault   = UNKNOWN
   OutputName     = InstrumentId
@@ -40,7 +40,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputDefault   = UNKNOWN
   OutputName     = TargetName
@@ -53,7 +53,7 @@ Group = TargetName
 End_Group
 
 Group = MissionPhaseName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   InputDefault   = UNKNOWN
   OutputName     = MissionPhaseName
@@ -63,7 +63,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputDefault   = -9999
   OutputName     = StartTime
@@ -72,7 +72,7 @@ Group = StartTime
 End_Group
 
 Group = SpacecraftClockCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputDefault   = -9999
   OutputName     = SpacecraftClockCount
@@ -81,7 +81,7 @@ Group = SpacecraftClockCount
 End_Group
 
 Group = OffsetModeId
-  Auto
+  Auto           = 1
   InputKey       = OFFSET_MODE_ID
   InputDefault   = UNKNOWN
   OutputName     = OffsetModeId
@@ -90,7 +90,7 @@ Group = OffsetModeId
 End_Group
 
 Group = LineExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = LINE_EXPOSURE_DURATION
   InputDefault   = UNKNOWN
   OutputName     = LineExposureDuration
@@ -99,7 +99,7 @@ Group = LineExposureDuration
 End_Group
 
 Group = FocalPlaneTemperature
-  Auto
+  Auto           = 1
   InputKey       = FOCAL_PLANE_TEMPERATURE
   InputDefault   = UNKNOWN
   OutputName     = FocalPlaneTemperature
@@ -108,7 +108,7 @@ Group = FocalPlaneTemperature
 End_Group
 
 Group = SampleBitModeId
-  Auto
+  Auto           = 1
   InputKey       = SAMPLE_BIT_MODE_ID
   InputDefault   = UNKNOWN
   OutputName     = SampleBitModeId

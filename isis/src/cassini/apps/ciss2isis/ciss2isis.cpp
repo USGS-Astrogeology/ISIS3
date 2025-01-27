@@ -3,6 +3,7 @@
 
 #include <QString>
 
+#include "Application.h"
 #include "CisscalFile.h"
 #include "FileName.h"
 #include "IException.h"
@@ -370,9 +371,7 @@ namespace Isis{
     else {
       PvlGroup msgGrp("Warnings");
       msgGrp += PvlKeyword("CameraAngleLookup", "Failed! No Camera information for filter combination: " + filter);
-      if (log) {
-        log->addLogGroup(msgGrp);
-      }
+      Application::Log(msgGrp);
       bandBin += PvlKeyword("Center", "None found for filter combination.");
       bandBin += PvlKeyword("Width", "None found for filter combination.");
     }

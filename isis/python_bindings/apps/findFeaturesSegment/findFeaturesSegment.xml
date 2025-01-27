@@ -139,6 +139,19 @@
           <filter>*.lis</filter>
         </parameter>
 
+        <parameter name="WORKDIR">
+          <type>filename</type>
+          <fileMode>output</fileMode>
+          <brief>Directory to output intermediate files to</brief>
+          <description>
+             This directory is where any intermediate and temp files are saved to. 
+             If this is set to None (default), these files go into the temp directory 
+             which is deleted when the program is terminated. Set this if you want to debug 
+             a network. 
+          </description>
+          <internalDefault>None</internalDefault>
+        </parameter>
+
         <parameter name="NL">
           <type>integer</type>
           <fileMode>output</fileMode>

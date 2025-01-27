@@ -771,8 +771,79 @@ void IsisMain() {
 
   //This call succeeds
   qDebug() << "importGeometry = ";
-  qDebug() << geoms.importGeometryA(line2,lines)  << Qt::endl;
+  qDebug() << geoms.importGeometryA(line2,lines);
   qDebug() << Qt::endl;
+  qDebug() << Qt::endl;
+
+
+  qDebug() << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << Qt::endl;
+  qDebug() << "%             repairInvalidGeometry            %";
+  qDebug() << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << Qt::endl;
+  qDebug() << Qt::endl;
+  qDebug() << Qt::endl;
+
+  SharedResource poly1 = SharedResource(new Resource("Polygon 1"));
+
+  ResourceList polygons;
+  polygons.append(poly1);
+
+  PvlObject PolygonGeometry("Geom Object");
+  PolygonGeometry += PvlKeyword("Type","Intersect");
+  PolygonGeometry += PvlKeyword("Name","H5");
+  PolygonGeometry += PvlKeyword("GisType","WKT");
+  PolygonGeometry += PvlKeyword("GisGeometry","MULTIPOLYGON(((0.0 0.0, 50.0 0.0, 50.0 50.0, 0.0 50.0, 20.0 -10.0, 0.0 0.0)))");
+  PolygonGeometry += PvlKeyword("BoundingBox","True");
+  PolygonGeometry += PvlKeyword("RepairInvalidGeometry","True");
+  DerivedStrategy polygeomsRepair(PolygonGeometry,polygons);
+
+  // The input MULTIPOLYGON is self-intersecting. This call succeeds because
+  // RepairInvalidGeometry is True and the repair is successful.
+  qDebug() << "importPolygonGeometry (Repair self-intersection on) ="
+           << polygeomsRepair.importGeometryA(poly1,polygons) << Qt::endl;
+
+  // Rerun the same test with repair set to false
+  PolygonGeometry.addKeyword(PvlKeyword("RepairInvalidGeometry", "False"), Pvl::Replace);
+  DerivedStrategy polygeomsNoRepair(PolygonGeometry,polygons);
+  qDebug() << "importPolygonGeometry (Repair self-intersection off) ="
+           << polygeomsNoRepair.importGeometryA(poly1,polygons);
+  qDebug() << Qt::endl;
+  qDebug() << Qt::endl;
+ 
+
+  qDebug() << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << Qt::endl;
+  qDebug() << "%             invalidGeometryAction            %";
+  qDebug() << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << Qt::endl;
+  qDebug() << Qt::endl;
+  qDebug() << Qt::endl;
+
+  // confirm Resource from above invalid geometry call has been disabled
+  // (Default behavior) as a result of the importGeometry failure   
+  qDebug() << "  invalidGeometryAction = disable ";
+  qDebug() << "invalidGeometryDisabled =" << poly1->isDiscarded() << Qt::endl;;
+
+  // Rerun the same test with InvalidGeometryAction set to error
+  PolygonGeometry.addKeyword(PvlKeyword("InvalidGeometryAction", "Error"));
+  DerivedStrategy polygeomsNoRepairActionError(PolygonGeometry,polygons);
+  qDebug() << "  invalidGeometryAction = error ";
+
+  try {
+    qDebug() << polygeomsNoRepairActionError.importGeometryA(poly1,polygons);
+  }
+  catch(IException &e){
+    qDebug() << e.toString() << Qt::endl;
+  }
+
+  // Reactivate polygon and rerun test with InvalidGeometryAction
+  // set to Continue. Here, the import geometry action fails, but
+  // because InvalidGeometryAction is set to Continue, the polygon
+  // resource is NOT disabled.
+  poly1->activate();
+  PolygonGeometry.addKeyword(PvlKeyword("InvalidGeometryAction", "Continue"), Pvl::Replace);
+  DerivedStrategy polygeomsNoRepairActionContinue(PolygonGeometry,polygons);
+  qDebug() << "  invalidGeometryAction = continue ";
+  qDebug() << "importPolygonGeometry (Repair off; Action continue) ="
+           << polygeomsNoRepairActionContinue.importGeometryA(poly1,polygons);
+  qDebug() << "invalidGeometryDisabled =" << poly1->isDiscarded() << Qt::endl;
   qDebug() << Qt::endl;
 
 

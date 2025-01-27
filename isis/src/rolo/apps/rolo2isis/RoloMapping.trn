@@ -1,6 +1,6 @@
 #Begin
 Group = ProjectionName
-  Auto
+  Auto           = 1
   InputDefault   = LunarAzimuthalEqualArea
   OutputName     = ProjectionName
   OutputPosition = (Group, Mapping)
@@ -8,7 +8,7 @@ Group = ProjectionName
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputDefault   = Moon
   OutputName     = TargetName
   OutputPosition = (Group, Mapping)
@@ -16,7 +16,7 @@ Group = TargetName
 End_Group
 
 Group = MaximumLibration
-  Auto
+  Auto           = 1
   InputDefault   = 11
   OutputName     = MaximumLibration
   OutputPosition = (Group, Mapping)
@@ -24,7 +24,7 @@ Group = MaximumLibration
 End_Group
 
 Group = EquatorialRadius
-  Auto
+  Auto           = 1
   InputDefault   = 1737400.0000 <meters>
   OutputName     = EquatorialRadius
   OutputPosition = (Group, Mapping)
@@ -32,7 +32,7 @@ Group = EquatorialRadius
 End_Group
 
 Group = PolarRadius
-  Auto
+  Auto           = 1
   InputDefault   = 1737400.0000 <meters>
   OutputName     = PolarRadius
   OutputPosition = (Group, Mapping)
@@ -40,7 +40,7 @@ Group = PolarRadius
 End_Group
 
 #  Group = LongitudeDirection
-#    Auto
+#    Auto           = 1
 #    OutputPosition = ("Group","Mapping")
 #    OutputName = LongitudeDirection
 #    InputGroup = "QUBE,IMAGE_MAP_PROJECTION"
@@ -49,7 +49,7 @@ End_Group
 #    Translation = (PositiveWest,WEST)
 #  EndGroup
 Group = Scale
-  Auto
+  Auto           = 1
   InputDefault   = 5.02654
   OutputName     = Scale
   OutputPosition = (Group, Mapping)
@@ -57,7 +57,7 @@ Group = Scale
 End_Group
 
 Group = UpperLeftCornerX
-  Auto
+  Auto           = 1
   InputDefault   = -1737402.8501027 <meters>
   OutputName     = UpperLeftCornerX
   OutputPosition = (Group, Mapping)
@@ -65,7 +65,7 @@ Group = UpperLeftCornerX
 End_Group
 
 Group = UpperLeftCornerY
-  Auto
+  Auto           = 1
   InputDefault   = 1737402.8501027 <meters>
   OutputName     = UpperLeftCornerY
   OutputPosition = (Group, Mapping)
@@ -73,7 +73,7 @@ Group = UpperLeftCornerY
 End_Group
 
 Group = LatitudeType
-  Auto
+  Auto           = 1
   InputDefault   = Planetocentric
   OutputName     = LatitudeType
   OutputPosition = (Group, Mapping)
@@ -81,7 +81,7 @@ Group = LatitudeType
 End_Group
 
 Group = LongitudeDomain
-  Auto
+  Auto           = 1
   InputDefault   = 180
   OutputName     = LongitudeDomain
   OutputPosition = (Group, Mapping)
@@ -89,7 +89,7 @@ Group = LongitudeDomain
 End_Group
 
 Group = LogitudeDirection
-  Auto
+  Auto           = 1
   InputDefault   = PositiveEast
   OutputName     = LongitudeDirection
   OutputPosition = (Group, Mapping)
@@ -97,7 +97,7 @@ Group = LogitudeDirection
 End_Group
 
 Group = PixelResolution
-  Auto
+  Auto           = 1
   InputDefault   = 6032.6487850787 <meters>
   OutputName     = PixelResolution
   OutputPosition = (Group, Mapping)

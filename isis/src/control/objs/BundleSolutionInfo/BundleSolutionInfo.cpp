@@ -662,9 +662,14 @@ namespace Isis {
       snprintf(buf, sizeof(buf), "\n                   OBSERVATIONS: OFF");
     fpOut << buf;
 
-    m_settings->solveRadius() ?
-      snprintf(buf, sizeof(buf), "\n                         RADIUS: ON"):
-      snprintf(buf, sizeof(buf), "\n                         RADIUS: OFF");
+    if (m_settings->controlPointCoordTypeBundle() == SurfacePoint::Latitudinal) {
+      m_settings->solveRadius() ?
+        snprintf(buf, sizeof(buf), "\n                         RADIUS: ON"):
+        snprintf(buf, sizeof(buf), "\n                         RADIUS: OFF");
+    }
+    else { // Rectangular (XYZ) solution
+      snprintf(buf, sizeof(buf), "\n                         RADIUS: N/A");
+    }
     fpOut << buf;
 
     m_settings->solveTargetBody() ?
@@ -833,16 +838,16 @@ namespace Isis {
     QString coord1Str;
     QString coord2Str;
     QString coord3Str;
-    switch (m_settings->controlPointCoordTypeReports()) {
+    switch (m_settings->controlPointCoordTypeBundle()) {
       case SurfacePoint::Latitudinal:
-        coord1Str = "LATITUDE";
-        coord2Str = "LONGITUDE";
-        coord3Str = "RADIUS";
+        coord1Str = "               POINT LATITUDE";
+        coord2Str = "              POINT LONGITUDE";
+        coord3Str = "                 POINT RADIUS";
         break;
       case SurfacePoint::Rectangular:
-        coord1Str = "       X";
-        coord2Str = "        Y";
-        coord3Str = "     Z";
+        coord1Str = "                      POINT X";
+        coord2Str = "                      POINT Y";
+        coord3Str = "                      POINT Z";
         break;
       default:
          IString msg ="Unknown surface point coordinate type enum ["
@@ -854,20 +859,20 @@ namespace Isis {
     // Coordinate 1 (latitude or point X)
     fpOut << buf;
     (m_settings->globalPointCoord1AprioriSigma()  == Isis::Null) ?
-      snprintf(buf, sizeof(buf),"\n               POINT %s SIGMA: N/A", coord1Str.toLatin1().data()):
-      snprintf(buf, sizeof(buf),"\n               POINT %s SIGMA: %lf (meters)", coord1Str.toLatin1().data(),
+      snprintf(buf, sizeof(buf),"\n%s SIGMA: N/A", coord1Str.toLatin1().data()):
+      snprintf(buf, sizeof(buf),"\n%s SIGMA: %lf (meters)", coord1Str.toLatin1().data(),
               m_settings->globalPointCoord1AprioriSigma());
     // Coordinate 2 (longitude or point Y)
     fpOut << buf;
     (m_settings->globalPointCoord2AprioriSigma() == Isis::Null) ?
-      snprintf(buf, sizeof(buf),"\n              POINT %s SIGMA: N/A", coord2Str.toLatin1().data()):
-      snprintf(buf, sizeof(buf),"\n              POINT %s SIGMA: %lf (meters)", coord2Str.toLatin1().data(),
-                m_settings->globalPointCoord2AprioriSigma());
+      snprintf(buf, sizeof(buf),"\n%s SIGMA: N/A", coord2Str.toLatin1().data()):
+      snprintf(buf, sizeof(buf),"\n%s SIGMA: %lf (meters)", coord2Str.toLatin1().data(),
+              m_settings->globalPointCoord2AprioriSigma());
     // Coordinate 3 (radius or point Z)
     fpOut << buf;
     (m_settings->globalPointCoord3AprioriSigma() == Isis::Null) ?
-      snprintf(buf, sizeof(buf),"\n                 POINT %s SIGMA: N/A", coord3Str.toLatin1().data()):
-      snprintf(buf, sizeof(buf),"\n                 POINT %s SIGMA: %lf (meters)", coord3Str.toLatin1().data(),
+      snprintf(buf, sizeof(buf),"\n%s SIGMA: N/A", coord3Str.toLatin1().data()):
+      snprintf(buf, sizeof(buf),"\n%s SIGMA: %lf (meters)", coord3Str.toLatin1().data(),
                 m_settings->globalPointCoord3AprioriSigma());
     fpOut << buf;
     (positionSolveDegree < 1 || positionSigmas[0] == Isis::Null) ?
@@ -1461,9 +1466,8 @@ namespace Isis {
       fpOut << buf;
 
       // Coordinate 1 (latitude or point x) summary
-      QString
-        coordName = surfacePointCoordName(m_settings->controlPointCoordTypeReports(),
-                                          SurfacePoint::One);
+      QString coordName = surfacePointCoordName(m_settings->controlPointCoordTypeReports(),
+                                                SurfacePoint::One);
       snprintf(buf, sizeof(buf), "RMS Sigma %s(m)%20.8lf\n", coordName.toLatin1().data(),
               m_statisticsResults->sigmaCoord1StatisticsRms());
       fpOut << buf;
@@ -1494,26 +1498,29 @@ namespace Isis {
       // Coordinate 3 (radius or point z) summary
       coordName = surfacePointCoordName(m_settings->controlPointCoordTypeReports(),
                                         SurfacePoint::Three);
-      if ( m_settings->solveRadius() ) {
-        snprintf(buf, sizeof(buf), "RMS Sigma %s(m)%20.8lf\n", coordName.toLatin1().data(),
-                m_statisticsResults->sigmaCoord3StatisticsRms());
-        fpOut << buf;
-        snprintf(buf, sizeof(buf), "MIN Sigma %s(m)%20.8lf at %s\n", coordName.toLatin1().data(),
-                m_statisticsResults->minSigmaCoord3Distance().meters(),
-                m_statisticsResults->minSigmaCoord3PointId().toLatin1().data());
-        fpOut << buf;
-        snprintf(buf, sizeof(buf), "MAX Sigma %s(m)%20.8lf at %s\n", coordName.toLatin1().data(),
-                m_statisticsResults->maxSigmaCoord3Distance().meters(),
-                m_statisticsResults->maxSigmaCoord3PointId().toLatin1().data());
-        fpOut << buf;
+
+      if (m_settings->controlPointCoordTypeBundle() == SurfacePoint::Latitudinal &&
+          m_settings->controlPointCoordTypeReports() == SurfacePoint::Latitudinal &&
+          m_settings->solveRadius() == false ) {
+            snprintf(buf, sizeof(buf), "   RMS Sigma Radius(m)                 N/A\n");
+            fpOut << buf;
+            snprintf(buf, sizeof(buf), "   MIN Sigma Radius(m)                 N/A\n");
+            fpOut << buf;
+            snprintf(buf, sizeof(buf), "   MAX Sigma Radius(m)                 N/A\n");
+            fpOut << buf;
       }
       else {
-        snprintf(buf, sizeof(buf), "   RMS Sigma Radius(m)                 N/A\n");
-        fpOut << buf;
-        snprintf(buf, sizeof(buf), "   MIN Sigma Radius(m)                 N/A\n");
-        fpOut << buf;
-        snprintf(buf, sizeof(buf), "   MAX Sigma Radius(m)                 N/A\n");
-        fpOut << buf;
+          snprintf(buf, sizeof(buf), "RMS Sigma %s(m)%20.8lf\n", coordName.toLatin1().data(),
+                  m_statisticsResults->sigmaCoord3StatisticsRms());
+          fpOut << buf;
+          snprintf(buf, sizeof(buf), "MIN Sigma %s(m)%20.8lf at %s\n", coordName.toLatin1().data(),
+                  m_statisticsResults->minSigmaCoord3Distance().meters(),
+                  m_statisticsResults->minSigmaCoord3PointId().toLatin1().data());
+          fpOut << buf;
+          snprintf(buf, sizeof(buf), "MAX Sigma %s(m)%20.8lf at %s\n", coordName.toLatin1().data(),
+                  m_statisticsResults->maxSigmaCoord3Distance().meters(),
+                  m_statisticsResults->maxSigmaCoord3PointId().toLatin1().data());
+          fpOut << buf;
       }
     }
 
@@ -1606,9 +1613,15 @@ namespace Isis {
     double dX, dY, dZ;
     double dSigmaLat, dSigmaLong, dSigmaRadius;
     QString strStatus;
-    double cor_lat_m;
-    double cor_lon_m;
-    double cor_rad_m;
+    double cor_lat_dd = 0.0;                      // lat correction, decimal degrees
+    double cor_lon_dd = 0.0;                      // lon correction, decimal degrees
+    double cor_rad_km = 0.0;                      // radius correction, kilometers
+    double cor_lat_m = 0.0;                       // lat correction, meters
+    double cor_lon_m = 0.0;                       // lon correction, meters
+    double cor_rad_m = 0.0;                       // radius correction, meters
+    double latInit = Isis::Null;
+    double lonInit = Isis::Null;
+    double radInit = Isis::Null;
     int numMeasures, numRejectedMeasures;
     double dResidualRms;
 
@@ -1648,13 +1661,63 @@ namespace Isis {
       numRejectedMeasures = bundlecontrolpoint->numberOfRejectedMeasures();
       dResidualRms      = bundlecontrolpoint->residualRms();
 
+      // Use the local radius in meters, rad*1000., to convert radians to meters now instead of the
+      // target body equatorial radius (DAC 09/17/2018; from BundleControlPoint.cpp)
+      double rtm = dRadius * 1000.;
+
       // point corrections and initial sigmas
       boost::numeric::ublas::bounded_vector< double, 3 > corrections = bundlecontrolpoint->
-                                                                           corrections();
-      // Now use the local radius to convert radians to meters instead of the target body equatorial radius
-      cor_lat_m = bundlecontrolpoint->adjustedSurfacePoint().LatitudeToMeters(corrections[0]);
-      cor_lon_m = bundlecontrolpoint->adjustedSurfacePoint().LongitudeToMeters(corrections[1]);
-      cor_rad_m  = corrections[2]*1000.0;
+                                                                            corrections();
+
+      if (m_settings->controlPointCoordTypeBundle() == SurfacePoint::Rectangular) {
+        double xCor = corrections(0);  // km
+        double yCor = corrections(1);  // km
+        double zCor = corrections(2);  // km
+
+        if (!IsSpecial(dX) && !IsSpecial(dY) && !IsSpecial(dZ)) {
+          SurfacePoint rectPoint(Displacement(dX - xCor, Displacement::Kilometers),
+                                Displacement(dY - yCor, Displacement::Kilometers),
+                                Displacement(dZ - zCor, Displacement::Kilometers));
+          
+          latInit = rectPoint.GetLatitude().degrees();
+          lonInit = rectPoint.GetLongitude().degrees();
+          radInit = rectPoint.GetLocalRadius().kilometers();
+          
+          if (!IsSpecial(dLat)) {
+            cor_lat_dd = (dLat - latInit); // degrees
+            cor_lat_m  =  cor_lat_dd * DEG2RAD * rtm;
+          }
+          if (!IsSpecial(dLon)) {
+            cor_lon_dd = (dLon - lonInit); // degrees
+            cor_lon_m  =  cor_lon_dd * DEG2RAD * rtm * cos(dLat*DEG2RAD);  // lon corrections meters
+          }
+          if (!IsSpecial(dRadius)) {
+            cor_rad_km  =  dRadius - radInit;
+            cor_rad_m  =  cor_rad_km * 1000.;
+          }
+        }
+      }
+      else if (m_settings->controlPointCoordTypeBundle() == SurfacePoint::Latitudinal) {
+        cor_lat_dd = corrections(0) * RAD2DEG;   // lat correction, decimal degs
+        cor_lon_dd = corrections(1) * RAD2DEG;   // lon correction, decimal degs
+        cor_rad_m  = corrections(2) * 1000.0;    // radius correction, meters
+
+        cor_lat_m = bundlecontrolpoint->adjustedSurfacePoint().LatitudeToMeters(corrections(0));
+        cor_lon_m = bundlecontrolpoint->adjustedSurfacePoint().LongitudeToMeters(corrections(1));
+        cor_rad_km = corrections(2);
+
+        if (!IsSpecial(dLat)) {
+          latInit = dLat - cor_lat_dd;
+        }
+
+        if (!IsSpecial(dLon)) {
+          lonInit = dLon - cor_lon_dd;
+        }
+
+        if (!IsSpecial(dRadius)) {
+          radInit = dRadius - corrections(2); // km
+        }
+      }
 
       if (bundlecontrolpoint->type() == ControlPoint::Fixed) {
         strStatus = "FIXED";

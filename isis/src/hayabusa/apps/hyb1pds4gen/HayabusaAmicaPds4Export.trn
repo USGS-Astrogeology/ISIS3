@@ -5,8 +5,8 @@
 # history 2018-05-09 Jeannie Backer - Original version.
 
 Group = RadianceScalingFactor
-  Auto
-  Optional
+  Auto             = 1
+  Optional         = 1
   InputKey         = RadianceScaleFactor
   InputPosition    = (IsisCube, Instrument)
   OutputName       = img:radiance_scaling_factor_WO_units
@@ -15,8 +15,8 @@ Group = RadianceScalingFactor
 End_Group
 
 Group = FirstSample
-  Auto
-  Optional
+  Auto             = 1
+  Optional        = 1
   InputKey        = FirstSample
   InputPosition   = (IsisCube, Instrument)
   OutputName      = img:first_sample
@@ -25,8 +25,8 @@ Group = FirstSample
 End_Group
 
 Group = FirstLine
-  Auto
-  Optional
+  Auto             = 1
+  Optional        = 1
   InputKey        = FirstLine
   InputPosition   = (IsisCube, Instrument)
   OutputName      = img:first_line
@@ -35,8 +35,8 @@ Group = FirstLine
 End_Group
 
 Group = PixelAveragingHeight
-  Auto
-  Optional
+  Auto             = 1
+  Optional        = 1
   InputKey        = Binning
   InputPosition   = (IsisCube, Instrument)
   OutputName      = img:pixel_averaging_height
@@ -45,8 +45,8 @@ Group = PixelAveragingHeight
 End_Group
 
 Group = PixelAveragingWidth
-  Auto
-  Optional
+  Auto             = 1
+  Optional        = 1
   InputKey        = Binning
   InputPosition   = (IsisCube, Instrument)
   OutputName      = img:pixel_averaging_width
