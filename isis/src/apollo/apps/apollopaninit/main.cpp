@@ -233,7 +233,10 @@ void IsisMain() {
   // Load kernels
   Load_Kernel(kernels_pvlG["TargetPosition"]);
   Load_Kernel(kernels_pvlG["TargetAttitudeShape"]);
+  Load_Kernel(kernels_pvlG["InstrumentPointing"]);
+  Load_Kernel(kernels_pvlG["InstrumentPosition"]);
   Load_Kernel(kernels_pvlG["LeapSecond"]);
+  Load_Kernel(kernels_pvlG["InstrumentAddendum"]);
 
 
   //////////////////////////////////////////attach a target rotation table
@@ -251,7 +254,7 @@ void IsisMain() {
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
-  
+
 
   spRot = new SpiceRotation(frameCode);
   //create a table from starttime to endtime (streched by 3%) with NODES entries
