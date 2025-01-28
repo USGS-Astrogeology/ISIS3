@@ -61,7 +61,7 @@ int main(void) {
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = NumberOfLines" << endl;
-    trnsStrm << "  Auto" << endl;
+    trnsStrm << "  Auto = 1" << endl;
     trnsStrm << "  OutputName = Lines" << endl;
     trnsStrm << "  OutputPosition = (\"Object\",\"IsisCube\",";
     trnsStrm <<                      "\"Group\",\"Dimensions\")" << endl;
@@ -70,8 +70,8 @@ int main(void) {
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = NumberOfBands" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Optional" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Optional = 1" << endl;
     trnsStrm << "  OutputName = Bands" << endl;
     trnsStrm << "  OutputPosition = (\"Object\",\"IsisCube\",";
     trnsStrm <<                      "\"Group\",\"Dimensions\")" << endl;
@@ -81,21 +81,21 @@ int main(void) {
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = Bonus" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Optional" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Optional = 1" << endl;
     trnsStrm << "  InputPosition = (Image,Pixel)" << endl;
     trnsStrm << "  InputKey = Bonus" << endl;
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = Extra" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Optional" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Optional = 1" << endl;
     trnsStrm << "  InputPosition = (Image,Bogus)" << endl;
     trnsStrm << "  InputKey = Extra" << endl;
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = BytesPerPixel" << endl;
-    trnsStrm << "  Auto" << endl;
+    trnsStrm << "  Auto = 1" << endl;
     trnsStrm << "  InputPosition = Size" << endl;
     trnsStrm << "  InputPosition = (Image,Size)" << endl;
     trnsStrm << "  InputPosition = (Image,Pixel)" << endl;
@@ -123,7 +123,7 @@ int main(void) {
     trnsStrm << "  Translation = (False,No)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = BandName" << endl;
-    trnsStrm << "  Auto" << endl;
+    trnsStrm << "  Auto = 1" << endl;
     trnsStrm << "  OutputName = Band" << endl;
     trnsStrm << "  OutputPosition = (\"Object\",\"IsisCube\",";
     trnsStrm <<                      "\"Object\",\"BandBin\")" << endl;
@@ -147,7 +147,7 @@ int main(void) {
     trnsStrm << "EndGroup" << endl;
 
     trnsStrm << "Group = CenterLongitude" << endl;
-    trnsStrm << "  Auto" << endl;
+    trnsStrm << "  Auto = 1" << endl;
     trnsStrm << "  OutputPosition = (\"Group\",\"Mapping\")" << endl;
     trnsStrm << "  OutputName = CenterLongitude" << endl;
     trnsStrm << "  InputPosition = IMAGE_MAP_PROJECTION" << endl;

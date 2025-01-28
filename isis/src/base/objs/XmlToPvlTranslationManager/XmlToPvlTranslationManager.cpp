@@ -120,7 +120,7 @@ namespace Isis {
     vector< pair<QString, int> > validKeywords = PvlTranslationTable::validKeywords();
     validKeywords.push_back(pair<QString, int>("InputKeyAttribute",      -1));
     validKeywords.push_back(pair<QString, int>("InputKeyDependencies",   -1));
-    validKeywords.push_back(pair<QString, int>("Debug",                   0));
+    validKeywords.push_back(pair<QString, int>("Debug",                   1));
 
     return validKeywords;
   }

@@ -1,5 +1,5 @@
 Group = NaifCode
-  Auto
+  Auto           = 1
   InputKey       = FORMAT
   InputPosition  = FITSLABELS
   OutputName     = NaifFrameCode

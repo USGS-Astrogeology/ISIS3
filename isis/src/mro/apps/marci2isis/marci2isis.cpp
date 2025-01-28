@@ -226,7 +226,7 @@ namespace Isis{
                                     " Assuming exposure time is fixed for [" + inFile.toString() +  "]" );
       missing.addKeyword(message);
       missing.addKeyword(PvlKeyword("FileNotFoundInVarexpFile", prodId), Pvl::Replace);
-      log->addLogGroup(missing);
+      Application::Log(missing);
     }
 
     // Translate labels to every image and close output cubes before calling EndProcess

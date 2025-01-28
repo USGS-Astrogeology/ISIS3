@@ -705,7 +705,7 @@ namespace Isis {
       catch(IException &e) {
         // Sometimes despike and fix fail, but the input is really valid. We can just go
         // with the non-despiked polygon.
-        if(ls->isValid() && ls->getGeometryTypeId() == geos::geom::GEOS_LINEARRING) {
+        if (ls && ls->isValid() && ls->getGeometryTypeId() == geos::geom::GEOS_LINEARRING) {
           lr.reset(ls.release());
         }
         else {

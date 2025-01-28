@@ -18,6 +18,7 @@ find files of those names at the top level of this repository. **/
 #include "FileName.h"
 #include "IException.h"
 #include "IString.h"
+#include "Preference.h"
 
 using namespace std;
 namespace Isis {
@@ -44,6 +45,9 @@ namespace Isis {
       program = isisExecutableFileName;
     }
 
+    PvlGroup &dataDir = Preference::Preferences().findGroup("DataDirectory");
+    QString tempDir = dataDir["Temporary"];
+
     QString command = program.expanded() + " " + parameters +
         " -pid=" + toString(getpid());
 
@@ -59,9 +63,13 @@ namespace Isis {
     QLocalServer server;
     server.listen(serverName);
 
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert("TEMPORARY", tempDir);
+
     QProcess childProcess;
+    childProcess.setProcessEnvironment(env);
     childProcess.setProcessChannelMode(QProcess::ForwardedChannels);
-    childProcess.start(command);
+    childProcess.start("bash", QStringList() << "-c" << command);
     childProcess.waitForStarted();
 
     bool connected = false;

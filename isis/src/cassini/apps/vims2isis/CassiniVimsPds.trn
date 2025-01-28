@@ -23,7 +23,7 @@
 #   2009-09-09 Tracie Sucharski, Added ObservationId
 #
 Group = SpaceCraftName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -35,7 +35,7 @@ Group = SpaceCraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -47,7 +47,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -59,7 +59,7 @@ Group = TargetName
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -71,7 +71,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -83,7 +83,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -95,7 +95,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -107,7 +107,7 @@ Group = StopTime
 End_Group
 
 Group = NativeStartTime
-  Auto
+  Auto           = 1
   InputKey       = NATIVE_START_TIME
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -119,7 +119,7 @@ Group = NativeStartTime
 End_Group
 
 Group = NativeStopTime
-  Auto
+  Auto           = 1
   InputKey       = NATIVE_STOP_TIME
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -131,7 +131,7 @@ Group = NativeStopTime
 End_Group
 
 Group = InterlineDelayDuration
-  Auto
+  Auto           = 1
   InputKey       = INTERLINE_DELAY_DURATION
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -143,7 +143,7 @@ Group = InterlineDelayDuration
 End_Group
 
 Group = XOffset
-  Auto
+  Auto           = 1
   InputKey       = X_OFFSET
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -155,7 +155,7 @@ Group = XOffset
 End_Group
 
 Group = ZOffset
-  Auto
+  Auto           = 1
   InputKey       = Z_OFFSET
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -167,7 +167,7 @@ Group = ZOffset
 End_Group
 
 Group = SwathWidth
-  Auto
+  Auto           = 1
   InputKey       = SWATH_WIDTH
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -179,7 +179,7 @@ Group = SwathWidth
 End_Group
 
 Group = SwathLength
-  Auto
+  Auto           = 1
   InputKey       = SWATH_LENGTH
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -191,7 +191,7 @@ Group = SwathLength
 End_Group
 
 Group = MissionPhaseName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -203,7 +203,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = SequenceId
-  Auto
+  Auto           = 1
   InputKey       = SEQUENCE_ID
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -215,7 +215,7 @@ Group = SequenceId
 End_Group
 
 Group = SequenceTitle
-  Auto
+  Auto           = 1
   InputKey       = SEQUENCE_TITLE
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -227,7 +227,7 @@ Group = SequenceTitle
 End_Group
 
 Group = ObservationId
-  Auto
+  Auto           = 1
   InputKey       = OBSERVATION_ID
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -239,7 +239,7 @@ Group = ObservationId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -251,7 +251,7 @@ Group = ProductId
 End_Group
 
 Group = InstrumentModeId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -263,7 +263,7 @@ Group = InstrumentModeId
 End_Group
 
 Group = CompressorId
-  Auto
+  Auto           = 1
   InputKey       = COMPRESSOR_ID
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -275,7 +275,7 @@ Group = CompressorId
 End_Group
 
 Group = PowerStateFlag
-  Auto
+  Auto           = 1
   InputKey       = POWER_STATE_FLAG
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -287,7 +287,7 @@ Group = PowerStateFlag
 End_Group
 
 Group = SpectralSummingFlag
-  Auto
+  Auto           = 1
   InputKey       = SPECTRAL_SUMMING_FLAG
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -299,7 +299,7 @@ Group = SpectralSummingFlag
 End_Group
 
 Group = SpectralEditingFlag
-  Auto
+  Auto           = 1
   InputKey       = SPECTRAL_EDITING_FLAG
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -311,7 +311,7 @@ Group = SpectralEditingFlag
 End_Group
 
 Group = StarTracking
-  Auto
+  Auto           = 1
   InputKey       = STAR_TRACKING
   InputGroup     = ROOT
   InputGroup     = QUBE
@@ -323,7 +323,7 @@ Group = StarTracking
 End_Group
 
 Group = SnapshotMode
-  Auto
+  Auto           = 1
   InputKey       = SNAPSHOT_MODE
   InputGroup     = ROOT
   InputGroup     = QUBE

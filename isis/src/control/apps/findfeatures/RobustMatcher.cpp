@@ -670,7 +670,6 @@ int RobustMatcher::ratioTest(std::vector<std::vector<cv::DMatch> > &matches,
 
   int removed(0);
   int nInput(0);
-  int noTwoNN(0);
   int nfailed(0);
   // for all matches
   for (std::vector<std::vector<cv::DMatch> >::iterator matchIterator= matches.begin();
@@ -689,7 +688,6 @@ int RobustMatcher::ratioTest(std::vector<std::vector<cv::DMatch> > &matches,
     else { // does not have 2 neighbours
       matchIterator->clear(); // remove match
       removed++;
-      noTwoNN++;
     }
     nInput++;
   }

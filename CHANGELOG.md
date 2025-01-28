@@ -36,16 +36,70 @@ release.
 ## [Unreleased]
 
 ### Added
-- Added backplane options for SunIllumination and SurfaceObliqueDetectorResolution to phocube [#5467](https://github.com/DOI-USGS/ISIS3/issues/5467)
 
 ### Changed
+
+### Fixed
+- Fixed kaguyatc2isis invalid BandBin values [#5629](https://github.com/DOI-USGS/ISIS3/issues/5629)
+- Fixed SpiceClient to handle redirect requests.
+- Fixed jigsaw to default OUTADJUSTMENTH5 option to false and allow this feature to run on read-only images [#5700](https://github.com/DOI-USGS/ISIS3/issues/5700)
+- Fixed Cube::fromIsd to add "LineScanTimes" table from HRSC isds [#5668](https://github.com/DOI-USGS/ISIS3/issues/5668)
+
+## [9.0.0] - 09-25-2024
+
+### Added
+- Added TOVECT output parameter which generate a geospatial CSV file with a VRT metadata sidecar file [#5571](https://github.com/DOI-USGS/ISIS3/issues/5571)  
+- Added Vectorize to ProcessGroundPolygon library
+- Added gtest files for the app and unit test 
+- Added Chandrayaan2 template for isisimport
+- Added majority replacement for reduce app [#5101](https://github.com/DOI-USGS/ISIS3/issues/5101).
+- Added HRSC support in socetlinescankeywords [#5465](https://github.com/DOI-USGS/ISIS3/issues/5465)
+- Added option to save and apply bundle adjustment values in `jigsaw` [#4474](https://github.com/DOI-USGS/ISIS3/issues/4474)
+- Added the ability to pass column types in csv2table to set the column types in the resulting ISIS table [#5631](https://github.com/DOI-USGS/ISIS3/pull/5631)
+
+### Changed
+- Refactored the pixel2map app
+- Updated pixel2map documentation
+- Changed PVL parsing to no longer allow valueless keywords [#5573](https://github.com/DOI-USGS/ISIS3/pull/5573)
+- Changed all `.trn` files with an `Auto`, `Debug` or `Optional` keyword with no value to have a value of `1` [#5573](https://github.com/DOI-USGS/ISIS3/pull/5573)
+- Changed 'User Parameters' group in camstats to UserParameters for PVL compliance [#5625](https://github.com/DOI-USGS/ISIS3/issues/5625).
+
+### Fixed
+- Fixed bug in the method BundleSolutionInfo::outputPointsCSV() where, when performing a rectangular (XYZ) bundle adjustment, the Lat/Lon/Radius point corrections written to points.csv are incorrect and do not match those written to bundleout.txt. Also modified the ctest FunctionalTestJigsawBundleXYZ to spot check six lines (points) in points.csv.
+Issue: [5646](https://github.com/DOI-USGS/ISIS3/issues/5646)
+- Fixed noseam bug where a debugging output statement was inadvertently left in noseam.cpp.
+Issue: [5660](https://github.com/DOI-USGS/ISIS3/issues/5660)
+- Fixed jigsaw bugs in which RADIUS is handled incorrectly in the jigsaw gui and in the bundleout.txt
+file. Slightly modified the FunctionalTestJigsawBundleXYZ ctest accordingly. Issue: [5642](https://github.com/DOI-USGS/ISIS3/issues/5642)
+- Fixed a bug in isisminer in which bad (e.g. self-intersecting) polygon geometries were not treated properly. Added pertinent unit tests to GisGeometry and Strategy classes. Issue: [5612](https://github.com/DOI-USGS/ISIS3/issues/5612)
+- Fixed a bug in kaguyasp2isis that doesn't work for data with a detached label.
+- Fixed FunctionalTestCamstatsDefaultParameters test by increasing the runtime speed [#5459](https://github.com/DOI-USGS/ISIS3/issues/5459)
+- Fixed XmlToJson namespaced key conversion [#5652](https://github.com/DOI-USGS/ISIS3/pull/5652)
+- Fixed PHOTOMET not accepting backplanes [#5281](https://github.com/DOI-USGS/ISIS3/issues/5281)
+- Fixed dstripe parallel test failing by converting tests to gtests [#5613](https://github.com/DOI-USGS/ISIS3/issues/5613)
+- Fixed autoseed SeedDomain = SampleLine only working for first overlap [#5673](https://github.com/DOI-USGS/ISIS3/issues/5673)
+
+## [8.3.0] - 2024-09-30
+
+### Added
+- Added backplane options for SunIllumination and SurfaceObliqueDetectorResolution to phocube [#5467](https://github.com/DOI-USGS/ISIS3/issues/5467)
+- Added *.history to the ignore list in downloadIsisData
+
+### Changed
+- Noseam has been refactored to be callable; old Makefile test has been removed and replaced by a gtest. Issue: [#5599](https://github.com/USGS-Astrogeology/ISIS3/issues/5599)
+- Explode has been refactored to be callable; old Makefile test has been removed and replaced by a gtest. Issue: [#5557](https://github.com/USGS-Astrogeology/ISIS3/issues/5557)
+- Isisminer has been refactored to be callable; old Makefile tests have been removed and replaced by gtests. Issue: [#5516](https://github.com/USGS-Astrogeology/ISIS3/issues/5516)
+- Algebra has been refactored to be callable; old Makefile tests have been removed and replaced by gtests. Issue: [#5594](https://github.com/USGS-Astrogeology/ISIS3/issues/5594)
+- Photrim has been refactored to be callable; old Makefile tests have been removed and replaced by gtests. Issue: [#5581](https://github.com/USGS-Astrogeology/ISIS3/issues/5581)
 - Bandtrim has been refactored to be callable; old Makefile tests have been removed and replaced by gtests. Issue: [#5571](https://github.com/USGS-Astrogeology/ISIS3/issues/5571)
 - Modified kaguyasp2isis to work with new (detached) data [#5436](https://github.com/DOI-USGS/ISIS3/issues/5436)
 - Added jigsaw error message for csminit'd images without csm parameters[#5486](https://github.com/DOI-USGS/ISIS3/issues/5486)
 - Changed `qwt` dependency version to 6.2.0 or below [#5498](https://github.com/DOI-USGS/ISIS3/issues/5498)
 - Pinned `suitesparse` dependency version to maximum not including 7.7.0 [#5496](https://github.com/DOI-USGS/ISIS3/issues/5496)
 
+
 ### Fixed
+- Fixed a bug in noproj.cpp which left a persisent lbl file after running noproj. [#5577] (https://github.com/DOI-USGS/ISIS3/issues/5577)
 - Fixed a bug in QVIEW's FindTool in which camera was prioritized over projction [#5508](https://github.com/DOI-USGS/ISIS3/issues/5508)
 - Fixed a bug in PolygonTools in which the program exited before attempting to fix an invalid Polygon [#5520](https://github.com/DOI-USGS/ISIS3/issues/5520)
 - Fixed a bug in QVIEW's Stretch tool where the default min/max type was not an available option [#5289](https://github.com/DOI-USGS/ISIS3/issues/5289)

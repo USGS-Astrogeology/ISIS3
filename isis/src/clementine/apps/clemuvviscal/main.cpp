@@ -301,8 +301,8 @@ void UvVisCal(std::vector< Isis::Buffer * > &in, std::vector< Isis::Buffer * > &
     }
   }
 
-  delete sum;
-  delete ro;
+  delete[] sum;
+  delete[] ro;
 }
 
 /*

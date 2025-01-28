@@ -1,5 +1,7 @@
 
 #include "camstats.h"
+
+#include "Application.h"
 #include "Camera.h"
 #include "CameraStatistics.h"
 #include "Cube.h"
@@ -51,7 +53,7 @@ namespace Isis {
     // Send the Output to the log area
     Pvl statsPvl = camStats.toPvl();
     for (int i = 0; i < statsPvl.groups(); i++) {
-      log->addLogGroup(statsPvl.group(i));
+      Application::AppendAndLog(statsPvl.group(i), log);
     }
 
     if(ui.WasEntered("TO")) {
@@ -185,7 +187,7 @@ namespace Isis {
       Table table(cam_name, record);
 
       // Place all the gathered camera statistics in a table and attach it to the
-      // cube. Skip "User Parameters" group.
+      // cube. Skip "UserParameters" group.
       for (int i = 1; i < statsPvl.groups(); i++) {
         PvlGroup &group = statsPvl.group(i);
 

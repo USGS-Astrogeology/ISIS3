@@ -673,7 +673,7 @@ namespace Isis {
     BOOST_ASSERT ( b1.dim1() == b2.dim1() );
     BitMask omask(b1.dim1());
     for (int i = 0 ; i < b1.dim1() ; i++) {
-      omask[i] = b1[i] | b2[i];
+      omask[i] = b1[i] || b2[i];
     }
     return (omask);
   }

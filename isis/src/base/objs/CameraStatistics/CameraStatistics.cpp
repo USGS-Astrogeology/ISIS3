@@ -63,7 +63,7 @@ namespace Isis {
    * numbers can be used to improve performance.  The filename provided does
    * not serve a functional purpose during the statistics gathering process,
    * but will report the filename used to create the Camera instance in the
-   * "User Parameters" section of the PVL output from the "toPvl" method.
+   * "UserParameters" section of the PVL output from the "toPvl" method.
    *
    * @param cam Camera pointer upon which statistics will be gathered
    * @param sinc Sample increment for gathering statistics
@@ -294,7 +294,7 @@ namespace Isis {
    * The general format will look as follows:
    *
    * @code
-   *   Group = User Parameters
+   *   Group = UserParameters
    *     Filename (not provided for constructor w/ Camera but not filename)
    *     Linc
    *     Sinc
@@ -366,7 +366,7 @@ namespace Isis {
   Pvl CameraStatistics::toPvl() const {
     // Set up the Pvl groups and get min, max, avg, and sd for each statstics
     // object
-    PvlGroup pUser("User Parameters");
+    PvlGroup pUser("UserParameters");
     if (m_filename != "") pUser += PvlKeyword("Filename", m_filename);
     pUser += PvlKeyword("Linc", toString(m_linc));
     pUser += PvlKeyword("Sinc", toString(m_sinc));

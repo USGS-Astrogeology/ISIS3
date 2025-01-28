@@ -67,14 +67,21 @@ def read_cubelist(cube_list : Path):
     list
         list of files 
     """
+    files = []
+    
     with open(cube_list) as c:
         content = c.read()
         content = content.strip()
         files = content.split("\n")
-        return files 
+    
+    for i in range(len(files)): 
+        files[i] = os.path.abspath(files[i])
+    return files
 
 
-def segment(img_path : Path, nlines : int = MAX_LEN):
+
+
+def segment(img_path : Path, workdir : Path, nlines : int = MAX_LEN):
     """
     Segments an image into multiple parts.
 
@@ -97,19 +104,28 @@ def segment(img_path : Path, nlines : int = MAX_LEN):
 
     segment_metadata = {}
     try:
-        ret = kisis.segment(img_path, nl=nlines, overlap=0, pref__="$ISISROOT/IsisPreferences")
+        # change workdir so output goes there 
+        oldpwd = os.getcwd()
+        
+        # create if it doesn't exist
+        workdir.mkdir(parents=True, exist_ok=True)
+        work_img = workdir / img_path.name
+        shutil.copyfile(img_path, work_img)
+        ret = kisis.segment(work_img, nl=nlines, overlap=0, pref__="$ISISROOT/IsisPreferences")
+        os.remove(work_img)
+
         log.debug(f"{ret}")
         segment_metadata = pvl.loads(filter_progress(ret.stdout))
         
         # comes nested in a "results" group, trim it off
         segment_metadata = [s[1] for s in segment_metadata]
         
-        glob_str = str(img_path.parent / img_path.stem) + ".segment*"
+        glob_str = str(workdir / img_path.stem) + ".segment*"
         log.debug(f"globbing segments: glob({glob_str})")
         segments = sorted(glob(glob_str))
-        
+
         log.debug(f"segments: {segments}")
-        
+
         i = 0
         for s, meta in zip(segments, segment_metadata):
             i += 1
@@ -133,19 +149,27 @@ def segment(img_path : Path, nlines : int = MAX_LEN):
 
 
 def generate_cnet(params, images):
-
-    match_segment_n = images["match"]["Segment"]
+    if isinstance(images["match"], list):
+        images_match_n = images["match"][0]
+    else:
+        images_match_n = images["match"]
+    match_segment_n = images_match_n["Segment"]
     from_segment_n = images["from"][0]["Segment"]
+
+    print(images)
+    workdir = Path(params["WORKDIR"])
 
     new_params = deepcopy(params)
     new_params.pop("NL")
     new_params.pop("MINAREA")
     new_params.pop("MINTHICKNESS") 
-    
+    new_params.pop("WORKDIR")
+
+
     # make sure none of these keys are still in the params
     new_params.pop("FROMLIST", None)
     new_params.pop("FROM", None)
-    new_params["MATCH"] = images["match"]["Path"]
+    new_params["MATCH"] = images_match_n["Path"]
 
     og_onet = Path(params["ONET"])
     og_tolist = Path(params["TOLIST"])
@@ -158,7 +182,7 @@ def generate_cnet(params, images):
     
     match_stem = Path(new_params["MATCH"]).stem 
 
-    fromlist_path = Path(og_tolist.parent / f"from_images_segment{from_segment_n}.lis")
+    fromlist_path = Path(workdir / f"from_images_segment{from_segment_n}.lis")
     from_stem = fromlist_path.stem
 
     if "debuglog" in new_params:
@@ -168,49 +192,40 @@ def generate_cnet(params, images):
 
     new_params["NETWORKID"] = og_networkid + f"_{match_segment_n}_{from_stem}"
     new_params["POINTID"] = og_pointid + f"_{match_segment_n}_{from_stem}"
-    new_params["ONET"] = f"{og_onet.parent/og_onet.stem}_{match_segment_n}_{from_stem}.net"
-    new_params["TOLIST"] = f"{og_tolist.parent/og_tolist.stem}_{match_segment_n}_{from_stem}.lis"
-
+    new_params["ONET"] = f"{og_onet.stem}_{match_segment_n}_{from_stem}.net"
+    new_params["TOLIST"] = f"{og_tolist.stem}_{match_segment_n}_{from_stem}.lis"
+    
     log.debug(new_params)
 
+    overlapfromlist = workdir / f"{og_tolist.stem}_{match_segment_n}_{from_stem}_overlap_fromlist.lis"
+    overlaptolist = workdir / f"{og_tolist.stem}_{match_segment_n}_{from_stem}.overlaps"
+    
     # check for overlaps
     is_overlapping = []
-    for image in from_images: 
-        with tempfile.TemporaryDirectory() as tmpdir:
-            tmpdir = Path(tmpdir)
-            overlapfromlist = tmpdir / "fromlist.lis"
-            overlaptolist = tmpdir / "tolist.lis"
+    all_images = [*from_images, new_params["MATCH"]]
+    print("ALL IMAGES: ", " ".join(all_images))
+    kisis.fromlist.make(all_images, overlapfromlist)
 
-            kisis.fromlist.make([*from_images, new_params["MATCH"]], overlapfromlist)
+    try:
+        kisis.findimageoverlaps(fromlist=overlapfromlist, overlaplist=overlaptolist)
+    except subprocess.CalledProcessError as err:
+        print('Find Image Overlaps Had an ISIS error:')
+        print(' '.join(err.cmd))
+        print(err.stdout)
+        print(err.stderr)
+        return "No Overlaps From FindImageOverlaps"
+        
+    ret = kisis.overlapstats(fromlist=overlapfromlist, overlaplist=overlaptolist, pref__="$ISISROOT/IsisPreferences")
+    stats = pvl.loads(filter_progress(ret.stdout))
+    log.debug(f"overlap stats: {ret.stdout}")
 
-            try:
-                kisis.findimageoverlaps(fromlist=overlapfromlist, overlaplist=overlaptolist)
-            except subprocess.CalledProcessError as err:
-                print('Had an ISIS error:')
-                print(' '.join(err.cmd))
-                print(err.stdout)
-                print(err.stderr)
-                raise err
-                
-            ret = kisis.overlapstats(fromlist=overlapfromlist, overlaplist=overlaptolist, pref__="$ISISROOT/IsisPreferences")
-            stats = pvl.loads(filter_progress(ret.stdout))
-            log.debug(f"overlap stats: {ret.stdout}")
-
-            # first, throw it out if there is no overlap whatsoever 
-            is_pair_overlapping = not any([k[1].get("NoOverlap", "") == new_params["MATCH"] for k in stats])
-            
-            if is_pair_overlapping:
-                is_thick_enough = stats["Results"]["ThicknessMinimum"] > float(params.get("MINTHICKNESS", 0))
-                is_area_large_enough = stats["Results"]["AreaMinimum"] > float(params.get("MINAREA", 0)) 
-                is_pair_overlapping = all([is_thick_enough, is_area_large_enough])
-                is_overlapping.append(is_pair_overlapping)
-            else: # not overlapping 
-                is_overlapping.append(False) 
-
-    # mask images
-    from_images = list(compress(from_images, is_overlapping))
+    # # first, throw it out if there is no overlap whatsoever 
+    # has_overlap = not any([len(k[1].get("NoOverlap", "")) == new_params["MATCH"] for k in stats])
+    
+    # # mask images
+    # from_images = list(compress(from_images, is_overlapping))
     log.debug(f"From images overlapping Match: {from_images}")
-
+    log.debug(f"Has overlaps list: {is_overlapping}")
 
     if from_images:
         log.debug(f"FROMLIST: {from_images}")
@@ -221,32 +236,35 @@ def generate_cnet(params, images):
         else:
             log.debug(f"{fromlist_path} already exists")
         new_params["FROMLIST"] = str(fromlist_path)
+        
+        log.debug(f"Running FindFeatures with Params: {new_params}")
 
         try:
             ret = kisis.findfeatures(**new_params)
             log.debug(f"returned: {ret}")
         except subprocess.CalledProcessError as err:
-            log.debug('Had an ISIS error:')
+            log.debug('Find Features Had an ISIS error:')
             log.debug(' '.join(err.cmd))
             log.debug(err.stdout)
             log.debug(err.stderr)
-            return "ERROR"
 
-        segmented_net = cnet.from_isis(new_params["ONET"])
+        if os.path.exists(new_params["ONET"]):
+            segmented_net = cnet.from_isis(new_params["ONET"])
 
-        # starting sample in inclusive, so subtract 1
-        segmented_net.loc[segmented_net.serialnumber == images["match"]["SN"], "line"] += images["match"]["StartingLine"]-1 
+            # starting sample in inclusive, so subtract 1
+            segmented_net.loc[segmented_net.serialnumber == images_match_n["SN"], "line"] += images_match_n["StartingLine"]-1 
 
-        # offset the images 
-        for k, image in enumerate(images["from"]):
-            image_sn = image["SN"]
+            # offset the images 
+            for k, image in enumerate(images["from"]):
+                image_sn = image["SN"]
 
-            # starting sample is inclusive, so subtract 1
-            segmented_net.loc[segmented_net.serialnumber == image_sn, "line"] += starting_lines[k]-1
-        cnet.to_isis(segmented_net, new_params["ONET"], targetname="moon")
-        
-        from_originals = [image["Original"] for image in images["from"]]
-        return {"onet": new_params["ONET"], "original_images": from_originals}
+                # starting sample is inclusive, so subtract 1
+                segmented_net.loc[segmented_net.serialnumber == image_sn, "line"] += starting_lines[k]-1
+            cnet.to_isis(segmented_net, new_params["ONET"], targetname="moon")
+            
+            from_originals = [image["Original"] for image in images["from"]]
+            return {"onet": new_params["ONET"], "original_images": from_originals}
+        return "No Overlap"
     else: 
         return "No Overlap"
 
@@ -274,7 +292,7 @@ def merge(d1, d2, k):
         return v1+v2
 
 
-def findFeaturesSegment(ui):
+def findFeaturesSegment(ui, workdir):
     """
     findFeaturesSegment Calls FindFeatures on segmented images  
 
@@ -313,41 +331,69 @@ def findFeaturesSegment(ui):
     else: 
         nthreads = int(multiprocessing.cpu_count())
 
-    pool = ThreadPool(ceil(nthreads/len(img_list)))
-    output = pool.map_async(segment, img_list)
+    pool = ThreadPool(nthreads)
+    starmap_args = []
+    for image in img_list: 
+        starmap_args.append([image, workdir, ui.GetInteger("NL")])
+    output = pool.starmap_async(segment, starmap_args)
     pool.close()
     pool.join()
     output = output.get()
+    match_segments = segment(os.path.abspath(ui.GetCubeName("match")), workdir, ui.GetInteger("NL"))
     
-    match_segments = segment(ui.GetCubeName("match"), ui.GetInteger("NL"))
-    from_segments = reduce(lambda d1,d2: {k: merge(d1, d2, k) for k in set(d1)|set(d2)}, output)
+    if len(img_list) > 1:
+        from_segments = reduce(lambda d1,d2: {k: merge(d1, d2, k) for k in set(d1)|set(d2)}, output)
+    else:
+        # img_list = 1
+        from_segments = output[0]
+        for seg, value in from_segments.items():
+            og_value = value
+            from_segments[seg] = [og_value]
+
     segment_paths = [s["Path"] for sublist in list(from_segments.values()) for s in sublist]
     segment_paths = segment_paths + [s["Path"] for s in list(match_segments.values())]
     
     # re-generate footprints
-    pool = ThreadPool(ceil(nthreads/len(segment_paths)))
+    pool = ThreadPool(nthreads)
     output = pool.map_async(footprintinit, segment_paths)
     pool.close()
     pool.join()
     output = output.get()
     log.debug(f"{output}")
     
-    image_sets = list(itertools.product(match_segments.values(), from_segments.values())) 
-    
+    # Remove redundant overlapping pairs
+    x = match_segments.values()
+    y = from_segments.values()
+    # x,y = (x,y) if len(x) > len(y) else (y,x)
+    image_cartesian = list(itertools.product(x, y))
+    image_sets = image_cartesian
+    # for i in image_cartesian:
+    #     if i[0][0]["Segment"] >= i[1]["Segment"]:
+    #         image_sets.append(i) 
+
     # restructure things to be easier to manage
     job_dicts = []
     for im in image_sets:
         match = im[0]
         from_images = im[1]
+        if not isinstance(from_images, list):
+            # from_images must be list type
+            from_images_list = []
+            from_images_list.append(from_images)
+            from_images = from_images_list
         job_dicts.append({
           "match" : match,
           "from" : from_images
-        }) 
-    
+        })
+
     # get params as a dictionary
     params = ui.GetParams()
+    if is_workdir_temp:
+        params["WORKDIR"] = workdir
 
-    pool = ThreadPool(ceil(nthreads/len(job_dicts)))
+    # findfeatures is already threaded, limit python threads by the maxthreads 
+    # parameter, no maththreads_findfeatures * maxthreads_python <= maxthreads  
+    pool = ThreadPool(int(nthreads/len(job_dicts)))
     starmap_args = list(zip([params]*len(job_dicts), job_dicts))
     output = pool.starmap_async(generate_cnet, starmap_args)
     pool.close()
@@ -369,11 +415,11 @@ def findFeaturesSegment(ui):
     tolists = [set(o["original_images"]) for o in output if isinstance(o, dict)] 
 
     final_images = set.union(*tolists)
-    final_images.add(ui.GetCubeName("match"))
+    final_images.add(os.path.abspath(ui.GetCubeName("match")))
 
     log.debug(f"merged images: {final_images}")
     kisis.fromlist.make(final_images, Path(ui.GetFileName("tolist")))
-     
+    
     if len(onets) > 1: 
         try:
             kisis.cnetmerge(clist = onet_list, onet=ui.GetFileName("onet"), networkid=ui.GetAsString("networkid"), description=f"{ui.GetString('description')}")
@@ -386,9 +432,23 @@ def findFeaturesSegment(ui):
         # Dont merge 
         shutil.copy(onets[0], ui.GetFileName("onet"))
 
-    log.info(f"COMPLETE, wrote { ui.GetFileName("onet")}")
-
-if __name__ == "__main__": 
+if __name__ == "__main__":
     ui = astroset.init_application(sys.argv)
-    findFeaturesSegment(ui) 
-
+    is_workdir_temp = not ui.WasEntered("WorkDir") 
+    workdir = Path(tempfile.TemporaryDirectory().name) 
+    if ui.WasEntered("Workdir"):
+        workdir = Path(ui.GetFileName("Workdir"))
+    
+    try: 
+        findFeaturesSegment(ui, workdir) 
+    except Exception as e: 
+        if is_workdir_temp:
+            shutil.rmtree(workdir) 
+        raise e 
+    
+    # log.info(f"COMPLETE, wrote: {ui.GetFileName("onet")}")
+    if is_workdir_temp: 
+        shutil.rmtree(workdir)
+        log.info("Complete")
+    else:
+        log.info("Intermediate files written to %s", workdir)

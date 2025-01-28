@@ -15,6 +15,8 @@ find files of those names at the top level of this repository. **/
 #include "PvlFormat.h"
 #include "PvlSequence.h"
 
+#include <sstream>
+
 using namespace std;
 using json = nlohmann::json;
 namespace Isis {
@@ -1391,8 +1393,25 @@ namespace Isis {
           KEYWORD
 
         Well, no value/units may exist so we're done processing this keyword.
+        Now check if it's a reserved keyword that is valueless
        */
-      return 1; // Valid & Successful
+      bool allowedValueless = false;
+      static const std::vector<QString> reservedKeywordNames = {"OBJECT",
+                                                                "BEGIN_OBJECT",
+                                                                "END_OBJECT",
+                                                                "ENDOBJECT",
+                                                                "GROUP",
+                                                                "END_GROUP",
+                                                                "ENDGROUP",
+                                                                "END"};
+      const QString keywordNameUpper = keywordName.toUpper();
+      for (const auto &reservedKeywordName : reservedKeywordNames) {
+        if (keywordNameUpper == reservedKeywordName) {
+          allowedValueless = true;
+          break;
+        }
+      }
+      return allowedValueless;
     }
 
     // if we don't have an equal, then we have a problem - an invalid symbol.

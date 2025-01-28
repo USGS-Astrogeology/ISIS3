@@ -155,7 +155,19 @@ namespace Isis {
    *                           from ISIS3 because it had become unmaintainable.
    *   @history 2019-06-03 Adam Paquette - Updated the header for the bundleout.txt file for
    *                           more human readable formatting in the bundleout.txt file.
-   *
+   *   @history 2024-10-21 Ken Edmundson - 1) Fixed bug in the outputText method when error
+   *                          propagation is on in a rectangular (XYZ) solution. In the "POINTS
+   *                          UNCERTAINTY SUMMARY" section, instead of writing the RMS of
+   *                          Z-coordinate sigmas, the RMS, MIN, and MAX of radius coordinates
+   *                          was reported as "N/A"; 2) Modified outputHeader method
+   *                          to output RADIUS: N/A under "INPUT: SOLVE OPTIONS" in a rectangular
+   *                          solution. 3) Cleaned up spacing of Point Coordinate output in the
+   *                          "INPUT: GLOBAL IMAGE PARAMETER UNCERTAINTIES" section. Originally
+   *                          added to UofA code on 2019-07-30.
+   *   @history 2024-12-03 Ken Edmundson - Fixed bug where, when performing a rectangular (XYZ)
+   *                          bundle adjustment, the Lat/Lon/Radius point corrections written
+   *                          to the points.csv file are incorrect and do not match those written
+   *                          to the bundleout.txt file.
    */
   class BundleSolutionInfo : public QObject {
     Q_OBJECT

@@ -11,6 +11,7 @@ find files of those names at the top level of this repository. **/
 #include <string>
 #include <iomanip>
 
+#include "Application.h"
 #include "Brick.h"
 #include "Camera.h"
 #include "CSMCamera.h"
@@ -85,7 +86,7 @@ namespace Isis{
      }
 
     //Write the group to the screen
-    log->addLogGroup(sp);
+    Application::AppendAndLog(sp, log);
 
     // Write an output label file if necessary
     if (ui.WasEntered("TO")) {

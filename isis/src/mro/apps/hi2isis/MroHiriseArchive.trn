@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   OutputName     = DataSetId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -29,7 +29,7 @@ Group = DataSetId
 End_Group
 
 Group = ProducerId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_ID
   OutputName     = ProducerId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -37,7 +37,7 @@ Group = ProducerId
 End_Group
 
 Group = ObservationId
-  Auto
+  Auto           = 1
   InputKey       = OBSERVATION_ID
   OutputName     = ObservationId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -45,7 +45,7 @@ Group = ObservationId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   OutputName     = ProductId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -53,7 +53,7 @@ Group = ProductId
 End_Group
 
 Group = ProductVersionId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_VERSION_ID
   OutputName     = ProductVersionId
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -61,7 +61,7 @@ Group = ProductVersionId
 End_Group
 
 Group = EdrProductCreationTime
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_CREATION_TIME
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -71,7 +71,7 @@ Group = EdrProductCreationTime
 End_Group
 
 Group = RationaleDescription
-  Auto
+  Auto           = 1
   InputKey       = RATIONALE_DESCRIPTION
   InputDefault   = Null
   OutputName     = RationaleDescription
@@ -80,7 +80,7 @@ Group = RationaleDescription
 End_Group
 
 Group = OrbitNumber
-  Auto
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   OutputName     = OrbitNumber
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -88,7 +88,7 @@ Group = OrbitNumber
 End_Group
 
 Group = SoftwareName
-  Auto
+  Auto           = 1
   InputKey       = SOFTWARE_NAME
   OutputName     = SoftwareName
   OutputPosition = (Object, IsisCube, Group, Archive)
@@ -96,7 +96,7 @@ Group = SoftwareName
 End_Group
 
 Group = ObservationStartTime
-  Auto
+  Auto           = 1
   InputKey       = MRO:OBSERVATION_START_TIME
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -106,7 +106,7 @@ Group = ObservationStartTime
 End_Group
 
 Group = ReadoutStartTime
-  Auto
+  Auto           = 1
   InputKey       = MRO:READOUT_START_TIME
   InputGroup     = TIME_PARAMETERS
   InputPosition  = TIME_PARAMETERS
@@ -116,7 +116,7 @@ Group = ReadoutStartTime
 End_Group
 
 Group = TrimLines
-  Auto
+  Auto           = 1
   InputKey       = MRO:TRIM_LINES
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -126,7 +126,7 @@ Group = TrimLines
 End_Group
 
 Group = FelicsCompressionFlag
-  Auto
+  Auto           = 1
   InputKey       = MRO:FELICS_COMPRESSION_FLAG
   InputGroup     = INSTRUMENT_SETTING_PARAMETERS
   InputPosition  = INSTRUMENT_SETTING_PARAMETERS
@@ -136,7 +136,7 @@ Group = FelicsCompressionFlag
 End_Group
 
 Group = IdFlightSoftwareName
-  Auto
+  Auto           = 1
   InputKey       = FLIGHT_SOFTWARE_VERSION_ID
   InputDefault   = UNKNOWN
   OutputName     = IdFlightSoftwareName

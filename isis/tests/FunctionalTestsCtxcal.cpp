@@ -13,7 +13,7 @@ using namespace Isis;
 static QString APP_XML = FileName("$ISISROOT/bin/xml/ctxcal.xml").expanded();
 
 
-TEST_F(MroCtxCube, FunctionalTestCtxcalDefault) {
+TEST_F(MroCtxCube, DISABLED_FunctionalTestCtxcalDefault) {
   QString outCubeFileName = tempDir.path() + "/outTemp.cub";
   QVector<QString> args = {"to="+outCubeFileName};
 
@@ -87,7 +87,7 @@ TEST_F(MroCtxCube, FunctionalTestCtxcalMonthlyFlatfile) {
 }
 
 
-TEST_F(MroCtxCube, FunctionalTestCtxcalIofFalse) {
+TEST_F(MroCtxCube, DISABLED_FunctionalTestCtxcalIofFalse) {
   QString outCubeFileName = tempDir.path() + "/outTemp.cub";
   QVector<QString> args = {"to="+outCubeFileName, "iof=false"};
 

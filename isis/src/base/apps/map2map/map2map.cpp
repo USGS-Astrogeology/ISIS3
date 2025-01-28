@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "ProcessRubberSheet.h"
 #include "ProjectionFactory.h"
 #include "TProjection.h"
@@ -369,9 +370,7 @@ namespace Isis {
     p.StartProcess(*transform, *interp);
     p.EndProcess();
 
-    if (log){
-      log->addLogGroup(cleanOutGrp);
-    }
+    Application::Log(cleanOutGrp);
 
     // Cleanup
     delete transform;

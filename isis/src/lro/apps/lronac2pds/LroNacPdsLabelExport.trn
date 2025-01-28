@@ -1,5 +1,5 @@
 Group = DATA_SET_ID
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputGroup     = Root
   InputPosition  = Root
@@ -10,7 +10,7 @@ Group = DATA_SET_ID
 End_Group
 
 Group = ORIGINAL_PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = ORIGINAL_PRODUCT_ID
   InputGroup     = Root
   InputPosition  = Root
@@ -21,7 +21,7 @@ Group = ORIGINAL_PRODUCT_ID
 End_Group
 
 Group = PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputGroup     = Root
   InputPosition  = Root
@@ -32,7 +32,7 @@ Group = PRODUCT_ID
 End_Group
 
 Group = MISSION_NAME
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   InputGroup     = Root
   InputPosition  = Root
@@ -43,7 +43,7 @@ Group = MISSION_NAME
 End_Group
 
 Group = MISSION_PHASE_NAME
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   InputGroup     = Root
   InputPosition  = Root
@@ -54,7 +54,7 @@ Group = MISSION_PHASE_NAME
 End_Group
 
 Group = INSTRUMENT_HOST_NAME
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = Root
   InputPosition  = Root
@@ -65,7 +65,7 @@ Group = INSTRUMENT_HOST_NAME
 End_Group
 
 Group = INSTRUMENT_HOST_ID
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_ID
   InputGroup     = Root
   InputPosition  = Root
@@ -76,7 +76,7 @@ Group = INSTRUMENT_HOST_ID
 End_Group
 
 Group = INSTRUMENT_NAME
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputGroup     = Root
   InputPosition  = Root
@@ -87,7 +87,7 @@ Group = INSTRUMENT_NAME
 End_Group
 
 Group = INSTRUMENT_ID
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = Root
   InputPosition  = Root
@@ -98,7 +98,7 @@ Group = INSTRUMENT_ID
 End_Group
 
 Group = LRO:PREROLL_TIME
-  Auto
+  Auto           = 1
   InputKey       = LRO:PREROLL_TIME
   InputGroup     = Root
   InputPosition  = Root
@@ -109,7 +109,7 @@ Group = LRO:PREROLL_TIME
 End_Group
 
 Group = START_TIME
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = Root
   InputPosition  = Root
@@ -120,7 +120,7 @@ Group = START_TIME
 End_Group
 
 Group = STOP_TIME
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = Root
   InputPosition  = Root
@@ -131,7 +131,7 @@ Group = STOP_TIME
 End_Group
 
 Group = LRO:SPACECRAFT_CLOCK_PREROLL_COUNT
-  Auto
+  Auto           = 1
   InputKey       = LRO:SPACECRAFT_CLOCK_PREROLL_COUNT
   InputGroup     = Root
   InputPosition  = Root
@@ -142,7 +142,7 @@ Group = LRO:SPACECRAFT_CLOCK_PREROLL_COUNT
 End_Group
 
 Group = SPACECRAFT_CLOCK_START_COUNT
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputGroup     = Root
   InputPosition  = Root
@@ -153,7 +153,7 @@ Group = SPACECRAFT_CLOCK_START_COUNT
 End_Group
 
 Group = SPACECRAFT_CLOCK_STOP_COUNT
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputGroup     = Root
   InputPosition  = Root
@@ -164,7 +164,7 @@ Group = SPACECRAFT_CLOCK_STOP_COUNT
 End_Group
 
 Group = ORBIT_NUMBER
-  Auto
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   InputGroup     = Root
   InputPosition  = Root
@@ -175,7 +175,7 @@ Group = ORBIT_NUMBER
 End_Group
 
 Group = PRODUCER_ID
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_ID
   InputGroup     = Root
   InputPosition  = Root
@@ -186,7 +186,7 @@ Group = PRODUCER_ID
 End_Group
 
 Group = PRODUCT_CREATION_TIME
-  Auto
+  Auto           = 1
   InputKey       = NULL
   InputGroup     = Root
   InputPosition  = Root
@@ -198,7 +198,7 @@ Group = PRODUCT_CREATION_TIME
 End_Group
 
 Group = PRODUCER_INSTITUTION_NAME
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_INSTITUTION_NAME
   InputGroup     = Root
   InputPosition  = Root
@@ -210,7 +210,7 @@ Group = PRODUCER_INSTITUTION_NAME
 End_Group
 
 Group = PRODUCT_TYPE
-  Auto
+  Auto           = 1
   InputKey       = NULL
   InputGroup     = Root
   InputPosition  = Root
@@ -222,7 +222,7 @@ Group = PRODUCT_TYPE
 End_Group
 
 Group = PRODUCT_VERSION_ID
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_VERSION_ID
   InputGroup     = Root
   InputPosition  = Root
@@ -234,7 +234,7 @@ Group = PRODUCT_VERSION_ID
 End_Group
 
 Group = UPLOAD_ID
-  Auto
+  Auto           = 1
   InputKey       = UPLOAD_ID
   InputGroup     = Root
   InputPosition  = Root
@@ -246,7 +246,7 @@ Group = UPLOAD_ID
 End_Group
 
 Group = TARGET_NAME
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = Root
   InputPosition  = Root
@@ -257,7 +257,7 @@ Group = TARGET_NAME
 End_Group
 
 Group = CROSSTRACK_SUMMING
-  Auto
+  Auto           = 1
   InputKey       = CROSSTRACK_SUMMING
   InputGroup     = Root
   InputPosition  = Root
@@ -268,7 +268,7 @@ Group = CROSSTRACK_SUMMING
 End_Group
 
 Group = RATIONALE_DESC
-  Auto
+  Auto           = 1
   InputKey       = RATIONALE_DESC
   InputGroup     = Root
   InputPosition  = Root
@@ -279,7 +279,7 @@ Group = RATIONALE_DESC
 End_Group
 
 Group = FRAME_ID
-  Auto
+  Auto           = 1
   InputKey       = FRAME_ID
   InputGroup     = Root
   InputPosition  = Root
@@ -291,7 +291,7 @@ Group = FRAME_ID
 End_Group
 
 Group = DATA_QUALITY_ID
-  Auto
+  Auto           = 1
   InputKey       = DATA_QUALITY_ID
   InputGroup     = Root
   InputPosition  = Root
@@ -302,7 +302,7 @@ Group = DATA_QUALITY_ID
 End_Group
 
 Group = DATA_QUALITY_DESC
-  Auto
+  Auto           = 1
   InputKey       = DATA_QUALITY_DESC
   InputGroup     = Root
   InputPosition  = Root
@@ -313,7 +313,7 @@ Group = DATA_QUALITY_DESC
 End_Group
 
 Group = LRO:TEMPERATURE_SCS
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_SCS
   InputGroup     = Root
   InputPosition  = Root
@@ -324,7 +324,7 @@ Group = LRO:TEMPERATURE_SCS
 End_Group
 
 Group = LRO:TEMPERATURE_FPA
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_FPA
   InputGroup     = Root
   InputPosition  = Root
@@ -335,7 +335,7 @@ Group = LRO:TEMPERATURE_FPA
 End_Group
 
 Group = LRO:TEMPERATURE_FPGA
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_FPGA
   InputGroup     = Root
   InputPosition  = Root
@@ -346,7 +346,7 @@ Group = LRO:TEMPERATURE_FPGA
 End_Group
 
 Group = LRO:TEMPERATURE_TELESCOPE
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_TELESCOPE
   InputGroup     = Root
   InputPosition  = Root
@@ -357,7 +357,7 @@ Group = LRO:TEMPERATURE_TELESCOPE
 End_Group
 
 Group = LRO:TEMPERATURE_SCS_RAW
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_SCS_RAW
   InputGroup     = Root
   InputPosition  = Root
@@ -368,7 +368,7 @@ Group = LRO:TEMPERATURE_SCS_RAW
 End_Group
 
 Group = LRO:TEMPERATURE_FPA_RAW
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_FPA_RAW
   InputGroup     = Root
   InputPosition  = Root
@@ -379,7 +379,7 @@ Group = LRO:TEMPERATURE_FPA_RAW
 End_Group
 
 Group = LRO:TEMPERATURE_FPGA_RAW
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_FPGA_RAW
   InputGroup     = Root
   InputPosition  = Root
@@ -390,7 +390,7 @@ Group = LRO:TEMPERATURE_FPGA_RAW
 End_Group
 
 Group = LRO:TEMPERATURE_TELESCOPE_RAW
-  Auto
+  Auto           = 1
   InputKey       = LRO:TEMPERATURE_TELESCOPE_RAW
   InputGroup     = Root
   InputPosition  = Root
@@ -401,7 +401,7 @@ Group = LRO:TEMPERATURE_TELESCOPE_RAW
 End_Group
 
 Group = CROSSTRACK_SUMMING
-  Auto
+  Auto           = 1
   InputKey       = CROSSTRACK_SUMMING
   InputGroup     = Root
   InputPosition  = Root
@@ -412,7 +412,7 @@ Group = CROSSTRACK_SUMMING
 End_Group
 
 Group = BANDWIDTH
-  Auto
+  Auto           = 1
   InputKey       = BANDWIDTH
   InputGroup     = Root
   InputPosition  = Root
@@ -423,7 +423,7 @@ Group = BANDWIDTH
 End_Group
 
 Group = CENTER_FILTER_WAVELENGTH
-  Auto
+  Auto           = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   InputGroup     = Root
   InputPosition  = Root
@@ -434,7 +434,7 @@ Group = CENTER_FILTER_WAVELENGTH
 End_Group
 
 Group = LINE_EXPOSURE_DURATION
-  Auto
+  Auto           = 1
   InputKey       = LINE_EXPOSURE_DURATION
   InputGroup     = Root
   InputPosition  = Root
@@ -445,7 +445,7 @@ Group = LINE_EXPOSURE_DURATION
 End_Group
 
 Group = LRO:LINE_EXPOSURE_CODE
-  Auto
+  Auto           = 1
   InputKey       = LRO:LINE_EXPOSURE_CODE
   InputGroup     = Root
   InputPosition  = Root
@@ -456,7 +456,7 @@ Group = LRO:LINE_EXPOSURE_CODE
 End_Group
 
 Group = LRO:DAC_RESET_LEVEL
-  Auto
+  Auto           = 1
   InputKey       = LRO:DAC_RESET_LEVEL
   InputGroup     = Root
   InputPosition  = Root
@@ -467,7 +467,7 @@ Group = LRO:DAC_RESET_LEVEL
 End_Group
 
 Group = LRO:CHANNEL_A_OFFSET
-  Auto
+  Auto           = 1
   InputKey       = LRO:CHANNEL_A_OFFSET
   InputGroup     = Root
   InputPosition  = Root
@@ -478,7 +478,7 @@ Group = LRO:CHANNEL_A_OFFSET
 End_Group
 
 Group = LRO:CHANNEL_B_OFFSET
-  Auto
+  Auto           = 1
   InputKey       = LRO:CHANNEL_B_OFFSET
   InputGroup     = Root
   InputPosition  = Root
@@ -489,7 +489,7 @@ Group = LRO:CHANNEL_B_OFFSET
 End_Group
 
 Group = LRO:COMPAND_CODE
-  Auto
+  Auto           = 1
   InputKey       = LRO:COMPAND_CODE
   InputGroup     = Root
   InputPosition  = Root
@@ -500,7 +500,7 @@ Group = LRO:COMPAND_CODE
 End_Group
 
 Group = LRO:LINE_CODE
-  Auto
+  Auto           = 1
   InputKey       = LRO:LINE_CODE
   InputGroup     = Root
   InputPosition  = Root
@@ -511,7 +511,7 @@ Group = LRO:LINE_CODE
 End_Group
 
 Group = LRO:BTERM
-  Auto
+  Auto           = 1
   InputKey       = LRO:BTERM
   InputGroup     = Root
   InputPosition  = Root
@@ -522,7 +522,7 @@ Group = LRO:BTERM
 End_Group
 
 Group = LRO:MTERM
-  Auto
+  Auto           = 1
   InputKey       = LRO:MTERM
   InputGroup     = Root
   InputPosition  = Root
@@ -533,7 +533,7 @@ Group = LRO:MTERM
 End_Group
 
 Group = LRO:XTERM
-  Auto
+  Auto           = 1
   InputKey       = LRO:XTERM
   InputGroup     = Root
   InputPosition  = Root
@@ -544,7 +544,7 @@ Group = LRO:XTERM
 End_Group
 
 Group = LRO:COMPRESSION_FLAG
-  Auto
+  Auto           = 1
   InputKey       = LRO:COMPRESSION_FLAG
   InputGroup     = Root
   InputPosition  = Root
@@ -555,7 +555,7 @@ Group = LRO:COMPRESSION_FLAG
 End_Group
 
 Group = LRO:MODE
-  Auto
+  Auto           = 1
   InputKey       = LRO:MODE
   InputGroup     = Root
   InputPosition  = Root

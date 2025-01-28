@@ -255,7 +255,7 @@ Group = Rotation
 End_Group
 
 Group = LineProjectionOffset
-  Optional
+  Optional       = 1
   InputKey      = LINE_PROJECTION_OFFSET
   InputGroup    = IMAGE_MAP_PROJECTION
   InputPosition = IMAGE_MAP_PROJECTION
@@ -263,7 +263,7 @@ Group = LineProjectionOffset
 End_Group
 
 Group = LineProjectionOffset2
-  Optional
+  Optional       = 1
   InputKey      = X_AXIS_PROJECTION_OFFSET
   InputGroup    = IMAGE_MAP_PROJECTION_CATALOG
   InputPosition = IMAGE_MAP_PROJECTION_CATALOG
@@ -271,7 +271,7 @@ Group = LineProjectionOffset2
 End_Group
 
 Group = SampleProjectionOffset
-  Optional
+  Optional       = 1
   InputKey      = SAMPLE_PROJECTION_OFFSET
   InputGroup    = IMAGE_MAP_PROJECTION
   InputPosition = IMAGE_MAP_PROJECTION
@@ -279,7 +279,7 @@ Group = SampleProjectionOffset
 End_Group
 
 Group = SampleProjectionOffset2
-  Optional
+  Optional       = 1
   InputKey      = Y_AXIS_PROJECTION_OFFSET
   InputGroup    = IMAGE_MAP_PROJECTION_CATALOG
   InputPosition = IMAGE_MAP_PROJECTION_CATALOG

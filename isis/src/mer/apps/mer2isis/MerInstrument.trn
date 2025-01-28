@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = ROVER_MOTION_COUNTER
-  Auto
+  Auto           = 1
   InputKey       = ROVER_MOTION_COUNTER
   InputDefault   = NULL
   OutputName     = RoverMotionCounter
@@ -30,7 +30,7 @@ Group = ROVER_MOTION_COUNTER
 End_Group
 
 Group = ROVER_MOTION_COUNTER_NAME
-  Auto
+  Auto           = 1
   InputKey       = ROVER_MOTION_COUNTER_NAME
   InputDefault   = NULL
   OutputName     = RoverMotionCounterName
@@ -39,7 +39,7 @@ Group = ROVER_MOTION_COUNTER_NAME
 End_Group
 
 Group = SPACECRAFT_NAME
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputDefault   = NULL
   OutputName     = SpacecraftName
@@ -54,7 +54,7 @@ Group = SPACECRAFT_NAME
 End_Group
 
 Group = INSTRUMENT_ID
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputDefault   = NULL
   OutputName     = InstrumentID
@@ -63,7 +63,7 @@ Group = INSTRUMENT_ID
 End_Group
 
 Group = INSTRUMENT_NAME
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputDefault   = NULL
   OutputName     = InstrumentName
@@ -72,7 +72,7 @@ Group = INSTRUMENT_NAME
 End_Group
 
 Group = INSTRUMENT_SERIAL_NUMBER
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_SERIAL_NUMBER
   InputDefault   = NULL
   OutputName     = InstrumentSerialNumber
@@ -81,7 +81,7 @@ Group = INSTRUMENT_SERIAL_NUMBER
 End_Group
 
 Group = LOCAL_TRUE_SOLAR_TIME
-  Auto
+  Auto           = 1
   InputKey       = LOCAL_TRUE_SOLAR_TIME
   InputDefault   = NULL
   OutputName     = LocalTrueSolarTime
@@ -90,7 +90,7 @@ Group = LOCAL_TRUE_SOLAR_TIME
 End_Group
 
 Group = PLANET_DAY_NUMBER
-  Auto
+  Auto           = 1
   InputKey       = PLANET_DAY_NUMBER
   InputDefault   = NULL
   OutputName     = PlanetDayNumber
@@ -99,7 +99,7 @@ Group = PLANET_DAY_NUMBER
 End_Group
 
 Group = SOLAR_LONGITUDE
-  Auto
+  Auto           = 1
   InputKey       = SOLAR_LONGITUDE
   InputDefault   = NULL
   OutputName     = SolarLongitude
@@ -108,7 +108,7 @@ Group = SOLAR_LONGITUDE
 End_Group
 
 Group = SPACECRAFT_CLOCK_CNT_PARTITION
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_CNT_PARTITION
   InputDefault   = NULL
   OutputName     = SpacecraftClockCntPartition
@@ -117,7 +117,7 @@ Group = SPACECRAFT_CLOCK_CNT_PARTITION
 End_Group
 
 Group = SPACECRAFT_CLOCK_START_COUNT
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputDefault   = NULL
   OutputName     = SpacecraftClockStartCount
@@ -126,7 +126,7 @@ Group = SPACECRAFT_CLOCK_START_COUNT
 End_Group
 
 Group = SPACECRAFT_CLOCK_STOP_COUNT
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputDefault   = NULL
   OutputName     = SpacecraftClockStopCount
@@ -135,7 +135,7 @@ Group = SPACECRAFT_CLOCK_STOP_COUNT
 End_Group
 
 Group = START_TIME
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputDefault   = NULL
   OutputName     = StartTime
@@ -144,7 +144,7 @@ Group = START_TIME
 End_Group
 
 Group = STOP_TIME
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputDefault   = NULL
   OutputName     = StopTime
@@ -153,7 +153,7 @@ Group = STOP_TIME
 End_Group
 
 Group = EXPOSURE_DURATION
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION
   InputGroup     = INSTRUMENT_STATE_PARMS
   InputPosition  = INSTRUMENT_STATE_PARMS
@@ -164,7 +164,7 @@ Group = EXPOSURE_DURATION
 End_Group
 
 Group = EXPOSURE_DURATION_COUNT
-  Auto
+  Auto           = 1
   InputKey       = EXPOSURE_DURATION_COUNT
   InputGroup     = INSTRUMENT_STATE_PARMS
   InputPosition  = INSTRUMENT_STATE_PARMS
@@ -175,7 +175,7 @@ Group = EXPOSURE_DURATION_COUNT
 End_Group
 
 Group = FILTER_NAME
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NAME
   InputGroup     = INSTRUMENT_STATE_PARMS
   InputPosition  = INSTRUMENT_STATE_PARMS
@@ -186,7 +186,7 @@ Group = FILTER_NAME
 End_Group
 
 Group = FILTER_NUMBER
-  Auto
+  Auto           = 1
   InputKey       = FILTER_NUMBER
   InputGroup     = INSTRUMENT_STATE_PARMS
   InputPosition  = INSTRUMENT_STATE_PARMS
@@ -197,7 +197,7 @@ Group = FILTER_NUMBER
 End_Group
 
 Group = FLAT_FIELD_CORRECTION_FLAG
-  Auto
+  Auto           = 1
   InputKey       = FLAT_FIELD_CORRECTION_FLAG
   InputGroup     = INSTRUMENT_STATE_PARMS
   InputPosition  = INSTRUMENT_STATE_PARMS
@@ -208,7 +208,7 @@ Group = FLAT_FIELD_CORRECTION_FLAG
 End_Group
 
 Group = INSTRUMENT_MODE_ID
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   InputGroup     = INSTRUMENT_STATE_PARMS
   InputPosition  = INSTRUMENT_STATE_PARMS
@@ -219,7 +219,7 @@ Group = INSTRUMENT_MODE_ID
 End_Group
 
 Group = INSTRUMENT_TEMPERATURE
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_TEMPERATURE
   InputGroup     = INSTRUMENT_STATE_PARMS
   InputPosition  = INSTRUMENT_STATE_PARMS
@@ -230,7 +230,7 @@ Group = INSTRUMENT_TEMPERATURE
 End_Group
 
 Group = INSTRUMENT_TEMPERATURE_NAME
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_TEMPERATURE_NAME
   InputGroup     = INSTRUMENT_STATE_PARMS
   InputPosition  = INSTRUMENT_STATE_PARMS
@@ -241,7 +241,7 @@ Group = INSTRUMENT_TEMPERATURE_NAME
 End_Group
 
 Group = OFFSET_MODE_ID
-  Auto
+  Auto           = 1
   InputKey       = OFFSET_MODE_ID
   InputGroup     = INSTRUMENT_STATE_PARMS
   InputPosition  = INSTRUMENT_STATE_PARMS
@@ -252,7 +252,7 @@ Group = OFFSET_MODE_ID
 End_Group
 
 Group = SHUTTER_EFFECT_CORRECTION_FLAG
-  Auto
+  Auto           = 1
   InputKey       = SHUTTER_EFFECT_CORRECTION_FLAG
   InputGroup     = INSTRUMENT_STATE_PARMS
   InputPosition  = INSTRUMENT_STATE_PARMS

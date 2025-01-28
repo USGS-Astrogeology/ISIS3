@@ -1,5 +1,5 @@
 Group = PoleLatitude
-  Auto
+  Auto           = 1
   InputKey       = OBLIQUE_PROJ_POLE_LATITUDE
   InputGroup     = IMAGE_MAP_PROJECTION
   InputGroup     = "QUBE,IMAGE_MAP_PROJECTION"
@@ -13,7 +13,7 @@ Group = PoleLatitude
 End_Group
 
 Group = PoleLongitude
-  Auto
+  Auto           = 1
   InputKey       = OBLIQUE_PROJ_POLE_LONGITUDE
   InputGroup     = IMAGE_MAP_PROJECTION
   InputGroup     = "QUBE,IMAGE_MAP_PROJECTION"
@@ -27,7 +27,7 @@ Group = PoleLongitude
 End_Group
 
 Group = PoleRotation
-  Auto
+  Auto           = 1
   InputKey       = OBLIQUE_PROJ_POLE_ROTATION
   InputGroup     = IMAGE_MAP_PROJECTION
   InputGroup     = "QUBE,IMAGE_MAP_PROJECTION"
@@ -41,7 +41,7 @@ Group = PoleRotation
 End_Group
 
 Group = XAxisVector
-  Auto
+  Auto           = 1
   InputKey       = OBLIQUE_PROJ_X_AXIS_VECTOR
   InputGroup     = IMAGE_MAP_PROJECTION
   InputGroup     = "QUBE,IMAGE_MAP_PROJECTION"
@@ -55,7 +55,7 @@ Group = XAxisVector
 End_Group
 
 Group = YAxisVector
-  Auto
+  Auto           = 1
   InputKey       = OBLIQUE_PROJ_Y_AXIS_VECTOR
   InputGroup     = IMAGE_MAP_PROJECTION
   InputGroup     = "QUBE,IMAGE_MAP_PROJECTION"
@@ -69,7 +69,7 @@ Group = YAxisVector
 End_Group
 
 Group = ZAxisVector
-  Auto
+  Auto           = 1
   InputKey       = OBLIQUE_PROJ_Z_AXIS_VECTOR
   InputGroup     = IMAGE_MAP_PROJECTION
   InputGroup     = "QUBE,IMAGE_MAP_PROJECTION"

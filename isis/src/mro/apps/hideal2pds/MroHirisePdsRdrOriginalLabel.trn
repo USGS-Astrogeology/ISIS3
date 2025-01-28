@@ -1,5 +1,5 @@
 Group = PRODUCER_INSTITUTION_NAME
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_INSTITUTION_NAME
   InputKey       = ProducerInstitutionName
   InputGroup     = OriginalLabelObject
@@ -10,7 +10,7 @@ Group = PRODUCER_INSTITUTION_NAME
 End_Group
 
 Group = PRODUCER_ID
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_ID
   InputKey       = ProducerId
   InputGroup     = OriginalLabelObject
@@ -21,7 +21,7 @@ Group = PRODUCER_ID
 End_Group
 
 Group = PRODUCER_FULL_NAME
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_FULL_NAME
   InputKey       = ProducerFullName
   InputGroup     = OriginalLabelObject
@@ -32,7 +32,7 @@ Group = PRODUCER_FULL_NAME
 End_Group
 
 Group = OBSERVATION_ID
-  Auto
+  Auto           = 1
   InputKey       = OBSERVATION_ID
   InputKey       = ObservationId
   InputGroup     = OriginalLabelObject
@@ -45,7 +45,7 @@ End_Group
 # Stuart Sides 2008-06-06
 # Removed when the value of this keyword was added as an input parameter
 #Group = PRODUCT_VERSION_ID
-#  Auto
+#  Auto           = 1
 #  OutputName = PRODUCT_VERSION_ID
 #  OutputPosition = ("ROOT")
 #  InputKey = PRODUCT_VERSION_ID
@@ -54,7 +54,7 @@ End_Group
 #EndGroup
 
 Group = INSTRUMENT_HOST_NAME
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -64,7 +64,7 @@ Group = INSTRUMENT_HOST_NAME
 End_Group
 
 Group = INSTRUMENT_HOST_ID
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_ID
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -74,7 +74,7 @@ Group = INSTRUMENT_HOST_ID
 End_Group
 
 Group = INSTRUMENT_NAME
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -84,7 +84,7 @@ Group = INSTRUMENT_NAME
 End_Group
 
 Group = INSTRUMENT_ID
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -94,7 +94,7 @@ Group = INSTRUMENT_ID
 End_Group
 
 Group = MISSION_PHASE_NAME
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -104,7 +104,7 @@ Group = MISSION_PHASE_NAME
 End_Group
 
 Group = ORBIT_NUMBER
-  Auto
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -114,7 +114,7 @@ Group = ORBIT_NUMBER
 End_Group
 
 Group = RATIONALE_DESC
-  Auto
+  Auto           = 1
   InputKey       = RATIONALE_DESC
   InputGroup     = OriginalLabelObject
   InputPosition  = OriginalLabelObject
@@ -124,7 +124,7 @@ Group = RATIONALE_DESC
 End_Group
 
 Group = MRO:OBSERVATION_START_TIME
-  Auto
+  Auto           = 1
   InputKey       = MRO:OBSERVATION_START_TIME
   InputGroup     = "OriginalLabelObject,TIME_PARAMETERS"
   InputPosition  = (OriginalLabelObject, TIME_PARAMETERS)

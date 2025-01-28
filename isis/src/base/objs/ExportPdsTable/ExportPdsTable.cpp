@@ -102,7 +102,6 @@ namespace Isis {
     // fill rowBuffer with packed record values, then fill with padding
     EndianSwapper *endianSwap = new EndianSwapper(m_pdsByteOrder);
 
-    int buffsize = 0;
     for(int recIndex = 0; recIndex < m_isisTable->Records(); recIndex++) {
       TableRecord record = (*m_isisTable)[recIndex];
       char rowBuffer[record.RecordSize()];
@@ -110,8 +109,6 @@ namespace Isis {
       int i = recIndex*m_outputRecordBytes;
       memmove(pdsTableBuffer + i, &rowBuffer, record.RecordSize());
       memmove(pdsTableBuffer + i + m_rowBytes, &endRowPadding, numRowNulls);
-      buffsize+=record.RecordSize();
-      buffsize+=numRowNulls;
     }
     return fillMetaData();
   }

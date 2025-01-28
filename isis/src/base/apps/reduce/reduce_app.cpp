@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "IException.h"
 #include "IString.h"
 #include "ProcessByLine.h"
@@ -85,9 +86,7 @@ namespace Isis{
       p.EndProcess();
 
       // Write the results to the log
-      if (log){
-        log->addLogGroup(results);
-      }
+      Application::Log(results);
     } // REFORMAT THESE ERRORS INTO ISIS TYPES AND RETHROW
     catch (IException &) {
       throw;

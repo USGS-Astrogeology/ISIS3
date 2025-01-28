@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "TextFile.h"
 #include "Statistics.h"
 #include "ProcessByLine.h"
@@ -82,9 +83,7 @@ namespace Isis {
     PvlGroup results = PvlGroup("Results");
     results.addKeyword(dnPairs);
 
-    if (log){
-      log->addLogGroup(results);
-    }
+    Application::Log(results);
   }
 
   // Line processing routine

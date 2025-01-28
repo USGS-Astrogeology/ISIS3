@@ -109,10 +109,12 @@ namespace Isis {
 
       static UserInterface &GetUserInterface();
       static void Log(PvlGroup &results);
+      static void AppendAndLog(PvlGroup &results, Pvl *log);
       static void GuiLog(const Pvl &results);
       static void GuiLog(const PvlGroup &results);
       static void GuiLog(const QString &results);
       static QString Name();
+      static QString formatError(IException &e);
 
       static bool p_applicationForceGuiApp;
 

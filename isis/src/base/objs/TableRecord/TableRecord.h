@@ -38,6 +38,8 @@ namespace Isis {
   class TableRecord {
     public:
       TableRecord();
+      TableRecord(std::string tableRecordStr, char fieldDelimiter, 
+                            std::vector<QString> fieldNames, int numOfFieldValues); 
       ~TableRecord();
 
       

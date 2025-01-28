@@ -1,6 +1,6 @@
 Group = FilterName
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputGroup     = ROOT
   InputPosition  = ROOT
   InputKey       = FILTER_NAME
@@ -10,8 +10,8 @@ Group = FilterName
 End_Group
 
 Group = Center
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputGroup     = ROOT
   InputPosition  = ROOT
   InputKey       = FILTER_NAME
@@ -23,8 +23,8 @@ Group = Center
 End_Group
 
 Group = Width
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputGroup     = ROOT
   InputPosition  = ROOT
   InputKey       = FILTER_NAME

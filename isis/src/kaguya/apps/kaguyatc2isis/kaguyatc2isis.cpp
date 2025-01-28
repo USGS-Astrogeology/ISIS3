@@ -284,8 +284,8 @@ namespace Isis {
       // Add the BandBin group
       PvlGroup bandBinGroup("BandBin");
       bandBinGroup += PvlKeyword("FilterName", "BroadBand");
-      bandBinGroup += PvlKeyword("Center", "640nm");
-      bandBinGroup += PvlKeyword("Width", "420nm");
+      bandBinGroup += PvlKeyword("Center", "640", "nanometers");
+      bandBinGroup += PvlKeyword("Width", "420", "nanometers");
       outcube->putGroup(bandBinGroup);
     }
 

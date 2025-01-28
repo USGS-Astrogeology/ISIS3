@@ -89,9 +89,6 @@ $(BINS): $(UIHEADERS) $(QTRESOURCEFILES) protos $(OBJS)
 	export PATH="$(CODE_COVERAGE_PATH_DIR):$$PATH"; \
 	$(CXX) $(ALLINCDIRS) $(ISISCPPFLAGS) $(ISIS_PROTOBUF_FLAGS) -c -o $@ $?
 
-.xml.html :
-	$(XALAN) $(XALAN_VALIDATE_OPTION) $(XALAN_OUTFILE_OPTION) $@ $(XALAN_INFILE_OPTION) $? $(XALAN_XSL_OPTION) $(ISISROOT)/src/docsys/Application/presentation/ProgTester/IsisApplicationDocStyle.xsl
-
 protos: $(PROTOS:%.proto=%.pb.h) $(PROTOS:%.proto=%.pb.cc)
 
 %.pb.cc %.pb.h: %.proto
@@ -169,9 +166,6 @@ install: app
 	  $(RM) DarwinErrors.lis;                                             \
 	fi
 
-
-validxml:
-	$(XALAN) $(XALAN_VALIDATE_OPTION) $(XALAN_OUTFILE_OPTION) /dev/null $(XALAN_INFILE_OPTION) $(BINS).xml $(XALAN_XSL_OPTION) $(ISISROOT)/src/docsys/Application/presentation/ProgTester/IsisApplicationDocStyle.xsl;
 
 docs:
 	mkdir -p $(ISISROOT)/src/docsys/Application/data/`basename $(CURDIR)`

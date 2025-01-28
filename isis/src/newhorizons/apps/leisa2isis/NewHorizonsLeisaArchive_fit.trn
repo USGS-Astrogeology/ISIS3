@@ -4,7 +4,7 @@
 #
 
 Group = MidObservationTime
-  Auto
+  Auto           = 1
   InputKey       = SPCSCET
   InputPosition  = FITSLABELS
   OutputName     = MidObservationTime
@@ -13,7 +13,7 @@ Group = MidObservationTime
 End_Group
 
 Group = ObservationDuration
-  Auto
+  Auto           = 1
   InputKey       = DURMET
   InputPosition  = FITSLABELS
   OutputName     = ObservationDuration
@@ -22,7 +22,7 @@ Group = ObservationDuration
 End_Group
 
 Group = Detector
-  Auto
+  Auto           = 1
   InputKey       = DETECTOR
   InputPosition  = FITSLABELS
   OutputName     = Detector
@@ -31,7 +31,7 @@ Group = Detector
 End_Group
 
 Group = ScanType
-  Auto
+  Auto           = 1
   InputKey       = SCANTYPE
   InputPosition  = FITSLABELS
   OutputName     = ScanType

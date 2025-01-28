@@ -13,6 +13,7 @@ find files of those names at the top level of this repository. **/
 #include <QList>
 #include <QString>
 
+#include "Application.h"
 #include "ControlNet.h"
 #include "ControlNetDiff.h"
 #include "ControlNetVersioner.h"
@@ -106,7 +107,7 @@ namespace Isis {
         differences += PvlKeyword("Reason", differenceReason);
       }
 
-      log.addLogGroup(differences);
+      Application::AppendAndLog(differences, &log);
 
       if (ui.WasEntered("TO")) log.write(ui.GetFileName("TO"));
 
@@ -137,7 +138,7 @@ namespace Isis {
       if (differences.hasKeyword("Filename")) count--;
 
       results += PvlKeyword("Compare", count > 0 ? "Different" : "Identical");
-      log.addLogGroup(results);
+      Application::AppendAndLog(results, &log);
       return log;
     }
   }

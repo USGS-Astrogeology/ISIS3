@@ -7,7 +7,7 @@
 #                        from input PCNAIFID. References #5127,5128.
 
 Group = MissionName
-  Auto
+  Auto           = 1
   InputKey       = MISSION
   InputPosition  = FITSLABELS
   OutputName     = MissionName
@@ -16,7 +16,7 @@ Group = MissionName
 End_Group
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = HOSTNAME
   InputPosition  = FITSLABELS
   OutputName     = SpacecraftName
@@ -26,7 +26,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = CAMERAID
   InputPosition  = FITSLABELS
   OutputName     = InstrumentId
@@ -37,7 +37,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET
   InputPosition  = FITSLABELS
   OutputName     = TargetName
@@ -47,7 +47,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = DATE_OBS
   InputPosition  = FITSLABELS
   OutputName     = StartTime
@@ -56,7 +56,7 @@ Group = StartTime
 End_Group
 
 Group = ExposureDuration
-  Auto
+  Auto           = 1
   InputKey       = EXPTIME
   InputPosition  = FITSLABELS
   OutputName     = ExposureDuration
@@ -65,7 +65,7 @@ Group = ExposureDuration
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SCLK_STR
   InputPosition  = FITSLABELS
   InputDefault   = UNKNOWN
@@ -75,7 +75,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = FocusPosition
-  Auto
+  Auto           = 1
   InputKey       = MTR_POS
   InputPosition  = FITSLABELS
   OutputName     = FocusPosition
@@ -84,7 +84,7 @@ Group = FocusPosition
 End_Group
 
 Group = PolyCamId
-  Auto
+  Auto           = 1
   InputKey       = PCNAIFID
   InputPosition  = FITSLABELS
   InputDefault   = None

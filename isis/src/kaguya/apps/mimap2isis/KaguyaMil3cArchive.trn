@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = SoftwareName
-  Auto
+  Auto           = 1
   InputKey       = SOFTWARE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -31,7 +31,7 @@ Group = SoftwareName
 End_Group
 
 Group = SoftwareVersion
-  Auto
+  Auto           = 1
   InputKey       = SOFTWARE_VERSION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -41,7 +41,7 @@ Group = SoftwareVersion
 End_Group
 
 Group = ProcessVersionId
-  Auto
+  Auto           = 1
   InputKey       = PROCESS_VERSION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -51,7 +51,7 @@ Group = ProcessVersionId
 End_Group
 
 Group = ProductCreationTime
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_CREATION_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -61,7 +61,7 @@ Group = ProductCreationTime
 End_Group
 
 Group = ProgramStartTime
-  Auto
+  Auto           = 1
   InputKey       = PROGRAM_START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -71,7 +71,7 @@ Group = ProgramStartTime
 End_Group
 
 Group = ProducerId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -81,7 +81,7 @@ Group = ProducerId
 End_Group
 
 Group = ProductSetId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_SET_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -91,7 +91,7 @@ Group = ProductSetId
 End_Group
 
 Group = ProductVersionId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_VERSION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -101,7 +101,7 @@ Group = ProductVersionId
 End_Group
 
 Group = RegisteredProduct
-  Auto
+  Auto           = 1
   InputKey       = REGISTERED_PRODUCT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -111,7 +111,7 @@ Group = RegisteredProduct
 End_Group
 
 Group = Level2AFileName
-  Auto
+  Auto           = 1
   InputKey       = LEVEL2A_FILE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -121,7 +121,7 @@ Group = Level2AFileName
 End_Group
 
 Group = SpiceMetakernelFileName
-  Auto
+  Auto           = 1
   InputKey       = SPICE_METAKERNEL_FILE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -131,7 +131,7 @@ Group = SpiceMetakernelFileName
 End_Group
 
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -141,7 +141,7 @@ Group = DataSetId
 End_Group
 
 Group = ImageValueType
-  Auto
+  Auto           = 1
   InputKey       = IMAGE_VALUE_TYPE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -151,7 +151,7 @@ Group = ImageValueType
 End_Group
 
 Group = ImageUnit
-  Auto
+  Auto           = 1
   InputKey       = UNIT
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -161,7 +161,7 @@ Group = ImageUnit
 End_Group
 
 Group = MinForStatisticalEvaluation
-  Auto
+  Auto           = 1
   InputKey       = MIN_FOR_STATISTICAL_EVALUATION
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -171,7 +171,7 @@ Group = MinForStatisticalEvaluation
 End_Group
 
 Group = MaxForStatisticalEvaluation
-  Auto
+  Auto           = 1
   InputKey       = MAX_FOR_STATISTICAL_EVALUATION
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -181,7 +181,7 @@ Group = MaxForStatisticalEvaluation
 End_Group
 
 Group = SceneMaximumDn
-  Auto
+  Auto           = 1
   InputKey       = SCENE_MAXIMUM_DN
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -191,7 +191,7 @@ Group = SceneMaximumDn
 End_Group
 
 Group = SceneMinimumDn
-  Auto
+  Auto           = 1
   InputKey       = SCENE_MINIMUM_DN
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -201,7 +201,7 @@ Group = SceneMinimumDn
 End_Group
 
 Group = SceneAverageDn
-  Auto
+  Auto           = 1
   InputKey       = SCENE_AVERAGE_DN
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -211,7 +211,7 @@ Group = SceneAverageDn
 End_Group
 
 Group = SceneStdevDn
-  Auto
+  Auto           = 1
   InputKey       = SCENE_STDEV_DN
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -221,7 +221,7 @@ Group = SceneStdevDn
 End_Group
 
 Group = SceneModeDn
-  Auto
+  Auto           = 1
   InputKey       = SCENE_MODE_DN
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -231,7 +231,7 @@ Group = SceneModeDn
 End_Group
 
 Group = ShadowedAreaMinimum
-  Auto
+  Auto           = 1
   InputKey       = SHADOWED_AREA_MINIMUM
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -241,7 +241,7 @@ Group = ShadowedAreaMinimum
 End_Group
 
 Group = ShadowedAreaMaximum
-  Auto
+  Auto           = 1
   InputKey       = SHADOWED_AREA_MAXIMUM
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -251,7 +251,7 @@ Group = ShadowedAreaMaximum
 End_Group
 
 Group = ShadowedAreaPercentage
-  Auto
+  Auto           = 1
   InputKey       = SHADOWED_AREA_PERCENTAGE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -261,7 +261,7 @@ Group = ShadowedAreaPercentage
 End_Group
 
 Group = InvalidType
-  Auto
+  Auto           = 1
   InputKey       = INVALID_TYPE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -271,7 +271,7 @@ Group = InvalidType
 End_Group
 
 Group = InvalidValue
-  Auto
+  Auto           = 1
   InputKey       = INVALID_VALUE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -281,7 +281,7 @@ Group = InvalidValue
 End_Group
 
 Group = InvalidPixels
-  Auto
+  Auto           = 1
   InputKey       = INVALID_PIXELS
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -291,7 +291,7 @@ Group = InvalidPixels
 End_Group
 
 Group = OutOfImageBoundsValue
-  Auto
+  Auto           = 1
   InputKey       = OUT_OF_IMAGE_BOUNDS_VALUE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -301,7 +301,7 @@ Group = OutOfImageBoundsValue
 End_Group
 
 Group = OutOfImageBoundsPixel
-  Auto
+  Auto           = 1
   InputKey       = OUT_OF_IMAGE_BOUNDS_PIXELS
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -311,7 +311,7 @@ Group = OutOfImageBoundsPixel
 End_Group
 
 Group = DarkFileName
-  Auto
+  Auto           = 1
   InputKey       = DARK_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -321,7 +321,7 @@ Group = DarkFileName
 End_Group
 
 Group = FtFileName
-  Auto
+  Auto           = 1
   InputKey       = FT_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -331,7 +331,7 @@ Group = FtFileName
 End_Group
 
 Group = FlatFileName
-  Auto
+  Auto           = 1
   InputKey       = FLAT_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -341,7 +341,7 @@ Group = FlatFileName
 End_Group
 
 Group = EfficFileName
-  Auto
+  Auto           = 1
   InputKey       = EFFIC_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -351,7 +351,7 @@ Group = EfficFileName
 End_Group
 
 Group = NonlinFileName
-  Auto
+  Auto           = 1
   InputKey       = NONLIN_FILE_NAME
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -361,7 +361,7 @@ Group = NonlinFileName
 End_Group
 
 Group = RadCnvCoef
-  Auto
+  Auto           = 1
   InputKey       = RAD_CNV_COEF
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -371,7 +371,7 @@ Group = RadCnvCoef
 End_Group
 
 Group = RefCnvCoef
-  Auto
+  Auto           = 1
   InputKey       = REF_CNV_COEF
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -381,7 +381,7 @@ Group = RefCnvCoef
 End_Group
 
 Group = StandardGeometry
-  Auto
+  Auto           = 1
   InputKey       = STANDARD_GEOMETRY
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -391,7 +391,7 @@ Group = StandardGeometry
 End_Group
 
 Group = PhotoCorrId
-  Auto
+  Auto           = 1
   InputKey       = PHOTO_CORR_ID
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -401,7 +401,7 @@ Group = PhotoCorrId
 End_Group
 
 Group = PhotoCorrCoef
-  Auto
+  Auto           = 1
   InputKey       = PHOTO_CORR_COEF
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -411,7 +411,7 @@ Group = PhotoCorrCoef
 End_Group
 
 Group = ResamplingMethod
-  Auto
+  Auto           = 1
   InputKey       = RESAMPLING_METHOD
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -421,7 +421,7 @@ Group = ResamplingMethod
 End_Group
 
 Group = L2aDeadPixelThreshold
-  Auto
+  Auto           = 1
   InputKey       = L2A_DEAD_PIXEL_THRESHOLD
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -431,7 +431,7 @@ Group = L2aDeadPixelThreshold
 End_Group
 
 Group = L2aSaturationThreshold
-  Auto
+  Auto           = 1
   InputKey       = L2A_SATURATION_THRESHOLD
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -441,7 +441,7 @@ Group = L2aSaturationThreshold
 End_Group
 
 Group = DarkValidMinimum
-  Auto
+  Auto           = 1
   InputKey       = DARK_VALID_MINIMUM
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -451,7 +451,7 @@ Group = DarkValidMinimum
 End_Group
 
 Group = FtValidMinimum
-  Auto
+  Auto           = 1
   InputKey       = FT_VALID_MINIMUM
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -461,7 +461,7 @@ Group = FtValidMinimum
 End_Group
 
 Group = RadianceSaturationThreshold
-  Auto
+  Auto           = 1
   InputKey       = RADIANCE_SATURATION_THRESHOLD
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS
@@ -471,7 +471,7 @@ Group = RadianceSaturationThreshold
 End_Group
 
 Group = RefSaturationThreshold
-  Auto
+  Auto           = 1
   InputKey       = REF_SATURATION_THRESHOLD
   InputGroup     = PROCESSING_PARAMETERS
   InputPosition  = PROCESSING_PARAMETERS

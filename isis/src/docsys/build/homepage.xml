@@ -1,58 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <homePage>
-  <div class="isisNavigationBar">
-  <table>
-    <tr>
-      <td><img src="assets/banners/banner.jpg" width="600" height="106" alt="[USGS Banner]" border="0" usemap="#bannermap"/>
-        <map name="bannermap" id="bannermap">
-          <area shape="rect" target="_top" alt="Visit the USGS Home Page" coords="2,1,186,73" href="http://www.usgs.gov"
-            title="Visit the USGS Home Page"/>
-          <area shape="rect" target="_top" alt="Go to the Astrogeology Research Program Home Page" coords="2,75,249,102"
-            href="http://astrogeology.usgs.gov"   title="Go to the Astrogeology Research Program Home Page"/>
-          <area shape="default" alt="USGS" nohref="nohref"/>
-        </map>
-      </td>
-    </tr>
-  </table>
-  </div>
-
-
-  <h1>ISIS</h1>
-  <h1 class="subtitle">Integrated Software for Imagers and Spectrometers</h1>
-  <hr/>
-  <table>
-    <tr>
-      <td valign="top">
-        <h2><a name="WhatIsIsis">What is ISIS?</a></h2>
-        <p>
-          Integrated Software for Imagers and Spectrometers (ISIS) is free and
-          open-source software (FOSS) developed by the USGS Astrogeology
-          Science Center for NASA and the planetary community. ISIS is a
-          fundamental tool for processing raw archival data into analysis ready
-          products and includes standard image processing tools such as
-          contrast, stretch, image algebra, filters, and statistical analysis.
-          However, ISIS's key feature is the ability to place different types of
-          data in the correct cartographic locations on extraterrestrial bodies.
-          The cartographically located data can then be used to create archives,
-          topographic or cartographic maps, digital elevation models, and other
-          scientific products.
-        </p>
-        <h2><a name="SupportingPlanetarySpaceMissions">Supporting Planetary Space Missions</a></h2>
-        <p>
-          ISIS is a valuable resource for planetary missions that require
-          systematic data processing, products for planning, and research and
-          analysis of derived data products. Support for a mission is added to
-          ISIS by creating sensor models, tools for ingesting mission-specific
-          ancillary data, and optional tools for calibrating mission data. Once
-          a mission is supported, data from that mission can be used with the
-          full suite of processing and analysis tools in ISIS. ISIS supports
-          data from NASA and International spacecraft missions including Lunar
-          Orbiter, Apollo, Voyager, Mariner 10, Viking, Galileo, Magellan,
-          Clementine, Mars Global Surveyor, Cassini, Mars Odyssey, Mars
-          Reconnaissance Orbiter, MESSENGER, Lunar Reconnaissance Orbiter,
-          Chandrayaan, Dawn, Kaguya, and New Horizons.
-        </p>
-      </td>
-    </tr>
-  </table>
+  <h2><a name="WhatIsIsis">What is ISIS?</a></h2>
+  <p>
+    Integrated Software for Imagers and Spectrometers (ISIS) is free and
+    open-source software (FOSS) developed by the USGS Astrogeology
+    Science Center for NASA and the planetary community. ISIS is a
+    fundamental tool for processing raw archival data into analysis ready
+    products and includes standard image processing tools such as
+    contrast, stretch, image algebra, filters, and statistical analysis.
+    However, ISIS's key feature is the ability to place different types of
+    data in the correct cartographic locations on extraterrestrial bodies.
+    The cartographically located data can then be used to create archives,
+    topographic or cartographic maps, digital elevation models, and other
+    scientific products.
+  </p>
+  <h2><a name="SupportingPlanetarySpaceMissions">Supporting Planetary Space Missions</a></h2>
+  <p>
+    ISIS is a valuable resource for planetary missions that require
+    systematic data processing, products for planning, and research and
+    analysis of derived data products. Support for a mission is added to
+    ISIS by creating sensor models, tools for ingesting mission-specific
+    ancillary data, and optional tools for calibrating mission data. Once
+    a mission is supported, data from that mission can be used with the
+    full suite of processing and analysis tools in ISIS. ISIS supports
+    data from NASA and International spacecraft missions including Lunar
+    Orbiter, Apollo, Voyager, Mariner 10, Viking, Galileo, Magellan,
+    Clementine, Mars Global Surveyor, Cassini, Mars Odyssey, Mars
+    Reconnaissance Orbiter, MESSENGER, Lunar Reconnaissance Orbiter,
+    Chandrayaan, Dawn, Kaguya, and New Horizons.
+  </p>
 </homePage>

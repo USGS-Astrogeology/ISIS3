@@ -21,9 +21,14 @@ Deborah Lee Soltesz
     doctype-system="http://www.w3.org/TR/html4/loose.dtd"
     indent="yes"
     encoding="utf-8"
-    omit-xml-declaration="yes"/>
+    omit-xml-declaration="yes"
+  />
+
+  <xsl:param name="menuPath"/>
 
   <xsl:include href="../../build/menu.xsl"/>
+  <xsl:include href="../../build/header.xsl"/>
+  <xsl:include href="../../build/footer.xsl"/>
 
 
   <xsl:key name="categoryMatch" match="/tableofcontents/application" use="category/categoryItem"/>
@@ -40,10 +45,18 @@ Deborah Lee Soltesz
         <title>
             USGS: ISIS Application Table of Contents (Alphabetical Listing)
         </title>
-        <link rel="stylesheet" href="../assets/styles/IsisStyleCommon.css"></link>
-        <link rel="stylesheet" href="presentation/PrinterFriendly/styles/IsisApplicationDocStyle.css"></link>
-        <link rel="stylesheet" href="../assets/styles/menu.css"/>
-        <link rel="stylesheet" media="print" href="../assets/styles/print.css"/>
+
+        <!-- ISIS Docs -->
+        <link rel="stylesheet" href="{$menuPath}assets/styles/IsisStyleCommon.css"/>
+        <link rel="stylesheet" media="print" href="{$menuPath}assets/styles/print.css"/>
+
+        <!-- USGS -->
+        <link rel="stylesheet" href="{$menuPath}assets/styles/usgs/common.css" />
+        <link rel="stylesheet" href="{$menuPath}assets/styles/usgs/custom.css" />
+
+        <!-- Govt -->
+        <link rel="stylesheet" href="{$menuPath}assets/styles/uswds.css"/>
+        <script src="{$menuPath}assets/scripts/uswds-init.min.js"></script>
 
         <meta name="keywords" content="Isis, applications, table of contents, image processing"/>
 
@@ -58,76 +71,37 @@ Deborah Lee Soltesz
         <meta name="city" content="Flagstaff"/>
         <meta name="zip" content="86001"/>
 
-        <!-- Dynamic analytics insertion to prevent running on local URLs -->
-        <xsl:text>&#xa;</xsl:text>
-        <script type="text/javascript">
-          //<xsl:comment><![CDATA[
-          (function() {
-            var usgsAnalytics = document.createElement('script');
-            usgsAnalytics.type = 'text/javascript';
-            usgsAnalytics.async = true;
-            usgsAnalytics.src = 'http://www.usgs.gov/scripts/analytics/usgs-analytics.js';
-            if('http:' == document.location.protocol) {
-              var s = document.getElementsByTagName('script')[0];
-              s.parentNode.insertBefore(usgsAnalytics, s);
-            }
-          })();
-          ]]></xsl:comment>
-        <xsl:text>&#xa;</xsl:text>
-        </script>
-
        </head>
 
       <body>
 
-        <div class="isisMenu">
-         <xsl:call-template  name="writeMenu"/>
-        </div>
+        <script src="{$menuPath}assets/scripts/uswds.min.js"></script>
+        
+        <xsl:call-template name="writeHeader"/>
 
-        <div class="isisContent">
+        <div id="page">
 
-        <a href="http://www.usgs.gov">
-        <img src="../assets/icons/littleVIS.gif" width="80" height="22" border="0" alt="USGS"/></a><br/>
+          <div class="isisMenu">
+            <xsl:call-template  name="writeMenu"/>
+          </div>
 
+          <main class="isisContent">
 
-        <p style="margin-top:10px; margin-bottom:0px;">
-        ISIS Application Documentation</p>
+            <h1>
+              Alphabetical Listing of Applications
+            </h1>
 
-        <hr/>
-
-
-        <table width="100%" cellpadding="0" border="0" cellspacing="0">
-          <tr valign="top">
-            <td align="right" class="caption">
-              <a href="index.html">Categorical</a> |
-              <a href="oldvnew.html">Old vs. New</a> |
-              <a href="../index.html">Home</a>
-            </td>
-          </tr>
-          <tr valign="top">
-            <td align="left">
-              <h1>
-                Alphabetical Listing of Applications
-              </h1>
-            </td>
-          </tr>
-        </table>
-
-
-
-
-<!-- Alphabetical tables of links to documentation -->
-
+            <!-- Alphabetical tables of links to documentation -->
             <table>
             <xsl:for-each select="/tableofcontents/application">
               <xsl:sort order="ascending" select="name"/>
                 <tr>
-                  <th class="tableCellLevel1_th">
+                  <th>
                     <xsl:variable name="appName" select="normalize-space(name)"/>
                     <a href="presentation/Tabbed/{$appName}/{$appName}.html">
                     <xsl:value-of select="$appName"/></a>
                   </th>
-                  <td class="tableCellLevel1">
+                  <td>
                     <xsl:if test="brief">
                     <xsl:value-of select="brief"/><br/>
                     </xsl:if>
@@ -135,18 +109,9 @@ Deborah Lee Soltesz
                 </tr>
             </xsl:for-each>
             </table>
-
-
-
-
-
-
-
-<!-- FOOTER -->
-<script type="text/javascript" language="JavaScript" src="../assets/scripts/footer.js"></script>
-</div>
-
-
+          </main>
+        </div>
+        <xsl:call-template name="writeFooter"/>
       </body>
     </html>
 

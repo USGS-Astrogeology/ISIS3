@@ -493,7 +493,7 @@ namespace Isis {
       "between the two images at each point along the profile.  Registration "
       "parameters can be changed under Options->Registration mentu of the "
       "Elevation Calculator window. A discussion of these parameters can be found at: "
-      "<a href=\"http://isis.astrogeology.usgs.gov/documents/PatternMatch/PatternMatch.html\">"
+      "<a href=\"https://astrogeology.usgs.gov/docs/concepts/control-networks/pattern-matching/\">"
       "Pattern Matching</a>");
     quickDesc->setWordWrap(true);
     quickDesc->setOpenExternalLinks(true);

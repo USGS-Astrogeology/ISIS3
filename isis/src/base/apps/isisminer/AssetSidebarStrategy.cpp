@@ -195,7 +195,6 @@ namespace Isis {
                                           const ResourceList &globals) {
 
     // Set up incoming asset handling conditions
-    int nremoved = 0;
     if ( m_removeEmpties ) {
       BOOST_FOREACH ( SharedResource resource, resources ) {
         if ( resource->isActive() ) {
@@ -208,7 +207,6 @@ namespace Isis {
               ResourceList assetList = asset.value<ResourceList>();
               if ( assetList.size() == 0) {
                 resource->removeAsset(m_asset);
-                nremoved++;
               }
             }
           }

@@ -22,8 +22,8 @@
 #
 
 Group = SpacecraftName
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -33,8 +33,8 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -44,8 +44,8 @@ Group = InstrumentId
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = TI-START
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -55,8 +55,8 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = TI-END
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -66,8 +66,8 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = StartTime
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = UT-START
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -77,8 +77,8 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = UT-END
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -88,8 +88,8 @@ Group = StopTime
 End_Group
 
 Group = TotalIntegrationTime
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = EXPOSURE_DURATION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -99,8 +99,8 @@ Group = TotalIntegrationTime
 End_Group
 
 Group = IntegrationTime
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = INTEG
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -110,8 +110,8 @@ Group = IntegrationTime
 End_Group
 
 Group = AveragedSpectra
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = HAY:STACK_COUNT
   InputGroup     = ROOT
   InputPosition  = FitsLabel
@@ -121,8 +121,8 @@ Group = AveragedSpectra
 End_Group
 
 Group = TargetName
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = TARGET
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel
@@ -132,8 +132,8 @@ Group = TargetName
 End_Group
 
 Group = TargetType
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = TARGET_TYPE
   InputGroup     = FitsLabel
   InputPosition  = FitsLabel

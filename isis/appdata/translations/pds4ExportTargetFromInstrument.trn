@@ -6,7 +6,7 @@
 #                        was made case insensitive.
 
 Group = TargetName
-  Auto
+  Auto            = 1
   InputKey        = TargetName
   InputPosition   = (IsisCube, Instrument)
   OutputName      = name
@@ -84,7 +84,7 @@ Group = TargetName
 End_Group
 
 Group = TargetType
-  Auto
+  Auto            = 1
   InputKey        = TargetName
   InputPosition   = (IsisCube, Instrument)
   OutputName      = type

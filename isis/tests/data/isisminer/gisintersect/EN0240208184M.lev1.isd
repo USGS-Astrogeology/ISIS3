@@ -1,0 +1,237 @@
+{
+  "isis_camera_version": 2,
+  "image_lines": 512,
+  "image_samples": 512,
+  "name_platform": "Messenger",
+  "name_sensor": "MERCURY DUAL IMAGING SYSTEM NARROW ANGLE CAMERA",
+  "reference_height": {
+    "maxheight": 1000,
+    "minheight": -1000,
+    "unit": "m"
+  },
+  "name_model": "USGS_ASTRO_FRAME_SENSOR_MODEL",
+  "center_ephemeris_time": 384992785.83131313,
+  "radii": {
+    "semimajor": 2440.0,
+    "semiminor": 2440.0,
+    "unit": "km"
+  },
+  "body_rotation": {
+    "time_dependent_frames": [
+      10011,
+      1
+    ],
+    "ck_table_start_time": 384992785.83131313,
+    "ck_table_end_time": 384992785.83131313,
+    "ck_table_original_size": 1,
+    "ephemeris_times": [
+      384992785.83131313
+    ],
+    "quaternions": [
+      [
+        0.9429129602113121,
+        -0.22493557889114407,
+        -0.1017608515266091,
+        0.2235259803938368
+      ]
+    ],
+    "angular_velocities": [
+      [
+        1.1327879578091546e-07,
+        -5.824594510440666e-07,
+        1.0889417864672393e-06
+      ]
+    ],
+    "reference_frame": 1
+  },
+  "instrument_pointing": {
+    "time_dependent_frames": [
+      -236890,
+      1
+    ],
+    "ck_table_start_time": 384992785.83131313,
+    "ck_table_end_time": 384992785.83131313,
+    "ck_table_original_size": 1,
+    "ephemeris_times": [
+      384992785.83131313
+    ],
+    "quaternions": [
+      [
+        0.5996371978456956,
+        0.21838695926961244,
+        -0.5941288639716281,
+        -0.48964605581635945
+      ]
+    ],
+    "angular_velocities": [
+      [
+        2.5390266156536398e-05,
+        -0.0010372825147440137,
+        -0.00037500544564333894
+      ]
+    ],
+    "reference_frame": 1,
+    "constant_frames": [
+      -236820,
+      -236890
+    ],
+    "constant_rotation": [
+      0.0016865959166354472,
+      0.9999610949473945,
+      0.008658174508646366,
+      0.0006300862521002037,
+      -0.008659247767104833,
+      0.9999623094994248,
+      0.9999983791914512,
+      -0.0016810769512649593,
+      -0.0006446663904865757
+    ]
+  },
+  "naif_keywords": {
+    "BODY199_RADII": [
+      2440.0,
+      2440.0,
+      2440.0
+    ],
+    "BODY_FRAME_CODE": 10011,
+    "INS-236820_SWAP_OBSERVER_TARGET": true,
+    "INS-236820_LIGHTTIME_CORRECTION": "LT+S",
+    "INS-236820_LT_SURFACE_CORRECT": false,
+    "INS-236820_REFERENCE_FRAME": "MSGR_SPACECRAFT",
+    "INS-236820_FRAME": "MSGR_MDIS_NAC",
+    "INS-236820_FOCAL_LENGTH": 549.11781953727,
+    "INS-236820_FL_TEMP_COEFFS": [
+      549.53425088613,
+      0.0098746748357875,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "TempDependentFocalLength": 549.564368644379,
+    "INS-236820_PIXEL_PITCH": 0.014,
+    "CLOCK_ET_-236_1/0240208184:982000_COMPUTED": "cbcad31186f2b641",
+    "INS-236820_TRANSX": [
+      0.0,
+      0.014,
+      0.0
+    ],
+    "INS-236820_TRANSY": [
+      0.0,
+      0.0,
+      0.014
+    ],
+    "INS-236820_ITRANSS": [
+      0.0,
+      71.42857143,
+      0.0
+    ],
+    "INS-236820_ITRANSL": [
+      0.0,
+      0.0,
+      71.42857143
+    ],
+    "INS-236820_BORESIGHT_SAMPLE": 512.5,
+    "INS-236820_BORESIGHT_LINE": 512.5,
+    "INS-236820_OD_T_X": [
+      0.0,
+      1.0020558791381,
+      0.0,
+      0.0,
+      -0.000544874222271292,
+      0.0,
+      6.59749881186269e-06,
+      0.0,
+      6.68312905601468e-06,
+      0.0
+    ],
+    "INS-236820_OD_T_Y": [
+      -1.365797535954e-05,
+      0.0,
+      1.0,
+      0.000885544334965699,
+      0.0,
+      0.000333893913833148,
+      0.0,
+      7.74756721313425e-06,
+      0.0,
+      7.79484564042716e-06
+    ]
+  },
+  "detector_sample_summing": 1,
+  "detector_line_summing": 1,
+  "focal_length_model": {
+    "focal_length": 549.11781953727
+  },
+  "detector_center": {
+    "line": 512.5,
+    "sample": 512.5
+  },
+  "focal2pixel_lines": [
+    0.0,
+    0.0,
+    71.42857143
+  ],
+  "focal2pixel_samples": [
+    0.0,
+    71.42857143,
+    0.0
+  ],
+  "optical_distortion": {
+    "radial": {
+      "coefficients": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "starting_detector_line": 0,
+  "starting_detector_sample": 0,
+  "instrument_position": {
+    "spk_table_start_time": 384992785.83131313,
+    "spk_table_end_time": 384992785.83131313,
+    "spk_table_original_size": 1,
+    "ephemeris_times": [
+      384992785.83131313
+    ],
+    "positions": [
+      [
+        757.9859375958022,
+        -1036.5352078226456,
+        2470.71398800662
+      ]
+    ],
+    "velocities": [
+      [
+        -3.6649740203968357,
+        0.11471941967084529,
+        0.39318272309797225
+      ]
+    ],
+    "reference_frame": 1
+  },
+  "sun_position": {
+    "spk_table_start_time": 384992785.83131313,
+    "spk_table_end_time": 384992785.83131313,
+    "spk_table_original_size": 1,
+    "ephemeris_times": [
+      384992785.83131313
+    ],
+    "positions": [
+      [
+        44053814.92136886,
+        -22192250.009680633,
+        -16422147.925629409
+      ]
+    ],
+    "velocities": [
+      [
+        35.36291550988619,
+        36.280919833680564,
+        15.714194730163456
+      ]
+    ],
+    "reference_frame": 1
+  }
+}

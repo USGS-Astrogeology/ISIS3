@@ -1,29 +1,29 @@
 Group = Keyword1
-  Auto
-  InputKey = SpacecraftName
-  InputGroup = "IsisCube,Instrument"
+  Auto           = 1
+  InputKey       = SpacecraftName
+  InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
-  OutputName = Keyword1
+  OutputName     = Keyword1
   OutputPosition = ("Group","SerialNumberKeywords")
-  Translation = ("Hayabusa2", "HAYABUSA-2")
+  Translation     = ("Hayabusa2", "HAYABUSA-2")
 EndGroup
 
 Group = Keyword2
-  Auto
-  InputKey = InstrumentId
-  InputGroup = "IsisCube,Instrument"
+  Auto           = 1
+  InputKey       = InstrumentId
+  InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
-  OutputName = Keyword2
+  OutputName     = Keyword2
   OutputPosition = ("Group","SerialNumberKeywords")
-  Translation = (*,*)
+  Translation     = (*,*)
 EndGroup
 
 Group = Keyword3
-  Auto
-  InputKey = SpacecraftClockStartCount
-  InputGroup = "IsisCube,Instrument"
+  Auto           = 1
+  InputKey       = SpacecraftClockStartCount
+  InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
-  OutputName = Keyword3
+  OutputName     = Keyword3
   OutputPosition = ("Group","SerialNumberKeywords")
-  Translation = (*,*)
+  Translation    = (*,*)
 EndGroup

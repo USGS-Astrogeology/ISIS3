@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   InputDefault   = UNKNOWN
   OutputName     = SpacecraftName
@@ -30,7 +30,7 @@ Group = SpacecraftName
 End_Group
 
 Group = MissionId
-  Auto
+  Auto           = 1
   InputKey       = MISSION_ID
   InputDefault   = UNKNOWN
   OutputName     = MissionId
@@ -39,7 +39,7 @@ Group = MissionId
 End_Group
 
 Group = InstrumentHostName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputDefault   = UNKNOWN
   OutputName     = InstrumentHostName
@@ -48,7 +48,7 @@ Group = InstrumentHostName
 End_Group
 
 Group = InstrumentHostId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_ID
   InputDefault   = UNKNOWN
   OutputName     = InstrumentHostId
@@ -57,7 +57,7 @@ Group = InstrumentHostId
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputDefault   = UNKNOWN
   OutputName     = InstrumentName
@@ -66,7 +66,7 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputDefault   = UNKNOWN
   OutputName     = InstrumentId
@@ -75,7 +75,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputDefault   = UNKNOWN
   OutputName     = TargetName
@@ -84,7 +84,7 @@ Group = TargetName
 End_Group
 
 Group = MissionPhaseName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_PHASE_NAME
   InputDefault   = UNKNOWN
   OutputName     = MissionPhaseName
@@ -93,7 +93,7 @@ Group = MissionPhaseName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputDefault   = UNKNOWN
   OutputName     = StartTime
@@ -102,7 +102,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputDefault   = UNKNOWN
   OutputName     = StopTime
@@ -111,7 +111,7 @@ Group = StopTime
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputDefault   = UNKNOWN
   OutputName     = SpacecraftClockStartCount
@@ -120,7 +120,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputDefault   = UNKNOWN
   OutputName     = SpacecraftClockStopCount
@@ -129,7 +129,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = OrbitNumber
-  Auto
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   InputDefault   = UNKNOWN
   OutputName     = OrbitNumber
@@ -138,7 +138,7 @@ Group = OrbitNumber
 End_Group
 
 Group = InstrumentModeId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   InputDefault   = UNKNOWN
   OutputName     = InstrumentModeId
@@ -147,7 +147,7 @@ Group = InstrumentModeId
 End_Group
 
 Group = SpatialSumming
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   InputDefault   = UNKNOWN
   OutputName     = SpatialSumming
@@ -157,7 +157,7 @@ Group = SpatialSumming
 End_Group
 
 Group = LineExpsureDuration
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_MODE_ID
   InputDefault   = UNKNOWN
   OutputName     = LineExposureDuration
@@ -168,7 +168,7 @@ End_Group
 
 #  The following two keywords are only in the L1B
 Group = SpacecraftYawDirection
-  Auto
+  Auto           = 1
   InputKey       = CH1:SPACECRAFT_YAW_DIRECTION
   InputDefault   = UNKNOWN
   OutputName     = SpacecraftYawDirection
@@ -177,7 +177,7 @@ Group = SpacecraftYawDirection
 End_Group
 
 Group = OrbitLimbDirection
-  Auto
+  Auto           = 1
   InputKey       = CH1:ORBIT_LIMB_DIRECTION
   InputDefault   = UNKNOWN
   OutputName     = OrbitLimbDirection
@@ -187,7 +187,7 @@ End_Group
 
 #  The following two keywords are only in the L0
 Group = SampleDisplayDirection
-  Auto
+  Auto           = 1
   InputPosition  = (LO_FILE,LO_IMAGE)
   InputKey       = SAMPLE_DISPLAY_DIRECTION
   InputDefault   = UNKNOWN
@@ -197,7 +197,7 @@ Group = SampleDisplayDirection
 End_Group
 
 Group = LineDisplayDirection
-  Auto
+  Auto           = 1
   InputGroup     = "LO_FILE,LO_IMAGE"
   InputKey       = LINE_DISPLAY_DIRECTION
   InputDefault   = UNKNOWN
@@ -207,7 +207,7 @@ Group = LineDisplayDirection
 End_Group
 
 Group = ProductType
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_TYPE
   InputDefault   = UNKNOWN
   OutputName     = ProductType

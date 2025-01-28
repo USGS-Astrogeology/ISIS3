@@ -64,6 +64,7 @@ namespace Isis {
    *   @history 2015-05-08 Kris Becker - Modify constructor to take a global
    *                          resources list; modified apply() method to accept
    *                          a global resource list.
+   *   @history 2024-07-15 Ken Edmundson - Fixed minor mispellings in error messages.
    */
   class ResourceManagerStrategy : public Strategy {
 

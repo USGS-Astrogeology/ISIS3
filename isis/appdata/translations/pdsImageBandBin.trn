@@ -1,6 +1,6 @@
 Group = Center
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = CENTER_FILTER_WAVELENGTH
   InputGroup     = IMAGE
   InputGroup     = QUBE
@@ -20,8 +20,8 @@ Group = Center
 End_Group
 
 Group = FilterName
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = FILTER_NAME
   InputGroup     = IMAGE
   InputGroup     = QUBE
@@ -41,8 +41,8 @@ Group = FilterName
 End_Group
 
 Group = Width
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = BANDWIDTH
   InputGroup     = IMAGE
   InputGroup     = QUBE
@@ -63,8 +63,8 @@ End_Group
 
 # Added for Galileo Orbiter NIMS PDS products
 Group = Center2
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = BAND_BIN_CENTER
   InputPosition  = (SPECTRAL_QUBE, BAND_BIN)
   OutputName     = Center
@@ -74,8 +74,8 @@ End_Group
 
 # Added for Galileo Orbiter NIMS PDS products
 Group = Width2
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = BAND_BIN_WIDTH
   InputPosition  = (SPECTRAL_QUBE, BAND_BIN)
   OutputName     = Width
@@ -85,8 +85,8 @@ End_Group
 
 # Added for Galileo Orbiter NIMS PDS products
 Group = FilterNumber2
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = BAND_BIN_FILTER_NUMBER
   InputPosition  = (SPECTRAL_QUBE, BAND_BIN)
   OutputName     = FilterNumber

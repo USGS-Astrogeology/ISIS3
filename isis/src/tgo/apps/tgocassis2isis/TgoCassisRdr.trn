@@ -8,7 +8,7 @@
 # Consider the following translation group and xml
 #
 # Group = CoreSamples
-#   Auto
+#   Auto           = 1
 #   InputPosition  = (Array_2D_Image, Axis_Array)
 #   Dependencies   = "tag@axis_name|Sample"
 #   InputKey       = elements
@@ -38,7 +38,7 @@
 # history 2018-06-06 Jeannie Backer - Original version.
 
 Group = CoreSamples
-  Auto
+  Auto           = 1
   InputPosition  = (File_Area_Observational, Array_2D_Image, Axis_Array)
   InputPosition  = (File_Area_Observational, Array_3D_Image, Axis_Array)
   InputKeyDependencies   = "tag@axis_name|Sample"
@@ -49,7 +49,7 @@ Group = CoreSamples
 End_Group
 
 Group = CoreLines
-  Auto
+  Auto           = 1
   InputPosition  = (File_Area_Observational, Array_2D_Image, Axis_Array)
   InputPosition  = (File_Area_Observational, Array_3D_Image, Axis_Array)
   InputKeyDependencies   = "tag@axis_name|Line"
@@ -60,8 +60,8 @@ Group = CoreLines
 End_Group
 
 Group = CoreBands
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (File_Area_Observational, Array_3D_Image, Axis_Array)
   InputKeyDependencies   = "tag@axis_name|Band"
   InputKey       = elements
@@ -72,8 +72,8 @@ Group = CoreBands
 End_Group
 
 Group = CoreType
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputPosition  = (File_Area_Observational, Array_2D_Image, Element_Array)
   InputPosition  = (File_Area_Observational, Array_3D_Image, Element_Array)
   InputKey       = data_type
@@ -84,7 +84,7 @@ Group = CoreType
 End_Group
 
 Group = CoreByteOrder
-  Auto
+  Auto           = 1
   InputDefault   = 1.0
   InputPosition  = (File_Area_Observational, Array_2D_Image, Element_Array)
   InputPosition  = (File_Area_Observational, Array_3D_Image, Element_Array)
@@ -97,7 +97,7 @@ Group = CoreByteOrder
 End_Group
 
 Group = CoreBase
-  Auto
+  Auto           = 1
   InputDefault   = 0.0
   InputPosition  = (File_Area_Observational, Array_2D_Image, Element_Array)
   InputPosition  = (File_Area_Observational, Array_3D_Image, Element_Array)
@@ -108,7 +108,7 @@ Group = CoreBase
 End_Group
 
 Group = CoreMultiplier
-  Auto
+  Auto           = 1
   InputDefault   = 1.0
   InputPosition  = (File_Area_Observational, Array_2D_Image, Element_Array)
   InputPosition  = (File_Area_Observational, Array_3D_Image, Element_Array)

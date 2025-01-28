@@ -23,8 +23,8 @@ namespace Isis {
    * @brief Encapsulation class provides support for GEOS-C API 
    *  
    * The Geometry Engine, Open Source (GEOS) software package, developed in C++ 
-   * from a port of the Java Toplogy Suite (JTS) provides a simplied, generic C 
-   * API using an opaque C pointer. This layer is to provide stable API from 
+   * from a port of the Java Topology Suite (JTS) provides a simplified, generic C 
+   * API using an opaque C pointer. This layer is to provide a stable API from 
    * which to develop and maintain applications that are relatively immune from 
    * changes to the underlying C++ implementation. 
    *  
@@ -44,8 +44,13 @@ namespace Isis {
    *   @history 2016-03-02 Ian Humphrey - Updated for coding standards compliance. Added to 
    *                           jwbacker's original unit test to prepare for adding this class to
    *                           ISIS. Fixes #2398.
-   *   @history 2016-03-04 Kris Becker - Completed the documentation and implmented the equals()
+   *   @history 2016-03-04 Kris Becker - Completed the documentation and implemented the equals()
    *                           method.
+   *   @history 2018-07-29 Kris Becker - Added buffer() method; isValid() was
+   *                           throwing an exception if the geometry was invalid
+   *                           (e.g., self-intersecting geometry), which is now
+   *                           trapped and a false condition is properly returned.
+   * 
    */   
   class GisGeometry {
   
@@ -99,6 +104,7 @@ namespace Isis {
   
       double intersectRatio(const GisGeometry &geom) const;
   
+      GisGeometry *buffer(const double width=0.0, const int quadsegs=16) const;
       GisGeometry *envelope( ) const;
       GisGeometry *convexHull( ) const;
       GisGeometry *simplify(const double &tolerance) const;

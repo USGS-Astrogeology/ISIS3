@@ -1,0 +1,71 @@
+name: Github to Gitlab CI - Run CodeBuild (LTS)
+
+env:
+  GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+  ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  # Check if the PR is a bugfix
+  check_labels:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    name: Check PR labels action step
+    # Make the output of this job available to other jobs
+    outputs: 
+      result: ${{steps.execute_py_script.outputs.result}}
+    steps:
+    - name: checkout repo content
+      uses: actions/checkout@v2 # checkout the repository content
+    - name: setup python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+    - name: install python packages
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r ./.github/requirements.txt
+    - name: Set output
+      id: execute_py_script
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_API_URL: ${{ secrets.GITHUB_API_URL }}
+        GITHUB_SERVER_URL: ${{ secrets.GITHUB_SERVER_URL }}
+        GITHUB_SHA: ${{ secrets.GITHUB_SHA }}
+      run: |
+        echo "result=$(python ./.github/pr_label_checker.py)" >> $GITHUB_OUTPUT
+    # Print the result to the log
+    - name: See result
+      run: echo "${{ steps.execute_py_script.outputs.result }}"
+  build:
+    needs: check_labels
+    # Only run this step if the code was a bugfix
+    if: contains(needs.check_labels.outputs.result, 'true')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run script
+        env:
+          LTS_VERSION: 9.0.0_LTS  # formatted as x.x.x_LTS
+          BASE_LTS: 9.0
+          GITHUB_SHA: ${{ secrets.GITHUB_SHA }}
+        run: |
+          git config --global user.name "Github_CI"
+          git config --global user.email "project_14468_bot_3f7d8e1a392afd88ead5f3f3154e809d@noreply.gitlab.com"
+          git clone https://isis-codebuild-ci:$GITLAB_TOKEN@code.usgs.gov/astrogeology/isis-codebuild-ci.git
+          echo $LTS_VERSION
+          cd isis-codebuild-ci
+          if [[ "git ls-remote --exit-code origin $LTS_VERSION" == 2 ]]; then
+            git checkout -b $LTS_VERSION
+          else
+            git checkout $LTS_VERSION
+            git reset --hard origin/main
+          fi
+          echo -e "\nenv: \n  shell: bash \n  variables: \n    LTS_VERSION: $LTS_VERSION \n    BASE_LTS: $BASE_LTS \n    ANACONDA_API_TOKEN: $ANACONDA_TOKEN \n    GITHUB_SHA: $GITHUB_SHA" >> buildspec-lts.yml
+          git commit -a -m "$LTS_VERSION"
+          git push origin $LTS_VERSION --force

@@ -36,8 +36,8 @@ int main(void) {
     stringstream trnsStrm;
     
     trnsStrm << "Group = Version" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Debug" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Debug = 1" << endl;
     trnsStrm << "  InputPosition = (Identification_Area)" << endl;
     trnsStrm << "  InputKey = version_id" << endl;
     trnsStrm << "  OutputPosition = (group, instrument)" << endl;
@@ -45,8 +45,8 @@ int main(void) {
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = Host" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Debug" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Debug = 1" << endl;
     trnsStrm << "  InputPosition = (Observation_Area, Investigation_Area)" << endl;
     trnsStrm << "  InputKey = Instrument_Host_Id" << endl;
     trnsStrm << "  OutputPosition = (group, instrument)" << endl;
@@ -54,8 +54,8 @@ int main(void) {
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = BandWidth" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Debug" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Debug = 1" << endl;
     trnsStrm << "  InputPosition = (Observation_Area)" << endl;
     trnsStrm << "  InputKey = Science_Facets" << endl;
     trnsStrm << "  InputKeyAttribute = bandwidth" << endl;
@@ -64,8 +64,8 @@ int main(void) {
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = SpacecraftName" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Debug" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Debug = 1" << endl;
     trnsStrm << "  InputPosition = (Observation_Area, Observing_System, Observing_System_Component)" << endl;
     trnsStrm << "  InputKey = name" << endl;
     trnsStrm << "  InputKeyDependencies = tag@type|Spacecraft" << endl;
@@ -74,8 +74,8 @@ int main(void) {
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = InstrumentId" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Debug" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Debug = 1" << endl;
     trnsStrm << "  InputPosition = (Observation_Area, Observing_System, Observing_System_Component)" << endl;
     trnsStrm << "  InputKey = name" << endl;
     trnsStrm << "  InputKeyDependencies = tag@type|Instrument" << endl;
@@ -91,8 +91,8 @@ int main(void) {
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = OnboardImageAcquisitionTimeUTC" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Debug" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Debug = 1" << endl;
     trnsStrm << "  InputPosition = (CaSSIS_Header, DERIVED_HEADER_DATA)" << endl;
     trnsStrm << "  InputKey = OnboardImageAcquisitionTime" << endl;
     trnsStrm << "  InputKeyDependencies = att@Time_Base|UTC" << endl;
@@ -101,8 +101,8 @@ int main(void) {
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = OnboardImageAcquisitionTimeET" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Debug" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Debug = 1" << endl;
     trnsStrm << "  InputPosition = (CaSSIS_Header, DERIVED_HEADER_DATA)" << endl;
     trnsStrm << "  InputKey = OnboardImageAcquisitionTime" << endl;
     trnsStrm << "  InputKeyDependencies = att@Time_Base|ET" << endl;
@@ -111,8 +111,8 @@ int main(void) {
     trnsStrm << "  Translation = (*,*)" << endl;
     trnsStrm << "EndGroup" << endl;
     trnsStrm << "Group = CoreBands" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Debug" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Debug = 1" << endl;
     trnsStrm << "  InputPosition = (Product_Observational, File_Area_Observational," << endl;
     trnsStrm << "                Array_2D_Image, Axis_Array)" << endl;
     trnsStrm << "  InputKeyDependencies = \"tag@axis_name|Band\"" << endl;
@@ -123,8 +123,8 @@ int main(void) {
     trnsStrm << "  Translation = (*, *)" << endl;
     trnsStrm << "End_Group" << endl;
     trnsStrm << "Group = CoreSamples" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Debug" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Debug = 1" << endl;
     trnsStrm << "  InputPosition = (Product_Observational, File_Area_Observational," << endl;
     trnsStrm << "                Array_2D_Image, Axis_Array)" << endl;
     trnsStrm << "  InputKeyDependencies = \"tag@axis_name|Sample\"" << endl;
@@ -136,8 +136,8 @@ int main(void) {
     trnsStrm << "  Translation = (*, *)" << endl;
     trnsStrm << "End_Group" << endl;
     trnsStrm << "Group = CoreLines" << endl;
-    trnsStrm << "  Auto" << endl;
-    trnsStrm << "  Debug" << endl;
+    trnsStrm << "  Auto = 1" << endl;
+    trnsStrm << "  Debug = 1" << endl;
     trnsStrm << "  InputPosition = (Product_Observational, Bad_Parent)" << endl;
     trnsStrm << "  InputKey = elements" << endl;
     trnsStrm << "  InputDefault = 10" << endl;
@@ -360,8 +360,8 @@ int main(void) {
       FileName nonExistantFile("DoesNotExist.xml");
       stringstream simpleTrans;
       simpleTrans << "Group = Version" << endl;
-      simpleTrans << "  Auto" << endl;
-      simpleTrans << "  Debug" << endl;
+      simpleTrans << "  Auto = 1" << endl;
+      simpleTrans << "  Debug = 1" << endl;
       simpleTrans << "  InputPosition = (Identification_Area)" << endl;
       simpleTrans << "  InputKey = version_id" << endl;
       simpleTrans << "  OutputPosition = (group, instrument)" << endl;
@@ -379,8 +379,8 @@ int main(void) {
       FileName pvlFile("$ISISROOT/appdata/translations/pdsImage.trn");
       stringstream simpleTrans;
       simpleTrans << "Group = Version" << endl;
-      simpleTrans << "  Auto" << endl;
-      simpleTrans << "  Debug" << endl;
+      simpleTrans << "  Auto = 1" << endl;
+      simpleTrans << "  Debug = 1" << endl;
       simpleTrans << "  InputPosition = (Identification_Area)" << endl;
       simpleTrans << "  InputKey = version_id" << endl;
       simpleTrans << "  OutputPosition = (group, instrument)" << endl;

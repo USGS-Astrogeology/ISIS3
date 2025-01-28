@@ -185,8 +185,7 @@ namespace Isis {
 //          FileName("$ISISROOT/doc/documents/PatternMatch/PatternMatch.html").fileName();
 //    m_templateFileNameLabel->setOpenExternalLinks(true);
     m_templateFileNameLabel->setWhatsThis("FileName of the sub-pixel "
-                  "registration template.  Refer to $ISISROOT/doc/documents/"
-                  "PatternMatch/PatternMatch.html for a description of the "
+                  "registration template.  Refer to https://astrogeology.usgs.gov/docs/concepts/control-networks/pattern-matching/ for a description of the "
                   "contents of this file.");
 
     m_groundFileNameLabel = new QLabel("Ground Source File: ");

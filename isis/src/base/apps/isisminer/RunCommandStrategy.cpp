@@ -223,7 +223,6 @@ namespace Isis {
   int RunCommandStrategy::apply(SharedResource &resource, 
                                 const ResourceList &globals) { 
 
-    int n_good(0);
     BOOST_FOREACH ( Command command, m_commands ) {
       QString cmd = processArgs(command.m_command, m_argKeys, 
                                 getGlobals(resource, globals));
@@ -248,7 +247,6 @@ namespace Isis {
       if ( isDebug() ) { 
         cout << "Command " << command.m_name << " succeeded\n"; 
       }
-        n_good++;
       }
     }
     return (1); 

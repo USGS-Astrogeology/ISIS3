@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = ProductId 
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -31,7 +31,7 @@ Group = ProductId
 End_Group
 
 Group = FileName
-  Auto
+  Auto           = 1
   InputKey       = FILE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -41,7 +41,7 @@ Group = FileName
 End_Group
 
 Group = SoftwareName
-  Auto
+  Auto           = 1
   InputKey       = SOFTWARE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -51,7 +51,7 @@ Group = SoftwareName
 End_Group
 
 Group = SoftwareVersion
-  Auto
+  Auto           = 1
   InputKey       = SOFTWARE_VERSION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -61,7 +61,7 @@ Group = SoftwareVersion
 End_Group
 
 Group = ProcessVersionId
-  Auto
+  Auto           = 1
   InputKey       = PROCESS_VERSION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -71,7 +71,7 @@ Group = ProcessVersionId
 End_Group
 
 Group = ProductCreationTime
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_CREATION_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -81,7 +81,7 @@ Group = ProductCreationTime
 End_Group
 
 Group = ProgramStartTime
-  Auto
+  Auto           = 1
   InputKey       = PROGRAM_START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -91,7 +91,7 @@ Group = ProgramStartTime
 End_Group
 
 Group = ProducerId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -101,7 +101,7 @@ Group = ProducerId
 End_Group
 
 Group = ProductSetId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_SET_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -111,7 +111,7 @@ Group = ProductSetId
 End_Group
 
 Group = ProductVersionId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_VERSION_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -121,7 +121,7 @@ Group = ProductVersionId
 End_Group
 
 Group = RegisteredProduct
-  Auto
+  Auto           = 1
   InputKey       = REGISTERED_PRODUCT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -131,7 +131,7 @@ Group = RegisteredProduct
 End_Group
 
 Group = Level2AFileName
-  Auto
+  Auto           = 1
   InputKey       = LEVEL2A_FILE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -141,7 +141,7 @@ Group = Level2AFileName
 End_Group
 
 Group = SpiceMetakernelFileName
-  Auto
+  Auto           = 1
   InputKey       = SPICE_METAKERNEL_FILE_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -151,7 +151,7 @@ Group = SpiceMetakernelFileName
 End_Group
 
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
