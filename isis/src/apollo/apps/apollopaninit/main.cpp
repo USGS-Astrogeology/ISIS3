@@ -240,7 +240,7 @@ void IsisMain() {
   std::string frameName;
   SpiceInt frameCode = 0;
   try{
-    json output = Isis::RestfulSpice::getTargetFrameInfo(301, "base");
+    json output = Isis::RestfulSpice::getTargetFrameInfo(301, mission.toLower().toStdString());
     frameCode = output["frameCode"].get<SpiceInt>();
     frameName = output["frameName"].get<std::string>();
   }catch(std::invalid_argument){
@@ -251,7 +251,7 @@ void IsisMain() {
       throw IException(IException::Io, msg, _FILEINFO_);
     }
   }
-
+  
 
   spRot = new SpiceRotation(frameCode);
   //create a table from starttime to endtime (streched by 3%) with NODES entries
