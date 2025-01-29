@@ -233,14 +233,17 @@ void IsisMain() {
   // Load kernels
   Load_Kernel(kernels_pvlG["TargetPosition"]);
   Load_Kernel(kernels_pvlG["TargetAttitudeShape"]);
+  Load_Kernel(kernels_pvlG["InstrumentPointing"]);
+  Load_Kernel(kernels_pvlG["InstrumentPosition"]);
   Load_Kernel(kernels_pvlG["LeapSecond"]);
+  Load_Kernel(kernels_pvlG["InstrumentAddendum"]);
 
 
   //////////////////////////////////////////attach a target rotation table
   std::string frameName;
   SpiceInt frameCode = 0;
   try{
-    json output = Isis::RestfulSpice::getTargetFrameInfo(301, "base");
+    json output = Isis::RestfulSpice::getTargetFrameInfo(301, mission.toLower().toStdString());
     frameCode = output["frameCode"].get<SpiceInt>();
     frameName = output["frameName"].get<std::string>();
   }catch(std::invalid_argument){
