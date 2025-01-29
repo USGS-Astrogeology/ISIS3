@@ -247,8 +247,8 @@ namespace Isis {
                   }
                 }
                 else {
-                  throw IException(IException::Unknown, "Expected Pvl Group " + primaryGroup.name() + " in the first Pvl Object " + primaryObject.name() + " "
-                                               "in the DB file " + kernelFileName.original() + " to have a single keyword (named "
+                  throw IException(IException::Unknown, "Expected Pvl Group [" + primaryGroup.name() + "] in the first Pvl Object [" + primaryObject.name() + "] "
+                                               "in the DB file [" + kernelFileName.original() + "] to have a single keyword (named "
                                                "File), but found " + Isis::toString(primaryGroup.keywords()) + " keywords",
                                    _FILEINFO_);
                 }
@@ -260,8 +260,8 @@ namespace Isis {
               }
             }
             else {
-              throw IException(IException::Unknown,"Expected one Pvl Group in the first Pvl Object " + primaryObject.name() + " in "
-                                           "the DB file " + kernelFileName.original() + " but found " + Isis::toString(primaryObject.groups()), _FILEINFO_);
+              throw IException(IException::Unknown,"Expected one Pvl Group in the first Pvl Object [" + primaryObject.name() + "] in "
+                                           "the DB file [" + kernelFileName.original() + "] but found [" + Isis::toString(primaryObject.groups()) + "]", _FILEINFO_);
             }
           }
           else {
