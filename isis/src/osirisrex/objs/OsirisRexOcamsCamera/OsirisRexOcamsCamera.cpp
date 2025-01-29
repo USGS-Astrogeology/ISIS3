@@ -12,14 +12,15 @@ find files of those names at the top level of this repository. **/
 #include <QString>
 
 #include "CameraDetectorMap.h"
-#include "OsirisRexDistortionMap.h"
-#include "OsirisRexOcamsOpenCVDistortionMap.h"
 #include "CameraFocalPlaneMap.h"
 #include "CameraGroundMap.h"
 #include "CameraSkyMap.h"
+#include "IrregularBodyCameraGroundMap.h"
 #include "IString.h"
 #include "iTime.h"
 #include "NaifStatus.h"
+#include "OsirisRexDistortionMap.h"
+#include "OsirisRexOcamsOpenCVDistortionMap.h"
 
 using namespace std;
 
@@ -77,7 +78,6 @@ namespace Isis {
     PvlGroup bandBin = lab.findGroup("BandBin", Pvl::Traverse);
     QString filterName = bandBin["FilterName"];
 
-
     int distortCode = getFunctionalIkCode(frameCode, focusIkCode, filterName);
     QString dcode(toString(distortCode));
 
@@ -110,7 +110,6 @@ namespace Isis {
     focalMap->SetDetectorOrigin(
         Spice::getDouble("INS" + ikCode + "_CCD_CENTER", 0) + 1.0,
         Spice::getDouble("INS" + ikCode + "_CCD_CENTER", 1) + 1.0);
-
 
     // Setup distortion map
     // See what type of distortion model the IAK is configured to use
@@ -150,7 +149,7 @@ namespace Isis {
 
 
     // Setup the ground and sky map
-    new CameraGroundMap(this);
+    new IrregularBodyCameraGroundMap(this);
     new CameraSkyMap(this);
 
     setTime(centerTime);

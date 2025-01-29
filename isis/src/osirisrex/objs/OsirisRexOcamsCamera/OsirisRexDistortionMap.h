@@ -8,6 +8,7 @@ For more details about the LICENSE terms and the AUTHORS, you will
 find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
+
 #include <QSharedPointer>
 
 #include "CameraDistortionMap.h"
@@ -47,13 +48,9 @@ namespace Isis {
       double m_detectorOriginLine; //!< The origin of the detector's line coordinate.
       double m_distortionOriginSample; //!< The distortion's origin sample coordinate.
       double m_distortionOriginLine; //!< The distortion's origin line coordinate. 
-
-//      double x0;      //!< X offset from distortion and CCD center
-//      double y0;      //!< Y offset from distortion and CCD center
       bool   m_debug; //!< Debug option
 
       QSharedPointer<CameraFocalPlaneMap> m_focalMap;  // Local focal plane map
-
   };
 };
 #endif
