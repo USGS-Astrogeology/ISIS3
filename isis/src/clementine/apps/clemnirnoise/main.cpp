@@ -42,7 +42,6 @@ void NoiseFilter(Buffer &in, Buffer &out) {
   double diffSum;
   double diffAvg;
   int dCount;
-  int LCOUNT = 0;
 
   for(int il = 0; il < in.LineDimension(); il++) {
     for(int is = 0; is < in.SampleDimension(); is++) {
@@ -67,7 +66,6 @@ void NoiseFilter(Buffer &in, Buffer &out) {
       diffAvg = diffSum / dCount;
     }
     if(diffAvg > TOL1) {
-      LCOUNT++;
       for(int is = 1; is < in.SampleDimension() - 4; is += 4) {
         int index = in.SampleDimension() * il + is;
         out[index] = Isis::Null;
@@ -94,7 +92,6 @@ void NoiseFilter(Buffer &in, Buffer &out) {
       diffAvg = diffSum / dCount;
     }
     if(diffAvg > TOL2 && dCount > NPOS) {
-      LCOUNT++;
       for(int is = 4; is < in.SampleDimension() - 4; is += 4) {
         int index = in.SampleDimension() * il + is;
         out[index] = Isis::Null;

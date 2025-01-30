@@ -9,7 +9,7 @@ Group = BandBinUnit
 End_Group
 
 Group = OriginalBand
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_ORIGINAL_BAND
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -19,7 +19,7 @@ Group = OriginalBand
 End_Group
 
 Group = Center
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_CENTER
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -29,7 +29,7 @@ Group = Center
 End_Group
 
 Group = Width
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_WIDTH
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -48,7 +48,7 @@ Group = ExposureUnit
 End_Group
 
 Group = Exposure
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_EXPOSURE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -58,7 +58,7 @@ Group = Exposure
 End_Group
 
 Group = NumberCoAdds
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_NUMBER_CO_ADDS
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -68,7 +68,7 @@ Group = NumberCoAdds
 End_Group
 
 Group = CameraHeadTemp
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_CAMERA_HEAD_TEMP
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -78,7 +78,7 @@ Group = CameraHeadTemp
 End_Group
 
 Group = FilterId
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_FILTER_ID
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -88,7 +88,7 @@ Group = FilterId
 End_Group
 
 Group = FilterHole
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_FILTER_HOLE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -98,7 +98,7 @@ Group = FilterHole
 End_Group
 
 Group = Ut
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_UT
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -108,7 +108,7 @@ Group = Ut
 End_Group
 
 Group = HourAngle
-  Auto
+  Auto           = 1
   InputKey       = HOUR_ANGLE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -118,7 +118,7 @@ Group = HourAngle
 End_Group
 
 Group = RightAscension
-  Auto
+  Auto           = 1
   InputKey       = RIGHT_ASCENSION
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -128,7 +128,7 @@ Group = RightAscension
 End_Group
 
 Group = Declination
-  Auto
+  Auto           = 1
   InputKey       = DECLINATION
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -138,7 +138,7 @@ Group = Declination
 End_Group
 
 Group = Epoch
-  Auto
+  Auto           = 1
   InputKey       = EPOCH
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -148,7 +148,7 @@ Group = Epoch
 End_Group
 
 Group = ZenithDistance
-  Auto
+  Auto           = 1
   InputKey       = ZENITH_DISTANCE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -158,7 +158,7 @@ Group = ZenithDistance
 End_Group
 
 Group = Azimuth
-  Auto
+  Auto           = 1
   InputKey       = AZIMUTH
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -168,7 +168,7 @@ Group = Azimuth
 End_Group
 
 Group = SiderealTime
-  Auto
+  Auto           = 1
   InputKey       = SIDEREAL_TIME
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -178,7 +178,7 @@ Group = SiderealTime
 End_Group
 
 Group = JulianDate
-  Auto
+  Auto           = 1
   InputKey       = JULIAN_DATE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -188,7 +188,7 @@ Group = JulianDate
 End_Group
 
 Group = HourAngleRate
-  Auto
+  Auto           = 1
   InputKey       = HOUR_ANGLE_RATE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -198,7 +198,7 @@ Group = HourAngleRate
 End_Group
 
 Group = DeclinationRate
-  Auto
+  Auto           = 1
   InputKey       = DECLINATION_RATE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -208,7 +208,7 @@ Group = DeclinationRate
 End_Group
 
 Group = LunarPhase
-  Auto
+  Auto           = 1
   InputKey       = LUNAR_PHASE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -218,7 +218,7 @@ Group = LunarPhase
 End_Group
 
 Group = LunarSemiDiameter
-  Auto
+  Auto           = 1
   InputKey       = LUNAR_SEMI_DIAMETER
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -228,7 +228,7 @@ Group = LunarSemiDiameter
 End_Group
 
 Group = LunarBrightLimb
-  Auto
+  Auto           = 1
   InputKey       = LUNAR_BRIGHT_LIMB
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -238,7 +238,7 @@ Group = LunarBrightLimb
 End_Group
 
 Group = LunarPositionAxis
-  Auto
+  Auto           = 1
   InputKey       = LUNAR_POSITION_AXIS
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -248,7 +248,7 @@ Group = LunarPositionAxis
 End_Group
 
 Group = SubEarthLatitude
-  Auto
+  Auto           = 1
   InputKey       = SUB_EARTH_LATITUDE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -258,7 +258,7 @@ Group = SubEarthLatitude
 End_Group
 
 Group = SubEarthLongitude
-  Auto
+  Auto           = 1
   InputKey       = SUB_EARTH_LONGITUDE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -268,7 +268,7 @@ Group = SubEarthLongitude
 End_Group
 
 Group = SubSolarLatitude
-  Auto
+  Auto           = 1
   InputKey       = SUB_SOLAR_LATITUDE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -278,7 +278,7 @@ Group = SubSolarLatitude
 End_Group
 
 Group = SubSolarLongitude
-  Auto
+  Auto           = 1
   InputKey       = SUB_SOLAR_LONGITUDE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -288,7 +288,7 @@ Group = SubSolarLongitude
 End_Group
 
 Group = PlanetDeclination
-  Auto
+  Auto           = 1
   InputKey       = PLANET_DECLINATION
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -298,7 +298,7 @@ Group = PlanetDeclination
 End_Group
 
 Group = PlanetRightAscension
-  Auto
+  Auto           = 1
   InputKey       = PLANET_RIGHT_ASCENSION
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -308,7 +308,7 @@ Group = PlanetRightAscension
 End_Group
 
 Group = PlanetRotation
-  Auto
+  Auto           = 1
   InputKey       = PLANET_ROTATION
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -318,7 +318,7 @@ Group = PlanetRotation
 End_Group
 
 Group = ScTargetPositionX
-  Auto
+  Auto           = 1
   InputKey       = SC_TARGET_POSITION_X
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -328,7 +328,7 @@ Group = ScTargetPositionX
 End_Group
 
 Group = ScTargetPositionY
-  Auto
+  Auto           = 1
   InputKey       = SC_TARGET_POSITION_Y
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -338,7 +338,7 @@ Group = ScTargetPositionY
 End_Group
 
 Group = ScTargetPositionZ
-  Auto
+  Auto           = 1
   InputKey       = SC_TARGET_POSITION_Z
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -348,7 +348,7 @@ Group = ScTargetPositionZ
 End_Group
 
 Group = ScSunPositionX
-  Auto
+  Auto           = 1
   InputKey       = SC_SUN_POSITION_X
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -358,7 +358,7 @@ Group = ScSunPositionX
 End_Group
 
 Group = ScSunPositionY
-  Auto
+  Auto           = 1
   InputKey       = SC_SUN_POSITION_Y
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -368,7 +368,7 @@ Group = ScSunPositionY
 End_Group
 
 Group = ScSunPositionZ
-  Auto
+  Auto           = 1
   InputKey       = SC_SUN_POSITION_Z
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -378,7 +378,7 @@ Group = ScSunPositionZ
 End_Group
 
 Group = MoonSum
-  Auto
+  Auto           = 1
   InputKey       = MOONSUM
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -388,7 +388,7 @@ Group = MoonSum
 End_Group
 
 Group = MoonErr
-  Auto
+  Auto           = 1
   InputKey       = MOONERR
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -398,7 +398,7 @@ Group = MoonErr
 End_Group
 
 Group = SkyVal
-  Auto
+  Auto           = 1
   InputKey       = SKYVAL
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -408,7 +408,7 @@ Group = SkyVal
 End_Group
 
 Group = SkyErr
-  Auto
+  Auto           = 1
   InputKey       = SKYERR
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -418,7 +418,7 @@ Group = SkyErr
 End_Group
 
 Group = Ef2Sp1
-  Auto
+  Auto           = 1
   InputKey       = EF2_SP1
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -428,7 +428,7 @@ Group = Ef2Sp1
 End_Group
 
 Group = Ef2Sp2
-  Auto
+  Auto           = 1
   InputKey       = EF2_SP2
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -438,7 +438,7 @@ Group = Ef2Sp2
 End_Group
 
 Group = Ef2Sp3
-  Auto
+  Auto           = 1
   InputKey       = EF2_SP3
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -448,7 +448,7 @@ Group = Ef2Sp3
 End_Group
 
 Group = Quality
-  Auto
+  Auto           = 1
   InputKey       = QUALITY
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -458,7 +458,7 @@ Group = Quality
 End_Group
 
 Group = CenterLine
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_CENTER_LINE
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -468,7 +468,7 @@ Group = CenterLine
 End_Group
 
 Group = CenterSamp
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_CENTER_SAMP
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -478,7 +478,7 @@ Group = CenterSamp
 End_Group
 
 Group = Radius
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_RADIUS
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -488,7 +488,7 @@ Group = Radius
 End_Group
 
 Group = CenterLineError
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_CENTER_LINE_ERROR
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -498,7 +498,7 @@ Group = CenterLineError
 End_Group
 
 Group = CenterSampError
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_CENTER_SAMP_ERROR
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -508,7 +508,7 @@ Group = CenterSampError
 End_Group
 
 Group = RadiusError
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_RADIUS_ERROR
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -518,7 +518,7 @@ Group = RadiusError
 End_Group
 
 Group = CalibrationFactor
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_CALIBRATION_FACTOR
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -528,7 +528,7 @@ Group = CalibrationFactor
 End_Group
 
 Group = UcalibrationFactor
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_U_CALIBRATION_FACTOR
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -538,7 +538,7 @@ Group = UcalibrationFactor
 End_Group
 
 Group = Extinction
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_EXTINCTION
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)
@@ -548,7 +548,7 @@ Group = Extinction
 End_Group
 
 Group = Uextinction
-  Auto
+  Auto           = 1
   InputKey       = BAND_BIN_U_EXTINCTION
   InputGroup     = "QUBE,BAND_BIN"
   InputPosition  = (QUBE, BAND_BIN)

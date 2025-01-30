@@ -100,33 +100,7 @@ doProg:
 doDev:
 	echo "        ...building Developer documentation"
 	$(DOXYGEN) build/Developer_temp.conf
-
-# The doProgTest target can be used to build documentation for an individual Object.
-# E.G. from isis/src/base/objs/Camera do
-#      ( cd ../../../docsys/Object ; make CURDIR=/scratch/m04585/isis/src/base/objs/Camera doProgTest )
-doProgTest:
-	echo "Building ProgTester configuration in: $(CURDIR) ISISROOT is: $(ISISROOT)"
-	mkdir -p docbuild
-	cat $(ISISROOT)/src/docsys/Object/build//Programmer.conf         >  docbuild/ProgTester_temp.conf
-	echo "OUTPUT_DIRECTORY = $(CURDIR)/"                             >> docbuild/ProgTester_temp.conf
-	echo "STRIP_FROM_PATH  = $(CURDIR)/"                             >> docbuild/ProgTester_temp.conf
-	echo "INPUT            = $(CURDIR)/ \\"                          >> docbuild/ProgTester_temp.conf
-	echo "                   $(ISISROOT)/src/docsys/Object/build/isisDoxyDefs.doxydef"  >> docbuild/ProgTester_temp.conf
-	echo "HTML_HEADER      = $(ISISROOT)/src/docsys/Object/build/IsisObjectHeader.html" >> docbuild/ProgTester_temp.conf
-	echo "HTML_FOOTER      = $(ISISROOT)/src/docsys/Object/build/IsisObjectFooter.html" >> docbuild/ProgTester_temp.conf
-	echo "HTML_OUTPUT      = html"                                   >> docbuild/ProgTester_temp.conf
-	echo "WARN_LOGFILE           = "                                 >> docbuild/ProgTester_temp.conf
-	echo "QUIET                  = YES"                              >> docbuild/ProgTester_temp.conf
-	echo "WARNINGS               = YES"                              >> docbuild/ProgTester_temp.conf
-	echo "WARN_IF_UNDOCUMENTED   = YES"                              >> docbuild/ProgTester_temp.conf
-	echo "WARN_IF_DOC_ERROR      = YES"                              >> docbuild/ProgTester_temp.conf
-	echo "WARN_NO_PARAMDOC       = YES"                              >> docbuild/ProgTester_temp.conf
-	$(DOXYGEN) docbuild/ProgTester_temp.conf
-	echo "View your documentation by opening the file html/index.html in a browser"
-#do the following on a clean, as well as whacking the html directory created in this dir by doxy
-	rm -r docbuild
 	
-
 
 #----
 # CLEAN
@@ -140,9 +114,7 @@ clean:
 cleandoc:
 	rm -r $(ISISROOT)/doc/Object
 
-
-
-
+	
 
 
 #TODO

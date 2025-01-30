@@ -15,7 +15,7 @@
 #             Description
 #
  Group = bin_width_desc
-  Auto
+  Auto            = 1
   InputDefault    = UNK
   OutputName      = sp:bin_width_desc
   OutputPosition  = (Product_Observational, Observation_Area, Discipline_Area, sp:Spectral_Characteristics)
@@ -29,7 +29,7 @@
 #        </sp:Local_Internal_Reference>
 
 Group = local_identifier_reference
-  Auto
+  Auto           = 1
   InputDefault   = UNK
   InputPosition  = (IsisCube, BandBin)
   OutputName     = sp:local_identifier_reference
@@ -38,7 +38,7 @@ Group = local_identifier_reference
 End_Group
 
 Group = local_reference_type
-  Auto
+  Auto            = 1
   InputDefault   = TBD
   InputPosition  = (IsisCube, BandBin)
   OutputName     = sp:local_reference_type
@@ -57,7 +57,7 @@ End_Group
 
 
 Group = bin_set_local_identifier_reference
-  Auto
+  Auto           = 1
   InputDefault   = UNK
   InputPosition  = (IsisCube, BandBin)
   OutputName     = sp:local_identifier_reference
@@ -67,7 +67,7 @@ End_Group
 
 # Needs val from enumeration
 Group = bin_set_local_reference_type
-  Auto
+  Auto            = 1
   InputDefault   = TBD
   InputPosition  = (IsisCube, BandBin)
   OutputName     = sp:local_reference_type
@@ -119,8 +119,8 @@ End_Group
 
 # NOT OPTIONAL TODO: FIX
 Group = bin_sequence_number
-  Auto
-  Optional
+  Auto            = 1
+  Optional       = 1
   InputKey       = OriginalBand
   InputPosition  = (IsisCube, BandBin)
   OutputName     = sp:bin_sequence_number
@@ -129,9 +129,9 @@ Group = bin_sequence_number
 End_Group
 
 Group = CenterValue1
-  Auto
-  Debug
-  Optional
+  Auto           = 1
+  Debug          = 1
+  Optional       = 1
   InputKey       = FilterCenter
   InputPosition  = (IsisCube,BandBin)
   OutputName     = sp:center_value
@@ -140,8 +140,8 @@ Group = CenterValue1
 End_Group
 
 Group = BinWidth1
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = FilterWidth
   InputPosition  = (IsisCube, BandBin)
   OutputName     = sp:bin_width
@@ -150,9 +150,9 @@ Group = BinWidth1
 End_Group
 
 Group = CenterValue2
-  Auto
-  Debug
-  Optional
+  Auto           = 1
+  Debug          = 1
+  Optional       = 1
   InputKey       = Center
   InputPosition  = (IsisCube,BandBin)
   OutputName     = sp:center_value
@@ -161,8 +161,8 @@ Group = CenterValue2
 End_Group
 
 Group = BinWidth2
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = Width
   InputPosition  = (IsisCube, BandBin)
   OutputName     = sp:bin_width
@@ -173,8 +173,8 @@ End_Group
 
 # Optional, see NH LEISA for example of ISIS input cube that has this.
 Group = original_bin_number
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = OriginalBand
   InputPosition  = (IsisCube, BandBin)
   OutputName     = sp:bin_width
@@ -183,9 +183,9 @@ Group = original_bin_number
 End_Group
 
 Group = FilterName1
-  Auto
-  Debug
-  Optional
+  Auto           = 1
+  Debug          = 1
+  Optional       = 1
   InputKey       = FilterName
   InputPosition  = (IsisCube, BandBin)
   OutputName     = sp:filter_name
@@ -194,9 +194,9 @@ Group = FilterName1
 End_Group
 
 Group = FilterName2
-  Auto
-  Debug
-  Optional
+  Auto           = 1
+  Debug          = 1
+  Optional       = 1
   InputKey       = Name
   InputPosition  = (IsisCube, BandBin)
   OutputName     = sp:filter_name

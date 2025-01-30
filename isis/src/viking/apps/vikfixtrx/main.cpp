@@ -64,8 +64,6 @@ void fixtrx(Buffer &in, Buffer &out) {
   }
 
   // Go fix the bad tracks
-  int trxflag = 0;
-  for(trk = 0; trk < 7; trxflag += badtrx[trk++]);
   for(trk = 0; trk < 7; trk++) {
     if(badtrx[trk] == true) {
       for(isamp = trk; isamp < nsamps; isamp += 7) {

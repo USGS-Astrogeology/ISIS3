@@ -18,7 +18,7 @@
 #       A Public Release for ISIS3.6.1:                        {% set version = "3.6.1" %}
 #       A Release Candidate for ISIS3.6.1:                     {% set version = "3.6.1_RC" %}
 #       A custom build of ISIS3.6.1 for the CaSSIS mission:    {% set version = "3.6.1_cassis" %}
-{% set version = "8.1.0_RC2" %}
+{% set version = "8.3" %}
 
 # This is the build number for the current version you are building. If this is the first build of
 # this version, the build number will be 0. It is incremented by 1 with every consecutive build of
@@ -27,7 +27,7 @@
 
 package:
   name: isis
-  version: {{ version }}
+  version: {{ version }}.0_RC1
 
 source:
   git_url: 'https://github.com/DOI-USGS/ISIS3.git'

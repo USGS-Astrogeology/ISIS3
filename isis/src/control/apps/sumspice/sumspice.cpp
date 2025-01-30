@@ -120,9 +120,7 @@ namespace Isis {
       }
     }
 
-    if (duplicates.keywords() != 0 && log) {
-      log->addLogGroup(duplicates);
-    }
+    Application::Log(duplicates);
 
     // Determine the update mode
     QString update = ui.GetString("UPDATE").toLower();
@@ -196,9 +194,7 @@ namespace Isis {
       }
       PvlGroup loggrp("Warnings");
       loggrp.addKeyword(message);
-      if (log){
-        log->addLogGroup(loggrp);
-      }
+      Application::Log(loggrp);
     }
 
 

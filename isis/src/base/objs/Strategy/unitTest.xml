@@ -33,6 +33,11 @@ xsi:noNamespaceSchemaLocation="http://isis.astrogeology.usgs.gov/Schemas/Applica
       Added tests for processing Galileo NIMS qubs (which are saved in
       VAX floating point format). References #2368.
     </change>
+    <change name="Ken Edmundson" date="2024-09-23">
+      Added additional unit tests for handling self-intersecting polygon geometry.
+      These cover 1) RepairInvalidGeometry set to true or false; and 2) InvalidGeometryAction
+      set to disable (Default), continue, or error. References #5612.
+    </change>
   </history>
 
   <groups>

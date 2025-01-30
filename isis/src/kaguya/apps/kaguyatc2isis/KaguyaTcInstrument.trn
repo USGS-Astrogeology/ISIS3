@@ -33,7 +33,7 @@
 # 			 SpacecraftName in order to support
 # 			 products from JAXA online archive
 Group = MissionName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -43,7 +43,7 @@ Group = MissionName
 End_Group
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -54,7 +54,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -64,7 +64,7 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -74,8 +74,8 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -85,8 +85,8 @@ Group = TargetName
 End_Group
 
 Group = ObservationModeId
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = OBSERVATION_MODE_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -96,8 +96,8 @@ Group = ObservationModeId
 End_Group
 
 Group = SensorDescription
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = SENSOR_DESCRIPTION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -107,8 +107,8 @@ Group = SensorDescription
 End_Group
 
 Group = SensorDescription2
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = SENSOR_DESCRIPTION2
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -118,8 +118,8 @@ Group = SensorDescription2
 End_Group
 
 Group = ImageCenterLatitude
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = IMAGE_CENTER_LATITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -129,8 +129,8 @@ Group = ImageCenterLatitude
 End_Group
 
 Group = ImageCenterLongitude
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = IMAGE_CENTER_LONGITUDE
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -140,8 +140,8 @@ Group = ImageCenterLongitude
 End_Group
 
 Group = StartTime
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = CORRECTED_START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -151,8 +151,8 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = CORRECTED_STOP_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -162,8 +162,8 @@ Group = StopTime
 End_Group
 
 Group = OriginalStartTime
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = START_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -173,8 +173,8 @@ Group = OriginalStartTime
 End_Group
 
 Group = OriginalStopTime
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = STOP_TIME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -184,8 +184,8 @@ Group = OriginalStopTime
 End_Group
 
 Group = ExposureModeId
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = EXPOSURE_MODE_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -195,8 +195,8 @@ Group = ExposureModeId
 End_Group
 
 Group = ExposureDuration
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = LINE_EXPOSURE_DURATION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -206,8 +206,8 @@ Group = ExposureDuration
 End_Group
 
 Group = OriginalSpacecraftClockStartCount
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -217,8 +217,8 @@ Group = OriginalSpacecraftClockStartCount
 End_Group
 
 Group = OriginalSpacecraftClockStopCount
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -228,8 +228,8 @@ Group = OriginalSpacecraftClockStopCount
 End_Group
 
 Group = SpacecraftClockStartCount
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = CORRECTED_SC_CLOCK_START_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -239,8 +239,8 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = CORRECTED_SC_CLOCK_STOP_COUNT
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -250,8 +250,8 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = OriginalLineSamplingInterval
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = LINE_SAMPLING_INTERVAL
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -261,8 +261,8 @@ Group = OriginalLineSamplingInterval
 End_Group
 
 Group = LineSamplingInterval
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = CORRECTED_SAMPLING_INTERVAL
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -272,8 +272,8 @@ Group = LineSamplingInterval
 End_Group
 
 Group = EncodingType
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = ENCODING_TYPE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -283,8 +283,8 @@ Group = EncodingType
 End_Group
 
 Group = SwathModeId
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = SWATH_MODE_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -294,8 +294,8 @@ Group = SwathModeId
 End_Group
 
 Group = IlluminationCondition
-  Optional
-  Auto
+  Optional       = 1
+  Auto           = 1
   InputKey       = ILLUMINATION_CONDITION
   InputGroup     = ROOT
   InputPosition  = ROOT

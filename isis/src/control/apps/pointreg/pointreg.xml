@@ -56,8 +56,8 @@
 
     <p>
       Once "pointreg" has a reference measure for a point, it attempts to
-every other measure in the point to that reference location.  An
-      implicit reference will then be made explicit, and if any of the
+      register every other measure in the point to that reference location. 
+      An implicit reference will then be made explicit, and if any of the
       registrations succeed, the reference will also be made valid.
     </p>
 
@@ -80,6 +80,18 @@ every other measure in the point to that reference location.  An
       measures within a control point are ignored (Ignore=True), then the entire
       control point is set to ignored (Ignore=True) at the control point level.
     </p>
+
+    <p>
+      Pointreg requires SPICE data and an associated control network, 
+      so you may need to run the following ISIS programs on your images 
+      beforehand. See <a href="https://astrogeology.usgs.gov/docs/how-to-guides/image-processing/bundle-adjustment-in-isis/">Bundle Adjustment</a> for more info.
+    </p>
+    <ul>
+      <li>spiceinit</li>
+      <li>footprintint</li>
+      <li>findimageoverlaps</li>
+      <li>autoseed</li>
+    </ul>
   </description>
 
   <category>
@@ -97,8 +109,7 @@ every other measure in the point to that reference location.  An
         <document>
           <title>Pattern Matching in ISIS</title>
           <source>
-            <filename>PatternMatch.html</filename>
-            <path>../../../../documents/PatternMatch/</path>
+            <path>https://astrogeology.usgs.gov/docs/concepts/control-networks/pattern-matching/</path>
           </source>
         </document>
       </documents>
@@ -280,7 +291,8 @@ every other measure in the point to that reference location.  An
           accept set to their default values, or common example values where
           defaults do not exist.  For an in-depth discussion of all the options
           available to the user in this definition file, please see the Pattern
-          Matching guide referenced above.
+          Matching guide referenced above.  Sample deffiles can be found in the
+          ISIS3 git repository under isis/appdata/templates/autoreg.
         </description>
         <helpers >
           <helper name="H1">
@@ -638,32 +650,33 @@ every other measure in the point to that reference location.  An
       </description>
       <terminalInterface>
         <commandLine>
-          files=../IN/fileList.lis cnet=../IN/controlNet.net
-          template=../IN/autoRegTemplate.def
-          to=../OUT/outputIgnoredAndUnmeasured.net
-          flatfile=../OUT/outputIgnoredAndUnmeasured.txt
+          fromlist=fileList.lis 
+          cnet=controlNet.net 
+          deffile=autoRegTemplate.def 
+          onet=outputIgnoredAndUnmeasured.net 
+          flatfile=outputIgnoredAndUnmeasured.txt
         </commandLine>
         <description>
            This example shows the use of pointreg with the OUTPUTIGNORED and
-           OUTPUTUNMEASURED parameters left with the default values of "True" and
-           REGISTERIGNOREDONLY with the default value of "False".  This implies
-           that only "non-ignored" points will be registered but all control
+           OUTPUTFAILED parameters left with the default values of "True" and
+           POINTS with the default value of "NONIGNORED".  This implies
+           that only non-ignored points will be registered but all control
            points and control measures will be included in the output.
         </description>
       </terminalInterface>
       <guiInterfaces>
         <guiInterface>
-          <image src="assets/images/outputIgnoredAndUnmeasuredGui.jpg" width="652" height="550">
+          <image src="assets/images/ex1outputIgnoredAndUnmeasuredGui.png" width="648" height="1239">
             <brief>
               Example GUI
             </brief>
             <description>
               Screen shot of GUI with parameters filled in to perform point
               registration that includes ignored control points and unmeasured
-              control measures in the output but does not register the ignore
+              control measures in the output but does not register the ignored
               points.
             </description>
-            <thumbnail src="assets/thumbs/outputIgnoredAndUnmeasuredGuiThumb.jpg" width="200" height="169" caption="pointreg GUI" />
+            <thumbnail src="assets/thumbs/ex1outputIgnoredAndUnmeasuredGuiThumb.png" width="81" height="155" caption="pointreg GUI" />
           </image>
         </guiInterface>
       </guiInterfaces>
@@ -751,28 +764,29 @@ every other measure in the point to that reference location.  An
         unmeasured points in the output control net.
       </brief>
       <description>
-        In this example, the pointreg application is used to register "ignore"
+        In this example, the pointreg application is used to register "ignored"
         points from two images and output a new control network that includes
         valid and ignored points and unmeasured control measures.
       </description>
       <terminalInterface>
         <commandLine>
-          files=../IN/fileList.lis cnet=../IN/controlNet.net
-          template=../IN/autoRegTemplate.def
-          to=../OUT/outputIgnoredAndUnmeasuredRegIgnored.net
-          flatfile=../OUT/outputIgnoredAndUnmeasuredRegIgnored.txt
-          registerignoredonly=yes
+          fromlist=fileList.lis 
+          cnet=controlNet.net 
+          deffile=autoRegTemplate.def 
+          onet=outputIgnoredAndUnmeasuredRegIgnored.net 
+          flatfile=outputIgnoredAndUnmeasuredRegIgnored.txt 
+          points=ignored
         </commandLine>
         <description>
-           This example shows the use of pointreg with the OUTPUTIGNORED,
-           OUTPUTUNMEASURED and REGISTERIGNOREDONLY parameters as "True". This
-           implies that only "ignored" points will be registered but all control
+           This example shows the use of pointreg with the OUTPUTIGNORED, 
+           OUTPUTFAILED parameters as "True", and POINTS set to the "IGNORED" ones. 
+           This implies that only "ignored" points will be registered but all control 
            points and control measures will be included in the output.
         </description>
       </terminalInterface>
       <guiInterfaces>
         <guiInterface>
-          <image src="assets/images/outputIgnoredAndUnmeasuredRegIgnoreGui.jpg" width="652" height="550">
+          <image src="assets/images/ex2outputIgnoredAndUnmeasuredRegIgnoreGui.png" width="667" height="1239">
             <brief>
               Example GUI
             </brief>
@@ -782,7 +796,7 @@ every other measure in the point to that reference location.  An
               unmeasured control measures in the output but does not register
               the "valid" points.
             </description>
-            <thumbnail src="assets/thumbs/outputIgnoredAndUnmeasuredRegIgnoreGuiThumb.jpg" width="200" height="169" caption="pointreg GUI" />
+            <thumbnail src="assets/thumbs/ex2outputIgnoredAndUnmeasuredRegIgnoreGuiThumb.png" width="84" height="155" caption="pointreg GUI" />
           </image>
         </guiInterface>
       </guiInterfaces>
@@ -876,22 +890,25 @@ every other measure in the point to that reference location.  An
       </description>
       <terminalInterface>
         <commandLine>
-          files=../IN/fileList.lis cnet=../IN/controlNet.net
-          template=../IN/autoRegTemplate.def
-          to=../OUT/discardIgnoredAndUnmeasured.net
-          flatfile=../OUT/discardIgnoredAndUnmeasured.txt
-          outputignored=no outputunmeasured=no
+          fromlist=fileList.lis 
+          cnet=controlNet.net 
+          deffile=autoRegTemplate.def 
+          onet=discardIgnoredAndUnmeasured.net 
+          flatfile=discardIgnoredAndUnmeasured.txt 
+          outputignored=no 
+          outputfailed=no
         </commandLine>
         <description>
            This example shows the use of pointreg with the OUTPUTIGNORED,
-           OUTPUTUNMEASURED and REGISTERIGNOREDONLY parameters set to "False".
-           This implies that only "valid" points will be  registered and
-           included inthe output control network.
+           and OUTPUTFAILED parameters set to "False", and the POINTS 
+           parameter set to the default "NONIGNORED". This implies that 
+           only "valid" points will be registered and included in the 
+           output control network.
         </description>
       </terminalInterface>
       <guiInterfaces>
         <guiInterface>
-          <image src="assets/images/discardIgnoredAndUnmeasuredGui.jpg" width="652" height="550">
+          <image src="assets/images/ex3discardIgnoredAndUnmeasuredGui.png" width="664" height="1239">
             <brief>
               Example GUI
             </brief>
@@ -900,7 +917,7 @@ every other measure in the point to that reference location.  An
               registration that omits ignored control points and unmeasured
               control measures from the output.
             </description>
-            <thumbnail src="assets/thumbs/discardIgnoredAndUnmeasuredGuiThumb.jpg" width="200" height="169" caption="pointreg GUI" />
+            <thumbnail src="assets/thumbs/ex3discardIgnoredAndUnmeasuredGuiThumb.png" width="83" height="155" caption="pointreg GUI" />
           </image>
         </guiInterface>
       </guiInterfaces>
@@ -984,33 +1001,36 @@ every other measure in the point to that reference location.  An
     </example>
     <example>
       <brief>
-        Register "ignored" points in a control network and omit ignored and
-        unmeasured points in the output control net.
+        Register "ignored" points in a control network and omit ignored points 
+        and failed measures the output control net.
       </brief>
       <description>
-        In this example, the pointreg application is used to register "ignore"
+        In this example, the pointreg application is used to register "ignored"
         points from two images and output a new control network that omits
         ignored control points and unmeasured control measures.
       </description>
       <terminalInterface>
         <commandLine>
-          files=../IN/fileList.lis cnet=../IN/controlNet.net
-          template=../IN/autoRegTemplate.def
-          to=../OUT/discardIgnoredAndUnmeasuredRegIgnored.net
-          flatfile=../OUT/discardIgnoredAndUnmeasuredRegIgnored.txt
-          outputignored=no outputunmeasured=no registerignoredonly=yes
+          fromlist=fileList.lis 
+          cnet=controlNet.net 
+          deffile=autoRegTemplate.def 
+          onet=discardIgnoredAndUnmeasuredRegIgnored.net 
+          flatfile=discardIgnoredAndUnmeasuredRegIgnored.txt 
+          outputignored=no 
+          outputfailed=no 
+          points=ignored
         </commandLine>
         <description>
            This example shows the use of pointreg with the OUTPUTIGNORED and
-           OUTPUTUNMEASURED parameters set to "False" and REGISTERIGNOREDONLY
-           set to "True". This implies that only "ignored" points will be
-           registered while ignored control points and unmeasured control
-           measures are omitted from the output.
+           OUTPUTFAILED parameters set to "False" and POINTS set to "IGNORED". 
+           This implies that only "ignored" points will be registered while 
+           ignored control points and failed control measures are omitted 
+           from the output.
         </description>
       </terminalInterface>
       <guiInterfaces>
         <guiInterface>
-          <image src="assets/images/discardIgnoredAndUnmeasuredRegIgnoreGui.jpg" width="652" height="550">
+          <image src="assets/images/ex4discardIgnoredAndUnmeasuredRegIgnoreGui.png" width="664" height="1239">
             <brief>
               Example GUI
             </brief>
@@ -1019,7 +1039,7 @@ every other measure in the point to that reference location.  An
               point registration that omits ignored control points and
               unmeasured control measures from the output.
             </description>
-            <thumbnail src="assets/thumbs/discardIgnoredAndUnmeasuredRegIgnoreGuiThumb.jpg" width="200" height="169" caption="pointreg GUI" />
+            <thumbnail src="assets/thumbs/ex4discardIgnoredAndUnmeasuredRegIgnoreGuiThumb.png" width="83" height="155" caption="pointreg GUI" />
           </image>
         </guiInterface>
       </guiInterfaces>
@@ -1103,32 +1123,33 @@ every other measure in the point to that reference location.  An
     </example>
     <example>
       <brief>
-        Register "new" measures in a control network only and leave previously
-        processed as they are in the output control net.
+        Register new "candidate" measures in a control network only and leave 
+        previously processed as they are in the output control net.
       </brief>
       <description>
-        In this example, the pointreg application is used to register only "new"
-        measures that have been added to the control net after a prior run in
-        pointreg.
+        In this example, the pointreg application is used to register only new 
+        "candidate" measures that have been added to the control net after a 
+        prior run in pointreg.
       </description>
       <terminalInterface>
         <commandLine>
-          files=../IN/fileList.lis cnet=../IN/controlNet.net
-          template=../IN/autoRegTemplate.def
-          to=../OUT/registerNewOnly.net
-          flatfile=../OUT/registerNewOnly.txt
-          registernewonly=yes
+          fromlist=fileList2.lis 
+          cnet=controlNet2.net 
+          deffile=autoRegTemplate.def 
+          onet=registerNewOnly.net 
+          flatfile=registerNewOnly.txt 
+          measures=candidates
         </commandLine>
         <description>
-           This example shows the use of pointreg with the REGISTERNEWONLY set
-           to "True". This implies that only "new" measurements will be
-           registered while measures that have been previously registered are
-           not reprocessed.
+           This example shows the use of pointreg with the MEASURES set
+           to "CANDIDATES". This implies that only new "candidate" 
+           measurements will be registered while measures that have been 
+           previously registered will not be reprocessed.
         </description>
       </terminalInterface>
       <guiInterfaces>
         <guiInterface>
-          <image src="assets/images/registerNewOnlyGui.jpg" width="728" height="550">
+          <image src="assets/images/ex5registerNewOnlyGui.png" width="676" height="1239">
             <brief>
               Example GUI
             </brief>
@@ -1136,7 +1157,7 @@ every other measure in the point to that reference location.  An
               Screen shot of GUI with parameters filled in to perform new
                measure registration only.
             </description>
-            <thumbnail src="assets/thumbs/registerNewOnlyThumb.jpg" width="200" height="151" caption="pointreg GUI" />
+            <thumbnail src="assets/thumbs/ex5registerNewOnlyThumb.png" width="84" height="155" caption="pointreg GUI" />
           </image>
         </guiInterface>
       </guiInterfaces>

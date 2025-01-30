@@ -13,6 +13,7 @@ find files of those names at the top level of this repository. **/
 #include <QList>
 #include <QFile>
 
+#include "Application.h"
 #include "Camera.h"
 #include "Cube.h"
 #include "Distance.h"
@@ -295,7 +296,7 @@ namespace Isis {
     mapping += PvlKeyword("PreciseMinimumLongitude", toString(longitudeStat.Minimum()));
     mapping += PvlKeyword("PreciseMaximumLongitude", toString(longitudeStat.Maximum()));
 
-    log.addGroup(mapping);
+    Application::AppendAndLog(mapping, &log);
 
     // Write the output file if requested
     if(ui.WasEntered("TO")) {

@@ -93,6 +93,11 @@
   {%- if InstrumentId == "OSINAC" or InstrumentId == "OSIWAC"-%}
     {%- set InstrumentId="Osiris" -%}
   {%- endif -%}
+{%- else if SpacecraftName == "Chandrayaan-2" or SpacecraftName == "chandrayaan-2"-%}
+  {%- set SpacecraftId="Chandrayaan2" -%}
+  {%- if InstrumentId == "terrain mapping camera"-%}
+    {%- set InstrumentId="TMC2" -%}
+  {%- endif -%}
 {%- endif -%}
 
 {#- Combine the pieces to output the file name to be used to import an image into a cube -#}

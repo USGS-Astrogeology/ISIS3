@@ -1,5 +1,6 @@
 #include "cubeit.h"
 
+#include "Application.h"
 #include "ProcessByLine.h"
 #include "ProcessMosaic.h"
 #include "IException.h"
@@ -115,9 +116,7 @@ namespace Isis {
       }
       //Only write out results group if we added something to it.
       if (results.hasKeyword("UnpropagatedBand")) {
-        if (log){
-          log->addLogGroup(results);
-        }
+        Application::Log(results);
       }
     }
     catch(IException &e) {

@@ -172,7 +172,6 @@ help:
 	echo "make plugin                     : Builds a plugin object if applicable"
 	echo "make install                    : Calls the make target and copies the object and"
 	echo "                                    plugin to $ISISROOT/..."
-	echo "make html                       : Builds the html page for the object"
 	echo "make clean                      : Removes the application, *.html and *.o files."
 	echo "                                    Also cleans the test directories"
 	echo "make sanitize                   : Calls the clean target then removes tttt* junk.*"
@@ -187,8 +186,6 @@ help:
 	echo "make protos                     : Builds the object of google protocol buffer(*.proto) files"
 
 TEMPDIR:=${CURDIR}
-html: force
-	(cd $(ISISROOT)/src/docsys/Object/ ; make CURDIR=$(TEMPDIR) doProgTest )
 
 clean:  localclean
 	$(RM) $(OBJS) $(PROTOSGEN) $(MOCGEN) unitTest.o unitTest print.prt    \

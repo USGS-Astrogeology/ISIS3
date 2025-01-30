@@ -44,7 +44,6 @@ int main() {
      << "CAT=\"TABBY\" " << endl
      << "BIRD=(PARROT) \0" << endl
      << "REPTILE={SNAKE,LIZARD} \t" << endl
-     << "-VEGGIE \n"
      << " "
      << "    BOVINE    =   (   COW  ,  CAMEL  ) \n  "
      << "TREE = {   \"MAPLE\"   ,\n \"ELM\" \n, \"PINE\"   }" << endl
@@ -66,7 +65,6 @@ int main() {
         << "CAT=\"TABBY\" " << endl
         << "BIRD=(PARROT) \0" << endl
         << "REPTILE={SNAKE,LIZARD} \t" << endl
-        << "-VEGGIE \n"
         << " "
         << "    BOVINE    =   (   COW  ,  CAMEL  ) \n  "
         << "TREE = {   \"MAPLE\"   ,\n \"ELM\" \n, \"PINE\"   }" << endl

@@ -21,8 +21,8 @@
 # Translation may be repeated as needed.
 #
 Group = MaximumLatitude
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = MAXIMUM_LATITUDE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -32,8 +32,8 @@ Group = MaximumLatitude
 End_Group
 
 Group = MinimumLatitude
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = MINIMUM_LATITUDE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -43,8 +43,8 @@ Group = MinimumLatitude
 End_Group
 
 Group = WesternmostLongitude
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = WESTERNMOST_LONGITUDE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -54,8 +54,8 @@ Group = WesternmostLongitude
 End_Group
 
 Group = EasternmostLongitude
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = EASTERNMOST_LONGITUDE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -65,8 +65,8 @@ Group = EasternmostLongitude
 End_Group
 
 Group = CenterLongitude
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = CENTER_LONGITUDE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -76,8 +76,8 @@ Group = CenterLongitude
 End_Group
 
 Group = CenterLatitude
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = CENTER_LATITUDE
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -87,7 +87,7 @@ Group = CenterLatitude
 End_Group
 
 Group = Minimum
-  Auto
+  Auto           = 1
   InputKey       = MINIMUM
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -97,7 +97,7 @@ Group = Minimum
 End_Group
 
 Group = Maximum
-  Auto
+  Auto           = 1
   InputKey       = MAXIMUM
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -107,7 +107,7 @@ Group = Maximum
 End_Group
 
 Group = Mean
-  Auto
+  Auto           = 1
   InputKey       = MEAN
   InputGroup     = IMAGE
   InputPosition  = IMAGE
@@ -117,7 +117,7 @@ Group = Mean
 End_Group
 
 Group = StandardDeviation
-  Auto
+  Auto           = 1
   InputKey       = STANDARD_DEVIATION
   InputGroup     = IMAGE
   InputPosition  = IMAGE

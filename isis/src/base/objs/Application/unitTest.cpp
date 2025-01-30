@@ -22,6 +22,24 @@ void myError() {
   throw Isis::IException(Isis::IException::Programmer, msg, _FILEINFO_);
 }
 
+void errorFormatting() {
+  QString msg = "local test error";
+  Isis::IException exception = Isis::IException(Isis::IException::Programmer, msg, _FILEINFO_);
+
+  // Add test for formatError
+  Isis::Pvl &prefs = Isis::Preference::Preferences();
+  Isis::PvlGroup &errorPrefs = prefs.findGroup("ErrorFacility");
+
+  QString errorString = Isis::Application::formatError(exception);
+  std::cout << errorString.toStdString() << std::endl;
+
+  QString &formatValue = errorPrefs["Format"][0];
+  formatValue = "Pvl";
+
+  errorString = Isis::Application::formatError(exception);
+  std::cout << errorString.toStdString() << std::endl;
+}
+
 using namespace std;
 int main(int argc, char *argv[]) {
   Isis::Preference::Preferences(true);
@@ -60,6 +78,9 @@ int main(int argc, char *argv[]) {
   std::cout << std::endl;
 
   a.Run(myError);
+  std::cout << std::endl;
+
+  a.Run(errorFormatting);
   std::cout << std::endl;
 
   Isis::Pvl p("print.prt");

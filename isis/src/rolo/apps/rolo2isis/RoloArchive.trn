@@ -1,6 +1,6 @@
 #Begin
 Group = CoreItemSize
-  Auto
+  Auto           = 1
   InputKey       = CORE_ITEM_SIZE
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -10,7 +10,7 @@ Group = CoreItemSize
 End_Group
 
 Group = FlatFieldFiles
-  Auto
+  Auto           = 1
   InputKey       = FLAT_FIELD_FILES
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -20,7 +20,7 @@ Group = FlatFieldFiles
 End_Group
 
 Group = BadPixelFile
-  Auto
+  Auto           = 1
   InputKey       = BAD_PIXEL_FILE
   InputGroup     = QUBE
   InputPosition  = QUBE

@@ -2,8 +2,8 @@
 #   2016-02-10 - Tyler Wilson
 
 Group = Axes
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = AXES
         InputPosition    = QUBE
         OutputName       = Axes
@@ -13,8 +13,8 @@ End_Group
 
 
 Group = AxisName
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = AXIS_NAME
         InputPosition    = QUBE
         OutputName       = AxisName
@@ -24,8 +24,8 @@ End_Group
 
 
 Group = CoreItems
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = CORE_ITEMS
         InputPosition    = QUBE
         OutputName       = CoreItems
@@ -34,8 +34,8 @@ Group = CoreItems
 End_Group
 
 Group = CoreItemBytes
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = CORE_ITEM_BYTES
         InputPosition    = QUBE
         OutputName       = CoreItemBytes
@@ -45,8 +45,8 @@ End_Group
 
 
 Group = CoreItemType
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = CORE_ITEM_TYPE
         InputPosition    = QUBE
         OutputName       = CoreItemType
@@ -55,8 +55,8 @@ Group = CoreItemType
 End_Group
 
 Group = CoreBase
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = CORE_BASE
         InputPosition    = QUBE
         OutputName       = CoreBase
@@ -66,8 +66,8 @@ End_Group
 
 
 Group = CoreMultiplier
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = Core_MULTIPLIER
         InputPosition    = QUBE
         OutputName       = CoreMultiplier
@@ -77,8 +77,8 @@ End_Group
 
 
 Group = CoreValidMinimum
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = CORE_VALID_MINIMUM
         InputPosition    = QUBE
         OutputName       = CoreValidMinimum
@@ -87,8 +87,8 @@ Group = CoreValidMinimum
 End_Group
 
 Group = CoreHighReprSaturation
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = CORE_HIGH_REPR_SATURATION
         InputPosition    = QUBE
         OutputName       = CoreHighReprSaturation
@@ -97,8 +97,8 @@ Group = CoreHighReprSaturation
 End_Group
 
 Group = CoreHighInstrSaturation
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = CORE_HIGH_INSTR_SATURATION
         InputPosition    = QUBE
         OutputName       = CoreHighInstrSaturation
@@ -107,8 +107,8 @@ Group = CoreHighInstrSaturation
 End_Group
 
 Group = CoreLowInstrSaturation
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = CORE_LOW_INSTR_SATURATION
         InputPosition    = QUBE
         OutputName       = CoreLowInstrSaturation
@@ -117,9 +117,9 @@ Group = CoreLowInstrSaturation
 End_Group
 
 Group = CoreLowReprSaturation
-        Auto
-	Optional
-	Optional
+        Auto             = 1
+	Optional         = 1
+	Optional         = 1
         InputKey         = CORE_LOW_REPR_SATURATION
         InputPosition    = QUBE
         OutputName       = CoreLowReprSaturation
@@ -128,9 +128,9 @@ Group = CoreLowReprSaturation
 End_Group
 
 Group = CoreNull
-        Auto
-	Optional
-	Optional
+        Auto             = 1
+	Optional         = 1
+	Optional         = 1
         InputKey         = CORE_NULL
         InputPosition    = QUBE
         OutputName       = CoreNull
@@ -139,9 +139,9 @@ Group = CoreNull
 End_Group
 
 Group = CoreName
-        Auto
-	Optional
-	Optional
+        Auto             = 1
+	Optional         = 1
+	Optional         = 1
         InputKey         = CORE_NAME
         InputPosition    = QUBE
         OutputName       = CoreName
@@ -150,9 +150,9 @@ Group = CoreName
 End_Group
 
 Group = CoreUnit
-        Auto
-	Optional
-	Optional
+        Auto             = 1
+	Optional         = 1
+	Optional         = 1
         InputKey         = CORE_UNIT
         InputPosition    = QUBE
         OutputName       = CoreUnit
@@ -161,8 +161,8 @@ Group = CoreUnit
 End_Group
 
 Group = SpatialBinningType
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = SPATIAL_BINNING_TYPE
         InputPosition    = QUBE
         OutputName       = SpatialBinningType
@@ -171,8 +171,8 @@ Group = SpatialBinningType
 End_Group
 
 Group = ThresholdWeight
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = THRESHOLD_WEIGHT
         InputPosition    = QUBE
         OutputName       = ThresholdWeights
@@ -181,8 +181,8 @@ Group = ThresholdWeight
 End_Group
 
 Group = FootprintGridSize
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = FOOTPRINT_GRID_SIZE
         InputPosition    = QUBE
         OutputName       = FootprintGridSize
@@ -192,8 +192,8 @@ End_Group
 
 
 Group = DarkUpdateType
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = DARK_UPDATE_TYPE
         InputPosition    = QUBE
         OutputName       = DarkUpdateType
@@ -204,8 +204,8 @@ End_Group
 
 
 Group = FillBoxSize
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = FILL_BOX_SIZE
         InputPosition    = QUBE
         OutputName       = FillBoxSize
@@ -214,8 +214,8 @@ Group = FillBoxSize
 End_Group
 
 Group = FillMinValidPixels
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = FILL_MIN_VALID_PIXELS
         InputPosition    = QUBE
         OutputName       = FillMinValidPixels
@@ -225,8 +225,8 @@ End_Group
 
 
 Group = PhotometricCorrectionType
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = PHOTOMETRIC_CORRECTION_TYPE
         InputPosition    = QUBE
         OutputName       = PhotometricCorrectionType
@@ -235,8 +235,8 @@ Group = PhotometricCorrectionType
 End_Group
 
 Group = ProductID
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = PRODUCT_ID
         InputPosition    = QUBE
         OutputName       = ProductID
@@ -246,8 +246,8 @@ End_Group
 
 
 Group = ProductCreationDate
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = PRODUCT_CREATION_DATE
         InputPosition    = QUBE
         OutputName       = ProductCreationDate
@@ -256,8 +256,8 @@ Group = ProductCreationDate
 End_Group
 
 Group = ImageID
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = IMAGE_ID
         InputPosition    = QUBE
         OutputName       = ImageID
@@ -267,8 +267,8 @@ End_Group
 
 
 Group = DataFileRecordBytes
-	Auto  
-	Optional
+	Auto           = 1
+	Optional       = 1
 	InputKey       = RECORD_BYTES
 	OutputName     = DataFileRecordBytes
 	OutputPosition = (Object,IsisCube,Group,Archive)
@@ -276,8 +276,8 @@ Group = DataFileRecordBytes
 End_Group
 
 Group = DataFileRecords
-  	Auto
-	Optional
+  	Auto             = 1
+	Optional         = 1
 	InputKey         = FILE_RECORDS  
   	OutputName       = DataFileRecords
 	OutputPosition   = (Object,IsisCube,Group,Archive)
@@ -285,7 +285,7 @@ Group = DataFileRecords
 End_Group
 
 Group = LabelRecords
-  	Auto
+  	Auto             = 1
   	InputKey         = LABEL_RECORDS   
   	OutputName       = LabelRecords
   	OutputPosition   = (Object,IsisCube,Group,Archive)
@@ -293,8 +293,8 @@ Group = LabelRecords
 End_Group
 
 Group = IncidenceAngle
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = INCIDENCE_ANGLE
         InputPosition    = QUBE
         OutputName       = IncidenceAngle
@@ -304,8 +304,8 @@ End_Group
 
 
 Group = EmissionAngle 
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = EMISSION_ANGLE
         InputPosition    = QUBE
         OutputName       = EmissionAngle 
@@ -315,8 +315,8 @@ End_Group
 
 
 Group = PhaseAngle
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = PHASE_ANGLE 
         InputPosition    = QUBE
         OutputName       = PhaseAngle 
@@ -326,8 +326,8 @@ End_Group
 
 
 Group = SolarAzimuth    
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = SOLAR_AZIMUTH
         InputPosition    = QUBE
         OutputName       = SolarAzimuth
@@ -337,8 +337,8 @@ End_Group
 
 
 Group = SubSolarAzimuth
-	Auto
-	Optional
+	Auto             = 1
+	Optional         = 1
 	InputKey	= SUB_SOLAR_AZIMUTH
 	InputPosition   = QUBE
 	OutputName      = SubSolarAzimuth
@@ -347,8 +347,8 @@ Group = SubSolarAzimuth
 End_Group
 
 Group = SubSpacecraftAzimuth 
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = SUB_SPACECRAFT_AZIMUTH
         InputPosition    = QUBE
         OutputName       = SubSpacecraftAzimuth
@@ -357,8 +357,8 @@ Group = SubSpacecraftAzimuth
 End_Group
 
 Group = StartSubSpacecraftLatitude
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = START_SUB_SPACECRAFT_LATITUDE
         InputPosition    = QUBE
         OutputName       = StartSubSpacecraftLatitude
@@ -368,8 +368,8 @@ End_Group
 
 
 Group = StartSubSpacecraftLongitude
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = START_SUB_SPACECRAFT_LONGITUDE
         InputPosition    = QUBE
         OutputName       = StartSubSpacecraftLongitude
@@ -378,8 +378,8 @@ Group = StartSubSpacecraftLongitude
 End_Group
 
 Group = StopSubSpacecraftLatitude
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = STOP_SUB_SPACECRAFT_LATITUDE
         InputPosition    = QUBE
         OutputName       = StopSubSpacecraftLatitude
@@ -388,8 +388,8 @@ Group = StopSubSpacecraftLatitude
 End_Group
 
 Group = StopSubSpacecraftLongitude
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = STOP_SUB_SPACECRAFT_LONGITUDE
         InputPosition    = QUBE
         OutputName       = StopSubSpacecraftLongitude
@@ -398,8 +398,8 @@ Group = StopSubSpacecraftLongitude
 End_Group
 
 Group = StartSubSolarLatitude
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = START_SUB_SOLAR_LATITUDE
         InputPosition    = QUBE
         OutputName       = StartSubSolarLatitude
@@ -408,8 +408,8 @@ Group = StartSubSolarLatitude
 End_Group
 
 Group = StartSubSolarLongitude
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = START_SUB_SOLAR_LONGITUDE
         InputPosition    = QUBE
         OutputName       = StartSubSolarLongitude
@@ -418,8 +418,8 @@ Group = StartSubSolarLongitude
 End_Group
 
 Group = StopSubSolarLatitude     
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = STOP_SUB_SOLAR_LATITUDE
         InputPosition    = QUBE
         OutputName       = StopSubSolarLatitude
@@ -428,8 +428,8 @@ Group = StopSubSolarLatitude
 End_Group
 
 Group = StopSubSolarLongitude    
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = STOP_SUB_SOLAR_LONGITUDE
         InputPosition    = QUBE
         OutputName       = StopSubSolarLongitude
@@ -438,8 +438,8 @@ Group = StopSubSolarLongitude
 End_Group
 
 Group = MinimumSlantDistance  
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = MINIMUM_SLANT_DISTANCE
         InputPosition    = QUBE
         OutputName       = MinimumSlantDistance
@@ -449,8 +449,8 @@ End_Group
 
 
 Group = MaximumSlantDistance
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = MAXIMUM_SLANT_DISTANCE
         InputPosition    = QUBE
         OutputName       = MaximumSlantDistance
@@ -460,8 +460,8 @@ End_Group
 
 
 Group = ScanRateTolerance
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = SCAN_RATE_TOLERANCE
         InputPosition    = QUBE
         OutputName       = ScanRateTolerance
@@ -470,8 +470,8 @@ Group = ScanRateTolerance
 End_Group
 
 Group = MeanScanRate
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = MEAN_SCAN_RATE
         InputPosition    = QUBE
         OutputName       = MeanScanRate
@@ -480,8 +480,8 @@ Group = MeanScanRate
 End_Group
 
 Group = MinSpacecraftSolarDistance
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = MIN_SPACECRAFT_SOLAR_DISTANCE
         InputPosition    = QUBE
         OutputName       = MinSpacecraftSolarDistance
@@ -491,8 +491,8 @@ End_Group
 
 
 Group = MaxSpacecraftSolarDistance
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = MAX_SPACECRAFT_SOLAR_DISTANCE
         InputPosition    = QUBE
         OutputName       = MaxSpacecraftSolarDistance
@@ -502,8 +502,8 @@ End_Group
 
 
 Group = MinimumCentralBodyDistance
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = MINIMUM_CENTRAL_BODY_DISTANCE
         InputPosition    = QUBE
         OutputName       = MininimumCentralBodyDistance
@@ -512,8 +512,8 @@ Group = MinimumCentralBodyDistance
 End_Group
 
 Group = MaximumCentralBodyDistance
-        Auto
-	Optional
+        Auto             = 1
+	Optional         = 1
         InputKey         = MAXIMUM_CENTRAL_BODY_DISTANCE
         InputPosition    = QUBE
         OutputName       = MaximumCentralBodyDistance
@@ -522,8 +522,8 @@ Group = MaximumCentralBodyDistance
 End_Group
 
 Group = MinimumTargetCenterDistance
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = MINIMUM_TARGET_CENTER_DISTANCE
         InputPosition   = QUBE
         OutputName      = MinimumTargetCenterDistance
@@ -532,8 +532,8 @@ Group = MinimumTargetCenterDistance
 End_Group
 
 Group = MaximumTargetCenterDistance
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = MAXIMUM_TARGET_CENTER_DISTANCE
         InputPosition   = QUBE
         OutputName      = MaximumTargetCenterDistance
@@ -541,8 +541,8 @@ Group = MaximumTargetCenterDistance
 	Translation     = (*, *)
 End_Group
 Group = MissionNote
-	Auto
-	Optional
+	Auto             = 1
+	Optional         = 1
 	InputKey	= NOTE
 	InputPosition   = QUBE	
 	OutputName      = MissionNote
@@ -551,8 +551,8 @@ Group = MissionNote
 End_Group
 
 Group = ScanRateNote
-	Auto
-	Optional
+	Auto             = 1
+	Optional         = 1
 	InputKey	= SCAN_RATE_NOTE
 	InputPosition   = QUBE
 	OutputName      = ScanRateNote
@@ -561,8 +561,8 @@ Group = ScanRateNote
 End_Group
 
 Group = CoreScalingNote
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = CORE_SCALING_NOTE
         InputPosition   = QUBE
         OutputName      = CoreSaclingNote
@@ -571,8 +571,8 @@ Group = CoreScalingNote
 End_Group
 
 Group = CoreValidMinimum
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = CORE_VALID_MINIMUM
         InputPosition   = QUBE
         OutputName      = CoreValidMinimum
@@ -581,8 +581,8 @@ Group = CoreValidMinimum
 End_Group
 
 Group = CoreNull
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = CORE_NULL
         InputPosition   = QUBE
         OutputName      = CoreNull
@@ -591,8 +591,8 @@ Group = CoreNull
 End_Group
 
 Group = CoreHighInstrSaturation
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = CORE_HIGH_INSTR_SATURATION
         InputPosition   = QUBE
         OutputName      = CoreHighInstrSaturation
@@ -601,8 +601,8 @@ Group = CoreHighInstrSaturation
 End_Group
 
 Group = CoreHighReprSaturation
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = CORE_HIGH_REPR_SATURATION
         InputPosition   = QUBE
         OutputName      = CoreHighReprSaturation
@@ -611,8 +611,8 @@ Group = CoreHighReprSaturation
 End_Group
 
 Group = CoreBelowThreshold
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = CORE_BELOW_THRESHOLD
         InputPosition   = QUBE
         OutputName      = CoreBelowThreshold
@@ -621,8 +621,8 @@ Group = CoreBelowThreshold
 End_Group
 
 Group = CoreMissingSensitivity
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = CORE_MISSION_SENSITIVITY
         InputPosition   = QUBE
         OutputName      = CoreMissionSensitivity
@@ -631,8 +631,8 @@ Group = CoreMissingSensitivity
 End_Group
 
 Group = CoreName
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = CORE_NAME
         InputPosition   = QUBE
         OutputName      = CoreName
@@ -641,8 +641,8 @@ Group = CoreName
 End_Group
 
 Group = CoreUnit
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = CORE_UNIT
         InputPosition   = QUBE
         OutputName      = CoreUnit
@@ -651,8 +651,8 @@ Group = CoreUnit
 End_Group
 
 Group = CoreUnitNote
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = CORE_UNIT_NOTE
         InputPosition   = QUBE
         OutputName      = CoreUnitNote
@@ -662,8 +662,8 @@ End_Group
 
 
 Group = SpatialBinningType
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = SPATIAL_BINNING_TYPE
         InputPosition   = QUBE
         OutputName      = SpatialBinningType
@@ -674,8 +674,8 @@ End_Group
 
 
 Group = ThresholdWeight
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = THRESHOLD_WEIGHT
         InputPosition   = QUBE
         OutputName      = ThresholdWeight
@@ -684,8 +684,8 @@ Group = ThresholdWeight
 End_Group
 
 Group = DarkUpdateType
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = DARK_UPDATE_TYPE
         InputPosition   = QUBE
         OutputName      = DarkUpdateType
@@ -694,8 +694,8 @@ Group = DarkUpdateType
 End_Group
 
 Group = FillBoxSize
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = FILL_BOX_SIZW
         InputPosition   = QUBE
         OutputName      = FillBoxSize
@@ -705,8 +705,8 @@ End_Group
 
 
 Group = FootprintGridSize
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = FOOTPRINT_GRID_SIZE
         InputPosition   = QUBE
         OutputName      = FootprintGridSize
@@ -715,8 +715,8 @@ Group = FootprintGridSize
 End_Group
 
 Group = FillMinValidPixels
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = FILL_MIN_VALID_PIXELS
         InputPosition   = QUBE
         OutputName      = FillMinValidPixels
@@ -725,8 +725,8 @@ Group = FillMinValidPixels
 End_Group
 
 Group = PhotometricCorrectionType
-        Auto
-        Optional
+        Auto             = 1
+        Optional         = 1
         InputKey        = PHOTOMETRIC_CORRECTION_TYPE
         InputPosition   = QUBE
         OutputName      = PhotometricCorrectionType

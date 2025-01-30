@@ -8,6 +8,7 @@ find files of those names at the top level of this repository. **/
 
 #include "mimap2isis.h"
 
+#include "Application.h"
 #include "FileName.h"
 #include "ProcessImportPds.h"
 
@@ -121,7 +122,7 @@ namespace Isis {
     results.setName("Results");
     results[0].addComment("Projection offsets and multipliers have been changed from");
     results[0].addComment("defaults. New values are below.");
-    log->addLogGroup(results);
+    Application::Log(results);
   }
 
   p.EndProcess();

@@ -17,9 +17,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run script
         run: |
-          git config --global user.name "abc"
-          git config --global user.email "abc@example.com"
-          git clone https://isis-codebuild-ci:$GITLAB_TOKEN@code.usgs.gov/astamile1/isis-codebuild-ci.git
+          git config --global user.name "Github_CI"
+          git config --global user.email "project_14468_bot_3f7d8e1a392afd88ead5f3f3154e809d@noreply.gitlab.com"
+          git clone https://isis-codebuild-ci:$GITLAB_TOKEN@code.usgs.gov/astrogeology/isis-codebuild-ci.git
           cd isis-codebuild-ci
           git checkout -b PR_$PR_NUMBER
           echo -e "\nenv: \n  shell: bash \n  variables: \n    PR_NUMBER: $PR_NUMBER \n    MERGE_BRANCH: $GITHUB_BASE_REF" >> buildspec.yml

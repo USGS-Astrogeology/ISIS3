@@ -73,89 +73,10 @@ function(build_upper_level)
   # Create the main documentaion page. This is located in the version directory 
   execute_process(COMMAND ${XALAN} ${XALAN_VALIDATE_OPTION} ${XALAN_PARAM_OPTION} menuPath \"\" ${XALAN_OUTFILE_OPTION} ${docInstallFolder}/${docVersion}/index.html ${XALAN_INFILE_OPTION} ${docBuildFolder}/build/homepage.xml ${XALAN_XSL_OPTION} ${docBuildFolder}/build/main.xsl)
 
+  # Copy Favicon
+  file(COPY ${docBuildFolder}/favicon.ico DESTINATION ${docInstallFolder}/${docVersion}/favicon.ico)
 
 endfunction(build_upper_level)
-
-
-
-
-
-# Build src/docsys/documents folder.
-function(build_documents_folder)
-
-  message("Building documents folder...")
-  message("    Building table of contents XML...")
-
-  # Create RealeaseNotes.xml, ApiChanges.xml and ParameterChanges.xml if need-be
-  if(EXISTS "${docBuildFolder}/documents/ReleaseNotes/ReleaseNotesList.xml")
-    execute_process(COMMAND ${XALAN} ${XALAN_PARAM_OPTION} dirParam \"ReleaseNotes\" ${XALAN_INFILE_OPTION} ${docBuildFolder}/documents/ReleaseNotes/ReleaseNotesList.xml ${XALAN_XSL_OPTION} ${docBuildFolder}/build/ReleaseNotes.xsl OUTPUT_FILE ${docBuildFolder}/documents/ReleaseNotes/ReleaseNotes.xml)
-    execute_process(COMMAND ${XALAN} ${XALAN_PARAM_OPTION} dirParam \"ParameterChanges\" ${XALAN_INFILE_OPTION} ${docBuildFolder}/documents/ReleaseNotes/ReleaseNotesList.xml ${XALAN_XSL_OPTION} ${docBuildFolder}/build/ParameterChanges.xsl OUTPUT_FILE ${docBuildFolder}/documents/ParameterChanges/ParameterChanges.xml)
-    execute_process(COMMAND ${XALAN} ${XALAN_PARAM_OPTION} dirParam \"ApiChanges\" ${XALAN_INFILE_OPTION} ${docBuildFolder}/documents/ReleaseNotes/ReleaseNotesList.xml ${XALAN_XSL_OPTION} ${docBuildFolder}/build/ApiChanges.xsl OUTPUT_FILE ${docBuildFolder}/documents/ApiChanges/ApiChanges.xml)
-  else()
-    # Confirm that empty directories are not going to be traversed in loops coming up
-    message("    ReleaseNotesList.xml does not exist. Removing ReleaseNotes/ ParameterChanges/ and ApiChanges/ directories...")
-    execute_process(COMMAND rm -rf ${docBuildFolder}/documents/ReleaseNotes ${docBuildFolder}/documents/ParameterChanges ${docBuildFolder}/documents/ApiChanges)
-  endif()
-
-  # Get list of folders of interest
-  get_subdirectory_list(${docBuildFolder}/documents docFolders)
-
-  # Build doctoc.xml, the documents table of contents file.
-  set(doctocPath ${docBuildFolder}/build/doctoc.xml)
-  file(REMOVE ${doctocPath})
-  cat(${docBuildFolder}/build/doctoc_header.xml ${doctocPath})
-  foreach(f ${docFolders})
-    
-    # Each folder in documents gets a section added to doctoc
-    get_filename_component(docName ${f} NAME_WE)
-    
-    execute_process(COMMAND ${XALAN} ${XALAN_PARAM_OPTION} dirParam \"${docName}\"  ${XALAN_INFILE_OPTION} ${f}/${docName}.xml ${XALAN_XSL_OPTION} ${docBuildFolder}/build/IsisDocumentTOCbuild.xsl OUTPUT_VARIABLE result)
-    file(APPEND ${doctocPath} ${result})
-
-  endforeach()
-  cat(${docBuildFolder}/build/doctoc_footer.xml ${doctocPath})
-
-  # Write out a modified .xsl file with the correct location of the Xalan executable.
-  set(modDocBuildXslFile ${docBuildFolder}/build/IsisInlineDocumentBuild_mod.xsl)
-  file(READ ${PROJECT_SOURCE_DIR}/scripts/IsisInlineDocumentBuild_mod.xsl xslContents)
-  string(REPLACE XALAN_BIN_LOCATION ${XALAN} xslContents "${xslContents}")
-  file(WRITE ${modDocBuildXslFile} "${xslContents}")
-
-  # Build individual documents folders
-  message("    Building individual documents...")
-  file(MAKE_DIRECTORY ${docInstallFolder}/${docVersion}/documents)
-  foreach(f ${docFolders})
-
-    message("Building documents folder: ${f}")
-
-    # Handle paths for this folder
-    get_filename_component(docName ${f} NAME_WE)
-    set(thisOutputFolder ${docInstallFolder}/${docVersion}/documents/${docName})
-    file(MAKE_DIRECTORY ${thisOutputFolder})
-
-    # Use Xalan to generate an intermediate makefile, then execute that makefile
-    # to generate the output documentation files.
-
-    set(xalanCommand ${XALAN} ${XALAN_PARAM_OPTION} menuPath "../../" ${XALAN_PARAM_OPTION} dirParam "'${docName}'" ${XALAN_OUTFILE_OPTION} ${f}/Makefile_temp ${XALAN_INFILE_OPTION} ${docName}.xml  ${XALAN_XSL_OPTION} ${modDocBuildXslFile})
-    execute_process(COMMAND ${xalanCommand} WORKING_DIRECTORY ${f})
-
-    execute_process(COMMAND make -f Makefile_temp docs WORKING_DIRECTORY ${f})
-    execute_process(COMMAND rm -f ${f}/Makefile_temp) # Clean up
-
-    # Copy all generated html files and any assets to the install folder
-    file(GLOB htmlFiles ${f}/*.html)
-    file(COPY ${htmlFiles} DESTINATION ${thisOutputFolder})
-    if(EXISTS "${f}/assets")
-      copy_folder(${f}/assets ${thisOutputFolder}/assets)
-    endif()
-    if(EXISTS "${f}/images")
-      copy_folder(${f}/images ${thisOutputFolder}/images)
-    endif()
-
-  endforeach()
-
-endfunction(build_documents_folder)
-
 
 
 
@@ -167,19 +88,14 @@ function(build_application_docs)
   #  locations instead of copying them to a temporary build directory?
 
   set(appFolder            "${docBuildFolder}/Application")
-  set(printerStyleFolder   "${appFolder}/presentation/PrinterFriendly/styles")
   set(tabbedStyleFolder    "${appFolder}/presentation/Tabbed/styles")
 
   set(installAppFolder     "${docInstallFolder}/${docVersion}/Application")
-  set(installPrinterFolder "${installAppFolder}/presentation/PrinterFriendly")
   set(installTabbedFolder  "${installAppFolder}/presentation/Tabbed")
 
   # Make output directories and copy the styles
-  file(MAKE_DIRECTORY "${installPrinterFolder}")
   file(MAKE_DIRECTORY "${installTabbedFolder}")
-  file(MAKE_DIRECTORY "${installPrinterFolder}/styles")
   file(MAKE_DIRECTORY "${installTabbedFolder}/styles")
-  copy_wildcard("${printerStyleFolder}/*.css" ${installPrinterFolder}/styles/)
   copy_wildcard("${tabbedStyleFolder}/*.css"  ${installTabbedFolder}/styles/ )
 
   # Loop through module folders
@@ -193,17 +109,13 @@ function(build_application_docs)
       get_filename_component(appName ${f} NAME)
 
       # Get printer-friendly and tabbed output folders
-      set(pfAppFolder ${installPrinterFolder}/${appName})
       set(tbAppFolder ${installTabbedFolder}/${appName})
-      file(MAKE_DIRECTORY "${pfAppFolder}")
       file(MAKE_DIRECTORY "${tbAppFolder}")
 
       if(EXISTS ${f}/assets)
-        copy_folder(${f}/assets ${pfAppFolder})
         copy_folder(${f}/assets ${tbAppFolder})
       endif()
 
-      execute_process(COMMAND ${XALAN} ${XALAN_PARAM_OPTION} menuPath \"../../../../\" ${XALAN_OUTFILE_OPTION} ${pfAppFolder}/${appName}.html ${XALAN_INFILE_OPTION} ${f}/${appName}.xml ${XALAN_XSL_OPTION} ${printerStyleFolder}/IsisApplicationDocStyle.xsl)
       execute_process(COMMAND ${XALAN} ${XALAN_PARAM_OPTION} menuPath \"../../../../\" ${XALAN_OUTFILE_OPTION} ${tbAppFolder}/${appName}.html ${XALAN_INFILE_OPTION} ${f}/${appName}.xml ${XALAN_XSL_OPTION} ${tabbedStyleFolder}/IsisApplicationDocStyle.xsl)
 
     endforeach() # End loop through app folders
@@ -215,7 +127,7 @@ function(build_application_docs)
   # Set up the file
   set(appTocPath "${CMAKE_INSTALL_PREFIX}/bin/xml/applicationTOC.xml")
   file(REMOVE ${appTocPath})
-  cat(${docBuildFolder}/Application/build/toc_header.xml ${appTocPath})
+  file(APPEND ${appTocPath} "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><tableofcontents>")
   get_subdirectory_list(${appDataFolder} moduleFolders)
 
   # Loop through module folders
@@ -234,8 +146,8 @@ function(build_application_docs)
     endforeach()
   endforeach()
 
-  # Append the footer to complete the TOC file!
-  cat(${docBuildFolder}/Application/build/toc_footer.xml ${appTocPath})
+  # Append closing tag to complete the TOC file
+  file(APPEND ${appTocPath} "</tableofcontents>")
 
 endfunction(build_application_docs)
 
@@ -306,7 +218,6 @@ function(build_object_conf)
   file(APPEND ${appsConf} "INPUT            = ${PROJECT_SOURCE_DIR}/src/ ${objConfDir}/isisDoxyDefs.doxydef\n")
   file(APPEND ${appsConf} "HTML_HEADER      = ${objConfDir}/IsisObjectHeader.html\n")
   file(APPEND ${appsConf} "HTML_FOOTER      = ${objConfDir}/IsisObjectFooter.html\n")
-  file(APPEND ${appsConf} "PROJECT_LOGO     = ${docBuildFolder}/assets/icons/USGS_logo55h.png\n")
   file(APPEND ${appsConf} "HTML_OUTPUT      = apps\n")
 
   if(NOT ${DOT_PATH} STREQUAL "")
@@ -323,7 +234,6 @@ function(build_object_conf)
   file(APPEND ${programmerConf} "INPUT            = ${PROJECT_SOURCE_DIR}/src/ ${objConfDir}/isisDoxyDefs.doxydef\n")
   file(APPEND ${programmerConf} "HTML_HEADER      = ${objConfDir}/IsisObjectHeader.html\n")
   file(APPEND ${programmerConf} "HTML_FOOTER      = ${objConfDir}/IsisObjectFooter.html\n")
-  file(APPEND ${programmerConf} "PROJECT_LOGO     = ${docBuildFolder}/assets/icons/USGS_logo55h.png\n")
   file(APPEND ${programmerConf} "HTML_OUTPUT      = Programmer\n")
   file(APPEND ${programmerConf} "IMAGE_PATH       = \n")
 
@@ -357,7 +267,6 @@ function(build_object_conf)
   file(APPEND ${developerConf} "INPUT            = ${PROJECT_SOURCE_DIR}/src/ ${objConfDir}/isisDoxyDefs.doxydef\n")
   file(APPEND ${developerConf} "HTML_HEADER      = ${objConfDir}/IsisObjectHeader.html\n")
   file(APPEND ${developerConf} "HTML_FOOTER      = ${objConfDir}/IsisObjectFooter.html\n")
-  file(APPEND ${developerConf} "PROJECT_LOGO     = ${docBuildFolder}/assets/icons/USGS_logo55h.png\n")
   file(APPEND ${developerConf} "HTML_OUTPUT      = Developer\n")
   file(APPEND ${developerConf} "IMAGE_PATH       = \n")
   string(FIND "${MODE}" "LOUD" pos)
@@ -462,8 +371,6 @@ function(build_docs)
 
   message("Building upper level directories...")
   build_upper_level()
-
-  build_documents_folder()
 
   message("Building application docs...")
   build_application_docs()

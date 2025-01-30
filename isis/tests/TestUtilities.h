@@ -77,6 +77,8 @@ namespace Isis {
 
   bool isNumeric(QString str);
   void compareCsvLine(CSVReader::CSVAxis csvLine, QString headerStr, int initialIndex=0);
+  void compareCsvLineCustomDelimiter(CSVReader::CSVAxis csvLine, QString headerStr,
+                      QString delimiter=",", int initialIndex=0);
   void compareCsvLine(CSVReader::CSVAxis csvLine, CSVReader::CSVAxis csvLine2, int initialIndex=0,
                       double tolerance = 0.000001);
 

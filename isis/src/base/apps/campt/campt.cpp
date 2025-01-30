@@ -3,6 +3,7 @@
 #include <string>
 #include <iomanip>
 
+#include "Application.h"
 #include "Brick.h"
 #include "Camera.h"
 #include "CameraPointInfo.h"
@@ -272,7 +273,7 @@ namespace Isis{
       }
 
       // we still want to output the results
-      log->addLogGroup((*point));
+      Application::AppendAndLog((*point), log);
       delete point;
       point = NULL;
     }

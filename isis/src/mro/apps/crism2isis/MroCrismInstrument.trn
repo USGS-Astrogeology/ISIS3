@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_HOST_NAME
   InputDefault   = UNKNOWN
   OutputName     = SpacecraftName
@@ -30,7 +30,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputDefault   = UNKNOWN
   OutputName     = InstrumentId
@@ -39,7 +39,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputDefault   = UNKNOWN
   OutputName     = TargetName
@@ -48,7 +48,7 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-  Auto
+  Auto           = 1
   InputKey       = START_TIME
   InputDefault   = -9999
   OutputName     = StartTime
@@ -57,7 +57,7 @@ Group = StartTime
 End_Group
 
 Group = StopTime
-  Auto
+  Auto           = 1
   InputKey       = STOP_TIME
   InputDefault   = -9999
   OutputName     = StopTime
@@ -66,7 +66,7 @@ Group = StopTime
 End_Group
 
 Group = SpacecraftClockStartCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_START_COUNT
   InputDefault   = -9999
   OutputName     = SpacecraftClockStartCount
@@ -75,7 +75,7 @@ Group = SpacecraftClockStartCount
 End_Group
 
 Group = SpacecraftClockStopCount
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_CLOCK_STOP_COUNT
   InputDefault   = -9999
   OutputName     = SpacecraftClockStopCount
@@ -84,7 +84,7 @@ Group = SpacecraftClockStopCount
 End_Group
 
 Group = SensorId
-  Auto
+  Auto           = 1
   InputKey       = MRO:SENSOR_ID
   InputDefault   = UNKNOWN
   OutputName     = SensorId
@@ -93,7 +93,7 @@ Group = SensorId
 End_Group
 
 Group = ShutterModeId
-  Auto
+  Auto           = 1
   InputKey       = SHUTTER_MODE_ID
   InputDefault   = UNKNOWN
   OutputName     = ShutterModeId
@@ -102,7 +102,7 @@ Group = ShutterModeId
 End_Group
  
 Group = FrameRate
-  Auto
+  Auto           = 1
   InputKey       = MRO:FRAME_RATE
   InputDefault   = UNKNOWN
   OutputName     = FrameRate
@@ -111,7 +111,7 @@ Group = FrameRate
 End_Group
 
 Group = ExposureParameter
-  Auto
+  Auto           = 1
   InputKey       = MRO:EXPOSURE_PARAMETER
   InputDefault   = Null
   OutputName     = ExposureParameter
@@ -120,7 +120,7 @@ Group = ExposureParameter
 End_Group
  
 Group = PixelAveragingWidth
-  Auto
+  Auto           = 1
   InputKey       = PIXEL_AVERAGING_WIDTH
   InputDefault   = UNKNOWN
   OutputName     = PixelAveragingWidth
@@ -129,7 +129,7 @@ Group = PixelAveragingWidth
 End_Group
 
 Group = ScanModeId
-  Auto
+  Auto           = 1
   InputKey       = SCAN_MODE_ID
   InputDefault   = UNKNOWN
   OutputName     = ScanModeId
@@ -138,7 +138,7 @@ Group = ScanModeId
 End_Group
 
 Group = SamplingModeId
-  Auto
+  Auto           = 1
   InputKey       = SAMPLING_MODE_ID
   InputDefault   = UNKNOWN
   OutputName     = SamplingModeId
@@ -147,7 +147,7 @@ Group = SamplingModeId
 End_Group
 
 Group = NaifIkCode
-  Auto
+  Auto           = 1
   InputKey       = MRO:SENSOR_ID
   InputDefault   = UNKNOWN
   OutputName     = NaifIkCode

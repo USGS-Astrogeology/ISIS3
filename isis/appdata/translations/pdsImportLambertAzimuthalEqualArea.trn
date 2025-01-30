@@ -2,7 +2,7 @@
 # Lambert Azimuthal Equal-Area projection in ISIS.
 #   2011-06-30 Jeannie Backer - Original Version
 Group = CenterLatitude
-  Auto
+  Auto           = 1
   InputKey       = CENTER_LATITUDE
   InputGroup     = IMAGE_MAP_PROJECTION
   InputGroup     = "QUBE,IMAGE_MAP_PROJECTION"
@@ -16,7 +16,7 @@ Group = CenterLatitude
 End_Group
 
 Group = CenterLongitude
-  Auto
+  Auto           = 1
   InputKey       = CENTER_LONGITUDE
   InputGroup     = IMAGE_MAP_PROJECTION
   InputGroup     = "QUBE,IMAGE_MAP_PROJECTION"

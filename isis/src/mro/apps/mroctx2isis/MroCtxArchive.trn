@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputDefault   = UNKNOWN
   OutputName     = DataSetId
@@ -30,7 +30,7 @@ Group = DataSetId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   InputDefault   = UNKNOWN
   OutputName     = ProductId
@@ -39,7 +39,7 @@ Group = ProductId
 End_Group
 
 Group = ProducerId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_ID
   InputDefault   = UNKNOWN
   OutputName     = ProducerId
@@ -48,7 +48,7 @@ Group = ProducerId
 End_Group
 
 Group = ProductCreationTime
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_CREATION_TIME
   InputDefault   = UNKNOWN
   OutputName     = ProductCreationTime
@@ -57,7 +57,7 @@ Group = ProductCreationTime
 End_Group
 
 Group = OrbitNumber
-  Auto
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   InputDefault   = UNKNOWN
   OutputName     = OrbitNumber

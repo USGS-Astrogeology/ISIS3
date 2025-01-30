@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = DataSetId
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   OutputName     = DataSetId
   OutputPosition = (Group, Archive)
@@ -29,7 +29,7 @@ Group = DataSetId
 End_Group
 
 Group = ProducerId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_ID
   OutputName     = ProducerId
   OutputPosition = (Group, Archive)
@@ -37,7 +37,7 @@ Group = ProducerId
 End_Group
 
 Group = ProductId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_ID
   OutputName     = ProductId
   OutputPosition = (Group, Archive)
@@ -45,7 +45,7 @@ Group = ProductId
 End_Group
 
 Group = ProductVersionId
-  Auto
+  Auto           = 1
   InputKey       = PRODUCT_VERSION_ID
   OutputName     = ProductVersionId
   OutputPosition = (Group, Archive)
@@ -53,7 +53,7 @@ Group = ProductVersionId
 End_Group
 
 Group = RationaleDescription
-  Auto
+  Auto           = 1
   InputKey       = RATIONALE_DESCRIPTION
   InputDefault   = Null
   OutputName     = RationaleDescription
@@ -62,7 +62,7 @@ Group = RationaleDescription
 End_Group
 
 Group = OrbitNumber
-  Auto
+  Auto           = 1
   InputKey       = ORBIT_NUMBER
   OutputName     = OrbitNumber
   OutputPosition = (Group, Archive)
@@ -70,7 +70,7 @@ Group = OrbitNumber
 End_Group
 
 Group = DataQualityId
-  Auto
+  Auto           = 1
   InputKey       = DATA_QUALITY_ID
   OutputName     = DataQualityId
   OutputPosition = (Group, Archive)
@@ -78,7 +78,7 @@ Group = DataQualityId
 End_Group
 
 Group = OriginalProductId
-  Auto
+  Auto           = 1
   InputKey       = ORIGINAL_PRODUCT_ID
   OutputName     = OriginalProductId
   OutputPosition = (Group, Archive)

@@ -1,19 +1,19 @@
-ProjectionName
-CenterLongitude
-TargetName
-EquatorialRadius
-PolarRadius
-LatitudeType
-LongitudeDirection
-LongitudeDomain
-MinimumLatitude
-MaximumLatitude
-MinimumLongitude
-MaximumLongitude
-UpperLeftCornerX
-UpperLeftCornerY
-PixelResolution
-Scale
-TrueScaleLatitude
-LineProjectionOffset
-SampleProjectionOffset
+ProjectionName = 0
+CenterLongitude = 0
+TargetName = 0
+EquatorialRadius = 0
+PolarRadius = 0
+LatitudeType = 0
+LongitudeDirection = 0
+LongitudeDomain = 0
+MinimumLatitude = 0
+MaximumLatitude = 0
+MinimumLongitude = 0
+MaximumLongitude = 0
+UpperLeftCornerX = 0
+UpperLeftCornerY = 0
+PixelResolution = 0
+Scale = 0
+TrueScaleLatitude = 0
+LineProjectionOffset = 0
+SampleProjectionOffset = 0

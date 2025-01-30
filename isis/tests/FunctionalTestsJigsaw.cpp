@@ -15,6 +15,11 @@
 #include "CSMCamera.h"
 #include "LidarData.h"
 #include "SerialNumber.h"
+#include "BundleAdjust.h"
+#include "BundleSettings.h"
+#include <highfive/H5DataSet.hpp>
+#include <highfive/H5File.hpp>
+
 
 #include "jigsaw.h"
 
@@ -268,8 +273,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawBundleXYZ) {
 
 
   // Rectangular Bundle, Latitudinal output
-  QVector<QString> args3 = {"radius=yes",
-                           "errorpropagation=yes",
+  QVector<QString> args3 = {"errorpropagation=yes",
                            "spsolve=position",
                            "spacecraft_position_sigma=1000.0",
                            "camsolve=angles",
@@ -287,7 +291,23 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawBundleXYZ) {
   UserInterface ui3(APP_XML, args3);
   jigsaw(ui3);
 
-  // Compare newtwork and images.csv against the latitude, latitude bundle
+  // spot check several points in rectlat_bundleout=_points.csv file for hard-coded values
+  QString pointsOutput = tempDir.path() + "/rectlat_bundleout_points.csv";
+
+  CSVReader::CSVAxis csvLine;
+  CSVReader line = CSVReader(pointsOutput, false, 0, ',', false, true);
+
+  // A few "Free" points:
+  compareCsvLine(line.getRow(30), "AS15_000031957,FREE,3,0,0.33,24.24953243,6.15316218,1736.04358729,293.41498797,289.79559800,472.66868036,842.07328770,-1763.20169592,-574.06347857,1573.74545615,169.66190348,713.01291344");
+  compareCsvLine(line.getRow(185), "AS15_000055107,FREE,2,0,2.22,24.26546675,6.76093993,1735.38959424,326.33192236,324.29734631,531.76648698,860.53696982,-1800.17000826,-593.89727230,1571.06817968,186.25235838,713.18432228");
+  compareCsvLine(line.getRow(396), "AS15_Tie14,FREE,4,0,0.76,23.33873588,4.52915858,1737.24818101,272.63659718,266.05983706,414.39324142,981.58162483,-1855.42653496,-276.42906027,1590.12330171,125.95969814,688.23926236");
+
+  // A few "Constrained" points:
+  compareCsvLine(line.getRow(352), "AS15_SocetPAN_01,CONSTRAINED,3,0,0.27,27.61551409,2.18873444,1735.73157411,189.25634559,169.77950505,259.83985021,122.85201072,202.20461434,253.94911381,1536.87168268,58.73802953,804.57403154", 2);
+  compareCsvLine(line.getRow(360), "AS15_SocetPAN_10,CONSTRAINED,4,0,1.14,25.96576384,3.54303398,1735.73354221,138.47609050,115.15295944,171.82752027,-57.33146538,185.48616378,16.79221293,1557.53867571,96.43742025,759.96317490", 2);
+  compareCsvLine(line.getRow(380), "AS15_SocetPAN_40,CONSTRAINED,2,0,0.42,25.77444416, 1.88039771,1735.54642874,157.27333414,137.46544829,212.01849634,7.32724742,68.12099922,156.67875462,1562.04017978,51.28321523,754.66675754", 2);
+
+  // Compare network and images.csv against the latitude, latitude bundle
 
   // Compare network against the latitude/latitude network
   ControlNet latLatNet(tempDir.path()+"/latlat_out.net");
@@ -353,6 +373,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawBundleXYZ) {
   bundleFile2.close();
   lines = bundleOut2.split("\n");
 
+  EXPECT_THAT(lines[20].toStdString(), HasSubstr("N/A")); // radius is N/A in XYZ solution
   EXPECT_THAT(lines[24].toStdString(), HasSubstr("RECTANGULAR"));
   EXPECT_THAT(lines[58].toStdString(), HasSubstr("X"));
   EXPECT_THAT(lines[59].toStdString(), HasSubstr("Y"));
@@ -367,7 +388,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawBundleXYZ) {
   EXPECT_THAT(lines[670].toStdString(), HasSubstr("BODY-FIXED-Z"));
 
 
-  // Compare newtwork and images.csv against the rectangular, latitude bundle
+  // Compare network and images.csv against the rectangular, latitude bundle
 
   // Compare network against the rect/lat network
   ControlNet rectRectNet(tempDir.path()+"/rectlat_out.net");
@@ -446,7 +467,7 @@ TEST_F(ApolloNetwork, FunctionalTestJigsawBundleXYZ) {
 
   bundleFile4.close();
 
-  // Compare newtwork and images.csv against the latitude, latitude bundle
+  // Compare network and images.csv against the latitude, latitude bundle
 
   // Compare network against the lat/lat network
   ControlNet latRectNet(tempDir.path()+"/rectlat_out.net");
@@ -1866,4 +1887,49 @@ TEST_F(LidarNetwork, FunctionalTestJigsawLidar) {
     // EXPECT_NEAR(csvLine[5].toDouble(), lidarDataOut.point(pointId)->sigmaRange() * 0.001, 0.0001);
   }
 
+}
+
+TEST_F(ApolloNetwork, FunctionalTestJigsawSaveApplyValues) {
+  QVector<QString> args = {"spsolve=position",
+                            "update=no",
+                            "bundleout_txt=no",
+                            "cnet="+controlNetPath,
+                            "fromlist="+tempDir.path() + "/cubes.lis",
+                            "onet="+tempDir.path()+"/apollo_out.net",
+                            "file_prefix="+tempDir.path()+"/",
+                            "outadjustmenth5=yes"};
+
+  UserInterface ui(APP_XML, args);
+
+  jigsaw(ui);
+
+  // Check apollo_jigsaw.h5 was created
+  QString bundleOutput = tempDir.path()+"/adjustment_out.h5";
+  HighFive::File file(bundleOutput.toStdString(), HighFive::File::ReadOnly);
+
+  std::string datasetName = "/APOLLO15/METRIC/1971-08-01T15:37:39.428";
+  QString cmatrixName = "InstrumentPointing";
+  QString spvectorName = "InstrumentPosition";
+  std::string cmatrixKey = datasetName + "/" + cmatrixName.toStdString();
+  std::string spvectorKey = datasetName + "/" + spvectorName.toStdString();
+
+  HighFive::DataSet datasetRead = file.getDataSet(cmatrixKey);
+  auto cmatrixData = datasetRead.read<std::string>();
+  Table cmatrixTable(cmatrixName, cmatrixData, ',');
+  std::string cmatrixTableStr = Table::toString(cmatrixTable).toStdString();
+
+  datasetRead = file.getDataSet(spvectorKey);
+  auto spvectorData = datasetRead.read<std::string>();
+  Table spvectorTable(spvectorName, spvectorData, ',');
+  std::string spvectorTableStr = Table::toString(spvectorTable).toStdString();
+
+  EXPECT_EQ(cmatrixTable.RecordFields(), 8);
+  EXPECT_EQ(spvectorTable.RecordFields(), 7);
+
+  EXPECT_EQ(cmatrixTableStr,
+            "J2000Q0,J2000Q1,J2000Q2,J2000Q3,AV1,AV2,AV3,ET\n0.72889620121855,0.66172757646101,-0.1261913882606,0.12207651669777,4.29360266307594e-04,6.9419874212449e-04,-6.23609851587137e-04,-896818899.38874\n");
+  EXPECT_EQ(spvectorTableStr, 
+            "J2000X,J2000Y,J2000Z,J2000XV,J2000YV,J2000ZV,ET\n491.19844009026,1198.1045282857,1313.7703671439,1.5198029518433,-0.58925196165899,-0.046463883259045,-896818899.38874\n");
+
+  file.flush();
 }

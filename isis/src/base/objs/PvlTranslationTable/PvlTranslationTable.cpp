@@ -184,8 +184,8 @@ namespace Isis {
     validKeywords.push_back(pair<QString, int>("InputGroup",           -1));
     validKeywords.push_back(pair<QString, int>("InputPosition",        -1));
     validKeywords.push_back(pair<QString, int>("OutputPosition",       -1));
-    validKeywords.push_back(pair<QString, int>("Auto",                  0));
-    validKeywords.push_back(pair<QString, int>("Optional",              0));
+    validKeywords.push_back(pair<QString, int>("Auto",                  1));
+    validKeywords.push_back(pair<QString, int>("Optional",              1));
     validKeywords.push_back(pair<QString, int>("InputKey",              1));
     validKeywords.push_back(pair<QString, int>("InputDefault",         -1));
     validKeywords.push_back(pair<QString, int>("InputKeyDependencies", -1));

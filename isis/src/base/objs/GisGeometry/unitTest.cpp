@@ -39,6 +39,11 @@ void printTypes();
  *                           References #2398.
  *   @history 2016-03-04 Ian Humphrey - Updated test and truthdata for equals() method.
  *                           References #2398.
+ *   @history 2024-09-23 Ken Edmundson - Updated test and truthdata for 1) detecting
+ *                           self-intersecting geometries; 2) repairing such geometries
+ *                           with a buffer of size 0; and 3) overlap and intersection
+ *                           of repaired geometry with another.
+ *                           References #5612.
  *
  *
  * NOTE - distance(), intersects(), contains(), disjoin(), overlaps() methods
@@ -93,7 +98,6 @@ int main() {
     printBasicInfo(geomGisWKB,
                    "Construct Geometry from WKB GIS source");
 
-
     GisGeometry geomGisIsisCube("$ISISTESTDATA/isis/src/messenger/unitTestData/EW0213634118G.lev1.cub",
                                 GisGeometry::IsisCube);
     printBasicInfo(geomGisIsisCube,
@@ -108,6 +112,19 @@ int main() {
     printBasicInfo(geomDefault, "Construct Empty Default Geometry");
 //???    geomDefault.setGeometry(geos); // SEGFAULT
 //???    printBasicInfo(geomDefault, "Set Default Geometry from GEOSGeometry");
+
+    // polygon with self-intersecting geometry that lies
+    // within the boundaries of EW0211286081G.lev1.cub
+    QString wktSelfIntersect
+        = QString::fromStdString("POLYGON ((286.0 51.0, 291.5 53.0, 295.0 49.8, 289.5 47.0, 286.6 51.5, 286.0 51.0))");
+    GisGeometry geomGisWKTSelfIntersect(wktSelfIntersect, GisGeometry::WKT);
+    printBasicInfo(geomGisWKTSelfIntersect,
+                   "Construct Self-Intersecting Geometry from WKT GIS source");
+
+    // repair the self-intersecting geometry with buffer(0)
+    GisGeometry *repairedSelfIntersect = geomGisWKTSelfIntersect.buffer(0);
+    printBasicInfo(*repairedSelfIntersect,
+                   "Repaired Self-Intersecting Geometry from WKT GIS source");
 
     GisGeometry geomCopy(geomCube);
     printBasicInfo(geomCopy, "Construct Copy Geometry from GisGeometry from Cube");
@@ -136,7 +153,10 @@ int main() {
     printTargetInfo(geomGisWKT, geomDefault,
                     "Source: WKT Geometry, Target: Invalid Geometry");
 
-    // overlaping geometries
+    // overlapping geometries
+    printTargetInfo(*repairedSelfIntersect, geomGisIsisCube,
+                    "Source: Repaired Self-Intersecting WKT Geometry, Target: GeomGisIsisCube Geometry");
+
     printTargetInfo(geomGisIsisCube, geomGisWKT,
                     "Source: GisIsisCube Geometry, Target: WKT Geometry");
 
@@ -186,11 +206,13 @@ int main() {
     printBasicInfo(*intersectionInvalidTargetGeometry,
                    "Intersection Geometry of WKT Geometry with Invalid Geometry as target");
 
-
     GisGeometry *intersectionGeom = geomGisIsisCube.intersection(geomGisWKT);
     printBasicInfo(*intersectionGeom,
                    "Intersection Geometry of GisIsisCube Geometry with WKT Geometry");
 
+    GisGeometry *intersectCubeAndRepairedGeom = geomCube.intersection(*repairedSelfIntersect);
+    printBasicInfo(*intersectCubeAndRepairedGeom,
+                   "Intersection Geometry of GeomCube and Repaired Self-Intersecting WKT Geometries");
 
     // These two tests below should output empty geometries (union w/ invalid -> invalid)
     GisGeometry *unionInvalidSourceGeom = geomDefault.g_union(geomGisWKT);

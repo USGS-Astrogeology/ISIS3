@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "ProcessMapMosaic.h"
 #include "FileList.h"
 #include "IException.h"
@@ -79,9 +80,7 @@ namespace Isis {
       if (!m.StartProcess(list[i].toString())) {
         PvlGroup outsiders("Outside");
         outsiders += PvlKeyword("File", list[i].toString());
-        if(log) {
-          log->addLogGroup(outsiders);
-        }
+        Application::Log(outsiders);
       }
       else {
         mosaicCreated = true;
@@ -96,9 +95,7 @@ namespace Isis {
     }
     // Logs the input file location in the mosaic
     for (int i = 0; i < m.imagePositions().groups(); i++) {
-      if(log) {
-        log->addLogGroup(m.imagePositions().group(i));
-      }
+      Application::Log(m.imagePositions().group(i));
     }
 
     if(olistFlag) {

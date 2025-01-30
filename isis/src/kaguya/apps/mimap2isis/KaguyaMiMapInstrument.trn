@@ -21,7 +21,7 @@
 # Translation may be repeated as needed.
 #
 Group = MissionName
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -31,7 +31,7 @@ Group = MissionName
 End_Group
 
 Group = SpacecraftName
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_NAME
   InputKey       = MISSION_NAME
   InputGroup     = ROOT
@@ -43,7 +43,7 @@ Group = SpacecraftName
 End_Group
 
 Group = InstrumentName
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -53,7 +53,7 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentId
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -63,7 +63,7 @@ Group = InstrumentId
 End_Group
 
 Group = TargetName
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -73,7 +73,7 @@ Group = TargetName
 End_Group
 
 Group = ObservationModeId
-  Auto
+  Auto           = 1
   InputKey       = OBSERVATION_MODE_ID
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -83,7 +83,7 @@ Group = ObservationModeId
 End_Group
 
 Group = SensorDescription
-  Auto
+  Auto           = 1
   InputKey       = SENSOR_DESCRIPTION
   InputGroup     = ROOT
   InputPosition  = ROOT
@@ -93,7 +93,7 @@ Group = SensorDescription
 End_Group
 
 Group = SensorDescription2
-  Auto
+  Auto           = 1
   InputKey       = SENSOR_DESCRIPTION2
   InputGroup     = ROOT
   InputPosition  = ROOT

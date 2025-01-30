@@ -5,8 +5,8 @@
 
 
 Group = StdDevSelectedBandNumber
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey        =  STD_DEV_SELECTED_NUMBER
         InputPosition   =  QUBE
         OutputName      =  StdDevSelectedNumber
@@ -17,8 +17,8 @@ End_Group
 
 
 Group = StdDevSelectedBackplane
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey        =  STD_DEV_SELECTED_BACKPLANE
         InputPosition   =  QUBE
         OutputName      =  StdDevSelectedBackplane
@@ -28,8 +28,8 @@ End_Group
 
 
 Group = DataSetID
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
 	InputKey	=  DATA_SET_ID
 	InputPosition	=  QUBE
 	OutputName	=  DataSetID
@@ -38,8 +38,8 @@ Group = DataSetID
 End_Group
 
 Group = SpacecraftName
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         =  SPACECRAFT_NAME
         InputPosition    =  QUBE
         OutputName       =  SpacecraftName
@@ -48,8 +48,8 @@ Group = SpacecraftName
 End_Group
 
 Group = MissionPhaseName
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = MISSION_PHASE_NAME
         InputPosition    = QUBE
         OutputName       = MissionPhaseName
@@ -58,8 +58,8 @@ Group = MissionPhaseName
 End_Group
 
 Group = InstrumentName
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = INSTRUMENT_NAME
         InputPosition    = QUBE
         OutputName       = InstrumentName
@@ -68,8 +68,8 @@ Group = InstrumentName
 End_Group
 
 Group = InstrumentID
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = INSTRUMENT_ID
         InputPosition    = QUBE
         OutputName       = InstrumentID
@@ -78,8 +78,8 @@ Group = InstrumentID
 End_Group
 
 Group = InstrumentDescription
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = ^INSTRUMENT_DESCRIPTION
         InputPosition    = QUBE
         OutputName       = InstrumentDescription
@@ -88,8 +88,8 @@ Group = InstrumentDescription
 End_Group
 
 Group = TargetName
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = TARGET_NAME
         InputPosition    = QUBE
         OutputName       = TargetName
@@ -98,8 +98,8 @@ Group = TargetName
 End_Group
 
 Group = StartTime
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = START_TIME
         InputPosition    = QUBE
         OutputName       = StartTime
@@ -108,8 +108,8 @@ Group = StartTime
 End_Group
 
 Group = EndTime
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = STOP_TIME 
         InputPosition    = QUBE
         OutputName       = EndTime
@@ -118,8 +118,8 @@ Group = EndTime
 End_Group
 
 Group = NativeStartTime
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = NATIVE_START_TIME
         InputPosition    = QUBE
         OutputName       = NativeStartTime
@@ -128,8 +128,8 @@ Group = NativeStartTime
 End_Group
 
 Group = NativeStopTime
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = NATIVE_STOP_TIME
         InputPosition    = QUBE
         OutputName       = NativeStopTime
@@ -138,8 +138,8 @@ Group = NativeStopTime
 End_Group
 
 Group = ObservationName
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = OBSERVATION_NAME
         InputPosition    = QUBE
         OutputName       = ObservationName
@@ -148,8 +148,8 @@ Group = ObservationName
 End_Group
 
 Group = MissionNote        
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = NOTE
         InputPosition    = QUBE
         OutputName       = MissionNote
@@ -160,8 +160,8 @@ End_Group
 
 
 Group = InstrumentModeID
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = INSTRUMENT_MODE_ID
         InputPosition    = QUBE
         OutputName       = InstrumentModeID
@@ -171,8 +171,8 @@ End_Group
 
 
 Group = GainModeID
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = GAIN_MODE_ID
         InputPosition    = QUBE
         OutputName       = GainModeID
@@ -181,8 +181,8 @@ Group = GainModeID
 End_Group
 
 Group = ChopperModeID
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = CHOPPER_MODE_ID
         InputPosition    = QUBE
         OutputName       = ChopperModeID
@@ -191,8 +191,8 @@ Group = ChopperModeID
 End_Group
 
 Group = StartGratingPosition
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = START_GRATING_POSITION
         InputPosition    = QUBE
         OutputName       = StartGratingPosition
@@ -201,8 +201,8 @@ Group = StartGratingPosition
 End_Group
 
 Group = GratingPositions
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = GRATING_POSITIONS
         InputPosition    = QUBE
         OutputName       = GratingPositions
@@ -211,8 +211,8 @@ Group = GratingPositions
 End_Group
 
 Group = OffsetGratingPosition
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = OFFSET_GRATING_POSITION
         InputPosition    = QUBE
         OutputName       = OffsetGratingPosition
@@ -221,8 +221,8 @@ Group = OffsetGratingPosition
 End_Group
 
 Group = GratingPositionIncrement
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey        =  GRATING_POSIITON_INCRMENT
         InputPosition   =  QUBE
         OutputName      =  GratingPositionIncrement
@@ -233,8 +233,8 @@ End_Group
 
 
 Group = MeanFocalPlaneTemperature
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = MEAN_FOCAL_PLANE_TEMPERATURE
         InputPosition    = QUBE
         OutputName       = MeanFocalPlaneTemperature
@@ -243,8 +243,8 @@ Group = MeanFocalPlaneTemperature
 End_Group
 
 Group = MeanRadShieldTemperature
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = MEAN_RAD_SHIELD_TEMPERATURE
         InputPosition    = QUBE
         OutputName       = MeanRadShieldTemperature
@@ -253,8 +253,8 @@ Group = MeanRadShieldTemperature
 End_Group
 
 Group = MeanTelescopeTemperature
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = MEAN_TELESCOPE_TEMPERATURE
         InputPosition    = QUBE
         OutputName       = MeanTelescopeTemperature
@@ -263,8 +263,8 @@ Group = MeanTelescopeTemperature
 End_Group
 
 Group = MeanGratingTemperature
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = MEAN_GRATING_TEMPERATURE
         InputPosition    = QUBE
         OutputName       = MeanGratingTemperature
@@ -273,8 +273,8 @@ Group = MeanGratingTemperature
 End_Group
 
 Group = MeanChopperTemperature
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = MEAN_CHOPPER_TEMPERATURE
         InputPosition    = QUBE
         OutputName       = MeanChopperTemperature
@@ -283,8 +283,8 @@ Group = MeanChopperTemperature
 End_Group
 
 Group = MeanElectronicsTemperature
-        Auto
-	Optional
+        Auto            = 1
+	Optional        = 1
         InputKey         = MEAN_ELECTRONICS_TEMPERATURE
         InputPosition    = QUBE
         OutputName       = MeanElectronicsTemperature
@@ -293,8 +293,8 @@ Group = MeanElectronicsTemperature
 End_Group
 
 Group = MeanDarkDataNumber
-	Auto
-	Optional
+	Auto            = 1
+	Optional        = 1
         InputKey         = MEAN_DARK_DATA_NUMBER
         InputPosition    = QUBE
         OutputName       = MeanDarkDataNumber
@@ -303,8 +303,8 @@ Group = MeanDarkDataNumber
 End_Group
 
 Group = MeanDarkDataNumberNote
-	Auto
-	Optional
+	Auto             = 1
+	Optional        = 1
 	InputKey	= MEAN_DARK_DATA_NUMBER_NOTE
 	InputPosition   = QUBE
 	OutputName 	= MeanDarkDataNumberNote

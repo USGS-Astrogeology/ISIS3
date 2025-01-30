@@ -4,8 +4,8 @@
 #
 
 Group = ProducerId
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = ORIGIN
   InputPosition  = FitsExtras
   OutputName     = ProducerId
@@ -14,7 +14,7 @@ Group = ProducerId
 End_Group
 
 Group = L0FileName
-  Auto
+  Auto           = 1
   InputKey       = P_L0NAME
   InputKey       = L0FILE
   InputPosition  = FitsLabels
@@ -24,8 +24,8 @@ Group = L0FileName
 End_Group
 
 Group = FormatType
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = FMTTYPE
   InputPosition  = FitsExtras
   OutputName     = FormatType
@@ -34,8 +34,8 @@ Group = FormatType
 End_Group
 
 Group = FormatTypeVersion
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = FTYPEVER
   InputPosition  = FitsExtras
   OutputName     = FormatTypeVersion
@@ -44,8 +44,8 @@ Group = FormatTypeVersion
 End_Group
 
 Group = ContentType
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = CNTTYPE
   InputPosition  = FitsExtras
   OutputName     = ContentType
@@ -54,8 +54,8 @@ Group = ContentType
 End_Group
 
 Group = ContentVersion
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = CNTVER
   InputPosition  = FitsExtras
   OutputName     = ContentVersion
@@ -64,8 +64,8 @@ Group = ContentVersion
 End_Group
 
 Group = ImageType
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = P_IMGTYP
   InputPosition  = FitsExtras
   OutputName     = ImageType
@@ -74,7 +74,7 @@ Group = ImageType
 End_Group
 
 Group = SourceProductId
-  Auto
+  Auto           = 1
   InputKey       = FILENAME
   InputPosition  = FitsExtras
   OutputName     = SourceProductId
@@ -83,7 +83,7 @@ Group = SourceProductId
 End_Group
 
 Group = SubImageCount
-  Auto
+  Auto           = 1
   InputKey       = NSUBIMG
   InputPosition  = FitsLabels
   OutputName     = SubImageCount
@@ -94,8 +94,8 @@ End_Group
 # the following image ID is assigned by the onboard image processor.
 # AMICA calls this one "ImageNumber"
 Group = ImageNumber
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = P_IMGID
   InputPosition  = FitsExtras
   OutputName     = ImageNumber

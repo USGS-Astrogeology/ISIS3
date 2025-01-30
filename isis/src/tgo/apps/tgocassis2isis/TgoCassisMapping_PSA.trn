@@ -7,7 +7,7 @@
 # Consider the following translation group and xml
 #
 # Group = Samples
-#   Auto
+#   Auto                 = 1
 #   InputPosition  = (Array_2D_Image, Axis_Array)
 #   Dependencies   = "tag@axis_name|Sample"
 #   InputKey       = elements
@@ -34,7 +34,7 @@
 #                        to ProjectionName.
 
 Group = ProjectionName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Planar, cart:Map_Projection)
   InputKey             = cart:map_projection_name
   OutputName           = ProjectionName
@@ -43,7 +43,7 @@ Group = ProjectionName
 End_Group
 
 Group = CenterLongitude
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Planar, cart:Map_Projection, cart:Equirectangular)
   InputKey             = cart:longitude_of_central_meridian
   OutputName           = CenterLongitude
@@ -52,7 +52,7 @@ Group = CenterLongitude
 End_Group
 
 Group = CenterLatitude
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Planar, cart:Map_Projection, cart:Equirectangular)
   InputKey             = cart:latitude_of_projection_origin
   OutputName           = CenterLatitude
@@ -62,7 +62,7 @@ End_Group
 
 # input has different scales for x and y, but ISIS doesn't distinguish, so use x
 Group = Scale
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Planar, cart:Planar_Coordinate_Information, cart:Coordinate_Representation)
   InputKey             = cart:pixel_scale_x
   OutputName           = Scale
@@ -72,7 +72,7 @@ End_Group
 
 # input has different pixel resolutions for x and y, but ISIS doesn't distinguish, so use x
 Group = PixelResolution
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Planar, cart:Planar_Coordinate_Information, cart:Coordinate_Representation)
   InputKey             = cart:pixel_resolution_x
   OutputName           = PixelResolution
@@ -81,7 +81,7 @@ Group = PixelResolution
 End_Group
 
 Group = MaximumLatitude
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Domain, cart:Bounding_Coordinates)
   InputKey             = cart:north_bounding_coordinate
   OutputName           = MaximumLatitude
@@ -90,7 +90,7 @@ Group = MaximumLatitude
 End_Group
 
 Group = MinimumLatitude
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Domain, cart:Bounding_Coordinates)
   InputKey             = cart:south_bounding_coordinate
   OutputName           = MinimumLatitude
@@ -99,7 +99,7 @@ Group = MinimumLatitude
 End_Group
 
 Group = MaximumLongitude
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Domain, cart:Bounding_Coordinates)
   InputKey             = cart:west_bounding_coordinate
   OutputName           = MaximumLongitude
@@ -108,7 +108,7 @@ Group = MaximumLongitude
 End_Group
 
 Group = MinimumLongitude
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Domain, cart:Bounding_Coordinates)
   InputKey             = cart:east_bounding_coordinate
   OutputName           = MinimumLongitude
@@ -117,7 +117,7 @@ Group = MinimumLongitude
 End_Group
 
 Group = UpperLeftCornerX
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Planar, cart:Geo_Transformation)
   InputKey             = cart:upperleft_corner_x
   OutputName           = UpperLeftCornerX
@@ -126,7 +126,7 @@ Group = UpperLeftCornerX
 End_Group
 
 Group = UpperLeftCornerY
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Planar, cart:Geo_Transformation)
   InputKey             = cart:upperleft_corner_y
   OutputName           = UpperLeftCornerY
@@ -135,7 +135,7 @@ Group = UpperLeftCornerY
 End_Group
 
 Group = EquatorialRadius
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Geodetic_Model)
   InputKey             = cart:a_axis_radius
   OutputName           = EquatorialRadius
@@ -144,7 +144,7 @@ Group = EquatorialRadius
 End_Group
 
 Group = PolarRadius
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Geodetic_Model)
   InputKey             = cart:c_axis_radius
   OutputName           = PolarRadius
@@ -153,7 +153,7 @@ Group = PolarRadius
 End_Group
 
 Group = LatitudeType
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Geodetic_Model)
   InputKey             = cart:latitude_type
   OutputName           = LatitudeType
@@ -163,7 +163,7 @@ Group = LatitudeType
 End_Group
 
 Group = LongitudeDirection
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Discipline_Area, cart:Cartography, cart:Spatial_Reference_Information, cart:Horizontal_Coordinate_System_Definition, cart:Geodetic_Model)
   InputKey             = cart:longitude_direction
   OutputName           = LongitudeDirection
@@ -173,7 +173,7 @@ Group = LongitudeDirection
 End_Group
 
 Group = TargetName
-  Auto
+  Auto                 = 1
   InputPosition        = (Observation_Area, Target_Identification)
   InputKey             = name
   OutputName           = TargetName
@@ -183,7 +183,7 @@ End_Group
 
 # Does not exist in xml label
 Group = LongitudeDomain
-  Auto
+  Auto                 = 1
   InputDefault         = 360
   InputPosition        = (Nothing, Nothing)
   InputKey             = Nothing

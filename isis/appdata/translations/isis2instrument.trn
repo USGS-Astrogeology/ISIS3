@@ -1,6 +1,6 @@
 Group = TargetName
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = TARGET_NAME
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -67,8 +67,8 @@ Group = TargetName
 End_Group
 
 Group = SpacecraftName
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = SPACECRAFT_NAME
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -78,8 +78,8 @@ Group = SpacecraftName
 End_Group
 
 Group = StartTime
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = START_TIME
   InputGroup     = QUBE
   InputPosition  = QUBE
@@ -89,8 +89,8 @@ Group = StartTime
 End_Group
 
 Group = InstrumentId
-  Auto
-  Optional
+  Auto           = 1
+  Optional       = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = QUBE
   InputPosition  = QUBE

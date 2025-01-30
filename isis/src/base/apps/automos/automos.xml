@@ -7,188 +7,190 @@
 
   <description>
     <html>
-      <head><style>
-        .td {
-          padding-left: 20px; width:70px; align:center;
-        }
-        .td1 {
-          padding-left: 5px; width:70px; align:left;
-        }
-        .td2 {
-          padding-top: 8px; padding-bottom: 8px; padding-left: 10px; padding-right: 10px; align:center;
-        }
-      </style></head>
-      <body> <font size="2" face="Verdana">
-      <p>
-        This application mosaics together ISIS cubes from a user-entered text file containing the
-        input cube filenames (FROMLIST). If the output file (MOSAIC) does not already exist, the
-        program will create it from the input cubes. Otherwise, the input cubes will be placed
-        into the existing mosaic cube.
-        <p>
-          REQUIREMENT: The listed input cubes must be map projected (<def>Level2</def>).
-          The input cubes are required to be projected to the EXACT SAME ProjectionName,
-          PixelResolution (or MapScale), EquatorialRadius, PolarRadius, LatitudeType,
-          LongitudeDirection, as well as specific map projection keywords (e.g., CenterLatitude,
-          CenterLongitude).  If these map projection requirements are not met, an error will be
-          encountered.
-        </p>
-        <b>Note</b>: The latitude and longitude range of the individual input cubes may vary.
-        <p>
-          By default, the input cubes are placed into the mosaic in the order in which they appear
-          in the input list.   <b>Automos</b> automatically determines the size of the new output
-          mosaic by examining the latitude and longitude range of each input cube. The user may
-          override this by entering their own latitude/longitude extents for the output mosaic
-          cube by setting the GRANGE parameter.
-        </p>
-      </p>
-      <p>
-        <b>Integrity-check Parameters</b>:
-        <p>
-          MATCHBANDBIN = TRUE, the default is to require all the bandbin group and wavelength
-          keywords of the input cube files exactly match the output mosaic.
-        </p>
-        <p>
-          MATCHDEM = FALSE, the default does not check the SHAPEMODEL keyword of the input cube
-          files and does not propagate what DEM Shapemodel that was used when the input files were
-          projected.
-        </p>
-      </p>
-      <p>
-        The PRIORITY parameter will determine how each input cube is combined with the current
-        output mosaic cube. The process involves replacing an output mosaic pixel (or not) with
-        an input pixel at the same location. There are many user options and criteria that
-        influence the pixel replacement. Use of the PRIORITY parameter with and without other
-        options is explained in the tables and descriptions below.
-      </p>
-      <p>
-        The TRACK feature creates a separate tracking cube in addition to the mosaic cube, and
-        contains information for the source files of every pixel within the output mosaic.
-        This cube will have the same base-name as the mosaic cube but will end in 
-        "_tracking.cub". The tracking cube must always reside in the same directory as the
-        mosaic cube to be properly accessed; this means that if the mosaic cube is copied or
-        moved, then its associated tracking cube must be copied or moved to the same location.
-        <b>The tracking cube will always be of type unsigned integer. Depending on the
-        bit-type of the mosaic cube and/or the number of bands it contains, the tracking cube
-        may be as much as four times the size of the mosaic cube itself.</b>
-      </p>
-      <p>
-        The tracking cube can be used appropriately through the QVIEW-AdvancedTracking
-        tool. As the user pans across the displayed mosaic, for every mosaic pixel location,
-        QVIEW-AdvancedTracking will interactively report the index, the filename and the
-        serial number of the input cube that was input to automos for that specific pixel
-        location. Since the tracking cube is of bit-type unsigned integer, the DN values of
-        0, 1 and 2 are reserved for NULL, LRS and LIS, respectively, so valid pixel DN values
-        will begin at an offset of 3. In other words, a pixel of DN value 3 in the tracking
-        cube means that this same pixel within the mosaic was taken from the first input
-        image. The tracking cube cannot be used outside of the QVIEW-AdvancedTracking tool
-        except as a visual representation of the source cubes for the different pixels. 
-      </p>
-      <p>
-        The TRACK feature works with Priority options ONTOP and BENEATH for single band input
-        cubes. It works for multiband cubes for PRIORITY=ONTOP only when the NULL,
-        HIGHSATURATION and LOWSATURATION options are set to true. It also works for multiband
-        cubes when PRIORITY=BAND. Furthermore, this feature is NOT supported when
-        PRIORITY=AVERAGE.
-      </p>
-      <p>
-        <b>Please Note: Prior to ISIS version 3.6.0, tracking for the various mosaicking apllications
-          was being handled with an internal tracking band. Tracking is now being handled by an
-          external tracking cube that contains the associated tracking information. This application
-          can no longer add to mosaics of the old format. In order to continue to use these
-          older mosaics with the updated mosaicking applications, you must first use the
-          <def>trackextract</def> utility application to extract the tracking band and the associated
-          tracking information into an external tracking cube.</b>
-      </p>
-      <p>
-        <b>
-          The following table describes how the program will determine the pixel value in the output
-          mosaic for areas of image overlap.
-        </b>
-        <table border="1" >
-          <tr><th>PRIORITY</th><th>RESULT</th></tr>
-          <tr>
-            <td>ONTOP</td>
-            <td>
-              This is the default.  The current input image will be placed on top of the
-              output mosaic. Thus in any area of overlap, the Valid pixel values for the
-              current input image will appear in the output mosaic (it replaces the output mosaic
-              pixel).  Invalid input <def>Special Pixels</def>
-              (<def>NULL</def>,<def>HRS</def>,<def>HIS</def>,<def>LRS</def>,<def>LIS</def>) will NOT
-              replace an existing Valid output mosaic pixel unless the optional flags are set. Refer
-              to parameters HIGHSATURATION,LOWSATURATION, and NULL to override replacement of Valid
-              output mosaic pixels. 
-              <p>
-                <b>NOTE:</b> When using this priority with multi-band mosaics and with the TRACK
-                option set, all Special Pixel flags must be set as well. This is because the same
-                pixel within different bands of a single input image may hold both Valid and Special
-                Pixel values, and since our Tracking capabilities can only track one input image per
-                pixel (as it is a single band), it must accept the values for that particular pixel
-                from <b>every</b> band in the input image being placed on top.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td>BENEATH</td>
-            <td>
-              The current input image will be placed beneath the output mosaic. Thus in
-              any area of overlap, the Valid pixel values for the current mosaic will remain in
-              the output mosaic. The Valid pixel values for the current input image will only
-              replace the NULL pixels values in the output mosaic.  The HRS,HIS,LRS and LIS  special
-              pixel values in the output mosaic will NOT be replaced by the Valid input pixel.
-              The parameters HIGHSATURATION, LOWSATURATION and NULL are not supported under this
-              priority.
-            </td>
-          </tr>
-          <tr>
-            <td>BAND</td>
-            <td>
-              The input image pixels will be placed in the output mosaic based on the "Lesser" or
-              "Greater" criteria of a priority band defined by the user.  Parameters that apply to
-              this priority feature are TYPE, NUMBER, KEYNAME, KEYVALUE, CRITERIA.
-            </td>
-          </tr>
-          <tr>
-            <td>AVERAGE</td>
-            <td>
-              Overlapping Valid pixel values from the current input image and output mosaic will be
-              averaged for the new mosaic pixel values. A count-band is created with the output
-              mosaic file.  The count-band keeps track of the number of images involved in the
-              averaging of the input DN values for each pixel in the mosaic. Invalid input pixel
-              values will not be included in the average.  In the case where only one Valid pixel
-              exists between the input image pixels or the current mosaic pixel, the Valid pixel is
-              retained in the current output mosaic. Refer to parameters HIGHSATURATION,
-              LOWSATURATION, and NULL to override replacement of valid output mosaic pixels.
-              <p>
-                Choosing this priority will cause the mosaic to have twice the number of bands of
-                the input image. <b>Hence the file (byte) size of the mosaic is increased due to
-                the count-bands.</b>
-              </p>
-              <p>
-                <b>NOTE</b>: If an existing mosaic does not already contain a count-band, an error
-                will be encountered.
-              </p>
-            </td>
-          </tr>
-        </table>
-      </p>
-      <p>
-        Each of the following priority option tables indicates the resulting output pixel for a
-        particular input pixel, given the selected special pixel options  (parameters
-        HIGHSATURATION for HRS, HIS;  LOWSATURATION for LRS, LIS; and NULL) in each table row.
+      <head>
+        <style>
+          .td {
+            padding-left: 20px; width:70px; align:center;
+          }
+          .td1 {
+            padding-left: 5px; width:70px; align:left;
+          }
+          .td2 {
+            padding-top: 8px; padding-bottom: 8px; padding-left: 10px; padding-right: 10px; align:center;
+          }
+        </style>
+      </head>
+      <body>
+          <p>
+            This application mosaics together ISIS cubes from a user-entered text file containing the
+            input cube filenames (FROMLIST). If the output file (MOSAIC) does not already exist, the
+            program will create it from the input cubes. Otherwise, the input cubes will be placed
+            into the existing mosaic cube.
+          </p>
+          <p>
+            REQUIREMENT: The listed input cubes must be map projected (<def>Level2</def>).
+            The input cubes are required to be projected to the EXACT SAME ProjectionName,
+            PixelResolution (or MapScale), EquatorialRadius, PolarRadius, LatitudeType,
+            LongitudeDirection, as well as specific map projection keywords (e.g., CenterLatitude,
+            CenterLongitude).  If these map projection requirements are not met, an error will be
+            encountered.
+          </p>
+          <b>Note</b>: The latitude and longitude range of the individual input cubes may vary.
+          <p>
+            By default, the input cubes are placed into the mosaic in the order in which they appear
+            in the input list.   <b>Automos</b> automatically determines the size of the new output
+            mosaic by examining the latitude and longitude range of each input cube. The user may
+            override this by entering their own latitude/longitude extents for the output mosaic
+            cube by setting the GRANGE parameter.
+          </p>
+          <p>
+            <b>Integrity-check Parameters</b>:
+            <p>
+              MATCHBANDBIN = TRUE, the default is to require all the bandbin group and wavelength
+              keywords of the input cube files exactly match the output mosaic.
+            </p>
+            <p>
+              MATCHDEM = FALSE, the default does not check the SHAPEMODEL keyword of the input cube
+              files and does not propagate what DEM Shapemodel that was used when the input files were
+              projected.
+            </p>
+          </p>
+          <p>
+            The PRIORITY parameter will determine how each input cube is combined with the current
+            output mosaic cube. The process involves replacing an output mosaic pixel (or not) with
+            an input pixel at the same location. There are many user options and criteria that
+            influence the pixel replacement. Use of the PRIORITY parameter with and without other
+            options is explained in the tables and descriptions below.
+          </p>
+          <p>
+            The TRACK feature creates a separate tracking cube in addition to the mosaic cube, and
+            contains information for the source files of every pixel within the output mosaic.
+            This cube will have the same base-name as the mosaic cube but will end in 
+            "_tracking.cub". The tracking cube must always reside in the same directory as the
+            mosaic cube to be properly accessed; this means that if the mosaic cube is copied or
+            moved, then its associated tracking cube must be copied or moved to the same location.
+            <b>The tracking cube will always be of type unsigned integer. Depending on the
+            bit-type of the mosaic cube and/or the number of bands it contains, the tracking cube
+            may be as much as four times the size of the mosaic cube itself.</b>
+          </p>
+          <p>
+            The tracking cube can be used appropriately through the QVIEW-AdvancedTracking
+            tool. As the user pans across the displayed mosaic, for every mosaic pixel location,
+            QVIEW-AdvancedTracking will interactively report the index, the filename and the
+            serial number of the input cube that was input to automos for that specific pixel
+            location. Since the tracking cube is of bit-type unsigned integer, the DN values of
+            0, 1 and 2 are reserved for NULL, LRS and LIS, respectively, so valid pixel DN values
+            will begin at an offset of 3. In other words, a pixel of DN value 3 in the tracking
+            cube means that this same pixel within the mosaic was taken from the first input
+            image. The tracking cube cannot be used outside of the QVIEW-AdvancedTracking tool
+            except as a visual representation of the source cubes for the different pixels. 
+          </p>
+          <p>
+            The TRACK feature works with Priority options ONTOP and BENEATH for single band input
+            cubes. It works for multiband cubes for PRIORITY=ONTOP only when the NULL,
+            HIGHSATURATION and LOWSATURATION options are set to true. It also works for multiband
+            cubes when PRIORITY=BAND. Furthermore, this feature is NOT supported when
+            PRIORITY=AVERAGE.
+          </p>
+          <p>
+            <b>Please Note: Prior to ISIS version 3.6.0, tracking for the various mosaicking apllications
+              was being handled with an internal tracking band. Tracking is now being handled by an
+              external tracking cube that contains the associated tracking information. This application
+              can no longer add to mosaics of the old format. In order to continue to use these
+              older mosaics with the updated mosaicking applications, you must first use the
+              <def>trackextract</def> utility application to extract the tracking band and the associated
+              tracking information into an external tracking cube.</b>
+          </p>
+          <p>
+            <b>
+              The following table describes how the program will determine the pixel value in the output
+              mosaic for areas of image overlap.
+            </b>
+            <table cellspacing="0" border="1" >
+              <tr><th>PRIORITY</th><th>RESULT</th></tr>
+              <tr>
+                <td>ONTOP</td>
+                <td>
+                  This is the default.  The current input image will be placed on top of the
+                  output mosaic. Thus in any area of overlap, the Valid pixel values for the
+                  current input image will appear in the output mosaic (it replaces the output mosaic
+                  pixel).  Invalid input <def>Special Pixels</def>
+                  (<def>NULL</def>,<def>HRS</def>,<def>HIS</def>,<def>LRS</def>,<def>LIS</def>) will NOT
+                  replace an existing Valid output mosaic pixel unless the optional flags are set. Refer
+                  to parameters HIGHSATURATION,LOWSATURATION, and NULL to override replacement of Valid
+                  output mosaic pixels. 
+                  <p>
+                    <b>NOTE:</b> When using this priority with multi-band mosaics and with the TRACK
+                    option set, all Special Pixel flags must be set as well. This is because the same
+                    pixel within different bands of a single input image may hold both Valid and Special
+                    Pixel values, and since our Tracking capabilities can only track one input image per
+                    pixel (as it is a single band), it must accept the values for that particular pixel
+                    from <b>every</b> band in the input image being placed on top.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td>BENEATH</td>
+                <td>
+                  The current input image will be placed beneath the output mosaic. Thus in
+                  any area of overlap, the Valid pixel values for the current mosaic will remain in
+                  the output mosaic. The Valid pixel values for the current input image will only
+                  replace the NULL pixels values in the output mosaic.  The HRS,HIS,LRS and LIS  special
+                  pixel values in the output mosaic will NOT be replaced by the Valid input pixel.
+                  The parameters HIGHSATURATION, LOWSATURATION and NULL are not supported under this
+                  priority.
+                </td>
+              </tr>
+              <tr>
+                <td>BAND</td>
+                <td>
+                  The input image pixels will be placed in the output mosaic based on the "Lesser" or
+                  "Greater" criteria of a priority band defined by the user.  Parameters that apply to
+                  this priority feature are TYPE, NUMBER, KEYNAME, KEYVALUE, CRITERIA.
+                </td>
+              </tr>
+              <tr>
+                <td>AVERAGE</td>
+                <td>
+                  Overlapping Valid pixel values from the current input image and output mosaic will be
+                  averaged for the new mosaic pixel values. A count-band is created with the output
+                  mosaic file.  The count-band keeps track of the number of images involved in the
+                  averaging of the input DN values for each pixel in the mosaic. Invalid input pixel
+                  values will not be included in the average.  In the case where only one Valid pixel
+                  exists between the input image pixels or the current mosaic pixel, the Valid pixel is
+                  retained in the current output mosaic. Refer to parameters HIGHSATURATION,
+                  LOWSATURATION, and NULL to override replacement of valid output mosaic pixels.
+                  <p>
+                    Choosing this priority will cause the mosaic to have twice the number of bands of
+                    the input image. <b>Hence the file (byte) size of the mosaic is increased due to
+                    the count-bands.</b>
+                  </p>
+                  <p>
+                    <b>NOTE</b>: If an existing mosaic does not already contain a count-band, an error
+                    will be encountered.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </p>
+          <p>
+            Each of the following priority option tables indicates the resulting output pixel for a
+            particular input pixel, given the selected special pixel options  (parameters
+            HIGHSATURATION for HRS, HIS;  LOWSATURATION for LRS, LIS; and NULL) in each table row.
 
-        <!--
-          *******************************************************************************
-          The graphics below are commented out because they are no longer correct.
-          *******************************************************************************
-        -->
-        <!--
-        <table cellspacing="0" cellpadding="1" border="0">
-          <tr><th colspan="3" align="center"><u>  Priority OnTop</u></th></tr>
-          <tr height="15"><th colspan="3"></th></tr>
-          <tr><td class="td"><img src="assets/OnTop.jpg" alt="Priority OnTop" />  </td>
-              <td class="td"></td>
-              <td class="td">-->
-                <table cellspacing="0" cellpadding="1" border="1" width="1000">
+            <!--
+              *******************************************************************************
+              The graphics below are commented out because they are no longer correct.
+              *******************************************************************************
+            -->
+            <!--
+            <table cellspacing="0" cellpadding="1" border="0">
+              <tr><th colspan="3" align="center"><u>  Priority OnTop</u></th></tr>
+              <tr height="15"><th colspan="3"></th></tr>
+              <tr><td class="td"><img src="assets/OnTop.jpg" alt="Priority OnTop" />  </td>
+                  <td class="td"></td>
+                  <td class="td">-->
+                <table cellspacing="0" cellpadding="1" border="1">
                   <tr><th colspan="6" align="center">PRIORITY=ONTOP</th></tr>
                   <tr><th colspan="3" align="center">Options</th>
                       <th colspan="3" align="center">Images</th></tr>
@@ -266,7 +268,7 @@
           <tr><td class="td"><img src="assets/Band.jpg" alt="Priority Band" />  </td>
               <td class="td"></td>
               <td class="td">-->
-                <table cellspacing="0" cellpadding="0" border="1" width="1000">
+                <table cellspacing="0" cellpadding="0" border="1">
                   <tr><th colspan="6" align="center">PRIORITY=BAND</th></tr>
                   <tr><th colspan="3" align="center">Options</th><th colspan="3" align="center">
                     Images</th></tr>
@@ -327,7 +329,7 @@
           <tr><td class="td"><img src="assets/Average.jpg" alt="Priority Average" /></td>
               <td class="td"></td>
               <td class="td">-->
-                <table cellspacing="0" cellpadding="0" border="1" width="1000">
+                <table cellspacing="0" cellpadding="0" border="1">
                   <tr><th colspan="7" align="center">PRIORITY=AVERAGE</th></tr>
                   <tr><th colspan="3" align="center">Options</th><th colspan="4" align="center">
                     Images</th></tr>
@@ -389,7 +391,6 @@
         </table>
      -->
       </p>
-    </font>
      </body>
     </html>
   </description>

@@ -37,7 +37,7 @@
       a variety of pattern matching algorithms and parameter settings that can
       be used to optimize the success and accuracy of the co-registration
       attempt with the control point measures.   It is recommended that you review the
-      <a href="../../../../documents/PatternMatch/PatternMatch.html">Pattern
+      <a href="https://astrogeology.usgs.gov/docs/concepts/control-networks/pattern-matching/">Pattern
       Matching</a> page from the "Related Objects and Documents" section below.
       It is essential for using this application to understand how to create a
       "registration template" file and how to size your search and pattern
@@ -73,7 +73,7 @@
 
     <p>
       For further discussion of the parameters used in this DEFFILE, see the
-      <a href="../../../../documents/PatternMatch/PatternMatch.html">Pattern
+      <a href="https://astrogeology.usgs.gov/docs/concepts/control-networks/pattern-matching/">Pattern
       Matching</a> document.  Briefly, the example DEFFILE will allow a
       successful registration only where the MaximumCorrelation
       algorithm's goodness-of-fit result is >=0.7, pixel value is >1400, and at
@@ -101,7 +101,7 @@
       be translated (FROM) and centering the pattern chip at the grid
       intersection for the held image (MATCH).  The pattern chip is walked
       through the search chip to find the best registration (if any).  Again,
-      see the <a href="../../../../documents/PatternMatch/PatternMatch.html">
+      see the <a href="https://astrogeology.usgs.gov/docs/concepts/control-networks/pattern-matching/">
       Pattern Matching</a> document for further details.  The local translation is
       recorded at all grid intersections that had a successful registration.
       The results are written to a control network and/or flat-file if requested.
@@ -148,8 +148,7 @@
       <document>
         <title>Pattern Matching in ISIS</title>
         <source>
-          <filename>PatternMatch.html</filename>
-          <path>../../../../documents/PatternMatch/</path>
+          <path>https://astrogeology.usgs.gov/docs/concepts/control-networks/pattern-matching/</path>
         </source>
       </document>
     </documents>

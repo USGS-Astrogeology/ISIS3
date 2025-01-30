@@ -1,5 +1,5 @@
 Group = INTERCHANGE_FORMAT
-  Auto
+  Auto           = 1
   InputKey       = INTERCHANGE_FORMAT
   InputDefault   = BINARY
   OutputName     = INTERCHANGE_FORMAT
@@ -8,7 +8,7 @@ Group = INTERCHANGE_FORMAT
 End_Group
 
 Group = ORIGINAL_PRODUCT_ID
-  Auto
+  Auto           = 1
   InputKey       = ORIGINAL_PRODUCT_ID
   InputGroup     = "OriginalLabelObject"
   InputPosition  = (OriginalLabelObject)
@@ -18,7 +18,7 @@ Group = ORIGINAL_PRODUCT_ID
 End_Group
 
 Group = MISSION_NAME
-  Auto
+  Auto           = 1
   InputKey       = MISSION_NAME
   InputDefault   = "LUNAR ORBITER"
   OutputName     = MISSION_NAME
@@ -27,7 +27,7 @@ Group = MISSION_NAME
 End_Group
 
 Group = PRODUCER_INSTITUTION_NAME
-  Auto
+  Auto           = 1
   InputKey       = PRODUCER_INSTITUTION_NAME
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
@@ -38,7 +38,7 @@ Group = PRODUCER_INSTITUTION_NAME
 End_Group
 
 Group = SPACECRAFT_NAME
-  Auto
+  Auto           = 1
   InputKey       = SPACECRAFT_NAME
   InputGroup     = "OriginalLabelObject"
   InputPosition  = (OriginalLabelObject)
@@ -48,7 +48,7 @@ Group = SPACECRAFT_NAME
 End_Group
 
 Group = DATA_SET_ID
-  Auto
+  Auto           = 1
   InputKey       = DATA_SET_ID
   InputGroup     = "OriginalLabelObject"
   InputPosition  = (OriginalLabelObject)
@@ -58,7 +58,7 @@ Group = DATA_SET_ID
 End_Group
 
 Group = INSTRUMENT_NAME
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_NAME
   InputGroup     = "OriginalLabelObject"
   InputPosition  = (OriginalLabelObject)
@@ -68,7 +68,7 @@ Group = INSTRUMENT_NAME
 End_Group
 
 Group = INSTRUMENT_ID
-  Auto
+  Auto           = 1
   InputKey       = INSTRUMENT_ID
   InputGroup     = "OriginalLabelObject"
   InputPosition  = (OriginalLabelObject)
@@ -78,7 +78,7 @@ Group = INSTRUMENT_ID
 End_Group
 
 Group = TARGET_NAME
-  Auto
+  Auto           = 1
   InputKey       = TARGET_NAME
   InputGroup     = "OriginalLabelObject"
   InputPosition  = (OriginalLabelObject)
@@ -88,7 +88,7 @@ Group = TARGET_NAME
 End_Group
 
 Group = FRAME_NUMBER
-  Auto
+  Auto           = 1
   InputKey       = FRAME_NUMBER
   InputGroup     = "OriginalLabelObject"
   InputPosition  = (OriginalLabelObject)
@@ -98,7 +98,7 @@ Group = FRAME_NUMBER
 End_Group
 
 Group = FILMSTRIP_SCAN_CREATION_DATE
-  Auto
+  Auto           = 1
   InputKey       = LO:FILMSTRIP_SCAN_CREATION_DATE
   InputGroup     = "OriginalLabelObject"
   InputPosition  = (OriginalLabelObject)

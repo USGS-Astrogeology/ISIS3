@@ -7,7 +7,7 @@
 #  spkwriter.
 
 Group = NaifCode
-  Auto
+  Auto           = 1
   InputKey       = SPCINSID
   InputPosition  = FITSLABELS
   OutputName     = NaifFrameCode

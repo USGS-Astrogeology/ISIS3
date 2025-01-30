@@ -174,15 +174,9 @@ namespace Isis {
     //PolygonSeeder *seeder = PolygonSeederFactory::Create(seedDef);
 
     TProjection *proj = NULL;
-    UniversalGroundMap *ugmap = NULL;
     mapGroup = Target::radiiGroup(cubeLab, mapGroup);
     if (seedDomain == XY) {
       proj = (TProjection *) ProjectionFactory::Create(maplab);
-    }
-    else if (seedDomain == SampleLine) {
-      Cube cube;
-      cube.open(serialNumbers.fileName(0));
-      ugmap = new UniversalGroundMap(cube);
     }
 
     // Create the control net to store the points in.
@@ -201,8 +195,6 @@ namespace Isis {
     overlaps.ReadImageOverlaps(ui.GetFileName("OVERLAPLIST"));
 
     // Create a Universal Ground Map (UGM) for each image in the list
-    int stats_noOverlap = 0;
-    int stats_tolerance = 0;
 
     map<QString, UniversalGroundMap *> gMaps;
     for (int sn = 0; sn < serialNumbers.size(); ++sn) {
@@ -259,7 +251,6 @@ namespace Isis {
       progress.CheckStatus();
 
       if (overlaps[ov]->Size() == 1) {
-        stats_noOverlap++;
         continue;
       }
 
@@ -292,7 +283,7 @@ namespace Isis {
           mp = PolygonTools::LatLonToXY(*polygonOverlaps, proj);
         }
         else if (seedDomain == SampleLine) {
-          mp = PolygonTools::LatLonToSampleLine(*polygonOverlaps, ugmap);
+          mp = PolygonTools::LatLonToSampleLine(*polygonOverlaps, gMaps[(*overlaps[ov])[0]]);
         }
         points = seeder->Seed(mp);
       }
@@ -322,7 +313,6 @@ namespace Isis {
 
       // No points were seeded in this polygon, so collect some stats and move on
       if (points.size() == 0) {
-        stats_tolerance++;
         continue;
       }
 
@@ -344,10 +334,10 @@ namespace Isis {
       else if (seedDomain == SampleLine) {
         // Convert the Sample/Line points back to Lat/Lon points
         for (unsigned int pt = 0; pt < points.size(); pt ++) {
-          if (ugmap->SetImage(points[pt]->getX(), points[pt]->getY())) {
+          if (gMaps[(*overlaps[ov])[0]]->SetImage(points[pt]->getX(), points[pt]->getY())) {
             seed.push_back(Isis::globalFactory->createPoint(
-                             geos::geom::Coordinate(ugmap->UniversalLongitude(),
-                                                    ugmap->UniversalLatitude())).release());
+                             geos::geom::Coordinate(gMaps[(*overlaps[ov])[0]]->UniversalLongitude(),
+                                                    gMaps[(*overlaps[ov])[0]]->UniversalLatitude())).release());
           }
           else {
             IString msg = "Unable to convert from Sample/Line to a (lon,lat)";
@@ -486,17 +476,13 @@ namespace Isis {
     PvlGroup pluginInfo = seeder->PluginParameters("SeedDefinition");
     pluginInfo.addKeyword(PvlKeyword("MaxIncidence", toString(maxIncidence)));
     pluginInfo.addKeyword(PvlKeyword("MaxEmission", toString(maxEmission)));
-    if (log) {
-      log->addLogGroup(pluginInfo);
-    }
+    Application::Log(pluginInfo);
 
     // inform user of any unused (invalid) keywords found in the def file
     if (unusedDefKeywords.keywords() != 0) {
       PvlGroup unusedKeywords(unusedDefKeywords);
       unusedKeywords.setName("InvalidKeyordsFoundInDefFile");
-      if (log) {
-        log->addLogGroup(unusedKeywords);
-      }
+      Application::Log(unusedKeywords);
     }
 
     // calc # of points and measures for results group in print.prt
@@ -517,17 +503,11 @@ namespace Isis {
     resultsGrp.addKeyword(msCountKeyword);
     resultsGrp.addKeyword(cpIgnoredCountKeyword);
     resultsGrp.addKeyword(cmIgnoredCountKeyword);
-    if (log) {
-      log->addLogGroup(resultsGrp);
-    }
+    Application::Log(resultsGrp);
 
     if (seedDomain == XY) {
       delete proj;
       proj = NULL;
-    }
-    else if (seedDomain == SampleLine) {
-      delete ugmap;
-      ugmap = NULL;
     }
 
     delete seeder;

@@ -1,0 +1,492 @@
+Object = IsisCube
+  Object = Core
+    StartByte   = 65537
+    Format      = Tile
+    TileSamples = 512
+    TileLines   = 512
+
+    Group = Dimensions
+      Samples = 512
+      Lines   = 512
+      Bands   = 1
+    End_Group
+
+    Group = Pixels
+      Type       = Real
+      ByteOrder  = Lsb
+      Base       = 0.0
+      Multiplier = 1.0
+    End_Group
+  End_Object
+
+  Group = Instrument
+    SpacecraftName        = Messenger
+    InstrumentName        = "MERCURY DUAL IMAGING SYSTEM NARROW ANGLE CAMERA"
+    InstrumentId          = MDIS-NAC
+    TargetName            = Mercury
+    OriginalTargetName    = MERCURY
+    StartTime             = 2012-03-14T10:25:19.641832
+    StopTime              = 2012-03-14T10:25:19.649832
+    SpacecraftClockCount  = 1/0240208184:982000
+    MissionPhaseName      = "MERCURY ORBIT"
+    ExposureDuration      = 8 <MS>
+    ExposureType          = AUTO
+    DetectorTemperature   = -12.99 <DEGC>
+    FocalPlaneTemperature = 3.05 <DEGC>
+    FilterTemperature     = N/A
+    OpticsTemperature     = 11.25 <DEGC>
+    AttitudeQuality       = Ok
+    FilterWheelPosition   = 39212
+    PivotPosition         = -1087
+    FpuBinningMode        = 1
+    PixelBinningMode      = 0
+    SubFrameMode          = 0
+    JailBars              = 0
+    DpuId                 = DPU-A
+    PivotAngle            = -2.9855346679688 <Degrees>
+    Unlutted              = 1
+  End_Group
+
+  Group = Archive
+    DataSetId                 = MESS-E/V/H-MDIS-2-EDR-RAWDATA-V1.0
+    DataQualityId             = 0000001000000000
+    ProducerId                = "APPLIED COHERENT TECHNOLOGY CORPORATION"
+    EdrSourceProductId        = 0240208184_IM5WV
+    ProductId                 = CN0240208184M_IF_4
+    SequenceName              = N/A
+    ObservationId             = 1515195
+    ObservationType           = (Monochrome, Targeted)
+    SiteId                    = 3348
+    MissionElapsedTime        = 240208184
+    EdrProductCreationTime    = 2012-03-14T17:00:36
+    ObservationStartTime      = 2012-03-14T10:25:19.641832
+    SpacecraftClockStartCount = 1/0240208184:982000
+    SpacecraftClockStopCount  = 1/0240208184:990000
+    Exposure                  = 8
+    CCDTemperature            = 1134
+    OriginalFilterNumber      = 0
+    OrbitNumber               = 731
+    YearDoy                   = 2012074
+    SourceProductId           = (EN0240208184M, MDISNAC_BINNED_DARKMODEL_0,
+                                 MDISNAC_BINNED_FLAT_2, MDISNAC_BINNED_RESP_3,
+                                 MDISNAC_SOLAR_0)
+  End_Group
+
+  Group = BandBin
+    Name   = "748 BP 53"
+    Number = 2
+    Center = 747.7 <NM>
+    Width  = 52.6 <NM>
+  End_Group
+
+  Group = Kernels
+    NaifIkCode                = -236820
+    LeapSecond                = $base/kernels/lsk/naif0011.tls
+    TargetAttitudeShape       = $messenger/kernels/pck/pck00010_MSGR_v10.tpc
+    TargetPosition            = (Table, $messenger/kernels/tspk/de423s.bsp)
+    InstrumentPointing        = (Table, $messenger/kernels/ck/msgr20120308.bc,
+                                 $messenger/kernels/ck/msgr20120309.bc,
+                                 $messenger/kernels/ck/msgr20120310.bc,
+                                 $messenger/kernels/ck/msgr20120311.bc,
+                                 $messenger/kernels/ck/msgr20120312.bc,
+                                 $messenger/kernels/ck/msgr20120313.bc,
+                                 $messenger/kernels/ck/msgr20120314.bc,
+                                 $messenger/kernels/ck/msgr20120315.bc,
+                                 $messenger/kernels/ck/1067127096_1881_mdis_at-
+                                 thist.bc,
+                                 $messenger/kernels/ck/1066975207_281633_mdis_-
+                                 pivot_pvtres.bc,
+                                 $messenger/kernels/fk/msgr_v230.tf)
+    Instrument                = $messenger/kernels/ik/msgr_mdis_v140.ti
+    SpacecraftClock           = $messenger/kernels/sclk/messenger_2486.tsc
+    InstrumentPosition        = (Table,
+                                 $messenger/kernels/spk/msgr_20040803_20150430-
+                                 _od416sc_0.bsp)
+    InstrumentAddendum        = $messenger/kernels/iak/mdisAddendum009.ti
+    ShapeModel                = Null
+    InstrumentPositionQuality = Reconstructed
+    InstrumentPointingQuality = Reconstructed
+    CameraVersion             = 2
+  End_Group
+
+  Group = RadiometricCalibration
+    SoftwareName             = mdiscal
+    SoftwareVersion          = 1.5
+    ProcessDate              = 2015-03-23T18:24:35
+    DarkCurrentModel         = MODEL
+    DarkCurrentFile          = $messenger/calibration/DARK_MODEL/MDISNAC_BINN-
+                               ED_DARKMODEL_0.TAB
+    BinnedImage              = 1
+    FilterNumber             = 2
+    FlatFieldFile            = $messenger/calibration/FLAT/MDISNAC_BINNED_FLA-
+                               T_2.cub
+    CalibrationFile          = $messenger/calibration/mdisCalibration0003.trn
+    ResponsivityFile         = $messenger/calibration/RESPONSIVITY/MDISNAC_BI-
+                               NNED_RESP_3.TAB
+    SmearCompFile            = $messenger/calibration/smear/MDISNAC_FRAME_TRA-
+                               NSFER_01.TAB
+    Response                 = (590.6, 1.2488, -2.346e-04, 0.0)
+    SmearComponent           = 3.4
+    Units                    = "I over F"
+    SolarDistance            = 0.34751820254748 <AU>
+    SolarIrrFile             = $messenger/calibration/SOLAR/MDISNAC_SOLAR_0.T-
+                               AB
+    FilterIrradianceFactor   = 1278.85
+    IOFFactor                = 2.96678025166064e-04
+    ContaminationEventFile   = N/A
+    ContaminationEventDate   = N/A
+    ContaminationEventFactor = 1.0
+    DarkStripColumns         = 2
+    ValidDarkColumns         = 1
+    DarkStripMean            = -0.0050004860589008
+    LeftSamplesNulled        = 3
+  End_Group
+End_Object
+
+Object = Label
+  Bytes = 65536
+End_Object
+
+Object = Table
+  Name                = InstrumentPointing
+  StartByte           = 1114113
+  Bytes               = 64
+  Records             = 1
+  ByteOrder           = Lsb
+  TimeDependentFrames = (-236890, -236892, -236880, -236000, 1)
+  ConstantFrames      = (-236820, -236800, -236890)
+  ConstantRotation    = (0.001686595916635, 0.99996109494739,
+                         0.0086581745086423, 6.3008625209968e-04,
+                         -0.0086592477671008, 0.99996230949942,
+                         0.99999837919145, -0.0016810769512645,
+                         -6.44666390486019e-04)
+  CkTableStartTime    = 384992785.83131
+  CkTableEndTime      = 384992785.83131
+  CkTableOriginalSize = 1
+  Description         = "Created by spiceinit"
+  Kernels             = ($messenger/kernels/ck/msgr20120308.bc,
+                         $messenger/kernels/ck/msgr20120309.bc,
+                         $messenger/kernels/ck/msgr20120310.bc,
+                         $messenger/kernels/ck/msgr20120311.bc,
+                         $messenger/kernels/ck/msgr20120312.bc,
+                         $messenger/kernels/ck/msgr20120313.bc,
+                         $messenger/kernels/ck/msgr20120314.bc,
+                         $messenger/kernels/ck/msgr20120315.bc,
+                         $messenger/kernels/ck/1067127096_1881_mdis_atthist.bc,
+                         $messenger/kernels/ck/1066975207_281633_mdis_pivot_pv-
+                         tres.bc, $messenger/kernels/fk/msgr_v230.tf)
+
+  Group = Field
+    Name = J2000Q0
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000Q1
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000Q2
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000Q3
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = AV1
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = AV2
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = AV3
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = ET
+    Type = Double
+    Size = 1
+  End_Group
+End_Object
+
+Object = Table
+  Name                 = InstrumentPosition
+  StartByte            = 1114177
+  Bytes                = 56
+  Records              = 1
+  ByteOrder            = Lsb
+  CacheType            = Linear
+  SpkTableStartTime    = 384992785.83131
+  SpkTableEndTime      = 384992785.83131
+  SpkTableOriginalSize = 1.0
+  Description          = "Created by spiceinit"
+  Kernels              = $messenger/kernels/spk/msgr_20040803_20150430_od416s-
+                         c_0.bsp
+
+  Group = Field
+    Name = J2000X
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000Y
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000Z
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000XV
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000YV
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000ZV
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = ET
+    Type = Double
+    Size = 1
+  End_Group
+End_Object
+
+Object = Table
+  Name                = BodyRotation
+  StartByte           = 1114233
+  Bytes               = 64
+  Records             = 1
+  ByteOrder           = Lsb
+  TimeDependentFrames = (10011, 1)
+  CkTableStartTime    = 384992785.83131
+  CkTableEndTime      = 384992785.83131
+  CkTableOriginalSize = 1
+  Description         = "Created by spiceinit"
+  Kernels             = ($messenger/kernels/tspk/de423s.bsp,
+                         $messenger/kernels/pck/pck00010_MSGR_v10.tpc)
+  SolarLongitude      = 121.37355229343
+
+  Group = Field
+    Name = J2000Q0
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000Q1
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000Q2
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000Q3
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = AV1
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = AV2
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = AV3
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = ET
+    Type = Double
+    Size = 1
+  End_Group
+End_Object
+
+Object = Table
+  Name                 = SunPosition
+  StartByte            = 1114297
+  Bytes                = 56
+  Records              = 1
+  ByteOrder            = Lsb
+  CacheType            = Linear
+  SpkTableStartTime    = 384992785.83131
+  SpkTableEndTime      = 384992785.83131
+  SpkTableOriginalSize = 1.0
+  Description          = "Created by spiceinit"
+  Kernels              = $messenger/kernels/tspk/de423s.bsp
+
+  Group = Field
+    Name = J2000X
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000Y
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000Z
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000XV
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000YV
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = J2000ZV
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = ET
+    Type = Double
+    Size = 1
+  End_Group
+End_Object
+
+Object = Table
+  Name      = CameraStatistics
+  StartByte = 1124512
+  Bytes     = 624
+  Records   = 12
+  ByteOrder = Lsb
+
+  Group = Field
+    Name = Name
+    Type = Text
+    Size = 20
+  End_Group
+
+  Group = Field
+    Name = Minimum
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = Maximum
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = Average
+    Type = Double
+    Size = 1
+  End_Group
+
+  Group = Field
+    Name = StandardDeviation
+    Type = Double
+    Size = 1
+  End_Group
+End_Object
+
+Object = History
+  Name      = IsisCube
+  StartByte = 1136571
+  Bytes     = 3655
+End_Object
+
+Object = NaifKeywords
+  BODY199_RADII                              = (2440.0, 2440.0, 2440.0)
+  BODY_FRAME_CODE                            = 10011
+  INS-236820_SWAP_OBSERVER_TARGET            = TRUE
+  INS-236820_LIGHTTIME_CORRECTION            = LT+S
+  INS-236820_LT_SURFACE_CORRECT              = FALSE
+  INS-236820_REFERENCE_FRAME                 = MSGR_SPACECRAFT
+  INS-236820_FRAME                           = MSGR_MDIS_NAC
+  INS-236820_FOCAL_LENGTH                    = 549.11781953727
+  INS-236820_FL_TEMP_COEFFS                  = (549.53425088613,
+                                                0.0098746748357875, 0.0, 0.0,
+                                                0.0, 0.0)
+  TempDependentFocalLength                   = 549.564368644379
+  INS-236820_PIXEL_PITCH                     = 0.014
+  CLOCK_ET_-236_1/0240208184:982000_COMPUTED = cbcad31186f2b641
+  INS-236820_TRANSX                          = (0.0, 0.014, 0.0)
+  INS-236820_TRANSY                          = (0.0, 0.0, 0.014)
+  INS-236820_ITRANSS                         = (0.0, 71.42857143, 0.0)
+  INS-236820_ITRANSL                         = (0.0, 0.0, 71.42857143)
+  INS-236820_BORESIGHT_SAMPLE                = 512.5
+  INS-236820_BORESIGHT_LINE                  = 512.5
+  INS-236820_OD_T_X                          = (0.0, 1.0020558791381, 0.0,
+                                                0.0, -5.44874222271292e-04,
+                                                0.0, 6.59749881186269e-06, 0.0,
+                                                6.68312905601468e-06, 0.0)
+  INS-236820_OD_T_Y                          = (-1.365797535954e-05, 0.0, 1.0,
+                                                8.85544334965699e-04, 0.0,
+                                                3.33893913833148e-04, 0.0,
+                                                7.74756721313425e-06, 0.0,
+                                                7.79484564042716e-06)
+End_Object
+
+Object = OriginalLabel
+  Name      = IsisCube
+  StartByte = 1114353
+  Bytes     = 7910
+End_Object
+
+Object = Polygon
+  Name      = Footprint
+  StartByte = 1127985
+  Bytes     = 8586
+End_Object
+End

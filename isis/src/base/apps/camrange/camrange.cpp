@@ -1,9 +1,10 @@
-#include "UserInterface.h"
+#include "Application.h"
 #include "Camera.h"
 #include "Target.h"
 #include "Distance.h"
 #include "Process.h"
 #include "Pvl.h"
+#include "UserInterface.h"
 
 #include "camrange.h"
 
@@ -98,13 +99,13 @@ namespace Isis {
     neg180 += PvlKeyword("MinimumLongitude", toString(minlon));
     neg180 += PvlKeyword("MaximumLongitude", toString(maxlon));
 
-    log->addLogGroup(target);
-    log->addLogGroup(res);
-    log->addLogGroup(ugr);
-    log->addLogGroup(ogr);
-    log->addLogGroup(pos360);
-    log->addLogGroup(pos180);
-    log->addLogGroup(neg180);
+    Application::AppendAndLog(target, log);
+    Application::AppendAndLog(res, log);
+    Application::AppendAndLog(ugr, log);
+    Application::AppendAndLog(ogr, log);
+    Application::AppendAndLog(pos360, log);
+    Application::AppendAndLog(pos180, log);
+    Application::AppendAndLog(neg180, log);
 
     // Write the log->file if requested
     if(ui.WasEntered("TO")) {

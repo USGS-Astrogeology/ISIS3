@@ -340,7 +340,7 @@ namespace Isis{
           camstats->append(MakePair("ObliqueResolutionMaximum", cg["ObliqueResolutionMaximum"][0]));
 
           // Add keywords for all camera values
-          // Skips first "User Parameters" group.
+          // Skips first "UserParameters" group.
           for (int i = 1; i < camPvl.groups(); i++) {
             PvlGroup &group = camPvl.group(i);
 

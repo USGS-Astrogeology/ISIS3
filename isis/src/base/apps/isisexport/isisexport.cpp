@@ -9,6 +9,7 @@
 #include <QFile>
 
 #include "cubeatt.h"
+#include "Application.h"
 #include "CubeAttribute.h"
 #include "FileName.h"
 #include "md5wrapper.h"
@@ -54,7 +55,7 @@ namespace Isis {
     cubeatt(icube, outputCubePath, outputAttributes);
 
     json dataSource;
-    Environment env;
+    inja::Environment env;
 
     Pvl &cubeLabel = *icube->label();
 
@@ -127,7 +128,7 @@ namespace Isis {
                               + "Previous value [" + QString::fromStdString(dataSource["ExtraPvl"][element.key()].dump())
                               + "] will be overwritten.";
               duplicateWarnings += PvlKeyword("Duplicate", message);
-              log->addLogGroup(duplicateWarnings);
+              Application::AppendAndLog(duplicateWarnings, log);
             }
           }
         }
@@ -150,7 +151,7 @@ namespace Isis {
                               + "Previous value [" + QString::fromStdString(dataSource["ExtraXml"][element.key()].dump())
                               + "] will be overwritten.";
               duplicateWarnings += PvlKeyword("Duplicate", message);
-              log->addLogGroup(duplicateWarnings);
+              Application::AppendAndLog(duplicateWarnings, log);
             }
           }
         }
@@ -174,7 +175,7 @@ namespace Isis {
                               + "Previous value [" + QString::fromStdString(dataSource["ExtraJson"][element.key()].dump())
                               + "] will be overwritten.";
               duplicateWarnings += PvlKeyword("Duplicate", message);
-              log->addLogGroup(duplicateWarnings);
+              Application::AppendAndLog(duplicateWarnings, log);
             }
           }
         }
