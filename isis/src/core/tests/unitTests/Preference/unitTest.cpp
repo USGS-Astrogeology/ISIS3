@@ -71,8 +71,5 @@ int main() {
   catch(Isis::IException &error) {
     error.print();
   }
-
-  // Add test for two new methods
-
   return 0;
 }

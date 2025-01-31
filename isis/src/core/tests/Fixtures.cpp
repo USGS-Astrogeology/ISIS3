@@ -58,13 +58,13 @@ namespace Isis {
     };
 
     results = {
-      PvlKeyword("KEYWORD"),                      // 0
-      PvlKeyword("KEYWORD", "SOME_VAL"),          // 1
-      PvlKeyword("KEYWORD", "  val  "),           // 2
-      PvlKeyword("KEYWORD", "  \'val\'  "),       // 3
-      PvlKeyword("KEYWORD", "SOME_VAL"),          // 4
+      PvlKeyword("KEYWORD", "SOME_VAL"),          // 0
+      PvlKeyword("KEYWORD", "  val  "),           // 1
+      PvlKeyword("KEYWORD", "  \'val\'  "),       // 2
+      PvlKeyword("KEYWORD", "SOME_VAL"),          // 3
+      PvlKeyword("KEYWORD", "SOME_VAL", "a"),     // 4
       PvlKeyword("KEYWORD", "SOME_VAL", "a"),     // 5
-      PvlKeyword("KEYWORD", "SOME_VAL", "a"),     // 6
+      PvlKeyword("KEYWORD"),                      // 6
       PvlKeyword("KEYWORD"),                      // 7
       PvlKeyword("KEYWORD"),                      // 8
       PvlKeyword("KEYWORD"),                      // 9
@@ -72,116 +72,115 @@ namespace Isis {
       PvlKeyword("KEYWORD"),                      // 11
       PvlKeyword("KEYWORD"),                      // 12
       PvlKeyword("KEYWORD"),                      // 13
-      PvlKeyword("KEYWORD"),                      // 14
-      PvlKeyword("KEYWORD", "(A,B,"),             // 15
-      PvlKeyword("KEYWORD", ",E)"),               // 16
-      PvlKeyword("KEYWORD", "(1,2)"),             // 17
-      PvlKeyword("KEYWORD"),                      // 18
-      PvlKeyword("KEYWORD", "(F1+F2)/(F1-F2)"),   // 19
-      PvlKeyword("KEYWORD"),                      // 20
-      PvlKeyword("KEYWORD", "(f1 + min(f2,f3))"), // 21
-      PvlKeyword("KEYWORD", "(min(f2,f3) + f1)"), // 22
-      PvlKeyword("KEYWORD", "min(f2,f3) + f1"),   // 23
-      PvlKeyword("KEYWORD", "f1 + min(f2,f3)"),   // 24
+      PvlKeyword("KEYWORD", "(A,B,"),             // 14
+      PvlKeyword("KEYWORD", ",E)"),               // 15
+      PvlKeyword("KEYWORD", "(1,2)"),             // 16
+      PvlKeyword("KEYWORD"),                      // 17
+      PvlKeyword("KEYWORD", "(F1+F2)/(F1-F2)"),   // 18
+      PvlKeyword("KEYWORD"),                      // 19
+      PvlKeyword("KEYWORD", "(f1 + min(f2,f3))"), // 20
+      PvlKeyword("KEYWORD", "(min(f2,f3) + f1)"), // 21
+      PvlKeyword("KEYWORD", "min(f2,f3) + f1"),   // 22
+      PvlKeyword("KEYWORD", "f1 + min(f2,f3)"),   // 23
+      PvlKeyword("KEYWORD"),                      // 24
       PvlKeyword("KEYWORD"),                      // 25
-      PvlKeyword("KEYWORD"),                      // 26
+      PvlKeyword("KEYWORD", "SOME_VAL"),          // 26
       PvlKeyword("KEYWORD", "SOME_VAL"),          // 27
       PvlKeyword("KEYWORD", "SOME_VAL"),          // 28
       PvlKeyword("KEYWORD", "SOME_VAL"),          // 29
-      PvlKeyword("KEYWORD", "SOME_VAL"),          // 30
-      PvlKeyword("KEYWORD", "/*\n*/"),            // 31
+      PvlKeyword("KEYWORD", "/*\n*/"),            // 30
+      PvlKeyword("KEYWORD", "SOME_VAL"),          // 31
       PvlKeyword("KEYWORD", "SOME_VAL"),          // 32
       PvlKeyword("KEYWORD", "SOME_VAL"),          // 33
       PvlKeyword("KEYWORD", "SOME_VAL"),          // 34
       PvlKeyword("KEYWORD", "SOME_VAL"),          // 35
       PvlKeyword("KEYWORD", "SOME_VAL"),          // 36
-      PvlKeyword("KEYWORD", "SOME_VAL"),          // 37
-      PvlKeyword("KEYWORD"),                      // 38
+      PvlKeyword("KEYWORD"),                      // 37
     };
+
+    results[7].addValue("A");
+    results[7].addValue("B");
 
     results[8].addValue("A");
     results[8].addValue("B");
 
     results[9].addValue("A");
     results[9].addValue("B");
+    results[9].addComment("#comment this");
 
     results[10].addValue("A");
     results[10].addValue("B");
-    results[10].addComment("#comment this");
 
     results[11].addValue("A");
     results[11].addValue("B");
 
-    results[12].addValue("A");
-    results[12].addValue("B");
+    results[12].addValue("(1, 2)");
+    results[12].addValue("{3, 4}");
+    results[12].addValue("(5)");
+    results[12].addValue("6");
 
-    results[13].addValue("(1, 2)");
-    results[13].addValue("{3, 4}");
-    results[13].addValue("(5)");
-    results[13].addValue("6");
+    results[13].addValue("VAL1");
+    results[13].addValue("VAL2");
+    results[13].addValue("VAL3");
 
-    results[14].addValue("VAL1");
-    results[14].addValue("VAL2");
-    results[14].addValue("VAL3");
+    results[17].addValue("(f1+f2)");
+    results[17].addValue("/(f1-f2)");
 
-    results[18].addValue("(f1+f2)");
-    results[18].addValue("/(f1-f2)");
+    results[19].addValue("(1,2)");
+    results[19].addValue("(A,B)");
 
-    results[20].addValue("(1,2)");
-    results[20].addValue("(A,B)");
+    results[24].addValue("A", "a");
+    results[24].addValue("B", "b");
+    results[24].addValue("C");
+    results[24].addValue("D", "d");
 
     results[25].addValue("A", "a");
     results[25].addValue("B", "b");
-    results[25].addValue("C");
+    results[25].addValue("C", "e");
     results[25].addValue("D", "d");
 
-    results[26].addValue("A", "a");
-    results[26].addValue("B", "b");
-    results[26].addValue("C", "e");
-    results[26].addValue("D", "d");
+    results[26].addComment("#SOMECOMMENT");
 
-    results[27].addComment("#SOMECOMMENT");
+    results[27].addComment("#SOMECOMMENT1");
+    results[27].addComment("#SOMECOMMENT2");
 
-    results[28].addComment("#SOMECOMMENT1");
+    results[28].addComment("//SOMECOMMENT1");
     results[28].addComment("#SOMECOMMENT2");
 
-    results[29].addComment("//SOMECOMMENT1");
-    results[29].addComment("#SOMECOMMENT2");
+    results[29].addComment("/* SOMECOMMENT1 */");
 
-    results[30].addComment("/* SOMECOMMENT1 */");
+    results[31].addComment("/* SOMECOMMENT1 */");
+    results[31].addComment("/* SOMECOMMENT2 */");
+    results[31].addComment("/* SOMECOMMENT3 */");
 
-    results[32].addComment("/* SOMECOMMENT1 */");
-    results[32].addComment("/* SOMECOMMENT2 */");
-    results[32].addComment("/* SOMECOMMENT3 */");
+    results[32].addComment("/* C1 */");
+    results[32].addComment("/* A  */");
+    results[32].addComment("/*    */");
+    results[32].addComment("/* C3 */");
 
-    results[33].addComment("/* C1 */");
-    results[33].addComment("/* A  */");
-    results[33].addComment("/*    */");
-    results[33].addComment("/* C3 */");
+    results[33].addComment("/* C1  */");
+    results[33].addComment("/*     */");
 
     results[34].addComment("/* C1  */");
-    results[34].addComment("/*     */");
+    results[34].addComment("/* A/* */");
 
-    results[35].addComment("/* C1  */");
-    results[35].addComment("/* A/* */");
+    results[35].addComment("/*           A            */");
+    results[35].addComment("/* B *//*C                */");
 
-    results[36].addComment("/*           A            */");
-    results[36].addComment("/* B *//*C                */");
+    results[36].addComment("/* C1/* */");
 
-    results[37].addComment("/* C1/* */");
-
-    results[38].addValue("A");
-    results[38].addValue("B");
-    results[38].addValue("C");
-    results[38].addComment("/* C1    */");
-    results[38].addComment("/* A     */");
-    results[38].addComment("/* C3    */");
-    results[38].addComment("/* Neato */");
-    results[38].addComment("/* Man   */");
-    results[38].addComment("/*Right? Yes!*/");
+    results[37].addValue("A");
+    results[37].addValue("B");
+    results[37].addValue("C");
+    results[37].addComment("/* C1    */");
+    results[37].addComment("/* A     */");
+    results[37].addComment("/* C3    */");
+    results[37].addComment("/* Neato */");
+    results[37].addComment("/* Man   */");
+    results[37].addComment("/*Right? Yes!*/");
 
     valid = {
-      true,
+      false,
       false,
       false,
       true,

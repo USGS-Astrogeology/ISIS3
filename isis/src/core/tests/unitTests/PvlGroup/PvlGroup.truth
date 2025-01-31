@@ -23,7 +23,6 @@ Group = POODLE
   CAT     = TABBY
   BIRD    = PARROT
   REPTILE = (SNAKE, LIZARD)
-  -VEGGIE = Null
   BOVINE  = (COW, CAMEL)
   TREE    = (MAPLE, ELM, PINE)
 
