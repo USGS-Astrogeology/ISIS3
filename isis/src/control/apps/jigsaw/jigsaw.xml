@@ -1973,12 +1973,20 @@
     <example>
       <brief>Solve with CSM parameters</brief>
       <description>
+      <p>
         This is an example where the cubes in the network have been run through csminit.
         When specified in CSMSOLVELIST, parameters described in the CsmInfo group can
         be adjusted during the bundle.
+      </p>
+      <p><b>
+        For step-by-step instructions on creating a control network and generating a cube list file, refer to the 
+        <a href="https://astrogeology.usgs.gov/docs/how-to-guides/image-processing/bundle-adjustment-in-isis/">
+          "Bundle Adjustment in ISIS" documentation
+        </a>.
+      </b></p>
       </description>
       <terminalInterface>
-        <commandLine> jigsaw fromlis=cubes.lis cnet=input.net onet=output.net radius=yes csmsolvelist="(Omega Bias, Phi Bias, Kappa Bias)" control_point_coordinate_type_bundle=rectangular control_point_coordinate_type_reports=rectangular point_x_sigma=50 point_y_sigma=50 point_z_sigma=50
+        <commandLine>fromlis=cubes.lis cnet=input.net onet=output.net radius=yes csmsolvelist="(Omega Bias, Phi Bias, Kappa Bias)" control_point_coordinate_type_bundle=rectangular control_point_coordinate_type_reports=rectangular point_x_sigma=50 point_y_sigma=50 point_z_sigma=50
         </commandLine>
         <description>
          jigsaw CSM example
@@ -1996,6 +2004,12 @@
        <p>
          A possible use for this simple run would be to test a network to identify control points that are not well placed.
        </p>
+      <p><b>
+        For step-by-step instructions on creating a control network and generating a cube list file, refer to the 
+        <a href="https://astrogeology.usgs.gov/docs/how-to-guides/image-processing/bundle-adjustment-in-isis/">
+          "Bundle Adjustment in ISIS" documentation
+        </a>.
+      </b></p>
       </description>
 
       <terminalInterface>
@@ -2063,6 +2077,12 @@
          iteration limit can serve as a flag if you expect your network to bundle quickly. Finally, the sigma0 convergence criteria was not changed from its default
          value, it was only explicitly stated in this call.
         </p>
+        <p><b>
+          For step-by-step instructions on creating a control network and generating a cube list file, refer to the 
+          <a href="https://astrogeology.usgs.gov/docs/how-to-guides/image-processing/bundle-adjustment-in-isis/">
+            "Bundle Adjustment in ISIS" documentation
+          </a>.
+        </b></p>
       </description>
 
       <terminalInterface>
@@ -2105,6 +2125,12 @@
          the existing data (for spacecraft position this is a cubic Hermite spline). These options require more memory but provide a solution more representative of small
          variations in the original ephemeris data.
         </p>
+        <p><b>
+          For step-by-step instructions on creating a control network and generating a cube list file, refer to the 
+          <a href="https://astrogeology.usgs.gov/docs/how-to-guides/image-processing/bundle-adjustment-in-isis/">
+            "Bundle Adjustment in ISIS" documentation
+          </a>.
+        </b></p>
       </description>
 
       <terminalInterface>
@@ -2133,12 +2159,21 @@
     <example>
       <brief>Solve with lidar data</brief>
       <description>
+      <p>
         This is an example of how to use simultaneous lidar measurments to constrain
         the instrument position. The constraints on the lidar data are already contained
         in the lidardata input file.
+      </p>
+        <p><b>
+          For step-by-step instructions on creating a control network and generating a cube list file, refer to the 
+          <a href="https://astrogeology.usgs.gov/docs/how-to-guides/image-processing/bundle-adjustment-in-isis/">
+            "Bundle Adjustment in ISIS" documentation
+          </a>.
+          </b>
+        </p>
       </description>
       <terminalInterface>
-        <commandLine> jigsaw lidar_csv=yes fromlis=cubes.lis cnet=input.net onet=output.net lidardata=lidar_data.json olidardata=lidar_data_jigged.json radius=yes twist=yes camsolve=accelerations overexisting=yes camera_angles_sigma=.25 camera_angular_velocity_sigma=.1
+        <commandLine>lidar_csv=yes fromlis=cubes.lis cnet=input.net onet=output.net lidardata=lidar_data.json olidardata=lidar_data_jigged.json radius=yes twist=yes camsolve=accelerations overexisting=yes camera_angles_sigma=.25 camera_angular_velocity_sigma=.1
         </commandLine>
         <description>
          lidar example. Note the lidar_csv, lidardata, and olidardata arguments.
@@ -2159,6 +2194,13 @@
         <p>
          If you want to double check the update was completed, see cathist or catlab (search for 'Jigged').
         </p>
+        <p><b>
+          For step-by-step instructions on creating a control network and generating a cube list file, refer to the 
+          <a href="https://astrogeology.usgs.gov/docs/how-to-guides/image-processing/bundle-adjustment-in-isis/">
+            "Bundle Adjustment in ISIS" documentation
+          </a>.
+          </b>
+        </p>
       </description>
 
       <terminalInterface>
@@ -2175,10 +2217,18 @@
         <dataFile path="assets/ap15/jig1rrEP_bundleout.txt">
           <brief> jig1rrEP_bundleout.txt </brief>
           <description>
+          <p>
             A shorten example of a typical bundleout.txt file produced by a jigsaw run with error propegation.
             This file was trimmed to hold 10 images, 50 relative points, and all ground points
             along with their associated detail sections. Bundleout files typically contain
             all image and point from a network put through jigsaw.
+          </p>
+          <p><b>
+            For step-by-step instructions on creating a control network and generating a cube list file, refer to the 
+            <a href="https://astrogeology.usgs.gov/docs/how-to-guides/image-processing/bundle-adjustment-in-isis/">
+              "Bundle Adjustment in ISIS" documentation
+            </a>.
+          </b></p>
           </description>
         </dataFile>
 
