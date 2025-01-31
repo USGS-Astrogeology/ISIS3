@@ -59,7 +59,7 @@ int main(void) {
     ofstream trnsStrm;
     trnsStrm.open ("temp.trn");
     trnsStrm << "Group = Samples" << endl;
-    trnsStrm << " Auto" << endl;
+    trnsStrm << " Auto = 1" << endl;
     trnsStrm << " InputKey        = Samples" <<endl;
     trnsStrm << " InputPosition   = (IsisCube, Core, Dimensions)" <<endl;
     trnsStrm << " OutputName      = elements" <<endl;
@@ -70,7 +70,7 @@ int main(void) {
     trnsStrm << "EndGroup" << endl;
 
     trnsStrm << "Group = Lines" << endl;
-    trnsStrm << " Auto" << endl;
+    trnsStrm << " Auto = 1" << endl;
     trnsStrm << " InputKey        = Lines" <<endl;
     trnsStrm << " InputPosition   = (IsisCube, Core, Dimensions)" <<endl;
     trnsStrm << " OutputName      = elements" <<endl;
@@ -81,7 +81,7 @@ int main(void) {
     trnsStrm << "EndGroup" << endl;
 
     trnsStrm << "Group = ExposureDuration" << endl;
-    trnsStrm << " Auto" << endl;
+    trnsStrm << "  Auto = 1" << endl;
     trnsStrm << "  InputKey = ExposureDuration" << endl;
     trnsStrm << "  InputPosition = (IsisCube, Instrument)" << endl;
     trnsStrm << "  OutputName = att@Exposure_Time" << endl;
@@ -90,7 +90,7 @@ int main(void) {
     trnsStrm << "EndGroup" << endl;
 
     trnsStrm << "Group = AttributeOutput" << endl;
-    trnsStrm << " Auto" << endl;
+    trnsStrm << "  Auto = 1" << endl;
     trnsStrm << "  InputKey = Filter" << endl;
     trnsStrm << "  InputPosition = (IsisCube, Instrument)" << endl;
     trnsStrm << "  OutputName = Filter" << endl;
@@ -100,7 +100,7 @@ int main(void) {
     trnsStrm << "EndGroup" << endl;
 
     trnsStrm << "Group = DefaultOutput" << endl;
-    trnsStrm << " Auto" << endl;
+    trnsStrm << "  Auto = 1" << endl;
     trnsStrm << "  InputKey = NotInLabel" << endl;
     trnsStrm << "  InputPosition = (IsisCube, Instrument)" << endl;
     trnsStrm << "  OutputName = NotInLabel" << endl;
@@ -111,7 +111,7 @@ int main(void) {
     trnsStrm << "End" << endl;
 
     trnsStrm << "Group = BadInputGroup" << endl;
-    trnsStrm << " Auto" << endl;
+    trnsStrm << "  Auto = 1" << endl;
     trnsStrm << "  InputKey = NotInLabel" << endl;
     trnsStrm << "  InputPosition = (IsisCube, NotAGroup)" << endl;
     trnsStrm << "  OutputName = BadInputGroup" << endl;

@@ -34,7 +34,7 @@ int main(void) {
     in << "  Translation = (*,*)" << endl;
     in << "EndGroup" << endl;
     in << "Group = CoreBitsPerPixel" << endl;
-    in << "  Auto" << endl;
+    in << "  Auto = 1" << endl;
     in << "  OutputName = BitsPerPixel" << endl;
     in << "  OutputPosition = (\"Object\",\"IsisCube\", \"Object\",\"Core\",";
     in <<                      "\"Group\",\"Pixels\")" << endl;
@@ -182,8 +182,8 @@ int main(void) {
           in2 << "  Translation = (*,*)" << endl;
           in2 << "EndGroup" << endl;
           in2 << "Group = CoreBitsPerPixel" << endl;
-          in2 << "  Auto" << endl;
-          in2 << "  Optional" << endl;
+          in2 << "  Auto = 1" << endl;
+          in2 << "  Optional = 1" << endl;
           in2 << "  OutputName = BitsPerPixel" << endl;
           in2 << "  OutputPosition = (\"Object\",\"IsisCube\", \"Object\",\"Core\",";
           in2 <<                      "\"Group\",\"Pixels\")" << endl;
