@@ -32,7 +32,6 @@ requirements:
     - swig
   run:
     - python =3.11
-    - mesalib
     - {{ pin_compatible('qt-main', max_pin='x.x') }}
     - {{ pin_compatible('nlohmann_json', min_pin='x.x', max_pin='x.x') }}
 
