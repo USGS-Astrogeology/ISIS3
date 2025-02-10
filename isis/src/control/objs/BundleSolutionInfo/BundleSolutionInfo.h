@@ -168,6 +168,8 @@ namespace Isis {
    *                          bundle adjustment, the Lat/Lon/Radius point corrections written
    *                          to the points.csv file are incorrect and do not match those written
    *                          to the bundleout.txt file.
+   *   @history 2025-01-19 Ken Edmundson - Added three columns to the end of each line in the
+   *                          points.csv file for the adjusted XYZ point sigmas.
    */
   class BundleSolutionInfo : public QObject {
     Q_OBJECT
