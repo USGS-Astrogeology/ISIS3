@@ -22,7 +22,27 @@ namespace Isis {
     p_nsamps = nsamps;
     p_nlines = nlines;
     p_nbands = nbands;
-    p_npixels = p_nsamps * p_nlines * p_nbands;
+    if(p_nsamps <= 0) {
+      std::string message = "Invalid value for sample dimensions (nsamps)";
+      throw IException(IException::Programmer, message, _FILEINFO_);
+    }
+    if(p_nlines <= 0) {
+      std::string message = "Invalid value for line dimensions (nlines)";
+      throw IException(IException::Programmer, message, _FILEINFO_);
+    }
+    if(p_nbands <= 0) {
+      std::string message = "Invalid value for band dimensions (nbands)";
+      throw IException(IException::Programmer, message, _FILEINFO_);
+    }
+    if (int(p_nsamps * p_scale) <= 0) {
+      std::string message = "Scaleing [" + std::to_string(p_nsamps) + "] by [" + std::to_string(p_scale) + "] resulted in 0 samples in the buffer";
+      throw IException(IException::Programmer, message, _FILEINFO_);
+    }
+    if (int(p_nlines * p_scale) <= 0) {
+      std::string message = "Scaleing [" + std::to_string(p_nlines) + "] by [" + std::to_string(p_scale) + "] resulted in 0 lines in the buffer";
+      throw IException(IException::Programmer, message, _FILEINFO_);
+    }
+    p_npixels = (int(p_nsamps * p_scale) * int(p_nlines * p_scale)) * p_nbands;
     Allocate();
   }
 

@@ -56,7 +56,8 @@ namespace Isis {
       BufferManager();
       BufferManager(int maxsamps, int maxlines, int maxbands,
                     int bufsamps, int buflines, int bufbands,
-                    Isis::PixelType type, bool reverse = false);
+                    Isis::PixelType type, bool reverse = false,
+                    double scale = 1.0);
       BufferManager(const BufferManager &other);
 
       //! Destroys the BufferManager object

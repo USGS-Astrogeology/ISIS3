@@ -25,7 +25,7 @@ namespace Isis {
    */
   Buffer::Buffer() : p_sample(0), p_nsamps(0), p_line(0), p_nlines(0),
     p_band(0), p_nbands(0), p_npixels(0), p_buf(0),
-    p_pixelType(None), p_rawbuf(0) { }
+    p_pixelType(None), p_rawbuf(0), p_scale(1) { }
 
 
   /**
@@ -40,9 +40,11 @@ namespace Isis {
    * @throws Isis::iException::Programmer - Invalid value for a dimension
    */
   Buffer::Buffer(const int nsamps, const int nlines,
-                 const int nbands, const Isis::PixelType type) :
+                 const int nbands, const Isis::PixelType type, 
+                 const double scale) :
     p_nsamps(nsamps), p_nlines(nlines),
-    p_nbands(nbands), p_pixelType(type) {
+    p_nbands(nbands), p_pixelType(type),
+    p_scale(scale) {
 
     p_sample = p_line = p_band = 0;
 
@@ -58,8 +60,20 @@ namespace Isis {
       string message = "Invalid value for band dimensions (nbands)";
       throw IException(IException::Programmer, message, _FILEINFO_);
     }
+    if(p_scale <= 0 || scale > 1) {
+      string message = "Invalid value for scale (scale)";
+      throw IException(IException::Programmer, message, _FILEINFO_);
+    }
+    p_nsampsScaled = int(p_nsamps * p_scale);
+    if (p_nsampsScaled <= 0) {
+      p_nsampsScaled = 1;
+    }
+    p_nlinesScaled = int(p_nlines * p_scale);
+    if (p_nlinesScaled <= 0) {
+      p_nlinesScaled = 1;
+    }
 
-    p_npixels = p_nsamps * p_nlines * p_nbands;
+    p_npixels = (p_nsampsScaled * p_nlinesScaled) * p_nbands;
 
     Allocate();
   }
@@ -110,6 +124,29 @@ namespace Isis {
     SetBaseSample(start_sample);
     SetBaseLine(start_line);
     SetBaseBand(start_band);
+  }
+
+  /**
+   * This method is used to print out a buffer
+   *
+   * @param os Output stream to write to
+   * @param buffer The buffer to write to the output stream
+   *
+   * @return The updated output stream
+   */
+  std::ostream &operator<<(std::ostream &os, Buffer &buffer) {
+    for(int i = 1; i < buffer.size() + 1; i++) {
+      os << buffer[i - 1];
+
+      if ((i % buffer.SampleDimensionScaled()) == 0) {
+        os << std::endl;
+      }
+      if ((i % (buffer.SampleDimensionScaled() * buffer.LineDimensionScaled())) == 0) {
+        os << std::endl;
+      }
+    }
+
+    return os;
   }
 
 
@@ -213,9 +250,10 @@ namespace Isis {
     }
 
     //  Got a valid reference location so compute the index and return
-    int index = (i_band - p_band) * (p_nlines * p_nsamps) +
-                (i_line - p_line) * (p_nsamps) +
-                (i_samp - p_sample);
+    int bandOffset = (i_band - p_band) * (p_nsampsScaled * p_nlinesScaled);
+    int lineOffset = (int((i_line - p_line) * p_scale) % p_nlinesScaled) * p_nsampsScaled;
+    int sampleOffset = (int((i_samp - p_sample) * p_scale) % p_nsampsScaled);
+    int index = bandOffset + lineOffset + sampleOffset;
     return (index);
   }
 
@@ -305,13 +343,18 @@ namespace Isis {
       int bottomLine = min(in.p_line + in.p_nlines, p_line + p_nlines);
       int bottomSamp = min(in.p_sample + in.p_nsamps, p_sample + p_nsamps);
 
-      for (int i = topLine; i < bottomLine; i++) {
-        for (int j = topSamp; j < bottomSamp; j++) {
-          try {
-            (*this)[Index(j, i, Band())] = in[in.Index(j, i, in.Band())];
-          }
-          catch(...) {
-            (*this)[Index(j, i, Band())] = NULL8;
+      int firstBand = max(in.p_band, p_band);
+      int lastBand = min(in.p_band + in.p_nbands, p_band + p_nbands);
+
+      for (int b = firstBand; b < lastBand; b++) {
+        for (int i = topLine; i < bottomLine; i++) {
+          for (int j = topSamp; j < bottomSamp; j++) {
+            try {
+              (*this)[Index(j, i, b)] = in[in.Index(j, i, b)];
+            }
+            catch(...) {
+              (*this)[Index(j, i, b)] = NULL8;
+            }
           }
         }
       }
@@ -350,10 +393,13 @@ namespace Isis {
     p_nbands(rhs.p_nbands), p_pixelType(rhs.p_pixelType) {
 
     p_sample = rhs.p_sample;
+    p_nsampsScaled = rhs.p_nsampsScaled;
     p_line = rhs.p_line;
+    p_nlinesScaled = rhs.p_nlinesScaled;
     p_band = rhs.p_band;
 
     p_npixels = rhs.p_npixels;
+    p_scale = rhs.p_scale;
 
     Allocate();
     Copy(rhs);
