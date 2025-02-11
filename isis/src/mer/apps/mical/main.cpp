@@ -98,7 +98,8 @@ void IsisMain() {
 
   double sunpos[6];
   std::vector<double> etStart = {startTime.Et()};
-  std::vector<std::vector<double>> sunLt = Isis::RestfulSpice::getTargetStates(etStart, "mars", "sun", "iau_mars", "LT+S", "mer1", "reconstructed", "reconstructed");
+  vector<string> kernel_list = {"/lro/tspk/de421.bsp", "/mars/tspk/mar[0-9]{3}", "/base/pck/pck[0-9]{5}"}; 
+  std::vector<std::vector<double>> sunLt = Isis::RestfulSpice::getTargetStates(etStart, "mars", "sun", "iau_mars", "LT+S", "mer1", "reconstructed", "reconstructed", kernel_list);
   std::copy(sunLt[0].begin(), sunLt[0].begin()+6, sunpos);
 
   double dist = vnorm_c(sunpos);
@@ -111,6 +112,7 @@ void IsisMain() {
   gbl::useReferenceValue = 1;
   gbl::useZeroExposureValue = 1;
   gbl::useActiveAreaValue = 1;
+
   // if user wants NO reference value correction or if shutter effect
   // correction is true set the user value to zero and set label output values
   // to reflect no correction.

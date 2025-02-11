@@ -15,7 +15,7 @@ using json=nlohmann::json;
 namespace Isis::RestfulSpice {
   extern std::map<std::string, std::string> spiceql_mission_map; 
 
-  std::vector<std::vector<double>> getTargetStates(std::vector<double> ets, std::string target, std::string observer, std::string frame, std::string abscorr, std::string mission, std::string ckQuality, std::string spkQuality);
+  std::vector<std::vector<double>> getTargetStates(std::vector<double> ets, std::string target, std::string observer, std::string frame, std::string abscorr, std::string mission, std::string ckQuality, std::string spkQuality, std::vector<std::string> kernel_list={});
   std::vector<std::vector<double>> getTargetOrientations(std::vector<double> ets, int toFrame, int refFrame, std::string mission, std::string ckQuality);
   double strSclkToEt(int frameCode, std::string sclk, std::string mission);
   double doubleSclkToEt(int frameCode, double sclk, std::string mission);

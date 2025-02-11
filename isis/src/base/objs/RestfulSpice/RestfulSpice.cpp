@@ -105,7 +105,7 @@ namespace Isis::RestfulSpice{
   };
 
 
-  std::vector<std::vector<double>> getTargetStates(std::vector<double> ets, std::string target, std::string observer, std::string frame, std::string abcorr, std::string mission, std::string ckQuality, std::string spkQuality){
+  std::vector<std::vector<double>> getTargetStates(std::vector<double> ets, std::string target, std::string observer, std::string frame, std::string abcorr, std::string mission, std::string ckQuality, std::string spkQuality, std::vector<std::string> kernel_list){
     bool useWeb = QString(Preference::Preferences().findGroup("WebSpice")["UseWebSpice"]).toUpper() == "TRUE";
     if (useWeb){
       // @TODO validity checks
@@ -122,10 +122,11 @@ namespace Isis::RestfulSpice{
       // @TODO check that json exists / contains what we're looking for
       json out = spiceAPIQuery("getTargetStates", args);
       return out["body"]["return"].get<std::vector<std::vector<double>>>();
-    }else{
-      return SpiceQL::getTargetStates(ets, target, observer, frame, abcorr, mission, ckQuality, spkQuality, true);
+    } else {
+      return SpiceQL::getTargetStates(ets, target, observer, frame, abcorr, mission, ckQuality, spkQuality, true, kernel_list);
     }
   }
+
 
   std::vector<std::vector<double>> getTargetOrientations(std::vector<double> ets, int toFrame, int refFrame, std::string mission, std::string ckQuality) {
     bool useWeb = QString(Preference::Preferences().findGroup("WebSpice")["UseWebSpice"]).toUpper() == "TRUE";
@@ -139,7 +140,7 @@ namespace Isis::RestfulSpice{
       });
       json out = spiceAPIQuery("getTargetOrientations", args);
       return out["body"]["return"].get<std::vector<std::vector<double>>>();
-    }else{
+    } else {
       return SpiceQL::getTargetOrientations(ets, toFrame, refFrame, mission, ckQuality, true);
     }
   }
@@ -192,7 +193,7 @@ namespace Isis::RestfulSpice{
   std::string etToUtc(double et, std::string format, double precision){
     bool useWeb = QString(Preference::Preferences().findGroup("WebSpice")["UseWebSpice"]).toUpper() == "TRUE";
     // TODO Add etToUtc to web api
-    if (false){
+    if (useWeb){
       json args = json::object({
         {"et", et},
         {"format", format},
