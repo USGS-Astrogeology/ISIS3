@@ -252,7 +252,7 @@ namespace Isis {
     //  Got a valid reference location so compute the index and return
     int bandOffset = (i_band - p_band) * (p_nsampsScaled * p_nlinesScaled);
     int lineOffset = (int((i_line - p_line) * p_scale) % p_nlinesScaled) * p_nsampsScaled;
-    int sampleOffset = (int((i_samp - p_sample) * p_scale) % p_nsampsScaled);
+    int sampleOffset = (int((i_samp - p_sample) * p_scale));
     int index = bandOffset + lineOffset + sampleOffset;
     return (index);
   }
