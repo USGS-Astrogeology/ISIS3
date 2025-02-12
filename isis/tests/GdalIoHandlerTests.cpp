@@ -25,7 +25,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsDefaulWrite) {
   {
     const QList<int> *bandList = new QList<int>;
 
-    GdalIoHandler handler(path, bandList);
+    GdalIoHandler handler(path, bandList, GDT_Float64, GA_Update);
     Brick localBrick(6, 1, 1, isisPixelType);
 
     localBrick.SetBasePosition(1, 1, 1);
@@ -200,7 +200,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteFloat64) {
   // Create a context so the handler goes out of scope and closes the file
   {
     const QList<int> *bandList = new QList<int>;
-    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType), GA_Update);
 
     localBrick = new Brick(6, 1, 1, isisPixelType);
     localBrick->SetBasePosition(1, 1, 1);
@@ -245,7 +245,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteFloat32) {
   // Create a context so the handler goes out of scope and closes the file
   {
     const QList<int> *bandList = new QList<int>;
-    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType), GA_Update);
 
     localBrick = new Brick(6, 1, 1, isisPixelType);
     localBrick->SetBasePosition(1, 1, 1);
@@ -290,7 +290,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteInt32) {
   // Create a context so the handler goes out of scope and closes the file
   {
     const QList<int> *bandList = new QList<int>;
-    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType), GA_Update);
 
     localBrick = new Brick(6, 1, 1, isisPixelType);
     localBrick->SetBasePosition(1, 1, 1);
@@ -335,7 +335,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteUInt32) {
   // Create a context so the handler goes out of scope and closes the file
   {
     const QList<int> *bandList = new QList<int>;
-    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType), GA_Update);
 
     localBrick = new Brick(6, 1, 1, isisPixelType);
     localBrick->SetBasePosition(1, 1, 1);
@@ -380,7 +380,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteInt16) {
   // Create a context so the handler goes out of scope and closes the file
   {
     const QList<int> *bandList = new QList<int>;
-    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType), GA_Update);
 
     localBrick = new Brick(6, 1, 1, isisPixelType);
     localBrick->SetBasePosition(1, 1, 1);
@@ -425,7 +425,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteUInt16) {
   // Create a context so the handler goes out of scope and closes the file
   {
     const QList<int> *bandList = new QList<int>;
-    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType), GA_Update);
 
     localBrick = new Brick(6, 1, 1, isisPixelType);
     localBrick->SetBasePosition(1, 1, 1);
@@ -470,7 +470,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteInt8) {
   // Create a context so the handler goes out of scope and closes the file
   {
     const QList<int> *bandList = new QList<int>;
-    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType), GA_Update);
 
     localBrick = new Brick(6, 1, 1, isisPixelType);
     localBrick->SetBasePosition(1, 1, 1);
@@ -515,7 +515,7 @@ TEST_F(ReadWriteTiff, GdalIoTestsWriteUInt8) {
   // Create a context so the handler goes out of scope and closes the file
   {
     const QList<int> *bandList = new QList<int>;
-    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType));
+    GdalIoHandler handler(path, bandList, IsisPixelToGdal(isisPixelType), GA_Update);
 
     localBrick = new Brick(6, 1, 1, isisPixelType);
     localBrick->SetBasePosition(1, 1, 1);
