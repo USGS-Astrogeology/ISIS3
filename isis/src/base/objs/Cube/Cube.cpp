@@ -48,6 +48,8 @@ using namespace std;
 namespace Isis {
   //! Constructs a Cube object.
   Cube::Cube() {
+    GDALAllRegister();
+    CPLSetErrorHandler(CPLQuietErrorHandler);
     construct();
   }
 
@@ -60,6 +62,8 @@ namespace Isis {
    *     "r" or read-write "rw".
    */
   Cube::Cube(const FileName &fileName, QString access) {
+    GDALAllRegister();
+    CPLSetErrorHandler(CPLQuietErrorHandler);
     construct();
     open(fileName.toString(), access);
   }
@@ -74,6 +78,8 @@ namespace Isis {
    *     "r" or read-write "rw".
    */
   void Cube::fromLabel(const FileName &fileName, Pvl &label, QString access) {
+    GDALAllRegister();
+    CPLSetErrorHandler(CPLQuietErrorHandler);
     initCoreFromLabel(label);
     create(fileName.expanded());
 
@@ -97,6 +103,8 @@ namespace Isis {
    *     "r" or read-write "rw".
    */
   void Cube::fromIsd(const FileName &fileName, Pvl &label, nlohmann::json &isd, QString access) {
+    GDALAllRegister();
+    CPLSetErrorHandler(CPLQuietErrorHandler);
     fromLabel(fileName, label, access);
 
     PvlGroup &instGrp = label.findGroup("Instrument", Pvl::Traverse);
@@ -515,7 +523,7 @@ namespace Isis {
         m_labelFileName = new FileName(imageFile);
         m_labelFile = new QFile(m_labelFileName->expanded());
       }
-      else if (labelsAttached() == LabelAttachment::DetachedLabel && format() != Format::GTiff) {
+      else if (labelsAttached() == LabelAttachment::DetachedLabel) {
         core += PvlKeyword("StartByte", toString(1));
         core += PvlKeyword("^Core", imageFile.name());
         m_dataFile = new QFile(realDataFileName().expanded());
@@ -560,7 +568,10 @@ namespace Isis {
           imageFile = imageFile.addExtension("tiff");
           m_dataFileName = new FileName(imageFile);
           QString dataFileName = m_dataFileName->expanded();
-          createTiff(dataFileName);
+          char **papszOptions = NULL;
+          papszOptions = CSLSetNameValue(papszOptions, "COMPRESS", "DEFLATE");
+          QString format = "GTiff";
+          createGdal(dataFileName, format, papszOptions);
         }
         
         imageFile = imageFile.setExtension("ecub");
@@ -605,12 +616,6 @@ namespace Isis {
       cleanUp(false);
       throw IException(IException::Io, msg, _FILEINFO_);
     }
-
-    if (format() == Format::GTiff) {
-      QString dataFileName = realDataFileName().expanded();
-      createTiff(dataFileName);
-      m_geodataSet = GDALDataset::FromHandle(GDALOpen(dataFileName.toStdString().c_str(), GA_Update));
-    }
     
     if (m_dataFile) {
       if (labelsAttached() != ExternalLabel && !m_dataFile->open(QIODevice::Truncate | QIODevice::ReadWrite)) {
@@ -629,6 +634,7 @@ namespace Isis {
 
     bool dataAlreadyOnDisk = (labelsAttached() == ExternalLabel);
 
+    if (format() != GTiff) {
     if (format() == Bsq) {
       m_ioHandler = new CubeBsqHandler(dataFile(), m_virtualBandList, realDataFileLabel(),
                                        dataAlreadyOnDisk);
@@ -636,24 +642,43 @@ namespace Isis {
     else if(format() == Tile) {
       m_ioHandler = new CubeTileHandler(dataFile(), m_virtualBandList, realDataFileLabel(),
                                         dataAlreadyOnDisk);
+      }
+
+      if (!dataAlreadyOnDisk) {
+        m_ioHandler->updateLabels(*m_label);
+      }
     }
     else if(format() ==  Format::GTiff) {
-      m_ioHandler = new GdalIoHandler(gdalDataset(), m_virtualBandList, IsisPixelToGdal(pixelType()));
-    }
+      char **papszOptions = NULL;
+      papszOptions = CSLSetNameValue(papszOptions, "COMPRESS", "DEFLATE");
+      QString datafile = realDataFileName().expanded();
+      QString format = "GTiff";
+      createGdal(datafile, format, papszOptions);
 
-    if (labelsAttached() != ExternalLabel)
+      m_geodataSet = GDALDataset::FromHandle(GDALOpen(realDataFileName().expanded().toStdString().c_str(), GA_Update));
+      if (!m_geodataSet) {
+        QString msg = "Failed opening GDALDataset from [" + m_dataFileName->name() + "]";
+        cleanUp(false);
+        throw IException(IException::Programmer, msg, _FILEINFO_);
+      }
+
+      m_ioHandler = new GdalIoHandler(gdalDataset(), m_virtualBandList, IsisPixelToGdal(pixelType()));
       m_ioHandler->updateLabels(*m_label);
+    }
+    else {
+      QString msg = "Format [" + toString(format()) + "] not supported";
+      throw IException(IException::Programmer, msg, _FILEINFO_);
+    }
 
     // Write the labels
     writeLabels();
   }
 
-  void Cube::createTiff(QString &dataFileName) {
+  void Cube::createGdal(QString &dataFileName, QString &driverName, char **papszOptions) {
     GDALAllRegister();
-    GDALDriver* driver = GetGDALDriverManager()->GetDriverByName("GTiff");
+    CPLSetErrorHandler(CPLQuietErrorHandler);
+    GDALDriver* driver = GetGDALDriverManager()->GetDriverByName(driverName.toStdString().c_str());
     if (driver) {
-      char **papszOptions = NULL;
-      papszOptions = CSLSetNameValue(papszOptions, "COMPRESS", "DEFLATE");
       double noDataValue;
       switch (pixelType()) {
         case UnsignedByte:
@@ -684,7 +709,7 @@ namespace Isis {
       }
       GDALDataset *dataset = driver->Create(dataFileName.toStdString().c_str(), sampleCount(), lineCount(), bandCount(), IsisPixelToGdal(pixelType()), papszOptions);
       if (!dataset) {
-        QString msg = "Could not create [" + dataFileName + "] from GTiff Driver.";
+        QString msg = "Could not create file [" + dataFileName + "] from [" + driverName + "] Driver.";
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       for (int i = 1; i <= bandCount(); i++) {
@@ -694,11 +719,13 @@ namespace Isis {
         band->SetNoDataValue(noDataValue);
         band->Fill(noDataValue);
       }
-      // dataset->CreateMaskBand(0);
-      // dataset->GetRasterBand(1)->GetMaskBand()->Fill(255);
       GDALClose(dataset);
       CSLDestroy( papszOptions );
     } 
+    else {
+      QString msg = "No Driver found for name [" + driverName + "]";
+      throw IException(IException::Io, msg, _FILEINFO_);
+    }
   }
 
 
@@ -865,39 +892,24 @@ namespace Isis {
       throw e;
     }
 
-    if (access == "r") {
-      if (!m_labelFile->open(QIODevice::ReadOnly)) {
+    QIODevice::OpenModeFlag qtAccess = QIODevice::ReadOnly;
+    if (access == "rw") {
+      qtAccess = QIODevice::ReadWrite;
+        }
+
+    if (!m_labelFile->open(qtAccess)) {
         QString msg = "Failed to open [" + m_labelFile->fileName() + "] with "
-            "read only access";
+                    "access [" + access + "]";
         cleanUp(false);
         throw IException(IException::Io, msg, _FILEINFO_);
       }
 
       if (m_dataFile) {
-        if (!m_dataFile->open(QIODevice::ReadOnly)) {
+      if (!m_dataFile->open(qtAccess)) {
           QString msg = "Failed to open [" + m_dataFile->fileName() + "] with "
-              "read only access";
+                    "access [" + access + "]";
           cleanUp(false);
           throw IException(IException::Io, msg, _FILEINFO_);
-        }
-      }
-    }
-
-    else if (access == "rw") {
-      if (!m_labelFile->open(QIODevice::ReadWrite)) {
-        QString msg = "Failed to open [" + m_labelFile->fileName() + "] with "
-            "read/write access";
-        cleanUp(false);
-        throw IException(IException::Io, msg, _FILEINFO_);
-      }
-
-      if (m_dataFile) {
-        if (!m_dataFile->open(QIODevice::ReadWrite)) {
-          QString msg = "Failed to open [" + m_dataFile->fileName() + "] with "
-              "read/write access";
-          cleanUp(false);
-          throw IException(IException::Io, msg, _FILEINFO_);
-        }
       }
     }
 
@@ -950,15 +962,12 @@ namespace Isis {
 
     m_labelFileName = new FileName(cubeFileName);
 
-    // CPLSetErrorHandler(CPLQuietErrorHandler);
-    GDALAllRegister();
-
     setLabelsAttached(LabelAttachment::AttachedLabel);
     m_dataFileName = new FileName(*m_labelFileName);
 
-    GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen(m_labelFileName->expanded().toStdString().c_str(), GA_ReadOnly));
+    GDALDataset *dataset = GDALDataset::FromHandle(GDALOpen(realDataFileName().expanded().toStdString().c_str(), GA_ReadOnly));
     if (!dataset) {
-      QString msg = "Opening GDALDataset from [" + m_labelFileName->name() + "]";
+      QString msg = "Opening GDALDataset from [" + realDataFileName().name() + "]";
       cleanUp(false);
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
@@ -1082,18 +1091,18 @@ namespace Isis {
         isiscube.addGroup(mappingGroup);
       }
       m_label->addObject(isiscube);
-      GDALClose(dataset);
     }
+    GDALClose(dataset);
     
     GDALAccess eAccess = GA_ReadOnly;
     if (access == "rw") {
       eAccess = GA_Update;
     }
-    m_geodataSet = GDALDataset::FromHandle(GDALOpen(m_labelFileName->expanded().toStdString().c_str(), eAccess));
+    m_geodataSet = GDALDataset::FromHandle(GDALOpen(realDataFileName().expanded().toStdString().c_str(), eAccess));
     if (!m_geodataSet) {
-      QString msg = "Opening GDALDataset from [" + m_labelFileName->name() + "] failed with access [" + eAccess +"]";
+      QString msg = "Opening GDALDataset from [" + realDataFileName().name() + "] failed with access [" + eAccess +"]";
       cleanUp(false);
-      throw IException(IException::Programmer, msg, _FILEINFO_);
+      throw IException(IException::Io, msg, _FILEINFO_);
     }
 
     m_ioHandler = new GdalIoHandler(gdalDataset(), m_virtualBandList, IsisPixelToGdal(pixelType()));

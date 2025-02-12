@@ -273,7 +273,7 @@ namespace Isis {
       Cube *copy(FileName newFile, const CubeAttributeOutput &newFileAttributes);
       void create(const QString &cfile);
       void create(const QString &cfile, const CubeAttributeOutput &att);
-      void createTiff(QString &dataFileName);
+      void createGdal(QString &dataFileName, QString &, char **papszOptions);
       void checkAccess(QString access);
       void open(const QString &cfile, QString access = "r");
       void openCube(const QString &cubeFileName, QString access);

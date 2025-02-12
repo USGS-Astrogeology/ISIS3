@@ -289,8 +289,19 @@ namespace Isis {
 
 
   void CubeAttributeOutput::setFileFormat(Cube::Format fmt) {
-    setAttribute((fmt == Cube::Tile)? "Tile" : "BandSequential",
-                 &CubeAttributeOutput::isFileFormat);
+    if (fmt == Cube::Tile) {
+      setAttribute("Tile", &CubeAttributeOutput::isFileFormat);
+    }
+    else if (fmt == Cube::Bsq) {
+      setAttribute("BandSequential", &CubeAttributeOutput::isFileFormat);
+    }
+    else if (fmt == Cube::GTiff) {
+      setAttribute("GTiff", &CubeAttributeOutput::isFileFormat);
+    }
+    else {
+      QString msg = "Unsupported format [" + toString(fmt) + "]";
+      IException(IException::Programmer, msg, _FILEINFO_);
+    }
   }
 
 
@@ -446,13 +457,20 @@ namespace Isis {
 
 
   QString CubeAttributeOutput::toString(Cube::Format format) {
-    QString result = "Tile";
+    QString result;
 
-    if (format == Cube::Bsq) {
+    if (format == Cube::Tile) {
+      result = "Tile";
+    }
+    else if (format == Cube::Bsq) {
       result = "BandSequential";
     }
     else if (format == Cube::GTiff) {
       result = "GTiff";
+    }
+    else {
+      QString msg = "Format [" + QString::number(format) + "] cannot be translated to string";
+      throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
     return result;
