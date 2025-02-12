@@ -81,7 +81,7 @@ namespace Isis {
 
     public slots:
       void ReadCube(int cubeId, int startSample, int startLine,
-                    int endSample, int endLine, int band, void *caller);
+                    int endSample, int endLine, int band, void *caller, double scale);
       void ReadWriteCube(int cubeId, int startSample, int startLine,
                          int endSample, int endLine, int band, void *caller);
 
@@ -155,7 +155,7 @@ namespace Isis {
                        int instanceNum, bool &exact);
 
       void GetCubeData(int cubeId, int ss, int sl, int es, int el, int band,
-                       void *caller, bool sharedLock);
+                       void *caller, bool sharedLock, double scale=1);
 
       void AcquireLock(QReadWriteLock *lockObject, bool readLock);
 

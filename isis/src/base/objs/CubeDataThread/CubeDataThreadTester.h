@@ -67,7 +67,7 @@ namespace Isis {
        * @param caller A this pointer
        */
       void RequestReadCube(int cubeId, int startSample, int startLine,
-                           int endSample, int endLine, int band, void *caller);
+                           int endSample, int endLine, int band, void *caller, double scale);
 
 
       /**

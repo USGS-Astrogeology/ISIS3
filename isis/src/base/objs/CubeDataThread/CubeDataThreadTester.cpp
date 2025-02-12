@@ -51,9 +51,9 @@ namespace Isis {
    */
   void CubeDataThreadTester::Connect() {
     connect(this,
-            SIGNAL(RequestReadCube(int, int, int, int, int, int, void *)),
+            SIGNAL(RequestReadCube(int, int, int, int, int, int, void *, double)),
             p_cubeDataThread,
-            SLOT(ReadCube(int, int, int, int, int, int, void *)));
+            SLOT(ReadCube(int, int, int, int, int, int, void *, double)));
 
     connect(this,
             SIGNAL(RequestReadWriteCube(int, int, int, int, int, int, void *)),
@@ -98,7 +98,7 @@ namespace Isis {
    */
   void CubeDataThreadTester::ReadCubeTest(int cubeId) {
     cout << "=============== Testing Basic Read ===============" << endl;
-    emit RequestReadCube(cubeId, 1, 1, 2, 2, 1, this);
+    emit RequestReadCube(cubeId, 1, 1, 2, 2, 1, this, 1.0);
   }
 
 
@@ -113,8 +113,8 @@ namespace Isis {
          "===============" << endl;
 
     p_notifyDone = false;
-    emit RequestReadCube(cubeId1, 1, 1, 3, 2, 1, this);
-    emit RequestReadCube(cubeId2, 1, 2, 3, 2, 1, this);
+    emit RequestReadCube(cubeId1, 1, 1, 3, 2, 1, this, 1.0);
+    emit RequestReadCube(cubeId2, 1, 2, 3, 2, 1, this, 1.0);
   }
 
 
@@ -128,8 +128,8 @@ namespace Isis {
          << endl << endl;
 
     p_notifyDone = false;
-    emit RequestReadCube(cubeId, 1, 2, 2, 2, 1, this);
-    emit RequestReadCube(cubeId, 1, 2, 2, 2, 1, this);
+    emit RequestReadCube(cubeId, 1, 2, 2, 2, 1, this, 1.0);
+    emit RequestReadCube(cubeId, 1, 2, 2, 2, 1, this, 1.0);
   }
 
 
@@ -141,7 +141,7 @@ namespace Isis {
   void CubeDataThreadTester::WriteCubeTest(int cubeId) {
     cout << "=============== Testing Basic R/W ===============" << endl << endl;
     emit RequestReadWriteCube(cubeId, 1, 1, 2, 2, 1, this);
-    emit RequestReadCube(cubeId, 1, 1, 2, 2, 1, this);
+    emit RequestReadCube(cubeId, 1, 1, 2, 2, 1, this, 1.0);
   }
 
 

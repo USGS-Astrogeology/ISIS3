@@ -17,10 +17,9 @@
 using namespace std;
 
 namespace Isis {
-  GdalIoHandler::GdalIoHandler(QString &dataFilePath, const QList<int> *virtualBandList, GDALDataType pixelType) : 
+  GdalIoHandler::GdalIoHandler(QString &dataFilePath, const QList<int> *virtualBandList, GDALDataType pixelType, GDALAccess eAccess) : 
                  ImageIoHandler(virtualBandList) {
     GDALAllRegister();
-    const GDALAccess eAccess = GA_Update;
     m_geodataSetPath = dataFilePath.toUtf8().constData();
     m_geodataSet = GDALDataset::FromHandle(GDALOpen(m_geodataSetPath.c_str(), eAccess));
     m_datasetOwner = true;
@@ -45,9 +44,11 @@ namespace Isis {
     m_lines = m_geodataSet->GetRasterYSize();
     m_bands = m_geodataSet->GetRasterCount();
 
+    m_driverName = std::string(m_geodataSet->GetDriverName());
+
     // Check if we need to create the mask band
-    if (m_geodataSet->GetAccess() == GA_Update) {
-      m_geodataSet->CreateMaskBand(0);
+    if ((m_geodataSet->GetAccess() == GA_Update) && (m_driverName != "ISIS3")) {
+      m_geodataSet->CreateMaskBand(8);
       m_geodataSet->GetRasterBand(1)->GetMaskBand()->Fill(255);
     }
 
@@ -63,6 +64,7 @@ namespace Isis {
   }
 
   GdalIoHandler::~GdalIoHandler() {
+    clearCache();
     if (m_maskBuff) {
       delete m_maskBuff;
     }
@@ -73,81 +75,93 @@ namespace Isis {
 
   void GdalIoHandler::read(Buffer &bufferToFill) const {
     GDALRasterBand  *poBand;
-    int band = bufferToFill.Band();
-
-    if (m_virtualBands)
-      band = m_virtualBands->at(band - 1);
-    poBand = m_geodataSet->GetRasterBand(band);
-    
-    // Account for 1 based line and sample reading from ISIS process classes
-    // as gdal reads 0 based lines and samples
-    int lineStart = bufferToFill.Line() - 1;
-    int sampleStart = bufferToFill.Sample() - 1;
-    int lineSize = bufferToFill.LineDimension();
-    int sampleSize = bufferToFill.SampleDimension();
-
-    // Handle reading out of bound pixels as cube IO handler would
-    bool outOfBounds = false;
-    if (lineStart < 0) {
-      lineStart = 0;
-      outOfBounds = true;
-    }
-    if (lineStart + lineSize > m_lines) {
-      lineSize = m_lines - lineStart;
-      outOfBounds = true;
-    }
-    if (sampleStart < 0) {
-      sampleStart = 0;
-      outOfBounds = true;
-    }
-    if (sampleStart + sampleSize > m_samples) {
-      sampleSize = m_samples - sampleStart;
-      outOfBounds = true;
-    }
 
     bufferToFill = NULL8;
-    if (sampleSize > 0 && lineSize > 0) {
-      if (outOfBounds) {
-        Brick boundedBrick(sampleSize, lineSize, bufferToFill.BandDimension(), GdalPixelToIsis(m_pixelType));
-        boundedBrick.SetBasePosition(sampleStart + 1, lineStart + 1, bufferToFill.Band());
-        CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
-                                      sampleSize, lineSize,
-                                      boundedBrick.RawBuffer(),
-                                      sampleSize, lineSize,
-                                      m_pixelType,
-                                      0, 0);
+    int maxBand = bufferToFill.BandDimension() + bufferToFill.Band() - 1;
+    for (int band = bufferToFill.Band(); band <= maxBand; band++) {
+      int vband = band;
+      if (m_virtualBands)
+        vband = m_virtualBands->at(band - 1);
 
-        if (err >= CE_Failure) {
-          QString msg = "Failure when trying to read Tiff";
-          throw IException(IException::Unknown, msg, _FILEINFO_);
-        }
-
-        // Handle pixel type conversion
-        char *buffersRawBuf = (char *)boundedBrick.RawBuffer();
-        double *buffersDoubleBuf = boundedBrick.DoubleBuffer();
-        for (int bufferIdx = 0; bufferIdx < boundedBrick.size(); bufferIdx++) {
-          readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
-        }
-        bufferToFill.CopyOverlapFrom(boundedBrick);
+      if (vband > m_bands) {
+        return;
       }
-      else {
-        // silence warnings
-        CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
-                                      sampleSize, lineSize,
-                                      bufferToFill.RawBuffer(),
-                                      sampleSize, lineSize,
-                                      m_pixelType,
-                                      0, 0);
-        if (err >= CE_Failure) {
-          QString msg = "Failure when trying to read Tiff";
-          throw IException(IException::Unknown, msg, _FILEINFO_);
-        }
 
-        // Handle pixel type conversion
-        char *buffersRawBuf = (char *)bufferToFill.RawBuffer();
-        double *buffersDoubleBuf = bufferToFill.DoubleBuffer();
-        for (int bufferIdx = 0; bufferIdx < bufferToFill.size(); bufferIdx++) {
-          readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+      poBand = m_geodataSet->GetRasterBand(vband);
+      
+      // Account for 1 based line and sample reading from ISIS process classes
+      // as gdal reads 0 based lines and samples
+      int lineStart = bufferToFill.Line() - 1;
+      int sampleStart = bufferToFill.Sample() - 1;
+      int lineSize = bufferToFill.LineDimension();
+      int sampleSize = bufferToFill.SampleDimension();
+
+      // Handle reading out of bound pixels as cube IO handler would
+      bool outOfBounds = false;
+      if (lineStart < 0) {
+        lineStart = 0;
+        outOfBounds = true;
+      }
+      if (lineStart + lineSize > m_lines) {
+        lineSize = m_lines - lineStart;
+        outOfBounds = true;
+      }
+      if (sampleStart < 0) {
+        sampleStart = 0;
+        outOfBounds = true;
+      }
+      if (sampleStart + sampleSize > m_samples) {
+        sampleSize = m_samples - sampleStart;
+        outOfBounds = true;
+      }
+
+      if (sampleSize > 0 && lineSize > 0) {
+        if (outOfBounds) {
+          Brick boundedBrick(sampleSize, lineSize, bufferToFill.BandDimension(), GdalPixelToIsis(m_pixelType), false, bufferToFill.scale());
+          boundedBrick.SetBasePosition(sampleStart + 1, lineStart + 1, bufferToFill.Band());
+          int bufferSize = boundedBrick.SampleDimensionScaled() * boundedBrick.LineDimensionScaled();
+          int currentBandIdx = bufferSize * (vband - boundedBrick.Band());
+          char *buffersRawBuf = &(((char *)boundedBrick.RawBuffer())[(int)(currentBandIdx * SizeOf(boundedBrick.PixelType()))]);
+          double *buffersDoubleBuf = &(boundedBrick.DoubleBuffer()[currentBandIdx]);
+          CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
+                                        sampleSize, lineSize,
+                                        buffersRawBuf,
+                                        boundedBrick.SampleDimensionScaled(), boundedBrick.LineDimensionScaled(),
+                                        m_pixelType,
+                                        0, 0);
+
+          if (err >= CE_Failure) {
+            QString msg = "Failure when trying to read image";
+            throw IException(IException::Unknown, msg, _FILEINFO_);
+          }
+
+          // Handle pixel type conversion
+          for (int bufferIdx = 0; bufferIdx < bufferSize; bufferIdx++) {
+            readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+          }
+          bufferToFill.CopyOverlapFrom(boundedBrick);
+        }
+        else {
+          int bufferSize = bufferToFill.SampleDimensionScaled() * bufferToFill.LineDimensionScaled();;
+          int currentBandIdx = bufferSize * (vband - bufferToFill.Band());
+          // silence warnings
+          char *buffersRawBuf = &(((char *)bufferToFill.RawBuffer())[(int)(currentBandIdx * SizeOf(bufferToFill.PixelType()))]);
+          double *buffersDoubleBuf = &(bufferToFill.DoubleBuffer()[currentBandIdx]);
+          CPLErr err = poBand->RasterIO(GF_Read, sampleStart, lineStart,
+                                        sampleSize, lineSize,
+                                        buffersRawBuf,
+                                        bufferToFill.SampleDimensionScaled(), bufferToFill.LineDimensionScaled(),
+                                        m_pixelType,
+                                        0, 0);
+          if (err >= CE_Failure) {
+            QString msg = "Failure when trying to read image";
+            throw IException(IException::Unknown, msg, _FILEINFO_);
+          }
+
+          // Handle pixel type conversion
+          for (int bufferIdx = 0; bufferIdx < bufferSize; bufferIdx++) {
+            readPixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx);
+          }
         }
       }
     }
@@ -156,54 +170,85 @@ namespace Isis {
   void GdalIoHandler::write(const Buffer &bufferToWrite) {
     CPLErr gdalerr;
     GDALRasterBand  *poBand;
-    m_maskBuff = (unsigned char *) CPLMalloc(sizeof(unsigned char) * bufferToWrite.size());
-    for (int i = 0; i < bufferToWrite.size(); i++) {
-      m_maskBuff[i] = 255;
-    }
-    
-    int band = bufferToWrite.Band();
-    if(m_virtualBands) 
-      band = m_virtualBands->indexOf(band) + 1;
 
-    poBand = m_geodataSet->GetRasterBand(band);
+    int maxBand = bufferToWrite.BandDimension() + bufferToWrite.Band() - 1;
+    for (int band = bufferToWrite.Band(); band <= maxBand; band++) {
+      int vband = band;
+      if(m_virtualBands) 
+        vband = m_virtualBands->indexOf(band) + 1;
+      
+      if (band > m_bands) {
+        return;
+      }
 
-    int lineStart = bufferToWrite.Line() - 1;
-    int sampleStart = bufferToWrite.Sample() - 1;
-    int lineSize = bufferToWrite.LineDimension();
-    int sampleSize = bufferToWrite.SampleDimension();
+      poBand = m_geodataSet->GetRasterBand(vband);
 
-    // Handle pixel type conversion
-    char *buffersRawBuf = (char *)bufferToWrite.RawBuffer();
-    double *buffersDoubleBuf = bufferToWrite.DoubleBuffer();
-    for (int bufferIdx = 0; bufferIdx < bufferToWrite.size(); bufferIdx++) {
-      if (writePixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx)) {
-        m_maskBuff[bufferIdx] = 0;
-      };
-    }
+      int lineStart = bufferToWrite.Line() - 1;
+      int sampleStart = bufferToWrite.Sample() - 1;
+      int lineSize = bufferToWrite.LineDimension();
+      int sampleSize = bufferToWrite.SampleDimension();
 
-    // silence warning
-    gdalerr = poBand->RasterIO(GF_Write, sampleStart, lineStart,
-                               sampleSize, lineSize,
-                               bufferToWrite.RawBuffer(),
-                               sampleSize, lineSize,
-                               m_pixelType,
-                               0, 0);
-    if (gdalerr >= CE_Failure) {
-      QString msg = "Failure when trying to write Tiff";
-      throw IException(IException::Unknown, msg, _FILEINFO_);
-    }
+      bool outOfBounds = false;
+      if (lineStart < 0) {
+        lineStart = 0;
+        outOfBounds = true;
+      }
+      if (lineStart + lineSize > m_lines) {
+        lineSize = m_lines - lineStart;
+        outOfBounds = true;
+      }
+      if (sampleStart < 0) {
+        sampleStart = 0;
+        outOfBounds = true;
+      }
+      if (sampleStart + sampleSize > m_samples) {
+        sampleSize = m_samples - sampleStart;
+        outOfBounds = true;
+      }
 
-    poBand = m_geodataSet->GetRasterBand(band)->GetMaskBand();
-    gdalerr = poBand->RasterIO(GF_Write, sampleStart, lineStart,
-                               sampleSize, lineSize,
-                               m_maskBuff,
-                               sampleSize, lineSize,
-                               GDT_Byte,
-                               0, 0);
-    
-    if (gdalerr >= CE_Failure) {
-      QString msg = "Failure when trying to write msk file";
-      throw IException(IException::Unknown, msg, _FILEINFO_);
+      int bufferSize = sampleSize * lineSize;
+      int currentBandIdx = bufferSize * (vband - bufferToWrite.Band());
+      m_maskBuff = (unsigned char *) CPLMalloc(sizeof(unsigned char) * bufferSize);
+      for (int i = 0; i < bufferSize; i++) {
+        m_maskBuff[i] = 255;
+      }
+
+
+      // Handle pixel type conversion
+      char *buffersRawBuf = &(((char *)bufferToWrite.RawBuffer())[(int)(currentBandIdx * SizeOf(bufferToWrite.PixelType()))]);
+      double *buffersDoubleBuf = &(bufferToWrite.DoubleBuffer()[currentBandIdx]);
+      // std::cout << buffersDoubleBuf[0] << std::endl;
+      for (int bufferIdx = 0; bufferIdx < bufferSize; bufferIdx++) {
+        if (writePixelType(buffersDoubleBuf, buffersRawBuf, bufferIdx)) {
+          m_maskBuff[bufferIdx] = 0;
+        };
+      }
+
+      // silence warning
+      gdalerr = poBand->RasterIO(GF_Write, sampleStart, lineStart,
+                                sampleSize, lineSize,
+                                (void *)buffersRawBuf,
+                                sampleSize, lineSize,
+                                m_pixelType,
+                                0, 0);
+      if (gdalerr >= CE_Failure) {
+        QString msg = "Failure when trying to write image";
+        throw IException(IException::Unknown, msg, _FILEINFO_);
+      }
+
+      if (m_driverName != "ISIS3") { 
+        poBand = m_geodataSet->GetRasterBand(band)->GetMaskBand();
+        gdalerr = poBand->RasterIO(GF_Write, sampleStart, lineStart,
+                                  sampleSize, lineSize,
+                                  m_maskBuff,
+                                  sampleSize, lineSize,
+                                  GDT_Byte,
+                                  0, 0);
+        if (gdalerr >= CE_Failure) {
+          QString msg = "Failure when trying to write msk file";
+          throw IException(IException::Unknown, msg, _FILEINFO_);
+        }
+      }
     }
 
     delete m_maskBuff;
@@ -220,8 +265,7 @@ namespace Isis {
    */
   void GdalIoHandler::updateLabels(Pvl &labels) {
     PvlObject &core = labels.findObject("IsisCube").findObject("Core");
-    core.addKeyword(PvlKeyword("Format", "GTiff"),
-                    PvlContainer::Replace);
+    core.addKeyword(PvlKeyword("Format", "GTiff"), PvlContainer::Replace);
   }
 
   void GdalIoHandler::readPixelType(double *doubleBuff, void *rawBuff, int idx) const {
@@ -288,7 +332,7 @@ namespace Isis {
         else
           bufferVal = LOW_REPR_SAT8;
       }
-      ((unsigned int *)rawBuff)[idx] = raw;
+      ((int *)rawBuff)[idx] = raw;
     }
 
     else if(m_pixelType == GDT_UInt32) {

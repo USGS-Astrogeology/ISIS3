@@ -125,7 +125,7 @@ namespace Isis {
        * @param caller
        */
       void ReadCube(int cubeId, int startSample, int startLine,
-                    int endSample, int endLine, int band, void *caller);
+                    int endSample, int endLine, int band, void *caller, double scale);
 
       //! Tell cube data thread we're done with a brick
       void DoneWithData(int, const Isis::Brick *);

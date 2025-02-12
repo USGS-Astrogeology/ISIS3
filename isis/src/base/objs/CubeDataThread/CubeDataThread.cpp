@@ -255,13 +255,13 @@ namespace Isis {
    * @param sharedLock True if read-only, false if read-write
    */
   void CubeDataThread::GetCubeData(int cubeId, int ss, int sl, int es, int el,
-                                   int band, void *caller, bool sharedLock) {
+                                   int band, void *caller, bool sharedLock, double scale) {
 
     Brick *requestedBrick = NULL;
 
     p_threadSafeMutex->lock();
     requestedBrick = new Brick(*p_managedCubes->value(cubeId).second, es
-                                     - ss + 1, el - sl + 1, 1);
+                                     - ss + 1, (el - sl + 1) / scale, 1, false, scale);
     requestedBrick->SetBasePosition(ss, sl, band);
     p_threadSafeMutex->unlock();
 
@@ -425,7 +425,7 @@ namespace Isis {
    */
   void CubeDataThread::ReadCube(int cubeId, int startSample, int startLine,
                                 int endSample, int endLine, int band,
-                                void *caller) {
+                                void *caller, double scale) {
 
     if(!p_managedCubes->contains(cubeId)) {
       IString msg = "cube ID [";
@@ -434,8 +434,12 @@ namespace Isis {
       throw IException(IException::Programmer, msg, _FILEINFO_);
     }
 
+    if (scale > 1) {
+      scale = 1.0;
+    }
+
     GetCubeData(cubeId, startSample, startLine, endSample, endLine, band,
-                caller, true);
+                caller, true, scale);
   }
 
   /**
@@ -469,7 +473,7 @@ namespace Isis {
     }
 
     GetCubeData(cubeId, startSample, startLine, endSample, endLine, band,
-                caller, false);
+                caller, false, 1);
   }
 
   /**

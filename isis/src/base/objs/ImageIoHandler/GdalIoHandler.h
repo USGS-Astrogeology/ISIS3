@@ -43,7 +43,7 @@ namespace Isis {
    */
   class GdalIoHandler : public ImageIoHandler {
     public:
-      GdalIoHandler(QString &dataFilePath, const QList<int> *virtualBandList, GDALDataType pixelType = GDT_Float64);
+      GdalIoHandler(QString &dataFilePath, const QList<int> *virtualBandList, GDALDataType pixelType = GDT_Float64, GDALAccess eAccess=GA_ReadOnly);
       GdalIoHandler(GDALDataset *geodataSet, const QList<int> *virtualBandList, GDALDataType pixelType = GDT_Float64);
       void init();
       virtual ~GdalIoHandler();
@@ -58,6 +58,10 @@ namespace Isis {
        * @param labels Pvl object to update with
        */
       virtual void updateLabels(Pvl &labels);
+
+      virtual void clearCache(bool blockForWriteCache=false) {
+        m_geodataSet->FlushCache(blockForWriteCache);
+      }
 
     private:
       void readPixelType(double *doubleBuff, void *rawBuff, int idx) const;
@@ -74,6 +78,7 @@ namespace Isis {
       unsigned char *m_maskBuff = nullptr;
       bool m_datasetOwner = false;
       double m_gdalNoDataValue = NULL8;
+      std::string m_driverName;
   };
 }
 
