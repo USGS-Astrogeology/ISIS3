@@ -39,6 +39,8 @@ Unit test for Isis::ShapeModel
 **PROGRAMMER ERROR** Unable to create a shape model from given target and pvl.
 **I/O ERROR** Invalid shape model file [NotAFile] in Kernels group.
 **ERROR** The given shape model file is not a valid ISIS DEM. Unable to open as an ISIS cube.
+**I/O ERROR** Failed to open [NotAFile].
+**PROGRAMMER ERROR** Opening GDALDataset from [NotAFile].
 **I/O ERROR** Unable to open [NotAFile].
 **ERROR** The given shape model file is not a valid NAIF DSK file. Unable to construct a NAIF DSK shape model.
 **USER ERROR** NAIF DSK file [NotAFile] does not exist.
