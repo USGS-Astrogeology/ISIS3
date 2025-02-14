@@ -2,8 +2,8 @@
 **ERROR** Unable to open input file [assets/test.csv]. Is it a valid CSV?.
 **USER ERROR** Unable to open file [assets/test.csv].
 **I/O ERROR** Failed to open [assets/test.txt].
-**PROGRAMMER ERROR** Opening GDALDataset from [test.txt].
+**PROGRAMMER ERROR** Gdal failed to open [assets/test.txt].
 **I/O ERROR** Unable to open [assets/test.txt].
 **I/O ERROR** Failed to open [assets/cube.cub].
-**PROGRAMMER ERROR** Opening GDALDataset from [cube.cub].
+**PROGRAMMER ERROR** Gdal failed to open [assets/cube.cub].
 **I/O ERROR** Unable to open [assets/cube.cub].
