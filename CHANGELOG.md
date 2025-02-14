@@ -41,6 +41,7 @@ ctest FunctionalTestJigsawApollo to validate this output. [#5710](https://github
 - Added OFFBODY and OFFBODYTRIM parameters to cam2cam. Added tests and updated documentation. [#3602] (https://github.com/DOI-USGS/ISIS3/issues/3602)
 
 ### Changed
+- Enhanced csminit by removing the need to specify model and plugin [#5585](https://github.com/DOI-USGS/ISIS3/issues/5585)
 
 ### Fixed
 - Fixed kaguyatc2isis invalid BandBin values [#5629](https://github.com/DOI-USGS/ISIS3/issues/5629)

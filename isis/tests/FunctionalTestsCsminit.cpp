@@ -428,31 +428,13 @@ TEST_F(CSMPluginFixture, CSMInitStateStringFails) {
     csminit(options);
   }
   catch (IException &e) {
-    EXPECT_THAT(e.what(), testing::HasSubstr("When using a State string, PLUGINNAME and MODELNAME must be specified"));
-  }
-
-  QVector<QString> argsWithModel = {
-    "from="+filename,
-    "state="+statePath,
-    "modelname=TestCsmModel",
-    "pluginname=TestCsmPlugin"};
-
-  UserInterface optionsWithModel(APP_XML, argsWithModel);
-
-  // Expect a failure due to a bad state string.
-  try {
-    csminit(optionsWithModel);
-  }
-  catch (IException &e) {
-    EXPECT_THAT(e.what(), testing::HasSubstr("Could not construct sensor model using STATE string and MODELNAME"));
+    EXPECT_THAT(e.what(), testing::HasSubstr("No loaded model could be created from the State"));
   }
 
   QVector<QString> argsWithIsdAndState = {
     "from="+filename,
     "isd=fakePath",
-    "state="+statePath,
-    "modelname=TestCsmModel",
-    "pluginname=TestCsmPlugin"};
+    "state="+statePath};
 
   UserInterface optionsWithIsdAndState(APP_XML, argsWithIsdAndState);
 
