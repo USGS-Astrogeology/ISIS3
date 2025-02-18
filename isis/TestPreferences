@@ -184,6 +184,18 @@ Group = Plugins
 EndGroup
 
 ########################################################
+#
+# Set whether spice calls use the SpiceQL web API or
+# local kernels.
+#
+########################################################
+
+Group = WebSpice
+  UseWebSpice = "false"
+EndGroup
+
+
+########################################################
 # Customize the location of mission specific data
 # files (calibration and spice kernels).  Usually this
 # should be left to the Isis administrator

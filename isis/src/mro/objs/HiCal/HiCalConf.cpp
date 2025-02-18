@@ -24,6 +24,7 @@ find files of those names at the top level of this repository. **/
 #include "IString.h"
 #include "IException.h"
 #include "Pvl.h"
+#include "RestfulSpice.h"
 #include "SpecialPixel.h"
 #include "NaifStatus.h"
 
@@ -307,24 +308,23 @@ bool HiCalConf::_naifLoaded = false;
     }
     catch (IException &e) {
       try {
-        loadNaifTiming();
-
         QString scStartTime = getKey("SpacecraftClockStartCount", "Instrument");
-        double obsStartTime;
         NaifStatus::CheckErrors();
-        scs2e_c (-74999,scStartTime.toLatin1().data(),&obsStartTime);
+        double obsStartTime = Isis::RestfulSpice::strSclkToEt(-74999, scStartTime.toLatin1().data(), "hirise");
 
         QString targetName = getKey("TargetName", "Instrument");
         if (targetName.toLower() == "sky" ||
             targetName.toLower() == "cal" ||
             targetName.toLower() == "phobos" ||
             targetName.toLower() == "deimos") {
-          targetName = "Mars";
+          targetName = "mars";
         }
         double sunv[3];
-        double lt;
-        (void) spkpos_c(targetName.toLatin1().data(), obsStartTime, "J2000", "LT+S", "sun",
-                        sunv, &lt);
+
+        std::vector<double> etStart = {obsStartTime};
+        std::vector<std::vector<double>> sunLt = Isis::RestfulSpice::getTargetStates(etStart, targetName.toLatin1().data(), "sun", "J2000", "LT+S", "hirise", "reconstructed", "reconstructed");
+        std::copy(sunLt[0].begin(), sunLt[0].begin()+3, sunv);
+
         sunkm = vnorm_c(sunv);
 
         NaifStatus::CheckErrors();
@@ -402,45 +402,6 @@ bool HiCalConf::_naifLoaded = false;
     }
     return (slist);
   }
-
-/**
- * @brief Load required NAIF kernels required for timing needs
- *
- * This method maintains the loading of kernels for HiRISE timing and planetary
- * body ephemerides to support time and relative positions of planet bodies.
- */
-void HiCalConf::loadNaifTiming( ) {
-  NaifStatus::CheckErrors();
-  if (!_naifLoaded) {
-//  Load the NAIF kernels to determine timing data
-    Isis::FileName leapseconds("$base/kernels/lsk/naif????.tls");
-    leapseconds = leapseconds.highestVersion();
-
-    Isis::FileName sclk("$mro/kernels/sclk/MRO_SCLKSCET.?????.65536.tsc");
-    sclk = sclk.highestVersion();
-
-    Isis::FileName pck("$base/kernels/spk/de???.bsp");
-    pck = pck.highestVersion();
-
-    Isis::FileName sat("$base/kernels/spk/mar???.bsp");
-    sat = sat.highestVersion();
-
-//  Load the kernels
-    QString lsk = leapseconds.expanded();
-    QString sClock = sclk.expanded();
-    QString pConstants = pck.expanded();
-    QString satConstants = sat.expanded();
-    furnsh_c(lsk.toLatin1().data());
-    furnsh_c(sClock.toLatin1().data());
-    furnsh_c(pConstants.toLatin1().data());
-    furnsh_c(satConstants.toLatin1().data());
-    NaifStatus::CheckErrors();
-
-//  Ensure it is loaded only once
-    _naifLoaded = true;
-  }
-  return;
-}
 
 /**
  * @brief Intialization of object variables

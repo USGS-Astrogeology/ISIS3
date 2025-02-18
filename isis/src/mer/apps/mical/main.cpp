@@ -9,14 +9,15 @@ find files of those names at the top level of this repository. **/
 #define GUIHELPERS
 
 #include "Isis.h"
-#include "ProcessByLine.h"
-#include "Pvl.h"
-#include "UserInterface.h"
-#include "IException.h"
-#include "MiCalibration.h"
-#include "iTime.h"
 #include "Brick.h"
 #include "Histogram.h"
+#include "IException.h"
+#include "iTime.h"
+#include "MiCalibration.h"
+#include "ProcessByLine.h"
+#include "Pvl.h"
+#include "RestfulSpice.h"
+#include "UserInterface.h"
 
 #include <cmath>
 #include <map>
@@ -92,23 +93,18 @@ void IsisMain() {
   }
 
   iTime startTime = gbl::mi->StartTime();
-  double ETstartTime = startTime.Et();
   //Get the distance between Mars and the Sun at the given time in
   // Astronomical Units (AU)
-  QString bspKernel = p.MissionData("base", "/kernels/spk/de???.bsp", true);
-  furnsh_c(bspKernel.toLatin1().data());
-  QString satKernel = p.MissionData("base", "/kernels/spk/mar???.bsp", true);
-  furnsh_c(satKernel.toLatin1().data());
-  QString pckKernel = p.MissionData("base", "/kernels/pck/pck?????.tpc", true);
-  furnsh_c(pckKernel.toLatin1().data());
-  double sunpos[6], lt;
-  spkezr_c("sun", ETstartTime, "iau_mars", "LT+S", "mars", sunpos, &lt);
+
+  double sunpos[6];
+  std::vector<double> etStart = {startTime.Et()};
+  vector<string> kernel_list = {"/lro/tspk/de421.bsp", "/mars/tspk/mar[0-9]{3}", "/base/pck/pck[0-9]{5}"}; 
+  std::vector<std::vector<double>> sunLt = Isis::RestfulSpice::getTargetStates(etStart, "mars", "sun", "iau_mars", "LT+S", "mer1", "reconstructed", "reconstructed", kernel_list);
+  std::copy(sunLt[0].begin(), sunLt[0].begin()+6, sunpos);
+
   double dist = vnorm_c(sunpos);
   double kmperAU = 1.4959787066E8;
   gbl::sunAU = dist / kmperAU;
-  unload_c(bspKernel.toLatin1().data());
-  unload_c(satKernel.toLatin1().data());
-  unload_c(pckKernel.toLatin1().data());
 
 
   //See what calibtation values the user wants to apply
@@ -116,6 +112,7 @@ void IsisMain() {
   gbl::useReferenceValue = 1;
   gbl::useZeroExposureValue = 1;
   gbl::useActiveAreaValue = 1;
+
   // if user wants NO reference value correction or if shutter effect
   // correction is true set the user value to zero and set label output values
   // to reflect no correction.

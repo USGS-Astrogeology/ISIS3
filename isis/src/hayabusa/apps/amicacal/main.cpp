@@ -671,8 +671,7 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
   }
   catch(IException &e) {
     try{
-      loadNaifTiming();  // Ensure the proper kernels are loaded
-      scs2e_c(g_hayabusaNaifCode, g_startTime.toLatin1().data(), &obsStartTime);
+      obsStartTime = Isis::RestfulSpice::strSclkToEt(g_hayabusaNaifCode, g_startTime.toLatin1().data(), "amica");
     }
     catch (IException &e) {
         QString message = "IOF option does not work with non-spiceinited cubes.";
@@ -732,7 +731,6 @@ QString loadCalibrationVariables(const QString &config, Cube *iCube)  {
  * @param out  Radometrically corrected image
  */
 void calibrate(vector<Buffer *>& in, vector<Buffer *>& out) {
-
   Buffer& imageIn   = *in[0];
   Buffer& flatField = *in[1];
   Buffer& imageOut  = *out[0];

@@ -14,6 +14,7 @@
 #include "IsisShape.h"
 #include "IsisBody.h"
 #include "SurfacePoint.h"
+#include "spiceql.h"
 
 using namespace std;
 
@@ -44,7 +45,7 @@ class SpiceKernels : public ::testing::Test {
     kernels.push_back(dir + "ROS_V29.TF");
     kernels.push_back(dir + "CATT_DV_145_02_______00216.BC");
     for (QString& kernel : kernels) {
-      furnsh_c(kernel.toLatin1().data());
+      SpiceQL::load(kernel.toLatin1().data());
     }
   }
 

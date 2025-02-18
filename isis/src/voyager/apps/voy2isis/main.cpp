@@ -35,6 +35,7 @@ find files of those names at the top level of this repository. **/
 #include "PvlGroup.h"
 #include "PvlKeyword.h"
 #include "PvlToPvlTranslationManager.h"
+#include "RestfulSpice.h"
 #include "UserInterface.h"
 
 using namespace std;
@@ -356,34 +357,18 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
 
   // We've already handled a couple of the steps mentioned above.
   NaifStatus::CheckErrors();
-  //* 3 *//
-  // Leapsecond kernel
-  QString lsk = "$base/kernels/lsk/naif????.tls";
-  FileName lskName(lsk);
-  lskName = lskName.highestVersion();
-  furnsh_c(lskName.expanded().toLatin1().data());
-
-  // Spacecraft clock kernel
-  QString sclk = "$ISISDATA/voyager";
-  sclk.append(spacecraftNumber);
-  sclk.append("/kernels/sclk/vg");
-  sclk.append(spacecraftNumber);
-  sclk.append("?????.tsc");
-  FileName sclkName(sclk);
-  sclkName = sclkName.highestVersion();
-  furnsh_c(sclkName.expanded().toLatin1().data());
 
   // The purpose of the next two steps, getting the spacecraft clock count,
   // are simply to get the partition, the very first number 1/...
-  double approxEphemeris = 0.0;
-  utc2et_c(inst["StartTime"][0].toLatin1().data(), &approxEphemeris);
-  char approxSpacecraftClock[80];
+
+  double approxEphemeris = Isis::RestfulSpice::utcToEt(inst["StartTime"][0].toLatin1().data());
 
   // sce2s_c requires the spacecraft number, not the instrument number as
   // we've found elsewhere, either -31 or -32 in this case.
   int spacecraftClockNumber = -30;
   spacecraftClockNumber -= toInt(spacecraftNumber);
-  sce2s_c(spacecraftClockNumber, approxEphemeris, 80, approxSpacecraftClock);
+  std::string confId = "voyager" + spacecraftNumber.toStdString();
+  std::string approxSpacecraftClock = Isis::RestfulSpice::doubleEtToSclk(spacecraftClockNumber, approxEphemeris, confId);
 
   /*
    * For our next trick, we will substitute the image number we got earlier
@@ -403,21 +388,18 @@ void TranslateVoyagerLabels(Pvl &inputLab, Cube *ocube) {
    */
 
   // Get first digit and the /
-  QString newClockCount = QString(approxSpacecraftClock).mid(0, 2);
+  QString newClockCount = QString::fromStdString(approxSpacecraftClock).mid(0, 2);
   // Get first five digits of imgNumber and append
   newClockCount.append(imgNumber.mid(0, 5));
-  // I'll stop commenting now, you can read code as well as me
   newClockCount.append(":");
-  // I lied ;) get the last two digits.
   newClockCount.append(imgNumber.mid(5, 2));
 
-  scs2e_c(spacecraftClockNumber, newClockCount.toLatin1().data(), &approxEphemeris);
+  approxEphemeris = Isis::RestfulSpice::strSclkToEt(spacecraftClockNumber, newClockCount.toStdString(), confId);
 
   //* 4 *//
-  char utcOut[25];
-  et2utc_c(approxEphemeris, "ISOC", 3, 26, utcOut);
+  std::string utcOut = Isis::RestfulSpice::etToUtc(approxEphemeris, "ISOC", 3);
   NaifStatus::CheckErrors();
-  inst["StartTime"].setValue(QString(utcOut));
+  inst["StartTime"].setValue(QString::fromStdString(utcOut));
 
   // Set up the nominal reseaus group
   PvlGroup res("Reseaus");

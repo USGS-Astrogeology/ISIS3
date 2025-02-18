@@ -6,15 +6,16 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 
-#include "ProcessByLine.h"
-#include "SpecialPixel.h"
-#include "MocLabels.h"
-#include "iTime.h"
-#include "IException.h"
-#include "TextFile.h"
-#include "LineManager.h"
-#include "NaifStatus.h"
 #include "Camera.h"
+#include "IException.h"
+#include "iTime.h"
+#include "LineManager.h"
+#include "MocLabels.h"
+#include "NaifStatus.h"
+#include "ProcessByLine.h"
+#include "RestfulSpice.h"
+#include "SpecialPixel.h"
+#include "TextFile.h"
 
 #include "moccal.h"
 
@@ -140,23 +141,15 @@ namespace Isis {
       // Astronomical Units (AU)
       
       NaifStatus::CheckErrors();
-      QString bspKernel = p.MissionData("base", "/kernels/spk/de???.bsp", true);
-      furnsh_c(bspKernel.toLatin1().data());
-      QString satKernel = p.MissionData("base", "/kernels/spk/mar???.bsp", true);
-      furnsh_c(satKernel.toLatin1().data());
-      QString pckKernel = p.MissionData("base", "/kernels/pck/pck?????.tpc", true);
-      furnsh_c(pckKernel.toLatin1().data());
-      NaifStatus::CheckErrors();
 
-      double sunpos[6], lt;
-      spkezr_c("sun", etStart, "iau_mars", "LT+S", "mars", sunpos, &lt);
+      double sunpos[6];
+      std::vector<double> etStartVec = {etStart};
+      std::vector<std::vector<double>> sunLt = Isis::RestfulSpice::getTargetStates(etStartVec, "mars", "sun", "iau_mars", "LT+S", "mgs", "reconstructed", "reconstructed");
+      std::copy(sunLt[0].begin(), sunLt[0].begin()+6, sunpos);
+
       double dist = vnorm_c(sunpos);
       sunAU = dist / kmPerAU;
       
-      NaifStatus::CheckErrors();
-      unload_c(bspKernel.toLatin1().data());
-      unload_c(satKernel.toLatin1().data());
-      unload_c(pckKernel.toLatin1().data());
       NaifStatus::CheckErrors();
     }
 

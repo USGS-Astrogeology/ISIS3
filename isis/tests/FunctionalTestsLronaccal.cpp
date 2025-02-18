@@ -267,7 +267,7 @@ TEST_F(TempTestingFiles, FunctionalTestsLronaccalNacLSummed) {
                                 .0006.cub
     RadiometricType           = IOF
     ResponsivityValue         = 15869.0
-    SolarDistance             = 1.0092946598536
+    SolarDistance             = 1.0092946598529
   End_Group
   )");
 
@@ -278,10 +278,10 @@ TEST_F(TempTestingFiles, FunctionalTestsLronaccalNacLSummed) {
   EXPECT_PRED_FORMAT2(AssertPvlGroupEqual, radGroup, truthRadGroup);
 
   Histogram *oCubeStats = outCube.histogram();
-  EXPECT_DOUBLE_EQ(oCubeStats->Average(), 0.0067645818969427939);
-  EXPECT_DOUBLE_EQ(oCubeStats->Sum(), 51951.988968520658);
+  EXPECT_DOUBLE_EQ(oCubeStats->Average(), 0.0067645818969367987);
+  EXPECT_DOUBLE_EQ(oCubeStats->Sum(), 51951.988968474616);
   EXPECT_EQ(oCubeStats->ValidPixels(), 7680000);
-  EXPECT_DOUBLE_EQ(oCubeStats->StandardDeviation(), 0.0086012102391031867);
+  EXPECT_DOUBLE_EQ(oCubeStats->StandardDeviation(), 0.0086012102390964074);
 }
 
 TEST_F(TempTestingFiles, FunctionalTestsLronaccalNacRFull) {
@@ -380,7 +380,7 @@ TEST_F(TempTestingFiles, FunctionalTestsLronaccalNacRSummed) {
                                 .0006.cub
     RadiometricType           = IOF
     ResponsivityValue         = 15058.0
-    SolarDistance             = 1.0092946598536
+    SolarDistance             = 1.0092946598529
   End_Group
   )");
 
@@ -391,8 +391,8 @@ TEST_F(TempTestingFiles, FunctionalTestsLronaccalNacRSummed) {
   EXPECT_PRED_FORMAT2(AssertPvlGroupEqual, radGroup, truthRadGroup);
 
   Histogram *oCubeStats = outCube.histogram();
-  EXPECT_DOUBLE_EQ(oCubeStats->Average(), 0.0067305094629900421);
-  EXPECT_DOUBLE_EQ(oCubeStats->Sum(), 51690.312675763525);
+  EXPECT_DOUBLE_EQ(oCubeStats->Average(), 0.0067305094629838691);
+  EXPECT_DOUBLE_EQ(oCubeStats->Sum(), 51690.312675716115);
   EXPECT_EQ(oCubeStats->ValidPixels(), 7680000);
-  EXPECT_DOUBLE_EQ(oCubeStats->StandardDeviation(), 0.0086439695700371976);
+  EXPECT_DOUBLE_EQ(oCubeStats->StandardDeviation(), 0.0086439695700290947);
 }

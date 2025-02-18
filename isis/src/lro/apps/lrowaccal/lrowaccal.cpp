@@ -14,6 +14,7 @@
 #include "Preference.h"
 #include "ProcessByBrick.h"
 #include "PvlGroup.h"
+#include "RestfulSpice.h"
 #include "SpecialPixel.h"
 #include "Statistics.h"
 
@@ -669,31 +670,14 @@ namespace Isis {
             double etStart = startTime.Et();
             // Get the distance between the Moon and the Sun at the given time in
             // Astronomical Units (AU)
-            QString bspKernel1 = p.MissionData("lro", "/kernels/tspk/moon_pa_de421_1900-2050.bpc", false);
-            QString bspKernel2 = p.MissionData("lro", "/kernels/tspk/de421.bsp", false);
-            NaifStatus::CheckErrors();
-            furnsh_c(bspKernel1.toLatin1().data());
-            NaifStatus::CheckErrors();
-            furnsh_c(bspKernel2.toLatin1().data());
-            NaifStatus::CheckErrors();
-            QString pckKernel1 = p.MissionData("base", "/kernels/pck/pck?????.tpc", true);
-            QString pckKernel2 = p.MissionData("lro", "/kernels/pck/moon_080317.tf", false);
-            QString pckKernel3 = p.MissionData("lro", "/kernels/pck/moon_assoc_me.tf", false);
-            NaifStatus::CheckErrors();
-            furnsh_c(pckKernel1.toLatin1().data());
-            NaifStatus::CheckErrors();
-            furnsh_c(pckKernel2.toLatin1().data());
-            NaifStatus::CheckErrors();
-            furnsh_c(pckKernel3.toLatin1().data());
-            NaifStatus::CheckErrors();
-            double sunpos[6], lt;
-            spkezr_c("sun", etStart, "MOON_ME", "LT+S", "MOON", sunpos, &lt);
+            double sunpos[6];
+
+            std::vector<double> etStartVec = {etStart};
+            std::vector<std::string> kernels_to_use = {"/moon/tspk/moon_pa_de421_1900-2050.bpc", "/lro/tspk/de421.bsp", "/base/pck/pck[0-9]{5}.tpc", "/moon/pck/moon_080317.tf", "/moon/pck/moon_assoc_me.tf"};
+            std::vector<std::vector<double>> sunLt = Isis::RestfulSpice::getTargetStates(etStartVec, "sun", "moon", "MOON_ME", "LT+S", "lroc", "reconstructed", "reconstructed", kernels_to_use);
+            std::copy(sunLt[0].begin(), sunLt[0].begin()+6, sunpos);
+
             g_solarDistance = vnorm_c(sunpos) / KM_PER_AU;
-            unload_c(bspKernel1.toLatin1().data());
-            unload_c(bspKernel2.toLatin1().data());
-            unload_c(pckKernel1.toLatin1().data());
-            unload_c(pckKernel2.toLatin1().data());
-            unload_c(pckKernel3.toLatin1().data());
           }
           catch (IException &e) {
             QString msg = "Can not find necessary SPICE kernels for converting to IOF";

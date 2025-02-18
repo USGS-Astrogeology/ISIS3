@@ -25,6 +25,7 @@ find files of those names at the top level of this repository. **/
 #include "Pvl.h"
 #include "PvlGroup.h"
 #include "PvlKeyword.h"
+#include "RestfulSpice.h"
 #include "UserInterface.h"
 
 using namespace std;
@@ -236,17 +237,6 @@ namespace Isis {
     //  Create StartTime (UTC) from the SpacecraftClockStartCount.  Need to load the leapsecond
     //  and spacecraft clock kernels to calculate time.
     NaifStatus::CheckErrors();
-    // Leapsecond kernel
-    QString lsk = "$ISISDATA/base/kernels/lsk/naif????.tls";
-    FileName lskName(lsk);
-    lskName = lskName.highestVersion();
-    furnsh_c(lskName.expanded().toLatin1().data());
-
-    // Spacecraft clock kernel
-    QString sclk = "$ISISDATA/newhorizons/kernels/sclk/new_horizons_???.tsc";
-    FileName sclkName(sclk);
-    sclkName = sclkName.highestVersion();
-    furnsh_c(sclkName.expanded().toLatin1().data());
 
     SpiceInt sclkCode;
     if (fitslabel.hasKeyword("SPCSCID", Pvl::Traverse)) {
@@ -258,11 +248,9 @@ namespace Isis {
     }
 
     QString scTime = inst["SpacecraftClockStartCount"];
-    double et;
-    scs2e_c(sclkCode, scTime.toLatin1().data(), &et);
-    SpiceChar utc[30];
-    et2utc_c(et, "ISOC", 3, 30, utc);
-    inst.addKeyword(PvlKeyword("StartTime", QString(utc)));
+    double et = Isis::RestfulSpice::strSclkToEt(sclkCode, scTime.toLatin1().data(), "mvic");
+    std::string utc = Isis::RestfulSpice::etToUtc(et, "ISOC", 3);
+    inst.addKeyword(PvlKeyword("StartTime", QString::fromStdString(utc)));
 
     // Create a Band Bin group
     FileName bandTransFile(transDir + "NewHorizonsMvicBandBin_fit.trn");

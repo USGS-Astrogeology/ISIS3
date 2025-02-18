@@ -30,6 +30,7 @@ find files of those names at the top level of this repository. **/
 #include "ProcessImportPds.h"
 #include "Progress.h"
 #include "Pvl.h"
+#include "RestfulSpice.h"
 #include "Table.h"
 #include "UserInterface.h"
 
@@ -347,16 +348,6 @@ namespace Isis {
       // jigsaw, so use the clock counts to update these keywords.
       NaifStatus::CheckErrors();
 
-      QString lsk = "$base/kernels/lsk/naif????.tls";
-      FileName lskName(lsk);
-      lskName = lskName.highestVersion();
-      furnsh_c(lskName.expanded().toLatin1().data());
-
-      QString sclk = "$chandrayaan1/kernels/sclk/aig_ch1_sclk_complete_biased_m1p???.tsc";
-      FileName sclkName(sclk);
-      sclkName = sclkName.highestVersion();
-      furnsh_c(sclkName.expanded().toLatin1().data());
-
       SpiceInt sclkCode = -86;
 
       // Remmoved when we found out the lable counts are not as correct as we need. We use the time
@@ -393,15 +384,13 @@ namespace Isis {
       }
 
       inst.findKeyword("StartTime").setValue(firstEt.UTC());
-      SpiceChar startClockString[100];
-      sce2s_c (sclkCode, firstEt.Et(), 100, startClockString);
-      QString startClock(startClockString);
+      std::string startClockString = Isis::RestfulSpice::doubleEtToSclk(sclkCode, firstEt.Et(), "chandrayaan1");
+      QString startClock = QString::fromStdString(startClockString);
       inst.findKeyword("SpacecraftClockStartCount").setValue(startClock);
 
       inst.findKeyword("StopTime").setValue(lastEt.UTC());
-      SpiceChar stopClockString[100];
-      sce2s_c (sclkCode, lastEt.Et(), 100, stopClockString);
-      QString stopClock(stopClockString);
+      std::string stopClockString= Isis::RestfulSpice::doubleEtToSclk(sclkCode, lastEt.Et(), "chandrayaan1");
+      QString stopClock = QString::fromStdString(stopClockString);
       inst.findKeyword("SpacecraftClockStopCount").setValue(stopClock);
     }
 

@@ -20,6 +20,7 @@ find files of those names at the top level of this repository. **/
 #include "IString.h"
 #include "iTime.h"
 #include "mocxtrack.h"
+#include "RestfulSpice.h"
 #include "TextFile.h"
 #include "AlphaCube.h"
 
@@ -225,19 +226,9 @@ namespace Isis {
     // Initialize the maps from sample coordinate to detector coordinates
     InitDetectorMaps();
 
-    // Temporarily load some naif kernels
-    QString lsk = p_lsk.expanded();
-    QString sclk = p_sclk.expanded();
-    furnsh_c(lsk.toLatin1().data());
-    furnsh_c(sclk.toLatin1().data());
-
-    // Compute the starting ephemeris time
-    scs2e_c(-94, p_clockCount.toLatin1().data(), &p_etStart);
+    p_etStart = Isis::RestfulSpice::strSclkToEt(-94, p_clockCount.toLatin1().data(), "mgs");
     p_etEnd = EphemerisTime((double)p_nl);
 
-    // Unload the naif kernels
-    unload_c(lsk.toLatin1().data());
-    unload_c(sclk.toLatin1().data());
   }
 
   /**
@@ -427,12 +418,6 @@ namespace Isis {
     if(!firstTime) return;
     firstTime = false;
 
-    // Load naif kernels
-    QString lskKern = p_lsk.expanded();
-    QString sclkKern = p_sclk.expanded();
-    furnsh_c(lskKern.toLatin1().data());
-    furnsh_c(sclkKern.toLatin1().data());
-
     //Set up file for reading
     FileName wagoFile("$mgs/calibration/MGSC_????_wago.tab");
     wagoFile = wagoFile.highestVersion();
@@ -473,8 +458,7 @@ namespace Isis {
       sclk = currentSclk;
       sclk.Remove("\"");
       sclk.Trim(" ");
-      double et;
-      scs2e_c(-94, currentSclk.c_str(), &et);
+      double et = Isis::RestfulSpice::strSclkToEt(-94, currentSclk, "mgs");
 
       //Compare time against given parameters, if it fits, process
       if(et < p_etEnd && et > p_etStart) {
@@ -500,6 +484,7 @@ namespace Isis {
           }
           sclk = currentSclk;
           sclk.Trim(" ");
+          et = Isis::RestfulSpice::strSclkToEt(-94, currentSclk, "mgs");
           scs2e_c(-94, currentSclk.c_str(), &et);
 
           bottom = linenum;
@@ -522,7 +507,7 @@ namespace Isis {
           }
           sclk = currentSclk;
           sclk.Trim(" ");
-          scs2e_c(-94, currentSclk.c_str(), &et);
+          et = Isis::RestfulSpice::strSclkToEt(-94, currentSclk, "mgs");
           top = linenum;
         }
         //Now, go from the upper limit to the lower limit, and grab all lines
@@ -550,7 +535,7 @@ namespace Isis {
           sclk.Remove("\"");
           sclk.Trim(" ");
 
-          scs2e_c(-94, sclk.c_str(), &et);
+          et = Isis::RestfulSpice::strSclkToEt(-94, currentSclk, "mgs");
 
           // Get the gain mode id
           gainId = line.Token(",").ToQt().remove("\"").trimmed();
@@ -566,8 +551,6 @@ namespace Isis {
           p = p_gainMapWA.find(gainId);
           if(p == p_gainMapWA.end()) {
             // Unload the naif kernels
-            unload_c(lskKern.toLatin1().data());
-            unload_c(sclkKern.toLatin1().data());
 
             QString msg = "Invalid GainModeId [" + gainId + "] in wago table";
             throw IException(IException::Unknown, msg, _FILEINFO_);
@@ -601,8 +584,5 @@ namespace Isis {
     sort(p_wagos.begin(), p_wagos.end());
     boost::ignore_unused((unique(p_wagos.begin(), p_wagos.end())));
 
-    // Unload the naif kernels
-    unload_c(lskKern.toLatin1().data());
-    unload_c(sclkKern.toLatin1().data());
   }
 }

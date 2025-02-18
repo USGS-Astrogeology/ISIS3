@@ -1,6 +1,6 @@
 channels:
   - conda-forge
-  
+
 dependencies:
   - ale =0.10.0,<1
   - aom
@@ -59,6 +59,7 @@ dependencies:
   - qhull
   - qt-main>=5.15.8, <5.16
   - qwt <6.3.0
+  - spiceql =1.0.1
   - sqlite >=3.46.0,<3.47
   - suitesparse <7.7.0
   - superlu

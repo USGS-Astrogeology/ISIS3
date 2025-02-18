@@ -21,6 +21,7 @@ find files of those names at the top level of this repository. **/
 #include "Pvl.h"
 #include "PvlGroup.h"
 #include "NaifStatus.h"
+#include "RestfulSpice.h"
 
 using namespace UA::HiRISE;
 using std::endl;
@@ -137,30 +138,6 @@ namespace Isis {
   }
 
 
-  void HiJitCube::loadNaifTiming() {
-    if(!naifLoaded) {
-//  Load the NAIF kernels to determine timing data
-      Isis::FileName leapseconds("$base/kernels/lsk/naif????.tls");
-      leapseconds = leapseconds.highestVersion();
-
-      Isis::FileName sclk("$mro/kernels/sclk/MRO_SCLKSCET.?????.65536.tsc");
-      sclk = sclk.highestVersion();
-
-//  Load the kernels
-      QString lsk = leapseconds.expanded();
-      QString sClock = sclk.expanded();
-      NaifStatus::CheckErrors();
-      furnsh_c(lsk.toLatin1().data());
-      NaifStatus::CheckErrors();
-      furnsh_c(sClock.toLatin1().data());
-      NaifStatus::CheckErrors();
-
-//  Ensure it is loaded only once
-      naifLoaded = true;
-    }
-    return;
-  }
-
   void HiJitCube::computeStartTime() {
 
 //  Compute the unbinned and binned linerates in seconds
@@ -180,11 +157,8 @@ namespace Isis {
         jdata.obsStartTime = cam->time().Et();
       } catch (IException &e) {
         try {
-          loadNaifTiming();
           QString scStartTimeString = jdata.scStartTime;
-          NaifStatus::CheckErrors();
-          scs2e_c(-74999, scStartTimeString.toLatin1().data(), &jdata.obsStartTime);
-          NaifStatus::CheckErrors();
+          jdata.obsStartTime = Isis::RestfulSpice::strSclkToEt(-74999, scStartTimeString.toLatin1().data(), "hirise");
         } catch (IException &e) {
             QString message = "Start time of the image can not be determined.";
             throw IException(e, IException::User, message, _FILEINFO_);

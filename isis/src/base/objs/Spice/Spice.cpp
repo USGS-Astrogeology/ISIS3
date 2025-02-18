@@ -35,6 +35,7 @@ using json = nlohmann::json;
 #include "SpacecraftPosition.h"
 #include "Target.h"
 #include "Blob.h"
+#include "spiceql.h"
 
 using namespace std;
 
@@ -498,7 +499,7 @@ namespace Isis {
         throw IException(IException::Io, msg, _FILEINFO_);
       }
       QString fileName = file.expanded();
-      furnsh_c(fileName.toLatin1().data());
+      SpiceQL::load(fileName.toLatin1().data());
       m_kernels->push_back(key[i]);
     }
 

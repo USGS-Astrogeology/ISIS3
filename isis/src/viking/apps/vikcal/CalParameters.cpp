@@ -23,6 +23,7 @@ find files of those names at the top level of this repository. **/
 #include "iTime.h"
 #include "LeastSquares.h"
 #include "Pvl.h"
+#include "RestfulSpice.h"
 #include "TextFile.h"
 #include "NaifStatus.h"
 
@@ -385,15 +386,12 @@ namespace Isis {
       try {
         NaifStatus::CheckErrors();
         double sunv[3];
-        SpiceDouble lt, et;
-        FileName fname1 = (FileName)"$base/kernels/lsk/naif0007.tls";
-        FileName fname2 = (FileName)"$base/kernels/spk/de405.bsp";
-        QString tempfname1 = fname1.expanded();
-        QString tempfname2 = fname2.expanded();
-        furnsh_c(tempfname1.toLatin1().data());
-        furnsh_c(tempfname2.toLatin1().data());
-        utc2et_c(t.toLatin1().data(), &et);
-        spkezp_c(10, et, "J2000", "LT+S", 499, sunv, &lt);
+        double et = Isis::RestfulSpice::utcToEt(t.toLatin1().data());
+
+        std::vector<double> etStart = {et};
+        std::vector<std::vector<double>> sunLt = Isis::RestfulSpice::getTargetStates(etStart, "sun", "mars", "J2000", "LT+S", "viking2", "reconstructed", "reconstructed");
+        std::copy(sunLt[0].begin(), sunLt[0].begin()+3, sunv);
+
         return sqrt(sunv[0] * sunv[0] + sunv[1] * sunv[1] + sunv[2] * sunv[2]);
         NaifStatus::CheckErrors();
       }

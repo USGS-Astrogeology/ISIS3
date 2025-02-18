@@ -15,6 +15,7 @@ find files of those names at the top level of this repository. **/
 #include "Preference.h"
 #include "SpicePosition.h"
 #include "Table.h"
+#include "spiceql.h"
 
 using json = nlohmann::json;
 using namespace Isis;
@@ -33,9 +34,9 @@ int main(int argc, char *argv[]) {
   QString moc(dir + "moc.bsp");
   QString de(dir + "de405.bsp");
   QString pck(dir + "pck00006.tpc");
-  furnsh_c(moc.toLatin1().data());
-  furnsh_c(de.toLatin1().data());
-  furnsh_c(pck.toLatin1().data());
+  SpiceQL::load(moc.toLatin1().data());
+  SpiceQL::load(de.toLatin1().data());
+  SpiceQL::load(pck.toLatin1().data());
 
   double startTime = -69382819.0;
   double endTime = -69382512.0;

@@ -10,6 +10,7 @@
 #include "Table.h"
 #include "TextFile.h"
 #include "TestUtilities.h"
+#include "spiceql.h"
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
@@ -210,7 +211,7 @@ TEST(Spkwriter, FunctionalTestSpkwriterOffsets) {
     FAIL() << "Unable to write kernel file: " << e.toString().toStdString().c_str() << std::endl;
   }
   QString tmp = options.GetFileName("TO");
-  furnsh_c(tmp.toLatin1().data());
+  SpiceQL::load(tmp.toLatin1().data());
   SpiceChar fileType[32], source[2048];
   SpiceInt handle;
   QString instrument = "";

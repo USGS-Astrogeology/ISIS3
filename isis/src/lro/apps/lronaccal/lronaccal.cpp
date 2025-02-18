@@ -16,6 +16,7 @@ find files of those names at the top level of this repository. **/
 #include "Brick.h"
 #include "Table.h"
 #include "PvlGroup.h"
+#include "RestfulSpice.h"
 #include "Statistics.h"
 #include "UserInterface.h"
 #include "lronaccal.h"
@@ -318,28 +319,11 @@ namespace Isis {
         catch(IException &e) {
           // Failed to instantiate a camera, try furnishing kernels directly
           try {
-
-            double etStart = startTime.Et();
-            // Get the distance between the Moon and the Sun at the given time in
-            // Astronomical Units (AU)
-            QString bspKernel1 = p.MissionData("lro", "/kernels/tspk/moon_pa_de421_1900-2050.bpc", false);
-            QString bspKernel2 = p.MissionData("lro", "/kernels/tspk/de421.bsp", false);
-            furnsh_c(bspKernel1.toLatin1().data());
-            furnsh_c(bspKernel2.toLatin1().data());
-            QString pckKernel1 = p.MissionData("base", "/kernels/pck/pck?????.tpc", true);
-            QString pckKernel2 = p.MissionData("lro", "/kernels/pck/moon_080317.tf", false);
-            QString pckKernel3 = p.MissionData("lro", "/kernels/pck/moon_assoc_me.tf", false);
-            furnsh_c(pckKernel1.toLatin1().data());
-            furnsh_c(pckKernel2.toLatin1().data());
-            furnsh_c(pckKernel3.toLatin1().data());
-            double sunpos[6], lt;
-            spkezr_c("sun", etStart, "MOON_ME", "LT+S", "MOON", sunpos, &lt);
+            std::vector<double> etStart = {startTime.Et()};
+            double sunpos[6];
+            std::vector<std::vector<double>> sunLt = Isis::RestfulSpice::getTargetStates(etStart, "sun", "MOON", "MOON_ME", "LT+S", "lroc", "reconstructed", "reconstructed");
+            std::copy(sunLt[0].begin(), sunLt[0].begin()+6, sunpos);
             g_solarDistance = vnorm_c(sunpos) / KM_PER_AU;
-            unload_c(bspKernel1.toLatin1().data());
-            unload_c(bspKernel2.toLatin1().data());
-            unload_c(pckKernel1.toLatin1().data());
-            unload_c(pckKernel2.toLatin1().data());
-            unload_c(pckKernel3.toLatin1().data());
           }
           catch(IException &e) {
             QString msg = "Unable to find the necessary SPICE kernels for converting to IOF";

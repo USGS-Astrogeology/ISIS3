@@ -24,6 +24,7 @@ find files of those names at the top level of this repository. **/
 #include "IString.h"
 #include "Pvl.h"
 #include "PvlGroup.h"
+#include "RestfulSpice.h"
 
 // OpenCV libraries
 #include <opencv2/opencv.hpp>
@@ -42,56 +43,7 @@ namespace Isis {
 
 
 /**
- * @brief Load required NAIF kernels required for timing needs.
- *
- * This method maintains the loading of kernels for HAYABUSA timing and
- * planetary body ephemerides to support time and relative positions of planet
- * bodies.
- */
-
-static void loadNaifTiming() {
-  static bool naifLoaded = false;
-  if (!naifLoaded) {
-
-//  Load the NAIF kernels to determine timing data
-    Isis::FileName leapseconds("$base/kernels/lsk/naif????.tls");
-    leapseconds = leapseconds.highestVersion();
-    Isis::FileName sclk("$hayabusa/kernels/sclk/hayabusa.tsc");
-    Isis::FileName pck1("$hayabusa/kernels/tspk/de403s.bsp");
-    Isis::FileName pck2("$hayabusa/kernels/tspk/sb_25143_140.bsp");
-    Isis::FileName pck3("$hayabusa/kernels/spk/hay_jaxa_050916_051119_v1n.bsp");
-    Isis::FileName pck4("$hayabusa/kernels/spk/hay_osbj_050911_051118_v1n.bsp");
-
-//  Load the kernels
-    QString leapsecondsName(leapseconds.expanded());
-    QString sclkName(sclk.expanded());
-
-    QString pckName1(pck1.expanded());
-    QString pckName2(pck2.expanded());
-    QString pckName3(pck3.expanded());
-    QString pckName4(pck4.expanded());
-
-    furnsh_c(leapsecondsName.toLatin1().data());
-    furnsh_c(sclkName.toLatin1().data());
-
-    furnsh_c(pckName1.toLatin1().data());
-    furnsh_c(pckName2.toLatin1().data());
-    furnsh_c(pckName3.toLatin1().data());
-    furnsh_c(pckName4.toLatin1().data());
-
-
-//  Ensure it is loaded only once
-    naifLoaded = true;
-  }
-  return;
-}
-
-
-/**
  * @brief Computes the distance from the Sun to the observed body.
- *
- * This method requires the appropriate NAIK kernels to be loaded that
- * provides instrument time support, leap seconds and planet body ephemeris.
  *
  * @return @b double Distance in AU between Sun and observed body.
  */
@@ -107,28 +59,26 @@ static bool sunDistanceAU(Cube *iCube,
     sunDist = cam->sunToBodyDist() / KM_PER_AU;
   }
   catch(IException &e) {
-    try {
-      //  Ensure NAIF kernels are loaded
-      loadNaifTiming();
-      sunDist = 1.0;
+    sunDist = 1.0;
 
-      NaifStatus::CheckErrors();
+    //  Determine if the target is a valid NAIF target
+    try{
+      Isis::RestfulSpice::translateNameToCode(target.toLatin1().data(), "amica");
+    }catch(invalid_argument){
+      return false;
+    }
 
-      //  Determine if the target is a valid NAIF target
-      SpiceInt tcode;
-      SpiceBoolean found;
-      bodn2c_c(target.toLatin1().data(), &tcode, &found);
-
-      if (!found) return false;
-
-      //  Convert starttime to et
-      double obsStartTime;
-      scs2e_c(-130, scStartTime.toLatin1().data(), &obsStartTime);
+    //  Convert starttime to et
+    try{
+      double obsStartTime = Isis::RestfulSpice::strSclkToEt(-130, scStartTime.toLatin1().data(), "amica");
 
       //  Get the vector from target to sun and determine its length
       double sunv[3];
-      double lt;
-      spkpos_c(target.toLatin1().data(), obsStartTime, "J2000", "LT+S", "sun", sunv, &lt);
+
+      std::vector<double> etStart = {obsStartTime};
+      std::vector<std::vector<double>> sunLt = Isis::RestfulSpice::getTargetStates(etStart, target.toLatin1().data(), "sun", "J2000", "LT+S", "amica", "reconstructed", "reconstructed");
+      std::copy(sunLt[0].begin(), sunLt[0].begin()+3, sunv);
+
       NaifStatus::CheckErrors();
 
       double sunkm = vnorm_c(sunv);
@@ -140,9 +90,10 @@ static bool sunDistanceAU(Cube *iCube,
       QString message = "Failed to calculate the sun-target distance.";
       throw IException(e, IException::User, message, _FILEINFO_);
     }
-  }
 
+  }
   return true;
+
 }
 
 

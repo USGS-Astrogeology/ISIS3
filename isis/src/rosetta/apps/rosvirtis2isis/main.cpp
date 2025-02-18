@@ -21,13 +21,14 @@ find files of those names at the top level of this repository. **/
 
 #include "FileName.h"
 #include "ImportPdsTable.h"
+#include "iTime.h"
 #include "LineManager.h"
+#include "PolynomialUnivariate.h"
 #include "ProcessImportPds.h"
+#include "RestfulSpice.h"
 #include "Table.h"
 #include "UserInterface.h"
-#include "PolynomialUnivariate.h"
 #include "VirtisHK.h"
-#include "iTime.h"
 
 using namespace std;
 using namespace Isis;
@@ -402,20 +403,10 @@ void IsisMain ()
     // Fix the StartTime and SpacecraftStartClockCount in the ISIS label
     PvlGroup &inst = outLabel.findGroup("Instrument", Pvl::Traverse);
 
-    // Pass the Start/Stop SCET values to naif to get the utc time.
-    QString sclk = "$ISISDATA/rosetta/kernels/sclk/ROS_??????_STEP.TSC";
-    QString lsk  = "$ISISDATA/base/kernels/lsk/naif????.tls";
-    FileName sclkName(sclk);
-    FileName lskName(lsk);
 
-    sclkName = sclkName.highestVersion();
-    lskName = lskName.highestVersion();
+    double etStart = Isis::RestfulSpice::strSclkToEt(-226, startScet.toLatin1().data(), "virtis");
+    double etEnd = Isis::RestfulSpice::strSclkToEt(-226, stopScet.toLatin1().data(), "virtis");
 
-    furnsh_c(lskName.expanded().toLatin1().data());
-    furnsh_c(sclkName.expanded().toLatin1().data());
-
-    SpiceDouble etStart;
-    SpiceDouble etEnd;
     scs2e_c( (SpiceInt) -226, startScet.toLatin1().data(), &etStart);
     scs2e_c( (SpiceInt) -226, stopScet.toLatin1().data(), &etEnd);
 
@@ -425,22 +416,17 @@ void IsisMain ()
     QString startTime = iTime(etStart-exposureTime).UTC();
     QString stopTime = iTime(etEnd-exposureTime).UTC();
 
-    SpiceChar startSclkString[50];
-    SpiceChar endSclkString[50];
-    sce2s_c( (SpiceInt) -226, etStart-exposureTime, (SpiceInt) 50, startSclkString);
-    sce2s_c( (SpiceInt) -226, etEnd-exposureTime, (SpiceInt) 50, endSclkString);
+
+    std::string startSclkString = Isis::RestfulSpice::doubleEtToSclk( -226, etStart-exposureTime, "virtis");
+    std::string endSclkString = Isis::RestfulSpice::doubleEtToSclk( -226, etEnd-exposureTime, "virtis");
 
     inst.findKeyword("StartTime").setValue(startTime);
     inst.findKeyword("StopTime").setValue(stopTime);
 
-    inst.findKeyword("SpacecraftClockStartCount").setValue(startSclkString);
-    inst.findKeyword("SpacecraftClockStopCount").setValue(endSclkString);
+    inst.findKeyword("SpacecraftClockStartCount").setValue(QString::fromStdString(startSclkString));
+    inst.findKeyword("SpacecraftClockStopCount").setValue(QString::fromStdString(endSclkString));
 
     outcube->putGroup(inst);
-
-    // Unload the naif kernels
-    unload_c(lsk.toLatin1().data());
-    unload_c(sclk.toLatin1().data());
   }
 
   // Write the Archive and Instrument groups to the output cube label

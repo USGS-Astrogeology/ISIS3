@@ -38,11 +38,13 @@ find files of those names at the top level of this repository. **/
 #include "PvlKeyword.h"
 #include "PvlObject.h"
 #include "PvlTranslationTable.h"
+#include "RestfulSpice.h"
 #include "Spice.h"
 #include "SpicePosition.h"
 #include "SpiceRotation.h"
 #include "Table.h"
 #include "UserInterface.h"
+#include "spiceql.h"
 
 
 #define FIDL  26.72093    //spacing between fiducial marks in mm
@@ -228,25 +230,33 @@ void IsisMain() {
 
   panCube.putGroup(kernels_pvlG);
 
-  //Load all the kernels
+  // Load kernels
   Load_Kernel(kernels_pvlG["TargetPosition"]);
   Load_Kernel(kernels_pvlG["TargetAttitudeShape"]);
+  // Load_Kernel(kernels_pvlG["InstrumentPointing"]);
+  // Load_Kernel(kernels_pvlG["InstrumentPosition"]);
   Load_Kernel(kernels_pvlG["LeapSecond"]);
+  // Load_Kernel(kernels_pvlG["InstrumentAddendum"]);
+
 
   //////////////////////////////////////////attach a target rotation table
-  char frameName[32];
-  SpiceInt frameCode;
-  SpiceBoolean found;
-  //get the framecode from the body code (301=MOON)
-  cidfrm_c(301, sizeof(frameName), &frameCode, frameName, &found);
-  if(!found) {
-    QString naifTarget = QString("IAU_MOOM");
-    namfrm_c(naifTarget.toLatin1().data(), &frameCode);
-    if(frameCode == 0) {
-      QString msg = "Can not find NAIF code for [" + naifTarget + "]";
-      throw IException(IException::Io, msg, _FILEINFO_);
-    }
-  }
+  std::string frameName;
+   SpiceInt frameCode = 0;
+   try{
+     json output = Isis::RestfulSpice::getTargetFrameInfo(301, mission.toLower().toStdString());
+     cout << output << endl;
+     frameCode = output["frameCode"].get<SpiceInt>();
+     frameName = output["frameName"].get<std::string>();
+   }catch(std::invalid_argument){
+     std::string naifTarget = "IAU_MOON";
+     frameCode = Isis::RestfulSpice::translateNameToCode(naifTarget, mission.toLower().toStdString());
+     if(frameCode == 0) {
+       QString msg = "Can not find NAIF code for [" + QString::fromStdString(naifTarget) + "]";
+       throw IException(IException::Io, msg, _FILEINFO_);
+     }
+   }
+
+
   spRot = new SpiceRotation(frameCode);
   //create a table from starttime to endtime (streched by 3%) with NODES entries
   spRot->LoadCache(time0-0.015*(time1-time0), time1+0.015*(time1-time0), NODES);
@@ -808,7 +818,7 @@ void Load_Kernel(Isis::PvlKeyword &key) {
        throw IException(IException::Io, msg, _FILEINFO_);
      }
      QString fileName(file.expanded());
-     furnsh_c(fileName.toLatin1().data());
+     SpiceQL::load(fileName.toLatin1().data());
   }
 
   NaifStatus::CheckErrors();

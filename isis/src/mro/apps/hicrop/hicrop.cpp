@@ -23,6 +23,8 @@ find files of those names at the top level of this repository. **/
 #include "LineManager.h"
 #include "NaifStatus.h"
 #include "ProcessByLine.h"
+#include "RestfulSpice.h"
+#include "spiceql.h"
 #include "Table.h"
 #include "TextFile.h"
 
@@ -43,12 +45,9 @@ namespace Isis {
                    double unbinnedRate, double binMode);
   iTime labelClockCountTime(iTime actualCalculatedTime, double tdiMode,
                             double unbinnedRate, double binMode);
-  pair<double, double> ckBeginEndTimes(IString ckFileName);
   // methods for converting between lines/times/clock counts
   iTime line2time(double lineNumber, double lineRate, double originalStartEt);
   double et2line(double et, double lineRate, double originalStartEt);
-  QString time2clock(iTime time);
-  iTime clock2time(QString spacecraftClockCount);
   // method to validate calculated or user-entered cropped line and time values
   void validateCropLines();
   void validateCropTimes(double cropStart, double  cropStop,
@@ -75,44 +74,28 @@ namespace Isis {
   }
 
   void hicrop(Cube *cube, UserInterface &ui, Pvl *log) {
-    //   Isis::Preference::Preferences(true); // delete ???
-    cout << setprecision(25);// ???
-
     g_cube = cube;
     QString inputFileName = g_cube->fileName();
     // get user inputs for input cube and open
     try {
-
       // read kernel files and furnish these kernels for naif routines used in
       // originalStartTime() and time2clock()
       IString ckFileName = ui.GetFileName("CK");
 
-      IString lskFileName = "";
+      SpiceQL::load(FileName(QString::fromStdString(ckFileName)).expanded().toLatin1().data());
+
       if (ui.WasEntered("LSK")) {
-        lskFileName = ui.GetFileName("LSK");
-      }
-      else {
-        FileName lskFile("$base/kernels/lsk/naif????.tls");
-        lskFileName = lskFile.highestVersion().expanded();
+        IString lskFileName = ui.GetFileName("LSK");
+        SpiceQL::load(FileName(QString::fromStdString(lskFileName)).expanded().toLatin1().data());
+      }else{
       }
 
-      IString sclkFileName = "";
       if (ui.WasEntered("SCLK")) {
-        sclkFileName = ui.GetFileName("SCLK");
+        IString sclkFileName = ui.GetFileName("SCLK");
+        SpiceQL::load(FileName(QString::fromStdString(sclkFileName)).expanded().toLatin1().data());
+      }else{
+        // kPool.loadClockKernels();
       }
-      else {
-        FileName sclkFile("$mro/kernels/sclk/MRO_SCLKSCET.?????.65536.tsc");
-        sclkFileName = sclkFile.highestVersion().expanded();
-      }
-
-      // furnish these kernels
-      NaifStatus::CheckErrors();
-      furnsh_c(ckFileName.c_str());
-      NaifStatus::CheckErrors();
-      furnsh_c(sclkFileName.c_str());
-      NaifStatus::CheckErrors();
-      furnsh_c(lskFileName.c_str());
-      NaifStatus::CheckErrors();
 
       // get values from the labels needed to compute the line rate and the
       // actual start time of the input cube
@@ -136,12 +119,13 @@ namespace Isis {
 
       // get the actual original start time by making adjustments to the
       // spacecraft clock start count in the labels
-      iTime timeFromLabelClockCount = clock2time(labelStartClockCount);
+      iTime timeFromLabelClockCount = Isis::RestfulSpice::strSclkToEt(-74999, labelStartClockCount.toLatin1().data(), "hirise");
       iTime originalStart = actualTime(timeFromLabelClockCount, tdiMode,
                                        unbinnedRate, binMode);
       double originalStartEt = originalStart.Et();
 
-      pair<double, double> ckCoverage = ckBeginEndTimes(ckFileName);
+
+      pair<double, double> ckCoverage = SpiceQL::getTimeIntervals(ckFileName)[0];
       // find the values of the first and last lines to be kept from user inputs
       if (ui.GetString("SOURCE") == "LINEVALUES") {
         g_cropStartLine = ui.GetInteger("LINE");
@@ -264,53 +248,19 @@ namespace Isis {
                         ckCoverage.first, ckCoverage.second);
 
       // HiRise spacecraft clock format is P/SSSSSSSSSS:FFFFF
-      IString actualCropStartClockCount = time2clock(cropStartTime);//???
-      IString actualCropStopClockCount = time2clock(cropStopTime); //???
-
-  //???
-   // UTC
-   // cout << "labelStartClock2time = " << timeFromLabelClockCount.UTC() << endl;
-   // cout << "adjustedStartClock2time = " << originalStart.UTC() << endl;
-   // cout << "cropped starttime = " << cropStartTime.UTC() << endl;
-   // cout << "cropped stoptime = " << cropStopTime.UTC() << endl;
-   // cout << "time at 80000.5 = " << line2time(80000.5, lineRate, originalStartEt).UTC() << endl << endl;
-   //
-   // // ET
-   // cout << "labelStartClockEt = " << timeFromLabelClockCount.Et() << endl;// should this be
-   // cout << "adjustedStartClockEt = " << originalStartEt << endl;// should this be
-   // cout << "cropped starttime = " << cropStartTime.Et() << endl;//??? 264289109.970381856
-   // cout << "cropped stoptime = " << cropStopTime.Et() << endl;//??? 264289117.285806835
-   // cout << "time at 80000.5 = " << line2time(80000.5, lineRate, originalStartEt).Et() << endl << endl;
+      IString actualCropStartClockCount = Isis::RestfulSpice::doubleEtToSclk(-74999, cropStartTime.Et(), "hirise");
+      IString actualCropStopClockCount = Isis::RestfulSpice::doubleEtToSclk(-74999, cropStopTime.Et(), "hirise");
 
 
       // readjust the time to get the appropriate label value for the
       // spacecraft clock start count for the labels of the cropped cube
       iTime adjustedCropStartTime = labelClockCountTime(cropStartTime, tdiMode,
                                                         unbinnedRate, binMode);
-      QString adjustedCropStartClockCount = time2clock(adjustedCropStartTime);
+      QString adjustedCropStartClockCount = QString::fromStdString(Isis::RestfulSpice::doubleEtToSclk(-74999, adjustedCropStartTime.Et(), "hirise"));
       iTime adjustedCropStopTime = labelClockCountTime(cropStopTime, tdiMode,
                                                        unbinnedRate, binMode);
-      QString adjustedCropStopClockCount = time2clock(adjustedCropStopTime);
+      QString adjustedCropStopClockCount = QString::fromStdString(Isis::RestfulSpice::doubleEtToSclk(-74999, adjustedCropStopTime.Et(), "hirise"));
 
-
-
-  //???    string stopClockCount = inputInst["SpacecraftClockStopCount"];
-  //???    iTime labelStopTime = clock2time(stopClockCount);
-  //???    iTime origStop = actualTime(labelStopTime, tdiMode,
-  //???                                unbinnedRate, binMode);
-  //???    double endline = et2line(origStop.Et(),  lineRate,  originalStartEt);
-  //???    cout << std::setprecision(20);
-  //???    cout << "Label Stop Count  = " << stopClockCount << endl;
-  //???    cout << "Stop Count Time   = " << labelStopTime.Et() << endl;
-  //???    cout << "Actual Stop Count = " << origStop.Et() << endl;
-  //???    cout << "Actual End Line   = " << endline << endl;
-  //???
-  //???    cout << endl << "New End Line      = " << g_cropEndLine << endl;
-  //???    cout << "New End Line      = " << et2line(cropStopTime.Et(),  lineRate,  originalStartEt) << endl;
-  //???    cout << "New Stop Time     = " << cropStopTime.Et() << endl;
-  //???    cout << "Actual Stop Count = " << actualCropStopClockCount << endl;
-  //???    cout << "Label Stop Time   = " << adjustedCropStopTime.Et() << endl;
-  //???    cout << "Label Stop Count  = " << adjustedCropStopClockCount << endl;
 
 
       // Allocate the output file and make sure things get propogated nicely
@@ -374,12 +324,6 @@ namespace Isis {
       // Write the results to the log
       Application::AppendAndLog(results, log);
 
-      // Unfurnishes kernel files to prevent file table overflow
-      NaifStatus::CheckErrors();
-      unload_c(ckFileName.c_str());
-      unload_c(sclkFileName.c_str());
-      unload_c(lskFileName.c_str());
-      NaifStatus::CheckErrors();
     }
     catch (IException &e) {
       IString msg = "Unable to crop the given cube [" + inputFileName
@@ -468,67 +412,6 @@ namespace Isis {
     return labelStartTime;
   }
 
-  /**
-   * Returns the first and last times that are covered by the given CK file. The
-   * SCLK and LSK files must be furnished before this method is called.
-   *
-   * @param ckFileName String containing the name of the ck file provided by the
-   *                   user.
-   * @return A pair of doubles, the first is the earliest time covered by the CK
-   *         file and the second is the latest time covered by the CK file.
-   */
-  pair<double, double> ckBeginEndTimes(IString ckFileName) {
-    //create a spice cell capable of containing all the objects in the kernel.
-    NaifStatus::CheckErrors();
-    SPICEINT_CELL(currCell, 1000);
-    NaifStatus::CheckErrors();
-    //this resizing is done because otherwise a spice cell will append new data
-    //to the last "currCell"
-    ssize_c(0, &currCell);
-    NaifStatus::CheckErrors();
-    ssize_c(1000, &currCell);
-    NaifStatus::CheckErrors();
-    ckobj_c(ckFileName.c_str(), &currCell);
-    NaifStatus::CheckErrors();
-    int numberOfBodies = card_c(&currCell);
-    if (numberOfBodies != 1) {
-      IString msg = "Unable to find start and stop times using the given CK "
-                    "file [" + ckFileName + "]. This application only works with"
-                    "single body CK files.";
-      throw IException(IException::Unknown, msg, _FILEINFO_);
-    }
-
-    //get the NAIF body code
-    int body = SPICE_CELL_ELEM_I(&currCell, numberOfBodies-1);
-    NaifStatus::CheckErrors();
-    //  200,000 is the max coverage window size for a CK kernel
-    SPICEDOUBLE_CELL(cover, 200000);
-    NaifStatus::CheckErrors();
-    ssize_c(0, &cover);
-    NaifStatus::CheckErrors();
-    ssize_c(200000, &cover);
-    NaifStatus::CheckErrors();
-    ckcov_c(ckFileName.c_str(), body, SPICEFALSE, "SEGMENT", 0.0, "TDB", &cover);
-    NaifStatus::CheckErrors();
-    //Get the number of intervals in the object.
-    int numberOfIntervals = card_c(&cover) / 2;
-    NaifStatus::CheckErrors();
-    if (numberOfIntervals != 1) {
-      IString msg = "Unable to find start and stop times using the given CK "
-                    "file [" + ckFileName + "]. This application only works with "
-                    "single interval CK files.";
-      throw IException(IException::Unknown, msg, _FILEINFO_);
-    }
-    //Convert the coverage interval start and stop times to TDB
-    //Get the endpoints of the interval.
-    double begin, end;
-    wnfetd_c(&cover, numberOfIntervals-1, &begin, &end);
-    NaifStatus::CheckErrors();
-    QVariant startTime = begin;//??? why use variants? why not just use begin and end ???
-    QVariant stopTime = end;   //??? why use variants? why not just use begin and end ???
-    pair< double, double > coverage(startTime.toDouble(),  stopTime.toDouble());
-    return coverage;
-  }
 
   /**
    * Returns the corresponding time for the given line number.
@@ -576,49 +459,6 @@ namespace Isis {
     return (et - originalStartEt) / lineRate + 0.5;
   }
 
-  /**
-   * Returns the corresponding clock count, in string format, for the given time.
-   *
-   * HiRise is high precision, so the spacecraft clock format is
-   * P/SSSSSSSSSS:FFFFF and the clock id = -74999. (See any mro sclk file
-   * for documentation on these values.)
-   *
-   * @param time The time of the image to be converted.
-   *
-   * @return A string containing the spacecraft clock count corresponding
-   *         to the given time.
-   */
-  QString time2clock(iTime time) {
-    // char
-    char stringOutput[19];
-    double et = time.Et();
-    NaifStatus::CheckErrors();
-    sce2s_c(-74999, et, 19, stringOutput);
-    NaifStatus::CheckErrors();
-    return stringOutput;
-  }
-
-  /**
-   * Returns the corresponding time for the given spacecraft clock count.
-   *
-   * @param spacecraftClockCount The clock count of the image to be converted.
-   *
-   * @return The image time corresponding to the given spacecraft clock count.
-   *
-   * @see Spice::getClockTime(clockCountString, sclkCode)
-   */
-  iTime clock2time(QString spacecraftClockCount) {
-    // Convert the spacecraft clock count to ephemeris time
-    SpiceDouble timeOutput;
-    // The -74999 is the code to select the transformation from
-    // high-precision MRO SCLK to ET
-    NaifStatus::CheckErrors();
-    scs2e_c(-74999, spacecraftClockCount.toLatin1().data(), &timeOutput);
-    NaifStatus::CheckErrors();
-    QVariant clockTime = timeOutput;
-    iTime time = clockTime.toDouble();
-    return time;
-  }
 
 
   /**

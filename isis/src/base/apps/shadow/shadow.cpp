@@ -8,8 +8,10 @@
 #include "KernelDb.h"
 #include "NaifStatus.h"
 #include "ProcessByBrick.h"
+#include "RestfulSpice.h"
 #include "ShadowFunctor.h"
 #include "SpicePosition.h"
+#include "spiceql.h"
 
 namespace Isis {
   QStringList kernels(QString kernelType,
@@ -46,11 +48,12 @@ namespace Isis {
       allKernelFiles.append(kernels("PCK", &KernelDb::targetAttitudeShape, *demCube->label(), ui));
       allKernelFiles.append(kernels("SPK", &KernelDb::targetPosition, *demCube->label(), ui));
 
+
       NaifStatus::CheckErrors();
 
       foreach (QString kernelFile, allKernelFiles) {
         kernelsUsed += kernelFile;
-        furnsh_c(FileName(kernelFile).expanded().toLatin1().data());
+        SpiceQL::load(FileName(kernelFile).expanded().toLatin1().data());
       }
 
       // Find the NAIF target code for the DEM's target
@@ -63,28 +66,43 @@ namespace Isis {
 
       // Get actual sun position, relative to target
       QString bodyFixedFrame = QString("IAU_%1").arg(name.toUpper());
-      spkpos_c("SUN", time.Et(), bodyFixedFrame.toLatin1().data(), "NONE",
-               name.toUpper().toLatin1().data(), sunPosition, &lightTime);
+      std::vector<double> etStart = {time.Et()};
+      std::string observer = name.toUpper().toLatin1().data();
+      std::string bff = bodyFixedFrame.toLatin1().data();
+      std::vector<std::vector<double>> sunLt;
+      // If kernels are specified
+      bool userKernels = false;
+
+      if (ui.WasEntered("PCK") || ui.WasEntered("SPK")){
+        userKernels = true;
+      }
+      
+      if (userKernels){
+        sunLt = SpiceQL::getTargetStates(etStart, "sun", observer, bff, "NONE", "base", "reconstructed", "reconstructed", true);
+      }else{
+        sunLt = Isis::RestfulSpice::getTargetStates(etStart, "sun", observer, bff, "NONE", RestfulSpice::spiceql_mission_map[observer], "reconstructed", "reconstructed");
+      }
 
       NaifStatus::CheckErrors();
 
-      // Adjusted for light time
-      spkpos_c("SUN", time.Et() - lightTime, bodyFixedFrame.toLatin1().data(), "NONE",
-               name.toUpper().toLatin1().data(), sunPosition, &lightTime);
+      // Adjust for light time
+      lightTime = sunLt[0][6];
+      etStart = {time.Et() - lightTime};
 
+      if (userKernels){
+        sunLt = SpiceQL::getTargetStates(etStart, "sun", observer, bff, "NONE", "base", "reconstructed", "reconstructed", true);
+      }else{
+        sunLt = Isis::RestfulSpice::getTargetStates(etStart, "sun", observer, bff, "NONE", RestfulSpice::spiceql_mission_map[observer], "reconstructed", "reconstructed");
+      }
+      
+      std::copy(sunLt[0].begin(), sunLt[0].begin()+3, sunPosition);
       NaifStatus::CheckErrors();
-
-
+      
       // Convert sun position units: KM -> M
       sunPosition[0] *= 1000;
       sunPosition[1] *= 1000;
       sunPosition[2] *= 1000;
 
-      foreach (QString kernelFile, allKernelFiles) {
-        unload_c(FileName(kernelFile).expanded().toLatin1().data());
-      }
-
-      NaifStatus::CheckErrors();
       functor.setSunPosition(sunPosition);
     }
 

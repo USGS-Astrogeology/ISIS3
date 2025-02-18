@@ -13,6 +13,7 @@ find files of those names at the top level of this repository. **/
 #include "TextFile.h"
 #include "LineManager.h"
 #include "Brick.h"
+#include "RestfulSpice.h"
 #include "Table.h"
 #include "UserInterface.h"
 #include "Camera.h"
@@ -166,27 +167,15 @@ namespace Isis {
         catch(IException &e) {
           // Get the distance between Mars and the Sun at the given time in
           // Astronomical Units (AU)
-          QString bspKernel = p.MissionData("base", "/kernels/spk/de???.bsp", true);
           NaifStatus::CheckErrors();
-          furnsh_c(bspKernel.toLatin1().data());
-          NaifStatus::CheckErrors();
-          QString satKernel = p.MissionData("base", "/kernels/spk/mar???.bsp", true);
-          furnsh_c(satKernel.toLatin1().data());
-          NaifStatus::CheckErrors();
-          QString pckKernel = p.MissionData("base", "/kernels/pck/pck?????.tpc", true);
-          furnsh_c(pckKernel.toLatin1().data());
-          NaifStatus::CheckErrors();
-          double sunpos[6], lt;
+          double sunpos[6];
 
-          spkezr_c("sun", etStart, "iau_mars", "LT+S", "mars", sunpos, &lt);
-          NaifStatus::CheckErrors();
+          std::vector<double> etStartVec = {etStart};
+          std::vector<std::vector<double>> sunLt = Isis::RestfulSpice::getTargetStates(etStartVec, "mars", "sun", "iau_mars", "LT+S", "mro", "reconstructed", "reconstructed");
+          std::copy(sunLt[0].begin(), sunLt[0].begin()+6, sunpos);
 
           dist1 = vnorm_c(sunpos);
 
-          NaifStatus::CheckErrors();
-          unload_c(bspKernel.toLatin1().data());
-          unload_c(satKernel.toLatin1().data());
-          unload_c(pckKernel.toLatin1().data());
           NaifStatus::CheckErrors();
         }
 

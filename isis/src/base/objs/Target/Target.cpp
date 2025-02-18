@@ -17,7 +17,7 @@ find files of those names at the top level of this repository. **/
 #include "ShapeModelFactory.h"
 #include "SpecialPixel.h"
 #include "Spice.h"
-
+#include "spiceql.h"
 
 using namespace std;
 
@@ -485,7 +485,7 @@ namespace Isis {
     QString kernName = kern.expanded();
 
     if(!pckLoaded) {
-      furnsh_c(kernName.toLatin1().data());
+      SpiceQL::load(kernName.toLatin1().data());
       pckLoaded = true;
     }
 
