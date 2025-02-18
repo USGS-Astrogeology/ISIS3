@@ -402,7 +402,6 @@ namespace Isis {
         m_sunPosition->Memcache2HermiteCache(0.01);
       }
       m_bodyRotation->LoadCache(isd["body_rotation"]);
-      m_bodyRotation->MinimizeCache(SpiceRotation::DownsizeStatus::Yes);
       if (m_bodyRotation->cacheSize() > 5) {
         m_bodyRotation->LoadTimeCache();
       }
@@ -447,7 +446,6 @@ namespace Isis {
     }
     else if (m_usingAle) {
      m_instrumentRotation->LoadCache(isd["instrument_pointing"]);
-     m_instrumentRotation->MinimizeCache(SpiceRotation::DownsizeStatus::Yes);
      if (m_instrumentRotation->cacheSize() > 5) {
        m_instrumentRotation->LoadTimeCache();
      }

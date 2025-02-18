@@ -68,7 +68,7 @@ namespace Isis {
     p_axis1 = 3;
     p_axis2 = 1;
     p_axis3 = 3;
-    p_minimizeCache = No;
+    p_minimizeCache = Yes;
     p_hasAngularVelocity = false;
     p_av.resize(3);
     p_fullCacheStartTime = 0;
