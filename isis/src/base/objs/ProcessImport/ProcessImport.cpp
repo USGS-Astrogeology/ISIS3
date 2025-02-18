@@ -23,7 +23,6 @@ find files of those names at the top level of this repository. **/
 #include "PixelType.h"
 #include "Process.h"
 #include "Pvl.h"
-#include "PvlTokenizer.h"
 #include "SpecialPixel.h"
 #include "UserInterface.h"
 

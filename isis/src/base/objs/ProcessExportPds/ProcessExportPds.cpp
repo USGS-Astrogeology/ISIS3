@@ -10,7 +10,7 @@ find files of those names at the top level of this repository. **/
 #include <iostream>
 #include <sstream>
 
-#include "Endian.h"
+#include "IEndian.h"
 #include "ExportPdsTable.h"
 #include "FileName.h"
 #include "IException.h"

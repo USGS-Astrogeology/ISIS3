@@ -75,6 +75,8 @@ option(buildStaticCore "Build libisis static as well as dynamic"        OFF )
 option(buildTests      "Set up unit, application, and module tests."    ON  )
 option(JP2KFLAG        "Whether or not to build using JPEG2000 support" OFF )
 option(pybindings      "Turn on to build Python bindings"               ON )
+option(ISIS_BUILD_SWIG "Turn on to build swig wrappers"                 OFF )
+option(BUILD_CORE_TESTS "Turn on to build core tests"                   ON )
 
 # if cmake install prefix is not set, and conda env is activated, use the
 # conda env as the install directory.
@@ -123,6 +125,8 @@ message("\tBUILD STATIC CORE: ${buildStaticCore}")
 message("\tBUILD TESTS: ${buildTests}")
 message("\tBUILD CORE: ${buildCore}")
 message("\tBUILD MISSIONS: ${buildMissions}")
+message("\tBUILD CORE TESTS: ${BUILD_CORE_TESTS}")
+message("\tBUILD SWIG: ${ISIS_BUILD_SWIG}")
 message("\tJP2K SUPPORT: ${JP2KFLAG}")
 message("\tPYTHON BINDINGS: ${pybindings}")
 message("\tISISDATA: ${isisData}")
@@ -178,6 +182,7 @@ set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${FLAGS_STR}" )
 # Flag to fix numeric literals problem with boost on linux
 # Add gold linker (and therefore, phtread) to speed up linux (spec. Ubuntu18.04) builds
 if(NOT APPLE)
+  message("$ENV{CONDA_PREFIX}")
   set(thirdPartyCppFlags ${thirdPartyCppFlags} -fuse-ld=gold
 	                                             -pthread
 					                                     -fext-numeric-literals

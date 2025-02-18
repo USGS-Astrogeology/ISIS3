@@ -9,7 +9,7 @@ find files of those names at the top level of this repository. **/
 #include <cmath>
 #include <iostream>
 
-#include "Endian.h"
+#include "IEndian.h"
 #include "EndianSwapper.h"
 #include "IString.h"
 #include "IException.h"

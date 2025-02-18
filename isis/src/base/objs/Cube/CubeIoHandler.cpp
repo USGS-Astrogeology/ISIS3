@@ -25,7 +25,7 @@ find files of those names at the top level of this repository. **/
 #include "CubeCachingAlgorithm.h"
 #include "Displacement.h"
 #include "Distance.h"
-#include "Endian.h"
+#include "IEndian.h"
 #include "EndianSwapper.h"
 #include "IException.h"
 #include "IString.h"

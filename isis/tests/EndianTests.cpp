@@ -1,4 +1,4 @@
-#include "Endian.h"
+#include "IEndian.h"
 
 #include <gtest/gtest.h>
 #include <QPair>

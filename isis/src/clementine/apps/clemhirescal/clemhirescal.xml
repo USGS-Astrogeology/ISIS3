@@ -18,7 +18,7 @@
       in Table 5 from Robinson et al. (2003), therefore the pixel values in the
       output image are the same as they would be if the k values from Table 5
       were hard coded into the script.
-      
+
       The equation for the D filter yields k values that differ from the
       hard-coded values by less than 1 standard deviation as reported in Table 6
       of Robinson et al. (2003).  The radiance values that result from the

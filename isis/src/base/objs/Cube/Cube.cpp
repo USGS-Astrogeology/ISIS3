@@ -23,7 +23,7 @@ find files of those names at the top level of this repository. **/
 #include "CubeBsqHandler.h"
 #include "CubeTileHandler.h"
 #include "CubeStretch.h"
-#include "Endian.h"
+#include "IEndian.h"
 #include "FileName.h"
 #include "History.h"
 #include "ImageHistogram.h"

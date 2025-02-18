@@ -7,9 +7,10 @@
 # Unignore all dirs
 !*/
 
-# Unignore Makefiles, and TestPreferences
+# Unignore Makefiles, IsisPreferences, and TestPreferences
 !Makefile
 !TestPreferences
+!IsisPreferences
 !*/3rdParty/Makefile
 
 # Unignore version file

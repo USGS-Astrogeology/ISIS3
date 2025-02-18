@@ -1,0 +1,256 @@
+Test Error 1
+print():
+what():
+
+
+Test Error 2
+print():
+**USER ERROR**
+what():
+**USER ERROR**
+
+Test Error 3
+print():
+**USER ERROR**
+**USER ERROR**
+what():
+**USER ERROR**
+**USER ERROR**
+
+Test Error 4
+print():
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+what():
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+
+Test Error 5
+toPvl():
+Group = Error
+  Class   = "USER ERROR"
+  Code    = 2
+  Message = "Testing user error"
+  File    = unitTest.cpp
+  Line    = 69
+End_Group
+
+Group = Error
+  Code    = 1
+  Message = "Testing unknown error"
+  File    = unitTest.cpp
+  Line    = 56
+End_Group
+
+Group = Error
+  Class = "USER ERROR"
+  Code  = 2
+  File  = unitTest.cpp
+  Line  = 44
+End_Group
+
+Group = Error
+  Class = "USER ERROR"
+  Code  = 2
+End_Group
+End
+what():
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+
+Test Error 6
+print():
+**PROGRAMMER ERROR** Testing programmer error.
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+what():
+**PROGRAMMER ERROR** Testing programmer error.
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+
+Test Error 7
+print():
+**I/O ERROR** Testing I/O error in unitTest.cpp at 94.
+**PROGRAMMER ERROR** Testing programmer error in unitTest.cpp at 81.
+**USER ERROR** Testing user error in unitTest.cpp at 69.
+**ERROR** Testing unknown error in unitTest.cpp at 56.
+**USER ERROR** in unitTest.cpp at 44.
+**USER ERROR**
+what():
+**I/O ERROR** Testing I/O error.
+**PROGRAMMER ERROR** Testing programmer error.
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+
+Test Throwing Error: No reaction
+
+Test Throwing Error: Print
+print():
+**I/O ERROR** Testing I/O error.
+**PROGRAMMER ERROR** Testing programmer error.
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+what():
+**I/O ERROR** Testing I/O error.
+**PROGRAMMER ERROR** Testing programmer error.
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+
+Test Throwing Error: Rethrow and print
+**ERROR** Another error.
+**I/O ERROR** Testing I/O error.
+**PROGRAMMER ERROR** Testing programmer error.
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+
+Test Preference 'FileLine'
+Turned ON -- print():
+**I/O ERROR** Testing I/O error in unitTest.cpp at 94.
+**PROGRAMMER ERROR** Testing programmer error in unitTest.cpp at 81.
+**USER ERROR** Testing user error in unitTest.cpp at 69.
+**ERROR** Testing unknown error in unitTest.cpp at 56.
+**USER ERROR** in unitTest.cpp at 44.
+**USER ERROR**
+
+Turned OFF -- print():
+**I/O ERROR** Testing I/O error.
+**PROGRAMMER ERROR** Testing programmer error.
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+
+Turned ON, override to OFF -- print(false):
+**I/O ERROR** Testing I/O error.
+**PROGRAMMER ERROR** Testing programmer error.
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+
+Test Preference 'Format'
+Standard Format -- print():
+**I/O ERROR** Testing I/O error.
+**PROGRAMMER ERROR** Testing programmer error.
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+
+Standard Format -- toString():
+**I/O ERROR** Testing I/O error.
+**PROGRAMMER ERROR** Testing programmer error.
+**USER ERROR** Testing user error.
+**ERROR** Testing unknown error.
+**USER ERROR**
+**USER ERROR**
+
+Pvl Format -- print():
+Group = Error
+  Class   = "I/O ERROR"
+  Code    = 4
+  Message = "Testing I/O error"
+  File    = unitTest.cpp
+  Line    = 94
+End_Group
+
+Group = Error
+  Class   = "PROGRAMMER ERROR"
+  Code    = 3
+  Message = "Testing programmer error"
+  File    = unitTest.cpp
+  Line    = 81
+End_Group
+
+Group = Error
+  Class   = "USER ERROR"
+  Code    = 2
+  Message = "Testing user error"
+  File    = unitTest.cpp
+  Line    = 69
+End_Group
+
+Group = Error
+  Code    = 1
+  Message = "Testing unknown error"
+  File    = unitTest.cpp
+  Line    = 56
+End_Group
+
+Group = Error
+  Class = "USER ERROR"
+  Code  = 2
+  File  = unitTest.cpp
+  Line  = 44
+End_Group
+
+Group = Error
+  Class = "USER ERROR"
+  Code  = 2
+End_Group
+End
+
+Pvl Format -- toString():
+Group = Error
+  Class   = "I/O ERROR"
+  Code    = 4
+  Message = "Testing I/O error"
+  File    = unitTest.cpp
+  Line    = 94
+End_Group
+
+Group = Error
+  Class   = "PROGRAMMER ERROR"
+  Code    = 3
+  Message = "Testing programmer error"
+  File    = unitTest.cpp
+  Line    = 81
+End_Group
+
+Group = Error
+  Class   = "USER ERROR"
+  Code    = 2
+  Message = "Testing user error"
+  File    = unitTest.cpp
+  Line    = 69
+End_Group
+
+Group = Error
+  Code    = 1
+  Message = "Testing unknown error"
+  File    = unitTest.cpp
+  Line    = 56
+End_Group
+
+Group = Error
+  Class = "USER ERROR"
+  Code  = 2
+  File  = unitTest.cpp
+  Line  = 44
+End_Group
+
+Group = Error
+  Class = "USER ERROR"
+  Code  = 2
+End_Group
+End
+
+Pvl Format -- empty toString():
+
+

@@ -3,7 +3,7 @@
 #include "Pvl.h"
 #include "PvlGroup.h"
 #include "TestUtilities.h"
-#include "Endian.h"
+#include "IEndian.h"
 #include "PixelType.h"
 #include "Histogram.h"
 

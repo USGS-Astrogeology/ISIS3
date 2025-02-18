@@ -233,6 +233,6 @@ TEST(Sumspice, FunctionalTestSumspiceNoSumError) {
   }
 
   catch (IException &e){
-    EXPECT_THAT(e.what(), HasSubstr("User must provide either a sum file or a sum file list."));
+    EXPECT_THAT(e.what(), HasSubstr("User must provide either a sum file or a sum file list"));
   }
 }

@@ -14,7 +14,6 @@ find files of those names at the top level of this repository. **/
 #include <QCoreApplication>
 
 #include "Application.h"
-#include "UserInterface.h" // this is an unnecessary include
 
 #ifndef APPLICATION
 #define APPLICATION IsisMain

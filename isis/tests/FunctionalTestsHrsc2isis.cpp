@@ -158,7 +158,7 @@ TEST(Hrsc2isis, Hrsc2IsisTestProjection) {
     FAIL() << "Should throw an exception" << std::endl;
   }
   catch (IException &e){
-    EXPECT_THAT(e.what(), HasSubstr("has keyword [PROCESSING_LEVEL_ID = 4] and can not be read by this program."));
+    EXPECT_THAT(e.what(), HasSubstr("has keyword [PROCESSING_LEVEL_ID = 4] and can not be read by this program"));
   }
 }
 
