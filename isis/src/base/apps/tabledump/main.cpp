@@ -27,8 +27,14 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
   FileName file = ui.GetCubeName("FROM");
   QString tableName = ui.GetString("NAME");
-  Cube fromCube(file);
-  Table table = fromCube.readTable(tableName);
+  Table table(tableName);
+  try {
+    table = Table(tableName, file.expanded());
+  }
+  catch (...) {
+    Cube fromCube(file);
+    table = fromCube.readTable(tableName);
+  }
 
   // Set the character to separate the entries
   QString delimit;
@@ -148,7 +154,14 @@ void helperButtonGetTableList() {
 
   UserInterface &ui = Application::GetUserInterface();
   QString currentFile = ui.GetCubeName("FROM");
-  const Pvl label(FileName(currentFile).expanded());
+  Pvl label;
+  try {
+    label = Pvl(FileName(currentFile).expanded());
+  }
+  catch (...) {
+    Cube cube(FileName(currentFile).expanded());
+    label = *cube.label();
+  }
 
   // Check to see if the "FILE" parameter has changed since last press
   if (currentFile != g_previousFile) {

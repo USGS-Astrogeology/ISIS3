@@ -26,9 +26,17 @@ void IsisMain() {
   }
 
   // Extract history from file
-  Cube cube(fromfile);
-  History hist = cube.readHistory();
-  Pvl pvl = hist.ReturnHist();
+  Pvl pvl;
+  try {
+    Blob historyBlob("IsisCube", "History", fromfile.expanded());
+    History hist(historyBlob);
+    pvl = hist.ReturnHist();
+  }
+  catch (...) {
+    Cube cube(fromfile);
+    History hist = cube.readHistory();
+    pvl = hist.ReturnHist();
+  }
 
   // Print full history
   if(mode == "FULL") {

@@ -37,9 +37,14 @@ void IsisMain() {
   FileName file = ui.GetCubeName("FROM");
   QString blobname = ui.GetString("NAME");
   QString blobtype = ui.GetString("TYPE");
-  Cube cube(file);
   Blob blob(blobname, blobtype);
-  cube.read(blob);
+  try {
+    blob.Read(file.expanded());
+  }
+  catch (...) {
+    Cube cube(file);
+    cube.read(blob);
+  }
   FileName outfname = ui.GetFileName("TO");
   blob.Write(outfname.expanded());
 }
@@ -51,7 +56,14 @@ void helperButtonGetBlobList() {
 
   UserInterface &ui = Application::GetUserInterface();
   QString currentFile = ui.GetCubeName("FROM");
-  const Pvl label(FileName(currentFile).expanded());
+  Pvl label;
+  try {
+    label = Pvl(FileName(currentFile).expanded());
+  }
+  catch (...) {
+    Cube cube(FileName(currentFile).expanded());
+    label = *cube.label();
+  }
 
   // Check to see if the "FILE" parameter has changed since last press
   if(currentFile != previousFile) {

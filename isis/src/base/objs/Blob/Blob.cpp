@@ -384,7 +384,8 @@ namespace Isis {
   void Blob::ReadData(std::istream &stream) {
     // Read the binary data
     if (p_buffer != NULL) delete [] p_buffer;
-    p_buffer = new char[p_nbytes];
+    p_buffer = new char[p_nbytes + 1];
+    p_buffer[p_nbytes] = '\0';
 
     streampos sbyte = p_startByte - 1;
     stream.seekg(sbyte, std::ios::beg);
@@ -413,8 +414,16 @@ namespace Isis {
    * @param nbytes The amount of data in the buffer
    */
   void Blob::setData(const char *buffer, int nbytes) {
-    char *buf = new char[nbytes];
-    memcpy(buf, buffer, nbytes);
+    char *buf;
+    if (buffer[nbytes - 1] != '\0') {
+      buf = new char[nbytes + 1];
+      memcpy(buf, buffer, nbytes);
+      buf[nbytes] = '\0';
+    }
+    else {
+      buf = new char[nbytes];
+      memcpy(buf, buffer, nbytes);
+    }
     takeData(buf, nbytes);
   }
 
@@ -674,7 +683,8 @@ namespace Isis {
   void Blob::ReadData(string &hexdata) {
     // Read the binary data
     if (p_buffer != NULL) delete [] p_buffer;
-    p_buffer = new char[p_nbytes];
+    p_buffer = new char[p_nbytes + 1];
+    p_buffer[p_nbytes] = '\0';
 
     // Loop through the hex string and bytes, hex is two characters at a time 
     for (size_t i=0,j=0; i < p_nbytes; i++,j+=2) { 
