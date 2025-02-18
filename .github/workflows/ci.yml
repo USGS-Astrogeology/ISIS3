@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - dev
+  push:
+    branches:
+      - dev
+
+jobs:
+  Build-and-Test-LinuxOsx:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+       os: [ubuntu-latest]
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: update git 
+        run: | 
+          add-apt-repository ppa:git-core/ppa -y
+          apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2
+          apt-get update
+          apt-get install git libgl1-mesa-glx -y
+          git --version
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          submodules: true
+          ref: dev
+      - uses: conda-incubator/setup-miniconda@3b0f2504dd76ef23b6d31f291f4913fb60ab5ff3
+        with:
+          miniconda-version: "latest"
+          activate-environment: isis
+          environment-file: environment.yml
+          auto-activate-base: false
+          auto-update-conda: true
+      - name: Check build environment
+        run: |
+          conda list
+          conda env export
+      - name: Build ISIS
+        run: |
+          # apt autoremove python3 -y
+          mkdir -p build
+          cp ${GITHUB_WORKSPACE}/isis/IsisPreferences ${GITHUB_WORKSPACE}/build/
+          export ISISDATA=${GITHUB_WORKSPACE}/isis_data
+          export ISISTESTDATA=${GITHUB_WORKSPACE}/isis_testData
+          export ISISROOT=${GITHUB_WORKSPACE}/build/
+          export PATH=$PATH:${GITHUB_WORKSPACE}/build/bin/
+
+          cd build 
+          cmake -DisisData=${GITHUB_WORKSPACE}/isis_data -DisisTestData=${GITHUB_WORKSPACE}/isis_testData -DJP2KFLAG=OFF -DCMAKE_BUILD_TYPE=RELEASE -Wdeprecated -GNinja ../isis
+          ninja -j1
+      - name: Run ISIS tests
+        run: |
+          # rclone mount asc_s3://asc-isisdata/usgs_data isis_data --config=${GITHUB_WORKSPACE}/isis/config/rclone.conf --daemon
+          # rclone mount asc_s3://asc-isisdata/isis_testData isis_testData --config=${GITHUB_WORKSPACE}/isis/config/rclone.conf --daemon
+          
+          mkdir isis_data
+          mkdir isis_testData
+          cp ${GITHUB_WORKSPACE}/isis/config/rclone.conf  . 
+          ./build/scripts/downloadIsisData --exclude "dems/"  base isis_data/ 
+          ls isis_data/ 
+          
+          cd build
+          export ISISDATA=${GITHUB_WORKSPACE}/isis_data
+          export ISISTESTDATA=${GITHUB_WORKSPACE}/isis_testData
+          export ISISROOT=${GITHUB_WORKSPACE}/build/
+          export PATH=$PATH:${GITHUB_WORKSPACE}/build/bin/
+          ctest -R '.' -E '(_app_|_unit_|_module_)' -j 8 --output-on-failure --timeout 10000
+
