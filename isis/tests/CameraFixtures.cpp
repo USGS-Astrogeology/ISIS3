@@ -763,6 +763,11 @@ namespace Isis {
     PvlGroup &kernels = testCube->label()->findObject("IsisCube").findGroup("Kernels");
     kernels.findKeyword("NaifFrameCode").setValue(ikid);
     kernels["ShapeModel"] = "Null";
+    
+    // NOTE: this is a workaround of a bug in the camera model
+    // versioning program in that the DefaultCube class
+    // doesn't properly handle camera versions
+    kernels.findKeyword("CameraVersion").setValue("2");
 
     PvlGroup &inst = testCube->label()->findObject("IsisCube").findGroup("Instrument");
     std::istringstream iss(R"(
@@ -788,10 +793,8 @@ namespace Isis {
     PvlGroup &bandBin = label.findObject("IsisCube").findGroup("BandBin");
     std::istringstream bss(R"(
       Group = BandBin
-        FilterName = Monochrome
-        Name       = NAVCam
-        Number     = 1
-        Center     = 550
+        FilterName = PAN
+        Center     = 650
       End_Group
     )");
 
@@ -819,6 +822,7 @@ namespace Isis {
     delete testCube;
     testCube = new Cube(fileName, "rw");
   }
+
 
   void OsirisRexTagcamsNAVCamCube::setInstrument(QString ikid, QString instrumentId) {
     delete testCube;

@@ -38,8 +38,12 @@ namespace Isis {
    *                           the Instrument group for focus position specific values (such ase
    *                           focal length) and we read NaifFrameId from the Kernels group the
    *                           instrument frame code. Fixes #5127
-   *   @history 2018-03-27 Jesse Mapel - Changed to only replace the IK code with the PolyCam focus
-   *                                     setting ID if the image is a PolyCam image. Fixes #5213.
+   *   @history 2018-07-26 UA/OSIRIS-REx IPWG Team - Use
+   *                           IrregularBodyCameraGroundMap to work with jigsaw
+   *                           control
+   *   @history 2019-03-13 Kris Becker (UA) - Added OpenCV distortion model as a
+   *                           runtime option along with the original OCAMS
+   *                           distortion model.
    *
    */
   class OsirisRexOcamsCamera : public FramingCamera {
@@ -53,6 +57,11 @@ namespace Isis {
       virtual int CkFrameId() const;
       virtual int CkReferenceId() const;
       virtual int SpkReferenceId() const;
+
+    protected:
+      int getFunctionalIkCode(const int naifIkCode, const int polyfocusCode,
+                             const QString &filter) const;
+
 
   };
 };

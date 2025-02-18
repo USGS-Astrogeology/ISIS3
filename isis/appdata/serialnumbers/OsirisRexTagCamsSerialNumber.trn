@@ -1,4 +1,5 @@
 # history 2019-01-19 Kris Becker - Original version added to UofA codebase.
+# history 2025-01-29 Ken Edmundson - Added Keyword4 group with optional keyword ControlSN
 
 Group = Keyword1
   Auto           = 1
@@ -25,6 +26,25 @@ Group = Keyword3
   InputGroup     = "IsisCube,Instrument"
   InputPosition  = (IsisCube, Instrument)
   OutputName     = Keyword3
+  OutputPosition = ("Group","SerialNumberKeywords")
+  Translation    = (*,*)
+EndGroup
+
+/* This keyword is an optional keyword that is to be used to */
+/* create unique serial numbers for images derived from the  */
+/* original. This is intended for use such as applying the  */
+/* local incidence backplane as a control source. By manually */
+/* adding this keyword to the Instrument group with any   */
+/* value, it creates a new (unique) serial number for control */
+/* processing. It has no effect if the keyword does not   */
+/* exist. */
+Group = Keyword4
+  Auto           = 1
+  Optional       = 1
+  InputKey       = ControlSN
+  InputGroup     = "IsisCube,Instrument"
+  InputPosition  = (IsisCube, Instrument)
+  OutputName     = Keyword4
   OutputPosition = ("Group","SerialNumberKeywords")
   Translation    = (*,*)
 EndGroup

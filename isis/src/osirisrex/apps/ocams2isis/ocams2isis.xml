@@ -42,6 +42,9 @@
       Reverted code to only deal with a single kernels translation file for all instruments. Added
       PolyCamFocusPositionNaifId keyoword to kernels translation file. References #5127
     </change>
+    <change name="Ken Edmundson" date="2025-01-28">
+      Converted ocams2isis to callable app.
+    </change>
   </history>
 
   <seeAlso>
