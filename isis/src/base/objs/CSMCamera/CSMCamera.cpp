@@ -771,18 +771,23 @@ void sanitize(std::string &input);
 
   /**
    * Set the Target object for the camera model.
+   * 
+   * If no radii can be found in the label from the naif keywords
+   * use the radii from the csm model
    *
    * @param label The label containing information to create the Target from
    */
   void CSMCamera::setTarget(Pvl label) {
     Target *target = new Target(label);
 
-    // get radii from CSM
-    csm::Ellipsoid targetEllipsoid = csm::SettableEllipsoid::getEllipsoid(m_model);
-    std::vector<Distance> radii  = {Distance(targetEllipsoid.getSemiMajorRadius(), Distance::Meters),
-                                    Distance(targetEllipsoid.getSemiMajorRadius(), Distance::Meters),
-                                    Distance(targetEllipsoid.getSemiMinorRadius(), Distance::Meters)};
-    target->setRadii(radii);
+    if (target->radii().size() == 0) {
+      // get radii from CSM
+      csm::Ellipsoid targetEllipsoid = csm::SettableEllipsoid::getEllipsoid(m_model);
+      std::vector<Distance> radii = {Distance(targetEllipsoid.getSemiMajorRadius(), Distance::Meters),
+                                     Distance(targetEllipsoid.getSemiMajorRadius(), Distance::Meters),
+                                     Distance(targetEllipsoid.getSemiMinorRadius(), Distance::Meters)};
+      target->setRadii(radii);
+    }
 
     // Target needs to be able to access the camera to do things like
     // compute resolution
