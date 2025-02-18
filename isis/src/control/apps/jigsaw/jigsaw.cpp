@@ -12,6 +12,7 @@ find files of those names at the top level of this repository. **/
 #include <highfive/H5DataSet.hpp>
 #include <highfive/H5Group.hpp>
 #include <vector>
+#include <cstdio>
 
 #include <QDir>
 #include <QList>
@@ -37,6 +38,12 @@ find files of those names at the top level of this repository. **/
 #include "SerialNumber.h"
 #include "SerialNumberList.h"
 #include "Table.h"
+#include "CameraFactory.h"
+
+#include <ale/Load.h>
+#include <nlohmann/json.hpp>
+#include <boost/filesystem.hpp>
+using json = nlohmann::json;
 
 #include "jigsaw.h"
 
@@ -70,6 +77,7 @@ namespace Isis {
         ui.PutBoolean("RESIDUALS_CSV", false);
         ui.PutBoolean("LIDAR_CSV", false);
         ui.PutBoolean("OUTADJUSTMENTH5", false);
+        ui.PutBoolean("OUTPUT_ADJUSTED_CSMSTATE", false);
         
         File fileRead(ui.GetFileName("ADJUSTMENT_INPUT").toStdString(), File::ReadOnly);
         SerialNumberList *snList = new SerialNumberList(cubeList);
@@ -337,6 +345,53 @@ namespace Isis {
       bundleAdjustment->controlNet()->Write(ui.GetFileName("ONET"));
       QString msg = "Unable to bundle adjust network [" + cnetFile + "]";
       throw IException(e, IException::User, msg, _FILEINFO_);
+    }
+
+    if (ui.GetBoolean("OUTPUT_ADJUSTED_CSMSTATE")) {
+      
+      // Go thru each file in cubelist
+      SerialNumberList *snList = new SerialNumberList(cubeList);
+      for (int i = 0; i < snList->size(); i++) {        
+        QString filename = snList->fileName(i);
+        
+        // Generate ISD from cube
+        json props;
+        json isd = ale::load(filename.toStdString(), props.dump(), "ale", false, true, false);
+
+        // Load plugin list
+        CameraFactory::initPlugin();
+
+        // Write ISD to temp file
+        boost::filesystem::path tempIsdFilePath = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
+        tempIsdFilePath = tempIsdFilePath.replace_extension(".json");
+        std::ofstream tempIsdFile(tempIsdFilePath.c_str());
+        if (tempIsdFile.is_open()) {
+          tempIsdFile << isd.dump() << std::endl;
+          tempIsdFile.close();
+        } else {
+          std::cerr << "Error creating temporary file [" << tempIsdFilePath << "]." << std::endl;
+          boost::filesystem::remove(tempIsdFilePath);
+        }
+        
+        // Generate CSMState string
+        QString tempIsdFilePathStr = QString::fromStdString(tempIsdFilePath.string());
+        csm::Model *csmModel = CameraFactory::constructModelFromIsd(tempIsdFilePathStr);
+        std::string csmStateString = csmModel->getModelState();
+
+        // Remove temp file
+        boost::filesystem::remove(tempIsdFilePath);
+
+        // Write CSMState string to file
+        boost::filesystem::path filenamePath(filename.toStdString());
+        boost::filesystem::path csmStateFilename = filenamePath.replace_extension(".state.json");
+        ofstream csmStateFile(csmStateFilename.c_str());
+        if (csmStateFile.is_open()) {
+          csmStateFile << csmStateString << std::endl;
+          csmStateFile.close();
+        } else {
+          std::cerr << "Error creating CSMState file [" << csmStateFilename << "]." << std::endl;
+        }
+      }
     }
 
   //TODO - WHY DOES THIS MAKE VALGRIND ANGRY???

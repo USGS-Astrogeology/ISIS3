@@ -1868,6 +1868,19 @@
           </default>
         </parameter>
 
+        <parameter name="OUTPUT_ADJUSTED_CSMSTATE">
+          <brief> Outputs CSMState string to file after adjustment</brief>
+          <description>
+            Selection of this parameter flags output of CSMState string
+            to a JSON file. A CSMState string is generated for each cube 
+            in the cube list and outputted to where the cubes are located.
+          </description>
+          <type>boolean</type>
+          <default>
+            <item>no</item>
+          </default>
+        </parameter>
+
         <parameter name="OUTADJUSTMENTH5">
           <brief> Outputs bundle adjustment values to HDF5 file - adjustment_out.h5</brief>
           <description>

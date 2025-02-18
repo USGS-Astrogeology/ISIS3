@@ -70,95 +70,18 @@ namespace Isis {
     else if (ui.WasEntered("ISD")) {
       QString isdFilePath = ui.GetFileName("ISD");
 
-      QList<QStringList> possibleModels;
-      for (const csm::Plugin * plugin : csm::Plugin::getList()) {
-        QString currentPluginName = QString::fromStdString(plugin->getPluginName());
-        if (ui.WasEntered("PLUGINNAME") && currentPluginName != ui.GetString("PLUGINNAME")) {
-          continue;
-        }
-
-        for (size_t modelIndex = 0; modelIndex < plugin->getNumModels(); modelIndex++) {
-          QString currentModelName = QString::fromStdString(plugin->getModelName(modelIndex));
-          if (ui.WasEntered("MODELNAME") && currentModelName != ui.GetString("MODELNAME")) {
-            continue;
-          }
-
-          csm::Isd fileIsd(isdFilePath.toStdString());
-          if (plugin->canModelBeConstructedFromISD(fileIsd, currentModelName.toStdString())) {
-            QStringList modelSpec = {
-                currentPluginName,
-                currentModelName,
-                QString::fromStdString(fileIsd.format())};
-            possibleModels.append(modelSpec);
-            continue; // If the file ISD works, don't check the other ISD formats
-          }
-
-          csm::Nitf21Isd nitf21Isd(isdFilePath.toStdString());
-          if (plugin->canModelBeConstructedFromISD(nitf21Isd, currentModelName.toStdString())) {
-            QStringList modelSpec = {
-                currentPluginName,
-                currentModelName,
-                QString::fromStdString(nitf21Isd.format())};
-            possibleModels.append(modelSpec);
-            continue; // If the NITF 2.1 ISD works, don't check the other ISD formats
-          }
-        }
+      if (ui.WasEntered("PLUGINNAME")) {
+        pluginName = ui.GetString("PLUGINNAME");
       }
 
-      if (possibleModels.size() > 1) {
-        QString message = "Multiple models can be created from the ISD [" + isdFilePath + "]. "
-                          "Re-run with the PLUGINNAME and MODELNAME parameters. "
-                          "Possible plugin & model names:\n";
-        for (const QStringList &modelSpec : possibleModels) {
-          message += "Plugin [" + modelSpec[0] + "], Model [" + modelSpec[1] + "]\n";
-        }
-        throw IException(IException::User, message, _FILEINFO_);
+      if (ui.WasEntered("MODELNAME")) {
+        modelName = ui.GetString("MODELNAME");
       }
 
-      if (possibleModels.empty()) {
-        QString message = "No loaded model could be created from the ISD [" + isdFilePath + "]."
-                          "Loaded plugin & model names:\n";
-        for (const csm::Plugin * plugin : csm::Plugin::getList()) {
-          QString currentPluginName = QString::fromStdString(plugin->getPluginName());
-          for (size_t modelIndex = 0; modelIndex < plugin->getNumModels(); modelIndex++) {
-            QString modelName = QString::fromStdString(plugin->getModelName(modelIndex));
-            message += "Plugin [" + currentPluginName + "], Model [" + modelName + "]\n";
-          }
-        }
-        throw IException(IException::User, message, _FILEINFO_);
-      }
-
-      // If we are here, then we have exactly 1 model
-      QStringList modelSpec = possibleModels.front();
-
-      if (modelSpec.size() != 3) {
-        QString message = "Model specification [" + modelSpec.join(" ") + "] has [" + modelSpec.size() + "] elements "
-          "when it should have 3 elements.";
-        throw IException(IException::Programmer, message, _FILEINFO_);
-      }
-
+      QStringList modelSpec = CameraFactory::getModelSpecFromIsd(isdFilePath, pluginName, modelName);
+      model = CameraFactory::constructModelFromIsd(isdFilePath, modelSpec[0], modelSpec[1], modelSpec[2]);
       pluginName = modelSpec[0];
       modelName = modelSpec[1];
-      QString isdFormat = modelSpec[2];
-
-      const csm::Plugin *plugin = csm::Plugin::findPlugin(pluginName.toStdString());
-      if (plugin == NULL) {
-        QString message = "Cannot find requested Plugin: [" + pluginName + "].";
-        throw IException(IException::User, message, _FILEINFO_);
-      }
-
-      csm::Isd fileIsd(isdFilePath.toStdString());
-      csm::Nitf21Isd nitf21Isd(isdFilePath.toStdString());
-      if (isdFormat == QString::fromStdString(fileIsd.format())) {
-        model = plugin->constructModelFromISD(fileIsd, modelName.toStdString());
-      }
-      else if (isdFormat == QString::fromStdString(nitf21Isd.format())) {
-        model = plugin->constructModelFromISD(nitf21Isd, modelName.toStdString());
-      }
-      else {
-        QString message = "Invalid ISD format specifications [" + isdFormat + "].";
-        throw IException(IException::Programmer, message, _FILEINFO_);
-      }
     } // end of ISD if statement
 
     else if (ui.WasEntered("STATE")) {
