@@ -654,16 +654,14 @@ namespace Isis {
   /**
    * Writes blob data to a stream
    *
-   * @param stream Output steam blob data will be written to
+   * @param stream Output stream blob data will be written to
    *
    * @throws IException::Io - Error writing data to stream
    */
   void Blob::WriteData(std::stringstream &stream) {
-    stream << std::hex;
-    int copy;
+    stream << std::hex << std::setfill('0');
     for (int i = 0; i < p_nbytes; ++i) {
-      memcpy(&copy, &p_buffer[i], 1);
-      stream << std::setw(2) << std::setfill('0') << copy;
+      stream << std::setw(2) << static_cast<unsigned>(p_buffer[i]);
     }
 
     if (!stream.good()) {
@@ -687,7 +685,7 @@ namespace Isis {
     p_buffer[p_nbytes] = '\0';
 
     // Loop through the hex string and bytes, hex is two characters at a time 
-    for (size_t i=0,j=0; i < p_nbytes; i++,j+=2) { 
+    for (size_t i=0,j=0; i < p_nbytes; i++,j+=2) {
         string byteString = hexdata.substr(j, 2);
   
         int byteValue = static_cast<int>( 
