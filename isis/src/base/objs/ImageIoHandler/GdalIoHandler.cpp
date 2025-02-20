@@ -339,7 +339,7 @@ namespace Isis {
       unsigned int raw = ((unsigned int *)rawBuff)[idx];
       // if(m_byteSwapper)
       //   raw = m_byteSwapper->Uint32_t(&raw);
-      if (raw == (int) m_gdalNoDataValue) {
+      if (raw == (unsigned int) m_gdalNoDataValue) {
         raw = NULLUI4;
       }
 
