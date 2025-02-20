@@ -13,6 +13,9 @@ using json = nlohmann::json;
 #include "Histogram.h"
 #include "LineManager.h"
 #include "Statistics.h"
+#include "Table.h"
+#include "TableField.h"
+#include "TableRecord.h"
 
 #include "CubeFixtures.h"
 #include "TestUtilities.h"
@@ -173,4 +176,50 @@ TEST_P(GdalDnTypeGenerator, TestGTiffCreateWrite) {
 
 // Add Test for GTiff with no ISIS metadata
 
-// Add Test for extracting blobs
+TEST_F(TempTestingFiles, TableTestsWriteReadGdal) {
+  TableField f1("Column1", TableField::Integer);
+  TableField f2("Column2", TableField::Double);
+  TableField f3("Column3", TableField::Text, 10);
+  TableField f4("Column4", TableField::Double);
+  TableRecord rec;
+  rec += f1;
+  rec += f2;
+  rec += f3;
+  rec += f4;
+  Table t("UNITTEST", rec);
+
+  t.SetAssociation(Table::Lines);
+
+  rec[0] = 5;
+  rec[1] = 3.14;
+  rec[2] = "PI";
+  rec[3] = 3.14159;
+  t += rec;
+
+  rec[0] = -1;
+  rec[1] = 0.5;
+  rec[2] = "HI";
+  rec[3] = -0.55;
+  t += rec;
+
+  QString cubeFile = tempDir.path() + "/testTable.tiff";
+  Cube cube;
+  cube.setDimensions(10, 10, 1);
+  cube.setFormat(Isis::Cube::GTiff);
+  cube.create(cubeFile);
+  cube.write(t);
+  Blob tableBlob("UNITTEST", "Table");
+  cube.read(tableBlob);
+  Table t2(tableBlob);
+
+  EXPECT_EQ(t.RecordFields(), t2.RecordFields());
+  EXPECT_EQ(t.RecordSize(), t2.RecordSize());
+  EXPECT_EQ(t.IsSampleAssociated(), t2.IsSampleAssociated());
+  EXPECT_EQ(t.IsLineAssociated(), t2.IsLineAssociated());
+  EXPECT_EQ(t.IsBandAssociated(), t2.IsBandAssociated());
+
+  ASSERT_EQ(t.Records(), t2.Records());
+  for (int i = 0; i < t.Records(); i++) {
+    EXPECT_EQ(TableRecord::toString(t[i]).toStdString(), TableRecord::toString(t2[i]).toStdString());
+  }
+}

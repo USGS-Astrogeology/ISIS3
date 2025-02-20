@@ -660,8 +660,10 @@ namespace Isis {
    */
   void Blob::WriteData(std::stringstream &stream) {
     stream << std::hex << std::setfill('0');
+    int copy = 0;
     for (int i = 0; i < p_nbytes; ++i) {
-      stream << std::setw(2) << static_cast<unsigned>(p_buffer[i]);
+      memcpy(&copy, &(p_buffer[i]), 1);
+      stream << std::setw(2) << copy;
     }
 
     if (!stream.good()) {
@@ -688,7 +690,7 @@ namespace Isis {
     for (size_t i=0,j=0; i < p_nbytes; i++,j+=2) {
         string byteString = hexdata.substr(j, 2);
   
-        int byteValue = static_cast<int>( 
+        char byteValue = static_cast<char>( 
             stoi(byteString, nullptr, 16));
   
         // Add the byte to the byte array 
