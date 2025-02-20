@@ -270,7 +270,7 @@ TEST(CubeTest, TestCubeAttachSpiceFromIsd) {
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentNameLong(), "Visual Imaging Subsystem Camera B");
 }
 
-TEST(CubeTest, TestCubeAttachLineScanTableFromIsd) {
+TEST_F(TempTestingFiles, TestCubeAttachLineScanTableFromIsd) {
   std::istringstream labelStrm(R"(
    Object = IsisCube
     Object = Core
@@ -786,9 +786,8 @@ TEST(CubeTest, TestCubeAttachLineScanTableFromIsd) {
   Pvl label;
   labelStrm >> label;
 
-  QTemporaryFile tempFile;
   Cube testCube;
-  testCube.fromIsd(tempFile.fileName() + ".cub", label, isd, "rw");
+  testCube.fromIsd(tempDir.path() + "/test.cub", label, isd, "rw");
 
   PvlGroup kernels = testCube.group("Kernels");
 
