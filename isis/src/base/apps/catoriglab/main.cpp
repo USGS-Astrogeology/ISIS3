@@ -22,9 +22,10 @@ void IsisMain() {
   UserInterface &ui = Application::GetUserInterface();
   QString file = ui.GetCubeName("FROM");
 
-  Pvl fromLabel(file);
+  Cube fromCube(file);
+  Pvl fromLabel = *(fromCube.label());
   if ( fromLabel.hasObject("OriginalLabel") ) {
-    OriginalLabel origLab(file);
+    OriginalLabel origLab = fromCube.readOriginalLabel();
     Pvl pvl = origLab.ReturnLabels();
     if (ui.IsInteractive()) {
       Application::GuiLog(pvl);

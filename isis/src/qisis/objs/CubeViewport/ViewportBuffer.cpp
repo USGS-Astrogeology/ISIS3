@@ -61,8 +61,8 @@ namespace Isis {
     p_requestedFillArea = 0.0;
     p_bricksOrdered = true;
 
-    connect(this, SIGNAL(ReadCube(int, int, int, int, int, int, void *)),
-            p_dataThread, SLOT(ReadCube(int, int, int, int, int, int, void *)));
+    connect(this, SIGNAL(ReadCube(int, int, int, int, int, int, void *, double)),
+            p_dataThread, SLOT(ReadCube(int, int, int, int, int, int, void *, double)));
 
     connect(p_dataThread, SIGNAL(ReadReady(void *, int, const Isis::Brick *)),
             this, SLOT(DataReady(void *, int, const Isis::Brick *)));
@@ -76,8 +76,8 @@ namespace Isis {
    *
    */
   ViewportBuffer::~ViewportBuffer() {
-    disconnect(this, SIGNAL(ReadCube(int, int, int, int, int, int, void *)),
-               p_dataThread, SLOT(ReadCube(int, int, int, int, int, int, void *)));
+    disconnect(this, SIGNAL(ReadCube(int, int, int, int, int, int, void *, double)),
+               p_dataThread, SLOT(ReadCube(int, int, int, int, int, int, void *, double)));
 
     disconnect(p_dataThread, SIGNAL(ReadReady(void *, int, const Isis::Brick *)),
                this, SLOT(DataReady(void *, int, const Isis::Brick *)));
@@ -238,24 +238,22 @@ namespace Isis {
       p_bricksOrdered = true;
     }
 
-    double samp;
-
     // Loop through x values of rect on screen that we want to fill
+    int brickIndex = 0;
     for(int x = rect->left(); x <= rect->right(); x++) {
       // Index into internal buffer is minus leftmost/topmost pixel
       int xIndex = x - fill->getLeftmostPixelPosition();
       int yIndex = y - fill->getTopmostPixelPosition();
 
-      samp = fill->viewportToSample(x);
+      int scaledBufferIndex = brickIndex;
+      if (fill->scale() > 1.0) {
+        scaledBufferIndex /= fill->scale();
+      }
 
-      // Index into buffer is current sample - start sample
-      //   *Brick indices are in units of cube pixels, not screen pixels
-      int brickIndex = (int)(samp + 0.5) - brick->Sample();
-
-      if(brickIndex < 0) {
+      if(scaledBufferIndex < 0) {
         p_buffer.at(yIndex).at(xIndex) = brick->at(0);
       }
-      else if(brickIndex  >= brick->size()) {
+      else if(scaledBufferIndex >= brick->size()) {
         p_buffer.at(yIndex).at(xIndex) = brick->at(brick->size() - 1);
       }
       else {
@@ -277,7 +275,8 @@ namespace Isis {
           throw IException(IException::Programmer, msg, _FILEINFO_);
         }
         else {
-          p_buffer.at(yIndex).at(xIndex) = brick->at(brickIndex);
+          p_buffer.at(yIndex).at(xIndex) = brick->at(scaledBufferIndex);
+          brickIndex++;
         }
       }
     }
@@ -547,17 +546,18 @@ namespace Isis {
 
     double esamp = fill->viewportToSample(rect.right());
 
-    int brickWidth = (int)(ceil(esamp) - floor(ssamp)) + 1;
+    int brickWidth = (int)(ceil(esamp) - floor(ssamp));
 
     if(brickWidth <= 0)
       return;
 
     double line = fill->viewportToLine(fill->getRequestPosition());
+    line -= (1 / fill->scale()) / 2.0;
     int roundedSamp = (int)(ssamp + 0.5);
     int roundedLine = (int)(line + 0.5);
 
-    emit ReadCube(p_cubeId, roundedSamp, roundedLine, roundedSamp + brickWidth,
-                  roundedLine, p_band, this);
+    emit ReadCube(p_cubeId, roundedSamp, roundedLine, roundedSamp + brickWidth - 1,
+                  roundedLine, p_band, this, fill->scale());
 
     fill->incRequestPosition();
   }

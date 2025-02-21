@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
            */
           QChar escape(27);
           for (int i = 1; i < argc; i++) {
-            temp += QFileInfo(FileName(argv[i]).expanded()).absoluteFilePath();
+            temp += FileName(argv[i]).expanded();
             temp += QString(escape);
           }
           temp += "raise";

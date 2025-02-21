@@ -394,7 +394,7 @@ namespace Isis {
 
 
           Portal portal(3, 3, m_inputDem->pixelType(), -0.5, -0.5);
-          portal.SetPosition(sample, line, input.Band());
+          portal.SetPosition(sample + 1, line + 1, input.Band());
 
           if (!portal.CopyOverlapFrom(input)) {
             m_inputDem->read(portal);

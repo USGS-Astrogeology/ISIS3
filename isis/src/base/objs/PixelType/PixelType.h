@@ -8,6 +8,8 @@ find files of those names at the top level of this repository. **/
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <QString>
 
+#include "gdal_priv.h"
+
 namespace Isis {
   /**
    * @brief Enumerations for Isis Pixel Types
@@ -97,6 +99,31 @@ namespace Isis {
     if(temp == "REAL") return Isis::Real;
     if(temp == "DOUBLE") return Isis::Double;
     return Isis::None;
+  }
+
+  inline Isis::PixelType GdalPixelToIsis(GDALDataType type) {
+    if (type == GDT_Byte) return Isis::UnsignedByte;
+    if (type == GDT_Int8) return Isis::SignedByte;
+    if (type == GDT_UInt16) return Isis::UnsignedWord;
+    if (type == GDT_Int16) return Isis::SignedWord;
+    if (type == GDT_UInt32) return Isis::UnsignedInteger;
+    if (type == GDT_Int32) return Isis::SignedInteger;
+    if (type == GDT_Float32) return Isis::Real;
+    if (type == GDT_Float64) return Isis::Double;
+    return Isis::None;
+  }
+
+  inline GDALDataType IsisPixelToGdal(Isis::PixelType type) {
+    if(type == Isis::None) return GDT_Unknown;
+    if(type == Isis::UnsignedByte) return GDT_Byte;
+    if(type == Isis::SignedByte) return GDT_Int8;
+    if(type == Isis::UnsignedWord) return GDT_UInt16;
+    if(type == Isis::SignedWord) return GDT_Int16;
+    if(type == Isis::UnsignedInteger) return GDT_UInt32;
+    if(type == Isis::SignedInteger) return GDT_Int32;
+    if(type == Isis::Real) return GDT_Float32;
+    if(type == Isis::Double) return GDT_Float64;
+    return GDT_Unknown;
   }
 }
 

@@ -46,7 +46,7 @@ TEST_F(SmallCube, FunctionalTestCubeattNoChange) {
   // Check attributes: pixel type, storage format, label format, storage order, pixel range, bands
   EXPECT_EQ(outputCube.pixelType(), PixelType::Real);
   EXPECT_EQ(outputCube.format(), Cube::Format::Tile);
-  EXPECT_TRUE(outputCube.labelsAttached());
+  EXPECT_EQ(outputCube.labelsAttached(), Cube::AttachedLabel);
   EXPECT_EQ(outputCube.byteOrder(), ByteOrder::Lsb);
   // Setting the pixel range modifies the base/multiplier, so check those.
   EXPECT_EQ(outputCube.base(), 0);

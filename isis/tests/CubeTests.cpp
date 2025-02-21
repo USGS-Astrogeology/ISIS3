@@ -30,7 +30,7 @@ void check_cube(Cube &cube,
                 double base, 
                 double multiplier, 
                 int pixelType, 
-                bool attached, 
+                int attachType, 
                 int format,
                 int isOpen,
                 int isReadOnly,
@@ -43,7 +43,7 @@ void check_cube(Cube &cube,
   EXPECT_EQ(cube.base(), base);
   EXPECT_EQ(cube.multiplier(), multiplier);
   EXPECT_EQ(cube.pixelType(), pixelType);
-  EXPECT_EQ(cube.labelsAttached(), attached);
+  EXPECT_EQ(cube.labelsAttached(), attachType);
   EXPECT_EQ(cube.format(), format);
   EXPECT_EQ(cube.isOpen(), isOpen);
   if (cube.isOpen()) {
@@ -270,7 +270,7 @@ TEST(CubeTest, TestCubeAttachSpiceFromIsd) {
   EXPECT_PRED_FORMAT2(AssertQStringsEqual, cam->instrumentNameLong(), "Visual Imaging Subsystem Camera B");
 }
 
-TEST(CubeTest, TestCubeAttachLineScanTableFromIsd) {
+TEST_F(TempTestingFiles, TestCubeAttachLineScanTableFromIsd) {
   std::istringstream labelStrm(R"(
    Object = IsisCube
     Object = Core
@@ -786,9 +786,8 @@ TEST(CubeTest, TestCubeAttachLineScanTableFromIsd) {
   Pvl label;
   labelStrm >> label;
 
-  QTemporaryFile tempFile;
   Cube testCube;
-  testCube.fromIsd(tempFile.fileName() + ".cub", label, isd, "rw");
+  testCube.fromIsd(tempDir.path() + "/test.cub", label, isd, "rw");
 
   PvlGroup kernels = testCube.group("Kernels");
 
@@ -820,11 +819,11 @@ TEST_F(SmallCube, TestCubeHasBlob) {
 TEST_F(TempTestingFiles, TestCubeCreateWriteCopy) {
   Cube out;
   QString file = "";
-  check_cube(out, file, 0, 0, 0, 0, 1, 7, 1, 1, 0, 0, 0, 65536);
+  check_cube(out, file, 0, 0, 0, 0, 1, 7, 0, 1, 0, 0, 0, 65536);
   out.setDimensions(150, 200, 2);
   file = QString(tempDir.path() + "/IsisCube_00.cub");
   out.create(file);
-  check_cube(out, file, 150, 200, 2, 0, 1, 7, 1, 1, 1, 0, 1, 65536);
+  check_cube(out, file, 150, 200, 2, 0, 1, 7, 0, 1, 1, 0, 1, 65536);
 
   LineManager line(out);
   long j = 0;
@@ -844,7 +843,7 @@ TEST_F(TempTestingFiles, TestCubeCreateWriteCopy) {
 
   // Test the open and read methods
   Cube in(file2);
-  check_cube(in, file2, 150, 200, 2, 0, 1, 7, 1, 1, 1, 1, 0, 6563);
+  check_cube(in, file2, 150, 200, 2, 0, 1, 7, 0, 1, 1, 1, 0, 6563);
 
   LineManager inLine(in);
   j = 0;
@@ -862,15 +861,15 @@ TEST_F(TempTestingFiles, TestCubeCreateWriteCopy) {
 TEST_F(TempTestingFiles, TestCubeCreateWrite8bit) {
   Cube out;
   QString file = "";
-  check_cube(out, file, 0, 0, 0, 0, 1, 7, 1, 1, 0, 0, 0, 65536);
+  check_cube(out, file, 0, 0, 0, 0, 1, 7, 0, 1, 0, 0, 0, 65536);
   out.setDimensions(150, 200, 1);
-  out.setLabelsAttached(0);
+  out.setLabelsAttached(Cube::DetachedLabel);
   out.setBaseMultiplier(200.0, -1.0);
   out.setByteOrder(ISIS_LITTLE_ENDIAN ? Msb : Lsb);
   out.setFormat(Cube::Bsq);
   out.setLabelSize(1000);
   out.setPixelType(UnsignedByte);
-  check_cube(out, file, 150, 200, 1, 200, -1, 1, 0, 0, 0, 0, 0, 1000);
+  check_cube(out, file, 150, 200, 1, 200, -1, 1, 1, 0, 0, 0, 0, 1000);
   file = QString(tempDir.path() + "/IsisCube_00.cub");
   out.create(file);
 
@@ -894,7 +893,7 @@ TEST_F(TempTestingFiles, TestCubeCreateWrite8bit) {
   catch (IException &e) {
     e.print();
   }
-  check_cube(in, file, 150, 200, 1, 200, -1, 1, 0, 0, 1, 1, 0, 419);
+  check_cube(in, file, 150, 200, 1, 200, -1, 1, 1, 0, 1, 1, 0, 419);
   j = 0;
   LineManager inLine(in);
   for(inLine.begin(); !inLine.end(); inLine++) {
@@ -911,12 +910,12 @@ TEST_F(TempTestingFiles, TestCubeCreateWrite8bit) {
 TEST_F(TempTestingFiles, TestCubeCreateWrite16bit) {
   Cube out;
   QString file = "";
-  check_cube(out, file, 0, 0, 0, 0, 1, 7, 1, 1, 0, 0, 0, 65536);
+  check_cube(out, file, 0, 0, 0, 0, 1, 7, 0, 1, 0, 0, 0, 65536);
   out.setDimensions(150, 200, 2);
   out.setBaseMultiplier(30000.0, -1.0);
   out.setByteOrder(ISIS_LITTLE_ENDIAN ? Msb : Lsb);
   out.setPixelType(SignedWord);
-  check_cube(out, file, 150, 200, 2, 30000, -1, 4, 1, 1, 0, 0, 0, 65536);
+  check_cube(out, file, 150, 200, 2, 30000, -1, 4, 0, 1, 0, 0, 0, 65536);
   file = QString(tempDir.path() + "/IsisCube.cub");
   out.create(file);
 
@@ -939,7 +938,7 @@ TEST_F(TempTestingFiles, TestCubeCreateWrite16bit) {
   catch (IException &e) {
     e.print();
   }
-  check_cube(in, file, 150, 200, 2, 30000, -1, 4, 1, 1, 1, 1, 0, 65536);
+  check_cube(in, file, 150, 200, 2, 30000, -1, 4, 0, 1, 1, 1, 0, 65536);
   j = 0;
   LineManager inLine(in);
   for(inLine.begin(); !inLine.end(); inLine++) {
@@ -1053,16 +1052,16 @@ TEST_F(SmallCube, TestCubeVirutalBands) {
 
 TEST_F(SmallCube, TestCubeReopenRW) {
   QString path = testCube->fileName();
-  check_cube(*testCube, path, 10, 10, 10, 0, 1, 7, 1, 1, 1, 0, 1, 65536);
+  check_cube(*testCube, path, 10, 10, 10, 0, 1, 7, 0, 1, 1, 0, 1, 65536);
   testCube->reopen("rw");
-  check_cube(*testCube, path, 10, 10, 10, 0, 1, 7, 1, 1, 1, 0, 1, 65536);
+  check_cube(*testCube, path, 10, 10, 10, 0, 1, 7, 0, 1, 1, 0, 1, 65536);
 }
 
 TEST_F(SmallCube, TestCubeReopenR) {
   QString path = testCube->fileName();
-  check_cube(*testCube, path, 10, 10, 10, 0, 1, 7, 1, 1, 1, 0, 1, 65536);
+  check_cube(*testCube, path, 10, 10, 10, 0, 1, 7, 0, 1, 1, 0, 1, 65536);
   testCube->reopen("r");
-  check_cube(*testCube, path, 10, 10, 10, 0, 1, 7, 1, 1, 1, 1, 0, 65536);
+  check_cube(*testCube, path, 10, 10, 10, 0, 1, 7, 0, 1, 1, 1, 0, 65536);
 }
 
 TEST_F(SmallCube, TestCubeAlreadyOpenOpen) {
@@ -1374,14 +1373,15 @@ TEST_F(ECube, TestCubeECubeWrite) {
     for (int index = 0; index < writeBrick.size(); index++) {
       writeBrick[index] = 1.0;
     }
-    try {
-      testECube->write(writeBrick);
-      FAIL();
+    testECube->write(writeBrick);
+
+    Brick readBrick(3, 3, 2, testECube->pixelType());
+    readBrick.SetBasePosition(1, 1, 1);
+    testECube->read(readBrick);
+    for (int index = 0; index < readBrick.size(); index++) {
+      EXPECT_EQ(readBrick[index], 1);
     }
-    catch(IException &e) {
-      EXPECT_TRUE(e.toString().toLatin1().contains("The cube [external.ecub] does not support storing DN data because it is using an external file for DNs."))
-        << e.toString().toStdString();
-    }
+
 }
 
 TEST_F(ECube, TestCubeECubeFromECubeRead) {

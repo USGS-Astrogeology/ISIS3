@@ -54,7 +54,7 @@ namespace Isis {
     public:
       Buffer();
       Buffer(const int nsamps, const int nlines, const int nbands,
-             const Isis::PixelType type);
+             const Isis::PixelType type, const double scale = 1);
 
       ~Buffer();
 
@@ -81,12 +81,39 @@ namespace Isis {
       }
 
       /**
+       * Returns the number of samples in the shape buffer
+       *
+       * @return int
+       */
+      inline int SampleDimensionScaled() const {
+        return (p_nsampsScaled);
+      }
+
+      /**
+       * Returns the number of lines in the shape buffer
+       *
+       * @return int
+       */
+      inline int LineDimensionScaled() const {
+        return (p_nlinesScaled);
+      }
+
+      /**
        * Returns the number of bands in the shape buffer
        *
        * @return int
        */
       inline int BandDimension() const {
         return (p_nbands);
+      }
+
+      /**
+       * Returns the scale of the shape buffer
+       *
+       * @return double
+       */
+      inline double scale() const {
+        return (p_scale);
       }
 
       /**
@@ -161,10 +188,12 @@ namespace Isis {
         return p_pixelType;
       };
 
-    protected:
       void SetBasePosition(const int start_sample, const int start_line,
                            const int start_band);
 
+      friend std::ostream &operator<<(std::ostream &os, Buffer &buffer);
+
+    protected:
       /**
        * This method is used to set the base sample position of the shape buffer.
        *
@@ -197,19 +226,24 @@ namespace Isis {
 
       int p_sample;   //!< Starting sample to read/write
       int p_nsamps;   //!< Number of samples to read/write
+      int p_nsampsScaled;
 
       int p_line;     //!< Starting line to read/write
       int p_nlines;   //!< Number of lines to read/write
+      int p_nlinesScaled;
 
       int p_band;     //!< Starting band to read/write
       int p_nbands;   //!< Number of bands to read/write
 
-      int p_npixels;  //!< Number of pixels (nsamps * nlines * nbands)
+      int p_npixels;  //!< Number of pixels (nsamps * nlines * scale ** 2) * bands
       double *p_buf;  /**< Shape buffer allocated to the size of npixels for
                            handling reads/writes*/
 
       const Isis::PixelType p_pixelType;  //!< The pixel type of the raw buffer
       void *p_rawbuf;                     //!< The raw dm read from the disk
+
+      // Might need x and y scale
+      double p_scale; //!< Amount to scale the buffers lines and samples, defaults to 1
 
       void Allocate();
 

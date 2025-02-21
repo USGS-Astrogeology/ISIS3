@@ -30,9 +30,9 @@ namespace Isis {
   class Camera;
   class CubeAttributeOutput;
   class CubeCachingAlgorithm;
-  class CubeIoHandler;
   class CubeStretch;
   class FileName;
+  class ImageIoHandler;
   class Projection;
   class Pvl;
   class PvlGroup;
@@ -230,7 +230,29 @@ namespace Isis {
          * The symbol '*' denotes tile boundaries.
          * The symbols '-' and '|' denote cube boundaries.
          */
-        Tile
+        Tile,
+        GTiff
+      };
+
+      /**
+       * @brief Input cube label type tracker
+       *
+       * This enumeration and its functions are for the label
+       * type of an input cube. The enum defines the type of labels (i.e.,
+       * Both the label and cube are in the same file and the label is in a
+       * separate file from the cube.
+       */
+      enum LabelAttachment {
+        AttachedLabel,  //!< The input label is embedded in the image file
+        DetachedLabel,  //!< The input label is in a separate data file from the image
+        /**
+         * The label is pointing to an external DN file - the label is also external to the data.
+         *
+         * This format implies that the output is a cube that contains everything except DN data
+         *   (more similar to attached than detached).
+         */
+        ExternalLabel,
+        GdalLabel
       };
 
       void fromIsd(const FileName &fileName, Pvl &label, nlohmann::json &isd, QString access);
@@ -242,7 +264,7 @@ namespace Isis {
       bool isProjected() const;
       bool isReadOnly() const;
       bool isReadWrite() const;
-      bool labelsAttached() const;
+      LabelAttachment labelsAttached() const;
 
       void attachSpiceFromIsd(nlohmann::json Isd);
       void attachLineScanTableFromIsd(nlohmann::json isd);
@@ -251,7 +273,11 @@ namespace Isis {
       Cube *copy(FileName newFile, const CubeAttributeOutput &newFileAttributes);
       void create(const QString &cfile);
       void create(const QString &cfile, const CubeAttributeOutput &att);
+      void createGdal(QString &dataFileName, QString &, char **papszOptions);
+      void checkAccess(QString access);
       void open(const QString &cfile, QString access = "r");
+      void openCube(const QString &cubeFileName, QString access);
+      void openGdal(const QString &cubeFileName, QString access);
       void reopen(QString access = "r");
 
       void read(Blob &blob,
@@ -279,7 +305,8 @@ namespace Isis {
       void setDimensions(int ns, int nl, int nb);
       void setExternalDnData(FileName cubeFileWithDnData);
       void setFormat(Format format);
-      void setLabelsAttached(bool attached);
+      void setLabelsAttached(LabelAttachment attached);
+      // void setLabelsExternal(bool external);
       void setLabelSize(int labelBytes);
       void setPixelType(PixelType pixelType);
       void setVirtualBands(const QList<QString> &vbands);
@@ -313,7 +340,6 @@ namespace Isis {
       Statistics *statistics(const int &band, const double &validMin,
                              const double &validMax,
                              QString msg = "Gathering statistics");
-      bool storesDnData() const;
 
       void addCachingAlgorithm(CubeCachingAlgorithm *);
       void clearIoCache();
@@ -334,9 +360,12 @@ namespace Isis {
 
       void construct();
       QFile *dataFile() const;
+      GDALDataset *gdalDataset() const;
 
       void initialize();
       void initCoreFromLabel(const Pvl &label);
+      void initCoreFromGdal(const QString &labelFile);
+      void initLabelState(const Pvl &label);
       void initLabelFromFile(FileName labelFileName, bool readWrite);
       void openCheck();
       Pvl realDataFileLabel() const;
@@ -353,6 +382,7 @@ namespace Isis {
        * If isOpen() is true, then this is allocated.
        */
       QFile *m_labelFile;
+
       /**
        * This is only sometimes allocated. This is used for when IsOpen is true
        *   and labels are detached so the QFile for the labels does not give
@@ -361,10 +391,15 @@ namespace Isis {
       QFile *m_dataFile;
 
       /**
+       * TODO: Write description
+       */
+      GDALDataset *m_geodataSet = nullptr;
+
+      /**
        * This does the heavy lifting for cube DN IO and is always allocated
        *   when isOpen() is true.
        */
-      CubeIoHandler *m_ioHandler;
+      ImageIoHandler *m_ioHandler;
 
       /**
        * The byte order of the opened cube; if there is no open cube then
@@ -413,14 +448,7 @@ namespace Isis {
       FileName *m_formatTemplateFile;
 
       //! True if labels are attached
-      bool m_attached;
-
-      /**
-       * True (most common case) when the cube DN data is inside the file we're writing to. False
-       *   means we're referencing another cube's internal DN data for reading, and writing buffers
-       *   is disallowed.
-       */
-      bool m_storesDnData;
+      LabelAttachment m_attached;
 
       //! The label if IsOpen(), otherwise NULL
       Pvl *m_label;

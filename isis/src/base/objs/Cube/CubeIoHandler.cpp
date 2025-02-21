@@ -59,17 +59,16 @@ namespace Isis {
    *          initialized into the file before this object is destructed.
    */
   CubeIoHandler::CubeIoHandler(QFile * dataFile,
-      const QList<int> *virtualBandList, const Pvl &label, bool alreadyOnDisk) {
+      const QList<int> *virtualBandList, const Pvl &label, bool alreadyOnDisk) :
+                 ImageIoHandler(virtualBandList) {
     m_byteSwapper = NULL;
     m_cachingAlgorithms = NULL;
     m_dataIsOnDiskMap = NULL;
     m_rawData = NULL;
-    m_virtualBands = NULL;
     m_nullChunkData = NULL;
     m_lastProcessByLineChunks = NULL;
     m_writeCache = NULL;
     m_ioThreadPool = NULL;
-    m_writeThreadMutex = NULL;
 
     try {
       if (!dataFile) {
@@ -134,8 +133,6 @@ namespace Isis {
       if(!alreadyOnDisk) {
         m_dataIsOnDiskMap = new QMap<int, bool>;
       }
-
-      setVirtualBands(virtualBandList);
     }
     catch(IException &e) {
       IString msg = "Constructing CubeIoHandler failed";
@@ -201,17 +198,11 @@ namespace Isis {
     delete m_byteSwapper;
     m_byteSwapper = NULL;
 
-    delete m_virtualBands;
-    m_virtualBands = NULL;
-
     delete m_nullChunkData;
     m_nullChunkData = NULL;
 
     delete m_lastProcessByLineChunks;
     m_lastProcessByLineChunks = NULL;
-
-    delete m_writeThreadMutex;
-    m_writeThreadMutex = NULL;
   }
 
 
@@ -423,37 +414,6 @@ namespace Isis {
            (BigInt)getChunkCountInLineDimension() *
            (BigInt)getChunkCountInBandDimension() *
            (BigInt)getBytesPerChunk();
-  }
-
-
-  /**
-   * This changes the virtual band list.
-   *
-   * @param virtualBandList A list where the indices are the vbands and the
-   *          values are the physical bands. The values are 1-based. This can
-   *          be specified as NULL, in which case the vbands are the physical
-   *          bands. The virtual band list is copied
-   *          (the pointer provided isn't remembered).
-   */
-  void CubeIoHandler::setVirtualBands(const QList<int> *virtualBandList) {
-    if(m_virtualBands) {
-      delete m_virtualBands;
-      m_virtualBands = NULL;
-    }
-
-    if(virtualBandList && !virtualBandList->empty())
-      m_virtualBands = new QList<int>(*virtualBandList);
-  }
-
-  /**
-   * Get the mutex that this IO handler is using around I/Os on the given
-   *   data file. A lock should be acquired before doing any reads/writes on
-   *   the data file externally.
-   *
-   * @return A mutex that can guarantee exclusive access to the data file
-   */
-  QMutex *CubeIoHandler::dataFileMutex() {
-    return m_writeThreadMutex;
   }
 
   /**
@@ -920,10 +880,10 @@ namespace Isis {
     startX = max(cube1.getStartSample(), cube2.Sample());
     startY = max(cube1.getStartLine(), cube2.Line());
     startZ = max(cube1.getStartBand(), startPhysicalBand);
-    endX = min(cube1.getStartSample() + cube1.sampleCount() - 1,
-               cube2.Sample() + cube2.SampleDimension() - 1);
-    endY = min(cube1.getStartLine() + cube1.lineCount() - 1,
-               cube2.Line() + cube2.LineDimension() - 1);
+    endX = min(cube1.getStartSample() + cube1.sampleCount(),
+               cube2.Sample() + cube2.SampleDimension());
+    endY = min(cube1.getStartLine() + cube1.lineCount(),
+               cube2.Line() + cube2.LineDimension());
     endZ = min(cube1.getStartBand() + cube1.bandCount() - 1,
                endPhysicalBand);
   }
@@ -1379,6 +1339,11 @@ namespace Isis {
     const char *chunkBuf = chunk.getRawData().data();
     char *buffersRawBuf = (char *)output.RawBuffer();
 
+
+    // Scale the sampleand line increment, only necessary in read for Q apps
+    int lineIncrement = (double)output.LineDimension() / (double)output.LineDimensionScaled();
+    int sampleIncrement = (double)output.SampleDimension() / (double)output.SampleDimensionScaled();
+
     for(int z = startZ; z <= endZ; z++) {
       const int &bandIntoChunk = z - chunkStartBand;
       int virtualBand = z;
@@ -1388,12 +1353,16 @@ namespace Isis {
       if(virtualBand != 0 && virtualBand >= bufferBand &&
          virtualBand <= bufferBand + bufferBands - 1) {
 
-        for(int y = startY; y <= endY; y++) {
+        for(int y = startY; y < endY; y = y + lineIncrement) {
           const int &lineIntoChunk = y - chunkStartLine;
-          int bufferIndex = output.Index(startX, y, virtualBand);
 
-          for(int x = startX; x <= endX; x++) {
+          for(int x = startX; x < endX; x = x + sampleIncrement) {
             const int &sampleIntoChunk = x - chunkStartSample;
+            int bufferIndex = output.Index(x, y, virtualBand);
+            // Avoid rolling back onto your buffer
+            if (bufferIndex >= output.size()) {
+              bufferIndex = output.size() - 1;
+            }
 
             const int &chunkIndex = sampleIntoChunk +
                 (chunkLineSize * lineIntoChunk) +
@@ -1534,7 +1503,7 @@ namespace Isis {
               ((unsigned char *)buffersRawBuf)[bufferIndex] = raw;
             }
 
-            bufferIndex ++;
+            bufferIndex++;
           }
         }
       }
@@ -1590,11 +1559,11 @@ namespace Isis {
       if(virtualBand != 0 && virtualBand >= bufferBand &&
          virtualBand <= bufferBand + bufferBands - 1) {
 
-        for(int y = startY; y <= endY; y++) {
+        for(int y = startY; y < endY; y++) {
           const int &lineIntoChunk = y - outputStartLine;
           int bufferIndex = buffer.Index(startX, y, virtualBand);
 
-          for(int x = startX; x <= endX; x++) {
+          for(int x = startX; x < endX; x++) {
             const int &sampleIntoChunk = x - outputStartSample;
 
             const int &chunkIndex = sampleIntoChunk +

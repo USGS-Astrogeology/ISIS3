@@ -11,12 +11,21 @@ find files of those names at the top level of this repository. **/
 #include <locale>
 #include <fstream>
 #include <sstream>
+#include <cctype>
+
+#include <filesystem>
+#include <random>
+#include <nlohmann/json.hpp>
 
 #include "FileName.h"
 #include "IException.h"
 #include "Message.h"
 #include "PvlTokenizer.h"
 #include "PvlFormat.h"
+
+namespace fs = std::filesystem;
+using json = nlohmann::json;
+using ordered_json = nlohmann::ordered_json;
 
 using namespace std;
 namespace Isis {
@@ -36,7 +45,6 @@ namespace Isis {
     read(file);
   }
 
-
   //! Copy constructor
   Pvl::Pvl(const Pvl &other) : PvlObject::PvlObject(other) {
     m_internalTemplate = false;
@@ -51,6 +59,109 @@ namespace Isis {
     m_internalTemplate = false;
   }
 
+  // This function specifically reads from GDAL-style JSON metadata.  
+  Isis::PvlObject &Pvl::readObject(Isis::PvlObject &pvlobj, nlohmann::ordered_json jdata) {
+    for(auto &[key, value] : jdata.items()) {
+      string name = key; 
+      if(value.contains("_type")) { 
+        string type = value.at("_type"); 
+        value.erase("_type"); 
+        if (value.contains("_container_name")) { 
+          name = value["_container_name"];
+          value.erase("_container_name");
+        }
+
+        if(type == "object") { 
+          PvlObject nestedObj(QString::fromStdString(name));
+          pvlobj.addObject(readObject(nestedObj, value)); 
+        }
+        if(type == "group") { 
+          // parse keys 
+          PvlGroup group(QString::fromStdString(name)); 
+          for(auto &[pvlkeyword, pvlvalue] : value.items())  { 
+            PvlKeyword keyword;
+            keyword.setName(QString::fromStdString(pvlkeyword));
+            if (pvlvalue.is_array())
+                keyword.addJsonArrayValue(pvlvalue);
+            else 
+              keyword.setJsonValue(pvlvalue);
+            group.addKeyword(keyword);
+          }
+          pvlobj.addGroup(group);
+        } // end of group
+      } // end of _type search
+
+      // not a group or object, must be a keyword
+      else if (key != "_type" && key != "_filename" && key != "Data") { 
+        PvlKeyword keyword;
+        keyword.setName(QString::fromStdString(key));
+        if (value.is_array()) 
+          keyword.setJsonArrayValue(value);
+        else 
+          keyword.setJsonValue(value);
+
+        pvlobj.addKeyword(keyword);
+      }
+    }
+    return pvlobj;
+  }
+
+
+  ordered_json Pvl::toJson() { 
+    // needs to be a function because recursion 
+    function<ordered_json(PvlObject&)> pvlobject_to_json = [&](PvlObject &pvlobj) -> ordered_json { 
+      ordered_json jsonobj;
+      string okey = (pvlobj.name()).toStdString();
+      if (pvlobj.hasKeyword("Name")) {
+        okey = (pvlobj.name()+"_"+(QString)pvlobj.findKeyword("Name")).toStdString();
+      }
+      jsonobj[okey] = {};
+      if (pvlobj.hasKeyword("Name")) {
+        jsonobj[okey]["_container_name"] = pvlobj.name().toStdString();
+      }
+
+      if (okey != "Root") {
+        jsonobj[okey]["_type"] = "object";
+      }
+      
+      for (int i=0; i < pvlobj.objects(); i++) { 
+        jsonobj[okey].merge_patch(pvlobject_to_json(pvlobj.object(i)));
+      }
+      
+      for (int i=0; i<pvlobj.groups(); i++) { 
+        PvlGroup g = pvlobj.group(i);
+        string gkey = (g.name()).toStdString();
+        if (g.hasKeyword("Name")) {
+          gkey = (g.name()+"_"+(QString)g.findKeyword("Name")).toStdString();
+        }
+        jsonobj[okey][gkey] = {};
+        if (g.hasKeyword("Name")) {
+          jsonobj[okey][gkey]["_container_name"] = g.name().toStdString();
+        }
+        jsonobj[okey][gkey]["_type"] = "group"; 
+
+        // go through keywords
+        for(int j =0; j<g.keywords();j++) { 
+          PvlKeyword k=g[j];
+          jsonobj[okey][gkey][k.name().toStdString()] = k.toJson();         
+        }        
+      }
+
+      // get left over keywords
+      for(int i =0; i<pvlobj.keywords();i++) { 
+        PvlKeyword k=pvlobj[i]; 
+        jsonobj[okey][k.name().toStdString()] = k.toJson();         
+      }
+      return jsonobj;
+    };
+
+    if (this->name() == "Root" && this->objects() == 1) { 
+      return pvlobject_to_json(this->object(0));
+    }
+    else { 
+      return pvlobject_to_json(*this);
+    }
+  }
 
   /**
    * Load PVL information from a string 

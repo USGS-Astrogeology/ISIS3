@@ -197,6 +197,8 @@ namespace Isis {
       void swap(IException &other);
       IException &operator=(const IException &rhs);
 
+      int length();
+
     private:
       static IException createStackTrace();
       static ErrorType stringToErrorType(const QString &s);

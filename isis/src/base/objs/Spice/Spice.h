@@ -284,7 +284,7 @@ namespace Isis {
     public:
       // constructors
       Spice(Cube &cube);
-      Spice(Pvl &lab, nlohmann::json);
+      Spice(Pvl &lab, nlohmann::json isd);
 
       // destructor
       virtual ~Spice();
@@ -387,7 +387,8 @@ namespace Isis {
       Spice(const Spice &other);
       Spice &operator=(const Spice &other);
 
-      void init(Pvl &pvl, bool noTables, nlohmann::json isd = NULL);
+      void init(Cube &cube, Pvl &pvl, bool noTables);
+      void isdInit(Pvl &pvl, nlohmann::json isd);
       void csmInit(Cube &cube, Pvl label);
       void defaultInit();
 

@@ -244,7 +244,7 @@ namespace Isis {
       p_msb->setChecked(true);
     }
 
-    if(att.labelAttachment() == AttachedLabel) {
+    if(att.labelAttachment() == Cube::AttachedLabel) {
       p_attached->setChecked(true);
     }
     else {

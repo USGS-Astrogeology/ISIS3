@@ -149,7 +149,7 @@ namespace Isis{
 
     outCube->setByteOrder(outAtt.byteOrder());
     outCube->setFormat(outAtt.fileFormat());
-    outCube->setLabelsAttached(outAtt.labelAttachment() == AttachedLabel);
+    outCube->setLabelsAttached(outAtt.labelAttachment());
 
     TableField ephTimeField("EphemerisTime", TableField::Double);
     TableField expTimeField("ExposureTime", TableField::Double);

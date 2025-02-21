@@ -20,7 +20,7 @@ namespace Isis {
     this->setOptions(QFileDialog::DontUseNativeDialog);
 
     this->setWindowTitle(title);
-    this->setFileMode(QFileDialog::ExistingFiles);
+    this->setFileMode(QFileDialog::AnyFile);
     if(parent != 0) {
       parent->installEventFilter(this);
       p_appName = parent->windowTitle();

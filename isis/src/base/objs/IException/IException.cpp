@@ -639,6 +639,10 @@ namespace Isis {
     return *this;
   }
 
+  int IException::length() {
+    return m_previousExceptions->length();
+  }
+
 
   /**
    * Returns the source of the error in string format for the given ErrorType.

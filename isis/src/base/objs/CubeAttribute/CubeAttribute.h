@@ -21,27 +21,6 @@ find files of those names at the top level of this repository. **/
 
 namespace Isis {
   /**
-   * @brief Input cube label type tracker
-   *
-   * This enumeration and its functions are for the label
-   * type of an input cube. The enum defines the type of labels (i.e.,
-   * Both the label and cube are in the same file and the label is in a
-   * separate file from the cube.
-   */
-  enum LabelAttachment {
-    AttachedLabel,  //!< The input label is embedded in the image file
-    DetachedLabel,  //!< The input label is in a separate data file from the image
-    /**
-     * The label is pointing to an external DN file - the label is also external to the data.
-     *
-     * This format implies that the output is a cube that contains everything except DN data
-     *   (more similar to attached than detached).
-     */
-    ExternalLabel
-  };
-
-
-  /**
    * Return the string representation of the contents of a
    * variable of type LabelAttachment
    *
@@ -49,10 +28,11 @@ namespace Isis {
    *
    * @return A string representation of the parameter
    */
-  inline QString LabelAttachmentName(LabelAttachment labelType) {
-    if(labelType == AttachedLabel) return "Attached";
-    if(labelType == DetachedLabel) return "Detached";
-    if(labelType == ExternalLabel) return "External";
+  inline QString LabelAttachmentName(Cube::LabelAttachment labelType) {
+    if(labelType == Cube::AttachedLabel) return "Attached";
+    if(labelType == Cube::DetachedLabel) return "Detached";
+    if(labelType == Cube::ExternalLabel) return "External";
+    if(labelType == Cube::GdalLabel) return "Gdal";
 
     QString msg = "Invalid label attachment type [" + QString::number(labelType) + "]";
     throw IException(IException::Programmer, msg, _FILEINFO_);
@@ -67,17 +47,16 @@ namespace Isis {
    *
    * @return The RangeType enum corresponding to the string parameter
    */
-  inline LabelAttachment LabelAttachmentEnumeration(const QString &labelType) {
+  inline Cube::LabelAttachment LabelAttachmentEnumeration(const QString &labelType) {
     QString temp = labelType.toUpper();
-    if(temp == "ATTACHED") return AttachedLabel;
-    if(temp == "DETACHED") return DetachedLabel;
-    if(temp == "External") return ExternalLabel;
+    if(temp == "ATTACHED") return Cube::AttachedLabel;
+    if(temp == "DETACHED") return Cube::DetachedLabel;
+    if(temp == "EXTERNAL") return Cube::ExternalLabel;
+    if(temp == "GDAL") return Cube::GdalLabel;
 
     QString msg = "Invalid label attachment type string [" + labelType + "]";
     throw IException(IException::Unknown, msg, _FILEINFO_);
   }
-
-
 
   /**
    * @brief Parent class for CubeAttributeInput and CubeAttributeOutput.
@@ -539,9 +518,9 @@ namespace Isis {
       void setPixelType(PixelType type);
 
       //! Set the label attachment type to the parameter value
-      void setLabelAttachment(LabelAttachment attachment);
+      void setLabelAttachment(Cube::LabelAttachment attachment);
 
-      LabelAttachment labelAttachment() const;
+      Cube::LabelAttachment labelAttachment() const;
 
       using CubeAttribute<CubeAttributeOutput>::toString;
 

@@ -68,9 +68,37 @@ namespace Isis {
     }
     else {
       PvlGroup kernels = lab.findGroup("Kernels", Pvl::Traverse);
-      bool hasTables = (kernels["TargetPosition"][0] == "Table");
+      
       // BONUS TODO: update to pull out separate init methods
-      init(lab, !hasTables);
+      // try using ALE
+      bool hasTables = (kernels["TargetPosition"][0] == "Table");
+      m_usingNaif = !lab.hasObject("NaifKeywords") || !hasTables;
+      m_usingAle = false;
+
+      if (m_usingNaif) {
+        try {
+          std::ostringstream kernel_pvl;
+          kernel_pvl << kernels;
+
+          json props;
+          if (kernels["InstrumentPointing"][0].toUpper() == "NADIR") {
+            props["nadir"] = true;
+          }
+
+          props["kernels"] = kernel_pvl.str();
+
+          json isd = ale::load(lab.fileName().toStdString(), props.dump(), "ale", false, false, true);
+          m_usingAle = true;
+
+          isdInit(lab, isd);
+        }
+        catch(...) {
+          init(cube, lab, !hasTables);
+        }
+      }
+      else {
+        init(cube, lab, !hasTables);
+      }
     }
   }
 
@@ -82,7 +110,209 @@ namespace Isis {
    * @param isd ALE Json ISD
    */
   Spice::Spice(Pvl &lab, json isd) {
-    init(lab, true, isd);
+    // Set the expected member states for other parts of the Spice
+    // class
+    m_usingNaif = true;
+    m_usingAle = true;
+
+    isdInit(lab, isd);
+  }
+
+  void Spice::isdInit(Pvl &lab, json isd) {
+    NaifStatus::CheckErrors();
+    // Initialize members
+    defaultInit();
+
+    m_spkCode = new SpiceInt;
+    m_ckCode = new SpiceInt;
+    m_ikCode = new SpiceInt;
+    m_sclkCode = new SpiceInt;
+    m_spkBodyCode = new SpiceInt;
+    m_bodyFrameCode = new SpiceInt;
+
+    m_naifKeywords = new PvlObject("NaifKeywords");
+
+    // Get the kernel group and load main kernels
+    PvlGroup kernels = lab.findGroup("Kernels", Pvl::Traverse);
+
+    // Get the time padding first
+    if (kernels.hasKeyword("StartPadding")) {
+      *m_startTimePadding = toDouble(kernels["StartPadding"][0]);
+    }
+    else {
+      *m_startTimePadding = 0.0;
+    }
+
+    if (kernels.hasKeyword("EndPadding")) {
+      *m_endTimePadding  = toDouble(kernels["EndPadding"][0]);
+    }
+    else {
+      *m_endTimePadding = 0.0;
+    }
+
+    try {
+      json aleNaifKeywords = isd["naif_keywords"];
+      m_naifKeywords = new PvlObject("NaifKeywords", aleNaifKeywords);
+
+      // Still need to load clock kernels for now
+      load(kernels["LeapSecond"], true);
+      if ( kernels.hasKeyword("SpacecraftClock")) {
+        load(kernels["SpacecraftClock"], true);
+      }
+    }
+    catch(IException &e) {
+      QString msg = "Failed to read naif_keywords from ISD";
+      throw IException(e, IException::Programmer, msg, _FILEINFO_);
+    }
+
+    // Moved the construction of the Target after the NAIF kenels have been loaded or the
+    // NAIF keywords have been pulled from the cube labels, so we can find target body codes
+    // that are defined in kernels and not just body codes build into spicelib
+    // TODO: Move this below the else once the rings code below has been refactored
+    m_target = new Target(this, lab);
+
+    // This should not be here. Consider having spiceinit add the necessary rings kernels to the
+    // Extra parameter if the user has set the shape model to RingPlane.
+    // If Target is Saturn and ShapeModel is RingPlane, load the extra rings pck file
+    //  which changes the prime meridian values to report longitudes with respect to
+    // the ascending node of the ringplane.
+    if (m_target->name().toUpper() == "SATURN" && m_target->shape()->name().toUpper() == "PLANE") {
+      PvlKeyword ringPck = PvlKeyword("RingPCK","$cassini/kernels/pck/saturnRings_v001.tpc");
+      load(ringPck, true);
+    }
+
+    // Get NAIF ik, spk, sclk, and ck codes
+    //
+    //    Use ikcode to get parameters from instrument kernel such as focal
+    //    length, distortions, focal plane maps, etc
+    //
+    //    Use spkcode to get spacecraft position from spk file
+    //
+    //    Use sclkcode to transform times from et to tics
+    //
+    //    Use ckcode to transform between frames
+    //
+    //    Use bodycode to obtain radii and attitude (pole position/omega0)
+    //
+    //    Use spkbodycode to read body position from spk
+
+    QString trykey = "NaifIkCode";
+    if (kernels.hasKeyword("NaifFrameCode")) trykey = "NaifFrameCode";
+    *m_ikCode = toInt(kernels[trykey][0]);
+
+    *m_spkCode  = *m_ikCode / 1000;
+    *m_sclkCode = *m_spkCode;
+    *m_ckCode   = *m_ikCode;
+
+    if (!m_target->isSky()) {
+      // Get target body code and radii and store them in the Naif group
+      // DAC modified to look for and store body code so that the radii keyword name
+      // will be able to be constructed even for new bodies not in the standard PCK yet.
+      QString radiiKey = "BODY" + Isis::toString(m_target->naifBodyCode()) + "_RADII";
+      QVariant result = m_target->naifBodyCode();
+      storeValue("BODY_CODE", 0, SpiceIntType, result);
+      std::vector<Distance> radii(3,Distance());
+      radii[0] = Distance(getDouble(radiiKey, 0), Distance::Kilometers);
+      radii[1] = Distance(getDouble(radiiKey, 1), Distance::Kilometers);
+      radii[2] = Distance(getDouble(radiiKey, 2), Distance::Kilometers);
+      // m_target doesn't have the getDouble method so Spice gets the radii for it
+      m_target->setRadii(radii);
+    }
+
+    *m_spkBodyCode = m_target->naifBodyCode();
+
+    // Override them if they exist in the labels
+    if (kernels.hasKeyword("NaifSpkCode")) {
+      *m_spkCode = (int) kernels["NaifSpkCode"];
+    }
+
+    if (kernels.hasKeyword("NaifCkCode")) {
+      *m_ckCode = (int) kernels["NaifCkCode"];
+    }
+
+    if (kernels.hasKeyword("NaifSclkCode")) {
+      *m_sclkCode = (int) kernels["NaifSclkCode"];
+    }
+
+    if (!m_target->isSky()) {
+      if (kernels.hasKeyword("NaifSpkBodyCode")) {
+        *m_spkBodyCode = (int) kernels["NaifSpkBodyCode"];
+      }
+    }
+
+    if (m_target->isSky()) {
+      // Create the identity rotation for sky targets
+      // Everything in bodyfixed will really be J2000
+      m_bodyRotation = new SpiceRotation(1);
+    }
+    else {
+      SpiceInt frameCode;
+      try {
+        frameCode = getInteger("BODY_FRAME_CODE", 0);
+      }
+      catch(IException &e) {
+        QString msg = "Unable to read BODY_FRAME_CODE from naifkeywords group";
+        throw IException(IException::Io, msg, _FILEINFO_);
+      }
+
+      m_bodyRotation = new SpiceRotation(frameCode);
+      *m_bodyFrameCode = frameCode;
+    }
+
+    m_instrumentRotation = new SpiceRotation(*m_ckCode);
+
+    //  Set up for observer/target and light time correction to between s/c
+    // and target body.
+    LightTimeCorrectionState ltState(*m_ikCode, this);
+    ltState.checkSpkKernelsForAberrationCorrection();
+
+    vector<Distance> radius = m_target->radii();
+    Distance targetRadius((radius[0] + radius[2])/2.0);
+    m_instrumentPosition = new SpacecraftPosition(*m_spkCode, *m_spkBodyCode,
+                                                  ltState, targetRadius);
+
+    m_sunPosition = new SpicePosition(10, m_target->naifBodyCode());
+
+
+    // Check to see if we have nadir pointing that needs to be computed &
+    // See if we have table blobs to load
+    m_sunPosition->LoadCache(isd["sun_position"]);
+    if (m_sunPosition->cacheSize() > 3) {
+      m_sunPosition->Memcache2HermiteCache(0.01);
+    }
+    m_bodyRotation->LoadCache(isd["body_rotation"]);
+    m_bodyRotation->MinimizeCache(SpiceRotation::DownsizeStatus::Yes);
+    if (m_bodyRotation->cacheSize() > 5) {
+      m_bodyRotation->LoadTimeCache();
+    }
+    solarLongitude();
+
+    //  We can't assume InstrumentPointing & InstrumentPosition exist, old
+    //  files may be around with the old keywords, SpacecraftPointing &
+    //  SpacecraftPosition.  The old keywords were in existance before the
+    //  Table option, so we don't need to check for Table under the old
+    //  keywords.
+    if (kernels["InstrumentPointing"].size() == 0) {
+      throw IException(IException::Unknown,
+                       "No camera pointing available",
+                       _FILEINFO_);
+    }
+
+    m_instrumentRotation->LoadCache(isd["instrument_pointing"]);
+    m_instrumentRotation->MinimizeCache(SpiceRotation::DownsizeStatus::Yes);
+    if (m_instrumentRotation->cacheSize() > 5) {
+      m_instrumentRotation->LoadTimeCache();
+    }
+
+
+    if (kernels["InstrumentPosition"].size() == 0) {
+      throw IException(IException::Unknown,
+                       "No instrument position available",
+                       _FILEINFO_);
+    }
+
+    m_instrumentPosition->LoadCache(isd["instrument_position"]);
+    NaifStatus::CheckErrors();
   }
 
 
@@ -151,7 +381,7 @@ namespace Isis {
    * @internal
    *   @history 2011-02-08 Jeannie Walldren - Initialize pointers to null.
    */
-  void Spice::init(Pvl &lab, bool noTables, json isd) {
+  void Spice::init(Cube &cube, Pvl &lab, bool noTables) {
     NaifStatus::CheckErrors();
     // Initialize members
     defaultInit();
@@ -184,73 +414,40 @@ namespace Isis {
       *m_endTimePadding = 0.0;
     }
 
-    // We should remove this completely in the near future
-    m_usingNaif = !lab.hasObject("NaifKeywords") || noTables;
-    m_usingAle = false;
-
-
     //  Modified  to load planetary ephemeris SPKs before s/c SPKs since some
     //  missions (e.g., MESSENGER) may augment the s/c SPK with new planet
     //  ephemerides. (2008-02-27 (KJB))
     if (m_usingNaif) {
-      try {
-        if (isd == NULL) {
-          // try using ALE
-          std::ostringstream kernel_pvl;
-          kernel_pvl << kernels;
-
-          json props;
-          if (kernels["InstrumentPointing"][0].toUpper() == "NADIR") {
-            props["nadir"] = true;
-          }
-
-          props["kernels"] = kernel_pvl.str();
-
-          isd = ale::load(lab.fileName().toStdString(), props.dump(), "ale", false, false, true);
-        }
-
-        json aleNaifKeywords = isd["naif_keywords"];
-        m_naifKeywords = new PvlObject("NaifKeywords", aleNaifKeywords);
-
-        // Still need to load clock kernels for now
-        load(kernels["LeapSecond"], noTables);
-        if ( kernels.hasKeyword("SpacecraftClock")) {
-          load(kernels["SpacecraftClock"], noTables);
-        }
-        m_usingAle = true;
+      // Backup to standard ISIS implementation
+      if (noTables) {
+        load(kernels["TargetPosition"], noTables);
+        load(kernels["InstrumentPosition"], noTables);
+        load(kernels["InstrumentPointing"], noTables);
       }
-      catch(...) {
-        // Backup to standard ISIS implementation
-        if (noTables) {
-          load(kernels["TargetPosition"], noTables);
-          load(kernels["InstrumentPosition"], noTables);
-          load(kernels["InstrumentPointing"], noTables);
-        }
 
-        if (kernels.hasKeyword("Frame")) {
-          load(kernels["Frame"], noTables);
-        }
+      if (kernels.hasKeyword("Frame")) {
+        load(kernels["Frame"], noTables);
+      }
 
-        load(kernels["TargetAttitudeShape"], noTables);
-        if (kernels.hasKeyword("Instrument")) {
-          load(kernels["Instrument"], noTables);
-        }
-        // Always load after instrument
-        if (kernels.hasKeyword("InstrumentAddendum")) {
-          load(kernels["InstrumentAddendum"], noTables);
-        }
+      load(kernels["TargetAttitudeShape"], noTables);
+      if (kernels.hasKeyword("Instrument")) {
+        load(kernels["Instrument"], noTables);
+      }
+      // Always load after instrument
+      if (kernels.hasKeyword("InstrumentAddendum")) {
+        load(kernels["InstrumentAddendum"], noTables);
+      }
 
-        // Still need to load clock kernels for now
-        load(kernels["LeapSecond"], noTables);
-        if ( kernels.hasKeyword("SpacecraftClock")) {
-          load(kernels["SpacecraftClock"], noTables);
-        }
+      // Still need to load clock kernels for now
+      load(kernels["LeapSecond"], noTables);
+      if ( kernels.hasKeyword("SpacecraftClock")) {
+        load(kernels["SpacecraftClock"], noTables);
+      }
 
-        // Modified to load extra kernels last to allow overriding default values
-        // (2010-04-07) (DAC)
-        if (kernels.hasKeyword("Extra")) {
-          load(kernels["Extra"], noTables);
-        }
+      // Modified to load extra kernels last to allow overriding default values
+      // (2010-04-07) (DAC)
+      if (kernels.hasKeyword("Extra")) {
+        load(kernels["Extra"], noTables);
       }
 
       // Moved the construction of the Target after the NAIF kenels have been loaded or the
@@ -347,7 +544,7 @@ namespace Isis {
     else {
       // JAA - Modified to store and look for the frame body code in the cube labels
       SpiceInt frameCode;
-      if (((m_usingNaif) || (!m_naifKeywords->hasKeyword("BODY_FRAME_CODE"))) && !isUsingAle()) {
+      if ((m_usingNaif) || (!m_naifKeywords->hasKeyword("BODY_FRAME_CODE"))) {
         char frameName[32];
         SpiceBoolean found;
         cidfrm_c(*m_spkBodyCode, sizeof(frameName), &frameCode, frameName, &found);
@@ -396,23 +593,11 @@ namespace Isis {
 
     // Check to see if we have nadir pointing that needs to be computed &
     // See if we have table blobs to load
-    if (m_usingAle) {
-      m_sunPosition->LoadCache(isd["sun_position"]);
-      if (m_sunPosition->cacheSize() > 3) {
-        m_sunPosition->Memcache2HermiteCache(0.01);
-      }
-      m_bodyRotation->LoadCache(isd["body_rotation"]);
-      m_bodyRotation->MinimizeCache(SpiceRotation::DownsizeStatus::Yes);
-      if (m_bodyRotation->cacheSize() > 5) {
-        m_bodyRotation->LoadTimeCache();
-      }
-      solarLongitude();
-    }
-    else if (kernels["TargetPosition"][0].toUpper() == "TABLE") {
-      Table t("SunPosition", lab.fileName(), lab);
+    if (kernels["TargetPosition"][0].toUpper() == "TABLE") {
+      Table t = cube.readTable("SunPosition");
       m_sunPosition->LoadCache(t);
 
-      Table t2("BodyRotation", lab.fileName(), lab);
+      Table t2 = cube.readTable("BodyRotation");
       m_bodyRotation->LoadCache(t2);
       if (t2.Label().hasKeyword("SolarLongitude")) {
         *m_solarLongitude = Longitude(t2.Label()["SolarLongitude"],
@@ -437,7 +622,7 @@ namespace Isis {
 
     //  2009-03-18  Tracie Sucharski - Removed test for old keywords, any files
     // with the old keywords should be re-run through spiceinit.
-    if (kernels["InstrumentPointing"][0].toUpper() == "NADIR" && !isUsingAle()) {
+    if (kernels["InstrumentPointing"][0].toUpper() == "NADIR") {
       if (m_instrumentRotation) {
         delete m_instrumentRotation;
         m_instrumentRotation = NULL;
@@ -445,15 +630,8 @@ namespace Isis {
 
       m_instrumentRotation = new SpiceRotation(*m_ikCode, *m_spkBodyCode);
     }
-    else if (m_usingAle) {
-     m_instrumentRotation->LoadCache(isd["instrument_pointing"]);
-     m_instrumentRotation->MinimizeCache(SpiceRotation::DownsizeStatus::Yes);
-     if (m_instrumentRotation->cacheSize() > 5) {
-       m_instrumentRotation->LoadTimeCache();
-     }
-    }
     else if (kernels["InstrumentPointing"][0].toUpper() == "TABLE") {
-      Table t("InstrumentPointing", lab.fileName(), lab);
+      Table t = cube.readTable("InstrumentPointing");
       m_instrumentRotation->LoadCache(t);
     }
 
@@ -464,13 +642,11 @@ namespace Isis {
                        _FILEINFO_);
     }
 
-    if (m_usingAle) {
-      m_instrumentPosition->LoadCache(isd["instrument_position"]);
-    }
-    else if (kernels["InstrumentPosition"][0].toUpper() == "TABLE") {
-      Table t("InstrumentPosition", lab.fileName(), lab);
+    if (kernels["InstrumentPosition"][0].toUpper() == "TABLE") {
+      Table t = cube.readTable("InstrumentPosition");
       m_instrumentPosition->LoadCache(t);
     }
+
     NaifStatus::CheckErrors();
   }
 

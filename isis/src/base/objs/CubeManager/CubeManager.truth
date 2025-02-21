@@ -49,4 +49,6 @@ Verify isisTruth2.cub is now managed and limit of 2 is enforced:
 Setting number of open cubes > 60 percent of system open file limit
 
 Attempting to open a file that does not exist:
-  **I/O ERROR** Unable to open [dne.cub].
+  **I/O ERROR** Failed to open [dne.cub].
+**PROGRAMMER ERROR** Gdal failed to open [dne.cub].
+**I/O ERROR** Unable to open [dne.cub].

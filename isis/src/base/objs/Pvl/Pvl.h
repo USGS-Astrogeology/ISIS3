@@ -8,7 +8,10 @@ find files of those names at the top level of this repository. **/
 
 /* SPDX-License-Identifier: CC0-1.0 */
 #include <fstream>
+
 #include "PvlObject.h"
+
+#include <gdal_priv.h>
 
 namespace Isis {
   /**
@@ -126,12 +129,15 @@ namespace Isis {
       friend std::ostream &operator<<(std::ostream &os, Isis::Pvl &pvl);
       void fromString(const std::string &str);
 
+      static Isis::PvlObject &readObject(Isis::PvlObject &pvlobj, nlohmann::ordered_json jdata);
+      nlohmann::ordered_json toJson();
+
       ~Pvl() {
         if(m_internalTemplate) delete m_formatTemplate;
       };
 
       void read(const QString &file);
-
+      
       void write(const QString &file);
       void append(const QString &file);
 
