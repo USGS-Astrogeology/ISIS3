@@ -645,6 +645,7 @@ namespace Isis {
     else if(format() ==  Format::GTiff) {
       char **papszOptions = NULL;
       papszOptions = CSLSetNameValue(papszOptions, "COMPRESS", "DEFLATE");
+      papszOptions = CSLSetNameValue(papszOptions, "PREDICTOR", "2");
       QString datafile = m_dataFileName->expanded();
       QString format = "GTiff";
       createGdal(datafile, format, papszOptions);
