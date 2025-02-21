@@ -238,8 +238,6 @@ namespace Isis {
       p_bricksOrdered = true;
     }
 
-    double samp;
-
     // Loop through x values of rect on screen that we want to fill
     int brickIndex = 0;
     for(int x = rect->left(); x <= rect->right(); x++) {

@@ -450,16 +450,6 @@ namespace Isis {
       //! True if labels are attached
       LabelAttachment m_attached;
 
-      //! True if labels are external
-      bool m_external;
-
-      /**
-       * True (most common case) when the cube DN data is inside the file we're writing to. False
-       *   means we're referencing another cube's internal DN data for reading, and writing buffers
-       *   is disallowed.
-       */
-      bool m_storesDnData;
-
       //! The label if IsOpen(), otherwise NULL
       Pvl *m_label;
 

@@ -188,22 +188,17 @@ namespace Isis {
       int lineSize = bufferToWrite.LineDimension();
       int sampleSize = bufferToWrite.SampleDimension();
 
-      bool outOfBounds = false;
       if (lineStart < 0) {
         lineStart = 0;
-        outOfBounds = true;
       }
       if (lineStart + lineSize > m_lines) {
         lineSize = m_lines - lineStart;
-        outOfBounds = true;
       }
       if (sampleStart < 0) {
         sampleStart = 0;
-        outOfBounds = true;
       }
       if (sampleStart + sampleSize > m_samples) {
         sampleSize = m_samples - sampleStart;
-        outOfBounds = true;
       }
 
       int bufferSize = sampleSize * lineSize;

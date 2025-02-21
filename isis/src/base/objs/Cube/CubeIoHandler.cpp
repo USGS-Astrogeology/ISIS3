@@ -1326,7 +1326,6 @@ namespace Isis {
     int endZ = 0;
 
     findIntersection(chunk, output, startX, startY, startZ, endX, endY, endZ);
-    int bufferSize = output.size();
 
     int bufferBand = output.Band();
     int bufferBands = output.BandDimension();
@@ -1359,7 +1358,6 @@ namespace Isis {
 
           for(int x = startX; x < endX; x = x + sampleIncrement) {
             const int &sampleIntoChunk = x - chunkStartSample;
-            int scaledX = int(x * output.scale());
             int bufferIndex = output.Index(x, y, virtualBand);
             // Avoid rolling back onto your buffer
             if (bufferIndex >= output.size()) {
